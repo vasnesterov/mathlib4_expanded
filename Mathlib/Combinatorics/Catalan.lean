@@ -71,8 +71,7 @@ theorem catalan_succ (n : ℕ) : catalan (n + 1) = ∑ i : Fin n.succ, catalan i
 
 theorem catalan_succ' (n : ℕ) :
     catalan (n + 1) = ∑ ij in Nat.antidiagonal n, catalan ij.1 * catalan ij.2 := by
-  rw [catalan_succ, Nat.sum_antidiagonal_eq_sum_range_succ (fun x y => catalan x * catalan y) n,
-    sum_range]
+  rw [catalan_succ]; rw [Nat.sum_antidiagonal_eq_sum_range_succ (fun x y => catalan x * catalan y) n]; rw [sum_range]
 #align catalan_succ' catalan_succ'
 
 @[simp]
@@ -99,7 +98,7 @@ private theorem gosper_trick {n i : ℕ} (h : i ≤ n) :
   simp only [gosperCatalan]
   push_cast
   rw [show n + 1 - i = n - i + 1 by rw [Nat.add_comm (n - i) 1, ←(Nat.add_sub_assoc h 1), add_comm]]
-  rw [h₁, h₂, h₃, h₄]
+  rw [h₁]; rw [h₂]; rw [h₃]; rw [h₄]
   field_simp
   ring
 
@@ -125,11 +124,11 @@ theorem catalan_eq_centralBinom_div (n : ℕ) : catalan n = n.centralBinom / (n 
       ext1 x
       have m_le_d : x.val ≤ d := by apply Nat.le_of_lt_succ; apply x.2
       have d_minus_x_le_d : (d - x.val) ≤ d := tsub_le_self
-      rw [hd _ m_le_d, hd _ d_minus_x_le_d]
+      rw [hd _ m_le_d]; rw [hd _ d_minus_x_le_d]
       norm_cast
     · trans (∑ i : Fin d.succ, (gosperCatalan (d + 1) (i + 1) - gosperCatalan (d + 1) i))
       · refine' sum_congr rfl fun i _ => _
-        rw [gosper_trick i.is_le, mul_div]
+        rw [gosper_trick i.is_le]; rw [mul_div]
       · rw [← sum_range fun i => gosperCatalan (d + 1) (i + 1) - gosperCatalan (d + 1) i,
             sum_range_sub, Nat.succ_eq_add_one]
         rw [gosper_catalan_sub_eq_central_binom_div d]
@@ -209,10 +208,10 @@ theorem coe_treesOfNumNodesEq (n : ℕ) :
 theorem treesOfNumNodesEq_card_eq_catalan (n : ℕ) : (treesOfNumNodesEq n).card = catalan n := by
   induction' n using Nat.case_strong_induction_on with n ih
   · simp
-  rw [treesOfNumNodesEq_succ, card_biUnion, catalan_succ']
+  rw [treesOfNumNodesEq_succ]; rw [card_biUnion]; rw [catalan_succ']
   · apply sum_congr rfl
     rintro ⟨i, j⟩ H
-    rw [card_map, card_product, ih _ (fst_le H), ih _ (snd_le H)]
+    rw [card_map]; rw [card_product]; rw [ih _ (fst_le H)]; rw [ih _ (snd_le H)]
   · simp_rw [disjoint_left]
     rintro ⟨i, j⟩ _ ⟨i', j'⟩ _
     -- Porting note: was clear * -; tidy

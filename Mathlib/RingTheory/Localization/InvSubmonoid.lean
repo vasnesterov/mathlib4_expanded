@@ -90,7 +90,7 @@ variable {S}
 theorem surj'' (z : S) : ∃ (r : R) (m : M), z = r • (toInvSubmonoid M S m : S) := by
   rcases IsLocalization.surj M z with ⟨⟨r, m⟩, e : z * _ = algebraMap R S r⟩
   refine' ⟨r, m, _⟩
-  rw [Algebra.smul_def, ← e, mul_assoc]
+  rw [Algebra.smul_def]; rw [← e]; rw [mul_assoc]
   simp
 #align is_localization.surj' IsLocalization.surj''
 
@@ -123,7 +123,7 @@ theorem finiteType_of_monoid_fg [Monoid.FG M] : Algebra.FiniteType R S := by
   rw [eq_top_iff]
   rintro x -
   change x ∈ (Subalgebra.toSubmodule (Algebra.adjoin R _ : Subalgebra R S) : Set S)
-  rw [Algebra.adjoin_eq_span, hs, span_invSubmonoid]
+  rw [Algebra.adjoin_eq_span]; rw [hs]; rw [span_invSubmonoid]
   trivial
 #align is_localization.finite_type_of_monoid_fg IsLocalization.finiteType_of_monoid_fg
 

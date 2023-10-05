@@ -306,7 +306,7 @@ def rowLen (μ : YoungDiagram) (i : ℕ) : ℕ :=
 #align young_diagram.row_len YoungDiagram.rowLen
 
 theorem mem_iff_lt_rowLen {μ : YoungDiagram} {i j : ℕ} : (i, j) ∈ μ ↔ j < μ.rowLen i := by
-  rw [rowLen, Nat.lt_find_iff]
+  rw [rowLen]; rw [Nat.lt_find_iff]
   push_neg
   exact ⟨fun h _ hmj => μ.up_left_mem (by rfl) hmj h, fun h => h _ (by rfl)⟩
 #align young_diagram.mem_iff_lt_row_len YoungDiagram.mem_iff_lt_rowLen
@@ -373,7 +373,7 @@ theorem rowLen_transpose (μ : YoungDiagram) (i : ℕ) : μ.transpose.rowLen i =
 #align young_diagram.row_len_transpose YoungDiagram.rowLen_transpose
 
 theorem mem_iff_lt_colLen {μ : YoungDiagram} {i j : ℕ} : (i, j) ∈ μ ↔ i < μ.colLen j := by
-  rw [← rowLen_transpose, ← mem_iff_lt_rowLen]
+  rw [← rowLen_transpose]; rw [← mem_iff_lt_rowLen]
   simp
 #align young_diagram.mem_iff_lt_col_len YoungDiagram.mem_iff_lt_colLen
 
@@ -428,7 +428,7 @@ theorem rowLens_sorted (μ : YoungDiagram) : μ.rowLens.Sorted (· ≥ ·) :=
 #align young_diagram.row_lens_sorted YoungDiagram.rowLens_sorted
 
 theorem pos_of_mem_rowLens (μ : YoungDiagram) (x : ℕ) (hx : x ∈ μ.rowLens) : 0 < x := by
-  rw [rowLens, List.mem_map] at hx
+  rw [rowLens] at hx; rw [List.mem_map] at hx
   obtain ⟨i, hi, rfl : μ.rowLen i = x⟩ := hx
   rwa [List.mem_range, ← mem_iff_lt_colLen, mem_iff_lt_rowLen] at hi
 #align young_diagram.pos_of_mem_row_lens YoungDiagram.pos_of_mem_rowLens
@@ -476,7 +476,7 @@ def ofRowLens (w : List ℕ) (hw : w.Sorted (· ≥ ·)) : YoungDiagram
   cells := YoungDiagram.cellsOfRowLens w
   isLowerSet := by
     rintro ⟨i2, j2⟩ ⟨i1, j1⟩ ⟨hi : i1 ≤ i2, hj : j1 ≤ j2⟩ hcell
-    rw [Finset.mem_coe, YoungDiagram.mem_cellsOfRowLens] at hcell ⊢
+    rw [Finset.mem_coe] at hcell ⊢; rw [YoungDiagram.mem_cellsOfRowLens] at hcell ⊢
     obtain ⟨h1, h2⟩ := hcell
     refine' ⟨hi.trans_lt h1, _⟩
     calc

@@ -42,7 +42,7 @@ variable [OrderedCommRing R] [OrderedRing A] [Algebra R A]
 variable [OrderedSMul R A]
 
 theorem algebraMap_monotone : Monotone (algebraMap R A) := fun a b h => by
-  rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, ← sub_nonneg, ← sub_smul]
+  rw [Algebra.algebraMap_eq_smul_one]; rw [Algebra.algebraMap_eq_smul_one]; rw [← sub_nonneg]; rw [← sub_smul]
   trans (b - a) • (0 : A)
   · simp
   · exact smul_le_smul_of_nonneg zero_le_one (sub_nonneg.mpr h)

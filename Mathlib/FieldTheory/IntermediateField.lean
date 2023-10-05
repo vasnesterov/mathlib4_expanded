@@ -304,7 +304,7 @@ def Subalgebra.toIntermediateField' (S : Subalgebra K L) (hS : IsField S) : Inte
       exact S.zero_mem
     letI hS' := hS.toField
     obtain ⟨y, hy⟩ := hS.mul_inv_cancel (show (⟨x, hx⟩ : S) ≠ 0 from Subtype.ne_of_val_ne hx0)
-    rw [Subtype.ext_iff, S.coe_mul, S.coe_one, Subtype.coe_mk, mul_eq_one_iff_inv_eq₀ hx0] at hy
+    rw [Subtype.ext_iff] at hy; rw [S.coe_mul] at hy; rw [S.coe_one] at hy; rw [Subtype.coe_mk] at hy; rw [mul_eq_one_iff_inv_eq₀ hx0] at hy
     exact hy.symm ▸ y.2
 #align subalgebra.to_intermediate_field' Subalgebra.toIntermediateField'
 
@@ -524,14 +524,14 @@ theorem coe_isIntegral_iff {R : Type*} [CommRing R] [Algebra R K] [Algebra R L]
   · obtain ⟨P, hPmo, hProot⟩ := h
     refine' ⟨P, hPmo, (injective_iff_map_eq_zero _).1 (algebraMap (↥S) L).injective _ _⟩
     letI : IsScalarTower R S L := IsScalarTower.of_algebraMap_eq (congr_fun rfl)
-    rw [eval₂_eq_eval_map, ← eval₂_at_apply, eval₂_eq_eval_map, Polynomial.map_map, ←
+    rw [eval₂_eq_eval_map]; rw [← eval₂_at_apply]; rw [eval₂_eq_eval_map]; rw [Polynomial.map_map]; rw [←
       --Porting note: very strange that I have to `rw` twice with `eval₂_eq_eval_map`.
       -- The first `rw` does nothing
-      IsScalarTower.algebraMap_eq, ← eval₂_eq_eval_map, ← eval₂_eq_eval_map]
+      IsScalarTower.algebraMap_eq]; rw [← eval₂_eq_eval_map]; rw [← eval₂_eq_eval_map]
     exact hProot
   · obtain ⟨P, hPmo, hProot⟩ := h
     refine' ⟨P, hPmo, _⟩
-    rw [← aeval_def, aeval_coe, aeval_def, hProot, ZeroMemClass.coe_zero]
+    rw [← aeval_def]; rw [aeval_coe]; rw [aeval_def]; rw [hProot]; rw [ZeroMemClass.coe_zero]
 #align intermediate_field.coe_is_integral_iff IntermediateField.coe_isIntegral_iff
 
 /-- The map `E → F` when `E` is an intermediate field contained in the intermediate field `F`.
@@ -568,7 +568,7 @@ variable {S}
 theorem toSubalgebra_injective {S S' : IntermediateField K L}
     (h : S.toSubalgebra = S'.toSubalgebra) : S = S' := by
   ext
-  rw [← mem_toSubalgebra, ← mem_toSubalgebra, h]
+  rw [← mem_toSubalgebra]; rw [← mem_toSubalgebra]; rw [h]
 #align intermediate_field.to_subalgebra_injective IntermediateField.toSubalgebra_injective
 
 variable (S)
@@ -682,7 +682,7 @@ variable {F} {E}
 
 @[simp]
 theorem toSubalgebra_eq_iff : F.toSubalgebra = E.toSubalgebra ↔ F = E := by
-  rw [SetLike.ext_iff, SetLike.ext'_iff, Set.ext_iff]
+  rw [SetLike.ext_iff]; rw [SetLike.ext'_iff]; rw [Set.ext_iff]
   rfl
 #align intermediate_field.to_subalgebra_eq_iff IntermediateField.toSubalgebra_eq_iff
 
@@ -718,7 +718,7 @@ theorem isAlgebraic_iff {x : S} : IsAlgebraic K x ↔ IsAlgebraic K (x : L) :=
 #align intermediate_field.is_algebraic_iff IntermediateField.isAlgebraic_iff
 
 theorem isIntegral_iff {x : S} : IsIntegral K x ↔ IsIntegral K (x : L) := by
-  rw [← isAlgebraic_iff_isIntegral, isAlgebraic_iff, isAlgebraic_iff_isIntegral]
+  rw [← isAlgebraic_iff_isIntegral]; rw [isAlgebraic_iff]; rw [isAlgebraic_iff_isIntegral]
 #align intermediate_field.is_integral_iff IntermediateField.isIntegral_iff
 
 theorem minpoly_eq (x : S) : minpoly K x = minpoly K (x : L) :=

@@ -127,8 +127,7 @@ theorem support_rangeIcc_subset [DecidableEq ι] [∀ i, DecidableEq (α i)] :
   refine' fun x hx => _
   by_contra h
   refine' not_mem_support_iff.2 _ hx
-  rw [rangeIcc_apply, not_mem_support_iff.1 (not_mem_mono (subset_union_left _ _) h),
-    not_mem_support_iff.1 (not_mem_mono (subset_union_right _ _) h)]
+  rw [rangeIcc_apply]; rw [not_mem_support_iff.1 (not_mem_mono (subset_union_left _ _) h)]; rw [not_mem_support_iff.1 (not_mem_mono (subset_union_right _ _) h)]
   exact Icc_self _
 #align dfinsupp.support_range_Icc_subset DFinsupp.support_rangeIcc_subset
 
@@ -150,7 +149,7 @@ theorem mem_pi {f : Π₀ i, Finset (α i)} {g : Π₀ i, α i} : g ∈ f.pi ↔
 
 @[simp]
 theorem card_pi (f : Π₀ i, Finset (α i)) : f.pi.card = f.prod fun i => (f i).card := by
-  rw [pi, card_dfinsupp]
+  rw [pi]; rw [card_dfinsupp]
   exact Finset.prod_congr rfl fun i _ => by simp only [Pi.nat_apply, Nat.cast_id]
 #align dfinsupp.card_pi DFinsupp.card_pi
 
@@ -180,15 +179,15 @@ theorem card_Icc : (Icc f g).card = ∏ i in f.support ∪ g.support, (Icc (f i)
 #align dfinsupp.card_Icc DFinsupp.card_Icc
 
 theorem card_Ico : (Ico f g).card = (∏ i in f.support ∪ g.support, (Icc (f i) (g i)).card) - 1 := by
-  rw [card_Ico_eq_card_Icc_sub_one, card_Icc]
+  rw [card_Ico_eq_card_Icc_sub_one]; rw [card_Icc]
 #align dfinsupp.card_Ico DFinsupp.card_Ico
 
 theorem card_Ioc : (Ioc f g).card = (∏ i in f.support ∪ g.support, (Icc (f i) (g i)).card) - 1 := by
-  rw [card_Ioc_eq_card_Icc_sub_one, card_Icc]
+  rw [card_Ioc_eq_card_Icc_sub_one]; rw [card_Icc]
 #align dfinsupp.card_Ioc DFinsupp.card_Ioc
 
 theorem card_Ioo : (Ioo f g).card = (∏ i in f.support ∪ g.support, (Icc (f i) (g i)).card) - 2 := by
-  rw [card_Ioo_eq_card_Icc_sub_two, card_Icc]
+  rw [card_Ioo_eq_card_Icc_sub_two]; rw [card_Icc]
 #align dfinsupp.card_Ioo DFinsupp.card_Ioo
 
 end PartialOrder
@@ -217,7 +216,7 @@ theorem card_Iic : (Iic f).card = ∏ i in f.support, (Iic (f i)).card := by
 #align dfinsupp.card_Iic DFinsupp.card_Iic
 
 theorem card_Iio : (Iio f).card = (∏ i in f.support, (Iic (f i)).card) - 1 := by
-  rw [card_Iio_eq_card_Iic_sub_one, card_Iic]
+  rw [card_Iio_eq_card_Iic_sub_one]; rw [card_Iic]
 #align dfinsupp.card_Iio DFinsupp.card_Iio
 
 end CanonicallyOrdered

@@ -74,7 +74,7 @@ def equivFinOfCardPos {α : Type*} (h : Nat.card α ≠ 0) : α ≃ Fin (Nat.car
 
 theorem card_of_subsingleton (a : α) [Subsingleton α] : Nat.card α = 1 := by
   letI := Fintype.ofSubsingleton a
-  rw [card_eq_fintype_card, Fintype.card_ofSubsingleton a]
+  rw [card_eq_fintype_card]; rw [Fintype.card_ofSubsingleton a]
 #align nat.card_of_subsingleton Nat.card_of_subsingleton
 
 -- @[simp] -- Porting note: simp can prove this
@@ -124,7 +124,7 @@ theorem card_pi {β : α → Type*} [Fintype α] : Nat.card (∀ a, β a) = ∏ 
 
 theorem card_fun [Finite α] : Nat.card (α → β) = Nat.card β ^ Nat.card α := by
   haveI := Fintype.ofFinite α
-  rw [Nat.card_pi, Finset.prod_const, Finset.card_univ, ← Nat.card_eq_fintype_card]
+  rw [Nat.card_pi]; rw [Finset.prod_const]; rw [Finset.card_univ]; rw [← Nat.card_eq_fintype_card]
 #align nat.card_fun Nat.card_fun
 
 @[simp]
@@ -186,26 +186,25 @@ theorem card_image_of_injective {α : Type u} {β : Type v} (f : α → β) (s :
 @[simp]
 theorem _root_.Cardinal.natCast_le_toPartENat_iff {n : ℕ} {c : Cardinal} :
     ↑n ≤ toPartENat c ↔ ↑n ≤ c := by
-  rw [← toPartENat_cast n, toPartENat_le_iff_of_le_aleph0 (le_of_lt (nat_lt_aleph0 n))]
+  rw [← toPartENat_cast n]; rw [toPartENat_le_iff_of_le_aleph0 (le_of_lt (nat_lt_aleph0 n))]
 #align cardinal.coe_nat_le_to_part_enat_iff Cardinal.natCast_le_toPartENat_iff
 
 @[simp]
 theorem _root_.Cardinal.toPartENat_le_natCast_iff {c : Cardinal} {n : ℕ} :
     toPartENat c ≤ n ↔ c ≤ n := by
-  rw [← toPartENat_cast n, toPartENat_le_iff_of_lt_aleph0 (nat_lt_aleph0 n)]
+  rw [← toPartENat_cast n]; rw [toPartENat_le_iff_of_lt_aleph0 (nat_lt_aleph0 n)]
 #align cardinal.to_part_enat_le_coe_nat_iff Cardinal.toPartENat_le_natCast_iff
 
 @[simp]
 theorem _root_.Cardinal.natCast_eq_toPartENat_iff {n : ℕ} {c : Cardinal} :
     ↑n = toPartENat c ↔ ↑n = c := by
-  rw [le_antisymm_iff, le_antisymm_iff, Cardinal.toPartENat_le_natCast_iff,
-    Cardinal.natCast_le_toPartENat_iff]
+  rw [le_antisymm_iff]; rw [le_antisymm_iff]; rw [Cardinal.toPartENat_le_natCast_iff]; rw [Cardinal.natCast_le_toPartENat_iff]
 #align cardinal.coe_nat_eq_to_part_enat_iff Cardinal.natCast_eq_toPartENat_iff
 
 @[simp]
 theorem _root_.Cardinal.toPartENat_eq_natCast_iff {c : Cardinal} {n : ℕ} :
     Cardinal.toPartENat c = n ↔ c = n := by
-rw [eq_comm, Cardinal.natCast_eq_toPartENat_iff, eq_comm]
+rw [eq_comm]; rw [Cardinal.natCast_eq_toPartENat_iff]; rw [eq_comm]
 #align cardinal.to_part_nat_eq_coe_nat_iff_eq Cardinal.toPartENat_eq_natCast_iff
 
 @[simp]

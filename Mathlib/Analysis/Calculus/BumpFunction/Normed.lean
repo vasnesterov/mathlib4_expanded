@@ -79,11 +79,11 @@ theorem integral_normed : ∫ x, f.normed μ x ∂μ = 1 := by
 
 theorem support_normed_eq : Function.support (f.normed μ) = Metric.ball c f.rOut := by
   unfold ContDiffBump.normed
-  rw [support_div, f.support_eq, support_const f.integral_pos.ne', inter_univ]
+  rw [support_div]; rw [f.support_eq]; rw [support_const f.integral_pos.ne']; rw [inter_univ]
 #align cont_diff_bump.support_normed_eq ContDiffBump.support_normed_eq
 
 theorem tsupport_normed_eq : tsupport (f.normed μ) = Metric.closedBall c f.rOut := by
-  rw [tsupport, f.support_normed_eq, closure_ball _ f.rOut_pos.ne']
+  rw [tsupport]; rw [f.support_normed_eq]; rw [closure_ball _ f.rOut_pos.ne']
 #align cont_diff_bump.tsupport_normed_eq ContDiffBump.tsupport_normed_eq
 
 theorem hasCompactSupport_normed : HasCompactSupport (f.normed μ) := by
@@ -157,7 +157,7 @@ theorem normed_le_div_measure_closedBall_rOut [IsAddHaarMeasure μ] (K : ℝ) (h
     · exact f.integral_pos.le
     · exact f.le_one
   apply this.trans
-  rw [div_le_div_iff f.integral_pos, one_mul, ← div_le_iff' (pow_pos K_pos _)]
+  rw [div_le_div_iff f.integral_pos]; rw [one_mul]; rw [← div_le_iff' (pow_pos K_pos _)]
   · exact f.measure_closedBall_div_le_integral μ K h
   · exact ENNReal.toReal_pos (measure_closedBall_pos _ _ f.rOut_pos).ne'
       measure_closedBall_lt_top.ne

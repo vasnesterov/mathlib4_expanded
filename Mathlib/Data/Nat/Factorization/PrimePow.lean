@@ -21,7 +21,7 @@ theorem IsPrimePow.minFac_pow_factorization_eq {n : ℕ} (hn : IsPrimePow n) :
     n.minFac ^ n.factorization n.minFac = n := by
   obtain ⟨p, k, hp, hk, rfl⟩ := hn
   rw [← Nat.prime_iff] at hp
-  rw [hp.pow_minFac hk.ne', hp.factorization_pow, Finsupp.single_eq_same]
+  rw [hp.pow_minFac hk.ne']; rw [hp.factorization_pow]; rw [Finsupp.single_eq_same]
 #align is_prime_pow.min_fac_pow_factorization_eq IsPrimePow.minFac_pow_factorization_eq
 
 theorem isPrimePow_of_minFac_pow_factorization_eq {n : ℕ}
@@ -29,8 +29,7 @@ theorem isPrimePow_of_minFac_pow_factorization_eq {n : ℕ}
   rcases eq_or_ne n 0 with (rfl | hn')
   · simp_all
   refine' ⟨_, _, (Nat.minFac_prime hn).prime, _, h⟩
-  rw [pos_iff_ne_zero, ← Finsupp.mem_support_iff, Nat.factor_iff_mem_factorization,
-    Nat.mem_factors_iff_dvd hn' (Nat.minFac_prime hn)]
+  rw [pos_iff_ne_zero]; rw [← Finsupp.mem_support_iff]; rw [Nat.factor_iff_mem_factorization]; rw [Nat.mem_factors_iff_dvd hn' (Nat.minFac_prime hn)]
   apply Nat.minFac_dvd
 #align is_prime_pow_of_min_fac_pow_factorization_eq isPrimePow_of_minFac_pow_factorization_eq
 
@@ -70,7 +69,7 @@ theorem IsPrimePow.exists_ord_compl_eq_one {n : ℕ} (h : IsPrimePow n) :
     simp [← Nat.factorization_eq_zero_of_non_prime n pp, h1]
   refine' ⟨p, pp, _⟩
   refine' Nat.eq_of_factorization_eq (Nat.ord_compl_pos p hn0).ne' (by simp) fun q => _
-  rw [Nat.factorization_ord_compl n p, h1]
+  rw [Nat.factorization_ord_compl n p]; rw [h1]
   simp
 #align is_prime_pow.exists_ord_compl_eq_one IsPrimePow.exists_ord_compl_eq_one
 
@@ -102,7 +101,7 @@ theorem isPrimePow_iff_unique_prime_dvd {n : ℕ} : IsPrimePow n ↔ ∃! p : �
   apply Nat.dvd_antisymm (Nat.ord_proj_dvd _ _)
   -- We need to show n ∣ p ^ n.factorization p
   apply Nat.dvd_of_factors_subperm hn₀
-  rw [hp.factors_pow, List.subperm_ext_iff]
+  rw [hp.factors_pow]; rw [List.subperm_ext_iff]
   intro q hq'
   rw [Nat.mem_factors hn₀] at hq'
   cases hq _ hq'.1 hq'.2
@@ -134,7 +133,7 @@ theorem Nat.Coprime.isPrimePow_dvd_mul {n a b : ℕ} (hab : Nat.Coprime a b) (hn
     hp.pow_dvd_iff_le_factorization ha, hp.pow_dvd_iff_le_factorization hb, Pi.add_apply,
     Finsupp.coe_add]
   have : a.factorization p = 0 ∨ b.factorization p = 0 := by
-    rw [← Finsupp.not_mem_support_iff, ← Finsupp.not_mem_support_iff, ← not_and_or, ←
+    rw [← Finsupp.not_mem_support_iff]; rw [← Finsupp.not_mem_support_iff]; rw [← not_and_or]; rw [←
       Finset.mem_inter]
     intro t -- porting note: used to be `exact` below, but the definition of `∈` has changed.
     simpa using (Nat.factorization_disjoint_of_coprime hab).le_bot t

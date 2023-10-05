@@ -116,14 +116,14 @@ theorem dist_of_mem_subset_mk_sphere {p c : P} {ps : Set P} {r : ℝ} (hp : p �
 
 theorem Sphere.ne_iff {s₁ s₂ : Sphere P} :
     s₁ ≠ s₂ ↔ s₁.center ≠ s₂.center ∨ s₁.radius ≠ s₂.radius := by
-  rw [← not_and_or, ← Sphere.ext_iff]
+  rw [← not_and_or]; rw [← Sphere.ext_iff]
 #align euclidean_geometry.sphere.ne_iff EuclideanGeometry.Sphere.ne_iff
 
 theorem Sphere.center_eq_iff_eq_of_mem {s₁ s₂ : Sphere P} {p : P} (hs₁ : p ∈ s₁) (hs₂ : p ∈ s₂) :
     s₁.center = s₂.center ↔ s₁ = s₂ := by
   refine' ⟨fun h => Sphere.ext _ _ h _, fun h => h ▸ rfl⟩
   rw [mem_sphere] at hs₁ hs₂
-  rw [← hs₁, ← hs₂, h]
+  rw [← hs₁]; rw [← hs₂]; rw [h]
 #align euclidean_geometry.sphere.center_eq_iff_eq_of_mem EuclideanGeometry.Sphere.center_eq_iff_eq_of_mem
 
 theorem Sphere.center_ne_iff_ne_of_mem {s₁ s₂ : Sphere P} {p : P} (hs₁ : p ∈ s₁) (hs₂ : p ∈ s₂) :
@@ -133,12 +133,12 @@ theorem Sphere.center_ne_iff_ne_of_mem {s₁ s₂ : Sphere P} {p : P} (hs₁ : p
 
 theorem dist_center_eq_dist_center_of_mem_sphere {p₁ p₂ : P} {s : Sphere P} (hp₁ : p₁ ∈ s)
     (hp₂ : p₂ ∈ s) : dist p₁ s.center = dist p₂ s.center := by
-  rw [mem_sphere.1 hp₁, mem_sphere.1 hp₂]
+  rw [mem_sphere.1 hp₁]; rw [mem_sphere.1 hp₂]
 #align euclidean_geometry.dist_center_eq_dist_center_of_mem_sphere EuclideanGeometry.dist_center_eq_dist_center_of_mem_sphere
 
 theorem dist_center_eq_dist_center_of_mem_sphere' {p₁ p₂ : P} {s : Sphere P} (hp₁ : p₁ ∈ s)
     (hp₂ : p₂ ∈ s) : dist s.center p₁ = dist s.center p₂ := by
-  rw [mem_sphere'.1 hp₁, mem_sphere'.1 hp₂]
+  rw [mem_sphere'.1 hp₁]; rw [mem_sphere'.1 hp₂]
 #align euclidean_geometry.dist_center_eq_dist_center_of_mem_sphere' EuclideanGeometry.dist_center_eq_dist_center_of_mem_sphere'
 
 /-- A set of points is cospherical if they are equidistant from some
@@ -256,12 +256,12 @@ theorem Cospherical.affineIndependent {s : Set P} (hs : Cospherical s) {p : Fin 
     exact hs' i
   have hf0 : f 0 = 0 := by
     have hf0' := hf 0
-    rw [eq_comm, ← @vsub_eq_zero_iff_eq V, vadd_vsub, smul_eq_zero] at hf0'
+    rw [eq_comm] at hf0'; rw [← @vsub_eq_zero_iff_eq V] at hf0'; rw [vadd_vsub] at hf0'; rw [smul_eq_zero] at hf0'
     simpa [hv0] using hf0'
   have hfi : Function.Injective f := by
     intro i j h
     have hi := hf i
-    rw [h, ← hf j] at hi
+    rw [h] at hi; rw [← hf j] at hi
     exact hpi hi
   simp_rw [← hsd 0, hf0, zero_smul, zero_vadd, dist_smul_vadd_eq_dist (p 0) c hv0] at hsd
   have hfn0 : ∀ i, i ≠ 0 → f i ≠ 0 := fun i => (hfi.ne_iff' hf0).2
@@ -331,8 +331,7 @@ theorem inner_pos_or_eq_of_dist_le_radius {s : Sphere P} {p₁ p₂ : P} (hp₁ 
   by_cases h : p₁ = p₂; · exact Or.inr h
   refine' Or.inl _
   rw [mem_sphere] at hp₁
-  rw [← vsub_sub_vsub_cancel_right p₁ p₂ s.center, inner_sub_left,
-    real_inner_self_eq_norm_mul_norm, sub_pos]
+  rw [← vsub_sub_vsub_cancel_right p₁ p₂ s.center]; rw [inner_sub_left]; rw [real_inner_self_eq_norm_mul_norm]; rw [sub_pos]
   refine'
     lt_of_le_of_ne ((real_inner_le_norm _ _).trans (mul_le_mul_of_nonneg_right _ (norm_nonneg _))) _
   · rwa [← dist_eq_norm_vsub, ← dist_eq_norm_vsub, hp₁]
@@ -346,9 +345,7 @@ theorem inner_pos_or_eq_of_dist_le_radius {s : Sphere P} {p₁ p₂ : P} (hp₁ 
         simpa using hp₂'
     · rw [← hp₁, @dist_eq_norm_vsub V, @dist_eq_norm_vsub V] at hp₂'
       nth_rw 1 [← hp₂']
-      rw [Ne.def, inner_eq_norm_mul_iff_real, hp₂', ← sub_eq_zero, ← smul_sub,
-        vsub_sub_vsub_cancel_right, ← Ne.def, smul_ne_zero_iff, vsub_ne_zero,
-        and_iff_left (Ne.symm h), norm_ne_zero_iff, vsub_ne_zero]
+      rw [Ne.def]; rw [inner_eq_norm_mul_iff_real]; rw [hp₂']; rw [← sub_eq_zero]; rw [← smul_sub]; rw [vsub_sub_vsub_cancel_right]; rw [← Ne.def]; rw [smul_ne_zero_iff]; rw [vsub_ne_zero]; rw [and_iff_left (Ne.symm h)]; rw [norm_ne_zero_iff]; rw [vsub_ne_zero]
       rintro rfl
       refine' h (Eq.symm _)
       simpa using hp₂'

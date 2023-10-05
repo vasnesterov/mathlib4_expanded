@@ -77,7 +77,7 @@ theorem Principal.iterate_lt {op : Ordinal → Ordinal → Ordinal} {a o : Ordin
 theorem op_eq_self_of_principal {op : Ordinal → Ordinal → Ordinal} {a o : Ordinal.{u}} (hao : a < o)
     (H : IsNormal (op a)) (ho : Principal op o) (ho' : IsLimit o) : op a o = o := by
   refine' le_antisymm _ (H.self_le _)
-  rw [← IsNormal.bsup_eq.{u, u} H ho', bsup_le_iff]
+  rw [← IsNormal.bsup_eq.{u, u} H ho']; rw [bsup_le_iff]
   exact fun b hbo => (ho hao hbo).le
 #align ordinal.op_eq_self_of_principal Ordinal.op_eq_self_of_principal
 
@@ -143,7 +143,7 @@ theorem principal_add_iff_add_left_eq_self {o : Ordinal} :
     · rcases le_one_iff.1 ho₁ with (rfl | rfl)
       · exact (Ordinal.not_lt_zero a hao).elim
       · rw [lt_one_iff_zero] at hao
-        rw [hao, zero_add]
+        rw [hao]; rw [zero_add]
   · rw [← h a hao]
     exact (add_isNormal a).strictMono hbo
 #align ordinal.principal_add_iff_add_left_eq_self Ordinal.principal_add_iff_add_left_eq_self
@@ -155,7 +155,7 @@ theorem exists_lt_add_of_not_principal_add {a} (ha : ¬Principal (· + ·) a) :
   rcases ha with ⟨b, c, hb, hc, H⟩
   refine'
     ⟨b, _, hb, lt_of_le_of_ne (sub_le_self a b) fun hab => _, Ordinal.add_sub_cancel_of_le hb.le⟩
-  rw [← sub_le, hab] at H
+  rw [← sub_le] at H; rw [hab] at H
   exact H.not_lt hc
 #align ordinal.exists_lt_add_of_not_principal_add Ordinal.exists_lt_add_of_not_principal_add
 
@@ -182,11 +182,11 @@ theorem add_omega_opow {a b : Ordinal} (h : a < (omega^b)) : a + (omega^b) = (om
   refine' le_antisymm _ (le_add_left _ _)
   induction' b using limitRecOn with b _ b l IH
   · rw [opow_zero, ← succ_zero, lt_succ_iff, Ordinal.le_zero] at h
-    rw [h, zero_add]
+    rw [h]; rw [zero_add]
   · rw [opow_succ] at h
     rcases(lt_mul_of_limit omega_isLimit).1 h with ⟨x, xo, ax⟩
     refine' le_trans (add_le_add_right (le_of_lt ax) _) _
-    rw [opow_succ, ← mul_add, add_omega xo]
+    rw [opow_succ]; rw [← mul_add]; rw [add_omega xo]
   · rcases(lt_opow_of_limit omega_ne_zero l).1 h with ⟨x, xb, ax⟩
     exact
       (((add_isNormal a).trans (opow_isNormal one_lt_omega)).limit_le l).2 fun y yb =>
@@ -212,7 +212,7 @@ theorem principal_add_iff_zero_or_omega_opow {o : Ordinal} :
         fun ⟨b, e⟩ => e.symm ▸ fun a => add_omega_opow⟩
     have := H _ h
     have := lt_opow_succ_log_self one_lt_omega o
-    rw [opow_succ, lt_mul_of_limit omega_isLimit] at this
+    rw [opow_succ] at this; rw [lt_mul_of_limit omega_isLimit] at this
     rcases this with ⟨a, ao, h'⟩
     rcases lt_omega.1 ao with ⟨n, rfl⟩
     clear ao
@@ -237,7 +237,7 @@ theorem opow_principal_add_of_principal_add {a} (ha : Principal (· + ·) a) (b 
 #align ordinal.opow_principal_add_of_principal_add Ordinal.opow_principal_add_of_principal_add
 
 theorem add_absorp {a b c : Ordinal} (h₁ : a < (omega^b)) (h₂ : (omega^b) ≤ c) : a + c = c := by
-  rw [← Ordinal.add_sub_cancel_of_le h₂, ← add_assoc, add_omega_opow h₁]
+  rw [← Ordinal.add_sub_cancel_of_le h₂]; rw [← add_assoc]; rw [add_omega_opow h₁]
 #align ordinal.add_absorp Ordinal.add_absorp
 
 theorem mul_principal_add_is_principal_add (a : Ordinal.{u}) {b : Ordinal.{u}} (hb₁ : b ≠ 1)
@@ -269,7 +269,7 @@ theorem principal_mul_one : Principal (· * ·) 1 := by
 theorem principal_mul_two : Principal (· * ·) 2 := fun a b ha hb => by
   have h₂ : succ (1 : Ordinal) = 2 := by simp
   dsimp only
-  rw [← h₂, lt_succ_iff] at ha hb ⊢
+  rw [← h₂] at ha hb ⊢; rw [lt_succ_iff] at ha hb ⊢
   convert mul_le_mul' ha hb
   exact (mul_one 1).symm
 #align ordinal.principal_mul_two Ordinal.principal_mul_two
@@ -277,7 +277,7 @@ theorem principal_mul_two : Principal (· * ·) 2 := fun a b ha hb => by
 theorem principal_mul_of_le_two {o : Ordinal} (ho : o ≤ 2) : Principal (· * ·) o := by
   rcases lt_or_eq_of_le ho with (ho | rfl)
   · have h₂ : succ (1 : Ordinal) = 2 := by simp
-    rw [← h₂, lt_succ_iff] at ho
+    rw [← h₂] at ho; rw [lt_succ_iff] at ho
     rcases lt_or_eq_of_le ho with (ho | rfl)
     · rw [lt_one_iff_zero.1 ho]
       exact principal_zero
@@ -293,7 +293,7 @@ theorem principal_add_of_principal_mul {o : Ordinal} (ho : Principal (· * ·) o
     exact principal_add_of_le_one ho₁
   · refine' fun a b hao hbo => lt_of_le_of_lt _ (ho (max_lt hao hbo) ho₂)
     dsimp only
-    rw [← one_add_one_eq_two, mul_add, mul_one]
+    rw [← one_add_one_eq_two]; rw [mul_add]; rw [mul_one]
     exact add_le_add (le_max_left a b) (le_max_right a b)
 #align ordinal.principal_add_of_principal_mul Ordinal.principal_add_of_principal_mul
 
@@ -338,11 +338,11 @@ theorem mul_lt_omega_opow {a b c : Ordinal} (c0 : 0 < c) (ha : a < (omega^c)) (h
   · rw [opow_succ] at ha
     rcases((mul_isNormal <| opow_pos _ omega_pos).limit_lt omega_isLimit).1 ha with ⟨n, hn, an⟩
     apply (mul_le_mul_right' (le_of_lt an) _).trans_lt
-    rw [opow_succ, mul_assoc, mul_lt_mul_iff_left (opow_pos _ omega_pos)]
+    rw [opow_succ]; rw [mul_assoc]; rw [mul_lt_mul_iff_left (opow_pos _ omega_pos)]
     exact principal_mul_omega hn hb
   · rcases((opow_isNormal one_lt_omega).limit_lt l).1 ha with ⟨x, hx, ax⟩
     refine' (mul_le_mul' (le_of_lt ax) (le_of_lt hb)).trans_lt _
-    rw [← opow_succ, opow_lt_opow_iff_right one_lt_omega]
+    rw [← opow_succ]; rw [opow_lt_opow_iff_right one_lt_omega]
     exact l.2 _ hx
 #align ordinal.mul_lt_omega_opow Ordinal.mul_lt_omega_opow
 
@@ -356,7 +356,7 @@ theorem mul_omega_opow_opow {a b : Ordinal} (a0 : 0 < a) (h : a < (omega^omega^b
       (by simpa only [one_mul] using mul_le_mul_right' (one_le_iff_pos.2 a0) (omega^omega^b))
   rcases(lt_opow_of_limit omega_ne_zero (opow_isLimit_left omega_isLimit b0)).1 h with ⟨x, xb, ax⟩
   apply (mul_le_mul_right' (le_of_lt ax) _).trans
-  rw [← opow_add, add_omega_opow xb]
+  rw [← opow_add]; rw [add_omega_opow xb]
 #align ordinal.mul_omega_opow_opow Ordinal.mul_omega_opow_opow
 
 theorem principal_mul_omega_opow_opow (o : Ordinal) : Principal (· * ·) (omega^omega^o) :=
@@ -399,14 +399,14 @@ theorem mul_eq_opow_log_succ {a b : Ordinal.{u}} (ha : a ≠ 0) (hb : Principal 
   · have hbl := principal_mul_isLimit hb₂ hb
     have := IsNormal.bsup_eq.{u, u} (mul_isNormal (Ordinal.pos_iff_ne_zero.2 ha)) hbl
     dsimp at this
-    rw [← this, bsup_le_iff]
+    rw [← this]; rw [bsup_le_iff]
     intro c hcb
     have hb₁ : 1 < b := (lt_succ 1).trans (by simpa using hb₂)
     have hbo₀ : (b^b.log a) ≠ 0 := Ordinal.pos_iff_ne_zero.1 (opow_pos _ (zero_lt_one.trans hb₁))
     apply le_trans (mul_le_mul_right' (le_of_lt (lt_mul_succ_div a hbo₀)) c)
-    rw [mul_assoc, opow_succ]
+    rw [mul_assoc]; rw [opow_succ]
     refine' mul_le_mul_left' (le_of_lt (hb (hbl.2 _ _) hcb)) _
-    rw [div_lt hbo₀, ← opow_succ]
+    rw [div_lt hbo₀]; rw [← opow_succ]
     exact lt_opow_succ_log_self hb₁ _
   · rw [opow_succ]
     exact mul_le_mul_right' (opow_log_le_self b ha) b

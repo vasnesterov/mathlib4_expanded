@@ -144,13 +144,12 @@ theorem map_one_eq_zero : D 1 = 0 :=
 
 @[simp]
 theorem map_algebraMap : D (algebraMap R A r) = 0 := by
-  rw [← mul_one r, RingHom.map_mul, RingHom.map_one, ← smul_def, map_smul, map_one_eq_zero,
-    smul_zero]
+  rw [← mul_one r]; rw [RingHom.map_mul]; rw [RingHom.map_one]; rw [← smul_def]; rw [map_smul]; rw [map_one_eq_zero]; rw [smul_zero]
 #align derivation.map_algebra_map Derivation.map_algebraMap
 
 @[simp]
 theorem map_coe_nat (n : ℕ) : D (n : A) = 0 := by
-  rw [← nsmul_one, D.map_smul_of_tower n, map_one_eq_zero, smul_zero]
+  rw [← nsmul_one]; rw [D.map_smul_of_tower n]; rw [map_one_eq_zero]; rw [smul_zero]
 #align derivation.map_coe_nat Derivation.map_coe_nat
 
 @[simp]
@@ -392,7 +391,7 @@ protected theorem map_sub : D (a - b) = D a - D b :=
 
 @[simp]
 theorem map_coe_int (n : ℤ) : D (n : A) = 0 := by
-  rw [← zsmul_one, D.map_smul_of_tower n, map_one_eq_zero, smul_zero]
+  rw [← zsmul_one]; rw [D.map_smul_of_tower n]; rw [map_one_eq_zero]; rw [smul_zero]
 #align derivation.map_coe_int Derivation.map_coe_int
 
 theorem leibniz_of_mul_eq_one {a b : A} (h : a * b = 1) : D a = -a ^ 2 • D b := by

@@ -48,7 +48,7 @@ theorem toMatrix_apply {ι' : Type*} (q : ι' → P) (i : ι') (j : ι) :
 @[simp]
 theorem toMatrix_self [DecidableEq ι] : b.toMatrix b = (1 : Matrix ι ι k) := by
   ext i j
-  rw [toMatrix_apply, coord_apply, Matrix.one_eq_pi_single, Pi.single_apply]
+  rw [toMatrix_apply]; rw [coord_apply]; rw [Matrix.one_eq_pi_single]; rw [Pi.single_apply]
 #align affine_basis.to_matrix_self AffineBasis.toMatrix_self
 
 variable {ι' : Type*} [Fintype ι'] [Fintype ι] (b₂ : AffineBasis ι k P)
@@ -68,10 +68,7 @@ theorem affineIndependent_of_toMatrix_right_inv [DecidableEq ι'] (p : ι' → P
     change (∑ i, w₁ i • b.coord j (p i)) = ∑ i, w₂ i • b.coord j (p i)
     -- Porting note: Added `u` because `∘` was causing trouble
     have u : (fun i => b.coord j (p i)) = b.coord j ∘ p := by simp only [(· ∘ ·)]
-    rw [← Finset.univ.affineCombination_eq_linear_combination _ _ hw₁,
-      ← Finset.univ.affineCombination_eq_linear_combination _ _ hw₂, u,
-      ← Finset.univ.map_affineCombination p w₁ hw₁, ← Finset.univ.map_affineCombination p w₂ hw₂,
-      hweq]
+    rw [← Finset.univ.affineCombination_eq_linear_combination _ _ hw₁]; rw [← Finset.univ.affineCombination_eq_linear_combination _ _ hw₂]; rw [u]; rw [← Finset.univ.map_affineCombination p w₁ hw₁]; rw [← Finset.univ.map_affineCombination p w₂ hw₂]; rw [hweq]
   replace hweq' := congr_arg (fun w => A.vecMul w) hweq'
   simpa only [Matrix.vecMul_vecMul, hA, Matrix.vecMul_one] using hweq'
 #align affine_basis.affine_independent_of_to_matrix_right_inv AffineBasis.affineIndependent_of_toMatrix_right_inv
@@ -81,7 +78,7 @@ coordinates of `p` with respect `b` has a left inverse, then `p` spans the entir
 theorem affineSpan_eq_top_of_toMatrix_left_inv [DecidableEq ι] [Nontrivial k] (p : ι' → P)
     {A : Matrix ι ι' k} (hA : A * b.toMatrix p = 1) : affineSpan k (range p) = ⊤ := by
   suffices ∀ i, b i ∈ affineSpan k (range p) by
-    rw [eq_top_iff, ← b.tot, affineSpan_le]
+    rw [eq_top_iff]; rw [← b.tot]; rw [affineSpan_le]
     rintro q ⟨i, rfl⟩
     exact this i
   intro i
@@ -95,8 +92,7 @@ theorem affineSpan_eq_top_of_toMatrix_left_inv [DecidableEq ι] [Nontrivial k] (
   have hbi : b i = Finset.univ.affineCombination k p (A i) := by
     apply b.ext_elem
     intro j
-    rw [b.coord_apply, Finset.univ.map_affineCombination _ _ hAi,
-      Finset.univ.affineCombination_eq_linear_combination _ _ hAi]
+    rw [b.coord_apply]; rw [Finset.univ.map_affineCombination _ _ hAi]; rw [Finset.univ.affineCombination_eq_linear_combination _ _ hAi]
     change _ = (A * b.toMatrix p) i j
     simp_rw [hA, Matrix.one_apply, @eq_comm _ i j]
   rw [hbi]
@@ -120,7 +116,7 @@ variable [DecidableEq ι]
 theorem toMatrix_mul_toMatrix : b.toMatrix b₂ * b₂.toMatrix b = 1 := by
   ext l m
   change (b₂.toMatrix b).vecMul (b.coords (b₂ l)) m = _
-  rw [toMatrix_vecMul_coords, coords_apply, ← toMatrix_apply, toMatrix_self]
+  rw [toMatrix_vecMul_coords]; rw [coords_apply]; rw [← toMatrix_apply]; rw [toMatrix_self]
 #align affine_basis.to_matrix_mul_to_matrix AffineBasis.toMatrix_mul_toMatrix
 
 theorem isUnit_toMatrix : IsUnit (b.toMatrix b₂) :=
@@ -158,8 +154,7 @@ theorem toMatrix_inv_vecMul_toMatrix (x : P) :
     (b.toMatrix b₂)⁻¹.vecMul (b.coords x) = b₂.coords x := by
   have hu := b.isUnit_toMatrix b₂
   rw [Matrix.isUnit_iff_isUnit_det] at hu
-  rw [← b.toMatrix_vecMul_coords b₂, Matrix.vecMul_vecMul, Matrix.mul_nonsing_inv _ hu,
-    Matrix.vecMul_one]
+  rw [← b.toMatrix_vecMul_coords b₂]; rw [Matrix.vecMul_vecMul]; rw [Matrix.mul_nonsing_inv _ hu]; rw [Matrix.vecMul_one]
 #align affine_basis.to_matrix_inv_vec_mul_to_matrix AffineBasis.toMatrix_inv_vecMul_toMatrix
 
 /-- If we fix a background affine basis `b`, then for any other basis `b₂`, we can characterise
@@ -168,7 +163,7 @@ theorem det_smul_coords_eq_cramer_coords (x : P) :
     (b.toMatrix b₂).det • b₂.coords x = (b.toMatrix b₂)ᵀ.cramer (b.coords x) := by
   have hu := b.isUnit_toMatrix b₂
   rw [Matrix.isUnit_iff_isUnit_det] at hu
-  rw [← b.toMatrix_inv_vecMul_toMatrix, Matrix.det_smul_inv_vecMul_eq_cramer_transpose _ _ hu]
+  rw [← b.toMatrix_inv_vecMul_toMatrix]; rw [Matrix.det_smul_inv_vecMul_eq_cramer_transpose _ _ hu]
 #align affine_basis.det_smul_coords_eq_cramer_coords AffineBasis.det_smul_coords_eq_cramer_coords
 
 end CommRing

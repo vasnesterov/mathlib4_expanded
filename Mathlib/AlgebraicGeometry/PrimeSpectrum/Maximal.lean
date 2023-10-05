@@ -93,7 +93,7 @@ viewed as subalgebras of its field of fractions. -/
 theorem iInf_localization_eq_bot : (⨅ v : MaximalSpectrum R,
     Localization.subalgebra.ofField K _ v.asIdeal.primeCompl_le_nonZeroDivisors) = ⊥ := by
   ext x
-  rw [Algebra.mem_bot, Algebra.mem_iInf]
+  rw [Algebra.mem_bot]; rw [Algebra.mem_iInf]
   constructor
   · contrapose
     intro hrange hlocal
@@ -109,9 +109,7 @@ theorem iInf_localization_eq_bot : (⨅ v : MaximalSpectrum R,
     intro _ hy
     rcases Submodule.mem_span_singleton.mp hy with ⟨y, rfl⟩
     exact Submodule.mem_span_singleton.mpr ⟨y * n, by
-      rw [Algebra.smul_def, mul_one, map_mul, smul_comm, Algebra.smul_def, Algebra.smul_def,
-        mul_comm <| algebraMap R K d,
-        inv_mul_cancel_right₀ <|
+      rw [Algebra.smul_def]; rw [mul_one]; rw [map_mul]; rw [smul_comm]; rw [Algebra.smul_def]; rw [Algebra.smul_def]; rw [mul_comm <| algebraMap R K d]; rw [inv_mul_cancel_right₀ <|
           (map_ne_zero_iff _ <| NoZeroSMulDivisors.algebraMap_injective R K).mpr fun h =>
             (h ▸ hd) max.zero_mem]⟩
   · rintro ⟨y, rfl⟩ ⟨v, hv⟩

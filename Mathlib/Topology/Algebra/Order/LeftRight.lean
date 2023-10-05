@@ -56,19 +56,19 @@ section TopologicalSpace
 variable {α β : Type*} [TopologicalSpace α] [LinearOrder α] [TopologicalSpace β]
 
 theorem nhds_left_sup_nhds_right (a : α) : 𝓝[≤] a ⊔ 𝓝[≥] a = 𝓝 a := by
-  rw [← nhdsWithin_union, Iic_union_Ici, nhdsWithin_univ]
+  rw [← nhdsWithin_union]; rw [Iic_union_Ici]; rw [nhdsWithin_univ]
 #align nhds_left_sup_nhds_right nhds_left_sup_nhds_right
 
 theorem nhds_left'_sup_nhds_right (a : α) : 𝓝[<] a ⊔ 𝓝[≥] a = 𝓝 a := by
-  rw [← nhdsWithin_union, Iio_union_Ici, nhdsWithin_univ]
+  rw [← nhdsWithin_union]; rw [Iio_union_Ici]; rw [nhdsWithin_univ]
 #align nhds_left'_sup_nhds_right nhds_left'_sup_nhds_right
 
 theorem nhds_left_sup_nhds_right' (a : α) : 𝓝[≤] a ⊔ 𝓝[>] a = 𝓝 a := by
-  rw [← nhdsWithin_union, Iic_union_Ioi, nhdsWithin_univ]
+  rw [← nhdsWithin_union]; rw [Iic_union_Ioi]; rw [nhdsWithin_univ]
 #align nhds_left_sup_nhds_right' nhds_left_sup_nhds_right'
 
 theorem nhds_left'_sup_nhds_right' (a : α) : 𝓝[<] a ⊔ 𝓝[>] a = 𝓝[≠] a := by
-  rw [← nhdsWithin_union, Iio_union_Ioi]
+  rw [← nhdsWithin_union]; rw [Iio_union_Ioi]
 #align nhds_left'_sup_nhds_right' nhds_left'_sup_nhds_right'
 
 theorem continuousAt_iff_continuous_left_right {a : α} {f : α → β} :
@@ -78,8 +78,7 @@ theorem continuousAt_iff_continuous_left_right {a : α} {f : α → β} :
 
 theorem continuousAt_iff_continuous_left'_right' {a : α} {f : α → β} :
     ContinuousAt f a ↔ ContinuousWithinAt f (Iio a) a ∧ ContinuousWithinAt f (Ioi a) a := by
-  rw [continuousWithinAt_Ioi_iff_Ici, continuousWithinAt_Iio_iff_Iic,
-    continuousAt_iff_continuous_left_right]
+  rw [continuousWithinAt_Ioi_iff_Ici]; rw [continuousWithinAt_Iio_iff_Iic]; rw [continuousAt_iff_continuous_left_right]
 #align continuous_at_iff_continuous_left'_right' continuousAt_iff_continuous_left'_right'
 
 end TopologicalSpace

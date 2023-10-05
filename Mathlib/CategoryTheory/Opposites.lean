@@ -145,7 +145,7 @@ theorem isIso_op_iff {X Y : C} (f : X ⟶ Y) : IsIso f.op ↔ IsIso f :=
 #align category_theory.is_iso_op_iff CategoryTheory.isIso_op_iff
 
 theorem isIso_unop_iff {X Y : Cᵒᵖ} (f : X ⟶ Y) : IsIso f.unop ↔ IsIso f := by
-  rw [← isIso_op_iff f.unop, Quiver.Hom.op_unop]
+  rw [← isIso_op_iff f.unop]; rw [Quiver.Hom.op_unop]
 #align category_theory.is_iso_unop_iff CategoryTheory.isIso_unop_iff
 
 instance isIso_unop {X Y : Cᵒᵖ} (f : X ⟶ Y) [IsIso f] : IsIso f.unop :=
@@ -155,13 +155,13 @@ instance isIso_unop {X Y : Cᵒᵖ} (f : X ⟶ Y) [IsIso f] : IsIso f.unop :=
 @[simp]
 theorem op_inv {X Y : C} (f : X ⟶ Y) [IsIso f] : (inv f).op = inv f.op := by
   aesop_cat_nonterminal
-  rw [← op_comp, IsIso.inv_hom_id, op_id]
+  rw [← op_comp]; rw [IsIso.inv_hom_id]; rw [op_id]
 #align category_theory.op_inv CategoryTheory.op_inv
 
 @[simp]
 theorem unop_inv {X Y : Cᵒᵖ} (f : X ⟶ Y) [IsIso f] : (inv f).unop = inv f.unop := by
   aesop_cat_nonterminal
-  rw [← unop_comp, IsIso.inv_hom_id, unop_id]
+  rw [← unop_comp]; rw [IsIso.inv_hom_id]; rw [unop_id]
 #align category_theory.unop_inv CategoryTheory.unop_inv
 
 namespace Functor
@@ -600,7 +600,7 @@ def opUnopEquiv : (C ⥤ D)ᵒᵖ ≌ Cᵒᵖ ⥤ Dᵒᵖ where
       (by
         intro F G f
         dsimp [opUnopIso]
-        rw [show f = f.unop.op by simp, ← op_comp, ← op_comp]
+        rw [show f = f.unop.op by simp]; rw [← op_comp]; rw [← op_comp]
         congr 1
         aesop_cat)
   counitIso := NatIso.ofComponents fun F => F.unopOpIso
@@ -621,7 +621,7 @@ def leftOpRightOpEquiv : (Cᵒᵖ ⥤ D)ᵒᵖ ≌ C ⥤ Dᵒᵖ where
       (by
         intro F G η
         dsimp
-        rw [show η = η.unop.op by simp, ← op_comp, ← op_comp]
+        rw [show η = η.unop.op by simp]; rw [← op_comp]; rw [← op_comp]
         congr 1
         aesop_cat)
   counitIso := NatIso.ofComponents fun F => F.leftOpRightOpIso

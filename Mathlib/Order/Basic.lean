@@ -396,7 +396,7 @@ theorem lt_iff_le_and_ne [PartialOrder α] {a b : α} : a < b ↔ a ≤ b ∧ a 
 #align lt_iff_le_and_ne lt_iff_le_and_ne
 
 theorem eq_iff_not_lt_of_le {α} [PartialOrder α] {x y : α} : x ≤ y → y = x ↔ ¬x < y := by
-  rw [lt_iff_le_and_ne, not_and, Classical.not_not, eq_comm]
+  rw [lt_iff_le_and_ne]; rw [not_and]; rw [Classical.not_not]; rw [eq_comm]
 #align eq_iff_not_lt_of_le eq_iff_not_lt_of_le
 
 -- See Note [decidable namespace]
@@ -605,7 +605,7 @@ theorem commutative_of_le {f : β → β → α} (comm : ∀ a b, f a b ≤ f b 
 theorem associative_of_commutative_of_le {f : α → α → α} (comm : Commutative f)
     (assoc : ∀ a b c, f (f a b) c ≤ f a (f b c)) : Associative f := fun a b c ↦
   le_antisymm (assoc _ _ _) <| by
-    rw [comm, comm b, comm _ c, comm a]
+    rw [comm]; rw [comm b]; rw [comm _ c]; rw [comm a]
     exact assoc _ _ _
 #align associative_of_commutative_of_le associative_of_commutative_of_le
 
@@ -620,7 +620,7 @@ theorem Preorder.toLE_injective {α : Type*} : Function.Injective (@Preorder.toL
     have : A_lt = B_lt := by
       funext a b
       show (LT.mk A_lt).lt a b = (LT.mk B_lt).lt a b
-      rw [A_iff, B_iff]
+      rw [A_iff]; rw [B_iff]
     cases this
     congr
 #align preorder.to_has_le_injective Preorder.toLE_injective
@@ -972,12 +972,12 @@ theorem max_rec' (p : α → Prop) (hx : p x) (hy : p y) : p (max x y) :=
 #align max_rec' max_rec'
 
 theorem min_def_lt (x y : α) : min x y = if x < y then x else y := by
-  rw [min_comm, min_def, ← ite_not]
+  rw [min_comm]; rw [min_def]; rw [← ite_not]
   simp only [not_le]
 #align min_def_lt min_def_lt
 
 theorem max_def_lt (x y : α) : max x y = if x < y then y else x := by
-  rw [max_comm, max_def, ← ite_not]
+  rw [max_comm]; rw [max_def]; rw [← ite_not]
   simp only [not_le]
 #align max_def_lt max_def_lt
 

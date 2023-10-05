@@ -59,7 +59,7 @@ theorem lpMeas.ae_eq_zero_of_forall_set_integral_eq_zero (hm : m ≤ m0) (f : lp
   refine' ae_eq_zero_of_forall_set_integral_eq_of_finStronglyMeasurable_trim hm _ _ hg_sm
   · intro s hs hμs
     have hfg_restrict : f =ᵐ[μ.restrict s] g := ae_restrict_of_ae hfg
-    rw [IntegrableOn, integrable_congr hfg_restrict.symm]
+    rw [IntegrableOn]; rw [integrable_congr hfg_restrict.symm]
     exact hf_int_finite s hs hμs
   · intro s hs hμs
     have hfg_restrict : f =ᵐ[μ.restrict s] g := ae_restrict_of_ae hfg
@@ -81,7 +81,7 @@ theorem Lp.ae_eq_zero_of_forall_set_integral_eq_zero' (hm : m ≤ m0) (f : Lp E'
   refine' lpMeas.ae_eq_zero_of_forall_set_integral_eq_zero hm f_meas hp_ne_zero hp_ne_top _ _
   · intro s hs hμs
     have hfg_restrict : f =ᵐ[μ.restrict s] f_meas := ae_restrict_of_ae hf_f_meas
-    rw [IntegrableOn, integrable_congr hfg_restrict.symm]
+    rw [IntegrableOn]; rw [integrable_congr hfg_restrict.symm]
     exact hf_int_finite s hs hμs
   · intro s hs hμs
     have hfg_restrict : f =ᵐ[μ.restrict s] f_meas := ae_restrict_of_ae hf_f_meas
@@ -105,7 +105,7 @@ theorem Lp.ae_eq_of_forall_set_integral_eq' (hm : m ≤ m0) (f g : Lp E' p μ) (
     exact sub_eq_zero.mpr (hfg s hs hμs)
   have hfg_int : ∀ s, MeasurableSet[m] s → μ s < ∞ → IntegrableOn (⇑(f - g)) s μ := by
     intro s hs hμs
-    rw [IntegrableOn, integrable_congr (ae_restrict_of_ae (Lp.coeFn_sub f g))]
+    rw [IntegrableOn]; rw [integrable_congr (ae_restrict_of_ae (Lp.coeFn_sub f g))]
     exact (hf_int_finite s hs hμs).sub (hg_int_finite s hs hμs)
   have hfg_meas : AEStronglyMeasurable' m (⇑(f - g)) μ :=
     AEStronglyMeasurable'.congr (hf_meas.sub hg_meas) (Lp.coeFn_sub f g).symm
@@ -150,10 +150,8 @@ theorem ae_eq_of_forall_set_integral_eq_of_sigmaFinite' (hm : m ≤ m0) [SigmaFi
         μ.trim hm s < ∞ → ∫ x in s, hfm.mk f x ∂μ.trim hm = ∫ x in s, hgm.mk g x ∂μ.trim hm := by
     intro s hs hμs
     rw [trim_measurableSet_eq hm hs] at hμs
-    rw [restrict_trim hm _ hs, ← integral_trim hm hfm.stronglyMeasurable_mk, ←
-      integral_trim hm hgm.stronglyMeasurable_mk,
-      integral_congr_ae (ae_restrict_of_ae hfm.ae_eq_mk.symm),
-      integral_congr_ae (ae_restrict_of_ae hgm.ae_eq_mk.symm)]
+    rw [restrict_trim hm _ hs]; rw [← integral_trim hm hfm.stronglyMeasurable_mk]; rw [←
+      integral_trim hm hgm.stronglyMeasurable_mk]; rw [integral_congr_ae (ae_restrict_of_ae hfm.ae_eq_mk.symm)]; rw [integral_congr_ae (ae_restrict_of_ae hgm.ae_eq_mk.symm)]
     exact hfg_eq s hs hμs
   exact ae_eq_of_forall_set_integral_eq_of_sigmaFinite hf_mk_int_finite hg_mk_int_finite hfg_mk_eq
 #align measure_theory.ae_eq_of_forall_set_integral_eq_of_sigma_finite' MeasureTheory.ae_eq_of_forall_set_integral_eq_of_sigmaFinite'
@@ -172,7 +170,7 @@ theorem integral_norm_le_of_forall_fin_meas_integral_eq (hm : m ≤ m0) {f g : �
     (hgi : IntegrableOn g s μ)
     (hgf : ∀ t, MeasurableSet[m] t → μ t < ∞ → ∫ x in t, g x ∂μ = ∫ x in t, f x ∂μ)
     (hs : MeasurableSet[m] s) (hμs : μ s ≠ ∞) : (∫ x in s, ‖g x‖ ∂μ) ≤ ∫ x in s, ‖f x‖ ∂μ := by
-  rw [integral_norm_eq_pos_sub_neg hgi, integral_norm_eq_pos_sub_neg hfi]
+  rw [integral_norm_eq_pos_sub_neg hgi]; rw [integral_norm_eq_pos_sub_neg hfi]
   have h_meas_nonneg_g : MeasurableSet[m] {x | 0 ≤ g x} :=
     (@stronglyMeasurable_const _ _ m _ _).measurableSet_le hg
   have h_meas_nonneg_f : MeasurableSet {x | 0 ≤ f x} :=
@@ -205,8 +203,8 @@ theorem lintegral_nnnorm_le_of_forall_fin_meas_integral_eq (hm : m ≤ m0) {f g 
     (hgi : IntegrableOn g s μ)
     (hgf : ∀ t, MeasurableSet[m] t → μ t < ∞ → ∫ x in t, g x ∂μ = ∫ x in t, f x ∂μ)
     (hs : MeasurableSet[m] s) (hμs : μ s ≠ ∞) : (∫⁻ x in s, ‖g x‖₊ ∂μ) ≤ ∫⁻ x in s, ‖f x‖₊ ∂μ := by
-  rw [← ofReal_integral_norm_eq_lintegral_nnnorm hfi, ←
-    ofReal_integral_norm_eq_lintegral_nnnorm hgi, ENNReal.ofReal_le_ofReal_iff]
+  rw [← ofReal_integral_norm_eq_lintegral_nnnorm hfi]; rw [←
+    ofReal_integral_norm_eq_lintegral_nnnorm hgi]; rw [ENNReal.ofReal_le_ofReal_iff]
   · exact integral_norm_le_of_forall_fin_meas_integral_eq hm hf hfi hg hgi hgf hs hμs
   · exact integral_nonneg fun x => norm_nonneg _
 #align measure_theory.lintegral_nnnorm_le_of_forall_fin_meas_integral_eq MeasureTheory.lintegral_nnnorm_le_of_forall_fin_meas_integral_eq

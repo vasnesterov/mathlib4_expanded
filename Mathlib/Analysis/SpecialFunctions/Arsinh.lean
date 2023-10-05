@@ -67,21 +67,21 @@ theorem arsinh_zero : arsinh 0 = 0 := by simp [arsinh]
 
 @[simp]
 theorem arsinh_neg (x : ℝ) : arsinh (-x) = -arsinh x := by
-  rw [← exp_eq_exp, exp_arsinh, exp_neg, exp_arsinh]
+  rw [← exp_eq_exp]; rw [exp_arsinh]; rw [exp_neg]; rw [exp_arsinh]
   apply eq_inv_of_mul_eq_one_left
-  rw [neg_sq, neg_add_eq_sub, add_comm x, mul_comm, ← sq_sub_sq, sq_sqrt, add_sub_cancel]
+  rw [neg_sq]; rw [neg_add_eq_sub]; rw [add_comm x]; rw [mul_comm]; rw [← sq_sub_sq]; rw [sq_sqrt]; rw [add_sub_cancel]
   exact add_nonneg zero_le_one (sq_nonneg _)
 #align real.arsinh_neg Real.arsinh_neg
 
 /-- `arsinh` is the right inverse of `sinh`. -/
 @[simp]
 theorem sinh_arsinh (x : ℝ) : sinh (arsinh x) = x := by
-  rw [sinh_eq, ← arsinh_neg, exp_arsinh, exp_arsinh, neg_sq]; field_simp
+  rw [sinh_eq]; rw [← arsinh_neg]; rw [exp_arsinh]; rw [exp_arsinh]; rw [neg_sq]; field_simp
 #align real.sinh_arsinh Real.sinh_arsinh
 
 @[simp]
 theorem cosh_arsinh (x : ℝ) : cosh (arsinh x) = sqrt (1 + x ^ 2) := by
-  rw [← sqrt_sq (cosh_pos _).le, cosh_sq', sinh_arsinh]
+  rw [← sqrt_sq (cosh_pos _).le]; rw [cosh_sq']; rw [sinh_arsinh]
 #align real.cosh_arsinh Real.cosh_arsinh
 
 /-- `sinh` is surjective, `∀ b, ∃ a, sinh a = b`. In this case, we use `a = arsinh b`. -/

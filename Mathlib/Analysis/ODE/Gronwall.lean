@@ -73,7 +73,7 @@ theorem hasDerivAt_gronwallBound (δ K ε x : ℝ) :
 theorem hasDerivAt_gronwallBound_shift (δ K ε x a : ℝ) :
     HasDerivAt (fun y => gronwallBound δ K ε (y - a)) (K * gronwallBound δ K ε (x - a) + ε) x := by
   convert (hasDerivAt_gronwallBound δ K ε _).comp x ((hasDerivAt_id x).sub_const a) using 1
-  rw [id, mul_one]
+  rw [id]; rw [mul_one]
 #align has_deriv_at_gronwall_bound_shift hasDerivAt_gronwallBound_shift
 
 theorem gronwallBound_x0 (δ K ε : ℝ) : gronwallBound δ K ε 0 = δ := by
@@ -168,7 +168,7 @@ theorem dist_le_of_approx_trajectories_ODE_of_mem_set {v : ℝ → E → E} {s :
   rw [dist_eq_norm] at this
   refine' this.trans ((add_le_add (add_le_add (f_bound t ht) (g_bound t ht))
     (hv t (f t) (hfs t ht) (g t) (hgs t ht))).trans _)
-  rw [dist_eq_norm, add_comm]
+  rw [dist_eq_norm]; rw [add_comm]
 set_option linter.uppercaseLean3 false in
 #align dist_le_of_approx_trajectories_ODE_of_mem_set dist_le_of_approx_trajectories_ODE_of_mem_set
 

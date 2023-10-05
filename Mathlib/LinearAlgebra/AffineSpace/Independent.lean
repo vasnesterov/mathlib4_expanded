@@ -102,8 +102,7 @@ theorem affineIndependent_iff_linearIndependent_vsub (p : ι → P) (i1 : ι) :
       rw [hfg]
       have hf : ∑ ι in s2, f ι = 0 := by
         rw [Finset.sum_insert
-            (Finset.not_mem_map_subtype_of_not_property s (Classical.not_not.2 rfl)),
-          Finset.sum_subtype_map_embedding fun x _ => (hfg x).symm]
+            (Finset.not_mem_map_subtype_of_not_property s (Classical.not_not.2 rfl))]; rw [Finset.sum_subtype_map_embedding fun x _ => (hfg x).symm]
         rw [hfdef]
         dsimp only
         rw [dif_pos rfl]
@@ -115,16 +114,14 @@ theorem affineIndependent_iff_linearIndependent_vsub (p : ι → P) (i1 : ι) :
           simp only [hf2def]
           refine' fun x => _
           rw [hfg]
-        rw [Finset.weightedVSub_eq_weightedVSubOfPoint_of_sum_eq_zero s2 f p hf (p i1),
-          Finset.weightedVSubOfPoint_insert, Finset.weightedVSubOfPoint_apply,
-          Finset.sum_subtype_map_embedding fun x _ => hf2g2 x]
+        rw [Finset.weightedVSub_eq_weightedVSubOfPoint_of_sum_eq_zero s2 f p hf (p i1)]; rw [Finset.weightedVSubOfPoint_insert]; rw [Finset.weightedVSubOfPoint_apply]; rw [Finset.sum_subtype_map_embedding fun x _ => hf2g2 x]
         exact hg
       exact h s2 f hf hs2 i (Finset.mem_insert_of_mem (Finset.mem_map.2 ⟨i, hi, rfl⟩))
     · intro h
       rw [linearIndependent_iff'] at h
       intro s w hw hs i hi
-      rw [Finset.weightedVSub_eq_weightedVSubOfPoint_of_sum_eq_zero s w p hw (p i1), ←
-        s.weightedVSubOfPoint_erase w p i1, Finset.weightedVSubOfPoint_apply] at hs
+      rw [Finset.weightedVSub_eq_weightedVSubOfPoint_of_sum_eq_zero s w p hw (p i1)] at hs; rw [←
+        s.weightedVSubOfPoint_erase w p i1] at hs; rw [Finset.weightedVSubOfPoint_apply] at hs
       let f : ι → V := fun i => w i • (p i -ᵥ p i1)
       have hs2 : (∑ i in (s.erase i1).subtype fun i => i ≠ i1, f i) = 0 := by
         rw [← hs]
@@ -195,9 +192,7 @@ theorem affineIndependent_iff_indicator_eq_of_affineCombination_eq (p : ι → P
         rw [Set.sum_indicator_subset _ (Finset.subset_union_right s1 s2)] at hw2
         have hws : (∑ i in s1 ∪ s2, (Set.indicator (↑s1) w1 - Set.indicator (↑s2) w2) i) = 0 := by
           simp [hw1, hw2]
-        rw [Finset.affineCombination_indicator_subset _ _ (Finset.subset_union_left s1 s2),
-          Finset.affineCombination_indicator_subset _ _ (Finset.subset_union_right s1 s2),
-          ← @vsub_eq_zero_iff_eq V, Finset.affineCombination_vsub] at heq
+        rw [Finset.affineCombination_indicator_subset _ _ (Finset.subset_union_left s1 s2)] at heq; rw [Finset.affineCombination_indicator_subset _ _ (Finset.subset_union_right s1 s2)] at heq; rw [← @vsub_eq_zero_iff_eq V] at heq; rw [Finset.affineCombination_vsub] at heq
         exact ha (s1 ∪ s2) (Set.indicator (↑s1) w1 - Set.indicator (↑s2) w2) hws heq i hi
       · rw [← Finset.mem_coe, Finset.coe_union] at hi
         have h₁ : Set.indicator (↑s1) w1 i = 0 := by
@@ -227,7 +222,7 @@ theorem affineIndependent_iff_indicator_eq_of_affineCombination_eq (p : ι → P
       replace ha := ha s s w2 w1 hw2 hw1 (hw1s.symm ▸ hw2s)
       have hws : w2 i0 - w1 i0 = 0 := by
         rw [← Finset.mem_coe] at hi0
-        rw [← Set.indicator_of_mem hi0 w2, ← Set.indicator_of_mem hi0 w1, ha, sub_self]
+        rw [← Set.indicator_of_mem hi0 w2]; rw [← Set.indicator_of_mem hi0 w1]; rw [ha]; rw [sub_self]
       simpa using hws
 #align affine_independent_iff_indicator_eq_of_affine_combination_eq affineIndependent_iff_indicator_eq_of_affineCombination_eq
 
@@ -245,8 +240,7 @@ theorem affineIndependent_iff_eq_of_fintype_affineCombination_eq [Fintype ι] (p
       rwa [Set.sum_indicator_subset _ (Finset.subset_univ s1)] at hw1
     have hw2' : (∑ i, (s2 : Set ι).indicator w2 i) = 1 := by
       rwa [Set.sum_indicator_subset _ (Finset.subset_univ s2)] at hw2
-    rw [Finset.affineCombination_indicator_subset w1 p (Finset.subset_univ s1),
-      Finset.affineCombination_indicator_subset w2 p (Finset.subset_univ s2)] at hweq
+    rw [Finset.affineCombination_indicator_subset w1 p (Finset.subset_univ s1)] at hweq; rw [Finset.affineCombination_indicator_subset w2 p (Finset.subset_univ s2)] at hweq
     exact h _ _ hw1' hw2' hweq
 #align affine_independent_iff_eq_of_fintype_affine_combination_eq affineIndependent_iff_eq_of_fintype_affineCombination_eq
 
@@ -297,13 +291,13 @@ theorem AffineIndependent.comp_embedding {ι2 : Type*} (f : ι2 ↪ ι) {p : ι 
       have hs : h.choose = i2 := f.injective h.choose_spec
       simp_rw [dif_pos h, hs]
     have hw's : ∑ i in fs', w' i = 0 := by
-      rw [← hw, Finset.sum_map]
+      rw [← hw]; rw [Finset.sum_map]
       simp [hw']
     have hs' : fs'.weightedVSub p w' = (0 : V) := by
-      rw [← hs, Finset.weightedVSub_map]
+      rw [← hs]; rw [Finset.weightedVSub_map]
       congr with i
       simp_all only [comp_apply, EmbeddingLike.apply_eq_iff_eq, exists_eq, dite_true]
-    rw [← ha fs' w' hw's hs' (f i0) ((Finset.mem_map' _).2 hi0), hw']
+    rw [← ha fs' w' hw's hs' (f i0) ((Finset.mem_map' _).2 hi0)]; rw [hw']
 #align affine_independent.comp_embedding AffineIndependent.comp_embedding
 
 /-- If a family is affinely independent, so is any subfamily indexed
@@ -402,7 +396,7 @@ theorem AffineEquiv.affineIndependent_iff {p : ι → P} (e : P ≃ᵃ[k] P₂) 
 theorem AffineEquiv.affineIndependent_set_of_eq_iff {s : Set P} (e : P ≃ᵃ[k] P₂) :
     AffineIndependent k ((↑) : e '' s → P₂) ↔ AffineIndependent k ((↑) : s → P) := by
   have : e ∘ ((↑) : s → P) = ((↑) : e '' s → P₂) ∘ (e : P ≃ P₂).image s := rfl
-  rw [← e.affineIndependent_iff, this, affineIndependent_equiv]
+  rw [← e.affineIndependent_iff]; rw [this]; rw [affineIndependent_equiv]
 #align affine_equiv.affine_independent_set_of_eq_iff AffineEquiv.affineIndependent_set_of_eq_iff
 
 end Composition
@@ -415,7 +409,7 @@ theorem AffineIndependent.exists_mem_inter_of_exists_mem_inter_affineSpan [Nontr
     (ha : AffineIndependent k p) {s1 s2 : Set ι} {p0 : P} (hp0s1 : p0 ∈ affineSpan k (p '' s1))
     (hp0s2 : p0 ∈ affineSpan k (p '' s2)) : ∃ i : ι, i ∈ s1 ∩ s2 := by
   rw [Set.image_eq_range] at hp0s1 hp0s2
-  rw [mem_affineSpan_iff_eq_affineCombination, ←
+  rw [mem_affineSpan_iff_eq_affineCombination] at hp0s1 hp0s2; rw [←
     Finset.eq_affineCombination_subset_iff_eq_affineCombination_subtype] at hp0s1 hp0s2
   rcases hp0s1 with ⟨fs1, hfs1, w1, hw1, hp0s1⟩
   rcases hp0s2 with ⟨fs2, hfs2, w2, hw2, hp0s2⟩
@@ -503,18 +497,18 @@ theorem weightedVSub_mem_vectorSpan_pair {p : ι → P} (h : AffineIndependent k
   refine' ⟨fun h => _, fun h => _⟩
   · rcases h with ⟨r, hr⟩
     refine' ⟨r, fun i hi => _⟩
-    rw [s.affineCombination_vsub, ← s.weightedVSub_const_smul, ← sub_eq_zero, ← map_sub] at hr
+    rw [s.affineCombination_vsub] at hr; rw [← s.weightedVSub_const_smul] at hr; rw [← sub_eq_zero] at hr; rw [← map_sub] at hr
     have hw' : (∑ j in s, (r • (w₁ - w₂) - w) j) = 0 := by
       simp_rw [Pi.sub_apply, Pi.smul_apply, Pi.sub_apply, smul_sub, Finset.sum_sub_distrib, ←
         Finset.smul_sum, hw, hw₁, hw₂, sub_self]
     have hr' := h s _ hw' hr i hi
-    rw [eq_comm, ← sub_eq_zero, ← smul_eq_mul]
+    rw [eq_comm]; rw [← sub_eq_zero]; rw [← smul_eq_mul]
     exact hr'
   · rcases h with ⟨r, hr⟩
     refine' ⟨r, _⟩
     let w' i := r * (w₁ i - w₂ i)
     change ∀ i ∈ s, w i = w' i at hr
-    rw [s.weightedVSub_congr hr fun _ _ => rfl, s.affineCombination_vsub, ←
+    rw [s.weightedVSub_congr hr fun _ _ => rfl]; rw [s.affineCombination_vsub]; rw [←
       s.weightedVSub_const_smul]
     congr
 #align weighted_vsub_mem_vector_span_pair weightedVSub_mem_vectorSpan_pair
@@ -528,10 +522,7 @@ theorem affineCombination_mem_affineSpan_pair {p : ι → P} (h : AffineIndepend
     (hw₂ : ∑ i in s, w₂ i = 1) :
     s.affineCombination k p w ∈ line[k, s.affineCombination k p w₁, s.affineCombination k p w₂] ↔
       ∃ r : k, ∀ i ∈ s, w i = r * (w₂ i - w₁ i) + w₁ i := by
-  rw [← vsub_vadd (s.affineCombination k p w) (s.affineCombination k p w₁),
-    AffineSubspace.vadd_mem_iff_mem_direction _ (left_mem_affineSpan_pair _ _ _),
-    direction_affineSpan, s.affineCombination_vsub, Set.pair_comm,
-    weightedVSub_mem_vectorSpan_pair h _ hw₂ hw₁]
+  rw [← vsub_vadd (s.affineCombination k p w) (s.affineCombination k p w₁)]; rw [AffineSubspace.vadd_mem_iff_mem_direction _ (left_mem_affineSpan_pair _ _ _)]; rw [direction_affineSpan]; rw [s.affineCombination_vsub]; rw [Set.pair_comm]; rw [weightedVSub_mem_vectorSpan_pair h _ hw₂ hw₁]
   · simp only [Pi.sub_apply, sub_eq_iff_eq_add]
   · simp_all only [Pi.sub_apply, Finset.sum_sub_distrib, sub_self]
 #align affine_combination_mem_affine_span_pair affineCombination_mem_affineSpan_pair
@@ -598,7 +589,7 @@ theorem exists_affineIndependent (s : Set P) :
         vectorSpan_eq_span_vsub_set_right k (Set.mem_insert p _), this]
       congr
       change (Equiv.vaddConst p).symm '' insert p (Equiv.vaddConst p '' b) = _
-      rw [Set.image_insert_eq, ← Set.image_comp]
+      rw [Set.image_insert_eq]; rw [← Set.image_comp]
       simp
     · use p
       simp only [Equiv.coe_vaddConst, Set.singleton_union, Set.mem_inter_iff, coe_affineSpan]
@@ -649,20 +640,20 @@ theorem AffineIndependent.affineIndependent_of_not_mem_span {p : ι → P} {i : 
         erw [Finset.filter_eq'] at hwm
         simp_rw [if_pos his.1, Finset.sum_singleton, hwmi, ← sub_eq_add_neg, sub_eq_zero] at hwm
         exact hwm
-      rw [← s.affineCombination_eq_of_weightedVSub_eq_zero_of_eq_neg_one hms his.1 hwmi, ←
-        (Subtype.range_coe : _ = { x | x ≠ i }), ← Set.range_comp, ←
+      rw [← s.affineCombination_eq_of_weightedVSub_eq_zero_of_eq_neg_one hms his.1 hwmi]; rw [←
+        (Subtype.range_coe : _ = { x | x ≠ i })]; rw [← Set.range_comp]; rw [←
         s.affineCombination_subtype_eq_filter]
       exact affineCombination_mem_affineSpan hw' p'
     · rw [not_and_or, Classical.not_not] at his
       let w' : { y // y ≠ i } → k := fun x => w x
       have hw' : ∑ x in s', w' x = 0 := by
         simp_rw [Finset.sum_subtype_eq_sum_filter]
-        rw [Finset.sum_filter_of_ne, hw]
+        rw [Finset.sum_filter_of_ne]; rw [hw]
         rintro x hxs hwx rfl
         exact hwx (his.neg_resolve_left hxs)
       have hs' : s'.weightedVSub p' w' = (0 : V) := by
         simp_rw [Finset.weightedVSub_subtype_eq_filter]
-        rw [Finset.weightedVSub_filter_of_ne, hs]
+        rw [Finset.weightedVSub_filter_of_ne]; rw [hs]
         rintro x hxs hwx rfl
         exact hwx (his.neg_resolve_left hxs)
       intro j hj
@@ -737,7 +728,7 @@ theorem sign_eq_of_affineCombination_mem_affineSpan_pair {p : ι → P} (h : Aff
     SignType.sign (w i) = SignType.sign (w j) := by
   rw [affineCombination_mem_affineSpan_pair h hw hw₁ hw₂] at hs
   rcases hs with ⟨r, hr⟩
-  rw [hr i hi, hr j hj, hi0, hj0, add_zero, add_zero, sub_zero, sub_zero, sign_mul, sign_mul, hij]
+  rw [hr i hi]; rw [hr j hj]; rw [hi0]; rw [hj0]; rw [add_zero]; rw [add_zero]; rw [sub_zero]; rw [sub_zero]; rw [sign_mul]; rw [sign_mul]; rw [hij]
 #align sign_eq_of_affine_combination_mem_affine_span_pair sign_eq_of_affineCombination_mem_affineSpan_pair
 
 /-- Given an affinely independent family of points, suppose that an affine combination lies in
@@ -751,7 +742,7 @@ theorem sign_eq_of_affineCombination_mem_affineSpan_single_lineMap {p : ι → P
     (hs : s.affineCombination k p w ∈ line[k, p i₁, AffineMap.lineMap (p i₂) (p i₃) c]) :
     SignType.sign (w i₂) = SignType.sign (w i₃) := by
   classical
-    rw [← s.affineCombination_affineCombinationSingleWeights k p h₁, ←
+    rw [← s.affineCombination_affineCombinationSingleWeights k p h₁] at hs; rw [←
       s.affineCombination_affineCombinationLineMapWeights p h₂ h₃ c] at hs
     refine'
       sign_eq_of_affineCombination_mem_affineSpan_pair h hw
@@ -759,8 +750,7 @@ theorem sign_eq_of_affineCombination_mem_affineSpan_single_lineMap {p : ι → P
         (s.sum_affineCombinationLineMapWeights h₂ h₃ c) hs h₂ h₃
         (Finset.affineCombinationSingleWeights_apply_of_ne k h₁₂.symm)
         (Finset.affineCombinationSingleWeights_apply_of_ne k h₁₃.symm) _
-    rw [Finset.affineCombinationLineMapWeights_apply_left h₂₃,
-      Finset.affineCombinationLineMapWeights_apply_right h₂₃]
+    rw [Finset.affineCombinationLineMapWeights_apply_left h₂₃]; rw [Finset.affineCombinationLineMapWeights_apply_right h₂₃]
     simp_all only [sub_pos, sign_pos]
 #align sign_eq_of_affine_combination_mem_affine_span_single_line_map sign_eq_of_affineCombination_mem_affineSpan_single_lineMap
 
@@ -858,7 +848,7 @@ theorem face_eq_mkOfPoint {n : ℕ} (s : Simplex k P n) (i : Fin (n + 1)) :
 @[simp]
 theorem range_face_points {n : ℕ} (s : Simplex k P n) {fs : Finset (Fin (n + 1))} {m : ℕ}
     (h : fs.card = m + 1) : Set.range (s.face h).points = s.points '' ↑fs := by
-  rw [face_points', Set.range_comp, Finset.range_orderEmbOfFin]
+  rw [face_points']; rw [Set.range_comp]; rw [Finset.range_orderEmbOfFin]
 #align affine.simplex.range_face_points Affine.Simplex.range_face_points
 
 /-- Remap a simplex along an `Equiv` of index types. -/
@@ -897,7 +887,7 @@ theorem reindex_symm_reindex {m n : ℕ} (s : Simplex k P m) (e : Fin (n + 1) �
 @[simp]
 theorem reindex_range_points {m n : ℕ} (s : Simplex k P m) (e : Fin (m + 1) ≃ Fin (n + 1)) :
     Set.range (s.reindex e).points = Set.range s.points := by
-  rw [reindex, Set.range_comp, Equiv.range_eq_univ, Set.image_univ]
+  rw [reindex]; rw [Set.range_comp]; rw [Equiv.range_eq_univ]; rw [Set.image_univ]
 #align affine.simplex.reindex_range_points Affine.Simplex.reindex_range_points
 
 end Simplex
@@ -917,7 +907,7 @@ the points. -/
 theorem face_centroid_eq_centroid {n : ℕ} (s : Simplex k P n) {fs : Finset (Fin (n + 1))} {m : ℕ}
     (h : fs.card = m + 1) : Finset.univ.centroid k (s.face h).points = fs.centroid k s.points := by
   convert (Finset.univ.centroid_map k (fs.orderEmbOfFin h).toEmbedding s.points).symm
-  rw [← Finset.coe_inj, Finset.coe_map, Finset.coe_univ, Set.image_univ]
+  rw [← Finset.coe_inj]; rw [Finset.coe_map]; rw [Finset.coe_univ]; rw [Set.image_univ]
   simp
 #align affine.simplex.face_centroid_eq_centroid Affine.Simplex.face_centroid_eq_centroid
 
@@ -929,8 +919,7 @@ theorem centroid_eq_iff [CharZero k] {n : ℕ} (s : Simplex k P n) {fs₁ fs₂ 
     {m₁ m₂ : ℕ} (h₁ : fs₁.card = m₁ + 1) (h₂ : fs₂.card = m₂ + 1) :
     fs₁.centroid k s.points = fs₂.centroid k s.points ↔ fs₁ = fs₂ := by
   refine' ⟨fun h => _, @congrArg _ _ fs₁ fs₂ (fun z => Finset.centroid k z s.points)⟩
-  rw [Finset.centroid_eq_affineCombination_fintype,
-    Finset.centroid_eq_affineCombination_fintype] at h
+  rw [Finset.centroid_eq_affineCombination_fintype] at h; rw [Finset.centroid_eq_affineCombination_fintype] at h
   have ha :=
     (affineIndependent_iff_indicator_eq_of_affineCombination_eq k s.points).1 s.Independent _ _ _ _
       (fs₁.sum_centroidWeightsIndicator_eq_one_of_card_eq_add_one k h₁)
@@ -955,7 +944,7 @@ theorem face_centroid_eq_iff [CharZero k] {n : ℕ} (s : Simplex k P n)
     {fs₁ fs₂ : Finset (Fin (n + 1))} {m₁ m₂ : ℕ} (h₁ : fs₁.card = m₁ + 1) (h₂ : fs₂.card = m₂ + 1) :
     Finset.univ.centroid k (s.face h₁).points = Finset.univ.centroid k (s.face h₂).points ↔
       fs₁ = fs₂ := by
-  rw [face_centroid_eq_centroid, face_centroid_eq_centroid]
+  rw [face_centroid_eq_centroid]; rw [face_centroid_eq_centroid]
   exact s.centroid_eq_iff h₁ h₂
 #align affine.simplex.face_centroid_eq_iff Affine.Simplex.face_centroid_eq_iff
 
@@ -963,7 +952,7 @@ theorem face_centroid_eq_iff [CharZero k] {n : ℕ} (s : Simplex k P n)
 theorem centroid_eq_of_range_eq {n : ℕ} {s₁ s₂ : Simplex k P n}
     (h : Set.range s₁.points = Set.range s₂.points) :
     Finset.univ.centroid k s₁.points = Finset.univ.centroid k s₂.points := by
-  rw [← Set.image_univ, ← Set.image_univ, ← Finset.coe_univ] at h
+  rw [← Set.image_univ] at h; rw [← Set.image_univ] at h; rw [← Finset.coe_univ] at h
   exact
     Finset.univ.centroid_eq_of_inj_on_of_image_eq k _
       (fun _ _ _ _ he => AffineIndependent.injective s₁.Independent he)

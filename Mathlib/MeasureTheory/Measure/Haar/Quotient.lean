@@ -66,9 +66,7 @@ theorem MeasureTheory.IsFundamentalDomain.smulInvariantMeasure_map [μ.IsMulLeft
     have meas_π : Measurable π := continuous_quotient_mk'.measurable
     have 𝓕meas : NullMeasurableSet 𝓕 μ := h𝓕.nullMeasurableSet
     have meas_πA : MeasurableSet (π ⁻¹' A) := measurableSet_preimage meas_π hA
-    rw [Measure.map_apply meas_π hA,
-      Measure.map_apply meas_π (measurableSet_preimage (measurable_const_smul g) hA),
-      Measure.restrict_apply₀' 𝓕meas, Measure.restrict_apply₀' 𝓕meas]
+    rw [Measure.map_apply meas_π hA]; rw [Measure.map_apply meas_π (measurableSet_preimage (measurable_const_smul g) hA)]; rw [Measure.restrict_apply₀' 𝓕meas]; rw [Measure.restrict_apply₀' 𝓕meas]
     set π_preA := π ⁻¹' A
     have : π ⁻¹' ((fun x : G ⧸ Γ => g • x) ⁻¹' A) = (g * ·) ⁻¹' π_preA := by
       ext1; simp
@@ -82,7 +80,7 @@ theorem MeasureTheory.IsFundamentalDomain.smulInvariantMeasure_map [μ.IsMulLeft
     rw [this]
     have h𝓕_translate_fundom : IsFundamentalDomain Γ.op (g • 𝓕) μ :=
       h𝓕.smul_of_comm g
-    rw [h𝓕.measure_set_eq h𝓕_translate_fundom meas_πA, ← preimage_smul_inv]; rfl
+    rw [h𝓕.measure_set_eq h𝓕_translate_fundom meas_πA]; rw [← preimage_smul_inv]; rfl
     rintro ⟨γ, γ_in_Γ⟩
     ext x
     have : π (x * MulOpposite.unop γ) = π x := by simpa [QuotientGroup.eq'] using γ_in_Γ
@@ -106,7 +104,7 @@ theorem MeasureTheory.IsFundamentalDomain.isMulLeftInvariant_map [Subgroup.Norma
     obtain ⟨x₁, h⟩ := @Quotient.exists_rep _ (QuotientGroup.leftRel Γ) x
     haveI := h𝓕.smulInvariantMeasure_map
     convert measure_preimage_smul x₁ ((Measure.map QuotientGroup.mk) (μ.restrict 𝓕)) A using 1
-    rw [← h, Measure.map_apply]
+    rw [← h]; rw [Measure.map_apply]
     · rfl
     · exact measurable_const_mul _
     · exact hA
@@ -133,8 +131,7 @@ theorem MeasureTheory.IsFundamentalDomain.map_restrict_quotient  [T2Space (G ⧸
   -- it has the stated size on the reference compact set `K`.
   haveI : (Measure.map (QuotientGroup.mk' Γ) (μ.restrict 𝓕)).IsMulLeftInvariant :=
     h𝓕.isMulLeftInvariant_map
-  rw [Measure.haarMeasure_unique (Measure.map (QuotientGroup.mk' Γ) (μ.restrict 𝓕)) K,
-    Measure.map_apply meas_π, Measure.restrict_apply₀' 𝓕meas, inter_comm]
+  rw [Measure.haarMeasure_unique (Measure.map (QuotientGroup.mk' Γ) (μ.restrict 𝓕)) K]; rw [Measure.map_apply meas_π]; rw [Measure.restrict_apply₀' 𝓕meas]; rw [inter_comm]
   exact K.isCompact.measurableSet
 #align measure_theory.is_fundamental_domain.map_restrict_quotient MeasureTheory.IsFundamentalDomain.map_restrict_quotient
 #align measure_theory.is_add_fundamental_domain.map_restrict_quotient MeasureTheory.IsAddFundamentalDomain.map_restrict_quotient
@@ -200,7 +197,7 @@ lemma _root_.MeasureTheory.IsFundamentalDomain.absolutelyContinuous_map
   apply h𝓕.measure_zero_of_invariant _ _ hs
   · intro γ
     ext g
-    rw [Set.mem_smul_set_iff_inv_smul_mem, mem_preimage, mem_preimage]
+    rw [Set.mem_smul_set_iff_inv_smul_mem]; rw [mem_preimage]; rw [mem_preimage]
     congr! 1
     convert QuotientGroup.mk_mul_of_mem g (γ⁻¹).2 using 1
   exact MeasurableSet.preimage s_meas meas_π

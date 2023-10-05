@@ -207,7 +207,7 @@ theorem wRec_eq {α : TypeVec n} {C : Type*}
     (g : ∀ a : P.A, P.drop.B a ⟹ α → (P.last.B a → P.W α) → (P.last.B a → C) → C) (a : P.A)
     (f' : P.drop.B a ⟹ α) (f : P.last.B a → P.W α) :
     P.wRec g (P.wMk a f' f) = g a f' f fun i => P.wRec g (f i) := by
-  rw [wMk, wRec]; dsimp; rw [wpRec_eq]
+  rw [wMk]; rw [wRec]; dsimp; rw [wpRec_eq]
   dsimp only [wPathDestLeft_wPathCasesOn, wPathDestRight_wPathCasesOn]
   congr
 set_option linter.uppercaseLean3 false in
@@ -261,9 +261,9 @@ theorem w_map_wMk {α β : TypeVec n} (g : α ⟹ β) (a : P.A) (f' : P.drop.B a
     rfl
   rw [this]
   dsimp
-  rw [wMk_eq, wMk_eq]
+  rw [wMk_eq]; rw [wMk_eq]
   have h := MvPFunctor.map_eq P.wp g
-  rw [h, comp_wPathCasesOn]
+  rw [h]; rw [comp_wPathCasesOn]
 set_option linter.uppercaseLean3 false in
 #align mvpfunctor.W_map_W_mk MvPFunctor.w_map_wMk
 
@@ -309,7 +309,7 @@ set_option linter.uppercaseLean3 false in
 #align mvpfunctor.W_dest'_W_mk MvPFunctor.wDest'_wMk
 
 theorem wDest'_wMk' {α : TypeVec n} (x : P.Obj (α.append1 (P.W α))) : P.wDest' (P.wMk' x) = x := by
-  cases' x with a f; rw [wMk', wDest'_wMk, split_dropFun_lastFun]
+  cases' x with a f; rw [wMk']; rw [wDest'_wMk]; rw [split_dropFun_lastFun]
 set_option linter.uppercaseLean3 false in
 #align mvpfunctor.W_dest'_W_mk' MvPFunctor.wDest'_wMk'
 

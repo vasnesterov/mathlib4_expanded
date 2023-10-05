@@ -381,7 +381,7 @@ def ofι (I : MulticospanIndex.{w} C) (P : C) (ι : ∀ a, P ⟶ I.left a)
 
 @[reassoc (attr := simp)]
 theorem condition (b) : K.ι (I.fstTo b) ≫ I.fst b = K.ι (I.sndTo b) ≫ I.snd b := by
-  rw [← app_right_eq_ι_comp_fst, ← app_right_eq_ι_comp_snd]
+  rw [← app_right_eq_ι_comp_fst]; rw [← app_right_eq_ι_comp_snd]
 #align category_theory.limits.multifork.condition CategoryTheory.Limits.Multifork.condition
 
 /-- This definition provides a convenient way to show that a multifork is a limit. -/
@@ -573,7 +573,7 @@ def ofπ (I : MultispanIndex.{w} C) (P : C) (π : ∀ b, I.right b ⟶ P)
 
 @[reassoc (attr := simp)]
 theorem condition (a) : I.fst a ≫ K.π (I.fstFrom a) = I.snd a ≫ K.π (I.sndFrom a) := by
-  rw [← K.snd_app_right, ← K.fst_app_right]
+  rw [← K.snd_app_right]; rw [← K.fst_app_right]
 #align category_theory.limits.multicofork.condition CategoryTheory.Limits.Multicofork.condition
 
 /-- This definition provides a convenient way to show that a multicofork is a colimit. -/
@@ -822,7 +822,7 @@ def ιPi : multiequalizer I ⟶ ∏ I.left :=
 
 @[reassoc (attr := simp)]
 theorem ιPi_π (a) : ιPi I ≫ Pi.π I.left a = ι I a := by
-  rw [ιPi, Category.assoc, ← Iso.eq_inv_comp, isoEqualizer]
+  rw [ιPi]; rw [Category.assoc]; rw [← Iso.eq_inv_comp]; rw [isoEqualizer]
   simp
 #align category_theory.limits.multiequalizer.ι_pi_π CategoryTheory.Limits.Multiequalizer.ιPi_π
 
@@ -911,7 +911,7 @@ def sigmaπ : ∐ I.right ⟶ multicoequalizer I :=
 
 @[reassoc (attr := simp)]
 theorem ι_sigmaπ (b) : Sigma.ι I.right b ≫ sigmaπ I = π I b := by
-  rw [sigmaπ, ← Category.assoc, Iso.comp_inv_eq, isoCoequalizer]
+  rw [sigmaπ]; rw [← Category.assoc]; rw [Iso.comp_inv_eq]; rw [isoCoequalizer]
   simp only [MultispanIndex.multicoforkEquivSigmaCofork_inverse,
     MultispanIndex.ofSigmaCoforkFunctor_obj, colimit.isoColimitCocone_ι_hom,
     Multicofork.ofSigmaCofork_pt, colimit.cocone_x, Multicofork.π_eq_app_right]

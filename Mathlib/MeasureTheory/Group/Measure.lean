@@ -208,8 +208,7 @@ instance Measure.prod.instIsMulLeftInvariant [IsMulLeftInvariant μ] [SigmaFinit
   constructor
   rintro ⟨g, h⟩
   change map (Prod.map (g * ·) (h * ·)) (μ.prod ν) = μ.prod ν
-  rw [← map_prod_map _ _ (measurable_const_mul g) (measurable_const_mul h),
-    map_mul_left_eq_self μ g, map_mul_left_eq_self ν h]
+  rw [← map_prod_map _ _ (measurable_const_mul g) (measurable_const_mul h)]; rw [map_mul_left_eq_self μ g]; rw [map_mul_left_eq_self ν h]
   · rw [map_mul_left_eq_self μ g]; infer_instance
   · rw [map_mul_left_eq_self ν h]; infer_instance
 #align measure_theory.measure.prod.measure.is_mul_left_invariant MeasureTheory.Measure.prod.instIsMulLeftInvariant
@@ -222,8 +221,7 @@ instance Measure.prod.instIsMulRightInvariant [IsMulRightInvariant μ] [SigmaFin
   constructor
   rintro ⟨g, h⟩
   change map (Prod.map (· * g) (· * h)) (μ.prod ν) = μ.prod ν
-  rw [← map_prod_map _ _ (measurable_mul_const g) (measurable_mul_const h),
-    map_mul_right_eq_self μ g, map_mul_right_eq_self ν h]
+  rw [← map_prod_map _ _ (measurable_mul_const g) (measurable_mul_const h)]; rw [map_mul_right_eq_self μ g]; rw [map_mul_right_eq_self ν h]
   · rw [map_mul_right_eq_self μ g]; infer_instance
   · rw [map_mul_right_eq_self ν h]; infer_instance
 #align measure_theory.measure.prod.measure.is_mul_right_invariant MeasureTheory.Measure.prod.instIsMulRightInvariant
@@ -452,7 +450,7 @@ protected theorem inv_inv (μ : Measure G) : μ.inv.inv = μ :=
 
 @[to_additive (attr := simp)]
 theorem measure_inv (μ : Measure G) [IsInvInvariant μ] (A : Set G) : μ A⁻¹ = μ A := by
-  rw [← inv_apply, inv_eq_self]
+  rw [← inv_apply]; rw [inv_eq_self]
 #align measure_theory.measure.measure_inv MeasureTheory.Measure.measure_inv
 #align measure_theory.measure.measure_neg MeasureTheory.Measure.measure_neg
 

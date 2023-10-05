@@ -284,23 +284,23 @@ instance : Preadditive (Free R C) where
   homGroup X Y := Finsupp.addCommGroup
   add_comp X Y Z f f' g := by
     dsimp [CategoryTheory.categoryFree]
-    rw [Finsupp.sum_add_index'] <;> · simp [add_mul]
+    rw [Finsupp.sum_add_index']  <;> · simp [add_mul]
   comp_add X Y Z f g g' := by
     dsimp [CategoryTheory.categoryFree]
     rw [← Finsupp.sum_add]
     congr; ext r h
-    rw [Finsupp.sum_add_index'] <;> · simp [mul_add]
+    rw [Finsupp.sum_add_index']  <;> · simp [mul_add]
 
 instance : Linear R (Free R C) where
   homModule X Y := Finsupp.module _ R
   smul_comp X Y Z r f g := by
     dsimp [CategoryTheory.categoryFree]
-    rw [Finsupp.sum_smul_index] <;> simp [Finsupp.smul_sum, mul_assoc]
+    rw [Finsupp.sum_smul_index]  <;> simp [Finsupp.smul_sum, mul_assoc]
   comp_smul X Y Z f r g := by
     dsimp [CategoryTheory.categoryFree]
     simp_rw [Finsupp.smul_sum]
     congr; ext h s
-    rw [Finsupp.sum_smul_index] <;> simp [Finsupp.smul_sum, mul_left_comm]
+    rw [Finsupp.sum_smul_index]  <;> simp [Finsupp.smul_sum, mul_left_comm]
 
 theorem single_comp_single {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) (r s : R) :
     (single f r ≫ single g s : Free.of R X ⟶ Free.of R Z) = single (f ≫ g) (r * s) := by
@@ -321,7 +321,7 @@ def embedding : C ⥤ Free R C where
   map_comp {X Y Z} f g := by
     -- Porting note: simp used to be able to close this goal
     dsimp only []
-    rw [single_comp_single, one_mul]
+    rw [single_comp_single]; rw [one_mul]
 #align category_theory.Free.embedding CategoryTheory.Free.embedding
 
 variable {C} {D : Type u} [Category.{v} D] [Preadditive D] [Linear R D]
@@ -339,11 +339,11 @@ def lift (F : C ⥤ D) : Free R C ⥤ D where
     apply Finsupp.induction_linear f
     · -- Porting note: simp used to be able to close this goal
       dsimp
-      rw [Limits.zero_comp, sum_zero_index, Limits.zero_comp]
+      rw [Limits.zero_comp]; rw [sum_zero_index]; rw [Limits.zero_comp]
     · intro f₁ f₂ w₁ w₂
       rw [add_comp]
       dsimp at *
-      rw [Finsupp.sum_add_index', Finsupp.sum_add_index']
+      rw [Finsupp.sum_add_index']; rw [Finsupp.sum_add_index']
       · simp only [w₁, w₂, add_comp]
       · intros; rw [zero_smul]
       · intros; simp only [add_smul]
@@ -353,11 +353,11 @@ def lift (F : C ⥤ D) : Free R C ⥤ D where
       apply Finsupp.induction_linear g
       · -- Porting note: simp used to be able to close this goal
         dsimp
-        rw [Limits.comp_zero, sum_zero_index, Limits.comp_zero]
+        rw [Limits.comp_zero]; rw [sum_zero_index]; rw [Limits.comp_zero]
       · intro f₁ f₂ w₁ w₂
         rw [comp_add]
         dsimp at *
-        rw [Finsupp.sum_add_index', Finsupp.sum_add_index']
+        rw [Finsupp.sum_add_index']; rw [Finsupp.sum_add_index']
         · simp only [w₁, w₂, comp_add]
         · intros; rw [zero_smul]
         · intros; simp only [add_smul]
@@ -375,13 +375,13 @@ theorem lift_map_single (F : C ⥤ D) {X Y : C} (f : X ⟶ Y) (r : R) :
 instance lift_additive (F : C ⥤ D) : (lift R F).Additive where
   map_add {X Y} f g := by
     dsimp
-    rw [Finsupp.sum_add_index'] <;> simp [add_smul]
+    rw [Finsupp.sum_add_index']  <;> simp [add_smul]
 #align category_theory.Free.lift_additive CategoryTheory.Free.lift_additive
 
 instance lift_linear (F : C ⥤ D) : (lift R F).Linear R where
   map_smul {X Y} f r := by
     dsimp
-    rw [Finsupp.sum_smul_index] <;> simp [Finsupp.smul_sum, mul_smul]
+    rw [Finsupp.sum_smul_index]  <;> simp [Finsupp.smul_sum, mul_smul]
 #align category_theory.Free.lift_linear CategoryTheory.Free.lift_linear
 
 /-- The embedding into the `R`-linear completion, followed by the lift,
@@ -402,13 +402,12 @@ def ext {F G : Free R C ⥤ D} [F.Additive] [F.Linear R] [G.Additive] [G.Linear 
       intro X Y f
       apply Finsupp.induction_linear f
       · -- Porting note: simp used to be able to close this goal
-        rw [Functor.map_zero, Limits.zero_comp, Functor.map_zero, Limits.comp_zero]
+        rw [Functor.map_zero]; rw [Limits.zero_comp]; rw [Functor.map_zero]; rw [Limits.comp_zero]
       · intro f₁ f₂ w₁ w₂
         -- Porting note: Using rw instead of simp
-        rw [Functor.map_add, add_comp, w₁, w₂, Functor.map_add, comp_add]
+        rw [Functor.map_add]; rw [add_comp]; rw [w₁]; rw [w₂]; rw [Functor.map_add]; rw [comp_add]
       · intro f' r
-        rw [Iso.app_hom, Iso.app_hom, ← smul_single_one, F.map_smul, G.map_smul, smul_comp,
-          comp_smul]
+        rw [Iso.app_hom]; rw [Iso.app_hom]; rw [← smul_single_one]; rw [F.map_smul]; rw [G.map_smul]; rw [smul_comp]; rw [comp_smul]
         change r • (embedding R C ⋙ F).map f' ≫ _ = r • _ ≫ (embedding R C ⋙ G).map f'
         rw [α.hom.naturality f'])
 #align category_theory.Free.ext CategoryTheory.Free.ext

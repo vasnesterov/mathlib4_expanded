@@ -147,34 +147,31 @@ theorem hundred_le_m [Nonempty α] (hPα : P.parts.card * 16 ^ P.parts.card ≤ 
 
 theorem a_add_one_le_four_pow_parts_card : a + 1 ≤ 4 ^ P.parts.card := by
   have h : 1 ≤ 4 ^ P.parts.card := one_le_pow_of_one_le (by norm_num) _
-  rw [stepBound, ← Nat.div_div_eq_div_mul]
+  rw [stepBound]; rw [← Nat.div_div_eq_div_mul]
   conv_rhs => rw [← Nat.sub_add_cancel h]
-  rw [add_le_add_iff_right, tsub_le_iff_left, ← Nat.add_sub_assoc h]
+  rw [add_le_add_iff_right]; rw [tsub_le_iff_left]; rw [← Nat.add_sub_assoc h]
   exact Nat.le_pred_of_lt (Nat.lt_div_mul_add h)
 #align szemeredi_regularity.a_add_one_le_four_pow_parts_card SzemerediRegularity.a_add_one_le_four_pow_parts_card
 
 theorem card_aux₁ (hucard : u.card = m * 4 ^ P.parts.card + a) :
     (4 ^ P.parts.card - a) * m + a * (m + 1) = u.card := by
-  rw [hucard, mul_add, mul_one, ← add_assoc, ← add_mul,
-    Nat.sub_add_cancel ((Nat.le_succ _).trans a_add_one_le_four_pow_parts_card), mul_comm]
+  rw [hucard]; rw [mul_add]; rw [mul_one]; rw [← add_assoc]; rw [← add_mul]; rw [Nat.sub_add_cancel ((Nat.le_succ _).trans a_add_one_le_four_pow_parts_card)]; rw [mul_comm]
 #align szemeredi_regularity.card_aux₁ SzemerediRegularity.card_aux₁
 
 theorem card_aux₂ (hP : P.IsEquipartition) (hu : u ∈ P.parts)
     (hucard : ¬u.card = m * 4 ^ P.parts.card + a) :
     (4 ^ P.parts.card - (a + 1)) * m + (a + 1) * (m + 1) = u.card := by
   have : m * 4 ^ P.parts.card ≤ card α / P.parts.card := by
-    rw [stepBound, ← Nat.div_div_eq_div_mul]
+    rw [stepBound]; rw [← Nat.div_div_eq_div_mul]
     exact Nat.div_mul_le_self _ _
   rw [Nat.add_sub_of_le this] at hucard
-  rw [(hP.card_parts_eq_average hu).resolve_left hucard, mul_add, mul_one, ← add_assoc, ← add_mul,
-    Nat.sub_add_cancel a_add_one_le_four_pow_parts_card, ← add_assoc, mul_comm,
-    Nat.add_sub_of_le this, card_univ]
+  rw [(hP.card_parts_eq_average hu).resolve_left hucard]; rw [mul_add]; rw [mul_one]; rw [← add_assoc]; rw [← add_mul]; rw [Nat.sub_add_cancel a_add_one_le_four_pow_parts_card]; rw [← add_assoc]; rw [mul_comm]; rw [Nat.add_sub_of_le this]; rw [card_univ]
 #align szemeredi_regularity.card_aux₂ SzemerediRegularity.card_aux₂
 
 theorem pow_mul_m_le_card_part (hP : P.IsEquipartition) (hu : u ∈ P.parts) :
     (4 : ℝ) ^ P.parts.card * m ≤ u.card := by
   norm_cast
-  rw [stepBound, ← Nat.div_div_eq_div_mul]
+  rw [stepBound]; rw [← Nat.div_div_eq_div_mul]
   exact (Nat.mul_div_le _ _).trans (hP.average_le_card_part hu)
 #align szemeredi_regularity.pow_mul_m_le_card_part SzemerediRegularity.pow_mul_m_le_card_part
 
@@ -200,8 +197,8 @@ theorem initialBound_pos : 0 < initialBound ε l :=
 
 theorem hundred_lt_pow_initialBound_mul {ε : ℝ} (hε : 0 < ε) (l : ℕ) :
     100 < ↑4 ^ initialBound ε l * ε ^ 5 := by
-  rw [← rpow_nat_cast 4, ← div_lt_iff (pow_pos hε 5), lt_rpow_iff_log_lt _ zero_lt_four, ←
-    div_lt_iff, initialBound, Nat.cast_max, Nat.cast_max]
+  rw [← rpow_nat_cast 4]; rw [← div_lt_iff (pow_pos hε 5)]; rw [lt_rpow_iff_log_lt _ zero_lt_four]; rw [←
+    div_lt_iff]; rw [initialBound]; rw [Nat.cast_max]; rw [Nat.cast_max]
   · push_cast
     exact lt_max_of_lt_right (lt_max_of_lt_right <| Nat.lt_floor_add_one _)
   · exact log_pos (by norm_num)
@@ -248,9 +245,9 @@ theorem add_div_le_sum_sq_div_card (hst : s ⊆ t) (f : ι → 𝕜) (d : 𝕜) 
     sq_le_sq.2 (by rwa [abs_of_nonneg hx])
   have h₂ : x ^ 2 ≤ ((∑ i in s, (f i - (∑ j in t, f j) / t.card)) / s.card) ^ 2 := by
     apply h₁.trans
-    rw [sum_sub_distrib, sum_const, nsmul_eq_mul, sub_div, mul_div_cancel_left _ hscard.ne']
+    rw [sum_sub_distrib]; rw [sum_const]; rw [nsmul_eq_mul]; rw [sub_div]; rw [mul_div_cancel_left _ hscard.ne']
   apply (add_le_add_right ht _).trans
-  rw [← mul_div_right_comm, le_div_iff htcard, add_mul, div_mul_cancel _ htcard.ne']
+  rw [← mul_div_right_comm]; rw [le_div_iff htcard]; rw [add_mul]; rw [div_mul_cancel _ htcard.ne']
   have h₃ := mul_sq_le_sum_sq hst (fun i => (f i - (∑ j in t, f j) / t.card)) h₂ hscard.ne'
   apply (add_le_add_left h₃ _).trans
   -- Porting note: was
@@ -259,8 +256,7 @@ theorem add_div_le_sum_sq_div_card (hst : s ⊆ t) (f : ι → 𝕜) (d : 𝕜) 
   -- `  mul_sum]`
   simp_rw [sub_div' _ _ _ htcard.ne']
   conv_lhs => enter [2, 2, x]; rw [div_pow]
-  rw [div_pow, ← sum_div, ← mul_div_right_comm _ (t.card : 𝕜), ← add_div,
-    div_le_iff (sq_pos_of_ne_zero _ htcard.ne')]
+  rw [div_pow]; rw [← sum_div]; rw [← mul_div_right_comm _ (t.card : 𝕜)]; rw [← add_div]; rw [div_le_iff (sq_pos_of_ne_zero _ htcard.ne')]
   simp_rw [sub_sq, sum_add_distrib, sum_const, nsmul_eq_mul, sum_sub_distrib, mul_pow, ← sum_mul,
     ← mul_sum, ← sum_mul]
   ring_nf; rfl

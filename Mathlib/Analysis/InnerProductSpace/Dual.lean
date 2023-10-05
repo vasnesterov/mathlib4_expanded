@@ -85,7 +85,7 @@ theorem ext_inner_left_basis {ι : Type*} {x y : E} (b : Basis ι 𝕜 E)
   refine' (Function.Injective.eq_iff ContinuousLinearMap.coe_injective).mp (Basis.ext b _)
   intro i
   simp only [ContinuousLinearMap.coe_coe]
-  rw [toDualMap_apply, toDualMap_apply]
+  rw [toDualMap_apply]; rw [toDualMap_apply]
   rw [← inner_conj_symm]
   conv_rhs => rw [← inner_conj_symm]
   exact congr_arg conj (h i)
@@ -126,8 +126,7 @@ def toDual : E ≃ₗᵢ⋆[𝕜] NormedSpace.Dual 𝕜 E :=
         apply ContinuousLinearMap.ext
         intro x
         have h₁ : ℓ z • x - ℓ x • z ∈ Y := by
-          rw [LinearMap.mem_ker, map_sub, ContinuousLinearMap.map_smul,
-            ContinuousLinearMap.map_smul, Algebra.id.smul_eq_mul, Algebra.id.smul_eq_mul, mul_comm]
+          rw [LinearMap.mem_ker]; rw [map_sub]; rw [ContinuousLinearMap.map_smul]; rw [ContinuousLinearMap.map_smul]; rw [Algebra.id.smul_eq_mul]; rw [Algebra.id.smul_eq_mul]; rw [mul_comm]
           exact sub_self (ℓ x * ℓ z)
         have h₂ : ℓ z * ⟪z, x⟫ = ℓ x * ⟪z, z⟫ :=
           haveI h₃ :=
@@ -174,8 +173,7 @@ variable (B : E →L⋆[𝕜] E →L[𝕜] 𝕜)
 
 @[simp]
 theorem continuousLinearMapOfBilin_apply (v w : E) : ⟪B♯ v, w⟫ = B v w := by
-  rw [continuousLinearMapOfBilin, coe_comp', ContinuousLinearEquiv.coe_coe,
-    LinearIsometryEquiv.coe_toContinuousLinearEquiv, Function.comp_apply, toDual_symm_apply]
+  rw [continuousLinearMapOfBilin]; rw [coe_comp']; rw [ContinuousLinearEquiv.coe_coe]; rw [LinearIsometryEquiv.coe_toContinuousLinearEquiv]; rw [Function.comp_apply]; rw [toDual_symm_apply]
 #align inner_product_space.continuous_linear_map_of_bilin_apply InnerProductSpace.continuousLinearMapOfBilin_apply
 
 theorem unique_continuousLinearMapOfBilin {v f : E} (is_lax_milgram : ∀ w, ⟪f, w⟫ = B v w) :

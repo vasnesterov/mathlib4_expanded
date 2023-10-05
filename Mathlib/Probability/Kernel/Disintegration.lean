@@ -89,8 +89,7 @@ theorem set_lintegral_condKernelReal_univ (ρ : Measure (α × ℝ)) {s : Set α
 
 theorem lintegral_condKernelReal_univ (ρ : Measure (α × ℝ)) :
     ∫⁻ a, condKernelReal ρ a univ ∂ρ.fst = ρ univ := by
-  rw [← set_lintegral_univ, set_lintegral_condKernelReal_univ ρ MeasurableSet.univ,
-    univ_prod_univ]
+  rw [← set_lintegral_univ]; rw [set_lintegral_condKernelReal_univ ρ MeasurableSet.univ]; rw [univ_prod_univ]
 #align probability_theory.lintegral_cond_kernel_real_univ ProbabilityTheory.lintegral_condKernelReal_univ
 
 variable (ρ : Measure (α × ℝ)) [IsFiniteMeasure ρ]
@@ -115,7 +114,7 @@ theorem set_lintegral_condKernelReal_prod {s : Set α} (hs : MeasurableSet s) {t
           exact measure_ne_top ρ _
         · exact eventually_of_forall fun a => measure_mono (subset_univ _)
       _ = ρ (s ×ˢ univ) - ρ (s ×ˢ t) := by
-        rw [set_lintegral_condKernelReal_univ ρ hs, ht_lintegral]
+        rw [set_lintegral_condKernelReal_univ ρ hs]; rw [ht_lintegral]
       _ = ρ (s ×ˢ tᶜ) := by
         rw [← measure_diff _ (hs.prod ht) (measure_ne_top ρ _)]
         · rw [prod_diff_prod, compl_eq_univ_diff]
@@ -124,11 +123,10 @@ theorem set_lintegral_condKernelReal_prod {s : Set α} (hs : MeasurableSet s) {t
           exact Or.inl ⟨subset_rfl, subset_univ t⟩
   · intro f hf_disj hf_meas hf_eq
     simp_rw [measure_iUnion hf_disj hf_meas]
-    rw [lintegral_tsum fun i => (kernel.measurable_coe _ (hf_meas i)).aemeasurable.restrict,
-      prod_iUnion, measure_iUnion]
+    rw [lintegral_tsum fun i => (kernel.measurable_coe _ (hf_meas i)).aemeasurable.restrict]; rw [prod_iUnion]; rw [measure_iUnion]
     · simp_rw [hf_eq]
     · intro i j hij
-      rw [Function.onFun, disjoint_prod]
+      rw [Function.onFun]; rw [disjoint_prod]
       exact Or.inr (hf_disj hij)
     · exact fun i => MeasurableSet.prod hs (hf_meas i)
 #align probability_theory.set_lintegral_cond_kernel_real_prod ProbabilityTheory.set_lintegral_condKernelReal_prod
@@ -162,7 +160,7 @@ theorem lintegral_condKernelReal_mem {s : Set (α × ℝ)} (hs : MeasurableSet s
       intro a hat₁
       rw [mem_compl_iff] at hat₁
       simp only [hat₁, prod_mk_mem_set_prod_eq, false_and_iff, setOf_false, measure_empty]
-    rw [h_eq1, h_eq2, add_zero]
+    rw [h_eq1]; rw [h_eq2]; rw [add_zero]
     exact set_lintegral_condKernelReal_prod ρ ht₁ ht₂
   · intro t ht ht_eq
     calc
@@ -191,7 +189,7 @@ theorem lintegral_condKernelReal_mem {s : Set (α × ℝ)} (hs : MeasurableSet s
     have h_disj : ∀ a, Pairwise (Disjoint on fun i => {x | (a, x) ∈ f i}) := by
       intro a i j hij
       have h_disj := hf_disj hij
-      rw [Function.onFun, disjoint_iff_inter_eq_empty] at h_disj ⊢
+      rw [Function.onFun] at h_disj ⊢; rw [disjoint_iff_inter_eq_empty] at h_disj ⊢
       ext1 x
       simp only [mem_inter_iff, mem_setOf_eq, mem_empty_iff_false, iff_false_iff]
       intro h_mem_both
@@ -212,20 +210,20 @@ theorem kernel.const_eq_compProd_real (γ : Type*) [MeasurableSpace γ] (ρ : Me
     [IsFiniteMeasure ρ] :
     kernel.const γ ρ = kernel.const γ ρ.fst ⊗ₖ kernel.prodMkLeft γ (condKernelReal ρ) := by
   ext a s hs : 2
-  rw [kernel.compProd_apply _ _ _ hs, kernel.const_apply, kernel.const_apply]
+  rw [kernel.compProd_apply _ _ _ hs]; rw [kernel.const_apply]; rw [kernel.const_apply]
   simp_rw [kernel.prodMkLeft_apply]
   rw [lintegral_condKernelReal_mem ρ hs]
 #align probability_theory.kernel.const_eq_comp_prod_real ProbabilityTheory.kernel.const_eq_compProd_real
 
 theorem measure_eq_compProd_real :
     ρ = (kernel.const Unit ρ.fst ⊗ₖ kernel.prodMkLeft Unit (condKernelReal ρ)) () := by
-  rw [← kernel.const_eq_compProd_real Unit ρ, kernel.const_apply]
+  rw [← kernel.const_eq_compProd_real Unit ρ]; rw [kernel.const_apply]
 #align probability_theory.measure_eq_comp_prod_real ProbabilityTheory.measure_eq_compProd_real
 
 theorem lintegral_condKernelReal {f : α × ℝ → ℝ≥0∞} (hf : Measurable f) :
     ∫⁻ a, ∫⁻ y, f (a, y) ∂condKernelReal ρ a ∂ρ.fst = ∫⁻ x, f x ∂ρ := by
   nth_rw 3 [measure_eq_compProd_real ρ]
-  rw [kernel.lintegral_compProd _ _ _ hf, kernel.const_apply]
+  rw [kernel.lintegral_compProd _ _ _ hf]; rw [kernel.const_apply]
   simp_rw [kernel.prodMkLeft_apply]
 #align probability_theory.lintegral_cond_kernel_real ProbabilityTheory.lintegral_condKernelReal
 
@@ -234,9 +232,9 @@ theorem ae_condKernelReal_eq_one {s : Set ℝ} (hs : MeasurableSet s) (hρ : ρ 
   have h : ρ {x | x.snd ∈ sᶜ} = (kernel.const Unit ρ.fst ⊗ₖ
       kernel.prodMkLeft Unit (condKernelReal ρ)) () {x | x.snd ∈ sᶜ} := by
     rw [← measure_eq_compProd_real]
-  rw [hρ, kernel.compProd_apply] at h
+  rw [hρ] at h; rw [kernel.compProd_apply] at h
   swap; · exact measurable_snd hs.compl
-  rw [eq_comm, lintegral_eq_zero_iff] at h
+  rw [eq_comm] at h; rw [lintegral_eq_zero_iff] at h
   swap
   · simp_rw [kernel.prodMkLeft_apply']
     simp only [mem_compl_iff, mem_setOf_eq]
@@ -284,14 +282,13 @@ theorem exists_cond_kernel (γ : Type*) [MeasurableSpace γ] :
     MeasurableEmbedding.id.prod_mk hf
   have h_fst : ρ'.fst = ρ.fst := by
     ext1 u hu
-    rw [Measure.fst_apply hu, Measure.fst_apply hu,
-      Measure.map_apply h_prod_embed.measurable (measurable_fst hu)]
+    rw [Measure.fst_apply hu]; rw [Measure.fst_apply hu]; rw [Measure.map_apply h_prod_embed.measurable (measurable_fst hu)]
     rfl
   have h_ae : ∀ᵐ a ∂ρ.fst, a ∈ ρ_set := by
     rw [ae_iff]
     simp only [not_mem_compl_iff, setOf_mem_eq, measure_toMeasurable]
     change ρ.fst {a : α | a ∉ {a' : α | condKernelReal ρ' a' (range f) = 1}} = 0
-    rw [← ae_iff, ← h_fst]
+    rw [← ae_iff]; rw [← h_fst]
     refine' ae_condKernelReal_eq_one ρ' hf.measurableSet_range _
     rw [Measure.map_apply h_prod_embed.measurable]
     swap; · exact measurable_snd hf.measurableSet_range.compl
@@ -312,22 +309,19 @@ theorem exists_cond_kernel (γ : Type*) [MeasurableSpace γ] :
     · rw [kernel.deterministic_apply' _ _ hf.measurableSet_range, Set.indicator_apply, if_pos hx₀]
   have : kernel.const γ ρ = kernel.comapRight (kernel.const γ ρ') h_prod_embed := by
     ext c t ht : 2
-    rw [kernel.const_apply, kernel.comapRight_apply' _ _ _ ht, kernel.const_apply,
-      Measure.map_apply h_prod_embed.measurable (h_prod_embed.measurableSet_image.mpr ht)]
+    rw [kernel.const_apply]; rw [kernel.comapRight_apply' _ _ _ ht]; rw [kernel.const_apply]; rw [Measure.map_apply h_prod_embed.measurable (h_prod_embed.measurableSet_image.mpr ht)]
     congr with x : 1
     rw [← @Prod.mk.eta _ _ x]
     simp only [id.def, mem_preimage, Prod.map_mk, mem_image, Prod.mk.inj_iff, Prod.exists]
     refine' ⟨fun h => ⟨x.1, x.2, h, rfl, rfl⟩, _⟩
     rintro ⟨a, b, h_mem, rfl, hf_eq⟩
     rwa [hf.injective hf_eq] at h_mem
-  rw [this, kernel.const_eq_compProd_real _ ρ']
+  rw [this]; rw [kernel.const_eq_compProd_real _ ρ']
   ext c t ht : 2
-  rw [kernel.comapRight_apply' _ _ _ ht,
-    kernel.compProd_apply _ _ _ (h_prod_embed.measurableSet_image.mpr ht), kernel.const_apply,
-    h_fst, kernel.compProd_apply _ _ _ ht, kernel.const_apply]
+  rw [kernel.comapRight_apply' _ _ _ ht]; rw [kernel.compProd_apply _ _ _ (h_prod_embed.measurableSet_image.mpr ht)]; rw [kernel.const_apply]; rw [h_fst]; rw [kernel.compProd_apply _ _ _ ht]; rw [kernel.const_apply]
   refine' lintegral_congr_ae _
   filter_upwards [h_ae] with a ha
-  rw [kernel.prodMkLeft_apply', kernel.prodMkLeft_apply', kernel.comapRight_apply']
+  rw [kernel.prodMkLeft_apply']; rw [kernel.prodMkLeft_apply']; rw [kernel.comapRight_apply']
   swap
   · exact measurable_prod_mk_left ht
   have h1 : {c : ℝ | (a, c) ∈ Prod.map id f '' t} = f '' {c : Ω | (a, c) ∈ t} := by
@@ -339,8 +333,8 @@ theorem exists_cond_kernel (γ : Type*) [MeasurableSpace γ] :
     · rintro ⟨b, h_mem, hf_eq⟩
       exact ⟨a, b, h_mem, rfl, hf_eq⟩
   have h2 : condKernelReal ρ' (c, a).snd = η' (c, a).snd := by
-    rw [kernel.piecewise_apply, if_pos ha]
-  rw [h1, h2]
+    rw [kernel.piecewise_apply]; rw [if_pos ha]
+  rw [h1]; rw [h2]
 #align probability_theory.exists_cond_kernel ProbabilityTheory.exists_cond_kernel
 
 /-- Conditional kernel of a measure on a product space: a Markov kernel such that
@@ -368,7 +362,7 @@ measure can be written as the composition-product of the constant kernel with va
 `ProbabilityTheory.condKernel ρ`. -/
 theorem measure_eq_compProd :
     ρ = (kernel.const Unit ρ.fst ⊗ₖ kernel.prodMkLeft Unit ρ.condKernel) () := by
-  rw [← kernel.const_unit_eq_compProd, kernel.const_apply]
+  rw [← kernel.const_unit_eq_compProd]; rw [kernel.const_apply]
 #align probability_theory.measure_eq_comp_prod ProbabilityTheory.measure_eq_compProd
 
 /-- **Disintegration** of constant kernels. A constant kernel on a product space `α × Ω`, where `Ω`
@@ -394,7 +388,7 @@ theorem set_lintegral_condKernel_eq_measure_prod {s : Set α} (hs : MeasurableSe
   have : ρ (s ×ˢ t) =
       ((kernel.const Unit ρ.fst ⊗ₖ kernel.prodMkLeft Unit ρ.condKernel) ()) (s ×ˢ t) := by
     congr; exact measure_eq_compProd ρ
-  rw [this, kernel.compProd_apply _ _ _ (hs.prod ht)]
+  rw [this]; rw [kernel.compProd_apply _ _ _ (hs.prod ht)]
   simp only [prod_mk_mem_set_prod_eq, kernel.lintegral_const, kernel.prodMkLeft_apply]
   rw [← lintegral_indicator _ hs]
   congr
@@ -409,7 +403,7 @@ theorem set_lintegral_condKernel_eq_measure_prod {s : Set α} (hs : MeasurableSe
 theorem lintegral_condKernel {f : α × Ω → ℝ≥0∞} (hf : Measurable f) :
     ∫⁻ a, ∫⁻ ω, f (a, ω) ∂ρ.condKernel a ∂ρ.fst = ∫⁻ x, f x ∂ρ := by
   conv_rhs => rw [measure_eq_compProd ρ]
-  rw [kernel.lintegral_compProd _ _ _ hf, kernel.const_apply]
+  rw [kernel.lintegral_compProd _ _ _ hf]; rw [kernel.const_apply]
   simp_rw [kernel.prodMkLeft_apply]
 #align probability_theory.lintegral_cond_kernel ProbabilityTheory.lintegral_condKernel
 
@@ -417,8 +411,7 @@ theorem set_lintegral_condKernel {f : α × Ω → ℝ≥0∞} (hf : Measurable 
     (hs : MeasurableSet s) {t : Set Ω} (ht : MeasurableSet t) :
     ∫⁻ a in s, ∫⁻ ω in t, f (a, ω) ∂ρ.condKernel a ∂ρ.fst = ∫⁻ x in s ×ˢ t, f x ∂ρ := by
   conv_rhs => rw [measure_eq_compProd ρ]
-  rw [← kernel.restrict_apply _ (hs.prod ht), ← kernel.compProd_restrict hs ht,
-    kernel.lintegral_compProd _ _ _ hf, kernel.restrict_apply]
+  rw [← kernel.restrict_apply _ (hs.prod ht)]; rw [← kernel.compProd_restrict hs ht]; rw [kernel.lintegral_compProd _ _ _ hf]; rw [kernel.restrict_apply]
   conv_rhs => enter [2, b, 1]; rw [kernel.restrict_apply _ ht]
 #align probability_theory.set_lintegral_cond_kernel ProbabilityTheory.set_lintegral_condKernel
 
@@ -450,7 +443,7 @@ theorem integral_condKernel {ρ : Measure (α × Ω)} [IsFiniteMeasure ρ] {f : 
   conv_rhs => rw [measure_eq_compProd ρ]
   have hf': Integrable f ((kernel.const Unit ρ.fst ⊗ₖ kernel.prodMkLeft Unit ρ.condKernel) ()) := by
     rwa [measure_eq_compProd ρ] at hf
-  rw [integral_compProd hf', kernel.const_apply]
+  rw [integral_compProd hf']; rw [kernel.const_apply]
   simp_rw [kernel.prodMkLeft_apply]
 #align probability_theory.integral_cond_kernel ProbabilityTheory.integral_condKernel
 
@@ -520,9 +513,9 @@ lemma eq_condKernel_of_measure_eq_compProd_real (ρ : Measure (α × ℝ)) [IsFi
   · simp only [iUnion_singleton_eq_range, mem_range, forall_exists_index, forall_apply_eq_imp_iff']
     exact ae_all_iff.2 <| fun q => eq_condKernel_of_measure_eq_compProd' ρ κ hκ measurableSet_Iic
   · filter_upwards [huniv] with x hxuniv t ht heq
-    rw [measure_compl ht <| measure_ne_top _ _, heq, hxuniv, measure_compl ht <| measure_ne_top _ _]
+    rw [measure_compl ht <| measure_ne_top _ _]; rw [heq]; rw [hxuniv]; rw [measure_compl ht <| measure_ne_top _ _]
   · refine' ae_of_all _ (fun x f hdisj hf heq => _)
-    rw [measure_iUnion hdisj hf, measure_iUnion hdisj hf]
+    rw [measure_iUnion hdisj hf]; rw [measure_iUnion hdisj hf]
     exact tsum_congr heq
 
 /-- A finite kernel which satisfies the disintegration property is almost everywhere equal to the
@@ -536,7 +529,7 @@ theorem eq_condKernel_of_measure_eq_compProd (κ : kernel α Ω) [IsFiniteKernel
   set ρ' : Measure (α × ℝ) := ρ.map (Prod.map id f) with hρ'def
   have hρ' : ρ'.fst = ρ.fst
   · ext s hs
-    rw [hρ'def, Measure.fst_apply, Measure.fst_apply, Measure.map_apply]
+    rw [hρ'def]; rw [Measure.fst_apply]; rw [Measure.fst_apply]; rw [Measure.map_apply]
     exacts [rfl, Measurable.prod measurable_fst <| hf.measurable.comp measurable_snd,
       measurable_fst hs, hs, hs]
   have hρ'' : ∀ᵐ x ∂ρ'.fst, kernel.map κ f hf.measurable x = ρ'.condKernel x
@@ -544,8 +537,8 @@ theorem eq_condKernel_of_measure_eq_compProd (κ : kernel α Ω) [IsFiniteKernel
     ext s hs
     simp only [Measure.map_apply (measurable_id.prod_map hf.measurable) hs]
     conv_lhs => congr; rw [hκ]
-    rw [kernel.compProd_apply _ _ _ hs, kernel.compProd_apply _ _ _
-      (measurable_id.prod_map hf.measurable hs), (_ : (ρ.map (Prod.map id f)).fst = ρ.fst)]
+    rw [kernel.compProd_apply _ _ _ hs]; rw [kernel.compProd_apply _ _ _
+      (measurable_id.prod_map hf.measurable hs)]; rw [(_ : (ρ.map (Prod.map id f)).fst = ρ.fst)]
     · congr
       ext x
       simp only [Set.mem_preimage, Prod_map, id_eq, kernel.prodMkLeft_apply, kernel.map_apply]
@@ -561,14 +554,10 @@ theorem eq_condKernel_of_measure_eq_compProd (κ : kernel α Ω) [IsFiniteKernel
   · filter_upwards [hρ'', this] with x hx h
     rw [kernel.map_apply] at hx
     ext s hs
-    rw [← Set.preimage_image_eq s hf.injective,
-      ← Measure.map_apply hf.measurable <| hf.measurableSet_image.2 hs, hx,
-      h _ <| hf.measurableSet_image.2 hs]
+    rw [← Set.preimage_image_eq s hf.injective]; rw [← Measure.map_apply hf.measurable <| hf.measurableSet_image.2 hs]; rw [hx]; rw [h _ <| hf.measurableSet_image.2 hs]
   have hprod : (ρ.map (Prod.map id f)).fst = ρ.fst
   · ext s hs
-    rw [Measure.fst_apply hs,
-      Measure.map_apply (measurable_id.prod_map hf.measurable) (measurable_fst hs),
-      ← Set.preimage_comp, Measure.fst_apply hs]
+    rw [Measure.fst_apply hs]; rw [Measure.map_apply (measurable_id.prod_map hf.measurable) (measurable_fst hs)]; rw [← Set.preimage_comp]; rw [Measure.fst_apply hs]
     rfl
   suffices : ρ.map (Prod.map id f) =
     (kernel.const Unit (ρ.map (Prod.map id f)).fst ⊗ₖ
@@ -576,7 +565,7 @@ theorem eq_condKernel_of_measure_eq_compProd (κ : kernel α Ω) [IsFiniteKernel
   · have heq := eq_condKernel_of_measure_eq_compProd_real _ _ this
     rw [hprod] at heq
     filter_upwards [heq] with x hx s hs
-    rw [← hx, kernel.map_apply, Measure.map_apply hf.measurable hs]
+    rw [← hx]; rw [kernel.map_apply]; rw [Measure.map_apply hf.measurable hs]
   ext s hs
   have hinteq : ∀ x, (ρ.condKernel x).map f {c | (x, c) ∈ s} =
       ρ.condKernel x {c | (x, c) ∈ Prod.map id f ⁻¹' s}
@@ -587,7 +576,7 @@ theorem eq_condKernel_of_measure_eq_compProd (κ : kernel α Ω) [IsFiniteKernel
   simp only [hprod, kernel.compProd_apply _ _ _ hs, kernel.prodMkLeft_apply,
     kernel.map_apply _ hf.measurable, hinteq, Set.mem_preimage, Prod_map, id_eq,
     kernel.lintegral_const]
-  rw [Measure.map_apply (measurable_id.prod_map hf.measurable) hs, ← lintegral_condKernel_mem]
+  rw [Measure.map_apply (measurable_id.prod_map hf.measurable) hs]; rw [← lintegral_condKernel_mem]
   · rfl
   · exact measurable_id.prod_map hf.measurable hs
 

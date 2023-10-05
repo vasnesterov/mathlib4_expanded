@@ -226,7 +226,7 @@ private def ih_n {n : ℕ} {z : ℤ_[p]} (hz : ih n z) : { z' : ℤ_[p] // ih (n
     have hdist : ‖F.derivative.eval z' - F.derivative.eval z‖ < ‖F.derivative.eval a‖ :=
       calc_deriv_dist hnorm rfl (by simp [hz.1]) hz
     have hfeq : ‖F.derivative.eval z'‖ = ‖F.derivative.eval a‖ := by
-      rw [sub_eq_add_neg, ← hz.1, ← norm_neg (F.derivative.eval z)] at hdist
+      rw [sub_eq_add_neg] at hdist; rw [← hz.1] at hdist; rw [← norm_neg (F.derivative.eval z)] at hdist
       have := PadicInt.norm_eq_of_norm_add_lt_right hdist
       rwa [norm_neg, hz.1] at this
     let ⟨q, heq⟩ := calc_eval_z' hnorm rfl hz h1 rfl
@@ -258,7 +258,7 @@ private theorem newton_seq_norm_le (n : ℕ) :
 private theorem newton_seq_norm_eq (n : ℕ) :
     ‖newton_seq (n + 1) - newton_seq n‖ =
     ‖F.eval (newton_seq n)‖ / ‖F.derivative.eval (newton_seq n)‖ := by
-  rw [newton_seq_gen, newton_seq_gen, newton_seq_aux, ih_n]
+  rw [newton_seq_gen]; rw [newton_seq_gen]; rw [newton_seq_aux]; rw [ih_n]
   simp [sub_eq_add_neg, add_comm]
 
 private theorem newton_seq_succ_dist (n : ℕ) :
@@ -291,8 +291,7 @@ private theorem newton_seq_succ_dist_weak (n : ℕ) :
       (mul_lt_mul_of_pos_left (pow_lt_pow_of_lt_one (T_pos hnorm hnsol)
         (T_lt_one hnorm) (by norm_num)) (deriv_norm_pos hnorm))
     _ = ‖F.eval a‖ / ‖F.derivative.eval a‖ := by
-      rw [T_gen, sq, pow_one, norm_div, ← mul_div_assoc, PadicInt.padic_norm_e_of_padicInt,
-        PadicInt.coe_mul, padicNormE.mul]
+      rw [T_gen]; rw [sq]; rw [pow_one]; rw [norm_div]; rw [← mul_div_assoc]; rw [PadicInt.padic_norm_e_of_padicInt]; rw [PadicInt.coe_mul]; rw [padicNormE.mul]
       apply mul_div_mul_left
       apply deriv_norm_ne_zero; assumption
 
@@ -361,7 +360,7 @@ private theorem bound :
 
 private theorem bound'_sq :
     Tendsto (fun n : ℕ => ‖F.derivative.eval a‖ ^ 2 * T ^ 2 ^ n) atTop (𝓝 0) := by
-  rw [← mul_zero ‖F.derivative.eval a‖, sq]
+  rw [← mul_zero ‖F.derivative.eval a‖]; rw [sq]
   simp only [mul_assoc]
   apply Tendsto.mul
   · apply tendsto_const_nhds
@@ -410,7 +409,7 @@ private theorem soln_dist_to_a : ‖soln - a‖ = ‖F.eval a‖ / ‖F.derivati
   tendsto_nhds_unique (newton_seq_dist_tendsto' hnorm) (newton_seq_dist_tendsto hnorm hnsol)
 
 private theorem soln_dist_to_a_lt_deriv : ‖soln - a‖ < ‖F.derivative.eval a‖ := by
-  rw [soln_dist_to_a, div_lt_iff]
+  rw [soln_dist_to_a]; rw [div_lt_iff]
   · rwa [sq] at hnorm
   · apply deriv_norm_pos
     assumption

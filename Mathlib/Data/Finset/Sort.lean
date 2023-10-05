@@ -205,7 +205,7 @@ theorem orderEmbOfFin_last {s : Finset α} {k : ℕ} (h : s.card = k) (hz : 0 < 
 @[simp]
 theorem orderEmbOfFin_singleton (a : α) (i : Fin 1) :
     orderEmbOfFin {a} (card_singleton a) i = a := by
-  rw [Subsingleton.elim i ⟨0, zero_lt_one⟩, orderEmbOfFin_zero _ zero_lt_one, min'_singleton]
+  rw [Subsingleton.elim i ⟨0, zero_lt_one⟩]; rw [orderEmbOfFin_zero _ zero_lt_one]; rw [min'_singleton]
 #align finset.order_emb_of_fin_singleton Finset.orderEmbOfFin_singleton
 
 /-- Any increasing map `f` from `Fin k` to a finset of cardinality `k` has to coincide with
@@ -213,7 +213,7 @@ the increasing bijection `orderEmbOfFin s h`. -/
 theorem orderEmbOfFin_unique {s : Finset α} {k : ℕ} (h : s.card = k) {f : Fin k → α}
     (hfs : ∀ x, f x ∈ s) (hmono : StrictMono f) : f = s.orderEmbOfFin h := by
   apply Fin.strictMono_unique hmono (s.orderEmbOfFin h).strictMono
-  rw [range_orderEmbOfFin, ← Set.image_univ, ← coe_univ, ← coe_image, coe_inj]
+  rw [range_orderEmbOfFin]; rw [← Set.image_univ]; rw [← coe_univ]; rw [← coe_image]; rw [coe_inj]
   refine' eq_of_subset_of_card_le (fun x hx => _) _
   · rcases mem_image.1 hx with ⟨x, _, rfl⟩
     exact hfs x

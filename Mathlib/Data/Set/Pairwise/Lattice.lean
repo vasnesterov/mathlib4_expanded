@@ -38,7 +38,7 @@ theorem pairwise_iUnion {f : κ → Set α} (h : Directed (· ⊆ ·) f) :
 
 theorem pairwise_sUnion {r : α → α → Prop} {s : Set (Set α)} (h : DirectedOn (· ⊆ ·) s) :
     (⋃₀ s).Pairwise r ↔ ∀ a ∈ s, Set.Pairwise a r := by
-  rw [sUnion_eq_iUnion, pairwise_iUnion h.directed_val, SetCoe.forall]
+  rw [sUnion_eq_iUnion]; rw [pairwise_iUnion h.directed_val]; rw [SetCoe.forall]
 #align set.pairwise_sUnion Set.pairwise_sUnion
 
 end Set

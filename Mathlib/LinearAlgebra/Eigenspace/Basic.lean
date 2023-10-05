@@ -96,12 +96,12 @@ instance Eigenvalues.instDecidableEq [DecidableEq R] (f : Module.End R M) :
 
 theorem hasEigenvalue_of_hasEigenvector {f : End R M} {μ : R} {x : M} (h : HasEigenvector f μ x) :
     HasEigenvalue f μ := by
-  rw [HasEigenvalue, Submodule.ne_bot_iff]
+  rw [HasEigenvalue]; rw [Submodule.ne_bot_iff]
   use x; exact h
 #align module.End.has_eigenvalue_of_has_eigenvector Module.End.hasEigenvalue_of_hasEigenvector
 
 theorem mem_eigenspace_iff {f : End R M} {μ : R} {x : M} : x ∈ eigenspace f μ ↔ f x = μ • x := by
-  rw [eigenspace, LinearMap.mem_ker, LinearMap.sub_apply, algebraMap_end_apply, sub_eq_zero]
+  rw [eigenspace]; rw [LinearMap.mem_ker]; rw [LinearMap.sub_apply]; rw [algebraMap_end_apply]; rw [sub_eq_zero]
 #align module.End.mem_eigenspace_iff Module.End.mem_eigenspace_iff
 
 theorem HasEigenvector.apply_eq_smul {f : End R M} {μ : R} {x : M} (hx : f.HasEigenvector μ x) :
@@ -120,7 +120,7 @@ theorem mem_spectrum_of_hasEigenvalue {f : End R M} {μ : R} (hμ : HasEigenvalu
   set f' := LinearMap.GeneralLinearGroup.toLinearEquiv h_unit.unit
   rcases hμ.exists_hasEigenvector with ⟨v, hv⟩
   refine' hv.2 ((LinearMap.ker_eq_bot'.mp f'.ker) v (_ : μ • v - f v = 0))
-  rw [hv.apply_eq_smul, sub_self]
+  rw [hv.apply_eq_smul]; rw [sub_self]
 #align module.End.mem_spectrum_of_has_eigenvalue Module.End.mem_spectrum_of_hasEigenvalue
 
 theorem hasEigenvalue_iff_mem_spectrum [FiniteDimensional K V] {f : End K V} {μ : K} :
@@ -174,7 +174,7 @@ theorem eigenspaces_independent (f : End K V) : CompleteLattice.Independent f.ei
       (fun μ => (μ - μ₀) • @LinearMap.id K (f.eigenspace μ) _ _ _) l
     -- The support of `l'` is the support of `l` without `μ₀`.
     have h_l_support' : l'.support = l_support' := by
-      rw [← Finset.erase_insert hμ₀, ← h_l_support]
+      rw [← Finset.erase_insert hμ₀]; rw [← h_l_support]
       ext a
       have : ¬(a = μ₀ ∨ l a = 0) ↔ ¬a = μ₀ ∧ ¬l a = 0 := not_or
       simp only [DFinsupp.mapRange.linearMap_apply, DFinsupp.mapRange_apply,
@@ -222,7 +222,7 @@ theorem eigenspaces_independent (f : End K V) : CompleteLattice.Independent f.ei
       rw [← Finset.sum_const_zero]
       apply Finset.sum_congr rfl
       intro μ hμ
-      rw [Submodule.coe_eq_zero, h_lμ_eq_0]
+      rw [Submodule.coe_eq_zero]; rw [h_lμ_eq_0]
       rintro rfl
       exact hμ₀ hμ
     -- The only potentially nonzero eigenspace-representative in `l` is the one corresponding to
@@ -339,7 +339,7 @@ theorem hasGeneralizedEigenvalue_of_hasGeneralizedEigenvalue_of_le {f : End R M}
     f.HasGeneralizedEigenvalue μ m := by
   unfold HasGeneralizedEigenvalue at *
   contrapose! hk
-  rw [← le_bot_iff, ← hk]
+  rw [← le_bot_iff]; rw [← hk]
   exact (f.generalizedEigenspace μ).monotone hm
 #align module.End.has_generalized_eigenvalue_of_has_generalized_eigenvalue_of_le Module.End.hasGeneralizedEigenvalue_of_hasGeneralizedEigenvalue_of_le
 
@@ -353,7 +353,7 @@ theorem eigenspace_le_generalizedEigenspace {f : End R M} {μ : R} {k : ℕ} (hk
 theorem hasGeneralizedEigenvalue_of_hasEigenvalue {f : End R M} {μ : R} {k : ℕ} (hk : 0 < k)
     (hμ : f.HasEigenvalue μ) : f.HasGeneralizedEigenvalue μ k := by
   apply hasGeneralizedEigenvalue_of_hasGeneralizedEigenvalue_of_le hk
-  rw [HasGeneralizedEigenvalue, generalizedEigenspace, OrderHom.coe_mk, pow_one]
+  rw [HasGeneralizedEigenvalue]; rw [generalizedEigenspace]; rw [OrderHom.coe_mk]; rw [pow_one]
   exact hμ
 #align module.End.has_generalized_eigenvalue_of_has_eigenvalue Module.End.hasGeneralizedEigenvalue_of_hasEigenvalue
 
@@ -419,12 +419,11 @@ theorem generalized_eigenvec_disjoint_range_ker [FiniteDimensional K V] (f : End
         (f.generalizedEigenspace μ (finrank K V)) =
           LinearMap.ker ((f - algebraMap _ _ μ) ^ finrank K V *
             (f - algebraMap K (End K V) μ) ^ finrank K V) := by
-              rw [generalizedEigenspace, OrderHom.coe_mk, ← LinearMap.ker_comp]; rfl
+              rw [generalizedEigenspace]; rw [OrderHom.coe_mk]; rw [← LinearMap.ker_comp]; rfl
       _ = f.generalizedEigenspace μ (finrank K V + finrank K V) := by rw [← pow_add]; rfl
       _ = f.generalizedEigenspace μ (finrank K V) := by
         rw [generalizedEigenspace_eq_generalizedEigenspace_finrank_of_le]; linarith
-  rw [disjoint_iff_inf_le, generalizedEigenrange, LinearMap.range_eq_map,
-    Submodule.map_inf_eq_map_inf_comap, top_inf_eq, h]
+  rw [disjoint_iff_inf_le]; rw [generalizedEigenrange]; rw [LinearMap.range_eq_map]; rw [Submodule.map_inf_eq_map_inf_comap]; rw [top_inf_eq]; rw [h]
   apply Submodule.map_comap_le
 #align module.End.generalized_eigenvec_disjoint_range_ker Module.End.generalized_eigenvec_disjoint_range_ker
 

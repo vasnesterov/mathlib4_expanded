@@ -56,7 +56,7 @@ theorem pow_card_le_prod [Monoid M] [Preorder M]
 theorem prod_eq_one_iff [CanonicallyOrderedMonoid M] (l : List M) :
     l.prod = 1 ↔ ∀ x ∈ l, x = (1 : M) :=
   ⟨all_one_of_le_one_le_of_prod_eq_one fun _ _ => one_le _, fun h => by
-    rw [List.eq_replicate.2 ⟨_, h⟩, prod_replicate, one_pow]; exact (length l); rfl⟩
+    rw [List.eq_replicate.2 ⟨_, h⟩]; rw [prod_replicate]; rw [one_pow]; exact (length l); rfl⟩
 #align list.prod_eq_one_iff List.prod_eq_one_iff
 #align list.sum_eq_zero_iff List.sum_eq_zero_iff
 
@@ -75,13 +75,13 @@ theorem neg_one_mem_of_prod_eq_neg_one {l : List ℤ} (h : l.prod = -1) : (-1 : 
 by the sum of the elements. -/
 theorem length_le_sum_of_one_le (L : List ℕ) (h : ∀ i ∈ L, 1 ≤ i) : L.length ≤ L.sum := by
   induction' L with j L IH h; · simp
-  rw [sum_cons, length, add_comm]
+  rw [sum_cons]; rw [length]; rw [add_comm]
   exact add_le_add (h _ (mem_cons_self _ _)) (IH fun i hi => h i (mem_cons.2 (Or.inr hi)))
 #align list.length_le_sum_of_one_le List.length_le_sum_of_one_le
 
 theorem dvd_prod [CommMonoid M] {a} {l : List M} (ha : a ∈ l) : a ∣ l.prod := by
   let ⟨s, t, h⟩ := mem_split ha
-  rw [h, prod_append, prod_cons, mul_left_comm]
+  rw [h]; rw [prod_append]; rw [prod_cons]; rw [mul_left_comm]
   exact dvd_mul_right _ _
 #align list.dvd_prod List.dvd_prod
 
@@ -115,7 +115,7 @@ theorem alternatingProd_reverse :
     simp_rw [reverse_cons, alternatingProd_append, alternatingProd_reverse,
       alternatingProd_singleton, alternatingProd_cons, length_reverse, length, pow_succ, neg_mul,
       one_mul, zpow_neg, inv_inv]
-    rw [mul_comm, ← div_eq_mul_inv, div_zpow]
+    rw [mul_comm]; rw [← div_eq_mul_inv]; rw [div_zpow]
 #align list.alternating_prod_reverse List.alternatingProd_reverse
 #align list.alternating_sum_reverse List.alternatingSum_reverse
 
@@ -143,12 +143,11 @@ theorem op_list_prod : ∀ l : List M, op l.prod = (l.map op).reverse.prod := by
   intro l; induction l with
   | nil => rfl
   | cons x xs ih =>
-    rw [List.prod_cons, List.map_cons, List.reverse_cons', List.prod_concat, op_mul, ih]
+    rw [List.prod_cons]; rw [List.map_cons]; rw [List.reverse_cons']; rw [List.prod_concat]; rw [op_mul]; rw [ih]
 #align mul_opposite.op_list_prod MulOpposite.op_list_prod
 
 theorem unop_list_prod (l : List Mᵐᵒᵖ) : l.prod.unop = (l.map unop).reverse.prod := by
-  rw [← op_inj, op_unop, MulOpposite.op_list_prod, map_reverse, map_map, reverse_reverse,
-    op_comp_unop, map_id]
+  rw [← op_inj]; rw [op_unop]; rw [MulOpposite.op_list_prod]; rw [map_reverse]; rw [map_map]; rw [reverse_reverse]; rw [op_comp_unop]; rw [map_id]
 #align mul_opposite.unop_list_prod MulOpposite.unop_list_prod
 
 end MulOpposite
@@ -160,7 +159,7 @@ variable [Monoid M] [Monoid N]
 /-- A morphism into the opposite monoid acts on the product by acting on the reversed elements. -/
 theorem unop_map_list_prod {F : Type*} [MonoidHomClass F M Nᵐᵒᵖ] (f : F) (l : List M) :
     (f l.prod).unop = (l.map (MulOpposite.unop ∘ f)).reverse.prod := by
-  rw [map_list_prod f l, MulOpposite.unop_list_prod, List.map_map]
+  rw [map_list_prod f l]; rw [MulOpposite.unop_list_prod]; rw [List.map_map]
 #align unop_map_list_prod unop_map_list_prod
 
 namespace MonoidHom

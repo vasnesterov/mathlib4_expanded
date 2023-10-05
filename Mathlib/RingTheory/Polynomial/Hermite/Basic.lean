@@ -70,7 +70,7 @@ theorem hermite_zero : hermite 0 = C 1 :=
 -- Porting note: There was initially @[simp] on this line but it was removed
 -- because simp can prove this theorem
 theorem hermite_one : hermite 1 = X := by
-  rw [hermite_succ, hermite_zero]
+  rw [hermite_succ]; rw [hermite_zero]
   simp only [map_one, mul_one, derivative_one, sub_zero]
 #align polynomial.hermite_one Polynomial.hermite_one
 
@@ -85,7 +85,7 @@ theorem coeff_hermite_succ_zero (n : ℕ) : coeff (hermite (n + 1)) 0 = -coeff (
 
 theorem coeff_hermite_succ_succ (n k : ℕ) : coeff (hermite (n + 1)) (k + 1) =
     coeff (hermite n) k - (k + 2) * coeff (hermite n) (k + 2) := by
-  rw [hermite_succ, coeff_sub, coeff_X_mul, coeff_derivative, mul_comm]
+  rw [hermite_succ]; rw [coeff_sub]; rw [coeff_X_mul]; rw [coeff_derivative]; rw [mul_comm]
   norm_cast
 #align polynomial.coeff_hermite_succ_succ Polynomial.coeff_hermite_succ_succ
 
@@ -95,8 +95,7 @@ theorem coeff_hermite_of_lt {n k : ℕ} (hnk : n < k) : coeff (hermite n) k = 0 
   induction' n with n ih generalizing k
   · apply coeff_C
   · have : n + k + 1 + 2 = n + (k + 2) + 1 := by ring
-    rw [Nat.succ_eq_add_one, coeff_hermite_succ_succ, add_right_comm, this, ih k, ih (k + 2),
-      mul_zero, sub_zero]
+    rw [Nat.succ_eq_add_one]; rw [coeff_hermite_succ_succ]; rw [add_right_comm]; rw [this]; rw [ih k]; rw [ih (k + 2)]; rw [mul_zero]; rw [sub_zero]
 #align polynomial.coeff_hermite_of_lt Polynomial.coeff_hermite_of_lt
 
 @[simp]
@@ -123,7 +122,7 @@ theorem natDegree_hermite {n : ℕ} : (hermite n).natDegree = n :=
 
 @[simp]
 theorem leadingCoeff_hermite (n : ℕ) : (hermite n).leadingCoeff = 1 := by
-  rw [← coeff_natDegree, natDegree_hermite, coeff_hermite_self]
+  rw [← coeff_natDegree]; rw [natDegree_hermite]; rw [coeff_hermite_self]
 #align polynomial.leading_coeff_hermite Polynomial.leadingCoeff_hermite
 
 theorem hermite_monic (n : ℕ) : (hermite n).Monic :=
@@ -136,7 +135,7 @@ theorem coeff_hermite_of_odd_add {n k : ℕ} (hnk : Odd (n + k)) : coeff (hermit
     exact coeff_hermite_of_lt hnk.pos
   · cases' k with k
     · rw [Nat.succ_add_eq_succ_add] at hnk
-      rw [coeff_hermite_succ_zero, ih hnk, neg_zero]
+      rw [coeff_hermite_succ_zero]; rw [ih hnk]; rw [neg_zero]
     · rw [coeff_hermite_succ_succ, ih, ih, mul_zero, sub_zero]
       · rwa [Nat.succ_add_eq_succ_add] at hnk
       · rw [(by rw [Nat.succ_add, Nat.add_succ] : n.succ + k.succ = n + k + 2)] at hnk
@@ -156,7 +155,7 @@ theorem coeff_hermite_explicit :
   | n + 1, 0 => by
     convert coeff_hermite_succ_zero (2 * n + 1) using 1
     -- porting note: ring_nf did not solve the goal on line 165
-    rw [coeff_hermite_explicit n 1, (by rw [Nat.left_distrib, mul_one, Nat.succ_sub_one] :
+    rw [coeff_hermite_explicit n 1]; rw [(by rw [Nat.left_distrib, mul_one, Nat.succ_sub_one] :
       2 * (n + 1) - 1 = 2 * n + 1), Nat.doubleFactorial_add_one, Nat.choose_zero_right,
       Nat.choose_one_right, pow_succ]
     push_cast
@@ -171,7 +170,7 @@ theorem coeff_hermite_explicit :
       intro n k
       simp only
       -- Factor out (-1)'s.
-      rw [mul_comm (↑k + _ : ℤ), sub_eq_add_neg]
+      rw [mul_comm (↑k + _ : ℤ)]; rw [sub_eq_add_neg]
       nth_rw 3 [neg_eq_neg_one_mul]
       simp only [mul_assoc, ← mul_add, pow_succ]
       congr 2
@@ -183,18 +182,15 @@ theorem coeff_hermite_explicit :
       simp only [mul_assoc, ← mul_add]
       congr 1
       -- Match up binomial coefficients using `Nat.choose_succ_right_eq`.
-      rw [(by ring : 2 * (n + 1) + (k + 1) = 2 * n + 1 + (k + 1) + 1),
-        (by ring : 2 * (n + 1) + k = 2 * n + 1 + (k + 1)),
-        (by ring : 2 * n + (k + 2) = 2 * n + 1 + (k + 1))]
-      rw [Nat.choose, Nat.choose_succ_right_eq (2 * n + 1 + (k + 1)) (k + 1), Nat.add_sub_cancel,
-        Int.negSucc_eq]
+      rw [(by ring : 2 * (n + 1) + (k + 1) = 2 * n + 1 + (k + 1) + 1)]; rw [(by ring : 2 * (n + 1) + k = 2 * n + 1 + (k + 1))]; rw [(by ring : 2 * n + (k + 2) = 2 * n + 1 + (k + 1))]
+      rw [Nat.choose]; rw [Nat.choose_succ_right_eq (2 * n + 1 + (k + 1)) (k + 1)]; rw [Nat.add_sub_cancel]; rw [Int.negSucc_eq]
       -- porting note: ring could not solve the goal so the lines 195, 198-200 were added.
       ring_nf
       simp only [sub_eq_add_neg, ← neg_mul, ← right_distrib _ _ ((-(1 : ℤ)) ^ n), ← neg_add]
       norm_cast
       simp only [← add_assoc, add_comm]
     change _ = hermite_explicit _ _
-    rw [← add_assoc, coeff_hermite_succ_succ, hermite_explicit_recur]
+    rw [← add_assoc]; rw [coeff_hermite_succ_succ]; rw [hermite_explicit_recur]
     congr
     · rw [coeff_hermite_explicit (n + 1) k]
     · rw [(by ring : 2 * (n + 1) + k = 2 * n + (k + 2)), coeff_hermite_explicit n (k + 2)]

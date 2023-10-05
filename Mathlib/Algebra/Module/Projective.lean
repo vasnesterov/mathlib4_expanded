@@ -132,7 +132,7 @@ instance [Projective R P] [Projective R Q] : Projective R (P × Q) := by
   rcases projective_lifting_property f (.inl _ _ _) hf with ⟨g₁, hg₁⟩
   rcases projective_lifting_property f (.inr _ _ _) hf with ⟨g₂, hg₂⟩
   refine ⟨coprod g₁ g₂, ?_⟩
-  rw [LinearMap.comp_coprod, hg₁, hg₂, LinearMap.coprod_inl_inr]
+  rw [LinearMap.comp_coprod]; rw [hg₁]; rw [hg₂]; rw [LinearMap.coprod_inl_inr]
 
 variable {ι : Type*} (A : ι → Type*) [∀ i : ι, AddCommMonoid (A i)] [∀ i : ι, Module R (A i)]
 

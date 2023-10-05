@@ -70,7 +70,7 @@ def subToSupQuotient (p p' : Submodule R M) :
 -- Porting note: breaking up original definition of quotientInfToSupQuotient to avoid timing out
 theorem comap_leq_ker_subToSupQuotient (p p' : Submodule R M) :
     comap (Submodule.subtype p) (p ⊓ p') ≤ ker (subToSupQuotient p p') := by
-  rw [LinearMap.ker_comp, Submodule.ofLe, comap_codRestrict, ker_mkQ, map_comap_subtype]
+  rw [LinearMap.ker_comp]; rw [Submodule.ofLe]; rw [comap_codRestrict]; rw [ker_mkQ]; rw [map_comap_subtype]
   exact comap_mono (inf_le_inf_right _ le_sup_left)
 
 /-- Canonical linear map from the quotient `p/(p ∩ p')` to `(p+p')/p'`, mapping `x + (p ∩ p')`
@@ -84,14 +84,14 @@ def quotientInfToSupQuotient (p p' : Submodule R M) :
 -- Porting note: breaking up original definition of quotientInfEquivSupQuotient to avoid timing out
 theorem quotientInfEquivSupQuotient_injective (p p' : Submodule R M) :
     Function.Injective (quotientInfToSupQuotient p p') := by
-  rw [← ker_eq_bot, quotientInfToSupQuotient, ker_liftQ_eq_bot]
-  rw [ker_comp, ker_mkQ]
+  rw [← ker_eq_bot]; rw [quotientInfToSupQuotient]; rw [ker_liftQ_eq_bot]
+  rw [ker_comp]; rw [ker_mkQ]
   exact fun ⟨x, hx1⟩ hx2 => ⟨hx1, hx2⟩
 
 -- Porting note: breaking up original definition of quotientInfEquivSupQuotient to avoid timing out
 theorem quotientInfEquivSupQuotient_surjective (p p' : Submodule R M) :
     Function.Surjective (quotientInfToSupQuotient p p') := by
-  rw [← range_eq_top, quotientInfToSupQuotient, range_liftQ, eq_top_iff']
+  rw [← range_eq_top]; rw [quotientInfToSupQuotient]; rw [range_liftQ]; rw [eq_top_iff']
   rintro ⟨x, hx⟩; rcases mem_sup.1 hx with ⟨y, hy, z, hz, rfl⟩
   use ⟨y, hy⟩; apply (Submodule.Quotient.eq _).2
   simp only [mem_comap, map_sub, coeSubtype, coe_ofLe, sub_add_cancel', neg_mem_iff, hz]
@@ -127,7 +127,7 @@ theorem quotientInfEquivSupQuotient_symm_apply_left (p p' : Submodule R M) (x : 
       Submodule.Quotient.mk ⟨x, hx⟩ :=
   (LinearEquiv.symm_apply_eq _).2 <| by
     -- Porting note: Was `simp`.
-    rw [quotientInfEquivSupQuotient_apply_mk, ofLe_apply]
+    rw [quotientInfEquivSupQuotient_apply_mk]; rw [ofLe_apply]
 #align linear_map.quotient_inf_equiv_sup_quotient_symm_apply_left LinearMap.quotientInfEquivSupQuotient_symm_apply_left
 
 
@@ -136,7 +136,7 @@ theorem quotientInfEquivSupQuotient_symm_apply_eq_zero_iff {p p' : Submodule R M
     (quotientInfEquivSupQuotient p p').symm (Submodule.Quotient.mk x) = 0 ↔ (x : M) ∈ p' :=
   (LinearEquiv.symm_apply_eq _).trans <| by
     -- Porting note: Was `simp`.
-    rw [_root_.map_zero, Quotient.mk_eq_zero, mem_comap, Submodule.coeSubtype]
+    rw [_root_.map_zero]; rw [Quotient.mk_eq_zero]; rw [mem_comap]; rw [Submodule.coeSubtype]
 #align linear_map.quotient_inf_equiv_sup_quotient_symm_apply_eq_zero_iff LinearMap.quotientInfEquivSupQuotient_symm_apply_eq_zero_iff
 
 theorem quotientInfEquivSupQuotient_symm_apply_right (p p' : Submodule R M) {x : ↥(p ⊔ p')}
@@ -160,7 +160,7 @@ def quotientQuotientEquivQuotientAux (h : S ≤ T) : (M ⧸ S) ⧸ T.map S.mkQ �
   liftQ _ (mapQ S T LinearMap.id h)
     (by
       rintro _ ⟨x, hx, rfl⟩
-      rw [LinearMap.mem_ker, mkQ_apply, mapQ_apply]
+      rw [LinearMap.mem_ker]; rw [mkQ_apply]; rw [mapQ_apply]
       exact (Quotient.mk_eq_zero _).mpr hx)
 #align submodule.quotient_quotient_equiv_quotient_aux Submodule.quotientQuotientEquivQuotientAux
 
@@ -188,8 +188,7 @@ def quotientQuotientEquivQuotient : ((M ⧸ S) ⧸ T.map S.mkQ) ≃ₗ[R] M ⧸ 
 theorem card_quotient_mul_card_quotient (S T : Submodule R M) (hST : T ≤ S)
     [DecidablePred fun x => x ∈ S.map T.mkQ] [Fintype (M ⧸ S)] [Fintype (M ⧸ T)] :
     Fintype.card (S.map T.mkQ) * Fintype.card (M ⧸ S) = Fintype.card (M ⧸ T) := by
-  rw [Submodule.card_eq_card_quotient_mul_card (map T.mkQ S),
-    Fintype.card_eq.mpr ⟨(quotientQuotientEquivQuotient T S hST).toEquiv⟩]
+  rw [Submodule.card_eq_card_quotient_mul_card (map T.mkQ S)]; rw [Fintype.card_eq.mpr ⟨(quotientQuotientEquivQuotient T S hST).toEquiv⟩]
 #align submodule.card_quotient_mul_card_quotient Submodule.card_quotient_mul_card_quotient
 
 end Submodule

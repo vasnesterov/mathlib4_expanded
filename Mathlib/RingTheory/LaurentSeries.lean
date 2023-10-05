@@ -81,7 +81,7 @@ theorem powerSeriesPart_eq_zero (x : LaurentSeries R) : x.powerSeriesPart = 0 �
   · contrapose!
     simp only [ne_eq]
     intro h
-    rw [PowerSeries.ext_iff, not_forall]
+    rw [PowerSeries.ext_iff]; rw [not_forall]
     refine' ⟨0, _⟩
     simp [coeff_order_ne_zero h]
   · rintro rfl
@@ -92,7 +92,7 @@ theorem powerSeriesPart_eq_zero (x : LaurentSeries R) : x.powerSeriesPart = 0 �
 theorem single_order_mul_powerSeriesPart (x : LaurentSeries R) :
     (single x.order 1 : LaurentSeries R) * x.powerSeriesPart = x := by
   ext n
-  rw [← sub_add_cancel n x.order, single_mul_coeff_add, sub_add_cancel, one_mul]
+  rw [← sub_add_cancel n x.order]; rw [single_mul_coeff_add]; rw [sub_add_cancel]; rw [one_mul]
   by_cases h : x.order ≤ n
   · rw [Int.eq_natAbs_of_zero_le (sub_nonneg_of_le h), coeff_coe_powerSeries,
       powerSeriesPart_coeff, ← Int.eq_natAbs_of_zero_le (sub_nonneg_of_le h),
@@ -103,14 +103,14 @@ theorem single_order_mul_powerSeriesPart (x : LaurentSeries R) :
     · contrapose! h
       simp only [Set.mem_range, RelEmbedding.coe_mk, Function.Embedding.coeFn_mk] at h
       obtain ⟨m, hm⟩ := h
-      rw [← sub_nonneg, ← hm]
+      rw [← sub_nonneg]; rw [← hm]
       simp only [Nat.cast_nonneg]
 #align laurent_series.single_order_mul_power_series_part LaurentSeries.single_order_mul_powerSeriesPart
 
 theorem ofPowerSeries_powerSeriesPart (x : LaurentSeries R) :
     ofPowerSeries ℤ R x.powerSeriesPart = single (-x.order) 1 * x := by
   refine' Eq.trans _ (congr rfl x.single_order_mul_powerSeriesPart)
-  rw [← mul_assoc, single_mul_single, neg_add_self, mul_one, ← C_apply, C_one, one_mul]
+  rw [← mul_assoc]; rw [single_mul_single]; rw [neg_add_self]; rw [mul_one]; rw [← C_apply]; rw [C_one]; rw [one_mul]
 #align laurent_series.of_power_series_power_series_part LaurentSeries.ofPowerSeries_powerSeriesPart
 
 end Semiring
@@ -142,22 +142,22 @@ instance of_powerSeries_localization [CommRing R] :
     · refine' ⟨⟨PowerSeries.X ^ Int.natAbs z.order * powerSeriesPart z, 1⟩, _⟩
       simp only [RingHom.map_one, mul_one, RingHom.map_mul, coe_algebraMap, ofPowerSeries_X_pow,
         Submonoid.coe_one]
-      rw [Int.natAbs_of_nonneg h, single_order_mul_powerSeriesPart]
+      rw [Int.natAbs_of_nonneg h]; rw [single_order_mul_powerSeriesPart]
     · refine' ⟨⟨powerSeriesPart z, PowerSeries.X ^ Int.natAbs z.order, ⟨_, rfl⟩⟩, _⟩
       simp only [coe_algebraMap, ofPowerSeries_powerSeriesPart]
       rw [mul_comm _ z]
       refine' congr rfl _
-      rw [ofPowerSeries_X_pow, Int.ofNat_natAbs_of_nonpos]
+      rw [ofPowerSeries_X_pow]; rw [Int.ofNat_natAbs_of_nonpos]
       exact le_of_not_ge h
   eq_iff_exists' := by
     intro x y
-    rw [coe_algebraMap, ofPowerSeries_injective.eq_iff]
+    rw [coe_algebraMap]; rw [ofPowerSeries_injective.eq_iff]
     constructor
     · rintro rfl
       exact ⟨1, rfl⟩
     · rintro ⟨⟨_, n, rfl⟩, hc⟩
-      rw [← sub_eq_zero, ← mul_sub, PowerSeries.ext_iff] at hc
-      rw [← sub_eq_zero, PowerSeries.ext_iff]
+      rw [← sub_eq_zero] at hc; rw [← mul_sub] at hc; rw [PowerSeries.ext_iff] at hc
+      rw [← sub_eq_zero]; rw [PowerSeries.ext_iff]
       intro m
       have h := hc (m + n)
       simp only at h

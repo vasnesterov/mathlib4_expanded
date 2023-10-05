@@ -298,7 +298,7 @@ theorem closedEmbedding_toContinuousMap [ContinuousMul B] [T2Space B] :
                 Disjoint (U * V) W),
                 { f | f '' {x} ⊆ U } ∩ { f | f '' {y} ⊆ V } ∩ { f | f '' {x * y} ⊆ W } :
                   Set C(A , B))ᶜ by
-        rw [this, compl_compl]
+        rw [this]; rw [compl_compl]
         refine' (ContinuousMap.isOpen_gen isCompact_singleton isOpen_compl_singleton).union _
         repeat' apply isOpen_iUnion; intro
         repeat' apply IsOpen.inter

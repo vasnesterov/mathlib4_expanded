@@ -64,11 +64,11 @@ theorem isRegular_top : IsRegular (⊤ : α) := by rw [IsRegular, compl_top, com
 #align heyting.is_regular_top Heyting.isRegular_top
 
 theorem IsRegular.inf (ha : IsRegular a) (hb : IsRegular b) : IsRegular (a ⊓ b) := by
-  rw [IsRegular, compl_compl_inf_distrib, ha.eq, hb.eq]
+  rw [IsRegular]; rw [compl_compl_inf_distrib]; rw [ha.eq]; rw [hb.eq]
 #align heyting.is_regular.inf Heyting.IsRegular.inf
 
 theorem IsRegular.himp (ha : IsRegular a) (hb : IsRegular b) : IsRegular (a ⇨ b) := by
-  rw [IsRegular, compl_compl_himp_distrib, ha.eq, hb.eq]
+  rw [IsRegular]; rw [compl_compl_himp_distrib]; rw [ha.eq]; rw [hb.eq]
 #align heyting.is_regular.himp Heyting.IsRegular.himp
 
 theorem isRegular_compl (a : α) : IsRegular aᶜ :=
@@ -227,19 +227,19 @@ instance : BooleanAlgebra (Regular α) :=
     le_sup_inf := fun a b c =>
       coe_le_coe.1 <| by
         dsimp
-        rw [sup_inf_left, compl_compl_inf_distrib]
+        rw [sup_inf_left]; rw [compl_compl_inf_distrib]
     inf_compl_le_bot := fun a => coe_le_coe.1 <| disjoint_iff_inf_le.1 disjoint_compl_right
     top_le_sup_compl := fun a =>
       coe_le_coe.1 <| by
         dsimp
-        rw [compl_sup, inf_compl_eq_bot, compl_bot]
+        rw [compl_sup]; rw [inf_compl_eq_bot]; rw [compl_bot]
     himp_eq := fun a b =>
       coe_injective
         (by
           dsimp
-          rw [compl_sup, a.prop.eq]
+          rw [compl_sup]; rw [a.prop.eq]
           refine' eq_of_forall_le_iff fun c => le_himp_iff.trans _
-          rw [le_compl_iff_disjoint_right, disjoint_left_comm]
+          rw [le_compl_iff_disjoint_right]; rw [disjoint_left_comm]
           rw [b.prop.disjoint_compl_left_iff]) }
 
 @[simp, norm_cast]

@@ -52,7 +52,7 @@ theorem Ico_disjoint_Ico_same {a b c : α} : Disjoint (Ico a b) (Ico b c) :=
 
 @[simp]
 theorem Ici_disjoint_Iic : Disjoint (Ici a) (Iic b) ↔ ¬a ≤ b := by
-  rw [Set.disjoint_iff_inter_eq_empty, Ici_inter_Iic, Icc_eq_empty_iff]
+  rw [Set.disjoint_iff_inter_eq_empty]; rw [Ici_inter_Iic]; rw [Icc_eq_empty_iff]
 #align set.Ici_disjoint_Iic Set.Ici_disjoint_Iic
 
 @[simp]
@@ -142,7 +142,7 @@ theorem Ioc_disjoint_Ioc : Disjoint (Ioc a₁ a₂) (Ioc b₁ b₂) ↔ min a₂
   then it must be equal to the endpoint of the other. -/
 theorem eq_of_Ico_disjoint {x₁ x₂ y₁ y₂ : α} (h : Disjoint (Ico x₁ x₂) (Ico y₁ y₂)) (hx : x₁ < x₂)
     (h2 : x₂ ∈ Ico y₁ y₂) : y₁ = x₂ := by
-  rw [Ico_disjoint_Ico, min_eq_left (le_of_lt h2.2), le_max_iff] at h
+  rw [Ico_disjoint_Ico] at h; rw [min_eq_left (le_of_lt h2.2)] at h; rw [le_max_iff] at h
   apply le_antisymm h2.1
   exact h.elim (fun h => absurd hx (not_lt_of_le h)) id
 #align set.eq_of_Ico_disjoint Set.eq_of_Ico_disjoint

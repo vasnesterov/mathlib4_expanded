@@ -73,7 +73,7 @@ theorem range_restrict (f : α → β) (s : Set α) : Set.range (s.restrict f) =
 
 theorem image_restrict (f : α → β) (s t : Set α) :
     s.restrict f '' (Subtype.val ⁻¹' t) = f '' (t ∩ s) := by
-  rw [restrict_eq, image_comp, image_preimage_eq_inter_range, Subtype.range_coe]
+  rw [restrict_eq]; rw [image_comp]; rw [image_preimage_eq_inter_range]; rw [Subtype.range_coe]
 #align set.image_restrict Set.image_restrict
 
 @[simp]
@@ -259,7 +259,7 @@ variable [Preorder α] [Preorder β]
 
 theorem _root_.MonotoneOn.congr (h₁ : MonotoneOn f₁ s) (h : s.EqOn f₁ f₂) : MonotoneOn f₂ s := by
   intro a ha b hb hab
-  rw [← h ha, ← h hb]
+  rw [← h ha]; rw [← h hb]
   exact h₁ ha hb hab
 #align monotone_on.congr MonotoneOn.congr
 
@@ -270,7 +270,7 @@ theorem _root_.AntitoneOn.congr (h₁ : AntitoneOn f₁ s) (h : s.EqOn f₁ f₂
 theorem _root_.StrictMonoOn.congr (h₁ : StrictMonoOn f₁ s) (h : s.EqOn f₁ f₂) :
     StrictMonoOn f₂ s := by
   intro a ha b hb hab
-  rw [← h ha, ← h hb]
+  rw [← h ha]; rw [← h hb]
   exact h₁ ha hb hab
 #align strict_mono_on.congr StrictMonoOn.congr
 
@@ -446,7 +446,7 @@ theorem MapsTo.iterate {f : α → α} {s : Set α} (h : MapsTo f s s) : ∀ n, 
 theorem MapsTo.iterate_restrict {f : α → α} {s : Set α} (h : MapsTo f s s) (n : ℕ) :
     (h.restrict f s s)^[n] = (h.iterate n).restrict _ _ _ := by
   funext x
-  rw [Subtype.ext_iff, MapsTo.val_restrict_apply]
+  rw [Subtype.ext_iff]; rw [MapsTo.val_restrict_apply]
   induction' n with n ihn generalizing x
   · rfl
   · simp [Nat.iterate, ihn]
@@ -569,8 +569,7 @@ def restrictPreimage : f ⁻¹' t → t :=
 
 theorem range_restrictPreimage : range (t.restrictPreimage f) = Subtype.val ⁻¹' range f := by
   delta Set.restrictPreimage
-  rw [MapsTo.range_restrict, Set.image_preimage_eq_inter_range, Set.preimage_inter,
-    Subtype.coe_preimage_self, Set.univ_inter]
+  rw [MapsTo.range_restrict]; rw [Set.image_preimage_eq_inter_range]; rw [Set.preimage_inter]; rw [Subtype.coe_preimage_self]; rw [Set.univ_inter]
 #align set.range_restrict_preimage Set.range_restrictPreimage
 
 variable {f} {U : ι → Set β}
@@ -654,7 +653,7 @@ theorem injOn_union (h : Disjoint s₁ s₂) :
 theorem injOn_insert {f : α → β} {s : Set α} {a : α} (has : a ∉ s) :
     Set.InjOn f (insert a s) ↔ Set.InjOn f s ∧ f a ∉ f '' s := by
   have : Disjoint s {a} := disjoint_iff_inf_le.mpr fun x ⟨hxs, (hxa : x = a)⟩ => has (hxa ▸ hxs)
-  rw [← union_singleton, injOn_union this]
+  rw [← union_singleton]; rw [injOn_union this]
   simp
 #align set.inj_on_insert Set.injOn_insert
 
@@ -703,7 +702,7 @@ alias ⟨InjOn.injective, _⟩ := Set.injOn_iff_injective
 #align set.inj_on.injective Set.InjOn.injective
 
 theorem MapsTo.restrict_inj (h : MapsTo f s t) : Injective (h.restrict f s t) ↔ InjOn f s := by
-  rw [h.restrict_eq_codRestrict, injective_codRestrict, injOn_iff_injective]
+  rw [h.restrict_eq_codRestrict]; rw [injective_codRestrict]; rw [injOn_iff_injective]
 #align set.maps_to.restrict_inj Set.MapsTo.restrict_inj
 
 theorem exists_injOn_iff_injective [Nonempty β] :
@@ -757,7 +756,7 @@ lemma InjOn.image_inter {s t u : Set α} (hf : u.InjOn f) (hs : s ⊆ u) (ht : t
 theorem _root_.Disjoint.image {s t u : Set α} {f : α → β} (h : Disjoint s t) (hf : u.InjOn f)
     (hs : s ⊆ u) (ht : t ⊆ u) : Disjoint (f '' s) (f '' t) := by
   rw [disjoint_iff_inter_eq_empty] at h ⊢
-  rw [← hf.image_inter hs ht, h, image_empty]
+  rw [← hf.image_inter hs ht]; rw [h]; rw [image_empty]
 #align disjoint.image Disjoint.image
 
 /-! ### Surjectivity on a set -/
@@ -846,7 +845,7 @@ lemma SurjOn.iterate {f : α → α} {s : Set α} (h : SurjOn f s s) : ∀ n, Su
 #align set.surj_on.iterate Set.SurjOn.iterate
 
 lemma SurjOn.comp_left (hf : SurjOn f s t) (g : β → γ) : SurjOn (g ∘ f) s (g '' t) := by
-  rw [SurjOn, image_comp g f]; exact image_subset _ hf
+  rw [SurjOn]; rw [image_comp g f]; exact image_subset _ hf
 #align set.surj_on.comp_left Set.SurjOn.comp_left
 
 lemma SurjOn.comp_right {s : Set β} {t : Set γ} (hf : Surjective f) (hg : SurjOn g s t) :
@@ -1100,7 +1099,7 @@ theorem LeftInvOn.image_inter (hf : LeftInvOn f' f s) :
 #align set.left_inv_on.image_inter Set.LeftInvOn.image_inter
 
 theorem LeftInvOn.image_image (hf : LeftInvOn f' f s) : f' '' (f '' s) = s := by
-  rw [Set.image_image, image_congr hf, image_id']
+  rw [Set.image_image]; rw [image_congr hf]; rw [image_id']
 #align set.left_inv_on.image_image Set.LeftInvOn.image_image
 
 theorem LeftInvOn.image_image' (hf : LeftInvOn f' f s) (hs : s₁ ⊆ s) : f' '' (f '' s₁) = s₁ :=
@@ -1173,7 +1172,7 @@ theorem eqOn_of_leftInvOn_of_rightInvOn (h₁ : LeftInvOn f₁' f s) (h₂ : Rig
 theorem SurjOn.leftInvOn_of_rightInvOn (hf : SurjOn f s t) (hf' : RightInvOn f f' s) :
     LeftInvOn f f' t := fun y hy => by
   let ⟨x, hx, heq⟩ := hf hy
-  rw [← heq, hf' hx]
+  rw [← heq]; rw [hf' hx]
 #align set.surj_on.left_inv_on_of_right_inv_on Set.SurjOn.leftInvOn_of_rightInvOn
 
 /-! ### Two-side inverses -/
@@ -1227,7 +1226,7 @@ noncomputable def invFunOn (f : α → β) (s : Set α) (b : β) : α :=
 #align function.inv_fun_on Function.invFunOn
 
 theorem invFunOn_pos (h : ∃ a ∈ s, f a = b) : invFunOn f s b ∈ s ∧ f (invFunOn f s b) = b := by
-  rw [invFunOn, dif_pos h]
+  rw [invFunOn]; rw [dif_pos h]
   exact Classical.choose_spec h
 #align function.inv_fun_on_pos Function.invFunOn_pos
 
@@ -1283,7 +1282,7 @@ theorem injOn_iff_invFunOn_image_image_eq_self [Nonempty α] :
 theorem _root_.Function.invFunOn_injOn_image [Nonempty α] (f : α → β) (s : Set α) :
     Set.InjOn (invFunOn f s) (f '' s) := by
   rintro _ ⟨x, hx, rfl⟩ _ ⟨x', hx', rfl⟩ he
-  rw [←invFunOn_apply_eq (f := f) hx, he, invFunOn_apply_eq (f := f) hx']
+  rw [←invFunOn_apply_eq (f := f) hx]; rw [he]; rw [invFunOn_apply_eq (f := f) hx']
 
 theorem _root_.Function.invFunOn_image_image_subset [Nonempty α] (f : α → β) (s : Set α) :
     (invFunOn f s) '' (f '' s) ⊆ s := by
@@ -1545,10 +1544,9 @@ theorem range_piecewise (f g : α → β) : range (s.piecewise f g) = f '' s ∪
 theorem injective_piecewise_iff {f g : α → β} :
     Injective (s.piecewise f g) ↔
       InjOn f s ∧ InjOn g sᶜ ∧ ∀ x ∈ s, ∀ (y) (_ : y ∉ s), f x ≠ g y := by
-  rw [injective_iff_injOn_univ, ← union_compl_self s, injOn_union (@disjoint_compl_right _ _ s),
-    (piecewise_eqOn s f g).injOn_iff, (piecewise_eqOn_compl s f g).injOn_iff]
+  rw [injective_iff_injOn_univ]; rw [← union_compl_self s]; rw [injOn_union (@disjoint_compl_right _ _ s)]; rw [(piecewise_eqOn s f g).injOn_iff]; rw [(piecewise_eqOn_compl s f g).injOn_iff]
   refine' and_congr Iff.rfl (and_congr Iff.rfl <| forall₄_congr fun x hx y hy => _)
-  rw [piecewise_eq_of_mem s f g hx, piecewise_eq_of_not_mem s f g hy]
+  rw [piecewise_eq_of_mem s f g hx]; rw [piecewise_eq_of_not_mem s f g hy]
 #align set.injective_piecewise_iff Set.injective_piecewise_iff
 
 theorem piecewise_mem_pi {δ : α → Type*} {t : Set α} {t' : ∀ i, Set (δ i)} {f g} (hf : f ∈ pi t t')
@@ -1705,7 +1703,7 @@ theorem injOn_preimage (h : Semiconj f fa fb) {s : Set β} (hb : InjOn fb s)
     (hf : InjOn f (f ⁻¹' s)) : InjOn fa (f ⁻¹' s) := by
   intro x hx y hy H
   have := congr_arg f H
-  rw [h.eq, h.eq] at this
+  rw [h.eq] at this; rw [h.eq] at this
   exact hf hx hy (hb hx hy this)
 #align function.semiconj.inj_on_preimage Function.Semiconj.injOn_preimage
 
@@ -1734,7 +1732,7 @@ theorem monotoneOn_of_rightInvOn_of_mapsTo {α β : Sort _} [PartialOrder α] [L
   rcases le_total (ψ x) (ψ y) with (ψxy|ψyx)
   · exact ψxy
   · have := hφ (ψts ys) (ψts xs) ψyx
-    rw [φψs.eq ys, φψs.eq xs] at this
+    rw [φψs.eq ys] at this; rw [φψs.eq xs] at this
     induction le_antisymm l this
     exact le_refl _
 #align function.monotone_on_of_right_inv_on_of_maps_to Function.monotoneOn_of_rightInvOn_of_mapsTo

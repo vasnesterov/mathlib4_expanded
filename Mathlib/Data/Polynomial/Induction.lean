@@ -51,7 +51,7 @@ protected theorem induction_on {M : R[X] → Prop} (p : R[X]) (h_C : ∀ a, M (C
     · intro n s ns ih
       rw [sum_insert ns]
       exact h_add _ _ A ih
-  rw [← sum_C_mul_X_pow_eq p, Polynomial.sum]
+  rw [← sum_C_mul_X_pow_eq p]; rw [Polynomial.sum]
   exact B (support p)
 #align polynomial.induction_on Polynomial.induction_on
 

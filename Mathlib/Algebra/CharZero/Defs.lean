@@ -52,11 +52,11 @@ theorem charZero_of_inj_zero [AddGroupWithOne R] (H : ∀ n : ℕ, (n : R) = 0 �
   ⟨@fun m n h => by
     induction' m with m ih generalizing n
     · rw [H n]
-      rw [← h, Nat.cast_zero]
+      rw [← h]; rw [Nat.cast_zero]
 
     cases' n with n
     · apply H
-      rw [h, Nat.cast_zero]
+      rw [h]; rw [Nat.cast_zero]
 
     simp only [Nat.cast_succ, add_right_cancel_iff] at h
     rwa [ih]⟩
@@ -112,7 +112,7 @@ variable [AddMonoidWithOne R] [CharZero R]
   (ofNat_ne_zero n).symm
 
 @[simp] lemma ofNat_ne_one (n : ℕ) [h : n.AtLeastTwo] : (no_index (ofNat n) : R) ≠ 1 := by
-  rw [← Nat.cast_eq_ofNat, ← @Nat.cast_one R, Ne.def, Nat.cast_inj]
+  rw [← Nat.cast_eq_ofNat]; rw [← @Nat.cast_one R]; rw [Ne.def]; rw [Nat.cast_inj]
   exact ne_of_gt h.prop
 
 @[simp] lemma one_ne_ofNat (n : ℕ) [n.AtLeastTwo] : (1 : R) ≠ no_index (ofNat n) :=

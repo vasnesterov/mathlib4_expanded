@@ -148,7 +148,7 @@ def isoMk {A B : Algebra T} (h : A.A ≅ B.A)
   inv :=
     { f := h.inv
       h := by
-        rw [h.eq_comp_inv, Category.assoc, ← w, ← Functor.map_comp_assoc]
+        rw [h.eq_comp_inv]; rw [Category.assoc]; rw [← w]; rw [← Functor.map_comp_assoc]
         simp }
 #align category_theory.monad.algebra.iso_mk CategoryTheory.Monad.Algebra.isoMk
 
@@ -198,7 +198,7 @@ def adj : T.free ⊣ T.forget :=
             simp
           right_inv := fun f => by
             dsimp only [forget_obj]
-            rw [← T.η.naturality_assoc, Y.unit]
+            rw [← T.η.naturality_assoc]; rw [Y.unit]
             apply Category.comp_id } }
 #align category_theory.monad.adj CategoryTheory.Monad.adj
 
@@ -207,7 +207,7 @@ def adj : T.free ⊣ T.forget :=
 theorem algebra_iso_of_iso {A B : Algebra T} (f : A ⟶ B) [IsIso f.f] : IsIso f :=
   ⟨⟨{   f := inv f.f
         h := by
-          rw [IsIso.eq_comp_inv f.f, Category.assoc, ← f.h]
+          rw [IsIso.eq_comp_inv f.f]; rw [Category.assoc]; rw [← f.h]
           simp },
       by aesop_cat⟩⟩
 #align category_theory.monad.algebra_iso_of_iso CategoryTheory.Monad.algebra_iso_of_iso
@@ -429,7 +429,7 @@ def isoMk {A B : Coalgebra G} (h : A.A ≅ B.A)
   inv :=
     { f := h.inv
       h := by
-        rw [h.eq_inv_comp, ← reassoc_of% w, ← Functor.map_comp]
+        rw [h.eq_inv_comp]; rw [← reassoc_of% w]; rw [← Functor.map_comp]
         simp }
 #align category_theory.comonad.coalgebra.iso_mk CategoryTheory.Comonad.Coalgebra.isoMk
 
@@ -475,10 +475,10 @@ def adj : G.forget ⊣ G.cofree :=
           invFun := fun g => g.f ≫ G.ε.app Y
           left_inv := fun f => by
             dsimp
-            rw [Category.assoc, G.ε.naturality, Functor.id_map, X.counit_assoc]
+            rw [Category.assoc]; rw [G.ε.naturality]; rw [Functor.id_map]; rw [X.counit_assoc]
           right_inv := fun g => by
             ext1; dsimp
-            rw [Functor.map_comp, g.h_assoc, cofree_obj_a, Comonad.right_counit]
+            rw [Functor.map_comp]; rw [g.h_assoc]; rw [cofree_obj_a]; rw [Comonad.right_counit]
             apply comp_id } }
 #align category_theory.comonad.adj CategoryTheory.Comonad.adj
 
@@ -487,7 +487,7 @@ def adj : G.forget ⊣ G.cofree :=
 theorem coalgebra_iso_of_iso {A B : Coalgebra G} (f : A ⟶ B) [IsIso f.f] : IsIso f :=
   ⟨⟨{   f := inv f.f
         h := by
-          rw [IsIso.eq_inv_comp f.f, ← f.h_assoc]
+          rw [IsIso.eq_inv_comp f.f]; rw [← f.h_assoc]
           simp },
       by aesop_cat⟩⟩
 #align category_theory.comonad.coalgebra_iso_of_iso CategoryTheory.Comonad.coalgebra_iso_of_iso

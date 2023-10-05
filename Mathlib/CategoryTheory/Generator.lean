@@ -106,11 +106,11 @@ theorem isCoseparating_op_iff (𝒢 : Set C) : IsCoseparating 𝒢.op ↔ IsSepa
 #align category_theory.is_coseparating_op_iff CategoryTheory.isCoseparating_op_iff
 
 theorem isCoseparating_unop_iff (𝒢 : Set Cᵒᵖ) : IsCoseparating 𝒢.unop ↔ IsSeparating 𝒢 := by
-  rw [← isSeparating_op_iff, Set.unop_op]
+  rw [← isSeparating_op_iff]; rw [Set.unop_op]
 #align category_theory.is_coseparating_unop_iff CategoryTheory.isCoseparating_unop_iff
 
 theorem isSeparating_unop_iff (𝒢 : Set Cᵒᵖ) : IsSeparating 𝒢.unop ↔ IsCoseparating 𝒢 := by
-  rw [← isCoseparating_op_iff, Set.unop_op]
+  rw [← isCoseparating_op_iff]; rw [Set.unop_op]
 #align category_theory.is_separating_unop_iff CategoryTheory.isSeparating_unop_iff
 
 theorem isDetecting_op_iff (𝒢 : Set C) : IsDetecting 𝒢.op ↔ IsCodetecting 𝒢 := by
@@ -138,11 +138,11 @@ theorem isCodetecting_op_iff (𝒢 : Set C) : IsCodetecting 𝒢.op ↔ IsDetect
 #align category_theory.is_codetecting_op_iff CategoryTheory.isCodetecting_op_iff
 
 theorem isDetecting_unop_iff (𝒢 : Set Cᵒᵖ) : IsDetecting 𝒢.unop ↔ IsCodetecting 𝒢 := by
-  rw [← isCodetecting_op_iff, Set.unop_op]
+  rw [← isCodetecting_op_iff]; rw [Set.unop_op]
 #align category_theory.is_detecting_unop_iff CategoryTheory.isDetecting_unop_iff
 
 theorem isCodetecting_unop_iff {𝒢 : Set Cᵒᵖ} : IsCodetecting 𝒢.unop ↔ IsDetecting 𝒢 := by
-  rw [← isDetecting_op_iff, Set.unop_op]
+  rw [← isDetecting_op_iff]; rw [Set.unop_op]
 #align category_theory.is_codetecting_unop_iff CategoryTheory.isCodetecting_unop_iff
 
 end Dual
@@ -168,10 +168,10 @@ theorem IsSeparating.isDetecting [Balanced C] {𝒢 : Set C} (h𝒢 : IsSeparati
   refine'
     (isIso_iff_mono_and_epi _).2 ⟨⟨fun g h hgh => h𝒢 _ _ fun G hG i => _⟩, ⟨fun g h hgh => _⟩⟩
   · obtain ⟨t, -, ht⟩ := hf G hG (i ≫ g ≫ f)
-    rw [ht (i ≫ g) (Category.assoc _ _ _), ht (i ≫ h) (hgh.symm ▸ Category.assoc _ _ _)]
+    rw [ht (i ≫ g) (Category.assoc _ _ _)]; rw [ht (i ≫ h) (hgh.symm ▸ Category.assoc _ _ _)]
   · refine' h𝒢 _ _ fun G hG i => _
     obtain ⟨t, rfl, -⟩ := hf G hG i
-    rw [Category.assoc, hgh, Category.assoc]
+    rw [Category.assoc]; rw [hgh]; rw [Category.assoc]
 #align category_theory.is_separating.is_detecting CategoryTheory.IsSeparating.isDetecting
 
 section
@@ -401,35 +401,35 @@ def IsCodetector (G : C) : Prop :=
 section Dual
 
 theorem isSeparator_op_iff (G : C) : IsSeparator (op G) ↔ IsCoseparator G := by
-  rw [IsSeparator, IsCoseparator, ← isSeparating_op_iff, Set.singleton_op]
+  rw [IsSeparator]; rw [IsCoseparator]; rw [← isSeparating_op_iff]; rw [Set.singleton_op]
 #align category_theory.is_separator_op_iff CategoryTheory.isSeparator_op_iff
 
 theorem isCoseparator_op_iff (G : C) : IsCoseparator (op G) ↔ IsSeparator G := by
-  rw [IsSeparator, IsCoseparator, ← isCoseparating_op_iff, Set.singleton_op]
+  rw [IsSeparator]; rw [IsCoseparator]; rw [← isCoseparating_op_iff]; rw [Set.singleton_op]
 #align category_theory.is_coseparator_op_iff CategoryTheory.isCoseparator_op_iff
 
 theorem isCoseparator_unop_iff (G : Cᵒᵖ) : IsCoseparator (unop G) ↔ IsSeparator G := by
-  rw [IsSeparator, IsCoseparator, ← isCoseparating_unop_iff, Set.singleton_unop]
+  rw [IsSeparator]; rw [IsCoseparator]; rw [← isCoseparating_unop_iff]; rw [Set.singleton_unop]
 #align category_theory.is_coseparator_unop_iff CategoryTheory.isCoseparator_unop_iff
 
 theorem isSeparator_unop_iff (G : Cᵒᵖ) : IsSeparator (unop G) ↔ IsCoseparator G := by
-  rw [IsSeparator, IsCoseparator, ← isSeparating_unop_iff, Set.singleton_unop]
+  rw [IsSeparator]; rw [IsCoseparator]; rw [← isSeparating_unop_iff]; rw [Set.singleton_unop]
 #align category_theory.is_separator_unop_iff CategoryTheory.isSeparator_unop_iff
 
 theorem isDetector_op_iff (G : C) : IsDetector (op G) ↔ IsCodetector G := by
-  rw [IsDetector, IsCodetector, ← isDetecting_op_iff, Set.singleton_op]
+  rw [IsDetector]; rw [IsCodetector]; rw [← isDetecting_op_iff]; rw [Set.singleton_op]
 #align category_theory.is_detector_op_iff CategoryTheory.isDetector_op_iff
 
 theorem isCodetector_op_iff (G : C) : IsCodetector (op G) ↔ IsDetector G := by
-  rw [IsDetector, IsCodetector, ← isCodetecting_op_iff, Set.singleton_op]
+  rw [IsDetector]; rw [IsCodetector]; rw [← isCodetecting_op_iff]; rw [Set.singleton_op]
 #align category_theory.is_codetector_op_iff CategoryTheory.isCodetector_op_iff
 
 theorem isCodetector_unop_iff (G : Cᵒᵖ) : IsCodetector (unop G) ↔ IsDetector G := by
-  rw [IsDetector, IsCodetector, ← isCodetecting_unop_iff, Set.singleton_unop]
+  rw [IsDetector]; rw [IsCodetector]; rw [← isCodetecting_unop_iff]; rw [Set.singleton_unop]
 #align category_theory.is_codetector_unop_iff CategoryTheory.isCodetector_unop_iff
 
 theorem isDetector_unop_iff (G : Cᵒᵖ) : IsDetector (unop G) ↔ IsCodetector G := by
-  rw [IsDetector, IsCodetector, ← isDetecting_unop_iff, Set.singleton_unop]
+  rw [IsDetector]; rw [IsCodetector]; rw [← isDetecting_unop_iff]; rw [Set.singleton_unop]
 #align category_theory.is_detector_unop_iff CategoryTheory.isDetector_unop_iff
 
 end Dual

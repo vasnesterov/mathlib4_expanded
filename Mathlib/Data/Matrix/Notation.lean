@@ -345,7 +345,7 @@ theorem cons_vecMulVec (x : α) (v : Fin m → α) (w : n' → α) :
 theorem vecMulVec_cons (v : m' → α) (x : α) (w : Fin n → α) :
     vecMulVec v (vecCons x w) = fun i => v i • vecCons x w := by
   ext i j
-  rw [vecMulVec_apply, Pi.smul_apply, smul_eq_mul]
+  rw [vecMulVec_apply]; rw [Pi.smul_apply]; rw [smul_eq_mul]
 #align matrix.vec_mul_vec_cons Matrix.vecMulVec_cons
 
 end VecMulVec
@@ -466,12 +466,12 @@ theorem vec3_eq {a₀ a₁ a₂ b₀ b₁ b₂ : α} (h₀ : a₀ = b₀) (h₁ 
 #align matrix.vec3_eq Matrix.vec3_eq
 
 theorem vec2_add [Add α] (a₀ a₁ b₀ b₁ : α) : ![a₀, a₁] + ![b₀, b₁] = ![a₀ + b₀, a₁ + b₁] := by
-  rw [cons_add_cons, cons_add_cons, empty_add_empty]
+  rw [cons_add_cons]; rw [cons_add_cons]; rw [empty_add_empty]
 #align matrix.vec2_add Matrix.vec2_add
 
 theorem vec3_add [Add α] (a₀ a₁ a₂ b₀ b₁ b₂ : α) :
     ![a₀, a₁, a₂] + ![b₀, b₁, b₂] = ![a₀ + b₀, a₁ + b₁, a₂ + b₂] := by
-  rw [cons_add_cons, cons_add_cons, cons_add_cons, empty_add_empty]
+  rw [cons_add_cons]; rw [cons_add_cons]; rw [cons_add_cons]; rw [empty_add_empty]
 #align matrix.vec3_add Matrix.vec3_add
 
 theorem smul_vec2 {R : Type*} [SMul R α] (x : R) (a₀ a₁ : α) :
@@ -480,13 +480,13 @@ theorem smul_vec2 {R : Type*} [SMul R α] (x : R) (a₀ a₁ : α) :
 
 theorem smul_vec3 {R : Type*} [SMul R α] (x : R) (a₀ a₁ a₂ : α) :
     x • ![a₀, a₁, a₂] = ![x • a₀, x • a₁, x • a₂] := by
-  rw [smul_cons, smul_cons, smul_cons, smul_empty]
+  rw [smul_cons]; rw [smul_cons]; rw [smul_cons]; rw [smul_empty]
 #align matrix.smul_vec3 Matrix.smul_vec3
 
 variable [AddCommMonoid α] [Mul α]
 
 theorem vec2_dotProduct' {a₀ a₁ b₀ b₁ : α} : ![a₀, a₁] ⬝ᵥ ![b₀, b₁] = a₀ * b₀ + a₁ * b₁ := by
-  rw [cons_dotProduct_cons, cons_dotProduct_cons, dotProduct_empty, add_zero]
+  rw [cons_dotProduct_cons]; rw [cons_dotProduct_cons]; rw [dotProduct_empty]; rw [add_zero]
 #align matrix.vec2_dot_product' Matrix.vec2_dotProduct'
 
 @[simp]
@@ -496,8 +496,7 @@ theorem vec2_dotProduct (v w : Fin 2 → α) : v ⬝ᵥ w = v 0 * w 0 + v 1 * w 
 
 theorem vec3_dotProduct' {a₀ a₁ a₂ b₀ b₁ b₂ : α} :
     ![a₀, a₁, a₂] ⬝ᵥ ![b₀, b₁, b₂] = a₀ * b₀ + a₁ * b₁ + a₂ * b₂ := by
-  rw [cons_dotProduct_cons, cons_dotProduct_cons, cons_dotProduct_cons, dotProduct_empty,
-    add_zero, add_assoc]
+  rw [cons_dotProduct_cons]; rw [cons_dotProduct_cons]; rw [cons_dotProduct_cons]; rw [dotProduct_empty]; rw [add_zero]; rw [add_assoc]
 #align matrix.vec3_dot_product' Matrix.vec3_dotProduct'
 
 @[simp]

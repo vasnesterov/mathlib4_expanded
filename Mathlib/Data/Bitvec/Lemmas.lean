@@ -37,7 +37,7 @@ theorem toNat_append {m : ℕ} (xs : Bitvec m) (b : Bool) :
   simp [bitsToNat_toList]; clear P
   unfold bitsToNat
   -- porting note: was `unfold List.foldl`, which now unfolds to an ugly match
-  rw [List.foldl, List.foldl]
+  rw [List.foldl]; rw [List.foldl]
   -- generalize the accumulator of foldl
   generalize h : 0 = x
   conv in addLsb x b =>
@@ -75,7 +75,7 @@ theorem toNat_ofNat {k n : ℕ} : Bitvec.toNat (Bitvec.ofNat k n) = n % 2 ^ k :=
 #align bitvec.to_nat_of_nat Bitvec.toNat_ofNat
 
 theorem ofFin_val {n : ℕ} (i : Fin <| 2 ^ n) : (ofFin i).toNat = i.val := by
-  rw [ofFin, toNat_ofNat, Nat.mod_eq_of_lt]
+  rw [ofFin]; rw [toNat_ofNat]; rw [Nat.mod_eq_of_lt]
   apply i.is_lt
 #align bitvec.of_fin_val Bitvec.ofFin_val
 
@@ -129,7 +129,7 @@ theorem ofNat_toNat {n : ℕ} (v : Bitvec n) : Bitvec.ofNat n v.toNat = v := by
   change Vector.toList _ = xs
   dsimp [Bitvec.toNat, bitsToNat]
   rw [← List.length_reverse] at h
-  rw [← List.reverse_reverse xs, List.foldl_reverse]
+  rw [← List.reverse_reverse xs]; rw [List.foldl_reverse]
   generalize xs.reverse = ys at h ⊢; clear xs
   induction' ys with ys_head ys_tail ys_ih generalizing n
   · cases h
@@ -145,13 +145,13 @@ theorem ofNat_toNat {n : ℕ} (v : Bitvec n) : Bitvec.ofNat n v.toNat = v := by
 #align bitvec.of_nat_to_nat Bitvec.ofNat_toNat
 
 theorem toFin_val {n : ℕ} (v : Bitvec n) : (toFin v : ℕ) = v.toNat := by
-  rw [toFin, Fin.coe_ofNat_eq_mod, Nat.mod_eq_of_lt]
+  rw [toFin]; rw [Fin.coe_ofNat_eq_mod]; rw [Nat.mod_eq_of_lt]
   apply toNat_lt
 #align bitvec.to_fin_val Bitvec.toFin_val
 
 theorem toFin_le_toFin_of_le {n} {v₀ v₁ : Bitvec n} (h : v₀ ≤ v₁) : v₀.toFin ≤ v₁.toFin :=
   show (v₀.toFin : ℕ) ≤ v₁.toFin by
-    rw [toFin_val, toFin_val]
+    rw [toFin_val]; rw [toFin_val]
     exact h
 #align bitvec.to_fin_le_to_fin_of_le Bitvec.toFin_le_toFin_of_le
 
@@ -167,7 +167,7 @@ theorem toFin_ofFin {n} (i : Fin <| 2 ^ n) : (ofFin i).toFin = i :=
 
 theorem ofFin_toFin {n} (v : Bitvec n) : ofFin (toFin v) = v := by
   dsimp [ofFin]
-  rw [toFin_val, ofNat_toNat]
+  rw [toFin_val]; rw [ofNat_toNat]
 #align bitvec.of_fin_to_fin Bitvec.ofFin_toFin
 
 end Bitvec

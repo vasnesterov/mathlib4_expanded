@@ -80,8 +80,7 @@ def counitCoequalises [∀ X : B, RegularEpi (adj₁.counit.app X)] (X : B) :
     · rw [← cancel_epi (adj₁.counit.app (RegularEpi.W (adj₁.counit.app X)))]
       rw [← adj₁.counit_naturality_assoc RegularEpi.left]
       dsimp only [Functor.comp_obj]
-      rw [← s.condition, ← F.map_comp_assoc, ← U.map_comp, RegularEpi.w, U.map_comp,
-        F.map_comp_assoc, s.condition, ← adj₁.counit_naturality_assoc RegularEpi.right]
+      rw [← s.condition]; rw [← F.map_comp_assoc]; rw [← U.map_comp]; rw [RegularEpi.w]; rw [U.map_comp]; rw [F.map_comp_assoc]; rw [s.condition]; rw [← adj₁.counit_naturality_assoc RegularEpi.right]
     · apply (RegularEpi.desc' (adj₁.counit.app X) s.π _).2
     · intro m hm
       rw [← cancel_epi (adj₁.counit.app X)]
@@ -108,12 +107,11 @@ instance (X : B) :
     IsReflexivePair (F'.map (U.map (adj₁.counit.app X))) (otherMap _ _ adj₁ adj₂ X) :=
   IsReflexivePair.mk' (F'.map (adj₁.unit.app (U.obj X)))
     (by
-      rw [← F'.map_comp, adj₁.right_triangle_components]
+      rw [← F'.map_comp]; rw [adj₁.right_triangle_components]
       apply F'.map_id)
     (by
       dsimp [otherMap]
-      rw [← F'.map_comp_assoc, U.map_comp, adj₁.unit_naturality_assoc,
-        adj₁.right_triangle_components, comp_id, adj₂.left_triangle_components])
+      rw [← F'.map_comp_assoc]; rw [U.map_comp]; rw [adj₁.unit_naturality_assoc]; rw [adj₁.right_triangle_components]; rw [comp_id]; rw [adj₂.left_triangle_components])
 
 variable [HasReflexiveCoequalizers A]
 
@@ -137,18 +135,12 @@ noncomputable def constructLeftAdjointEquiv [∀ X : B, RegularEpi (adj₁.couni
           U.map (F.map g ≫ adj₁.counit.app _) = U.map (adj₁.counit.app _) ≫ g } := by
       apply (adj₂.homEquiv _ _).subtypeEquiv _
       intro f
-      rw [← (adj₂.homEquiv _ _).injective.eq_iff, eq_comm, adj₂.homEquiv_naturality_left,
-        otherMap, assoc, adj₂.homEquiv_naturality_left, ← adj₂.counit_naturality,
-        adj₂.homEquiv_naturality_left, adj₂.homEquiv_unit, adj₂.right_triangle_components,
-        comp_id, Functor.comp_map, ← U.map_comp, assoc, ← adj₁.counit_naturality,
-        adj₂.homEquiv_unit, adj₂.homEquiv_unit, F.map_comp, assoc]
+      rw [← (adj₂.homEquiv _ _).injective.eq_iff]; rw [eq_comm]; rw [adj₂.homEquiv_naturality_left]; rw [otherMap]; rw [assoc]; rw [adj₂.homEquiv_naturality_left]; rw [← adj₂.counit_naturality]; rw [adj₂.homEquiv_naturality_left]; rw [adj₂.homEquiv_unit]; rw [adj₂.right_triangle_components]; rw [comp_id]; rw [Functor.comp_map]; rw [← U.map_comp]; rw [assoc]; rw [← adj₁.counit_naturality]; rw [adj₂.homEquiv_unit]; rw [adj₂.homEquiv_unit]; rw [F.map_comp]; rw [assoc]
       rfl
     _ ≃ { z : F.obj (U.obj X) ⟶ R.obj Y // _ } := by
       apply (adj₁.homEquiv _ _).symm.subtypeEquiv
       intro g
-      rw [← (adj₁.homEquiv _ _).symm.injective.eq_iff, adj₁.homEquiv_counit,
-        adj₁.homEquiv_counit, adj₁.homEquiv_counit, F.map_comp, assoc, U.map_comp, F.map_comp,
-        assoc, adj₁.counit_naturality, adj₁.counit_naturality_assoc]
+      rw [← (adj₁.homEquiv _ _).symm.injective.eq_iff]; rw [adj₁.homEquiv_counit]; rw [adj₁.homEquiv_counit]; rw [adj₁.homEquiv_counit]; rw [F.map_comp]; rw [assoc]; rw [U.map_comp]; rw [F.map_comp]; rw [assoc]; rw [adj₁.counit_naturality]; rw [adj₁.counit_naturality_assoc]
       apply eq_comm
     _ ≃ (X ⟶ R.obj Y) := (Cofork.IsColimit.homIso (counitCoequalises adj₁ X) _).symm
 #align category_theory.lift_adjoint.construct_left_adjoint_equiv CategoryTheory.LiftAdjoint.constructLeftAdjointEquiv
@@ -157,10 +149,9 @@ noncomputable def constructLeftAdjointEquiv [∀ X : B, RegularEpi (adj₁.couni
 noncomputable def constructLeftAdjoint [∀ X : B, RegularEpi (adj₁.counit.app X)] : B ⥤ A := by
   refine' Adjunction.leftAdjointOfEquiv (fun X Y => constructLeftAdjointEquiv R _ adj₁ adj₂ Y X) _
   intro X Y Y' g h
-  rw [constructLeftAdjointEquiv_apply, constructLeftAdjointEquiv_apply,
-    Equiv.symm_apply_eq, Subtype.ext_iff]
+  rw [constructLeftAdjointEquiv_apply]; rw [constructLeftAdjointEquiv_apply]; rw [Equiv.symm_apply_eq]; rw [Subtype.ext_iff]
   dsimp
-  rw [Cofork.IsColimit.homIso_natural, Cofork.IsColimit.homIso_natural]
+  rw [Cofork.IsColimit.homIso_natural]; rw [Cofork.IsColimit.homIso_natural]
   erw [adj₂.homEquiv_naturality_right]
   simp_rw [Functor.comp_map]
   simp

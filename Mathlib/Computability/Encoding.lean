@@ -41,7 +41,7 @@ structure Encoding (α : Type u) where
 
 theorem Encoding.encode_injective {α : Type u} (e : Encoding α) : Function.Injective e.encode := by
   refine' fun _ _ h => Option.some_injective _ _
-  rw [← e.decode_encode, ← e.decode_encode, h]
+  rw [← e.decode_encode]; rw [← e.decode_encode]; rw [h]
 #align computability.encoding.encode_injective Computability.Encoding.encode_injective
 
 /-- An encoding plus a guarantee of finiteness of the alphabet. -/
@@ -176,7 +176,7 @@ def encodingNatΓ' : Encoding ℕ where
     congr_arg _ <| by
       -- Porting note: `rw` can't unify `g ∘ f` with `fun x => g (f x)`, used `LeftInverse.id`
       -- instead.
-      rw [List.map_map, leftInverse_section_inclusion.id, List.map_id, decode_encodeNat]
+      rw [List.map_map]; rw [leftInverse_section_inclusion.id]; rw [List.map_id]; rw [decode_encodeNat]
 #align computability.encoding_nat_Γ' Computability.encodingNatΓ'
 
 /-- A binary fin_encoding of ℕ in Γ'. -/

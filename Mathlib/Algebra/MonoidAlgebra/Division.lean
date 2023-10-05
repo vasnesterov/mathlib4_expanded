@@ -105,14 +105,14 @@ noncomputable def divOfHom : Multiplicative G →* AddMonoid.End k[G] where
 
 theorem of'_mul_divOf (a : G) (x : k[G]) : of' k G a * x /ᵒᶠ a = x := by
   refine Finsupp.ext fun _ => ?_  -- porting note: `ext` doesn't work
-  rw [AddMonoidAlgebra.divOf_apply, of'_apply, single_mul_apply_aux, one_mul]
+  rw [AddMonoidAlgebra.divOf_apply]; rw [of'_apply]; rw [single_mul_apply_aux]; rw [one_mul]
   intro c
   exact add_right_inj _
 #align add_monoid_algebra.of'_mul_div_of AddMonoidAlgebra.of'_mul_divOf
 
 theorem mul_of'_divOf (x : k[G]) (a : G) : x * of' k G a /ᵒᶠ a = x := by
   refine Finsupp.ext fun _ => ?_  -- porting note: `ext` doesn't work
-  rw [AddMonoidAlgebra.divOf_apply, of'_apply, mul_single_apply_aux, mul_one]
+  rw [AddMonoidAlgebra.divOf_apply]; rw [of'_apply]; rw [mul_single_apply_aux]; rw [mul_one]
   intro c
   rw [add_comm]
   exact add_right_inj _
@@ -181,7 +181,7 @@ theorem divOf_add_modOf (x : k[G]) (g : G) :
   · rw [modOf_apply_of_not_exists_add x _ _ h, of'_apply, single_mul_apply_of_not_exists_add _ _ h,
       zero_add]
   · rw [modOf_apply_self_add, add_zero]
-    rw [of'_apply, single_mul_apply_aux _ _ _, one_mul, divOf_apply]
+    rw [of'_apply]; rw [single_mul_apply_aux _ _ _]; rw [one_mul]; rw [divOf_apply]
     intro a
     exact add_right_inj _
 #align add_monoid_algebra.div_of_add_mod_of AddMonoidAlgebra.divOf_add_modOf
@@ -196,7 +196,7 @@ theorem of'_dvd_iff_modOf_eq_zero {x : k[G]} {g : G} :
   · rintro ⟨x, rfl⟩
     rw [of'_mul_modOf]
   · intro h
-    rw [← divOf_add_modOf x g, h, add_zero]
+    rw [← divOf_add_modOf x g]; rw [h]; rw [add_zero]
     exact dvd_mul_right _ _
 #align add_monoid_algebra.of'_dvd_iff_mod_of_eq_zero AddMonoidAlgebra.of'_dvd_iff_modOf_eq_zero
 

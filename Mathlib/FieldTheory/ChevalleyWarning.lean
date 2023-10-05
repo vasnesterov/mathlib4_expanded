@@ -130,18 +130,18 @@ theorem char_dvd_card_solutions_of_sum_lt {s : Finset ι} {f : ι → MvPolynomi
     · apply Finset.prod_eq_one
       intro i hi
       rw [hS] at hx
-      rw [hx i hi, zero_pow hq, sub_zero]
+      rw [hx i hi]; rw [zero_pow hq]; rw [sub_zero]
     · obtain ⟨i, hi, hx⟩ : ∃ i : ι, i ∈ s ∧ eval x (f i) ≠ 0 := by
         simpa only [hS, not_forall, not_imp] using hx
       apply Finset.prod_eq_zero hi
-      rw [pow_card_sub_one_eq_one (eval x (f i)) hx, sub_self]
+      rw [pow_card_sub_one_eq_one (eval x (f i)) hx]; rw [sub_self]
   -- In particular, we can now show:
   have key : ∑ x, eval x F = Fintype.card { x : σ → K // ∀ i ∈ s, eval x (f i) = 0 }
-  rw [Fintype.card_of_subtype S hS, card_eq_sum_ones, Nat.cast_sum, Nat.cast_one, ←
-    Fintype.sum_extend_by_zero S, sum_congr rfl fun x _ => hF x]
+  rw [Fintype.card_of_subtype S hS]; rw [card_eq_sum_ones]; rw [Nat.cast_sum]; rw [Nat.cast_one]; rw [←
+    Fintype.sum_extend_by_zero S]; rw [sum_congr rfl fun x _ => hF x]
   -- With these preparations under our belt, we will approach the main goal.
   show p ∣ Fintype.card { x // ∀ i : ι, i ∈ s → eval x (f i) = 0 }
-  rw [← CharP.cast_eq_zero_iff K, ← key]
+  rw [← CharP.cast_eq_zero_iff K]; rw [← key]
   show (∑ x, eval x F) = 0
   -- We are now ready to apply the main machine, proven before.
   apply F.sum_eval_eq_zero

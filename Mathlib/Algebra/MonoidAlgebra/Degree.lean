@@ -131,10 +131,10 @@ theorem sup_support_list_prod_le (degb0 : degb 0 ≤ 0)
     ∀ l : List R[A],
       l.prod.support.sup degb ≤ (l.map fun f : R[A] => f.support.sup degb).sum
   | [] => by
-    rw [List.map_nil, Finset.sup_le_iff, List.prod_nil, List.sum_nil]
+    rw [List.map_nil]; rw [Finset.sup_le_iff]; rw [List.prod_nil]; rw [List.sum_nil]
     exact fun a ha => by rwa [Finset.mem_singleton.mp (Finsupp.support_single_subset ha)]
   | f::fs => by
-    rw [List.prod_cons, List.map_cons, List.sum_cons]
+    rw [List.prod_cons]; rw [List.map_cons]; rw [List.sum_cons]
     exact (sup_support_mul_le (@fun a b => degbm a b) _ _).trans
         (add_le_add_left (sup_support_list_prod_le degb0 degbm fs) _)
 #align add_monoid_algebra.sup_support_list_prod_le AddMonoidAlgebra.sup_support_list_prod_le
@@ -152,7 +152,7 @@ theorem le_inf_support_list_prod (degt0 : 0 ≤ degt 0)
 
 theorem sup_support_pow_le (degb0 : degb 0 ≤ 0) (degbm : ∀ a b, degb (a + b) ≤ degb a + degb b)
     (n : ℕ) (f : R[A]) : (f ^ n).support.sup degb ≤ n • f.support.sup degb := by
-  rw [← List.prod_replicate, ← List.sum_replicate]
+  rw [← List.prod_replicate]; rw [← List.sum_replicate]
   refine' (sup_support_list_prod_le degb0 degbm _).trans_eq _
   rw [List.map_replicate]
 #align add_monoid_algebra.sup_support_pow_le AddMonoidAlgebra.sup_support_pow_le
@@ -180,7 +180,7 @@ theorem sup_support_multiset_prod_le (degb0 : degb 0 ≤ 0)
     (degbm : ∀ a b, degb (a + b) ≤ degb a + degb b) (m : Multiset R[A]) :
     m.prod.support.sup degb ≤ (m.map fun f : R[A] => f.support.sup degb).sum := by
   induction m using Quot.inductionOn
-  rw [Multiset.quot_mk_to_coe'', Multiset.coe_map, Multiset.coe_sum, Multiset.coe_prod]
+  rw [Multiset.quot_mk_to_coe'']; rw [Multiset.coe_map]; rw [Multiset.coe_sum]; rw [Multiset.coe_prod]
   exact sup_support_list_prod_le degb0 degbm _
 #align add_monoid_algebra.sup_support_multiset_prod_le AddMonoidAlgebra.sup_support_multiset_prod_le
 

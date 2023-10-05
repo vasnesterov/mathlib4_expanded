@@ -27,7 +27,7 @@ theorem Icc_mem_vitaliFamily_at_right {x y : ℝ} (hxy : x < y) :
     Icc x y ∈ (vitaliFamily (volume : Measure ℝ) 1).setsAt x := by
   rw [Icc_eq_closedBall]
   refine' closedBall_mem_vitaliFamily_of_dist_le_mul _ _ (by linarith)
-  rw [dist_comm, Real.dist_eq, abs_of_nonneg] <;> linarith
+  rw [dist_comm]; rw [Real.dist_eq]; rw [abs_of_nonneg]; all_goals linarith
 #align real.Icc_mem_vitali_family_at_right Real.Icc_mem_vitaliFamily_at_right
 
 theorem tendsto_Icc_vitaliFamily_right (x : ℝ) :
@@ -45,7 +45,7 @@ theorem Icc_mem_vitaliFamily_at_left {x y : ℝ} (hxy : x < y) :
     Icc x y ∈ (vitaliFamily (volume : Measure ℝ) 1).setsAt y := by
   rw [Icc_eq_closedBall]
   refine' closedBall_mem_vitaliFamily_of_dist_le_mul _ _ (by linarith)
-  rw [Real.dist_eq, abs_of_nonneg] <;> linarith
+  rw [Real.dist_eq]; rw [abs_of_nonneg]; all_goals linarith
 #align real.Icc_mem_vitali_family_at_left Real.Icc_mem_vitaliFamily_at_left
 
 theorem tendsto_Icc_vitaliFamily_left (x : ℝ) :

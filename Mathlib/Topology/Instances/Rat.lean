@@ -57,7 +57,7 @@ end Rat
 
 @[norm_cast, simp]
 theorem Nat.dist_cast_rat (x y : ℕ) : dist (x : ℚ) y = dist x y := by
-  rw [← Nat.dist_cast_real, ← Rat.dist_cast]; congr
+  rw [← Nat.dist_cast_real]; rw [← Rat.dist_cast]; congr
 #align nat.dist_cast_rat Nat.dist_cast_rat
 
 theorem Nat.uniformEmbedding_coe_rat : UniformEmbedding ((↑) : ℕ → ℚ) :=
@@ -70,7 +70,7 @@ theorem Nat.closedEmbedding_coe_rat : ClosedEmbedding ((↑) : ℕ → ℚ) :=
 
 @[norm_cast, simp]
 theorem Int.dist_cast_rat (x y : ℤ) : dist (x : ℚ) y = dist x y := by
-  rw [← Int.dist_cast_real, ← Rat.dist_cast]; congr
+  rw [← Int.dist_cast_real]; rw [← Rat.dist_cast]; congr
 #align int.dist_cast_rat Int.dist_cast_rat
 
 theorem Int.uniformEmbedding_coe_rat : UniformEmbedding ((↑) : ℤ → ℚ) :=

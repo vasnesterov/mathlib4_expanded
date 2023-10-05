@@ -112,7 +112,7 @@ theorem inf_neBot_iff {f : Ultrafilter α} {g : Filter α} : NeBot (↑f ⊓ g) 
 #align ultrafilter.inf_ne_bot_iff Ultrafilter.inf_neBot_iff
 
 theorem disjoint_iff_not_le {f : Ultrafilter α} {g : Filter α} : Disjoint (↑f) g ↔ ¬↑f ≤ g := by
-  rw [← inf_neBot_iff, neBot_iff, Ne.def, not_not, disjoint_iff]
+  rw [← inf_neBot_iff]; rw [neBot_iff]; rw [Ne.def]; rw [not_not]; rw [disjoint_iff]
 #align ultrafilter.disjoint_iff_not_le Ultrafilter.disjoint_iff_not_le
 
 @[simp]
@@ -300,7 +300,7 @@ theorem comap_pure {m : α → β} (a : α) (inj : Injective m) (large) :
     comap (pure <| m a) inj large = pure a :=
   coe_injective <|
     comap_pure.trans <| by
-      rw [coe_pure, ← principal_singleton, ← image_singleton, preimage_image_eq _ inj]
+      rw [coe_pure]; rw [← principal_singleton]; rw [← image_singleton]; rw [preimage_image_eq _ inj]
 #align ultrafilter.comap_pure Ultrafilter.comap_pure
 
 theorem pure_injective : Injective (pure : α → Ultrafilter α) := fun _ _ h =>
@@ -416,7 +416,7 @@ protected theorem NeBot.le_pure_iff (hf : f.NeBot) : f ≤ pure a ↔ f = pure a
 
 protected theorem NeBot.eq_pure_iff (hf : f.NeBot) {x : α} :
     f = pure x ↔ {x} ∈ f := by
-  rw [← hf.le_pure_iff, le_pure_iff]
+  rw [← hf.le_pure_iff]; rw [le_pure_iff]
 
 lemma atTop_eq_pure_of_isTop [LinearOrder α] {x : α} (hx : IsTop x) :
     (atTop : Filter α) = pure x := by

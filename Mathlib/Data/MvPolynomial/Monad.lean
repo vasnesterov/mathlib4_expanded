@@ -284,12 +284,12 @@ set_option linter.uppercaseLean3 false in
 -- mixing the two monad structures
 theorem hom_bind₁ (f : MvPolynomial τ R →+* S) (g : σ → MvPolynomial τ R) (φ : MvPolynomial σ R) :
     f (bind₁ g φ) = eval₂Hom (f.comp C) (fun i => f (g i)) φ := by
-  rw [bind₁, map_aeval, algebraMap_eq]
+  rw [bind₁]; rw [map_aeval]; rw [algebraMap_eq]
 #align mv_polynomial.hom_bind₁ MvPolynomial.hom_bind₁
 
 theorem map_bind₁ (f : R →+* S) (g : σ → MvPolynomial τ R) (φ : MvPolynomial σ R) :
     map f (bind₁ g φ) = bind₁ (fun i : σ => (map f) (g i)) (map f φ) := by
-  rw [hom_bind₁, map_comp_C, ← eval₂Hom_map_hom]
+  rw [hom_bind₁]; rw [map_comp_C]; rw [← eval₂Hom_map_hom]
   rfl
 #align mv_polynomial.map_bind₁ MvPolynomial.map_bind₁
 
@@ -302,7 +302,7 @@ set_option linter.uppercaseLean3 false in
 
 theorem eval₂Hom_bind₁ (f : R →+* S) (g : τ → S) (h : σ → MvPolynomial τ R) (φ : MvPolynomial σ R) :
     eval₂Hom f g (bind₁ h φ) = eval₂Hom f (fun i => eval₂Hom f g (h i)) φ := by
-  rw [hom_bind₁, eval₂Hom_comp_C]
+  rw [hom_bind₁]; rw [eval₂Hom_comp_C]
 #align mv_polynomial.eval₂_hom_bind₁ MvPolynomial.eval₂Hom_bind₁
 
 theorem aeval_bind₁ [Algebra R S] (f : τ → S) (g : σ → MvPolynomial τ R) (φ : MvPolynomial σ R) :

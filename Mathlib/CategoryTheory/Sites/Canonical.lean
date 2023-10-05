@@ -90,7 +90,7 @@ theorem isSheafFor_bind (P : Cᵒᵖ ⥤ Type v) (U : Sieve X) (B : ∀ ⦃Y⦄ 
       simpa using this
     trans s (m ≫ l ≫ h ≫ f) this
     · have := ht (U.downward_closed hf h) _ ((B _).downward_closed hl m)
-      rw [op_comp, FunctorToTypes.map_comp_apply] at this
+      rw [op_comp] at this; rw [FunctorToTypes.map_comp_apply] at this
       rw [this]
       change s _ _ = s _ _
       -- porting note: the proof was `by simp`
@@ -98,20 +98,19 @@ theorem isSheafFor_bind (P : Cᵒᵖ ⥤ Type v) (U : Sieve X) (B : ∀ ⦃Y⦄ 
       simp only [assoc]
     · have h : s _ _ = _ := (ht hf _ hm).symm
       -- porting note: this was done by `simp only [assoc] at`
-      conv_lhs at h => congr; rw [assoc, assoc]
+      conv_lhs at h => congr; rw [assoc]; rw [assoc]
       rw [h]
       simp only [op_comp, assoc, FunctorToTypes.map_comp_apply]
   refine' ⟨hU.amalgamate t hT, _, _⟩
   · rintro Z _ ⟨Y, f, g, hg, hf, rfl⟩
-    rw [op_comp, FunctorToTypes.map_comp_apply, Presieve.IsSheafFor.valid_glue _ _ _ hg]
+    rw [op_comp]; rw [FunctorToTypes.map_comp_apply]; rw [Presieve.IsSheafFor.valid_glue _ _ _ hg]
     apply ht hg _ hf
   · intro y hy
     apply hU.isSeparatedFor.ext
     intro Y f hf
     apply (hB hf).isSeparatedFor.ext
     intro Z g hg
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, hy _ (Presieve.bind_comp _ _ hg),
-      hU.valid_glue _ _ hf, ht hf _ hg]
+    rw [← FunctorToTypes.map_comp_apply]; rw [← op_comp]; rw [hy _ (Presieve.bind_comp _ _ hg)]; rw [hU.valid_glue _ _ hf]; rw [ht hf _ hg]
 #align category_theory.sheaf.is_sheaf_for_bind CategoryTheory.Sheaf.isSheafFor_bind
 
 /-- Given two sieves `R` and `S`, to show that `P` is a sheaf for `S`, we can show:
@@ -142,7 +141,7 @@ theorem isSheafFor_trans (P : Cᵒᵖ ⥤ Type v) (R S : Sieve X)
       ext Z g
       constructor
       · rintro ⟨W, k, l, hl, _, comm⟩
-        rw [pullback_apply, ← comm]
+        rw [pullback_apply]; rw [← comm]
         simp [hl]
       · intro a
         refine' ⟨Z, 𝟙 Z, _, a, _⟩
@@ -173,7 +172,7 @@ def finestTopologySingle (P : Cᵒᵖ ⥤ Type v) : GrothendieckTopology C where
       apply (hS _ _).isSeparatedFor
     · intro Y f hf
       have := hR hf _ (𝟙 _)
-      rw [pullback_id, pullback_comp] at this
+      rw [pullback_id] at this; rw [pullback_comp] at this
       apply this
 #align category_theory.sheaf.finest_topology_single CategoryTheory.Sheaf.finestTopologySingle
 

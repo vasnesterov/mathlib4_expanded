@@ -104,7 +104,7 @@ variable [DecidableEq α]
 
 @[simp]
 theorem card_insert_of_not_mem (h : a ∉ s) : (insert a s).card = s.card + 1 := by
-  rw [← cons_eq_insert _ _ h, card_cons]
+  rw [← cons_eq_insert _ _ h]; rw [card_cons]
 #align finset.card_insert_of_not_mem Finset.card_insert_of_not_mem
 
 theorem card_insert_of_mem (h : a ∈ s) : card (insert a s) = s.card := by rw [insert_eq_of_mem h]
@@ -127,7 +127,7 @@ theorem card_insert_eq_ite : card (insert a s) = if a ∈ s then s.card else s.c
 
 @[simp]
 theorem card_doubleton (h : a ≠ b) : ({a, b} : Finset α).card = 2 := by
-  rw [card_insert_of_not_mem (not_mem_singleton.2 h), card_singleton]
+  rw [card_insert_of_not_mem (not_mem_singleton.2 h)]; rw [card_singleton]
 #align finset.card_doubleton Finset.card_doubleton
 
 /-- $\#(s \setminus \{a\}) = \#s - 1$ if $a \in s$. -/
@@ -142,8 +142,8 @@ theorem card_erase_of_mem : a ∈ s → (s.erase a).card = s.card - 1 :=
 @[simp]
 theorem cast_card_erase_of_mem {R} [AddGroupWithOne R] {s : Finset α} (hs : a ∈ s) :
     ((s.erase a).card : R) = s.card - 1 := by
-  rw [card_erase_of_mem hs, Nat.cast_sub, Nat.cast_one]
-  rw [Nat.add_one_le_iff, Finset.card_pos]
+  rw [card_erase_of_mem hs]; rw [Nat.cast_sub]; rw [Nat.cast_one]
+  rw [Nat.add_one_le_iff]; rw [Finset.card_pos]
   exact ⟨a, hs⟩
 
 @[simp]
@@ -222,7 +222,7 @@ variable {s t : Finset α} {f : α → β} {n : ℕ}
 
 @[simp]
 theorem length_toList (s : Finset α) : s.toList.length = s.card := by
-  rw [toList, ← Multiset.coe_card, Multiset.coe_toList, card_def]
+  rw [toList]; rw [← Multiset.coe_card]; rw [Multiset.coe_toList]; rw [card_def]
 #align finset.length_to_list Finset.length_toList
 
 theorem card_image_le [DecidableEq β] : (s.image f).card ≤ s.card := by
@@ -234,7 +234,7 @@ theorem card_image_of_injOn [DecidableEq β] (H : Set.InjOn f s) : (s.image f).c
 #align finset.card_image_of_inj_on Finset.card_image_of_injOn
 
 theorem injOn_of_card_image_eq [DecidableEq β] (H : (s.image f).card = s.card) : Set.InjOn f s := by
-  rw [card_def, card_def, image, toFinset] at H
+  rw [card_def] at H; rw [card_def] at H; rw [image] at H; rw [toFinset] at H
   dsimp only at H
   have : (s.1.map f).dedup = s.1.map f := by
     refine Multiset.eq_of_le_of_card_le (Multiset.dedup_le _) ?_
@@ -254,7 +254,7 @@ theorem card_image_of_injective [DecidableEq β] (s : Finset α) (H : Injective 
 
 theorem fiber_card_ne_zero_iff_mem_image (s : Finset α) (f : α → β) [DecidableEq β] (y : β) :
     (s.filter fun x => f x = y).card ≠ 0 ↔ y ∈ s.image f := by
-  rw [← pos_iff_ne_zero, card_pos, fiber_nonempty_iff_mem_image]
+  rw [← pos_iff_ne_zero]; rw [card_pos]; rw [fiber_nonempty_iff_mem_image]
 #align finset.fiber_card_ne_zero_iff_mem_image Finset.fiber_card_ne_zero_iff_mem_image
 
 @[simp]
@@ -290,7 +290,7 @@ theorem map_eq_of_subset {f : α ↪ α} (hs : s.map f ⊆ s) : s.map f = s :=
 
 theorem filter_card_eq {p : α → Prop} [DecidablePred p] (h : (s.filter p).card = s.card) (x : α)
     (hx : x ∈ s) : p x := by
-  rw [← eq_of_subset_of_card_le (s.filter_subset p) h.ge, mem_filter] at hx
+  rw [← eq_of_subset_of_card_le (s.filter_subset p) h.ge] at hx; rw [mem_filter] at hx
   exact hx.2
 #align finset.filter_card_eq Finset.filter_card_eq
 
@@ -429,7 +429,7 @@ theorem card_union_le (s t : Finset α) : (s ∪ t).card ≤ s.card + t.card :=
 #align finset.card_union_le Finset.card_union_le
 
 theorem card_union_eq (h : Disjoint s t) : (s ∪ t).card = s.card + t.card := by
-  rw [← disjUnion_eq_union s t h, card_disjUnion _ _ _]
+  rw [← disjUnion_eq_union s t h]; rw [card_disjUnion _ _ _]
 #align finset.card_union_eq Finset.card_union_eq
 
 @[simp]
@@ -439,7 +439,7 @@ theorem card_disjoint_union (h : Disjoint s t) : card (s ∪ t) = s.card + t.car
 
 theorem card_sdiff (h : s ⊆ t) : card (t \ s) = t.card - s.card := by
   suffices card (t \ s) = card (t \ s ∪ s) - s.card by rwa [sdiff_union_of_subset h] at this
-  rw [card_disjoint_union sdiff_disjoint, add_tsub_cancel_right]
+  rw [card_disjoint_union sdiff_disjoint]; rw [add_tsub_cancel_right]
 #align finset.card_sdiff Finset.card_sdiff
 
 theorem card_sdiff_add_card_eq_card {s t : Finset α} (h : s ⊆ t) : card (t \ s) + card s = card t :=
@@ -459,7 +459,7 @@ theorem card_le_card_sdiff_add_card : s.card ≤ (s \ t).card + t.card :=
 #align finset.card_le_card_sdiff_add_card Finset.card_le_card_sdiff_add_card
 
 theorem card_sdiff_add_card : (s \ t).card + t.card = (s ∪ t).card := by
-  rw [← card_disjoint_union sdiff_disjoint, sdiff_union_self_eq_union]
+  rw [← card_disjoint_union sdiff_disjoint]; rw [sdiff_union_self_eq_union]
 #align finset.card_sdiff_add_card Finset.card_sdiff_add_card
 
 lemma card_sdiff_comm (h : s.card = t.card) : (s \ t).card = (t \ s).card :=
@@ -483,12 +483,10 @@ theorem exists_intermediate_set {A B : Finset α} (i : ℕ) (h₁ : i + card B �
     induction' k with k ih generalizing A
     · exact ⟨A, h₂, Subset.refl _, h.symm⟩
     obtain ⟨a, ha⟩ : (A \ B).Nonempty := by
-      rw [← card_pos, card_sdiff h₂, ← h, Nat.add_right_comm, add_tsub_cancel_right, Nat.add_succ]
+      rw [← card_pos]; rw [card_sdiff h₂]; rw [← h]; rw [Nat.add_right_comm]; rw [add_tsub_cancel_right]; rw [Nat.add_succ]
       apply Nat.succ_pos
     have z : i + card B + k = card (erase A a) := by
-      rw [card_erase_of_mem (mem_sdiff.1 ha).1, ← h,
-        Nat.add_sub_assoc (Nat.one_le_iff_ne_zero.mpr k.succ_ne_zero), ←pred_eq_sub_one,
-        k.pred_succ]
+      rw [card_erase_of_mem (mem_sdiff.1 ha).1]; rw [← h]; rw [Nat.add_sub_assoc (Nat.one_le_iff_ne_zero.mpr k.succ_ne_zero)]; rw [←pred_eq_sub_one]; rw [k.pred_succ]
     have : B ⊆ A.erase a := by
       rintro t th
       apply mem_erase_of_ne_of_mem _ (h₂ th)
@@ -509,8 +507,8 @@ theorem exists_subset_or_subset_of_two_mul_lt_card [DecidableEq α] {X Y : Finse
     (hXY : 2 * n < (X ∪ Y).card) : ∃ C : Finset α, n < C.card ∧ (C ⊆ X ∨ C ⊆ Y) := by
   have h₁ : (X ∩ (Y \ X)).card = 0 := Finset.card_eq_zero.mpr (Finset.inter_sdiff_self X Y)
   have h₂ : (X ∪ Y).card = X.card + (Y \ X).card := by
-    rw [← card_union_add_card_inter X (Y \ X), Finset.union_sdiff_self_eq_union, h₁, add_zero]
-  rw [h₂, two_mul] at hXY
+    rw [← card_union_add_card_inter X (Y \ X)]; rw [Finset.union_sdiff_self_eq_union]; rw [h₁]; rw [add_zero]
+  rw [h₂] at hXY; rw [two_mul] at hXY
   rcases lt_or_lt_of_add_lt_add hXY with (h | h)
   · exact ⟨X, h, Or.inl (Finset.Subset.refl X)⟩
   · exact ⟨Y \ X, h, Or.inr (Finset.sdiff_subset Y X)⟩
@@ -534,7 +532,7 @@ theorem exists_eq_insert_iff [DecidableEq α] {s t : Finset α} :
       card_eq_one.1 (by rw [card_sdiff hst, ← h, add_tsub_cancel_left])
     refine'
       ⟨a, fun hs => (_ : a ∉ {a}) <| mem_singleton_self _, by
-        rw [insert_eq, ← ha, sdiff_union_of_subset hst]⟩
+        rw [insert_eq]; rw [← ha]; rw [sdiff_union_of_subset hst]⟩
     rw [← ha]
     exact not_mem_sdiff_of_mem_right hs
 #align finset.exists_eq_insert_iff Finset.exists_eq_insert_iff
@@ -583,7 +581,7 @@ theorem one_lt_card_iff : 1 < s.card ↔ ∃ a b, a ∈ s ∧ b ∈ s ∧ a ≠ 
 #align finset.one_lt_card_iff Finset.one_lt_card_iff
 
 theorem one_lt_card_iff_nontrivial_coe : 1 < s.card ↔ Nontrivial (s : Type _) := by
-  rw [← not_iff_not, not_lt, not_nontrivial_iff_subsingleton, card_le_one_iff_subsingleton_coe]
+  rw [← not_iff_not]; rw [not_lt]; rw [not_nontrivial_iff_subsingleton]; rw [card_le_one_iff_subsingleton_coe]
 
 theorem two_lt_card_iff : 2 < s.card ↔ ∃ a b c, a ∈ s ∧ b ∈ s ∧ c ∈ s ∧ a ≠ b ∧ a ≠ c ∧ b ≠ c := by
   classical
@@ -595,7 +593,7 @@ theorem two_lt_card_iff : 2 < s.card ↔ ∃ a b c, a ∈ s ∧ b ∈ s ∧ c �
         ⟨a, b, c, mem_of_mem_erase ha, mem_of_mem_erase hb, hc, hab, ne_of_mem_erase ha,
           ne_of_mem_erase hb⟩
     · rintro ⟨a, b, c, ha, hb, hc, hab, hac, hbc⟩
-      rw [← card_erase_add_one hc, ← card_erase_add_one (mem_erase_of_ne_of_mem hbc hb), ←
+      rw [← card_erase_add_one hc]; rw [← card_erase_add_one (mem_erase_of_ne_of_mem hbc hb)]; rw [←
         card_erase_add_one (mem_erase_of_ne_of_mem hab (mem_erase_of_ne_of_mem hac ha))]
       apply Nat.le_add_left
 #align finset.two_lt_card_iff Finset.two_lt_card_iff
@@ -649,7 +647,7 @@ theorem card_eq_three [DecidableEq α] :
   · rw [card_eq_succ]
     simp_rw [card_eq_two]
     rintro ⟨a, _, abc, rfl, b, c, bc, rfl⟩
-    rw [mem_insert, mem_singleton, not_or] at abc
+    rw [mem_insert] at abc; rw [mem_singleton] at abc; rw [not_or] at abc
     exact ⟨a, b, c, abc.1, abc.2, bc, rfl⟩
   · rintro ⟨x, y, z, xy, xz, yz, rfl⟩
     simp only [xy, xz, yz, mem_insert, card_insert_of_not_mem, not_false_iff, mem_singleton,

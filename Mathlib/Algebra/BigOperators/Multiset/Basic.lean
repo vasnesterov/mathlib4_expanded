@@ -87,15 +87,14 @@ theorem prod_cons (a : α) (s) : prod (a ::ₘ s) = a * prod s :=
 
 @[to_additive (attr := simp)]
 theorem prod_erase [DecidableEq α] (h : a ∈ s) : a * (s.erase a).prod = s.prod := by
-  rw [← s.coe_toList, coe_erase, coe_prod, coe_prod, List.prod_erase (mem_toList.2 h)]
+  rw [← s.coe_toList]; rw [coe_erase]; rw [coe_prod]; rw [coe_prod]; rw [List.prod_erase (mem_toList.2 h)]
 #align multiset.prod_erase Multiset.prod_erase
 #align multiset.sum_erase Multiset.sum_erase
 
 @[to_additive (attr := simp)]
 theorem prod_map_erase [DecidableEq ι] {a : ι} (h : a ∈ m) :
     f a * ((m.erase a).map f).prod = (m.map f).prod := by
-  rw [← m.coe_toList, coe_erase, coe_map, coe_map, coe_prod, coe_prod,
-    List.prod_map_erase f (mem_toList.2 h)]
+  rw [← m.coe_toList]; rw [coe_erase]; rw [coe_map]; rw [coe_map]; rw [coe_prod]; rw [coe_prod]; rw [List.prod_map_erase f (mem_toList.2 h)]
 #align multiset.prod_map_erase Multiset.prod_map_erase
 #align multiset.sum_map_erase Multiset.sum_map_erase
 
@@ -107,7 +106,7 @@ theorem prod_singleton (a : α) : prod {a} = a := by
 
 @[to_additive]
 theorem prod_pair (a b : α) : ({a, b} : Multiset α).prod = a * b := by
-  rw [insert_eq_cons, prod_cons, prod_singleton]
+  rw [insert_eq_cons]; rw [prod_cons]; rw [prod_singleton]
 #align multiset.prod_pair Multiset.prod_pair
 #align multiset.sum_pair Multiset.sum_pair
 
@@ -119,7 +118,7 @@ theorem prod_add (s t : Multiset α) : prod (s + t) = prod s * prod t :=
 
 theorem prod_nsmul (m : Multiset α) : ∀ n : ℕ, (n • m).prod = m.prod ^ n
   | 0 => by
-    rw [zero_nsmul, pow_zero]
+    rw [zero_nsmul]; rw [pow_zero]
     rfl
   | n + 1 => by rw [add_nsmul, one_nsmul, pow_add, pow_one, prod_add, prod_nsmul m n]
 #align multiset.prod_nsmul Multiset.prod_nsmul
@@ -148,7 +147,7 @@ theorem prod_eq_pow_single [DecidableEq α] (a : α) (h : ∀ (a') (_ : a' ≠ a
 
 @[to_additive]
 theorem pow_count [DecidableEq α] (a : α) : a ^ s.count a = (s.filter (Eq a)).prod := by
-  rw [filter_eq, prod_replicate]
+  rw [filter_eq]; rw [prod_replicate]
 #align multiset.pow_count Multiset.pow_count
 #align multiset.nsmul_count Multiset.nsmul_count
 
@@ -187,7 +186,7 @@ theorem prod_hom_rel [CommMonoid β] (s : Multiset ι) {r : α → β → Prop} 
 
 @[to_additive]
 theorem prod_map_one : prod (m.map fun _ => (1 : α)) = 1 := by
-  rw [map_const', prod_replicate, one_pow]
+  rw [map_const']; rw [prod_replicate]; rw [one_pow]
 #align multiset.prod_map_one Multiset.prod_map_one
 #align multiset.sum_map_zero Multiset.sum_map_zero
 
@@ -286,7 +285,7 @@ variable [NoZeroDivisors α] [Nontrivial α] {s : Multiset α}
 
 theorem prod_eq_zero_iff : s.prod = 0 ↔ (0 : α) ∈ s :=
   Quotient.inductionOn s fun l => by
-    rw [quot_mk_to_coe, coe_prod]
+    rw [quot_mk_to_coe]; rw [coe_prod]
     exact List.prod_eq_zero_iff
 #align multiset.prod_eq_zero_iff Multiset.prod_eq_zero_iff
 
@@ -419,7 +418,7 @@ theorem prod_le_prod_map (f : α → α) (h : ∀ x, x ∈ s → x ≤ f x) : s.
 
 @[to_additive card_nsmul_le_sum]
 theorem pow_card_le_prod (h : ∀ x ∈ s, a ≤ x) : a ^ card s ≤ s.prod := by
-  rw [← Multiset.prod_replicate, ← Multiset.map_const]
+  rw [← Multiset.prod_replicate]; rw [← Multiset.map_const]
   exact prod_map_le_prod _ h
 #align multiset.pow_card_le_prod Multiset.pow_card_le_prod
 #align multiset.card_nsmul_le_sum Multiset.card_nsmul_le_sum
@@ -467,7 +466,7 @@ theorem le_prod_of_submultiplicative_on_pred [CommMonoid α] [OrderedCommMonoid 
   intro a s hs hpsa
   have hps : ∀ x, x ∈ s → p x := fun x hx => hpsa x (mem_cons_of_mem hx)
   have hp_prod : p s.prod := prod_induction p s hp_mul hp_one hps
-  rw [prod_cons, map_cons, prod_cons]
+  rw [prod_cons]; rw [map_cons]; rw [prod_cons]
   exact (h_mul a s.prod (hpsa a (mem_cons_self a s)) hp_prod).trans (mul_le_mul_left' (hs hps) _)
 #align multiset.le_prod_of_submultiplicative_on_pred Multiset.le_prod_of_submultiplicative_on_pred
 #align multiset.le_sum_of_subadditive_on_pred Multiset.le_sum_of_subadditive_on_pred
@@ -492,7 +491,7 @@ theorem le_prod_nonempty_of_submultiplicative_on_pred [CommMonoid α] [OrderedCo
     exfalso
     exact h rfl
   rintro a s hs - hsa_prop
-  rw [prod_cons, map_cons, prod_cons]
+  rw [prod_cons]; rw [map_cons]; rw [prod_cons]
   by_cases hs_empty : s = ∅
   · simp [hs_empty]
   have hsa_restrict : ∀ x, x ∈ s → p x := fun x hx => hsa_prop x (mem_cons_of_mem hx)

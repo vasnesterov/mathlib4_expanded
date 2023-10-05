@@ -53,7 +53,7 @@ def pullback_of_mono {X Y Z : C} (a : X ⟶ Z) (b : Y ⟶ Z) [Mono a] [Mono b] :
     { cone :=
         PullbackCone.mk a' b' <| by
           simp at ha' hb'
-          rw [ha', hb']
+          rw [ha']; rw [hb']
       isLimit :=
         PullbackCone.IsLimit.mk _
           (fun s =>
@@ -159,7 +159,7 @@ theorem epi_of_zero_cokernel {X Y : C} (f : X ⟶ Y) (Z : C)
     obtain ⟨m, hm⟩ := equalizer.lift' f huv
     have hwf : f ≫ w = 0 := by rw [← hm, Category.assoc, hw, comp_zero]
     obtain ⟨n, hn⟩ := CokernelCofork.IsColimit.desc' l _ hwf
-    rw [Cofork.π_ofπ, zero_comp] at hn
+    rw [Cofork.π_ofπ] at hn; rw [zero_comp] at hn
     have : IsIso (equalizer.ι u v) := by apply isIso_limit_cone_parallelPair_of_eq hn.symm hl
     apply (cancel_epi (equalizer.ι u v)).1
     exact equalizer.condition _ _⟩
@@ -213,7 +213,7 @@ def pushout_of_epi {X Y Z : C} (a : X ⟶ Y) (b : X ⟶ Z) [Epi a] [Epi b] :
     { cocone :=
         PushoutCocone.mk a' b' <| by
           simp only [Cofork.π_ofπ] at ha' hb'
-          rw [ha', hb']
+          rw [ha']; rw [hb']
       isColimit :=
         PushoutCocone.IsColimit.mk _
           (fun s =>
@@ -323,10 +323,10 @@ theorem mono_of_zero_kernel {X Y : C} (f : X ⟶ Y) (Z : C)
     obtain ⟨W, w, hw, hl⟩ := normalEpiOfEpi (coequalizer.π u v)
     obtain ⟨m, hm⟩ := coequalizer.desc' f huv
     have reassoced {W : C} (h : coequalizer u v ⟶ W) : w ≫ coequalizer.π u v ≫ h = 0 ≫ h := by
-      rw [← Category.assoc, eq_whisker hw]
+      rw [← Category.assoc]; rw [eq_whisker hw]
     have hwf : w ≫ f = 0 := by rw [← hm, reassoced, zero_comp]
     obtain ⟨n, hn⟩ := KernelFork.IsLimit.lift' l _ hwf
-    rw [Fork.ι_ofι, HasZeroMorphisms.comp_zero] at hn
+    rw [Fork.ι_ofι] at hn; rw [HasZeroMorphisms.comp_zero] at hn
     have : IsIso (coequalizer.π u v) := by
       apply isIso_colimit_cocone_parallelPair_of_eq hn.symm hl
     apply (cancel_mono (coequalizer.π u v)).1

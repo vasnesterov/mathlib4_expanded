@@ -53,11 +53,11 @@ instance Rat.isFractionRing : IsFractionRing ℤ ℚ where
   surj' := by
     rintro ⟨n, d, hd, h⟩
     refine' ⟨⟨n, ⟨d, _⟩⟩, Rat.mul_den_eq_num⟩
-    rw [mem_nonZeroDivisors_iff_ne_zero, Int.coe_nat_ne_zero_iff_pos]
+    rw [mem_nonZeroDivisors_iff_ne_zero]; rw [Int.coe_nat_ne_zero_iff_pos]
     exact Nat.zero_lt_of_ne_zero hd
   eq_iff_exists' := by
     intro x y
-    rw [eq_intCast, eq_intCast, Int.cast_inj]
+    rw [eq_intCast]; rw [eq_intCast]; rw [Int.cast_inj]
     apply Iff.intro
     · rintro rfl
       use 1
@@ -121,14 +121,13 @@ protected noncomputable irreducible_def inv (z : K) : K := open Classical in
 #align is_fraction_ring.inv IsFractionRing.inv
 
 protected theorem mul_inv_cancel (x : K) (hx : x ≠ 0) : x * IsFractionRing.inv A x = 1 := by
-  rw [IsFractionRing.inv, dif_neg hx, ←
+  rw [IsFractionRing.inv]; rw [dif_neg hx]; rw [←
     IsUnit.mul_left_inj
       (map_units K
         ⟨(sec _ x).1,
           mem_nonZeroDivisors_iff_ne_zero.2 fun h0 =>
-            hx <| eq_zero_of_fst_eq_zero (sec_spec (nonZeroDivisors A) x) h0⟩),
-    one_mul, mul_assoc]
-  rw [mk'_spec, ← eq_mk'_iff_mul_eq]
+            hx <| eq_zero_of_fst_eq_zero (sec_spec (nonZeroDivisors A) x) h0⟩)]; rw [one_mul]; rw [mul_assoc]
+  rw [mk'_spec]; rw [← eq_mk'_iff_mul_eq]
   exact (mk'_sec _ x).symm
 #align is_fraction_ring.mul_inv_cancel IsFractionRing.mul_inv_cancel
 
@@ -187,7 +186,7 @@ theorem mk'_eq_one_iff_eq {x : A} {y : nonZeroDivisors A} : mk' K x y = 1 ↔ x 
   · intro hxy
     have hy : (algebraMap A K) ↑y ≠ (0 : K) :=
       IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors y.property
-    rw [IsFractionRing.mk'_eq_div, div_eq_one_iff_eq hy] at hxy
+    rw [IsFractionRing.mk'_eq_div] at hxy; rw [div_eq_one_iff_eq hy] at hxy
     exact IsFractionRing.injective A K hxy
 #align is_fraction_ring.mk'_eq_one_iff_eq IsFractionRing.mk'_eq_one_iff_eq
 
@@ -260,7 +259,7 @@ theorem isFractionRing_iff_of_base_ringEquiv (h : R ≃+* P) :
   · rintro (hx : h.symm x ∈ _) z hz
     rw [← h.symm.map_eq_zero_iff]
     apply hx
-    rw [← h.symm.map_mul, hz, h.symm.map_zero]
+    rw [← h.symm.map_mul]; rw [hz]; rw [h.symm.map_zero]
 #align is_fraction_ring.is_fraction_ring_iff_of_base_ring_equiv IsFractionRing.isFractionRing_iff_of_base_ringEquiv
 
 protected theorem nontrivial (R S : Type*) [CommRing R] [Nontrivial R] [CommRing S] [Algebra R S]

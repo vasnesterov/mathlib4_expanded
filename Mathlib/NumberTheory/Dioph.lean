@@ -267,7 +267,7 @@ theorem sumsq_nonneg (x : α → ℕ) : ∀ l, 0 ≤ sumsq l x
 theorem sumsq_eq_zero (x) : ∀ l, sumsq l x = 0 ↔ l.All₂ fun a : Poly α => a x = 0
   | [] => eq_self_iff_true _
   | p::ps => by
-    rw [List.all₂_cons, ← sumsq_eq_zero _ ps]; rw [sumsq]
+    rw [List.all₂_cons]; rw [← sumsq_eq_zero _ ps]; rw [sumsq]
     exact
       ⟨fun h : p x * p x + sumsq ps x = 0 =>
         have : p x = 0 :=
@@ -483,7 +483,7 @@ theorem diophPfun_comp1 {S : Set (Option α → ℕ)} (d : Dioph S) {f} (df : Di
   ext (ex1_dioph (d.inter df)) fun v =>
     ⟨fun ⟨x, hS, (h : Exists _)⟩ => by
       rw [show (x ::ₒ v) ∘ some = v from funext fun s => rfl] at h;
-        cases' h with hf h; refine' ⟨hf, _⟩; rw [PFun.fn, h]; exact hS,
+        cases' h with hf h; refine' ⟨hf, _⟩; rw [PFun.fn]; rw [h]; exact hS,
     fun ⟨x, hS⟩ =>
       ⟨f.fn v x, hS, show Exists _ by
         rw [show (f.fn v x ::ₒ v) ∘ some = v from funext fun s => rfl]; exact ⟨x, rfl⟩⟩⟩
@@ -681,7 +681,7 @@ theorem mod_dioph : DiophFn fun v => f v % g v :=
         (vectorAll_iff_forall _).1 fun z x y =>
           show ((y = 0 ∨ z < y) ∧ ∃ c, z + y * c = x) ↔ x % y = z from
             ⟨fun ⟨h, c, hc⟩ => by
-              rw [← hc]; simp; cases' h with x0 hl; rw [x0, mod_zero]
+              rw [← hc]; simp; cases' h with x0 hl; rw [x0]; rw [mod_zero]
               exact mod_eq_of_lt hl, fun e => by
                 rw [← e]
                 exact ⟨or_iff_not_imp_left.2 fun h => mod_lt _ (Nat.pos_of_ne_zero h), x / y,
@@ -709,7 +709,7 @@ theorem div_dioph : DiophFn fun v => f v / g v :=
             refine Iff.trans ?_ eq_comm
             exact y.eq_zero_or_pos.elim
               (fun y0 => by
-                rw [y0, Nat.div_zero]
+                rw [y0]; rw [Nat.div_zero]
                 exact ⟨fun o => (o.resolve_right fun ⟨_, h2⟩ => Nat.not_lt_zero _ h2).right,
                   fun z0 => Or.inl ⟨rfl, z0⟩⟩)
               fun ypos =>

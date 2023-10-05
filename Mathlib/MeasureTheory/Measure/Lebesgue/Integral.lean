@@ -24,9 +24,7 @@ theorem volume_regionBetween_eq_integral' [SigmaFinite μ] (f_int : IntegrableOn
     μ.prod volume (regionBetween f g s) = ENNReal.ofReal (∫ y in s, (g - f) y ∂μ) := by
   have h : g - f =ᵐ[μ.restrict s] fun x => Real.toNNReal (g x - f x) :=
     hfg.mono fun x hx => (Real.coe_toNNReal _ <| sub_nonneg.2 hx).symm
-  rw [volume_regionBetween_eq_lintegral f_int.aemeasurable g_int.aemeasurable hs,
-    integral_congr_ae h, lintegral_congr_ae,
-    lintegral_coe_eq_integral _ ((integrable_congr h).mp (g_int.sub f_int))]
+  rw [volume_regionBetween_eq_lintegral f_int.aemeasurable g_int.aemeasurable hs]; rw [integral_congr_ae h]; rw [lintegral_congr_ae]; rw [lintegral_coe_eq_integral _ ((integrable_congr h).mp (g_int.sub f_int))]
   dsimp only
   rfl
 #align volume_region_between_eq_integral' volume_regionBetween_eq_integral'
@@ -101,6 +99,6 @@ theorem integral_comp_neg_Iic {E : Type*} [NormedAddCommGroup E] [NormedSpace �
 itself, it does not apply when `f` is more complicated -/
 theorem integral_comp_neg_Ioi {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     (c : ℝ) (f : ℝ → E) : (∫ x in Ioi c, f (-x)) = ∫ x in Iic (-c), f x := by
-  rw [← neg_neg c, ← integral_comp_neg_Iic]
+  rw [← neg_neg c]; rw [← integral_comp_neg_Iic]
   simp only [neg_neg]
 #align integral_comp_neg_Ioi integral_comp_neg_Ioi

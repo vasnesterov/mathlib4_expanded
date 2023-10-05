@@ -66,7 +66,7 @@ theorem isInteger_mul {a b : S} (ha : IsInteger R a) (hb : IsInteger R b) : IsIn
 theorem isInteger_smul {a : R} {b : S} (hb : IsInteger R b) : IsInteger R (a • b) := by
   rcases hb with ⟨b', hb⟩
   use a * b'
-  rw [← hb, (algebraMap R S).map_mul, Algebra.smul_def]
+  rw [← hb]; rw [(algebraMap R S).map_mul]; rw [Algebra.smul_def]
 #align is_localization.is_integer_smul IsLocalization.isInteger_smul
 
 variable (M)
@@ -96,13 +96,11 @@ theorem exist_integer_multiples {ι : Type*} (s : Finset ι) (f : ι → S) :
   haveI := Classical.propDecidable
   refine' ⟨∏ i in s, (sec M (f i)).2, fun i hi => ⟨_, _⟩⟩
   · exact (∏ j in s.erase i, (sec M (f j)).2) * (sec M (f i)).1
-  rw [RingHom.map_mul, sec_spec', ← mul_assoc, ← (algebraMap R S).map_mul, ← Algebra.smul_def]
+  rw [RingHom.map_mul]; rw [sec_spec']; rw [← mul_assoc]; rw [← (algebraMap R S).map_mul]; rw [← Algebra.smul_def]
   congr 2
   refine' _root_.trans _ ((Submonoid.subtype M).map_prod _ _).symm
-  rw [mul_comm,Submonoid.coe_finset_prod,
-    -- Porting note: explicitly supplied `f`
-    ← Finset.prod_insert (f := fun i => ((sec M (f i)).snd : R)) (s.not_mem_erase i),
-    Finset.insert_erase hi]
+  rw [mul_comm]; rw [Submonoid.coe_finset_prod]; rw [-- Porting note: explicitly supplied `f`
+    ← Finset.prod_insert (f := fun i => ((sec M (f i)).snd : R)) (s.not_mem_erase i)]; rw [Finset.insert_erase hi]
   rfl
 #align is_localization.exist_integer_multiples IsLocalization.exist_integer_multiples
 

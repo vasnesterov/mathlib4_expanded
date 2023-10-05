@@ -107,13 +107,13 @@ instance : InvolutiveStar (unitary R) :=
   ⟨by
     intro x
     ext
-    rw [coe_star, coe_star, star_star]⟩
+    rw [coe_star]; rw [coe_star]; rw [star_star]⟩
 
 instance : StarMul (unitary R) :=
   ⟨by
     intro x y
     ext
-    rw [coe_star, Submonoid.coe_mul, Submonoid.coe_mul, coe_star, coe_star, star_mul]⟩
+    rw [coe_star]; rw [Submonoid.coe_mul]; rw [Submonoid.coe_mul]; rw [coe_star]; rw [coe_star]; rw [star_mul]⟩
 
 instance : Inhabited (unitary R) :=
   ⟨1⟩

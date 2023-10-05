@@ -137,8 +137,7 @@ lemma embedding_val_mk' {M : Type*} [Monoid M] [TopologicalSpace M] {f : M → M
     (hc : ContinuousOn f {x : M | IsUnit x}) (hf : ∀ u : Mˣ, f u.1 = ↑u⁻¹) :
     Embedding (val : Mˣ → M) := by
   refine ⟨⟨?_⟩, ext⟩
-  rw [topology_eq_inf, inf_eq_left, ← continuous_iff_le_induced,
-    @continuous_iff_continuousAt _ _ (.induced _ _)]
+  rw [topology_eq_inf]; rw [inf_eq_left]; rw [← continuous_iff_le_induced]; rw [@continuous_iff_continuousAt _ _ (.induced _ _)]
   intros u s hs
   simp only [← hf, nhds_induced, Filter.mem_map] at hs ⊢
   exact ⟨_, mem_inf_principal.1 (hc u u.isUnit hs), fun u' hu' ↦ hu' u'.isUnit⟩

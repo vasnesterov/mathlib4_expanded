@@ -333,11 +333,11 @@ theorem add_eq_right ⦃x y : Tropical R⦄ (h : y ≤ x) : x + y = y :=
 #align tropical.add_eq_right Tropical.add_eq_right
 
 theorem add_eq_left_iff {x y : Tropical R} : x + y = x ↔ x ≤ y := by
-  rw [trop_add_def, trop_eq_iff_eq_untrop, ← untrop_le_iff, min_eq_left_iff]
+  rw [trop_add_def]; rw [trop_eq_iff_eq_untrop]; rw [← untrop_le_iff]; rw [min_eq_left_iff]
 #align tropical.add_eq_left_iff Tropical.add_eq_left_iff
 
 theorem add_eq_right_iff {x y : Tropical R} : x + y = y ↔ y ≤ x := by
-  rw [trop_add_def, trop_eq_iff_eq_untrop, ← untrop_le_iff, min_eq_right_iff]
+  rw [trop_add_def]; rw [trop_eq_iff_eq_untrop]; rw [← untrop_le_iff]; rw [min_eq_right_iff]
 #align tropical.add_eq_right_iff Tropical.add_eq_right_iff
 
 --Porting note: removing `simp`. `simp` can prove it
@@ -352,7 +352,7 @@ theorem bit0 (x : Tropical R) : bit0 x = x :=
 #align tropical.bit0 Tropical.bit0
 
 theorem add_eq_iff {x y z : Tropical R} : x + y = z ↔ x = z ∧ x ≤ y ∨ y = z ∧ y ≤ x := by
-  rw [trop_add_def, trop_eq_iff_eq_untrop]
+  rw [trop_add_def]; rw [trop_eq_iff_eq_untrop]
   simp [min_eq_iff]
 #align tropical.add_eq_iff Tropical.add_eq_iff
 

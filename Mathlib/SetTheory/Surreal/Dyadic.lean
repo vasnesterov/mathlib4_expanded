@@ -112,7 +112,7 @@ theorem powHalf_succ_lt_one (n : ℕ) : powHalf (n + 1) < 1 :=
 #align pgame.pow_half_succ_lt_one SetTheory.PGame.powHalf_succ_lt_one
 
 theorem powHalf_pos (n : ℕ) : 0 < powHalf n := by
-  rw [← lf_iff_lt numeric_zero (numeric_powHalf n), zero_lf_le]; simp
+  rw [← lf_iff_lt numeric_zero (numeric_powHalf n)]; rw [zero_lf_le]; simp
 #align pgame.pow_half_pos SetTheory.PGame.powHalf_pos
 
 theorem zero_le_powHalf (n : ℕ) : 0 ≤ powHalf n :=
@@ -213,7 +213,7 @@ theorem dyadic_aux {m₁ m₂ : ℤ} {y₁ y₂ : ℕ} (h₂ : m₁ * 2 ^ y₁ =
   · intro m₁ m₂ aux; exact (this (le_of_not_le h) aux.symm).symm
   intro m₁ m₂ h₂
   obtain ⟨c, rfl⟩ := le_iff_exists_add.mp h
-  rw [add_comm, pow_add, ← mul_assoc, mul_eq_mul_right_iff] at h₂
+  rw [add_comm] at h₂; rw [pow_add] at h₂; rw [← mul_assoc] at h₂; rw [mul_eq_mul_right_iff] at h₂
   cases' h₂ with h₂ h₂
   · rw [h₂, add_comm, zsmul_pow_two_powHalf m₂ c y₁]
   · have := Nat.one_le_pow y₁ 2 Nat.succ_pos'
@@ -234,7 +234,7 @@ def dyadicMap : Localization.Away (2 : ℤ) →+ Surreal where
         have hn₁ : n₁ = Submonoid.pow 2 a₁ := Subtype.ext ha₁.symm
         have hn₂ : n₂ = Submonoid.pow 2 a₂ := Subtype.ext ha₂.symm
         have h₂ : 1 < (2 : ℤ).natAbs := one_lt_two
-        rw [hn₁, hn₂, Submonoid.log_pow_int_eq_self h₂, Submonoid.log_pow_int_eq_self h₂]
+        rw [hn₁]; rw [hn₂]; rw [Submonoid.log_pow_int_eq_self h₂]; rw [Submonoid.log_pow_int_eq_self h₂]
         apply dyadic_aux
         rwa [ha₁, ha₂, mul_comm, mul_comm m₂]
       · have : (1 : ℤ) ≤ 2 ^ y₃ := by exact_mod_cast Nat.one_le_pow y₃ 2 Nat.succ_pos'
@@ -267,7 +267,7 @@ theorem dyadicMap_apply (m : ℤ) (p : Submonoid.powers (2 : ℤ)) :
 theorem dyadicMap_apply_pow (m : ℤ) (n : ℕ) :
     dyadicMap (IsLocalization.mk' (Localization (Submonoid.powers 2)) m (Submonoid.pow 2 n)) =
       m • powHalf n := by
-  rw [dyadicMap_apply, @Submonoid.log_pow_int_eq_self 2 one_lt_two]
+  rw [dyadicMap_apply]; rw [@Submonoid.log_pow_int_eq_self 2 one_lt_two]
 #align surreal.dyadic_map_apply_pow Surreal.dyadicMap_apply_pow
 
 @[simp]

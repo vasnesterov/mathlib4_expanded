@@ -113,7 +113,7 @@ theorem comp_map {α β γ : TypeVec n} (f : α ⟹ β) (g : β ⟹ γ) (x : F �
     (g ⊚ f) <$$> x = g <$$> f <$$> x := by
   rw [← abs_repr x]
   cases' repr x with a f
-  rw [← abs_map, ← abs_map, ← abs_map]
+  rw [← abs_map]; rw [← abs_map]; rw [← abs_map]
   rfl
 #align mvqpf.comp_map MvQPF.comp_map
 
@@ -135,7 +135,7 @@ theorem liftP_iff {α : TypeVec n} (p : ∀ ⦃i⦄, α i → Prop) (x : F α) :
     apply (f i j).property
   rintro ⟨a, f, h₀, h₁⟩
   use abs ⟨a, fun i j => ⟨f i j, h₁ i j⟩⟩
-  rw [← abs_map, h₀]; rfl
+  rw [← abs_map]; rw [h₀]; rfl
 #align mvqpf.liftp_iff MvQPF.liftP_iff
 
 theorem liftR_iff {α : TypeVec n} (r : ∀ /- ⦃i⦄ -/ {i}, α i → α i → Prop) (x y : F α) :
@@ -154,7 +154,7 @@ theorem liftR_iff {α : TypeVec n} (r : ∀ /- ⦃i⦄ -/ {i}, α i → α i →
   use abs ⟨a, fun i j => ⟨(f₀ i j, f₁ i j), h i j⟩⟩
   dsimp; constructor
   · rw [xeq, ← abs_map]; rfl
-  rw [yeq, ← abs_map]; rfl
+  rw [yeq]; rw [← abs_map]; rfl
 #align mvqpf.liftr_iff MvQPF.liftR_iff
 
 open Set
@@ -235,10 +235,10 @@ theorem supp_eq_of_isUniform (h : q.IsUniform) {α : TypeVec n} (a : q.P.A) (f :
 
 theorem liftP_iff_of_isUniform (h : q.IsUniform) {α : TypeVec n} (x : F α) (p : ∀ i, α i → Prop) :
     LiftP p x ↔ ∀ (i), ∀ u ∈ supp x i, p i u := by
-  rw [liftP_iff, ← abs_repr x]
+  rw [liftP_iff]; rw [← abs_repr x]
   cases' repr x with a f; constructor
   · rintro ⟨a', f', abseq, hf⟩ u
-    rw [supp_eq_of_isUniform h, h _ _ _ _ abseq]
+    rw [supp_eq_of_isUniform h]; rw [h _ _ _ _ abseq]
     rintro b ⟨i, _, hi⟩
     rw [← hi]
     apply hf
@@ -250,15 +250,15 @@ theorem liftP_iff_of_isUniform (h : q.IsUniform) {α : TypeVec n} (x : F α) (p 
 
 theorem supp_map (h : q.IsUniform) {α β : TypeVec n} (g : α ⟹ β) (x : F α) (i) :
     supp (g <$$> x) i = g i '' supp x i := by
-  rw [← abs_repr x]; cases' repr x with a f; rw [← abs_map, MvPFunctor.map_eq]
-  rw [supp_eq_of_isUniform h, supp_eq_of_isUniform h, ← image_comp]
+  rw [← abs_repr x]; cases' repr x with a f; rw [← abs_map]; rw [MvPFunctor.map_eq]
+  rw [supp_eq_of_isUniform h]; rw [supp_eq_of_isUniform h]; rw [← image_comp]
   rfl
 #align mvqpf.supp_map MvQPF.supp_map
 
 theorem suppPreservation_iff_isUniform : q.SuppPreservation ↔ q.IsUniform := by
   constructor
   · intro h α a a' f f' h' i
-    rw [← MvPFunctor.supp_eq, ← MvPFunctor.supp_eq, ← h, h', h]
+    rw [← MvPFunctor.supp_eq]; rw [← MvPFunctor.supp_eq]; rw [← h]; rw [h']; rw [h]
   · rintro h α ⟨a, f⟩
     ext
     rwa [supp_eq_of_isUniform, MvPFunctor.supp_eq]
@@ -280,7 +280,7 @@ theorem suppPreservation_iff_liftpPreservation : q.SuppPreservation ↔ q.LiftPP
 #align mvqpf.supp_preservation_iff_liftp_preservation MvQPF.suppPreservation_iff_liftpPreservation
 
 theorem liftpPreservation_iff_uniform : q.LiftPPreservation ↔ q.IsUniform := by
-  rw [← suppPreservation_iff_liftpPreservation, suppPreservation_iff_isUniform]
+  rw [← suppPreservation_iff_liftpPreservation]; rw [suppPreservation_iff_isUniform]
 #align mvqpf.liftp_preservation_iff_uniform MvQPF.liftpPreservation_iff_uniform
 
 end MvQPF

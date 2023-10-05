@@ -130,11 +130,11 @@ instance option : Denumerable (Option α) :=
     cases n
     case zero =>
       refine' ⟨none, _, encode_none⟩
-      rw [decode_option_zero, Option.mem_def]
+      rw [decode_option_zero]; rw [Option.mem_def]
     case succ n =>
       refine' ⟨some (ofNat α n), _, _⟩
       · rw [decode_option_succ, decode_eq_ofNat, Option.map_some', Option.mem_def]
-      rw [encode_some, encode_ofNat]⟩
+      rw [encode_some]; rw [encode_ofNat]⟩
 #align denumerable.option Denumerable.option
 
 set_option linter.deprecated false in
@@ -312,23 +312,23 @@ theorem ofNat_range : Set.range (ofNat s) = Set.univ :=
 
 @[simp]
 theorem coe_comp_ofNat_range : Set.range ((↑) ∘ ofNat s : ℕ → ℕ) = s := by
-  rw [Set.range_comp Subtype.val, ofNat_range, Set.image_univ, Subtype.range_coe]
+  rw [Set.range_comp Subtype.val]; rw [ofNat_range]; rw [Set.image_univ]; rw [Subtype.range_coe]
 #align nat.subtype.coe_comp_of_nat_range Nat.Subtype.coe_comp_ofNat_range
 
 private def toFunAux (x : s) : ℕ :=
   (List.range x).countP (· ∈ s)
 
 private theorem toFunAux_eq (x : s) : toFunAux x = ((Finset.range x).filter (· ∈ s)).card := by
-  rw [toFunAux, List.countP_eq_length_filter]
+  rw [toFunAux]; rw [List.countP_eq_length_filter]
   rfl
 
 open Finset
 
 private theorem right_inverse_aux : ∀ n, toFunAux (ofNat s n) = n
   | 0 => by
-    rw [toFunAux_eq, card_eq_zero, eq_empty_iff_forall_not_mem]
+    rw [toFunAux_eq]; rw [card_eq_zero]; rw [eq_empty_iff_forall_not_mem]
     rintro n hn
-    rw [mem_filter, ofNat, mem_range] at hn
+    rw [mem_filter] at hn; rw [ofNat] at hn; rw [mem_range] at hn
     exact bot_le.not_lt (show (⟨n, hn.2⟩ : s) < ⊥ from hn.1)
   | n + 1 => by
     have ih : toFunAux (ofNat s n) = n := right_inverse_aux n
@@ -346,7 +346,7 @@ private theorem right_inverse_aux : ∀ n, toFunAux (ofNat s n) = n
     simp only [toFunAux_eq, ofNat, range_succ] at ih ⊢
     conv =>
       rhs
-      rw [← ih, ← card_insert_of_not_mem h₁, ← h₂]
+      rw [← ih]; rw [← card_insert_of_not_mem h₁]; rw [← h₂]
 
 /-- Any infinite set of naturals is denumerable. -/
 def denumerable (s : Set ℕ) [DecidablePred (· ∈ s)] [Infinite s] : Denumerable s :=

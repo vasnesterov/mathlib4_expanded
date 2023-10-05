@@ -115,20 +115,20 @@ theorem evalFrom_split [Fintype σ] {x : List α} {s t : σ} (hlen : Fintype.car
       rfl, _⟩
   · rw [List.take_append_drop, List.take_append_drop]
   · simp only [List.length_drop, List.length_take]
-    rw [min_eq_left (hm.trans hlen), min_eq_left hle, add_tsub_cancel_of_le hle]
+    rw [min_eq_left (hm.trans hlen)]; rw [min_eq_left hle]; rw [add_tsub_cancel_of_le hle]
     exact hm
   · intro h
     have hlen' := congr_arg List.length h
     simp only [List.length_drop, List.length, List.length_take] at hlen'
-    rw [min_eq_left, tsub_eq_zero_iff_le] at hlen'
+    rw [min_eq_left] at hlen'; rw [tsub_eq_zero_iff_le] at hlen'
     · apply hneq
       apply le_antisymm
       assumption'
     exact hm.trans hlen
   have hq : M.evalFrom (M.evalFrom s ((x.take m).take n)) ((x.take m).drop n) =
       M.evalFrom s ((x.take m).take n) := by
-    rw [List.take_take, min_eq_left hle, ← evalFrom_of_append, heq, ← min_eq_left hle, ←
-      List.take_take, min_eq_left hle, List.take_append_drop]
+    rw [List.take_take]; rw [min_eq_left hle]; rw [← evalFrom_of_append]; rw [heq]; rw [← min_eq_left hle]; rw [←
+      List.take_take]; rw [min_eq_left hle]; rw [List.take_append_drop]
   use hq
   rwa [← hq, ← evalFrom_of_append, ← evalFrom_of_append, ← List.append_assoc,
     List.take_append_drop, List.take_append_drop]
@@ -142,7 +142,7 @@ theorem evalFrom_of_pow {x y : List α} {s : σ} (hx : M.evalFrom s x = s)
   · rfl
   · have ha := hS a (List.mem_cons_self _ _)
     rw [Set.mem_singleton_iff] at ha
-    rw [List.join, evalFrom_of_append, ha, hx]
+    rw [List.join]; rw [evalFrom_of_append]; rw [ha]; rw [hx]
     apply ih
     intro z hz
     exact hS z (List.mem_cons_of_mem a hz)

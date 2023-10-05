@@ -304,7 +304,7 @@ theorem IccExtend_eq_self (f : α → β) (ha : ∀ x < a, f x = f a) (hb : ∀ 
   · simp [IccExtend_of_le_left _ _ hxa.le, ha x hxa]
   · cases' le_or_lt x b with hxb hbx
     · lift x to Icc a b using ⟨hax, hxb⟩
-      rw [IccExtend_val, comp_apply]
+      rw [IccExtend_val]; rw [comp_apply]
     · simp [IccExtend_of_right_le _ _ hbx.le, hb x hbx]
 #align set.Icc_extend_eq_self Set.IccExtend_eq_self
 

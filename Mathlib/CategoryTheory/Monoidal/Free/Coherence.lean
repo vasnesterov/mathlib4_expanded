@@ -245,7 +245,7 @@ def normalizeIso : tensorFunc C ≅ normalize' C :=
       · simp only [mk_id, Functor.map_id, Category.comp_id, Category.id_comp]
       · ext n
         dsimp
-        rw [mk_α_hom, NatTrans.comp_app, NatTrans.comp_app]
+        rw [mk_α_hom]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight, Functor.comp]
         simp only [comp_tensor_id, associator_conjugation, tensor_id,
           Category.comp_id]
@@ -257,33 +257,33 @@ def normalizeIso : tensorFunc C ≅ normalize' C :=
           Category.comp_id]
       · ext n
         dsimp
-        rw [mk_α_inv, NatTrans.comp_app, NatTrans.comp_app]
+        rw [mk_α_inv]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight, Functor.comp]
         simp only [Category.assoc, comp_tensor_id, tensor_id, Category.comp_id,
           pentagon_inv_assoc, ← associator_inv_naturality_assoc]
         rfl
       · ext n
         dsimp [Functor.comp]
-        rw [mk_l_hom, NatTrans.comp_app, NatTrans.comp_app]
+        rw [mk_l_hom]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight, Functor.comp]
         simp only [triangle_assoc_comp_right_assoc, Category.assoc, Category.comp_id]
         rfl
       · ext n
         dsimp [Functor.comp]
-        rw [mk_l_inv, NatTrans.comp_app, NatTrans.comp_app]
+        rw [mk_l_inv]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight, Functor.comp]
         simp only [triangle_assoc_comp_left_inv_assoc, inv_hom_id_tensor_assoc, tensor_id,
           Category.id_comp, Category.comp_id]
         rfl
       · ext n
         dsimp
-        rw [mk_ρ_hom, NatTrans.comp_app, NatTrans.comp_app]
+        rw [mk_ρ_hom]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight, Functor.comp]
         simp only [← (Iso.inv_comp_eq _).2 (rightUnitor_tensor _ _), Category.assoc,
           ← rightUnitor_naturality, Category.comp_id]; rfl
       · ext n
         dsimp
-        rw [mk_ρ_inv, NatTrans.comp_app, NatTrans.comp_app]
+        rw [mk_ρ_inv]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight, Functor.comp]
         simp only [← (Iso.eq_comp_inv _).1 (rightUnitor_tensor_inv _ _), rightUnitor_conjugation,
           Category.assoc, Iso.hom_inv_id_assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id,
@@ -299,15 +299,13 @@ def normalizeIso : tensorFunc C ≅ normalize' C :=
           obtain rfl : X₃ = Y₃ := φ.1.1
           simp only [discrete_functor_map_eq_id, tensor_id]
           rfl
-        rw [NatTrans.comp_app, NatTrans.comp_app] at h₁ h₂ ⊢
+        rw [NatTrans.comp_app] at h₁ h₂ ⊢; rw [NatTrans.comp_app] at h₁ h₂ ⊢
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight,
           Functor.comp, Discrete.natTrans] at h₁ h₂ h₃ ⊢
-        rw [mk_tensor, associator_inv_naturality_assoc, ← tensor_comp_assoc, h₁,
-          Category.assoc, Category.comp_id, ← @Category.id_comp (F C) _ _ _ (@Quotient.mk _ _ g),
-          tensor_comp, Category.assoc, Category.assoc, Functor.map_comp]
+        rw [mk_tensor]; rw [associator_inv_naturality_assoc]; rw [← tensor_comp_assoc]; rw [h₁]; rw [Category.assoc]; rw [Category.comp_id]; rw [← @Category.id_comp (F C) _ _ _ (@Quotient.mk _ _ g)]; rw [tensor_comp]; rw [Category.assoc]; rw [Category.assoc]; rw [Functor.map_comp]
         congr 2
         erw [← reassoc_of% h₂]
-        rw [← h₃, ← Category.assoc, ← id_tensor_comp_tensor_id, h₄]
+        rw [← h₃]; rw [← Category.assoc]; rw [← id_tensor_comp_tensor_id]; rw [h₄]
         rfl )
 #align category_theory.free_monoidal_category.normalize_iso CategoryTheory.FreeMonoidalCategory.normalizeIso
 
@@ -318,7 +316,7 @@ def fullNormalizeIso : 𝟭 (F C) ≅ fullNormalize C ⋙ inclusion :=
     (by
       intro X Y f
       dsimp
-      rw [leftUnitor_inv_naturality_assoc, Category.assoc, Iso.cancel_iso_inv_left]
+      rw [leftUnitor_inv_naturality_assoc]; rw [Category.assoc]; rw [Iso.cancel_iso_inv_left]
       exact
         congr_arg (fun f => NatTrans.app f (Discrete.mk NormalMonoidalObject.Unit))
           ((normalizeIso.{u} C).hom.naturality f))

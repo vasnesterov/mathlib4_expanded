@@ -70,12 +70,12 @@ theorem rank_commutator_le_card [Finite (commutatorSet G)] :
 
 theorem commutator_centralizer_commutator_le_center :
     ⁅centralizer (commutator G : Set G), centralizer (commutator G)⁆ ≤ Subgroup.center G := by
-  rw [← Subgroup.centralizer_univ, ← Subgroup.coe_top, ←
+  rw [← Subgroup.centralizer_univ]; rw [← Subgroup.coe_top]; rw [←
     Subgroup.commutator_eq_bot_iff_le_centralizer]
   suffices ⁅⁅⊤, centralizer (commutator G : Set G)⁆, centralizer (commutator G : Set G)⁆ = ⊥ by
     refine' Subgroup.commutator_commutator_eq_bot_of_rotate _ this
     rwa [Subgroup.commutator_comm (centralizer (commutator G : Set G))]
-  rw [Subgroup.commutator_comm, Subgroup.commutator_eq_bot_iff_le_centralizer]
+  rw [Subgroup.commutator_comm]; rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
   exact Set.centralizer_subset (Subgroup.commutator_mono le_top le_top)
 #align commutator_centralizer_commutator_le_center commutator_centralizer_commutator_le_center
 
@@ -128,7 +128,7 @@ section lift
 variable {A : Type v} [CommGroup A] (f : G →* A)
 
 theorem commutator_subset_ker : commutator G ≤ f.ker := by
-  rw [commutator_eq_closure, Subgroup.closure_le]
+  rw [commutator_eq_closure]; rw [Subgroup.closure_le]
   rintro x ⟨p, q, rfl⟩
   simp [MonoidHom.mem_ker, mul_right_comm (f p) (f q), commutatorElement_def]
 #align abelianization.commutator_subset_ker Abelianization.commutator_subset_ker
@@ -312,8 +312,8 @@ theorem card_commutatorSet_closureCommutatorRepresentatives :
 
 theorem card_commutator_closureCommutatorRepresentatives :
     Nat.card (commutator (closureCommutatorRepresentatives G)) = Nat.card (commutator G) := by
-  rw [commutator_eq_closure G, ← image_commutatorSet_closureCommutatorRepresentatives, ←
-    MonoidHom.map_closure, ← commutator_eq_closure]
+  rw [commutator_eq_closure G]; rw [← image_commutatorSet_closureCommutatorRepresentatives]; rw [←
+    MonoidHom.map_closure]; rw [← commutator_eq_closure]
   exact Nat.card_congr (Equiv.Set.image _ _ (subtype_injective _))
 #align card_commutator_closure_commutator_representatives card_commutator_closureCommutatorRepresentatives
 

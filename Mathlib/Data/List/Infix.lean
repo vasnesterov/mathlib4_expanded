@@ -258,7 +258,7 @@ theorem prefix_take_le_iff {L : List (List (Option α))} (hm : m < L.length) :
       cases n with
       | zero =>
         refine' iff_of_false _ (zero_lt_succ _).not_le
-        rw [take_zero, take_nil]
+        rw [take_zero]; rw [take_nil]
         simp only [take]
       | succ n =>
         simp only [length] at hm
@@ -294,8 +294,7 @@ theorem isPrefix.filter_map (h : l₁ <+: l₂) (f : α → Option β) :
   · cases' l₂ with hd₂ tl₂
     · simpa only using eq_nil_of_prefix_nil h
     · rw [cons_prefix_iff] at h
-      rw [← @singleton_append _ hd₁ _, ← @singleton_append _ hd₂ _, filterMap_append,
-        filterMap_append, h.left, prefix_append_right_inj]
+      rw [← @singleton_append _ hd₁ _]; rw [← @singleton_append _ hd₂ _]; rw [filterMap_append]; rw [filterMap_append]; rw [h.left]; rw [prefix_append_right_inj]
       exact hl h.right
 #align list.is_prefix.filter_map List.isPrefix.filter_map
 
@@ -339,7 +338,7 @@ theorem mem_inits : ∀ s t : List α, s ∈ inits t ↔ s <+: t
       | _, Or.inl rfl => ⟨_, rfl⟩
       | s, Or.inr ⟨r, hr, hs⟩ => by
         let ⟨s, ht⟩ := (mem_inits _ _).1 hr
-        rw [← hs, ← ht]; exact ⟨s, rfl⟩,
+        rw [← hs]; rw [← ht]; exact ⟨s, rfl⟩,
       fun mi =>
       match s, mi with
       | [], ⟨_, rfl⟩ => Or.inl rfl

@@ -107,7 +107,7 @@ theorem mapIdxGo_append : ∀ (f : ℕ → α → β) (l₁ l₂ : List α) (arr
   induction' len with len ih <;> intros l₁ l₂ arr h
   · have l₁_nil : l₁ = [] := by cases l₁; rfl; contradiction
     have l₂_nil : l₂ = [] := by cases l₂; rfl; rw [List.length_append] at h; contradiction
-    rw [l₁_nil, l₂_nil]; simp only [mapIdx.go, Array.toList_eq, Array.toArray_data]
+    rw [l₁_nil]; rw [l₂_nil]; simp only [mapIdx.go, Array.toList_eq, Array.toArray_data]
   · cases' l₁ with head tail <;> simp only [mapIdx.go]
     · simp only [nil_append, Array.toList_eq, Array.toArray_data]
     · simp only [List.append_eq]
@@ -140,7 +140,7 @@ protected theorem new_def_eq_old_def :
   apply list_reverse_induction
   · rfl
   · intro l e h
-    rw [List.oldMapIdx_append, mapIdx_append_one, h]
+    rw [List.oldMapIdx_append]; rw [mapIdx_append_one]; rw [h]
 
 @[local simp]
 theorem map_enumFrom_eq_zipWith : ∀ (l : List α) (n : ℕ) (f : ℕ → α → β),
@@ -286,7 +286,7 @@ theorem foldrIdxM_eq_foldrM_enum {α β} (f : ℕ → α → β → m β) (b : �
 
 theorem foldlIdxM_eq_foldlM_enum [LawfulMonad m] {α β} (f : ℕ → β → α → m β) (b : β) (as : List α) :
     foldlIdxM f b as = List.foldlM (fun b p ↦ f p.fst b p.snd) b (enum as) := by
-  rw [foldlIdxM, foldlM_eq_foldl, foldlIdx_eq_foldl_enum]
+  rw [foldlIdxM]; rw [foldlM_eq_foldl]; rw [foldlIdx_eq_foldl_enum]
 #align list.mfoldl_with_index_eq_mfoldl_enum List.foldlIdxM_eq_foldlM_enum
 
 end FoldIdxM
@@ -351,7 +351,7 @@ theorem mapIdxMAux'_eq_mapIdxMGo {α} (f : ℕ → α → m PUnit) (as : List α
     generalize (f (Array.size arr) head) = head
     let arr_1 := arr.push ⟨⟩
     have : arr_1.size = arr.size + 1 := Array.size_push arr ⟨⟩
-    rw [← this, ih arr_1]
+    rw [← this]; rw [ih arr_1]
     simp only [seqRight_eq, map_eq_pure_bind, seq_pure, LawfulMonad.bind_assoc, pure_bind]
 #align list.mmap_with_index'_aux_eq_mmap_with_index_aux List.mapIdxMAux'_eq_mapIdxMGo
 

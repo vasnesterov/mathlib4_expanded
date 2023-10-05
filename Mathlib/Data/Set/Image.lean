@@ -160,7 +160,7 @@ theorem preimage_comp_eq : preimage (g ∘ f) = preimage f ∘ preimage g :=
 
 theorem preimage_iterate_eq {f : α → α} {n : ℕ} : Set.preimage f^[n] = (Set.preimage f)^[n] := by
   induction' n with n ih; · simp
-  rw [iterate_succ, iterate_succ', Set.preimage_comp_eq, ih]
+  rw [iterate_succ]; rw [iterate_succ']; rw [Set.preimage_comp_eq]; rw [ih]
 #align set.preimage_iterate_eq Set.preimage_iterate_eq
 
 theorem preimage_preimage {g : β → γ} {f : α → β} {s : Set γ} :
@@ -263,7 +263,7 @@ theorem mem_image_elim_on {f : α → β} {s : Set α} {C : β → Prop} {y : β
 @[congr]
 theorem image_congr {f g : α → β} {s : Set α} (h : ∀ a ∈ s, f a = g a) : f '' s = g '' s := by
   ext x
-  rw [mem_image, mem_image]
+  rw [mem_image]; rw [mem_image]
   exact {
     mp := by
       rintro ⟨a, ha1, ha2⟩
@@ -393,7 +393,7 @@ theorem image_id (s : Set α) : id '' s = s := by simp
 
 theorem compl_compl_image [BooleanAlgebra α] (S : Set α) :
     HasCompl.compl '' (HasCompl.compl '' S) = S := by
-  rw [← image_comp, compl_comp_compl, image_id]
+  rw [← image_comp]; rw [compl_comp_compl]; rw [image_id]
 #align set.compl_compl_image Set.compl_compl_image
 
 theorem image_insert_eq {f : α → β} {a : α} {s : Set α} :
@@ -440,7 +440,7 @@ theorem image_compl_eq {f : α → β} {s : Set α} (H : Bijective f) : f '' s�
 #align set.image_compl_eq Set.image_compl_eq
 
 theorem subset_image_diff (f : α → β) (s t : Set α) : f '' s \ f '' t ⊆ f '' (s \ t) := by
-  rw [diff_subset_iff, ← image_union, union_diff_self]
+  rw [diff_subset_iff]; rw [← image_union]; rw [union_diff_self]
   exact image_subset f (subset_union_right t s)
 #align set.subset_image_diff Set.subset_image_diff
 
@@ -532,7 +532,7 @@ theorem image_preimage_inter (f : α → β) (s : Set α) (t : Set β) :
 @[simp]
 theorem image_inter_nonempty_iff {f : α → β} {s : Set α} {t : Set β} :
     (f '' s ∩ t).Nonempty ↔ (s ∩ f ⁻¹' t).Nonempty := by
-  rw [← image_inter_preimage, nonempty_image_iff]
+  rw [← image_inter_preimage]; rw [nonempty_image_iff]
 #align set.image_inter_nonempty_iff Set.image_inter_nonempty_iff
 
 theorem image_diff_preimage {f : α → β} {s : Set α} {t : Set β} : f '' (s \ f ⁻¹' t) = f '' s \ t :=
@@ -568,12 +568,12 @@ theorem preimage_subset_iff {A : Set α} {B : Set β} {f : α → β} :
 theorem image_eq_image {f : α → β} (hf : Injective f) : f '' s = f '' t ↔ s = t :=
   Iff.symm <|
     (Iff.intro fun eq => eq ▸ rfl) fun eq => by
-      rw [← preimage_image_eq s hf, ← preimage_image_eq t hf, eq]
+      rw [← preimage_image_eq s hf]; rw [← preimage_image_eq t hf]; rw [eq]
 #align set.image_eq_image Set.image_eq_image
 
 theorem image_subset_image_iff {f : α → β} (hf : Injective f) : f '' s ⊆ f '' t ↔ s ⊆ t := by
   refine' Iff.symm <| (Iff.intro (image_subset f)) fun h => _
-  rw [← preimage_image_eq s hf, ← preimage_image_eq t hf]
+  rw [← preimage_image_eq s hf]; rw [← preimage_image_eq t hf]
   exact preimage_mono h
 #align set.image_subset_image_iff Set.image_subset_image_iff
 
@@ -764,7 +764,7 @@ theorem range_nonempty [h : Nonempty ι] (f : ι → α) : (range f).Nonempty :=
 
 @[simp]
 theorem range_eq_empty_iff {f : ι → α} : range f = ∅ ↔ IsEmpty ι := by
-  rw [← not_nonempty_iff, ← range_nonempty_iff_nonempty, not_nonempty_iff_eq_empty]
+  rw [← not_nonempty_iff]; rw [← range_nonempty_iff_nonempty]; rw [not_nonempty_iff_eq_empty]
 #align set.range_eq_empty_iff Set.range_eq_empty_iff
 
 theorem range_eq_empty [IsEmpty ι] (f : ι → α) : range f = ∅ :=
@@ -776,11 +776,11 @@ instance instNonemptyRange [Nonempty ι] (f : ι → α) : Nonempty (range f) :=
 
 @[simp]
 theorem image_union_image_compl_eq_range (f : α → β) : f '' s ∪ f '' sᶜ = range f := by
-  rw [← image_union, ← image_univ, ← union_compl_self]
+  rw [← image_union]; rw [← image_univ]; rw [← union_compl_self]
 #align set.image_union_image_compl_eq_range Set.image_union_image_compl_eq_range
 
 theorem insert_image_compl_eq_range (f : α → β) (x : α) : insert (f x) (f '' {x}ᶜ) = range f := by
-  rw [← image_insert_eq, insert_eq, union_compl_self, image_univ]
+  rw [← image_insert_eq]; rw [insert_eq]; rw [union_compl_self]; rw [image_univ]
 #align set.insert_image_compl_eq_range Set.insert_image_compl_eq_range
 
 theorem image_preimage_eq_inter_range {f : α → β} {t : Set β} : f '' (f ⁻¹' t) = t ∩ range f :=
@@ -812,7 +812,7 @@ theorem range_image (f : α → β) : range (image f) = 𝒫 range f :=
 @[simp]
 theorem exists_subset_range_and_iff {f : α → β} {p : Set β → Prop} :
     (∃ s, s ⊆ range f ∧ p s) ↔ ∃ s, p (f '' s) := by
-  rw [← exists_range_iff, range_image]; rfl
+  rw [← exists_range_iff]; rw [range_image]; rfl
 #align set.exists_subset_range_and_iff Set.exists_subset_range_and_iff
 
 theorem exists_subset_range_iff {f : α → β} {p : Set β → Prop} :
@@ -821,7 +821,7 @@ theorem exists_subset_range_iff {f : α → β} {p : Set β → Prop} :
 
 theorem forall_subset_range_iff {f : α → β} {p : Set β → Prop} :
     (∀ s, s ⊆ range f → p s) ↔ ∀ s, p (f '' s) := by
-  rw [← forall_range_iff, range_image]; rfl
+  rw [← forall_range_iff]; rw [range_image]; rfl
 
 theorem preimage_subset_preimage_iff {s t : Set α} {f : β → α} (hs : s ⊆ range f) :
     f ⁻¹' s ⊆ f ⁻¹' t ↔ s ⊆ t := by
@@ -851,11 +851,11 @@ theorem preimage_inter_range {f : α → β} {s : Set β} : f ⁻¹' (s ∩ rang
 -- Porting note:
 -- @[simp] `simp` can prove this
 theorem preimage_range_inter {f : α → β} {s : Set β} : f ⁻¹' (range f ∩ s) = f ⁻¹' s := by
-  rw [inter_comm, preimage_inter_range]
+  rw [inter_comm]; rw [preimage_inter_range]
 #align set.preimage_range_inter Set.preimage_range_inter
 
 theorem preimage_image_preimage {f : α → β} {s : Set β} : f ⁻¹' (f '' (f ⁻¹' s)) = f ⁻¹' s := by
-  rw [image_preimage_eq_inter_range, preimage_inter_range]
+  rw [image_preimage_eq_inter_range]; rw [preimage_inter_range]
 #align set.preimage_image_preimage Set.preimage_image_preimage
 
 @[simp, mfld_simps]
@@ -931,12 +931,12 @@ theorem preimage_inr_image_inl (s : Set α) : Sum.inr ⁻¹' (@Sum.inl α β '' 
 
 @[simp]
 theorem preimage_inl_range_inr : Sum.inl ⁻¹' range (Sum.inr : β → Sum α β) = ∅ := by
-  rw [← image_univ, preimage_inl_image_inr]
+  rw [← image_univ]; rw [preimage_inl_image_inr]
 #align set.preimage_inl_range_inr Set.preimage_inl_range_inr
 
 @[simp]
 theorem preimage_inr_range_inl : Sum.inr ⁻¹' range (Sum.inl : α → Sum α β) = ∅ := by
-  rw [← image_univ, preimage_inr_image_inl]
+  rw [← image_univ]; rw [preimage_inr_image_inl]
 #align set.preimage_inr_range_inl Set.preimage_inr_range_inl
 
 @[simp]
@@ -951,8 +951,7 @@ theorem compl_range_inr : (range (Sum.inr : β → Sum α β))ᶜ = range (Sum.i
 
 theorem image_preimage_inl_union_image_preimage_inr (s : Set (Sum α β)) :
     Sum.inl '' (Sum.inl ⁻¹' s) ∪ Sum.inr '' (Sum.inr ⁻¹' s) = s := by
-  rw [image_preimage_eq_inter_range, image_preimage_eq_inter_range, ← inter_distrib_left,
-    range_inl_union_range_inr, inter_univ]
+  rw [image_preimage_eq_inter_range]; rw [image_preimage_eq_inter_range]; rw [← inter_distrib_left]; rw [range_inl_union_range_inr]; rw [inter_univ]
 #align set.image_preimage_inl_union_image_preimage_inr Set.image_preimage_inl_union_image_preimage_inr
 
 @[simp]
@@ -1011,16 +1010,16 @@ theorem range_const : ∀ [Nonempty ι] {c : α}, (range fun _ : ι => c) = {c}
 theorem range_subtype_map {p : α → Prop} {q : β → Prop} (f : α → β) (h : ∀ x, p x → q (f x)) :
     range (Subtype.map f h) = (↑) ⁻¹' (f '' { x | p x }) := by
   ext ⟨x, hx⟩
-  rw [mem_preimage, mem_range, mem_image, Subtype.exists, Subtype.coe_mk]
+  rw [mem_preimage]; rw [mem_range]; rw [mem_image]; rw [Subtype.exists]; rw [Subtype.coe_mk]
   apply Iff.intro
   · rintro ⟨a, b, hab⟩
-    rw [Subtype.map, Subtype.mk.injEq] at hab
+    rw [Subtype.map] at hab; rw [Subtype.mk.injEq] at hab
     use a
     trivial
   · rintro ⟨a, b, hab⟩
     use a
     use b
-    rw [Subtype.map, Subtype.mk.injEq]
+    rw [Subtype.map]; rw [Subtype.mk.injEq]
     exact hab
   -- Porting note: `simp_rw` fails here
   -- simp_rw [mem_preimage, mem_range, mem_image, Subtype.exists, Subtype.map, Subtype.coe_mk,
@@ -1044,7 +1043,7 @@ theorem range_subset_singleton {f : ι → α} {x : α} : range f ⊆ {x} ↔ f 
 #align set.range_subset_singleton Set.range_subset_singleton
 
 theorem image_compl_preimage {f : α → β} {s : Set β} : f '' (f ⁻¹' s)ᶜ = range f \ s := by
-  rw [compl_eq_univ_diff, image_diff_preimage, image_univ]
+  rw [compl_eq_univ_diff]; rw [image_diff_preimage]; rw [image_univ]
 #align set.image_compl_preimage Set.image_compl_preimage
 
 /-- Any map `f : ι → β` factors through a map `rangeFactorization f : ι → range f`. -/
@@ -1135,8 +1134,8 @@ theorem range_inclusion (h : s ⊆ t) : range (inclusion h) = { x : t | (x : α)
   apply Iff.intro
   · rw [mem_range]
     rintro ⟨a, ha⟩
-    rw [inclusion, Subtype.mk.injEq] at ha
-    rw [mem_setOf, Subtype.coe_mk, ← ha]
+    rw [inclusion] at ha; rw [Subtype.mk.injEq] at ha
+    rw [mem_setOf]; rw [Subtype.coe_mk]; rw [← ha]
     exact Subtype.coe_prop _
   · rw [mem_setOf, Subtype.coe_mk, mem_range]
     intro hx'
@@ -1319,7 +1318,7 @@ theorem Surjective.nonempty_preimage (hf : Surjective f) {s : Set β} :
 
 theorem Injective.image_injective (hf : Injective f) : Injective (image f) := by
   intro s t h
-  rw [← preimage_image_eq s hf, ← preimage_image_eq t hf, h]
+  rw [← preimage_image_eq s hf]; rw [← preimage_image_eq t hf]; rw [h]
 #align function.injective.image_injective Function.Injective.image_injective
 
 theorem Surjective.preimage_subset_preimage_iff {s t : Set β} (hf : Surjective f) :
@@ -1418,7 +1417,7 @@ theorem range_coe_subtype {p : α → Prop} : range ((↑) : Subtype p → α) =
 
 @[simp]
 theorem coe_preimage_self (s : Set α) : ((↑) : s → α) ⁻¹' s = univ := by
-  rw [← preimage_range, range_coe]
+  rw [← preimage_range]; rw [range_coe]
 #align subtype.coe_preimage_self Subtype.coe_preimage_self
 
 theorem range_val_subtype {p : α → Prop} : range (Subtype.val : Subtype p → α) = { x | p x } :=
@@ -1445,14 +1444,14 @@ theorem image_preimage_val (s t : Set α) : (Subtype.val : s → α) '' (Subtype
 
 theorem preimage_coe_eq_preimage_coe_iff {s t u : Set α} :
     ((↑) : s → α) ⁻¹' t = ((↑) : s → α) ⁻¹' u ↔ t ∩ s = u ∩ s := by
-  rw [← image_preimage_coe, ← image_preimage_coe, coe_injective.image_injective.eq_iff]
+  rw [← image_preimage_coe]; rw [← image_preimage_coe]; rw [coe_injective.image_injective.eq_iff]
 #align subtype.preimage_coe_eq_preimage_coe_iff Subtype.preimage_coe_eq_preimage_coe_iff
 
 -- Porting note:
 -- @[simp] `simp` can prove this
 theorem preimage_coe_inter_self (s t : Set α) :
     ((↑) : s → α) ⁻¹' (t ∩ s) = ((↑) : s → α) ⁻¹' t := by
-  rw [preimage_coe_eq_preimage_coe_iff, inter_assoc, inter_self]
+  rw [preimage_coe_eq_preimage_coe_iff]; rw [inter_assoc]; rw [inter_self]
 #align subtype.preimage_coe_inter_self Subtype.preimage_coe_inter_self
 
 theorem preimage_val_eq_preimage_val_iff (s t u : Set α) :
@@ -1462,16 +1461,16 @@ theorem preimage_val_eq_preimage_val_iff (s t u : Set α) :
 
 theorem exists_set_subtype {t : Set α} (p : Set α → Prop) :
     (∃ s : Set t, p (((↑) : t → α) '' s)) ↔ ∃ s : Set α, s ⊆ t ∧ p s := by
-  rw [← exists_subset_range_and_iff, range_coe]
+  rw [← exists_subset_range_and_iff]; rw [range_coe]
 #align subtype.exists_set_subtype Subtype.exists_set_subtype
 
 theorem forall_set_subtype {t : Set α} (p : Set α → Prop) :
     (∀ s : Set t, p (((↑) : t → α) '' s)) ↔ ∀ s : Set α, s ⊆ t → p s := by
-  rw [← forall_subset_range_iff, range_coe]
+  rw [← forall_subset_range_iff]; rw [range_coe]
 
 theorem preimage_coe_nonempty {s t : Set α} :
     (((↑) : s → α) ⁻¹' t).Nonempty ↔ (s ∩ t).Nonempty := by
-  rw [inter_comm, ← image_preimage_coe, nonempty_image_iff]
+  rw [inter_comm]; rw [← image_preimage_coe]; rw [nonempty_image_iff]
 #align subtype.preimage_coe_nonempty Subtype.preimage_coe_nonempty
 
 theorem preimage_coe_eq_empty {s t : Set α} : ((↑) : s → α) ⁻¹' t = ∅ ↔ s ∩ t = ∅ := by
@@ -1563,7 +1562,7 @@ theorem image_surjective : Surjective (image f) ↔ Surjective f := by
 theorem image_injective : Injective (image f) ↔ Injective f := by
   refine' ⟨fun h x x' hx => _, Injective.image_injective⟩
   rw [← singleton_eq_singleton_iff]; apply h
-  rw [image_singleton, image_singleton, hx]
+  rw [image_singleton]; rw [image_singleton]; rw [hx]
 #align set.image_injective Set.image_injective
 
 theorem preimage_eq_iff_eq_image {f : α → β} (hf : Bijective f) {s t} : f ⁻¹' s = t ↔ s = f '' t :=
@@ -1612,8 +1611,7 @@ theorem disjoint_image_iff (hf : Injective f) : Disjoint (f '' s) (f '' t) ↔ D
 
 theorem _root_.Disjoint.of_preimage (hf : Surjective f) {s t : Set β}
     (h : Disjoint (f ⁻¹' s) (f ⁻¹' t)) : Disjoint s t := by
-  rw [disjoint_iff_inter_eq_empty, ← image_preimage_eq (_ ∩ _) hf, preimage_inter, h.inter_eq,
-    image_empty]
+  rw [disjoint_iff_inter_eq_empty]; rw [← image_preimage_eq (_ ∩ _) hf]; rw [preimage_inter]; rw [h.inter_eq]; rw [image_empty]
 #align disjoint.of_preimage Disjoint.of_preimage
 
 @[simp]

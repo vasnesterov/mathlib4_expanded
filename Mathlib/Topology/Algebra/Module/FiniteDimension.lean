@@ -102,12 +102,12 @@ theorem unique_topology_of_t2 {t : TopologicalSpace 𝕜} (h₁ : @TopologicalAd
       -- `ξ₀ ∈ 𝓑 ⊆ {ξ₀}ᶜ`, which is a contradiction.
       by_contra' h
       suffices (ξ₀ * ξ⁻¹) • ξ ∈ balancedCore 𝕜 {ξ₀}ᶜ by
-        rw [smul_eq_mul 𝕜, mul_assoc, inv_mul_cancel hξ0, mul_one] at this
+        rw [smul_eq_mul 𝕜] at this; rw [mul_assoc] at this; rw [inv_mul_cancel hξ0] at this; rw [mul_one] at this
         exact not_mem_compl_iff.mpr (mem_singleton ξ₀) ((balancedCore_subset _) this)
       -- For that, we use that `𝓑` is balanced : since `‖ξ₀‖ < ε < ‖ξ‖`, we have `‖ξ₀ / ξ‖ ≤ 1`,
       -- hence `ξ₀ = (ξ₀ / ξ) • ξ ∈ 𝓑` because `ξ ∈ 𝓑`.
       refine' (balancedCore_balanced _).smul_mem _ hξ
-      rw [norm_mul, norm_inv, mul_inv_le_iff (norm_pos_iff.mpr hξ0), mul_one]
+      rw [norm_mul]; rw [norm_inv]; rw [mul_inv_le_iff (norm_pos_iff.mpr hξ0)]; rw [mul_one]
       exact (hξ₀ε.trans h).le
   · -- Finally, to show `𝓣₀ ≤ 𝓣`, we simply argue that `id = (fun x ↦ x • 1)` is continuous from
     -- `(𝕜, 𝓣₀)` to `(𝕜, 𝓣)` because `(•) : (𝕜, 𝓣₀) × (𝕜, 𝓣) → (𝕜, 𝓣)` is continuous.
@@ -119,7 +119,7 @@ theorem unique_topology_of_t2 {t : TopologicalSpace 𝕜} (h₁ : @TopologicalAd
         conv_rhs =>
           congr
           ext
-          rw [smul_eq_mul, mul_one]
+          rw [smul_eq_mul]; rw [mul_one]
       _ ≤ @nhds 𝕜 t ((0 : 𝕜) • (1 : 𝕜)) :=
         (@Tendsto.smul_const _ _ _ hnorm.toUniformSpace.toTopologicalSpace t _ _ _ _ _
           tendsto_id (1 : 𝕜))
@@ -144,7 +144,7 @@ theorem LinearMap.continuous_of_isClosed_ker (l : E →ₗ[𝕜] 𝕜)
       rw [← LinearMap.ker_eq_bot]
       exact Submodule.ker_liftQ_eq_bot _ _ _ (le_refl _)
     have hs : Function.Surjective ((LinearMap.ker l).liftQ l (le_refl _)) := by
-      rw [← LinearMap.range_eq_top, Submodule.range_liftQ]
+      rw [← LinearMap.range_eq_top]; rw [Submodule.range_liftQ]
       exact Submodule.eq_top_of_finrank_eq ((finrank_self 𝕜).symm ▸ this)
     let φ : (E ⧸ LinearMap.ker l) ≃ₗ[𝕜] 𝕜 :=
       LinearEquiv.ofBijective ((LinearMap.ker l).liftQ l (le_refl _)) ⟨hi, hs⟩
@@ -169,7 +169,7 @@ theorem LinearMap.continuous_of_isClosed_ker (l : E →ₗ[𝕜] 𝕜)
     -- Finally, the pullback by `φ.symm` is exactly the pushforward by `φ`, so we have to prove
     -- that `φ` is continuous when `𝕜` is endowed with the pushforward by `φ` of the quotient
     -- topology, which is trivial by definition of the pushforward.
-    rw [this.symm, Equiv.induced_symm]
+    rw [this.symm]; rw [Equiv.induced_symm]
     exact continuous_coinduced_rng
 #align linear_map.continuous_of_is_closed_ker LinearMap.continuous_of_isClosed_ker
 
@@ -230,10 +230,10 @@ private theorem continuous_equivFun_basis_aux [ht2 : T2Space E] {ι : Type v} [F
         exact continuous_zero
       · have : finrank 𝕜 (LinearMap.ker f) = n := by
           have Z := f.finrank_range_add_finrank_ker
-          rw [finrank_eq_card_basis ξ, hn] at Z
+          rw [finrank_eq_card_basis ξ] at Z; rw [hn] at Z
           have : finrank 𝕜 (LinearMap.range f) = 1 :=
             le_antisymm (finrank_self 𝕜 ▸ f.range.finrank_le) (zero_lt_iff.mpr H)
-          rw [this, add_comm, Nat.add_one] at Z
+          rw [this] at Z; rw [add_comm] at Z; rw [Nat.add_one] at Z
           exact Nat.succ.inj Z
         have : IsClosed (LinearMap.ker f : Set E) := H₁ _ this
         exact LinearMap.continuous_of_isClosed_ker f this
@@ -258,7 +258,7 @@ theorem LinearMap.continuous_of_finiteDimensional [T2Space E] [FiniteDimensional
   convert this
   ext x
   dsimp
-  rw [Basis.equivFun_symm_apply, Basis.sum_repr]
+  rw [Basis.equivFun_symm_apply]; rw [Basis.sum_repr]
 #align linear_map.continuous_of_finite_dimensional LinearMap.continuous_of_finiteDimensional
 
 instance LinearMap.continuousLinearMapClassOfFiniteDimensional [T2Space E] [FiniteDimensional 𝕜 E] :
@@ -336,7 +336,7 @@ theorem isOpenMap_of_finiteDimensional (f : F →ₗ[𝕜] E) (hf : Function.Sur
       ((g.continuous_of_finiteDimensional.comp <| continuous_id.sub continuous_const).add
           continuous_const).continuousAt
   · simp only
-    rw [sub_self, map_zero, zero_add]
+    rw [sub_self]; rw [map_zero]; rw [zero_add]
   · simp only [map_sub, map_add, ← comp_apply f g, hg, id_apply, sub_add_cancel]
 #align linear_map.is_open_map_of_finite_dimensional LinearMap.isOpenMap_of_finiteDimensional
 

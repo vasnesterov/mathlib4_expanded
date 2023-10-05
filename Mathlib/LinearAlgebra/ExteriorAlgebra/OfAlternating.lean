@@ -70,7 +70,7 @@ def liftAlternating : (∀ i, AlternatingMap R M N (Fin i)) →ₗ[R] ExteriorAl
 theorem liftAlternating_ι (f : ∀ i, AlternatingMap R M N (Fin i)) (m : M) :
     liftAlternating (R := R) (M := M) (N := N) f (ι R m) = f 1 ![m] := by
   dsimp [liftAlternating]
-  rw [foldl_ι, LinearMap.mk₂_apply, AlternatingMap.curryLeft_apply_apply]
+  rw [foldl_ι]; rw [LinearMap.mk₂_apply]; rw [AlternatingMap.curryLeft_apply_apply]
   congr
   -- porting note: In Lean 3, `congr` could use the `[Subsingleton (Fin 0 → M)]` instance to finish
   -- the proof. Here, the instance can be synthesized but `congr` does not use it so the following
@@ -83,7 +83,7 @@ theorem liftAlternating_ι_mul (f : ∀ i, AlternatingMap R M N (Fin i)) (m : M)
     liftAlternating (R := R) (M := M) (N := N) f (ι R m * x) =
     liftAlternating (R := R) (M := M) (N := N) (fun i => (f i.succ).curryLeft m) x := by
   dsimp [liftAlternating]
-  rw [foldl_mul, foldl_ι]
+  rw [foldl_mul]; rw [foldl_ι]
   rfl
 #align exterior_algebra.lift_alternating_ι_mul ExteriorAlgebra.liftAlternating_ι_mul
 
@@ -98,7 +98,7 @@ theorem liftAlternating_one (f : ∀ i, AlternatingMap R M N (Fin i)) :
 theorem liftAlternating_algebraMap (f : ∀ i, AlternatingMap R M N (Fin i)) (r : R) :
     liftAlternating (R := R) (M := M) (N := N) f (algebraMap _ (ExteriorAlgebra R M) r) =
     r • f 0 0 := by
-  rw [Algebra.algebraMap_eq_smul_one, map_smul, liftAlternating_one]
+  rw [Algebra.algebraMap_eq_smul_one]; rw [map_smul]; rw [liftAlternating_one]
 #align exterior_algebra.lift_alternating_algebra_map ExteriorAlgebra.liftAlternating_algebraMap
 
 @[simp]
@@ -110,7 +110,7 @@ theorem liftAlternating_apply_ιMulti {n : ℕ} (f : ∀ i, AlternatingMap R M N
   · -- porting note: Lean does not automatically synthesize the instance
     -- `[Subsingleton (Fin 0 → M)]` which is needed for `Subsingleton.elim 0 v` on line 114.
     letI : Subsingleton (Fin 0 → M) := by infer_instance
-    rw [List.ofFn_zero, List.prod_nil, liftAlternating_one, Subsingleton.elim 0 v]
+    rw [List.ofFn_zero]; rw [List.prod_nil]; rw [liftAlternating_one]; rw [Subsingleton.elim 0 v]
   · rw [List.ofFn_succ, List.prod_cons, liftAlternating_ι_mul, ih,
       AlternatingMap.curryLeft_apply_apply]
     congr

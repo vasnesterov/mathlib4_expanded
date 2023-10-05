@@ -95,7 +95,7 @@ variable {σ} (p)
 section Degrees
 
 theorem degrees_neg (p : MvPolynomial σ R) : (-p).degrees = p.degrees := by
-  rw [degrees, support_neg]; rfl
+  rw [degrees]; rw [support_neg]; rfl
 #align mv_polynomial.degrees_neg MvPolynomial.degrees_neg
 
 theorem degrees_sub [DecidableEq σ] (p q : MvPolynomial σ R) :
@@ -158,13 +158,13 @@ theorem eval₂Hom_X {R : Type u} (c : ℤ →+* S) (f : MvPolynomial R ℤ →+
     eval₂ c (f ∘ X) x = f x := by
   apply MvPolynomial.induction_on x
     (fun n => by
-      rw [hom_C f, eval₂_C]
+      rw [hom_C f]; rw [eval₂_C]
       exact eq_intCast c n)
     (fun p q hp hq => by
-      rw [eval₂_add, hp, hq]
+      rw [eval₂_add]; rw [hp]; rw [hq]
       exact (f.map_add _ _).symm)
     (fun p n hp => by
-      rw [eval₂_mul, eval₂_X, hp]
+      rw [eval₂_mul]; rw [eval₂_X]; rw [hp]
       exact (f.map_mul _ _).symm)
 set_option linter.uppercaseLean3 false in
 #align mv_polynomial.eval₂_hom_X MvPolynomial.eval₂Hom_X

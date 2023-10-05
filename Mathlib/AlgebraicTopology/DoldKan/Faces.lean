@@ -74,14 +74,13 @@ theorem comp_Hσ_eq {Y : C} {n a q : ℕ} {φ : Y ⟶ X _[n + 1]} (v : HigherFac
         X.σ ⟨a, Nat.lt_succ_iff.mpr (Nat.le.intro hnaq.symm)⟩ := by
   have hnaq_shift : ∀ d : ℕ, n + d = a + d + q := by
     intro d
-    rw [add_assoc, add_comm d, ← add_assoc, hnaq]
-  rw [Hσ, Homotopy.nullHomotopicMap'_f (c_mk (n + 2) (n + 1) rfl) (c_mk (n + 1) n rfl),
-    hσ'_eq hnaq (c_mk (n + 1) n rfl), hσ'_eq (hnaq_shift 1) (c_mk (n + 2) (n + 1) rfl)]
+    rw [add_assoc]; rw [add_comm d]; rw [← add_assoc]; rw [hnaq]
+  rw [Hσ]; rw [Homotopy.nullHomotopicMap'_f (c_mk (n + 2) (n + 1) rfl) (c_mk (n + 1) n rfl)]; rw [hσ'_eq hnaq (c_mk (n + 1) n rfl)]; rw [hσ'_eq (hnaq_shift 1) (c_mk (n + 2) (n + 1) rfl)]
   simp only [AlternatingFaceMapComplex.obj_d_eq, eqToHom_refl, comp_id, comp_sum, sum_comp,
     comp_add]
   simp only [comp_zsmul, zsmul_comp, ← assoc, ← mul_zsmul]
   -- cleaning up the first sum
-  rw [← Fin.sum_congr' _ (hnaq_shift 2).symm, Fin.sum_trunc]
+  rw [← Fin.sum_congr' _ (hnaq_shift 2).symm]; rw [Fin.sum_trunc]
   swap
   · rintro ⟨k, hk⟩
     suffices φ ≫ X.δ (⟨a + 2 + k, by linarith⟩ : Fin (n + 2)) = 0 by
@@ -90,19 +89,19 @@ theorem comp_Hσ_eq {Y : C} {n a q : ℕ} {φ : Y ⟶ X _[n + 1]} (v : HigherFac
     dsimp
     linarith
   -- cleaning up the second sum
-  rw [← Fin.sum_congr' _ (hnaq_shift 3).symm, @Fin.sum_trunc _ _ (a + 3)]
+  rw [← Fin.sum_congr' _ (hnaq_shift 3).symm]; rw [@Fin.sum_trunc _ _ (a + 3)]
   swap
   · rintro ⟨k, hk⟩
-    rw [assoc, X.δ_comp_σ_of_gt', v.comp_δ_eq_zero_assoc, zero_comp, zsmul_zero]
+    rw [assoc]; rw [X.δ_comp_σ_of_gt']; rw [v.comp_δ_eq_zero_assoc]; rw [zero_comp]; rw [zsmul_zero]
     · simp only [Fin.lt_iff_val_lt_val]
       dsimp [Fin.natAdd, Fin.cast]
       linarith
     · intro h
-      rw [Fin.pred_eq_iff_eq_succ, Fin.ext_iff] at h
+      rw [Fin.pred_eq_iff_eq_succ] at h; rw [Fin.ext_iff] at h
       dsimp [Fin.cast] at h
       linarith
     · dsimp [Fin.cast, Fin.pred]
-      rw [Nat.add_right_comm, Nat.add_sub_assoc (by norm_num : 1 ≤ 3)]
+      rw [Nat.add_right_comm]; rw [Nat.add_sub_assoc (by norm_num : 1 ≤ 3)]
       linarith
   simp only [assoc]
   conv_lhs =>
@@ -115,14 +114,13 @@ theorem comp_Hσ_eq {Y : C} {n a q : ℕ} {φ : Y ⟶ X _[n + 1]} (v : HigherFac
   have simplif :
     ∀ a b c d e f : Y ⟶ X _[n + 1], b = f → d + e = 0 → c + a = 0 → a + b + (c + d + e) = f := by
     intro a b c d e f h1 h2 h3
-    rw [add_assoc c d e, h2, add_zero, add_comm a, add_assoc, add_comm a, h3, add_zero, h1]
+    rw [add_assoc c d e]; rw [h2]; rw [add_zero]; rw [add_comm a]; rw [add_assoc]; rw [add_comm a]; rw [h3]; rw [add_zero]; rw [h1]
   apply simplif
   · -- b = f
-    rw [← pow_add, Odd.neg_one_pow, neg_smul, one_zsmul]
+    rw [← pow_add]; rw [Odd.neg_one_pow]; rw [neg_smul]; rw [one_zsmul]
     exact ⟨a, by linarith⟩
   · -- d + e = 0
-    rw [X.δ_comp_σ_self' (Fin.castSucc_mk _ _ _).symm,
-      X.δ_comp_σ_succ' (Fin.succ_mk _ _ _).symm]
+    rw [X.δ_comp_σ_self' (Fin.castSucc_mk _ _ _).symm]; rw [X.δ_comp_σ_succ' (Fin.succ_mk _ _ _).symm]
     simp only [comp_id, pow_add _ (a + 1) 1, pow_one, mul_neg, mul_one, neg_mul, neg_smul,
       add_right_neg]
   · -- c + a = 0
@@ -144,13 +142,13 @@ set_option linter.uppercaseLean3 false in
 theorem comp_Hσ_eq_zero {Y : C} {n q : ℕ} {φ : Y ⟶ X _[n + 1]} (v : HigherFacesVanish q φ)
     (hqn : n < q) : φ ≫ (Hσ q).f (n + 1) = 0 := by
   simp only [Hσ, Homotopy.nullHomotopicMap'_f (c_mk (n + 2) (n + 1) rfl) (c_mk (n + 1) n rfl)]
-  rw [hσ'_eq_zero hqn (c_mk (n + 1) n rfl), comp_zero, zero_add]
+  rw [hσ'_eq_zero hqn (c_mk (n + 1) n rfl)]; rw [comp_zero]; rw [zero_add]
   by_cases hqn' : n + 1 < q
   · rw [hσ'_eq_zero hqn' (c_mk (n + 2) (n + 1) rfl), zero_comp, comp_zero]
   · simp only [hσ'_eq (show n + 1 = 0 + q by linarith) (c_mk (n + 2) (n + 1) rfl), pow_zero,
       Fin.mk_zero, one_zsmul, eqToHom_refl, comp_id, comp_sum,
       AlternatingFaceMapComplex.obj_d_eq]
-    rw [← Fin.sum_congr' _ (show 2 + (n + 1) = n + 1 + 2 by linarith), Fin.sum_trunc]
+    rw [← Fin.sum_congr' _ (show 2 + (n + 1) = n + 1 + 2 by linarith)]; rw [Fin.sum_trunc]
     · simp only [Fin.sum_univ_castSucc, Fin.sum_univ_zero, zero_add, Fin.last, Fin.castLE_mk,
         Fin.cast_mk, Fin.castSucc_mk]
       simp only [Fin.mk_zero, Fin.val_zero, pow_zero, one_zsmul, Fin.mk_one, Fin.val_one, pow_one,
@@ -158,7 +156,7 @@ theorem comp_Hσ_eq_zero {Y : C} {n q : ℕ} {φ : Y ⟶ X _[n + 1]} (v : Higher
       erw [δ_comp_σ_self, δ_comp_σ_succ, add_right_neg]
     · intro j
       dsimp [Fin.cast, Fin.castLE, Fin.castLT]
-      rw [comp_zsmul, comp_zsmul, δ_comp_σ_of_gt', v.comp_δ_eq_zero_assoc, zero_comp, zsmul_zero]
+      rw [comp_zsmul]; rw [comp_zsmul]; rw [δ_comp_σ_of_gt']; rw [v.comp_δ_eq_zero_assoc]; rw [zero_comp]; rw [zsmul_zero]
       · simp only [Fin.lt_iff_val_lt_val]
         dsimp [Fin.succ]
         linarith
@@ -180,7 +178,7 @@ theorem induction {Y : C} {n q : ℕ} {φ : Y ⟶ X _[n + 1]} (v : HigherFacesVa
   · rw [v.comp_Hσ_eq_zero hqn, zero_comp, add_zero, v j (by linarith)]
   -- we now assume that n≥q, and write n=a+q
   cases' Nat.le.dest (not_lt.mp hqn) with a ha
-  rw [v.comp_Hσ_eq (show n = a + q by linarith), neg_comp, add_neg_eq_zero, assoc, assoc]
+  rw [v.comp_Hσ_eq (show n = a + q by linarith)]; rw [neg_comp]; rw [add_neg_eq_zero]; rw [assoc]; rw [assoc]
   cases' n with m hm
   -- the boundary case n=0
   · simp only [Nat.eq_zero_of_add_eq_zero_left ha, Fin.eq_zero j, Fin.mk_zero, Fin.mk_one,
@@ -196,9 +194,9 @@ theorem induction {Y : C} {n q : ℕ} {φ : Y ⟶ X _[n + 1]} (v : HigherFacesVa
   have hj₃ := j.is_lt
   have ham : a ≤ m := by
     by_contra h
-    rw [not_le, ← Nat.succ_le_iff] at h
+    rw [not_le] at h; rw [← Nat.succ_le_iff] at h
     linarith
-  rw [X.δ_comp_σ_of_gt', j.pred_succ]
+  rw [X.δ_comp_σ_of_gt']; rw [j.pred_succ]
   swap
   · rw [Fin.lt_iff_val_lt_val]
     simpa only [Fin.val_mk, Fin.val_succ, add_lt_add_iff_right] using haj

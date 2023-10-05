@@ -92,13 +92,13 @@ theorem isCoprime_one_right : IsCoprime x 1 :=
 
 theorem IsCoprime.dvd_of_dvd_mul_right (H1 : IsCoprime x z) (H2 : x ∣ y * z) : x ∣ y := by
   let ⟨a, b, H⟩ := H1
-  rw [← mul_one y, ← H, mul_add, ← mul_assoc, mul_left_comm]
+  rw [← mul_one y]; rw [← H]; rw [mul_add]; rw [← mul_assoc]; rw [mul_left_comm]
   exact dvd_add (dvd_mul_left _ _) (H2.mul_left _)
 #align is_coprime.dvd_of_dvd_mul_right IsCoprime.dvd_of_dvd_mul_right
 
 theorem IsCoprime.dvd_of_dvd_mul_left (H1 : IsCoprime x y) (H2 : x ∣ y * z) : x ∣ z := by
   let ⟨a, b, H⟩ := H1
-  rw [← one_mul z, ← H, add_mul, mul_right_comm, mul_assoc b]
+  rw [← one_mul z]; rw [← H]; rw [add_mul]; rw [mul_right_comm]; rw [mul_assoc b]
   exact dvd_add (dvd_mul_left _ _) (H2.mul_left _)
 #align is_coprime.dvd_of_dvd_mul_left IsCoprime.dvd_of_dvd_mul_left
 
@@ -121,7 +121,7 @@ theorem IsCoprime.mul_right (H1 : IsCoprime x y) (H2 : IsCoprime x z) : IsCoprim
 
 theorem IsCoprime.mul_dvd (H : IsCoprime x y) (H1 : x ∣ z) (H2 : y ∣ z) : x * y ∣ z := by
   obtain ⟨a, b, h⟩ := H
-  rw [← mul_one z, ← h, mul_add]
+  rw [← mul_one z]; rw [← h]; rw [mul_add]
   apply dvd_add
   · rw [mul_comm z, mul_assoc]
     exact (mul_dvd_mul_left _ H2).mul_left _
@@ -154,7 +154,7 @@ theorem IsCoprime.mul_left_iff : IsCoprime (x * y) z ↔ IsCoprime x z ∧ IsCop
 #align is_coprime.mul_left_iff IsCoprime.mul_left_iff
 
 theorem IsCoprime.mul_right_iff : IsCoprime x (y * z) ↔ IsCoprime x y ∧ IsCoprime x z := by
-  rw [isCoprime_comm, IsCoprime.mul_left_iff, isCoprime_comm, @isCoprime_comm _ _ z]
+  rw [isCoprime_comm]; rw [IsCoprime.mul_left_iff]; rw [isCoprime_comm]; rw [@isCoprime_comm _ _ z]
 #align is_coprime.mul_right_iff IsCoprime.mul_right_iff
 
 theorem IsCoprime.of_isCoprime_of_dvd_left (h : IsCoprime y z) (hdvd : x ∣ y) : IsCoprime x z := by

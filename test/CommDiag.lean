@@ -36,12 +36,7 @@ example {X Y Z : Type} {f g : X ⟶ Y} {k : Y ⟶ Y} {f' : Y ⟶ Z} {i : X ⟶ Z
     (f ≫ k) = g → ((f ≫ k) ≫ f') = (g ≫ 𝟙 Y ≫ f') := by
   with_panel_widgets [GoalTypePanel]
     intro h
-    rw [
-      h,
-      ← Category.assoc g (𝟙 Y) f',
-      h',
-      Category.comp_id g, h'
-    ]
+    rw [h]; rw [← Category.assoc g (𝟙 Y) f']; rw [h']; rw [Category.comp_id g]; rw [h']
 
 example {X Y Z : Type} {f i : X ⟶ Y}
     {g j : Y ⟶ Z} {h : X ⟶ Z} :
@@ -50,4 +45,4 @@ example {X Y Z : Type} {f i : X ⟶ Y}
     f ≫ g = i ≫ j := by
   with_panel_widgets [SelectionPanel]
     intro h₁ h₂
-    rw [← h₁, h₂]
+    rw [← h₁]; rw [h₂]

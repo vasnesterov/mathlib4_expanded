@@ -101,11 +101,11 @@ instance ring : Ring (Completion α) :=
     one_mul := fun a =>
       Completion.induction_on a
         (isClosed_eq (Continuous.mul continuous_const continuous_id) continuous_id) fun a => by
-        rw [← coe_one, ← coe_mul, one_mul]
+        rw [← coe_one]; rw [← coe_mul]; rw [one_mul]
     mul_one := fun a =>
       Completion.induction_on a
         (isClosed_eq (Continuous.mul continuous_id continuous_const) continuous_id) fun a => by
-        rw [← coe_one, ← coe_mul, mul_one]
+        rw [← coe_one]; rw [← coe_mul]; rw [mul_one]
     mul_assoc := fun a b c =>
       Completion.induction_on₃ a b c
         (isClosed_eq

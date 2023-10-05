@@ -35,16 +35,12 @@ instance functorHasRightDual [RightRigidCategory D] (F : C ⥤ D) : HasRightDual
         { app := fun X => ε_ _ _
           naturality := fun X Y f => by
             dsimp
-            rw [Category.comp_id, Functor.map_inv, ← id_tensor_comp_tensor_id, Category.assoc,
-              rightAdjointMate_comp_evaluation, ← Category.assoc, ← id_tensor_comp,
-              IsIso.hom_inv_id, tensor_id, Category.id_comp] }
+            rw [Category.comp_id]; rw [Functor.map_inv]; rw [← id_tensor_comp_tensor_id]; rw [Category.assoc]; rw [rightAdjointMate_comp_evaluation]; rw [← Category.assoc]; rw [← id_tensor_comp]; rw [IsIso.hom_inv_id]; rw [tensor_id]; rw [Category.id_comp] }
       coevaluation' :=
         { app := fun X => η_ _ _
           naturality := fun X Y f => by
             dsimp
-            rw [Functor.map_inv, Category.id_comp, ← id_tensor_comp_tensor_id, ← Category.assoc,
-              coevaluation_comp_rightAdjointMate, Category.assoc, ← comp_tensor_id,
-              IsIso.inv_hom_id, tensor_id, Category.comp_id] } }
+            rw [Functor.map_inv]; rw [Category.id_comp]; rw [← id_tensor_comp_tensor_id]; rw [← Category.assoc]; rw [coevaluation_comp_rightAdjointMate]; rw [Category.assoc]; rw [← comp_tensor_id]; rw [IsIso.inv_hom_id]; rw [tensor_id]; rw [Category.comp_id] } }
 #align category_theory.monoidal.functor_has_right_dual CategoryTheory.Monoidal.functorHasRightDual
 
 instance rightRigidFunctorCategory [RightRigidCategory D] : RightRigidCategory (C ⥤ D) where
@@ -60,16 +56,12 @@ instance functorHasLeftDual [LeftRigidCategory D] (F : C ⥤ D) : HasLeftDual F 
         { app := fun X => ε_ _ _
           naturality := fun X Y f => by
             dsimp
-            rw [Category.comp_id, Functor.map_inv, ← tensor_id_comp_id_tensor, Category.assoc,
-              leftAdjointMate_comp_evaluation, ← Category.assoc, ← comp_tensor_id,
-              IsIso.hom_inv_id, tensor_id, Category.id_comp] }
+            rw [Category.comp_id]; rw [Functor.map_inv]; rw [← tensor_id_comp_id_tensor]; rw [Category.assoc]; rw [leftAdjointMate_comp_evaluation]; rw [← Category.assoc]; rw [← comp_tensor_id]; rw [IsIso.hom_inv_id]; rw [tensor_id]; rw [Category.id_comp] }
       coevaluation' :=
         { app := fun X => η_ _ _
           naturality := fun X Y f => by
             dsimp
-            rw [Functor.map_inv, Category.id_comp, ← tensor_id_comp_id_tensor, ← Category.assoc,
-              coevaluation_comp_leftAdjointMate, Category.assoc, ← id_tensor_comp,
-              IsIso.inv_hom_id, tensor_id, Category.comp_id] } }
+            rw [Functor.map_inv]; rw [Category.id_comp]; rw [← tensor_id_comp_id_tensor]; rw [← Category.assoc]; rw [coevaluation_comp_leftAdjointMate]; rw [Category.assoc]; rw [← id_tensor_comp]; rw [IsIso.inv_hom_id]; rw [tensor_id]; rw [Category.comp_id] } }
 #align category_theory.monoidal.functor_has_left_dual CategoryTheory.Monoidal.functorHasLeftDual
 
 instance leftRigidFunctorCategory [LeftRigidCategory D] : LeftRigidCategory (C ⥤ D) where

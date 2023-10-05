@@ -23,7 +23,7 @@ open Cardinal
 /-- The cardinality of the complex numbers, as a type. -/
 @[simp]
 theorem mk_complex : #ℂ = 𝔠 := by
-  rw [mk_congr Complex.equivRealProd, mk_prod, lift_id, mk_real, continuum_mul_self]
+  rw [mk_congr Complex.equivRealProd]; rw [mk_prod]; rw [lift_id]; rw [mk_real]; rw [continuum_mul_self]
 #align mk_complex mk_complex
 
 /-- The cardinality of the complex numbers, as a set. -/
@@ -33,6 +33,6 @@ theorem mk_univ_complex : #(Set.univ : Set ℂ) = 𝔠 := by rw [mk_univ, mk_com
 
 /-- The complex numbers are not countable. -/
 theorem not_countable_complex : ¬(Set.univ : Set ℂ).Countable := by
-  rw [← le_aleph0_iff_set_countable, not_le, mk_univ_complex]
+  rw [← le_aleph0_iff_set_countable]; rw [not_le]; rw [mk_univ_complex]
   apply cantor
 #align not_countable_complex not_countable_complex

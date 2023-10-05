@@ -227,7 +227,7 @@ instance (priority := 100) IsNoetherianRing.strongRankCondition : StrongRankCond
   constructor
   intro m n f i
   by_contra h
-  rw [not_le, ← Nat.add_one_le_iff, le_iff_exists_add] at h
+  rw [not_le] at h; rw [← Nat.add_one_le_iff] at h; rw [le_iff_exists_add] at h
   obtain ⟨m, rfl⟩ := h
   let e : Fin (n + 1 + m) ≃ Sum (Fin n) (Fin (1 + m)) :=
     (finCongr (add_assoc _ _ _)).trans finSumFinEquiv.symm

@@ -40,7 +40,7 @@ noncomputable def expLocalHomeomorph : LocalHomeomorph ℂ ℂ :=
         obtain rfl : y = 0 := by
           rw [exp_im] at hz
           simpa [(Real.exp_pos _).ne', Real.sin_eq_zero_iff_of_lt_of_lt h₁ h₂] using hz
-        rw [mem_setOf_eq, ← ofReal_def, exp_ofReal_re]
+        rw [mem_setOf_eq]; rw [← ofReal_def]; rw [exp_ofReal_re]
         exact Real.exp_pos x
       map_target' := fun z h => by
         simp only [mem_setOf, log_im, mem_Ioo, neg_pi_lt_arg, arg_lt_pi_iff, true_and]

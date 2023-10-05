@@ -34,7 +34,7 @@ variable {M : Type*} {N : Type*} {G : Type*} {H : Type*}
 theorem hom_coe_pow {F : Type*} [Monoid F] (c : F → M → M) (h1 : c 1 = id)
     (hmul : ∀ f g, c (f * g) = c f ∘ c g) (f : F) : ∀ n, c (f ^ n) = (c f)^[n]
   | 0 => by
-    rw [pow_zero, h1]
+    rw [pow_zero]; rw [h1]
     rfl
   | n + 1 => by rw [pow_succ, iterate_succ', hmul, hom_coe_pow c h1 hmul f n]
 #align hom_coe_pow hom_coe_pow
@@ -226,7 +226,7 @@ variable [Semigroup G] {a b c : G}
 @[to_additive]
 theorem SemiconjBy.function_semiconj_mul_left (h : SemiconjBy a b c) :
     Function.Semiconj (a * ·) (b * ·) (c * ·) := fun j => by
-  dsimp only; rw [← mul_assoc, h.eq, mul_assoc]
+  dsimp only; rw [← mul_assoc]; rw [h.eq]; rw [mul_assoc]
 #align semiconj_by.function_semiconj_mul_left SemiconjBy.function_semiconj_mul_left
 #align add_semiconj_by.function_semiconj_add_left AddSemiconjBy.function_semiconj_add_left
 

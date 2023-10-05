@@ -127,7 +127,7 @@ def IsSplitCoequalizer.isCoequalizer {Z : C} {h : Y ⟶ Z} (t : IsSplitCoequaliz
   Cofork.IsColimit.mk' _ fun s =>
     ⟨t.rightSection ≫ s.π, by
       dsimp
-      rw [← t.leftSection_top_assoc, s.condition, t.leftSection_bottom_assoc], fun hm => by
+      rw [← t.leftSection_top_assoc]; rw [s.condition]; rw [t.leftSection_bottom_assoc], fun hm => by
       simp [← hm]⟩
 #align category_theory.is_split_coequalizer.is_coequalizer CategoryTheory.IsSplitCoequalizer.isCoequalizer
 

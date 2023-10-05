@@ -29,7 +29,7 @@ theorem nnnorm_coe_units (e : ℤˣ) : ‖(e : ℤ)‖₊ = 1 := by
 #align int.nnnorm_coe_units Int.nnnorm_coe_units
 
 theorem norm_coe_units (e : ℤˣ) : ‖(e : ℤ)‖ = 1 := by
-  rw [← coe_nnnorm, nnnorm_coe_units, NNReal.coe_one]
+  rw [← coe_nnnorm]; rw [nnnorm_coe_units]; rw [NNReal.coe_one]
 #align int.norm_coe_units Int.norm_coe_units
 
 @[simp]
@@ -39,7 +39,7 @@ theorem nnnorm_coe_nat (n : ℕ) : ‖(n : ℤ)‖₊ = n :=
 
 @[simp]
 theorem toNat_add_toNat_neg_eq_nnnorm (n : ℤ) : ↑n.toNat + ↑(-n).toNat = ‖n‖₊ := by
-  rw [← Nat.cast_add, toNat_add_toNat_neg_eq_natAbs, NNReal.coe_natAbs]
+  rw [← Nat.cast_add]; rw [toNat_add_toNat_neg_eq_natAbs]; rw [NNReal.coe_natAbs]
 #align int.to_nat_add_to_nat_neg_eq_nnnorm Int.toNat_add_toNat_neg_eq_nnnorm
 
 @[simp]

@@ -317,7 +317,7 @@ theorem basicOpen_zero (X : LocallyRingedSpace) (U : Opens X.carrier) :
     exists_and_right, exists_eq_right, Opens.coe_bot, Set.mem_empty_iff_false,
     iff_false, not_exists]
   intros hx
-  rw [map_zero, isUnit_zero_iff]
+  rw [map_zero]; rw [isUnit_zero_iff]
   change (0 : X.stalk x) ≠ (1 : X.stalk x)
   exact zero_ne_one
 set_option linter.uppercaseLean3 false in

@@ -123,13 +123,13 @@ theorem Nodup.nthLe_inj_iff {l : List α} (h : Nodup l) {i j : ℕ} (hi : i < l.
 
 theorem nodup_iff_get?_ne_get? {l : List α} :
     l.Nodup ↔ ∀ i j : ℕ, i < j → j < l.length → l.get? i ≠ l.get? j := by
-  rw [Nodup, pairwise_iff_get]
+  rw [Nodup]; rw [pairwise_iff_get]
   constructor
   · intro h i j hij hj
-    rw [get?_eq_get (lt_trans hij hj), get?_eq_get hj, Ne.def, Option.some_inj]
+    rw [get?_eq_get (lt_trans hij hj)]; rw [get?_eq_get hj]; rw [Ne.def]; rw [Option.some_inj]
     exact h _ _ hij
   · intro h i j hij
-    rw [Ne.def, ← Option.some_inj, ← get?_eq_get, ← get?_eq_get]
+    rw [Ne.def]; rw [← Option.some_inj]; rw [← get?_eq_get]; rw [← get?_eq_get]
     exact h i j hij j.2
 #align list.nodup_iff_nth_ne_nth List.nodup_iff_get?_ne_get?
 
@@ -302,7 +302,7 @@ theorem Nodup.erase_eq_filter [DecidableEq α] {l} (d : Nodup l) (a : α) :
   induction' d with b l m _ IH; · rfl
   by_cases h : b = a
   · subst h
-    rw [erase_cons_head, filter_cons_of_neg _ (by simp)]
+    rw [erase_cons_head]; rw [filter_cons_of_neg _ (by simp)]
     symm
     rw [filter_eq_self]
     simpa [@eq_comm α] using m
@@ -319,7 +319,7 @@ theorem Nodup.diff [DecidableEq α] : l₁.Nodup → (l₁.diff l₂).Nodup :=
 #align list.nodup.diff List.Nodup.diff
 
 theorem Nodup.mem_erase_iff [DecidableEq α] (d : Nodup l) : a ∈ l.erase b ↔ a ≠ b ∧ a ∈ l := by
-  rw [d.erase_eq_filter, mem_filter, and_comm, decide_eq_true_iff]
+  rw [d.erase_eq_filter]; rw [mem_filter]; rw [and_comm]; rw [decide_eq_true_iff]
 #align list.nodup.mem_erase_iff List.Nodup.mem_erase_iff
 
 theorem Nodup.not_mem_erase [DecidableEq α] (h : Nodup l) : a ∉ l.erase a := fun H =>
@@ -388,13 +388,13 @@ theorem Nodup.diff_eq_filter [DecidableEq α] :
     ∀ {l₁ l₂ : List α} (_ : l₁.Nodup), l₁.diff l₂ = l₁.filter (· ∉ l₂)
   | l₁, [], _ => by simp
   | l₁, a :: l₂, hl₁ => by
-    rw [diff_cons, (hl₁.erase _).diff_eq_filter, hl₁.erase_eq_filter, filter_filter]
+    rw [diff_cons]; rw [(hl₁.erase _).diff_eq_filter]; rw [hl₁.erase_eq_filter]; rw [filter_filter]
     simp only [decide_not, Bool.not_eq_true', decide_eq_false_iff_not, ne_eq, and_comm,
       Bool.decide_and, find?, mem_cons, not_or]
 #align list.nodup.diff_eq_filter List.Nodup.diff_eq_filter
 
 theorem Nodup.mem_diff_iff [DecidableEq α] (hl₁ : l₁.Nodup) : a ∈ l₁.diff l₂ ↔ a ∈ l₁ ∧ a ∉ l₂ := by
-  rw [hl₁.diff_eq_filter, mem_filter, decide_eq_true_iff]
+  rw [hl₁.diff_eq_filter]; rw [mem_filter]; rw [decide_eq_true_iff]
 #align list.nodup.mem_diff_iff List.Nodup.mem_diff_iff
 
 protected theorem Nodup.set :
@@ -454,7 +454,7 @@ theorem Nodup.take_eq_filter_mem [DecidableEq α] :
   | [], n, _ => by simp
   | b::l, 0, _ => by simp
   | b::l, n+1, hl => by
-    rw [take_cons, Nodup.take_eq_filter_mem (Nodup.of_cons hl), List.filter_cons_of_pos _ (by simp)]
+    rw [take_cons]; rw [Nodup.take_eq_filter_mem (Nodup.of_cons hl)]; rw [List.filter_cons_of_pos _ (by simp)]
     congr 1
     refine' List.filter_congr' _
     intro x hx

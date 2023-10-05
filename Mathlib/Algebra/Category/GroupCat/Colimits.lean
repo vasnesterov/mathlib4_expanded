@@ -232,10 +232,10 @@ def colimitCoconeIsColimit : IsColimit (colimitCocone.{w} F) where
     | of j x => exact FunLike.congr_fun (w j) x
     | zero =>
       dsimp only [quot_zero]
-      rw [map_zero, map_zero]
+      rw [map_zero]; rw [map_zero]
     | neg x ih =>
       dsimp only [quot_neg]
-      rw [map_neg, map_neg, ih]
+      rw [map_neg]; rw [map_neg]; rw [ih]
     | add x y ihx ihy =>
       simp only [quot_add]
       erw [m.map_add, (descMorphism F s).map_add, ihx, ihy]

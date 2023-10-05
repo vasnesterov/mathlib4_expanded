@@ -139,7 +139,7 @@ theorem approx_of_mem_C (c : CU X) (n : ℕ) {x : X} (hx : x ∈ c.C) : c.approx
   induction' n with n ihn generalizing c
   · exact indicator_of_not_mem (fun (hU : x ∈ c.Uᶜ) => hU <| c.subset hx) _
   · simp only [approx]
-    rw [ihn, ihn, midpoint_self]
+    rw [ihn]; rw [ihn]; rw [midpoint_self]
     exacts [c.subset_right_C hx, hx]
 #align urysohns.CU.approx_of_mem_C Urysohns.CU.approx_of_mem_C
 
@@ -148,7 +148,7 @@ theorem approx_of_nmem_U (c : CU X) (n : ℕ) {x : X} (hx : x ∉ c.U) : c.appro
   · rw [← mem_compl_iff] at hx
     exact indicator_of_mem hx _
   · simp only [approx]
-    rw [ihn, ihn, midpoint_self]
+    rw [ihn]; rw [ihn]; rw [midpoint_self]
     exacts [hx, fun hU => hx <| c.left_U_subset hU]
 #align urysohns.CU.approx_of_nmem_U Urysohns.CU.approx_of_nmem_U
 
@@ -264,11 +264,9 @@ theorem continuous_lim (c : CU X) : Continuous c.lim := by
     exact Real.dist_le_of_mem_Icc_01 (c.lim_mem_Icc _) (c.lim_mem_Icc _)
   · by_cases hxl : x ∈ c.left.U
     · filter_upwards [IsOpen.mem_nhds c.left.open_U hxl, ihn c.left]with _ hyl hyd
-      rw [pow_succ, c.lim_eq_midpoint, c.lim_eq_midpoint,
-        c.right.lim_of_mem_C _ (c.left_U_subset_right_C hyl),
-        c.right.lim_of_mem_C _ (c.left_U_subset_right_C hxl)]
+      rw [pow_succ]; rw [c.lim_eq_midpoint]; rw [c.lim_eq_midpoint]; rw [c.right.lim_of_mem_C _ (c.left_U_subset_right_C hyl)]; rw [c.right.lim_of_mem_C _ (c.left_U_subset_right_C hxl)]
       refine' (dist_midpoint_midpoint_le _ _ _ _).trans _
-      rw [dist_self, add_zero, div_eq_inv_mul]
+      rw [dist_self]; rw [add_zero]; rw [div_eq_inv_mul]
       gcongr
     · replace hxl : x ∈ c.left.right.Cᶜ
       exact compl_subset_compl.2 c.left.right.subset hxl
@@ -283,7 +281,7 @@ theorem continuous_lim (c : CU X) : Continuous c.lim := by
       refine' (dist_midpoint_midpoint_le _ _ _ _).trans _
       refine' (div_le_div_of_le_of_nonneg (add_le_add_right (dist_midpoint_midpoint_le _ _ _ _) _)
         zero_le_two).trans _
-      rw [dist_self, zero_add]
+      rw [dist_self]; rw [zero_add]
       set r := (3 / 4 : ℝ) ^ n
       calc _ ≤ (r / 2 + r) / 2 := by gcongr
         _ = _ := by field_simp; ring

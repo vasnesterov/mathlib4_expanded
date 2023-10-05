@@ -83,30 +83,22 @@ def braidedCategoryOfFaithful {C D : Type*} [Category C] [Category D] [MonoidalC
     intros
     apply F.map_injective
     refine (cancel_epi (F.μ ?_ ?_)).1 ?_
-    rw [Functor.map_comp, ← LaxMonoidalFunctor.μ_natural_assoc, w, Functor.map_comp, reassoc_of% w,
-      braiding_naturality_assoc, LaxMonoidalFunctor.μ_natural]
+    rw [Functor.map_comp]; rw [← LaxMonoidalFunctor.μ_natural_assoc]; rw [w]; rw [Functor.map_comp]; rw [reassoc_of% w]; rw [braiding_naturality_assoc]; rw [LaxMonoidalFunctor.μ_natural]
   hexagon_forward := by
     intros
     apply F.map_injective
     refine (cancel_epi (F.μ _ _)).1 ?_
     refine (cancel_epi (F.μ _ _ ⊗ 𝟙 _)).1 ?_
-    rw [Functor.map_comp, Functor.map_comp, Functor.map_comp, Functor.map_comp, ←
-      LaxMonoidalFunctor.μ_natural_assoc, Functor.map_id, ← comp_tensor_id_assoc, w,
-      comp_tensor_id, assoc, LaxMonoidalFunctor.associativity_assoc,
-      LaxMonoidalFunctor.associativity_assoc, ← LaxMonoidalFunctor.μ_natural, Functor.map_id, ←
-      id_tensor_comp_assoc, w, id_tensor_comp_assoc, reassoc_of% w, braiding_naturality_assoc,
-      LaxMonoidalFunctor.associativity, hexagon_forward_assoc]
+    rw [Functor.map_comp]; rw [Functor.map_comp]; rw [Functor.map_comp]; rw [Functor.map_comp]; rw [←
+      LaxMonoidalFunctor.μ_natural_assoc]; rw [Functor.map_id]; rw [← comp_tensor_id_assoc]; rw [w]; rw [comp_tensor_id]; rw [assoc]; rw [LaxMonoidalFunctor.associativity_assoc]; rw [LaxMonoidalFunctor.associativity_assoc]; rw [← LaxMonoidalFunctor.μ_natural]; rw [Functor.map_id]; rw [←
+      id_tensor_comp_assoc]; rw [w]; rw [id_tensor_comp_assoc]; rw [reassoc_of% w]; rw [braiding_naturality_assoc]; rw [LaxMonoidalFunctor.associativity]; rw [hexagon_forward_assoc]
   hexagon_reverse := by
     intros
     apply F.toFunctor.map_injective
     refine (cancel_epi (F.μ _ _)).1 ?_
     refine (cancel_epi (𝟙 _ ⊗ F.μ _ _)).1 ?_
-    rw [Functor.map_comp, Functor.map_comp, Functor.map_comp, Functor.map_comp, ←
-      LaxMonoidalFunctor.μ_natural_assoc, Functor.map_id, ← id_tensor_comp_assoc, w,
-      id_tensor_comp_assoc, LaxMonoidalFunctor.associativity_inv_assoc,
-      LaxMonoidalFunctor.associativity_inv_assoc, ← LaxMonoidalFunctor.μ_natural,
-      Functor.map_id, ← comp_tensor_id_assoc, w, comp_tensor_id_assoc, reassoc_of% w,
-      braiding_naturality_assoc, LaxMonoidalFunctor.associativity_inv, hexagon_reverse_assoc]
+    rw [Functor.map_comp]; rw [Functor.map_comp]; rw [Functor.map_comp]; rw [Functor.map_comp]; rw [←
+      LaxMonoidalFunctor.μ_natural_assoc]; rw [Functor.map_id]; rw [← id_tensor_comp_assoc]; rw [w]; rw [id_tensor_comp_assoc]; rw [LaxMonoidalFunctor.associativity_inv_assoc]; rw [LaxMonoidalFunctor.associativity_inv_assoc]; rw [← LaxMonoidalFunctor.μ_natural]; rw [Functor.map_id]; rw [← comp_tensor_id_assoc]; rw [w]; rw [comp_tensor_id_assoc]; rw [reassoc_of% w]; rw [braiding_naturality_assoc]; rw [LaxMonoidalFunctor.associativity_inv]; rw [hexagon_reverse_assoc]
 #align category_theory.braided_category_of_faithful CategoryTheory.braidedCategoryOfFaithful
 
 /-- Pull back a braiding along a fully faithful monoidal functor. -/
@@ -166,7 +158,7 @@ theorem braiding_leftUnitor_aux₂ (X : C) :
 
 @[simp]
 theorem braiding_leftUnitor (X : C) : (β_ X (𝟙_ C)).hom ≫ (λ_ X).hom = (ρ_ X).hom := by
-  rw [← tensor_right_iff, comp_tensor_id, braiding_leftUnitor_aux₂]
+  rw [← tensor_right_iff]; rw [comp_tensor_id]; rw [braiding_leftUnitor_aux₂]
 #align category_theory.braiding_left_unitor CategoryTheory.braiding_leftUnitor
 
 theorem braiding_rightUnitor_aux₁ (X : C) :
@@ -199,7 +191,7 @@ theorem braiding_rightUnitor_aux₂ (X : C) :
 
 @[simp]
 theorem braiding_rightUnitor (X : C) : (β_ (𝟙_ C) X).hom ≫ (ρ_ X).hom = (λ_ X).hom := by
-  rw [← tensor_left_iff, id_tensor_comp, braiding_rightUnitor_aux₂]
+  rw [← tensor_left_iff]; rw [id_tensor_comp]; rw [braiding_rightUnitor_aux₂]
 #align category_theory.braiding_right_unitor CategoryTheory.braiding_rightUnitor
 
 @[simp]
@@ -260,7 +252,7 @@ def comp (F : LaxBraidedFunctor C D) (G : LaxBraidedFunctor D E) : LaxBraidedFun
     braided := fun X Y => by
       dsimp
       slice_lhs 2 3 =>
-        rw [← CategoryTheory.Functor.map_comp, F.braided, CategoryTheory.Functor.map_comp]
+        rw [← CategoryTheory.Functor.map_comp]; rw [F.braided]; rw [CategoryTheory.Functor.map_comp]
       slice_lhs 1 2 => rw [G.braided]
       simp only [Category.assoc] }
 #align category_theory.lax_braided_functor.comp CategoryTheory.LaxBraidedFunctor.comp
@@ -412,10 +404,9 @@ theorem tensor_μ_natural {X₁ X₂ Y₁ Y₂ U₁ U₂ V₁ V₂ : C} (f₁ : 
   dsimp [tensor_μ]
   slice_lhs 1 2 => rw [associator_naturality]
   slice_lhs 2 3 =>
-    rw [← tensor_comp, comp_id f₁, ← id_comp f₁, associator_inv_naturality, tensor_comp]
+    rw [← tensor_comp]; rw [comp_id f₁]; rw [← id_comp f₁]; rw [associator_inv_naturality]; rw [tensor_comp]
   slice_lhs 3 4 =>
-    rw [← tensor_comp, ← tensor_comp, comp_id f₁, ← id_comp f₁, comp_id g₂, ← id_comp g₂,
-      braiding_naturality, tensor_comp, tensor_comp]
+    rw [← tensor_comp]; rw [← tensor_comp]; rw [comp_id f₁]; rw [← id_comp f₁]; rw [comp_id g₂]; rw [← id_comp g₂]; rw [braiding_naturality]; rw [tensor_comp]; rw [tensor_comp]
   slice_lhs 4 5 => rw [← tensor_comp, comp_id f₁, ← id_comp f₁, associator_naturality, tensor_comp]
   slice_lhs 5 6 => rw [associator_inv_naturality]
   simp only [assoc]
@@ -520,19 +511,17 @@ theorem tensor_associativity (X₁ X₂ Y₁ Y₂ Z₁ Z₂ : C) :
   slice_lhs 3 4 => rw [← tensor_id, associator_inv_naturality]
   slice_lhs 4 5 => rw [← tensor_comp, associator_naturality, tensor_comp]
   slice_lhs 5 6 =>
-    rw [← tensor_comp, ← tensor_comp, associator_naturality, tensor_comp, tensor_comp]
+    rw [← tensor_comp]; rw [← tensor_comp]; rw [associator_naturality]; rw [tensor_comp]; rw [tensor_comp]
   slice_lhs 6 10 =>
-    rw [← tensor_comp, ← tensor_comp, ← tensor_comp, ← tensor_comp, ← tensor_comp, ← tensor_comp, ←
-      tensor_comp, ← tensor_comp, tensor_id, tensor_associativity_aux, ← tensor_id, ←
-      id_comp (𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁), ← id_comp (𝟙 Z₂ ≫ 𝟙 Z₂ ≫ 𝟙 Z₂ ≫ 𝟙 Z₂ ≫ 𝟙 Z₂),
-      tensor_comp, tensor_comp, tensor_comp, tensor_comp, tensor_comp, tensor_comp, tensor_comp,
-      tensor_comp, tensor_comp, tensor_comp]
+    rw [← tensor_comp]; rw [← tensor_comp]; rw [← tensor_comp]; rw [← tensor_comp]; rw [← tensor_comp]; rw [← tensor_comp]; rw [←
+      tensor_comp]; rw [← tensor_comp]; rw [tensor_id]; rw [tensor_associativity_aux]; rw [← tensor_id]; rw [←
+      id_comp (𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁)]; rw [← id_comp (𝟙 Z₂ ≫ 𝟙 Z₂ ≫ 𝟙 Z₂ ≫ 𝟙 Z₂ ≫ 𝟙 Z₂)]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]
   slice_lhs 11 12 =>
-    rw [← tensor_comp, ← tensor_comp, Iso.hom_inv_id]
+    rw [← tensor_comp]; rw [← tensor_comp]; rw [Iso.hom_inv_id]
     simp
   simp only [assoc, id_comp]
   slice_lhs 10 11 =>
-    rw [← tensor_comp, ← tensor_comp, ← tensor_comp, Iso.hom_inv_id]
+    rw [← tensor_comp]; rw [← tensor_comp]; rw [← tensor_comp]; rw [Iso.hom_inv_id]
     simp
   simp only [assoc, id_comp]
   slice_lhs 9 10 => rw [associator_naturality]
@@ -649,7 +638,7 @@ theorem associator_monoidal (X₁ X₂ X₃ Y₁ Y₂ Y₃ : C) :
   slice_lhs 4 5 => rw [← tensor_id, associator_inv_naturality]
   slice_lhs 5 6 => rw [← tensor_comp, associator_naturality, tensor_comp]
   slice_lhs 6 7 =>
-    rw [← tensor_comp, ← tensor_comp, associator_naturality, tensor_comp, tensor_comp]
+    rw [← tensor_comp]; rw [← tensor_comp]; rw [associator_naturality]; rw [tensor_comp]; rw [tensor_comp]
   have :
     ((α_ X₁ X₂ (Y₁ ⊗ Y₂)).hom ⊗ 𝟙 (X₃ ⊗ Y₃)) ≫
         ((𝟙 X₁ ⊗ (α_ X₂ Y₁ Y₂).inv) ⊗ 𝟙 (X₃ ⊗ Y₃)) ≫
@@ -670,17 +659,15 @@ theorem associator_monoidal (X₁ X₂ X₃ Y₁ Y₂ Y₃ : C) :
   slice_lhs 4 5 => rw [← tensor_comp, associator_inv_naturality, tensor_comp]
   slice_lhs 5 6 => rw [associator_inv_naturality]
   slice_lhs 6 9 =>
-    rw [← tensor_comp, ← tensor_comp, ← tensor_comp, ← tensor_comp, ← tensor_comp, ← tensor_comp,
-      tensor_id, associator_monoidal_aux, ← id_comp (𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁), ←
-      id_comp (𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁), ← id_comp (𝟙 Y₃ ≫ 𝟙 Y₃ ≫ 𝟙 Y₃ ≫ 𝟙 Y₃), ←
-      id_comp (𝟙 Y₃ ≫ 𝟙 Y₃ ≫ 𝟙 Y₃ ≫ 𝟙 Y₃ ≫ 𝟙 Y₃), tensor_comp, tensor_comp, tensor_comp,
-      tensor_comp, tensor_comp, tensor_comp, tensor_comp, tensor_comp, tensor_comp, tensor_comp]
+    rw [← tensor_comp]; rw [← tensor_comp]; rw [← tensor_comp]; rw [← tensor_comp]; rw [← tensor_comp]; rw [← tensor_comp]; rw [tensor_id]; rw [associator_monoidal_aux]; rw [← id_comp (𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁)]; rw [←
+      id_comp (𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁ ≫ 𝟙 X₁)]; rw [← id_comp (𝟙 Y₃ ≫ 𝟙 Y₃ ≫ 𝟙 Y₃ ≫ 𝟙 Y₃)]; rw [←
+      id_comp (𝟙 Y₃ ≫ 𝟙 Y₃ ≫ 𝟙 Y₃ ≫ 𝟙 Y₃ ≫ 𝟙 Y₃)]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]; rw [tensor_comp]
   slice_lhs 11 12 => rw [associator_naturality]
   slice_lhs 12 13 => rw [← tensor_comp, associator_naturality, tensor_comp]
   slice_lhs 13 14 => rw [← tensor_comp, ← tensor_id, associator_naturality, tensor_comp]
   slice_lhs 14 15 => rw [associator_inv_naturality]
   slice_lhs 15 17 =>
-    rw [tensor_id, ← tensor_comp, ← tensor_comp, ← tensor_μ_def₂, tensor_comp, tensor_comp]
+    rw [tensor_id]; rw [← tensor_comp]; rw [← tensor_comp]; rw [← tensor_μ_def₂]; rw [tensor_comp]; rw [tensor_comp]
   have :
     ((𝟙 X₁ ⊗ (α_ Y₁ X₂ X₃).inv ⊗ 𝟙 Y₂) ⊗ 𝟙 Y₃) ≫
         ((𝟙 X₁ ⊗ (α_ (Y₁ ⊗ X₂) X₃ Y₂).hom) ⊗ 𝟙 Y₃) ≫

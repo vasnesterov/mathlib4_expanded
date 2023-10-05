@@ -168,7 +168,7 @@ theorem adjoin_eq_span : Subalgebra.toSubmodule (adjoin R s) = span R (Submonoid
     induction' L with hd tl ih
     · exact zero_mem _
     rw [List.forall_mem_cons] at HL
-    rw [List.map_cons, List.sum_cons]
+    rw [List.map_cons]; rw [List.sum_cons]
     refine' Submodule.add_mem _ _ (ih HL.2)
     replace HL := HL.1
     clear ih tl
@@ -180,10 +180,10 @@ theorem adjoin_eq_span : Subalgebra.toSubmodule (adjoin R s) = span R (Submonoid
     · exact ⟨1, 1, (Submonoid.closure s).one_mem', one_smul _ _⟩
     rw [List.forall_mem_cons] at HL
     rcases ih HL.2 with ⟨z, r, hr, hzr⟩
-    rw [List.prod_cons, ← hzr]
+    rw [List.prod_cons]; rw [← hzr]
     rcases HL.1 with (⟨hd, rfl⟩ | hs)
     · refine' ⟨hd * z, r, hr, _⟩
-      rw [Algebra.smul_def, Algebra.smul_def, (algebraMap _ _).map_mul, _root_.mul_assoc]
+      rw [Algebra.smul_def]; rw [Algebra.smul_def]; rw [(algebraMap _ _).map_mul]; rw [_root_.mul_assoc]
     · exact
         ⟨z, hd * r, Submonoid.mul_mem _ (Submonoid.subset_closure hs) hr,
           (mul_smul_comm _ _ _).symm⟩
@@ -198,7 +198,7 @@ theorem span_le_adjoin (s : Set A) : span R s ≤ Subalgebra.toSubmodule (adjoin
 
 theorem adjoin_toSubmodule_le {s : Set A} {t : Submodule R A} :
     Subalgebra.toSubmodule (adjoin R s) ≤ t ↔ ↑(Submonoid.closure s) ⊆ (t : Set A) := by
-  rw [adjoin_eq_span, span_le]
+  rw [adjoin_eq_span]; rw [span_le]
 #align algebra.adjoin_to_submodule_le Algebra.adjoin_toSubmodule_le
 
 theorem adjoin_eq_span_of_subset {s : Set A} (hs : ↑(Submonoid.closure s) ⊆ (span R s : Set A)) :
@@ -354,7 +354,7 @@ theorem adjoin_union_eq_adjoin_adjoin :
 theorem adjoin_union_coe_submodule :
     Subalgebra.toSubmodule (adjoin R (s ∪ t)) =
       Subalgebra.toSubmodule (adjoin R s) * Subalgebra.toSubmodule (adjoin R t) := by
-  rw [adjoin_eq_span, adjoin_eq_span, adjoin_eq_span, span_mul_span]
+  rw [adjoin_eq_span]; rw [adjoin_eq_span]; rw [adjoin_eq_span]; rw [span_mul_span]
   congr 1 with z; simp [Submonoid.closure_union, Submonoid.mem_sup, Set.mem_mul]
 #align algebra.adjoin_union_coe_submodule Algebra.adjoin_union_coe_submodule
 
@@ -365,7 +365,7 @@ theorem pow_smul_mem_of_smul_subset_of_mem_adjoin [CommSemiring B] [Algebra R B]
     (hx : x ∈ adjoin R s) (hr : algebraMap A B r ∈ B') : ∃ n₀ : ℕ, ∀ n ≥ n₀, r ^ n • x ∈ B' := by
   -- porting note: use `replace` because we don't have `change ... at` yet
   replace hx : x ∈ Subalgebra.toSubmodule (adjoin R s) := hx
-  rw [adjoin_eq_span, Finsupp.mem_span_iff_total] at hx
+  rw [adjoin_eq_span] at hx; rw [Finsupp.mem_span_iff_total] at hx
   rcases hx with ⟨l, rfl : (l.sum fun (i : Submonoid.closure s) (c : R) => c • (i : B)) = x⟩
   choose n₁ n₂ using fun x : Submonoid.closure s => Submonoid.pow_smul_mem_closure_smul r s x.prop
   use l.support.sup n₁

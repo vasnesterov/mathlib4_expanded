@@ -178,7 +178,7 @@ variable [IsSimpleGroup G]
 theorem IsSimpleGroup.derivedSeries_succ {n : ℕ} : derivedSeries G n.succ = commutator G := by
   induction' n with n ih
   · exact derivedSeries_one G
-  rw [_root_.derivedSeries_succ, ih, _root_.commutator]
+  rw [_root_.derivedSeries_succ]; rw [ih]; rw [_root_.commutator]
   cases' (commutator_normal (⊤ : Subgroup G) (⊤ : Subgroup G)).eq_bot_or_eq_top with h h
   · rw [h, commutator_bot_left]
   · rwa [h]
@@ -193,7 +193,7 @@ theorem IsSimpleGroup.comm_iff_isSolvable : (∀ a b : G, a * b = b * a) ↔ IsS
           exact mem_top _
     · rw [IsSimpleGroup.derivedSeries_succ] at hn
       intro a b
-      rw [← mul_inv_eq_one, mul_inv_rev, ← mul_assoc, ← mem_bot, ← hn, commutator_eq_closure]
+      rw [← mul_inv_eq_one]; rw [mul_inv_rev]; rw [← mul_assoc]; rw [← mem_bot]; rw [← hn]; rw [commutator_eq_closure]
       exact subset_closure ⟨a, b, rfl⟩⟩
 #align is_simple_group.comm_iff_is_solvable IsSimpleGroup.comm_iff_isSolvable
 

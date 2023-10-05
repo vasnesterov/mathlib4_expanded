@@ -138,13 +138,13 @@ theorem pullback_base (i j k : D.J) (S : Set (D.V (i, j)).carrier) :
     (π₂ i, j, k) '' ((π₁ i, j, k) ⁻¹' S) = D.f i k ⁻¹' (D.f i j '' S) := by
   have eq₁ : _ = (π₁ i, j, k).base := PreservesPullback.iso_hom_fst (forget C) _ _
   have eq₂ : _ = (π₂ i, j, k).base := PreservesPullback.iso_hom_snd (forget C) _ _
-  rw [← eq₁, ← eq₂]
+  rw [← eq₁]; rw [← eq₂]
   -- Porting note : `rw` to `erw` on `coe_comp`
   erw [coe_comp]
   rw [Set.image_comp]
   -- Porting note : `rw` to `erw` on `coe_comp`
   erw [coe_comp]
-  rw [Set.preimage_comp, Set.image_preimage_eq, TopCat.pullback_snd_image_fst_preimage]
+  rw [Set.preimage_comp]; rw [Set.image_preimage_eq]; rw [TopCat.pullback_snd_image_fst_preimage]
   rfl
   rw [← TopCat.epi_iff_surjective]
   infer_instance
@@ -165,8 +165,7 @@ theorem f_invApp_f_app (i j k : D.J) (U : Opens (D.V (i, j)).carrier) :
                 apply pullback_base)) := by
   have := PresheafedSpace.congr_app (@pullback.condition _ _ _ _ _ (D.f i j) (D.f i k) _)
   dsimp only [comp_c_app] at this
-  rw [← cancel_epi (inv ((D.f_open i j).invApp U)), IsIso.inv_hom_id_assoc,
-    IsOpenImmersion.inv_invApp]
+  rw [← cancel_epi (inv ((D.f_open i j).invApp U))]; rw [IsIso.inv_hom_id_assoc]; rw [IsOpenImmersion.inv_invApp]
   simp_rw [Category.assoc]
   erw [(π₁ i, j, k).c.naturality_assoc, reassoc_of% this, ← Functor.map_comp_assoc,
     IsOpenImmersion.inv_naturality_assoc, IsOpenImmersion.app_invApp_assoc, ←
@@ -195,23 +194,23 @@ theorem snd_invApp_t_app' (i j k : D.J) (U : Opens (pullback (D.f i j) (D.f i k)
     replace this := (congr_arg ((PresheafedSpace.Hom.base ·)) this).symm
     replace this := congr_arg (ContinuousMap.toFun ·) this
     dsimp at this
-    rw [coe_comp, coe_comp] at this
-    rw [this, Set.image_comp, Set.image_comp, Set.preimage_image_eq]
+    rw [coe_comp] at this; rw [coe_comp] at this
+    rw [this]; rw [Set.image_comp]; rw [Set.image_comp]; rw [Set.preimage_image_eq]
     swap
     · refine Function.HasLeftInverse.injective ⟨(D.t i k).base, fun x => ?_⟩
-      rw [←comp_apply, ←comp_base, D.t_inv, id_base, id_apply]
+      rw [←comp_apply]; rw [←comp_base]; rw [D.t_inv]; rw [id_base]; rw [id_apply]
     refine congr_arg (_ '' ·) ?_
     refine congr_fun ?_ _
     refine Set.image_eq_preimage_of_inverse ?_ ?_
     · intro x
-      rw [←comp_apply, ←comp_base, IsIso.inv_hom_id, id_base, id_apply]
+      rw [←comp_apply]; rw [←comp_base]; rw [IsIso.inv_hom_id]; rw [id_base]; rw [id_apply]
     · intro x
-      rw [←comp_apply, ←comp_base, IsIso.hom_inv_id, id_base, id_apply]
+      rw [←comp_apply]; rw [←comp_base]; rw [IsIso.hom_inv_id]; rw [id_base]; rw [id_apply]
   · rw [← IsIso.eq_inv_comp, IsOpenImmersion.inv_invApp, Category.assoc,
       (D.t' k i j).c.naturality_assoc]
     simp_rw [← Category.assoc]
     erw [← comp_c_app]
-    rw [congr_app (D.t_fac k i j), comp_c_app]
+    rw [congr_app (D.t_fac k i j)]; rw [comp_c_app]
     simp_rw [Category.assoc]
     erw [IsOpenImmersion.inv_naturality, IsOpenImmersion.inv_naturality_assoc,
       IsOpenImmersion.app_inv_app'_assoc]
@@ -220,12 +219,12 @@ theorem snd_invApp_t_app' (i j k : D.J) (U : Opens (pullback (D.f i j) (D.f i k)
     rintro x ⟨y, -, eq⟩
     replace eq := ConcreteCategory.congr_arg (𝖣.t i k).base eq
     change ((π₂ i, j, k) ≫ D.t i k).base y = (D.t k i ≫ D.t i k).base x at eq
-    rw [𝖣.t_inv, id_base, TopCat.id_app] at eq
+    rw [𝖣.t_inv] at eq; rw [id_base] at eq; rw [TopCat.id_app] at eq
     subst eq
     use (inv (D.t' k i j)).base y
     change (inv (D.t' k i j) ≫ π₁ k, i, j).base y = _
     congr 2
-    rw [IsIso.inv_comp_eq, 𝖣.t_fac_assoc, 𝖣.t_inv, Category.comp_id]
+    rw [IsIso.inv_comp_eq]; rw [𝖣.t_fac_assoc]; rw [𝖣.t_inv]; rw [Category.comp_id]
 #align algebraic_geometry.PresheafedSpace.glue_data.snd_inv_app_t_app' AlgebraicGeometry.PresheafedSpace.GlueData.snd_invApp_t_app'
 
 /-- The red and the blue arrows in ![this diagram](https://i.imgur.com/q6X1GJ9.png) commute. -/
@@ -249,17 +248,17 @@ theorem ι_image_preimage_eq (i j : D.J) (U : Opens (D.U i).carrier) :
         ((Opens.map (𝖣.t j i).base).obj ((Opens.map (𝖣.f i j).base).obj U)) := by
   ext1
   dsimp only [Opens.map_coe, IsOpenMap.functor_obj_coe]
-  rw [← show _ = (𝖣.ι i).base from 𝖣.ι_gluedIso_inv (PresheafedSpace.forget _) i, ←
+  rw [← show _ = (𝖣.ι i).base from 𝖣.ι_gluedIso_inv (PresheafedSpace.forget _) i]; rw [←
     show _ = (𝖣.ι j).base from 𝖣.ι_gluedIso_inv (PresheafedSpace.forget _) j]
   -- Porting note : change `rw` to `erw` on `coe_comp`
   erw [coe_comp, coe_comp, coe_comp]
-  rw [Set.image_comp, Set.preimage_comp]
+  rw [Set.image_comp]; rw [Set.preimage_comp]
   erw [Set.preimage_image_eq]
   · refine' Eq.trans (D.toTopGlueData.preimage_image_eq_image' _ _ _) _
     dsimp
-    rw [coe_comp, Set.image_comp]
+    rw [coe_comp]; rw [Set.image_comp]
     refine congr_arg (_ '' ·) ?_
-    rw [Set.eq_preimage_iff_image_eq, ← Set.image_comp]
+    rw [Set.eq_preimage_iff_image_eq]; rw [← Set.image_comp]
     swap
     · apply CategoryTheory.ConcreteCategory.bijective_of_isIso
     change (D.t i j ≫ D.t j i).base '' _ = _
@@ -288,13 +287,13 @@ theorem opensImagePreimageMap_app' (i j k : D.J) (U : Opens (D.U i).carrier) :
   constructor
   delta opensImagePreimageMap
   simp_rw [Category.assoc]
-  rw [(D.f j k).c.naturality, f_invApp_f_app_assoc]
+  rw [(D.f j k).c.naturality]; rw [f_invApp_f_app_assoc]
   erw [← (D.V (j, k)).presheaf.map_comp]
   simp_rw [← Category.assoc]
   erw [← comp_c_app, ← comp_c_app]
   simp_rw [Category.assoc]
   dsimp only [Functor.op, unop_op, Quiver.Hom.unop_op]
-  rw [eqToHom_map (Opens.map _), eqToHom_op, eqToHom_trans]
+  rw [eqToHom_map (Opens.map _)]; rw [eqToHom_op]; rw [eqToHom_trans]
   congr
 #align algebraic_geometry.PresheafedSpace.glue_data.opens_image_preimage_map_app' AlgebraicGeometry.PresheafedSpace.GlueData.opensImagePreimageMap_app'
 
@@ -390,8 +389,7 @@ def ιInvApp {i : D.J} (U : Opens (D.U i).carrier) :
             have :
               D.t' j k i ≫ (π₁ k, i, j) ≫ D.t k i ≫ 𝖣.f i k =
                 (pullbackSymmetry _ _).hom ≫ (π₁ j, i, k) ≫ D.t j i ≫ D.f i j := by
-              rw [← 𝖣.t_fac_assoc, 𝖣.t'_comp_eq_pullbackSymmetry_assoc,
-                pullbackSymmetry_hom_comp_snd_assoc, pullback.condition, 𝖣.t_fac_assoc]
+              rw [← 𝖣.t_fac_assoc]; rw [𝖣.t'_comp_eq_pullbackSymmetry_assoc]; rw [pullbackSymmetry_hom_comp_snd_assoc]; rw [pullback.condition]; rw [𝖣.t_fac_assoc]
             rw [congr_app this]
             erw [PresheafedSpace.comp_c_app_assoc (pullbackSymmetry _ _).hom]
             simp_rw [Category.assoc]
@@ -424,7 +422,7 @@ theorem ιInvApp_π {i : D.J} (U : Opens (D.U i).carrier) :
     · exact h2.symm
     · have := D.ι_gluedIso_inv (PresheafedSpace.forget _) i
       dsimp at this
-      rw [←this, coe_comp]
+      rw [←this]; rw [coe_comp]
       refine Function.Injective.comp ?_ (TopCat.GlueData.ι_injective D.toTopGlueData i)
       rw [←TopCat.mono_iff_injective]
       infer_instance
@@ -432,7 +430,7 @@ theorem ιInvApp_π {i : D.J} (U : Opens (D.U i).carrier) :
   rw [limit.lift_π]
   change D.opensImagePreimageMap i i U = _
   dsimp [opensImagePreimageMap]
-  rw [congr_app (D.t_id _), id_c_app, ← Functor.map_comp]
+  rw [congr_app (D.t_id _)]; rw [id_c_app]; rw [← Functor.map_comp]
   erw [IsOpenImmersion.inv_naturality_assoc, IsOpenImmersion.app_inv_app'_assoc]
   · simp only [eqToHom_op, eqToHom_trans, eqToHom_map (Functor.op _), ← Functor.map_comp]
     rfl
@@ -467,9 +465,9 @@ theorem π_ιInvApp_π (i j : D.J) (U : Opens (D.U i).carrier) :
   simp_rw [Category.assoc]
   rw [limit.w_assoc]
   erw [limit.lift_π_assoc]
-  rw [Category.comp_id, Category.comp_id]
+  rw [Category.comp_id]; rw [Category.comp_id]
   change _ ≫ _ ≫ (_ ≫ _) ≫ _ = _
-  rw [congr_app (D.t_id _), id_c_app]
+  rw [congr_app (D.t_id _)]; rw [id_c_app]
   simp_rw [Category.assoc]
   rw [← Functor.map_comp_assoc]
   -- Porting note : change `rw` to `erw`
@@ -529,16 +527,16 @@ def vPullbackConeIsLimit (i j : D.J) : IsLimit (𝖣.vPullbackCone i j) :=
       have :
         s.fst.base ≫ D.toTopGlueData.ι i =
           s.snd.base ≫ D.toTopGlueData.ι j := by
-        rw [← 𝖣.ι_gluedIso_hom (PresheafedSpace.forget _) _, ←
+        rw [← 𝖣.ι_gluedIso_hom (PresheafedSpace.forget _) _]; rw [←
           𝖣.ι_gluedIso_hom (PresheafedSpace.forget _) _]
         have := congr_arg PresheafedSpace.Hom.base s.condition
-        rw [comp_base, comp_base] at this
+        rw [comp_base] at this; rw [comp_base] at this
         replace this := reassoc_of% this
         exact this _
-      rw [← Set.image_subset_iff, ← Set.image_univ, ← Set.image_comp, Set.image_univ]
+      rw [← Set.image_subset_iff]; rw [← Set.image_univ]; rw [← Set.image_comp]; rw [Set.image_univ]
       -- Porting note : change `rw` to `erw`
       erw [← coe_comp]
-      rw [this, coe_comp, ← Set.image_univ, Set.image_comp]
+      rw [this]; rw [coe_comp]; rw [← Set.image_univ]; rw [Set.image_comp]
       exact Set.image_subset_range _ _
     · apply IsOpenImmersion.lift_fac
     · rw [← cancel_mono (𝖣.ι j), Category.assoc, ← (𝖣.vPullbackCone i j).condition]

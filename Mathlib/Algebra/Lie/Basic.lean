@@ -167,13 +167,13 @@ instance lieAlgebraSelfModule : LieModule R L L
 
 @[simp]
 theorem neg_lie : ⁅-x, m⁆ = -⁅x, m⁆ := by
-  rw [← sub_eq_zero, sub_neg_eq_add, ← add_lie]
+  rw [← sub_eq_zero]; rw [sub_neg_eq_add]; rw [← add_lie]
   simp
 #align neg_lie neg_lie
 
 @[simp]
 theorem lie_neg : ⁅x, -m⁆ = -⁅x, m⁆ := by
-  rw [← sub_eq_zero, sub_neg_eq_add, ← lie_add]
+  rw [← sub_eq_zero]; rw [sub_neg_eq_add]; rw [← lie_add]
   simp
 #align lie_neg lie_neg
 
@@ -218,7 +218,7 @@ theorem lie_lie : ⁅⁅x, y⁆, m⁆ = ⁅x, ⁅y, m⁆⁆ - ⁅y, ⁅x, m⁆�
 #align lie_lie lie_lie
 
 theorem lie_jacobi : ⁅x, ⁅y, z⁆⁆ + ⁅y, ⁅z, x⁆⁆ + ⁅z, ⁅x, y⁆⁆ = 0 := by
-  rw [← neg_neg ⁅x, y⁆, lie_neg z, lie_skew y x, ← lie_skew, lie_lie]
+  rw [← neg_neg ⁅x, y⁆]; rw [lie_neg z]; rw [lie_skew y x]; rw [← lie_skew]; rw [lie_lie]
   abel
 #align lie_jacobi lie_jacobi
 
@@ -417,7 +417,7 @@ def comp (f : L₂ →ₗ⁅R⁆ L₃) (g : L₁ →ₗ⁅R⁆ L₂) : L₁ →�
     map_lie' := by
       intros x y
       change f (g ⁅x, y⁆) = ⁅f (g x), f (g y)⁆
-      rw [map_lie, map_lie] }
+      rw [map_lie]; rw [map_lie] }
 #align lie_hom.comp LieHom.comp
 
 theorem comp_apply (f : L₂ →ₗ⁅R⁆ L₃) (g : L₁ →ₗ⁅R⁆ L₂) (x : L₁) : f.comp g x = f (g x) :=
@@ -835,7 +835,7 @@ def comp (f : N →ₗ⁅R,L⁆ P) (g : M →ₗ⁅R,L⁆ N) : M →ₗ⁅R,L⁆
     map_lie' := by
       intros x m
       change f (g ⁅x, m⁆) = ⁅x, f (g m)⁆
-      rw [map_lie, map_lie] }
+      rw [map_lie]; rw [map_lie] }
 #align lie_module_hom.comp LieModuleHom.comp
 
 theorem comp_apply (f : N →ₗ⁅R,L⁆ P) (g : M →ₗ⁅R,L⁆ N) (m : M) : f.comp g m = f (g m) :=

@@ -78,7 +78,7 @@ variable {A : Type*} [Semiring A] [Algebra R A]
 
 -- @[simp] -- Porting note: simp can prove this
 theorem comp_ι_sq_zero (g : ExteriorAlgebra R M →ₐ[R] A) (m : M) : g (ι R m) * g (ι R m) = 0 := by
-  rw [← AlgHom.map_mul, ι_sq_zero, AlgHom.map_zero]
+  rw [← AlgHom.map_mul]; rw [ι_sq_zero]; rw [AlgHom.map_zero]
 #align exterior_algebra.comp_ι_sq_zero ExteriorAlgebra.comp_ι_sq_zero
 
 variable (R)
@@ -227,16 +227,16 @@ theorem ι_eq_algebraMap_iff (x : M) (r : R) : ι R x = algebraMap R _ r ↔ x =
   · letI : Module Rᵐᵒᵖ M := Module.compHom _ ((RingHom.id R).fromOpposite mul_comm)
     haveI : IsCentralScalar R M := ⟨fun r m => rfl⟩
     have hf0 : toTrivSqZeroExt (ι R x) = (0, x) := toTrivSqZeroExt_ι _
-    rw [h, AlgHom.commutes] at hf0
+    rw [h] at hf0; rw [AlgHom.commutes] at hf0
     have : r = 0 ∧ 0 = x := Prod.ext_iff.1 hf0
     exact this.symm.imp_left Eq.symm
   · rintro ⟨rfl, rfl⟩
-    rw [LinearMap.map_zero, RingHom.map_zero]
+    rw [LinearMap.map_zero]; rw [RingHom.map_zero]
 #align exterior_algebra.ι_eq_algebra_map_iff ExteriorAlgebra.ι_eq_algebraMap_iff
 
 @[simp]
 theorem ι_ne_one [Nontrivial R] (x : M) : ι R x ≠ 1 := by
-  rw [← (algebraMap R (ExteriorAlgebra R M)).map_one, Ne.def, ι_eq_algebraMap_iff]
+  rw [← (algebraMap R (ExteriorAlgebra R M)).map_one]; rw [Ne.def]; rw [ι_eq_algebraMap_iff]
   exact one_ne_zero ∘ And.right
 #align exterior_algebra.ι_ne_one ExteriorAlgebra.ι_ne_one
 
@@ -247,7 +247,7 @@ theorem ι_range_disjoint_one :
   rw [Submodule.disjoint_def]
   rintro _ ⟨x, hx⟩ ⟨r, rfl : algebraMap R (ExteriorAlgebra R M) r = _⟩
   rw [ι_eq_algebraMap_iff x] at hx
-  rw [hx.2, RingHom.map_zero]
+  rw [hx.2]; rw [RingHom.map_zero]
 #align exterior_algebra.ι_range_disjoint_one ExteriorAlgebra.ι_range_disjoint_one
 
 @[simp]
@@ -268,9 +268,9 @@ theorem ι_mul_prod_list {n : ℕ} (f : Fin n → M) (i : Fin n) :
         congr_arg
           ((· * ·) <| ι R <| f 0) (hn (fun i => f <| Fin.succ i) (i.pred h))
       simp only at hn
-      rw [Fin.succ_pred, ← mul_assoc, mul_zero] at hn
+      rw [Fin.succ_pred] at hn; rw [← mul_assoc] at hn; rw [mul_zero] at hn
       refine' (eq_zero_iff_eq_zero_of_add_eq_zero _).mp hn
-      rw [← add_mul, ι_add_mul_swap, zero_mul]
+      rw [← add_mul]; rw [ι_add_mul_swap]; rw [zero_mul]
 #align exterior_algebra.ι_mul_prod_list ExteriorAlgebra.ι_mul_prod_list
 
 variable (R)
@@ -294,7 +294,7 @@ def ιMulti (n : ℕ) : AlternatingMap R M (ExteriorAlgebra R M) (Fin n) :=
         by_cases hx : x = 0
         -- one of the repeated terms is on the left
         · rw [hx] at hfxy h
-          rw [hfxy, ← Fin.succ_pred y (ne_of_lt h).symm]
+          rw [hfxy]; rw [← Fin.succ_pred y (ne_of_lt h).symm]
           exact ι_mul_prod_list (f ∘ Fin.succ) _
         -- ignore the left-most term and induct on the remaining ones, decrementing indices
         · convert mul_zero (ι R (f 0))

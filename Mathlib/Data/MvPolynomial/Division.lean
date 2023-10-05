@@ -237,7 +237,7 @@ theorem monomial_dvd_monomial {r s : R} {i j : σ →₀ ℕ} :
   · rintro ⟨h | hij, d, rfl⟩
     · simp_rw [h, monomial_zero, dvd_zero]
     · refine' ⟨monomial (j - i) d, _⟩
-      rw [monomial_mul, add_tsub_cancel_of_le hij]
+      rw [monomial_mul]; rw [add_tsub_cancel_of_le hij]
 #align mv_polynomial.monomial_dvd_monomial MvPolynomial.monomial_dvd_monomial
 
 @[simp]

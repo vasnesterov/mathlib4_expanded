@@ -258,7 +258,7 @@ theorem le_of_opNorm_le {c : ℝ} (h : ‖f‖ ≤ c) (x : V₁) : ‖f x‖ ≤
 /-- continuous linear maps are Lipschitz continuous. -/
 theorem lipschitz : LipschitzWith ⟨‖f‖, opNorm_nonneg f⟩ f :=
   LipschitzWith.of_dist_le_mul fun x y => by
-    rw [dist_eq_norm, dist_eq_norm, ← map_sub]
+    rw [dist_eq_norm]; rw [dist_eq_norm]; rw [← map_sub]
     apply le_opNorm
 #align normed_add_group_hom.lipschitz NormedAddGroupHom.lipschitz
 
@@ -506,7 +506,7 @@ instance smul : SMul R (NormedAddGroupHom V₁ V₂) where
         let ⟨b, hb⟩ := f.bound'
         ⟨dist r 0 * b, fun x => by
           have := dist_smul_pair r (f x) (f 0)
-          rw [map_zero, smul_zero, dist_zero_right, dist_zero_right] at this
+          rw [map_zero] at this; rw [smul_zero] at this; rw [dist_zero_right] at this; rw [dist_zero_right] at this
           rw [mul_assoc]
           refine' this.trans _
           gcongr
@@ -543,7 +543,7 @@ instance nsmul : SMul ℕ (NormedAddGroupHom V₁ V₂) where
       bound' :=
         let ⟨b, hb⟩ := f.bound'
         ⟨n • b, fun v => by
-          rw [Pi.smul_apply, nsmul_eq_mul, mul_assoc]
+          rw [Pi.smul_apply]; rw [nsmul_eq_mul]; rw [mul_assoc]
           exact (norm_nsmul_le _ _).trans (by gcongr; apply hb)⟩ }
 #align normed_add_group_hom.has_nat_scalar NormedAddGroupHom.nsmul
 
@@ -564,7 +564,7 @@ instance zsmul : SMul ℤ (NormedAddGroupHom V₁ V₂) where
       bound' :=
         let ⟨b, hb⟩ := f.bound'
         ⟨‖z‖ • b, fun v => by
-          rw [Pi.smul_apply, smul_eq_mul, mul_assoc]
+          rw [Pi.smul_apply]; rw [smul_eq_mul]; rw [mul_assoc]
           exact (norm_zsmul_le _ _).trans (by gcongr; apply hb)⟩ }
 #align normed_add_group_hom.has_int_scalar NormedAddGroupHom.zsmul
 
@@ -892,7 +892,7 @@ def ι : NormedAddGroupHom (f.equalizer g) V :=
 
 theorem comp_ι_eq : f.comp (ι f g) = g.comp (ι f g) := by
   ext x
-  rw [comp_apply, comp_apply, ← sub_eq_zero, ← NormedAddGroupHom.sub_apply]
+  rw [comp_apply]; rw [comp_apply]; rw [← sub_eq_zero]; rw [← NormedAddGroupHom.sub_apply]
   exact x.2
 #align normed_add_group_hom.equalizer.comp_ι_eq NormedAddGroupHom.Equalizer.comp_ι_eq
 
@@ -907,7 +907,7 @@ def lift (φ : NormedAddGroupHom V₁ V) (h : f.comp φ = g.comp φ) :
   toFun v :=
     ⟨φ v,
       show (f - g) (φ v) = 0 by
-        rw [NormedAddGroupHom.sub_apply, sub_eq_zero, ← comp_apply, h, comp_apply]⟩
+        rw [NormedAddGroupHom.sub_apply]; rw [sub_eq_zero]; rw [← comp_apply]; rw [h]; rw [comp_apply]⟩
   map_add' v₁ v₂ := by
     ext
     simp only [map_add, AddSubgroup.coe_add, Subtype.coe_mk]
@@ -964,7 +964,7 @@ theorem map_id : map (f₂ := f₁) (g₂ := g₁) (id V₁) (id W₁) rfl rfl =
 
 theorem comm_sq₂ (hf : ψ.comp f₁ = f₂.comp φ) (hf' : ψ'.comp f₂ = f₃.comp φ') :
     (ψ'.comp ψ).comp f₁ = f₃.comp (φ'.comp φ) := by
-  rw [comp_assoc, hf, ← comp_assoc, hf', comp_assoc]
+  rw [comp_assoc]; rw [hf]; rw [← comp_assoc]; rw [hf']; rw [comp_assoc]
 #align normed_add_group_hom.equalizer.comm_sq₂ NormedAddGroupHom.Equalizer.comm_sq₂
 
 theorem map_comp_map (hf : ψ.comp f₁ = f₂.comp φ) (hg : ψ.comp g₁ = g₂.comp φ)

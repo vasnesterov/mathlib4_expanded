@@ -47,7 +47,7 @@ theorem p_lemma (p : ℕ) (hpp : Nat.Prime p) (hp_mod_4_eq_1 : p ≡ 1 [MOD 4]) 
     simp only [Int.natAbs_sq, Int.coe_nat_pow, Int.ofNat_succ, Int.coe_nat_dvd.mp]
     refine' (ZMod.int_cast_zmod_eq_zero_iff_dvd (m ^ 2 + 1) p).mp _
     simp only [Int.cast_pow, Int.cast_add, Int.cast_one, ZMod.coe_valMinAbs]
-    rw [pow_two, ← hy]; exact add_left_neg 1
+    rw [pow_two]; rw [← hy]; exact add_left_neg 1
   have hnat₂ : n ≤ p / 2 := ZMod.natAbs_valMinAbs_le y
   have hnat₃ : p ≥ 2 * n := by linarith [Nat.div_mul_le_self p 2]
   set k : ℕ := p - 2 * n with hnat₄

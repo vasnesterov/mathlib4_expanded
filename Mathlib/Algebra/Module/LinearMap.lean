@@ -160,7 +160,7 @@ instance (priority := 100) addMonoidHomClass [SemilinearMapClass F σ M M₃] :
   { SemilinearMapClass.toAddHomClass with
     map_zero := fun f ↦
       show f 0 = 0 by
-        rw [← zero_smul R (0 : M), map_smulₛₗ]
+        rw [← zero_smul R (0 : M)]; rw [map_smulₛₗ]
         simp }
 
 instance (priority := 100) distribMulActionHomClass [LinearMapClass F R M M₂] :
@@ -507,7 +507,7 @@ theorem ext_ring_op {σ : Rᵐᵒᵖ →+* S} {f g : R →ₛₗ[σ] M₃} (h : 
   ext fun x ↦ by
     -- Porting note: replaced the oneliner `rw` proof with a partially term-mode proof
     -- because `rw` was giving "motive is type incorrect" errors
-    rw [← one_mul x, ← op_smul_eq_mul]
+    rw [← one_mul x]; rw [← op_smul_eq_mul]
     refine (f.map_smulₛₗ (MulOpposite.op x) 1).trans ?_
     rw [h]
     exact (g.map_smulₛₗ (MulOpposite.op x) 1).symm
@@ -610,7 +610,7 @@ def inverse [Module R M] [Module S M₂] {σ : R →+* S} {σ' : S →+* R} [Rin
       map_add' := fun x y ↦ by rw [← h₁ (g (x + y)), ← h₁ (g x + g y)]; simp [h₂]
       map_smul' := fun a b ↦ by
         dsimp only
-        rw [← h₁ (g (a • b)), ← h₁ (σ' a • g b)]
+        rw [← h₁ (g (a • b))]; rw [← h₁ (σ' a • g b)]
         simp [h₂] }
 #align linear_map.inverse LinearMap.inverse
 
@@ -1145,7 +1145,7 @@ theorem pow_apply (f : M →ₗ[R] M) (n : ℕ) (m : M) : (f ^ n) m = f^[n] m :=
 
 theorem pow_map_zero_of_le {f : Module.End R M} {m : M} {k l : ℕ} (hk : k ≤ l)
     (hm : (f ^ k) m = 0) : (f ^ l) m = 0 := by
-  rw [← tsub_add_cancel_of_le hk, pow_add, mul_apply, hm, map_zero]
+  rw [← tsub_add_cancel_of_le hk]; rw [pow_add]; rw [mul_apply]; rw [hm]; rw [map_zero]
 #align linear_map.pow_map_zero_of_le LinearMap.pow_map_zero_of_le
 
 theorem commute_pow_left_of_commute
@@ -1191,13 +1191,13 @@ theorem iterate_bijective (h : Bijective f') : ∀ n : ℕ, Bijective (f' ^ n)
 
 theorem injective_of_iterate_injective {n : ℕ} (hn : n ≠ 0) (h : Injective (f' ^ n)) :
     Injective f' := by
-  rw [← Nat.succ_pred_eq_of_pos (pos_iff_ne_zero.mpr hn), iterate_succ, coe_comp] at h
+  rw [← Nat.succ_pred_eq_of_pos (pos_iff_ne_zero.mpr hn)] at h; rw [iterate_succ] at h; rw [coe_comp] at h
   exact h.of_comp
 #align linear_map.injective_of_iterate_injective LinearMap.injective_of_iterate_injective
 
 theorem surjective_of_iterate_surjective {n : ℕ} (hn : n ≠ 0) (h : Surjective (f' ^ n)) :
     Surjective f' := by
-  rw [← Nat.succ_pred_eq_of_pos (pos_iff_ne_zero.mpr hn), pow_succ, coe_mul] at h
+  rw [← Nat.succ_pred_eq_of_pos (pos_iff_ne_zero.mpr hn)] at h; rw [pow_succ] at h; rw [coe_mul] at h
   exact Surjective.of_comp h
 #align linear_map.surjective_of_iterate_surjective LinearMap.surjective_of_iterate_surjective
 

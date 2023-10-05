@@ -56,7 +56,7 @@ def evaluationJointlyReflectsLimits {F : J ⥤ K ⥤ C} (c : Cone F)
     { app := fun k => (t k).lift ⟨s.pt.obj k, whiskerRight s.π ((evaluation K C).obj k)⟩
       naturality := fun X Y f =>
         (t Y).hom_ext fun j => by
-          rw [assoc, (t Y).fac _ j]
+          rw [assoc]; rw [(t Y).fac _ j]
           simpa using
             ((t X).fac_assoc ⟨s.pt.obj X, whiskerRight s.π ((evaluation K C).obj X)⟩ j _).symm }
   fac s j := by ext k; exact (t k).fac _ j
@@ -239,8 +239,7 @@ theorem limit_map_limitObjIsoLimitCompEvaluation_hom [HasLimitsOfShape J C] {i j
 theorem limitObjIsoLimitCompEvaluation_inv_limit_map [HasLimitsOfShape J C] {i j : K}
     (F : J ⥤ K ⥤ C) (f : i ⟶ j) : (limitObjIsoLimitCompEvaluation _ _).inv ≫ (limit F).map f =
     limMap (whiskerLeft _ ((evaluation _ _).map f)) ≫ (limitObjIsoLimitCompEvaluation _ _).inv := by
-  rw [Iso.inv_comp_eq, ← Category.assoc, Iso.eq_comp_inv,
-    limit_map_limitObjIsoLimitCompEvaluation_hom]
+  rw [Iso.inv_comp_eq]; rw [← Category.assoc]; rw [Iso.eq_comp_inv]; rw [limit_map_limitObjIsoLimitCompEvaluation_hom]
 #align category_theory.limits.limit_obj_iso_limit_comp_evaluation_inv_limit_map CategoryTheory.Limits.limitObjIsoLimitCompEvaluation_inv_limit_map
 
 @[ext]
@@ -306,8 +305,7 @@ theorem colimit_map_colimitObjIsoColimitCompEvaluation_hom [HasColimitsOfShape J
     (colimit F).map f ≫ (colimitObjIsoColimitCompEvaluation _ _).hom =
       (colimitObjIsoColimitCompEvaluation _ _).hom ≫
         colimMap (whiskerLeft _ ((evaluation _ _).map f)) := by
-  rw [← Iso.inv_comp_eq, ← Category.assoc, ← Iso.eq_comp_inv,
-    colimitObjIsoColimitCompEvaluation_inv_colimit_map]
+  rw [← Iso.inv_comp_eq]; rw [← Category.assoc]; rw [← Iso.eq_comp_inv]; rw [colimitObjIsoColimitCompEvaluation_inv_colimit_map]
 #align category_theory.limits.colimit_map_colimit_obj_iso_colimit_comp_evaluation_hom CategoryTheory.Limits.colimit_map_colimitObjIsoColimitCompEvaluation_hom
 
 @[ext]

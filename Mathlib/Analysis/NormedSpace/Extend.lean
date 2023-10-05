@@ -56,23 +56,23 @@ noncomputable def extendTo𝕜' (fr : F →ₗ[ℝ] ℝ) : F →ₗ[𝕜] 𝕜 :
     intro c x
     rw [← ofReal_mul]
     congr 1
-    rw [IsROrC.ofReal_alg, smul_assoc, fr.map_smul, Algebra.id.smul_eq_mul, one_smul]
+    rw [IsROrC.ofReal_alg]; rw [smul_assoc]; rw [fr.map_smul]; rw [Algebra.id.smul_eq_mul]; rw [one_smul]
   have smul_ℝ : ∀ (c : ℝ) (x : F), fc ((c : 𝕜) • x) = (c : 𝕜) * fc x := by
     intro c x
     dsimp only
-    rw [A c x, smul_smul, mul_comm I (c : 𝕜), ← smul_smul, A, mul_sub]
+    rw [A c x]; rw [smul_smul]; rw [mul_comm I (c : 𝕜)]; rw [← smul_smul]; rw [A]; rw [mul_sub]
     ring
   have smul_I : ∀ x : F, fc ((I : 𝕜) • x) = (I : 𝕜) * fc x := by
     intro x
     dsimp only
     cases' @I_mul_I_ax 𝕜 _ with h h
     · simp [h]
-    rw [mul_sub, ← mul_assoc, smul_smul, h]
+    rw [mul_sub]; rw [← mul_assoc]; rw [smul_smul]; rw [h]
     simp only [neg_mul, LinearMap.map_neg, one_mul, one_smul, mul_neg, ofReal_neg, neg_smul,
       sub_neg_eq_add, add_comm]
   have smul_𝕜 : ∀ (c : 𝕜) (x : F), fc (c • x) = c • fc x := by
     intro c x
-    rw [← re_add_im c, add_smul, add_smul, add, smul_ℝ, ← smul_smul, smul_ℝ, smul_I, ← mul_assoc]
+    rw [← re_add_im c]; rw [add_smul]; rw [add_smul]; rw [add]; rw [smul_ℝ]; rw [← smul_smul]; rw [smul_ℝ]; rw [smul_I]; rw [← mul_assoc]
     rfl
   exact
     { toFun := fc
@@ -94,9 +94,9 @@ theorem norm_extendTo𝕜'_apply_sq (fr : F →ₗ[ℝ] ℝ) (x : F) :
     ‖(fr.extendTo𝕜' x : 𝕜)‖ ^ 2 = fr (conj (fr.extendTo𝕜' x : 𝕜) • x) :=
   calc
     ‖(fr.extendTo𝕜' x : 𝕜)‖ ^ 2 = re (conj (fr.extendTo𝕜' x) * fr.extendTo𝕜' x : 𝕜) := by
-      rw [IsROrC.conj_mul, normSq_eq_def', ofReal_re]
+      rw [IsROrC.conj_mul]; rw [normSq_eq_def']; rw [ofReal_re]
     _ = fr (conj (fr.extendTo𝕜' x : 𝕜) • x) := by
-      rw [← smul_eq_mul, ← map_smul, extendTo𝕜'_apply_re]
+      rw [← smul_eq_mul]; rw [← map_smul]; rw [extendTo𝕜'_apply_re]
 #align linear_map.norm_extend_to_𝕜'_apply_sq LinearMap.norm_extendTo𝕜'_apply_sq
 
 end LinearMap
@@ -112,7 +112,7 @@ theorem norm_extendTo𝕜'_bound (fr : F →L[ℝ] ℝ) (x : F) :
   by_cases h : lm x = 0
   · rw [h, norm_zero]
     apply mul_nonneg <;> exact norm_nonneg _
-  rw [← mul_le_mul_left (norm_pos_iff.2 h), ← sq]
+  rw [← mul_le_mul_left (norm_pos_iff.2 h)]; rw [← sq]
   calc
     ‖lm x‖ ^ 2 = fr (conj (lm x : 𝕜) • x) := fr.toLinearMap.norm_extendTo𝕜'_apply_sq x
     _ ≤ ‖fr (conj (lm x : 𝕜) • x)‖ := (le_abs_self _)

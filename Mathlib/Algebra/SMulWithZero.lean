@@ -114,7 +114,7 @@ variable (M)
 def SMulWithZero.compHom (f : ZeroHom R' R) : SMulWithZero R' M where
   smul := (· • ·) ∘ f
   smul_zero m := smul_zero (f m)
-  zero_smul m := by show (f 0) • m = 0; rw [map_zero, zero_smul]
+  zero_smul m := by show (f 0) • m = 0; rw [map_zero]; rw [zero_smul]
 #align smul_with_zero.comp_hom SMulWithZero.compHom
 
 end Zero
@@ -215,7 +215,7 @@ theorem smul_inv₀ [SMulCommClass α β β] [IsScalarTower α β β] (c : α) (
   obtain rfl | hx := eq_or_ne x 0
   · simp only [inv_zero, smul_zero]
   · refine' inv_eq_of_mul_eq_one_left _
-    rw [smul_mul_smul, inv_mul_cancel hc, inv_mul_cancel hx, one_smul]
+    rw [smul_mul_smul]; rw [inv_mul_cancel hc]; rw [inv_mul_cancel hx]; rw [one_smul]
 #align smul_inv₀ smul_inv₀
 
 end GroupWithZero

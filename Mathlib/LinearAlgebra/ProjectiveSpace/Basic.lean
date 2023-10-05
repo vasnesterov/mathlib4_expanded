@@ -149,7 +149,7 @@ theorem submodule_injective :
     Function.Injective (Projectivization.submodule : ℙ K V → Submodule K V) := fun u v h ↦ by
   induction' u using ind with u hu
   induction' v using ind with v hv
-  rw [submodule_mk, submodule_mk, Submodule.span_singleton_eq_span_singleton] at h
+  rw [submodule_mk] at h; rw [submodule_mk] at h; rw [Submodule.span_singleton_eq_span_singleton] at h
   exact ((mk_eq_mk_iff K v u hv hu).2 h).symm
 #align projectivization.submodule_injective Projectivization.submodule_injective
 
@@ -162,7 +162,7 @@ noncomputable def equivSubmodule : ℙ K V ≃ { H : Submodule K V // finrank K 
     refine ⟨fun ⟨v, hv⟩ ↦ hv ▸ v.finrank_submodule, fun h ↦ ?_⟩
     rcases finrank_eq_one_iff'.1 h with ⟨v : H, hv₀, hv : ∀ w : H, _⟩
     use mk K (v : V) (Subtype.coe_injective.ne hv₀)
-    rw [submodule_mk, SetLike.ext'_iff, Submodule.span_singleton_eq_range]
+    rw [submodule_mk]; rw [SetLike.ext'_iff]; rw [Submodule.span_singleton_eq_range]
     refine (Set.range_subset_iff.2 fun _ ↦ H.smul_mem _ v.2).antisymm fun x hx ↦ ?_
     rcases hv ⟨x, hx⟩ with ⟨c, hc⟩
     exact ⟨c, congr_arg Subtype.val hc⟩

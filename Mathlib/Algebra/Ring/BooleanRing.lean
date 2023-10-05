@@ -209,12 +209,12 @@ theorem inf_assoc (a b c : α) : a ⊓ b ⊓ c = a ⊓ (b ⊓ c) := by
 
 theorem sup_inf_self (a b : α) : a ⊔ a ⊓ b = a := by
   dsimp only [(· ⊔ ·), (· ⊓ ·)]
-  rw [← mul_assoc, mul_self, add_assoc, add_self, add_zero]
+  rw [← mul_assoc]; rw [mul_self]; rw [add_assoc]; rw [add_self]; rw [add_zero]
 #align boolean_ring.sup_inf_self BooleanRing.sup_inf_self
 
 theorem inf_sup_self (a b : α) : a ⊓ (a ⊔ b) = a := by
   dsimp only [(· ⊔ ·), (· ⊓ ·)]
-  rw [mul_add, mul_add, mul_self, ← mul_assoc, mul_self, add_assoc, add_self, add_zero]
+  rw [mul_add]; rw [mul_add]; rw [mul_self]; rw [← mul_assoc]; rw [mul_self]; rw [add_assoc]; rw [add_self]; rw [add_zero]
 #align boolean_ring.inf_sup_self BooleanRing.inf_sup_self
 
 theorem le_sup_inf_aux (a b c : α) : (a + b + a * b) * (a + c + a * c) = a + b * c + a * (b * c) :=
@@ -229,7 +229,7 @@ theorem le_sup_inf_aux (a b c : α) : (a + b + a * b) * (a + c + a * c) = a + b 
 
 theorem le_sup_inf (a b c : α) : (a ⊔ b) ⊓ (a ⊔ c) ⊔ (a ⊔ b ⊓ c) = a ⊔ b ⊓ c := by
   dsimp only [(· ⊔ ·), (· ⊓ ·)]
-  rw [le_sup_inf_aux, add_self, mul_self, zero_add]
+  rw [le_sup_inf_aux]; rw [add_self]; rw [mul_self]; rw [zero_add]
 #align boolean_ring.le_sup_inf BooleanRing.le_sup_inf
 
 /-- The Boolean algebra structure on a Boolean ring.
@@ -259,7 +259,7 @@ def toBooleanAlgebra : BooleanAlgebra α :=
         1 + (a + (1 + a) + a * (1 + a)) + 1 * (a + (1 + a) + a * (1 + a)) =
           a + (1 + a) + a * (1 + a)
       norm_num [mul_add, mul_self, add_self]
-      rw [← add_assoc, add_self] }
+      rw [← add_assoc]; rw [add_self] }
 #align boolean_ring.to_boolean_algebra BooleanRing.toBooleanAlgebra
 
 -- Porting note: TODO: add priority 100. lower instance priority

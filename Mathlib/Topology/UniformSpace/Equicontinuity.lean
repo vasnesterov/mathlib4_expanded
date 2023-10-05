@@ -292,7 +292,7 @@ very useful for developping the equicontinuity API, but it should not be used di
 purposes. -/
 theorem equicontinuousAt_iff_continuousAt {F : ι → X → α} {x₀ : X} :
     EquicontinuousAt F x₀ ↔ ContinuousAt (ofFun ∘ Function.swap F : X → ι →ᵤ α) x₀ := by
-  rw [ContinuousAt, (UniformFun.hasBasis_nhds ι α _).tendsto_right_iff]
+  rw [ContinuousAt]; rw [(UniformFun.hasBasis_nhds ι α _).tendsto_right_iff]
   rfl
 #align equicontinuous_at_iff_continuous_at equicontinuousAt_iff_continuousAt
 
@@ -311,7 +311,7 @@ This is very useful for developping the equicontinuity API, but it should not be
 for other purposes. -/
 theorem uniformEquicontinuous_iff_uniformContinuous {F : ι → β → α} :
     UniformEquicontinuous F ↔ UniformContinuous (ofFun ∘ Function.swap F : β → ι →ᵤ α) := by
-  rw [UniformContinuous, (UniformFun.hasBasis_uniformity ι α).tendsto_right_iff]
+  rw [UniformContinuous]; rw [(UniformFun.hasBasis_uniformity ι α).tendsto_right_iff]
   rfl
 #align uniform_equicontinuous_iff_uniform_continuous uniformEquicontinuous_iff_uniformContinuous
 
@@ -320,17 +320,17 @@ theorem equicontinuousAt_iInf_rng {α' : Type*} {u : κ → UniformSpace α'} {F
     @EquicontinuousAt _ _ _ _ (⨅ k, u k) F x₀ ↔ ∀ k, @EquicontinuousAt _ _ _ _ (u k) F x₀ := by
   simp [@equicontinuousAt_iff_continuousAt _ _ _ _ _, UniformFun.topologicalSpace]
   unfold ContinuousAt
-  rw [UniformFun.iInf_eq, toTopologicalSpace_iInf, nhds_iInf, tendsto_iInf]
+  rw [UniformFun.iInf_eq]; rw [toTopologicalSpace_iInf]; rw [nhds_iInf]; rw [tendsto_iInf]
 
 theorem equicontinuous_iInf_rng {α' : Type*} {u : κ → UniformSpace α'} {F : ι → X → α'} :
     @Equicontinuous _ _ _ _ (⨅ k, u k) F ↔ ∀ k, @Equicontinuous _ _ _ _ (u k) F := by
   simp_rw [@equicontinuous_iff_continuous _ _ _ _ _, UniformFun.topologicalSpace]
-  rw [UniformFun.iInf_eq, toTopologicalSpace_iInf, continuous_iInf_rng]
+  rw [UniformFun.iInf_eq]; rw [toTopologicalSpace_iInf]; rw [continuous_iInf_rng]
 
 theorem uniformEquicontinuous_iInf_rng {α' : Type*} {u : κ → UniformSpace α'} {F : ι → β → α'} :
     @UniformEquicontinuous _ _ _ (⨅ k, u k) _ F ↔ ∀ k, @UniformEquicontinuous _ _ _ (u k) _ F := by
   simp_rw [@uniformEquicontinuous_iff_uniformContinuous _ _ _ _]
-  rw [UniformFun.iInf_eq, uniformContinuous_iInf_rng]
+  rw [UniformFun.iInf_eq]; rw [uniformContinuous_iInf_rng]
 
 theorem equicontinuousAt_iInf_dom {X' : Type*} {t : κ → TopologicalSpace X'} {F : ι → X' → α}
     {x₀ : X'} {k : κ} (hk : @EquicontinuousAt _ _ _ (t k) _ F x₀) :
@@ -357,8 +357,7 @@ theorem uniform_equicontinuous_infi_dom {β' : Type*} {u : κ → UniformSpace �
 theorem Filter.HasBasis.equicontinuousAt_iff_left {κ : Type*} {p : κ → Prop} {s : κ → Set X}
     {F : ι → X → α} {x₀ : X} (hX : (𝓝 x₀).HasBasis p s) :
     EquicontinuousAt F x₀ ↔ ∀ U ∈ 𝓤 α, ∃ k, p k ∧ ∀ x ∈ s k, ∀ i, (F i x₀, F i x) ∈ U := by
-  rw [equicontinuousAt_iff_continuousAt, ContinuousAt,
-    hX.tendsto_iff (UniformFun.hasBasis_nhds ι α _)]
+  rw [equicontinuousAt_iff_continuousAt]; rw [ContinuousAt]; rw [hX.tendsto_iff (UniformFun.hasBasis_nhds ι α _)]
   simp only [Function.comp_apply, mem_setOf_eq, exists_prop]
   rfl
 #align filter.has_basis.equicontinuous_at_iff_left Filter.HasBasis.equicontinuousAt_iff_left
@@ -366,8 +365,7 @@ theorem Filter.HasBasis.equicontinuousAt_iff_left {κ : Type*} {p : κ → Prop}
 theorem Filter.HasBasis.equicontinuousAt_iff_right {κ : Type*} {p : κ → Prop} {s : κ → Set (α × α)}
     {F : ι → X → α} {x₀ : X} (hα : (𝓤 α).HasBasis p s) :
     EquicontinuousAt F x₀ ↔ ∀ k, p k → ∀ᶠ x in 𝓝 x₀, ∀ i, (F i x₀, F i x) ∈ s k := by
-  rw [equicontinuousAt_iff_continuousAt, ContinuousAt,
-    (UniformFun.hasBasis_nhds_of_basis ι α _ hα).tendsto_right_iff]
+  rw [equicontinuousAt_iff_continuousAt]; rw [ContinuousAt]; rw [(UniformFun.hasBasis_nhds_of_basis ι α _ hα).tendsto_right_iff]
   rfl
 #align filter.has_basis.equicontinuous_at_iff_right Filter.HasBasis.equicontinuousAt_iff_right
 
@@ -378,8 +376,7 @@ theorem Filter.HasBasis.equicontinuousAt_iff {κ₁ κ₂ : Type*} {p₁ : κ₁
     (hα : (𝓤 α).HasBasis p₂ s₂) :
     EquicontinuousAt F x₀ ↔
       ∀ k₂, p₂ k₂ → ∃ k₁, p₁ k₁ ∧ ∀ x ∈ s₁ k₁, ∀ i, (F i x₀, F i x) ∈ s₂ k₂ := by
-  rw [equicontinuousAt_iff_continuousAt, ContinuousAt,
-    hX.tendsto_iff (UniformFun.hasBasis_nhds_of_basis ι α _ hα)]
+  rw [equicontinuousAt_iff_continuousAt]; rw [ContinuousAt]; rw [hX.tendsto_iff (UniformFun.hasBasis_nhds_of_basis ι α _ hα)]
   simp only [Function.comp_apply, mem_setOf_eq, exists_prop]
   rfl
 #align filter.has_basis.equicontinuous_at_iff Filter.HasBasis.equicontinuousAt_iff
@@ -390,8 +387,7 @@ theorem Filter.HasBasis.uniformEquicontinuous_iff_left {κ : Type*} {p : κ → 
     {s : κ → Set (β × β)} {F : ι → β → α} (hβ : (𝓤 β).HasBasis p s) :
     UniformEquicontinuous F ↔
       ∀ U ∈ 𝓤 α, ∃ k, p k ∧ ∀ x y, (x, y) ∈ s k → ∀ i, (F i x, F i y) ∈ U := by
-  rw [uniformEquicontinuous_iff_uniformContinuous, UniformContinuous,
-    hβ.tendsto_iff (UniformFun.hasBasis_uniformity ι α)]
+  rw [uniformEquicontinuous_iff_uniformContinuous]; rw [UniformContinuous]; rw [hβ.tendsto_iff (UniformFun.hasBasis_uniformity ι α)]
   simp only [Prod.forall, Function.comp_apply, mem_setOf_eq, exists_prop]
   rfl
 #align filter.has_basis.uniform_equicontinuous_iff_left Filter.HasBasis.uniformEquicontinuous_iff_left
@@ -399,8 +395,7 @@ theorem Filter.HasBasis.uniformEquicontinuous_iff_left {κ : Type*} {p : κ → 
 theorem Filter.HasBasis.uniformEquicontinuous_iff_right {κ : Type*} {p : κ → Prop}
     {s : κ → Set (α × α)} {F : ι → β → α} (hα : (𝓤 α).HasBasis p s) :
     UniformEquicontinuous F ↔ ∀ k, p k → ∀ᶠ xy : β × β in 𝓤 β, ∀ i, (F i xy.1, F i xy.2) ∈ s k := by
-  rw [uniformEquicontinuous_iff_uniformContinuous, UniformContinuous,
-    (UniformFun.hasBasis_uniformity_of_basis ι α hα).tendsto_right_iff]
+  rw [uniformEquicontinuous_iff_uniformContinuous]; rw [UniformContinuous]; rw [(UniformFun.hasBasis_uniformity_of_basis ι α hα).tendsto_right_iff]
   rfl
 #align filter.has_basis.uniform_equicontinuous_iff_right Filter.HasBasis.uniformEquicontinuous_iff_right
 
@@ -411,8 +406,7 @@ theorem Filter.HasBasis.uniformEquicontinuous_iff {κ₁ κ₂ : Type*} {p₁ : 
     (hβ : (𝓤 β).HasBasis p₁ s₁) (hα : (𝓤 α).HasBasis p₂ s₂) :
     UniformEquicontinuous F ↔
       ∀ k₂, p₂ k₂ → ∃ k₁, p₁ k₁ ∧ ∀ x y, (x, y) ∈ s₁ k₁ → ∀ i, (F i x, F i y) ∈ s₂ k₂ := by
-  rw [uniformEquicontinuous_iff_uniformContinuous, UniformContinuous,
-    hβ.tendsto_iff (UniformFun.hasBasis_uniformity_of_basis ι α hα)]
+  rw [uniformEquicontinuous_iff_uniformContinuous]; rw [UniformContinuous]; rw [hβ.tendsto_iff (UniformFun.hasBasis_uniformity_of_basis ι α hα)]
   simp only [Prod.forall, Function.comp_apply, mem_setOf_eq, exists_prop]
   rfl
 #align filter.has_basis.uniform_equicontinuous_iff Filter.HasBasis.uniformEquicontinuous_iff
@@ -423,7 +417,7 @@ equicontinuous at `x₀`. -/
 theorem UniformInducing.equicontinuousAt_iff {F : ι → X → α} {x₀ : X} {u : α → β}
     (hu : UniformInducing u) : EquicontinuousAt F x₀ ↔ EquicontinuousAt ((· ∘ ·) u ∘ F) x₀ := by
   have := (UniformFun.postcomp_uniformInducing (α := ι) hu).inducing
-  rw [equicontinuousAt_iff_continuousAt, equicontinuousAt_iff_continuousAt, this.continuousAt_iff]
+  rw [equicontinuousAt_iff_continuousAt]; rw [equicontinuousAt_iff_continuousAt]; rw [this.continuousAt_iff]
   rfl
 #align uniform_inducing.equicontinuous_at_iff UniformInducing.equicontinuousAt_iff
 
@@ -441,8 +435,7 @@ equicontinuous. -/
 theorem UniformInducing.uniformEquicontinuous_iff {F : ι → β → α} {u : α → γ}
     (hu : UniformInducing u) : UniformEquicontinuous F ↔ UniformEquicontinuous ((· ∘ ·) u ∘ F) := by
   have := UniformFun.postcomp_uniformInducing (α := ι) hu
-  rw [uniformEquicontinuous_iff_uniformContinuous, uniformEquicontinuous_iff_uniformContinuous,
-    this.uniformContinuous_iff]
+  rw [uniformEquicontinuous_iff_uniformContinuous]; rw [uniformEquicontinuous_iff_uniformContinuous]; rw [this.uniformContinuous_iff]
   rfl
 #align uniform_inducing.uniform_equicontinuous_iff UniformInducing.uniformEquicontinuous_iff
 

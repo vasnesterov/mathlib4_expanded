@@ -206,11 +206,11 @@ def normalMonoCategory : NormalMonoCategory C where
         refine' isLimitAux _ (fun A => limit.lift _ _ ≫ inv (imageMonoFactorisation f).e) aux _
         · intro A g hg
           rw [KernelFork.ι_ofι] at hg
-          rw [← cancel_mono f, hg, ← aux, KernelFork.ι_ofι]
+          rw [← cancel_mono f]; rw [hg]; rw [← aux]; rw [KernelFork.ι_ofι]
         · intro A
           simp only [KernelFork.ι_ofι, Category.assoc]
           convert limit.lift_π A WalkingParallelPair.zero using 2
-          rw [IsIso.inv_comp_eq, eq_comm]
+          rw [IsIso.inv_comp_eq]; rw [eq_comm]
           exact (imageMonoFactorisation f).fac }
 #align category_theory.abelian.of_coimage_image_comparison_is_iso.normal_mono_category CategoryTheory.Abelian.OfCoimageImageComparisonIsIso.normalMonoCategory
 
@@ -233,11 +233,11 @@ def normalEpiCategory : NormalEpiCategory C where
                 inv (Abelian.coimageImageComparison f) ≫ colimit.desc _ _) aux _
         · intro A g hg
           rw [CokernelCofork.π_ofπ] at hg
-          rw [← cancel_epi f, hg, ← aux, CokernelCofork.π_ofπ]
+          rw [← cancel_epi f]; rw [hg]; rw [← aux]; rw [CokernelCofork.π_ofπ]
         · intro A
           simp only [CokernelCofork.π_ofπ, ← Category.assoc]
           convert colimit.ι_desc A WalkingParallelPair.one using 2
-          rw [IsIso.comp_inv_eq, IsIso.comp_inv_eq, eq_comm, ← imageMonoFactorisation_e']
+          rw [IsIso.comp_inv_eq]; rw [IsIso.comp_inv_eq]; rw [eq_comm]; rw [← imageMonoFactorisation_e']
           exact (imageMonoFactorisation f).fac }
 #align category_theory.abelian.of_coimage_image_comparison_is_iso.normal_epi_category CategoryTheory.Abelian.OfCoimageImageComparisonIsIso.normalEpiCategory
 
@@ -444,9 +444,7 @@ theorem imageIsoImage_inv :
     (imageIsoImage f).inv =
       kernel.lift _ (Limits.image.ι f) (by simp [← cancel_epi (factorThruImage f)]) := by
   ext
-  rw [IsImage.isoExt_inv, image.isImage_lift, Limits.image.fac_lift,
-    imageStrongEpiMonoFactorisation_e, Category.assoc, kernel.lift_ι, equalizer_as_kernel,
-    kernel.lift_ι, Limits.image.fac]
+  rw [IsImage.isoExt_inv]; rw [image.isImage_lift]; rw [Limits.image.fac_lift]; rw [imageStrongEpiMonoFactorisation_e]; rw [Category.assoc]; rw [kernel.lift_ι]; rw [equalizer_as_kernel]; rw [kernel.lift_ι]; rw [Limits.image.fac]
 #align category_theory.abelian.image_iso_image_inv CategoryTheory.Abelian.imageIsoImage_inv
 
 end Images
@@ -555,7 +553,7 @@ abbrev pullbackToBiproduct : pullback f g ⟶ X ⊞ Y :=
     `(0, g)`. -/
 abbrev pullbackToBiproductFork : KernelFork (biprod.desc f (-g)) :=
   KernelFork.ofι (pullbackToBiproduct f g) <| by
-    rw [biprod.lift_desc, comp_neg, pullback.condition, add_right_neg]
+    rw [biprod.lift_desc]; rw [comp_neg]; rw [pullback.condition]; rw [add_right_neg]
 #align category_theory.abelian.pullback_to_biproduct_is_kernel.pullback_to_biproduct_fork CategoryTheory.Abelian.PullbackToBiproductIsKernel.pullbackToBiproductFork
 
 /-- The canonical map `pullback f g ⟶ X ⊞ Y` is a kernel of the map induced by
@@ -565,8 +563,8 @@ def isLimitPullbackToBiproduct : IsLimit (pullbackToBiproductFork f g) :=
     (fun s =>
       pullback.lift (Fork.ι s ≫ biprod.fst) (Fork.ι s ≫ biprod.snd) <|
         sub_eq_zero.1 <| by
-          rw [Category.assoc, Category.assoc, ← comp_sub, sub_eq_add_neg, ← comp_neg, ←
-            biprod.desc_eq, KernelFork.condition s])
+          rw [Category.assoc]; rw [Category.assoc]; rw [← comp_sub]; rw [sub_eq_add_neg]; rw [← comp_neg]; rw [←
+            biprod.desc_eq]; rw [KernelFork.condition s])
     (fun s => by
       apply biprod.hom_ext <;> rw [Fork.ι_ofι, Category.assoc]
       · rw [biprod.lift_fst, pullback.lift_fst]
@@ -589,7 +587,7 @@ abbrev biproductToPushout : Y ⊞ Z ⟶ pushout f g :=
     `X ⟶ Y ⊞ Z` induced by `f` and `-g`. -/
 abbrev biproductToPushoutCofork : CokernelCofork (biprod.lift f (-g)) :=
   CokernelCofork.ofπ (biproductToPushout f g) <| by
-    rw [biprod.lift_desc, neg_comp, pushout.condition, add_right_neg]
+    rw [biprod.lift_desc]; rw [neg_comp]; rw [pushout.condition]; rw [add_right_neg]
 #align category_theory.abelian.biproduct_to_pushout_is_cokernel.biproduct_to_pushout_cofork CategoryTheory.Abelian.BiproductToPushoutIsCokernel.biproductToPushoutCofork
 
 /-- The cofork induced by the canonical map `Y ⊞ Z ⟶ pushout f g` is in fact a colimit cokernel
@@ -599,8 +597,8 @@ def isColimitBiproductToPushout : IsColimit (biproductToPushoutCofork f g) :=
     (fun s =>
       pushout.desc (biprod.inl ≫ Cofork.π s) (biprod.inr ≫ Cofork.π s) <|
         sub_eq_zero.1 <| by
-          rw [← Category.assoc, ← Category.assoc, ← sub_comp, sub_eq_add_neg, ← neg_comp, ←
-            biprod.lift_eq, Cofork.condition s, zero_comp])
+          rw [← Category.assoc]; rw [← Category.assoc]; rw [← sub_comp]; rw [sub_eq_add_neg]; rw [← neg_comp]; rw [←
+            biprod.lift_eq]; rw [Cofork.condition s]; rw [zero_comp])
     (fun s => by apply biprod.hom_ext' <;> simp)
     fun s m h => by apply pushout.hom_ext <;> simp [← h]
 #align category_theory.abelian.biproduct_to_pushout_is_cokernel.is_colimit_biproduct_to_pushout CategoryTheory.Abelian.BiproductToPushoutIsCokernel.isColimitBiproductToPushout

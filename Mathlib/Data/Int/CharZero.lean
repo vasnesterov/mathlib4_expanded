@@ -32,7 +32,7 @@ theorem cast_eq_zero [AddGroupWithOne α] [CharZero α] {n : ℤ} : (n : α) = 0
 
 @[simp, norm_cast]
 theorem cast_inj [AddGroupWithOne α] [CharZero α] {m n : ℤ} : (m : α) = n ↔ m = n := by
-  rw [← sub_eq_zero, ← cast_sub, cast_eq_zero, sub_eq_zero]
+  rw [← sub_eq_zero]; rw [← cast_sub]; rw [cast_eq_zero]; rw [sub_eq_zero]
 #align int.cast_inj Int.cast_inj
 
 theorem cast_injective [AddGroupWithOne α] [CharZero α] : Function.Injective (Int.cast : ℤ → α)
@@ -45,7 +45,7 @@ theorem cast_ne_zero [AddGroupWithOne α] [CharZero α] {n : ℤ} : (n : α) ≠
 
 @[simp]
 theorem cast_eq_one [AddGroupWithOne α] [CharZero α] {n : ℤ} : (n : α) = 1 ↔ n = 1 := by
-  rw [← cast_one, cast_inj]
+  rw [← cast_one]; rw [cast_inj]
 #align int.cast_eq_one Int.cast_eq_one
 
 theorem cast_ne_one [AddGroupWithOne α] [CharZero α] {n : ℤ} : (n : α) ≠ 1 ↔ n ≠ 1 :=

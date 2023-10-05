@@ -1095,7 +1095,7 @@ theorem prod.leftUnitor_hom_naturality [HasBinaryProducts C] (f : X ⟶ Y) :
 @[reassoc]
 theorem prod.leftUnitor_inv_naturality [HasBinaryProducts C] (f : X ⟶ Y) :
     (prod.leftUnitor X).inv ≫ prod.map (𝟙 _) f = f ≫ (prod.leftUnitor Y).inv := by
-  rw [Iso.inv_comp_eq, ← Category.assoc, Iso.eq_comp_inv, prod.leftUnitor_hom_naturality]
+  rw [Iso.inv_comp_eq]; rw [← Category.assoc]; rw [Iso.eq_comp_inv]; rw [prod.leftUnitor_hom_naturality]
 #align category_theory.limits.prod.left_unitor_inv_naturality CategoryTheory.Limits.prod.leftUnitor_inv_naturality
 #align category_theory.limits.prod.left_unitor_inv_naturality_assoc CategoryTheory.Limits.prod.leftUnitor_inv_naturality_assoc
 
@@ -1109,7 +1109,7 @@ theorem prod.rightUnitor_hom_naturality [HasBinaryProducts C] (f : X ⟶ Y) :
 @[reassoc]
 theorem prod_rightUnitor_inv_naturality [HasBinaryProducts C] (f : X ⟶ Y) :
     (prod.rightUnitor X).inv ≫ prod.map f (𝟙 _) = f ≫ (prod.rightUnitor Y).inv := by
-  rw [Iso.inv_comp_eq, ← Category.assoc, Iso.eq_comp_inv, prod.rightUnitor_hom_naturality]
+  rw [Iso.inv_comp_eq]; rw [← Category.assoc]; rw [Iso.eq_comp_inv]; rw [prod.rightUnitor_hom_naturality]
 #align category_theory.limits.prod_right_unitor_inv_naturality CategoryTheory.Limits.prod_rightUnitor_inv_naturality
 #align category_theory.limits.prod_right_unitor_inv_naturality_assoc CategoryTheory.Limits.prod_rightUnitor_inv_naturality_assoc
 
@@ -1277,8 +1277,8 @@ theorem prodComparison_snd : prodComparison F A B ≫ prod.snd = F.map prod.snd 
 theorem prodComparison_natural (f : A ⟶ A') (g : B ⟶ B') :
     F.map (prod.map f g) ≫ prodComparison F A' B' =
       prodComparison F A B ≫ prod.map (F.map f) (F.map g) := by
-  rw [prodComparison, prodComparison, prod.lift_map, ← F.map_comp, ← F.map_comp, prod.comp_lift, ←
-    F.map_comp, prod.map_fst, ← F.map_comp, prod.map_snd]
+  rw [prodComparison]; rw [prodComparison]; rw [prod.lift_map]; rw [← F.map_comp]; rw [← F.map_comp]; rw [prod.comp_lift]; rw [←
+    F.map_comp]; rw [prod.map_fst]; rw [← F.map_comp]; rw [prod.map_snd]
 #align category_theory.limits.prod_comparison_natural CategoryTheory.Limits.prodComparison_natural
 #align category_theory.limits.prod_comparison_natural_assoc CategoryTheory.Limits.prodComparison_natural_assoc
 
@@ -1368,8 +1368,7 @@ theorem coprodComparison_inr : coprod.inr ≫ coprodComparison F A B = F.map cop
 theorem coprodComparison_natural (f : A ⟶ A') (g : B ⟶ B') :
     coprodComparison F A B ≫ F.map (coprod.map f g) =
       coprod.map (F.map f) (F.map g) ≫ coprodComparison F A' B' := by
-  rw [coprodComparison, coprodComparison, coprod.map_desc, ← F.map_comp, ← F.map_comp,
-    coprod.desc_comp, ← F.map_comp, coprod.inl_map, ← F.map_comp, coprod.inr_map]
+  rw [coprodComparison]; rw [coprodComparison]; rw [coprod.map_desc]; rw [← F.map_comp]; rw [← F.map_comp]; rw [coprod.desc_comp]; rw [← F.map_comp]; rw [coprod.inl_map]; rw [← F.map_comp]; rw [coprod.inr_map]
 #align category_theory.limits.coprod_comparison_natural CategoryTheory.Limits.coprodComparison_natural
 #align category_theory.limits.coprod_comparison_natural_assoc CategoryTheory.Limits.coprodComparison_natural_assoc
 
@@ -1440,7 +1439,7 @@ def Over.coprod [HasBinaryCoproducts C] {A : C} : Over A ⥤ Over A ⥤ Over A w
   obj f := Over.coprodObj f
   map k :=
     { app := fun g => Over.homMk (coprod.map k.left (𝟙 _)) (by
-        dsimp; rw [coprod.map_desc, Category.id_comp, Over.w k])
+        dsimp; rw [coprod.map_desc]; rw [Category.id_comp]; rw [Over.w k])
       naturality := fun f g k => by
         ext;
           · dsimp; simp }

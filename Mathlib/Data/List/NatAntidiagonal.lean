@@ -36,9 +36,9 @@ def antidiagonal (n : ℕ) : List (ℕ × ℕ) :=
 /-- A pair (i, j) is contained in the antidiagonal of `n` if and only if `i + j = n`. -/
 @[simp]
 theorem mem_antidiagonal {n : ℕ} {x : ℕ × ℕ} : x ∈ antidiagonal n ↔ x.1 + x.2 = n := by
-  rw [antidiagonal, mem_map]; constructor
+  rw [antidiagonal]; rw [mem_map]; constructor
   · rintro ⟨i, hi, rfl⟩
-    rw [mem_range, lt_succ_iff] at hi
+    rw [mem_range] at hi; rw [lt_succ_iff] at hi
     exact add_tsub_cancel_of_le hi
   · rintro rfl
     refine' ⟨x.fst, _, _⟩
@@ -50,7 +50,7 @@ theorem mem_antidiagonal {n : ℕ} {x : ℕ × ℕ} : x ∈ antidiagonal n ↔ x
 /-- The length of the antidiagonal of `n` is `n + 1`. -/
 @[simp]
 theorem length_antidiagonal (n : ℕ) : (antidiagonal n).length = n + 1 := by
-  rw [antidiagonal, length_map, length_range]
+  rw [antidiagonal]; rw [length_map]; rw [length_range]
 #align list.nat.length_antidiagonal List.Nat.length_antidiagonal
 
 /-- The antidiagonal of `0` is the list `[(0, 0)]` -/
@@ -93,8 +93,8 @@ theorem antidiagonal_succ_succ' {n : ℕ} :
 
 theorem map_swap_antidiagonal {n : ℕ} :
     (antidiagonal n).map Prod.swap = (antidiagonal n).reverse := by
-  rw [antidiagonal, map_map, ← List.map_reverse, range_eq_range', reverse_range', ←
-    range_eq_range', map_map]
+  rw [antidiagonal]; rw [map_map]; rw [← List.map_reverse]; rw [range_eq_range']; rw [reverse_range']; rw [←
+    range_eq_range']; rw [map_map]
   apply map_congr
   simp (config := { contextual := true }) [Nat.sub_sub_self, lt_succ_iff]
 #align list.nat.map_swap_antidiagonal List.Nat.map_swap_antidiagonal

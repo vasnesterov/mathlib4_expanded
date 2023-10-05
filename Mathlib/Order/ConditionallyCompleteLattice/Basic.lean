@@ -105,13 +105,13 @@ theorem WithTop.coe_sInf' [InfSet α] {s : Set α} (hs : s.Nonempty) :
 @[norm_cast]
 theorem WithTop.coe_iInf [Nonempty ι] [InfSet α] (f : ι → α) :
     ↑(⨅ i, f i) = (⨅ i, f i : WithTop α) := by
-  rw [iInf, iInf, WithTop.coe_sInf' (range_nonempty f), ← range_comp]; rfl
+  rw [iInf]; rw [iInf]; rw [WithTop.coe_sInf' (range_nonempty f)]; rw [← range_comp]; rfl
 #align with_top.coe_infi WithTop.coe_iInf
 
 theorem WithTop.coe_sSup' [Preorder α] [SupSet α] {s : Set α} (hs : BddAbove s) :
     ↑(sSup s) = (sSup ((fun (a : α) ↦ ↑a) '' s) : WithTop α) := by
   change _ = ite _ _ _
-  rw [if_neg, preimage_image_eq, if_pos hs]
+  rw [if_neg]; rw [preimage_image_eq]; rw [if_pos hs]
   · exact Option.some_injective _
   · rintro ⟨x, _, ⟨⟩⟩
 #align with_top.coe_Sup' WithTop.coe_sSup'
@@ -121,7 +121,7 @@ theorem WithTop.coe_sSup' [Preorder α] [SupSet α] {s : Set α} (hs : BddAbove 
 @[norm_cast]
 theorem WithTop.coe_iSup [Preorder α] [SupSet α] (f : ι → α) (h : BddAbove (Set.range f)) :
     ↑(⨆ i, f i) = (⨆ i, f i : WithTop α) := by
-    rw [iSup, iSup, WithTop.coe_sSup' h, ← range_comp]; rfl
+    rw [iSup]; rw [iSup]; rw [WithTop.coe_sSup' h]; rw [← range_comp]; rfl
 #align with_top.coe_supr WithTop.coe_iSup
 
 @[simp]
@@ -844,7 +844,7 @@ theorem ciInf_set_le {f : β → α} {s : Set β} (H : BddBelow (f '' s)) {c : �
 
 @[simp]
 theorem ciSup_const [hι : Nonempty ι] {a : α} : ⨆ _ : ι, a = a := by
-  rw [iSup, range_const, csSup_singleton]
+  rw [iSup]; rw [range_const]; rw [csSup_singleton]
 #align csupr_const ciSup_const
 
 @[simp]
@@ -1026,7 +1026,7 @@ theorem csSup_of_not_bddAbove {s : Set α} (hs : ¬BddAbove s) : sSup s = sSup �
   ConditionallyCompleteLinearOrder.csSup_of_not_bddAbove s hs
 
 theorem csSup_eq_univ_of_not_bddAbove {s : Set α} (hs : ¬BddAbove s) : sSup s = sSup univ := by
-  rw [csSup_of_not_bddAbove hs, csSup_of_not_bddAbove (s := univ)]
+  rw [csSup_of_not_bddAbove hs]; rw [csSup_of_not_bddAbove (s := univ)]
   contrapose! hs
   exact hs.mono (subset_univ _)
 
@@ -1187,7 +1187,7 @@ theorem csSup_empty : (sSup ∅ : α) = ⊥ :=
 
 @[simp]
 theorem ciSup_of_empty [IsEmpty ι] (f : ι → α) : ⨆ i, f i = ⊥ := by
-  rw [iSup_of_empty', csSup_empty]
+  rw [iSup_of_empty']; rw [csSup_empty]
 #align csupr_of_empty ciSup_of_empty
 
 theorem ciSup_false (f : False → α) : ⨆ i, f i = ⊥ :=
@@ -1345,7 +1345,7 @@ theorem isGLB_sInf' {β : Type*} [ConditionallyCompleteLattice β] {s : Set (Wit
       · exfalso
         apply h
         intro c hc
-        rw [mem_singleton_iff, ← top_le_iff]
+        rw [mem_singleton_iff]; rw [← top_le_iff]
         exact hb hc
       use b
       intro c hc
@@ -1392,13 +1392,13 @@ noncomputable instance : CompleteLinearOrder (WithTop α) :=
 /-- A version of `WithTop.coe_sSup'` with a more convenient but less general statement. -/
 @[norm_cast]
 theorem coe_sSup {s : Set α} (hb : BddAbove s) : ↑(sSup s) = (⨆ a ∈ s, ↑a : WithTop α) := by
-  rw [coe_sSup' hb, sSup_image]
+  rw [coe_sSup' hb]; rw [sSup_image]
 #align with_top.coe_Sup WithTop.coe_sSup
 
 /-- A version of `WithTop.coe_sInf'` with a more convenient but less general statement. -/
 @[norm_cast]
 theorem coe_sInf {s : Set α} (hs : s.Nonempty) : ↑(sInf s) = (⨅ a ∈ s, ↑a : WithTop α) := by
-  rw [coe_sInf' hs, sInf_image]
+  rw [coe_sInf' hs]; rw [sInf_image]
 #align with_top.coe_Inf WithTop.coe_sInf
 
 end WithTop
@@ -1552,8 +1552,7 @@ theorem csSup_image2_eq_csSup_csSup (h₁ : ∀ b, GaloisConnection (swap l b) (
     (ht₀ : t.Nonempty) (ht₁ : BddAbove t) : sSup (image2 l s t) = l (sSup s) (sSup t) := by
   refine' eq_of_forall_ge_iff fun c => _
   rw [csSup_le_iff (hs₁.image2 (fun _ => (h₁ _).monotone_l) (fun _ => (h₂ _).monotone_l) ht₁)
-      (hs₀.image2 ht₀),
-    forall_image2_iff, forall₂_swap, (h₂ _).le_iff_le, csSup_le_iff ht₁ ht₀]
+      (hs₀.image2 ht₀)]; rw [forall_image2_iff]; rw [forall₂_swap]; rw [(h₂ _).le_iff_le]; rw [csSup_le_iff ht₁ ht₀]
   simp_rw [← (h₂ _).le_iff_le, (h₁ _).le_iff_le, csSup_le_iff hs₁ hs₀]
 #align cSup_image2_eq_cSup_cSup csSup_image2_eq_csSup_csSup
 
@@ -1704,7 +1703,7 @@ namespace WithTop
 variable [ConditionallyCompleteLinearOrderBot α] {f : ι → α}
 
 lemma iSup_coe_eq_top : ⨆ x, (f x : WithTop α) = ⊤ ↔ ¬BddAbove (range f) := by
-  rw [iSup_eq_top, not_bddAbove_iff]
+  rw [iSup_eq_top]; rw [not_bddAbove_iff]
   refine' ⟨fun hf r => _, fun hf a ha => _⟩
   · rcases hf r (WithTop.coe_lt_top r) with ⟨i, hi⟩
     exact ⟨f i, ⟨i, rfl⟩, WithTop.coe_lt_coe.mp hi⟩
@@ -1719,7 +1718,7 @@ lemma iSup_coe_lt_top : ⨆ x, (f x : WithTop α) < ⊤ ↔ BddAbove (range f) :
 lemma iInf_coe_eq_top : ⨅ x, (f x : WithTop α) = ⊤ ↔ IsEmpty ι := by simp [isEmpty_iff]
 
 lemma iInf_coe_lt_top : ⨅ i, (f i : WithTop α) < ⊤ ↔ Nonempty ι := by
-  rw [lt_top_iff_ne_top, Ne.def, iInf_coe_eq_top, not_isEmpty_iff]
+  rw [lt_top_iff_ne_top]; rw [Ne.def]; rw [iInf_coe_eq_top]; rw [not_isEmpty_iff]
 
 end WithTop
 end WithTopBot

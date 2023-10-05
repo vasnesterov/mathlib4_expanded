@@ -123,7 +123,7 @@ noncomputable def mkSpanSingleton' (x : E) (y : F) (H : ∀ c : R, c • x = 0 �
   toFun :=
     have H : ∀ c₁ c₂ : R, c₁ • x = c₂ • x → c₁ • y = c₂ • y := by
       intro c₁ c₂ h
-      rw [← sub_eq_zero, ← sub_smul] at h ⊢
+      rw [← sub_eq_zero] at h ⊢; rw [← sub_smul] at h ⊢
       exact H _ h
     { toFun := fun z => Classical.choose (mem_span_singleton.1 z.prop) • y
       -- Porting note: `dsimp only []` are required.
@@ -154,7 +154,7 @@ theorem domain_mkSpanSingleton (x : E) (y : F) (H : ∀ c : R, c • x = 0 → c
 theorem mkSpanSingleton'_apply (x : E) (y : F) (H : ∀ c : R, c • x = 0 → c • y = 0) (c : R) (h) :
     mkSpanSingleton' x y H ⟨c • x, h⟩ = c • y := by
   dsimp [mkSpanSingleton']
-  rw [← sub_eq_zero, ← sub_smul]
+  rw [← sub_eq_zero]; rw [← sub_smul]
   apply H
   simp only [sub_smul, one_smul, sub_eq_zero]
   apply Classical.choose_spec (mem_span_singleton.1 h)
@@ -285,7 +285,7 @@ instance orderBot : OrderBot (E →ₗ.[R] F) where
     ⟨bot_le, fun x y h => by
       have hx : x = 0 := Subtype.eq ((mem_bot R).1 x.2)
       have hy : y = 0 := Subtype.eq (h.symm.trans (congr_arg _ hx))
-      rw [hx, hy, map_zero, map_zero]⟩
+      rw [hx]; rw [hy]; rw [map_zero]; rw [map_zero]⟩
 #align linear_pmap.order_bot LinearPMap.orderBot
 
 theorem le_of_eqLocus_ge {f g : E →ₗ.[R] F} (H : f.domain ≤ f.eqLocus g) : f ≤ g :=
@@ -308,7 +308,7 @@ private theorem sup_aux (f g : E →ₗ.[R] F)
       (_H : (x' : E) + y' = z'), fg z' = f x' + g y' := by
     intro x' y' z' H
     dsimp
-    rw [add_comm, ← sub_eq_sub_iff_add_eq_add, eq_comm, ← map_sub, ← map_sub]
+    rw [add_comm]; rw [← sub_eq_sub_iff_add_eq_add]; rw [eq_comm]; rw [← map_sub]; rw [← map_sub]
     apply h
     simp only [← eq_sub_iff_add_eq] at hxy
     simp only [AddSubgroupClass.coe_sub, coe_mk, coe_mk, hxy, ← sub_add, ← sub_sub, sub_self,
@@ -316,12 +316,12 @@ private theorem sup_aux (f g : E →ₗ.[R] F)
     apply neg_add_eq_sub
   refine' ⟨{ toFun := fg.. }, fg_eq⟩
   · rintro ⟨z₁, hz₁⟩ ⟨z₂, hz₂⟩
-    rw [← add_assoc, add_right_comm (f _), ← map_add, add_assoc, ← map_add]
+    rw [← add_assoc]; rw [add_right_comm (f _)]; rw [← map_add]; rw [add_assoc]; rw [← map_add]
     apply fg_eq
     simp only [coe_add, coe_mk, ← add_assoc]
-    rw [add_right_comm (x _), hxy, add_assoc, hxy]
+    rw [add_right_comm (x _)]; rw [hxy]; rw [add_assoc]; rw [hxy]
   · intro c z
-    rw [smul_add, ← map_smul, ← map_smul]
+    rw [smul_add]; rw [← map_smul]; rw [← map_smul]
     apply fg_eq
     simp only [coe_smul, coe_mk, ← smul_add, hxy, RingHom.id_apply]
 
@@ -349,7 +349,7 @@ theorem sup_apply {f g : E →ₗ.[R] F} (H : ∀ (x : f.domain) (y : g.domain),
 protected theorem left_le_sup (f g : E →ₗ.[R] F)
     (h : ∀ (x : f.domain) (y : g.domain), (x : E) = y → f x = g y) : f ≤ f.sup g h := by
   refine' ⟨le_sup_left, fun z₁ z₂ hz => _⟩
-  rw [← add_zero (f _), ← g.map_zero]
+  rw [← add_zero (f _)]; rw [← g.map_zero]
   refine' (sup_apply h _ _ _ _).symm
   simpa
 #align linear_pmap.left_le_sup LinearPMap.left_le_sup
@@ -357,7 +357,7 @@ protected theorem left_le_sup (f g : E →ₗ.[R] F)
 protected theorem right_le_sup (f g : E →ₗ.[R] F)
     (h : ∀ (x : f.domain) (y : g.domain), (x : E) = y → f x = g y) : g ≤ f.sup g h := by
   refine' ⟨le_sup_right, fun z₁ z₂ hz => _⟩
-  rw [← zero_add (g _), ← f.map_zero]
+  rw [← zero_add (g _)]; rw [← f.map_zero]
   refine' (sup_apply h _ _ _ _).symm
   simpa
 #align linear_pmap.right_le_sup LinearPMap.right_le_sup
@@ -559,7 +559,7 @@ instance instSubtractionCommMonoid : SubtractionCommMonoid (E →ₗ.[R] F) wher
     ext x y h
     · have : (0 : E →ₗ.[R] F).domain = ⊤ := zero_domain
       simp only [← h', add_domain, ge_iff_le, inf_eq_top_iff] at this
-      rw [neg_domain, this.1, this.2]
+      rw [neg_domain]; rw [this.1]; rw [this.2]
     simp only [inf_coe, neg_domain, Eq.ndrec, Int.ofNat_eq_coe, neg_apply]
     rw [ext_iff] at h'
     rcases h' with ⟨hdom, h'⟩
@@ -569,7 +569,7 @@ instance instSubtractionCommMonoid : SubtractionCommMonoid (E →ₗ.[R] F) wher
     specialize h' x.1 (by simp [hdom])
     simp only [inf_coe, neg_domain, Eq.ndrec, Int.ofNat_eq_coe, add_apply, Subtype.coe_eta,
       ← neg_eq_iff_add_eq_zero] at h'
-    rw [h', h]
+    rw [h']; rw [h]
 
 end Sub
 
@@ -632,8 +632,7 @@ private theorem sSup_aux (c : Set (E →ₗ.[R] F)) (hc : DirectedOn (· ≤ ·)
     rcases hc (P x).1.1 (P x).1.2 (P y).1.1 (P y).1.2 with ⟨p, hpc, hpx, hpy⟩
     set x' := ofLe hpx.1 ⟨x, (P x).2⟩
     set y' := ofLe hpy.1 ⟨y, (P y).2⟩
-    rw [f_eq ⟨p, hpc⟩ x x' rfl, f_eq ⟨p, hpc⟩ y y' rfl, f_eq ⟨p, hpc⟩ (x + y) (x' + y') rfl,
-      map_add]
+    rw [f_eq ⟨p, hpc⟩ x x' rfl]; rw [f_eq ⟨p, hpc⟩ y y' rfl]; rw [f_eq ⟨p, hpc⟩ (x + y) (x' + y') rfl]; rw [map_add]
   · intro c x
     -- Porting note: `simp [..]` to `simp only [..]`, or timeouts.
     simp only [f_eq (P x).1 (c • x) (c • ⟨x, (P x).2⟩) rfl, ← map_smul, RingHom.id_apply]
@@ -820,7 +819,7 @@ theorem smul_graph (f : E →ₗ.[R] F) (z : M) :
   rw [mem_graph_iff] at hx' ⊢
   rcases hx' with ⟨y, hy, hx'⟩
   use y
-  rw [← h.1, ← h.2]
+  rw [← h.1]; rw [← h.2]
   simp [hy, hx']
 #align linear_pmap.smul_graph LinearPMap.smul_graph
 
@@ -845,7 +844,7 @@ theorem neg_graph (f : E →ₗ.[R] F) :
   rw [mem_graph_iff] at hx' ⊢
   rcases hx' with ⟨y, hy, hx'⟩
   use y
-  rw [← h.1, ← h.2]
+  rw [← h.1]; rw [← h.2]
   simp [hy, hx']
 #align linear_pmap.neg_graph LinearPMap.neg_graph
 
@@ -855,8 +854,8 @@ theorem mem_graph_snd_inj (f : E →ₗ.[R] F) {x y : E} {x' y' : F} (hx : (x, x
   rcases hx with ⟨x'', hx1, hx2⟩
   rcases hy with ⟨y'', hy1, hy2⟩
   simp only at hx1 hx2 hy1 hy2
-  rw [← hx1, ← hy1, SetLike.coe_eq_coe] at hxy
-  rw [← hx2, ← hy2, hxy]
+  rw [← hx1] at hxy; rw [← hy1] at hxy; rw [SetLike.coe_eq_coe] at hxy
+  rw [← hx2]; rw [← hy2]; rw [hxy]
 #align linear_pmap.mem_graph_snd_inj LinearPMap.mem_graph_snd_inj
 
 theorem mem_graph_snd_inj' (f : E →ₗ.[R] F) {x y : E × F} (hx : x ∈ f.graph) (hy : y ∈ f.graph)
@@ -1085,8 +1084,7 @@ noncomputable def inverse (f : E →ₗ.[R] F) : F →ₗ.[R] E :=
 variable {f : E →ₗ.[R] F}
 
 theorem inverse_domain : (inverse f).domain = LinearMap.range f.toFun := by
-  rw [inverse, Submodule.toLinearPMap_domain, ← graph_map_snd_eq_range,
-    ← LinearEquiv.fst_comp_prodComm, Submodule.map_comp]
+  rw [inverse]; rw [Submodule.toLinearPMap_domain]; rw [← graph_map_snd_eq_range]; rw [← LinearEquiv.fst_comp_prodComm]; rw [Submodule.map_comp]
   rfl
 
 variable (hf : LinearMap.ker f.toFun = ⊥)
@@ -1106,11 +1104,10 @@ theorem mem_inverse_graph_snd_eq_zero (x : F × E)
   exact hf
 
 theorem inverse_graph : (inverse f).graph = f.graph.map (LinearEquiv.prodComm R E F) := by
-  rw [inverse, Submodule.toLinearPMap_graph_eq _ (mem_inverse_graph_snd_eq_zero hf)]
+  rw [inverse]; rw [Submodule.toLinearPMap_graph_eq _ (mem_inverse_graph_snd_eq_zero hf)]
 
 theorem inverse_range : LinearMap.range (inverse f).toFun = f.domain := by
-  rw [inverse, Submodule.toLinearPMap_range _ (mem_inverse_graph_snd_eq_zero hf),
-    ← graph_map_fst_eq_domain, ← LinearEquiv.snd_comp_prodComm, Submodule.map_comp]
+  rw [inverse]; rw [Submodule.toLinearPMap_range _ (mem_inverse_graph_snd_eq_zero hf)]; rw [← graph_map_fst_eq_domain]; rw [← LinearEquiv.snd_comp_prodComm]; rw [Submodule.map_comp]
   rfl
 
 theorem mem_inverse_graph (x : f.domain) : (f x, (x : E)) ∈ (inverse f).graph := by

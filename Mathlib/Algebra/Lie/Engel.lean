@@ -210,7 +210,7 @@ theorem LieAlgebra.exists_engelian_lieSubalgebra_of_lt_normalizer {K : LieSubalg
   obtain ⟨I, hI₁ : (I : LieSubalgebra R K') = LieSubalgebra.ofLe hKK'⟩ :=
     LieSubalgebra.exists_nested_lieIdeal_ofLe_normalizer hKK' hK'
   have hI₂ : (R ∙ (⟨x, hxK'⟩ : K')) ⊔ (LieSubmodule.toSubmodule I) = ⊤ := by
-    rw [← LieIdeal.coe_to_lieSubalgebra_to_submodule R K' I, hI₁]
+    rw [← LieIdeal.coe_to_lieSubalgebra_to_submodule R K' I]; rw [hI₁]
     apply Submodule.map_injective_of_injective (K' : Submodule R L).injective_subtype
     simp
   have e : K ≃ₗ⁅R⁆ I :=
@@ -245,7 +245,7 @@ theorem LieAlgebra.isEngelian_of_isNoetherian [IsNoetherian R L] : LieAlgebra.Is
     rintro K (hK₁ : LieAlgebra.IsEngelian R K) hK₂
     apply LieAlgebra.exists_engelian_lieSubalgebra_of_lt_normalizer hK₁
     apply lt_of_le_of_ne K.le_normalizer
-    rw [Ne.def, eq_comm, K.normalizer_eq_self_iff, ← Ne.def, ←
+    rw [Ne.def]; rw [eq_comm]; rw [K.normalizer_eq_self_iff]; rw [← Ne.def]; rw [←
       LieSubmodule.nontrivial_iff_ne_bot R K]
     have : Nontrivial (L' ⧸ K.toLieSubmodule) := by
       replace hK₂ : K.toLieSubmodule ≠ ⊤ := by
@@ -293,7 +293,7 @@ theorem LieModule.isNilpotent_iff_forall [IsNoetherian R L] :
 /-- Engel's theorem. -/
 theorem LieModule.isNilpotent_iff_forall' [IsNoetherian R M] :
     LieModule.IsNilpotent R L M ↔ ∀ x, _root_.IsNilpotent <| toEndomorphism R L M x := by
-  rw [← isNilpotent_range_toEndomorphism_iff, LieModule.isNilpotent_iff_forall]; simp
+  rw [← isNilpotent_range_toEndomorphism_iff]; rw [LieModule.isNilpotent_iff_forall]; simp
 
 /-- Engel's theorem. -/
 theorem LieAlgebra.isNilpotent_iff_forall [IsNoetherian R L] :

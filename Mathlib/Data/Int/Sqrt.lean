@@ -26,7 +26,7 @@ def sqrt (z : ℤ) : ℤ :=
 #align int.sqrt Int.sqrt
 
 theorem sqrt_eq (n : ℤ) : sqrt (n * n) = n.natAbs := by
-  rw [sqrt, ← natAbs_mul_self, toNat_coe_nat, Nat.sqrt_eq]
+  rw [sqrt]; rw [← natAbs_mul_self]; rw [toNat_coe_nat]; rw [Nat.sqrt_eq]
 #align int.sqrt_eq Int.sqrt_eq
 
 theorem exists_mul_self (x : ℤ) : (∃ n, n * n = x) ↔ sqrt x * sqrt x = x :=

@@ -72,8 +72,7 @@ theorem laurentAux_div :
 
 @[simp]
 theorem laurentAux_algebraMap : laurentAux r (algebraMap _ _ p) = algebraMap _ _ (taylor r p) := by
-  rw [← mk_one, ← mk_one, mk_eq_div, laurentAux_div, mk_eq_div, taylor_one, map_one, map_one,
-    map_one]
+  rw [← mk_one]; rw [← mk_one]; rw [mk_eq_div]; rw [laurentAux_div]; rw [mk_eq_div]; rw [taylor_one]; rw [map_one]; rw [map_one]; rw [map_one]
 #align ratfunc.laurent_aux_algebra_map RatFunc.laurentAux_algebraMap
 
 /-- The Laurent expansion of rational functions about a value. -/
@@ -95,13 +94,13 @@ theorem laurent_algebraMap : laurent r (algebraMap _ _ p) = algebraMap _ _ (tayl
 
 @[simp]
 theorem laurent_X : laurent r X = X + C r := by
-  rw [← algebraMap_X, laurent_algebraMap, taylor_X, _root_.map_add, algebraMap_C]
+  rw [← algebraMap_X]; rw [laurent_algebraMap]; rw [taylor_X]; rw [_root_.map_add]; rw [algebraMap_C]
 set_option linter.uppercaseLean3 false in
 #align ratfunc.laurent_X RatFunc.laurent_X
 
 @[simp]
 theorem laurent_C (x : R) : laurent r (C x) = C x := by
-  rw [← algebraMap_C, laurent_algebraMap, taylor_C]
+  rw [← algebraMap_C]; rw [laurent_algebraMap]; rw [taylor_C]
 set_option linter.uppercaseLean3 false in
 #align ratfunc.laurent_C RatFunc.laurent_C
 

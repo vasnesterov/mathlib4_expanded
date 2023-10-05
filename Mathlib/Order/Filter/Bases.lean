@@ -265,7 +265,7 @@ theorem HasBasis.mem_iff (hl : l.HasBasis p s) : t ∈ l ↔ ∃ i, p i ∧ s i 
 
 theorem HasBasis.eq_of_same_basis (hl : l.HasBasis p s) (hl' : l'.HasBasis p s) : l = l' := by
   ext t
-  rw [hl.mem_iff, hl'.mem_iff]
+  rw [hl.mem_iff]; rw [hl'.mem_iff]
 #align filter.has_basis.eq_of_same_basis Filter.HasBasis.eq_of_same_basis
 
 -- porting note: use `∃ i, p i ∧ _` instead of `∃ i (hi : p i), _`.
@@ -323,17 +323,17 @@ theorem HasBasis.filter_eq (h : l.HasBasis p s) : h.isBasis.filter = l := by
 #align filter.has_basis.filter_eq Filter.HasBasis.filter_eq
 
 theorem HasBasis.eq_generate (h : l.HasBasis p s) : l = generate { U | ∃ i, p i ∧ s i = U } := by
-  rw [← h.isBasis.filter_eq_generate, h.filter_eq]
+  rw [← h.isBasis.filter_eq_generate]; rw [h.filter_eq]
 #align filter.has_basis.eq_generate Filter.HasBasis.eq_generate
 
 theorem generate_eq_generate_inter (s : Set (Set α)) :
     generate s = generate (sInter '' { t | Set.Finite t ∧ t ⊆ s }) := by
-  rw [← FilterBasis.ofSets_sets, FilterBasis.generate, ← (hasBasis_generate s).filter_eq]; rfl
+  rw [← FilterBasis.ofSets_sets]; rw [FilterBasis.generate]; rw [← (hasBasis_generate s).filter_eq]; rfl
 #align filter.generate_eq_generate_inter Filter.generate_eq_generate_inter
 
 theorem ofSets_filter_eq_generate (s : Set (Set α)) :
     (FilterBasis.ofSets s).filter = generate s := by
-  rw [← (FilterBasis.ofSets s).generate, FilterBasis.ofSets_sets, ← generate_eq_generate_inter]
+  rw [← (FilterBasis.ofSets s).generate]; rw [FilterBasis.ofSets_sets]; rw [← generate_eq_generate_inter]
 #align filter.of_sets_filter_eq_generate Filter.ofSets_filter_eq_generate
 
 protected theorem _root_.FilterBasis.hasBasis (B : FilterBasis α) :
@@ -529,7 +529,7 @@ theorem hasBasis_iInf_of_directed' {ι : Type*} {ι' : ι → Sort _} [Nonempty 
     (h : Directed (· ≥ ·) l) :
     (⨅ i, l i).HasBasis (fun ii' : Σi, ι' i => p ii'.1 ii'.2) fun ii' => s ii'.1 ii'.2 := by
   refine' ⟨fun t => _⟩
-  rw [mem_iInf_of_directed h, Sigma.exists]
+  rw [mem_iInf_of_directed h]; rw [Sigma.exists]
   exact exists_congr fun i => (hl i).mem_iff
 #align filter.has_basis_infi_of_directed' Filter.hasBasis_iInf_of_directed'
 
@@ -538,7 +538,7 @@ theorem hasBasis_iInf_of_directed {ι : Type*} {ι' : Sort _} [Nonempty ι] {l :
     (h : Directed (· ≥ ·) l) :
     (⨅ i, l i).HasBasis (fun ii' : ι × ι' => p ii'.1 ii'.2) fun ii' => s ii'.1 ii'.2 := by
   refine' ⟨fun t => _⟩
-  rw [mem_iInf_of_directed h, Prod.exists]
+  rw [mem_iInf_of_directed h]; rw [Prod.exists]
   exact exists_congr fun i => (hl i).mem_iff
 #align filter.has_basis_infi_of_directed Filter.hasBasis_iInf_of_directed
 
@@ -548,7 +548,7 @@ theorem hasBasis_biInf_of_directed' {ι : Type*} {ι' : ι → Sort _} {dom : Se
     (⨅ i ∈ dom, l i).HasBasis (fun ii' : Σi, ι' i => ii'.1 ∈ dom ∧ p ii'.1 ii'.2) fun ii' =>
       s ii'.1 ii'.2 := by
   refine' ⟨fun t => _⟩
-  rw [mem_biInf_of_directed h hdom, Sigma.exists]
+  rw [mem_biInf_of_directed h hdom]; rw [Sigma.exists]
   refine' exists_congr fun i => ⟨_, _⟩
   · rintro ⟨hi, hti⟩
     rcases (hl i hi).mem_iff.mp hti with ⟨b, hb, hbt⟩
@@ -563,7 +563,7 @@ theorem hasBasis_biInf_of_directed {ι : Type*} {ι' : Sort _} {dom : Set ι} (h
     (⨅ i ∈ dom, l i).HasBasis (fun ii' : ι × ι' => ii'.1 ∈ dom ∧ p ii'.1 ii'.2) fun ii' =>
       s ii'.1 ii'.2 := by
   refine' ⟨fun t => _⟩
-  rw [mem_biInf_of_directed h hdom, Prod.exists]
+  rw [mem_biInf_of_directed h hdom]; rw [Prod.exists]
   refine' exists_congr fun i => ⟨_, _⟩
   · rintro ⟨hi, hti⟩
     rcases (hl i hi).mem_iff.mp hti with ⟨b, hb, hbt⟩
@@ -694,17 +694,17 @@ theorem not_mem_iff_inf_principal_compl {f : Filter α} {s : Set α} : s ∉ f �
 
 @[simp]
 theorem disjoint_principal_right {f : Filter α} {s : Set α} : Disjoint f (𝓟 s) ↔ sᶜ ∈ f := by
-  rw [mem_iff_inf_principal_compl, compl_compl, disjoint_iff]
+  rw [mem_iff_inf_principal_compl]; rw [compl_compl]; rw [disjoint_iff]
 #align filter.disjoint_principal_right Filter.disjoint_principal_right
 
 @[simp]
 theorem disjoint_principal_left {f : Filter α} {s : Set α} : Disjoint (𝓟 s) f ↔ sᶜ ∈ f := by
-  rw [disjoint_comm, disjoint_principal_right]
+  rw [disjoint_comm]; rw [disjoint_principal_right]
 #align filter.disjoint_principal_left Filter.disjoint_principal_left
 
 @[simp 1100] -- porting note: higher priority for linter
 theorem disjoint_principal_principal {s t : Set α} : Disjoint (𝓟 s) (𝓟 t) ↔ Disjoint s t := by
-  rw [← subset_compl_iff_disjoint_left, disjoint_principal_left, mem_principal]
+  rw [← subset_compl_iff_disjoint_left]; rw [disjoint_principal_left]; rw [mem_principal]
 #align filter.disjoint_principal_principal Filter.disjoint_principal_principal
 
 alias ⟨_, _root_.Disjoint.filter_principal⟩ := disjoint_principal_principal
@@ -775,7 +775,7 @@ theorem hasBasis_biInf_principal {s : β → Set α} {S : Set β} (h : DirectedO
     (ne : S.Nonempty) : (⨅ i ∈ S, 𝓟 (s i)).HasBasis (fun i => i ∈ S) s :=
   ⟨fun t => by
     refine' mem_biInf_of_directed _ ne
-    rw [directedOn_iff_directed, ← directed_comp] at h ⊢
+    rw [directedOn_iff_directed] at h ⊢; rw [← directed_comp] at h ⊢
     refine' h.mono_comp _
     exact fun _ _ => principal_mono.2⟩
 #align filter.has_basis_binfi_principal Filter.hasBasis_biInf_principal
@@ -1145,7 +1145,7 @@ end IsCountablyGenerated
 theorem isCountablyGenerated_seq [Countable β] (x : β → Set α) :
     IsCountablyGenerated (⨅ i, 𝓟 (x i)) := by
   use range x, countable_range x
-  rw [generate_eq_biInf, iInf_range]
+  rw [generate_eq_biInf]; rw [iInf_range]
 #align filter.is_countably_generated_seq Filter.isCountablyGenerated_seq
 
 theorem isCountablyGenerated_of_seq {f : Filter α} (h : ∃ x : ℕ → Set α, f = ⨅ i, 𝓟 (x i)) :

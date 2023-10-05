@@ -175,11 +175,11 @@ theorem Units.zero_lt (u : αˣ) : (0 : α) < u :=
 theorem mul_lt_mul_of_lt_of_le₀ (hab : a ≤ b) (hb : b ≠ 0) (hcd : c < d) : a * c < b * d :=
   have hd : d ≠ 0 := ne_zero_of_lt hcd
   if ha : a = 0 then by
-    rw [ha, zero_mul, zero_lt_iff]
+    rw [ha]; rw [zero_mul]; rw [zero_lt_iff]
     exact mul_ne_zero hb hd
   else
     if hc : c = 0 then by
-      rw [hc, mul_zero, zero_lt_iff]
+      rw [hc]; rw [mul_zero]; rw [zero_lt_iff]
       exact mul_ne_zero hb hd
     else
       show Units.mk0 a ha * Units.mk0 c hc < Units.mk0 b hb * Units.mk0 d hd from
@@ -238,7 +238,7 @@ theorem mul_le_mul_left₀ (ha : a ≠ 0) : a * b ≤ a * c ↔ b ≤ c := by
 #align mul_le_mul_left₀ mul_le_mul_left₀
 
 theorem div_le_div_right₀ (hc : c ≠ 0) : a / c ≤ b / c ↔ a ≤ b := by
-  rw [div_eq_mul_inv, div_eq_mul_inv, mul_le_mul_right₀ (inv_ne_zero hc)]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]; rw [mul_le_mul_right₀ (inv_ne_zero hc)]
 #align div_le_div_right₀ div_le_div_right₀
 
 theorem div_le_div_left₀ (ha : a ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0) : a / b ≤ a / c ↔ c ≤ b := by
@@ -246,11 +246,11 @@ theorem div_le_div_left₀ (ha : a ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0) : a / b 
 #align div_le_div_left₀ div_le_div_left₀
 
 theorem le_div_iff₀ (hc : c ≠ 0) : a ≤ b / c ↔ a * c ≤ b := by
-  rw [div_eq_mul_inv, le_mul_inv_iff₀ hc]
+  rw [div_eq_mul_inv]; rw [le_mul_inv_iff₀ hc]
 #align le_div_iff₀ le_div_iff₀
 
 theorem div_le_iff₀ (hc : c ≠ 0) : a / c ≤ b ↔ a ≤ b * c := by
-  rw [div_eq_mul_inv, mul_inv_le_iff₀ hc]
+  rw [div_eq_mul_inv]; rw [mul_inv_le_iff₀ hc]
 #align div_le_iff₀ div_le_iff₀
 
 /-- `Equiv.mulLeft₀` as an `OrderIso` on a `LinearOrderedCommGroupWithZero.`.

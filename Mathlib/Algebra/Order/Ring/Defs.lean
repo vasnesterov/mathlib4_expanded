@@ -453,7 +453,7 @@ end Monotone
 
 theorem le_iff_exists_nonneg_add (a b : α) : a ≤ b ↔ ∃ c ≥ 0, b = a + c :=
   ⟨fun h => ⟨b - a, sub_nonneg.mpr h, by simp⟩, fun ⟨c, hc, h⟩ => by
-    rw [h, le_add_iff_nonneg_right]
+    rw [h]; rw [le_add_iff_nonneg_right]
     exact hc⟩
 #align le_iff_exists_nonneg_add le_iff_exists_nonneg_add
 
@@ -550,7 +550,7 @@ theorem strictMonoOn_mul_self : StrictMonoOn (fun x : α => x * x) { x | 0 ≤ x
 protected theorem Decidable.mul_lt_mul'' [@DecidableRel α (· ≤ ·)] (h1 : a < c) (h2 : b < d)
     (h3 : 0 ≤ a) (h4 : 0 ≤ b) : a * b < c * d :=
   h4.lt_or_eq_dec.elim (fun b0 => mul_lt_mul h1 h2.le b0 <| h3.trans h1.le) fun b0 => by
-    rw [← b0, mul_zero]; exact mul_pos (h3.trans_lt h1) (h4.trans_lt h2)
+    rw [← b0]; rw [mul_zero]; exact mul_pos (h3.trans_lt h1) (h4.trans_lt h2)
 #align decidable.mul_lt_mul'' Decidable.mul_lt_mul''
 
 theorem mul_lt_mul'' : a < c → b < d → 0 ≤ a → 0 ≤ b → a * b < c * d := by classical
@@ -884,12 +884,12 @@ section
 
 @[simp]
 theorem bit0_le_bit0 : bit0 a ≤ bit0 b ↔ a ≤ b := by
-  rw [bit0, bit0, ← two_mul, ← two_mul, mul_le_mul_left (zero_lt_two : 0 < (2 : α))]
+  rw [bit0]; rw [bit0]; rw [← two_mul]; rw [← two_mul]; rw [mul_le_mul_left (zero_lt_two : 0 < (2 : α))]
 #align bit0_le_bit0 bit0_le_bit0
 
 @[simp]
 theorem bit0_lt_bit0 : bit0 a < bit0 b ↔ a < b := by
-  rw [bit0, bit0, ← two_mul, ← two_mul, mul_lt_mul_left (zero_lt_two : 0 < (2 : α))]
+  rw [bit0]; rw [bit0]; rw [← two_mul]; rw [← two_mul]; rw [mul_lt_mul_left (zero_lt_two : 0 < (2 : α))]
 #align bit0_lt_bit0 bit0_lt_bit0
 
 @[simp]
@@ -904,22 +904,22 @@ theorem bit1_lt_bit1 : bit1 a < bit1 b ↔ a < b :=
 
 @[simp]
 theorem one_le_bit1 : (1 : α) ≤ bit1 a ↔ 0 ≤ a := by
-  rw [bit1, le_add_iff_nonneg_left, bit0, ← two_mul, zero_le_mul_left (zero_lt_two : 0 < (2 : α))]
+  rw [bit1]; rw [le_add_iff_nonneg_left]; rw [bit0]; rw [← two_mul]; rw [zero_le_mul_left (zero_lt_two : 0 < (2 : α))]
 #align one_le_bit1 one_le_bit1
 
 @[simp]
 theorem one_lt_bit1 : (1 : α) < bit1 a ↔ 0 < a := by
-  rw [bit1, lt_add_iff_pos_left, bit0, ← two_mul, zero_lt_mul_left (zero_lt_two : 0 < (2 : α))]
+  rw [bit1]; rw [lt_add_iff_pos_left]; rw [bit0]; rw [← two_mul]; rw [zero_lt_mul_left (zero_lt_two : 0 < (2 : α))]
 #align one_lt_bit1 one_lt_bit1
 
 @[simp]
 theorem zero_le_bit0 : (0 : α) ≤ bit0 a ↔ 0 ≤ a := by
-  rw [bit0, ← two_mul, zero_le_mul_left (zero_lt_two : 0 < (2 : α))]
+  rw [bit0]; rw [← two_mul]; rw [zero_le_mul_left (zero_lt_two : 0 < (2 : α))]
 #align zero_le_bit0 zero_le_bit0
 
 @[simp]
 theorem zero_lt_bit0 : (0 : α) < bit0 a ↔ 0 < a := by
-  rw [bit0, ← two_mul, zero_lt_mul_left (zero_lt_two : 0 < (2 : α))]
+  rw [bit0]; rw [← two_mul]; rw [zero_lt_mul_left (zero_lt_two : 0 < (2 : α))]
 #align zero_lt_bit0 zero_lt_bit0
 
 end
@@ -1039,10 +1039,10 @@ instance (priority := 100) LinearOrderedRing.noZeroDivisors : NoZeroDivisors α 
 instance (priority := 100) LinearOrderedRing.isDomain : IsDomain α :=
   { (inferInstance : Nontrivial α) with
     mul_left_cancel_of_ne_zero := fun {a b c} ha h => by
-      rw [← sub_eq_zero, ← mul_sub] at h
+      rw [← sub_eq_zero] at h; rw [← mul_sub] at h
       exact sub_eq_zero.1 ((eq_zero_or_eq_zero_of_mul_eq_zero h).resolve_left ha),
     mul_right_cancel_of_ne_zero := fun {a b c} hb h => by
-      rw [← sub_eq_zero, ← sub_mul] at h
+      rw [← sub_eq_zero] at h; rw [← sub_mul] at h
       exact sub_eq_zero.1 ((eq_zero_or_eq_zero_of_mul_eq_zero h).resolve_right hb) }
 #align linear_ordered_ring.is_domain LinearOrderedRing.isDomain
 
@@ -1052,7 +1052,7 @@ theorem mul_pos_iff : 0 < a * b ↔ 0 < a ∧ 0 < b ∨ a < 0 ∧ b < 0 :=
 #align mul_pos_iff mul_pos_iff
 
 theorem mul_neg_iff : a * b < 0 ↔ 0 < a ∧ b < 0 ∨ a < 0 ∧ 0 < b := by
-  rw [← neg_pos, neg_mul_eq_mul_neg, mul_pos_iff, neg_pos, neg_lt_zero]
+  rw [← neg_pos]; rw [neg_mul_eq_mul_neg]; rw [mul_pos_iff]; rw [neg_pos]; rw [neg_lt_zero]
 #align mul_neg_iff mul_neg_iff
 
 theorem mul_nonneg_iff : 0 ≤ a * b ↔ 0 ≤ a ∧ 0 ≤ b ∨ a ≤ 0 ∧ b ≤ 0 :=
@@ -1087,7 +1087,7 @@ theorem mul_nonneg_of_three (a b c : α) : 0 ≤ a * b ∨ 0 ≤ b * c ∨ 0 ≤
 #align mul_nonneg_of_three mul_nonneg_of_three
 
 theorem mul_nonpos_iff : a * b ≤ 0 ↔ 0 ≤ a ∧ b ≤ 0 ∨ a ≤ 0 ∧ 0 ≤ b := by
-  rw [← neg_nonneg, neg_mul_eq_mul_neg, mul_nonneg_iff, neg_nonneg, neg_nonpos]
+  rw [← neg_nonneg]; rw [neg_mul_eq_mul_neg]; rw [mul_nonneg_iff]; rw [neg_nonneg]; rw [neg_nonpos]
 #align mul_nonpos_iff mul_nonpos_iff
 
 theorem mul_self_nonneg (a : α) : 0 ≤ a * a :=
@@ -1207,7 +1207,7 @@ theorem pos_iff_neg_of_mul_neg (hab : a * b < 0) : 0 < a ↔ b < 0 :=
 
 /-- The sum of two squares is zero iff both elements are zero. -/
 theorem mul_self_add_mul_self_eq_zero {x y : α} : x * x + y * y = 0 ↔ x = 0 ∧ y = 0 := by
-  rw [add_eq_zero_iff', mul_self_eq_zero, mul_self_eq_zero] <;> apply mul_self_nonneg
+  rw [add_eq_zero_iff']; rw [mul_self_eq_zero]; rw [mul_self_eq_zero]; all_goals apply mul_self_nonneg
 #align mul_self_add_mul_self_eq_zero mul_self_add_mul_self_eq_zero
 
 theorem eq_zero_of_mul_self_add_mul_self_eq_zero (h : a * a + b * b = 0) : a = 0 :=

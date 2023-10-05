@@ -89,7 +89,7 @@ instance groupoid [Group α] : Groupoid (SingleObj α)
 
 theorem inv_as_inv [Group α] {x y : SingleObj α} (f : x ⟶ y) : inv f = f⁻¹ := by
   apply IsIso.inv_eq_of_hom_inv_id
-  rw [comp_as_mul, inv_mul_self, id_as_one]
+  rw [comp_as_mul]; rw [inv_mul_self]; rw [id_as_one]
 #align category_theory.single_obj.inv_as_inv CategoryTheory.SingleObj.inv_as_inv
 
 /-- Abbreviation that allows writing `CategoryTheory.SingleObj.star` rather than
@@ -153,7 +153,7 @@ def differenceFunctor {C G} [Category C] [Group G] (f : C → G) : C ⥤ SingleO
   map_comp := by
     intros
     dsimp
-    rw [SingleObj.comp_as_mul, ← mul_assoc, mul_left_inj, mul_assoc, inv_mul_self, mul_one]
+    rw [SingleObj.comp_as_mul]; rw [← mul_assoc]; rw [mul_left_inj]; rw [mul_assoc]; rw [inv_mul_self]; rw [mul_one]
 #align category_theory.single_obj.difference_functor CategoryTheory.SingleObj.differenceFunctor
 
 end SingleObj

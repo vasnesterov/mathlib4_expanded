@@ -46,7 +46,7 @@ theorem not_mem_zero (v : Vector α 0) : a ∉ v.toList :=
 #align vector.not_mem_zero Vector.not_mem_zero
 
 theorem mem_cons_iff (v : Vector α n) : a' ∈ (a ::ᵥ v).toList ↔ a' = a ∨ a' ∈ v.toList := by
-  rw [Vector.toList_cons, List.mem_cons]
+  rw [Vector.toList_cons]; rw [List.mem_cons]
 #align vector.mem_cons_iff Vector.mem_cons_iff
 
 theorem mem_succ_iff (v : Vector α (n + 1)) : a ∈ v.toList ↔ a = v.head ∨ a ∈ v.tail.toList := by
@@ -75,7 +75,7 @@ theorem mem_of_mem_tail (v : Vector α n) (ha : a ∈ v.tail.toList) : a ∈ v.t
 
 theorem mem_map_iff (b : β) (v : Vector α n) (f : α → β) :
     b ∈ (v.map f).toList ↔ ∃ a : α, a ∈ v.toList ∧ f a = b := by
-  rw [Vector.toList_map, List.mem_map]
+  rw [Vector.toList_map]; rw [List.mem_map]
 #align vector.mem_map_iff Vector.mem_map_iff
 
 theorem not_mem_map_zero (b : β) (v : Vector α 0) (f : α → β) : b ∉ (v.map f).toList := by
@@ -84,7 +84,7 @@ theorem not_mem_map_zero (b : β) (v : Vector α 0) (f : α → β) : b ∉ (v.m
 
 theorem mem_map_succ_iff (b : β) (v : Vector α (n + 1)) (f : α → β) :
     b ∈ (v.map f).toList ↔ f v.head = b ∨ ∃ a : α, a ∈ v.tail.toList ∧ f a = b := by
-  rw [mem_succ_iff, head_map, tail_map, mem_map_iff, @eq_comm _ b]
+  rw [mem_succ_iff]; rw [head_map]; rw [tail_map]; rw [mem_map_iff]; rw [@eq_comm _ b]
 #align vector.mem_map_succ_iff Vector.mem_map_succ_iff
 
 end Vector

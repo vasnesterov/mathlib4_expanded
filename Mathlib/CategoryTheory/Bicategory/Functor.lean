@@ -288,13 +288,11 @@ def comp (F : OplaxFunctor B C) (G : OplaxFunctor C D) : OplaxFunctor B D :=
       exact (G.mapFunctor _ _).map (F.mapComp f g) ≫ G.mapComp (F.map f) (F.map g)
     mapComp_naturality_left := fun η g => by
       dsimp
-      rw [← map₂_comp_assoc, mapComp_naturality_left, map₂_comp_assoc, mapComp_naturality_left,
-        assoc]
+      rw [← map₂_comp_assoc]; rw [mapComp_naturality_left]; rw [map₂_comp_assoc]; rw [mapComp_naturality_left]; rw [assoc]
     mapComp_naturality_right := fun η => by
       dsimp
       intros
-      rw [← map₂_comp_assoc, mapComp_naturality_right, map₂_comp_assoc, mapComp_naturality_right,
-        assoc]
+      rw [← map₂_comp_assoc]; rw [mapComp_naturality_right]; rw [map₂_comp_assoc]; rw [mapComp_naturality_right]; rw [assoc]
     map₂_associator := fun f g h => by
       dsimp
       -- porting note: if you use the `map₂_associator_aux` hack in the definition of
@@ -521,17 +519,14 @@ def mkOfOplax (F : OplaxFunctor B C) (F' : F.PseudoCore) : Pseudofunctor B C :=
     mapComp := F'.mapCompIso
     map₂_whisker_left := fun f g h η => by
       dsimp
-      rw [F'.mapCompIso_hom f g, ← F.mapComp_naturality_right_assoc, ← F'.mapCompIso_hom f h,
-        hom_inv_id, comp_id]
+      rw [F'.mapCompIso_hom f g]; rw [← F.mapComp_naturality_right_assoc]; rw [← F'.mapCompIso_hom f h]; rw [hom_inv_id]; rw [comp_id]
     map₂_whisker_right := fun η h => by
       dsimp
-      rw [F'.mapCompIso_hom _ h, ← F.mapComp_naturality_left_assoc, ← F'.mapCompIso_hom _ h,
-        hom_inv_id, comp_id]
+      rw [F'.mapCompIso_hom _ h]; rw [← F.mapComp_naturality_left_assoc]; rw [← F'.mapCompIso_hom _ h]; rw [hom_inv_id]; rw [comp_id]
     map₂_associator := fun f g h => by
       dsimp
-      rw [F'.mapCompIso_hom (f ≫ g) h, F'.mapCompIso_hom f g, ← F.map₂_associator_assoc, ←
-        F'.mapCompIso_hom f (g ≫ h), ← F'.mapCompIso_hom g h, hom_inv_whiskerLeft_assoc,
-        hom_inv_id, comp_id] }
+      rw [F'.mapCompIso_hom (f ≫ g) h]; rw [F'.mapCompIso_hom f g]; rw [← F.map₂_associator_assoc]; rw [←
+        F'.mapCompIso_hom f (g ≫ h)]; rw [← F'.mapCompIso_hom g h]; rw [hom_inv_whiskerLeft_assoc]; rw [hom_inv_id]; rw [comp_id] }
 #align category_theory.pseudofunctor.mk_of_oplax CategoryTheory.Pseudofunctor.mkOfOplax
 
 /-- Construct a pseudofunctor from an oplax functor whose `mapId` and `mapComp` are isomorphisms.
@@ -544,14 +539,14 @@ noncomputable def mkOfOplax' (F : OplaxFunctor B C) [∀ a, IsIso (F.mapId a)]
     mapComp := fun f g => asIso (F.mapComp f g)
     map₂_whisker_left := fun f g h η => by
       dsimp
-      rw [← assoc, IsIso.eq_comp_inv, F.mapComp_naturality_right]
+      rw [← assoc]; rw [IsIso.eq_comp_inv]; rw [F.mapComp_naturality_right]
     map₂_whisker_right := fun η h => by
       dsimp
-      rw [← assoc, IsIso.eq_comp_inv, F.mapComp_naturality_left]
+      rw [← assoc]; rw [IsIso.eq_comp_inv]; rw [F.mapComp_naturality_left]
     map₂_associator := fun f g h => by
       dsimp
       simp only [← assoc]
-      rw [IsIso.eq_comp_inv, ← inv_whiskerLeft, IsIso.eq_comp_inv]
+      rw [IsIso.eq_comp_inv]; rw [← inv_whiskerLeft]; rw [IsIso.eq_comp_inv]
       simp only [assoc, F.map₂_associator] }
 #align category_theory.pseudofunctor.mk_of_oplax' CategoryTheory.Pseudofunctor.mkOfOplax'
 

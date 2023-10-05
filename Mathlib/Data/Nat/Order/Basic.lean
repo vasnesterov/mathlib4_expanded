@@ -205,7 +205,7 @@ theorem le_add_one_iff : m ≤ n + 1 ↔ m ≤ n ∨ m = n + 1 :=
 #align nat.le_add_one_iff Nat.le_add_one_iff
 
 theorem le_and_le_add_one_iff : n ≤ m ∧ m ≤ n + 1 ↔ m = n ∨ m = n + 1 := by
-  rw [le_add_one_iff, and_or_left, ← le_antisymm_iff, eq_comm, and_iff_right_of_imp]
+  rw [le_add_one_iff]; rw [and_or_left]; rw [← le_antisymm_iff]; rw [eq_comm]; rw [and_iff_right_of_imp]
   rintro rfl
   exact n.le_succ
 #align nat.le_and_le_add_one_iff Nat.le_and_le_add_one_iff
@@ -253,7 +253,7 @@ theorem le_or_le_of_add_eq_add_pred (h : k + l = m + n - 1) : m ≤ k ∨ n ≤ 
     cases' n.eq_zero_or_pos with hn hn
     · rw [hn]
       exact zero_le l
-    rw [n.add_sub_assoc (Nat.succ_le_of_lt hn), add_lt_add_iff_left] at h'
+    rw [n.add_sub_assoc (Nat.succ_le_of_lt hn)] at h'; rw [add_lt_add_iff_left] at h'
     exact Nat.le_of_pred_lt h'
 #align nat.le_or_le_of_add_eq_add_pred Nat.le_or_le_of_add_eq_add_pred
 
@@ -424,19 +424,17 @@ theorem mul_div_mul_comm_of_dvd_dvd (hmk : k ∣ m) (hnl : l ∣ n) :
   rcases l.eq_zero_or_pos with (rfl | hl0); · simp
   obtain ⟨_, rfl⟩ := hmk
   obtain ⟨_, rfl⟩ := hnl
-  rw [mul_mul_mul_comm, Nat.mul_div_cancel_left _ hk0, Nat.mul_div_cancel_left _ hl0,
-    Nat.mul_div_cancel_left _ (mul_pos hk0 hl0)]
+  rw [mul_mul_mul_comm]; rw [Nat.mul_div_cancel_left _ hk0]; rw [Nat.mul_div_cancel_left _ hl0]; rw [Nat.mul_div_cancel_left _ (mul_pos hk0 hl0)]
 #align nat.mul_div_mul_comm_of_dvd_dvd Nat.mul_div_mul_comm_of_dvd_dvd
 
 theorem le_half_of_half_lt_sub {a b : ℕ} (h : a / 2 < a - b) : b ≤ a / 2 := by
   rw [Nat.le_div_iff_mul_le two_pos]
-  rw [Nat.div_lt_iff_lt_mul two_pos, Nat.mul_sub_right_distrib, lt_tsub_iff_right, mul_two a] at h
+  rw [Nat.div_lt_iff_lt_mul two_pos] at h; rw [Nat.mul_sub_right_distrib] at h; rw [lt_tsub_iff_right] at h; rw [mul_two a] at h
   exact le_of_lt (Nat.lt_of_add_lt_add_left h)
 #align nat.le_half_of_half_lt_sub Nat.le_half_of_half_lt_sub
 
 theorem half_le_of_sub_le_half {a b : ℕ} (h : a - b ≤ a / 2) : a / 2 ≤ b := by
-  rw [Nat.le_div_iff_mul_le two_pos, Nat.mul_sub_right_distrib, tsub_le_iff_right, mul_two,
-    add_le_add_iff_left] at h
+  rw [Nat.le_div_iff_mul_le two_pos] at h; rw [Nat.mul_sub_right_distrib] at h; rw [tsub_le_iff_right] at h; rw [mul_two] at h; rw [add_le_add_iff_left] at h
   rw [← Nat.mul_div_left b two_pos]
   exact Nat.div_le_div_right h
 #align nat.half_le_of_sub_le_half Nat.half_le_of_sub_le_half
@@ -447,7 +445,7 @@ theorem half_le_of_sub_le_half {a b : ℕ} (h : a - b ≤ a / 2) : a / 2 ≤ b :
 theorem two_mul_odd_div_two (hn : n % 2 = 1) : 2 * (n / 2) = n - 1 := by
   conv =>
     rhs
-    rw [← Nat.mod_add_div n 2, hn, @add_tsub_cancel_left]
+    rw [← Nat.mod_add_div n 2]; rw [hn]; rw [@add_tsub_cancel_left]
 #align nat.two_mul_odd_div_two Nat.two_mul_odd_div_two
 
 theorem div_dvd_of_dvd (h : n ∣ m) : m / n ∣ m :=
@@ -457,7 +455,7 @@ theorem div_dvd_of_dvd (h : n ∣ m) : m / n ∣ m :=
 protected theorem div_div_self (h : n ∣ m) (hm : m ≠ 0) : m / (m / n) = n := by
   rcases h with ⟨_, rfl⟩
   rw [mul_ne_zero_iff] at hm
-  rw [mul_div_right _ (Nat.pos_of_ne_zero hm.1), mul_div_left _ (Nat.pos_of_ne_zero hm.2)]
+  rw [mul_div_right _ (Nat.pos_of_ne_zero hm.1)]; rw [mul_div_left _ (Nat.pos_of_ne_zero hm.2)]
 #align nat.div_div_self Nat.div_div_self
 
 --Porting note: later `simp [mod_zero]` can be changed to `simp` once `mod_zero` is given
@@ -466,12 +464,11 @@ theorem mod_mul_right_div_self (m n k : ℕ) : m % (n * k) / n = m / n % k := by
   rcases Nat.eq_zero_or_pos n with (rfl | hn); simp [mod_zero]
   rcases Nat.eq_zero_or_pos k with (rfl | hk); simp [mod_zero]
   conv_rhs => rw [← mod_add_div m (n * k)]
-  rw [mul_assoc, add_mul_div_left _ _ hn, add_mul_mod_self_left,
-    mod_eq_of_lt (Nat.div_lt_of_lt_mul (mod_lt _ (mul_pos hn hk)))]
+  rw [mul_assoc]; rw [add_mul_div_left _ _ hn]; rw [add_mul_mod_self_left]; rw [mod_eq_of_lt (Nat.div_lt_of_lt_mul (mod_lt _ (mul_pos hn hk)))]
 #align nat.mod_mul_right_div_self Nat.mod_mul_right_div_self
 
 theorem mod_mul_left_div_self (m n k : ℕ) : m % (k * n) / n = m / n % k := by
-  rw [mul_comm k, mod_mul_right_div_self]
+  rw [mul_comm k]; rw [mod_mul_right_div_self]
 #align nat.mod_mul_left_div_self Nat.mod_mul_left_div_self
 
 theorem not_dvd_of_pos_of_lt (h1 : 0 < n) (h2 : n < m) : ¬m ∣ n := by
@@ -483,8 +480,7 @@ theorem not_dvd_of_pos_of_lt (h1 : 0 < n) (h2 : n < m) : ¬m ∣ n := by
 
 /-- If `m` and `n` are equal mod `k`, `m - n` is zero mod `k`. -/
 theorem sub_mod_eq_zero_of_mod_eq (h : m % k = n % k) : (m - n) % k = 0 := by
-  rw [← Nat.mod_add_div m k, ← Nat.mod_add_div n k, ← h, tsub_add_eq_tsub_tsub,
-    @add_tsub_cancel_left, ← mul_tsub k, Nat.mul_mod_right]
+  rw [← Nat.mod_add_div m k]; rw [← Nat.mod_add_div n k]; rw [← h]; rw [tsub_add_eq_tsub_tsub]; rw [@add_tsub_cancel_left]; rw [← mul_tsub k]; rw [Nat.mul_mod_right]
 #align nat.sub_mod_eq_zero_of_mod_eq Nat.sub_mod_eq_zero_of_mod_eq
 
 @[simp]
@@ -519,7 +515,7 @@ theorem div_mul_div_comm (hmn : n ∣ m) (hkl : l ∣ k) : m / n * (k / l) = m *
       have : 0 < l := Nat.pos_of_ne_zero hl
       cases' exi1 with x hx
       cases' exi2 with y hy
-      rw [hx, hy, Nat.mul_div_cancel_left, Nat.mul_div_cancel_left]
+      rw [hx]; rw [hy]; rw [Nat.mul_div_cancel_left]; rw [Nat.mul_div_cancel_left]
       apply Eq.symm
       apply Nat.div_eq_of_eq_mul_left
       apply mul_pos
@@ -548,8 +544,8 @@ theorem div_eq_sub_mod_div : m / n = (m - m % n) / n := by
   by_cases n0 : n = 0
   · rw [n0, Nat.div_zero, Nat.div_zero]
   · have : m - m % n = n * (m / n) := by
-      rw [tsub_eq_iff_eq_add_of_le (Nat.mod_le _ _), add_comm, mod_add_div]
-    rw [this, mul_div_right _ (Nat.pos_of_ne_zero n0)]
+      rw [tsub_eq_iff_eq_add_of_le (Nat.mod_le _ _)]; rw [add_comm]; rw [mod_add_div]
+    rw [this]; rw [mul_div_right _ (Nat.pos_of_ne_zero n0)]
 #align nat.div_eq_sub_mod_div Nat.div_eq_sub_mod_div
 
 /-- `m` is not divisible by `n` if it is between `n * k` and `n * (k + 1)` for some `k`. -/
@@ -567,7 +563,7 @@ variable {p q : ℕ → Prop} [DecidablePred p] [DecidablePred q]
 
 --Porting note: removing `simp` attribute as `simp` can prove it
 theorem find_pos (h : ∃ n : ℕ, p n) : 0 < Nat.find h ↔ ¬p 0 := by
-  rw [pos_iff_ne_zero, Ne, Nat.find_eq_zero]
+  rw [pos_iff_ne_zero]; rw [Ne]; rw [Nat.find_eq_zero]
 #align nat.find_pos Nat.find_pos
 
 theorem find_add {hₘ : ∃ m, p (m + n)} {hₙ : ∃ n, p n} (hn : n ≤ Nat.find hₙ) :
@@ -623,7 +619,7 @@ theorem findGreatest_eq_zero_iff : Nat.findGreatest P k = 0 ↔ ∀ ⦃n⦄, 0 <
 #align nat.find_greatest_eq_zero_iff Nat.findGreatest_eq_zero_iff
 
 @[simp] lemma findGreatest_pos : 0 < Nat.findGreatest P k ↔ ∃ n, 0 < n ∧ n ≤ k ∧ P n := by
-  rw [pos_iff_ne_zero, Ne.def, findGreatest_eq_zero_iff]; push_neg; rfl
+  rw [pos_iff_ne_zero]; rw [Ne.def]; rw [findGreatest_eq_zero_iff]; push_neg; rfl
 
 theorem findGreatest_spec (hmb : m ≤ n) (hm : P m) : P (Nat.findGreatest P n) := by
   by_cases h : Nat.findGreatest P n = 0

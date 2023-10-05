@@ -33,7 +33,7 @@ instance : IsWellOrder ℕ+ (· < ·) where
 
 @[simp]
 theorem one_add_natPred (n : ℕ+) : 1 + n.natPred = n := by
-  rw [natPred, add_tsub_cancel_iff_le.mpr <| show 1 ≤ (n : ℕ) from n.2]
+  rw [natPred]; rw [add_tsub_cancel_iff_le.mpr <| show 1 ≤ (n : ℕ) from n.2]
 #align pnat.one_add_nat_pred PNat.one_add_natPred
 
 @[simp]
@@ -293,7 +293,7 @@ theorem sub_coe (a b : ℕ+) : ((a - b : ℕ+) : ℕ) = ite (b < a) (a - b : ℕ
 theorem add_sub_of_lt {a b : ℕ+} : a < b → a + (b - a) = b :=
   fun h =>
     PNat.eq <| by
-      rw [add_coe, sub_coe, if_pos h]
+      rw [add_coe]; rw [sub_coe]; rw [if_pos h]
       exact add_tsub_cancel_of_le h.le
 #align pnat.add_sub_of_lt PNat.add_sub_of_lt
 
@@ -345,7 +345,7 @@ theorem modDivAux_spec :
   | k, 0, 0, h => (h ⟨rfl, rfl⟩).elim
   | k, 0, q + 1, _ => by
     change (k : ℕ) + (k : ℕ) * (q + 1).pred = 0 + (k : ℕ) * (q + 1)
-    rw [Nat.pred_succ, Nat.mul_succ, zero_add, add_comm]
+    rw [Nat.pred_succ]; rw [Nat.mul_succ]; rw [zero_add]; rw [add_comm]
   | k, r + 1, q, _ => rfl
 #align pnat.mod_div_aux_spec PNat.modDivAux_spec
 
@@ -353,7 +353,7 @@ theorem mod_add_div (m k : ℕ+) : (mod m k + k * div m k : ℕ) = m := by
   let h₀ := Nat.mod_add_div (m : ℕ) (k : ℕ)
   have : ¬((m : ℕ) % (k : ℕ) = 0 ∧ (m : ℕ) / (k : ℕ) = 0) := by
     rintro ⟨hr, hq⟩
-    rw [hr, hq, mul_zero, zero_add] at h₀
+    rw [hr] at h₀; rw [hq] at h₀; rw [mul_zero] at h₀; rw [zero_add] at h₀
     exact (m.ne_zero h₀.symm).elim
   have := modDivAux_spec k ((m : ℕ) % (k : ℕ)) ((m : ℕ) / (k : ℕ)) this
   exact this.trans h₀
@@ -378,7 +378,7 @@ theorem mod_le (m k : ℕ+) : mod m k ≤ m ∧ mod m k ≤ k := by
   rw [mod_coe]
   split_ifs with h
   · have hm : (m : ℕ) > 0 := m.pos
-    rw [← Nat.mod_add_div (m : ℕ) (k : ℕ), h, zero_add] at hm ⊢
+    rw [← Nat.mod_add_div (m : ℕ) (k : ℕ)] at hm ⊢; rw [h] at hm ⊢; rw [zero_add] at hm ⊢
     by_cases h₁ : (m : ℕ) / (k : ℕ) = 0
     · rw [h₁, mul_zero] at hm
       exact (lt_irrefl _ hm).elim
@@ -402,7 +402,7 @@ theorem dvd_iff {k m : ℕ+} : k ∣ m ↔ (k : ℕ) ∣ (m : ℕ) := by
       apply ne_zero
     | succ n =>
       use ⟨n.succ, n.succ_pos⟩
-      rw [← coe_inj, h, mul_coe, mk_coe]
+      rw [← coe_inj]; rw [h]; rw [mul_coe]; rw [mk_coe]
 #align pnat.dvd_iff PNat.dvd_iff
 
 theorem dvd_iff' {k m : ℕ+} : k ∣ m ↔ mod m k = k := by
@@ -410,12 +410,12 @@ theorem dvd_iff' {k m : ℕ+} : k ∣ m ↔ mod m k = k := by
   rw [Nat.dvd_iff_mod_eq_zero]; constructor
   · intro h
     apply PNat.eq
-    rw [mod_coe, if_pos h]
+    rw [mod_coe]; rw [if_pos h]
   · intro h
     by_cases h' : (m : ℕ) % (k : ℕ) = 0
     · exact h'
     · replace h : (mod m k : ℕ) = (k : ℕ) := congr_arg _ h
-      rw [mod_coe, if_neg h'] at h
+      rw [mod_coe] at h; rw [if_neg h'] at h
       exact ((Nat.mod_lt (m : ℕ) k.pos).ne h).elim
 #align pnat.dvd_iff' PNat.dvd_iff'
 
@@ -429,7 +429,7 @@ theorem le_of_dvd {m n : ℕ+} : m ∣ n → m ≤ n := by
 theorem mul_div_exact {m k : ℕ+} (h : k ∣ m) : k * divExact m k = m := by
   apply PNat.eq; rw [mul_coe]
   change (k : ℕ) * (div m k).succ = m
-  rw [← div_add_mod m k, dvd_iff'.mp h, Nat.mul_succ]
+  rw [← div_add_mod m k]; rw [dvd_iff'.mp h]; rw [Nat.mul_succ]
 #align pnat.mul_div_exact PNat.mul_div_exact
 
 theorem dvd_antisymm {m n : ℕ+} : m ∣ n → n ∣ m → m = n := fun hmn hnm =>

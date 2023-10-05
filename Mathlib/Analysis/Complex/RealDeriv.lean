@@ -58,7 +58,7 @@ theorem HasStrictDerivAt.real_of_complex (h : HasStrictDerivAt e e' z) :
   -- simpa using (C.comp z (B.comp z A)).hasStrictDerivAt
   -- but for some reason simp can not use `ContinuousLinearMap.comp_apply`
   convert (C.comp z (B.comp z A)).hasStrictDerivAt
-  rw [ContinuousLinearMap.comp_apply, ContinuousLinearMap.comp_apply]
+  rw [ContinuousLinearMap.comp_apply]; rw [ContinuousLinearMap.comp_apply]
   simp
 #align has_strict_deriv_at.real_of_complex HasStrictDerivAt.real_of_complex
 
@@ -77,7 +77,7 @@ theorem HasDerivAt.real_of_complex (h : HasDerivAt e e' z) :
   -- simpa using (C.comp z (B.comp z A)).hasStrictDerivAt
   -- but for some reason simp can not use `ContinuousLinearMap.comp_apply`
   convert (C.comp z (B.comp z A)).hasDerivAt
-  rw [ContinuousLinearMap.comp_apply, ContinuousLinearMap.comp_apply]
+  rw [ContinuousLinearMap.comp_apply]; rw [ContinuousLinearMap.comp_apply]
   simp
 #align has_deriv_at.real_of_complex HasDerivAt.real_of_complex
 
@@ -161,7 +161,7 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {z : ℂ} {f : �
     This is a version of the Cauchy-Riemann equations. -/
 theorem DifferentiableAt.conformalAt (h : DifferentiableAt ℂ f z) (hf' : deriv f z ≠ 0) :
     ConformalAt f z := by
-  rw [conformalAt_iff_isConformalMap_fderiv, (h.hasFDerivAt.restrictScalars ℝ).fderiv]
+  rw [conformalAt_iff_isConformalMap_fderiv]; rw [(h.hasFDerivAt.restrictScalars ℝ).fderiv]
   apply isConformalMap_complex_linear
   simpa only [Ne.def, ext_ring_iff]
 #align differentiable_at.conformal_at DifferentiableAt.conformalAt

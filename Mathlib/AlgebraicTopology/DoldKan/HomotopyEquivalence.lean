@@ -78,11 +78,10 @@ def homotopyPInftyToId : Homotopy (PInfty : K[X] ⟶ _) (𝟙 _) where
       -- which fails on leanprover/lean4:nightly-2023-05-16 due to
       -- https://github.com/leanprover/lean4/pull/2146
       -- The `erw` below clunkily works around this.
-      rw [Homotopy.dNext_succ_chainComplex, Homotopy.prevD_chainComplex, PInfty_f,
-        ← P_is_eventually_constant (rfl.le : n + 1 ≤ n + 1)]
+      rw [Homotopy.dNext_succ_chainComplex]; rw [Homotopy.prevD_chainComplex]; rw [PInfty_f]; rw [← P_is_eventually_constant (rfl.le : n + 1 ≤ n + 1)]
       erw [homotopyPToId_eventually_constant X (lt_add_one (Nat.succ n))]
       have := (homotopyPToId X (n + 2)).comm (n + 1)
-      rw [Homotopy.dNext_succ_chainComplex, Homotopy.prevD_chainComplex] at this
+      rw [Homotopy.dNext_succ_chainComplex] at this; rw [Homotopy.prevD_chainComplex] at this
       exact this
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.homotopy_P_infty_to_id AlgebraicTopology.DoldKan.homotopyPInftyToId

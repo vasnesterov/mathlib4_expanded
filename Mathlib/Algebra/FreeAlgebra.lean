@@ -221,7 +221,7 @@ instance instAddCommMonoid : AddCommMonoid (FreeAlgebra R X) where
   add_zero := by
     rintro ⟨⟩
     change Quot.mk _ _ = _
-    rw [Quot.sound Rel.add_comm, Quot.sound Rel.zero_add]
+    rw [Quot.sound Rel.add_comm]; rw [Quot.sound Rel.zero_add]
   add_comm := by
     rintro ⟨⟩ ⟨⟩
     exact Quot.sound Rel.add_comm
@@ -234,7 +234,7 @@ instance instAddCommMonoid : AddCommMonoid (FreeAlgebra R X) where
   nsmul_succ n := by
     rintro ⟨a⟩
     dsimp only [HSMul.hSMul, instSMul, Quot.map]
-    rw [map_add, map_one, add_comm, mk_mul, mk_mul, ←one_add_mul (_ : FreeAlgebra R X)]
+    rw [map_add]; rw [map_one]; rw [add_comm]; rw [mk_mul]; rw [mk_mul]; rw [←one_add_mul (_ : FreeAlgebra R X)]
     congr 1
     exact Quot.sound Rel.add_scalar
 
@@ -274,7 +274,7 @@ instance {R S A} [CommSemiring R] [CommSemiring S] [CommSemiring A]
     rw [←smul_assoc]
     congr
     simp only [Algebra.algebraMap_eq_smul_one, smul_eq_mul]
-    rw [smul_assoc, ←smul_one_mul]
+    rw [smul_assoc]; rw [←smul_one_mul]
 
 instance {R S A} [CommSemiring R] [CommSemiring S] [CommSemiring A]
     [Algebra R A] [Algebra S A] [SMulCommClass R S A] :
@@ -380,12 +380,12 @@ def lift : (X → A) ≃ (FreeAlgebra R X →ₐ[R] A) :=
         let fa : FreeAlgebra R X := Quot.mk (Rel R X) a
         let fb : FreeAlgebra R X := Quot.mk (Rel R X) b
         change liftAux R (F ∘ ι R) (fa + fb) = F (fa + fb)
-        rw [AlgHom.map_add, AlgHom.map_add, ha, hb]
+        rw [AlgHom.map_add]; rw [AlgHom.map_add]; rw [ha]; rw [hb]
       case mul a b ha hb =>
         let fa : FreeAlgebra R X := Quot.mk (Rel R X) a
         let fb : FreeAlgebra R X := Quot.mk (Rel R X) b
         change liftAux R (F ∘ ι R) (fa * fb) = F (fa * fb)
-        rw [AlgHom.map_mul, AlgHom.map_mul, ha, hb] }
+        rw [AlgHom.map_mul]; rw [AlgHom.map_mul]; rw [ha]; rw [hb] }
 #align free_algebra.lift FreeAlgebra.lift
 
 @[simp]
@@ -405,20 +405,20 @@ variable {R}
 @[simp]
 theorem ι_comp_lift (f : X → A) : (lift R f : FreeAlgebra R X → A) ∘ ι R = f := by
   ext
-  rw [Function.comp_apply, ι_def, lift]
+  rw [Function.comp_apply]; rw [ι_def]; rw [lift]
   rfl
 #align free_algebra.ι_comp_lift FreeAlgebra.ι_comp_lift
 
 @[simp]
 theorem lift_ι_apply (f : X → A) (x) : lift R f (ι R x) = f x := by
-  rw [ι_def, lift]
+  rw [ι_def]; rw [lift]
   rfl
 #align free_algebra.lift_ι_apply FreeAlgebra.lift_ι_apply
 
 @[simp]
 theorem lift_unique (f : X → A) (g : FreeAlgebra R X →ₐ[R] A) :
     (g : FreeAlgebra R X → A) ∘ ι R = f ↔ g = lift R f := by
-  rw [← (lift R).symm_apply_eq, lift]
+  rw [← (lift R).symm_apply_eq]; rw [lift]
   rfl
 #align free_algebra.lift_unique FreeAlgebra.lift_unique
 
@@ -442,7 +442,7 @@ theorem lift_comp_ι (g : FreeAlgebra R X →ₐ[R] A) :
 @[ext high]
 theorem hom_ext {f g : FreeAlgebra R X →ₐ[R] A}
     (w : (f : FreeAlgebra R X → A) ∘ ι R = (g : FreeAlgebra R X → A) ∘ ι R) : f = g := by
-  rw [← lift_symm_apply, ← lift_symm_apply] at w
+  rw [← lift_symm_apply] at w; rw [← lift_symm_apply] at w
   exact (lift R).symm.injective w
 #align free_algebra.hom_ext FreeAlgebra.hom_ext
 
@@ -522,8 +522,8 @@ theorem ι_ne_algebraMap [Nontrivial R] (x : X) (r : R) : ι R x ≠ algebraMap 
   let f1 : FreeAlgebra R X →ₐ[R] R := lift R 1
   have hf0 : f0 (ι R x) = 0 := lift_ι_apply _ _
   have hf1 : f1 (ι R x) = 1 := lift_ι_apply _ _
-  rw [h, f0.commutes, Algebra.id.map_eq_self] at hf0
-  rw [h, f1.commutes, Algebra.id.map_eq_self] at hf1
+  rw [h] at hf0; rw [f0.commutes] at hf0; rw [Algebra.id.map_eq_self] at hf0
+  rw [h] at hf1; rw [f1.commutes] at hf1; rw [Algebra.id.map_eq_self] at hf1
   exact zero_ne_one (hf0.symm.trans hf1)
 #align free_algebra.ι_ne_algebra_map FreeAlgebra.ι_ne_algebraMap
 
@@ -595,6 +595,6 @@ theorem _root_.Algebra.adjoin_range_eq_range_freeAlgebra_lift (f : X → A) :
 /-- Noncommutative version of `Algebra.adjoin_range_eq_range`. -/
 theorem _root_.Algebra.adjoin_eq_range_freeAlgebra_lift (s : Set A) :
     Algebra.adjoin R s = (FreeAlgebra.lift R ((↑) : s → A)).range := by
-  rw [← Algebra.adjoin_range_eq_range_freeAlgebra_lift, Subtype.range_coe]
+  rw [← Algebra.adjoin_range_eq_range_freeAlgebra_lift]; rw [Subtype.range_coe]
 
 end FreeAlgebra

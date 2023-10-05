@@ -261,7 +261,7 @@ protected def cast {α β : Sort _} (h : α = β) : α ≃ β :=
 /-- This cannot be a `simp` lemmas as it incorrectly matches against `e : α ≃ synonym α`, when
 `synonym α` is semireducible. This makes a mess of `Multiplicative.ofAdd` etc. -/
 theorem Perm.coe_subsingleton {α : Type*} [Subsingleton α] (e : Perm α) : (e : α → α) = id := by
-  rw [Perm.subsingleton_eq_refl e, coe_refl]
+  rw [Perm.subsingleton_eq_refl e]; rw [coe_refl]
 #align equiv.perm.coe_subsingleton Equiv.Perm.coe_subsingleton
 
 -- porting note: marking this as `@[simp]` because `simp` doesn't fire on `coe_refl`

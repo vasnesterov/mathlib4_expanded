@@ -143,16 +143,14 @@ instance : Neg (LeftInvariantDerivation I G) where
   neg X := ⟨-X, fun g => by
     -- porting note: was simp [left_invariant']
     -- `rw` fails without detailed type annotations too; also it needs a lot of time
-    rw [map_neg (Derivation.evalAt (𝕜 := 𝕜) (1 : G)), map_neg (𝒅ₕ (smoothLeftMul_one I g)),
-      left_invariant', map_neg (Derivation.evalAt (𝕜 := 𝕜) g)]⟩
+    rw [map_neg (Derivation.evalAt (𝕜 := 𝕜) (1 : G))]; rw [map_neg (𝒅ₕ (smoothLeftMul_one I g))]; rw [left_invariant']; rw [map_neg (Derivation.evalAt (𝕜 := 𝕜) g)]⟩
 
 set_option maxHeartbeats 300000 in
 instance : Sub (LeftInvariantDerivation I G) where
   sub X Y := ⟨X - Y, fun g => by
     -- porting note: was simp [left_invariant']
     -- `rw` fails without detailed type annotations too; also it needs a lot of time
-    rw [map_sub (Derivation.evalAt (𝕜 := 𝕜) (1 : G)), map_sub (𝒅ₕ (smoothLeftMul_one I g)),
-      map_sub (Derivation.evalAt (𝕜 := 𝕜) g), left_invariant', left_invariant']⟩
+    rw [map_sub (Derivation.evalAt (𝕜 := 𝕜) (1 : G))]; rw [map_sub (𝒅ₕ (smoothLeftMul_one I g))]; rw [map_sub (Derivation.evalAt (𝕜 := 𝕜) g)]; rw [left_invariant']; rw [left_invariant']⟩
 
 @[simp]
 theorem coe_add : ⇑(X + Y) = X + Y :=
@@ -247,17 +245,15 @@ theorem left_invariant : 𝒅ₕ (smoothLeftMul_one I g) (evalAt (1 : G) X) = ev
 
 theorem evalAt_mul : evalAt (g * h) X = 𝒅ₕ (L_apply I g h) (evalAt h X) := by
   ext f
-  rw [← left_invariant, apply_hfdifferential, apply_hfdifferential, L_mul, fdifferential_comp,
-    apply_fdifferential]
+  rw [← left_invariant]; rw [apply_hfdifferential]; rw [apply_hfdifferential]; rw [L_mul]; rw [fdifferential_comp]; rw [apply_fdifferential]
   -- Porting note: more agressive here
   erw [LinearMap.comp_apply]
-  rw [apply_fdifferential, ← apply_hfdifferential, left_invariant]
+  rw [apply_fdifferential]; rw [← apply_hfdifferential]; rw [left_invariant]
 #align left_invariant_derivation.eval_at_mul LeftInvariantDerivation.evalAt_mul
 
 theorem comp_L : (X f).comp (𝑳 I g) = X (f.comp (𝑳 I g)) := by
   ext h
-  rw [ContMDiffMap.comp_apply, L_apply, ← evalAt_apply, evalAt_mul, apply_hfdifferential,
-    apply_fdifferential, evalAt_apply]
+  rw [ContMDiffMap.comp_apply]; rw [L_apply]; rw [← evalAt_apply]; rw [evalAt_mul]; rw [apply_hfdifferential]; rw [apply_fdifferential]; rw [evalAt_apply]
 set_option linter.uppercaseLean3 false in
 #align left_invariant_derivation.comp_L LeftInvariantDerivation.comp_L
 
@@ -267,11 +263,11 @@ instance : Bracket (LeftInvariantDerivation I G) (LeftInvariantDerivation I G) w
       ext f
       have hX := Derivation.congr_fun (left_invariant' g X) (Y f)
       have hY := Derivation.congr_fun (left_invariant' g Y) (X f)
-      rw [apply_hfdifferential, apply_fdifferential, Derivation.evalAt_apply] at hX hY ⊢
+      rw [apply_hfdifferential] at hX hY ⊢; rw [apply_fdifferential] at hX hY ⊢; rw [Derivation.evalAt_apply] at hX hY ⊢
       rw [comp_L] at hX hY
-      rw [Derivation.commutator_apply, SmoothMap.coe_sub, Pi.sub_apply, coe_derivation]
+      rw [Derivation.commutator_apply]; rw [SmoothMap.coe_sub]; rw [Pi.sub_apply]; rw [coe_derivation]
       rw [coe_derivation] at hX hY ⊢
-      rw [hX, hY]
+      rw [hX]; rw [hY]
       rfl⟩
 
 @[simp]

@@ -86,7 +86,7 @@ instance : Epi (homologyCToK f g w) := by
   obtain ⟨c, hc⟩ : ∃ c, cokernel.π f c = b
   apply Pseudoelement.pseudo_surjective_of_epi (cokernel.π f)
   have : g c = 0 := by
-    rw [show g = cokernel.π f ≫ cokernel.desc f g w by simp, Pseudoelement.comp_apply, hc]
+    rw [show g = cokernel.π f ≫ cokernel.desc f g w by simp]; rw [Pseudoelement.comp_apply]; rw [hc]
     simp [← Pseudoelement.comp_apply]
   obtain ⟨d, hd⟩ : ∃ d, kernel.ι g d = c := by
     apply (Pseudoelement.pseudo_exact_of_exact exact_kernel_ι).2 _ this
@@ -212,11 +212,11 @@ theorem π'_map (α β h) : π' _ _ _ ≫ map w w' α β h =
   simp only [π'_eq_π_assoc]
   dsimp [π]
   simp only [cokernel.π_desc]
-  rw [← Iso.inv_comp_eq, ← Category.assoc]
+  rw [← Iso.inv_comp_eq]; rw [← Category.assoc]
   have :
     (kernelSubobjectIso g).inv ≫ kernelSubobjectMap β =
       kernel.map _ _ β.left β.right β.w.symm ≫ (kernelSubobjectIso _).inv := by
-    rw [Iso.inv_comp_eq, ← Category.assoc, Iso.eq_comp_inv]
+    rw [Iso.inv_comp_eq]; rw [← Category.assoc]; rw [Iso.eq_comp_inv]
     ext
     dsimp
     simp
@@ -306,11 +306,11 @@ theorem map_eq_lift_desc'_right (α β h) :
 theorem map_ι (α β h) :
     map w w' α β h ≫ ι f' g' w' =
       ι f g w ≫ cokernel.map f f' α.left β.left (by simp [h, β.w.symm]) := by
-  rw [map_eq_lift_desc'_left, lift_ι]
+  rw [map_eq_lift_desc'_left]; rw [lift_ι]
   -- Porting note: once was known as ext
   apply homology.hom_from_ext
   simp only [← Category.assoc]
-  rw [π'_ι, π'_desc', Category.assoc, Category.assoc, cokernel.π_desc]
+  rw [π'_ι]; rw [π'_desc']; rw [Category.assoc]; rw [Category.assoc]; rw [cokernel.π_desc]
 #align homology.map_ι homology.map_ι
 
 end
@@ -345,7 +345,7 @@ noncomputable def homologyFunctorIso (i : ι) :
   NatIso.ofComponents (fun X => homologyIso F X i) (by
       intro X Y f
       dsimp
-      rw [← Iso.inv_comp_eq, ← Category.assoc, ← Iso.eq_comp_inv]
+      rw [← Iso.inv_comp_eq]; rw [← Category.assoc]; rw [← Iso.eq_comp_inv]
       refine' coequalizer.hom_ext _
       dsimp [homologyIso]
       simp only [PreservesCokernel.iso_inv]

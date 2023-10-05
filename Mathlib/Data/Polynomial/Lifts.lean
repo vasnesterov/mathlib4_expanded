@@ -71,7 +71,7 @@ theorem lifts_iff_ringHom_rangeS (p : S[X]) : p ∈ lifts f ↔ p ∈ (mapRingHo
 #align polynomial.lifts_iff_ring_hom_srange Polynomial.lifts_iff_ringHom_rangeS
 
 theorem lifts_iff_coeff_lifts (p : S[X]) : p ∈ lifts f ↔ ∀ n : ℕ, p.coeff n ∈ Set.range f := by
-  rw [lifts_iff_ringHom_rangeS, mem_map_rangeS f]
+  rw [lifts_iff_ringHom_rangeS]; rw [mem_map_rangeS f]
   rfl
 #align polynomial.lifts_iff_coeff_lifts Polynomial.lifts_iff_coeff_lifts
 
@@ -126,7 +126,7 @@ theorem monomial_mem_lifts {s : S} (n : ℕ) (h : s ∈ Set.range f) : monomial 
 
 /-- If `p` lifts then `p.erase n` lifts. -/
 theorem erase_mem_lifts {p : S[X]} (n : ℕ) (h : p ∈ lifts f) : p.erase n ∈ lifts f := by
-  rw [lifts_iff_ringHom_rangeS, mem_map_rangeS] at h ⊢
+  rw [lifts_iff_ringHom_rangeS] at h ⊢; rw [mem_map_rangeS] at h ⊢
   intro k
   by_cases hk : k = n
   · use 0
@@ -178,15 +178,15 @@ theorem mem_lifts_and_degree_eq {p : S[X]} (hlifts : p ∈ lifts f) :
   have pzero : p ≠ 0 := by
     intro habs
     exfalso
-    rw [habs, eraseLead_zero, eq_self_iff_true, not_true] at erase_zero
+    rw [habs] at erase_zero; rw [eraseLead_zero] at erase_zero; rw [eq_self_iff_true] at erase_zero; rw [not_true] at erase_zero
     exact erase_zero
   have lead_zero : p.coeff p.natDegree ≠ 0 := by
-    rw [← leadingCoeff, Ne.def, leadingCoeff_eq_zero]; exact pzero
+    rw [← leadingCoeff]; rw [Ne.def]; rw [leadingCoeff_eq_zero]; exact pzero
   obtain ⟨lead, hlead⟩ :=
     monomial_mem_lifts_and_degree_eq
       (monomial_mem_lifts p.natDegree ((lifts_iff_coeff_lifts p).1 hlifts p.natDegree))
   have deg_lead : lead.degree = p.natDegree := by
-    rw [hlead.2, ← C_mul_X_pow_eq_monomial, degree_C_mul_X_pow p.natDegree lead_zero]
+    rw [hlead.2]; rw [← C_mul_X_pow_eq_monomial]; rw [degree_C_mul_X_pow p.natDegree lead_zero]
   rw [hdeg] at deg_erase
   obtain ⟨erase, herase⟩ :=
     hn p.eraseLead.natDegree deg_erase (erase_mem_lifts p.natDegree hlifts)
@@ -194,11 +194,11 @@ theorem mem_lifts_and_degree_eq {p : S[X]} (hlifts : p ∈ lifts f) :
   use erase + lead
   constructor
   · simp only [hlead, herase, Polynomial.map_add]
-    rw [←eraseLead, ←leadingCoeff]
+    rw [←eraseLead]; rw [←leadingCoeff]
     rw [eraseLead_add_monomial_natDegree_leadingCoeff p]
-  rw [degree_eq_natDegree pzero, ←deg_lead]
+  rw [degree_eq_natDegree pzero]; rw [←deg_lead]
   apply degree_add_eq_right_of_degree_lt
-  rw [herase.2, deg_lead, ←degree_eq_natDegree pzero]
+  rw [herase.2]; rw [deg_lead]; rw [←degree_eq_natDegree pzero]
   exact degree_erase_lt pzero
 #align polynomial.mem_lifts_and_degree_eq Polynomial.mem_lifts_and_degree_eq
 
@@ -223,7 +223,7 @@ theorem lifts_and_degree_eq_and_monic [Nontrivial S] {p : S[X]} (hlifts : p ∈ 
   obtain ⟨q, hq⟩ := mem_lifts_and_degree_eq (erase_mem_lifts p.natDegree hlifts)
   have p_neq_0 : p ≠ 0 := by intro hp; apply h0; rw [hp]; simp only [natDegree_zero, erase_zero]
   have hdeg : q.degree < (X ^ p.natDegree).degree := by
-    rw [@degree_X_pow R, hq.2, ←degree_eq_natDegree p_neq_0]
+    rw [@degree_X_pow R]; rw [hq.2]; rw [←degree_eq_natDegree p_neq_0]
     exact degree_erase_lt p_neq_0
   refine' ⟨q + X ^ p.natDegree, _, _, (monic_X_pow _).add_of_right hdeg⟩
   · rw [Polynomial.map_add, hq.1, Polynomial.map_pow, map_X, H]

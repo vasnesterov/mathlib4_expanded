@@ -97,7 +97,7 @@ lemma quasiIso_iff_of_arrow_mk_iso (φ : S₁ ⟶ S₂) (φ' : S₃ ⟶ S₄) (e
 lemma LeftHomologyMapData.quasiIso_iff {φ : S₁ ⟶ S₂} {h₁ : S₁.LeftHomologyData}
     {h₂ : S₂.LeftHomologyData} (γ : LeftHomologyMapData φ h₁ h₂) :
     QuasiIso φ ↔ IsIso γ.φH := by
-  rw [ShortComplex.quasiIso_iff, γ.homologyMap_eq]
+  rw [ShortComplex.quasiIso_iff]; rw [γ.homologyMap_eq]
   constructor
   · intro h
     haveI : IsIso (γ.φH ≫ (LeftHomologyData.homologyIso h₂).inv) :=
@@ -109,7 +109,7 @@ lemma LeftHomologyMapData.quasiIso_iff {φ : S₁ ⟶ S₂} {h₁ : S₁.LeftHom
 lemma RightHomologyMapData.quasiIso_iff {φ : S₁ ⟶ S₂} {h₁ : S₁.RightHomologyData}
     {h₂ : S₂.RightHomologyData} (γ : RightHomologyMapData φ h₁ h₂) :
     QuasiIso φ ↔ IsIso γ.φH := by
-  rw [ShortComplex.quasiIso_iff, γ.homologyMap_eq]
+  rw [ShortComplex.quasiIso_iff]; rw [γ.homologyMap_eq]
   constructor
   · intro h
     haveI : IsIso (γ.φH ≫ (RightHomologyData.homologyIso h₂).inv) :=
@@ -122,13 +122,13 @@ lemma quasiIso_iff_isIso_leftHomologyMap' (φ : S₁ ⟶ S₂)
     (h₁ : S₁.LeftHomologyData) (h₂ : S₂.LeftHomologyData) :
     QuasiIso φ ↔ IsIso (leftHomologyMap' φ h₁ h₂) := by
   have γ : LeftHomologyMapData φ h₁ h₂ := default
-  rw [γ.quasiIso_iff, γ.leftHomologyMap'_eq]
+  rw [γ.quasiIso_iff]; rw [γ.leftHomologyMap'_eq]
 
 lemma quasiIso_iff_isIso_rightHomologyMap' (φ : S₁ ⟶ S₂)
     (h₁ : S₁.RightHomologyData) (h₂ : S₂.RightHomologyData) :
     QuasiIso φ ↔ IsIso (rightHomologyMap' φ h₁ h₂) := by
   have γ : RightHomologyMapData φ h₁ h₂ := default
-  rw [γ.quasiIso_iff, γ.rightHomologyMap'_eq]
+  rw [γ.quasiIso_iff]; rw [γ.rightHomologyMap'_eq]
 
 lemma quasiIso_iff_isIso_homologyMap' (φ : S₁ ⟶ S₂)
     (h₁ : S₁.HomologyData) (h₂ : S₂.HomologyData) :
@@ -144,7 +144,7 @@ lemma quasiIso_of_epi_of_isIso_of_mono (φ : S₁ ⟶ S₂) [Epi φ.τ₁] [IsIs
 lemma quasiIso_opMap_iff (φ : S₁ ⟶ S₂) :
     QuasiIso (opMap φ) ↔ QuasiIso φ := by
   have γ : HomologyMapData φ S₁.homologyData S₂.homologyData := default
-  rw [γ.left.quasiIso_iff, γ.op.right.quasiIso_iff]
+  rw [γ.left.quasiIso_iff]; rw [γ.op.right.quasiIso_iff]
   dsimp
   constructor
   · intro h

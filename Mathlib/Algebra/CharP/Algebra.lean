@@ -103,7 +103,7 @@ theorem Algebra.charP_iff (p : ℕ) : CharP K p ↔ CharP L p :=
 #align algebra.char_p_iff Algebra.charP_iff
 
 theorem Algebra.ringChar_eq : ringChar K = ringChar L := by
-  rw [ringChar.eq_iff, Algebra.charP_iff K L]
+  rw [ringChar.eq_iff]; rw [Algebra.charP_iff K L]
   apply ringChar.charP
 #align algebra.ring_char_eq Algebra.ringChar_eq
 

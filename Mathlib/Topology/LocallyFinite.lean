@@ -80,7 +80,7 @@ protected theorem nhdsWithin_iUnion (hf : LocallyFinite f) (a : X) :
   refine le_antisymm ?_ (Monotone.le_map_iSup fun _ _ ↦ nhdsWithin_mono _)
   calc
     𝓝[⋃ i, f i] a = 𝓝[⋃ i, f i ∩ U] a := by
-      rw [← iUnion_inter, ← nhdsWithin_inter_of_mem' (nhdsWithin_le_nhds haU)]
+      rw [← iUnion_inter]; rw [← nhdsWithin_inter_of_mem' (nhdsWithin_le_nhds haU)]
     _ = 𝓝[⋃ i ∈ {j | (f j ∩ U).Nonempty}, (f i ∩ U)] a := by
       simp only [mem_setOf_eq, iUnion_nonempty_self]
     _ = ⨆ i ∈ {j | (f j ∩ U).Nonempty}, 𝓝[f i ∩ U] a := nhdsWithin_biUnion hfin _ _
@@ -92,7 +92,7 @@ theorem continuousOn_iUnion' {g : X → Y} (hf : LocallyFinite f)
     (hc : ∀ i x, x ∈ closure (f i) → ContinuousWithinAt g (f i) x) :
     ContinuousOn g (⋃ i, f i) := by
   rintro x -
-  rw [ContinuousWithinAt, hf.nhdsWithin_iUnion, tendsto_iSup]
+  rw [ContinuousWithinAt]; rw [hf.nhdsWithin_iUnion]; rw [tendsto_iSup]
   intro i
   by_cases hx : x ∈ closure (f i)
   · exact hc i _ hx
@@ -224,7 +224,7 @@ theorem LocallyFinite.sum_elim {g : ι' → Set X} (hf : LocallyFinite f) (hg : 
 
 theorem locallyFinite_option {f : Option ι → Set X} :
     LocallyFinite f ↔ LocallyFinite (f ∘ some) := by
-  rw [← (Equiv.optionEquivSumPUnit.{_, 0} ι).symm.locallyFinite_comp_iff, locallyFinite_sum]
+  rw [← (Equiv.optionEquivSumPUnit.{_, 0} ι).symm.locallyFinite_comp_iff]; rw [locallyFinite_sum]
   simp only [locallyFinite_of_finite, and_true]
   rfl
 #align locally_finite_option locallyFinite_option

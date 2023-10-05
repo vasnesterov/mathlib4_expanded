@@ -91,7 +91,7 @@ theorem derivedSeriesOfIdeal_add (k l : ℕ) : D (k + l) I = D k (D l I) := by
 theorem derivedSeriesOfIdeal_le {I J : LieIdeal R L} {k l : ℕ} (h₁ : I ≤ J) (h₂ : l ≤ k) :
     D k I ≤ D l J := by
   revert l; induction' k with k ih <;> intro l h₂
-  · rw [Nat.zero_eq, le_zero_iff] at h₂; rw [h₂, derivedSeriesOfIdeal_zero]; exact h₁
+  · rw [Nat.zero_eq, le_zero_iff] at h₂; rw [h₂]; rw [derivedSeriesOfIdeal_zero]; exact h₁
   · have h : l = k.succ ∨ l ≤ k := by rwa [le_iff_eq_or_lt, Nat.lt_succ_iff] at h₂
     cases' h with h h
     · rw [h, derivedSeriesOfIdeal_succ, derivedSeriesOfIdeal_succ]
@@ -131,13 +131,12 @@ theorem derivedSeries_of_bot_eq_bot (k : ℕ) : derivedSeriesOfIdeal R L k ⊥ =
 #align lie_algebra.derived_series_of_bot_eq_bot LieAlgebra.derivedSeries_of_bot_eq_bot
 
 theorem abelian_iff_derived_one_eq_bot : IsLieAbelian I ↔ derivedSeriesOfIdeal R L 1 I = ⊥ := by
-  rw [derivedSeriesOfIdeal_succ, derivedSeriesOfIdeal_zero,
-    LieSubmodule.lie_abelian_iff_lie_self_eq_bot]
+  rw [derivedSeriesOfIdeal_succ]; rw [derivedSeriesOfIdeal_zero]; rw [LieSubmodule.lie_abelian_iff_lie_self_eq_bot]
 #align lie_algebra.abelian_iff_derived_one_eq_bot LieAlgebra.abelian_iff_derived_one_eq_bot
 
 theorem abelian_iff_derived_succ_eq_bot (I : LieIdeal R L) (k : ℕ) :
     IsLieAbelian (derivedSeriesOfIdeal R L k I) ↔ derivedSeriesOfIdeal R L (k + 1) I = ⊥ := by
-  rw [add_comm, derivedSeriesOfIdeal_add I 1 k, abelian_iff_derived_one_eq_bot]
+  rw [add_comm]; rw [derivedSeriesOfIdeal_add I 1 k]; rw [abelian_iff_derived_one_eq_bot]
 #align lie_algebra.abelian_iff_derived_succ_eq_bot LieAlgebra.abelian_iff_derived_succ_eq_bot
 
 end LieAlgebra
@@ -159,13 +158,13 @@ theorem derivedSeries_eq_derivedSeriesOfIdeal_comap (k : ℕ) :
 
 theorem derivedSeries_eq_derivedSeriesOfIdeal_map (k : ℕ) :
     (derivedSeries R I k).map I.incl = derivedSeriesOfIdeal R L k I := by
-  rw [derivedSeries_eq_derivedSeriesOfIdeal_comap, map_comap_incl, inf_eq_right]
+  rw [derivedSeries_eq_derivedSeriesOfIdeal_comap]; rw [map_comap_incl]; rw [inf_eq_right]
   apply derivedSeriesOfIdeal_le_self
 #align lie_ideal.derived_series_eq_derived_series_of_ideal_map LieIdeal.derivedSeries_eq_derivedSeriesOfIdeal_map
 
 theorem derivedSeries_eq_bot_iff (k : ℕ) :
     derivedSeries R I k = ⊥ ↔ derivedSeriesOfIdeal R L k I = ⊥ := by
-  rw [← derivedSeries_eq_derivedSeriesOfIdeal_map, map_eq_bot_iff, ker_incl, eq_bot_iff]
+  rw [← derivedSeries_eq_derivedSeriesOfIdeal_map]; rw [map_eq_bot_iff]; rw [ker_incl]; rw [eq_bot_iff]
 #align lie_ideal.derived_series_eq_bot_iff LieIdeal.derivedSeries_eq_bot_iff
 
 theorem derivedSeries_add_eq_bot {k l : ℕ} {I J : LieIdeal R L} (hI : derivedSeries R I k = ⊥)
@@ -225,7 +224,7 @@ theorem Injective.lieAlgebra_isSolvable [h₁ : IsSolvable R L] (h₂ : Injectiv
     IsSolvable R L' := by
   obtain ⟨k, hk⟩ := id h₁
   use k
-  apply LieIdeal.bot_of_map_eq_bot h₂; rw [eq_bot_iff, ← hk]
+  apply LieIdeal.bot_of_map_eq_bot h₂; rw [eq_bot_iff]; rw [← hk]
   apply LieIdeal.derivedSeries_map_le
 #align function.injective.lie_algebra_is_solvable Function.Injective.lieAlgebra_isSolvable
 
@@ -233,7 +232,7 @@ theorem Surjective.lieAlgebra_isSolvable [h₁ : IsSolvable R L'] (h₂ : Surjec
     IsSolvable R L := by
   obtain ⟨k, hk⟩ := id h₁
   use k
-  rw [← LieIdeal.derivedSeries_map_eq k h₂, hk]
+  rw [← LieIdeal.derivedSeries_map_eq k h₂]; rw [hk]
   simp only [LieIdeal.map_eq_bot_iff, bot_le]
 #align function.surjective.lie_algebra_is_solvable Function.Surjective.lieAlgebra_isSolvable
 
@@ -261,7 +260,7 @@ variable (R L)
 
 instance (priority := 100) ofAbelianIsSolvable [IsLieAbelian L] : IsSolvable R L := by
   use 1
-  rw [← abelian_iff_derived_one_eq_bot, lie_abelian_iff_equiv_lie_abelian LieIdeal.topEquiv]
+  rw [← abelian_iff_derived_one_eq_bot]; rw [lie_abelian_iff_equiv_lie_abelian LieIdeal.topEquiv]
   infer_instance
 #align lie_algebra.of_abelian_is_solvable LieAlgebra.ofAbelianIsSolvable
 
@@ -355,7 +354,7 @@ theorem derivedLength_zero (I : LieIdeal R L) [hI : IsSolvable R I] :
   have hne : s ≠ ∅ := by
     obtain ⟨k, hk⟩ := id hI
     refine' Set.Nonempty.ne_empty ⟨k, _⟩
-    rw [derivedSeries_def, LieIdeal.derivedSeries_eq_bot_iff] at hk; exact hk
+    rw [derivedSeries_def] at hk; rw [LieIdeal.derivedSeries_eq_bot_iff] at hk; exact hk
   simp [hne]
 #align lie_algebra.derived_length_zero LieAlgebra.derivedLength_zero
 

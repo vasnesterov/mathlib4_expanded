@@ -128,7 +128,7 @@ theorem sl_non_abelian [Fintype n] [Nontrivial R] (h : 1 < Fintype.card n) :
   let B := Eb R j i hij.symm
   intro c
   have c' : A.val * B.val = B.val * A.val := by
-    rw [← sub_eq_zero, ← sl_bracket, c.trivial, ZeroMemClass.coe_zero]
+    rw [← sub_eq_zero]; rw [← sl_bracket]; rw [c.trivial]; rw [ZeroMemClass.coe_zero]
   simpa [stdBasisMatrix, Matrix.mul_apply, hij] using congr_fun (congr_fun c' i) i
 #align lie_algebra.special_linear.sl_non_abelian LieAlgebra.SpecialLinear.sl_non_abelian
 
@@ -154,7 +154,7 @@ def so [Fintype n] : LieSubalgebra R (Matrix n n R) :=
 
 @[simp]
 theorem mem_so [Fintype n] (A : Matrix n n R) : A ∈ so n R ↔ Aᵀ = -A := by
-  rw [so, mem_skewAdjointMatricesLieSubalgebra, mem_skewAdjointMatricesSubmodule]
+  rw [so]; rw [mem_skewAdjointMatricesLieSubalgebra]; rw [mem_skewAdjointMatricesSubmodule]
   simp only [Matrix.IsSkewAdjoint, Matrix.IsAdjointPair, Matrix.mul_one, Matrix.one_mul]
 #align lie_algebra.orthogonal.mem_so LieAlgebra.Orthogonal.mem_so
 
@@ -224,8 +224,7 @@ def soIndefiniteEquiv {i : R} (hi : i * i = -1) : so' p q R ≃ₗ⁅R⁆ so (Su
 theorem soIndefiniteEquiv_apply {i : R} (hi : i * i = -1) (A : so' p q R) :
     (soIndefiniteEquiv p q R hi A : Matrix (Sum p q) (Sum p q) R) =
       (Pso p q R i)⁻¹ * (A : Matrix (Sum p q) (Sum p q) R) * Pso p q R i := by
-  rw [soIndefiniteEquiv, LieEquiv.trans_apply, LieEquiv.ofEq_apply,
-    skewAdjointMatricesLieSubalgebraEquiv_apply]
+  rw [soIndefiniteEquiv]; rw [LieEquiv.trans_apply]; rw [LieEquiv.ofEq_apply]; rw [skewAdjointMatricesLieSubalgebraEquiv_apply]
 #align lie_algebra.orthogonal.so_indefinite_equiv_apply LieAlgebra.Orthogonal.soIndefiniteEquiv_apply
 
 /-- A matrix defining a canonical even-rank symmetric bilinear form.
@@ -263,21 +262,20 @@ def S :=
 #align lie_algebra.orthogonal.S LieAlgebra.Orthogonal.S
 
 theorem s_as_blocks : S l R = Matrix.fromBlocks 1 0 0 (-1) := by
-  rw [← Matrix.diagonal_one, Matrix.diagonal_neg, Matrix.fromBlocks_diagonal]
+  rw [← Matrix.diagonal_one]; rw [Matrix.diagonal_neg]; rw [Matrix.fromBlocks_diagonal]
   rfl
 #align lie_algebra.orthogonal.S_as_blocks LieAlgebra.Orthogonal.s_as_blocks
 
 theorem jd_transform [Fintype l] : (PD l R)ᵀ * JD l R * PD l R = (2 : R) • S l R := by
   have h : (PD l R)ᵀ * JD l R = Matrix.fromBlocks 1 1 1 (-1) := by
     simp [PD, JD, Matrix.fromBlocks_transpose, Matrix.fromBlocks_multiply]
-  rw [h, PD, s_as_blocks, Matrix.fromBlocks_multiply, Matrix.fromBlocks_smul]
+  rw [h]; rw [PD]; rw [s_as_blocks]; rw [Matrix.fromBlocks_multiply]; rw [Matrix.fromBlocks_smul]
   congr
   simp [two_smul]
 #align lie_algebra.orthogonal.JD_transform LieAlgebra.Orthogonal.jd_transform
 
 theorem pd_inv [Fintype l] [Invertible (2 : R)] : PD l R * ⅟ (2 : R) • (PD l R)ᵀ = 1 := by
-  rw [PD, Matrix.fromBlocks_transpose, Matrix.fromBlocks_smul,
-    Matrix.fromBlocks_multiply]
+  rw [PD]; rw [Matrix.fromBlocks_transpose]; rw [Matrix.fromBlocks_smul]; rw [Matrix.fromBlocks_multiply]
   simp
 #align lie_algebra.orthogonal.PD_inv LieAlgebra.Orthogonal.pd_inv
 
@@ -290,8 +288,7 @@ def typeDEquivSo' [Fintype l] [Invertible (2 : R)] : typeD l R ≃ₗ⁅R⁆ so'
   apply (skewAdjointMatricesLieSubalgebraEquiv (JD l R) (PD l R) (by infer_instance)).trans
   apply LieEquiv.ofEq
   ext A
-  rw [jd_transform, ← val_unitOfInvertible (2 : R), ← Units.smul_def, LieSubalgebra.mem_coe,
-    mem_skewAdjointMatricesLieSubalgebra_unit_smul]
+  rw [jd_transform]; rw [← val_unitOfInvertible (2 : R)]; rw [← Units.smul_def]; rw [LieSubalgebra.mem_coe]; rw [mem_skewAdjointMatricesLieSubalgebra_unit_smul]
   rfl
 #align lie_algebra.orthogonal.type_D_equiv_so' LieAlgebra.Orthogonal.typeDEquivSo'
 
@@ -341,7 +338,7 @@ def PB :=
 variable [Fintype l]
 
 theorem pb_inv [Invertible (2 : R)] : PB l R * Matrix.fromBlocks 1 0 0 (⅟ (PD l R)) = 1 := by
-  rw [PB, Matrix.fromBlocks_multiply, mul_invOf_self]
+  rw [PB]; rw [Matrix.fromBlocks_multiply]; rw [mul_invOf_self]
   simp only [Matrix.mul_zero, Matrix.mul_one, Matrix.zero_mul, zero_add, add_zero,
     Matrix.fromBlocks_one]
 #align lie_algebra.orthogonal.PB_inv LieAlgebra.Orthogonal.pb_inv
@@ -379,8 +376,7 @@ def typeBEquivSo' [Invertible (2 : R)] : typeB l R ≃ₗ⁅R⁆ so' (Sum Unit l
         (Matrix.reindexAlgEquiv _ (Equiv.sumAssoc PUnit l l)) (Matrix.transpose_reindex _ _)).trans
   apply LieEquiv.ofEq
   ext A
-  rw [jb_transform, ← val_unitOfInvertible (2 : R), ← Units.smul_def, LieSubalgebra.mem_coe,
-    LieSubalgebra.mem_coe, mem_skewAdjointMatricesLieSubalgebra_unit_smul]
+  rw [jb_transform]; rw [← val_unitOfInvertible (2 : R)]; rw [← Units.smul_def]; rw [LieSubalgebra.mem_coe]; rw [LieSubalgebra.mem_coe]; rw [mem_skewAdjointMatricesLieSubalgebra_unit_smul]
   simp [indefiniteDiagonal_assoc, S]
 #align lie_algebra.orthogonal.type_B_equiv_so' LieAlgebra.Orthogonal.typeBEquivSo'
 

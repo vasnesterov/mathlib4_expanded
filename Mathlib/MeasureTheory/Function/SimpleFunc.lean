@@ -177,7 +177,7 @@ theorem simpleFunc_bot {α} (f : @SimpleFunc α ⊥ β) [Nonempty β] : ∃ c, �
     cases' hf_meas with hf_meas hf_meas
     · exfalso
       refine' Set.not_mem_empty h.some _
-      rw [← hf_meas, Set.mem_preimage]
+      rw [← hf_meas]; rw [Set.mem_preimage]
       exact Set.mem_singleton _
     · refine' ⟨f h.some, fun x => _⟩
       have : x ∈ f ⁻¹' {f h.some} := by
@@ -192,7 +192,7 @@ theorem simpleFunc_bot' {α} [Nonempty β] (f : @SimpleFunc α ⊥ β) :
   obtain ⟨c, h_eq⟩ := simpleFunc_bot f
   refine' ⟨c, _⟩
   ext1 x
-  rw [h_eq x, SimpleFunc.coe_const, Function.const]
+  rw [h_eq x]; rw [SimpleFunc.coe_const]; rw [Function.const]
 #align measure_theory.simple_func.simple_func_bot' MeasureTheory.SimpleFunc.simpleFunc_bot'
 
 theorem measurableSet_cut (r : α → β → Prop) (f : α →ₛ β) (h : ∀ b, MeasurableSet { a | r a b }) :
@@ -231,7 +231,7 @@ protected theorem sum_measure_preimage_singleton (f : α →ₛ β) {μ : Measur
 
 theorem sum_range_measure_preimage_singleton (f : α →ₛ β) (μ : Measure α) :
     (∑ y in f.range, μ (f ⁻¹' {y})) = μ univ := by
-  rw [f.sum_measure_preimage_singleton, coe_range, preimage_range]
+  rw [f.sum_measure_preimage_singleton]; rw [coe_range]; rw [preimage_range]
 #align measure_theory.simple_func.sum_range_measure_preimage_singleton MeasureTheory.SimpleFunc.sum_range_measure_preimage_singleton
 
 /-- If-then-else as a `SimpleFunc`. -/
@@ -552,7 +552,7 @@ theorem range_eq_empty_of_isEmpty {β} [hα : IsEmpty α] (f : α →ₛ β) : f
   rw [← Finset.not_nonempty_iff_eq_empty]
   by_contra h
   obtain ⟨y, hy_mem⟩ := h
-  rw [SimpleFunc.mem_range, Set.mem_range] at hy_mem
+  rw [SimpleFunc.mem_range] at hy_mem; rw [Set.mem_range] at hy_mem
   obtain ⟨x, hxy⟩ := hy_mem
   rw [isEmpty_iff] at hα
   exact hα x
@@ -732,7 +732,7 @@ theorem finset_sup_apply [SemilatticeSup β] [OrderBot β] {f : γ → α →ₛ
     s.sup f a = s.sup fun c => f c a := by
   refine' Finset.induction_on s rfl _
   intro a s _ ih
-  rw [Finset.sup_insert, Finset.sup_insert, sup_apply, ih]
+  rw [Finset.sup_insert]; rw [Finset.sup_insert]; rw [sup_apply]; rw [ih]
 #align measure_theory.simple_func.finset_sup_apply MeasureTheory.SimpleFunc.finset_sup_apply
 
 section Restrict
@@ -753,7 +753,7 @@ theorem restrict_of_not_measurable {f : α →ₛ β} {s : Set α} (hs : ¬Measu
 @[simp]
 theorem coe_restrict (f : α →ₛ β) {s : Set α} (hs : MeasurableSet s) :
     ⇑(restrict f s) = indicator s f := by
-  rw [restrict, dif_pos hs, coe_piecewise, coe_zero, piecewise_eq_indicator]
+  rw [restrict]; rw [dif_pos hs]; rw [coe_piecewise]; rw [coe_zero]; rw [piecewise_eq_indicator]
 #align measure_theory.simple_func.coe_restrict MeasureTheory.SimpleFunc.coe_restrict
 
 @[simp]
@@ -797,7 +797,7 @@ theorem restrict_preimage_singleton (f : α →ₛ β) {s : Set α} (hs : Measur
 
 theorem mem_restrict_range {r : β} {s : Set α} {f : α →ₛ β} (hs : MeasurableSet s) :
     r ∈ (restrict f s).range ↔ r = 0 ∧ s ≠ univ ∨ r ∈ f '' s := by
-  rw [← Finset.mem_coe, coe_range, coe_restrict _ hs, mem_range_indicator]
+  rw [← Finset.mem_coe]; rw [coe_range]; rw [coe_restrict _ hs]; rw [mem_range_indicator]
 #align measure_theory.simple_func.mem_restrict_range MeasureTheory.SimpleFunc.mem_restrict_range
 
 theorem mem_image_of_mem_range_restrict {r : β} {s : Set α} {f : α →ₛ β}
@@ -851,7 +851,7 @@ theorem approx_comp [TopologicalSpace β] [OrderClosedTopology β] [MeasurableSp
     [OpensMeasurableSpace β] [MeasurableSpace γ] {i : ℕ → β} {f : γ → β} {g : α → γ} {n : ℕ} (a : α)
     (hf : Measurable f) (hg : Measurable g) :
     (approx i (f ∘ g) n : α →ₛ β) a = (approx i f n : γ →ₛ β) (g a) := by
-  rw [approx_apply _ hf, approx_apply _ (hf.comp hg), Function.comp_apply]
+  rw [approx_apply _ hf]; rw [approx_apply _ (hf.comp hg)]; rw [Function.comp_apply]
 #align measure_theory.simple_func.approx_comp MeasureTheory.SimpleFunc.approx_comp
 
 end
@@ -911,7 +911,7 @@ theorem monotone_eapprox (f : α → ℝ≥0∞) : Monotone (eapprox f) :=
 
 theorem iSup_eapprox_apply (f : α → ℝ≥0∞) (hf : Measurable f) (a : α) :
     ⨆ n, (eapprox f n : α →ₛ ℝ≥0∞) a = f a := by
-  rw [eapprox, iSup_approx_apply ennrealRatEmbed f a hf rfl]
+  rw [eapprox]; rw [iSup_approx_apply ennrealRatEmbed f a hf rfl]
   refine' le_antisymm (iSup_le fun i => iSup_le fun hi => hi) (le_of_not_gt _)
   intro h
   rcases ENNReal.lt_iff_exists_rat_btwn.1 h with ⟨q, _, lt_q, q_lt⟩
@@ -976,7 +976,7 @@ theorem lintegral_eq_of_subset (f : α →ₛ ℝ≥0∞) {s : Finset ℝ≥0∞
     assumption
   · intro b _ hb
     refine' ⟨b, _, hb, rfl⟩
-    rw [mem_range, ← preimage_singleton_nonempty]
+    rw [mem_range]; rw [← preimage_singleton_nonempty]
     exact nonempty_of_measure_ne_zero (mul_ne_zero_iff.1 hb).2
   · intros
     rfl
@@ -994,7 +994,7 @@ theorem map_lintegral (g : β → ℝ≥0∞) (f : α →ₛ β) :
   simp only [lintegral, range_map]
   refine' Finset.sum_image' _ fun b hb => _
   rcases mem_range.1 hb with ⟨a, rfl⟩
-  rw [map_preimage_singleton, ← f.sum_measure_preimage_singleton, Finset.mul_sum]
+  rw [map_preimage_singleton]; rw [← f.sum_measure_preimage_singleton]; rw [Finset.mul_sum]
   refine' Finset.sum_congr _ _
   · congr
   · intro x
@@ -1012,7 +1012,7 @@ theorem add_lintegral (f g : α →ₛ ℝ≥0∞) : (f + g).lintegral μ = f.li
           ∑ x in (pair f g).range, x.2 * μ (pair f g ⁻¹' {x}) :=
       by rw [Finset.sum_add_distrib]
     _ = ((pair f g).map Prod.fst).lintegral μ + ((pair f g).map Prod.snd).lintegral μ := by
-      rw [map_lintegral, map_lintegral]
+      rw [map_lintegral]; rw [map_lintegral]
     _ = lintegral f μ + lintegral g μ := rfl
 #align measure_theory.simple_func.add_lintegral MeasureTheory.SimpleFunc.add_lintegral
 
@@ -1083,7 +1083,7 @@ theorem lintegral_restrict {m : MeasurableSpace α} (f : α →ₛ ℝ≥0∞) (
 
 theorem restrict_lintegral_eq_lintegral_restrict (f : α →ₛ ℝ≥0∞) {s : Set α}
     (hs : MeasurableSet s) : (restrict f s).lintegral μ = f.lintegral (μ.restrict s) := by
-  rw [f.restrict_lintegral hs, lintegral_restrict]
+  rw [f.restrict_lintegral hs]; rw [lintegral_restrict]
 #align measure_theory.simple_func.restrict_lintegral_eq_lintegral_restrict MeasureTheory.SimpleFunc.restrict_lintegral_eq_lintegral_restrict
 
 theorem const_lintegral (c : ℝ≥0∞) : (const α c).lintegral μ = c * μ univ := by
@@ -1095,12 +1095,12 @@ theorem const_lintegral (c : ℝ≥0∞) : (const α c).lintegral μ = c * μ un
 
 theorem const_lintegral_restrict (c : ℝ≥0∞) (s : Set α) :
     (const α c).lintegral (μ.restrict s) = c * μ s := by
-  rw [const_lintegral, Measure.restrict_apply MeasurableSet.univ, univ_inter]
+  rw [const_lintegral]; rw [Measure.restrict_apply MeasurableSet.univ]; rw [univ_inter]
 #align measure_theory.simple_func.const_lintegral_restrict MeasureTheory.SimpleFunc.const_lintegral_restrict
 
 theorem restrict_const_lintegral (c : ℝ≥0∞) {s : Set α} (hs : MeasurableSet s) :
     ((const α c).restrict s).lintegral μ = c * μ s := by
-  rw [restrict_lintegral_eq_lintegral_restrict _ hs, const_lintegral_restrict]
+  rw [restrict_lintegral_eq_lintegral_restrict _ hs]; rw [const_lintegral_restrict]
 #align measure_theory.simple_func.restrict_const_lintegral MeasureTheory.SimpleFunc.restrict_const_lintegral
 
 theorem le_sup_lintegral (f g : α →ₛ ℝ≥0∞) : f.lintegral μ ⊔ g.lintegral μ ≤ (f ⊔ g).lintegral μ :=
@@ -1109,7 +1109,7 @@ theorem le_sup_lintegral (f g : α →ₛ ℝ≥0∞) : f.lintegral μ ⊔ g.lin
         ((pair f g).map Prod.fst).lintegral μ ⊔ ((pair f g).map Prod.snd).lintegral μ :=
       rfl
     _ ≤ ∑ x in (pair f g).range, (x.1 ⊔ x.2) * μ (pair f g ⁻¹' {x}) := by
-      rw [map_lintegral, map_lintegral]
+      rw [map_lintegral]; rw [map_lintegral]
       refine' sup_le _ _ <;> refine' Finset.sum_le_sum fun a _ => mul_le_mul_right' _ _
       · exact le_sup_left
       · exact le_sup_right
@@ -1193,7 +1193,7 @@ theorem finMeasSupp_iff : f.FinMeasSupp μ ↔ ∀ y, y ≠ 0 → μ (f ⁻¹' {
   · refine' fun h y hy => lt_of_le_of_lt (measure_mono _) h
     exact fun x hx (H : f x = 0) => hy <| H ▸ Eq.symm hx
   · intro H
-    rw [finMeasSupp_iff_support, support_eq]
+    rw [finMeasSupp_iff_support]; rw [support_eq]
     refine' lt_of_le_of_lt (measure_biUnion_finset_le _ _) (sum_lt_top _)
     exact fun y hy => (H y (Finset.mem_filter.1 hy).2).ne
 #align measure_theory.simple_func.fin_meas_supp_iff MeasureTheory.SimpleFunc.finMeasSupp_iff
@@ -1287,10 +1287,10 @@ protected theorem induction {α γ} [MeasurableSpace α] [AddMonoid γ] {P : Sim
     (h_add : ∀ ⦃f g : SimpleFunc α γ⦄, Disjoint (support f) (support g) → P f → P g → P (f + g))
     (f : SimpleFunc α γ) : P f := by
   generalize h : f.range \ {0} = s
-  rw [← Finset.coe_inj, Finset.coe_sdiff, Finset.coe_singleton, SimpleFunc.coe_range] at h
+  rw [← Finset.coe_inj] at h; rw [Finset.coe_sdiff] at h; rw [Finset.coe_singleton] at h; rw [SimpleFunc.coe_range] at h
   induction s using Finset.induction generalizing f with
   | empty =>
-    rw [Finset.coe_empty, diff_eq_empty, range_subset_singleton] at h
+    rw [Finset.coe_empty] at h; rw [diff_eq_empty] at h; rw [range_subset_singleton] at h
     convert h_ind 0 MeasurableSet.univ
     ext x
     simp [h]
@@ -1300,8 +1300,7 @@ protected theorem induction {α γ} [MeasurableSpace α] [AddMonoid γ] {P : Sim
     have Pg : P g := by
       apply ih
       simp only [SimpleFunc.coe_piecewise, range_piecewise]
-      rw [image_compl_preimage, union_diff_distrib, diff_diff_comm, h, Finset.coe_insert,
-        insert_diff_self_of_not_mem, diff_eq_empty.mpr, Set.empty_union]
+      rw [image_compl_preimage]; rw [union_diff_distrib]; rw [diff_diff_comm]; rw [h]; rw [Finset.coe_insert]; rw [insert_diff_self_of_not_mem]; rw [diff_eq_empty.mpr]; rw [Set.empty_union]
       · rw [Set.image_subset_iff]
         convert Set.subset_univ _
         exact preimage_const_of_mem (mem_singleton _)
@@ -1329,7 +1328,7 @@ theorem _root_.Measurable.add_simpleFunc
   · simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const,
       SimpleFunc.coe_zero]
     change Measurable (g + s.piecewise (Function.const α c) (0 : α → E))
-    rw [← piecewise_same s g, ← piecewise_add]
+    rw [← piecewise_same s g]; rw [← piecewise_add]
     exact Measurable.piecewise hs (hg.add_const _) (hg.add_const _)
   · have : (g + ↑(f + f'))
         = (Function.support f).piecewise (g + (f : α → E)) (g + f') := by
@@ -1354,7 +1353,7 @@ theorem _root_.Measurable.simpleFunc_add
   · simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const,
       SimpleFunc.coe_zero]
     change Measurable (s.piecewise (Function.const α c) (0 : α → E) + g)
-    rw [← piecewise_same s g, ← piecewise_add]
+    rw [← piecewise_same s g]; rw [← piecewise_add]
     exact Measurable.piecewise hs (hg.const_add _) (hg.const_add _)
   · have : (↑(f + f') + g)
         = (Function.support f).piecewise ((f : α → E) + g) (f' + g) := by

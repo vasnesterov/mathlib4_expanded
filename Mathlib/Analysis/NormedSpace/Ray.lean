@@ -31,26 +31,25 @@ of `x + y` is the sum of the norms of `x` and `y`. The converse is true for a st
 space. -/
 theorem norm_add (h : SameRay ℝ x y) : ‖x + y‖ = ‖x‖ + ‖y‖ := by
   rcases h.exists_eq_smul with ⟨u, a, b, ha, hb, -, rfl, rfl⟩
-  rw [← add_smul, norm_smul_of_nonneg (add_nonneg ha hb), norm_smul_of_nonneg ha,
-    norm_smul_of_nonneg hb, add_mul]
+  rw [← add_smul]; rw [norm_smul_of_nonneg (add_nonneg ha hb)]; rw [norm_smul_of_nonneg ha]; rw [norm_smul_of_nonneg hb]; rw [add_mul]
 #align same_ray.norm_add SameRay.norm_add
 
 theorem norm_sub (h : SameRay ℝ x y) : ‖x - y‖ = |‖x‖ - ‖y‖| := by
   rcases h.exists_eq_smul with ⟨u, a, b, ha, hb, -, rfl, rfl⟩
   wlog hab : b ≤ a with H
   · rw [SameRay.sameRay_comm] at h
-    rw [norm_sub_rev, abs_sub_comm]
+    rw [norm_sub_rev]; rw [abs_sub_comm]
     have := @H E _ _ ℝ
     exact this u b a hb ha h (le_of_not_le hab)
   rw [← sub_nonneg] at hab
-  rw [← sub_smul, norm_smul_of_nonneg hab, norm_smul_of_nonneg ha, norm_smul_of_nonneg hb, ←
-    sub_mul, abs_of_nonneg (mul_nonneg hab (norm_nonneg _))]
+  rw [← sub_smul]; rw [norm_smul_of_nonneg hab]; rw [norm_smul_of_nonneg ha]; rw [norm_smul_of_nonneg hb]; rw [←
+    sub_mul]; rw [abs_of_nonneg (mul_nonneg hab (norm_nonneg _))]
 #align same_ray.norm_sub SameRay.norm_sub
 
 theorem norm_smul_eq (h : SameRay ℝ x y) : ‖x‖ • y = ‖y‖ • x := by
   rcases h.exists_eq_smul with ⟨u, a, b, ha, hb, -, rfl, rfl⟩
   simp only [norm_smul_of_nonneg, *, mul_smul]
-  rw [smul_comm, smul_comm b, smul_comm a b u]
+  rw [smul_comm]; rw [smul_comm b]; rw [smul_comm a b u]
 #align same_ray.norm_smul_eq SameRay.norm_smul_eq
 
 end SameRay
@@ -61,8 +60,7 @@ theorem norm_injOn_ray_left (hx : x ≠ 0) : { y | SameRay ℝ x y }.InjOn norm 
   rintro y hy z hz h
   rcases hy.exists_nonneg_left hx with ⟨r, hr, rfl⟩
   rcases hz.exists_nonneg_left hx with ⟨s, hs, rfl⟩
-  rw [norm_smul, norm_smul, mul_left_inj' (norm_ne_zero_iff.2 hx), norm_of_nonneg hr,
-    norm_of_nonneg hs] at h
+  rw [norm_smul] at h; rw [norm_smul] at h; rw [mul_left_inj' (norm_ne_zero_iff.2 hx)] at h; rw [norm_of_nonneg hr] at h; rw [norm_of_nonneg hs] at h
   rw [h]
 #align norm_inj_on_ray_left norm_injOn_ray_left
 
@@ -80,7 +78,7 @@ theorem sameRay_iff_norm_smul_eq : SameRay ℝ x y ↔ ‖x‖ • y = ‖y‖ �
 vectors `‖x‖⁻¹ • x` and `‖y‖⁻¹ • y` are equal. -/
 theorem sameRay_iff_inv_norm_smul_eq_of_ne (hx : x ≠ 0) (hy : y ≠ 0) :
     SameRay ℝ x y ↔ ‖x‖⁻¹ • x = ‖y‖⁻¹ • y := by
-  rw [inv_smul_eq_iff₀, smul_comm, eq_comm, inv_smul_eq_iff₀, sameRay_iff_norm_smul_eq] <;>
+  rw [inv_smul_eq_iff₀]; rw [smul_comm]; rw [eq_comm]; rw [inv_smul_eq_iff₀]; rw [sameRay_iff_norm_smul_eq]; all_goals
     rwa [norm_ne_zero_iff]
 #align same_ray_iff_inv_norm_smul_eq_of_ne sameRay_iff_inv_norm_smul_eq_of_ne
 

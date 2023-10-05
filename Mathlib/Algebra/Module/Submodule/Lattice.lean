@@ -266,7 +266,7 @@ theorem finset_inf_coe {ι} (s : Finset ι) (p : ι → Submodule R M) :
 
 @[simp]
 theorem iInf_coe {ι} (p : ι → Submodule R M) : (↑(⨅ i, p i) : Set M) = ⋂ i, ↑(p i) := by
-  rw [iInf, sInf_coe]; simp only [Set.mem_range, Set.iInter_exists, Set.iInter_iInter_eq']
+  rw [iInf]; rw [sInf_coe]; simp only [Set.mem_range, Set.iInter_exists, Set.iInter_iInter_eq']
 #align submodule.infi_coe Submodule.iInf_coe
 
 @[simp]
@@ -276,7 +276,7 @@ theorem mem_sInf {S : Set (Submodule R M)} {x : M} : x ∈ sInf S ↔ ∀ p ∈ 
 
 @[simp]
 theorem mem_iInf {ι} (p : ι → Submodule R M) {x} : (x ∈ ⨅ i, p i) ↔ ∀ i, x ∈ p i := by
-  rw [← SetLike.mem_coe, iInf_coe, Set.mem_iInter]; rfl
+  rw [← SetLike.mem_coe]; rw [iInf_coe]; rw [Set.mem_iInter]; rfl
 #align submodule.mem_infi Submodule.mem_iInf
 
 @[simp]
@@ -339,8 +339,7 @@ variable (R)
 @[simp]
 theorem subsingleton_iff : Subsingleton (Submodule R M) ↔ Subsingleton M :=
   have h : Subsingleton (Submodule R M) ↔ Subsingleton (AddSubmonoid M) := by
-    rw [← subsingleton_iff_bot_eq_top, ← subsingleton_iff_bot_eq_top, ← toAddSubmonoid_eq,
-      bot_toAddSubmonoid, top_toAddSubmonoid]
+    rw [← subsingleton_iff_bot_eq_top]; rw [← subsingleton_iff_bot_eq_top]; rw [← toAddSubmonoid_eq]; rw [bot_toAddSubmonoid]; rw [top_toAddSubmonoid]
   h.trans AddSubmonoid.subsingleton_iff
 #align submodule.subsingleton_iff Submodule.subsingleton_iff
 

@@ -34,7 +34,7 @@ instance functorCategoryLinear : Linear R (C ⥤ D)
         { app := fun X => r • α.app X
           naturality := by
             intros
-            rw [comp_smul, smul_comp, α.naturality] }
+            rw [comp_smul]; rw [smul_comp]; rw [α.naturality] }
       one_smul := by
         intros
         ext

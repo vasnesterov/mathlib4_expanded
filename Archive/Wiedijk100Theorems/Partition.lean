@@ -106,7 +106,7 @@ def cut {ι : Type _} (s : Finset ι) (n : ℕ) : Finset (ι → ℕ) :=
 
 theorem mem_cut {ι : Type _} (s : Finset ι) (n : ℕ) (f : ι → ℕ) :
     f ∈ cut s n ↔ s.sum f = n ∧ ∀ i, i ∉ s → f i = 0 := by
-  rw [cut, mem_filter, and_comm, and_congr_right]
+  rw [cut]; rw [mem_filter]; rw [and_comm]; rw [and_congr_right]
   intro h
   simp only [mem_map, exists_prop, Function.Embedding.coeFn_mk, mem_pi]
   constructor
@@ -118,7 +118,7 @@ theorem mem_cut {ι : Type _} (s : Finset ι) (n : ℕ) (f : ι → ℕ) :
       apply single_le_sum _ hi
       simp
     · ext x
-      rw [dite_eq_ite, ite_eq_left_iff, eq_comm]
+      rw [dite_eq_ite]; rw [ite_eq_left_iff]; rw [eq_comm]
       exact hf x
 #align theorems_100.mem_cut Theorems100.mem_cut
 
@@ -139,8 +139,7 @@ theorem cut_univ_fin_eq_antidiagonalTuple (n : ℕ) (k : ℕ) :
 theorem cut_zero {ι : Type _} (s : Finset ι) : cut s 0 = {0} := by
   -- In general it's nice to prove things using `mem_cut` but in this case it's easier to just
   -- use the definition.
-  rw [cut, range_one, pi_const_singleton, map_singleton, Function.Embedding.coeFn_mk,
-    filter_singleton, if_pos, singleton_inj]
+  rw [cut]; rw [range_one]; rw [pi_const_singleton]; rw [map_singleton]; rw [Function.Embedding.coeFn_mk]; rw [filter_singleton]; rw [if_pos]; rw [singleton_inj]
   · ext; split_ifs <;> rfl
   rw [sum_eq_zero_iff]
   intro x hx
@@ -151,7 +150,7 @@ theorem cut_zero {ι : Type _} (s : Finset ι) : cut s 0 = {0} := by
 theorem cut_empty_succ {ι : Type _} (n : ℕ) : cut (∅ : Finset ι) (n + 1) = ∅ := by
   apply eq_empty_of_forall_not_mem
   intro x hx
-  rw [mem_cut, sum_empty] at hx
+  rw [mem_cut] at hx; rw [sum_empty] at hx
   cases hx.1
 #align theorems_100.cut_empty_succ Theorems100.cut_empty_succ
 
@@ -161,7 +160,7 @@ theorem cut_insert {ι : Type _} (n : ℕ) (a : ι) (s : Finset ι) (h : a ∉ s
         (cut s p.snd).map
           ⟨fun f => f + fun t => if t = a then p.fst else 0, add_left_injective _⟩ := by
   ext f
-  rw [mem_cut, mem_biUnion, sum_insert h]
+  rw [mem_cut]; rw [mem_biUnion]; rw [sum_insert h]
   constructor
   · rintro ⟨rfl, h₁⟩
     simp only [exists_prop, Function.Embedding.coeFn_mk, mem_map, Nat.mem_antidiagonal, Prod.exists]
@@ -202,18 +201,18 @@ theorem coeff_prod_range [CommSemiring α] {ι : Type _} (s : Finset ι) (f : ι
     simp [cut_empty_succ, if_neg (Nat.succ_ne_zero _)]
   | @insert a s hi ih =>
     intro n
-    rw [cut_insert _ _ _ hi, prod_insert hi, coeff_mul, sum_biUnion]
+    rw [cut_insert _ _ _ hi]; rw [prod_insert hi]; rw [coeff_mul]; rw [sum_biUnion]
     · congr with i
       simp only [sum_map, Pi.add_apply, Function.Embedding.coeFn_mk, prod_insert hi, if_pos rfl, ih,
         mul_sum]
       apply sum_congr rfl _
       intro x hx
       rw [mem_cut] at hx
-      rw [hx.2 a hi, zero_add]
+      rw [hx.2 a hi]; rw [zero_add]
       congr 1
       apply prod_congr rfl
       intro k hk
-      rw [if_neg, add_zero]
+      rw [if_neg]; rw [add_zero]
       exact ne_of_mem_of_not_mem hk hi
     · simp only [Set.PairwiseDisjoint, Set.Pairwise, Prod.forall, not_and, Ne.def,
         Nat.mem_antidiagonal, disjoint_left, mem_map, exists_prop, Function.Embedding.coeFn_mk,
@@ -286,7 +285,7 @@ theorem num_series' [Field α] (i : ℕ) :
         constructor
         · rintro ⟨a_left, ⟨a, rfl⟩, rfl⟩
           refine' ⟨_, rfl⟩
-          rw [Nat.mul_sub_left_distrib, ← hp, ← a_left, mul_one, Nat.add_sub_cancel]
+          rw [Nat.mul_sub_left_distrib]; rw [← hp]; rw [← a_left]; rw [mul_one]; rw [Nat.add_sub_cancel]
         · rintro ⟨rfl, rfl⟩
           match p with
           | 0 => rw [mul_zero] at hp; cases hp
@@ -411,7 +410,7 @@ theorem partialOddGF_prop [Field α] (n m : ℕ) :
 /-- If m is big enough, the partial product's coefficient counts the number of odd partitions -/
 theorem oddGF_prop [Field α] (n m : ℕ) (h : n < m * 2) :
     (Finset.card (Nat.Partition.odds n) : α) = coeff α n (partialOddGF m) := by
-  rw [← partialOddGF_prop, Nat.Partition.odds]
+  rw [← partialOddGF_prop]; rw [Nat.Partition.odds]
   congr with p
   apply ball_congr
   intro i hi
@@ -422,7 +421,7 @@ theorem oddGF_prop [Field α] (n m : ℕ) (h : n < m * 2) :
   · intro hi₂
     have := Nat.mod_add_div i 2
     rw [Nat.not_even_iff] at hi₂
-    rw [hi₂, add_comm] at this
+    rw [hi₂] at this; rw [add_comm] at this
     refine' ⟨i / 2, _, this⟩
     rw [Nat.div_lt_iff_lt_mul zero_lt_two]
     exact lt_of_le_of_lt hin h
@@ -480,7 +479,7 @@ It's enough to not take the limit though, and just consider large enough `m`.
 theorem same_gf [Field α] (m : ℕ) :
     (partialOddGF m * (range m).prod fun i => 1 - (X : PowerSeries α) ^ (m + i + 1)) =
       partialDistinctGF m := by
-  rw [partialOddGF, partialDistinctGF]
+  rw [partialOddGF]; rw [partialDistinctGF]
   induction' m with m ih
   · simp
   rw [Nat.succ_eq_add_one]
@@ -490,8 +489,7 @@ theorem same_gf [Field α] (m : ℕ) :
   set! π₃ : PowerSeries α := ∏ i in range m, (1 + X ^ (i + 1)) with hπ₃
   rw [← hπ₃] at ih
   have h : constantCoeff α (1 - X ^ (2 * m + 1)) ≠ 0 := by
-    rw [RingHom.map_sub, RingHom.map_pow, constantCoeff_one, constantCoeff_X,
-      zero_pow (2 * m).succ_pos, sub_zero]
+    rw [RingHom.map_sub]; rw [RingHom.map_pow]; rw [constantCoeff_one]; rw [constantCoeff_X]; rw [zero_pow (2 * m).succ_pos]; rw [sub_zero]
     exact one_ne_zero
   calc
     (∏ i in range (m + 1), (1 - X ^ (2 * i + 1))⁻¹) *
@@ -499,16 +497,16 @@ theorem same_gf [Field α] (m : ℕ) :
         π₁ * (1 - X ^ (2 * m + 1))⁻¹ * (π₀ * (1 - X ^ (m + 1 + m + 1))) :=
       by rw [prod_range_succ _ m, ← hπ₁, prod_range_succ _ m, ← hπ₀]
     _ = π₁ * (1 - X ^ (2 * m + 1))⁻¹ * (π₀ * ((1 + X ^ (m + 1)) * (1 - X ^ (m + 1)))) := by
-      rw [← sq_sub_sq, one_pow, add_assoc _ m 1, ← two_mul (m + 1), pow_mul']
+      rw [← sq_sub_sq]; rw [one_pow]; rw [add_assoc _ m 1]; rw [← two_mul (m + 1)]; rw [pow_mul']
     _ = π₀ * (1 - X ^ (m + 1)) * (1 - X ^ (2 * m + 1))⁻¹ * (π₁ * (1 + X ^ (m + 1))) := by ring
     _ =
         (∏ i in range (m + 1), (1 - X ^ (m + 1 + i))) * (1 - X ^ (2 * m + 1))⁻¹ *
           (π₁ * (1 + X ^ (m + 1))) :=
       by rw [prod_range_succ', add_zero, hπ₀]; simp_rw [← add_assoc]
     _ = π₂ * (1 - X ^ (m + 1 + m)) * (1 - X ^ (2 * m + 1))⁻¹ * (π₁ * (1 + X ^ (m + 1))) := by
-      rw [add_right_comm, hπ₂, ← prod_range_succ]; simp_rw [add_right_comm]
+      rw [add_right_comm]; rw [hπ₂]; rw [← prod_range_succ]; simp_rw [add_right_comm]
     _ = π₂ * (1 - X ^ (2 * m + 1)) * (1 - X ^ (2 * m + 1))⁻¹ * (π₁ * (1 + X ^ (m + 1))) := by
-      rw [two_mul, add_right_comm _ m 1]
+      rw [two_mul]; rw [add_right_comm _ m 1]
     _ = (1 - X ^ (2 * m + 1)) * (1 - X ^ (2 * m + 1))⁻¹ * π₂ * (π₁ * (1 + X ^ (m + 1))) := by ring
     _ = π₂ * (π₁ * (1 + X ^ (m + 1))) := by rw [PowerSeries.mul_inv_cancel _ h, one_mul]
     _ = π₁ * π₂ * (1 + X ^ (m + 1)) := by ring
@@ -518,7 +516,7 @@ theorem same_gf [Field α] (m : ℕ) :
 
 theorem same_coeffs [Field α] (m n : ℕ) (h : n ≤ m) :
     coeff α n (partialOddGF m) = coeff α n (partialDistinctGF m) := by
-  rw [← same_gf, coeff_mul_prod_one_sub_of_lt_order]
+  rw [← same_gf]; rw [coeff_mul_prod_one_sub_of_lt_order]
   rintro i -
   rw [order_X_pow]
   exact_mod_cast Nat.lt_succ_of_le (le_add_right h)

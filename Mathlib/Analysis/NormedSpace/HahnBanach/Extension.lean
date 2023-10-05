@@ -81,7 +81,7 @@ theorem exists_extension_norm_eq (p : Subspace 𝕜 F) (f : p →L[𝕜] 𝕜) :
   -- It is an extension of `f`.
   have h : ∀ x : p, g.extendTo𝕜 x = f x := by
     intro x
-    rw [ContinuousLinearMap.extendTo𝕜_apply, ← Submodule.coe_smul, hextends, hextends]
+    rw [ContinuousLinearMap.extendTo𝕜_apply]; rw [← Submodule.coe_smul]; rw [hextends]; rw [hextends]
     have : (fr x : 𝕜) - I * ↑(fr (I • x)) = (re (f x) : 𝕜) - (I : 𝕜) * re (f ((I : 𝕜) • x)) := by
       rfl
     rw [this]
@@ -115,8 +115,7 @@ open ContinuousLinearEquiv Submodule
 open Classical
 
 theorem coord_norm' {x : E} (h : x ≠ 0) : ‖(‖x‖ : 𝕜) • coord 𝕜 x h‖ = 1 := by
-  rw [norm_smul (x := coord 𝕜 x h), IsROrC.norm_coe_norm, coord_norm,
-    mul_inv_cancel (mt norm_eq_zero.mp h)]
+  rw [norm_smul (x := coord 𝕜 x h)]; rw [IsROrC.norm_coe_norm]; rw [coord_norm]; rw [mul_inv_cancel (mt norm_eq_zero.mp h)]
 #align coord_norm' coord_norm'
 
 /-- Corollary of Hahn-Banach. Given a nonzero element `x` of a normed space, there exists an

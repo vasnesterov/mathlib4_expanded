@@ -45,7 +45,7 @@ def coneCompEvaluationOfConeCompDiagramFunctorCompEvaluation {X : C} {K : Type m
       naturality := by
         intro a b f
         dsimp
-        rw [Category.id_comp, Category.assoc, ← E.w f]
+        rw [Category.id_comp]; rw [Category.assoc]; rw [← E.w f]
         dsimp [diagramNatTrans]
         simp only [Multiequalizer.lift_ι, Category.assoc] }
 #align category_theory.grothendieck_topology.cone_comp_evaluation_of_cone_comp_diagram_functor_comp_evaluation CategoryTheory.GrothendieckTopology.coneCompEvaluationOfConeCompDiagramFunctorCompEvaluation
@@ -136,7 +136,7 @@ def liftToPlusObjLimitObj {K : Type max v u} [SmallCategory K] [FinCategory K]
     NatIso.ofComponents (fun k => colimitObjIsoColimitCompEvaluation _ k)
       (by
         intro i j f
-        rw [← Iso.eq_comp_inv, Category.assoc, ← Iso.inv_comp_eq]
+        rw [← Iso.eq_comp_inv]; rw [Category.assoc]; rw [← Iso.inv_comp_eq]
         refine' colimit.hom_ext (fun w => _)
         dsimp [plusMap]
         erw [colimit.ι_map_assoc,
@@ -156,11 +156,10 @@ theorem liftToPlusObjLimitObj_fac {K : Type max v u} [SmallCategory K] [FinCateg
     (S : Cone (F ⋙ J.plusFunctor D ⋙ (evaluation Cᵒᵖ D).obj (op X))) (k) :
     liftToPlusObjLimitObj.{w, v, u} F X S ≫ (J.plusMap (limit.π F k)).app (op X) = S.π.app k := by
   dsimp only [liftToPlusObjLimitObj]
-  rw [← (limit.isLimit (F ⋙ J.plusFunctor D ⋙ (evaluation Cᵒᵖ D).obj (op X))).fac S k,
-    Category.assoc]
+  rw [← (limit.isLimit (F ⋙ J.plusFunctor D ⋙ (evaluation Cᵒᵖ D).obj (op X))).fac S k]; rw [Category.assoc]
   congr 1
   dsimp
-  rw [Category.assoc, Category.assoc, ← Iso.eq_inv_comp, Iso.inv_comp_eq, Iso.inv_comp_eq]
+  rw [Category.assoc]; rw [Category.assoc]; rw [← Iso.eq_inv_comp]; rw [Iso.inv_comp_eq]; rw [Iso.inv_comp_eq]
   refine' colimit.hom_ext (fun j => _)
   dsimp [plusMap]
   simp only [HasColimit.isoOfNatIso_ι_hom_assoc, ι_colimMap]
@@ -169,7 +168,7 @@ theorem liftToPlusObjLimitObj_fac {K : Type max v u} [SmallCategory K] [FinCateg
   dsimp
   rw [ι_colimitLimitIso_limit_π_assoc]
   simp_rw [← Category.assoc, ← NatTrans.comp_app]
-  rw [limit.lift_π, Category.assoc]
+  rw [limit.lift_π]; rw [Category.assoc]
   congr 1
   rw [← Iso.comp_inv_eq]
   erw [colimit.ι_desc]
@@ -201,7 +200,7 @@ instance preservesLimitsOfShape_plusFunctor
       Iso.symm_inv]
     conv_lhs =>
       dsimp [IsLimit.conePointUniqueUpToIso]
-    rw [← Category.assoc, ← NatTrans.comp_app, limit.lift_π]
+    rw [← Category.assoc]; rw [← NatTrans.comp_app]; rw [limit.lift_π]
     rfl
 
 instance preserveFiniteLimits_plusFunctor

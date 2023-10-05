@@ -181,9 +181,9 @@ theorem counit_app_functor (e : C ≌ D) (X : C) :
 @[simp]
 theorem unit_inverse_comp (e : C ≌ D) (Y : D) :
     e.unit.app (e.inverse.obj Y) ≫ e.inverse.map (e.counit.app Y) = 𝟙 (e.inverse.obj Y) := by
-  rw [← id_comp (e.inverse.map _), ← map_id e.inverse, ← counitInv_functor_comp, map_comp]
+  rw [← id_comp (e.inverse.map _)]; rw [← map_id e.inverse]; rw [← counitInv_functor_comp]; rw [map_comp]
   dsimp
-  rw [← Iso.hom_inv_id_assoc (e.unitIso.app _) (e.inverse.map (e.functor.map _)), app_hom, app_inv]
+  rw [← Iso.hom_inv_id_assoc (e.unitIso.app _) (e.inverse.map (e.functor.map _))]; rw [app_hom]; rw [app_inv]
   slice_lhs 2 3 => erw [e.unit.naturality]
   slice_lhs 1 2 => erw [e.unit.naturality]
   slice_lhs 4 4 =>
@@ -309,8 +309,7 @@ def trans (e : C ≌ D) (f : D ≌ E) : C ≌ E
   -- lemmas.
   functor_unitIso_comp X := by
     dsimp
-    rw [← f.functor.map_comp_assoc, e.functor.map_comp, ← counitInv_app_functor, fun_inv_map,
-      Iso.inv_hom_id_app_assoc, assoc, Iso.inv_hom_id_app, counit_app_functor, ← Functor.map_comp]
+    rw [← f.functor.map_comp_assoc]; rw [e.functor.map_comp]; rw [← counitInv_app_functor]; rw [fun_inv_map]; rw [Iso.inv_hom_id_app_assoc]; rw [assoc]; rw [Iso.inv_hom_id_app]; rw [counit_app_functor]; rw [← Functor.map_comp]
     erw [comp_id, Iso.hom_inv_id_app, Functor.map_id]
 #align category_theory.equivalence.trans CategoryTheory.Equivalence.trans
 

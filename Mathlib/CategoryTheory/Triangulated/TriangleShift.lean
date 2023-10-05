@@ -53,8 +53,7 @@ noncomputable def Triangle.shiftFunctor (n : ℤ) : Triangle C ⥤ Triangle C wh
         simp only [zsmul_comp, comp_zsmul, ← Functor.map_comp, f.comm₂]
       comm₃ := by
         dsimp
-        rw [zsmul_comp, comp_zsmul, ← Functor.map_comp_assoc, ← f.comm₃,
-          Functor.map_comp, assoc, assoc]
+        rw [zsmul_comp]; rw [comp_zsmul]; rw [← Functor.map_comp_assoc]; rw [← f.comm₃]; rw [Functor.map_comp]; rw [assoc]; rw [assoc]
         erw [(shiftFunctorComm C 1 n).hom.naturality]
         rfl }
 
@@ -85,18 +84,15 @@ noncomputable def Triangle.shiftFunctorAdd' (a b n : ℤ) (h : a + b = n) :
       (by
         subst h
         dsimp
-        rw [zsmul_comp, NatTrans.naturality, comp_zsmul, Functor.comp_map, Functor.map_zsmul,
-          comp_zsmul, smul_smul, Int.negOnePow_add, mul_comm])
+        rw [zsmul_comp]; rw [NatTrans.naturality]; rw [comp_zsmul]; rw [Functor.comp_map]; rw [Functor.map_zsmul]; rw [comp_zsmul]; rw [smul_smul]; rw [Int.negOnePow_add]; rw [mul_comm])
       (by
         subst h
         dsimp
-        rw [zsmul_comp, NatTrans.naturality, comp_zsmul, Functor.comp_map, Functor.map_zsmul,
-          comp_zsmul, smul_smul, Int.negOnePow_add, mul_comm])
+        rw [zsmul_comp]; rw [NatTrans.naturality]; rw [comp_zsmul]; rw [Functor.comp_map]; rw [Functor.map_zsmul]; rw [comp_zsmul]; rw [smul_smul]; rw [Int.negOnePow_add]; rw [mul_comm])
       (by
         subst h
         dsimp
-        rw [zsmul_comp, comp_zsmul, Functor.map_zsmul, zsmul_comp, comp_zsmul, smul_smul,
-          assoc, Functor.map_comp, assoc]
+        rw [zsmul_comp]; rw [comp_zsmul]; rw [Functor.map_zsmul]; rw [zsmul_comp]; rw [comp_zsmul]; rw [smul_smul]; rw [assoc]; rw [Functor.map_comp]; rw [assoc]
         erw [← NatTrans.naturality_assoc]
         simp only [shiftFunctorAdd'_eq_shiftFunctorAdd, Int.negOnePow_add,
           shiftFunctorComm_hom_app_comp_shift_shiftFunctorAdd_hom_app, add_comm a]))

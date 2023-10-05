@@ -69,7 +69,7 @@ theorem star_preimage [Star α] : Star.star ⁻¹' s = s⋆ := rfl
 @[simp]
 theorem image_star [InvolutiveStar α] : Star.star '' s = s⋆ := by
   simp only [← star_preimage]
-  rw [image_eq_preimage_of_inverse] <;> intro <;> simp only [star_star]
+  rw [image_eq_preimage_of_inverse]  <;> intro <;> simp only [star_star]
 #align set.image_star Set.image_star
 
 @[simp]
@@ -105,7 +105,7 @@ theorem star_subset_star [InvolutiveStar α] {s t : Set α} : s⋆ ⊆ t⋆ ↔ 
 #align set.star_subset_star Set.star_subset_star
 
 theorem star_subset [InvolutiveStar α] {s t : Set α} : s⋆ ⊆ t ↔ s ⊆ t⋆ := by
-  rw [← star_subset_star, star_star]
+  rw [← star_subset_star]; rw [star_star]
 #align set.star_subset Set.star_subset
 
 theorem Finite.star [InvolutiveStar α] {s : Set α} (hs : s.Finite) : s⋆.Finite :=
@@ -114,7 +114,7 @@ theorem Finite.star [InvolutiveStar α] {s : Set α} (hs : s.Finite) : s⋆.Fini
 
 theorem star_singleton {β : Type*} [InvolutiveStar β] (x : β) : ({x} : Set β)⋆ = {x⋆} := by
   ext1 y
-  rw [mem_star, mem_singleton_iff, mem_singleton_iff, star_eq_iff_star_eq, eq_comm]
+  rw [mem_star]; rw [mem_singleton_iff]; rw [mem_singleton_iff]; rw [star_eq_iff_star_eq]; rw [eq_comm]
 #align set.star_singleton Set.star_singleton
 
 protected theorem star_mul [Mul α] [StarMul α] (s t : Set α) : (s * t)⋆ = t⋆ * s⋆ := by

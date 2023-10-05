@@ -77,7 +77,7 @@ variable {s} {y}
 
 theorem cons_ne_zero_of_left (h : y ≠ 0) : cons y s ≠ 0 := by
   contrapose! h with c
-  rw [← cons_zero y s, c, Finsupp.coe_zero, Pi.zero_apply]
+  rw [← cons_zero y s]; rw [c]; rw [Finsupp.coe_zero]; rw [Pi.zero_apply]
 #align finsupp.cons_ne_zero_of_left Finsupp.cons_ne_zero_of_left
 
 theorem cons_ne_zero_of_right (h : s ≠ 0) : cons y s ≠ 0 := by
@@ -89,7 +89,7 @@ theorem cons_ne_zero_of_right (h : s ≠ 0) : cons y s ≠ 0 := by
 theorem cons_ne_zero_iff : cons y s ≠ 0 ↔ y ≠ 0 ∨ s ≠ 0 := by
   refine' ⟨fun h => _, fun h => h.casesOn cons_ne_zero_of_left cons_ne_zero_of_right⟩
   refine' imp_iff_not_or.1 fun h' c => h _
-  rw [h', c, Finsupp.cons_zero_zero]
+  rw [h']; rw [c]; rw [Finsupp.cons_zero_zero]
 #align finsupp.cons_ne_zero_iff Finsupp.cons_ne_zero_iff
 
 end Finsupp

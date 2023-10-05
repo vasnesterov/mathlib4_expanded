@@ -106,13 +106,13 @@ protected theorem Connected.dist_triangle (hconn : G.Connected) {u v w : V} :
     G.dist u w ≤ G.dist u v + G.dist v w := by
   obtain ⟨p, hp⟩ := hconn.exists_walk_of_dist u v
   obtain ⟨q, hq⟩ := hconn.exists_walk_of_dist v w
-  rw [← hp, ← hq, ← Walk.length_append]
+  rw [← hp]; rw [← hq]; rw [← Walk.length_append]
   apply dist_le
 #align simple_graph.connected.dist_triangle SimpleGraph.Connected.dist_triangle
 
 private theorem dist_comm_aux {u v : V} (h : G.Reachable u v) : G.dist u v ≤ G.dist v u := by
   obtain ⟨p, hp⟩ := h.symm.exists_walk_of_dist
-  rw [← hp, ← Walk.length_reverse]
+  rw [← hp]; rw [← Walk.length_reverse]
   apply dist_le
 
 theorem dist_comm {u v : V} : G.dist u v = G.dist v u := by

@@ -185,7 +185,7 @@ theorem forall₂_iff_nthLe {l₁ : List α} {l₂ : List β} :
 
 theorem forall₂_zip : ∀ {l₁ l₂}, Forall₂ R l₁ l₂ → ∀ {a b}, (a, b) ∈ zip l₁ l₂ → R a b
   | _, _, Forall₂.cons h₁ h₂, x, y, hx => by
-    rw [zip, zipWith, mem_cons] at hx
+    rw [zip] at hx; rw [zipWith] at hx; rw [mem_cons] at hx
     match hx with
     | Or.inl rfl => exact h₁
     | Or.inr h₃ => exact forall₂_zip h₂ h₃
@@ -261,7 +261,7 @@ theorem rel_reverse : (Forall₂ R ⇒ Forall₂ R) reverse reverse
 theorem forall₂_reverse_iff {l₁ l₂} : Forall₂ R (reverse l₁) (reverse l₂) ↔ Forall₂ R l₁ l₂ :=
   Iff.intro
     (fun h => by
-      rw [← reverse_reverse l₁, ← reverse_reverse l₂]
+      rw [← reverse_reverse l₁]; rw [← reverse_reverse l₂]
       exact rel_reverse h)
     fun h => rel_reverse h
 #align list.forall₂_reverse_iff List.forall₂_reverse_iff
@@ -302,7 +302,7 @@ theorem rel_filter {p : α → Bool} {q : β → Bool}
 theorem rel_filterMap : ((R ⇒ Option.Rel P) ⇒ Forall₂ R ⇒ Forall₂ P) filterMap filterMap
   | _, _, _, _, _, Forall₂.nil => Forall₂.nil
   | f, g, hfg, a :: as, b :: bs, Forall₂.cons h₁ h₂ => by
-    rw [filterMap_cons, filterMap_cons]
+    rw [filterMap_cons]; rw [filterMap_cons]
     exact
       match f a, g b, hfg h₁ with
       | _, _, Option.Rel.none => rel_filterMap (@hfg) h₂

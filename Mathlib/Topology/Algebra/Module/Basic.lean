@@ -65,7 +65,7 @@ theorem Submodule.eq_top_of_nonempty_interior' [NeBot (𝓝[{ x : R | IsUnit x }
   rw [mem_interior_iff_mem_nhds] at hy
   have : Tendsto (fun c : R => y + c • x) (𝓝[{ x : R | IsUnit x }] 0) (𝓝 (y + (0 : R) • x)) :=
     tendsto_const_nhds.add ((tendsto_nhdsWithin_of_tendsto_nhds tendsto_id).smul tendsto_const_nhds)
-  rw [zero_smul, add_zero] at this
+  rw [zero_smul] at this; rw [add_zero] at this
   obtain ⟨_, hu : y + _ • _ ∈ s, u, rfl⟩ :=
     nonempty_of_mem (inter_mem (Filter.mem_map.1 (this hy)) self_mem_nhdsWithin)
   have hy' : y ∈ ↑s := mem_of_mem_nhds hy
@@ -89,7 +89,7 @@ theorem Module.punctured_nhds_neBot [Nontrivial M] [NeBot (𝓝[≠] (0 : R))] [
   suffices : Tendsto (fun c : R => x + c • y) (𝓝[≠] 0) (𝓝[≠] x); exact this.neBot
   refine' Tendsto.inf _ (tendsto_principal_principal.2 <| _)
   · convert tendsto_const_nhds.add ((@tendsto_id R _).smul_const y)
-    rw [zero_smul, add_zero]
+    rw [zero_smul]; rw [add_zero]
   · intro c hc
     simpa [hy] using hc
 #align module.punctured_nhds_ne_bot Module.punctured_nhds_neBot
@@ -204,7 +204,7 @@ theorem IsClosed.submodule_topologicalClosure_eq {s : Submodule R M} (hs : IsClo
 /-- A subspace is dense iff its topological closure is the entire space. -/
 theorem Submodule.dense_iff_topologicalClosure_eq_top {s : Submodule R M} :
     Dense (s : Set M) ↔ s.topologicalClosure = ⊤ := by
-  rw [← SetLike.coe_set_eq, dense_iff_closure_eq]
+  rw [← SetLike.coe_set_eq]; rw [dense_iff_closure_eq]
   simp
 #align submodule.dense_iff_topological_closure_eq_top Submodule.dense_iff_topologicalClosure_eq_top
 
@@ -706,7 +706,7 @@ theorem coe_id' : ⇑(id R₁ M₁) = _root_.id :=
 
 @[simp, norm_cast]
 theorem coe_eq_id {f : M₁ →L[R₁] M₁} : (f : M₁ →ₗ[R₁] M₁) = LinearMap.id ↔ f = id _ _ := by
-  rw [← coe_id, coe_inj]
+  rw [← coe_id]; rw [coe_inj]
 #align continuous_linear_map.coe_eq_id ContinuousLinearMap.coe_eq_id
 
 @[simp]
@@ -1257,7 +1257,7 @@ theorem toSpanSingleton_add [ContinuousAdd M₁] (x y : M₁) :
 theorem toSpanSingleton_smul' {α} [Monoid α] [DistribMulAction α M₁] [ContinuousConstSMul α M₁]
     [SMulCommClass R₁ α M₁] (c : α) (x : M₁) :
     toSpanSingleton R₁ (c • x) = c • toSpanSingleton R₁ x :=
-  by ext1; rw [toSpanSingleton_apply, smul_apply, toSpanSingleton_apply, smul_comm]
+  by ext1; rw [toSpanSingleton_apply]; rw [smul_apply]; rw [toSpanSingleton_apply]; rw [smul_comm]
 #align continuous_linear_map.to_span_singleton_smul' ContinuousLinearMap.toSpanSingleton_smul'
 
 /-- A special case of `to_span_singleton_smul'` for when `R` is commutative. -/
@@ -2433,7 +2433,7 @@ def unitsEquivAut : Rˣ ≃ R ≃L[R] R where
       (ContinuousLinearMap.smulRight (1 : R →L[R] R) ↑u⁻¹) (fun x => by simp) fun x => by simp
   invFun e :=
     ⟨e 1, e.symm 1, by rw [← smul_eq_mul, ← map_smul, smul_eq_mul, mul_one, symm_apply_apply], by
-      rw [← smul_eq_mul, ← map_smul, smul_eq_mul, mul_one, apply_symm_apply]⟩
+      rw [← smul_eq_mul]; rw [← map_smul]; rw [smul_eq_mul]; rw [mul_one]; rw [apply_symm_apply]⟩
   left_inv u := Units.ext <| by simp
   right_inv e := ext₁ <| by simp
 #align continuous_linear_equiv.units_equiv_aut ContinuousLinearEquiv.unitsEquivAut
@@ -2467,11 +2467,7 @@ def equivOfRightInverse (f₁ : M →L[R] M₂) (f₂ : M₂ →L[R] M) (h : Fun
   equivOfInverse (f₁.prod (f₁.projKerOfRightInverse f₂ h)) (f₂.coprod (ker f₁).subtypeL)
     (fun x => by simp) fun ⟨x, y⟩ => by
       -- Porting note: `simp` timeouts.
-      rw [ContinuousLinearMap.coprod_apply,
-        Submodule.subtypeL_apply, _root_.map_add, ContinuousLinearMap.prod_apply, h x,
-        ContinuousLinearMap.projKerOfRightInverse_comp_inv,
-        ContinuousLinearMap.prod_apply, LinearMap.map_coe_ker,
-        ContinuousLinearMap.projKerOfRightInverse_apply_idem, Prod.mk_add_mk, add_zero, zero_add]
+      rw [ContinuousLinearMap.coprod_apply]; rw [Submodule.subtypeL_apply]; rw [_root_.map_add]; rw [ContinuousLinearMap.prod_apply]; rw [h x]; rw [ContinuousLinearMap.projKerOfRightInverse_comp_inv]; rw [ContinuousLinearMap.prod_apply]; rw [LinearMap.map_coe_ker]; rw [ContinuousLinearMap.projKerOfRightInverse_apply_idem]; rw [Prod.mk_add_mk]; rw [add_zero]; rw [zero_add]
 #align continuous_linear_equiv.equiv_of_right_inverse ContinuousLinearEquiv.equivOfRightInverse
 
 @[simp]

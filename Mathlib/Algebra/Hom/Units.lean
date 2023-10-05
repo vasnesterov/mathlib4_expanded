@@ -368,13 +368,13 @@ protected theorem mul_eq_one_iff_inv_eq (h : IsUnit a) : a * b = 1 ↔ a⁻¹ = 
 
 @[to_additive (attr := simp)]
 protected theorem div_mul_cancel (h : IsUnit b) (a : α) : a / b * b = a := by
-  rw [div_eq_mul_inv, h.inv_mul_cancel_right]
+  rw [div_eq_mul_inv]; rw [h.inv_mul_cancel_right]
 #align is_unit.div_mul_cancel IsUnit.div_mul_cancel
 #align is_add_unit.sub_add_cancel IsAddUnit.sub_add_cancel
 
 @[to_additive (attr := simp)]
 protected theorem mul_div_cancel (h : IsUnit b) (a : α) : a * b / b = a := by
-  rw [div_eq_mul_inv, h.mul_inv_cancel_right]
+  rw [div_eq_mul_inv]; rw [h.mul_inv_cancel_right]
 #align is_unit.mul_div_cancel IsUnit.mul_div_cancel
 #align is_add_unit.add_sub_cancel IsAddUnit.add_sub_cancel
 
@@ -391,7 +391,7 @@ protected theorem one_div_mul_cancel (h : IsUnit a) : 1 / a * a = 1 := by simp [
 @[to_additive]
 theorem inv (h : IsUnit a) : IsUnit a⁻¹ := by
   rcases h with ⟨u, hu⟩
-  rw [←hu, ← Units.val_inv_eq_inv_val]
+  rw [←hu]; rw [← Units.val_inv_eq_inv_val]
   exact Units.isUnit _
 #align is_unit.inv IsUnit.inv
 #align is_add_unit.neg IsAddUnit.neg
@@ -412,13 +412,13 @@ protected theorem div_left_inj (h : IsUnit c) : a / c = b / c ↔ a = b := by
 
 @[to_additive]
 protected theorem div_eq_iff (h : IsUnit b) : a / b = c ↔ a = c * b := by
-  rw [div_eq_mul_inv, h.mul_inv_eq_iff_eq_mul]
+  rw [div_eq_mul_inv]; rw [h.mul_inv_eq_iff_eq_mul]
 #align is_unit.div_eq_iff IsUnit.div_eq_iff
 #align is_add_unit.sub_eq_iff IsAddUnit.sub_eq_iff
 
 @[to_additive]
 protected theorem eq_div_iff (h : IsUnit c) : a = b / c ↔ a * c = b := by
-  rw [div_eq_mul_inv, h.eq_mul_inv_iff_mul_eq]
+  rw [div_eq_mul_inv]; rw [h.eq_mul_inv_iff_mul_eq]
 #align is_unit.eq_div_iff IsUnit.eq_div_iff
 #align is_add_unit.eq_sub_iff IsAddUnit.eq_sub_iff
 
@@ -443,7 +443,7 @@ protected theorem div_eq_one_iff_eq (h : IsUnit b) : a / b = 1 ↔ a = b :=
 /-- The `Group` version of this lemma is `div_mul_cancel'''` -/
 @[to_additive "The `AddGroup` version of this lemma is `sub_add_cancel''`"]
 protected theorem div_mul_left (h : IsUnit b) : b / (a * b) = 1 / a := by
-  rw [div_eq_mul_inv, mul_inv_rev, h.mul_inv_cancel_left, one_div]
+  rw [div_eq_mul_inv]; rw [mul_inv_rev]; rw [h.mul_inv_cancel_left]; rw [one_div]
 #align is_unit.div_mul_left IsUnit.div_mul_left
 #align is_add_unit.sub_add_left IsAddUnit.sub_add_left
 
@@ -466,52 +466,51 @@ variable [DivisionCommMonoid α] {a b c d : α}
 
 @[to_additive]
 protected theorem div_mul_right (h : IsUnit a) (b : α) : a / (a * b) = 1 / b := by
-  rw [mul_comm, h.div_mul_left]
+  rw [mul_comm]; rw [h.div_mul_left]
 #align is_unit.div_mul_right IsUnit.div_mul_right
 #align is_add_unit.sub_add_right IsAddUnit.sub_add_right
 
 @[to_additive]
 protected theorem mul_div_cancel_left (h : IsUnit a) (b : α) : a * b / a = b := by
-  rw [mul_comm, h.mul_div_cancel]
+  rw [mul_comm]; rw [h.mul_div_cancel]
 #align is_unit.mul_div_cancel_left IsUnit.mul_div_cancel_left
 #align is_add_unit.add_sub_cancel_left IsAddUnit.add_sub_cancel_left
 
 @[to_additive]
 protected theorem mul_div_cancel' (h : IsUnit a) (b : α) : a * (b / a) = b := by
-  rw [mul_comm, h.div_mul_cancel]
+  rw [mul_comm]; rw [h.div_mul_cancel]
 #align is_unit.mul_div_cancel' IsUnit.mul_div_cancel'
 #align is_add_unit.add_sub_cancel' IsAddUnit.add_sub_cancel'
 
 @[to_additive]
 protected theorem mul_div_mul_left (h : IsUnit c) (a b : α) : c * a / (c * b) = a / b := by
-  rw [mul_comm c, mul_comm c, h.mul_div_mul_right]
+  rw [mul_comm c]; rw [mul_comm c]; rw [h.mul_div_mul_right]
 #align is_unit.mul_div_mul_left IsUnit.mul_div_mul_left
 #align is_add_unit.add_sub_add_left IsAddUnit.add_sub_add_left
 
 @[to_additive]
 protected theorem mul_eq_mul_of_div_eq_div (hb : IsUnit b) (hd : IsUnit d)
     (a c : α) (h : a / b = c / d) : a * d = c * b := by
-  rw [← mul_one a, ← hb.div_self, ← mul_comm_div, h, div_mul_eq_mul_div, hd.div_mul_cancel]
+  rw [← mul_one a]; rw [← hb.div_self]; rw [← mul_comm_div]; rw [h]; rw [div_mul_eq_mul_div]; rw [hd.div_mul_cancel]
 #align is_unit.mul_eq_mul_of_div_eq_div IsUnit.mul_eq_mul_of_div_eq_div
 #align is_add_unit.add_eq_add_of_sub_eq_sub IsAddUnit.add_eq_add_of_sub_eq_sub
 
 @[to_additive]
 protected theorem div_eq_div_iff (hb : IsUnit b) (hd : IsUnit d) :
     a / b = c / d ↔ a * d = c * b := by
-  rw [← (hb.mul hd).mul_left_inj, ← mul_assoc, hb.div_mul_cancel, ← mul_assoc, mul_right_comm,
-    hd.div_mul_cancel]
+  rw [← (hb.mul hd).mul_left_inj]; rw [← mul_assoc]; rw [hb.div_mul_cancel]; rw [← mul_assoc]; rw [mul_right_comm]; rw [hd.div_mul_cancel]
 #align is_unit.div_eq_div_iff IsUnit.div_eq_div_iff
 #align is_add_unit.sub_eq_sub_iff IsAddUnit.sub_eq_sub_iff
 
 @[to_additive]
 protected theorem div_div_cancel (h : IsUnit a) : a / (a / b) = b := by
-  rw [div_div_eq_mul_div, h.mul_div_cancel_left]
+  rw [div_div_eq_mul_div]; rw [h.mul_div_cancel_left]
 #align is_unit.div_div_cancel IsUnit.div_div_cancel
 #align is_add_unit.sub_sub_cancel IsAddUnit.sub_sub_cancel
 
 @[to_additive]
 protected theorem div_div_cancel_left (h : IsUnit a) : a / b / a = b⁻¹ := by
-  rw [div_eq_mul_inv, div_eq_mul_inv, mul_right_comm, h.mul_inv_cancel, one_mul]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]; rw [mul_right_comm]; rw [h.mul_inv_cancel]; rw [one_mul]
 #align is_unit.div_div_cancel_left IsUnit.div_div_cancel_left
 #align is_add_unit.sub_sub_cancel_left IsAddUnit.sub_sub_cancel_left
 

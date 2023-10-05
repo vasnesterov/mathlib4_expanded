@@ -57,7 +57,7 @@ theorem one_lt_mersenne {p : ℕ} (hp : 1 < p) : 1 < mersenne p :=
 
 @[simp]
 theorem succ_mersenne (k : ℕ) : mersenne k + 1 = 2 ^ k := by
-  rw [mersenne, tsub_add_cancel_of_le]
+  rw [mersenne]; rw [tsub_add_cancel_of_le]
   exact one_le_pow_of_one_le (by norm_num) k
 #align succ_mersenne succ_mersenne
 
@@ -349,7 +349,7 @@ set_option linter.uppercaseLean3 false in
 /-- The cardinality of `X` is `q^2`. -/
 theorem card_eq : Fintype.card (X q) = q ^ 2 := by
   dsimp [X]
-  rw [Fintype.card_prod, ZMod.card q, sq]
+  rw [Fintype.card_prod]; rw [ZMod.card q]; rw [sq]
 set_option linter.uppercaseLean3 false in
 #align lucas_lehmer.X.X_card LucasLehmer.X.card_eq
 
@@ -378,7 +378,7 @@ set_option linter.uppercaseLean3 false in
 #align lucas_lehmer.X.ω_mul_ωb LucasLehmer.X.ω_mul_ωb
 
 theorem ωb_mul_ω (q : ℕ+) : (ωb : X q) * ω = 1 := by
-  rw [mul_comm, ω_mul_ωb]
+  rw [mul_comm]; rw [ω_mul_ωb]
 set_option linter.uppercaseLean3 false in
 #align lucas_lehmer.X.ωb_mul_ω LucasLehmer.X.ωb_mul_ω
 
@@ -393,7 +393,7 @@ theorem closed_form (i : ℕ) : (s i : X q) = (ω : X q) ^ 2 ^ i + (ωb : X q) ^
       _ = (ω ^ 2 ^ i + ωb ^ 2 ^ i) ^ 2 - 2 := by rw [ih]
       _ = (ω ^ 2 ^ i) ^ 2 + (ωb ^ 2 ^ i) ^ 2 + 2 * (ωb ^ 2 ^ i * ω ^ 2 ^ i) - 2 := by ring
       _ = (ω ^ 2 ^ i) ^ 2 + (ωb ^ 2 ^ i) ^ 2 := by
-        rw [← mul_pow ωb ω, ωb_mul_ω, one_pow, mul_one, add_sub_cancel]
+        rw [← mul_pow ωb ω]; rw [ωb_mul_ω]; rw [one_pow]; rw [mul_one]; rw [add_sub_cancel]
       _ = ω ^ 2 ^ (i + 1) + ωb ^ 2 ^ (i + 1) := by rw [← pow_mul, ← pow_mul, _root_.pow_succ']
 set_option linter.uppercaseLean3 false in
 #align lucas_lehmer.X.closed_form LucasLehmer.X.closed_form
@@ -431,7 +431,7 @@ theorem ω_pow_formula (p' : ℕ) (h : lucasLehmerResidue (p' + 2) = 0) :
   dsimp at h
   have t : 2 ^ p' + 2 ^ p' = 2 ^ (p' + 1) := by ring
   rw [mul_add, ← pow_add ω, t, ← mul_pow ω ωb (2 ^ p'), ω_mul_ωb, one_pow] at h
-  rw [mul_comm, coe_mul] at h
+  rw [mul_comm] at h; rw [coe_mul] at h
   rw [mul_comm _ (k : X (q (p' + 2)))] at h
   replace h := eq_sub_of_add_eq h
   have : 1 ≤ 2 ^ (p' + 2) := Nat.one_le_pow _ _ (by decide)
@@ -456,7 +456,7 @@ theorem ω_pow_eq_one (p' : ℕ) (h : lucasLehmerResidue (p' + 2) = 0) :
     (ω : X (q (p' + 2))) ^ 2 ^ (p' + 2) = 1 :=
   calc
     (ω : X (q (p' + 2))) ^ 2 ^ (p' + 2) = (ω ^ 2 ^ (p' + 1)) ^ 2 := by
-      rw [← pow_mul, ← Nat.pow_succ]
+      rw [← pow_mul]; rw [← Nat.pow_succ]
     _ = (-1) ^ 2 := by rw [ω_pow_eq_neg_one p' h]
     _ = 1 := by simp
 #align lucas_lehmer.ω_pow_eq_one LucasLehmer.ω_pow_eq_one
@@ -554,30 +554,29 @@ theorem sMod'_eq_sMod (p k : ℕ) (hp : 2 ≤ p) : (sMod' (2 ^ p - 1) k : ℤ) =
   have h2 : 1 ≤ 2 ^ p := by linarith
   induction k with
   | zero =>
-    rw [sMod', sMod, Int.ofNat_emod]
+    rw [sMod']; rw [sMod]; rw [Int.ofNat_emod]
     simp [h2]
   | succ k ih =>
-    rw [sMod', sMod, ← ih]
+    rw [sMod']; rw [sMod]; rw [← ih]
     have h3 : 2 ≤ 2 ^ p - 1 := by
       zify [h2]
       calc
         (2 : Int) ≤ 4 - 1 := by norm_num
         _         ≤ 2 ^ p - 1 := by zify at h1; exact Int.sub_le_sub_right h1 _
     zify [h2, h3]
-    rw [← add_sub_assoc, sub_eq_add_neg, add_assoc, add_comm _ (-2), ← add_assoc,
-      Int.add_emod_self, ← sub_eq_add_neg]
+    rw [← add_sub_assoc]; rw [sub_eq_add_neg]; rw [add_assoc]; rw [add_comm _ (-2)]; rw [← add_assoc]; rw [Int.add_emod_self]; rw [← sub_eq_add_neg]
 
 lemma testTrueHelper (p : ℕ) (hp : Nat.blt 1 p = true) (h : sMod' (2 ^ p - 1) (p - 2) = 0) :
     LucasLehmerTest p := by
   rw [Nat.blt_eq] at hp
-  rw [LucasLehmerTest, LucasLehmer.residue_eq_zero_iff_sMod_eq_zero p hp, ← sMod'_eq_sMod p _ hp, h]
+  rw [LucasLehmerTest]; rw [LucasLehmer.residue_eq_zero_iff_sMod_eq_zero p hp]; rw [← sMod'_eq_sMod p _ hp]; rw [h]
   rfl
 
 lemma testFalseHelper (p : ℕ) (hp : Nat.blt 1 p = true)
     (h : Nat.ble 1 (sMod' (2 ^ p - 1) (p - 2))) : ¬ LucasLehmerTest p := by
   rw [Nat.blt_eq] at hp
-  rw [Nat.ble_eq, Nat.succ_le, Nat.pos_iff_ne_zero] at h
-  rw [LucasLehmerTest, LucasLehmer.residue_eq_zero_iff_sMod_eq_zero p hp, ← sMod'_eq_sMod p _ hp]
+  rw [Nat.ble_eq] at h; rw [Nat.succ_le] at h; rw [Nat.pos_iff_ne_zero] at h
+  rw [LucasLehmerTest]; rw [LucasLehmer.residue_eq_zero_iff_sMod_eq_zero p hp]; rw [← sMod'_eq_sMod p _ hp]
   simpa using h
 
 theorem isNat_lucasLehmerTest : {p np : ℕ} →

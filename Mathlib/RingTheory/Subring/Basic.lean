@@ -1375,7 +1375,7 @@ protected theorem InClosure.recOn {C : R → Prop} {x : R} (hx : x ∈ closure s
   · exact h0
   rw [List.forall_mem_cons] at HL
   suffices C (List.prod hd) by
-    rw [List.map_cons, List.sum_cons]
+    rw [List.map_cons]; rw [List.sum_cons]
     exact ha this (ih HL.2)
   replace HL := HL.1
   clear ih tl
@@ -1394,7 +1394,7 @@ protected theorem InClosure.recOn {C : R → Prop} {x : R} (hx : x ∈ closure s
     clear HP HL hd
     induction' L with hd tl ih
     · exact hneg1
-    rw [List.prod_cons, neg_mul_eq_mul_neg]
+    rw [List.prod_cons]; rw [neg_mul_eq_mul_neg]
     rw [List.forall_mem_cons] at HL'
     exact hs _ HL'.1 _ (ih HL'.2)
   induction' hd with hd tl ih

@@ -89,8 +89,7 @@ theorem taylorWithinEval_succ (f : ℝ → E) (n : ℕ) (s : Set ℝ) (x₀ x : 
   simp only [Polynomial.eval_sub, Polynomial.eval_X, Polynomial.eval_C,
     PolynomialModule.eval_single, mul_inv_rev]
   dsimp only [taylorCoeffWithin]
-  rw [← mul_smul, mul_comm, Nat.factorial_succ, Nat.cast_mul, Nat.cast_add, Nat.cast_one,
-    mul_inv_rev]
+  rw [← mul_smul]; rw [mul_comm]; rw [Nat.factorial_succ]; rw [Nat.cast_mul]; rw [Nat.cast_add]; rw [Nat.cast_one]; rw [mul_inv_rev]
 #align taylor_within_eval_succ taylorWithinEval_succ
 
 /-- The Taylor polynomial of order zero evaluates to `f x`. -/
@@ -117,7 +116,7 @@ theorem taylor_within_apply (f : ℝ → E) (n : ℕ) (s : Set ℝ) (x₀ x : �
       ∑ k in Finset.range (n + 1), ((k ! : ℝ)⁻¹ * (x - x₀) ^ k) • iteratedDerivWithin k f s x₀ := by
   induction' n with k hk
   · simp
-  rw [taylorWithinEval_succ, Finset.sum_range_succ, hk]
+  rw [taylorWithinEval_succ]; rw [Finset.sum_range_succ]; rw [hk]
   simp [Nat.factorial]
 #align taylor_within_apply taylor_within_apply
 
@@ -141,7 +140,7 @@ theorem continuousOn_taylorWithinEval {f : ℝ → E} {x : ℝ} {n : ℕ} {s : S
 theorem monomial_has_deriv_aux (t x : ℝ) (n : ℕ) :
     HasDerivAt (fun y => (x - y) ^ (n + 1)) (-(n + 1) * (x - t) ^ n) t := by
   simp_rw [sub_eq_neg_add]
-  rw [← neg_one_mul, mul_comm (-1 : ℝ), mul_assoc, mul_comm (-1 : ℝ), ← mul_assoc]
+  rw [← neg_one_mul]; rw [mul_comm (-1 : ℝ)]; rw [mul_assoc]; rw [mul_comm (-1 : ℝ)]; rw [← mul_assoc]
   convert HasDerivAt.pow (n + 1) ((hasDerivAt_id t).neg.add_const x)
   simp only [Nat.cast_add, Nat.cast_one]
 #align monomial_has_deriv_aux monomial_has_deriv_aux
@@ -167,7 +166,7 @@ theorem hasDerivWithinAt_taylor_coeff_within {f : ℝ → E} {x y : ℝ} {k : �
     exact (monomial_has_deriv_aux y x _).hasDerivWithinAt.const_mul _
   convert this.smul hf using 1
   field_simp
-  rw [neg_div, neg_smul, sub_eq_add_neg]
+  rw [neg_div]; rw [neg_smul]; rw [sub_eq_add_neg]
 #align has_deriv_within_at_taylor_coeff_within hasDerivWithinAt_taylor_coeff_within
 
 /-- Calculate the derivative of the Taylor polynomial with respect to `x₀`.
@@ -250,7 +249,7 @@ theorem taylor_mean_remainder {f : ℝ → ℝ} {g g' : ℝ → ℝ} {x x₀ : �
   use y, hy
   -- The rest is simplifications and trivial calculations
   simp only [taylorWithinEval_self] at h
-  rw [mul_comm, ← div_left_inj' (g'_ne y hy), mul_div_cancel _ (g'_ne y hy)] at h
+  rw [mul_comm] at h; rw [← div_left_inj' (g'_ne y hy)] at h; rw [mul_div_cancel _ (g'_ne y hy)] at h
   rw [← h]
   field_simp [g'_ne y hy]
   ring
@@ -284,7 +283,7 @@ theorem taylor_mean_remainder_lagrange {f : ℝ → ℝ} {x x₀ : ℝ} {n : ℕ
     ⟨y, hy, h⟩
   use y, hy
   simp only [sub_self, zero_pow', Ne.def, Nat.succ_ne_zero, not_false_iff, zero_sub, mul_neg] at h
-  rw [h, neg_div, ← div_neg, neg_mul, neg_neg]
+  rw [h]; rw [neg_div]; rw [← div_neg]; rw [neg_mul]; rw [neg_neg]
   field_simp [xy_ne y hy, Nat.factorial];  ring
 #align taylor_mean_remainder_lagrange taylor_mean_remainder_lagrange
 
@@ -332,14 +331,14 @@ theorem taylor_mean_remainder_bound {f : ℝ → E} {a b C x : ℝ} {n : ℕ} (h
       ‖((n ! : ℝ)⁻¹ * (x - y) ^ n) • iteratedDerivWithin (n + 1) f (Icc a b) y‖ ≤
         (n ! : ℝ)⁻¹ * |x - a| ^ n * C := by
     rintro y ⟨hay, hyx⟩
-    rw [norm_smul, Real.norm_eq_abs]
+    rw [norm_smul]; rw [Real.norm_eq_abs]
     -- Estimate the iterated derivative by `C`
     refine' mul_le_mul _ (hC y ⟨hay, hyx.le.trans hx.2⟩) (by positivity) (by positivity)
     -- The rest is a trivial calculation
-    rw [abs_mul, abs_pow, abs_inv, Nat.abs_cast]
+    rw [abs_mul]; rw [abs_pow]; rw [abs_inv]; rw [Nat.abs_cast]
     -- Porting note: was `mono* with 0 ≤ (n ! : ℝ)⁻¹; any_goals positivity; linarith [hx.1, hyx]`
     gcongr
-    rw [abs_of_nonneg, abs_of_nonneg] <;> linarith
+    rw [abs_of_nonneg]; rw [abs_of_nonneg]; all_goals linarith
   -- Apply the mean value theorem for vector valued functions:
   have A : ∀ t ∈ Icc a x, HasDerivWithinAt (fun y => taylorWithinEval f n (Icc a b) y x)
       (((↑n !)⁻¹ * (x - t) ^ n) • iteratedDerivWithin (n + 1) f (Icc a b) t) (Icc a x) t := by

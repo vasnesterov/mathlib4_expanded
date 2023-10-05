@@ -147,7 +147,7 @@ valued
 @[simp, nolint simpNF]
 theorem homEquiv_naturality_left_symm (f : X' ⟶ X) (g : X ⟶ G.obj Y) :
     (adj.homEquiv X' Y).symm (f ≫ g) = F.map f ≫ (adj.homEquiv X Y).symm g := by
-  rw [homEquiv_counit, F.map_comp, assoc, adj.homEquiv_counit.symm]
+  rw [homEquiv_counit]; rw [F.map_comp]; rw [assoc]; rw [adj.homEquiv_counit.symm]
 #align category_theory.adjunction.hom_equiv_naturality_left_symm CategoryTheory.Adjunction.homEquiv_naturality_left_symm
 
 -- Porting note: Same as above
@@ -162,7 +162,7 @@ theorem homEquiv_naturality_left (f : X' ⟶ X) (g : F.obj X ⟶ Y) :
 @[simp, nolint simpNF]
 theorem homEquiv_naturality_right (f : F.obj X ⟶ Y) (g : Y ⟶ Y') :
     (adj.homEquiv X Y') (f ≫ g) = (adj.homEquiv X Y) f ≫ G.map g := by
-  rw [homEquiv_unit, G.map_comp, ← assoc, ← homEquiv_unit]
+  rw [homEquiv_unit]; rw [G.map_comp]; rw [← assoc]; rw [← homEquiv_unit]
 #align category_theory.adjunction.hom_equiv_naturality_right CategoryTheory.Adjunction.homEquiv_naturality_right
 
 -- Porting note: Same as above
@@ -276,7 +276,7 @@ variable {F : C ⥤ D} {G : D ⥤ C} (adj : CoreHomEquiv F G) {X' X : C} {Y Y' :
 @[simp]
 theorem homEquiv_naturality_left_aux (f : X' ⟶ X) (g : F.obj X ⟶ Y) :
     (adj.homEquiv X' (F.obj X)) (F.map f) ≫ G.map g = f ≫ (adj.homEquiv X Y) g := by
-  rw [← homEquiv_naturality_right, ← Equiv.eq_symm_apply]; simp
+  rw [← homEquiv_naturality_right]; rw [← Equiv.eq_symm_apply]; simp
 
 -- @[simp] -- Porting note: LHS simplifies, added aux lemma above
 theorem homEquiv_naturality_left (f : X' ⟶ X) (g : F.obj X ⟶ Y) :
@@ -287,7 +287,7 @@ theorem homEquiv_naturality_left (f : X' ⟶ X) (g : F.obj X ⟶ Y) :
 @[simp]
 theorem homEquiv_naturality_right_symm_aux (f : X ⟶ G.obj Y) (g : Y ⟶ Y') :
     F.map f ≫ (adj.homEquiv (G.obj Y) Y').symm (G.map g) = (adj.homEquiv X Y).symm f ≫ g := by
-  rw [← homEquiv_naturality_left_symm, Equiv.symm_apply_eq]; simp
+  rw [← homEquiv_naturality_left_symm]; rw [Equiv.symm_apply_eq]; simp
 
 -- @[simp] -- Porting note: LHS simplifies, added aux lemma above
 theorem homEquiv_naturality_right_symm (f : X ⟶ G.obj Y) (g : Y ⟶ Y') :
@@ -368,7 +368,7 @@ def mkOfUnitCounit (adj : CoreUnitCounit F G) : F ⊣ G :=
         invFun := fun g => F.map g ≫ adj.counit.app Y
         left_inv := fun f => by
           change F.map (_ ≫ _) ≫ _ = _
-          rw [F.map_comp, assoc, ← Functor.comp_map, adj.counit.naturality, ← assoc]
+          rw [F.map_comp]; rw [assoc]; rw [← Functor.comp_map]; rw [adj.counit.naturality]; rw [← assoc]
           convert id_comp f
           have t := congrArg (fun (s : NatTrans (𝟭 C ⋙ F) (F ⋙ 𝟭 D)) => s.app X) adj.left_triangle
           dsimp at t
@@ -376,7 +376,7 @@ def mkOfUnitCounit (adj : CoreUnitCounit F G) : F ⊣ G :=
           exact t
         right_inv := fun g => by
           change _ ≫ G.map (_ ≫ _) = _
-          rw [G.map_comp, ← assoc, ← Functor.comp_map, ← adj.unit.naturality, assoc]
+          rw [G.map_comp]; rw [← assoc]; rw [← Functor.comp_map]; rw [← adj.unit.naturality]; rw [assoc]
           convert comp_id g
           have t := congrArg (fun t : NatTrans (G ⋙ 𝟭 C) (𝟭 D ⋙ G) => t.app Y) adj.right_triangle
           dsimp at t
@@ -496,7 +496,7 @@ variable (e : ∀ X Y, (F_obj X ⟶ Y) ≃ (X ⟶ G.obj Y))
 variable (he : ∀ X Y Y' g h, e X Y' (h ≫ g) = e X Y h ≫ G.map g)
 
 private theorem he' {X Y Y'} (f g) : (e X Y').symm (f ≫ G.map g) = (e X Y).symm f ≫ g := by
-  intros; rw [Equiv.symm_apply_eq, he]; simp
+  intros; rw [Equiv.symm_apply_eq]; rw [he]; simp
 -- #align category_theory.adjunction.he' category_theory.adjunction.he'
 
 /-- Construct a left adjoint functor to `G`, given the functor's value on objects `F_obj` and
@@ -508,10 +508,10 @@ def leftAdjointOfEquiv : C ⥤ D where
   obj := F_obj
   map {X} {X'} f := (e X (F_obj X')).symm (f ≫ e X' (F_obj X') (𝟙 _))
   map_comp := fun f f' => by
-    rw [Equiv.symm_apply_eq, he, Equiv.apply_symm_apply]
+    rw [Equiv.symm_apply_eq]; rw [he]; rw [Equiv.apply_symm_apply]
     conv =>
       rhs
-      rw [assoc, ← he, id_comp, Equiv.apply_symm_apply]
+      rw [assoc]; rw [← he]; rw [id_comp]; rw [Equiv.apply_symm_apply]
     simp
 #align category_theory.adjunction.left_adjoint_of_equiv CategoryTheory.Adjunction.leftAdjointOfEquiv
 
@@ -543,7 +543,7 @@ variable (e : ∀ X Y, (F.obj X ⟶ Y) ≃ (X ⟶ G_obj Y))
 variable (he : ∀ X' X Y f g, e X' Y (F.map f ≫ g) = f ≫ e X Y g)
 
 private theorem he'' {X' X Y} (f g) : F.map f ≫ (e X Y).symm g = (e X' Y).symm (f ≫ g) := by
-  intros; rw [Equiv.eq_symm_apply, he]; simp
+  intros; rw [Equiv.eq_symm_apply]; rw [he]; simp
 -- #align category_theory.adjunction.he' category_theory.adjunction.he'
 
 /-- Construct a right adjoint functor to `F`, given the functor's value on objects `G_obj` and
@@ -555,10 +555,10 @@ def rightAdjointOfEquiv : D ⥤ C where
   obj := G_obj
   map {Y} {Y'} g := (e (G_obj Y) Y') ((e (G_obj Y) Y).symm (𝟙 _) ≫ g)
   map_comp := fun {Y} {Y'} {Y''} g g' => by
-    rw [← Equiv.eq_symm_apply, ← he'' e he, Equiv.symm_apply_apply]
+    rw [← Equiv.eq_symm_apply]; rw [← he'' e he]; rw [Equiv.symm_apply_apply]
     conv =>
       rhs
-      rw [← assoc, he'' e he, comp_id, Equiv.symm_apply_apply]
+      rw [← assoc]; rw [he'' e he]; rw [comp_id]; rw [Equiv.symm_apply_apply]
     simp
 #align category_theory.adjunction.right_adjoint_of_equiv CategoryTheory.Adjunction.rightAdjointOfEquiv
 

@@ -97,7 +97,7 @@ theorem innerDualCone_union (s t : Set H) :
 
 theorem innerDualCone_insert (x : H) (s : Set H) :
     (insert x s).innerDualCone = Set.innerDualCone {x} ⊓ s.innerDualCone := by
-  rw [insert_eq, innerDualCone_union]
+  rw [insert_eq]; rw [innerDualCone_union]
 #align inner_dual_cone_insert innerDualCone_insert
 
 theorem innerDualCone_iUnion {ι : Sort*} (f : ι → Set H) :
@@ -117,7 +117,7 @@ theorem innerDualCone_sUnion (S : Set (Set H)) :
 /-- The dual cone of `s` equals the intersection of dual cones of the points in `s`. -/
 theorem innerDualCone_eq_iInter_innerDualCone_singleton :
     (s.innerDualCone : Set H) = ⋂ i : s, (({↑i} : Set H).innerDualCone : Set H) := by
-  rw [← ConvexCone.coe_iInf, ← innerDualCone_iUnion, iUnion_of_singleton_coe]
+  rw [← ConvexCone.coe_iInf]; rw [← innerDualCone_iUnion]; rw [iUnion_of_singleton_coe]
 #align inner_dual_cone_eq_Inter_inner_dual_cone_singleton innerDualCone_eq_iInter_innerDualCone_singleton
 
 theorem isClosed_innerDualCone : IsClosed (s.innerDualCone : Set H) := by
@@ -127,7 +127,7 @@ theorem isClosed_innerDualCone : IsClosed (s.innerDualCone : Set H) := by
   intro x
   -- the dual cone of a singleton `{x}` is the preimage of `[0, ∞)` under `inner x`
   have h : ({↑x} : Set H).innerDualCone = (inner x : H → ℝ) ⁻¹' Set.Ici 0 := by
-    rw [innerDualCone_singleton, ConvexCone.coe_comap, ConvexCone.coe_positive, innerₛₗ_apply_coe]
+    rw [innerDualCone_singleton]; rw [ConvexCone.coe_comap]; rw [ConvexCone.coe_positive]; rw [innerₛₗ_apply_coe]
   -- the preimage is closed as `inner x` is continuous and `[0, ∞)` is closed
   rw [h]
   exact isClosed_Ici.preimage (continuous_const.inner continuous_id')
@@ -178,13 +178,12 @@ theorem ConvexCone.hyperplane_separation_of_nonempty_of_isClosed_of_nmem (K : Co
   · -- as `K` is closed and non-empty, it is pointed
     have hinner₀ := hinner 0 (K.pointed_of_nonempty_of_isClosed ne hc)
     -- the rest of the proof is a straightforward calculation
-    rw [zero_sub, inner_neg_right, Right.neg_nonpos_iff] at hinner₀
+    rw [zero_sub] at hinner₀; rw [inner_neg_right] at hinner₀; rw [Right.neg_nonpos_iff] at hinner₀
     have hbz : b - z ≠ 0 := by
       rw [sub_ne_zero]
       contrapose! hzK
       rwa [← hzK]
-    rw [← neg_zero, lt_neg, ← neg_one_mul, ← real_inner_smul_left, smul_sub, neg_smul, one_smul,
-      neg_smul, neg_sub_neg, one_smul]
+    rw [← neg_zero]; rw [lt_neg]; rw [← neg_one_mul]; rw [← real_inner_smul_left]; rw [smul_sub]; rw [neg_smul]; rw [one_smul]; rw [neg_smul]; rw [neg_sub_neg]; rw [one_smul]
     calc
       0 < ⟪b - z, b - z⟫_ℝ := lt_of_not_le ((Iff.not real_inner_self_nonpos).2 hbz)
       _ = ⟪b - z, b - z⟫_ℝ + 0 := (add_zero _).symm

@@ -108,7 +108,7 @@ variable [CommMonoid R] [DecidableRel (Dvd.dvd : R → R → Prop)]
 theorem squarefree_iff_multiplicity_le_one (r : R) :
     Squarefree r ↔ ∀ x : R, multiplicity x r ≤ 1 ∨ IsUnit x := by
   refine' forall_congr' fun a => _
-  rw [← sq, pow_dvd_iff_le_multiplicity, or_iff_not_imp_left, not_le, imp_congr _ Iff.rfl]
+  rw [← sq]; rw [pow_dvd_iff_le_multiplicity]; rw [or_iff_not_imp_left]; rw [not_le]; rw [imp_congr _ Iff.rfl]
   rw [←one_add_one_eq_two]
   simpa using PartENat.add_one_le_iff_lt (PartENat.natCast_ne_top 1)
 #align multiplicity.squarefree_iff_multiplicity_le_one multiplicity.squarefree_iff_multiplicity_le_one
@@ -175,7 +175,7 @@ theorem squarefree_iff_irreducible_sq_not_dvd_of_ne_zero {r : R} (hr : r ≠ 0) 
 
 theorem squarefree_iff_irreducible_sq_not_dvd_of_exists_irreducible {r : R}
     (hr : ∃ x : R, Irreducible x) : Squarefree r ↔ ∀ x : R, Irreducible x → ¬x * x ∣ r := by
-  rw [irreducible_sq_not_dvd_iff_eq_zero_and_no_irreducibles_or_squarefree, ← not_exists]
+  rw [irreducible_sq_not_dvd_iff_eq_zero_and_no_irreducibles_or_squarefree]; rw [← not_exists]
   simp only [hr, not_true, false_or_iff, and_false_iff]
 #align squarefree_iff_irreducible_sq_not_dvd_of_exists_irreducible squarefree_iff_irreducible_sq_not_dvd_of_exists_irreducible
 
@@ -189,7 +189,7 @@ theorem IsRadical.squarefree {x : R} (h0 : x ≠ 0) (h : IsRadical x) : Squarefr
   rintro z ⟨w, rfl⟩
   specialize h 2 (z * w) ⟨w, by simp_rw [pow_two, mul_left_comm, ← mul_assoc]⟩
   rwa [← one_mul (z * w), mul_assoc, mul_dvd_mul_iff_right, ← isUnit_iff_dvd_one] at h
-  rw [mul_assoc, mul_ne_zero_iff] at h0; exact h0.2
+  rw [mul_assoc] at h0; rw [mul_ne_zero_iff] at h0; exact h0.2
 #align is_radical.squarefree IsRadical.squarefree
 
 variable [GCDMonoid R]
@@ -205,7 +205,7 @@ theorem Squarefree.isRadical {x : R} (hx : Squarefree x) : IsRadical x :=
           replace hy := ((dvd_gcd_iff x x _).2 ⟨dvd_rfl, hy⟩).trans gcd_pow_right_dvd_pow_gcd
           obtain ⟨z, hz⟩ := gcd_dvd_left x y
           nth_rw 1 [hz] at hy ⊢
-          rw [pow_two, mul_dvd_mul_iff_left h] at hy
+          rw [pow_two] at hy; rw [mul_dvd_mul_iff_left h] at hy
           obtain ⟨w, hw⟩ := hy
           exact (hx z ⟨w, by rwa [mul_right_comm, ← hw]⟩).mul_right_dvd.2 dvd_rfl)
 #align squarefree.is_radical Squarefree.isRadical
@@ -231,7 +231,7 @@ variable [CancelCommMonoidWithZero R] [UniqueFactorizationMonoid R]
 theorem squarefree_iff_nodup_normalizedFactors [NormalizationMonoid R] [DecidableEq R] {x : R}
     (x0 : x ≠ 0) : Squarefree x ↔ Multiset.Nodup (normalizedFactors x) := by
   have drel : DecidableRel (Dvd.dvd : R → R → Prop) := by classical infer_instance
-  rw [multiplicity.squarefree_iff_multiplicity_le_one, Multiset.nodup_iff_count_le_one]
+  rw [multiplicity.squarefree_iff_multiplicity_le_one]; rw [Multiset.nodup_iff_count_le_one]
   haveI := nontrivial_of_ne x 0 x0
   constructor <;> intro h a
   · by_cases hmem : a ∈ normalizedFactors x
@@ -273,7 +273,7 @@ theorem squarefree_natAbs {n : ℤ} : Squarefree n.natAbs ↔ Squarefree n := by
 
 @[simp]
 theorem squarefree_coe_nat {n : ℕ} : Squarefree (n : ℤ) ↔ Squarefree n := by
-  rw [← squarefree_natAbs, natAbs_ofNat]
+  rw [← squarefree_natAbs]; rw [natAbs_ofNat]
 #align int.squarefree_coe_nat Int.squarefree_coe_nat
 
 end Int

@@ -111,7 +111,7 @@ def invRotate : Triangle C ⥤ Triangle C
     comm₁ := by
       dsimp
       simp only [neg_comp, assoc, comp_neg, neg_inj, ← Functor.map_comp_assoc, ← f.comm₃]
-      rw [Functor.map_comp, assoc]
+      rw [Functor.map_comp]; rw [assoc]
       erw [← NatTrans.naturality]
       rfl
     comm₃ := by

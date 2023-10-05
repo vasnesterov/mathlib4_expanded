@@ -304,61 +304,61 @@ variable {𝕜 ι H : Type*} [IsROrC 𝕜] [NormedAddCommGroup H] [NormedSpace �
 
 theorem differentiableWithinAt_euclidean :
     DifferentiableWithinAt 𝕜 f t y ↔ ∀ i, DifferentiableWithinAt 𝕜 (fun x => f x i) t y := by
-  rw [← (EuclideanSpace.equiv ι 𝕜).comp_differentiableWithinAt_iff, differentiableWithinAt_pi]
+  rw [← (EuclideanSpace.equiv ι 𝕜).comp_differentiableWithinAt_iff]; rw [differentiableWithinAt_pi]
   rfl
 #align differentiable_within_at_euclidean differentiableWithinAt_euclidean
 
 theorem differentiableAt_euclidean :
     DifferentiableAt 𝕜 f y ↔ ∀ i, DifferentiableAt 𝕜 (fun x => f x i) y := by
-  rw [← (EuclideanSpace.equiv ι 𝕜).comp_differentiableAt_iff, differentiableAt_pi]
+  rw [← (EuclideanSpace.equiv ι 𝕜).comp_differentiableAt_iff]; rw [differentiableAt_pi]
   rfl
 #align differentiable_at_euclidean differentiableAt_euclidean
 
 theorem differentiableOn_euclidean :
     DifferentiableOn 𝕜 f t ↔ ∀ i, DifferentiableOn 𝕜 (fun x => f x i) t := by
-  rw [← (EuclideanSpace.equiv ι 𝕜).comp_differentiableOn_iff, differentiableOn_pi]
+  rw [← (EuclideanSpace.equiv ι 𝕜).comp_differentiableOn_iff]; rw [differentiableOn_pi]
   rfl
 #align differentiable_on_euclidean differentiableOn_euclidean
 
 theorem differentiable_euclidean : Differentiable 𝕜 f ↔ ∀ i, Differentiable 𝕜 fun x => f x i := by
-  rw [← (EuclideanSpace.equiv ι 𝕜).comp_differentiable_iff, differentiable_pi]
+  rw [← (EuclideanSpace.equiv ι 𝕜).comp_differentiable_iff]; rw [differentiable_pi]
   rfl
 #align differentiable_euclidean differentiable_euclidean
 
 theorem hasStrictFDerivAt_euclidean :
     HasStrictFDerivAt f f' y ↔
       ∀ i, HasStrictFDerivAt (fun x => f x i) (EuclideanSpace.proj i ∘L f') y := by
-  rw [← (EuclideanSpace.equiv ι 𝕜).comp_hasStrictFDerivAt_iff, hasStrictFDerivAt_pi']
+  rw [← (EuclideanSpace.equiv ι 𝕜).comp_hasStrictFDerivAt_iff]; rw [hasStrictFDerivAt_pi']
   rfl
 #align has_strict_fderiv_at_euclidean hasStrictFDerivAt_euclidean
 
 theorem hasFDerivWithinAt_euclidean :
     HasFDerivWithinAt f f' t y ↔
       ∀ i, HasFDerivWithinAt (fun x => f x i) (EuclideanSpace.proj i ∘L f') t y := by
-  rw [← (EuclideanSpace.equiv ι 𝕜).comp_hasFDerivWithinAt_iff, hasFDerivWithinAt_pi']
+  rw [← (EuclideanSpace.equiv ι 𝕜).comp_hasFDerivWithinAt_iff]; rw [hasFDerivWithinAt_pi']
   rfl
 #align has_fderiv_within_at_euclidean hasFDerivWithinAt_euclidean
 
 theorem contDiffWithinAt_euclidean {n : ℕ∞} :
     ContDiffWithinAt 𝕜 n f t y ↔ ∀ i, ContDiffWithinAt 𝕜 n (fun x => f x i) t y := by
-  rw [← (EuclideanSpace.equiv ι 𝕜).comp_contDiffWithinAt_iff, contDiffWithinAt_pi]
+  rw [← (EuclideanSpace.equiv ι 𝕜).comp_contDiffWithinAt_iff]; rw [contDiffWithinAt_pi]
   rfl
 #align cont_diff_within_at_euclidean contDiffWithinAt_euclidean
 
 theorem contDiffAt_euclidean {n : ℕ∞} :
     ContDiffAt 𝕜 n f y ↔ ∀ i, ContDiffAt 𝕜 n (fun x => f x i) y := by
-  rw [← (EuclideanSpace.equiv ι 𝕜).comp_contDiffAt_iff, contDiffAt_pi]
+  rw [← (EuclideanSpace.equiv ι 𝕜).comp_contDiffAt_iff]; rw [contDiffAt_pi]
   rfl
 #align cont_diff_at_euclidean contDiffAt_euclidean
 
 theorem contDiffOn_euclidean {n : ℕ∞} :
     ContDiffOn 𝕜 n f t ↔ ∀ i, ContDiffOn 𝕜 n (fun x => f x i) t := by
-  rw [← (EuclideanSpace.equiv ι 𝕜).comp_contDiffOn_iff, contDiffOn_pi]
+  rw [← (EuclideanSpace.equiv ι 𝕜).comp_contDiffOn_iff]; rw [contDiffOn_pi]
   rfl
 #align cont_diff_on_euclidean contDiffOn_euclidean
 
 theorem contDiff_euclidean {n : ℕ∞} : ContDiff 𝕜 n f ↔ ∀ i, ContDiff 𝕜 n fun x => f x i := by
-  rw [← (EuclideanSpace.equiv ι 𝕜).comp_contDiff_iff, contDiff_pi]
+  rw [← (EuclideanSpace.equiv ι 𝕜).comp_contDiff_iff]; rw [contDiff_pi]
   rfl
 #align cont_diff_euclidean contDiff_euclidean
 
@@ -416,7 +416,7 @@ theorem contDiffOn_univBall_symm :
     ContDiffOn ℝ n (univBall c r).symm (ball c r) := by
   unfold univBall; split_ifs with h
   · refine contDiffOn_univUnitBall_symm.comp (contDiff_unitBallBall_symm h).contDiffOn ?_
-    rw [← unitBallBall_source c r h, ← unitBallBall_target c r h]
+    rw [← unitBallBall_source c r h]; rw [← unitBallBall_target c r h]
     apply LocalHomeomorph.symm_mapsTo
   · exact contDiffOn_id.sub contDiffOn_const
 

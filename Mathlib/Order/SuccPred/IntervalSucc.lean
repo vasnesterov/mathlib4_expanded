@@ -41,7 +41,7 @@ theorem biUnion_Ico_Ioc_map_succ [SuccOrder α] [IsSuccArchimedean α] [LinearOr
   · refine' Succ.rec _ _ hmn
     · simp only [Ioc_self, Ico_self, biUnion_empty]
     · intro k hmk ihk
-      rw [← Ioc_union_Ioc_eq_Ioc (hf hmk) (hf <| le_succ _), union_comm, ← ihk]
+      rw [← Ioc_union_Ioc_eq_Ioc (hf hmk) (hf <| le_succ _)]; rw [union_comm]; rw [← ihk]
       by_cases hk : IsMax k
       · rw [hk.succ_eq, Ioc_self, empty_union]
       · rw [Ico_succ_right_eq_insert_of_not_isMax hmk hk, biUnion_insert]

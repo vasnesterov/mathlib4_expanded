@@ -182,7 +182,7 @@ def effectiveEpiStructOfIsColimit {X Y : C} (f : Y ⟶ X)
           rintro ⟨A,hA⟩ ⟨B,hB⟩ (q : A ⟶ B)
           dsimp; simp only [← Category.assoc, Category.comp_id]
           apply h
-          rw [Category.assoc, hB.choose_spec, hA.choose_spec, Over.w] } }
+          rw [Category.assoc]; rw [hB.choose_spec]; rw [hA.choose_spec]; rw [Over.w] } }
   { desc := fun {W} e h => Hf.desc (aux e h)
     fac := by
       intro W e h
@@ -192,7 +192,7 @@ def effectiveEpiStructOfIsColimit {X Y : C} (f : Y ⟶ X)
       nth_rewrite 2 [← Category.id_comp e]
       apply h
       generalize_proofs hh
-      rw [hh.choose_spec, Category.id_comp]
+      rw [hh.choose_spec]; rw [Category.id_comp]
     uniq := by
       intro W e h m hm
       dsimp
@@ -408,10 +408,10 @@ def effectiveEpiFamilyStructOfIsColimit {B : C} {α : Type*}
         app := fun ⟨T,hT⟩ => hT.choose_spec.choose ≫ e hT.choose
         naturality := by
           intro ⟨A,a,(g₁ : A.left ⟶ _),ha⟩ ⟨B,b,(g₂ : B.left ⟶ _),hb⟩ (q : A ⟶ B)
-          dsimp; rw [Category.comp_id, ← Category.assoc]
+          dsimp; rw [Category.comp_id]; rw [← Category.assoc]
           apply h; rw [Category.assoc]
           generalize_proofs h1 h2 h3 h4
-          rw [h2.choose_spec, h4.choose_spec, Over.w] } }
+          rw [h2.choose_spec]; rw [h4.choose_spec]; rw [Over.w] } }
   { desc := fun {W} e h => H.desc (aux e h)
     fac := by
       intro W e h a
@@ -421,7 +421,7 @@ def effectiveEpiFamilyStructOfIsColimit {B : C} {α : Type*}
       conv_rhs => rw [← Category.id_comp (e a)]
       apply h
       generalize_proofs h1 h2
-      rw [h2.choose_spec, Category.id_comp]
+      rw [h2.choose_spec]; rw [Category.id_comp]
     uniq := by
       intro W e h m hm
       apply H.uniq (aux e h)
@@ -472,7 +472,7 @@ def EffectiveEpiFamily_descStruct {B : C} {α : Type*} (X : α → C) (π : (a :
     · intro Z a₁ a₂ g₁ g₂ hg
       rw [← hm]
       simp only [colimit.ι_desc_assoc, Discrete.functor_obj, Cofan.mk_pt, Cofan.mk_ι_app]
-      rw [← Category.assoc, hg, Category.assoc]
+      rw [← Category.assoc]; rw [hg]; rw [Category.assoc]
 
 instance {B : C} {α : Type*} (X : α → C) (π : (a : α) → (X a ⟶ B)) [HasCoproduct X]
     [EffectiveEpiFamily X π] : EffectiveEpi (Sigma.desc π) :=
@@ -526,7 +526,7 @@ def EffectiveEpiFamilyStruct_of_isIso_desc {B : C} {α : Type*} (X : α → C)
     intro a
     have : π a = Sigma.ι X a ≫ (asIso (Sigma.desc π)).hom := by simp only [asIso_hom,
       colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app]
-    rw [this, Category.assoc]
+    rw [this]; rw [Category.assoc]
     simp only [asIso_hom, asIso_inv, IsIso.hom_inv_id_assoc, colimit.ι_desc, Cofan.mk_pt,
       Cofan.mk_ι_app]
   uniq e h m hm := by

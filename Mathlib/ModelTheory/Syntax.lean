@@ -302,9 +302,9 @@ def Lequiv.onTerm (φ : L ≃ᴸ L') : L.Term α ≃ L'.Term α where
   toFun := φ.toLHom.onTerm
   invFun := φ.invLHom.onTerm
   left_inv := by
-    rw [Function.leftInverse_iff_comp, ← LHom.comp_onTerm, φ.left_inv, LHom.id_onTerm]
+    rw [Function.leftInverse_iff_comp]; rw [← LHom.comp_onTerm]; rw [φ.left_inv]; rw [LHom.id_onTerm]
   right_inv := by
-    rw [Function.rightInverse_iff_comp, ← LHom.comp_onTerm, φ.right_inv, LHom.id_onTerm]
+    rw [Function.rightInverse_iff_comp]; rw [← LHom.comp_onTerm]; rw [φ.right_inv]; rw [LHom.id_onTerm]
 set_option linter.uppercaseLean3 false in
 #align first_order.language.Lequiv.on_term FirstOrder.Language.Lequiv.onTerm
 
@@ -461,7 +461,7 @@ theorem castLE_castLE {k m n} (km : k ≤ m) (mn : m ≤ n) (φ : L.BoundedFormu
   · rfl
   · simp
   · simp only [castLE, eq_self_iff_true, heq_iff_eq, true_and_iff]
-    rw [← Function.comp.assoc, Term.relabel_comp_relabel]
+    rw [← Function.comp.assoc]; rw [Term.relabel_comp_relabel]
     simp
   · simp [ih1, ih2]
   · simp only [castLE, ih3]
@@ -623,7 +623,7 @@ theorem relabel_not (g : α → Sum β (Fin n)) {k} (φ : L.BoundedFormula α k)
 @[simp]
 theorem relabel_all (g : α → Sum β (Fin n)) {k} (φ : L.BoundedFormula α (k + 1)) :
     φ.all.relabel g = (φ.relabel g).all := by
-  rw [relabel, mapTermRel, relabel]
+  rw [relabel]; rw [mapTermRel]; rw [relabel]
   simp
 #align first_order.language.bounded_formula.relabel_all FirstOrder.Language.BoundedFormula.relabel_all
 
@@ -954,11 +954,9 @@ def onBoundedFormula (φ : L ≃ᴸ L') : L.BoundedFormula α n ≃ L'.BoundedFo
   toFun := φ.toLHom.onBoundedFormula
   invFun := φ.invLHom.onBoundedFormula
   left_inv := by
-    rw [Function.leftInverse_iff_comp, ← LHom.comp_onBoundedFormula, φ.left_inv,
-      LHom.id_onBoundedFormula]
+    rw [Function.leftInverse_iff_comp]; rw [← LHom.comp_onBoundedFormula]; rw [φ.left_inv]; rw [LHom.id_onBoundedFormula]
   right_inv := by
-    rw [Function.rightInverse_iff_comp, ← LHom.comp_onBoundedFormula, φ.right_inv,
-      LHom.id_onBoundedFormula]
+    rw [Function.rightInverse_iff_comp]; rw [← LHom.comp_onBoundedFormula]; rw [φ.right_inv]; rw [LHom.id_onBoundedFormula]
 set_option linter.uppercaseLean3 false in
 #align first_order.language.Lequiv.on_bounded_formula FirstOrder.Language.LEquiv.onBoundedFormula
 
@@ -1161,7 +1159,7 @@ theorem distinctConstantsTheory_eq_iUnion (s : Set α) :
         L.distinctConstantsTheory (t.map (Function.Embedding.subtype fun x => x ∈ s)) := by
   classical
     simp only [distinctConstantsTheory]
-    rw [← image_iUnion, ← iUnion_inter]
+    rw [← image_iUnion]; rw [← iUnion_inter]
     refine' congr rfl (congr (congr rfl _) rfl)
     ext ⟨i, j⟩
     simp only [prod_mk_mem_set_prod_eq, Finset.coe_map, Function.Embedding.coe_subtype, mem_iUnion,

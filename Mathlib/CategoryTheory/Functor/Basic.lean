@@ -64,7 +64,7 @@ attribute [simp] Functor.map_id Functor.map_comp
 lemma Functor.map_comp_assoc {C : Type u₁} [Category C] {D : Type u₂} [Category D] (F : C ⥤ D)
     {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) {W : D} (h : F.obj Z ⟶ W) :
     (F.map (f ≫ g)) ≫ h = F.map f ≫ F.map g ≫ h := by
-  rw [F.map_comp, Category.assoc]
+  rw [F.map_comp]; rw [Category.assoc]
 #align category_theory.functor.map_comp_assoc CategoryTheory.Functor.map_comp_assoc
 
 namespace Functor
@@ -111,7 +111,7 @@ variable {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
 def comp (F : C ⥤ D) (G : D ⥤ E) : C ⥤ E where
   obj X := G.obj (F.obj X)
   map f := G.map (F.map f)
-  map_comp := by intros; dsimp; rw [F.map_comp, G.map_comp]
+  map_comp := by intros; dsimp; rw [F.map_comp]; rw [G.map_comp]
 #align category_theory.functor.comp CategoryTheory.Functor.comp
 #align category_theory.functor.comp_obj CategoryTheory.Functor.comp_obj
 

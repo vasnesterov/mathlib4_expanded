@@ -231,7 +231,7 @@ theorem hom_lift (h : IsLimit t) {W : C} (m : W ⟶ t.pt) :
 theorem hom_ext (h : IsLimit t) {W : C} {f f' : W ⟶ t.pt}
     (w : ∀ j, f ≫ t.π.app j = f' ≫ t.π.app j) :
     f = f' := by
-  rw [h.hom_lift f, h.hom_lift f']; congr; exact funext w
+  rw [h.hom_lift f]; rw [h.hom_lift f']; congr; exact funext w
 #align category_theory.limits.is_limit.hom_ext CategoryTheory.Limits.IsLimit.hom_ext
 
 /-- Given a right adjoint functor between categories of cones,
@@ -377,10 +377,10 @@ def conePointsIsoOfEquivalence {F : J ⥤ C} {s : Cone F} {G : K ⥤ C} {t : Con
       dsimp
       simp only [Limits.Cone.whisker_π, Limits.Cones.postcompose_obj_π, fac, whiskerLeft_app,
         assoc, id_comp, invFunIdAssoc_hom_app, fac_assoc, NatTrans.comp_app]
-      rw [counit_app_functor, ←Functor.comp_map]
+      rw [counit_app_functor]; rw [←Functor.comp_map]
       have l :
         NatTrans.app w.hom j = NatTrans.app w.hom (Prefunctor.obj (𝟭 J).toPrefunctor j) := by dsimp
-      rw [l,w.hom.naturality]
+      rw [l]; rw [w.hom.naturality]
       simp
     inv_hom_id := by
       apply hom_ext Q
@@ -433,7 +433,7 @@ def ofFaithful {t : Cone F} {D : Type u₄} [Category.{v₄} D] (G : C ⥤ D) [F
     (ht : IsLimit (mapCone G t)) (lift : ∀ s : Cone F, s.pt ⟶ t.pt)
     (h : ∀ s, G.map (lift s) = ht.lift (mapCone G s)) : IsLimit t :=
   { lift
-    fac := fun s j => by apply G.map_injective; rw [G.map_comp, h]; apply ht.fac
+    fac := fun s j => by apply G.map_injective; rw [G.map_comp]; rw [h]; apply ht.fac
     uniq := fun s m w => by
       apply G.map_injective; rw [h]
       refine' ht.uniq (mapCone G s) _ fun j => _
@@ -740,7 +740,7 @@ theorem hom_desc (h : IsColimit t) {W : C} (m : t.pt ⟶ W) :
   each cocone morphism are equal. -/
 theorem hom_ext (h : IsColimit t) {W : C} {f f' : t.pt ⟶ W}
     (w : ∀ j, t.ι.app j ≫ f = t.ι.app j ≫ f') : f = f' := by
-  rw [h.hom_desc f, h.hom_desc f']; congr; exact funext w
+  rw [h.hom_desc f]; rw [h.hom_desc f']; congr; exact funext w
 #align category_theory.limits.is_colimit.hom_ext CategoryTheory.Limits.IsColimit.hom_ext
 
 /-- Given a left adjoint functor between categories of cocones,
@@ -891,7 +891,7 @@ def coconePointsIsoOfEquivalence {F : J ⥤ C} {s : Cocone F} {G : K ⥤ C} {t :
       dsimp
       simp only [Limits.Cocone.whisker_ι, fac, invFunIdAssoc_inv_app, whiskerLeft_app, assoc,
         comp_id, Limits.Cocones.precompose_obj_ι, fac_assoc, NatTrans.comp_app]
-      rw [counitInv_app_functor, ← Functor.comp_map, ← w.inv.naturality_assoc]
+      rw [counitInv_app_functor]; rw [← Functor.comp_map]; rw [← w.inv.naturality_assoc]
       dsimp
       simp
     inv_hom_id := by
@@ -947,7 +947,7 @@ def ofFaithful {t : Cocone F} {D : Type u₄} [Category.{v₄} D] (G : C ⥤ D) 
     (ht : IsColimit (mapCocone G t)) (desc : ∀ s : Cocone F, t.pt ⟶ s.pt)
     (h : ∀ s, G.map (desc s) = ht.desc (mapCocone G s)) : IsColimit t :=
   { desc
-    fac := fun s j => by apply G.map_injective; rw [G.map_comp, h]; apply ht.fac
+    fac := fun s j => by apply G.map_injective; rw [G.map_comp]; rw [h]; apply ht.fac
     uniq := fun s m w => by
       apply G.map_injective; rw [h]
       refine' ht.uniq (mapCocone G s) _ fun j => _

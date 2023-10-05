@@ -26,7 +26,7 @@ theorem eq_zero_iff_even {n : ℕ} : (n : ZMod 2) = 0 ↔ Even n :=
 #align zmod.eq_zero_iff_even ZMod.eq_zero_iff_even
 
 theorem eq_one_iff_odd {n : ℕ} : (n : ZMod 2) = 1 ↔ Odd n := by
-  rw [← @Nat.cast_one (ZMod 2), ZMod.eq_iff_modEq_nat, Nat.odd_iff, Nat.ModEq]
+  rw [← @Nat.cast_one (ZMod 2)]; rw [ZMod.eq_iff_modEq_nat]; rw [Nat.odd_iff]; rw [Nat.ModEq]
   norm_num
 #align zmod.eq_one_iff_odd ZMod.eq_one_iff_odd
 

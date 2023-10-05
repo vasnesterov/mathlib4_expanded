@@ -65,8 +65,7 @@ theorem midpoint_fixed {x y : PE} :
   have hf_dist : ∀ e, dist (f e z) z = 2 * dist (e z) z := by
     intro e
     dsimp
-    rw [dist_pointReflection_fixed, ← e.dist_eq, e.apply_symm_apply,
-      dist_pointReflection_self_real, dist_comm]
+    rw [dist_pointReflection_fixed]; rw [← e.dist_eq]; rw [e.apply_symm_apply]; rw [dist_pointReflection_self_real]; rw [dist_comm]
   -- Also note that `f` maps `s` to itself
   have hf_maps_to : MapsTo f s s := by
     rintro e ⟨hx, hy⟩

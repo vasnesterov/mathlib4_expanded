@@ -85,15 +85,13 @@ theorem log_of_left_le_one {b : ℕ} (hb : b ≤ 1) (r : R) : log b r = 0 := by
 #align int.log_of_left_le_one Int.log_of_left_le_one
 
 theorem log_of_right_le_zero (b : ℕ) {r : R} (hr : r ≤ 0) : log b r = 0 := by
-  rw [log_of_right_le_one _ (hr.trans zero_le_one),
-    Nat.clog_of_right_le_one ((Nat.ceil_eq_zero.mpr <| inv_nonpos.2 hr).trans_le zero_le_one),
-    Int.ofNat_zero, neg_zero]
+  rw [log_of_right_le_one _ (hr.trans zero_le_one)]; rw [Nat.clog_of_right_le_one ((Nat.ceil_eq_zero.mpr <| inv_nonpos.2 hr).trans_le zero_le_one)]; rw [Int.ofNat_zero]; rw [neg_zero]
 #align int.log_of_right_le_zero Int.log_of_right_le_zero
 
 theorem zpow_log_le_self {b : ℕ} {r : R} (hb : 1 < b) (hr : 0 < r) : (b : R) ^ log b r ≤ r := by
   cases' le_total 1 r with hr1 hr1
   · rw [log_of_one_le_right _ hr1]
-    rw [zpow_ofNat, ← Nat.cast_pow, ← Nat.le_floor_iff hr.le]
+    rw [zpow_ofNat]; rw [← Nat.cast_pow]; rw [← Nat.le_floor_iff hr.le]
     exact Nat.pow_log_le_self b (Nat.floor_pos.mpr hr1).ne'
   · rw [log_of_right_le_one _ hr1, zpow_neg, zpow_ofNat, ← Nat.cast_pow]
     exact inv_le_of_inv_le hr (Nat.ceil_le.1 <| Nat.le_pow_clog hb _)
@@ -105,15 +103,14 @@ theorem lt_zpow_succ_log_self {b : ℕ} (hb : 1 < b) (r : R) : r < (b : R) ^ (lo
     exact hr.trans_lt (zero_lt_one.trans_le <| by exact_mod_cast hb.le)
   cases' le_or_lt 1 r with hr1 hr1
   · rw [log_of_one_le_right _ hr1]
-    rw [Int.ofNat_add_one_out, zpow_ofNat, ← Nat.cast_pow]
+    rw [Int.ofNat_add_one_out]; rw [zpow_ofNat]; rw [← Nat.cast_pow]
     apply Nat.lt_of_floor_lt
     exact Nat.lt_pow_succ_log_self hb _
   · rw [log_of_right_le_one _ hr1.le]
     have hcri : 1 < r⁻¹ := one_lt_inv hr hr1
     have : 1 ≤ Nat.clog b ⌈r⁻¹⌉₊ :=
       Nat.succ_le_of_lt (Nat.clog_pos hb <| Nat.one_lt_cast.1 <| hcri.trans_le (Nat.le_ceil _))
-    rw [neg_add_eq_sub, ← neg_sub, ← Int.ofNat_one, ← Int.ofNat_sub this, zpow_neg, zpow_ofNat,
-      lt_inv hr (pow_pos (Nat.cast_pos.mpr <| zero_lt_one.trans hb) _), ← Nat.cast_pow]
+    rw [neg_add_eq_sub]; rw [← neg_sub]; rw [← Int.ofNat_one]; rw [← Int.ofNat_sub this]; rw [zpow_neg]; rw [zpow_ofNat]; rw [lt_inv hr (pow_pos (Nat.cast_pos.mpr <| zero_lt_one.trans hb) _)]; rw [← Nat.cast_pow]
     refine' Nat.lt_ceil.1 _
     exact Nat.pow_pred_clog_lt_self hb <| Nat.one_lt_cast.1 <| hcri.trans_le <| Nat.le_ceil _
 #align int.lt_zpow_succ_log_self Int.lt_zpow_succ_log_self
@@ -125,7 +122,7 @@ theorem log_zero_right (b : ℕ) : log b (0 : R) = 0 :=
 
 @[simp]
 theorem log_one_right (b : ℕ) : log b (1 : R) = 0 := by
-  rw [log_of_one_le_right _ le_rfl, Nat.floor_one, Nat.log_one_right, Int.ofNat_zero]
+  rw [log_of_one_le_right _ le_rfl]; rw [Nat.floor_one]; rw [Nat.log_one_right]; rw [Int.ofNat_zero]
 #align int.log_one_right Int.log_one_right
 
 -- Porting note: needed to replace b ^ z with (b : R) ^ z in the below
@@ -198,8 +195,7 @@ theorem clog_of_right_le_one (b : ℕ) {r : R} (hr : r ≤ 1) : clog b r = -Nat.
 #align int.clog_of_right_le_one Int.clog_of_right_le_one
 
 theorem clog_of_right_le_zero (b : ℕ) {r : R} (hr : r ≤ 0) : clog b r = 0 := by
-  rw [clog, if_neg (hr.trans_lt zero_lt_one).not_le, neg_eq_zero, Int.coe_nat_eq_zero,
-    Nat.log_eq_zero_iff]
+  rw [clog]; rw [if_neg (hr.trans_lt zero_lt_one).not_le]; rw [neg_eq_zero]; rw [Int.coe_nat_eq_zero]; rw [Nat.log_eq_zero_iff]
   cases' le_or_lt b 1 with hb hb
   · exact Or.inr hb
   · refine' Or.inl (lt_of_le_of_lt _ hb)
@@ -217,7 +213,7 @@ theorem clog_inv (b : ℕ) (r : R) : clog b r⁻¹ = -log b r := by
 
 @[simp]
 theorem log_inv (b : ℕ) (r : R) : log b r⁻¹ = -clog b r := by
-  rw [← inv_inv r, clog_inv, neg_neg, inv_inv]
+  rw [← inv_inv r]; rw [clog_inv]; rw [neg_neg]; rw [inv_inv]
 #align int.log_inv Int.log_inv
 
 -- note this is useful for writing in reverse
@@ -235,21 +231,21 @@ theorem clog_natCast (b : ℕ) (n : ℕ) : clog b (n : R) = Nat.clog b n := by
 #align int.clog_nat_cast Int.clog_natCast
 
 theorem clog_of_left_le_one {b : ℕ} (hb : b ≤ 1) (r : R) : clog b r = 0 := by
-  rw [← neg_log_inv_eq_clog, log_of_left_le_one hb, neg_zero]
+  rw [← neg_log_inv_eq_clog]; rw [log_of_left_le_one hb]; rw [neg_zero]
 #align int.clog_of_left_le_one Int.clog_of_left_le_one
 
 theorem self_le_zpow_clog {b : ℕ} (hb : 1 < b) (r : R) : r ≤ (b : R) ^ clog b r := by
   cases' le_or_lt r 0 with hr hr
   · rw [clog_of_right_le_zero _ hr, zpow_zero]
     exact hr.trans zero_le_one
-  rw [← neg_log_inv_eq_clog, zpow_neg, le_inv hr (zpow_pos_of_pos _ _)]
+  rw [← neg_log_inv_eq_clog]; rw [zpow_neg]; rw [le_inv hr (zpow_pos_of_pos _ _)]
   · exact zpow_log_le_self hb (inv_pos.mpr hr)
   · exact Nat.cast_pos.mpr (zero_le_one.trans_lt hb)
 #align int.self_le_zpow_clog Int.self_le_zpow_clog
 
 theorem zpow_pred_clog_lt_self {b : ℕ} {r : R} (hb : 1 < b) (hr : 0 < r) :
     (b : R) ^ (clog b r - 1) < r := by
-  rw [← neg_log_inv_eq_clog, ← neg_add', zpow_neg, inv_lt _ hr]
+  rw [← neg_log_inv_eq_clog]; rw [← neg_add']; rw [zpow_neg]; rw [inv_lt _ hr]
   · exact lt_zpow_succ_log_self hb _
   · exact zpow_pos_of_pos (Nat.cast_pos.mpr <| zero_le_one.trans_lt hb) _
 #align int.zpow_pred_clog_lt_self Int.zpow_pred_clog_lt_self
@@ -261,18 +257,18 @@ theorem clog_zero_right (b : ℕ) : clog b (0 : R) = 0 :=
 
 @[simp]
 theorem clog_one_right (b : ℕ) : clog b (1 : R) = 0 := by
-  rw [clog_of_one_le_right _ le_rfl, Nat.ceil_one, Nat.clog_one_right, Int.ofNat_zero]
+  rw [clog_of_one_le_right _ le_rfl]; rw [Nat.ceil_one]; rw [Nat.clog_one_right]; rw [Int.ofNat_zero]
 #align int.clog_one_right Int.clog_one_right
 
 -- Porting note: needed to replace b ^ z with (b : R) ^ z in the below
 theorem clog_zpow {b : ℕ} (hb : 1 < b) (z : ℤ) : clog b ((b : R) ^ z : R) = z := by
-  rw [← neg_log_inv_eq_clog, ← zpow_neg, log_zpow hb, neg_neg]
+  rw [← neg_log_inv_eq_clog]; rw [← zpow_neg]; rw [log_zpow hb]; rw [neg_neg]
 #align int.clog_zpow Int.clog_zpow
 
 @[mono]
 theorem clog_mono_right {b : ℕ} {r₁ r₂ : R} (h₀ : 0 < r₁) (h : r₁ ≤ r₂) :
     clog b r₁ ≤ clog b r₂ := by
-  rw [← neg_log_inv_eq_clog, ← neg_log_inv_eq_clog, neg_le_neg_iff]
+  rw [← neg_log_inv_eq_clog]; rw [← neg_log_inv_eq_clog]; rw [neg_le_neg_iff]
   exact log_mono_right (inv_pos.mpr <| h₀.trans_le h) (inv_le_inv_of_le h₀ h)
 #align int.clog_mono_right Int.clog_mono_right
 

@@ -172,7 +172,7 @@ protected theorem map_smul [DecidableEq ι] (m : ∀ i, M₁ i) (i : ι) (c : R)
 theorem map_coord_zero {m : ∀ i, M₁ i} (i : ι) (h : m i = 0) : f m = 0 := by
   classical
     have : (0 : R) • (0 : M₁ i) = 0 := by simp
-    rw [← update_eq_self i m, h, ← this, f.map_smul, zero_smul R (M := M₂)]
+    rw [← update_eq_self i m]; rw [h]; rw [← this]; rw [f.map_smul]; rw [zero_smul R (M := M₂)]
 #align multilinear_map.map_coord_zero MultilinearMap.map_coord_zero
 
 @[simp]
@@ -436,7 +436,7 @@ if and only if the multilinear map is the zero map. -/
 theorem comp_linearEquiv_eq_zero_iff (g : MultilinearMap R M₁' M₂) (f : ∀ i, M₁ i ≃ₗ[R] M₁' i) :
     (g.compLinearMap fun i => (f i : M₁ i →ₗ[R] M₁' i)) = 0 ↔ g = 0 := by
   set f' := fun i => (f i : M₁ i →ₗ[R] M₁' i)
-  rw [← zero_compLinearMap f', compLinearMap_inj f' fun i => (f i).surjective]
+  rw [← zero_compLinearMap f']; rw [compLinearMap_inj f' fun i => (f i).surjective]
 #align multilinear_map.comp_linear_equiv_eq_zero_iff MultilinearMap.comp_linearEquiv_eq_zero_iff
 
 end
@@ -466,7 +466,7 @@ theorem map_piecewise_add [DecidableEq ι] (m m' : ∀ i, M₁ i) (t : Finset ι
     · rw [h]
       simp [hit]
     · by_cases h' : j ∈ t <;> simp [h, hit, h']
-  rw [A, f.map_add, B, C, Finset.sum_powerset_insert hit, Hrec, Hrec, add_comm (_ : M₂)]
+  rw [A]; rw [f.map_add]; rw [B]; rw [C]; rw [Finset.sum_powerset_insert hit]; rw [Hrec]; rw [Hrec]; rw [add_comm (_ : M₂)]
   congr 1
   refine Finset.sum_congr rfl fun s hs => ?_
   have : (insert i s).piecewise m m' = s.piecewise m m'' := by
@@ -509,7 +509,7 @@ theorem map_sum_finset_aux [DecidableEq ι] [Fintype ι] {n : ℕ} (h : (∑ i, 
       refine Finset.eq_empty_of_forall_not_mem fun r hr => ?_
       have : r i ∈ A i := mem_piFinset.mp hr i
       simp [hi] at this
-    rw [this, Finset.sum_empty]
+    rw [this]; rw [Finset.sum_empty]
   push_neg at Ai_empty
   -- Otherwise, if all sets are at most singletons, then they are exactly singletons and the result
   -- is again straightforward
@@ -940,7 +940,7 @@ theorem map_piecewise_smul [DecidableEq ι] (c : ι → R) (m : ∀ i, M₁ i) (
     · rw [h]
       simp [j_not_mem_s]
     · simp [h]
-  rw [s.piecewise_insert, f.map_smul, A, Hrec]
+  rw [s.piecewise_insert]; rw [f.map_smul]; rw [A]; rw [Hrec]
   simp [j_not_mem_s, mul_smul]
 #align multilinear_map.map_piecewise_smul MultilinearMap.map_piecewise_smul
 
@@ -1073,11 +1073,11 @@ theorem mkPiRing_eq_iff [Fintype ι] {z₁ z₂ : M₂} :
 #align multilinear_map.mk_pi_ring_eq_iff MultilinearMap.mkPiRing_eq_iff
 
 theorem mkPiRing_zero [Fintype ι] : MultilinearMap.mkPiRing R ι (0 : M₂) = 0 := by
-  ext; rw [mkPiRing_apply, smul_zero, MultilinearMap.zero_apply]
+  ext; rw [mkPiRing_apply]; rw [smul_zero]; rw [MultilinearMap.zero_apply]
 #align multilinear_map.mk_pi_ring_zero MultilinearMap.mkPiRing_zero
 
 theorem mkPiRing_eq_zero_iff [Fintype ι] (z : M₂) : MultilinearMap.mkPiRing R ι z = 0 ↔ z = 0 := by
-  rw [← mkPiRing_zero, mkPiRing_eq_iff]
+  rw [← mkPiRing_zero]; rw [mkPiRing_eq_iff]
 #align multilinear_map.mk_pi_ring_eq_zero_iff MultilinearMap.mkPiRing_eq_zero_iff
 
 end CommSemiring
@@ -1132,13 +1132,13 @@ variable [Semiring R] [∀ i, AddCommGroup (M₁ i)] [AddCommGroup M₂] [∀ i,
 theorem map_neg [DecidableEq ι] (m : ∀ i, M₁ i) (i : ι) (x : M₁ i) :
     f (update m i (-x)) = -f (update m i x) :=
   eq_neg_of_add_eq_zero_left <| by
-    rw [← MultilinearMap.map_add, add_left_neg, f.map_coord_zero i (update_same i 0 m)]
+    rw [← MultilinearMap.map_add]; rw [add_left_neg]; rw [f.map_coord_zero i (update_same i 0 m)]
 #align multilinear_map.map_neg MultilinearMap.map_neg
 
 @[simp]
 theorem map_sub [DecidableEq ι] (m : ∀ i, M₁ i) (i : ι) (x y : M₁ i) :
     f (update m i (x - y)) = f (update m i x) - f (update m i y) := by
-  rw [sub_eq_add_neg, sub_eq_add_neg, MultilinearMap.map_add, map_neg]
+  rw [sub_eq_add_neg]; rw [sub_eq_add_neg]; rw [MultilinearMap.map_add]; rw [map_neg]
 #align multilinear_map.map_sub MultilinearMap.map_sub
 
 end AddCommGroup
@@ -1209,7 +1209,7 @@ def LinearMap.uncurryLeft (f : M 0 →ₗ[R] MultilinearMap R (fun i : Fin n => 
       revert x y
       rw [← succ_pred i h]
       intro x y
-      rw [tail_update_succ, MultilinearMap.map_add, tail_update_succ, tail_update_succ]
+      rw [tail_update_succ]; rw [MultilinearMap.map_add]; rw [tail_update_succ]; rw [tail_update_succ]
   map_smul' := @fun dec m i c x => by
     -- porting note: `clear` not necessary in Lean 3 due to not being in the instance cache
     rw [Subsingleton.elim dec (by clear dec; infer_instance)]; clear dec
@@ -1220,7 +1220,7 @@ def LinearMap.uncurryLeft (f : M 0 →ₗ[R] MultilinearMap R (fun i : Fin n => 
       revert x
       rw [← succ_pred i h]
       intro x
-      rw [tail_update_succ, tail_update_succ, MultilinearMap.map_smul]
+      rw [tail_update_succ]; rw [tail_update_succ]; rw [MultilinearMap.map_smul]
 #align linear_map.uncurry_left LinearMap.uncurryLeft
 
 @[simp]
@@ -1316,8 +1316,7 @@ def MultilinearMap.uncurryRight
       revert x y
       rw [(castSucc_castLT i h).symm]
       intro x y
-      rw [init_update_castSucc, MultilinearMap.map_add, init_update_castSucc,
-        init_update_castSucc, LinearMap.add_apply]
+      rw [init_update_castSucc]; rw [MultilinearMap.map_add]; rw [init_update_castSucc]; rw [init_update_castSucc]; rw [LinearMap.add_apply]
     · revert x y
       rw [eq_last_of_not_lt h]
       intro x y
@@ -1331,8 +1330,7 @@ def MultilinearMap.uncurryRight
       revert x
       rw [(castSucc_castLT i h).symm]
       intro x
-      rw [init_update_castSucc, init_update_castSucc, MultilinearMap.map_smul,
-        LinearMap.smul_apply]
+      rw [init_update_castSucc]; rw [init_update_castSucc]; rw [MultilinearMap.map_smul]; rw [LinearMap.smul_apply]
     · revert x
       rw [eq_last_of_not_lt h]
       intro x
@@ -1359,12 +1357,12 @@ def MultilinearMap.curryRight (f : MultilinearMap R M M₂) :
     rw [Subsingleton.elim dec (by clear dec; infer_instance)]; clear dec
     ext z
     change f (snoc (update m i (x + y)) z) = f (snoc (update m i x) z) + f (snoc (update m i y) z)
-    rw [snoc_update, snoc_update, snoc_update, f.map_add]
+    rw [snoc_update]; rw [snoc_update]; rw [snoc_update]; rw [f.map_add]
   map_smul' := @fun dec m i c x => by
     rw [Subsingleton.elim dec (by clear dec; infer_instance)]; clear dec
     ext z
     change f (snoc (update m i (c • x)) z) = c • f (snoc (update m i x) z)
-    rw [snoc_update, snoc_update, f.map_smul]
+    rw [snoc_update]; rw [snoc_update]; rw [f.map_smul]
 #align multilinear_map.curry_right MultilinearMap.curryRight
 
 @[simp]
@@ -1550,10 +1548,10 @@ theorem curryFinFinset_symm_apply_piecewise_const {k l n : ℕ} {s : Finset (Fin
       f (fun _ => x) fun _ => y := by
   rw [curryFinFinset_symm_apply]; congr
   · ext
-    rw [finSumEquivOfFinset_inl, Finset.piecewise_eq_of_mem]
+    rw [finSumEquivOfFinset_inl]; rw [Finset.piecewise_eq_of_mem]
     apply Finset.orderEmbOfFin_mem
   · ext
-    rw [finSumEquivOfFinset_inr, Finset.piecewise_eq_of_not_mem]
+    rw [finSumEquivOfFinset_inr]; rw [Finset.piecewise_eq_of_not_mem]
     exact Finset.mem_compl.1 (Finset.orderEmbOfFin_mem _ _ _)
 #align multilinear_map.curry_fin_finset_symm_apply_piecewise_const MultilinearMap.curryFinFinset_symm_apply_piecewise_const
 

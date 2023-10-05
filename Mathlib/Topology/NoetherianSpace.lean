@@ -52,8 +52,7 @@ class NoetherianSpace : Prop where
 #align topological_space.noetherian_space TopologicalSpace.NoetherianSpace
 
 theorem noetherianSpace_iff_opens : NoetherianSpace α ↔ ∀ s : Opens α, IsCompact (s : Set α) := by
-  rw [noetherianSpace_iff, CompleteLattice.wellFounded_iff_isSupFiniteCompact,
-    CompleteLattice.isSupFiniteCompact_iff_all_elements_compact]
+  rw [noetherianSpace_iff]; rw [CompleteLattice.wellFounded_iff_isSupFiniteCompact]; rw [CompleteLattice.isSupFiniteCompact_iff_all_elements_compact]
   exact forall_congr' Opens.isCompactElement_iff
 #align topological_space.noetherian_space_iff_opens TopologicalSpace.noetherianSpace_iff_opens
 
@@ -152,7 +151,7 @@ theorem NoetherianSpace.iUnion {ι : Type*} (f : ι → Set α) [Finite ι]
     [hf : ∀ i, NoetherianSpace (f i)] : NoetherianSpace (⋃ i, f i) := by
   simp_rw [noetherianSpace_set_iff] at hf ⊢
   intro t ht
-  rw [← Set.inter_eq_left.mpr ht, Set.inter_iUnion]
+  rw [← Set.inter_eq_left.mpr ht]; rw [Set.inter_iUnion]
   exact isCompact_iUnion fun i => hf i _ (Set.inter_subset_right _ _)
 #align topological_space.noetherian_space.Union TopologicalSpace.NoetherianSpace.iUnion
 
@@ -237,7 +236,7 @@ theorem NoetherianSpace.exists_open_ne_empty_le_irreducibleComponent [Noetherian
         simp only [Set.Finite.mem_toFinset, Set.mem_diff, Set.mem_singleton_iff] at hz
         exact isClosed_of_mem_irreducibleComponents _ hz.1)
       (by
-        rw [Set.Finite.coe_toFinset, Set.sUnion_eq_iUnion]
+        rw [Set.Finite.coe_toFinset]; rw [Set.sUnion_eq_iUnion]
         rw [Set.diff_eq_empty] at r
         exact r)
     simp only [Set.Finite.mem_toFinset, Set.mem_diff, Set.mem_singleton_iff] at hZ'
@@ -248,7 +247,7 @@ theorem NoetherianSpace.exists_open_ne_empty_le_irreducibleComponent [Noetherian
     refine le_antisymm (Set.diff_subset_diff le_top $ subset_refl _) ?_
     rw [← Set.compl_eq_univ_diff]
     refine Set.compl_subset_iff_union.mpr (le_antisymm le_top ?_)
-    rw [Set.union_comm, ← Set.sUnion_eq_iUnion, ← Set.sUnion_insert]
+    rw [Set.union_comm]; rw [← Set.sUnion_eq_iUnion]; rw [← Set.sUnion_insert]
     rintro a -
     by_cases h : a ∈ U
     · exact ⟨U, Set.mem_insert _ _, h⟩

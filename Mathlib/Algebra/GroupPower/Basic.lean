@@ -157,19 +157,19 @@ theorem pow_boole (P : Prop) [Decidable P] (a : M) :
 
 @[to_additive nsmul_left_comm]
 theorem pow_right_comm (a : M) (m n : ℕ) : (a ^ m) ^ n = (a ^ n) ^ m := by
-  rw [← pow_mul, Nat.mul_comm, pow_mul]
+  rw [← pow_mul]; rw [Nat.mul_comm]; rw [pow_mul]
 #align pow_right_comm pow_right_comm
 #align nsmul_left_comm nsmul_left_comm
 
 @[to_additive nsmul_add_sub_nsmul]
 theorem pow_mul_pow_sub (a : M) {m n : ℕ} (h : m ≤ n) : a ^ m * a ^ (n - m) = a ^ n := by
-  rw [← pow_add, Nat.add_comm, Nat.sub_add_cancel h]
+  rw [← pow_add]; rw [Nat.add_comm]; rw [Nat.sub_add_cancel h]
 #align pow_mul_pow_sub pow_mul_pow_sub
 #align nsmul_add_sub_nsmul nsmul_add_sub_nsmul
 
 @[to_additive sub_nsmul_nsmul_add]
 theorem pow_sub_mul_pow (a : M) {m n : ℕ} (h : m ≤ n) : a ^ (n - m) * a ^ m = a ^ n := by
-  rw [← pow_add, Nat.sub_add_cancel h]
+  rw [← pow_add]; rw [Nat.sub_add_cancel h]
 #align pow_sub_mul_pow pow_sub_mul_pow
 #align sub_nsmul_nsmul_add sub_nsmul_nsmul_add
 
@@ -179,7 +179,7 @@ theorem pow_eq_pow_mod {M : Type*} [Monoid M] {x : M} (m : ℕ) {n : ℕ} (h : x
     x ^ m = x ^ (m % n) := by
   have t : x ^ m = x ^ (n * (m / n) + m % n) :=
     congr_arg (fun a => x ^ a) ((Nat.add_comm _ _).trans (Nat.mod_add_div _ _)).symm
-  rw [t, pow_add, pow_mul, h, one_pow, one_mul]
+  rw [t]; rw [pow_add]; rw [pow_mul]; rw [h]; rw [one_pow]; rw [one_mul]
 #align pow_eq_pow_mod pow_eq_pow_mod
 #align nsmul_eq_mod_nsmul nsmul_eq_mod_nsmul
 
@@ -201,19 +201,19 @@ theorem pow_bit0 (a : M) (n : ℕ) : a ^ bit0 n = a ^ n * a ^ n :=
 
 @[to_additive bit1_nsmul]
 theorem pow_bit1 (a : M) (n : ℕ) : a ^ bit1 n = a ^ n * a ^ n * a := by
-  rw [bit1, pow_succ', pow_bit0]
+  rw [bit1]; rw [pow_succ']; rw [pow_bit0]
 #align pow_bit1 pow_bit1
 #align bit1_nsmul bit1_nsmul
 
 @[to_additive bit0_nsmul']
 theorem pow_bit0' (a : M) (n : ℕ) : a ^ bit0 n = (a * a) ^ n := by
-  rw [pow_bit0, (Commute.refl a).mul_pow]
+  rw [pow_bit0]; rw [(Commute.refl a).mul_pow]
 #align pow_bit0' pow_bit0'
 #align bit0_nsmul' bit0_nsmul'
 
 @[to_additive bit1_nsmul']
 theorem pow_bit1' (a : M) (n : ℕ) : a ^ bit1 n = (a * a) ^ n * a := by
-  rw [bit1, pow_succ', pow_bit0']
+  rw [bit1]; rw [pow_succ']; rw [pow_bit0']
 #align pow_bit1' pow_bit1'
 #align bit1_nsmul' bit1_nsmul'
 
@@ -335,7 +335,7 @@ theorem zpow_neg (a : α) : ∀ n : ℤ, a ^ (-n) = (a ^ n)⁻¹
     change a ^ (0 : ℤ) = (a ^ (0 : ℤ))⁻¹
     simp
   | Int.negSucc n => by
-    rw [zpow_negSucc, inv_inv, ← zpow_ofNat]
+    rw [zpow_negSucc]; rw [inv_inv]; rw [← zpow_ofNat]
     rfl
 #align zpow_neg zpow_neg
 #align neg_zsmul neg_zsmul
@@ -433,7 +433,7 @@ theorem pow_inv_comm (a : G) (m n : ℕ) : a⁻¹ ^ m * a ^ n = a ^ n * a⁻¹ ^
 
 @[to_additive sub_nsmul_neg]
 theorem inv_pow_sub (a : G) {m n : ℕ} (h : n ≤ m) : a⁻¹ ^ (m - n) = (a ^ m)⁻¹ * a ^ n := by
-  rw [pow_sub a⁻¹ h, inv_pow, inv_pow, inv_inv]
+  rw [pow_sub a⁻¹ h]; rw [inv_pow]; rw [inv_pow]; rw [inv_inv]
 #align inv_pow_sub inv_pow_sub
 #align sub_nsmul_neg sub_nsmul_neg
 

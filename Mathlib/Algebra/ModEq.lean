@@ -291,7 +291,7 @@ theorem modEq_iff_eq_add_zsmul : a ≡ b [PMOD p] ↔ ∃ z : ℤ, b = a + z •
 #align add_comm_group.modeq_iff_eq_add_zsmul AddCommGroup.modEq_iff_eq_add_zsmul
 
 theorem not_modEq_iff_ne_add_zsmul : ¬a ≡ b [PMOD p] ↔ ∀ z : ℤ, b ≠ a + z • p := by
-  rw [modEq_iff_eq_add_zsmul, not_exists]
+  rw [modEq_iff_eq_add_zsmul]; rw [not_exists]
 #align add_comm_group.not_modeq_iff_ne_add_zsmul AddCommGroup.not_modEq_iff_ne_add_zsmul
 
 theorem modEq_iff_eq_mod_zmultiples : a ≡ b [PMOD p] ↔ (b : α ⧸ AddSubgroup.zmultiples p) = a := by

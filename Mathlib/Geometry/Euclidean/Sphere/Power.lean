@@ -42,7 +42,7 @@ theorem mul_norm_eq_abs_sub_sq_norm {x y z : V} (h₁ : ∃ k : ℝ, k ≠ 1 ∧
   obtain ⟨k, hk_ne_one, hk⟩ := h₁
   let r := (k - 1)⁻¹ * (k + 1)
   have hxy : x = r • y := by
-    rw [← smul_smul, eq_inv_smul_iff₀ (sub_ne_zero.mpr hk_ne_one), ← sub_eq_zero]
+    rw [← smul_smul]; rw [eq_inv_smul_iff₀ (sub_ne_zero.mpr hk_ne_one)]; rw [← sub_eq_zero]
     calc
       (k - 1) • x - (k + 1) • y = k • x - x - (k • y + y) := by
         simp_rw [sub_smul, add_smul, one_smul]
@@ -88,11 +88,11 @@ theorem mul_dist_eq_abs_sub_sq_dist {a b p q : P} (hp : ∃ k : ℝ, k ≠ 1 ∧
   have h2 := vsub_sub_vsub_cancel_left p q m
   have h3 := vsub_sub_vsub_cancel_left a q m
   have h : ∀ r, b -ᵥ r = m -ᵥ r + (m -ᵥ a) := fun r => by
-    rw [midpoint_vsub_left, ← right_vsub_midpoint, add_comm, vsub_add_vsub_cancel]
+    rw [midpoint_vsub_left]; rw [← right_vsub_midpoint]; rw [add_comm]; rw [vsub_add_vsub_cancel]
   iterate 4 rw [dist_eq_norm_vsub V]
-  rw [← h1, ← h2, h, h]
-  rw [← h1, h] at hp
-  rw [dist_eq_norm_vsub V a q, dist_eq_norm_vsub V b q, ← h3, h] at hq
+  rw [← h1]; rw [← h2]; rw [h]; rw [h]
+  rw [← h1] at hp; rw [h] at hp
+  rw [dist_eq_norm_vsub V a q] at hq; rw [dist_eq_norm_vsub V b q] at hq; rw [← h3] at hq; rw [h] at hq
   exact mul_norm_eq_abs_sub_sq_norm hp hq
 #align euclidean_geometry.mul_dist_eq_abs_sub_sq_dist EuclideanGeometry.mul_dist_eq_abs_sub_sq_dist
 
@@ -106,7 +106,7 @@ theorem mul_dist_eq_mul_dist_of_cospherical {a b c d p : P} (h : Cospherical ({a
   obtain ⟨ha, hb, hc, hd⟩ := h' a (by simp), h' b (by simp), h' c (by simp), h' d (by simp)
   · rw [← hd] at hc
     rw [← hb] at ha
-    rw [mul_dist_eq_abs_sub_sq_dist hapb ha, hb, mul_dist_eq_abs_sub_sq_dist hcpd hc, hd]
+    rw [mul_dist_eq_abs_sub_sq_dist hapb ha]; rw [hb]; rw [mul_dist_eq_abs_sub_sq_dist hcpd hc]; rw [hd]
 #align euclidean_geometry.mul_dist_eq_mul_dist_of_cospherical EuclideanGeometry.mul_dist_eq_mul_dist_of_cospherical
 
 /-- **Intersecting Chords Theorem**. -/

@@ -42,7 +42,7 @@ theorem tendsto_rpow_atTop {y : ℝ} (hy : 0 < y) : Tendsto (fun x : ℝ => x ^ 
       (by
         convert rpow_le_rpow (rpow_nonneg_of_nonneg (le_max_right b 0) (1 / y)) hx (le_of_lt hy)
           using 1
-        rw [← rpow_mul (le_max_right b 0), (eq_div_iff (ne_of_gt hy)).mp rfl, Real.rpow_one])
+        rw [← rpow_mul (le_max_right b 0)]; rw [(eq_div_iff (ne_of_gt hy)).mp rfl]; rw [Real.rpow_one])
 #align tendsto_rpow_at_top tendsto_rpow_atTop
 
 /-- The function `x ^ (-y)` tends to `0` at `+∞` for any positive real `y`. -/
@@ -58,12 +58,12 @@ lemma tendsto_rpow_atTop_of_base_lt_one (b : ℝ) (hb₀ : -1 < b) (hb₁ : b < 
   rcases lt_trichotomy b 0 with hb|rfl|hb
   case inl =>   -- b < 0
     simp_rw [Real.rpow_def_of_nonpos hb.le, hb.ne, ite_false]
-    rw [←isLittleO_const_iff (c := (1:ℝ)) one_ne_zero, (one_mul (1 : ℝ)).symm]
+    rw [←isLittleO_const_iff (c := (1:ℝ)) one_ne_zero]; rw [(one_mul (1 : ℝ)).symm]
     refine IsLittleO.mul_isBigO ?exp ?cos
     case exp =>
       rw [isLittleO_const_iff one_ne_zero]
       refine tendsto_exp_atBot.comp <| (tendsto_const_mul_atBot_of_neg ?_).mpr tendsto_id
-      rw [←log_neg_eq_log, log_neg_iff (by linarith)]
+      rw [←log_neg_eq_log]; rw [log_neg_iff (by linarith)]
       linarith
     case cos =>
       rw [isBigO_iff]
@@ -114,7 +114,7 @@ theorem tendsto_rpow_div_mul_add (a b c : ℝ) (hb : 0 ≠ b) :
   apply eventuallyEq_of_mem (Ioi_mem_atTop (0 : ℝ))
   intro x hx
   simp only [Set.mem_Ioi, Function.comp_apply] at hx ⊢
-  rw [exp_log hx, ← exp_log (rpow_pos_of_pos hx (a / (b * x + c))), log_rpow hx (a / (b * x + c))]
+  rw [exp_log hx]; rw [← exp_log (rpow_pos_of_pos hx (a / (b * x + c)))]; rw [log_rpow hx (a / (b * x + c))]
   field_simp
 #align tendsto_rpow_div_mul_add tendsto_rpow_div_mul_add
 
@@ -139,7 +139,7 @@ theorem tendsto_exp_div_rpow_atTop (s : ℝ) : Tendsto (fun x : ℝ => exp x / x
   cases' archimedean_iff_nat_lt.1 Real.instArchimedean s with n hn
   refine' tendsto_atTop_mono' _ _ (tendsto_exp_div_pow_atTop n)
   filter_upwards [eventually_gt_atTop (0 : ℝ), eventually_ge_atTop (1 : ℝ)]with x hx₀ hx₁
-  rw [div_le_div_left (exp_pos _) (pow_pos hx₀ _) (rpow_pos_of_pos hx₀ _), ← Real.rpow_nat_cast]
+  rw [div_le_div_left (exp_pos _) (pow_pos hx₀ _) (rpow_pos_of_pos hx₀ _)]; rw [← Real.rpow_nat_cast]
   exact rpow_le_rpow_of_exponent_le hx₁ hn.le
 #align tendsto_exp_div_rpow_at_top tendsto_exp_div_rpow_atTop
 
@@ -324,7 +324,7 @@ theorem isLittleO_exp_neg_mul_rpow_atTop {a : ℝ} (ha : 0 < a) (b : ℝ) :
   · refine' (tendsto_exp_mul_div_rpow_atTop (-b) a ha).inv_tendsto_atTop.congr' _
     refine' (eventually_ge_atTop 0).mp (eventually_of_forall fun t ht => _)
     dsimp only
-    rw [Pi.inv_apply, inv_div, ← inv_div_inv, neg_mul, Real.exp_neg, rpow_neg ht, inv_inv]
+    rw [Pi.inv_apply]; rw [inv_div]; rw [← inv_div_inv]; rw [neg_mul]; rw [Real.exp_neg]; rw [rpow_neg ht]; rw [inv_inv]
 #align is_o_exp_neg_mul_rpow_at_top isLittleO_exp_neg_mul_rpow_atTop
 
 theorem isLittleO_log_rpow_atTop {r : ℝ} (hr : 0 < r) : log =o[atTop] fun x => x ^ r :=
@@ -360,7 +360,7 @@ theorem isLittleO_abs_log_rpow_rpow_nhds_zero {s : ℝ} (r : ℝ) (hs : s < 0) :
     (mem_of_superset (Icc_mem_nhdsWithin_Ioi <| Set.left_mem_Ico.2 one_pos) fun x hx => by
       simp [abs_of_nonpos, log_nonpos hx.1 hx.2])
     (eventually_mem_nhdsWithin.mono fun x hx => by
-      rw [Function.comp_apply, inv_rpow hx.out.le, rpow_neg hx.out.le, inv_inv])
+      rw [Function.comp_apply]; rw [inv_rpow hx.out.le]; rw [rpow_neg hx.out.le]; rw [inv_inv])
 #align is_o_abs_log_rpow_rpow_nhds_zero isLittleO_abs_log_rpow_rpow_nhds_zero
 
 theorem isLittleO_log_rpow_nhds_zero {r : ℝ} (hr : r < 0) : log =o[𝓝[>] 0] fun x => x ^ r :=

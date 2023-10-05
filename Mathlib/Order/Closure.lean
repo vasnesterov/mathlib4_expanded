@@ -201,7 +201,7 @@ def toClosed (x : α) : c.closed :=
 
 @[simp]
 theorem closure_le_closed_iff_le (x : α) {y : α} (hy : c.closed y) : c x ≤ y ↔ x ≤ y := by
-  rw [← c.closure_eq_self_of_mem_closed hy, ← le_closure_iff]
+  rw [← c.closure_eq_self_of_mem_closed hy]; rw [← le_closure_iff]
 #align closure_operator.closure_le_closed_iff_le ClosureOperator.closure_le_closed_iff_le
 
 /-- A closure operator is equal to the closure operator obtained by feeding `c.closed` into the
@@ -261,11 +261,11 @@ theorem closure_sup_closure_left (x y : α) : c (c x ⊔ y) = c (x ⊔ y) :=
 #align closure_operator.closure_sup_closure_left ClosureOperator.closure_sup_closure_left
 
 theorem closure_sup_closure_right (x y : α) : c (x ⊔ c y) = c (x ⊔ y) := by
-  rw [sup_comm, closure_sup_closure_left, sup_comm (a := x)]
+  rw [sup_comm]; rw [closure_sup_closure_left]; rw [sup_comm (a := x)]
 #align closure_operator.closure_sup_closure_right ClosureOperator.closure_sup_closure_right
 
 theorem closure_sup_closure (x y : α) : c (c x ⊔ c y) = c (x ⊔ y) := by
-  rw [closure_sup_closure_left, closure_sup_closure_right]
+  rw [closure_sup_closure_left]; rw [closure_sup_closure_right]
 #align closure_operator.closure_sup_closure ClosureOperator.closure_sup_closure
 
 end SemilatticeSup
@@ -513,7 +513,7 @@ theorem closure_union_closure_right (x y : α) : l (x ∪ l y) = l (x ∪ y) :=
 #align lower_adjoint.closure_union_closure_right LowerAdjoint.closure_union_closure_right
 
 theorem closure_union_closure (x y : α) : l (l x ∪ l y) = l (x ∪ y) := by
-  rw [closure_union_closure_right, closure_union_closure_left]
+  rw [closure_union_closure_right]; rw [closure_union_closure_left]
 #align lower_adjoint.closure_union_closure LowerAdjoint.closure_union_closure
 
 @[simp]

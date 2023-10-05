@@ -377,7 +377,7 @@ theorem Filter.EventuallyEq.lineDerivWithin_eq_nhds (h : f₁ =ᶠ[𝓝 x] f) :
 
 theorem Filter.EventuallyEq.lineDeriv_eq (h : f₁ =ᶠ[𝓝 x] f) :
     lineDeriv 𝕜 f₁ x v = lineDeriv 𝕜 f x v := by
-  rw [← lineDerivWithin_univ, ← lineDerivWithin_univ, h.lineDerivWithin_eq_nhds]
+  rw [← lineDerivWithin_univ]; rw [← lineDerivWithin_univ]; rw [h.lineDerivWithin_eq_nhds]
 
 /-- Converse to the mean value inequality: if `f` is line differentiable at `x₀` and `C`-lipschitz
 on a neighborhood of `x₀` then its line derivative at `x₀` in the direction `v` has norm
@@ -540,6 +540,6 @@ theorem lineDeriv_smul {c : 𝕜} : lineDeriv 𝕜 f x (c • v) = c • lineDer
     simp [lineDeriv_zero_of_not_lineDifferentiableAt, H, H']
 
 theorem lineDeriv_neg : lineDeriv 𝕜 f x (-v) = - lineDeriv 𝕜 f x v := by
-  rw [← neg_one_smul (R := 𝕜) v, lineDeriv_smul, neg_one_smul]
+  rw [← neg_one_smul (R := 𝕜) v]; rw [lineDeriv_smul]; rw [neg_one_smul]
 
 end SMul

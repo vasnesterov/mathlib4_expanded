@@ -1109,7 +1109,7 @@ theorem not_none_lt (a : WithTop α) : ¬@LT.lt (WithTop α) _ none a := by
 #align with_top.not_none_lt WithTop.not_none_lt
 
 theorem lt_iff_exists_coe {a b : WithTop α} : a < b ↔ ∃ p : α, a = p ∧ ↑p < b := by
-  rw [← toDual_lt_toDual_iff, WithBot.lt_iff_exists_coe, OrderDual.exists]
+  rw [← toDual_lt_toDual_iff]; rw [WithBot.lt_iff_exists_coe]; rw [OrderDual.exists]
   exact exists_congr fun _ => and_congr_left' Iff.rfl
 #align with_top.lt_iff_exists_coe WithTop.lt_iff_exists_coe
 

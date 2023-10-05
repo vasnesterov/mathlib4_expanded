@@ -102,12 +102,12 @@ theorem trop_sInf_image [ConditionallyCompleteLinearOrder R] (s : Finset S) (f :
     trop (sInf (f '' s)) = ∑ i in s, trop (f i) := by
   rcases s.eq_empty_or_nonempty with (rfl | h)
   · simp only [Set.image_empty, coe_empty, sum_empty, WithTop.sInf_empty, trop_top]
-  rw [← inf'_eq_csInf_image _ h, inf'_eq_inf, s.trop_inf]
+  rw [← inf'_eq_csInf_image _ h]; rw [inf'_eq_inf]; rw [s.trop_inf]
 #align trop_Inf_image trop_sInf_image
 
 theorem trop_iInf [ConditionallyCompleteLinearOrder R] [Fintype S] (f : S → WithTop R) :
     trop (⨅ i : S, f i) = ∑ i : S, trop (f i) := by
-  rw [iInf, ← Set.image_univ, ← coe_univ, trop_sInf_image]
+  rw [iInf]; rw [← Set.image_univ]; rw [← coe_univ]; rw [trop_sInf_image]
 #align trop_infi trop_iInf
 
 theorem Multiset.untrop_sum [LinearOrder R] [OrderTop R] (s : Multiset (Tropical R)) :
@@ -134,7 +134,7 @@ theorem untrop_sum_eq_sInf_image [ConditionallyCompleteLinearOrder R] (s : Finse
 
 theorem untrop_sum [ConditionallyCompleteLinearOrder R] [Fintype S] (f : S → Tropical (WithTop R)) :
     untrop (∑ i : S, f i) = ⨅ i : S, untrop (f i) := by
-  rw [iInf,← Set.image_univ,← coe_univ, untrop_sum_eq_sInf_image]
+  rw [iInf]; rw [← Set.image_univ]; rw [← coe_univ]; rw [untrop_sum_eq_sInf_image]
   rfl
 #align untrop_sum untrop_sum
 

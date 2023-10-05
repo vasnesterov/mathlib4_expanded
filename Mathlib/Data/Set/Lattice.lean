@@ -218,14 +218,13 @@ lemma kernImage_eq_compl {s : Set α} : kernImage f s = (f '' sᶜ)ᶜ :=
     (fun t ↦ compl_compl (f ⁻¹' t) ▸ Set.preimage_compl)
 
 lemma kernImage_compl {s : Set α} : kernImage f (sᶜ) = (f '' s)ᶜ := by
-  rw [kernImage_eq_compl, compl_compl]
+  rw [kernImage_eq_compl]; rw [compl_compl]
 
 lemma kernImage_empty : kernImage f ∅ = (range f)ᶜ := by
-  rw [kernImage_eq_compl, compl_empty, image_univ]
+  rw [kernImage_eq_compl]; rw [compl_empty]; rw [image_univ]
 
 lemma kernImage_preimage_eq_iff {s : Set β} : kernImage f (f ⁻¹' s) = s ↔ (range f)ᶜ ⊆ s := by
-  rw [kernImage_eq_compl, ← preimage_compl, compl_eq_comm, eq_comm, image_preimage_eq_iff,
-      compl_subset_comm]
+  rw [kernImage_eq_compl]; rw [← preimage_compl]; rw [compl_eq_comm]; rw [eq_comm]; rw [image_preimage_eq_iff]; rw [compl_subset_comm]
 
 lemma compl_range_subset_kernImage {s : Set α} : (range f)ᶜ ⊆ kernImage f s := by
   rw [← kernImage_empty]
@@ -233,12 +232,11 @@ lemma compl_range_subset_kernImage {s : Set α} : (range f)ᶜ ⊆ kernImage f s
 
 lemma kernImage_union_preimage {s : Set α} {t : Set β} :
     kernImage f (s ∪ f ⁻¹' t) = kernImage f s ∪ t := by
-  rw [kernImage_eq_compl, kernImage_eq_compl, compl_union, ← preimage_compl, image_inter_preimage,
-      compl_inter, compl_compl]
+  rw [kernImage_eq_compl]; rw [kernImage_eq_compl]; rw [compl_union]; rw [← preimage_compl]; rw [image_inter_preimage]; rw [compl_inter]; rw [compl_compl]
 
 lemma kernImage_preimage_union {s : Set α} {t : Set β} :
     kernImage f (f ⁻¹' t ∪ s) = t ∪ kernImage f s := by
-  rw [union_comm, kernImage_union_preimage, union_comm]
+  rw [union_comm]; rw [kernImage_union_preimage]; rw [union_comm]
 
 end kernImage
 
@@ -298,7 +296,7 @@ theorem iInf_eq_dif {p : Prop} [Decidable p] (s : p → Set α) :
 theorem exists_set_mem_of_union_eq_top {ι : Type*} (t : Set ι) (s : ι → Set β)
     (w : ⋃ i ∈ t, s i = ⊤) (x : β) : ∃ i ∈ t, x ∈ s i := by
   have p : x ∈ ⊤ := Set.mem_univ x
-  rw [← w, Set.mem_iUnion] at p
+  rw [← w] at p; rw [Set.mem_iUnion] at p
   simpa using p
 #align set.exists_set_mem_of_union_eq_top Set.exists_set_mem_of_union_eq_top
 
@@ -618,11 +616,11 @@ theorem iUnion_diff (s : Set β) (t : ι → Set β) : (⋃ i, t i) \ s = ⋃ i,
 #align set.Union_diff Set.iUnion_diff
 
 theorem diff_iUnion [Nonempty ι] (s : Set β) (t : ι → Set β) : (s \ ⋃ i, t i) = ⋂ i, s \ t i := by
-  rw [diff_eq, compl_iUnion, inter_iInter]; rfl
+  rw [diff_eq]; rw [compl_iUnion]; rw [inter_iInter]; rfl
 #align set.diff_Union Set.diff_iUnion
 
 theorem diff_iInter (s : Set β) (t : ι → Set β) : (s \ ⋂ i, t i) = ⋃ i, s \ t i := by
-  rw [diff_eq, compl_iInter, inter_iUnion]; rfl
+  rw [diff_eq]; rw [compl_iInter]; rw [inter_iUnion]; rfl
 #align set.diff_Inter Set.diff_iInter
 
 theorem directed_on_iUnion {r} {f : ι → Set α} (hd : Directed (· ⊆ ·) f)
@@ -980,7 +978,7 @@ theorem biUnion_self (s : Set α) : ⋃ x ∈ s, s = s :=
 
 @[simp]
 theorem iUnion_nonempty_self (s : Set α) : ⋃ _ : s.Nonempty, s = s := by
-  rw [iUnion_nonempty_index, biUnion_self]
+  rw [iUnion_nonempty_index]; rw [biUnion_self]
 #align set.Union_nonempty_self Set.iUnion_nonempty_self
 
 theorem biInter_singleton (a : α) (s : α → Set β) : ⋂ x ∈ ({a} : Set α), s x = s a :=
@@ -997,7 +995,7 @@ theorem biInter_insert (a : α) (s : Set α) (t : α → Set β) :
 #align set.bInter_insert Set.biInter_insert
 
 theorem biInter_pair (a b : α) (s : α → Set β) : ⋂ x ∈ ({a, b} : Set α), s x = s a ∩ s b := by
-  rw [biInter_insert, biInter_singleton]
+  rw [biInter_insert]; rw [biInter_singleton]
 #align set.bInter_pair Set.biInter_pair
 
 theorem biInter_inter {ι α : Type*} {s : Set ι} (hs : s.Nonempty) (f : ι → Set α) (t : Set α) :
@@ -1008,7 +1006,7 @@ theorem biInter_inter {ι α : Type*} {s : Set ι} (hs : s.Nonempty) (f : ι →
 
 theorem inter_biInter {ι α : Type*} {s : Set ι} (hs : s.Nonempty) (f : ι → Set α) (t : Set α) :
     ⋂ i ∈ s, t ∩ f i = t ∩ ⋂ i ∈ s, f i := by
-  rw [inter_comm, ← biInter_inter hs]
+  rw [inter_comm]; rw [← biInter_inter hs]
   simp [inter_comm]
 #align set.inter_bInter Set.inter_biInter
 
@@ -1308,17 +1306,17 @@ theorem compl_sUnion (S : Set (Set α)) : (⋃₀S)ᶜ = ⋂₀ (compl '' S) :=
 
 -- classical
 theorem sUnion_eq_compl_sInter_compl (S : Set (Set α)) : ⋃₀S = (⋂₀ (compl '' S))ᶜ := by
-  rw [← compl_compl (⋃₀S), compl_sUnion]
+  rw [← compl_compl (⋃₀S)]; rw [compl_sUnion]
 #align set.sUnion_eq_compl_sInter_compl Set.sUnion_eq_compl_sInter_compl
 
 -- classical
 theorem compl_sInter (S : Set (Set α)) : (⋂₀ S)ᶜ = ⋃₀(compl '' S) := by
-  rw [sUnion_eq_compl_sInter_compl, compl_compl_image]
+  rw [sUnion_eq_compl_sInter_compl]; rw [compl_compl_image]
 #align set.compl_sInter Set.compl_sInter
 
 -- classical
 theorem sInter_eq_compl_sUnion_compl (S : Set (Set α)) : ⋂₀ S = (⋃₀(compl '' S))ᶜ := by
-  rw [← compl_compl (⋂₀ S), compl_sInter]
+  rw [← compl_compl (⋂₀ S)]; rw [compl_sInter]
 #align set.sInter_eq_compl_sUnion_compl Set.sInter_eq_compl_sUnion_compl
 
 theorem inter_empty_of_inter_sUnion_empty {s t : Set α} {S : Set (Set α)} (hs : t ∈ S)
@@ -1377,11 +1375,11 @@ theorem iUnion_of_singleton_coe (s : Set α) : ⋃ i : s, ({(i : α)} : Set α) 
 #align set.Union_of_singleton_coe Set.iUnion_of_singleton_coe
 
 theorem sUnion_eq_biUnion {s : Set (Set α)} : ⋃₀s = ⋃ (i : Set α) (_ : i ∈ s), i := by
-  rw [← sUnion_image, image_id']
+  rw [← sUnion_image]; rw [image_id']
 #align set.sUnion_eq_bUnion Set.sUnion_eq_biUnion
 
 theorem sInter_eq_biInter {s : Set (Set α)} : ⋂₀ s = ⋂ (i : Set α) (_ : i ∈ s), i := by
-  rw [← sInter_image, image_id']
+  rw [← sInter_image]; rw [image_id']
 #align set.sInter_eq_bInter Set.sInter_eq_biInter
 
 theorem sUnion_eq_iUnion {s : Set (Set α)} : ⋃₀s = ⋃ i : s, i := by
@@ -1452,7 +1450,7 @@ theorem iUnion_range_eq_sUnion {α β : Type*} (C : Set (Set α)) {f : ∀ s : C
 
 theorem iUnion_range_eq_iUnion (C : ι → Set α) {f : ∀ x : ι, β → C x}
     (hf : ∀ x : ι, Surjective (f x)) : ⋃ y : β, range (fun x : ι => (f x y).val) = ⋃ x, C x := by
-  ext x; rw [mem_iUnion, mem_iUnion]; constructor
+  ext x; rw [mem_iUnion]; rw [mem_iUnion]; constructor
   · rintro ⟨y, i, rfl⟩
     exact ⟨i, (f i y).2⟩
   · rintro ⟨i, hx⟩
@@ -1582,8 +1580,7 @@ theorem surjective_iff_surjective_of_iUnion_eq_univ :
 
 theorem bijective_iff_bijective_of_iUnion_eq_univ :
     Bijective f ↔ ∀ i, Bijective ((U i).restrictPreimage f) := by
-  rw [Bijective, injective_iff_injective_of_iUnion_eq_univ hU,
-    surjective_iff_surjective_of_iUnion_eq_univ hU]
+  rw [Bijective]; rw [injective_iff_injective_of_iUnion_eq_univ hU]; rw [surjective_iff_surjective_of_iUnion_eq_univ hU]
   simp [Bijective, forall_and]
 #align set.bijective_iff_bijective_of_Union_eq_univ Set.bijective_iff_bijective_of_iUnion_eq_univ
 
@@ -1674,7 +1671,7 @@ theorem surjOn_iUnion₂_iUnion₂ {s : ∀ i, κ i → Set α} {t : ∀ i, κ i
 theorem surjOn_iInter [Nonempty ι] {s : ι → Set α} {t : Set β} {f : α → β}
     (H : ∀ i, SurjOn f (s i) t) (Hinj : InjOn f (⋃ i, s i)) : SurjOn f (⋂ i, s i) t := by
   intro y hy
-  rw [Hinj.image_iInter_eq, mem_iInter]
+  rw [Hinj.image_iInter_eq]; rw [mem_iInter]
   exact fun i => H i hy
 #align set.surj_on_Inter Set.surjOn_iInter
 
@@ -1790,7 +1787,7 @@ theorem preimage_iUnion₂ {f : α → β} {s : ∀ i, κ i → Set β} :
 
 @[simp]
 theorem preimage_sUnion {f : α → β} {s : Set (Set β)} : f ⁻¹' ⋃₀s = ⋃ t ∈ s, f ⁻¹' t := by
-  rw [sUnion_eq_biUnion, preimage_iUnion₂]
+  rw [sUnion_eq_biUnion]; rw [preimage_iUnion₂]
 #align set.preimage_sUnion Set.preimage_sUnion
 
 theorem preimage_iInter {f : α → β} {s : ι → Set β} : (f ⁻¹' ⋂ i, s i) = ⋂ i, f ⁻¹' s i := by
@@ -1805,16 +1802,16 @@ theorem preimage_iInter₂ {f : α → β} {s : ∀ i, κ i → Set β} :
 
 @[simp]
 theorem preimage_sInter {f : α → β} {s : Set (Set β)} : f ⁻¹' ⋂₀ s = ⋂ t ∈ s, f ⁻¹' t := by
-  rw [sInter_eq_biInter, preimage_iInter₂]
+  rw [sInter_eq_biInter]; rw [preimage_iInter₂]
 #align set.preimage_sInter Set.preimage_sInter
 
 @[simp]
 theorem biUnion_preimage_singleton (f : α → β) (s : Set β) : ⋃ y ∈ s, f ⁻¹' {y} = f ⁻¹' s := by
-  rw [← preimage_iUnion₂, biUnion_of_singleton]
+  rw [← preimage_iUnion₂]; rw [biUnion_of_singleton]
 #align set.bUnion_preimage_singleton Set.biUnion_preimage_singleton
 
 theorem biUnion_range_preimage_singleton (f : α → β) : ⋃ y ∈ range f, f ⁻¹' {y} = univ := by
-  rw [biUnion_preimage_singleton, preimage_range]
+  rw [biUnion_preimage_singleton]; rw [preimage_range]
 #align set.bUnion_range_preimage_singleton Set.biUnion_range_preimage_singleton
 
 end Preimage
@@ -1907,7 +1904,7 @@ theorem sInter_prod_sInter {S : Set (Set α)} {T : Set (Set β)} (hS : S.Nonempt
 /- ./././Mathport/Syntax/Translate/Expr.lean:177:8: unsupported: ambiguous notation -/
 theorem sInter_prod {S : Set (Set α)} (hS : S.Nonempty) (t : Set β) :
     ⋂₀ S ×ˢ t = ⋂ s ∈ S, s ×ˢ t := by
-  rw [← sInter_singleton t, sInter_prod_sInter hS (singleton_nonempty t), sInter_singleton]
+  rw [← sInter_singleton t]; rw [sInter_prod_sInter hS (singleton_nonempty t)]; rw [sInter_singleton]
   simp_rw [prod_singleton, mem_image, iInter_exists, biInter_and', iInter_iInter_eq_right]
 #align set.sInter_prod Set.sInter_prod
 
@@ -1915,7 +1912,7 @@ theorem sInter_prod {S : Set (Set α)} (hS : S.Nonempty) (t : Set β) :
 /- ./././Mathport/Syntax/Translate/Expr.lean:177:8: unsupported: ambiguous notation -/
 theorem prod_sInter {T : Set (Set β)} (hT : T.Nonempty) (s : Set α) :
     s ×ˢ ⋂₀ T = ⋂ t ∈ T, s ×ˢ t := by
-  rw [← sInter_singleton s, sInter_prod_sInter (singleton_nonempty s) hT, sInter_singleton]
+  rw [← sInter_singleton s]; rw [sInter_prod_sInter (singleton_nonempty s) hT]; rw [sInter_singleton]
   simp_rw [singleton_prod, mem_image, iInter_exists, biInter_and', iInter_iInter_eq_right]
 #align set.prod_sInter Set.prod_sInter
 
@@ -1995,12 +1992,12 @@ theorem image2_eq_iUnion (s : Set α) (t : Set β) : image2 f s t = ⋃ (i ∈ s
 
 /- ./././Mathport/Syntax/Translate/Expr.lean:177:8: unsupported: ambiguous notation -/
 theorem prod_eq_biUnion_left : s ×ˢ t = ⋃ a ∈ s, (fun b => (a, b)) '' t := by
-  rw [iUnion_image_left, image2_mk_eq_prod]
+  rw [iUnion_image_left]; rw [image2_mk_eq_prod]
 #align set.prod_eq_bUnion_left Set.prod_eq_biUnion_left
 
 /- ./././Mathport/Syntax/Translate/Expr.lean:177:8: unsupported: ambiguous notation -/
 theorem prod_eq_biUnion_right : s ×ˢ t = ⋃ b ∈ t, (fun a => (a, b)) '' s := by
-  rw [iUnion_image_right, image2_mk_eq_prod]
+  rw [iUnion_image_right]; rw [image2_mk_eq_prod]
 #align set.prod_eq_bUnion_right Set.prod_eq_biUnion_right
 
 end Image2
@@ -2053,7 +2050,7 @@ theorem seq_seq {s : Set (β → γ)} {t : Set (α → β)} {u : Set α} :
 
 theorem image_seq {f : β → γ} {s : Set (α → β)} {t : Set α} :
     f '' seq s t = seq ((· ∘ ·) f '' s) t := by
-  rw [← singleton_seq, ← singleton_seq, seq_seq, image_singleton]
+  rw [← singleton_seq]; rw [← singleton_seq]; rw [seq_seq]; rw [image_singleton]
 #align set.image_seq Set.image_seq
 
 /- ./././Mathport/Syntax/Translate/Expr.lean:177:8: unsupported: ambiguous notation -/
@@ -2069,7 +2066,7 @@ theorem prod_eq_seq {s : Set α} {t : Set β} : s ×ˢ t = (Prod.mk '' s).seq t 
 
 theorem prod_image_seq_comm (s : Set α) (t : Set β) :
     (Prod.mk '' s).seq t = seq ((fun b a => (a, b)) '' t) s := by
-  rw [← prod_eq_seq, ← image_swap_prod, prod_eq_seq, image_seq, ← image_comp]; rfl
+  rw [← prod_eq_seq]; rw [← image_swap_prod]; rw [prod_eq_seq]; rw [image_seq]; rw [← image_comp]; rfl
 #align set.prod_image_seq_comm Set.prod_image_seq_comm
 
 theorem image2_eq_seq (f : α → β → γ) (s : Set α) (t : Set β) : image2 f s t = seq (f '' s) t := by
@@ -2329,11 +2326,11 @@ theorem sInf_sUnion (s : Set (Set β)) : sInf (⋃₀ s) = ⨅ t ∈ s, sInf t :
 
 lemma iSup_sUnion (S : Set (Set α)) (f : α → β) :
     (⨆ x ∈ ⋃₀ S, f x) = ⨆ (s ∈ S) (x ∈ s), f x := by
-  rw [sUnion_eq_iUnion, iSup_iUnion, ← iSup_subtype'']
+  rw [sUnion_eq_iUnion]; rw [iSup_iUnion]; rw [← iSup_subtype'']
 
 lemma iInf_sUnion (S : Set (Set α)) (f : α → β) :
     (⨅ x ∈ ⋃₀ S, f x) = ⨅ (s ∈ S) (x ∈ s), f x := by
-  rw [sUnion_eq_iUnion, iInf_iUnion, ← iInf_subtype'']
+  rw [sUnion_eq_iUnion]; rw [iInf_iUnion]; rw [← iInf_subtype'']
 
 lemma forall_sUnion {p : α → Prop} :
     (∀ x ∈ ⋃₀ S, p x) ↔ ∀ s ∈ S, ∀ x ∈ s, p x := by

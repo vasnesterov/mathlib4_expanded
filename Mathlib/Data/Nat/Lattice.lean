@@ -63,7 +63,7 @@ theorem sInf_empty : sInf ∅ = 0 := by
 
 @[simp]
 theorem iInf_of_empty {ι : Sort*} [IsEmpty ι] (f : ι → ℕ) : iInf f = 0 := by
-  rw [iInf_of_empty', sInf_empty]
+  rw [iInf_of_empty']; rw [sInf_empty]
 #align nat.infi_of_empty Nat.iInf_of_empty
 
 theorem sInf_mem {s : Set ℕ} (h : s.Nonempty) : sInf s ∈ s := by
@@ -105,11 +105,11 @@ theorem sInf_upward_closed_eq_succ_iff {s : Set ℕ} (hs : ∀ k₁ k₂ : ℕ, 
     (k : ℕ) : sInf s = k + 1 ↔ k + 1 ∈ s ∧ k ∉ s := by
   constructor
   · intro H
-    rw [eq_Ici_of_nonempty_of_upward_closed (nonempty_of_sInf_eq_succ _) hs, H, mem_Ici, mem_Ici]
+    rw [eq_Ici_of_nonempty_of_upward_closed (nonempty_of_sInf_eq_succ _) hs]; rw [H]; rw [mem_Ici]; rw [mem_Ici]
     exact ⟨le_rfl, k.not_succ_le_self⟩;
     exact k; assumption
   · rintro ⟨H, H'⟩
-    rw [sInf_def (⟨_, H⟩ : s.Nonempty), find_eq_iff]
+    rw [sInf_def (⟨_, H⟩ : s.Nonempty)]; rw [find_eq_iff]
     exact ⟨H, fun n hnk hns ↦ H' <| hs n k (lt_succ_iff.mp hnk) hns⟩
 #align nat.Inf_upward_closed_eq_succ_iff Nat.sInf_upward_closed_eq_succ_iff
 
@@ -158,7 +158,7 @@ theorem sInf_add {n : ℕ} {p : ℕ → Prop} (hn : n ≤ sInf { m | p m }) :
     rw [tsub_add_cancel_of_le hn]
     exact csInf_mem (nonempty_of_pos_sInf <| n.zero_le.trans_lt hnp)
   · have hp : ∃ n, n ∈ { m | p m } := ⟨_, hm⟩
-    rw [Nat.sInf_def ⟨m, hm⟩, Nat.sInf_def hp]
+    rw [Nat.sInf_def ⟨m, hm⟩]; rw [Nat.sInf_def hp]
     rw [Nat.sInf_def hp] at hn
     exact find_add hn
 #align nat.Inf_add Nat.sInf_add

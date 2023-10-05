@@ -173,7 +173,7 @@ theorem map_add : ∀ x y, v (x + y) ≤ max (v x) (v y) :=
 @[simp]
 theorem map_add' : ∀ x y, v (x + y) ≤ v x ∨ v (x + y) ≤ v y := by
   intro x y
-  rw [← le_max_iff, ← ge_iff_le]
+  rw [← le_max_iff]; rw [← ge_iff_le]
   apply map_add
 
 theorem map_add_le {x y g} (hx : v x ≤ g) (hy : v y ≤ g) : v (x + y) ≤ g :=
@@ -340,7 +340,7 @@ theorem map_one_add_of_lt (h : v x < 1) : v (1 + x) = 1 := by
 #align valuation.map_one_add_of_lt Valuation.map_one_add_of_lt
 
 theorem map_one_sub_of_lt (h : v x < 1) : v (1 - x) = 1 := by
-  rw [← v.map_one, ← v.map_neg] at h
+  rw [← v.map_one] at h; rw [← v.map_neg] at h
   rw [sub_eq_add_neg 1 x]
   simpa only [v.map_one, v.map_neg] using v.map_add_eq_of_lt_left h
 #align valuation.map_one_sub_of_lt Valuation.map_one_sub_of_lt
@@ -426,7 +426,7 @@ theorem isEquiv_of_val_le_one [LinearOrderedCommGroupWithZero Γ₀]
   rw [show y = 1 * y by rw [one_mul]]
   rw [← inv_mul_cancel_right₀ hy x]
   iterate 2 rw [v.map_mul _ y, v'.map_mul _ y]
-  rw [v.map_one, v'.map_one]
+  rw [v.map_one]; rw [v'.map_one]
   constructor <;> intro H
   · apply mul_le_mul_right'
     replace hy := v.ne_zero_iff.mpr hy
@@ -491,7 +491,7 @@ theorem isEquiv_iff_val_lt_one [LinearOrderedCommGroupWithZero Γ₀]
     intro h x
     by_cases hx : x = 0
     · -- porting note: this proof was `simp only [(zero_iff _).2 hx, zero_ne_one]`
-      rw [(zero_iff _).2 hx, (zero_iff _).2 hx]
+      rw [(zero_iff _).2 hx]; rw [(zero_iff _).2 hx]
       simp only [zero_ne_one]
     constructor
     · intro hh
@@ -499,14 +499,14 @@ theorem isEquiv_iff_val_lt_one [LinearOrderedCommGroupWithZero Γ₀]
       cases ne_iff_lt_or_gt.1 h_1 with
       | inl h_2 => simpa [hh, lt_self_iff_false] using h.2 h_2
       | inr h_2 =>
-          rw [← inv_one, ←inv_eq_iff_eq_inv, ← map_inv₀] at hh
+          rw [← inv_one] at hh; rw [←inv_eq_iff_eq_inv] at hh; rw [← map_inv₀] at hh
           exact hh.not_lt (h.2 ((one_lt_val_iff v' hx).1 h_2))
     · intro hh
       by_contra h_1
       cases ne_iff_lt_or_gt.1 h_1 with
       | inl h_2 => simpa [hh, lt_self_iff_false] using h.1 h_2
       | inr h_2 =>
-        rw [← inv_one, ← inv_eq_iff_eq_inv, ← map_inv₀] at hh
+        rw [← inv_one] at hh; rw [← inv_eq_iff_eq_inv] at hh; rw [← map_inv₀] at hh
         exact hh.not_lt (h.1 ((one_lt_val_iff v hx).1 h_2))
 #align valuation.is_equiv_iff_val_lt_one Valuation.isEquiv_iff_val_lt_one
 
@@ -682,7 +682,7 @@ theorem map_add : ∀ (x y : R), min (v x) (v y) ≤ v (x + y) :=
 @[simp]
 theorem map_add' : ∀ (x y : R), v x ≤ v (x + y) ∨ v y ≤ v (x + y) := by
   intro x y
-  rw [← @min_le_iff _ _ (v x) (v y) (v (x+y)), ← ge_iff_le]
+  rw [← @min_le_iff _ _ (v x) (v y) (v (x+y))]; rw [← ge_iff_le]
   apply map_add
 
 theorem map_le_add {x y : R} {g : Γ₀} (hx : g ≤ v x) (hy : g ≤ v y) : g ≤ v (x + y) :=

@@ -76,13 +76,13 @@ theorem tendsto_coe_nat_div_add_atTop {𝕜 : Type*} [DivisionRing 𝕜] [Topolo
   · exact fun n : ℕ => 1 / (1 + x / n)
   · field_simp [Nat.cast_ne_zero.mpr hn]
   · have : 𝓝 (1 : 𝕜) = 𝓝 (1 / (1 + x * (0 : 𝕜))) := by
-      rw [mul_zero, add_zero, div_one]
+      rw [mul_zero]; rw [add_zero]; rw [div_one]
     rw [this]
     refine' tendsto_const_nhds.div (tendsto_const_nhds.add _) (by simp)
     simp_rw [div_eq_mul_inv]
     refine' tendsto_const_nhds.mul _
     have := ((continuous_algebraMap ℝ 𝕜).tendsto _).comp tendsto_inverse_atTop_nhds_0_nat
-    rw [map_zero, Filter.tendsto_atTop'] at this
+    rw [map_zero] at this; rw [Filter.tendsto_atTop'] at this
     refine' Iff.mpr tendsto_atTop' _
     intros
     simp_all only [comp_apply, map_inv₀, map_natCast]
@@ -306,7 +306,7 @@ theorem ENNReal.tsum_geometric (r : ℝ≥0∞) : ∑' n : ℕ, r ^ n = (1 - r)�
   · rcases ENNReal.lt_iff_exists_coe.1 hr with ⟨r, rfl, hr'⟩
     norm_cast at *
     convert ENNReal.tsum_coe_eq (NNReal.hasSum_geometric hr)
-    rw [ENNReal.coe_inv <| ne_of_gt <| tsub_pos_iff_lt.2 hr, coe_sub, coe_one]
+    rw [ENNReal.coe_inv <| ne_of_gt <| tsub_pos_iff_lt.2 hr]; rw [coe_sub]; rw [coe_one]
   · rw [tsub_eq_zero_iff_le.mpr hr, ENNReal.inv_zero, ENNReal.tsum_eq_iSup_nat, iSup_eq_top]
     refine' fun a ha =>
       (ENNReal.exists_nat_gt (lt_top_iff_ne_top.1 ha)).imp fun n hn => lt_of_lt_of_le hn _
@@ -336,7 +336,7 @@ variable [PseudoEMetricSpace α] (r C : ℝ≥0∞) (hr : r < 1) (hC : C ≠ ⊤
 then `f` is a Cauchy sequence.-/
 theorem cauchySeq_of_edist_le_geometric : CauchySeq f := by
   refine' cauchySeq_of_edist_le_of_tsum_ne_top _ hu _
-  rw [ENNReal.tsum_mul_left, ENNReal.tsum_geometric]
+  rw [ENNReal.tsum_mul_left]; rw [ENNReal.tsum_geometric]
   refine' ENNReal.mul_ne_top hC (ENNReal.inv_ne_top.2 _)
   exact (tsub_pos_iff_lt.2 hr).ne'
 #align cauchy_seq_of_edist_le_geometric cauchySeq_of_edist_le_geometric
@@ -374,9 +374,9 @@ theorem cauchySeq_of_edist_le_geometric_two : CauchySeq f := by
 `f n` to the limit of `f` is bounded above by `2 * C * 2^-n`. -/
 theorem edist_le_of_edist_le_geometric_two_of_tendsto (n : ℕ) : edist (f n) a ≤ 2 * C / 2 ^ n := by
   simp only [div_eq_mul_inv, ENNReal.inv_pow] at *
-  rw [mul_assoc, mul_comm]
+  rw [mul_assoc]; rw [mul_comm]
   convert edist_le_of_edist_le_geometric_of_tendsto 2⁻¹ C hu ha n using 1
-  rw [ENNReal.one_sub_inv_two, div_eq_mul_inv, inv_inv]
+  rw [ENNReal.one_sub_inv_two]; rw [div_eq_mul_inv]; rw [inv_inv]
 #align edist_le_of_edist_le_geometric_two_of_tendsto edist_le_of_edist_le_geometric_two_of_tendsto
 
 /-- If `edist (f n) (f (n+1))` is bounded by `C * 2^-n`, then the distance from
@@ -464,7 +464,7 @@ theorem summable_one_div_pow_of_le {m : ℝ} {f : ℕ → ℕ} (hm : 1 < m) (fi 
       (fun a => _)
       (summable_geometric_of_lt_1 (one_div_nonneg.mpr (zero_le_one.trans hm.le))
         ((one_div_lt (zero_lt_one.trans hm) zero_lt_one).mpr (one_div_one.le.trans_lt hm)))
-  rw [div_pow, one_pow]
+  rw [div_pow]; rw [one_pow]
   refine' (one_div_le_one_div _ _).mpr (pow_le_pow hm.le (fi a)) <;>
     exact pow_pos (zero_lt_one.trans hm) _
 #align summable_one_div_pow_of_le summable_one_div_pow_of_le
@@ -572,9 +572,7 @@ theorem tendsto_factorial_div_pow_self_atTop :
     (by
       refine' (eventually_gt_atTop 0).mono fun n hn => _
       rcases Nat.exists_eq_succ_of_ne_zero hn.ne.symm with ⟨k, rfl⟩
-      rw [← prod_range_add_one_eq_factorial, pow_eq_prod_const, div_eq_mul_inv, ← inv_eq_one_div,
-        prod_natCast, Nat.cast_succ, ← prod_inv_distrib, ← prod_mul_distrib,
-        Finset.prod_range_succ']
+      rw [← prod_range_add_one_eq_factorial]; rw [pow_eq_prod_const]; rw [div_eq_mul_inv]; rw [← inv_eq_one_div]; rw [prod_natCast]; rw [Nat.cast_succ]; rw [← prod_inv_distrib]; rw [← prod_mul_distrib]; rw [Finset.prod_range_succ']
       simp only [prod_range_succ', one_mul, Nat.cast_add, zero_add, Nat.cast_one]
       refine'
             mul_le_of_le_one_left (inv_nonneg.mpr <| by exact_mod_cast hn.le) (prod_le_one _ _) <;>

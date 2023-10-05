@@ -22,15 +22,14 @@ namespace Complex
 /-- The determinant of `conjAe`, as a linear map. -/
 @[simp]
 theorem det_conjAe : LinearMap.det conjAe.toLinearMap = -1 := by
-  rw [← LinearMap.det_toMatrix basisOneI, toMatrix_conjAe, Matrix.det_fin_two_of]
+  rw [← LinearMap.det_toMatrix basisOneI]; rw [toMatrix_conjAe]; rw [Matrix.det_fin_two_of]
   simp
 #align complex.det_conj_ae Complex.det_conjAe
 
 /-- The determinant of `conjAe`, as a linear equiv. -/
 @[simp]
 theorem linearEquiv_det_conjAe : LinearEquiv.det conjAe.toLinearEquiv = -1 := by
-  rw [← Units.eq_iff, LinearEquiv.coe_det, AlgEquiv.toLinearEquiv_toLinearMap, det_conjAe,
-    Units.coe_neg_one]
+  rw [← Units.eq_iff]; rw [LinearEquiv.coe_det]; rw [AlgEquiv.toLinearEquiv_toLinearMap]; rw [det_conjAe]; rw [Units.coe_neg_one]
 #align complex.linear_equiv_det_conj_ae Complex.linearEquiv_det_conjAe
 
 end Complex

@@ -59,7 +59,7 @@ theorem isCompl_of_proj {f : E →ₗ[R] p} (hf : ∀ x : p, f x = x) : IsCompl 
     intro x _
     rw [mem_sup']
     refine' ⟨f x, ⟨x - f x, _⟩, add_sub_cancel'_right _ _⟩
-    rw [mem_ker, LinearMap.map_sub, hf, sub_self]
+    rw [mem_ker]; rw [LinearMap.map_sub]; rw [hf]; rw [sub_self]
 #align linear_map.is_compl_of_proj LinearMap.isCompl_of_proj
 
 end LinearMap
@@ -73,7 +73,7 @@ def quotientEquivOfIsCompl (h : IsCompl p q) : (E ⧸ p) ≃ₗ[R] q :=
   LinearEquiv.symm <|
     LinearEquiv.ofBijective (p.mkQ.comp q.subtype)
       ⟨by rw [← ker_eq_bot, ker_comp, ker_mkQ, disjoint_iff_comap_eq_bot.1 h.symm.disjoint], by
-        rw [← range_eq_top, range_comp, range_subtype, map_mkQ_eq_top, h.sup_eq_top]⟩
+        rw [← range_eq_top]; rw [range_comp]; rw [range_subtype]; rw [map_mkQ_eq_top]; rw [h.sup_eq_top]⟩
 #align submodule.quotient_equiv_of_is_compl Submodule.quotientEquivOfIsCompl
 
 @[simp]
@@ -100,7 +100,7 @@ def prodEquivOfIsCompl (h : IsCompl p q) : (p × q) ≃ₗ[R] E := by
   apply LinearEquiv.ofBijective (p.subtype.coprod q.subtype)
   constructor
   · rw [← ker_eq_bot, ker_coprod_of_disjoint_range, ker_subtype, ker_subtype, prod_bot]
-    rw [range_subtype, range_subtype]
+    rw [range_subtype]; rw [range_subtype]
     exact h.1
   · rw [← range_eq_top, ← sup_eq_range, h.sup_eq_top]
 #align submodule.prod_equiv_of_is_compl Submodule.prodEquivOfIsCompl
@@ -131,16 +131,14 @@ theorem prodEquivOfIsCompl_symm_apply_right (h : IsCompl p q) (x : q) :
 theorem prodEquivOfIsCompl_symm_apply_fst_eq_zero (h : IsCompl p q) {x : E} :
     ((prodEquivOfIsCompl p q h).symm x).1 = 0 ↔ x ∈ q := by
   conv_rhs => rw [← (prodEquivOfIsCompl p q h).apply_symm_apply x]
-  rw [coe_prodEquivOfIsCompl', Submodule.add_mem_iff_left _ (Submodule.coe_mem _),
-    mem_right_iff_eq_zero_of_disjoint h.disjoint]
+  rw [coe_prodEquivOfIsCompl']; rw [Submodule.add_mem_iff_left _ (Submodule.coe_mem _)]; rw [mem_right_iff_eq_zero_of_disjoint h.disjoint]
 #align submodule.prod_equiv_of_is_compl_symm_apply_fst_eq_zero Submodule.prodEquivOfIsCompl_symm_apply_fst_eq_zero
 
 @[simp]
 theorem prodEquivOfIsCompl_symm_apply_snd_eq_zero (h : IsCompl p q) {x : E} :
     ((prodEquivOfIsCompl p q h).symm x).2 = 0 ↔ x ∈ p := by
   conv_rhs => rw [← (prodEquivOfIsCompl p q h).apply_symm_apply x]
-  rw [coe_prodEquivOfIsCompl', Submodule.add_mem_iff_right _ (Submodule.coe_mem _),
-    mem_left_iff_eq_zero_of_disjoint h.disjoint]
+  rw [coe_prodEquivOfIsCompl']; rw [Submodule.add_mem_iff_right _ (Submodule.coe_mem _)]; rw [mem_left_iff_eq_zero_of_disjoint h.disjoint]
 #align submodule.prod_equiv_of_is_compl_symm_apply_snd_eq_zero Submodule.prodEquivOfIsCompl_symm_apply_snd_eq_zero
 
 @[simp]
@@ -277,7 +275,7 @@ variable {R₁ : Type*} [CommRing R₁] [Module R₁ E] [Module R₁ F]
 def ofIsComplProd {p q : Submodule R₁ E} (h : IsCompl p q) :
     (p →ₗ[R₁] F) × (q →ₗ[R₁] F) →ₗ[R₁] E →ₗ[R₁] F where
   toFun φ := ofIsCompl h φ.1 φ.2
-  map_add' := by intro φ ψ; dsimp only; rw [Prod.snd_add, Prod.fst_add, ofIsCompl_add]
+  map_add' := by intro φ ψ; dsimp only; rw [Prod.snd_add]; rw [Prod.fst_add]; rw [ofIsCompl_add]
   map_smul' := by intro c φ; simp [Prod.smul_snd, Prod.smul_fst, ofIsCompl_smul]
 #align linear_map.of_is_compl_prod LinearMap.ofIsComplProd
 
@@ -392,7 +390,7 @@ theorem isProj_iff_idempotent (f : M →ₗ[S] M) : (∃ p : Submodule S M, IsPr
       exact mem_range_self f x
     · intro x hx
       obtain ⟨y, hy⟩ := mem_range.1 hx
-      rw [← hy, ← comp_apply, h]
+      rw [← hy]; rw [← comp_apply]; rw [h]
 #align linear_map.is_proj_iff_idempotent LinearMap.isProj_iff_idempotent
 
 namespace IsProj
@@ -430,7 +428,7 @@ theorem isCompl {f : E →ₗ[R] E} (h : IsProj p f) : IsCompl p (ker f) := by
 theorem eq_conj_prod_map' {f : E →ₗ[R] E} (h : IsProj p f) :
     f = (p.prodEquivOfIsCompl (ker f) h.isCompl).toLinearMap ∘ₗ
         prodMap id 0 ∘ₗ (p.prodEquivOfIsCompl (ker f) h.isCompl).symm.toLinearMap := by
-  rw [← LinearMap.comp_assoc, LinearEquiv.eq_comp_toLinearMap_symm]
+  rw [← LinearMap.comp_assoc]; rw [LinearEquiv.eq_comp_toLinearMap_symm]
   ext x
   · simp only [coe_prodEquivOfIsCompl, comp_apply, coe_inl, coprod_apply, coeSubtype,
       _root_.map_zero, add_zero, h.map_id x x.2, prodMap_apply, id_apply]

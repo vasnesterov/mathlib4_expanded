@@ -74,7 +74,7 @@ theorem solutionSetCondition_of_isRightAdjoint [IsRightAdjoint G] : SolutionSetC
     ⟨PUnit, fun _ => (leftAdjoint G).obj A, fun _ => (Adjunction.ofRightAdjoint G).unit.app A, _⟩
   intro B h
   refine' ⟨PUnit.unit, ((Adjunction.ofRightAdjoint G).homEquiv _ _).symm h, _⟩
-  rw [← Adjunction.homEquiv_unit, Equiv.apply_symm_apply]
+  rw [← Adjunction.homEquiv_unit]; rw [Equiv.apply_symm_apply]
 #align category_theory.solution_set_condition_of_is_right_adjoint CategoryTheory.solutionSetCondition_of_isRightAdjoint
 
 /-- The general adjoint functor theorem says that if `G : D ⥤ C` preserves limits and `D` has them,

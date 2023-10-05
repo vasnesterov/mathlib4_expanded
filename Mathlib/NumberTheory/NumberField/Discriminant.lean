@@ -33,13 +33,13 @@ theorem coe_discr : (discr K : ℚ) = Algebra.discr ℚ (integralBasis K) :=
   (Algebra.discr_localizationLocalization ℤ _ K (RingOfIntegers.basis K)).symm
 
 theorem discr_ne_zero : discr K ≠ 0 := by
-  rw [← (Int.cast_injective (α := ℚ)).ne_iff, coe_discr]
+  rw [← (Int.cast_injective (α := ℚ)).ne_iff]; rw [coe_discr]
   exact Algebra.discr_not_zero_of_basis ℚ (integralBasis K)
 
 theorem discr_eq_discr {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Basis ι ℤ (𝓞 K)) :
     Algebra.discr ℤ b = discr K := by
   let b₀ := Basis.reindex (RingOfIntegers.basis K) (Basis.indexEquiv (RingOfIntegers.basis K) b)
-  rw [Algebra.discr_eq_discr (𝓞 K) b b₀, Basis.coe_reindex, Algebra.discr_reindex]
+  rw [Algebra.discr_eq_discr (𝓞 K) b b₀]; rw [Basis.coe_reindex]; rw [Algebra.discr_reindex]
 
 end NumberField
 
@@ -55,12 +55,9 @@ theorem numberField_discr : discr ℚ = 1 := by
   calc NumberField.discr ℚ
     _ = Algebra.discr ℤ b := by convert (discr_eq_discr ℚ b).symm
     _ = Algebra.trace ℤ (𝓞 ℚ) (b default * b default) := by
-      rw [Algebra.discr_def, Matrix.det_unique, Algebra.traceMatrix_apply, Algebra.traceForm_apply]
+      rw [Algebra.discr_def]; rw [Matrix.det_unique]; rw [Algebra.traceMatrix_apply]; rw [Algebra.traceForm_apply]
     _ = Algebra.trace ℤ (𝓞 ℚ) 1 := by
-      rw [Basis.map_apply, RingEquiv.toAddEquiv_eq_coe, AddEquiv.toIntLinearEquiv_symm,
-        AddEquiv.coe_toIntLinearEquiv, Basis.singleton_apply,
-        show (AddEquiv.symm ↑ringOfIntegersEquiv) (1 : ℤ) = ringOfIntegersEquiv.symm 1 by rfl,
-        map_one, mul_one]
+      rw [Basis.map_apply]; rw [RingEquiv.toAddEquiv_eq_coe]; rw [AddEquiv.toIntLinearEquiv_symm]; rw [AddEquiv.coe_toIntLinearEquiv]; rw [Basis.singleton_apply]; rw [show (AddEquiv.symm ↑ringOfIntegersEquiv) (1 : ℤ) = ringOfIntegersEquiv.symm 1 by rfl]; rw [map_one]; rw [mul_one]
     _ = 1 := by rw [Algebra.trace_eq_matrix_trace b]; norm_num
 
 alias _root_.NumberField.discr_rat := numberField_discr

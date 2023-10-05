@@ -655,13 +655,11 @@ instance monoid [Monoid R] [AddMonoid M] [DistribMulAction R M] [DistribMulActio
           cases n
           · simp [List.range_succ]
           simp_rw [Nat.pred_succ]
-          rw [List.range_succ, List.map_append, List.sum_append, List.map_singleton,
-            List.sum_singleton, Nat.sub_self, pow_zero, one_smul, List.smul_sum, List.map_map,
-            fst_pow]  --porting note: `Function.comp` no longer works in `rw` so move to `simp_rw`
+          rw [List.range_succ]; rw [List.map_append]; rw [List.sum_append]; rw [List.map_singleton]; rw [List.sum_singleton]; rw [Nat.sub_self]; rw [pow_zero]; rw [one_smul]; rw [List.smul_sum]; rw [List.map_map]; rw [fst_pow]  --porting note: `Function.comp` no longer works in `rw` so move to `simp_rw`
           simp_rw [Function.comp, smul_smul, ← pow_succ, Nat.succ_eq_add_one]
           congr 2
           refine' List.map_congr fun i hi => _
-          rw [List.mem_range, Nat.lt_succ_iff] at hi
+          rw [List.mem_range] at hi; rw [Nat.lt_succ_iff] at hi
           rw [Nat.sub_add_comm hi]) }
 theorem fst_list_prod [Monoid R] [AddMonoid M] [DistribMulAction R M] [DistribMulAction Rᵐᵒᵖ M]
     [SMulCommClass R Rᵐᵒᵖ M] (l : List (tsze R M)) : l.prod.fst = (l.map fst).prod :=
@@ -698,7 +696,7 @@ instance commMonoid [CommMonoid R] [AddCommMonoid M] [DistribMulAction R M]
     mul_comm := fun x₁ x₂ =>
       ext (mul_comm x₁.1 x₂.1) <|
         show x₁.1 • x₂.2 + op x₂.1 • x₁.2 = x₂.1 • x₁.2 + op x₁.1 • x₂.2 by
-          rw [op_smul_eq_smul, op_smul_eq_smul, add_comm] }
+          rw [op_smul_eq_smul]; rw [op_smul_eq_smul]; rw [add_comm] }
 
 instance commSemiring [CommSemiring R] [AddCommMonoid M] [Module R M] [Module Rᵐᵒᵖ M]
     [IsCentralScalar R M] : CommSemiring (tsze R M) :=
@@ -743,13 +741,12 @@ instance algebra' : Algebra S (tsze R M) :=
       ext (Algebra.commutes _ _) <|
         show algebraMap S R s • x.snd + op x.fst • (0 : M)
             = x.fst • (0 : M) + op (algebraMap S R s) • x.snd by
-          rw [smul_zero, smul_zero, add_zero, zero_add]
-          rw [Algebra.algebraMap_eq_smul_one, MulOpposite.op_smul, MulOpposite.op_one, smul_assoc,
-            one_smul, smul_assoc, one_smul]
+          rw [smul_zero]; rw [smul_zero]; rw [add_zero]; rw [zero_add]
+          rw [Algebra.algebraMap_eq_smul_one]; rw [MulOpposite.op_smul]; rw [MulOpposite.op_one]; rw [smul_assoc]; rw [one_smul]; rw [smul_assoc]; rw [one_smul]
     smul_def' := fun r x =>
       ext (Algebra.smul_def _ _) <|
         show r • x.2 = algebraMap S R r • x.2 + op x.1 • (0 : M) by
-          rw [smul_zero, add_zero, algebraMap_smul] }
+          rw [smul_zero]; rw [add_zero]; rw [algebraMap_smul] }
 #align triv_sq_zero_ext.algebra' TrivSqZeroExt.algebra'
 
 -- shortcut instance for the common case
@@ -808,8 +805,8 @@ def liftAux (f : M →ₗ[R'] A) (hf : ∀ x y, f x * f y = 0) : tsze R' M →�
         dsimp
         simp only [add_zero, zero_add, add_mul, mul_add, smul_mul_smul, hf, smul_zero,
           op_smul_eq_smul]
-        rw [← RingHom.map_mul, LinearMap.map_add, ← Algebra.commutes _ (f _), ← Algebra.smul_def, ←
-          Algebra.smul_def, add_right_comm, add_assoc, LinearMap.map_smul, LinearMap.map_smul])
+        rw [← RingHom.map_mul]; rw [LinearMap.map_add]; rw [← Algebra.commutes _ (f _)]; rw [← Algebra.smul_def]; rw [←
+          Algebra.smul_def]; rw [add_right_comm]; rw [add_assoc]; rw [LinearMap.map_smul]; rw [LinearMap.map_smul])
 #align triv_sq_zero_ext.lift_aux TrivSqZeroExt.liftAux
 
 @[simp]

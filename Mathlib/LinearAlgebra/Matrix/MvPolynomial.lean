@@ -76,7 +76,7 @@ theorem det_mvPolynomialX_ne_zero [DecidableEq m] [Fintype m] [CommRing R] [Nont
     det (mvPolynomialX m m R) ≠ 0 := by
   intro h_det
   have := congr_arg Matrix.det (mvPolynomialX_mapMatrix_eval (1 : Matrix m m R))
-  rw [det_one, ← RingHom.map_det, h_det, RingHom.map_zero] at this
+  rw [det_one] at this; rw [← RingHom.map_det] at this; rw [h_det] at this; rw [RingHom.map_zero] at this
   exact zero_ne_one this
 #align matrix.det_mv_polynomial_X_ne_zero Matrix.det_mvPolynomialX_ne_zero
 

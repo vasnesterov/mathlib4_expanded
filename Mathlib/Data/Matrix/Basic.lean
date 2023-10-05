@@ -512,7 +512,7 @@ theorem diagonal_map [Zero α] [Zero β] {f : α → β} (h : f 0 = 0) {d : n �
 @[simp]
 theorem diagonal_conjTranspose [AddMonoid α] [StarAddMonoid α] (v : n → α) :
     (diagonal v)ᴴ = diagonal (star v) := by
-  rw [conjTranspose, diagonal_transpose, diagonal_map (star_zero _)]
+  rw [conjTranspose]; rw [diagonal_transpose]; rw [diagonal_map (star_zero _)]
   rfl
 #align matrix.diagonal_conj_transpose Matrix.diagonal_conjTranspose
 
@@ -1094,14 +1094,14 @@ variable [NonAssocSemiring α]
 protected theorem one_mul [Fintype m] [DecidableEq m] (M : Matrix m n α) :
     (1 : Matrix m m α) * M = M := by
   ext
-  rw [← diagonal_one, diagonal_mul, one_mul]
+  rw [← diagonal_one]; rw [diagonal_mul]; rw [one_mul]
 #align matrix.one_mul Matrix.one_mul
 
 @[simp]
 protected theorem mul_one [Fintype n] [DecidableEq n] (M : Matrix m n α) :
     M * (1 : Matrix n n α) = M := by
   ext
-  rw [← diagonal_one, mul_diagonal, mul_one]
+  rw [← diagonal_one]; rw [mul_diagonal]; rw [mul_one]
 #align matrix.mul_one Matrix.mul_one
 
 instance nonAssocSemiring [Fintype n] [DecidableEq n] : NonAssocSemiring (Matrix n n α) :=
@@ -1180,12 +1180,12 @@ protected theorem mul_neg (M : Matrix m n α) (N : Matrix n o α) : M * (-N) = -
 
 protected theorem sub_mul (M M' : Matrix m n α) (N : Matrix n o α) :
     (M - M') * N = M * N - M' * N := by
-  rw [sub_eq_add_neg, Matrix.add_mul, Matrix.neg_mul, sub_eq_add_neg]
+  rw [sub_eq_add_neg]; rw [Matrix.add_mul]; rw [Matrix.neg_mul]; rw [sub_eq_add_neg]
 #align matrix.sub_mul Matrix.sub_mul
 
 protected theorem mul_sub (M : Matrix m n α) (N N' : Matrix n o α) :
     M * (N - N') = M * N - M * N' := by
-  rw [sub_eq_add_neg, Matrix.mul_add, Matrix.mul_neg, sub_eq_add_neg]
+  rw [sub_eq_add_neg]; rw [Matrix.mul_add]; rw [Matrix.mul_neg]; rw [sub_eq_add_neg]
 #align matrix.mul_sub Matrix.mul_sub
 
 instance nonUnitalNonAssocRing : NonUnitalNonAssocRing (Matrix n n α) :=
@@ -1257,8 +1257,7 @@ theorem scalar_inj [Nonempty n] {r s : α} : scalar n r = scalar n s ↔ r = s :
   constructor
   · intro h
     inhabit n
-    rw [← scalar_apply_eq r (Inhabited.default (α := n)),
-        ← scalar_apply_eq s (Inhabited.default (α := n)), h]
+    rw [← scalar_apply_eq r (Inhabited.default (α := n))]; rw [← scalar_apply_eq s (Inhabited.default (α := n))]; rw [h]
   · rintro rfl
     rfl
 #align matrix.scalar_inj Matrix.scalar_inj
@@ -1328,7 +1327,7 @@ theorem algebraMap_eq_diagonalRingHom :
 theorem map_algebraMap (r : R) (f : α → β) (hf : f 0 = 0)
     (hf₂ : f (algebraMap R α r) = algebraMap R β r) :
     (algebraMap R (Matrix n n α) r).map f = algebraMap R (Matrix n n β) r := by
-  rw [algebraMap_eq_diagonal, algebraMap_eq_diagonal, diagonal_map hf]
+  rw [algebraMap_eq_diagonal]; rw [algebraMap_eq_diagonal]; rw [diagonal_map hf]
   -- Porting note: (congr) the remaining proof was
   -- ```
   -- congr 1
@@ -1872,13 +1871,13 @@ variable [Fintype m] [Fintype n] [DecidableEq m]
 @[simp]
 theorem one_mulVec (v : m → α) : mulVec 1 v = v := by
   ext
-  rw [← diagonal_one, mulVec_diagonal, one_mul]
+  rw [← diagonal_one]; rw [mulVec_diagonal]; rw [one_mul]
 #align matrix.one_mul_vec Matrix.one_mulVec
 
 @[simp]
 theorem vecMul_one (v : m → α) : vecMul v 1 = v := by
   ext
-  rw [← diagonal_one, vecMul_diagonal, mul_one]
+  rw [← diagonal_one]; rw [vecMul_diagonal]; rw [mul_one]
 #align matrix.vec_mul_one Matrix.vecMul_one
 
 end NonAssocSemiring
@@ -1980,7 +1979,7 @@ theorem transpose_eq_zero [Zero α] {M : Matrix m n α} : Mᵀ = 0 ↔ M = 0 := 
 @[simp]
 theorem transpose_one [DecidableEq n] [Zero α] [One α] : (1 : Matrix n n α)ᵀ = 1 := by
   ext i j
-  rw [transpose_apply, ← diagonal_one]
+  rw [transpose_apply]; rw [← diagonal_one]
   by_cases i = j
   · simp only [h, diagonal_apply_eq]
   · simp only [diagonal_apply_ne _ h, diagonal_apply_ne' _ h]
@@ -2552,7 +2551,7 @@ theorem mul_submatrix_one [Fintype n] [Finite o] [NonAssocSemiring α] [Decidabl
   let A := M.submatrix id e₁.symm
   have : M = A.submatrix id e₁ := by
     simp only [submatrix_submatrix, Function.comp.right_id, submatrix_id_id, Equiv.symm_comp_self]
-  rw [this, submatrix_mul_equiv]
+  rw [this]; rw [submatrix_mul_equiv]
   simp only [Matrix.mul_one, submatrix_submatrix, Function.comp.right_id, submatrix_id_id,
     Equiv.symm_comp_self]
 #align matrix.mul_submatrix_one Matrix.mul_submatrix_one
@@ -2564,7 +2563,7 @@ theorem one_submatrix_mul [Fintype m] [Finite o] [NonAssocSemiring α] [Decidabl
   let A := M.submatrix e₂.symm id
   have : M = A.submatrix e₂ id := by
     simp only [submatrix_submatrix, Function.comp.right_id, submatrix_id_id, Equiv.symm_comp_self]
-  rw [this, submatrix_mul_equiv]
+  rw [this]; rw [submatrix_mul_equiv]
   simp only [Matrix.one_mul, submatrix_submatrix, Function.comp.right_id, submatrix_id_id,
     Equiv.symm_comp_self]
 #align matrix.one_submatrix_mul Matrix.one_submatrix_mul
@@ -2615,7 +2614,7 @@ theorem conjTranspose_reindex [Star α] (eₘ : m ≃ l) (eₙ : n ≃ o) (M : M
 -- @[simp] -- Porting note: simp can prove this
 theorem submatrix_mul_transpose_submatrix [Fintype m] [Fintype n] [AddCommMonoid α] [Mul α]
     (e : m ≃ n) (M : Matrix m n α) : M.submatrix id e * Mᵀ.submatrix e id = M * Mᵀ := by
-  rw [submatrix_mul_equiv, submatrix_id_id]
+  rw [submatrix_mul_equiv]; rw [submatrix_id_id]
 #align matrix.submatrix_mul_transpose_submatrix Matrix.submatrix_mul_transpose_submatrix
 
 /-- The left `n × l` part of an `n × (l+r)` matrix. -/
@@ -2849,40 +2848,38 @@ theorem updateRow_subsingleton [Subsingleton m] (A : Matrix m n R) (i : m) (b : 
 theorem map_updateRow [DecidableEq m] (f : α → β) :
     map (updateRow M i b) f = updateRow (M.map f) i (f ∘ b) := by
   ext
-  rw [updateRow_apply, map_apply, map_apply, updateRow_apply]
+  rw [updateRow_apply]; rw [map_apply]; rw [map_apply]; rw [updateRow_apply]
   exact apply_ite f _ _ _
 #align matrix.map_update_row Matrix.map_updateRow
 
 theorem map_updateColumn [DecidableEq n] (f : α → β) :
     map (updateColumn M j c) f = updateColumn (M.map f) j (f ∘ c) := by
   ext
-  rw [updateColumn_apply, map_apply, map_apply, updateColumn_apply]
+  rw [updateColumn_apply]; rw [map_apply]; rw [map_apply]; rw [updateColumn_apply]
   exact apply_ite f _ _ _
 #align matrix.map_update_column Matrix.map_updateColumn
 
 theorem updateRow_transpose [DecidableEq n] : updateRow Mᵀ j c = (updateColumn M j c)ᵀ := by
   ext
-  rw [transpose_apply, updateRow_apply, updateColumn_apply]
+  rw [transpose_apply]; rw [updateRow_apply]; rw [updateColumn_apply]
   rfl
 #align matrix.update_row_transpose Matrix.updateRow_transpose
 
 theorem updateColumn_transpose [DecidableEq m] : updateColumn Mᵀ i b = (updateRow M i b)ᵀ := by
   ext
-  rw [transpose_apply, updateRow_apply, updateColumn_apply]
+  rw [transpose_apply]; rw [updateRow_apply]; rw [updateColumn_apply]
   rfl
 #align matrix.update_column_transpose Matrix.updateColumn_transpose
 
 theorem updateRow_conjTranspose [DecidableEq n] [Star α] :
     updateRow Mᴴ j (star c) = (updateColumn M j c)ᴴ := by
-  rw [conjTranspose, conjTranspose, transpose_map, transpose_map, updateRow_transpose,
-    map_updateColumn]
+  rw [conjTranspose]; rw [conjTranspose]; rw [transpose_map]; rw [transpose_map]; rw [updateRow_transpose]; rw [map_updateColumn]
   rfl
 #align matrix.update_row_conj_transpose Matrix.updateRow_conjTranspose
 
 theorem updateColumn_conjTranspose [DecidableEq m] [Star α] :
     updateColumn Mᴴ i (star b) = (updateRow M i b)ᴴ := by
-  rw [conjTranspose, conjTranspose, transpose_map, transpose_map, updateColumn_transpose,
-    map_updateRow]
+  rw [conjTranspose]; rw [conjTranspose]; rw [transpose_map]; rw [transpose_map]; rw [updateColumn_transpose]; rw [map_updateRow]
   rfl
 #align matrix.update_column_conj_transpose Matrix.updateColumn_conjTranspose
 
@@ -2913,7 +2910,7 @@ theorem diagonal_updateColumn_single [DecidableEq n] [Zero α] (v : n → α) (i
 
 theorem diagonal_updateRow_single [DecidableEq n] [Zero α] (v : n → α) (i : n) (x : α) :
     (diagonal v).updateRow i (Pi.single i x) = diagonal (Function.update v i x) := by
-  rw [← diagonal_transpose, updateRow_transpose, diagonal_updateColumn_single, diagonal_transpose]
+  rw [← diagonal_transpose]; rw [updateRow_transpose]; rw [diagonal_updateColumn_single]; rw [diagonal_transpose]
 #align matrix.diagonal_update_row_single Matrix.diagonal_updateRow_single
 
 /-! Updating rows and columns commutes in the obvious way with reindexing the matrix. -/

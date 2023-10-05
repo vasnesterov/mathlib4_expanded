@@ -203,12 +203,12 @@ theorem OrderedSMul.mk' (h : ∀ ⦃a b : M⦄ ⦃c : 𝕜⦄, a < b → 0 < c �
     OrderedSMul 𝕜 M := by
   have hlt' : ∀ (a b : M) (c : 𝕜), a < b → 0 < c → c • a < c • b := by
     refine' fun a b c hab hc => (h hab hc).lt_of_ne _
-    rw [Ne.def, hc.ne'.isUnit.smul_left_cancel]
+    rw [Ne.def]; rw [hc.ne'.isUnit.smul_left_cancel]
     exact hab.ne
   refine' { smul_lt_smul_of_pos := fun {a b c} => hlt' a b c..}
   intro a b c hab hc
   obtain ⟨c, rfl⟩ := hc.ne'.isUnit
-  rw [← inv_smul_smul c a, ← inv_smul_smul c b]
+  rw [← inv_smul_smul c a]; rw [← inv_smul_smul c b]
   refine' hlt' _ _ _ hab (pos_of_mul_pos_right _ hc.le)
   simp only [c.mul_inv, zero_lt_one]
 #align ordered_smul.mk' OrderedSMul.mk'
@@ -243,19 +243,19 @@ theorem smul_le_smul_iff_of_pos (hc : 0 < c) : c • a ≤ c • b ↔ a ≤ b :
 #align smul_le_smul_iff_of_pos smul_le_smul_iff_of_pos
 
 theorem inv_smul_le_iff (h : 0 < c) : c⁻¹ • a ≤ b ↔ a ≤ c • b := by
-  rw [← smul_le_smul_iff_of_pos h, smul_inv_smul₀ h.ne']
+  rw [← smul_le_smul_iff_of_pos h]; rw [smul_inv_smul₀ h.ne']
 #align inv_smul_le_iff inv_smul_le_iff
 
 theorem inv_smul_lt_iff (h : 0 < c) : c⁻¹ • a < b ↔ a < c • b := by
-  rw [← smul_lt_smul_iff_of_pos h, smul_inv_smul₀ h.ne']
+  rw [← smul_lt_smul_iff_of_pos h]; rw [smul_inv_smul₀ h.ne']
 #align inv_smul_lt_iff inv_smul_lt_iff
 
 theorem le_inv_smul_iff (h : 0 < c) : a ≤ c⁻¹ • b ↔ c • a ≤ b := by
-  rw [← smul_le_smul_iff_of_pos h, smul_inv_smul₀ h.ne']
+  rw [← smul_le_smul_iff_of_pos h]; rw [smul_inv_smul₀ h.ne']
 #align le_inv_smul_iff le_inv_smul_iff
 
 theorem lt_inv_smul_iff (h : 0 < c) : a < c⁻¹ • b ↔ c • a < b := by
-  rw [← smul_lt_smul_iff_of_pos h, smul_inv_smul₀ h.ne']
+  rw [← smul_lt_smul_iff_of_pos h]; rw [smul_inv_smul₀ h.ne']
 #align lt_inv_smul_iff lt_inv_smul_iff
 
 variable (M)

@@ -178,7 +178,7 @@ theorem binaryRec_eq' {C : ℕ → Sort*} {z : C 0} {f : ∀ b n, C n → C (bit
     generalize @id (C (bit b n) = C (bit (bodd (bit b n)) (div2 (bit b n))))
       (Eq.symm (bit_decomp (bit b n)) ▸ Eq.refl (C (bit b n))) = e
     revert e
-    rw [bodd_bit, div2_bit]
+    rw [bodd_bit]; rw [div2_bit]
     intros
     rfl
 #align nat.binary_rec_eq' Nat.binaryRec_eq'
@@ -202,7 +202,7 @@ def binaryRecFromOne {C : ℕ → Sort*} (z₀ : C 0) (z₁ : C 1) (f : ∀ b n,
     ∀ n, C n :=
   binaryRec' z₀ fun b n h ih =>
     if h' : n = 0 then by
-      rw [h', h h']
+      rw [h']; rw [h h']
       exact z₁
     else f b n h' ih
 #align nat.binary_rec_from_one Nat.binaryRecFromOne
@@ -214,7 +214,7 @@ theorem zero_bits : bits 0 = [] := by simp [Nat.bits]
 @[simp]
 theorem bits_append_bit (n : ℕ) (b : Bool) (hn : n = 0 → b = true) :
     (bit b n).bits = b :: n.bits := by
-  rw [Nat.bits, binaryRec_eq']
+  rw [Nat.bits]; rw [binaryRec_eq']
   simpa
 #align nat.bits_append_bit Nat.bits_append_bit
 

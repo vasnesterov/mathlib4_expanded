@@ -542,11 +542,11 @@ theorem integrableOn_Iic_of_intervalIntegral_norm_bounded (I b : ℝ)
   have hφ : AECover (μ.restrict <| Iic b) l _ := aecover_Ioi ha
   have hfi : ∀ i, IntegrableOn f (Ioi (a i)) (μ.restrict <| Iic b) := by
     intro i
-    rw [IntegrableOn, Measure.restrict_restrict (hφ.measurableSet i)]
+    rw [IntegrableOn]; rw [Measure.restrict_restrict (hφ.measurableSet i)]
     exact hfi i
   refine' hφ.integrable_of_integral_norm_bounded I hfi (h.mp _)
   filter_upwards [ha.eventually (eventually_le_atBot b)] with i hai
-  rw [intervalIntegral.integral_of_le hai, Measure.restrict_restrict (hφ.measurableSet i)]
+  rw [intervalIntegral.integral_of_le hai]; rw [Measure.restrict_restrict (hφ.measurableSet i)]
   exact id
 #align measure_theory.integrable_on_Iic_of_interval_integral_norm_bounded MeasureTheory.integrableOn_Iic_of_intervalIntegral_norm_bounded
 
@@ -567,12 +567,11 @@ theorem integrableOn_Ioi_of_intervalIntegral_norm_bounded (I a : ℝ)
   have hφ : AECover (μ.restrict <| Ioi a) l _ := aecover_Iic hb
   have hfi : ∀ i, IntegrableOn f (Iic (b i)) (μ.restrict <| Ioi a) := by
     intro i
-    rw [IntegrableOn, Measure.restrict_restrict (hφ.measurableSet i), inter_comm]
+    rw [IntegrableOn]; rw [Measure.restrict_restrict (hφ.measurableSet i)]; rw [inter_comm]
     exact hfi i
   refine' hφ.integrable_of_integral_norm_bounded I hfi (h.mp _)
   filter_upwards [hb.eventually (eventually_ge_atTop a)] with i hbi
-  rw [intervalIntegral.integral_of_le hbi, Measure.restrict_restrict (hφ.measurableSet i),
-    inter_comm]
+  rw [intervalIntegral.integral_of_le hbi]; rw [Measure.restrict_restrict (hφ.measurableSet i)]; rw [inter_comm]
   exact id
 #align measure_theory.integrable_on_Ioi_of_interval_integral_norm_bounded MeasureTheory.integrableOn_Ioi_of_intervalIntegral_norm_bounded
 
@@ -635,7 +634,7 @@ theorem intervalIntegral_tendsto_integral_Iic (b : ℝ) (hfi : IntegrableOn f (I
   have hφ : AECover (μ.restrict <| Iic b) l φ := aecover_Ioi ha
   refine' (hφ.integral_tendsto_of_countably_generated hfi).congr' _
   filter_upwards [ha.eventually (eventually_le_atBot <| b)] with i hai
-  rw [intervalIntegral.integral_of_le hai, Measure.restrict_restrict (hφ.measurableSet i)]
+  rw [intervalIntegral.integral_of_le hai]; rw [Measure.restrict_restrict (hφ.measurableSet i)]
   rfl
 #align measure_theory.interval_integral_tendsto_integral_Iic MeasureTheory.intervalIntegral_tendsto_integral_Iic
 
@@ -646,8 +645,7 @@ theorem intervalIntegral_tendsto_integral_Ioi (a : ℝ) (hfi : IntegrableOn f (I
   have hφ : AECover (μ.restrict <| Ioi a) l φ := aecover_Iic hb
   refine' (hφ.integral_tendsto_of_countably_generated hfi).congr' _
   filter_upwards [hb.eventually (eventually_ge_atTop <| a)] with i hbi
-  rw [intervalIntegral.integral_of_le hbi, Measure.restrict_restrict (hφ.measurableSet i),
-    inter_comm]
+  rw [intervalIntegral.integral_of_le hbi]; rw [Measure.restrict_restrict (hφ.measurableSet i)]; rw [inter_comm]
   rfl
 #align measure_theory.interval_integral_tendsto_integral_Ioi MeasureTheory.intervalIntegral_tendsto_integral_Ioi
 
@@ -850,20 +848,19 @@ theorem integral_comp_rpow_Ioi (g : ℝ → E) {p : ℝ} (hp : p ≠ 0) :
     rcases lt_or_gt_of_ne hp with (h | h)
     · apply StrictAntiOn.injOn
       intro x hx y hy hxy
-      rw [← inv_lt_inv (rpow_pos_of_pos hx p) (rpow_pos_of_pos hy p), ← rpow_neg (le_of_lt hx),
-        ← rpow_neg (le_of_lt hy)]
+      rw [← inv_lt_inv (rpow_pos_of_pos hx p) (rpow_pos_of_pos hy p)]; rw [← rpow_neg (le_of_lt hx)]; rw [← rpow_neg (le_of_lt hy)]
       exact rpow_lt_rpow (le_of_lt hx) hxy (neg_pos.mpr h)
     exact StrictMonoOn.injOn fun x hx y _ hxy => rpow_lt_rpow (mem_Ioi.mp hx).le hxy h
   have a3 : (fun t : ℝ => t ^ p) '' S = S := by
     ext1 x; rw [mem_image]; constructor
     · rintro ⟨y, hy, rfl⟩; exact rpow_pos_of_pos hy p
     · intro hx; refine' ⟨x ^ (1 / p), rpow_pos_of_pos hx _, _⟩
-      rw [← rpow_mul (le_of_lt hx), one_div_mul_cancel hp, rpow_one]
+      rw [← rpow_mul (le_of_lt hx)]; rw [one_div_mul_cancel hp]; rw [rpow_one]
   have := integral_image_eq_integral_abs_deriv_smul measurableSet_Ioi a1 a2 g
   rw [a3] at this; rw [this]
   refine' set_integral_congr measurableSet_Ioi _
   intro x hx; dsimp only
-  rw [abs_mul, abs_of_nonneg (rpow_nonneg_of_nonneg (le_of_lt hx) _)]
+  rw [abs_mul]; rw [abs_of_nonneg (rpow_nonneg_of_nonneg (le_of_lt hx) _)]
 #align measure_theory.integral_comp_rpow_Ioi MeasureTheory.integral_comp_rpow_Ioi
 
 theorem integral_comp_rpow_Ioi_of_pos {g : ℝ → E} {p : ℝ} (hp : 0 < p) :
@@ -875,11 +872,10 @@ theorem integral_comp_rpow_Ioi_of_pos {g : ℝ → E} {p : ℝ} (hp : 0 < p) :
 theorem integral_comp_mul_left_Ioi (g : ℝ → E) (a : ℝ) {b : ℝ} (hb : 0 < b) :
     (∫ x in Ioi a, g (b * x)) = |b⁻¹| • ∫ x in Ioi (b * a), g x := by
   have : ∀ c : ℝ, MeasurableSet (Ioi c) := fun c => measurableSet_Ioi
-  rw [← integral_indicator (this a), ← integral_indicator (this (b * a)),
-    ← Measure.integral_comp_mul_left]
+  rw [← integral_indicator (this a)]; rw [← integral_indicator (this (b * a))]; rw [← Measure.integral_comp_mul_left]
   congr
   ext1 x
-  rw [← indicator_comp_right, preimage_const_mul_Ioi _ hb, mul_div_cancel_left _ hb.ne']
+  rw [← indicator_comp_right]; rw [preimage_const_mul_Ioi _ hb]; rw [mul_div_cancel_left _ hb.ne']
   rfl
 #align measure_theory.integral_comp_mul_left_Ioi MeasureTheory.integral_comp_mul_left_Ioi
 
@@ -908,7 +904,7 @@ theorem integrableOn_Ioi_comp_rpow_iff [NormedSpace ℝ E] (f : ℝ → E) {p : 
     rcases lt_or_gt_of_ne hp with (h | h)
     · apply StrictAntiOn.injOn
       intro x hx y hy hxy
-      rw [← inv_lt_inv (rpow_pos_of_pos hx p) (rpow_pos_of_pos hy p), ← rpow_neg (le_of_lt hx), ←
+      rw [← inv_lt_inv (rpow_pos_of_pos hx p) (rpow_pos_of_pos hy p)]; rw [← rpow_neg (le_of_lt hx)]; rw [←
         rpow_neg (le_of_lt hy)]
       exact rpow_lt_rpow (le_of_lt hx) hxy (neg_pos.mpr h)
     exact StrictMonoOn.injOn fun x hx y _hy hxy => rpow_lt_rpow (mem_Ioi.mp hx).le hxy h
@@ -916,7 +912,7 @@ theorem integrableOn_Ioi_comp_rpow_iff [NormedSpace ℝ E] (f : ℝ → E) {p : 
     ext1 x; rw [mem_image]; constructor
     · rintro ⟨y, hy, rfl⟩; exact rpow_pos_of_pos hy p
     · intro hx; refine' ⟨x ^ (1 / p), rpow_pos_of_pos hx _, _⟩
-      rw [← rpow_mul (le_of_lt hx), one_div_mul_cancel hp, rpow_one]
+      rw [← rpow_mul (le_of_lt hx)]; rw [one_div_mul_cancel hp]; rw [rpow_one]
   have := integrableOn_image_iff_integrableOn_abs_deriv_smul measurableSet_Ioi a1 a2 f
   rw [a3] at this
   rw [this]
@@ -938,7 +934,7 @@ theorem integrableOn_Ioi_comp_mul_left_iff (f : ℝ → E) (c : ℝ) {a : ℝ} (
   rw [← integrable_indicator_iff (measurableSet_Ioi : MeasurableSet <| Ioi <| a * c)]
   convert integrable_comp_mul_left_iff ((Ioi (a * c)).indicator f) ha.ne' using 2
   ext1 x
-  rw [← indicator_comp_right, preimage_const_mul_Ioi _ ha, mul_comm a c, mul_div_cancel _ ha.ne']
+  rw [← indicator_comp_right]; rw [preimage_const_mul_Ioi _ ha]; rw [mul_comm a c]; rw [mul_div_cancel _ ha.ne']
   rfl
 #align measure_theory.integrable_on_Ioi_comp_mul_left_iff MeasureTheory.integrableOn_Ioi_comp_mul_left_iff
 

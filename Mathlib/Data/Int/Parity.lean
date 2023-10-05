@@ -105,7 +105,7 @@ theorem even_add : Even (m + n) ↔ (Even m ↔ Even n) := by
 #align int.even_add Int.even_add
 
 theorem even_add' : Even (m + n) ↔ (Odd m ↔ Odd n) := by
-  rw [even_add, even_iff_not_odd, even_iff_not_odd, not_iff_not]
+  rw [even_add]; rw [even_iff_not_odd]; rw [even_iff_not_odd]; rw [not_iff_not]
 #align int.even_add' Int.even_add'
 
 set_option linter.deprecated false in
@@ -124,7 +124,7 @@ theorem even_sub : Even (m - n) ↔ (Even m ↔ Even n) := by
 #align int.even_sub Int.even_sub
 
 theorem even_sub' : Even (m - n) ↔ (Odd m ↔ Odd n) := by
-  rw [even_sub, even_iff_not_odd, even_iff_not_odd, not_iff_not]
+  rw [even_sub]; rw [even_iff_not_odd]; rw [even_iff_not_odd]; rw [not_iff_not]
 #align int.even_sub' Int.even_sub'
 
 @[parity_simps]
@@ -162,18 +162,18 @@ theorem even_pow' {n : ℕ} (h : n ≠ 0) : Even (m ^ n) ↔ Even m :=
 
 @[parity_simps]
 theorem odd_pow {n : ℕ} : Odd (m ^ n) ↔ Odd m ∨ n = 0 := by
-  rw [← not_iff_not, ← Int.even_iff_not_odd, not_or, ← Int.even_iff_not_odd, Int.even_pow]
+  rw [← not_iff_not]; rw [← Int.even_iff_not_odd]; rw [not_or]; rw [← Int.even_iff_not_odd]; rw [Int.even_pow]
 
 theorem odd_pow' {n : ℕ} (h : n ≠ 0) : Odd (m ^ n) ↔ Odd m :=
   odd_pow.trans <| or_iff_left h
 
 @[parity_simps]
 theorem odd_add : Odd (m + n) ↔ (Odd m ↔ Even n) := by
-  rw [odd_iff_not_even, even_add, not_iff, odd_iff_not_even]
+  rw [odd_iff_not_even]; rw [even_add]; rw [not_iff]; rw [odd_iff_not_even]
 #align int.odd_add Int.odd_add
 
 theorem odd_add' : Odd (m + n) ↔ (Odd n ↔ Even m) := by
-  rw [add_comm, odd_add]
+  rw [add_comm]; rw [odd_add]
 #align int.odd_add' Int.odd_add'
 
 theorem ne_of_odd_add (h : Odd (m + n)) : m ≠ n :=
@@ -182,11 +182,11 @@ theorem ne_of_odd_add (h : Odd (m + n)) : m ≠ n :=
 
 @[parity_simps]
 theorem odd_sub : Odd (m - n) ↔ (Odd m ↔ Even n) := by
-  rw [odd_iff_not_even, even_sub, not_iff, odd_iff_not_even]
+  rw [odd_iff_not_even]; rw [even_sub]; rw [not_iff]; rw [odd_iff_not_even]
 #align int.odd_sub Int.odd_sub
 
 theorem odd_sub' : Odd (m - n) ↔ (Odd n ↔ Even m) := by
-  rw [odd_iff_not_even, even_sub, not_iff, not_iff_comm, odd_iff_not_even]
+  rw [odd_iff_not_even]; rw [even_sub]; rw [not_iff]; rw [not_iff_comm]; rw [odd_iff_not_even]
 #align int.odd_sub' Int.odd_sub'
 
 theorem even_mul_succ_self (n : ℤ) : Even (n * (n + 1)) := by
@@ -201,7 +201,7 @@ theorem even_coe_nat (n : ℕ) : Even (n : ℤ) ↔ Even n := by
 -- Porting note: was simp. simp can prove this.
 @[norm_cast]
 theorem odd_coe_nat (n : ℕ) : Odd (n : ℤ) ↔ Odd n := by
-  rw [odd_iff_not_even, Nat.odd_iff_not_even, even_coe_nat]
+  rw [odd_iff_not_even]; rw [Nat.odd_iff_not_even]; rw [even_coe_nat]
 #align int.odd_coe_nat Int.odd_coe_nat
 
 @[simp]
@@ -212,7 +212,7 @@ theorem natAbs_even : Even n.natAbs ↔ Even n := by
 -- Porting note: was simp. simp can prove this.
 --@[simp]
 theorem natAbs_odd : Odd n.natAbs ↔ Odd n := by
-  rw [odd_iff_not_even, Nat.odd_iff_not_even, natAbs_even]
+  rw [odd_iff_not_even]; rw [Nat.odd_iff_not_even]; rw [natAbs_even]
 #align int.nat_abs_odd Int.natAbs_odd
 
 alias ⟨_, _root_.Even.natAbs⟩ := natAbs_even
@@ -231,17 +231,15 @@ theorem four_dvd_add_or_sub_of_odd {a b : ℤ} (ha : Odd a) (hb : Odd b) :
   obtain ⟨n, rfl⟩ := hb
   obtain h | h := Int.even_or_odd (m + n)
   · right
-    rw [Int.even_add, ← Int.even_sub] at h
+    rw [Int.even_add] at h; rw [← Int.even_sub] at h
     obtain ⟨k, hk⟩ := h
     convert dvd_mul_right 4 k using 1
-    rw [eq_add_of_sub_eq hk, mul_add, add_assoc, add_sub_cancel, ← two_mul, ← mul_assoc]
+    rw [eq_add_of_sub_eq hk]; rw [mul_add]; rw [add_assoc]; rw [add_sub_cancel]; rw [← two_mul]; rw [← mul_assoc]
     rfl
   · left
     obtain ⟨k, hk⟩ := h
     convert dvd_mul_right 4 (k + 1) using 1
-    rw [eq_sub_of_add_eq hk, add_right_comm, ← add_sub, mul_add, mul_sub, add_assoc, add_assoc,
-      sub_add, add_assoc, ← sub_sub (2 * n), sub_self, zero_sub, sub_neg_eq_add, ← mul_assoc,
-      mul_add]
+    rw [eq_sub_of_add_eq hk]; rw [add_right_comm]; rw [← add_sub]; rw [mul_add]; rw [mul_sub]; rw [add_assoc]; rw [add_assoc]; rw [sub_add]; rw [add_assoc]; rw [← sub_sub (2 * n)]; rw [sub_self]; rw [zero_sub]; rw [sub_neg_eq_add]; rw [← mul_assoc]; rw [mul_add]
     rfl
 #align int.four_dvd_add_or_sub_of_odd Int.four_dvd_add_or_sub_of_odd
 

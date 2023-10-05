@@ -350,7 +350,7 @@ theorem foldMap_map [Monoid γ] (f : α → β) (g : β → γ) (xs : t α) :
 
 theorem foldl_toList (f : α → β → α) (xs : t β) (x : α) :
     foldl f x xs = List.foldl f x (toList xs) := by
-  rw [← FreeMonoid.toList_ofList (toList xs), ← foldl.unop_ofFreeMonoid]
+  rw [← FreeMonoid.toList_ofList (toList xs)]; rw [← foldl.unop_ofFreeMonoid]
   simp only [foldl, toList_spec, foldMap_hom_free, foldl.ofFreeMonoid_comp_of, Foldl.get,
     FreeMonoid.ofList_toList]
 #align traversable.foldl_to_list Traversable.foldl_toList
@@ -358,8 +358,7 @@ theorem foldl_toList (f : α → β → α) (xs : t β) (x : α) :
 theorem foldr_toList (f : α → β → β) (xs : t α) (x : β) :
     foldr f x xs = List.foldr f x (toList xs) := by
   change _ = Foldr.ofFreeMonoid _ (FreeMonoid.ofList <| toList xs) _
-  rw [toList_spec, foldr, Foldr.get, FreeMonoid.ofList_toList, foldMap_hom_free,
-    foldr.ofFreeMonoid_comp_of]
+  rw [toList_spec]; rw [foldr]; rw [Foldr.get]; rw [FreeMonoid.ofList_toList]; rw [foldMap_hom_free]; rw [foldr.ofFreeMonoid_comp_of]
 #align traversable.foldr_to_list Traversable.foldr_toList
 
 theorem toList_map (f : α → β) (xs : t α) : toList (f <$> xs) = f <$> toList xs := by

@@ -190,13 +190,13 @@ instance instMul : Mul 𝓜(𝕜, A) where
 instance instNatCast : NatCast 𝓜(𝕜, A) where
   natCast n :=
     ⟨n, fun x y => by
-      rw [Prod.snd_natCast, Prod.fst_natCast]
+      rw [Prod.snd_natCast]; rw [Prod.fst_natCast]
       simp only [← Nat.smul_one_eq_coe, smul_apply, one_apply, mul_smul_comm, smul_mul_assoc]⟩
 
 instance instIntCast : IntCast 𝓜(𝕜, A) where
   intCast n :=
     ⟨n, fun x y => by
-      rw [Prod.snd_intCast, Prod.fst_intCast]
+      rw [Prod.snd_intCast]; rw [Prod.fst_intCast]
       simp only [← Int.smul_one_eq_coe, smul_apply, one_apply, mul_smul_comm, smul_mul_assoc]⟩
 
 instance instPow : Pow 𝓜(𝕜, A) ℕ where
@@ -205,7 +205,7 @@ instance instPow : Pow 𝓜(𝕜, A) ℕ where
       induction' n with k hk generalizing x y
       · rfl
       · rw [Prod.pow_snd, Prod.pow_fst] at hk ⊢
-        rw [pow_succ a.snd, mul_apply, a.central, hk, pow_succ' a.fst, mul_apply]⟩
+        rw [pow_succ a.snd]; rw [mul_apply]; rw [a.central]; rw [hk]; rw [pow_succ' a.fst]; rw [mul_apply]⟩
 
 instance instInhabited : Inhabited 𝓜(𝕜, A) :=
   ⟨0⟩

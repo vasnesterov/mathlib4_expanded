@@ -85,7 +85,7 @@ theorem comp (hg : IsConformalMap g) (hf : IsConformalMap f) : IsConformalMap (g
   rcases hf with ⟨cf, hcf, lif, rfl⟩
   rcases hg with ⟨cg, hcg, lig, rfl⟩
   refine' ⟨cg * cf, mul_ne_zero hcg hcf, lig.comp lif, _⟩
-  rw [smul_comp, comp_smul, mul_smul]
+  rw [smul_comp]; rw [comp_smul]; rw [mul_smul]
   rfl
 #align is_conformal_map.comp IsConformalMap.comp
 

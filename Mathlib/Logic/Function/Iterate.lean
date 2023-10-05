@@ -124,7 +124,7 @@ theorem iterate_left {g : ℕ → α → α} (H : ∀ n, Semiconj f (g n) (g <| 
     rw [Nat.zero_add]
     exact id_left
   | succ n ihn =>
-    rw [Nat.succ_eq_add_one, Nat.add_right_comm, Nat.add_assoc]
+    rw [Nat.succ_eq_add_one]; rw [Nat.add_right_comm]; rw [Nat.add_assoc]
     exact (H k).comp_left (ihn (k + 1))
 #align function.semiconj.iterate_left Function.Semiconj.iterate_left
 
@@ -184,7 +184,7 @@ theorem Semiconj₂.iterate {f : α → α} {op : α → α → α} (hf : Semico
 variable (f)
 
 theorem iterate_succ' (n : ℕ) : f^[n.succ] = f ∘ f^[n] := by
-  rw [iterate_succ, (Commute.self_iterate f n).comp_eq]
+  rw [iterate_succ]; rw [(Commute.self_iterate f n).comp_eq]
 #align function.iterate_succ' Function.iterate_succ'
 
 theorem iterate_succ_apply' (n : ℕ) (x : α) : f^[n.succ] x = f (f^[n] x) := by
@@ -193,11 +193,11 @@ theorem iterate_succ_apply' (n : ℕ) (x : α) : f^[n.succ] x = f (f^[n] x) := b
 #align function.iterate_succ_apply' Function.iterate_succ_apply'
 
 theorem iterate_pred_comp_of_pos {n : ℕ} (hn : 0 < n) : f^[n.pred] ∘ f = f^[n] := by
-  rw [← iterate_succ, Nat.succ_pred_eq_of_pos hn]
+  rw [← iterate_succ]; rw [Nat.succ_pred_eq_of_pos hn]
 #align function.iterate_pred_comp_of_pos Function.iterate_pred_comp_of_pos
 
 theorem comp_iterate_pred_of_pos {n : ℕ} (hn : 0 < n) : f ∘ f^[n.pred] = f^[n] := by
-  rw [← iterate_succ', Nat.succ_pred_eq_of_pos hn]
+  rw [← iterate_succ']; rw [Nat.succ_pred_eq_of_pos hn]
 #align function.comp_iterate_pred_of_pos Function.comp_iterate_pred_of_pos
 
 /-- A recursor for the iterate of a function. -/
@@ -218,7 +218,7 @@ variable {f} {m n : ℕ} {a : α}
 theorem LeftInverse.iterate {g : α → α} (hg : LeftInverse g f) (n : ℕ) :
     LeftInverse g^[n] f^[n] :=
   Nat.recOn n (fun _ ↦ rfl) fun n ihn ↦ by
-    rw [iterate_succ', iterate_succ]
+    rw [iterate_succ']; rw [iterate_succ]
     exact ihn.comp hg
 #align function.left_inverse.iterate Function.LeftInverse.iterate
 

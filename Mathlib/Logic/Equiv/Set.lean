@@ -406,7 +406,7 @@ protected def unionSumInter {α : Type u} (s t : Set α) [DecidablePred (· ∈ 
           exacts [fun x hx => hx.2, fun x hx => not_not_intro hx.1])
     _ ≃ Sum s t := by
       { rw [(_ : t \ s ∪ s ∩ t = t)]
-        rw [union_comm, inter_comm, inter_union_diff] }
+        rw [union_comm]; rw [inter_comm]; rw [inter_union_diff] }
 #align equiv.set.union_sum_inter Equiv.Set.unionSumInter
 
 /-- Given an equivalence `e₀` between sets `s : Set α` and `t : Set β`, the set of equivalences

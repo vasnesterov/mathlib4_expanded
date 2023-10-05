@@ -81,17 +81,17 @@ theorem max_zero_add_max_neg_zero_eq_abs_self (a : α) : max a 0 + max (-a) 0 = 
 #align max_zero_add_max_neg_zero_eq_abs_self max_zero_add_max_neg_zero_eq_abs_self
 
 theorem abs_eq_iff_mul_self_eq : |a| = |b| ↔ a * a = b * b := by
-  rw [← abs_mul_abs_self, ← abs_mul_abs_self b]
+  rw [← abs_mul_abs_self]; rw [← abs_mul_abs_self b]
   exact (mul_self_inj (abs_nonneg a) (abs_nonneg b)).symm
 #align abs_eq_iff_mul_self_eq abs_eq_iff_mul_self_eq
 
 theorem abs_lt_iff_mul_self_lt : |a| < |b| ↔ a * a < b * b := by
-  rw [← abs_mul_abs_self, ← abs_mul_abs_self b]
+  rw [← abs_mul_abs_self]; rw [← abs_mul_abs_self b]
   exact mul_self_lt_mul_self_iff (abs_nonneg a) (abs_nonneg b)
 #align abs_lt_iff_mul_self_lt abs_lt_iff_mul_self_lt
 
 theorem abs_le_iff_mul_self_le : |a| ≤ |b| ↔ a * a ≤ b * b := by
-  rw [← abs_mul_abs_self, ← abs_mul_abs_self b]
+  rw [← abs_mul_abs_self]; rw [← abs_mul_abs_self b]
   exact mul_self_le_mul_self_iff (abs_nonneg a) (abs_nonneg b)
 #align abs_le_iff_mul_self_le abs_le_iff_mul_self_le
 

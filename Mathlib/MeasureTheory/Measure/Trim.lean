@@ -42,7 +42,7 @@ variable {m m0 : MeasurableSpace α} {μ : Measure α} {s : Set α}
 
 theorem toOuterMeasure_trim_eq_trim_toOuterMeasure (μ : Measure α) (hm : m ≤ m0) :
     @Measure.toOuterMeasure _ m (μ.trim hm) = @OuterMeasure.trim _ m μ.toOuterMeasure := by
-  rw [Measure.trim, toMeasure_toOuterMeasure (ms := m)]
+  rw [Measure.trim]; rw [toMeasure_toOuterMeasure (ms := m)]
 #align measure_theory.to_outer_measure_trim_eq_trim_to_outer_measure MeasureTheory.toOuterMeasure_trim_eq_trim_toOuterMeasure
 
 @[simp]
@@ -51,7 +51,7 @@ theorem zero_trim (hm : m ≤ m0) : (0 : Measure α).trim hm = (0 : @Measure α 
 #align measure_theory.zero_trim MeasureTheory.zero_trim
 
 theorem trim_measurableSet_eq (hm : m ≤ m0) (hs : @MeasurableSet α m s) : μ.trim hm s = μ s := by
-  rw [Measure.trim, toMeasure_apply (ms := m) _ _ hs]
+  rw [Measure.trim]; rw [toMeasure_apply (ms := m) _ _ hs]
 #align measure_theory.trim_measurable_set_eq MeasureTheory.trim_measurableSet_eq
 
 theorem le_trim (hm : m ≤ m0) : μ s ≤ μ.trim hm s := by
@@ -86,16 +86,13 @@ theorem ae_le_of_ae_le_trim {E} [LE E] {hm : m ≤ m0} {f₁ f₂ : α → E}
 theorem trim_trim {m₁ m₂ : MeasurableSpace α} {hm₁₂ : m₁ ≤ m₂} {hm₂ : m₂ ≤ m0} :
     (μ.trim hm₂).trim hm₁₂ = μ.trim (hm₁₂.trans hm₂) := by
   refine @Measure.ext _ m₁ _ _ (fun t ht => ?_)
-  rw [trim_measurableSet_eq hm₁₂ ht, trim_measurableSet_eq (hm₁₂.trans hm₂) ht,
-    trim_measurableSet_eq hm₂ (hm₁₂ t ht)]
+  rw [trim_measurableSet_eq hm₁₂ ht]; rw [trim_measurableSet_eq (hm₁₂.trans hm₂) ht]; rw [trim_measurableSet_eq hm₂ (hm₁₂ t ht)]
 #align measure_theory.trim_trim MeasureTheory.trim_trim
 
 theorem restrict_trim (hm : m ≤ m0) (μ : Measure α) (hs : @MeasurableSet α m s) :
     @Measure.restrict α m (μ.trim hm) s = (μ.restrict s).trim hm := by
   refine @Measure.ext _ m _ _ (fun t ht => ?_)
-  rw [@Measure.restrict_apply α m _ _ _ ht, trim_measurableSet_eq hm ht,
-    Measure.restrict_apply (hm t ht),
-    trim_measurableSet_eq hm (@MeasurableSet.inter α m t s ht hs)]
+  rw [@Measure.restrict_apply α m _ _ _ ht]; rw [trim_measurableSet_eq hm ht]; rw [Measure.restrict_apply (hm t ht)]; rw [trim_measurableSet_eq hm (@MeasurableSet.inter α m t s ht hs)]
 #align measure_theory.restrict_trim MeasureTheory.restrict_trim
 
 instance isFiniteMeasure_trim (hm : m ≤ m0) [IsFiniteMeasure μ] : IsFiniteMeasure (μ.trim hm) where

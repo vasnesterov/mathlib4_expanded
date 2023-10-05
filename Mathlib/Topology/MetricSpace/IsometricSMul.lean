@@ -125,8 +125,7 @@ theorem edist_div_right [DivInvMonoid M] [PseudoEMetricSpace M] [IsometricSMul M
 @[to_additive (attr := simp)]
 theorem edist_inv_inv [PseudoEMetricSpace G] [IsometricSMul G G] [IsometricSMul Gᵐᵒᵖ G]
     (a b : G) : edist a⁻¹ b⁻¹ = edist a b := by
-  rw [← edist_mul_left a, ← edist_mul_right _ _ b, mul_right_inv, one_mul, inv_mul_cancel_right,
-    edist_comm]
+  rw [← edist_mul_left a]; rw [← edist_mul_right _ _ b]; rw [mul_right_inv]; rw [one_mul]; rw [inv_mul_cancel_right]; rw [edist_comm]
 #align edist_inv_inv edist_inv_inv
 #align edist_neg_neg edist_neg_neg
 
@@ -146,7 +145,7 @@ theorem edist_inv [PseudoEMetricSpace G] [IsometricSMul G G] [IsometricSMul Gᵐ
 @[to_additive (attr := simp)]
 theorem edist_div_left [PseudoEMetricSpace G] [IsometricSMul G G] [IsometricSMul Gᵐᵒᵖ G]
     (a b c : G) : edist (a / b) (a / c) = edist b c := by
-  rw [div_eq_mul_inv, div_eq_mul_inv, edist_mul_left, edist_inv_inv]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]; rw [edist_mul_left]; rw [edist_inv_inv]
 #align edist_div_left edist_div_left
 #align edist_sub_left edist_sub_left
 
@@ -290,7 +289,7 @@ theorem smul_closedBall (c : G) (x : X) (r : ℝ≥0∞) : c • closedBall x r 
 @[to_additive (attr := simp)]
 theorem preimage_smul_closedBall (c : G) (x : X) (r : ℝ≥0∞) :
     (· • ·) c ⁻¹' closedBall x r = closedBall (c⁻¹ • x) r := by
-  rw [preimage_smul, smul_closedBall]
+  rw [preimage_smul]; rw [smul_closedBall]
 #align emetric.preimage_smul_closed_ball EMetric.preimage_smul_closedBall
 #align emetric.preimage_vadd_closed_ball EMetric.preimage_vadd_closedBall
 
@@ -441,7 +440,7 @@ theorem smul_ball (c : G) (x : X) (r : ℝ) : c • ball x r = ball (c • x) r 
 
 @[to_additive (attr := simp)]
 theorem preimage_smul_ball (c : G) (x : X) (r : ℝ) : (· • ·) c ⁻¹' ball x r = ball (c⁻¹ • x) r := by
-  rw [preimage_smul, smul_ball]
+  rw [preimage_smul]; rw [smul_ball]
 #align metric.preimage_smul_ball Metric.preimage_smul_ball
 #align metric.preimage_vadd_ball Metric.preimage_vadd_ball
 

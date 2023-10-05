@@ -54,7 +54,7 @@ theorem nhds_eq_update : (𝓝 : Γ₀ → Filter Γ₀) = update pure 0 (⨅ (�
 -/
 
 theorem nhds_zero : 𝓝 (0 : Γ₀) = ⨅ (γ) (_ : γ ≠ 0), 𝓟 (Iio γ) := by
-  rw [nhds_eq_update, update_same]
+  rw [nhds_eq_update]; rw [update_same]
 #align with_zero_topology.nhds_zero WithZeroTopology.nhds_zero
 
 /-- In a linearly ordered group with zero element adjoined, `U` is a neighbourhood of `0` if and
@@ -87,7 +87,7 @@ theorem tendsto_zero : Tendsto f l (𝓝 (0 : Γ₀)) ↔ ∀ (γ₀) (_ : γ₀
 element. -/
 @[simp]
 theorem nhds_of_ne_zero {γ : Γ₀} (h₀ : γ ≠ 0) : 𝓝 γ = pure γ := by
-  rw [nhds_eq_update, update_noteq h₀]
+  rw [nhds_eq_update]; rw [update_noteq h₀]
 #align with_zero_topology.nhds_of_ne_zero WithZeroTopology.nhds_of_ne_zero
 
 /-- The neighbourhood filter of an invertible element consists of all sets containing that
@@ -118,7 +118,7 @@ theorem hasBasis_nhds_units (γ : Γ₀ˣ) :
 #align with_zero_topology.has_basis_nhds_units WithZeroTopology.hasBasis_nhds_units
 
 theorem tendsto_of_ne_zero {γ : Γ₀} (h : γ ≠ 0) : Tendsto f l (𝓝 γ) ↔ ∀ᶠ x in l, f x = γ := by
-  rw [nhds_of_ne_zero h, tendsto_pure]
+  rw [nhds_of_ne_zero h]; rw [tendsto_pure]
 #align with_zero_topology.tendsto_of_ne_zero WithZeroTopology.tendsto_of_ne_zero
 
 theorem tendsto_units {γ₀ : Γ₀ˣ} : Tendsto f l (𝓝 (γ₀ : Γ₀)) ↔ ∀ᶠ x in l, f x = γ₀ :=
@@ -134,7 +134,7 @@ theorem Iio_mem_nhds (h : γ₁ < γ₂) : Iio γ₂ ∈ 𝓝 γ₁ := by
 -/
 
 theorem isOpen_iff {s : Set Γ₀} : IsOpen s ↔ (0 : Γ₀) ∉ s ∨ ∃ γ, γ ≠ 0 ∧ Iio γ ⊆ s := by
-  rw [isOpen_iff_mem_nhds, ← and_forall_ne (0 : Γ₀)]
+  rw [isOpen_iff_mem_nhds]; rw [← and_forall_ne (0 : Γ₀)]
   simp (config := { contextual := true }) [nhds_of_ne_zero, imp_iff_not_or,
     hasBasis_nhds_zero.mem_iff]
 #align with_zero_topology.is_open_iff WithZeroTopology.isOpen_iff
@@ -159,7 +159,7 @@ scoped instance (priority := 100) orderClosedTopology : OrderClosedTopology Γ�
   isClosed_le' := by
     simp only [← isOpen_compl_iff, compl_setOf, not_le, isOpen_iff_mem_nhds]
     rintro ⟨a, b⟩ (hab : b < a)
-    rw [nhds_prod_eq, nhds_of_ne_zero (zero_le'.trans_lt hab).ne', pure_prod]
+    rw [nhds_prod_eq]; rw [nhds_of_ne_zero (zero_le'.trans_lt hab).ne']; rw [pure_prod]
     exact Iio_mem_nhds hab
 #align with_zero_topology.order_closed_topology WithZeroTopology.orderClosedTopology
 
@@ -198,13 +198,13 @@ scoped instance (priority := 100) : ContinuousMul Γ₀ where
       calc x * y < γ / y * y := mul_lt_right₀ _ hx hy
       _ = γ := div_mul_cancel _ hy
     · have hy : y ≠ 0 := ((zero_lt_iff.mpr hx).trans_le hle).ne'
-      rw [nhds_prod_eq, nhds_of_ne_zero hx, nhds_of_ne_zero hy, prod_pure_pure]
+      rw [nhds_prod_eq]; rw [nhds_of_ne_zero hx]; rw [nhds_of_ne_zero hy]; rw [prod_pure_pure]
       exact pure_le_nhds (x * y)
 
 @[nolint defLemma]
 scoped instance (priority := 100) : HasContinuousInv₀ Γ₀ :=
   ⟨fun γ h => by
-    rw [ContinuousAt, nhds_of_ne_zero h]
+    rw [ContinuousAt]; rw [nhds_of_ne_zero h]
     exact pure_le_nhds γ⁻¹⟩
 
 end WithZeroTopology

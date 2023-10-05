@@ -76,7 +76,7 @@ section NegOneSquare
 theorem ZMod.isSquare_neg_one_of_dvd {m n : ℕ} (hd : m ∣ n) (hs : IsSquare (-1 : ZMod n)) :
     IsSquare (-1 : ZMod m) := by
   let f : ZMod n →+* ZMod m := ZMod.castHom hd _
-  rw [← RingHom.map_one f, ← RingHom.map_neg]
+  rw [← RingHom.map_one f]; rw [← RingHom.map_neg]
   exact hs.map f
 #align zmod.is_square_neg_one_of_dvd ZMod.isSquare_neg_one_of_dvd
 
@@ -88,7 +88,7 @@ theorem ZMod.isSquare_neg_one_mul {m n : ℕ} (hc : m.Coprime n) (hm : IsSquare 
     rw [show (-1 : ZMod m × ZMod n) = ((-1 : ZMod m), (-1 : ZMod n)) from rfl]
     obtain ⟨x, hx⟩ := hm
     obtain ⟨y, hy⟩ := hn
-    rw [hx, hy]
+    rw [hx]; rw [hy]
     exact ⟨(x, y), rfl⟩
   simpa only [RingEquiv.map_neg_one] using this.map (ZMod.chineseRemainder hc).symm
 #align zmod.is_square_neg_one_mul ZMod.isSquare_neg_one_mul
@@ -132,7 +132,7 @@ theorem ZMod.isSquare_neg_one_iff' {n : ℕ} (hn : Squarefree n) :
   · exact fun _ => by norm_num
   · replace hp := H hp (dvd_of_mul_right_dvd hpq)
     replace hq := hq (dvd_of_mul_left_dvd hpq)
-    rw [show 3 = 3 % 4 by norm_num, Ne.def, ← ZMod.nat_cast_eq_nat_cast_iff'] at hp hq ⊢
+    rw [show 3 = 3 % 4 by norm_num] at hp hq ⊢; rw [Ne.def] at hp hq ⊢; rw [← ZMod.nat_cast_eq_nat_cast_iff'] at hp hq ⊢
     rw [Nat.cast_mul]
     exact help p q hp hq
 #align zmod.is_square_neg_one_iff' ZMod.isSquare_neg_one_iff'

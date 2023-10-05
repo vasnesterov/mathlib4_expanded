@@ -211,16 +211,14 @@ noncomputable instance colimitMulOneClass : MulOneClass (M.{v, u} F) :=
       refine Quot.inductionOn x ?_
       intro x
       cases' x with j x
-      rw [colimit_one_eq F j, colimit_mul_mk_eq F ⟨j, 1⟩ ⟨j, x⟩ j (𝟙 j) (𝟙 j), MonoidHom.map_one,
-        one_mul, F.map_id]
+      rw [colimit_one_eq F j]; rw [colimit_mul_mk_eq F ⟨j, 1⟩ ⟨j, x⟩ j (𝟙 j) (𝟙 j)]; rw [MonoidHom.map_one]; rw [one_mul]; rw [F.map_id]
       -- Porting note : `id_apply` does not work here, but the two sides are def-eq
       rfl
     mul_one := fun x => by
       refine Quot.inductionOn x ?_
       intro x
       cases' x with j x
-      rw [colimit_one_eq F j, colimit_mul_mk_eq F ⟨j, x⟩ ⟨j, 1⟩ j (𝟙 j) (𝟙 j), MonoidHom.map_one,
-        mul_one, F.map_id]
+      rw [colimit_one_eq F j]; rw [colimit_mul_mk_eq F ⟨j, x⟩ ⟨j, 1⟩ j (𝟙 j) (𝟙 j)]; rw [MonoidHom.map_one]; rw [mul_one]; rw [F.map_id]
       -- Porting note : `id_apply` does not work here, but the two sides are def-eq
       rfl }
 
@@ -238,11 +236,9 @@ noncomputable instance colimitMonoid : Monoid (M.{v, u} F) :=
       dsimp
       rw [colimit_mul_mk_eq F ⟨j₁, x⟩ ⟨j₂, y⟩ (IsFiltered.max j₁ (IsFiltered.max j₂ j₃))
           (IsFiltered.leftToMax j₁ (IsFiltered.max j₂ j₃))
-          (IsFiltered.leftToMax j₂ j₃ ≫ IsFiltered.rightToMax _ _),
-        colimit_mul_mk_eq F ⟨(IsFiltered.max j₁ (IsFiltered.max j₂ j₃)), _⟩ ⟨j₃, z⟩
+          (IsFiltered.leftToMax j₂ j₃ ≫ IsFiltered.rightToMax _ _)]; rw [colimit_mul_mk_eq F ⟨(IsFiltered.max j₁ (IsFiltered.max j₂ j₃)), _⟩ ⟨j₃, z⟩
           (IsFiltered.max j₁ (IsFiltered.max j₂ j₃)) (𝟙 _)
-          (IsFiltered.rightToMax j₂ j₃ ≫ IsFiltered.rightToMax _ _),
-        colimit_mul_mk_eq.{v, u} F ⟨j₁, x⟩ ⟨IsFiltered.max j₂ j₃, _⟩ _
+          (IsFiltered.rightToMax j₂ j₃ ≫ IsFiltered.rightToMax _ _)]; rw [colimit_mul_mk_eq.{v, u} F ⟨j₁, x⟩ ⟨IsFiltered.max j₂ j₃, _⟩ _
           (IsFiltered.leftToMax _ _) (IsFiltered.rightToMax _ _)]
       congr 2
       dsimp only
@@ -374,8 +370,7 @@ noncomputable instance colimitCommMonoid : CommMonoid.{max v u} (M.{v, u} F):=
       let k := max' x.1 y.1
       let f := IsFiltered.leftToMax x.1 y.1
       let g := IsFiltered.rightToMax x.1 y.1
-      rw [colimit_mul_mk_eq.{v, u} (F ⋙ forget₂ CommMonCat MonCat) x y k f g,
-        colimit_mul_mk_eq.{v, u} (F ⋙ forget₂ CommMonCat MonCat) y x k g f]
+      rw [colimit_mul_mk_eq.{v, u} (F ⋙ forget₂ CommMonCat MonCat) x y k f g]; rw [colimit_mul_mk_eq.{v, u} (F ⋙ forget₂ CommMonCat MonCat) y x k g f]
       dsimp
       rw [mul_comm] }
 #align CommMon.filtered_colimits.colimit_comm_monoid CommMonCat.FilteredColimits.colimitCommMonoid

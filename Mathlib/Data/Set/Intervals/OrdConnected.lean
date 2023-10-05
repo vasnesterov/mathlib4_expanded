@@ -59,7 +59,7 @@ theorem ordConnected_of_Ioo {α : Type*} [PartialOrder α] {s : Set α}
   rw [ordConnected_iff]
   intro x hx y hy hxy
   rcases eq_or_lt_of_le hxy with (rfl | hxy'); · simpa
-  rw [← Ioc_insert_left hxy, ← Ioo_insert_right hxy']
+  rw [← Ioc_insert_left hxy]; rw [← Ioo_insert_right hxy']
   exact insert_subset_iff.2 ⟨hx, insert_subset_iff.2 ⟨hy, hs x hx y hy hxy'⟩⟩
 #align set.ord_connected_of_Ioo Set.ordConnected_of_Ioo
 
@@ -232,7 +232,7 @@ variable {α : Type*} [PartialOrder α] {s : Set α}
 protected theorem _root_.IsAntichain.ordConnected (hs : IsAntichain (· ≤ ·) s) : s.OrdConnected :=
   ⟨fun x hx y hy z hz => by
     obtain rfl := hs.eq hx hy (hz.1.trans hz.2)
-    rw [Icc_self, mem_singleton_iff] at hz
+    rw [Icc_self] at hz; rw [mem_singleton_iff] at hz
     rwa [hz]⟩
 #align is_antichain.ord_connected IsAntichain.ordConnected
 

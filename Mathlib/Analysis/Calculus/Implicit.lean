@@ -193,7 +193,7 @@ theorem implicitFunction_apply_image :
 
 theorem map_nhds_eq : map φ.leftFun (𝓝 φ.pt) = 𝓝 (φ.leftFun φ.pt) :=
   show map (Prod.fst ∘ φ.prodFun) (𝓝 φ.pt) = 𝓝 (φ.prodFun φ.pt).1 by
-    rw [← map_map, φ.hasStrictFDerivAt.map_nhds_eq_of_equiv, map_fst_nhds]
+    rw [← map_map]; rw [φ.hasStrictFDerivAt.map_nhds_eq_of_equiv]; rw [map_fst_nhds]
 #align implicit_function_data.map_nhds_eq ImplicitFunctionData.map_nhds_eq
 
 theorem implicitFunction_hasStrictFDerivAt (g'inv : G →L[𝕜] E)

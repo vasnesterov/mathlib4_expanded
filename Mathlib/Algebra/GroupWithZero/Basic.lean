@@ -107,7 +107,7 @@ variable [MulZeroOneClass M₀]
 
 /-- In a monoid with zero, if zero equals one, then zero is the only element. -/
 theorem eq_zero_of_zero_eq_one (h : (0 : M₀) = 1) (a : M₀) : a = 0 := by
-  rw [← mul_one a, ← h, mul_zero]
+  rw [← mul_one a]; rw [← h]; rw [mul_zero]
 #align eq_zero_of_zero_eq_one eq_zero_of_zero_eq_one
 
 /-- In a monoid with zero, if zero equals one, then zero is the unique element.
@@ -187,12 +187,12 @@ theorem mul_left_eq_self₀ : a * b = b ↔ a = 1 ∨ b = 0 :=
 
 @[simp]
 theorem mul_eq_left₀ (ha : a ≠ 0) : a * b = a ↔ b = 1 := by
-  rw [Iff.comm, ← mul_right_inj' ha, mul_one]
+  rw [Iff.comm]; rw [← mul_right_inj' ha]; rw [mul_one]
 #align mul_eq_left₀ mul_eq_left₀
 
 @[simp]
 theorem mul_eq_right₀ (hb : b ≠ 0) : a * b = b ↔ a = 1 := by
-  rw [Iff.comm, ← mul_left_inj' hb, one_mul]
+  rw [Iff.comm]; rw [← mul_left_inj' hb]; rw [one_mul]
 #align mul_eq_right₀ mul_eq_right₀
 
 @[simp]
@@ -248,7 +248,7 @@ theorem inv_mul_cancel_left₀ (h : a ≠ 0) (b : G₀) : a⁻¹ * (a * b) = b :
 
 
 private theorem inv_eq_of_mul (h : a * b = 1) : a⁻¹ = b := by
-  rw [← inv_mul_cancel_left₀ (left_ne_zero_of_mul_eq_one h) b, h, mul_one]
+  rw [← inv_mul_cancel_left₀ (left_ne_zero_of_mul_eq_one h) b]; rw [h]; rw [mul_one]
 
 -- See note [lower instance priority]
 instance (priority := 100) GroupWithZero.toDivisionMonoid : DivisionMonoid G₀ :=
@@ -276,9 +276,9 @@ instance (priority := 100) GroupWithZero.toDivisionMonoid : DivisionMonoid G₀ 
 instance (priority := 10) GroupWithZero.toCancelMonoidWithZero : CancelMonoidWithZero G₀ :=
   { (‹_› : GroupWithZero G₀) with
     mul_left_cancel_of_ne_zero := @fun x y z hx h => by
-      rw [← inv_mul_cancel_left₀ hx y, h, inv_mul_cancel_left₀ hx z],
+      rw [← inv_mul_cancel_left₀ hx y]; rw [h]; rw [inv_mul_cancel_left₀ hx z],
     mul_right_cancel_of_ne_zero := @fun x y z hy h => by
-      rw [← mul_inv_cancel_right₀ hy x, h, mul_inv_cancel_right₀ hy z] }
+      rw [← mul_inv_cancel_right₀ hy x]; rw [h]; rw [mul_inv_cancel_right₀ hy z] }
 #align group_with_zero.to_cancel_monoid_with_zero GroupWithZero.toCancelMonoidWithZero
 
 end GroupWithZero
@@ -369,7 +369,7 @@ theorem div_div_self (a : G₀) : a / (a / a) = a := by
 #align div_div_self div_div_self
 
 theorem ne_zero_of_one_div_ne_zero {a : G₀} (h : 1 / a ≠ 0) : a ≠ 0 := fun ha : a = 0 => by
-  rw [ha, div_zero] at h
+  rw [ha] at h; rw [div_zero] at h
   contradiction
 #align ne_zero_of_one_div_ne_zero ne_zero_of_one_div_ne_zero
 

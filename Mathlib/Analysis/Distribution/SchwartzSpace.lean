@@ -149,7 +149,7 @@ theorem isBigO_cocompact_zpow_neg_nat (k : ℕ) :
   simp_rw [Asymptotics.IsBigO, Asymptotics.IsBigOWith]
   refine' ⟨d, Filter.Eventually.filter_mono Filter.cocompact_le_cofinite _⟩
   refine' (Filter.eventually_cofinite_ne 0).mono fun x hx => _
-  rw [Real.norm_of_nonneg (zpow_nonneg (norm_nonneg _) _), zpow_neg, ← div_eq_mul_inv, le_div_iff']
+  rw [Real.norm_of_nonneg (zpow_nonneg (norm_nonneg _) _)]; rw [zpow_neg]; rw [← div_eq_mul_inv]; rw [le_div_iff']
   exacts [hd' x, zpow_pos_of_pos (norm_pos_iff.mpr hx) _]
 set_option linter.uppercaseLean3 false in
 #align schwartz_map.is_O_cocompact_zpow_neg_nat SchwartzMap.isBigO_cocompact_zpow_neg_nat
@@ -163,9 +163,7 @@ theorem isBigO_cocompact_rpow [ProperSpace E] (s : ℝ) :
     from this.comp_tendsto tendsto_norm_cocompact_atTop
   simp_rw [Asymptotics.IsBigO, Asymptotics.IsBigOWith]
   refine' ⟨1, (Filter.eventually_ge_atTop 1).mono fun x hx => _⟩
-  rw [one_mul, Real.norm_of_nonneg (Real.rpow_nonneg_of_nonneg (zero_le_one.trans hx) _),
-    Real.norm_of_nonneg (zpow_nonneg (zero_le_one.trans hx) _), ← Real.rpow_int_cast, Int.cast_neg,
-    Int.cast_ofNat]
+  rw [one_mul]; rw [Real.norm_of_nonneg (Real.rpow_nonneg_of_nonneg (zero_le_one.trans hx) _)]; rw [Real.norm_of_nonneg (zpow_nonneg (zero_le_one.trans hx) _)]; rw [← Real.rpow_int_cast]; rw [Int.cast_neg]; rw [Int.cast_ofNat]
   exact Real.rpow_le_rpow_of_exponent_le hx hk
 set_option linter.uppercaseLean3 false in
 #align schwartz_map.is_O_cocompact_rpow SchwartzMap.isBigO_cocompact_rpow
@@ -202,7 +200,7 @@ theorem decay_add_le_aux (k n : ℕ) (f g : 𝓢(E, F)) (x : E) :
 
 theorem decay_neg_aux (k n : ℕ) (f : 𝓢(E, F)) (x : E) :
     ‖x‖ ^ k * ‖iteratedFDeriv ℝ n (-f : E → F) x‖ = ‖x‖ ^ k * ‖iteratedFDeriv ℝ n f x‖ := by
-  rw [iteratedFDeriv_neg_apply, norm_neg]
+  rw [iteratedFDeriv_neg_apply]; rw [norm_neg]
 #align schwartz_map.decay_neg_aux SchwartzMap.decay_neg_aux
 
 variable [NormedField 𝕜] [NormedSpace 𝕜 F] [SMulCommClass ℝ 𝕜 F]
@@ -210,7 +208,7 @@ variable [NormedField 𝕜] [NormedSpace 𝕜 F] [SMulCommClass ℝ 𝕜 F]
 theorem decay_smul_aux (k n : ℕ) (f : 𝓢(E, F)) (c : 𝕜) (x : E) :
     ‖x‖ ^ k * ‖iteratedFDeriv ℝ n (c • (f : E → F)) x‖ =
       ‖c‖ * ‖x‖ ^ k * ‖iteratedFDeriv ℝ n f x‖ := by
-  rw [mul_comm ‖c‖, mul_assoc, iteratedFDeriv_const_smul_apply (f.smooth _), norm_smul]
+  rw [mul_comm ‖c‖]; rw [mul_assoc]; rw [iteratedFDeriv_const_smul_apply (f.smooth _)]; rw [norm_smul]
 #align schwartz_map.decay_smul_aux SchwartzMap.decay_smul_aux
 
 end Aux
@@ -255,7 +253,7 @@ instance instSMul : SMul 𝕜 𝓢(E, F) :=
         have hc : 0 ≤ ‖c‖ := by positivity
         refine' le_trans _ ((mul_le_mul_of_nonneg_right (f.le_seminormAux k n x) hc).trans _)
         · apply Eq.le
-          rw [mul_comm _ ‖c‖, ← mul_assoc]
+          rw [mul_comm _ ‖c‖]; rw [← mul_assoc]
           exact decay_smul_aux k n f c x
         · apply mul_le_mul_of_nonneg_left _ (f.seminormAux_nonneg k n)
           linarith }⟩
@@ -531,7 +529,7 @@ theorem one_add_le_sup_seminorm_apply {m : ℕ × ℕ} {k n : ℕ} (hk : k ≤ m
     (f : 𝓢(E, F)) (x : E) :
     (1 + ‖x‖) ^ k * ‖iteratedFDeriv ℝ n f x‖ ≤
       2 ^ m.1 * (Finset.Iic m).sup (fun m => SchwartzMap.seminorm 𝕜 m.1 m.2) f := by
-  rw [add_comm, add_pow]
+  rw [add_comm]; rw [add_pow]
   simp only [one_pow, mul_one, Finset.sum_congr, Finset.sum_mul]
   norm_cast
   rw [← Nat.sum_range_choose m.1]
@@ -712,7 +710,7 @@ protected def evalCLM (m : E) : 𝓢(E, E →L[ℝ] F) →L[𝕜] 𝓢(E, F) :=
           (mul_le_mul_of_nonneg_left (norm_iteratedFDeriv_clm_apply_const f.2 le_top)
             (by positivity))
           _
-      rw [← mul_assoc, ← mul_comm ‖m‖, mul_assoc]
+      rw [← mul_assoc]; rw [← mul_comm ‖m‖]; rw [mul_assoc]
       refine' mul_le_mul_of_nonneg_left _ (norm_nonneg _)
       simp only [Finset.sup_singleton, schwartzSeminormFamily_apply, le_seminorm])
 #align schwartz_map.eval_clm SchwartzMap.evalCLM
@@ -757,7 +755,7 @@ def bilinLeftCLM (B : E →L[ℝ] F →L[ℝ] G) {g : D → F} (hg : g.HasTemper
       rw [Finset.mul_sum]
       have : (∑ _x : ℕ in Finset.range (n + 1), (1 : ℝ)) = n + 1 := by simp
       repeat rw [mul_assoc ((n : ℝ) + 1)]
-      rw [← this, Finset.sum_mul]
+      rw [← this]; rw [Finset.sum_mul]
       refine' Finset.sum_le_sum fun i hi => _
       simp only [one_mul]
       rw [← mul_assoc, mul_comm (‖x‖ ^ k), mul_assoc, mul_assoc, mul_assoc]
@@ -767,7 +765,7 @@ def bilinLeftCLM (B : E →L[ℝ] F →L[ℝ] G) {g : D → F} (hg : g.HasTemper
       specialize hgrowth (n - i) (by simp only [tsub_le_self]) x
       rw [← mul_assoc]
       refine' le_trans (mul_le_mul_of_nonneg_left hgrowth (by positivity)) _
-      rw [mul_comm _ (C * _), mul_assoc, mul_assoc C]
+      rw [mul_comm _ (C * _)]; rw [mul_assoc]; rw [mul_assoc C]
       refine' mul_le_mul_of_nonneg_left _ hC
       rw [mul_comm _ (‖x‖ ^ k)]
       rw [← mul_assoc]
@@ -818,7 +816,7 @@ def compCLM {g : D → E} (hg : g.HasTemperateGrowth)
       intro f x
       let seminorm_f := ((Finset.Iic (k', n)).sup (schwartzSeminormFamily 𝕜 _ _)) f
       have hg_upper'' : (1 + ‖x‖) ^ (k + l * n) ≤ (1 + Cg) ^ (k + l * n) * (1 + ‖g x‖) ^ k' := by
-        rw [pow_mul, ← mul_pow]
+        rw [pow_mul]; rw [← mul_pow]
         refine' pow_le_pow_of_le_left (by positivity) _ _
         rw [add_mul]
         refine' add_le_add _ (hg_upper' x)
@@ -851,7 +849,7 @@ def compCLM {g : D → E} (hg : g.HasTemperateGrowth)
             (n ! * (2 ^ k' * seminorm_f / (1 + ‖g x‖) ^ k') * ((C + 1) * (1 + ‖x‖) ^ l) ^ n) =
           (1 + ‖x‖) ^ (k + l * n) / (1 + ‖g x‖) ^ k' *
             ((C + 1) ^ n * n ! * 2 ^ k' * seminorm_f) := by
-        rw [mul_pow, pow_add, ← pow_mul]
+        rw [mul_pow]; rw [pow_add]; rw [← pow_mul]
         ring
       rw [rearrange]
       have hgxk' : 0 < (1 + ‖g x‖) ^ k' := by positivity

@@ -49,7 +49,7 @@ theorem det_le {A : Matrix n n R} {abv : AbsoluteValue R S} {x : S} (hx : ∀ i 
     _ = ∑ _σ : Perm n, x ^ Fintype.card n :=
       (sum_congr rfl fun _ _ => by rw [prod_const, Finset.card_univ])
     _ = Nat.factorial (Fintype.card n) • x ^ Fintype.card n := by
-      rw [sum_const, Finset.card_univ, Fintype.card_perm]
+      rw [sum_const]; rw [Finset.card_univ]; rw [Fintype.card_perm]
 #align matrix.det_le Matrix.det_le
 
 theorem det_sum_le {ι : Type*} (s : Finset ι) {A : ι → Matrix n n R} {abv : AbsoluteValue R S}

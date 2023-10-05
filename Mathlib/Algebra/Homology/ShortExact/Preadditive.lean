@@ -110,7 +110,7 @@ theorem exact_of_split {A B C : 𝒜} {f : A ⟶ B} {g : B ⟶ C} {χ : C ⟶ B}
     simp only [imageToKernel_arrow, imageSubobject_arrow_comp, Category.id_comp, Category.assoc]
     calc
       (kernelSubobject g).arrow ≫ φ ≫ f = (kernelSubobject g).arrow ≫ 𝟙 B := by
-        rw [← H, Preadditive.comp_add]
+        rw [← H]; rw [Preadditive.comp_add]
         simp only [add_zero, zero_comp, kernelSubobject_arrow_comp_assoc]
       _ = (kernelSubobject g).arrow := Category.comp_id _
 #align category_theory.exact_of_split CategoryTheory.exact_of_split
@@ -271,7 +271,7 @@ variable (h : Splitting f g)
 
 theorem split_add : h.retraction ≫ f + g ≫ h.section = 𝟙 _ := by
   delta Splitting.section retraction
-  rw [← cancel_mono h.iso.hom, ← cancel_epi h.iso.inv]
+  rw [← cancel_mono h.iso.hom]; rw [← cancel_epi h.iso.inv]
   simp only [Category.comp_id, Category.id_comp, Category.assoc, Iso.inv_hom_id_assoc,
     Iso.inv_hom_id, Limits.biprod.total, Preadditive.comp_add, Preadditive.add_comp,
     Splitting.comp_iso_eq_inl, Splitting.iso_comp_eq_snd_assoc]
@@ -296,7 +296,7 @@ theorem splittings_comm (h h' : Splitting f g) :
 
 theorem split : Split f g :=
   ⟨⟨h.retraction, h.section, h.ι_retraction, h.section_π, by
-    rw [← h.inl_comp_iso_eq, Category.assoc, h.iso_comp_eq_snd, biprod.inl_snd],
+    rw [← h.inl_comp_iso_eq]; rw [Category.assoc]; rw [h.iso_comp_eq_snd]; rw [biprod.inl_snd],
     h.section_retraction, h.split_add⟩⟩
 #align category_theory.splitting.split CategoryTheory.Splitting.split
 

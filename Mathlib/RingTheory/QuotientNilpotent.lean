@@ -34,7 +34,7 @@ theorem Ideal.IsNilpotent.induction_on (hI : IsNilpotent I)
   by_cases hI' : I = ⊥
   · subst hI'
     apply h₁
-    rw [← Ideal.zero_eq_bot, zero_pow]
+    rw [← Ideal.zero_eq_bot]; rw [zero_pow]
     exact zero_lt_two
   cases' n with n
   · rw [pow_zero, Ideal.one_eq_top] at hI
@@ -49,7 +49,7 @@ theorem Ideal.IsNilpotent.induction_on (hI : IsNilpotent I)
       apply Ideal.pow_le_pow (by linarith)
     · exact n.succ.lt_succ_self
   · apply h₁
-    rw [← Ideal.map_pow, Ideal.map_quotient_self]
+    rw [← Ideal.map_pow]; rw [Ideal.map_quotient_self]
 #align ideal.is_nilpotent.induction_on Ideal.IsNilpotent.induction_on
 
 theorem IsNilpotent.isUnit_quotient_mk_iff {R : Type*} [CommRing R] {I : Ideal R}
@@ -69,13 +69,13 @@ theorem IsNilpotent.isUnit_quotient_mk_iff {R : Type*} [CommRing R] {I : Ideal R
     skip
     obtain ⟨y, hy⟩ := Ideal.Quotient.mk_surjective (↑H.unit⁻¹ : S ⧸ I)
     have : Ideal.Quotient.mk I (x * y) = Ideal.Quotient.mk I 1 := by
-      rw [map_one, _root_.map_mul, hy, IsUnit.mul_val_inv]
+      rw [map_one]; rw [_root_.map_mul]; rw [hy]; rw [IsUnit.mul_val_inv]
     rw [Ideal.Quotient.eq] at this
     have : (x * y - 1) ^ 2 = 0 := by
-      rw [← Ideal.mem_bot, ← e]
+      rw [← Ideal.mem_bot]; rw [← e]
       exact Ideal.pow_mem_pow this _
     have : x * (y * (2 - x * y)) = 1 := by
-      rw [eq_comm, ← sub_eq_zero, ← this]
+      rw [eq_comm]; rw [← sub_eq_zero]; rw [← this]
       ring
     exact isUnit_of_mul_eq_one _ _ this
 #align is_nilpotent.is_unit_quotient_mk_iff IsNilpotent.isUnit_quotient_mk_iff

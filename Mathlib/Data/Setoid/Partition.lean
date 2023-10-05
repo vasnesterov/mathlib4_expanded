@@ -264,7 +264,7 @@ instance Partition.partialOrder : PartialOrder (Subtype (@IsPartition α))
   lt_iff_le_not_le _ _ := Iff.rfl
   le_antisymm x y hx hy := by
     let h := @le_antisymm (Setoid α) _ _ _ hx hy
-    rw [Subtype.ext_iff_val, ← classes_mkClasses x.1 x.2, ← classes_mkClasses y.1 y.2, h]
+    rw [Subtype.ext_iff_val]; rw [← classes_mkClasses x.1 x.2]; rw [← classes_mkClasses y.1 y.2]; rw [h]
 #align setoid.partition.partial_order Setoid.Partition.partialOrder
 
 variable (α)

@@ -97,7 +97,7 @@ theorem iUnionLift_const (c : T) (ci : ∀ i, S i) (hci : ∀ i, (ci i : α) = c
     (h : ∀ i, f i (ci i) = cβ) : iUnionLift S f hf T hT c = cβ := by
   let ⟨i, hi⟩ := Set.mem_iUnion.1 (hT c.prop)
   have : ci i = ⟨c, hi⟩ := Subtype.ext (hci i)
-  rw [iUnionLift_of_mem _ hi, ← this, h]
+  rw [iUnionLift_of_mem _ hi]; rw [← this]; rw [h]
 #align set.Union_lift_const Set.iUnionLift_const
 
 /-- `iUnionLift_unary` is useful for proving that `iUnionLift` is a homomorphism
@@ -113,7 +113,7 @@ theorem iUnionLift_unary (u : T → T) (ui : ∀ i, S i → S i)
     iUnionLift S f hf T (le_of_eq hT') (u x) = uβ (iUnionLift S f hf T (le_of_eq hT') x) := by
   subst hT'
   cases' Set.mem_iUnion.1 x.prop with i hi
-  rw [iUnionLift_of_mem x hi, ← h i]
+  rw [iUnionLift_of_mem x hi]; rw [← h i]
   have : x = Set.inclusion (Set.subset_iUnion S i) ⟨x, hi⟩ := by
     cases x
     rfl
@@ -137,7 +137,7 @@ theorem iUnionLift_binary (dir : Directed (· ≤ ·) S) (op : T → T → T) (o
   cases' Set.mem_iUnion.1 x.prop with i hi
   cases' Set.mem_iUnion.1 y.prop with j hj
   rcases dir i j with ⟨k, hik, hjk⟩
-  rw [iUnionLift_of_mem x (hik hi), iUnionLift_of_mem y (hjk hj), ← h k]
+  rw [iUnionLift_of_mem x (hik hi)]; rw [iUnionLift_of_mem y (hjk hj)]; rw [← h k]
   have hx : x = Set.inclusion (Set.subset_iUnion S k) ⟨x, hik hi⟩ := by
     cases x
     rfl
@@ -175,7 +175,7 @@ theorem liftCover_of_mem {i : ι} {x : α} (hx : (x : α) ∈ S i) :
 
 theorem preimage_liftCover (t : Set β) : liftCover S f hf hS ⁻¹' t = ⋃ i, (↑) '' (f i ⁻¹' t) := by
   change (iUnionLift S f hf univ hS.symm.subset ∘ fun a => ⟨a, mem_univ a⟩) ⁻¹' t = _
-  rw [preimage_comp, preimage_iUnionLift]
+  rw [preimage_comp]; rw [preimage_iUnionLift]
   ext; simp
 
 end Set

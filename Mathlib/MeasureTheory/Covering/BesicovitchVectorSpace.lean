@@ -104,8 +104,7 @@ def centerAndRescale : SatelliteConfig E N τ where
       exact H.2
   inter i hi := by
     have H := a.inter i hi
-    rw [dist_eq_norm, ← smul_sub, norm_smul, Real.norm_eq_abs,
-      abs_of_nonneg (inv_nonneg.2 (a.rpos _).le), ← mul_add]
+    rw [dist_eq_norm]; rw [← smul_sub]; rw [norm_smul]; rw [Real.norm_eq_abs]; rw [abs_of_nonneg (inv_nonneg.2 (a.rpos _).le)]; rw [← mul_add]
     refine' mul_le_mul_of_nonneg_left _ (inv_nonneg.2 (a.rpos _).le)
     rw [dist_eq_norm] at H
     convert H using 2
@@ -167,7 +166,7 @@ theorem card_le_of_separated (s : Finset E) (hs : ∀ c ∈ s, ‖c‖ ≤ 2)
       ENNReal.ofReal (ρ ^ finrank ℝ E) * μ (ball 0 1) :=
     calc
       (s.card : ℝ≥0∞) * ENNReal.ofReal (δ ^ finrank ℝ E) * μ (ball 0 1) = μ A := by
-        rw [hA, measure_biUnion_finset D fun c _ => measurableSet_ball]
+        rw [hA]; rw [measure_biUnion_finset D fun c _ => measurableSet_ball]
         have I : 0 < δ := by norm_num
         simp only [div_pow, μ.addHaar_ball_of_pos _ I]
         simp only [one_div, one_pow, Finset.sum_const, nsmul_eq_mul, mul_assoc]
@@ -275,7 +274,7 @@ theorem exists_goodδ :
     have : i ≠ j := fun h => by rw [h] at hij; exact hij rfl
     exact h'f i j this
   have : s.card ≤ multiplicity E := card_le_multiplicity hs h's
-  rw [s_card, hN] at this
+  rw [s_card] at this; rw [hN] at this
   exact lt_irrefl _ ((Nat.lt_succ_self (multiplicity E)).trans_le this)
 #align besicovitch.exists_good_δ Besicovitch.exists_goodδ
 
@@ -372,7 +371,7 @@ theorem exists_normalized_aux1 {N : ℕ} {τ : ℝ} (a : SatelliteConfig E N τ)
   suffices L : τ⁻¹ ≤ ‖a.c i - a.c j‖; · linarith only [J, K, L]
   have hτ' : ∀ k, τ⁻¹ ≤ a.r k := by
     intro k
-    rw [inv_eq_one_div, div_le_iff τpos, ← lastr, mul_comm]
+    rw [inv_eq_one_div]; rw [div_le_iff τpos]; rw [← lastr]; rw [mul_comm]
     exact a.hlast' k hτ
   rcases ah i j inej with (H | H)
   · apply le_trans _ H.1
@@ -401,7 +400,7 @@ theorem exists_normalized_aux2 {N : ℕ} {τ : ℝ} (a : SatelliteConfig E N τ)
     · apply (a.hlast i H).1.trans
       simpa only [dist_eq_norm, lastc, sub_zero] using hi
     · have : i = last N := top_le_iff.1 H
-      rw [this, lastr]
+      rw [this]; rw [lastr]
       exact one_le_two
   have J : (1 - δ / 4) * τ ≤ 1 :=
     calc
@@ -433,8 +432,7 @@ theorem exists_normalized_aux2 {N : ℕ} {τ : ℝ} (a : SatelliteConfig E N τ)
       _ ≤ ‖a.c i - d‖ + (a.r j - 1) := by
         apply add_le_add_left
         have A : 0 ≤ 1 - 2 / ‖a.c j‖ := by simpa [div_le_iff (zero_le_two.trans_lt hj)] using hj.le
-        rw [← one_smul ℝ (a.c j), hd, ← sub_smul, norm_smul, norm_sub_rev, Real.norm_eq_abs,
-          abs_of_nonneg A, sub_mul]
+        rw [← one_smul ℝ (a.c j)]; rw [hd]; rw [← sub_smul]; rw [norm_smul]; rw [norm_sub_rev]; rw [Real.norm_eq_abs]; rw [abs_of_nonneg A]; rw [sub_mul]
         field_simp [(zero_le_two.trans_lt hj).ne']
         linarith only [hcrj]
   linarith only [this]
@@ -455,10 +453,10 @@ theorem exists_normalized_aux3 {N : ℕ} {τ : ℝ} (a : SatelliteConfig E N τ)
       apply lt_top_iff_ne_top.2
       intro iN
       change i = last N at iN
-      rw [iN, lastc, norm_zero] at hi
+      rw [iN] at hi; rw [lastc] at hi; rw [norm_zero] at hi
       exact lt_irrefl _ (zero_le_two.trans_lt hi)
     convert (a.hlast i this).1 using 1
-    rw [dist_eq_norm, lastc, sub_zero]
+    rw [dist_eq_norm]; rw [lastc]; rw [sub_zero]
   have hj : 2 < ‖a.c j‖ := hi.trans_le hij
   set s := ‖a.c i‖
   have spos : 0 < s := zero_lt_two.trans hi
@@ -468,8 +466,7 @@ theorem exists_normalized_aux3 {N : ℕ} {τ : ℝ} (a : SatelliteConfig E N τ)
       ‖a.c j - a.c i‖ ≤ ‖a.c j - d‖ + ‖d - a.c i‖ := by simp [← dist_eq_norm, dist_triangle]
       _ = ‖a.c j‖ - ‖a.c i‖ + ‖d - a.c i‖ := by
         nth_rw 1 [← one_smul ℝ (a.c j)]
-        rw [add_left_inj, hd, ← sub_smul, norm_smul, Real.norm_eq_abs, abs_of_nonneg, sub_mul,
-          one_mul, div_mul_cancel _ (zero_le_two.trans_lt hj).ne']
+        rw [add_left_inj]; rw [hd]; rw [← sub_smul]; rw [norm_smul]; rw [Real.norm_eq_abs]; rw [abs_of_nonneg]; rw [sub_mul]; rw [one_mul]; rw [div_mul_cancel _ (zero_le_two.trans_lt hj).ne']
         rwa [sub_nonneg, div_le_iff (zero_lt_two.trans hj), one_mul]
   have J : a.r j - ‖a.c j - a.c i‖ ≤ s / 2 * δ :=
     calc
@@ -492,7 +489,7 @@ theorem exists_normalized_aux3 {N : ℕ} {τ : ℝ} (a : SatelliteConfig E N τ)
       (mul_le_mul_of_nonneg_left (by linarith only [hcrj, I, J, hi]) invs_nonneg)
     _ = ‖(2 / s) • a.c i - (2 / ‖a.c j‖) • a.c j‖ := by
       conv_lhs => rw [norm_sub_rev, ← abs_of_nonneg invs_nonneg]
-      rw [← Real.norm_eq_abs, ← norm_smul, smul_sub, hd, smul_smul]
+      rw [← Real.norm_eq_abs]; rw [← norm_smul]; rw [smul_sub]; rw [hd]; rw [smul_smul]
       congr 3
       field_simp [spos.ne']
 #align besicovitch.satellite_config.exists_normalized_aux3 Besicovitch.SatelliteConfig.exists_normalized_aux3

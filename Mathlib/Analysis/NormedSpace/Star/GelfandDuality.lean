@@ -106,7 +106,7 @@ theorem WeakDual.CharacterSpace.mem_spectrum_iff_exists {a : A} {z : ℂ} :
     simp only [map_sub, sub_eq_zero, AlgHomClass.commutes, Algebra.id.map_eq_id,
       RingHom.id_apply] at hf
     refine ⟨f, ?_⟩
-    rw [AlgHomClass.commutes, Algebra.id.map_eq_id, RingHom.id_apply] at hf
+    rw [AlgHomClass.commutes] at hf; rw [Algebra.id.map_eq_id] at hf; rw [RingHom.id_apply] at hf
     exact hf.symm
   · rintro ⟨f, rfl⟩
     exact AlgHom.apply_mem_spectrum f a
@@ -116,7 +116,7 @@ theorem WeakDual.CharacterSpace.mem_spectrum_iff_exists {a : A} {z : ℂ} :
 theorem spectrum.gelfandTransform_eq (a : A) :
     spectrum ℂ (gelfandTransform ℂ A a) = spectrum ℂ a := by
   ext z
-  rw [ContinuousMap.spectrum_eq_range, WeakDual.CharacterSpace.mem_spectrum_iff_exists]
+  rw [ContinuousMap.spectrum_eq_range]; rw [WeakDual.CharacterSpace.mem_spectrum_iff_exists]
   exact Iff.rfl
 #align spectrum.gelfand_transform_eq spectrum.gelfandTransform_eq
 
@@ -149,8 +149,7 @@ theorem gelfandTransform_isometry : Isometry (gelfandTransform ℂ A) := by
     roots shows that the norm is preserved. -/
   have : spectralRadius ℂ (gelfandTransform ℂ A (star a * a)) = spectralRadius ℂ (star a * a) := by
     unfold spectralRadius; rw [spectrum.gelfandTransform_eq]
-  rw [map_mul, (IsSelfAdjoint.star_mul_self a).spectralRadius_eq_nnnorm, gelfandTransform_map_star,
-    (IsSelfAdjoint.star_mul_self (gelfandTransform ℂ A a)).spectralRadius_eq_nnnorm] at this
+  rw [map_mul] at this; rw [(IsSelfAdjoint.star_mul_self a).spectralRadius_eq_nnnorm] at this; rw [gelfandTransform_map_star] at this; rw [(IsSelfAdjoint.star_mul_self (gelfandTransform ℂ A a)).spectralRadius_eq_nnnorm] at this
   simp only [ENNReal.coe_eq_coe, CstarRing.nnnorm_star_mul_self, ← sq] at this
   simpa only [Function.comp_apply, NNReal.sqrt_sq] using
     congr_arg (((↑) : ℝ≥0 → ℝ) ∘ ⇑NNReal.sqrt) this

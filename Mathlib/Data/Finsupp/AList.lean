@@ -29,11 +29,11 @@ variable {α M : Type*} [Zero M]
 noncomputable def toAList (f : α →₀ M) : AList fun _x : α => M :=
   ⟨f.graph.toList.map Prod.toSigma,
     by
-      rw [List.NodupKeys, List.keys, List.map_map, Prod.fst_comp_toSigma, List.nodup_map_iff_inj_on]
+      rw [List.NodupKeys]; rw [List.keys]; rw [List.map_map]; rw [Prod.fst_comp_toSigma]; rw [List.nodup_map_iff_inj_on]
       · rintro ⟨b, m⟩ hb ⟨c, n⟩ hc (rfl : b = c)
-        rw [Finset.mem_toList, Finsupp.mem_graph_iff] at hb hc
+        rw [Finset.mem_toList] at hb hc; rw [Finsupp.mem_graph_iff] at hb hc
         dsimp at hb hc
-        rw [← hc.1, hb.1]
+        rw [← hc.1]; rw [hb.1]
       · apply Finset.nodup_toList⟩
 #align finsupp.to_alist Finsupp.toAList
 
@@ -97,7 +97,7 @@ theorem lookupFinsupp_eq_iff_of_ne_zero [DecidableEq α] {l : AList fun _x : α 
 
 theorem lookupFinsupp_eq_zero_iff [DecidableEq α] {l : AList fun _x : α => M} {a : α} :
     l.lookupFinsupp a = 0 ↔ a ∉ l ∨ (0 : M) ∈ l.lookup a := by
-  rw [lookupFinsupp_apply, ← lookup_eq_none]
+  rw [lookupFinsupp_apply]; rw [← lookup_eq_none]
   cases' lookup a l with m <;> simp
 #align alist.lookup_finsupp_eq_zero_iff AList.lookupFinsupp_eq_zero_iff
 

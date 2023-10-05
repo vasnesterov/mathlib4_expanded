@@ -72,9 +72,9 @@ set_option linter.uppercaseLean3 false in
 @[simp]
 theorem cyclesMap_toCycles (f : C ⟶ D) {i : ι} (x : LinearMap.ker (C.dFrom i)) :
     (cyclesMap f i) (toCycles x) = toCycles ⟨f.f i x.1, by
-      rw [LinearMap.mem_ker, Hom.comm_from_apply, x.2, map_zero]⟩ := by
+      rw [LinearMap.mem_ker]; rw [Hom.comm_from_apply]; rw [x.2]; rw [map_zero]⟩ := by
   ext
-  rw [cyclesMap_arrow_apply, toKernelSubobject_arrow, toKernelSubobject_arrow]
+  rw [cyclesMap_arrow_apply]; rw [toKernelSubobject_arrow]; rw [toKernelSubobject_arrow]
 set_option linter.uppercaseLean3 false in
 #align Module.cycles_map_to_cycles ModuleCat.cyclesMap_toCycles
 
@@ -112,9 +112,7 @@ example (f g : C ⟶ D) (h : Homotopy f g) (i : ι) :
   erw [map_add, CategoryTheory.Limits.kernelSubobjectMap_arrow_apply,
     CategoryTheory.Limits.kernelSubobjectMap_arrow_apply,
     ModuleCat.toKernelSubobject_arrow, imageToKernel_arrow_apply, imageSubobject_arrow_comp_apply]
-  rw [Hom.sqFrom_left, Hom.sqFrom_left, h.comm i, LinearMap.add_apply,
-    LinearMap.add_apply, prevD_eq_toPrev_dTo, dNext_eq_dFrom_fromNext, comp_apply, comp_apply,
-    x.2, map_zero]
+  rw [Hom.sqFrom_left]; rw [Hom.sqFrom_left]; rw [h.comm i]; rw [LinearMap.add_apply]; rw [LinearMap.add_apply]; rw [prevD_eq_toPrev_dTo]; rw [dNext_eq_dFrom_fromNext]; rw [comp_apply]; rw [comp_apply]; rw [x.2]; rw [map_zero]
   dsimp
   abel
 

@@ -125,7 +125,7 @@ theorem isGδ_biUnion {s : Set ι} (hs : s.Finite) {f : ι → Set α} (h : ∀ 
 theorem IsClosed.isGδ {α} [UniformSpace α] [IsCountablyGenerated (uniformity α)] {s : Set α}
     (hs : IsClosed s) : IsGδ s := by
   rcases(@uniformity_hasBasis_open α _).exists_antitone_subbasis with ⟨U, hUo, hU, -⟩
-  rw [← hs.closure_eq, ← hU.biInter_biUnion_ball]
+  rw [← hs.closure_eq]; rw [← hU.biInter_biUnion_ball]
   refine' isGδ_biInter (to_countable _) fun n _ => IsOpen.isGδ _
   exact isOpen_biUnion fun x _ => UniformSpace.isOpen_ball _ (hUo _).2
 #align is_closed.is_Gδ IsClosed.isGδ
@@ -139,7 +139,7 @@ theorem isGδ_compl_singleton (a : α) : IsGδ ({a}ᶜ : Set α) :=
 #align is_Gδ_compl_singleton isGδ_compl_singleton
 
 theorem Set.Countable.isGδ_compl {s : Set α} (hs : s.Countable) : IsGδ sᶜ := by
-  rw [← biUnion_of_singleton s, compl_iUnion₂]
+  rw [← biUnion_of_singleton s]; rw [compl_iUnion₂]
   exact isGδ_biInter hs fun x _ => isGδ_compl_singleton x
 #align set.countable.is_Gδ_compl Set.Countable.isGδ_compl
 

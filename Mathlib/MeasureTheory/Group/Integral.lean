@@ -42,7 +42,7 @@ theorem Integrable.comp_inv [IsInvInvariant μ] {f : G → F} (hf : Integrable f
 theorem integral_inv_eq_self (f : G → E) (μ : Measure G) [IsInvInvariant μ] :
     ∫ x, f x⁻¹ ∂μ = ∫ x, f x ∂μ := by
   have h : MeasurableEmbedding fun x : G => x⁻¹ := (MeasurableEquiv.inv G).measurableEmbedding
-  rw [← h.integral_map, map_inv_eq_self]
+  rw [← h.integral_map]; rw [map_inv_eq_self]
 #align measure_theory.integral_inv_eq_self MeasureTheory.integral_inv_eq_self
 #align measure_theory.integral_neg_eq_self MeasureTheory.integral_neg_eq_self
 
@@ -60,7 +60,7 @@ left-invariant measure. -/
 theorem integral_mul_left_eq_self [IsMulLeftInvariant μ] (f : G → E) (g : G) :
     (∫ x, f (g * x) ∂μ) = ∫ x, f x ∂μ := by
   have h_mul : MeasurableEmbedding fun x => g * x := (MeasurableEquiv.mulLeft g).measurableEmbedding
-  rw [← h_mul.integral_map, map_mul_left_eq_self]
+  rw [← h_mul.integral_map]; rw [map_mul_left_eq_self]
 #align measure_theory.integral_mul_left_eq_self MeasureTheory.integral_mul_left_eq_self
 #align measure_theory.integral_add_left_eq_self MeasureTheory.integral_add_left_eq_self
 
@@ -73,7 +73,7 @@ theorem integral_mul_right_eq_self [IsMulRightInvariant μ] (f : G → E) (g : G
     (∫ x, f (x * g) ∂μ) = ∫ x, f x ∂μ := by
   have h_mul : MeasurableEmbedding fun x => x * g :=
     (MeasurableEquiv.mulRight g).measurableEmbedding
-  rw [← h_mul.integral_map, map_mul_right_eq_self]
+  rw [← h_mul.integral_map]; rw [map_mul_right_eq_self]
 #align measure_theory.integral_mul_right_eq_self MeasureTheory.integral_mul_right_eq_self
 #align measure_theory.integral_add_right_eq_self MeasureTheory.integral_add_right_eq_self
 
@@ -153,7 +153,7 @@ theorem integral_div_left_eq_self (f : G → E) (μ : Measure G) [IsInvInvariant
     [IsMulLeftInvariant μ] (x' : G) : (∫ x, f (x' / x) ∂μ) = ∫ x, f x ∂μ := by
   simp_rw [div_eq_mul_inv]
   -- Porting note: was `simp_rw`
-  rw [integral_inv_eq_self (fun x => f (x' * x)) μ, integral_mul_left_eq_self f x']
+  rw [integral_inv_eq_self (fun x => f (x' * x)) μ]; rw [integral_mul_left_eq_self f x']
 #align measure_theory.integral_div_left_eq_self MeasureTheory.integral_div_left_eq_self
 #align measure_theory.integral_sub_left_eq_self MeasureTheory.integral_sub_left_eq_self
 
@@ -167,7 +167,7 @@ variable [Group G] [MeasurableSpace α] [MulAction G α] [MeasurableSMul G α]
 theorem integral_smul_eq_self {μ : Measure α} [SMulInvariantMeasure G α μ] (f : α → E) {g : G} :
     (∫ x, f (g • x) ∂μ) = ∫ x, f x ∂μ := by
   have h : MeasurableEmbedding fun x : α => g • x := (MeasurableEquiv.smul g).measurableEmbedding
-  rw [← h.integral_map, map_smul]
+  rw [← h.integral_map]; rw [map_smul]
 #align measure_theory.integral_smul_eq_self MeasureTheory.integral_smul_eq_self
 #align measure_theory.integral_vadd_eq_self MeasureTheory.integral_vadd_eq_self
 

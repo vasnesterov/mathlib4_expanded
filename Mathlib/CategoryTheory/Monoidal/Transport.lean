@@ -65,7 +65,7 @@ def transport (e : C ≌ D) : MonoidalCategory.{v₂} D where
     slice_lhs 2 3 =>
       rw [← id_tensor_comp]
       simp
-    rw [Category.id_comp, ← associator_naturality_assoc, triangle]
+    rw [Category.id_comp]; rw [← associator_naturality_assoc]; rw [triangle]
   pentagon W X Y Z := by
     dsimp
     simp only [Iso.hom_inv_id_app_assoc, comp_tensor_id, assoc, Equivalence.inv_fun_map,
@@ -73,12 +73,12 @@ def transport (e : C ≌ D) : MonoidalCategory.{v₂} D where
     simp only [← e.functor.map_comp]
     congr 2
     slice_lhs 4 5 =>
-      rw [← comp_tensor_id, Iso.hom_inv_id_app]
+      rw [← comp_tensor_id]; rw [Iso.hom_inv_id_app]
       dsimp
       rw [tensor_id]
     simp only [Category.id_comp, Category.assoc]
     slice_lhs 5 6 =>
-      rw [← id_tensor_comp, Iso.hom_inv_id_app]
+      rw [← id_tensor_comp]; rw [Iso.hom_inv_id_app]
       dsimp
       rw [tensor_id]
     simp only [Category.id_comp, Category.assoc]
@@ -92,9 +92,9 @@ def transport (e : C ≌ D) : MonoidalCategory.{v₂} D where
     simp only [Category.assoc]
     congr 1
     slice_lhs 1 2 =>
-      rw [← id_tensor_comp, ← comp_tensor_id, Iso.hom_inv_id_app]
+      rw [← id_tensor_comp]; rw [← comp_tensor_id]; rw [Iso.hom_inv_id_app]
       dsimp
-      rw [tensor_id, tensor_id]
+      rw [tensor_id]; rw [tensor_id]
     simp only [Category.id_comp, Category.assoc]
   leftUnitor_naturality f := by
     dsimp
@@ -102,8 +102,7 @@ def transport (e : C ≌ D) : MonoidalCategory.{v₂} D where
     erw [← e.counitIso.hom.naturality]
     simp only [Functor.comp_map, ← e.functor.map_comp_assoc]
     congr 2
-    rw [id_tensor_comp_tensor_id_assoc, ← tensor_id_comp_id_tensor_assoc,
-      leftUnitor_naturality]
+    rw [id_tensor_comp_tensor_id_assoc]; rw [← tensor_id_comp_id_tensor_assoc]; rw [leftUnitor_naturality]
   rightUnitor_naturality f := by
     dsimp
     simp only [Functor.map_comp, Functor.map_id, Category.assoc]
@@ -123,7 +122,7 @@ def transport (e : C ≌ D) : MonoidalCategory.{v₂} D where
     slice_lhs 3 4 => rw [associator_naturality]
     conv_lhs => simp only [comp_tensor_id]
     slice_lhs 3 4 =>
-      rw [← comp_tensor_id, Iso.hom_inv_id_app]
+      rw [← comp_tensor_id]; rw [Iso.hom_inv_id_app]
       dsimp
       rw [tensor_id]
     simp only [Category.id_comp, Category.assoc]
@@ -139,7 +138,7 @@ def transport (e : C ≌ D) : MonoidalCategory.{v₂} D where
       · rw [← id_tensor_comp_tensor_id, id_tensor_comp]
     simp only [Category.assoc]
     slice_rhs 1 2 =>
-      rw [← id_tensor_comp, Iso.hom_inv_id_app]
+      rw [← id_tensor_comp]; rw [Iso.hom_inv_id_app]
       dsimp
       rw [tensor_id]
     simp only [Category.id_comp, Category.assoc]
@@ -180,51 +179,39 @@ def laxToTransported (e : C ≌ D) : LaxMonoidalFunctor C (Transported e) where
   μ X Y := e.functor.map (e.unitInv.app X ⊗ e.unitInv.app Y)
   μ_natural f g := by
     dsimp
-    rw [Equivalence.inv_fun_map, Equivalence.inv_fun_map, tensor_comp, Functor.map_comp,
-      tensor_comp, ← e.functor.map_comp, ← e.functor.map_comp, ← e.functor.map_comp,
-      assoc, assoc, ← tensor_comp, Iso.hom_inv_id_app, Iso.hom_inv_id_app, ← tensor_comp]
+    rw [Equivalence.inv_fun_map]; rw [Equivalence.inv_fun_map]; rw [tensor_comp]; rw [Functor.map_comp]; rw [tensor_comp]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [assoc]; rw [assoc]; rw [← tensor_comp]; rw [Iso.hom_inv_id_app]; rw [Iso.hom_inv_id_app]; rw [← tensor_comp]
     dsimp
-    rw [comp_id, comp_id]
+    rw [comp_id]; rw [comp_id]
   associativity X Y Z := by
     dsimp
-    rw [Equivalence.inv_fun_map, Equivalence.inv_fun_map, Functor.map_comp,
-      Functor.map_comp, assoc, assoc, e.inverse.map_id, e.inverse.map_id,
-      comp_tensor_id, id_tensor_comp, Functor.map_comp, assoc, id_tensor_comp,
-      comp_tensor_id, ← e.functor.map_comp, ← e.functor.map_comp, ← e.functor.map_comp,
-      ← e.functor.map_comp, ← e.functor.map_comp, ← e.functor.map_comp, ← e.functor.map_comp]
+    rw [Equivalence.inv_fun_map]; rw [Equivalence.inv_fun_map]; rw [Functor.map_comp]; rw [Functor.map_comp]; rw [assoc]; rw [assoc]; rw [e.inverse.map_id]; rw [e.inverse.map_id]; rw [comp_tensor_id]; rw [id_tensor_comp]; rw [Functor.map_comp]; rw [assoc]; rw [id_tensor_comp]; rw [comp_tensor_id]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]
     congr 2
     slice_lhs 3 3 => rw [← tensor_id_comp_id_tensor]
     slice_lhs 2 3 =>
-      rw [← comp_tensor_id, Iso.hom_inv_id_app]
+      rw [← comp_tensor_id]; rw [Iso.hom_inv_id_app]
       dsimp
       rw [tensor_id]
     rw [id_comp]
     slice_rhs 2 3 =>
-      rw [←id_tensor_comp, Iso.hom_inv_id_app]
+      rw [←id_tensor_comp]; rw [Iso.hom_inv_id_app]
       dsimp
       rw [tensor_id]
     rw [id_comp]
     conv_rhs => rw [← id_tensor_comp_tensor_id _ (e.unitInv.app X)]
     dsimp only [Functor.comp_obj]
     slice_rhs 3 4 =>
-      rw [← id_tensor_comp, Iso.hom_inv_id_app]
+      rw [← id_tensor_comp]; rw [Iso.hom_inv_id_app]
       dsimp
       rw [tensor_id]
     simp only [associator_conjugation, ←tensor_id, ←tensor_comp, Iso.inv_hom_id,
       Iso.inv_hom_id_assoc, assoc, id_comp, comp_id]
   left_unitality X := by
     dsimp
-    rw [e.inverse.map_id, e.inverse.map_id, tensor_id, Functor.map_comp, assoc,
-      Equivalence.counit_app_functor, ← e.functor.map_comp, ← e.functor.map_comp,
-      ← e.functor.map_comp, ← e.functor.map_comp, ← leftUnitor_naturality,
-      ← tensor_comp_assoc, comp_id, id_comp, id_comp]
+    rw [e.inverse.map_id]; rw [e.inverse.map_id]; rw [tensor_id]; rw [Functor.map_comp]; rw [assoc]; rw [Equivalence.counit_app_functor]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [← leftUnitor_naturality]; rw [← tensor_comp_assoc]; rw [comp_id]; rw [id_comp]; rw [id_comp]
     rfl
   right_unitality X := by
     dsimp
-    rw [Functor.map_comp, assoc, e.inverse.map_id, e.inverse.map_id, tensor_id,
-      Functor.map_id, id_comp, Equivalence.counit_app_functor, ← e.functor.map_comp,
-      ← e.functor.map_comp, ← e.functor.map_comp, ← rightUnitor_naturality,
-      ← tensor_comp_assoc, id_comp, comp_id]
+    rw [Functor.map_comp]; rw [assoc]; rw [e.inverse.map_id]; rw [e.inverse.map_id]; rw [tensor_id]; rw [Functor.map_id]; rw [id_comp]; rw [Equivalence.counit_app_functor]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [← e.functor.map_comp]; rw [← rightUnitor_naturality]; rw [← tensor_comp_assoc]; rw [id_comp]; rw [comp_id]
     rfl
 #align category_theory.monoidal.lax_to_transported CategoryTheory.Monoidal.laxToTransported
 

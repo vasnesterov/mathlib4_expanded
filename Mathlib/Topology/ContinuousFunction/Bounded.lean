@@ -230,7 +230,7 @@ instance {α β} [TopologicalSpace α] [MetricSpace β] : MetricSpace (α →ᵇ
 
 theorem nndist_eq : nndist f g = sInf { C | ∀ x : α, nndist (f x) (g x) ≤ C } :=
   Subtype.ext <| dist_eq.trans <| by
-    rw [val_eq_coe, coe_sInf, coe_image]
+    rw [val_eq_coe]; rw [coe_sInf]; rw [coe_image]
     simp_rw [mem_setOf_eq, ← NNReal.coe_le_coe, coe_mk, exists_prop, coe_nndist]
 #align bounded_continuous_function.nndist_eq BoundedContinuousFunction.nndist_eq
 
@@ -244,7 +244,7 @@ theorem nndist_coe_le_nndist (x : α) : nndist (f x) (g x) ≤ nndist f g :=
 
 /-- On an empty space, bounded continuous functions are at distance 0. -/
 theorem dist_zero_of_empty [IsEmpty α] : dist f g = 0 := by
-  rw [(ext isEmptyElim : f = g), dist_self]
+  rw [(ext isEmptyElim : f = g)]; rw [dist_self]
 #align bounded_continuous_function.dist_zero_of_empty BoundedContinuousFunction.dist_zero_of_empty
 
 theorem dist_eq_iSup : dist f g = ⨆ x : α, dist (f x) (g x) := by
@@ -278,8 +278,7 @@ theorem tendsto_iff_tendstoUniformly {ι : Type*} {F : ι → α →ᵇ β} {f :
 theorem inducing_coeFn : Inducing (UniformFun.ofFun ∘ (⇑) : (α →ᵇ β) → α →ᵤ β) := by
   rw [inducing_iff_nhds]
   refine' fun f => eq_of_forall_le_iff fun l => _
-  rw [← tendsto_iff_comap, ← tendsto_id', tendsto_iff_tendstoUniformly,
-    UniformFun.tendsto_iff_tendstoUniformly]
+  rw [← tendsto_iff_comap]; rw [← tendsto_id']; rw [tendsto_iff_tendstoUniformly]; rw [UniformFun.tendsto_iff_tendstoUniformly]
   rfl
 #align bounded_continuous_function.inducing_coe_fn BoundedContinuousFunction.inducing_coeFn
 
@@ -454,7 +453,7 @@ nonrec def extend (f : α ↪ δ) (g : α →ᵇ β) (h : δ →ᵇ β) : δ →
   toFun := extend f g h
   continuous_toFun := continuous_of_discreteTopology
   map_bounded' := by
-    rw [← isBounded_range_iff, range_extend f.injective]
+    rw [← isBounded_range_iff]; rw [range_extend f.injective]
     exact g.isBounded_range.union (h.isBounded_image _)
 #align bounded_continuous_function.extend BoundedContinuousFunction.extend
 
@@ -492,12 +491,12 @@ theorem dist_extend_extend (f : α ↪ δ) (g₁ g₂ : α →ᵇ β) (h₁ h₂
         _ ≤ dist (h₁.restrict (range f)ᶜ) (h₂.restrict (range f)ᶜ) := (dist_coe_le_dist x)
         _ ≤ _ := le_max_right _ _
   · refine' (dist_le dist_nonneg).2 fun x => _
-    rw [← extend_apply f g₁ h₁, ← extend_apply f g₂ h₂]
+    rw [← extend_apply f g₁ h₁]; rw [← extend_apply f g₂ h₂]
     exact dist_coe_le_dist _
   · refine' (dist_le dist_nonneg).2 fun x => _
     calc
       dist (h₁ x) (h₂ x) = dist (extend f g₁ h₁ x) (extend f g₂ h₂ x) := by
-        rw [extend_apply' x.coe_prop, extend_apply' x.coe_prop]
+        rw [extend_apply' x.coe_prop]; rw [extend_apply' x.coe_prop]
       _ ≤ _ := dist_coe_le_dist _
 #align bounded_continuous_function.dist_extend_extend BoundedContinuousFunction.dist_extend_extend
 
@@ -1044,7 +1043,7 @@ theorem coe_le_coe_add_dist {f g : α →ᵇ ℝ} : f x ≤ g x + dist f g :=
 theorem norm_compContinuous_le [TopologicalSpace γ] (f : α →ᵇ β) (g : C(γ, α)) :
     ‖f.compContinuous g‖ ≤ ‖f‖ :=
   ((lipschitz_compContinuous g).dist_le_mul f 0).trans <| by
-    rw [NNReal.coe_one, one_mul, dist_zero_right]
+    rw [NNReal.coe_one]; rw [one_mul]; rw [dist_zero_right]
 #align bounded_continuous_function.norm_comp_continuous_le BoundedContinuousFunction.norm_compContinuous_le
 
 end NormedAddCommGroup
@@ -1503,13 +1502,13 @@ instance : CstarRing (α →ᵇ β) where
     · rw [← sq, norm_le (sq_nonneg _)]
       dsimp [star_apply]
       intro x
-      rw [CstarRing.norm_star_mul_self, ← sq]
+      rw [CstarRing.norm_star_mul_self]; rw [← sq]
       refine' sq_le_sq' _ _
       · linarith [norm_nonneg (f x), norm_nonneg f]
       · exact norm_coe_le_norm f x
     · rw [← sq, ← Real.le_sqrt (norm_nonneg _) (norm_nonneg _), norm_le (Real.sqrt_nonneg _)]
       intro x
-      rw [Real.le_sqrt (norm_nonneg _) (norm_nonneg _), sq, ← CstarRing.norm_star_mul_self]
+      rw [Real.le_sqrt (norm_nonneg _) (norm_nonneg _)]; rw [sq]; rw [← CstarRing.norm_star_mul_self]
       exact norm_coe_le_norm (star f * f) x
 
 end CstarRing

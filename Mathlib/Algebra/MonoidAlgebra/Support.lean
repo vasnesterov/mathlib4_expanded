@@ -147,7 +147,7 @@ unbundled inclusion. -/
 theorem mem_span_support' (f : k[G]) :
     f ∈ Submodule.span k (of' k G '' (f.support : Set G)) := by
   delta of'
-  rw [← Finsupp.supported_eq_span_single, Finsupp.mem_supported]
+  rw [← Finsupp.supported_eq_span_single]; rw [Finsupp.mem_supported]
 #align add_monoid_algebra.mem_span_support' AddMonoidAlgebra.mem_span_support'
 
 end Span

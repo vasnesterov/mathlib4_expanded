@@ -119,7 +119,7 @@ theorem pow_left_strictMono {m : ℕ} (k : 1 ≤ m) : StrictMono fun x : ℕ => 
 #align nat.pow_left_strict_mono Nat.pow_left_strictMono
 
 theorem mul_lt_mul_pow_succ {n a q : ℕ} (a0 : 0 < a) (q1 : 1 < q) : n * q < a * q ^ (n + 1) := by
-  rw [pow_succ, ← mul_assoc, mul_lt_mul_right (zero_lt_one.trans q1)]
+  rw [pow_succ]; rw [← mul_assoc]; rw [mul_lt_mul_right (zero_lt_one.trans q1)]
   exact lt_mul_of_one_le_of_lt (Nat.succ_le_iff.mpr a0) (Nat.lt_pow_self q1 n)
 #align nat.mul_lt_mul_pow_succ Nat.mul_lt_mul_pow_succ
 
@@ -145,7 +145,7 @@ theorem pow_left_injective {m : ℕ} (k : 1 ≤ m) : Function.Injective fun x : 
 #align nat.pow_left_injective Nat.pow_left_injective
 
 theorem sq_sub_sq (a b : ℕ) : a ^ 2 - b ^ 2 = (a + b) * (a - b) := by
-  rw [sq, sq]
+  rw [sq]; rw [sq]
   exact Nat.mul_self_sub_mul_self_eq a b
 #align nat.sq_sub_sq Nat.sq_sub_sq
 
@@ -171,22 +171,22 @@ theorem mod_pow_succ {b : ℕ} (w m : ℕ) : m % b ^ succ w = b * (m / b % b ^ w
         have h₂ : p / b < b ^ w := by
           rw [div_lt_iff_lt_mul b_pos]
           simpa [pow_succ] using h₁
-        rw [mod_eq_of_lt h₁, mod_eq_of_lt h₂]
+        rw [mod_eq_of_lt h₁]; rw [mod_eq_of_lt h₂]
         simp [div_add_mod]
       · -- step: p ≥ b^succ w
         -- Generate condition for induction hypothesis
         have h₂ : p - b ^ succ w < p :=
           tsub_lt_self ((pow_pos b_pos _).trans_le h₁) (pow_pos b_pos _)
         -- Apply induction
-        rw [mod_eq_sub_mod h₁, IH _ h₂]
+        rw [mod_eq_sub_mod h₁]; rw [IH _ h₂]
         -- Normalize goal and h1
         simp only [pow_succ']
         simp only [GE.ge, pow_succ'] at h₁
         -- Pull subtraction outside mod and div
-        rw [sub_mul_mod h₁, sub_mul_div _ _ _ h₁]
+        rw [sub_mul_mod h₁]; rw [sub_mul_div _ _ _ h₁]
         -- Cancel subtraction inside mod b^w
         have p_b_ge : b ^ w ≤ p / b := by
-          rw [le_div_iff_mul_le b_pos, mul_comm]
+          rw [le_div_iff_mul_le b_pos]; rw [mul_comm]
           exact h₁
         rw [Eq.symm (mod_eq_sub_mod p_b_ge)]
 #align nat.mod_pow_succ Nat.mod_pow_succ
@@ -201,12 +201,12 @@ theorem pow_dvd_pow_iff_pow_le_pow {k l : ℕ} : ∀ {x : ℕ} (_ : 0 < x), x ^ 
       · simp
       · have le := (pow_le_iff_le_right (Nat.le_add_left _ _)).mp a
         use (x + 2) ^ (l - k)
-        rw [← pow_add, add_comm k, tsub_add_cancel_of_le le]
+        rw [← pow_add]; rw [add_comm k]; rw [tsub_add_cancel_of_le le]
 #align nat.pow_dvd_pow_iff_pow_le_pow Nat.pow_dvd_pow_iff_pow_le_pow
 
 /-- If `1 < x`, then `x^k` divides `x^l` if and only if `k` is at most `l`. -/
 theorem pow_dvd_pow_iff_le_right {x k l : ℕ} (w : 1 < x) : x ^ k ∣ x ^ l ↔ k ≤ l := by
-  rw [pow_dvd_pow_iff_pow_le_pow (lt_of_succ_lt w), pow_le_iff_le_right w]
+  rw [pow_dvd_pow_iff_pow_le_pow (lt_of_succ_lt w)]; rw [pow_le_iff_le_right w]
 #align nat.pow_dvd_pow_iff_le_right Nat.pow_dvd_pow_iff_le_right
 
 theorem pow_dvd_pow_iff_le_right' {b k l : ℕ} : (b + 2) ^ k ∣ (b + 2) ^ l ↔ k ≤ l :=
@@ -234,7 +234,7 @@ theorem dvd_of_pow_dvd {p k m : ℕ} (hk : 1 ≤ k) (hpk : p ^ k ∣ m) : p ∣ 
 #align nat.dvd_of_pow_dvd Nat.dvd_of_pow_dvd
 
 theorem pow_div {x m n : ℕ} (h : n ≤ m) (hx : 0 < x) : x ^ m / x ^ n = x ^ (m - n) := by
-  rw [Nat.div_eq_iff_eq_mul_left (pow_pos hx n) (pow_dvd_pow _ h), pow_sub_mul_pow _ h]
+  rw [Nat.div_eq_iff_eq_mul_left (pow_pos hx n) (pow_dvd_pow _ h)]; rw [pow_sub_mul_pow _ h]
 #align nat.pow_div Nat.pow_div
 
 theorem lt_of_pow_dvd_right {p i n : ℕ} (hn : n ≠ 0) (hp : 2 ≤ p) (h : p ^ i ∣ n) : i < n := by

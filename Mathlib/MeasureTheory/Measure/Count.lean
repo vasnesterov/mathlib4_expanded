@@ -118,14 +118,14 @@ theorem count_apply_lt_top [MeasurableSingletonClass α] : count s < ∞ ↔ s.F
 
 theorem empty_of_count_eq_zero' (s_mble : MeasurableSet s) (hsc : count s = 0) : s = ∅ := by
   have hs : s.Finite := by
-    rw [← count_apply_lt_top' s_mble, hsc]
+    rw [← count_apply_lt_top' s_mble]; rw [hsc]
     exact WithTop.zero_lt_top
   simpa [count_apply_finite' hs s_mble] using hsc
 #align measure_theory.measure.empty_of_count_eq_zero' MeasureTheory.Measure.empty_of_count_eq_zero'
 
 theorem empty_of_count_eq_zero [MeasurableSingletonClass α] (hsc : count s = 0) : s = ∅ := by
   have hs : s.Finite := by
-    rw [← count_apply_lt_top, hsc]
+    rw [← count_apply_lt_top]; rw [hsc]
     exact WithTop.zero_lt_top
   simpa [count_apply_finite _ hs] using hsc
 #align measure_theory.measure.empty_of_count_eq_zero MeasureTheory.Measure.empty_of_count_eq_zero
@@ -141,18 +141,18 @@ theorem count_eq_zero_iff [MeasurableSingletonClass α] : count s = 0 ↔ s = �
 #align measure_theory.measure.count_eq_zero_iff MeasureTheory.Measure.count_eq_zero_iff
 
 theorem count_ne_zero' (hs' : s.Nonempty) (s_mble : MeasurableSet s) : count s ≠ 0 := by
-  rw [Ne.def, count_eq_zero_iff' s_mble]
+  rw [Ne.def]; rw [count_eq_zero_iff' s_mble]
   exact hs'.ne_empty
 #align measure_theory.measure.count_ne_zero' MeasureTheory.Measure.count_ne_zero'
 
 theorem count_ne_zero [MeasurableSingletonClass α] (hs' : s.Nonempty) : count s ≠ 0 := by
-  rw [Ne.def, count_eq_zero_iff]
+  rw [Ne.def]; rw [count_eq_zero_iff]
   exact hs'.ne_empty
 #align measure_theory.measure.count_ne_zero MeasureTheory.Measure.count_ne_zero
 
 @[simp]
 theorem count_singleton' {a : α} (ha : MeasurableSet ({a} : Set α)) : count ({a} : Set α) = 1 := by
-  rw [count_apply_finite' (Set.finite_singleton a) ha, Set.Finite.toFinset]
+  rw [count_apply_finite' (Set.finite_singleton a) ha]; rw [Set.Finite.toFinset]
   simp [@toFinset_card _ _ (Set.finite_singleton a).fintype,
     @Fintype.card_unique _ _ (Set.finite_singleton a).fintype]
 #align measure_theory.measure.count_singleton' MeasureTheory.Measure.count_singleton'
@@ -166,8 +166,7 @@ theorem count_injective_image' {f : β → α} (hf : Function.Injective f) {s : 
     (s_mble : MeasurableSet s) (fs_mble : MeasurableSet (f '' s)) : count (f '' s) = count s := by
   by_cases hs : s.Finite
   · lift s to Finset β using hs
-    rw [← Finset.coe_image, count_apply_finset' _, count_apply_finset' s_mble,
-      s.card_image_of_injective hf]
+    rw [← Finset.coe_image]; rw [count_apply_finset' _]; rw [count_apply_finset' s_mble]; rw [s.card_image_of_injective hf]
     simpa only [Finset.coe_image] using fs_mble
   · rw [count_apply_infinite hs]
     rw [← finite_image_iff <| hf.injOn _] at hs

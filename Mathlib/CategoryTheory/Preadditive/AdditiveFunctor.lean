@@ -143,9 +143,7 @@ instance (priority := 100) preservesFiniteBiproductsOfAdditive [Additive F] :
 theorem additive_of_preservesBinaryBiproducts [HasBinaryBiproducts C] [PreservesZeroMorphisms F]
     [PreservesBinaryBiproducts F] : Additive F where
   map_add {X Y f g} := by
-    rw [biprod.add_eq_lift_id_desc, F.map_comp, ← biprod.lift_mapBiprod,
-      ← biprod.mapBiprod_hom_desc, Category.assoc, Iso.inv_hom_id_assoc, F.map_id,
-      biprod.add_eq_lift_id_desc]
+    rw [biprod.add_eq_lift_id_desc]; rw [F.map_comp]; rw [← biprod.lift_mapBiprod]; rw [← biprod.mapBiprod_hom_desc]; rw [Category.assoc]; rw [Iso.inv_hom_id_assoc]; rw [F.map_id]; rw [biprod.add_eq_lift_id_desc]
 #align category_theory.functor.additive_of_preserves_binary_biproducts CategoryTheory.Functor.additive_of_preservesBinaryBiproducts
 
 end

@@ -101,7 +101,7 @@ theorem exists_polynomial_near_continuousMap (a b : ℝ) (f : C(Set.Icc a b, ℝ
   have w := mem_closure_iff_frequently.mp (continuousMap_mem_polynomialFunctions_closure _ _ f)
   rw [Metric.nhds_basis_ball.frequently_iff] at w
   obtain ⟨-, H, ⟨m, ⟨-, rfl⟩⟩⟩ := w ε pos
-  rw [Metric.mem_ball, dist_eq_norm] at H
+  rw [Metric.mem_ball] at H; rw [dist_eq_norm] at H
   exact ⟨m, H⟩
 #align exists_polynomial_near_continuous_map exists_polynomial_near_continuousMap
 

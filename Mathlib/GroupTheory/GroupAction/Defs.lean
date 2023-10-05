@@ -331,7 +331,7 @@ instance (priority := 50) IsScalarTower.op_left [SMul M α] [SMul Mᵐᵒᵖ α]
 instance (priority := 50) IsScalarTower.op_right [SMul M α] [SMul M N] [SMul N α]
     [SMul Nᵐᵒᵖ α] [IsCentralScalar N α] [IsScalarTower M N α] : IsScalarTower M Nᵐᵒᵖ α :=
   ⟨fun m n a => by
-    rw [← unop_smul_eq_smul n a, ← unop_smul_eq_smul (m • n) a, MulOpposite.unop_smul, smul_assoc]⟩
+    rw [← unop_smul_eq_smul n a]; rw [← unop_smul_eq_smul (m • n) a]; rw [MulOpposite.unop_smul]; rw [smul_assoc]⟩
 #align is_scalar_tower.op_right IsScalarTower.op_right
 #align vadd_assoc_class.op_right VAddAssocClass.op_right
 
@@ -436,7 +436,7 @@ theorem smul_mul_assoc [Mul β] [SMul α β] [IsScalarTower α β β] (r : α) (
 theorem smul_smul_smul_comm [SMul α β] [SMul α γ] [SMul β δ] [SMul α δ] [SMul γ δ]
     [IsScalarTower α β δ] [IsScalarTower α γ δ] [SMulCommClass β γ δ] (a : α) (b : β) (c : γ)
     (d : δ) : (a • b) • c • d = (a • c) • b • d := by
-  rw [smul_assoc, smul_assoc, smul_comm b]
+  rw [smul_assoc]; rw [smul_assoc]; rw [smul_comm b]
 #align smul_smul_smul_comm smul_smul_smul_comm
 #align vadd_vadd_vadd_comm vadd_vadd_vadd_comm
 
@@ -533,7 +533,7 @@ protected def Function.Surjective.mulAction [SMul M β] (f : α → β) (hf : Su
   smul := (· • ·)
   one_smul y := by
     rcases hf y with ⟨x, rfl⟩
-    rw [← smul, one_smul]
+    rw [← smul]; rw [one_smul]
   mul_smul c₁ c₂ y := by
     rcases hf y with ⟨x, rfl⟩
     simp only [← smul, mul_smul]
@@ -591,7 +591,7 @@ usually satisfied by `Algebra M α`. -/
 @[to_additive] -- Porting note: nolint to_additive_doc
 theorem smul_mul_smul [Mul α] (r s : M) (x y : α) [IsScalarTower M α α] [SMulCommClass M α α] :
     r • x * s • y = (r * s) • (x * y) := by
-  rw [smul_mul_assoc, mul_smul_comm, ← smul_assoc, smul_eq_mul]
+  rw [smul_mul_assoc]; rw [mul_smul_comm]; rw [← smul_assoc]; rw [smul_eq_mul]
 #align smul_mul_smul smul_mul_smul
 #align vadd_add_vadd vadd_add_vadd
 
@@ -651,7 +651,7 @@ section CompatibleScalar
 @[to_additive]
 theorem smul_one_smul {M} (N) [Monoid N] [SMul M N] [MulAction N α] [SMul M α]
     [IsScalarTower M N α] (x : M) (y : α) : (x • (1 : N)) • y = x • y := by
-  rw [smul_assoc, one_smul]
+  rw [smul_assoc]; rw [one_smul]
 #align smul_one_smul smul_one_smul
 #align vadd_zero_vadd vadd_zero_vadd
 
@@ -966,7 +966,7 @@ theorem smul_neg (r : M) (x : A) : r • -x = -(r • x) :=
 #align smul_neg smul_neg
 
 theorem smul_sub (r : M) (x y : A) : r • (x - y) = r • x - r • y := by
-  rw [sub_eq_add_neg, sub_eq_add_neg, smul_add, smul_neg]
+  rw [sub_eq_add_neg]; rw [sub_eq_add_neg]; rw [smul_add]; rw [smul_neg]
 #align smul_sub smul_sub
 
 end

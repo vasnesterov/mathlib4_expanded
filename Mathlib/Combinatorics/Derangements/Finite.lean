@@ -103,8 +103,7 @@ theorem card_derangements_fin_eq_numDerangements {n : ℕ} :
   -- knock out cases 0 and 1
   -- now we have n ≥ 2. rewrite everything in terms of card_derangements, so that we can use
   -- `card_derangements_fin_add_two`
-  rw [numDerangements_add_two, card_derangements_fin_add_two, mul_add,
-    hyp _ (Nat.lt_add_of_pos_right zero_lt_two), hyp _ (lt_add_one _)]
+  rw [numDerangements_add_two]; rw [card_derangements_fin_add_two]; rw [mul_add]; rw [hyp _ (Nat.lt_add_of_pos_right zero_lt_two)]; rw [hyp _ (lt_add_one _)]
 #align card_derangements_fin_eq_num_derangements card_derangements_fin_eq_numDerangements
 
 theorem card_derangements_eq_numDerangements (α : Type*) [Fintype α] [DecidableEq α] :
@@ -117,12 +116,9 @@ theorem numDerangements_sum (n : ℕ) :
     (numDerangements n : ℤ) =
       ∑ k in Finset.range (n + 1), (-1 : ℤ) ^ k * Nat.ascFactorial k (n - k) := by
   induction' n with n hn; · rfl
-  rw [Finset.sum_range_succ, numDerangements_succ, hn, Finset.mul_sum, tsub_self,
-    Nat.ascFactorial_zero, Int.ofNat_one, mul_one, pow_succ, neg_one_mul, sub_eq_add_neg,
-    add_left_inj, Finset.sum_congr rfl]
+  rw [Finset.sum_range_succ]; rw [numDerangements_succ]; rw [hn]; rw [Finset.mul_sum]; rw [tsub_self]; rw [Nat.ascFactorial_zero]; rw [Int.ofNat_one]; rw [mul_one]; rw [pow_succ]; rw [neg_one_mul]; rw [sub_eq_add_neg]; rw [add_left_inj]; rw [Finset.sum_congr rfl]
   -- show that (n + 1) * (-1)^x * asc_fac x (n - x) = (-1)^x * asc_fac x (n.succ - x)
   intro x hx
   have h_le : x ≤ n := Finset.mem_range_succ_iff.mp hx
-  rw [Nat.succ_sub h_le, Nat.ascFactorial_succ, add_tsub_cancel_of_le h_le, Int.ofNat_mul,
-    Int.ofNat_succ, mul_left_comm]
+  rw [Nat.succ_sub h_le]; rw [Nat.ascFactorial_succ]; rw [add_tsub_cancel_of_le h_le]; rw [Int.ofNat_mul]; rw [Int.ofNat_succ]; rw [mul_left_comm]
 #align num_derangements_sum numDerangements_sum

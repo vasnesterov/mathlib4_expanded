@@ -112,7 +112,7 @@ theorem mulSupport_eq_empty_iff {f : α → M} : mulSupport f = ∅ ↔ f = 1 :=
 
 @[to_additive (attr := simp)]
 theorem mulSupport_nonempty_iff {f : α → M} : (mulSupport f).Nonempty ↔ f ≠ 1 := by
-  rw [nonempty_iff_ne_empty, Ne.def, mulSupport_eq_empty_iff]
+  rw [nonempty_iff_ne_empty]; rw [Ne.def]; rw [mulSupport_eq_empty_iff]
 #align function.mul_support_nonempty_iff Function.mulSupport_nonempty_iff
 #align function.support_nonempty_iff Function.support_nonempty_iff
 
@@ -434,7 +434,7 @@ theorem mulSupport_add_one' [One R] [AddRightCancelMonoid R] (f : α → R) :
 #align function.mul_support_add_one' Function.mulSupport_add_one'
 
 theorem mulSupport_one_sub' [One R] [AddGroup R] (f : α → R) : mulSupport (1 - f) = support f := by
-  rw [sub_eq_add_neg, mulSupport_one_add', support_neg']
+  rw [sub_eq_add_neg]; rw [mulSupport_one_add']; rw [support_neg']
 #align function.mul_support_one_sub' Function.mulSupport_one_sub'
 
 theorem mulSupport_one_sub [One R] [AddGroup R] (f : α → R) :
@@ -453,7 +453,7 @@ variable {α β M : Type*} [One M] {f : α → M}
 @[to_additive]
 theorem image_inter_mulSupport_eq {s : Set β} {g : β → α} :
     g '' s ∩ mulSupport f = g '' (s ∩ mulSupport (f ∘ g)) := by
-  rw [mulSupport_comp_eq_preimage f g, image_inter_preimage]
+  rw [mulSupport_comp_eq_preimage f g]; rw [image_inter_preimage]
 #align set.image_inter_mul_support_eq Set.image_inter_mulSupport_eq
 #align set.image_inter_support_eq Set.image_inter_support_eq
 
@@ -492,7 +492,7 @@ theorem mulSupport_mulSingle [DecidableEq B] :
 @[to_additive]
 theorem mulSupport_mulSingle_disjoint {b' : B} (hb : b ≠ 1) (hb' : b' ≠ 1) {i j : A} :
     Disjoint (mulSupport (mulSingle i b)) (mulSupport (mulSingle j b')) ↔ i ≠ j := by
-  rw [mulSupport_mulSingle_of_ne hb, mulSupport_mulSingle_of_ne hb', disjoint_singleton]
+  rw [mulSupport_mulSingle_of_ne hb]; rw [mulSupport_mulSingle_of_ne hb']; rw [disjoint_singleton]
 #align pi.mul_support_mul_single_disjoint Pi.mulSupport_mulSingle_disjoint
 #align pi.support_single_disjoint Pi.support_single_disjoint
 

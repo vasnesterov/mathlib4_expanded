@@ -69,16 +69,16 @@ theorem ringHom_ext {S} [Semiring S] {f g : R[X] →+* S} (h₁ : ∀ a, f (C a)
     · refine MonoidHom.ext_mnat ?_
       simpa [RingEquiv.toRingHom_eq_coe] using h₂
   have B : f = f'.comp (toFinsuppIso R) := by
-    rw [hf', RingHom.comp_assoc]
+    rw [hf']; rw [RingHom.comp_assoc]
     ext x
     simp only [RingEquiv.toRingHom_eq_coe, RingEquiv.symm_apply_apply, Function.comp_apply,
       RingHom.coe_comp, RingEquiv.coe_toRingHom]
   have C' : g = g'.comp (toFinsuppIso R) := by
-    rw [hg', RingHom.comp_assoc]
+    rw [hg']; rw [RingHom.comp_assoc]
     ext x
     simp only [RingEquiv.toRingHom_eq_coe, RingEquiv.symm_apply_apply, Function.comp_apply,
       RingHom.coe_comp, RingEquiv.coe_toRingHom]
-  rw [B, C', A]
+  rw [B]; rw [C']; rw [A]
 #align polynomial.ring_hom_ext Polynomial.ringHom_ext
 
 @[ext high]

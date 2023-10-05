@@ -100,7 +100,7 @@ theorem roots_eq_zero_iff [IsAlgClosed k] {p : k[X]} :
   cases' le_or_lt (degree p) 0 with hd hd
   · exact eq_C_of_degree_le_zero hd
   · obtain ⟨z, hz⟩ := IsAlgClosed.exists_root p hd.ne'
-    rw [← mem_roots (ne_zero_of_degree_gt hd), h] at hz
+    rw [← mem_roots (ne_zero_of_degree_gt hd)] at hz; rw [h] at hz
     simp at hz
 #align is_alg_closed.roots_eq_zero_iff IsAlgClosed.roots_eq_zero_iff
 
@@ -150,7 +150,7 @@ theorem of_ringEquiv (k' : Type u) [Field k'] (e : k ≃+* k')
   use e x
   rw [IsRoot] at hx
   apply e.symm.injective
-  rw [map_zero, ← hx]
+  rw [map_zero]; rw [← hx]
   clear hx hpe hp hmp
   induction p using Polynomial.induction_on <;> simp_all
 
@@ -166,8 +166,7 @@ theorem algebraMap_surjective_of_isIntegral {k K : Type*} [Field k] [Ring K] [Is
   have hq : (minpoly k x).leadingCoeff = 1 := minpoly.monic (hf x)
   have h : (minpoly k x).degree = 1 := degree_eq_one_of_irreducible k (minpoly.irreducible (hf x))
   have : aeval x (minpoly k x) = 0 := minpoly.aeval k x
-  rw [eq_X_add_C_of_degree_eq_one h, hq, C_1, one_mul, aeval_add, aeval_X, aeval_C,
-    add_eq_zero_iff_eq_neg] at this
+  rw [eq_X_add_C_of_degree_eq_one h] at this; rw [hq] at this; rw [C_1] at this; rw [one_mul] at this; rw [aeval_add] at this; rw [aeval_X] at this; rw [aeval_C] at this; rw [add_eq_zero_iff_eq_neg] at this
   exact (RingHom.map_neg (algebraMap k K) ((minpoly k x).coeff 0)).symm ▸ this.symm
 #align is_alg_closed.algebra_map_surjective_of_is_integral IsAlgClosed.algebraMap_surjective_of_isIntegral
 
@@ -565,7 +564,7 @@ theorem Algebra.IsAlgebraic.range_eval_eq_rootSet_minpoly {F K} (A) [Field F] [F
   ext a
   rw [mem_rootSet_of_ne (minpoly.ne_zero (hFK x))]
   refine' ⟨_, fun ha => _⟩
-  · rintro ⟨ψ, rfl⟩; rw [aeval_algHom_apply ψ x, minpoly.aeval, map_zero]
+  · rintro ⟨ψ, rfl⟩; rw [aeval_algHom_apply ψ x]; rw [minpoly.aeval]; rw [map_zero]
   let Fx := AdjoinRoot (minpoly F x)
   have hx : aeval x (minpoly F x) = 0 := minpoly.aeval F x
   letI : Algebra Fx A := (AdjoinRoot.lift (algebraMap F A) a ha).toAlgebra

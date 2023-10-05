@@ -68,13 +68,13 @@ theorem right_continuous (x : ℝ) : ContinuousWithinAt f (Ici x) x :=
 #align stieltjes_function.right_continuous StieltjesFunction.right_continuous
 
 theorem rightLim_eq (f : StieltjesFunction) (x : ℝ) : Function.rightLim f x = f x := by
-  rw [← f.mono.continuousWithinAt_Ioi_iff_rightLim_eq, continuousWithinAt_Ioi_iff_Ici]
+  rw [← f.mono.continuousWithinAt_Ioi_iff_rightLim_eq]; rw [continuousWithinAt_Ioi_iff_Ici]
   exact f.right_continuous' x
 #align stieltjes_function.right_lim_eq StieltjesFunction.rightLim_eq
 
 theorem iInf_Ioi_eq (f : StieltjesFunction) (x : ℝ) : ⨅ r : Ioi x, f r = f x := by
   suffices Function.rightLim f x = ⨅ r : Ioi x, f r by rw [← this, f.rightLim_eq]
-  rw [f.mono.rightLim_eq_sInf, sInf_image']
+  rw [f.mono.rightLim_eq_sInf]; rw [sInf_image']
   rw [← neBot_iff]
   infer_instance
 #align stieltjes_function.infi_Ioi_eq StieltjesFunction.iInf_Ioi_eq
@@ -210,7 +210,7 @@ theorem length_subadditive_Icc_Ioo {a b : ℝ} {c d : ℕ → ℝ} (ss : Icc a b
     exists_prop] at this
   rcases this with ⟨i, cb, is, bd⟩
   rw [← Finset.insert_erase is] at cv ⊢
-  rw [Finset.coe_insert, biUnion_insert] at cv
+  rw [Finset.coe_insert] at cv; rw [biUnion_insert] at cv
   rw [Finset.sum_insert (Finset.not_mem_erase _ _)]
   refine' le_trans _ (add_le_add_left (IH _ (Finset.erase_ssubset is) (c i) _) _)
   · refine' le_trans (ENNReal.ofReal_le_ofReal _) ENNReal.ofReal_add_le
@@ -403,7 +403,7 @@ theorem measure_Ioo {a b : ℝ} : f.measure (Ioo a b) = ofReal (leftLim f b - f 
     have := f.measure_Ioc a b
     simp only [← Ioo_union_Icc_eq_Ioc hab le_rfl, measure_singleton,
       measure_union A (measurableSet_singleton b), Icc_self] at this
-    rw [D, ENNReal.ofReal_add, add_comm] at this
+    rw [D] at this; rw [ENNReal.ofReal_add] at this; rw [add_comm] at this
     · simpa only [ENNReal.add_right_inj ENNReal.ofReal_ne_top]
     · simp only [f.mono.leftLim_le le_rfl, sub_nonneg]
     · simp only [f.mono.le_leftLim hab, sub_nonneg]
@@ -455,7 +455,7 @@ lemma eq_of_measure_of_tendsto_atBot (g : StieltjesFunction) {l : ℝ}
     f = g := by
   ext x
   have hf := measure_Iic f hfl x
-  rw [hfg, measure_Iic g hgl x, ENNReal.ofReal_eq_ofReal_iff, eq_comm] at hf
+  rw [hfg] at hf; rw [measure_Iic g hgl x] at hf; rw [ENNReal.ofReal_eq_ofReal_iff] at hf; rw [eq_comm] at hf
   · simpa using hf
   · rw [sub_nonneg]
     exact Monotone.le_of_tendsto g.mono hgl x
@@ -469,7 +469,7 @@ lemma eq_of_measure_of_eq (g : StieltjesFunction) {y : ℝ}
   cases le_total x y with
   | inl hxy =>
     have hf := measure_Ioc f x y
-    rw [hfg, measure_Ioc g x y, ENNReal.ofReal_eq_ofReal_iff, eq_comm, hy] at hf
+    rw [hfg] at hf; rw [measure_Ioc g x y] at hf; rw [ENNReal.ofReal_eq_ofReal_iff] at hf; rw [eq_comm] at hf; rw [hy] at hf
     · simpa using hf
     · rw [sub_nonneg]
       exact g.mono hxy
@@ -477,7 +477,7 @@ lemma eq_of_measure_of_eq (g : StieltjesFunction) {y : ℝ}
       exact f.mono hxy
   | inr hxy =>
     have hf := measure_Ioc f y x
-    rw [hfg, measure_Ioc g y x, ENNReal.ofReal_eq_ofReal_iff, eq_comm, hy] at hf
+    rw [hfg] at hf; rw [measure_Ioc g y x] at hf; rw [ENNReal.ofReal_eq_ofReal_iff] at hf; rw [eq_comm] at hf; rw [hy] at hf
     · simpa using hf
     · rw [sub_nonneg]
       exact g.mono hxy

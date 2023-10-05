@@ -62,8 +62,8 @@ theorem IsAssociatedPrime.map_of_injective (h : IsAssociatedPrime I M) (hf : Fun
   obtain ⟨x, rfl⟩ := h.2
   refine' ⟨h.1, ⟨f x, _⟩⟩
   ext r
-  rw [Submodule.mem_annihilator_span_singleton, Submodule.mem_annihilator_span_singleton, ←
-    map_smul, ← f.map_zero, hf.eq_iff]
+  rw [Submodule.mem_annihilator_span_singleton]; rw [Submodule.mem_annihilator_span_singleton]; rw [←
+    map_smul]; rw [← f.map_zero]; rw [hf.eq_iff]
 #align is_associated_prime.map_of_injective IsAssociatedPrime.map_of_injective
 
 theorem LinearEquiv.isAssociatedPrime_iff (l : M ≃ₗ[R] M') :
@@ -97,7 +97,7 @@ theorem exists_le_isAssociatedPrime_of_isNoetherianRing [H : IsNoetherianRing R]
   have H₁ : (R ∙ y).annihilator ≤ (R ∙ a • y).annihilator := by
     intro c hc
     rw [Submodule.mem_annihilator_span_singleton] at hc ⊢
-    rw [smul_comm, hc, smul_zero]
+    rw [smul_comm]; rw [hc]; rw [smul_zero]
   have H₂ : (Submodule.span R {a • y}).annihilator ≠ ⊤ := by
     rwa [Ne.def, Submodule.annihilator_eq_top_iff, Submodule.span_singleton_eq_bot]
   rwa [H₁.eq_of_not_lt (h₃ (R ∙ a • y).annihilator ⟨l.trans H₁, H₂, _, rfl⟩),
@@ -148,8 +148,7 @@ theorem IsAssociatedPrime.eq_radical (hI : I.IsPrimary) (h : IsAssociatedPrime J
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mkₐ_surjective R _ x
   replace e : ∀ {y}, y ∈ J ↔ x * y ∈ I
   · intro y
-    rw [e, Submodule.mem_annihilator_span_singleton, ← map_smul, smul_eq_mul, mul_comm,
-      Ideal.Quotient.mkₐ_eq_mk, ← Ideal.Quotient.mk_eq_mk, Submodule.Quotient.mk_eq_zero]
+    rw [e]; rw [Submodule.mem_annihilator_span_singleton]; rw [← map_smul]; rw [smul_eq_mul]; rw [mul_comm]; rw [Ideal.Quotient.mkₐ_eq_mk]; rw [← Ideal.Quotient.mk_eq_mk]; rw [Submodule.Quotient.mk_eq_zero]
   apply le_antisymm
   · intro y hy
     exact (hI.2 <| e.mp hy).resolve_left ((Submodule.Quotient.mk_eq_zero I).not.mp this)
@@ -166,7 +165,7 @@ theorem associatedPrimes.eq_singleton_of_isPrimary [IsNoetherianRing R] (hI : I.
   rintro rfl
   haveI : Nontrivial (R ⧸ I) := by
     refine ⟨(Ideal.Quotient.mk I : _) 1, (Ideal.Quotient.mk I : _) 0, ?_⟩
-    rw [Ne.def, Ideal.Quotient.eq, sub_zero, ← Ideal.eq_top_iff_one]
+    rw [Ne.def]; rw [Ideal.Quotient.eq]; rw [sub_zero]; rw [← Ideal.eq_top_iff_one]
     exact hI.1
   obtain ⟨a, ha⟩ := associatedPrimes.nonempty R (R ⧸ I)
   exact ha.eq_radical hI ▸ ha

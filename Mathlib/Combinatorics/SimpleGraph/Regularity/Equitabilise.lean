@@ -66,7 +66,7 @@ theorem equitabilise_aux (hs : a * m + b * (m + 1) = s.card) :
   -- Some easy facts about it
   obtain ⟨hn₀, hn₁, hn₂, hn₃⟩ : 0 < n ∧ n ≤ m + 1 ∧ n ≤ a * m + b * (m + 1) ∧
       ite (0 < a) (a - 1) a * m + ite (0 < a) b (b - 1) * (m + 1) = s.card - n := by
-    rw [hn, ← hs]
+    rw [hn]; rw [← hs]
     split_ifs with h <;> rw [tsub_mul, one_mul]
     · refine' ⟨m_pos, le_succ _, le_add_right (le_mul_of_pos_left ‹0 < a›), _⟩
       rw [tsub_add_eq_add_tsub (le_mul_of_pos_left h)]
@@ -82,7 +82,7 @@ theorem equitabilise_aux (hs : a * m + b * (m + 1) = s.card) :
   · obtain ⟨t, hts, htn⟩ := exists_smaller_set s n (hn₂.trans_eq hs)
     have ht : t.Nonempty := by rwa [← card_pos, htn]
     have hcard : ite (0 < a) (a - 1) a * m + ite (0 < a) b (b - 1) * (m + 1) = (s \ t).card := by
-      rw [card_sdiff ‹t ⊆ s›, htn, hn₃]
+      rw [card_sdiff ‹t ⊆ s›]; rw [htn]; rw [hn₃]
     obtain ⟨R, hR₁, _, hR₃⟩ :=
       @ih (s \ t) (sdiff_ssubset hts ‹t.Nonempty›) (if 0 < a then a - 1 else a)
         (if 0 < a then b else b - 1) (P.avoid t) hcard
@@ -93,7 +93,7 @@ theorem equitabilise_aux (hs : a * m + b * (m + 1) = s.card) :
     simp_rw [extend_parts, filter_insert, htn, m.succ_ne_self.symm.ite_eq_right_iff]
     split_ifs with ha
     · rw [hR₃, if_pos ha]
-    rw [card_insert_of_not_mem, hR₃, if_neg ha, tsub_add_cancel_of_le]
+    rw [card_insert_of_not_mem]; rw [hR₃]; rw [if_neg ha]; rw [tsub_add_cancel_of_le]
     · exact hab.resolve_left ha
     · intro H; exact ht.ne_empty (le_sdiff_iff.1 <| R.le <| filter_subset _ _ H)
   push_neg at h
@@ -101,7 +101,7 @@ theorem equitabilise_aux (hs : a * m + b * (m + 1) = s.card) :
   obtain ⟨t, htu, htn⟩ := exists_smaller_set _ _ (hn₁.trans hu₂)
   have ht : t.Nonempty := by rwa [← card_pos, htn]
   have hcard : ite (0 < a) (a - 1) a * m + ite (0 < a) b (b - 1) * (m + 1) = (s \ t).card := by
-    rw [card_sdiff (htu.trans <| P.le hu₁), htn, hn₃]
+    rw [card_sdiff (htu.trans <| P.le hu₁)]; rw [htn]; rw [hn₃]
   obtain ⟨R, hR₁, hR₂, hR₃⟩ :=
     @ih (s \ t) (sdiff_ssubset (htu.trans <| P.le hu₁) ht) (if 0 < a then a - 1 else a)
       (if 0 < a then b else b - 1) (P.avoid t) hcard
@@ -169,16 +169,15 @@ theorem card_filter_equitabilise_big :
 theorem card_filter_equitabilise_small (hm : m ≠ 0) :
     ((P.equitabilise h).parts.filter fun u : Finset α => u.card = m).card = a := by
   refine' (mul_eq_mul_right_iff.1 <| (add_left_inj (b * (m + 1))).1 _).resolve_right hm
-  rw [h, ← (P.equitabilise h).sum_card_parts]
+  rw [h]; rw [← (P.equitabilise h).sum_card_parts]
   have hunion :
     (P.equitabilise h).parts =
       ((P.equitabilise h).parts.filter fun u => u.card = m) ∪
         (P.equitabilise h).parts.filter fun u => u.card = m + 1 := by
-    rw [← filter_or, filter_true_of_mem]
+    rw [← filter_or]; rw [filter_true_of_mem]
     exact fun x => card_eq_of_mem_parts_equitabilise
   nth_rw 2 [hunion]
-  rw [sum_union, sum_const_nat fun x hx => (mem_filter.1 hx).2,
-    sum_const_nat fun x hx => (mem_filter.1 hx).2, P.card_filter_equitabilise_big]
+  rw [sum_union]; rw [sum_const_nat fun x hx => (mem_filter.1 hx).2]; rw [sum_const_nat fun x hx => (mem_filter.1 hx).2]; rw [P.card_filter_equitabilise_big]
   refine' disjoint_filter_filter' _ _ _
   intro x ha hb i h
   apply succ_ne_self m _
@@ -186,8 +185,7 @@ theorem card_filter_equitabilise_small (hm : m ≠ 0) :
 #align finpartition.card_filter_equitabilise_small Finpartition.card_filter_equitabilise_small
 
 theorem card_parts_equitabilise (hm : m ≠ 0) : (P.equitabilise h).parts.card = a + b := by
-  rw [← filter_true_of_mem fun x => card_eq_of_mem_parts_equitabilise, filter_or, card_union_eq,
-    P.card_filter_equitabilise_small _ hm, P.card_filter_equitabilise_big]
+  rw [← filter_true_of_mem fun x => card_eq_of_mem_parts_equitabilise]; rw [filter_or]; rw [card_union_eq]; rw [P.card_filter_equitabilise_small _ hm]; rw [P.card_filter_equitabilise_big]
   -- Porting note: was `infer_instance`
   exact disjoint_filter.2 fun x _ h₀ h₁ => Nat.succ_ne_self m <| h₁.symm.trans h₀
 #align finpartition.card_parts_equitabilise Finpartition.card_parts_equitabilise
@@ -204,13 +202,11 @@ theorem exists_equipartition_card_eq (hn : n ≠ 0) (hs : n ≤ s.card) :
     ∃ P : Finpartition s, P.IsEquipartition ∧ P.parts.card = n := by
   rw [← pos_iff_ne_zero] at hn
   have : (n - s.card % n) * (s.card / n) + s.card % n * (s.card / n + 1) = s.card := by
-    rw [tsub_mul, mul_add, ← add_assoc,
-      tsub_add_cancel_of_le (Nat.mul_le_mul_right _ (mod_lt _ hn).le), mul_one, add_comm,
-      mod_add_div]
+    rw [tsub_mul]; rw [mul_add]; rw [← add_assoc]; rw [tsub_add_cancel_of_le (Nat.mul_le_mul_right _ (mod_lt _ hn).le)]; rw [mul_one]; rw [add_comm]; rw [mod_add_div]
   refine'
     ⟨(indiscrete (card_pos.1 <| hn.trans_le hs).ne_empty).equitabilise this,
       equitabilise_isEquipartition, _⟩
-  rw [card_parts_equitabilise _ _ (Nat.div_pos hs hn).ne', tsub_add_cancel_of_le (mod_lt _ hn).le]
+  rw [card_parts_equitabilise _ _ (Nat.div_pos hs hn).ne']; rw [tsub_add_cancel_of_le (mod_lt _ hn).le]
 #align finpartition.exists_equipartition_card_eq Finpartition.exists_equipartition_card_eq
 
 end Finpartition

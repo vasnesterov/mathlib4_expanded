@@ -178,7 +178,7 @@ def isKernelCompMono {c : KernelFork f} (i : IsLimit c) {Z} (g : Y ⟶ Z) [hg : 
 theorem isKernelCompMono_lift {c : KernelFork f} (i : IsLimit c) {Z} (g : Y ⟶ Z) [hg : Mono g]
     {h : X ⟶ Z} (hh : h = f ≫ g) (s : KernelFork h) :
     (isKernelCompMono i g hh).lift s = i.lift (Fork.ofι s.ι (by
-      rw [← cancel_mono g, Category.assoc, ← hh]
+      rw [← cancel_mono g]; rw [Category.assoc]; rw [← hh]
       simp)) := rfl
 #align category_theory.limits.is_kernel_comp_mono_lift CategoryTheory.Limits.isKernelCompMono_lift
 
@@ -538,7 +538,7 @@ variable {f}
 
 @[reassoc (attr := simp)]
 theorem CokernelCofork.condition (s : CokernelCofork f) : f ≫ s.π = 0 := by
-  rw [Cofork.condition, zero_comp]
+  rw [Cofork.condition]; rw [zero_comp]
 #align category_theory.limits.cokernel_cofork.condition CategoryTheory.Limits.CokernelCofork.condition
 
 -- Porting note: simp can prove this, removed simp tag
@@ -611,7 +611,7 @@ def isCokernelEpiComp {c : CokernelCofork f} (i : IsColimit c) {W} (g : W ⟶ X)
       Cofork.ofπ s.π
         (by
           apply hg.left_cancellation
-          rw [← Category.assoc, ← hh, s.condition]
+          rw [← Category.assoc]; rw [← hh]; rw [s.condition]
           simp)
     let l := CokernelCofork.IsColimit.desc' i s'.π s'.condition
     ⟨l.1, l.2, fun hm => by
@@ -625,7 +625,7 @@ theorem isCokernelEpiComp_desc {c : CokernelCofork f} (i : IsColimit c) {W} (g :
       i.desc
         (Cofork.ofπ s.π
           (by
-            rw [← cancel_epi g, ← Category.assoc, ← hh]
+            rw [← cancel_epi g]; rw [← Category.assoc]; rw [← hh]
             simp)) :=
   rfl
 #align category_theory.limits.is_cokernel_epi_comp_desc CategoryTheory.Limits.isCokernelEpiComp_desc
@@ -896,7 +896,7 @@ def cokernelEpiComp {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) [Epi f] [HasCokernel
   inv :=
     cokernel.desc _ (cokernel.π (f ≫ g))
       (by
-        rw [← cancel_epi f, ← Category.assoc]
+        rw [← cancel_epi f]; rw [← Category.assoc]
         simp)
 #align category_theory.limits.cokernel_epi_comp CategoryTheory.Limits.cokernelEpiComp
 
@@ -946,7 +946,7 @@ variable {f}
 @[simp]
 theorem MonoFactorisation.kernel_ι_comp [HasKernel f] (F : MonoFactorisation f) :
     kernel.ι f ≫ F.e = 0 := by
-  rw [← cancel_mono F.m, zero_comp, Category.assoc, F.fac, kernel.condition]
+  rw [← cancel_mono F.m]; rw [zero_comp]; rw [Category.assoc]; rw [F.fac]; rw [kernel.condition]
 #align category_theory.limits.mono_factorisation.kernel_ι_comp CategoryTheory.Limits.MonoFactorisation.kernel_ι_comp
 
 end MonoFactorisation
@@ -969,8 +969,7 @@ def cokernelImageι {X Y : C} (f : X ⟶ Y) [HasImage f] [HasCokernel (image.ι 
           lhs
           congr
           rw [← image.fac f]
-        rw [← HasZeroMorphisms.comp_zero (Limits.factorThruImage f), Category.assoc,
-          cancel_epi] at w
+        rw [← HasZeroMorphisms.comp_zero (Limits.factorThruImage f)] at w; rw [Category.assoc] at w; rw [cancel_epi] at w
         exact w)
   inv :=
     cokernel.desc _ (cokernel.π _)
@@ -979,7 +978,7 @@ def cokernelImageι {X Y : C} (f : X ⟶ Y) [HasImage f] [HasCokernel (image.ι 
           lhs
           congr
           rw [← image.fac f]
-        rw [Category.assoc, cokernel.condition, HasZeroMorphisms.comp_zero])
+        rw [Category.assoc]; rw [cokernel.condition]; rw [HasZeroMorphisms.comp_zero])
 #align category_theory.limits.cokernel_image_ι CategoryTheory.Limits.cokernelImageι
 
 end HasImage

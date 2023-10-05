@@ -55,7 +55,7 @@ protected theorem StrictMonoOn.union {s t : Set α} {c : α} (h₁ : StrictMonoO
 whole line. -/
 protected theorem StrictMonoOn.Iic_union_Ici (h₁ : StrictMonoOn f (Iic a))
     (h₂ : StrictMonoOn f (Ici a)) : StrictMono f := by
-  rw [← strictMonoOn_univ, ← @Iic_union_Ici _ _ a]
+  rw [← strictMonoOn_univ]; rw [← @Iic_union_Ici _ _ a]
   exact StrictMonoOn.union h₁ h₂ isGreatest_Iic isLeast_Ici
 #align strict_mono_on.Iic_union_Ici StrictMonoOn.Iic_union_Ici
 
@@ -106,7 +106,7 @@ protected theorem MonotoneOn.union_right {s t : Set α} {c : α} (h₁ : Monoton
 /-- If `f` is monotone both on `(-∞, a]` and `[a, ∞)`, then it is monotone on the whole line. -/
 protected theorem MonotoneOn.Iic_union_Ici (h₁ : MonotoneOn f (Iic a)) (h₂ : MonotoneOn f (Ici a)) :
     Monotone f := by
-  rw [← monotoneOn_univ, ← @Iic_union_Ici _ _ a]
+  rw [← monotoneOn_univ]; rw [← @Iic_union_Ici _ _ a]
   exact MonotoneOn.union_right h₁ h₂ isGreatest_Iic isLeast_Ici
 #align monotone_on.Iic_union_Ici MonotoneOn.Iic_union_Ici
 

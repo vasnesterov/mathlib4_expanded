@@ -251,7 +251,7 @@ theorem mul_rmatch_iff (P Q : RegularExpression α) (x : List α) :
     constructor
     · intro h
       refine' ⟨[], [], rfl, _⟩
-      rw [rmatch, rmatch]
+      rw [rmatch]; rw [rmatch]
       rwa [Bool.and_coe_iff] at h
     · rintro ⟨t, u, h₁, h₂⟩
       cases' List.append_eq_nil.1 h₁.symm with ht hu
@@ -273,7 +273,7 @@ theorem mul_rmatch_iff (P Q : RegularExpression α) (x : List α) :
           rw [← h] at hQ
           exact hQ
         · left
-          rw [List.cons_append, List.cons_eq_cons] at h
+          rw [List.cons_append] at h; rw [List.cons_eq_cons] at h
           refine' ⟨t, u, h.2, _, hQ⟩
           rw [rmatch] at hP
           convert hP
@@ -307,7 +307,7 @@ theorem star_rmatch_iff (P : RegularExpression α) :
       · rw [rmatch, deriv, mul_rmatch_iff]
         rintro ⟨t, u, hs, ht, hu⟩
         have hwf : u.length < (List.cons a x).length := by
-          rw [hs, List.length_cons, List.length_append]
+          rw [hs]; rw [List.length_cons]; rw [List.length_append]
           apply A
         rw [IH _ hwf] at hu
         rcases hu with ⟨S', hsum, helem⟩
@@ -336,7 +336,7 @@ theorem star_rmatch_iff (P : RegularExpression α) :
             convert helem.2
             exact hsum.1
           · have hwf : U.join.length < (List.cons a x).length := by
-              rw [hsum.1, hsum.2]
+              rw [hsum.1]; rw [hsum.2]
               simp only [List.length_append, List.length_join, List.length]
               apply A
             rw [IH _ hwf]
@@ -366,7 +366,7 @@ theorem rmatch_iff_matches' (P : RegularExpression α) :
     rw [char_rmatch_iff]
     rfl
   case plus _ _ ih₁ ih₂ =>
-    rw [add_rmatch_iff, ih₁, ih₂]
+    rw [add_rmatch_iff]; rw [ih₁]; rw [ih₂]
     rfl
   case comp P Q ih₁ ih₂ =>
     simp only [mul_rmatch_iff, comp_def, Language.mul_def, exists_and_left, Set.mem_image2,
@@ -450,7 +450,7 @@ theorem matches'_map (f : α → β) :
   | R * S => by simp only [matches'_map, map, matches'_mul]; rw [map_mul]
   | star R => by
     simp_rw [map, matches', matches'_map]
-    rw [Language.kstar_eq_iSup_pow, Language.kstar_eq_iSup_pow]
+    rw [Language.kstar_eq_iSup_pow]; rw [Language.kstar_eq_iSup_pow]
     simp_rw [← map_pow]
     exact image_iUnion.symm
 #align regular_expression.matches_map RegularExpression.matches'_map

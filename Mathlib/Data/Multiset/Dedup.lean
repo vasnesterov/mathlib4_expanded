@@ -120,7 +120,7 @@ theorem le_dedup {s t : Multiset α} : s ≤ dedup t ↔ s ≤ t ∧ Nodup s :=
 #align multiset.le_dedup Multiset.le_dedup
 
 theorem le_dedup_self {s : Multiset α} : s ≤ dedup s ↔ Nodup s := by
-  rw [le_dedup, and_iff_right le_rfl]
+  rw [le_dedup]; rw [and_iff_right le_rfl]
 #align multiset.le_dedup_self Multiset.le_dedup_self
 
 theorem dedup_ext {s t : Multiset α} : dedup s = dedup t ↔ ∀ a, a ∈ s ↔ a ∈ t := by
@@ -147,6 +147,6 @@ end Multiset
 theorem Multiset.Nodup.le_nsmul_iff_le {α : Type*} {s t : Multiset α} {n : ℕ} (h : s.Nodup)
     (hn : n ≠ 0) : s ≤ n • t ↔ s ≤ t := by
   classical
-    rw [← h.le_dedup_iff_le, Iff.comm, ← h.le_dedup_iff_le]
+    rw [← h.le_dedup_iff_le]; rw [Iff.comm]; rw [← h.le_dedup_iff_le]
     simp [hn]
 #align multiset.nodup.le_nsmul_iff_le Multiset.Nodup.le_nsmul_iff_le

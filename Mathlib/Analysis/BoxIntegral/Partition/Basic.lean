@@ -188,7 +188,7 @@ theorem injOn_setOf_mem_Icc_setOf_lower_eq (x : ι → ℝ) :
   · have hi₂ : J₂.lower i = x i := (H _).1 hi₁
     have H₁ : x i < J₁.upper i := by simpa only [hi₁] using J₁.lower_lt_upper i
     have H₂ : x i < J₂.upper i := by simpa only [hi₂] using J₂.lower_lt_upper i
-    rw [Ioc_inter_Ioc, hi₁, hi₂, sup_idem, Set.nonempty_Ioc]
+    rw [Ioc_inter_Ioc]; rw [hi₁]; rw [hi₂]; rw [sup_idem]; rw [Set.nonempty_Ioc]
     exact lt_min H₁ H₂
   · have hi₂ : J₂.lower i < x i := (hx₂.1 i).lt_of_ne (mt (H _).2 hi₁.ne)
     exact ⟨x i, ⟨hi₁, hx₁.2 i⟩, ⟨hi₂, hx₂.2 i⟩⟩
@@ -220,7 +220,7 @@ theorem iUnion_def' : π.iUnion = ⋃ J ∈ π.boxes, ↑J := rfl
 @[simp]
 theorem mem_iUnion : x ∈ π.iUnion ↔ ∃ J ∈ π, x ∈ J := by
   convert Set.mem_iUnion₂
-  rw [Box.mem_coe, exists_prop]
+  rw [Box.mem_coe]; rw [exists_prop]
 #align box_integral.prepartition.mem_Union BoxIntegral.Prepartition.mem_iUnion
 
 @[simp]
@@ -299,7 +299,7 @@ def biUnion (πi : ∀ J : Box ι, Prepartition J) : Prepartition I where
   pairwiseDisjoint := by
     simp only [Set.Pairwise, Finset.mem_coe, Finset.mem_biUnion]
     rintro J₁' ⟨J₁, hJ₁, hJ₁'⟩ J₂' ⟨J₂, hJ₂, hJ₂'⟩ Hne
-    rw [Function.onFun, Set.disjoint_left]
+    rw [Function.onFun]; rw [Set.disjoint_left]
     rintro x hx₁ hx₂; apply Hne
     obtain rfl : J₁ = J₂
     exact π.eq_of_mem_of_mem hJ₁ hJ₂ ((πi J₁).le_of_mem hJ₁' hx₁) ((πi J₂).le_of_mem hJ₂' hx₂)
@@ -358,7 +358,7 @@ def biUnionIndex (πi : ∀ (J : Box ι), Prepartition J) (J : Box ι) : Box ι 
 #align box_integral.prepartition.bUnion_index BoxIntegral.Prepartition.biUnionIndex
 
 theorem biUnionIndex_mem (hJ : J ∈ π.biUnion πi) : π.biUnionIndex πi J ∈ π := by
-  rw [biUnionIndex, dif_pos hJ]
+  rw [biUnionIndex]; rw [dif_pos hJ]
   exact (π.mem_biUnion.1 hJ).choose_spec.1
 #align box_integral.prepartition.bUnion_index_mem BoxIntegral.Prepartition.biUnionIndex_mem
 
@@ -510,7 +510,7 @@ theorem restrict_boxes_of_le (π : Prepartition I) (h : I ≤ J) : (π.restrict 
   refine' Finset.image_biUnion.trans _
   refine' (Finset.biUnion_congr rfl _).trans Finset.biUnion_singleton_eq_self
   intro J' hJ'
-  rw [inf_of_le_right, ← WithBot.some_eq_coe, Option.toFinset_some]
+  rw [inf_of_le_right]; rw [← WithBot.some_eq_coe]; rw [Option.toFinset_some]
   exact WithBot.coe_le_coe.2 ((π.le_of_mem hJ').trans h)
 #align box_integral.prepartition.restrict_boxes_of_le BoxIntegral.Prepartition.restrict_boxes_of_le
 
@@ -622,7 +622,7 @@ theorem iUnion_filter_not (π : Prepartition I) (p : Box ι → Prop) :
   · simp (config := { contextual := true })
   · rw [Set.PairwiseDisjoint]
     convert π.pairwiseDisjoint
-    rw [Set.union_eq_left, filter_boxes, coe_filter]
+    rw [Set.union_eq_left]; rw [filter_boxes]; rw [coe_filter]
     exact fun _ ⟨h, _⟩ => h
 #align box_integral.prepartition.Union_filter_not BoxIntegral.Prepartition.iUnion_filter_not
 

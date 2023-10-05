@@ -127,7 +127,7 @@ theorem finrank_quotient_eq_sum {ι} [Fintype ι] (b : Basis ι R S) [Nontrivial
     FiniteDimensional.finrank F (S ⧸ I) =
       ∑ i, FiniteDimensional.finrank F (R ⧸ span ({I.smithCoeffs b hI i} : Set R)) := by
   -- slow, and dot notation doesn't work
-  rw [LinearEquiv.finrank_eq <| quotientEquivDirectSum F b hI, FiniteDimensional.finrank_directSum]
+  rw [LinearEquiv.finrank_eq <| quotientEquivDirectSum F b hI]; rw [FiniteDimensional.finrank_directSum]
 #align ideal.finrank_quotient_eq_sum Ideal.finrank_quotient_eq_sum
 
 end Ideal

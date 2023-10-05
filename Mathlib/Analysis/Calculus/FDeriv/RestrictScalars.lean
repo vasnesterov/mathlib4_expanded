@@ -115,7 +115,7 @@ theorem differentiableWithinAt_iff_restrictScalars (hf : DifferentiableWithinAt 
 
 theorem differentiableAt_iff_restrictScalars (hf : DifferentiableAt 𝕜 f x) :
     DifferentiableAt 𝕜' f x ↔ ∃ g' : E →L[𝕜'] F, g'.restrictScalars 𝕜 = fderiv 𝕜 f x := by
-  rw [← differentiableWithinAt_univ, ← fderivWithin_univ]
+  rw [← differentiableWithinAt_univ]; rw [← fderivWithin_univ]
   exact
     differentiableWithinAt_iff_restrictScalars 𝕜 hf.differentiableWithinAt uniqueDiffWithinAt_univ
 #align differentiable_at_iff_restrict_scalars differentiableAt_iff_restrictScalars

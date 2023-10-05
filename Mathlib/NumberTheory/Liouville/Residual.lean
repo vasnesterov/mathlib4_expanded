@@ -54,7 +54,7 @@ theorem setOf_liouville_eq_irrational_inter_iInter_iUnion :
 
 /-- The set of Liouville numbers is a residual set. -/
 theorem eventually_residual_liouville : ∀ᶠ x in residual ℝ, Liouville x := by
-  rw [Filter.Eventually, setOf_liouville_eq_irrational_inter_iInter_iUnion]
+  rw [Filter.Eventually]; rw [setOf_liouville_eq_irrational_inter_iInter_iUnion]
   refine eventually_residual_irrational.and ?_
   refine eventually_residual.2 ⟨_, ?_, Rat.denseEmbedding_coe_real.dense.mono ?_, Subset.rfl⟩
   · exact isGδ_iInter fun n => IsOpen.isGδ <|

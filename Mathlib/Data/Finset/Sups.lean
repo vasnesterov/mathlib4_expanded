@@ -558,7 +558,7 @@ variable (s t)
 
 theorem disjSups_comm : s ○ t = t ○ s := by
   ext
-  rw [mem_disjSups, mem_disjSups]
+  rw [mem_disjSups]; rw [mem_disjSups]
   -- Porting note: `exists₂_comm` no longer works with `∃ _ ∈ _, ∃ _ ∈ _, _`
   constructor <;>
   · rintro ⟨a, ha, b, hb, hd, hs⟩

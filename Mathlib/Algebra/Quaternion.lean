@@ -400,7 +400,7 @@ instance : AddCommGroupWithOne ℍ[R,c₁,c₂] where
   intCast_ofNat _ := congr_arg coe (Int.cast_ofNat _)
   intCast_negSucc n := by
     change coe _ = -coe _
-    rw [Int.cast_negSucc, coe_neg]
+    rw [Int.cast_negSucc]; rw [coe_neg]
 
 @[simp, norm_cast]
 theorem nat_cast_re (n : ℕ) : (n : ℍ[R,c₁,c₂]).re = n :=
@@ -564,12 +564,12 @@ instance : Module.Finite R ℍ[R,c₁,c₂] := .of_basis (basisOneIJK c₁ c₂)
 instance : Module.Free R ℍ[R,c₁,c₂] := .of_basis (basisOneIJK c₁ c₂)
 
 theorem rank_eq_four [StrongRankCondition R] : Module.rank R ℍ[R,c₁,c₂] = 4 := by
-  rw [rank_eq_card_basis (basisOneIJK c₁ c₂), Fintype.card_fin]
+  rw [rank_eq_card_basis (basisOneIJK c₁ c₂)]; rw [Fintype.card_fin]
   norm_num
 #align quaternion_algebra.rank_eq_four QuaternionAlgebra.rank_eq_four
 
 theorem finrank_eq_four [StrongRankCondition R] : FiniteDimensional.finrank R ℍ[R,c₁,c₂] = 4 := by
-  rw [FiniteDimensional.finrank, rank_eq_four, Cardinal.toNat_ofNat]
+  rw [FiniteDimensional.finrank]; rw [rank_eq_four]; rw [Cardinal.toNat_ofNat]
 #align quaternion_algebra.finrank_eq_four QuaternionAlgebra.finrank_eq_four
 
 end
@@ -1201,7 +1201,7 @@ theorem normSq_def' : normSq a = a.1 ^ 2 + a.2 ^ 2 + a.3 ^ 2 + a.4 ^ 2 := by
 #align quaternion.norm_sq_def' Quaternion.normSq_def'
 
 theorem normSq_coe : normSq (x : ℍ[R]) = x ^ 2 := by
-  rw [normSq_def, star_coe, ← coe_mul, coe_re, sq]
+  rw [normSq_def]; rw [star_coe]; rw [← coe_mul]; rw [coe_re]; rw [sq]
 #align quaternion.norm_sq_coe Quaternion.normSq_coe
 
 @[simp]
@@ -1210,12 +1210,12 @@ theorem normSq_star : normSq (star a) = normSq a := by simp [normSq_def']
 
 @[norm_cast]
 theorem normSq_nat_cast (n : ℕ) : normSq (n : ℍ[R]) = (n : R) ^ 2 := by
-  rw [← coe_nat_cast, normSq_coe]
+  rw [← coe_nat_cast]; rw [normSq_coe]
 #align quaternion.norm_sq_nat_cast Quaternion.normSq_nat_cast
 
 @[norm_cast]
 theorem normSq_int_cast (z : ℤ) : normSq (z : ℍ[R]) = (z : R) ^ 2 := by
-  rw [← coe_int_cast, normSq_coe]
+  rw [← coe_int_cast]; rw [normSq_coe]
 #align quaternion.norm_sq_int_cast Quaternion.normSq_int_cast
 
 @[simp]
@@ -1246,7 +1246,7 @@ theorem normSq_add (a b : ℍ[R]) : normSq (a + b) = normSq a + normSq b + 2 * (
       simp_rw [normSq_def, star_add, add_mul, mul_add, add_re]
     _ = normSq a + normSq b + ((a * star b).re + (b * star a).re) := by abel
     _ = normSq a + normSq b + 2 * (a * star b).re := by
-      rw [← add_re, ← star_mul_star a b, self_add_star', coe_re]
+      rw [← add_re]; rw [← star_mul_star a b]; rw [self_add_star']; rw [coe_re]
 #align quaternion.norm_sq_add Quaternion.normSq_add
 
 end Quaternion
@@ -1262,7 +1262,7 @@ variable [LinearOrderedCommRing R] {a : ℍ[R]}
 @[simp]
 theorem normSq_eq_zero : normSq a = 0 ↔ a = 0 := by
   refine' ⟨fun h => _, fun h => h.symm ▸ normSq.map_zero⟩
-  rw [normSq_def', add_eq_zero_iff', add_eq_zero_iff', add_eq_zero_iff'] at h
+  rw [normSq_def'] at h; rw [add_eq_zero_iff'] at h; rw [add_eq_zero_iff'] at h; rw [add_eq_zero_iff'] at h
   exact ext a 0 (pow_eq_zero h.1.1.1) (pow_eq_zero h.1.1.2) (pow_eq_zero h.1.2) (pow_eq_zero h.2)
   all_goals apply_rules [sq_nonneg, add_nonneg]
 #align quaternion.norm_sq_eq_zero Quaternion.normSq_eq_zero
@@ -1292,7 +1292,7 @@ instance : NoZeroDivisors ℍ[R] where
 instance : IsDomain ℍ[R] := NoZeroDivisors.to_isDomain _
 
 theorem sq_eq_normSq : a ^ 2 = normSq a ↔ a = a.re := by
-  rw [← star_eq_self, ← star_mul_self, sq, mul_eq_mul_right_iff, eq_comm]
+  rw [← star_eq_self]; rw [← star_mul_self]; rw [sq]; rw [mul_eq_mul_right_iff]; rw [eq_comm]
   exact or_iff_left_of_imp fun ha ↦ ha.symm ▸ star_zero _
 #align quaternion.sq_eq_norm_sq Quaternion.sq_eq_normSq
 
@@ -1321,8 +1321,7 @@ instance instGroupWithZero : GroupWithZero ℍ[R] :=
     mul_inv_cancel := fun a ha => by
       -- porting note: the aliased definition confuse TC search
       letI : Semiring ℍ[R] := inferInstanceAs (Semiring ℍ[R,-1,-1])
-      rw [instInv_inv, Algebra.mul_smul_comm (normSq a)⁻¹ a (star a), self_mul_star, smul_coe,
-        inv_mul_cancel (normSq_ne_zero.2 ha), coe_one] }
+      rw [instInv_inv]; rw [Algebra.mul_smul_comm (normSq a)⁻¹ a (star a)]; rw [self_mul_star]; rw [smul_coe]; rw [inv_mul_cancel (normSq_ne_zero.2 ha)]; rw [coe_one] }
 
 @[norm_cast, simp]
 theorem coe_inv (x : R) : ((x⁻¹ : R) : ℍ[R]) = (↑x)⁻¹ :=
@@ -1378,10 +1377,10 @@ instance : DivisionRing ℍ[R] :=
   { Quaternion.instGroupWithZero,
     Quaternion.instRing with
     ratCast_mk := fun n d hd h => by
-      rw [←coe_rat_cast, Rat.cast_mk', coe_mul, coe_int_cast, coe_inv, coe_nat_cast]
+      rw [←coe_rat_cast]; rw [Rat.cast_mk']; rw [coe_mul]; rw [coe_int_cast]; rw [coe_inv]; rw [coe_nat_cast]
     qsmul := (· • ·)
     qsmul_eq_mul' := fun q x => by
-      rw [←coe_rat_cast, coe_mul_eq_smul]
+      rw [←coe_rat_cast]; rw [coe_mul_eq_smul]
       ext <;> exact DivisionRing.qsmul_eq_mul' _ _ }
 
 --@[simp] Porting note: `simp` can prove it
@@ -1401,7 +1400,7 @@ theorem normSq_zpow (z : ℤ) : normSq (a ^ z) = normSq a ^ z :=
 
 @[norm_cast]
 theorem normSq_rat_cast (q : ℚ) : normSq (q : ℍ[R]) = (q : ℍ[R]) ^ 2 := by
-  rw [← coe_rat_cast, normSq_coe, coe_pow]
+  rw [← coe_rat_cast]; rw [normSq_coe]; rw [coe_pow]
 #align quaternion.norm_sq_rat_cast Quaternion.normSq_rat_cast
 
 end Field
@@ -1430,12 +1429,12 @@ theorem mk_quaternionAlgebra : #(ℍ[R,c₁,c₂]) = #R ^ℕ 4 := by
 
 @[simp]
 theorem mk_quaternionAlgebra_of_infinite [Infinite R] : #(ℍ[R,c₁,c₂]) = #R := by
-  rw [mk_quaternionAlgebra, pow_four]
+  rw [mk_quaternionAlgebra]; rw [pow_four]
 #align cardinal.mk_quaternion_algebra_of_infinite Cardinal.mk_quaternionAlgebra_of_infinite
 
 /-- The cardinality of a quaternion algebra, as a set. -/
 theorem mk_univ_quaternionAlgebra : #(Set.univ : Set ℍ[R,c₁,c₂]) = #R ^ℕ 4 := by
-  rw [mk_univ, mk_quaternionAlgebra]
+  rw [mk_univ]; rw [mk_quaternionAlgebra]
 #align cardinal.mk_univ_quaternion_algebra Cardinal.mk_univ_quaternionAlgebra
 
 --@[simp] Porting note: `simp` can prove it

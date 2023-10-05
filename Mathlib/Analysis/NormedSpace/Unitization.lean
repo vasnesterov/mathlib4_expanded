@@ -95,7 +95,7 @@ theorem splitMul_injective_of_clm_mul_injective
   obtain ⟨rfl, hx⟩ := hx
   simp only [map_zero, zero_add, inl_zero] at hx ⊢
   rw [← map_zero (mul 𝕜 A)] at hx
-  rw [h hx, inr_zero]
+  rw [h hx]; rw [inr_zero]
 
 variable [RegularNormedAlgebra 𝕜 A]
 variable (𝕜 A)
@@ -139,7 +139,7 @@ theorem nnnorm_def (x : Unitization 𝕜 A) : ‖x‖₊ = ‖splitMul 𝕜 A x�
 /-- This is often the more useful lemma to rewrite the norm as opposed to `Unitization.norm_def`. -/
 theorem norm_eq_sup (x : Unitization 𝕜 A) :
     ‖x‖ = ‖x.fst‖ ⊔ ‖algebraMap 𝕜 (A →L[𝕜] A) x.fst + mul 𝕜 A x.snd‖ := by
-  rw [norm_def, splitMul_apply, Prod.norm_def, sup_eq_max]
+  rw [norm_def]; rw [splitMul_apply]; rw [Prod.norm_def]; rw [sup_eq_max]
 
 /-- This is often the more useful lemma to rewrite the norm as opposed to
 `Unitization.nnnorm_def`. -/
@@ -152,7 +152,7 @@ theorem lipschitzWith_addEquiv :
     LipschitzWith 2 (Unitization.addEquiv 𝕜 A) := by
   rw [← Real.toNNReal_ofNat]
   refine AddMonoidHomClass.lipschitz_of_bound (Unitization.addEquiv 𝕜 A) 2 fun x => ?_
-  rw [norm_eq_sup, Prod.norm_def]
+  rw [norm_eq_sup]; rw [Prod.norm_def]
   refine' max_le ?_ ?_
   · rw [sup_eq_max, mul_max_of_nonneg _ _ (zero_le_two : (0 : ℝ) ≤ 2)]
     exact le_max_of_le_left ((le_add_of_nonneg_left (norm_nonneg _)).trans_eq (two_mul _).symm)
@@ -169,7 +169,7 @@ theorem lipschitzWith_addEquiv :
 theorem antilipschitzWith_addEquiv :
     AntilipschitzWith 2 (addEquiv 𝕜 A) := by
   refine AddMonoidHomClass.antilipschitz_of_bound (addEquiv 𝕜 A) fun x => ?_
-  rw [norm_eq_sup, Prod.norm_def, NNReal.coe_two]
+  rw [norm_eq_sup]; rw [Prod.norm_def]; rw [NNReal.coe_two]
   refine max_le ?_ ?_
   · rw [mul_max_of_nonneg _ _ (zero_le_two : (0 : ℝ) ≤ 2)]
     exact le_max_of_le_left ((le_add_of_nonneg_left (norm_nonneg _)).trans_eq (two_mul _).symm)
@@ -178,7 +178,7 @@ theorem antilipschitzWith_addEquiv :
       ‖algebraMap 𝕜 _ x.fst + mul 𝕜 A x.snd‖ ≤ ‖algebraMap 𝕜 _ x.fst‖ + ‖mul 𝕜 A x.snd‖ :=
         norm_add_le _ _
       _ = ‖x.fst‖ + ‖x.snd‖ := by
-        rw [norm_algebraMap', (AddMonoidHomClass.isometry_iff_norm (mul 𝕜 A)).mp (isometry_mul 𝕜 A)]
+        rw [norm_algebraMap']; rw [(AddMonoidHomClass.isometry_iff_norm (mul 𝕜 A)).mp (isometry_mul 𝕜 A)]
       _ ≤ _ := (add_le_add (le_max_left _ _) (le_max_right _ _)).trans_eq (two_mul _).symm
 
 open Bornology Filter
@@ -234,7 +234,7 @@ noncomputable instance instNormedRing : NormedRing (Unitization 𝕜 A)
 algebra homomorphism `Unitization.splitMul 𝕜 A`. -/
 instance instNormedAlgebra : NormedAlgebra 𝕜 (Unitization 𝕜 A) where
   norm_smul_le k x := by
-    rw [norm_def, map_smul, norm_smul, ← norm_def]
+    rw [norm_def]; rw [map_smul]; rw [norm_smul]; rw [← norm_def]
 
 instance instNormOneClass : NormOneClass (Unitization 𝕜 A) where
   norm_one := by simpa only [norm_eq_sup, fst_one, norm_one, snd_one, map_one, map_zero,

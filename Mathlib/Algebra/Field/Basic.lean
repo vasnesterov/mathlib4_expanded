@@ -50,8 +50,7 @@ theorem div_add_one (h : b ≠ 0) : a / b + 1 = (a + b) / b :=
 
 theorem one_div_mul_add_mul_one_div_eq_one_div_add_one_div (ha : a ≠ 0) (hb : b ≠ 0) :
     1 / a * (a + b) * (1 / b) = 1 / a + 1 / b := by
-  rw [mul_add, one_div_mul_cancel ha, add_mul, one_mul, mul_assoc, mul_one_div_cancel hb, mul_one,
-    add_comm]
+  rw [mul_add]; rw [one_div_mul_cancel ha]; rw [add_mul]; rw [one_mul]; rw [mul_assoc]; rw [mul_one_div_cancel hb]; rw [mul_one]; rw [add_comm]
 #align one_div_mul_add_mul_one_div_eq_one_div_add_one_div one_div_mul_add_mul_one_div_eq_one_div_add_one_div
 
 theorem add_div_eq_mul_add_div (a b : α) (hc : c ≠ 0) : a + b / c = (a * c + b) / c :=
@@ -60,7 +59,7 @@ theorem add_div_eq_mul_add_div (a b : α) (hc : c ≠ 0) : a + b / c = (a * c + 
 
 @[field_simps]
 theorem add_div' (a b c : α) (hc : c ≠ 0) : b + a / c = (b * c + a) / c := by
-  rw [add_div, mul_div_cancel _ hc]
+  rw [add_div]; rw [mul_div_cancel _ hc]
 #align add_div' add_div'
 
 @[field_simps]
@@ -70,17 +69,17 @@ theorem div_add' (a b c : α) (hc : c ≠ 0) : a / c + b = (a + b * c) / c := by
 
 protected theorem Commute.div_add_div (hbc : Commute b c) (hbd : Commute b d) (hb : b ≠ 0)
     (hd : d ≠ 0) : a / b + c / d = (a * d + b * c) / (b * d) := by
-  rw [add_div, mul_div_mul_right _ b hd, hbc.eq, hbd.eq, mul_div_mul_right c d hb]
+  rw [add_div]; rw [mul_div_mul_right _ b hd]; rw [hbc.eq]; rw [hbd.eq]; rw [mul_div_mul_right c d hb]
 #align commute.div_add_div Commute.div_add_div
 
 protected theorem Commute.one_div_add_one_div (hab : Commute a b) (ha : a ≠ 0) (hb : b ≠ 0) :
     1 / a + 1 / b = (a + b) / (a * b) := by
-  rw [(Commute.one_right a).div_add_div hab ha hb, one_mul, mul_one, add_comm]
+  rw [(Commute.one_right a).div_add_div hab ha hb]; rw [one_mul]; rw [mul_one]; rw [add_comm]
 #align commute.one_div_add_one_div Commute.one_div_add_one_div
 
 protected theorem Commute.inv_add_inv (hab : Commute a b) (ha : a ≠ 0) (hb : b ≠ 0) :
     a⁻¹ + b⁻¹ = (a + b) / (a * b) := by
-  rw [inv_eq_one_div, inv_eq_one_div, hab.one_div_add_one_div ha hb]
+  rw [inv_eq_one_div]; rw [inv_eq_one_div]; rw [hab.one_div_add_one_div ha hb]
 #align commute.inv_add_inv Commute.inv_add_inv
 
 end DivisionSemiring
@@ -111,7 +110,7 @@ theorem div_neg_eq_neg_div (a b : K) : b / -a = -(b / a) :=
 #align div_neg_eq_neg_div div_neg_eq_neg_div
 
 theorem neg_div (a b : K) : -b / a = -(b / a) := by
-  rw [neg_eq_neg_one_mul, mul_div_assoc, ← neg_eq_neg_one_mul]
+  rw [neg_eq_neg_one_mul]; rw [mul_div_assoc]; rw [← neg_eq_neg_one_mul]
 #align neg_div neg_div
 
 @[field_simps]
@@ -147,7 +146,7 @@ theorem neg_div_self {a : K} (h : a ≠ 0) : -a / a = -1 := by rw [neg_div, div_
 #align neg_div_self neg_div_self
 
 theorem div_sub_div_same (a b c : K) : a / c - b / c = (a - b) / c := by
-  rw [sub_eq_add_neg, ← neg_div, div_add_div_same, sub_eq_add_neg]
+  rw [sub_eq_add_neg]; rw [← neg_div]; rw [div_add_div_same]; rw [sub_eq_add_neg]
 #align div_sub_div_same div_sub_div_same
 
 theorem same_sub_div {a b : K} (h : b ≠ 0) : (b - a) / b = 1 - a / b := by
@@ -172,13 +171,12 @@ theorem sub_div (a b c : K) : (a - b) / c = a / c - b / c :=
 
 /-- See `inv_sub_inv` for the more convenient version when `K` is commutative. -/
 theorem inv_sub_inv' {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) : a⁻¹ - b⁻¹ = a⁻¹ * (b - a) * b⁻¹ := by
-  rw [mul_sub, sub_mul, mul_inv_cancel_right₀ hb, inv_mul_cancel ha, one_mul]
+  rw [mul_sub]; rw [sub_mul]; rw [mul_inv_cancel_right₀ hb]; rw [inv_mul_cancel ha]; rw [one_mul]
 #align inv_sub_inv' inv_sub_inv'
 
 theorem one_div_mul_sub_mul_one_div_eq_one_div_add_one_div (ha : a ≠ 0) (hb : b ≠ 0) :
     1 / a * (b - a) * (1 / b) = 1 / a - 1 / b := by
-  rw [mul_sub_left_distrib (1 / a), one_div_mul_cancel ha, mul_sub_right_distrib, one_mul,
-    mul_assoc, mul_one_div_cancel hb, mul_one]
+  rw [mul_sub_left_distrib (1 / a)]; rw [one_div_mul_cancel ha]; rw [mul_sub_right_distrib]; rw [one_mul]; rw [mul_assoc]; rw [mul_one_div_cancel hb]; rw [mul_one]
 #align one_div_mul_sub_mul_one_div_eq_one_div_add_one_div one_div_mul_sub_mul_one_div_eq_one_div_add_one_div
 
 -- see Note [lower instance priority]
@@ -230,7 +228,7 @@ theorem div_sub_div (a : K) {b : K} (c : K) {d : K} (hb : b ≠ 0) (hd : d ≠ 0
 #align div_sub_div div_sub_div
 
 theorem inv_sub_inv {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) : a⁻¹ - b⁻¹ = (b - a) / (a * b) := by
-  rw [inv_eq_one_div, inv_eq_one_div, div_sub_div _ _ ha hb, one_mul, mul_one]
+  rw [inv_eq_one_div]; rw [inv_eq_one_div]; rw [div_sub_div _ _ ha hb]; rw [one_mul]; rw [mul_one]
 #align inv_sub_inv inv_sub_inv
 
 @[field_simps]

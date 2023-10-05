@@ -66,9 +66,7 @@ def quotConjEquiv (H K : Subgroup G) (g : ConjAct G) :
     K ⧸ H.subgroupOf K ≃ (g • K).1 ⧸ (g • H).subgroupOf (g • K) :=
   Quotient.congr (K.equivSMul g).toEquiv fun a b => by
     dsimp
-    rw [← Quotient.eq'', ← Quotient.eq'', QuotientGroup.eq', QuotientGroup.eq',
-      Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf, ← MulEquiv.map_inv, ← MulEquiv.map_mul,
-      Subgroup.equivSMul_apply_coe]
+    rw [← Quotient.eq'']; rw [← Quotient.eq'']; rw [QuotientGroup.eq']; rw [QuotientGroup.eq']; rw [Subgroup.mem_subgroupOf]; rw [Subgroup.mem_subgroupOf]; rw [← MulEquiv.map_inv]; rw [← MulEquiv.map_mul]; rw [Subgroup.equivSMul_apply_coe]
     exact Subgroup.smul_mem_pointwise_smul_iff.symm
 #align commensurable.quot_conj_equiv Commensurable.quotConjEquiv
 
@@ -88,7 +86,7 @@ def commensurator' (H : Subgroup G) : Subgroup (ConjAct G) where
   carrier := { g : ConjAct G | Commensurable (g • H) H }
   one_mem' := by rw [Set.mem_setOf_eq, one_smul]
   mul_mem' ha hb := by
-    rw [Set.mem_setOf_eq, mul_smul]
+    rw [Set.mem_setOf_eq]; rw [mul_smul]
     exact trans ((commensurable_conj _).mp hb) ha
   inv_mem' _ := by rwa [Set.mem_setOf_eq, comm, ← commensurable_inv]
 #align commensurable.commensurator' Commensurable.commensurator'

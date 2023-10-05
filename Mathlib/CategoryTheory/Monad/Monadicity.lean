@@ -107,11 +107,9 @@ def comparisonLeftAdjointHomEquiv (A : (adj).toMonad.Algebra) (B : D)
     _ ≃ { g : A.A ⟶ G.obj B // G.map ((F).map g) ≫ G.map ((adj).counit.app B) = A.a ≫ g } := by
       refine' ((adj).homEquiv _ _).subtypeEquiv _
       intro f
-      rw [← ((adj).homEquiv _ _).injective.eq_iff, Adjunction.homEquiv_naturality_left,
-        (adj).homEquiv_unit, (adj).homEquiv_unit, G.map_comp]
+      rw [← ((adj).homEquiv _ _).injective.eq_iff]; rw [Adjunction.homEquiv_naturality_left]; rw [(adj).homEquiv_unit]; rw [(adj).homEquiv_unit]; rw [G.map_comp]
       dsimp
-      rw [(adj).right_triangle_components_assoc, ← G.map_comp, (F).map_comp, Category.assoc,
-        (adj).counit_naturality, (adj).left_triangle_components_assoc]
+      rw [(adj).right_triangle_components_assoc]; rw [← G.map_comp]; rw [(F).map_comp]; rw [Category.assoc]; rw [(adj).counit_naturality]; rw [(adj).left_triangle_components_assoc]
       apply eq_comm
     _ ≃ (A ⟶ (comparison adj).obj B) :=
       { toFun := fun g =>
@@ -171,7 +169,7 @@ def unitCofork (A : (adj).toMonad.Algebra)
   Cofork.ofπ (G.map (coequalizer.π ((F).map A.a) ((adj).counit.app ((F).obj A.A))))
     (by
       change _ = G.map _ ≫ _
-      rw [← G.map_comp, coequalizer.condition, G.map_comp])
+      rw [← G.map_comp]; rw [coequalizer.condition]; rw [G.map_comp])
 #align category_theory.monad.monadicity_internal.unit_cofork CategoryTheory.Monad.MonadicityInternal.unitCofork
 
 @[simp]
@@ -189,8 +187,7 @@ theorem comparisonAdjunction_unit_f
   apply Limits.Cofork.IsColimit.hom_ext (beckCoequalizer A)
   rw [Cofork.IsColimit.π_desc]
   dsimp only [beckCofork_π, unitCofork_π]
-  rw [comparisonAdjunction_unit_f_aux, ← (adj).homEquiv_naturality_left A.a, coequalizer.condition,
-    (adj).homEquiv_naturality_right, (adj).homEquiv_unit, Category.assoc]
+  rw [comparisonAdjunction_unit_f_aux]; rw [← (adj).homEquiv_naturality_left A.a]; rw [coequalizer.condition]; rw [(adj).homEquiv_naturality_right]; rw [(adj).homEquiv_unit]; rw [Category.assoc]
   apply (adj).right_triangle_components_assoc
 #align category_theory.monad.monadicity_internal.comparison_adjunction_unit_f CategoryTheory.Monad.MonadicityInternal.comparisonAdjunction_unit_f
 

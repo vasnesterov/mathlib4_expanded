@@ -160,7 +160,7 @@ identity holds.
 -/
 lemma act_act_self_eq (x y : S) : (x ◃ y) ◃ x = x ◃ y := by
   have h : (x ◃ y) ◃ x = (x ◃ y) ◃ (x ◃ 1) := by rw [act_one]
-  rw [h, ←Shelf.self_distrib, act_one]
+  rw [h]; rw [←Shelf.self_distrib]; rw [act_one]
 #align unital_shelf.act_act_self_eq UnitalShelf.act_act_self_eq
 
 lemma act_idem (x : S) : (x ◃ x) = x := by rw [←act_one x, ←Shelf.self_distrib, act_one, act_one]
@@ -168,14 +168,14 @@ lemma act_idem (x : S) : (x ◃ x) = x := by rw [←act_one x, ←Shelf.self_dis
 
 lemma act_self_act_eq (x y : S) : x ◃ (x ◃ y) = x ◃ y := by
   have h : x ◃ (x ◃ y) = (x ◃ 1) ◃ (x ◃ y) := by rw [act_one]
-  rw [h, ←Shelf.self_distrib, one_act]
+  rw [h]; rw [←Shelf.self_distrib]; rw [one_act]
 #align unital_shelf.act_self_act_eq UnitalShelf.act_self_act_eq
 
 /--
 The associativity of a unital shelf comes for free.
 -/
 lemma assoc (x y z : S) : (x ◃ y) ◃ z = x ◃ y ◃ z := by
-  rw [self_distrib, self_distrib, act_act_self_eq, act_self_act_eq]
+  rw [self_distrib]; rw [self_distrib]; rw [act_act_self_eq]; rw [act_self_act_eq]
 #align unital_shelf.assoc UnitalShelf.assoc
 
 end UnitalShelf
@@ -237,7 +237,7 @@ theorem left_cancel_inv (x : R) {y y' : R} : x ◃⁻¹ y = x ◃⁻¹ y' ↔ y 
 #align rack.left_cancel_inv Rack.left_cancel_inv
 
 theorem self_distrib_inv {x y z : R} : x ◃⁻¹ y ◃⁻¹ z = (x ◃⁻¹ y) ◃⁻¹ x ◃⁻¹ z := by
-  rw [← left_cancel (x ◃⁻¹ y), right_inv, ← left_cancel x, right_inv, self_distrib]
+  rw [← left_cancel (x ◃⁻¹ y)]; rw [right_inv]; rw [← left_cancel x]; rw [right_inv]; rw [self_distrib]
   repeat' rw [right_inv]
 #align rack.self_distrib_inv Rack.self_distrib_inv
 
@@ -308,8 +308,8 @@ theorem self_act_eq_iff_eq {x y : R} : x ◃ x = y ◃ y ↔ x = y := by
   constructor; swap; rintro rfl; rfl
   intro h
   trans (x ◃ x) ◃⁻¹ x ◃ x
-  rw [← left_cancel (x ◃ x), right_inv, self_act_act_eq]
-  rw [h, ← left_cancel (y ◃ y), right_inv, self_act_act_eq]
+  rw [← left_cancel (x ◃ x)]; rw [right_inv]; rw [self_act_act_eq]
+  rw [h]; rw [← left_cancel (y ◃ y)]; rw [right_inv]; rw [self_act_act_eq]
 #align rack.self_act_eq_iff_eq Rack.self_act_eq_iff_eq
 
 theorem self_invAct_eq_iff_eq {x y : R} : x ◃⁻¹ x = y ◃⁻¹ y ↔ x = y := by
@@ -336,7 +336,7 @@ def IsInvolutory (R : Type*) [Rack R] : Prop :=
 
 theorem involutory_invAct_eq_act {R : Type*} [Rack R] (h : IsInvolutory R) (x y : R) :
     x ◃⁻¹ y = x ◃ y := by
-  rw [← left_cancel x, right_inv, h x]
+  rw [← left_cancel x]; rw [right_inv]; rw [h x]
 #align rack.involutory_inv_act_eq_act Rack.involutory_invAct_eq_act
 
 /-- An abelian rack is one for which the mediality axiom holds.
@@ -766,10 +766,10 @@ def toEnvelGroup.map {R : Type*} [Rack R] {G : Type*} [Group G] :
           simp only [MonoidHom.coe_mk, OneHom.coe_mk, Quotient.lift_mk]
           suffices ∀ x y, F (Mul.mul x y) = F (x) * F (y) by
             simp_all only [MonoidHom.coe_mk, OneHom.coe_mk, Quotient.lift_mk, hm]
-            rw [← ih_x, ← ih_y, mapAux]
+            rw [← ih_x]; rw [← ih_y]; rw [mapAux]
           exact F.map_mul
         · have hm : ⟦x.inv⟧ = @Inv.inv (EnvelGroup R) _ ⟦x⟧ := rfl
-          rw [hm, F.map_inv, MonoidHom.map_inv, ih_x]
+          rw [hm]; rw [F.map_inv]; rw [MonoidHom.map_inv]; rw [ih_x]
 #align rack.to_envel_group.map Rack.toEnvelGroup.map
 
 /-- Given a homomorphism from a rack to a group, it factors through the enveloping group.

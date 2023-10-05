@@ -137,14 +137,14 @@ instance : Full (decomposedTo J)
     rintro ⟨j', X, hX⟩ ⟨k', Y, hY⟩ f
     dsimp at f
     have : j' = k' := by
-      rw [← hX, ← hY, Quotient.eq'']
+      rw [← hX]; rw [← hY]; rw [Quotient.eq'']
       exact Relation.ReflTransGen.single (Or.inl ⟨f⟩)
     subst this
     exact Sigma.SigmaHom.mk f
   witness := by
     rintro ⟨j', X, hX⟩ ⟨_, Y, rfl⟩ f
     have : Quotient.mk'' Y = j' := by
-      rw [← hX, Quotient.eq'']
+      rw [← hX]; rw [Quotient.eq'']
       exact Relation.ReflTransGen.single (Or.inr ⟨f⟩)
     subst this
     rfl

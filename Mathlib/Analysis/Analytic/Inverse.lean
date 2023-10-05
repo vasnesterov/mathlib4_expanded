@@ -395,8 +395,7 @@ theorem radius_right_inv_pos_of_radius_pos_aux1 (n : ℕ) (p : ℕ → ℝ) (hp 
       simp_rw [mul_sum]
       apply sum_congr rfl fun k _ => ?_
       apply sum_congr rfl fun c _ => ?_
-      rw [prod_mul_distrib, prod_mul_distrib, prod_pow_eq_pow_sum, Composition.sum_blocksFun,
-        prod_const, card_fin]
+      rw [prod_mul_distrib]; rw [prod_mul_distrib]; rw [prod_pow_eq_pow_sum]; rw [Composition.sum_blocksFun]; rw [prod_const]; rw [card_fin]
       ring
     _ ≤
         ∑ d in compPartialSumTarget 2 (n + 1) n,
@@ -464,7 +463,7 @@ theorem radius_rightInv_pos_of_radius_pos_aux2 {n : ℕ} (hn : 2 ≤ n + 1)
                     p.compAlongComposition (p.rightInv i) c)‖ := by
       congr 1
       apply sum_congr rfl fun j hj => ?_
-      rw [rightInv_coeff _ _ _ (mem_Ico.1 hj).1, norm_neg]
+      rw [rightInv_coeff _ _ _ (mem_Ico.1 hj).1]; rw [norm_neg]
     _ ≤
         a * ‖(i.symm : F →L[𝕜] E)‖ +
           ∑ k in Ico 2 (n + 1),
@@ -533,7 +532,7 @@ theorem radius_rightInv_pos_of_radius_pos (p : FormalMultilinearSeries 𝕜 E F)
   have IRec : ∀ n, 1 ≤ n → S n ≤ (I + 1) * a := by
     apply Nat.le_induction
     · simp only
-      rw [Ico_eq_empty_of_le (le_refl 1), sum_empty]
+      rw [Ico_eq_empty_of_le (le_refl 1)]; rw [sum_empty]
       exact mul_nonneg (add_nonneg (norm_nonneg _) zero_le_one) apos.le
     · intro n one_le_n hn
       have In : 2 ≤ n + 1 := by linarith only [one_le_n]

@@ -62,7 +62,7 @@ variable [Ring R] [CharP R 2]
 
 @[simp]
 theorem neg_eq (x : R) : -x = x := by
-  rw [neg_eq_iff_add_eq_zero, ← two_smul R x, two_eq_zero, zero_smul]
+  rw [neg_eq_iff_add_eq_zero]; rw [← two_smul R x]; rw [two_eq_zero]; rw [zero_smul]
 #align char_two.neg_eq CharTwo.neg_eq
 
 theorem neg_eq' : Neg.neg = (id : R → R) :=
@@ -88,7 +88,7 @@ theorem add_sq (x y : R) : (x + y) ^ 2 = x ^ 2 + y ^ 2 :=
 #align char_two.add_sq CharTwo.add_sq
 
 theorem add_mul_self (x y : R) : (x + y) * (x + y) = x * x + y * y := by
-  rw [← pow_two, ← pow_two, ← pow_two, add_sq]
+  rw [← pow_two]; rw [← pow_two]; rw [← pow_two]; rw [add_sq]
 #align char_two.add_mul_self CharTwo.add_mul_self
 
 open BigOperators
@@ -127,7 +127,7 @@ variable [Ring R]
 
 theorem neg_one_eq_one_iff [Nontrivial R] : (-1 : R) = 1 ↔ ringChar R = 2 := by
   refine' ⟨fun h => _, fun h => @CharTwo.neg_eq _ _ (ringChar.of_eq h) 1⟩
-  rw [eq_comm, ← sub_eq_zero, sub_neg_eq_add, ← Nat.cast_one, ← Nat.cast_add] at h
+  rw [eq_comm] at h; rw [← sub_eq_zero] at h; rw [sub_neg_eq_add] at h; rw [← Nat.cast_one] at h; rw [← Nat.cast_add] at h
   exact ((Nat.dvd_prime Nat.prime_two).mp (ringChar.dvd h)).resolve_left CharP.ringChar_ne_one
 #align neg_one_eq_one_iff neg_one_eq_one_iff
 

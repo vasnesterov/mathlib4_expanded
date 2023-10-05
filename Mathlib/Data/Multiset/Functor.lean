@@ -120,7 +120,7 @@ theorem map_traverse {G : Type* → Type _} [Applicative G] [CommApplicative G] 
   refine' Quotient.inductionOn x _
   intro
   simp only [traverse, quot_mk_to_coe, lift_coe, Function.comp_apply, Functor.map_map, map_comp_coe]
-  rw [LawfulFunctor.comp_map, Traversable.map_traverse']
+  rw [LawfulFunctor.comp_map]; rw [Traversable.map_traverse']
   rfl
 #align multiset.map_traverse Multiset.map_traverse
 
@@ -129,7 +129,7 @@ theorem traverse_map {G : Type* → Type _} [Applicative G] [CommApplicative G] 
   refine' Quotient.inductionOn x _
   intro
   simp only [traverse, quot_mk_to_coe, coe_map, lift_coe, Function.comp_apply]
-  rw [← Traversable.traverse_map h g, List.map_eq_map]
+  rw [← Traversable.traverse_map h g]; rw [List.map_eq_map]
 #align multiset.traverse_map Multiset.traverse_map
 
 theorem naturality {G H : Type _ → Type _} [Applicative G] [Applicative H] [CommApplicative G]

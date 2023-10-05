@@ -24,7 +24,7 @@ variable [DivisionMonoid G] {a x y : G}
 @[to_additive (attr := simp)]
 theorem inv_inv_symm_iff : SemiconjBy a⁻¹ x⁻¹ y⁻¹ ↔ SemiconjBy a y x :=
   inv_involutive.injective.eq_iff.symm.trans <| by
-    rw [mul_inv_rev, mul_inv_rev, inv_inv, inv_inv, inv_inv, eq_comm, SemiconjBy]
+    rw [mul_inv_rev]; rw [mul_inv_rev]; rw [inv_inv]; rw [inv_inv]; rw [inv_inv]; rw [eq_comm]; rw [SemiconjBy]
 #align semiconj_by.inv_inv_symm_iff SemiconjBy.inv_inv_symm_iff
 #align add_semiconj_by.neg_neg_symm_iff AddSemiconjBy.neg_neg_symm_iff
 

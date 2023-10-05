@@ -60,10 +60,10 @@ theorem bodd_negOfNat (n : ℕ) : bodd (negOfNat n) = n.bodd := by
 theorem bodd_neg (n : ℤ) : bodd (-n) = bodd n := by
   cases n with
   | ofNat =>
-    rw [←negOfNat_eq, bodd_negOfNat]
+    rw [←negOfNat_eq]; rw [bodd_negOfNat]
     simp
   | negSucc n =>
-    rw [neg_negSucc, bodd_coe, Nat.bodd_succ]
+    rw [neg_negSucc]; rw [bodd_coe]; rw [Nat.bodd_succ]
     change (!Nat.bodd n) = !(bodd n)
     rw [bodd_coe]
 -- Porting note: Heavily refactored proof, used to work all with `simp`:
@@ -77,7 +77,7 @@ theorem bodd_add (m n : ℤ) : bodd (m + n) = xor (bodd m) (bodd n) := by
   simp only [ofNat_eq_coe, ofNat_add_negSucc, negSucc_add_ofNat,
              negSucc_add_negSucc, bodd_subNatNat] <;>
   simp only [negSucc_coe, bodd_neg, bodd_coe, ←Nat.bodd_add, Bool.xor_comm, ←Nat.cast_add]
-  rw [←Nat.succ_add, add_assoc]
+  rw [←Nat.succ_add]; rw [add_assoc]
 -- Porting note: Heavily refactored proof, used to work all with `simp`:
 -- `by cases m with m m; cases n with n n; unfold has_add.add;`
 -- `simp [int.add, -of_nat_eq_coe, bool.bxor_comm]`
@@ -150,13 +150,13 @@ theorem bit_zero : bit false 0 = 0 :=
 
 @[simp]
 theorem bit_coe_nat (b) (n : ℕ) : bit b n = Nat.bit b n := by
-  rw [bit_val, Nat.bit_val]
+  rw [bit_val]; rw [Nat.bit_val]
   cases b <;> rfl
 #align int.bit_coe_nat Int.bit_coe_nat
 
 @[simp]
 theorem bit_negSucc (b) (n : ℕ) : bit b -[n+1] = -[Nat.bit (not b) n+1] := by
-  rw [bit_val, Nat.bit_val]
+  rw [bit_val]; rw [Nat.bit_val]
   cases b <;> rfl
 #align int.bit_neg_succ Int.bit_negSucc
 
@@ -304,22 +304,22 @@ theorem bitwise_bit (f : Bool → Bool → Bool) (a m b n) :
 
 @[simp]
 theorem lor_bit (a m b n) : lor (bit a m) (bit b n) = bit (a || b) (lor m n) := by
-  rw [← bitwise_or, bitwise_bit]
+  rw [← bitwise_or]; rw [bitwise_bit]
 #align int.lor_bit Int.lor_bit
 
 @[simp]
 theorem land_bit (a m b n) : land (bit a m) (bit b n) = bit (a && b) (land m n) := by
-  rw [← bitwise_and, bitwise_bit]
+  rw [← bitwise_and]; rw [bitwise_bit]
 #align int.land_bit Int.land_bit
 
 @[simp]
 theorem ldiff_bit (a m b n) : ldiff' (bit a m) (bit b n) = bit (a && not b) (ldiff' m n) := by
-  rw [← bitwise_diff, bitwise_bit]
+  rw [← bitwise_diff]; rw [bitwise_bit]
 #align int.ldiff_bit Int.ldiff_bit
 
 @[simp]
 theorem lxor_bit (a m b n) : lxor' (bit a m) (bit b n) = bit (xor a b) (lxor' m n) := by
-  rw [← bitwise_xor, bitwise_bit]
+  rw [← bitwise_xor]; rw [bitwise_bit]
 #align int.lxor_bit Int.lxor_bit
 
 @[simp]
@@ -340,22 +340,22 @@ theorem testBit_bitwise (f : Bool → Bool → Bool) (m n k) :
 
 @[simp]
 theorem testBit_lor (m n k) : testBit (lor m n) k = (testBit m k || testBit n k) := by
-  rw [← bitwise_or, testBit_bitwise]
+  rw [← bitwise_or]; rw [testBit_bitwise]
 #align int.test_bit_lor Int.testBit_lor
 
 @[simp]
 theorem testBit_land (m n k) : testBit (land m n) k = (testBit m k && testBit n k) := by
-  rw [← bitwise_and, testBit_bitwise]
+  rw [← bitwise_and]; rw [testBit_bitwise]
 #align int.test_bit_land Int.testBit_land
 
 @[simp]
 theorem testBit_ldiff (m n k) : testBit (ldiff' m n) k = (testBit m k && not (testBit n k)) := by
-  rw [← bitwise_diff, testBit_bitwise]
+  rw [← bitwise_diff]; rw [testBit_bitwise]
 #align int.test_bit_ldiff Int.testBit_ldiff
 
 @[simp]
 theorem testBit_lxor (m n k) : testBit (lxor' m n) k = xor (testBit m k) (testBit n k) := by
-  rw [← bitwise_xor, testBit_bitwise]
+  rw [← bitwise_xor]; rw [testBit_bitwise]
 #align int.test_bit_lxor Int.testBit_lxor
 
 @[simp]
@@ -395,11 +395,9 @@ theorem shiftRight_negSucc (m n : ℕ) : -[m+1] >>> (n : ℤ) = -[m >>> n+1] := 
 
 theorem shiftRight_add : ∀ (m : ℤ) (n k : ℕ), m >>> (n + k : ℤ) = (m >>> (n : ℤ)) >>> (k : ℤ)
   | (m : ℕ), n, k => by
-    rw [shiftRight_coe_nat, shiftRight_coe_nat, ← Int.ofNat_add, shiftRight_coe_nat,
-      Nat.shiftRight_add]
+    rw [shiftRight_coe_nat]; rw [shiftRight_coe_nat]; rw [← Int.ofNat_add]; rw [shiftRight_coe_nat]; rw [Nat.shiftRight_add]
   | -[m+1], n, k => by
-    rw [shiftRight_negSucc, shiftRight_negSucc, ← Int.ofNat_add, shiftRight_negSucc,
-      Nat.shiftRight_add]
+    rw [shiftRight_negSucc]; rw [shiftRight_negSucc]; rw [← Int.ofNat_add]; rw [shiftRight_negSucc]; rw [Nat.shiftRight_add]
 #align int.shiftr_add Int.shiftRight_add
 
 /-! ### bitwise ops -/
@@ -423,7 +421,7 @@ theorem shiftLeft_add : ∀ (m : ℤ) (n : ℕ) (k : ℤ), m <<< (n + k) = (m <<
       (fun n k i => -[m+1] <<< i = -[(Nat.shiftLeft' true m n) >>> k+1])
       (fun i n =>
         congr_arg negSucc <| by
-          rw [← Nat.shiftLeft'_sub, add_tsub_cancel_left]; apply Nat.le_add_right)
+          rw [← Nat.shiftLeft'_sub]; rw [add_tsub_cancel_left]; apply Nat.le_add_right)
       fun i n =>
       congr_arg negSucc <| by rw [add_assoc, Nat.shiftRight_add, ← Nat.shiftLeft'_sub, tsub_self]
       <;> rfl
@@ -441,7 +439,7 @@ theorem shiftLeft_eq_mul_pow : ∀ (m : ℤ) (n : ℕ), m <<< (n : ℤ) = m * �
 theorem shiftRight_eq_div_pow : ∀ (m : ℤ) (n : ℕ), m >>> (n : ℤ) = m / ↑(2 ^ n)
   | (m : ℕ), n => by rw [shiftRight_coe_nat, Nat.shiftRight_eq_div_pow _ _]; simp
   | -[m+1], n => by
-    rw [shiftRight_negSucc, negSucc_ediv, Nat.shiftRight_eq_div_pow]; rfl
+    rw [shiftRight_negSucc]; rw [negSucc_ediv]; rw [Nat.shiftRight_eq_div_pow]; rfl
     exact ofNat_lt_ofNat_of_lt (pow_pos (by decide) _)
 #align int.shiftr_eq_div_pow Int.shiftRight_eq_div_pow
 

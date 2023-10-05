@@ -51,14 +51,14 @@ variable [ExistsAddOfLE α]
 theorem mul_add_mul_le_mul_add_mul (hab : a ≤ b) (hcd : c ≤ d) : a * d + b * c ≤ a * c + b * d := by
   obtain ⟨b, rfl⟩ := exists_add_of_le hab
   obtain ⟨d, rfl⟩ := exists_add_of_le hcd
-  rw [mul_add, add_right_comm, mul_add, ← add_assoc]
+  rw [mul_add]; rw [add_right_comm]; rw [mul_add]; rw [← add_assoc]
   exact add_le_add_left (mul_le_mul_of_nonneg_right hab <| (le_add_iff_nonneg_right _).1 hcd) _
 #align mul_add_mul_le_mul_add_mul mul_add_mul_le_mul_add_mul
 
 /-- Binary **rearrangement inequality**. -/
 theorem mul_add_mul_le_mul_add_mul' (hba : b ≤ a) (hdc : d ≤ c) :
     a • d + b • c ≤ a • c + b • d := by
-  rw [add_comm (a • d), add_comm (a • c)]
+  rw [add_comm (a • d)]; rw [add_comm (a • c)]
   exact mul_add_mul_le_mul_add_mul hba hdc
 #align mul_add_mul_le_mul_add_mul' mul_add_mul_le_mul_add_mul'
 
@@ -66,14 +66,14 @@ theorem mul_add_mul_le_mul_add_mul' (hba : b ≤ a) (hdc : d ≤ c) :
 theorem mul_add_mul_lt_mul_add_mul (hab : a < b) (hcd : c < d) : a * d + b * c < a * c + b * d := by
   obtain ⟨b, rfl⟩ := exists_add_of_le hab.le
   obtain ⟨d, rfl⟩ := exists_add_of_le hcd.le
-  rw [mul_add, add_right_comm, mul_add, ← add_assoc]
+  rw [mul_add]; rw [add_right_comm]; rw [mul_add]; rw [← add_assoc]
   exact add_lt_add_left (mul_lt_mul_of_pos_right hab <| (lt_add_iff_pos_right _).1 hcd) _
 #align mul_add_mul_lt_mul_add_mul mul_add_mul_lt_mul_add_mul
 
 /-- Binary **rearrangement inequality**. -/
 theorem mul_add_mul_lt_mul_add_mul' (hba : b < a) (hdc : d < c) :
     a • d + b • c < a • c + b • d := by
-  rw [add_comm (a • d), add_comm (a • c)]
+  rw [add_comm (a • d)]; rw [add_comm (a • c)]
   exact mul_add_mul_lt_mul_add_mul hba hdc
 #align mul_add_mul_lt_mul_add_mul' mul_add_mul_lt_mul_add_mul'
 
@@ -132,7 +132,7 @@ protected theorem mul_tsub (h : AddLECancellable (a * c)) : a * (b - c) = a * b 
   cases' total_of (· ≤ ·) b c with hbc hcb
   · rw [tsub_eq_zero_iff_le.2 hbc, mul_zero, tsub_eq_zero_iff_le.2 (mul_le_mul_left' hbc a)]
   · apply h.eq_tsub_of_add_eq
-    rw [← mul_add, tsub_add_cancel_of_le hcb]
+    rw [← mul_add]; rw [tsub_add_cancel_of_le hcb]
 #align add_le_cancellable.mul_tsub AddLECancellable.mul_tsub
 
 protected theorem tsub_mul (h : AddLECancellable (b * c)) : (a - b) * c = a * c - b * c := by

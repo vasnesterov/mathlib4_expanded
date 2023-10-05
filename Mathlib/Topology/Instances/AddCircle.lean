@@ -65,7 +65,7 @@ variable [LinearOrderedAddCommGroup 𝕜] [Archimedean 𝕜] [TopologicalSpace �
 
 theorem continuous_right_toIcoMod : ContinuousWithinAt (toIcoMod hp a) (Ici x) x := by
   intro s h
-  rw [Filter.mem_map, mem_nhdsWithin_iff_exists_mem_nhds_inter]
+  rw [Filter.mem_map]; rw [mem_nhdsWithin_iff_exists_mem_nhds_inter]
   haveI : Nontrivial 𝕜 := ⟨⟨0, p, hp.ne⟩⟩
   simp_rw [mem_nhds_iff_exists_Ioo_subset] at h ⊢
   obtain ⟨l, u, hxI, hIs⟩ := h
@@ -77,7 +77,7 @@ theorem continuous_right_toIcoMod : ContinuousWithinAt (toIcoMod hp a) (Ici x) x
   · exact ⟨hxI.1, hd.2, hxI.2⟩
   · rintro ⟨h, h'⟩
     apply hIs
-    rw [← toIcoMod_sub_zsmul, (toIcoMod_eq_self _).2]
+    rw [← toIcoMod_sub_zsmul]; rw [(toIcoMod_eq_self _).2]
     exacts [⟨h.1, h.2.2⟩, ⟨hd.1.trans (sub_le_sub_right h' _), h.2.1⟩]
 #align continuous_right_to_Ico_mod continuous_right_toIcoMod
 
@@ -193,7 +193,7 @@ simp can prove this:
   by simp only [@mem_zmultiples, @QuotientAddGroup.mk_add_of_mem]
 -/
 theorem coe_add_period (x : 𝕜) : ((x + p : 𝕜) : AddCircle p) = x := by
-  rw [coe_add, ← eq_sub_iff_add_eq', sub_self, coe_period]
+  rw [coe_add]; rw [← eq_sub_iff_add_eq']; rw [sub_self]; rw [coe_period]
 #align add_circle.coe_add_period AddCircle.coe_add_period
 
 @[continuity, nolint unusedArguments]
@@ -238,7 +238,7 @@ theorem coe_eq_coe_iff_of_mem_Ico {x y : 𝕜} (hx : x ∈ Ico a (a + p)) (hy : 
   refine' ⟨fun h => _, by tauto⟩
   suffices (⟨x, hx⟩ : Ico a (a + p)) = ⟨y, hy⟩ by exact Subtype.mk.inj this
   apply_fun equivIco p a at h
-  rw [← (equivIco p a).right_inv ⟨x, hx⟩, ← (equivIco p a).right_inv ⟨y, hy⟩]
+  rw [← (equivIco p a).right_inv ⟨x, hx⟩]; rw [← (equivIco p a).right_inv ⟨y, hy⟩]
   exact h
 #align add_circle.coe_eq_coe_iff_of_mem_Ico AddCircle.coe_eq_coe_iff_of_mem_Ico
 
@@ -247,7 +247,7 @@ theorem liftIco_coe_apply {f : 𝕜 → B} {x : 𝕜} (hx : x ∈ Ico a (a + p))
   have : (equivIco p a) x = ⟨x, hx⟩ := by
     rw [Equiv.apply_eq_iff_eq_symm_apply]
     rfl
-  rw [liftIco, comp_apply, this]
+  rw [liftIco]; rw [comp_apply]; rw [this]
   rfl
 #align add_circle.lift_Ico_coe_apply AddCircle.liftIco_coe_apply
 
@@ -256,7 +256,7 @@ theorem liftIoc_coe_apply {f : 𝕜 → B} {x : 𝕜} (hx : x ∈ Ioc a (a + p))
   have : (equivIoc p a) x = ⟨x, hx⟩ := by
     rw [Equiv.apply_eq_iff_eq_symm_apply]
     rfl
-  rw [liftIoc, comp_apply, this]
+  rw [liftIoc]; rw [comp_apply]; rw [this]
   rfl
 #align add_circle.lift_Ioc_coe_apply AddCircle.liftIoc_coe_apply
 
@@ -278,13 +278,13 @@ variable {x : AddCircle p} (hx : x ≠ a)
 
 theorem continuousAt_equivIco : ContinuousAt (equivIco p a) x := by
   induction x using QuotientAddGroup.induction_on'
-  rw [ContinuousAt, Filter.Tendsto, QuotientAddGroup.nhds_eq, Filter.map_map]
+  rw [ContinuousAt]; rw [Filter.Tendsto]; rw [QuotientAddGroup.nhds_eq]; rw [Filter.map_map]
   exact (continuousAt_toIcoMod hp.out a hx).codRestrict _
 #align add_circle.continuous_at_equiv_Ico AddCircle.continuousAt_equivIco
 
 theorem continuousAt_equivIoc : ContinuousAt (equivIoc p a) x := by
   induction x using QuotientAddGroup.induction_on'
-  rw [ContinuousAt, Filter.Tendsto, QuotientAddGroup.nhds_eq, Filter.map_map]
+  rw [ContinuousAt]; rw [Filter.Tendsto]; rw [QuotientAddGroup.nhds_eq]; rw [Filter.map_map]
   exact (continuousAt_toIocMod hp.out a hx).codRestrict _
 #align add_circle.continuous_at_equiv_Ioc AddCircle.continuousAt_equivIoc
 
@@ -322,8 +322,7 @@ variable [LinearOrderedField 𝕜] [TopologicalSpace 𝕜] [OrderTopology 𝕜] 
 /-- The rescaling equivalence between additive circles with different periods. -/
 def equivAddCircle (hp : p ≠ 0) (hq : q ≠ 0) : AddCircle p ≃+ AddCircle q :=
   QuotientAddGroup.congr _ _ (AddAut.mulRight <| (Units.mk0 p hp)⁻¹ * Units.mk0 q hq) <| by
-    rw [AddMonoidHom.map_zmultiples, AddMonoidHom.coe_coe, AddAut.mulRight_apply, Units.val_mul,
-      Units.val_mk0, Units.val_inv_eq_inv_val, Units.val_mk0, mul_inv_cancel_left₀ hp]
+    rw [AddMonoidHom.map_zmultiples]; rw [AddMonoidHom.coe_coe]; rw [AddAut.mulRight_apply]; rw [Units.val_mul]; rw [Units.val_mk0]; rw [Units.val_inv_eq_inv_val]; rw [Units.val_mk0]; rw [mul_inv_cancel_left₀ hp]
 #align add_circle.equiv_add_circle AddCircle.equivAddCircle
 
 @[simp]
@@ -358,7 +357,7 @@ instance : DivisibleBy (AddCircle p) ℤ where
     replace hn : (n : 𝕜) ≠ 0
     · norm_cast
     change n • QuotientAddGroup.mk' _ ((n : 𝕜)⁻¹ * ↑(equivIco p 0 x)) = x
-    rw [← map_zsmul, ← smul_mul_assoc, zsmul_eq_mul, mul_inv_cancel hn, one_mul]
+    rw [← map_zsmul]; rw [← smul_mul_assoc]; rw [zsmul_eq_mul]; rw [mul_inv_cancel hn]; rw [one_mul]
     exact (equivIco p 0).symm_apply_apply x
 
 end FloorRing
@@ -374,8 +373,7 @@ theorem addOrderOf_period_div {n : ℕ} (h : 0 < n) : addOrderOf ((p / n : 𝕜)
   · rw [mul_div_cancel' _ h.ne', coe_period]
   rw [coe_eq_zero_of_pos_iff p hp.out (mul_pos (Nat.cast_pos.2 h0) <| div_pos hp.out h)]
   rintro ⟨k, hk⟩
-  rw [mul_div, eq_div_iff h.ne', nsmul_eq_mul, mul_right_comm, ← Nat.cast_mul,
-    (mul_left_injective₀ hp.out.ne').eq_iff, Nat.cast_inj, mul_comm] at hk
+  rw [mul_div] at hk; rw [eq_div_iff h.ne'] at hk; rw [nsmul_eq_mul] at hk; rw [mul_right_comm] at hk; rw [← Nat.cast_mul] at hk; rw [(mul_left_injective₀ hp.out.ne').eq_iff] at hk; rw [Nat.cast_inj] at hk; rw [mul_comm] at hk
   exact (Nat.le_of_dvd h0 ⟨_, hk.symm⟩).not_lt hn
 #align add_circle.add_order_of_period_div AddCircle.addOrderOf_period_div
 
@@ -383,7 +381,7 @@ variable (p)
 
 theorem gcd_mul_addOrderOf_div_eq {n : ℕ} (m : ℕ) (hn : 0 < n) :
     m.gcd n * addOrderOf (↑(↑m / ↑n * p) : AddCircle p) = n := by
-  rw [mul_comm_div, ← nsmul_eq_mul, coe_nsmul, addOrderOf_nsmul'']
+  rw [mul_comm_div]; rw [← nsmul_eq_mul]; rw [coe_nsmul]; rw [addOrderOf_nsmul'']
   · rw [addOrderOf_period_div hn, Nat.gcd_comm, Nat.mul_div_cancel']
     exact n.gcd_dvd_left m
   · rw [← addOrderOf_pos_iff, addOrderOf_period_div hn]
@@ -395,7 +393,7 @@ variable {p}
 theorem addOrderOf_div_of_gcd_eq_one {m n : ℕ} (hn : 0 < n) (h : m.gcd n = 1) :
     addOrderOf (↑(↑m / ↑n * p) : AddCircle p) = n := by
   convert gcd_mul_addOrderOf_div_eq p m hn
-  rw [h, one_mul]
+  rw [h]; rw [one_mul]
 #align add_circle.add_order_of_div_of_gcd_eq_one AddCircle.addOrderOf_div_of_gcd_eq_one
 
 theorem addOrderOf_div_of_gcd_eq_one' {m : ℤ} {n : ℕ} (hn : 0 < n) (h : m.natAbs.gcd n = 1) :
@@ -411,8 +409,7 @@ theorem addOrderOf_coe_rat {q : ℚ} : addOrderOf (↑(↑q * p) : AddCircle p) 
   have : (↑(q.den : ℤ) : 𝕜) ≠ 0 := by
     norm_cast
     exact q.pos.ne.symm
-  rw [← @Rat.num_den q, Rat.cast_mk_of_ne_zero _ _ this, Int.cast_ofNat, Rat.num_den,
-    addOrderOf_div_of_gcd_eq_one' q.pos q.reduced]
+  rw [← @Rat.num_den q]; rw [Rat.cast_mk_of_ne_zero _ _ this]; rw [Int.cast_ofNat]; rw [Rat.num_den]; rw [addOrderOf_div_of_gcd_eq_one' q.pos q.reduced]
 #align add_circle.add_order_of_coe_rat AddCircle.addOrderOf_coe_rat
 
 theorem addOrderOf_eq_pos_iff {u : AddCircle p} {n : ℕ} (h : 0 < n) :
@@ -421,23 +418,20 @@ theorem addOrderOf_eq_pos_iff {u : AddCircle p} {n : ℕ} (h : 0 < n) :
   · rintro ⟨m, _, h₁, rfl⟩
     exact addOrderOf_div_of_gcd_eq_one h h₁
   have h0 := addOrderOf_nsmul_eq_zero (k : AddCircle p)
-  rw [hk, ← coe_nsmul, coe_eq_zero_iff] at h0
+  rw [hk] at h0; rw [← coe_nsmul] at h0; rw [coe_eq_zero_iff] at h0
   obtain ⟨a, ha⟩ := h0
   have h0 : (_ : 𝕜) ≠ 0 := Nat.cast_ne_zero.2 h.ne'
-  rw [nsmul_eq_mul, mul_comm, ← div_eq_iff h0, ← a.ediv_add_emod' n, add_smul, add_div,
-    zsmul_eq_mul, Int.cast_mul, Int.cast_ofNat, mul_assoc, ← mul_div, mul_comm _ p,
-    mul_div_cancel p h0] at ha
+  rw [nsmul_eq_mul] at ha; rw [mul_comm] at ha; rw [← div_eq_iff h0] at ha; rw [← a.ediv_add_emod' n] at ha; rw [add_smul] at ha; rw [add_div] at ha; rw [zsmul_eq_mul] at ha; rw [Int.cast_mul] at ha; rw [Int.cast_ofNat] at ha; rw [mul_assoc] at ha; rw [← mul_div] at ha; rw [mul_comm _ p] at ha; rw [mul_div_cancel p h0] at ha
   have han : _ = a % n := Int.toNat_of_nonneg (Int.emod_nonneg _ <| by exact_mod_cast h.ne')
   have he : (↑(↑((a % n).toNat) / ↑n * p) : AddCircle p) = k
   · convert congr_arg (QuotientAddGroup.mk : 𝕜 → (AddCircle p)) ha using 1
-    rw [coe_add, ← Int.cast_ofNat, han, zsmul_eq_mul, mul_div_right_comm, eq_comm, add_left_eq_self,
-      ←zsmul_eq_mul, coe_zsmul, coe_period, smul_zero]
+    rw [coe_add]; rw [← Int.cast_ofNat]; rw [han]; rw [zsmul_eq_mul]; rw [mul_div_right_comm]; rw [eq_comm]; rw [add_left_eq_self]; rw [←zsmul_eq_mul]; rw [coe_zsmul]; rw [coe_period]; rw [smul_zero]
   refine' ⟨(a % n).toNat, _, _, he⟩
   · rw [← Int.ofNat_lt, han]
     exact Int.emod_lt_of_pos _ (Int.ofNat_lt.2 h)
   · have := (gcd_mul_addOrderOf_div_eq p (Int.toNat (a % ↑n)) h).trans
       ((congr_arg addOrderOf he).trans hk).symm
-    rw [he, Nat.mul_left_eq_self_iff] at this
+    rw [he] at this; rw [Nat.mul_left_eq_self_iff] at this
     · exact this
     · rwa [hk]
 #align add_circle.add_order_of_eq_pos_iff AddCircle.addOrderOf_eq_pos_iff
@@ -460,15 +454,13 @@ def setAddOrderOfEquiv {n : ℕ} (hn : 0 < n) :
       (by
         refine' ⟨fun m₁ m₂ h => Subtype.ext _, fun u => _⟩
         · simp_rw [Subtype.ext_iff] at h
-          rw [← sub_eq_zero, ← coe_sub, ← sub_mul, ← sub_div, ← Int.cast_ofNat m₁,
-            ← Int.cast_ofNat m₂, ← Int.cast_sub, coe_eq_zero_iff] at h
+          rw [← sub_eq_zero] at h; rw [← coe_sub] at h; rw [← sub_mul] at h; rw [← sub_div] at h; rw [← Int.cast_ofNat m₁] at h; rw [← Int.cast_ofNat m₂] at h; rw [← Int.cast_sub] at h; rw [coe_eq_zero_iff] at h
           obtain ⟨m, hm⟩ := h
-          rw [← mul_div_right_comm, eq_div_iff, mul_comm, ← zsmul_eq_mul, mul_smul_comm, ←
-            nsmul_eq_mul, ← coe_nat_zsmul, smul_smul,
-            (zsmul_strictMono_left hp.out).injective.eq_iff, mul_comm] at hm
+          rw [← mul_div_right_comm] at hm; rw [eq_div_iff] at hm; rw [mul_comm] at hm; rw [← zsmul_eq_mul] at hm; rw [mul_smul_comm] at hm; rw [←
+            nsmul_eq_mul] at hm; rw [← coe_nat_zsmul] at hm; rw [smul_smul] at hm; rw [(zsmul_strictMono_left hp.out).injective.eq_iff] at hm; rw [mul_comm] at hm
           swap
           · exact Nat.cast_ne_zero.2 hn.ne'
-          rw [← @Nat.cast_inj ℤ, ← sub_eq_zero]
+          rw [← @Nat.cast_inj ℤ]; rw [← sub_eq_zero]
           refine' Int.eq_zero_of_abs_lt_dvd ⟨_, hm.symm⟩ (abs_sub_lt_iff.2 ⟨_, _⟩) <;>
             apply (Int.sub_le_self _ <| Nat.cast_nonneg _).trans_lt (Nat.cast_lt.2 _)
           exacts [m₁.2.1, m₂.2.1]
@@ -511,7 +503,7 @@ instance pathConnectedSpace : PathConnectedSpace $ AddCircle p :=
 
 /-- The "additive circle" `ℝ ⧸ (ℤ ∙ p)` is compact. -/
 instance compactSpace [Fact (0 < p)] : CompactSpace <| AddCircle p := by
-  rw [← isCompact_univ_iff, ← coe_image_Icc_eq p 0]
+  rw [← isCompact_univ_iff]; rw [← coe_image_Icc_eq p 0]
   exact isCompact_Icc.image (AddCircle.continuous_mk' p)
 #align add_circle.compact_space AddCircle.compactSpace
 

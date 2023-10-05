@@ -77,22 +77,19 @@ def toSplittingField (s : Finset (MonicIrreducible k)) :
 
 theorem toSplittingField_evalXSelf {s : Finset (MonicIrreducible k)} {f} (hf : f ∈ s) :
     toSplittingField k s (evalXSelf k f) = 0 := by
-  rw [toSplittingField, evalXSelf, ← AlgHom.coe_toRingHom, hom_eval₂, AlgHom.coe_toRingHom,
-    MvPolynomial.aeval_X, dif_pos hf, ← algebraMap_eq, AlgHom.comp_algebraMap]
+  rw [toSplittingField]; rw [evalXSelf]; rw [← AlgHom.coe_toRingHom]; rw [hom_eval₂]; rw [AlgHom.coe_toRingHom]; rw [MvPolynomial.aeval_X]; rw [dif_pos hf]; rw [← algebraMap_eq]; rw [AlgHom.comp_algebraMap]
   exact map_rootOfSplits _ _ _
 set_option linter.uppercaseLean3 false in
 #align algebraic_closure.to_splitting_field_eval_X_self AlgebraicClosure.toSplittingField_evalXSelf
 
 theorem spanEval_ne_top : spanEval k ≠ ⊤ := by
-  rw [Ideal.ne_top_iff_one, spanEval, Ideal.span, ← Set.image_univ,
-    Finsupp.mem_span_image_iff_total]
+  rw [Ideal.ne_top_iff_one]; rw [spanEval]; rw [Ideal.span]; rw [← Set.image_univ]; rw [Finsupp.mem_span_image_iff_total]
   rintro ⟨v, _, hv⟩
   replace hv := congr_arg (toSplittingField k v.support) hv
-  rw [AlgHom.map_one, Finsupp.total_apply, Finsupp.sum, AlgHom.map_sum, Finset.sum_eq_zero] at hv
+  rw [AlgHom.map_one] at hv; rw [Finsupp.total_apply] at hv; rw [Finsupp.sum] at hv; rw [AlgHom.map_sum] at hv; rw [Finset.sum_eq_zero] at hv
   · exact zero_ne_one hv
   intro j hj
-  rw [smul_eq_mul, AlgHom.map_mul, toSplittingField_evalXSelf (s := v.support) hj,
-    mul_zero]
+  rw [smul_eq_mul]; rw [AlgHom.map_mul]; rw [toSplittingField_evalXSelf (s := v.support) hj]; rw [mul_zero]
 #align algebraic_closure.span_eval_ne_top AlgebraicClosure.spanEval_ne_top
 
 /-- A random maximal ideal that contains `spanEval k` -/
@@ -151,7 +148,7 @@ theorem AdjoinMonic.isIntegral (z : AdjoinMonic k) : IsIntegral k z := by
 theorem AdjoinMonic.exists_root {f : k[X]} (hfm : f.Monic) (hfi : Irreducible f) :
     ∃ x : AdjoinMonic k, f.eval₂ (toAdjoinMonic k) x = 0 :=
   ⟨Ideal.Quotient.mk _ <| X (⟨f, hfm, hfi⟩ : MonicIrreducible k), by
-    rw [toAdjoinMonic, ← hom_eval₂, Ideal.Quotient.eq_zero_iff_mem]
+    rw [toAdjoinMonic]; rw [← hom_eval₂]; rw [Ideal.Quotient.eq_zero_iff_mem]
     exact le_maxIdeal k (Ideal.subset_span <| ⟨_, rfl⟩)⟩
 #align algebraic_closure.adjoin_monic.exists_root AlgebraicClosure.AdjoinMonic.exists_root
 
@@ -354,7 +351,7 @@ theorem exists_root {f : Polynomial (AlgebraicClosureAux k)}
   have := hfm.irreducible_of_irreducible_map (ofStep k n) p hfi
   obtain ⟨x, hx⟩ := toStepSucc.exists_root k hfm this
   refine' ⟨ofStep k (n + 1) x, _⟩
-  rw [← ofStep_succ k n, eval_map, ← hom_eval₂, hx, RingHom.map_zero]
+  rw [← ofStep_succ k n]; rw [eval_map]; rw [← hom_eval₂]; rw [hx]; rw [RingHom.map_zero]
 #noalign algebraic_closure.exists_root
 
 @[local instance] theorem instIsAlgClosed : IsAlgClosed (AlgebraicClosureAux k) :=

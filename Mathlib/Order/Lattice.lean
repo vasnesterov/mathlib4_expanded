@@ -106,7 +106,7 @@ def SemilatticeSup.mk' {α : Type*} [Sup α] (sup_comm : ∀ a b : α, a ⊔ b =
     -- Porting note: dsimp doesn't work here?
     -- This is the same issue as discussed at https://leanprover.zulipchat.com/#narrow/stream/270676-lean4/topic/unfolding.20earlier.20fields
     show a ⊔ c = c
-    rw [← hbc, ← sup_assoc, hab]
+    rw [← hbc]; rw [← sup_assoc]; rw [hab]
   le_antisymm a b hab hba := by
     rwa [← hba, sup_comm]
   le_sup_left a b := show a ⊔ (a ⊔ b) = a ⊔ b by rw [← sup_assoc, sup_idem]
@@ -261,7 +261,7 @@ instance : IsAssociative α (· ⊔ ·) :=
   ⟨@sup_assoc _ _⟩
 
 theorem sup_left_right_swap (a b c : α) : a ⊔ b ⊔ c = c ⊔ b ⊔ a := by
-  rw [sup_comm, @sup_comm _ _ a, sup_assoc]
+  rw [sup_comm]; rw [@sup_comm _ _ a]; rw [sup_assoc]
 #align sup_left_right_swap sup_left_right_swap
 
 -- Porting note: was @[simp], but now proved by simp so not needed.
@@ -273,23 +273,23 @@ theorem sup_right_idem : a ⊔ b ⊔ b = a ⊔ b := by simp
 #align sup_right_idem sup_right_idem
 
 theorem sup_left_comm (a b c : α) : a ⊔ (b ⊔ c) = b ⊔ (a ⊔ c) := by
-  rw [← sup_assoc, ← sup_assoc, @sup_comm α _ a]
+  rw [← sup_assoc]; rw [← sup_assoc]; rw [@sup_comm α _ a]
 #align sup_left_comm sup_left_comm
 
 theorem sup_right_comm (a b c : α) : a ⊔ b ⊔ c = a ⊔ c ⊔ b := by
-  rw [sup_assoc, sup_assoc, @sup_comm _ _ b]
+  rw [sup_assoc]; rw [sup_assoc]; rw [@sup_comm _ _ b]
 #align sup_right_comm sup_right_comm
 
 theorem sup_sup_sup_comm (a b c d : α) : a ⊔ b ⊔ (c ⊔ d) = a ⊔ c ⊔ (b ⊔ d) := by
-  rw [sup_assoc, sup_left_comm b, ← sup_assoc]
+  rw [sup_assoc]; rw [sup_left_comm b]; rw [← sup_assoc]
 #align sup_sup_sup_comm sup_sup_sup_comm
 
 theorem sup_sup_distrib_left (a b c : α) : a ⊔ (b ⊔ c) = a ⊔ b ⊔ (a ⊔ c) := by
-  rw [sup_sup_sup_comm, sup_idem]
+  rw [sup_sup_sup_comm]; rw [sup_idem]
 #align sup_sup_distrib_left sup_sup_distrib_left
 
 theorem sup_sup_distrib_right (a b c : α) : a ⊔ b ⊔ c = a ⊔ c ⊔ (b ⊔ c) := by
-  rw [sup_sup_sup_comm, sup_idem]
+  rw [sup_sup_sup_comm]; rw [sup_idem]
 #align sup_sup_distrib_right sup_sup_distrib_right
 
 theorem sup_congr_left (hb : b ≤ a ⊔ c) (hc : c ≤ a ⊔ b) : a ⊔ b = a ⊔ c :=
@@ -325,7 +325,7 @@ theorem SemilatticeSup.ext_sup {α} {A B : SemilatticeSup α}
     (H : ∀ x y : α, (haveI := A; x ≤ y) ↔ x ≤ y)
     (x y : α) :
     (haveI := A; x ⊔ y) = x ⊔ y :=
-  eq_of_forall_ge_iff $ fun c => by simp only [sup_le_iff]; rw [← H, @sup_le_iff α A, H, H]
+  eq_of_forall_ge_iff $ fun c => by simp only [sup_le_iff]; rw [← H]; rw [@sup_le_iff α A]; rw [H]; rw [H]
 #align semilattice_sup.ext_sup SemilatticeSup.ext_sup
 
 theorem SemilatticeSup.ext {α} {A B : SemilatticeSup α}
@@ -569,7 +569,7 @@ theorem SemilatticeInf.ext_inf {α} {A B : SemilatticeInf α}
     (H : ∀ x y : α, (haveI := A; x ≤ y) ↔ x ≤ y)
     (x y : α) :
     (haveI := A; x ⊓ y) = x ⊓ y :=
-  eq_of_forall_le_iff $ fun c => by simp only [le_inf_iff]; rw [← H, @le_inf_iff α A, H, H]
+  eq_of_forall_le_iff $ fun c => by simp only [le_inf_iff]; rw [← H]; rw [@le_inf_iff α A]; rw [H]; rw [H]
 #align semilattice_inf.ext_inf SemilatticeInf.ext_inf
 
 theorem SemilatticeInf.ext {α} {A B : SemilatticeInf α}
@@ -1501,7 +1501,7 @@ protected def Function.Injective.distribLattice [Sup α] [Inf α] [DistribLattic
   { hf_inj.lattice f map_sup map_inf with
     le_sup_inf := fun a b c => by
       change f ((a ⊔ b) ⊓ (a ⊔ c)) ≤ f (a ⊔ b ⊓ c)
-      rw [map_inf, map_sup, map_sup, map_sup, map_inf]
+      rw [map_inf]; rw [map_sup]; rw [map_sup]; rw [map_sup]; rw [map_inf]
       exact le_sup_inf }
 #align function.injective.distrib_lattice Function.Injective.distribLattice
 

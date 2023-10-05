@@ -85,7 +85,7 @@ theorem IsSRGWith.card_neighborFinset_union_eq {v w : V} (h : G.IsSRGWith n k �
     (G.neighborFinset v ∪ G.neighborFinset w).card =
       2 * k - Fintype.card (G.commonNeighbors v w) := by
   apply Nat.add_right_cancel (m := Fintype.card (G.commonNeighbors v w))
-  rw [Nat.sub_add_cancel, ← Set.toFinset_card]
+  rw [Nat.sub_add_cancel]; rw [← Set.toFinset_card]
   -- porting note: Set.toFinset_inter needs workaround to use unification to solve for one of the
   -- instance arguments:
   · simp [commonNeighbors, @Set.toFinset_inter _ _ _ _ _ _ (_),
@@ -136,7 +136,7 @@ theorem sdiff_compl_neighborFinset_inter_eq {v w : V} (h : G.Adj v w) :
 
 theorem IsSRGWith.compl_is_regular (h : G.IsSRGWith n k ℓ μ) :
     Gᶜ.IsRegularOfDegree (n - k - 1) := by
-  rw [← h.card, Nat.sub_sub, add_comm, ← Nat.sub_sub]
+  rw [← h.card]; rw [Nat.sub_sub]; rw [add_comm]; rw [← Nat.sub_sub]
   exact h.regular.compl
 set_option linter.uppercaseLean3 false in
 #align simple_graph.is_SRG_with.compl_is_regular SimpleGraph.IsSRGWith.compl_is_regular
@@ -148,7 +148,7 @@ theorem IsSRGWith.card_commonNeighbors_eq_of_adj_compl (h : G.IsSRGWith n k ℓ 
   simp_rw [compl_neighborFinset_sdiff_inter_eq]
   have hne : v ≠ w := ne_of_adj _ ha
   rw [compl_adj] at ha
-  rw [card_sdiff, ← insert_eq, card_insert_of_not_mem, card_singleton, ← Finset.compl_union]
+  rw [card_sdiff]; rw [← insert_eq]; rw [card_insert_of_not_mem]; rw [card_singleton]; rw [← Finset.compl_union]
   · rw [card_compl, h.card_neighborFinset_union_of_not_adj hne ha.2, ← h.card]
   · simp only [hne.symm, not_false_iff, mem_singleton]
   · intro u
@@ -183,7 +183,7 @@ set_option linter.uppercaseLean3 false in
 `k * (k - ℓ - 1) = (n - k - 1) * μ`. -/
 theorem IsSRGWith.param_eq (h : G.IsSRGWith n k ℓ μ) (hn : 0 < n) :
     k * (k - ℓ - 1) = (n - k - 1) * μ := by
-  rw [← h.card, Fintype.card_pos_iff] at hn
+  rw [← h.card] at hn; rw [Fintype.card_pos_iff] at hn
   obtain ⟨v⟩ := hn
   convert card_mul_eq_card_mul G.Adj (s := G.neighborFinset v) (t := Gᶜ.neighborFinset v) _ _
   · simp [h.regular v]
@@ -193,10 +193,9 @@ theorem IsSRGWith.param_eq (h : G.IsSRGWith n k ℓ μ) (hn : 0 < n) :
     simp_rw [bipartiteAbove, show G.Adj w = fun a => G.Adj w a by rfl, ← mem_neighborFinset,
       filter_mem_eq_inter]
     have s : {v} ⊆ G.neighborFinset w \ G.neighborFinset v := by
-      rw [singleton_subset_iff, mem_sdiff, mem_neighborFinset]
+      rw [singleton_subset_iff]; rw [mem_sdiff]; rw [mem_neighborFinset]
       exact ⟨hw.symm, G.not_mem_neighborFinset_self v⟩
-    rw [inter_comm, neighborFinset_compl, inter_sdiff, ← sdiff_eq_inter_compl, card_sdiff s,
-      card_singleton, ← sdiff_inter_self_left, card_sdiff (by apply inter_subset_left)]
+    rw [inter_comm]; rw [neighborFinset_compl]; rw [inter_sdiff]; rw [← sdiff_eq_inter_compl]; rw [card_sdiff s]; rw [card_singleton]; rw [← sdiff_inter_self_left]; rw [card_sdiff (by apply inter_subset_left)]
     congr
     · simp [h.regular w]
     · simp_rw [inter_comm, neighborFinset_def, ← Set.toFinset_inter, ← h.of_adj v w hw,

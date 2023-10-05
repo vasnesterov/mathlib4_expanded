@@ -109,14 +109,14 @@ protected theorem Set.Sized.shadow (h𝒜 : (𝒜 : Set (Finset α)).Sized r) :
     (∂ 𝒜 : Set (Finset α)).Sized (r - 1) := by
   intro A h
   obtain ⟨A, hA, i, hi, rfl⟩ := mem_shadow_iff.1 h
-  rw [card_erase_of_mem hi, h𝒜 hA]
+  rw [card_erase_of_mem hi]; rw [h𝒜 hA]
 #align finset.set.sized.shadow Finset.Set.Sized.shadow
 
 theorem sized_shadow_iff (h : ∅ ∉ 𝒜) :
     (∂ 𝒜 : Set (Finset α)).Sized r ↔ (𝒜 : Set (Finset α)).Sized (r + 1) := by
   refine' ⟨fun h𝒜 s hs => _, Set.Sized.shadow⟩
   obtain ⟨a, ha⟩ := nonempty_iff_ne_empty.2 (ne_of_mem_of_not_mem hs h)
-  rw [← h𝒜 (erase_mem_shadow hs ha), card_erase_add_one ha]
+  rw [← h𝒜 (erase_mem_shadow hs ha)]; rw [card_erase_add_one ha]
 #align finset.sized_shadow_iff Finset.sized_shadow_iff
 
 /-- `s ∈ ∂ 𝒜` iff `s` is exactly one element less than something from `𝒜` -/
@@ -153,18 +153,18 @@ theorem mem_shadow_iff_exists_mem_card_add :
   · rintro ⟨t, ht, hst, hcardst⟩
     obtain ⟨u, hu, htu, hcardtu⟩ := mem_shadow_iff_exists_mem_card_add_one.1 ht
     refine' ⟨u, hu, hst.trans htu, _⟩
-    rw [hcardtu, hcardst]
+    rw [hcardtu]; rw [hcardst]
     rfl
   · rintro ⟨t, ht, hst, hcard⟩
     obtain ⟨u, hsu, hut, hu⟩ :=
       Finset.exists_intermediate_set k
         (by
-          rw [add_comm, hcard]
+          rw [add_comm]; rw [hcard]
           exact le_succ _)
         hst
     rw [add_comm] at hu
     refine' ⟨u, mem_shadow_iff_exists_mem_card_add_one.2 ⟨t, ht, hut, _⟩, hsu, hu⟩
-    rw [hcard, hu]
+    rw [hcard]; rw [hu]
     rfl
 #align finset.mem_shadow_iff_exists_mem_card_add Finset.mem_shadow_iff_exists_mem_card_add
 
@@ -213,7 +213,7 @@ protected theorem Set.Sized.upShadow (h𝒜 : (𝒜 : Set (Finset α)).Sized r) 
     (∂⁺ 𝒜 : Set (Finset α)).Sized (r + 1) := by
   intro A h
   obtain ⟨A, hA, i, hi, rfl⟩ := mem_upShadow_iff.1 h
-  rw [card_insert_of_not_mem hi, h𝒜 hA]
+  rw [card_insert_of_not_mem hi]; rw [h𝒜 hA]
 #align finset.set.sized.up_shadow Finset.Set.Sized.upShadow
 
 /-- `t` is in the upper shadow of `𝒜` iff we can remove an element from it so that the resulting
@@ -260,18 +260,18 @@ theorem mem_upShadow_iff_exists_mem_card_add :
   · rintro ⟨t, ht, hts, hcardst⟩
     obtain ⟨u, hu, hut, hcardtu⟩ := mem_upShadow_iff_exists_mem_card_add_one.1 ht
     refine' ⟨u, hu, hut.trans hts, _⟩
-    rw [← hcardst, ← hcardtu, add_right_comm]
+    rw [← hcardst]; rw [← hcardtu]; rw [add_right_comm]
     rfl
   · rintro ⟨t, ht, hts, hcard⟩
     obtain ⟨u, htu, hus, hu⟩ :=
       Finset.exists_intermediate_set 1
         (by
-          rw [add_comm, ← hcard]
+          rw [add_comm]; rw [← hcard]
           exact add_le_add_left (succ_le_of_lt (zero_lt_succ _)) _)
         hts
     rw [add_comm] at hu
     refine' ⟨u, mem_upShadow_iff_exists_mem_card_add_one.2 ⟨t, ht, htu, hu.symm⟩, hus, _⟩
-    rw [hu, ← hcard, add_right_comm]
+    rw [hu]; rw [← hcard]; rw [add_right_comm]
     rfl
 #align finset.mem_up_shadow_iff_exists_mem_card_add Finset.mem_upShadow_iff_exists_mem_card_add
 

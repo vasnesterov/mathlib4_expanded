@@ -138,11 +138,11 @@ theorem Nondegenerate.exists_injective_of_card_le [Nondegenerate P L] [Fintype P
     -- If `s = {l}`, then pick a point `p ∉ l`
     · obtain ⟨l, rfl⟩ := Finset.card_eq_one.mp hs₁
       obtain ⟨p, hl⟩ := exists_point l
-      rw [Finset.card_singleton, Finset.singleton_biUnion, Nat.one_le_iff_ne_zero]
+      rw [Finset.card_singleton]; rw [Finset.singleton_biUnion]; rw [Nat.one_le_iff_ne_zero]
       exact Finset.card_ne_zero_of_mem (Set.mem_toFinset.mpr hl)
     suffices (s.biUnion t)ᶜ.card ≤ sᶜ.card by
       -- Rephrase in terms of complements (uses `h`)
-      rw [Finset.card_compl, Finset.card_compl, tsub_le_iff_left] at this
+      rw [Finset.card_compl] at this; rw [Finset.card_compl] at this; rw [tsub_le_iff_left] at this
       replace := h.trans this
       rwa [← add_tsub_assoc_of_le s.card_le_univ, le_tsub_iff_left (le_add_left s.card_le_univ),
         add_le_add_iff_right] at this
@@ -156,8 +156,7 @@ theorem Nondegenerate.exists_injective_of_card_le [Nondegenerate P L] [Fintype P
       exact (eq_or_eq (hp₁ l₁ hl₁) (hp₂ l₁ hl₁) (hp₁ l₂ hl₂) (hp₂ l₂ hl₂)).resolve_right hl₃
     by_cases hs₃ : sᶜ.card = 0
     · rw [hs₃, le_zero_iff]
-      rw [Finset.card_compl, tsub_eq_zero_iff_le, LE.le.le_iff_eq (Finset.card_le_univ _), eq_comm,
-        Finset.card_eq_iff_eq_univ] at hs₃ ⊢
+      rw [Finset.card_compl] at hs₃ ⊢; rw [tsub_eq_zero_iff_le] at hs₃ ⊢; rw [LE.le.le_iff_eq (Finset.card_le_univ _)] at hs₃ ⊢; rw [eq_comm] at hs₃ ⊢; rw [Finset.card_eq_iff_eq_univ] at hs₃ ⊢
       rw [hs₃]
       rw [Finset.eq_univ_iff_forall] at hs₃ ⊢
       exact fun p =>
@@ -205,7 +204,7 @@ theorem HasLines.pointCount_le_lineCount [HasLines P L] {p : P} {l : L} (h : p �
   · exact (le_of_eq Nat.card_eq_zero_of_infinite).trans (zero_le (lineCount L p))
   haveI := fintypeOfNotInfinite hf
   cases nonempty_fintype { l : L // p ∈ l }
-  rw [lineCount, pointCount, Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
+  rw [lineCount]; rw [pointCount]; rw [Nat.card_eq_fintype_card]; rw [Nat.card_eq_fintype_card]
   have : ∀ p' : { p // p ∈ l }, p ≠ p' := fun p' hp' => h ((congr_arg (· ∈ l) hp').mpr p'.2)
   exact
     Fintype.card_le_of_injective (fun p' => ⟨mkLine (this p'), (mkLine_ax (this p')).1⟩)
@@ -286,7 +285,7 @@ theorem HasLines.lineCount_eq_pointCount [HasLines P L] [Fintype P] [Fintype L]
     obtain ⟨f, hf1, hf2⟩ := HasLines.exists_bijective_of_card_eq hPL
     let s : Finset (P × L) := Set.toFinset { i | i.1 ∈ i.2 }
     have step1 : ∑ i : P × L, lineCount L i.1 = ∑ i : P × L, pointCount P i.2 := by
-      rw [← Finset.univ_product_univ, Finset.sum_product_right, Finset.sum_product]
+      rw [← Finset.univ_product_univ]; rw [Finset.sum_product_right]; rw [Finset.sum_product]
       simp_rw [Finset.sum_const, Finset.card_univ, hPL, sum_lineCount_eq_sum_pointCount]
     have step2 : ∑ i in s, lineCount L i.1 = ∑ i in s, pointCount P i.2 := by
       rw [s.sum_finset_product Finset.univ fun p => Set.toFinset { l | p ∈ l }]
@@ -447,8 +446,7 @@ theorem lineCount_eq [Finite P] [Finite L] (p : P) : lineCount L p = order P L +
   classical
     obtain ⟨q, -, -, l, -, -, -, -, h, -⟩ := Classical.choose_spec (@exists_config P L _ _)
     cases nonempty_fintype { l : L // q ∈ l }
-    rw [order, lineCount_eq_lineCount L p q, lineCount_eq_lineCount L (Classical.choose _) q,
-      lineCount, Nat.card_eq_fintype_card, Nat.sub_add_cancel]
+    rw [order]; rw [lineCount_eq_lineCount L p q]; rw [lineCount_eq_lineCount L (Classical.choose _) q]; rw [lineCount]; rw [Nat.card_eq_fintype_card]; rw [Nat.sub_add_cancel]
     exact Fintype.card_pos_iff.mpr ⟨⟨l, h⟩⟩
 #align configuration.projective_plane.line_count_eq Configuration.ProjectivePlane.lineCount_eq
 
@@ -463,8 +461,7 @@ variable (L)
 theorem one_lt_order [Finite P] [Finite L] : 1 < order P L := by
   obtain ⟨p₁, p₂, p₃, l₁, l₂, l₃, -, -, h₂₁, h₂₂, h₂₃, h₃₁, h₃₂, h₃₃⟩ := @exists_config P L _ _
   cases nonempty_fintype { p : P // p ∈ l₂ }
-  rw [← add_lt_add_iff_right 1, ← pointCount_eq _ l₂, pointCount, Nat.card_eq_fintype_card,
-    Fintype.two_lt_card_iff]
+  rw [← add_lt_add_iff_right 1]; rw [← pointCount_eq _ l₂]; rw [pointCount]; rw [Nat.card_eq_fintype_card]; rw [Fintype.two_lt_card_iff]
   simp_rw [Ne, Subtype.ext_iff]
   have h := mkPoint_ax fun h => h₂₁ ((congr_arg _ h).mpr h₂₂)
   exact
@@ -506,14 +503,13 @@ theorem card_points [Fintype P] [Finite L] : Fintype.card P = order P L ^ 2 + or
       convert(Fintype.card_subtype_compl _).trans (congr_arg _ (Fintype.card_subtype_eq p))
     have h2 : ∀ l : { l : L // p ∈ l }, Fintype.card { q // q ∈ l.1 ∧ q ≠ p } = order P L := by
       intro l
-      rw [← Fintype.card_congr (Equiv.subtypeSubtypeEquivSubtypeInter (· ∈ l.val) (· ≠ p)),
-        Fintype.card_subtype_compl fun x : Subtype (· ∈ l.val) => x.val = p, ←
+      rw [← Fintype.card_congr (Equiv.subtypeSubtypeEquivSubtypeInter (· ∈ l.val) (· ≠ p))]; rw [Fintype.card_subtype_compl fun x : Subtype (· ∈ l.val) => x.val = p]; rw [←
         Nat.card_eq_fintype_card]
       refine' tsub_eq_of_eq_add ((pointCount_eq P l.1).trans _)
       rw [← Fintype.card_subtype_eq (⟨p, l.2⟩ : { q : P // q ∈ l.1 })]
       simp_rw [Subtype.ext_iff_val]
     simp_rw [← h1, Fintype.card_congr ϕ, Fintype.card_sigma, h2, Finset.sum_const, Finset.card_univ]
-    rw [← Nat.card_eq_fintype_card, ← lineCount, lineCount_eq, smul_eq_mul, Nat.succ_mul, sq]
+    rw [← Nat.card_eq_fintype_card]; rw [← lineCount]; rw [lineCount_eq]; rw [smul_eq_mul]; rw [Nat.succ_mul]; rw [sq]
 #align configuration.projective_plane.card_points Configuration.ProjectivePlane.card_points
 
 theorem card_lines [Finite P] [Fintype L] : Fintype.card L = order P L ^ 2 + order P L + 1 :=

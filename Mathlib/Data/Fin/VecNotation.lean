@@ -174,13 +174,13 @@ theorem range_empty (u : Fin 0 → α) : Set.range u = ∅ :=
 
 -- @[simp] -- Porting note: simp can prove this
 theorem range_cons_empty (x : α) (u : Fin 0 → α) : Set.range (Matrix.vecCons x u) = {x} := by
-  rw [range_cons, range_empty, Set.union_empty]
+  rw [range_cons]; rw [range_empty]; rw [Set.union_empty]
 #align matrix.range_cons_empty Matrix.range_cons_empty
 
 -- @[simp] -- Porting note: simp can prove this (up to commutativity)
 theorem range_cons_cons_empty (x y : α) (u : Fin 0 → α) :
     Set.range (vecCons x <| vecCons y u) = {x, y} := by
-  rw [range_cons, range_cons_empty, Set.singleton_union]
+  rw [range_cons]; rw [range_cons_empty]; rw [Set.singleton_union]
 #align matrix.range_cons_cons_empty Matrix.range_cons_cons_empty
 
 @[simp]
@@ -267,7 +267,7 @@ theorem vecAppend_eq_ite {α : Type*} {o : ℕ} (ho : o = m + n) (u : Fin m → 
       if h : (i : ℕ) < m then u ⟨i, h⟩
       else v ⟨(i : ℕ) - m, (tsub_lt_iff_left (le_of_not_lt h)).2 (ho ▸ i.2)⟩ := by
   ext i
-  rw [vecAppend, Fin.append, Function.comp_apply, Fin.addCases]
+  rw [vecAppend]; rw [Fin.append]; rw [Function.comp_apply]; rw [Fin.addCases]
   congr with hi
   simp only [eq_rec_constant]
   rfl

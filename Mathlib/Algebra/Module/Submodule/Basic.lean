@@ -579,11 +579,11 @@ protected theorem coe_sub (x y : p) : (↑(x - y) : M) = ↑x - ↑y :=
 #align submodule.coe_sub Submodule.coe_sub
 
 theorem sub_mem_iff_left (hy : y ∈ p) : x - y ∈ p ↔ x ∈ p := by
-  rw [sub_eq_add_neg, p.add_mem_iff_left (p.neg_mem hy)]
+  rw [sub_eq_add_neg]; rw [p.add_mem_iff_left (p.neg_mem hy)]
 #align submodule.sub_mem_iff_left Submodule.sub_mem_iff_left
 
 theorem sub_mem_iff_right (hx : x ∈ p) : x - y ∈ p ↔ y ∈ p := by
-  rw [sub_eq_add_neg, p.add_mem_iff_right hx, p.neg_mem_iff]
+  rw [sub_eq_add_neg]; rw [p.add_mem_iff_right hx]; rw [p.neg_mem_iff]
 #align submodule.sub_mem_iff_right Submodule.sub_mem_iff_right
 
 instance addCommGroup : AddCommGroup p :=

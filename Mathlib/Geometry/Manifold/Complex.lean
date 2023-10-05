@@ -61,7 +61,7 @@ theorem Complex.norm_eventually_eq_of_mdifferentiableAt_of_isLocalMax {f : M →
   have H₁ : 𝓝[range I] (e c) = 𝓝 (e c) := by rw [hI, nhdsWithin_univ]
   have H₂ : map e.symm (𝓝 (e c)) = 𝓝 c
   · rw [← map_extChartAt_symm_nhdsWithin_range I c, H₁]
-  rw [← H₂, eventually_map]
+  rw [← H₂]; rw [eventually_map]
   replace hd : ∀ᶠ y in 𝓝 (e c), DifferentiableAt ℂ (f ∘ e.symm) y
   · have : e.target ∈ 𝓝 (e c) := H₁ ▸ extChartAt_target_mem_nhdsWithin I c
     filter_upwards [this, Tendsto.eventually H₂.le hd] with y hyt hy₂
@@ -69,8 +69,7 @@ theorem Complex.norm_eventually_eq_of_mdifferentiableAt_of_isLocalMax {f : M →
     · rw [← extChartAt_source I c]
       exact (extChartAt I c).map_target hyt
     have hfy : f (e.symm y) ∈ (chartAt F (0 : F)).source := mem_univ _
-    rw [mdifferentiableAt_iff_of_mem_source hys hfy, hI, differentiableWithinAt_univ,
-      e.right_inv hyt] at hy₂
+    rw [mdifferentiableAt_iff_of_mem_source hys hfy] at hy₂; rw [hI] at hy₂; rw [differentiableWithinAt_univ] at hy₂; rw [e.right_inv hyt] at hy₂
     exact hy₂.2
   convert norm_eventually_eq_of_isLocalMax hd _
   · exact congr_arg f (extChartAt_to_inv _ _).symm
@@ -135,7 +134,7 @@ theorem apply_eq_of_isPreconnected_isCompact_isOpen {f : M → F} {U : Set M} {a
   rcases hc.exists_isMaxOn ⟨a, ha⟩ hd.continuousOn.norm with ⟨c, hcU, hc⟩
   have : ∀ x ∈ U, ‖f x‖ = ‖f c‖ :=
     norm_eqOn_of_isPreconnected_of_isMaxOn hd hpc ho hcU hc
-  rw [hb₀, ← norm_eq_zero, this a ha, ← this b hb, hb₀, norm_zero]
+  rw [hb₀]; rw [← norm_eq_zero]; rw [this a ha]; rw [← this b hb]; rw [hb₀]; rw [norm_zero]
 
 end MDifferentiableOn
 

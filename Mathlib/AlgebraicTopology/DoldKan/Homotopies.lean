@@ -88,7 +88,7 @@ theorem cs_down_0_not_rel_left (j : ℕ) : ¬c.Rel 0 j := by
   intro hj
   dsimp at hj
   apply Nat.not_succ_le_zero j
-  rw [Nat.succ_eq_add_one, hj]
+  rw [Nat.succ_eq_add_one]; rw [hj]
 #align algebraic_topology.dold_kan.cs_down_0_not_rel_left AlgebraicTopology.DoldKan.cs_down_0_not_rel_left
 
 /-- The sequence of maps which gives the null homotopic maps `Hσ` that shall be in
@@ -147,8 +147,7 @@ theorem Hσ_eq_zero (q : ℕ) : (Hσ q : K[X] ⟶ K[X]).f 0 = 0 := by
   · rw [hσ'_eq (show 0 = 0 + 0 by rfl) (c_mk 1 0 rfl)]
     simp only [pow_zero, Fin.mk_zero, one_zsmul, eqToHom_refl, Category.comp_id]
     erw [ChainComplex.of_d]
-    rw [AlternatingFaceMapComplex.objD, Fin.sum_univ_two, Fin.val_zero, Fin.val_one, pow_zero,
-      pow_one, one_smul, neg_smul, one_smul, comp_add, comp_neg, add_neg_eq_zero]
+    rw [AlternatingFaceMapComplex.objD]; rw [Fin.sum_univ_two]; rw [Fin.val_zero]; rw [Fin.val_one]; rw [pow_zero]; rw [pow_one]; rw [one_smul]; rw [neg_smul]; rw [one_smul]; rw [comp_add]; rw [comp_neg]; rw [add_neg_eq_zero]
     erw [δ_comp_σ_self, δ_comp_σ_succ]
   · rw [hσ'_eq_zero (Nat.succ_pos q) (c_mk 1 0 rfl), zero_comp]
 set_option linter.uppercaseLean3 false in
@@ -173,7 +172,7 @@ def natTransHσ (q : ℕ) : alternatingFaceMapComplex C ⟶ alternatingFaceMapCo
   app X := Hσ q
   naturality _ _ f := by
     unfold Hσ
-    rw [nullHomotopicMap'_comp, comp_nullHomotopicMap']
+    rw [nullHomotopicMap'_comp]; rw [comp_nullHomotopicMap']
     congr
     ext n m hnm
     simp only [alternatingFaceMapComplex_map_f, hσ'_naturality]

@@ -112,7 +112,7 @@ private theorem maxVar_bound : dist x y ≤ maxVar X Y :=
       (diam_union (mem_range_self _) (mem_range_self _))
     _ = diam (univ : Set X) + (dist default default + 1 + dist default default) +
         diam (univ : Set Y) := by
-      rw [isometry_inl.diam_range, isometry_inr.diam_range]
+      rw [isometry_inl.diam_range]; rw [isometry_inr.diam_range]
       rfl
     _ = 1 * diam (univ : Set X) + 1 + 1 * diam (univ : Set Y) := by simp
     _ ≤ 2 * diam (univ : Set X) + 1 + 2 * diam (univ : Set Y) := by gcongr <;> norm_num
@@ -199,7 +199,7 @@ private theorem candidates_lipschitz (fA : f ∈ candidates X Y) :
     LipschitzWith (2 * maxVar X Y) f := by
   apply LipschitzWith.of_dist_le_mul
   rintro ⟨x, y⟩ ⟨z, t⟩
-  rw [Real.dist_eq, abs_sub_le_iff]
+  rw [Real.dist_eq]; rw [abs_sub_le_iff]
   use candidates_lipschitz_aux fA
   rw [dist_comm]
   exact candidates_lipschitz_aux fA

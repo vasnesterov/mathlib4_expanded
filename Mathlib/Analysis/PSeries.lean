@@ -53,7 +53,7 @@ theorem le_sum_condensed' (hf : ∀ ⦃m n⦄, 0 < m → m ≤ n → f n ≤ f m
   induction' n with n ihn
   · simp
   suffices (∑ k in Ico (2 ^ n) (2 ^ (n + 1)), f k) ≤ 2 ^ n • f (2 ^ n) by
-    rw [sum_range_succ, ← sum_Ico_consecutive]
+    rw [sum_range_succ]; rw [← sum_Ico_consecutive]
     exact add_le_add ihn this
     exacts [n.one_le_two_pow, Nat.pow_le_pow_of_le_right zero_lt_two n.le_succ]
   have : ∀ k ∈ Ico (2 ^ n) (2 ^ (n + 1)), f k ≤ f (2 ^ n) := fun k hk =>
@@ -65,7 +65,7 @@ theorem le_sum_condensed' (hf : ∀ ⦃m n⦄, 0 < m → m ≤ n → f n ≤ f m
 theorem le_sum_condensed (hf : ∀ ⦃m n⦄, 0 < m → m ≤ n → f n ≤ f m) (n : ℕ) :
     (∑ k in range (2 ^ n), f k) ≤ f 0 + ∑ k in range n, 2 ^ k • f (2 ^ k) := by
   convert add_le_add_left (le_sum_condensed' hf n) (f 0)
-  rw [← sum_range_add_sum_Ico _ n.one_le_two_pow, sum_range_succ, sum_range_zero, zero_add]
+  rw [← sum_range_add_sum_Ico _ n.one_le_two_pow]; rw [sum_range_succ]; rw [sum_range_zero]; rw [zero_add]
 #align finset.le_sum_condensed Finset.le_sum_condensed
 
 theorem sum_condensed_le' (hf : ∀ ⦃m n⦄, 1 < m → m ≤ n → f n ≤ f m) (n : ℕ) :
@@ -73,7 +73,7 @@ theorem sum_condensed_le' (hf : ∀ ⦃m n⦄, 1 < m → m ≤ n → f n ≤ f m
   induction' n with n ihn
   · simp
   suffices 2 ^ n • f (2 ^ (n + 1)) ≤ ∑ k in Ico (2 ^ n + 1) (2 ^ (n + 1) + 1), f k by
-    rw [sum_range_succ, ← sum_Ico_consecutive]
+    rw [sum_range_succ]; rw [← sum_Ico_consecutive]
     exacts [add_le_add ihn this,
       (add_le_add_right n.one_le_two_pow _ : 1 + 1 ≤ 2 ^ n + 1),
       add_le_add_right (Nat.pow_le_pow_of_le_right zero_lt_two n.le_succ) _]
@@ -106,7 +106,7 @@ theorem le_tsum_condensed (hf : ∀ ⦃m n⦄, 0 < m → m ≤ n → f n ≤ f m
 
 theorem tsum_condensed_le (hf : ∀ ⦃m n⦄, 1 < m → m ≤ n → f n ≤ f m) :
     (∑' k : ℕ, 2 ^ k * f (2 ^ k)) ≤ f 1 + 2 * ∑' k, f k := by
-  rw [ENNReal.tsum_eq_iSup_nat' (tendsto_atTop_mono Nat.le_succ tendsto_id), two_mul, ← two_nsmul]
+  rw [ENNReal.tsum_eq_iSup_nat' (tendsto_atTop_mono Nat.le_succ tendsto_id)]; rw [two_mul]; rw [← two_nsmul]
   refine'
     iSup_le fun n =>
       le_trans _
@@ -169,8 +169,7 @@ theorem Real.summable_nat_rpow_inv {p : ℝ} :
         rpow_mul zero_lt_two.le, rpow_nat_cast, ← inv_pow, ← mul_pow,
         summable_geometric_iff_norm_lt_1]
       nth_rw 1 [← rpow_one 2]
-      rw [← division_def, ← rpow_sub zero_lt_two, norm_eq_abs,
-        abs_of_pos (rpow_pos_of_pos zero_lt_two _), rpow_lt_one_iff zero_lt_two.le]
+      rw [← division_def]; rw [← rpow_sub zero_lt_two]; rw [norm_eq_abs]; rw [abs_of_pos (rpow_pos_of_pos zero_lt_two _)]; rw [rpow_lt_one_iff zero_lt_two.le]
       norm_num
     · intro n
       exact inv_nonneg.2 (rpow_nonneg_of_nonneg n.cast_nonneg _)
@@ -187,7 +186,7 @@ theorem Real.summable_nat_rpow_inv {p : ℝ} :
         ((h.tendsto_cofinite_zero.eventually (gt_mem_nhds zero_lt_one)).and
             (eventually_cofinite_ne 0)).exists
       apply hk₀
-      rw [← pos_iff_ne_zero, ← @Nat.cast_pos ℝ] at hk₀
+      rw [← pos_iff_ne_zero] at hk₀; rw [← @Nat.cast_pos ℝ] at hk₀
       simpa [inv_lt_one_iff_of_pos (rpow_pos_of_pos hk₀ _), one_lt_rpow_iff_of_pos hk₀, hp,
         hp.not_lt, hk₀] using hk₁
 #align real.summable_nat_rpow_inv Real.summable_nat_rpow_inv
@@ -230,7 +229,7 @@ theorem Real.summable_one_div_int_pow {p : ℕ} :
       summable_int_of_summable_nat (Real.summable_one_div_nat_pow.mpr h)
         (((Real.summable_one_div_nat_pow.mpr h).mul_left <| 1 / (-1 : ℝ) ^ p).congr fun n => _)⟩
   conv_rhs =>
-    rw [Int.cast_neg, neg_eq_neg_one_mul, mul_pow, ← div_div]
+    rw [Int.cast_neg]; rw [neg_eq_neg_one_mul]; rw [mul_pow]; rw [← div_div]
   conv_lhs => rw [mul_div, mul_one]
 #align real.summable_one_div_int_pow Real.summable_one_div_int_pow
 
@@ -305,7 +304,7 @@ theorem sum_Ioc_inv_sq_le_sub {k n : ℕ} (hk : k ≠ 0) (h : k ≤ n) :
   have A : 0 < (n : α) := by simpa using hk.bot_lt.trans_le hn
   have B : 0 < (n : α) + 1 := by linarith
   field_simp
-  rw [div_le_div_iff _ A, ← sub_nonneg]
+  rw [div_le_div_iff _ A]; rw [← sub_nonneg]
   · ring_nf
     rw [add_comm]
     exact B.le
@@ -323,9 +322,9 @@ theorem sum_Ioo_inv_sq_le (k n : ℕ) : (∑ i in Ioo k n, ((i : α) ^ 2)⁻¹) 
       · intro i _hi _hident
         positivity
     _ ≤ ((k + 1 : α) ^ 2)⁻¹ + ∑ i in Ioc k.succ (max (k + 1) n), ((i : α) ^ 2)⁻¹ := by
-      rw [← Nat.Icc_succ_left, ← Nat.Ico_succ_right, sum_eq_sum_Ico_succ_bot]
+      rw [← Nat.Icc_succ_left]; rw [← Nat.Ico_succ_right]; rw [sum_eq_sum_Ico_succ_bot]
       swap; · exact Nat.succ_lt_succ ((Nat.lt_succ_self k).trans_le (le_max_left _ _))
-      rw [Nat.Ico_succ_right, Nat.Icc_succ_left, Nat.cast_succ]
+      rw [Nat.Ico_succ_right]; rw [Nat.Icc_succ_left]; rw [Nat.cast_succ]
     _ ≤ ((k + 1 : α) ^ 2)⁻¹ + (k + 1 : α)⁻¹ := by
       refine' add_le_add le_rfl ((sum_Ioc_inv_sq_le_sub _ (le_max_left _ _)).trans _)
       · simp only [Ne.def, Nat.succ_ne_zero, not_false_iff]

@@ -111,7 +111,7 @@ theorem ext {f f' : ContinuousMultilinearMap R M₁ M₂} (H : ∀ x, f x = f' x
 #align continuous_multilinear_map.ext ContinuousMultilinearMap.ext
 
 theorem ext_iff {f f' : ContinuousMultilinearMap R M₁ M₂} : f = f' ↔ ∀ x, f x = f' x := by
-  rw [← toMultilinearMap_injective.eq_iff, MultilinearMap.ext_iff]; rfl
+  rw [← toMultilinearMap_injective.eq_iff]; rw [MultilinearMap.ext_iff]; rfl
 #align continuous_multilinear_map.ext_iff ContinuousMultilinearMap.ext_iff
 
 @[simp]

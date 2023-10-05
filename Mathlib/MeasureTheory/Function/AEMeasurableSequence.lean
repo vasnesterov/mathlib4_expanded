@@ -71,7 +71,7 @@ theorem prop_of_mem_aeSeqSet (hf : ∀ i, AEMeasurable (f i) μ) {x : α} (hx : 
   simp only [aeSeq, hx, if_true]
   rw [funext fun n => mk_eq_fun_of_mem_aeSeqSet hf hx n]
   have h_ss : aeSeqSet hf p ⊆ { x | p x fun n => f n x } := by
-    rw [← compl_compl { x | p x fun n => f n x }, aeSeqSet, Set.compl_subset_compl]
+    rw [← compl_compl { x | p x fun n => f n x }]; rw [aeSeqSet]; rw [Set.compl_subset_compl]
     refine' Set.Subset.trans (Set.compl_subset_compl.mpr _) (subset_toMeasurable _ _)
     exact fun x hx => hx.2
   have hx' := Set.mem_of_subset_of_mem h_ss hx
@@ -99,7 +99,7 @@ theorem measurable (hf : ∀ i, AEMeasurable (f i) μ) (p : α → (ι → β) �
 
 theorem measure_compl_aeSeqSet_eq_zero [Countable ι] (hf : ∀ i, AEMeasurable (f i) μ)
     (hp : ∀ᵐ x ∂μ, p x fun n => f n x) : μ (aeSeqSet hf p)ᶜ = 0 := by
-  rw [aeSeqSet, compl_compl, measure_toMeasurable]
+  rw [aeSeqSet]; rw [compl_compl]; rw [measure_toMeasurable]
   have hf_eq := fun i => (hf i).ae_eq_mk
   simp_rw [Filter.EventuallyEq, ← ae_all_iff] at hf_eq
   exact Filter.Eventually.and hf_eq hp

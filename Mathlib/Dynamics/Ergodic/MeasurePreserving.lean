@@ -65,7 +65,7 @@ protected theorem aemeasurable {f : α → β} (hf : MeasurePreserving f μa μb
 theorem symm (e : α ≃ᵐ β) {μa : Measure α} {μb : Measure β} (h : MeasurePreserving e μa μb) :
     MeasurePreserving e.symm μb μa :=
   ⟨e.symm.measurable, by
-    rw [← h.map_eq, map_map e.symm.measurable e.measurable, e.symm_comp_self, map_id]⟩
+    rw [← h.map_eq]; rw [map_map e.symm.measurable e.measurable]; rw [e.symm_comp_self]; rw [map_id]⟩
 #align measure_theory.measure_preserving.symm MeasureTheory.MeasurePreserving.symm
 
 theorem restrict_preimage {f : α → β} (hf : MeasurePreserving f μa μb) {s : Set β}
@@ -86,7 +86,7 @@ theorem restrict_image_emb {f : α → β} (hf : MeasurePreserving f μa μb) (h
 
 theorem aemeasurable_comp_iff {f : α → β} (hf : MeasurePreserving f μa μb)
     (h₂ : MeasurableEmbedding f) {g : β → γ} : AEMeasurable (g ∘ f) μa ↔ AEMeasurable g μb := by
-  rw [← hf.map_eq, h₂.aemeasurable_map_iff]
+  rw [← hf.map_eq]; rw [h₂.aemeasurable_map_iff]
 #align measure_theory.measure_preserving.ae_measurable_comp_iff MeasureTheory.MeasurePreserving.aemeasurable_comp_iff
 
 protected theorem quasiMeasurePreserving {f : α → β} (hf : MeasurePreserving f μa μb) :
@@ -124,7 +124,7 @@ theorem measure_preimage {f : α → β} (hf : MeasurePreserving f μa μb) {s :
 
 theorem measure_preimage_emb {f : α → β} (hf : MeasurePreserving f μa μb)
     (hfe : MeasurableEmbedding f) (s : Set β) : μa (f ⁻¹' s) = μb s := by
-  rw [← hf.map_eq, hfe.map_apply]
+  rw [← hf.map_eq]; rw [hfe.map_apply]
 #align measure_theory.measure_preserving.measure_preimage_emb MeasureTheory.MeasurePreserving.measure_preimage_emb
 
 protected theorem iterate {f : α → α} (hf : MeasurePreserving f μa μa) :
@@ -142,7 +142,7 @@ lemma measure_symmDiff_preimage_iterate_le
   simp only [add_smul, one_smul, ← n.add_one]
   refine' le_trans (measure_symmDiff_le s (f^[n] ⁻¹' s) (f^[n+1] ⁻¹' s)) (add_le_add ih _)
   replace hs : MeasurableSet (s ∆ (f ⁻¹' s)) := hs.symmDiff $ hf.measurable hs
-  rw [iterate_succ', preimage_comp, ← preimage_symmDiff, (hf.iterate n).measure_preimage hs]
+  rw [iterate_succ']; rw [preimage_comp]; rw [← preimage_symmDiff]; rw [(hf.iterate n).measure_preimage hs]
 
 /-- If `μ univ < n * μ s` and `f` is a map preserving measure `μ`,
 then for some `x ∈ s` and `0 < m < n`, `f^[m] x ∈ s`. -/

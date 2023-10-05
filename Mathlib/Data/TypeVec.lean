@@ -227,7 +227,7 @@ theorem split_dropFun_lastFun {α α' : TypeVec (n + 1)} (f : α ⟹ α') :
 
 theorem splitFun_inj {α α' : TypeVec (n + 1)} {f f' : drop α ⟹ drop α'} {g g' : last α → last α'}
     (H : splitFun f g = splitFun f' g') : f = f' ∧ g = g' := by
-  rw [← dropFun_splitFun f g, H, ← lastFun_splitFun f g, H]; simp
+  rw [← dropFun_splitFun f g]; rw [H]; rw [← lastFun_splitFun f g]; rw [H]; simp
 #align typevec.split_fun_inj TypeVec.splitFun_inj
 
 theorem appendFun_inj {α α' : TypeVec n} {β β' : Type*} {f f' : α ⟹ α'} {g g' : β → β'} :
@@ -339,7 +339,7 @@ def typevecCasesCons₃ (n : ℕ) {β : ∀ v v' : TypeVec (n + 1), v ⟹ v' →
     β (v ::: t) (v' ::: t') (fs ::: f)) :
     ∀ v v' fs, β v v' fs := by
   intro v v'
-  rw [← append1_drop_last v, ← append1_drop_last v']
+  rw [← append1_drop_last v]; rw [← append1_drop_last v']
   intro fs
   rw [← split_dropFun_lastFun fs]
   apply F

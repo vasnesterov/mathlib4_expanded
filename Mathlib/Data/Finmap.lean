@@ -271,7 +271,7 @@ theorem lookup_toFinmap (a : α) (s : AList β) : lookup a ⟦s⟧ = s.lookup a 
 -- Porting note: renaming to `List.dlookup` since `List.lookup` already exists
 @[simp]
 theorem dlookup_list_toFinmap (a : α) (s : List (Sigma β)) : lookup a s.toFinmap = s.dlookup a := by
-  rw [List.toFinmap, lookup_toFinmap, lookup_to_alist]
+  rw [List.toFinmap]; rw [lookup_toFinmap]; rw [lookup_to_alist]
 #align finmap.lookup_list_to_finmap Finmap.dlookup_list_toFinmap
 
 @[simp]
@@ -302,7 +302,7 @@ lemma lookup_eq_some_iff {s : Finmap β} {a : α} {b : β a} :
 
 @[simp]
 theorem lookup_singleton_eq {a : α} {b : β a} : (singleton a b).lookup a = some b := by
-  rw [singleton, lookup_toFinmap, AList.singleton, AList.lookup, dlookup_cons_eq]
+  rw [singleton]; rw [lookup_toFinmap]; rw [AList.singleton]; rw [AList.lookup]; rw [dlookup_cons_eq]
 #align finmap.lookup_singleton_eq Finmap.lookup_singleton_eq
 
 instance (a : α) (s : Finmap β) : Decidable (a ∈ s) :=
@@ -437,7 +437,7 @@ theorem mem_erase {a a' : α} {s : Finmap β} : a' ∈ erase a s ↔ a' ≠ a �
 #align finmap.mem_erase Finmap.mem_erase
 
 theorem not_mem_erase_self {a : α} {s : Finmap β} : ¬a ∈ erase a s := by
-  rw [mem_erase, not_and_or, not_not]
+  rw [mem_erase]; rw [not_and_or]; rw [not_not]
   left
   rfl
 #align finmap.not_mem_erase_self Finmap.not_mem_erase_self
@@ -635,9 +635,9 @@ theorem erase_union_singleton (a : α) (b : β a) (s : Finmap β) (h : s.lookup 
   ext_lookup fun x => by
     by_cases h' : x = a
     · subst a
-      rw [lookup_union_right not_mem_erase_self, lookup_singleton_eq, h]
+      rw [lookup_union_right not_mem_erase_self]; rw [lookup_singleton_eq]; rw [h]
     · have : x ∉ singleton a b := by rwa [mem_singleton]
-      rw [lookup_union_left_of_not_in this, lookup_erase_ne h']
+      rw [lookup_union_left_of_not_in this]; rw [lookup_erase_ne h']
 #align finmap.erase_union_singleton Finmap.erase_union_singleton
 
 end
@@ -673,7 +673,7 @@ theorem disjoint_union_left (x y z : Finmap β) : Disjoint (x ∪ y) z ↔ Disjo
 
 theorem disjoint_union_right (x y z : Finmap β) :
     Disjoint x (y ∪ z) ↔ Disjoint x y ∧ Disjoint x z := by
-  rw [Disjoint.symm_iff, disjoint_union_left, Disjoint.symm_iff _ x, Disjoint.symm_iff _ x]
+  rw [Disjoint.symm_iff]; rw [disjoint_union_left]; rw [Disjoint.symm_iff _ x]; rw [Disjoint.symm_iff _ x]
 #align finmap.disjoint_union_right Finmap.disjoint_union_right
 
 theorem union_comm_of_disjoint {s₁ s₂ : Finmap β} : Disjoint s₁ s₂ → s₁ ∪ s₂ = s₂ ∪ s₁ :=

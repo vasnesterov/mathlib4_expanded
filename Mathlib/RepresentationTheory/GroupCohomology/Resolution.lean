@@ -189,10 +189,9 @@ theorem diagonalSucc_hom_single (f : Gⁿ⁺¹) (a : k) :
     ((inv ((linearization k G).μ (Action.leftRegular G) { V := Fin n → G, ρ := 1 })).hom
       ((lmapDomain k k (actionDiagonalSucc G n).hom.hom) (single f a))) = _
   simp only [CategoryTheory.Functor.map_id, linearization_μ_inv_hom]
-  rw [lmapDomain_apply, mapDomain_single, LinearEquiv.coe_toLinearMap, finsuppTensorFinsupp',
-    LinearEquiv.trans_symm, LinearEquiv.trans_apply, lcongr_symm, Equiv.refl_symm]
+  rw [lmapDomain_apply]; rw [mapDomain_single]; rw [LinearEquiv.coe_toLinearMap]; rw [finsuppTensorFinsupp']; rw [LinearEquiv.trans_symm]; rw [LinearEquiv.trans_apply]; rw [lcongr_symm]; rw [Equiv.refl_symm]
   erw [lcongr_single]
-  rw [TensorProduct.lid_symm_apply, actionDiagonalSucc_hom_apply, finsuppTensorFinsupp_symm_single]
+  rw [TensorProduct.lid_symm_apply]; rw [actionDiagonalSucc_hom_apply]; rw [finsuppTensorFinsupp_symm_single]
   rfl
 #align group_cohomology.resolution.diagonal_succ_hom_single GroupCohomology.Resolution.diagonalSucc_hom_single
 
@@ -212,8 +211,7 @@ theorem diagonalSucc_inv_single_single (g : G) (f : Gⁿ) (a b : k) :
     (lcongr (Equiv.refl (G × (Fin n → G))) (TensorProduct.lid k k)
       (finsuppTensorFinsupp k k k G (Fin n → G) (single g a ⊗ₜ[k] single f b)))
     = single (g • partialProd f) (a * b)
-  rw [finsuppTensorFinsupp_single, lcongr_single, mapDomain_single, Equiv.refl_apply,
-    actionDiagonalSucc_inv_apply]
+  rw [finsuppTensorFinsupp_single]; rw [lcongr_single]; rw [mapDomain_single]; rw [Equiv.refl_apply]; rw [actionDiagonalSucc_inv_apply]
   rfl
 #align group_cohomology.resolution.diagonal_succ_inv_single_single GroupCohomology.Resolution.diagonalSucc_inv_single_single
 
@@ -229,9 +227,9 @@ theorem diagonalSucc_inv_single_left (g : G) (f : Gⁿ →₀ k) (r : k) :
       zero_mul, single_zero] -/
   · rw [TensorProduct.tmul_zero, map_zero, map_zero]
   · intro _ _ _ _ _ hx
-    rw [TensorProduct.tmul_add, map_add, map_add, hx]
+    rw [TensorProduct.tmul_add]; rw [map_add]; rw [map_add]; rw [hx]
     simp_rw [lift_apply, smul_single, smul_eq_mul, diagonalSucc_inv_single_single]
-    rw [sum_single_index, mul_comm]
+    rw [sum_single_index]; rw [mul_comm]
     · rw [zero_mul, single_zero]
 #align group_cohomology.resolution.diagonal_succ_inv_single_left GroupCohomology.Resolution.diagonalSucc_inv_single_left
 
@@ -246,7 +244,7 @@ theorem diagonalSucc_inv_single_right (g : G →₀ k) (f : Gⁿ) (r : k) :
       TensorProduct.add_tmul, Finsupp.sum_single_index, zero_mul, single_zero] -/
   · rw [TensorProduct.zero_tmul, map_zero, map_zero]
   · intro _ _ _ _ _ hx
-    rw [TensorProduct.add_tmul, map_add, map_add, hx]
+    rw [TensorProduct.add_tmul]; rw [map_add]; rw [map_add]; rw [hx]
     simp_rw [lift_apply, smul_single', diagonalSucc_inv_single_single]
     rw [sum_single_index]
     · rw [zero_mul, single_zero]
@@ -267,14 +265,14 @@ def ofMulActionBasisAux :
       (ofMulAction k G (Fin (n + 1) → G)).asModule :=
   { (Rep.equivalenceModuleMonoidAlgebra.1.mapIso (diagonalSucc k G n).symm).toLinearEquiv with
     map_smul' := fun r x => by
-      rw [RingHom.id_apply, LinearEquiv.toFun_eq_coe, ← LinearEquiv.map_smul]
+      rw [RingHom.id_apply]; rw [LinearEquiv.toFun_eq_coe]; rw [← LinearEquiv.map_smul]
       congr 1
 /- Porting note: broken proof was
       refine' x.induction_on _ (fun x y => _) fun y z hy hz => _
       · simp only [smul_zero]
       · simp only [TensorProduct.smul_tmul']
         show (r * x) ⊗ₜ y = _
-        rw [← ofMulAction_self_smul_eq_mul, smul_tprod_one_asModule]
+        rw [← ofMulAction_self_smul_eq_mul]; rw [smul_tprod_one_asModule]
       · rw [smul_add, hz, hy, smul_add] -/
       show _ = Representation.asAlgebraHom (tensorObj (Rep.leftRegular k G)
         (Rep.trivial k G ((Fin n → G) →₀ k))).ρ r _
@@ -338,7 +336,7 @@ theorem diagonalHomEquiv_apply (f : Rep.ofMulAction k G (Fin (n + 1) → G) ⟶ 
     LinearMap.comp_apply, Representation.repOfTprodIso_inv_apply,
     diagonalSucc_inv_single_single (1 : G) x, one_smul, one_mul] -/
   change f.hom ((diagonalSucc k G n).inv.hom (Finsupp.single 1 1 ⊗ₜ[k] Finsupp.single x 1)) = _
-  rw [diagonalSucc_inv_single_single, one_smul, one_mul]
+  rw [diagonalSucc_inv_single_single]; rw [one_smul]; rw [one_mul]
 set_option linter.uppercaseLean3 false in
 #align Rep.diagonal_hom_equiv_apply Rep.diagonalHomEquiv_apply
 
@@ -393,7 +391,7 @@ theorem diagonalHomEquiv_symm_partialProd_succ (f : (Fin n → G) → A) (g : Fi
     Fin.partialProd_succ]
   congr
   ext
-  rw [← Fin.partialProd_succ, Fin.inv_partialProd_mul_eq_contractNth]
+  rw [← Fin.partialProd_succ]; rw [Fin.inv_partialProd_mul_eq_contractNth]
 set_option linter.uppercaseLean3 false in
 #align Rep.diagonal_hom_equiv_symm_partial_prod_succ Rep.diagonalHomEquiv_symm_partialProd_succ
 
@@ -425,7 +423,7 @@ def cechNerveTerminalFromIso :
   NatIso.ofComponents (fun n => limit.isoLimitCone (Action.ofMulActionLimitCone _ _)) fun f => by
     refine' IsLimit.hom_ext (Action.ofMulActionLimitCone.{u, 0} G fun _ => G).2 fun j => _
     dsimp only [cechNerveTerminalFrom, Pi.lift]
-    rw [Category.assoc, limit.isoLimitCone_hom_π, limit.lift_π, Category.assoc]
+    rw [Category.assoc]; rw [limit.isoLimitCone_hom_π]; rw [limit.lift_π]; rw [Category.assoc]
     exact (limit.isoLimitCone_hom_π _ _).symm
 #align classifying_space_universal_cover.cech_nerve_terminal_from_iso classifyingSpaceUniversalCover.cechNerveTerminalFromIso
 
@@ -549,13 +547,13 @@ theorem d_eq (n : ℕ) : ((GroupCohomology.resolution k G).d (n + 1) n).hom = d 
   simp_rw [alternatingFaceMapComplex_obj_d, AlternatingFaceMapComplex.objD, SimplicialObject.δ,
     Functor.comp_map, ← intCast_smul (k := k) ((-1) ^ _ : ℤ), Int.cast_pow, Int.cast_neg,
     Int.cast_one, Action.sum_hom, Action.smul_hom, Rep.linearization_map_hom]
-  rw [LinearMap.coeFn_sum, Fintype.sum_apply]
+  rw [LinearMap.coeFn_sum]; rw [Fintype.sum_apply]
   erw [d_of (k := k) x]
 /- Porting note: want to rewrite `LinearMap.smul_apply` but simp/simp_rw won't do it; I need erw,
 so using Finset.sum_congr to get rid of the binder -/
   refine' Finset.sum_congr rfl fun _ _ => _
   erw [LinearMap.smul_apply]
-  rw [Finsupp.lmapDomain_apply, Finsupp.mapDomain_single, Finsupp.smul_single', mul_one]
+  rw [Finsupp.lmapDomain_apply]; rw [Finsupp.mapDomain_single]; rw [Finsupp.smul_single']; rw [mul_one]
   rfl
 #align group_cohomology.resolution.d_eq GroupCohomology.Resolution.d_eq
 
@@ -629,8 +627,7 @@ theorem forget₂ToModuleCatHomotopyEquiv_f_0_eq :
   · congr
     · ext x
       dsimp [HomotopyEquiv.ofIso, Finsupp.LinearEquiv.finsuppUnique]
-      rw [Finsupp.total_single, one_smul, @Unique.eq_default _ Types.terminalIso.toEquiv.unique x,
-        Finsupp.single_eq_same]
+      rw [Finsupp.total_single]; rw [one_smul]; rw [@Unique.eq_default _ Types.terminalIso.toEquiv.unique x]; rw [Finsupp.single_eq_same]
     · exact @Subsingleton.elim _ (@Unique.instSubsingleton _ (Limits.uniqueToTerminal _)) _ _
 set_option linter.uppercaseLean3 false in
 #align group_cohomology.resolution.forget₂_to_Module_homotopy_equiv_f_0_eq GroupCohomology.Resolution.forget₂ToModuleCatHomotopyEquiv_f_0_eq
@@ -640,8 +637,7 @@ theorem d_comp_ε : (GroupCohomology.resolution k G).d 1 0 ≫ ε k G = 0 := by
   refine' LinearMap.ext fun x => _
   have : (forget₂ToModuleCat k G).d 1 0
       ≫ (forget₂ (Rep k G) (ModuleCat.{u} k)).map (ε k G) = 0 := by
-    rw [← forget₂ToModuleCatHomotopyEquiv_f_0_eq,
-      ←(forget₂ToModuleCatHomotopyEquiv k G).1.2 1 0 rfl]
+    rw [← forget₂ToModuleCatHomotopyEquiv_f_0_eq]; rw [←(forget₂ToModuleCatHomotopyEquiv k G).1.2 1 0 rfl]
     exact comp_zero
   exact LinearMap.ext_iff.1 this _
 #align group_cohomology.resolution.d_comp_ε GroupCohomology.Resolution.d_comp_ε

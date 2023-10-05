@@ -72,7 +72,7 @@ theorem AffineBasis.interior_convexHull {ι E : Type*} [Finite ι] [NormedAddCom
   · -- The positive-dimensional case.
     haveI : FiniteDimensional ℝ E := b.finiteDimensional
     have : convexHull ℝ (range b) = ⋂ i, b.coord i ⁻¹' Ici 0 := by
-      rw [b.convexHull_eq_nonneg_coord, setOf_forall]; rfl
+      rw [b.convexHull_eq_nonneg_coord]; rw [setOf_forall]; rfl
     ext
     simp only [this, interior_iInter_of_finite, ←
       IsOpenMap.preimage_interior_eq_interior_preimage (isOpenMap_barycentric_coord b _)
@@ -97,8 +97,7 @@ theorem IsOpen.exists_between_affineIndependent_span_eq_top {s u : Set P} (hu : 
   have hf : ∀ y, f y ∈ u := by
     refine' fun y => hεu _
     simp only
-    rw [Metric.mem_closedBall, lineMap_apply, dist_vadd_left, norm_smul, Real.norm_eq_abs,
-      dist_eq_norm_vsub V y q, abs_div, abs_of_pos ε0, abs_of_nonneg (norm_nonneg _), div_mul_comm]
+    rw [Metric.mem_closedBall]; rw [lineMap_apply]; rw [dist_vadd_left]; rw [norm_smul]; rw [Real.norm_eq_abs]; rw [dist_eq_norm_vsub V y q]; rw [abs_div]; rw [abs_of_pos ε0]; rw [abs_of_nonneg (norm_nonneg _)]; rw [div_mul_comm]
     exact mul_le_of_le_one_left ε0.le (div_self_le_one _)
   have hεyq : ∀ (y) (_ : y ∉ s), ε / dist y q ≠ 0 := fun y hy =>
     div_ne_zero ε0.ne' (dist_ne_zero.2 (ne_of_mem_of_not_mem hq hy).symm)
@@ -149,7 +148,7 @@ theorem interior_convexHull_nonempty_iff_affineSpan_eq_top [FiniteDimensional �
   refine' ⟨affineSpan_eq_top_of_nonempty_interior, fun h => _⟩
   obtain ⟨t, hts, b, hb⟩ := AffineBasis.exists_affine_subbasis h
   suffices (interior (convexHull ℝ (range b))).Nonempty by
-    rw [hb, Subtype.range_coe_subtype, setOf_mem_eq] at this
+    rw [hb] at this; rw [Subtype.range_coe_subtype] at this; rw [setOf_mem_eq] at this
     refine' this.mono _
     mono*
   lift t to Finset V using b.finite_set
@@ -158,5 +157,5 @@ theorem interior_convexHull_nonempty_iff_affineSpan_eq_top [FiniteDimensional �
 
 theorem Convex.interior_nonempty_iff_affineSpan_eq_top [FiniteDimensional ℝ V] {s : Set V}
     (hs : Convex ℝ s) : (interior s).Nonempty ↔ affineSpan ℝ s = ⊤ := by
-  rw [← interior_convexHull_nonempty_iff_affineSpan_eq_top, hs.convexHull_eq]
+  rw [← interior_convexHull_nonempty_iff_affineSpan_eq_top]; rw [hs.convexHull_eq]
 #align convex.interior_nonempty_iff_affine_span_eq_top Convex.interior_nonempty_iff_affineSpan_eq_top

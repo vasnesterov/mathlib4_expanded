@@ -104,11 +104,11 @@ theorem exists_sub_one_mem_and_smul_eq_zero_of_fg_of_le_smul {R : Type*} [CommRi
     rwa [mem_comap, span_empty, smul_bot, mem_bot] at hrn
   apply ih
   rcases H with ⟨r, hr1, hrn, hs⟩
-  rw [← Set.singleton_union, span_union, smul_sup] at hrn
+  rw [← Set.singleton_union] at hrn; rw [span_union] at hrn; rw [smul_sup] at hrn
   rw [Set.insert_subset_iff] at hs
   have : ∃ c : R, c - 1 ∈ I ∧ c • i ∈ I • span R s := by
     specialize hrn hs.1
-    rw [mem_comap, mem_sup] at hrn
+    rw [mem_comap] at hrn; rw [mem_sup] at hrn
     rcases hrn with ⟨y, hy, z, hz, hyz⟩
     dsimp at hyz
     rw [mem_smul_span_singleton] at hy
@@ -124,13 +124,13 @@ theorem exists_sub_one_mem_and_smul_eq_zero_of_fg_of_le_smul {R : Type*} [CommRi
   · simpa only [mul_sub, mul_one, sub_add_sub_cancel] using I.add_mem (I.mul_mem_left c hr1) hc1
   · intro n hn
     specialize hrn hn
-    rw [mem_comap, mem_sup] at hrn
+    rw [mem_comap] at hrn; rw [mem_sup] at hrn
     rcases hrn with ⟨y, hy, z, hz, hyz⟩
     dsimp at hyz
     rw [mem_smul_span_singleton] at hy
     rcases hy with ⟨d, _, rfl⟩
     simp only [mem_comap, LinearMap.lsmul_apply]
-    rw [mul_smul, ← hyz, smul_add, smul_smul, mul_comm, mul_smul]
+    rw [mul_smul]; rw [← hyz]; rw [smul_add]; rw [smul_smul]; rw [mul_comm]; rw [mul_smul]
     exact add_mem (smul_mem _ _ hci) (smul_mem _ _ hz)
 #align submodule.exists_sub_one_mem_and_smul_eq_zero_of_fg_of_le_smul Submodule.exists_sub_one_mem_and_smul_eq_zero_of_fg_of_le_smul
 
@@ -157,7 +157,7 @@ theorem fg_unit {R A : Type*} [CommSemiring R] [Semiring A] [Algebra R A] (I : (
     exact one_le.mp le_rfl
   obtain ⟨T, T', hT, hT', one_mem⟩ := mem_span_mul_finite_of_mem_mul this
   refine' ⟨T, span_eq_of_le _ hT _⟩
-  rw [← one_mul I, ← mul_one (span R (T : Set A))]
+  rw [← one_mul I]; rw [← mul_one (span R (T : Set A))]
   conv_rhs => rw [← I.inv_mul, ← mul_assoc]
   refine' mul_le_mul_left (le_trans _ <| mul_le_mul_right <| span_le.mpr hT')
   simp only [Units.val_one, span_mul_span]
@@ -214,9 +214,8 @@ theorem fg_of_fg_map_injective (f : M →ₗ[R] P) (hf : Function.Injective f) {
   let ⟨t, ht⟩ := hfn
   ⟨t.preimage f fun x _ y _ h => hf h,
     Submodule.map_injective_of_injective hf <| by
-      rw [map_span, Finset.coe_preimage, Set.image_preimage_eq_inter_range,
-        Set.inter_eq_self_of_subset_left, ht]
-      rw [← LinearMap.range_coe, ← span_le, ht, ← map_top]
+      rw [map_span]; rw [Finset.coe_preimage]; rw [Set.image_preimage_eq_inter_range]; rw [Set.inter_eq_self_of_subset_left]; rw [ht]
+      rw [← LinearMap.range_coe]; rw [← span_le]; rw [ht]; rw [← map_top]
       exact map_mono le_top⟩
 #align submodule.fg_of_fg_map_injective Submodule.fg_of_fg_map_injective
 
@@ -287,7 +286,7 @@ theorem fg_of_fg_map_of_fg_inf_ker {R M P : Type*} [Ring R] [AddCommGroup M] [Mo
   cases' this with g hg
   clear this
   exists t1.image g ∪ t2
-  rw [Finset.coe_union, span_union, Finset.coe_image]
+  rw [Finset.coe_union]; rw [span_union]; rw [Finset.coe_image]
   apply le_antisymm
   · refine' sup_le (span_le.2 <| image_subset_iff.2 _) (span_le.2 _)
     · intro y hy
@@ -300,7 +299,7 @@ theorem fg_of_fg_map_of_fg_inf_ker {R M P : Type*} [Ring R] [AddCommGroup M] [Mo
   have : f x ∈ s.map f := by
     rw [mem_map]
     exact ⟨x, hx, rfl⟩
-  rw [← ht1, ← Set.image_id (t1 : Set P), Finsupp.mem_span_image_iff_total] at this
+  rw [← ht1] at this; rw [← Set.image_id (t1 : Set P)] at this; rw [Finsupp.mem_span_image_iff_total] at this
   rcases this with ⟨l, hl1, hl2⟩
   refine'
     mem_sup.2
@@ -310,25 +309,25 @@ theorem fg_of_fg_map_of_fg_inf_ker {R M P : Type*} [Ring R] [AddCommGroup M] [Mo
   · rw [← Set.image_id (g '' ↑t1), Finsupp.mem_span_image_iff_total]
     refine' ⟨_, _, rfl⟩
     haveI : Inhabited P := ⟨0⟩
-    rw [← Finsupp.lmapDomain_supported _ _ g, mem_map]
+    rw [← Finsupp.lmapDomain_supported _ _ g]; rw [mem_map]
     refine' ⟨l, hl1, _⟩
     rfl
-  rw [ht2, mem_inf]
+  rw [ht2]; rw [mem_inf]
   constructor
   · apply s.sub_mem hx
-    rw [Finsupp.total_apply, Finsupp.lmapDomain_apply, Finsupp.sum_mapDomain_index]
+    rw [Finsupp.total_apply]; rw [Finsupp.lmapDomain_apply]; rw [Finsupp.sum_mapDomain_index]
     refine' s.sum_mem _
     · intro y hy
       exact s.smul_mem _ (hg y (hl1 hy)).1
     · exact zero_smul _
     · exact fun _ _ _ => add_smul _ _ _
   · rw [LinearMap.mem_ker, f.map_sub, ← hl2]
-    rw [Finsupp.total_apply, Finsupp.total_apply, Finsupp.lmapDomain_apply]
-    rw [Finsupp.sum_mapDomain_index, Finsupp.sum, Finsupp.sum, map_sum]
+    rw [Finsupp.total_apply]; rw [Finsupp.total_apply]; rw [Finsupp.lmapDomain_apply]
+    rw [Finsupp.sum_mapDomain_index]; rw [Finsupp.sum]; rw [Finsupp.sum]; rw [map_sum]
     rw [sub_eq_zero]
     refine' Finset.sum_congr rfl fun y hy => _
     unfold id
-    rw [f.map_smul, (hg y (hl1 hy)).2]
+    rw [f.map_smul]; rw [(hg y (hl1 hy)).2]
     · exact zero_smul _
     · exact fun _ _ _ => add_smul _ _ _
 #align submodule.fg_of_fg_map_of_fg_inf_ker Submodule.fg_of_fg_map_of_fg_inf_ker
@@ -373,7 +372,7 @@ theorem FG.stablizes_of_iSup_eq {M' : Submodule R M} (hM' : M'.FG) (N : ℕ →o
   have : ∀ s : S, ∃ n, (s : M) ∈ N n := fun s =>
     (Submodule.mem_iSup_of_chain N s).mp
       (by
-        rw [H, ← hS]
+        rw [H]; rw [← hS]
         exact Submodule.subset_span s.2)
   choose f hf using this
   use S.attach.sup f
@@ -395,25 +394,25 @@ theorem fg_iff_compact (s : Submodule R M) : s.FG ↔ CompleteLattice.IsCompactE
     have supr_rw : ∀ t : Finset M, ⨆ x ∈ t, sp x = ⨆ x ∈ (↑t : Set M), sp x := fun t => by rfl
     constructor
     · rintro ⟨t, rfl⟩
-      rw [span_eq_iSup_of_singleton_spans, ← supr_rw, ← Finset.sup_eq_iSup t sp]
+      rw [span_eq_iSup_of_singleton_spans]; rw [← supr_rw]; rw [← Finset.sup_eq_iSup t sp]
       apply CompleteLattice.finset_sup_compact_of_compact
       exact fun n _ => singleton_span_isCompactElement n
     · intro h
       -- s is the Sup of the spans of its elements.
       have sSup' : s = sSup (sp '' ↑s) := by
-        rw [sSup_eq_iSup, iSup_image, ← span_eq_iSup_of_singleton_spans, eq_comm, span_eq]
+        rw [sSup_eq_iSup]; rw [iSup_image]; rw [← span_eq_iSup_of_singleton_spans]; rw [eq_comm]; rw [span_eq]
       -- by h, s is then below (and equal to) the sup of the spans of finitely many elements.
       obtain ⟨u, ⟨huspan, husup⟩⟩ := h (sp '' ↑s) (le_of_eq sSup')
       have ssup : s = u.sup id := by
         suffices : u.sup id ≤ s
         exact le_antisymm husup this
-        rw [sSup', Finset.sup_id_eq_sSup]
+        rw [sSup']; rw [Finset.sup_id_eq_sSup]
         exact sSup_le_sSup huspan
       -- Porting note: had to split this out of the `obtain`
       have := Finset.subset_image_iff.mp huspan
       obtain ⟨t, ⟨-, rfl⟩⟩ := this
-      rw [Finset.sup_image, Function.comp.left_id, Finset.sup_eq_iSup, supr_rw, ←
-        span_eq_iSup_of_singleton_spans, eq_comm] at ssup
+      rw [Finset.sup_image] at ssup; rw [Function.comp.left_id] at ssup; rw [Finset.sup_eq_iSup] at ssup; rw [supr_rw] at ssup; rw [←
+        span_eq_iSup_of_singleton_spans] at ssup; rw [eq_comm] at ssup
       exact ⟨t, ssup⟩
 #align submodule.fg_iff_compact Submodule.fg_iff_compact
 
@@ -477,7 +476,7 @@ theorem FG.map {R S : Type*} [Semiring R] [Semiring S] {I : Ideal R} (h : I.FG) 
   classical
     obtain ⟨s, hs⟩ := h
     refine' ⟨s.image f, _⟩
-    rw [Finset.coe_image, ← Ideal.map_span, hs]
+    rw [Finset.coe_image]; rw [← Ideal.map_span]; rw [hs]
 #align ideal.fg.map Ideal.FG.map
 
 theorem fg_ker_comp {R S A : Type*} [CommRing R] [CommRing S] [CommRing A] (f : R →+* S)
@@ -503,13 +502,13 @@ theorem exists_radical_pow_le_of_fg {R : Type*} [CommSemiring R] (I : Ideal R) (
     obtain ⟨n, hn⟩ := hJ fun x hx => hJK <| Ideal.mem_sup_left hx
     obtain ⟨m, hm⟩ := hK fun x hx => hJK <| Ideal.mem_sup_right hx
     use n + m
-    rw [← Ideal.add_eq_sup, add_pow, Ideal.sum_eq_sup, Finset.sup_le_iff]
+    rw [← Ideal.add_eq_sup]; rw [add_pow]; rw [Ideal.sum_eq_sup]; rw [Finset.sup_le_iff]
     refine' fun i _ => Ideal.mul_le_right.trans _
     obtain h | h := le_or_lt n i
     · apply Ideal.mul_le_right.trans ((Ideal.pow_le_pow h).trans hn)
     · apply Ideal.mul_le_left.trans
       refine' (Ideal.pow_le_pow _).trans hm
-      rw [add_comm, Nat.add_sub_assoc h.le]
+      rw [add_comm]; rw [Nat.add_sub_assoc h.le]
       apply Nat.le_add_right
 #align ideal.exists_radical_pow_le_of_fg Ideal.exists_radical_pow_le_of_fg
 
@@ -563,7 +562,7 @@ lemma exists_fin' (R M : Type*) [CommSemiring R] [AddCommMonoid M] [Module R M] 
 
 theorem of_surjective [hM : Finite R M] (f : M →ₗ[R] N) (hf : Surjective f) : Finite R N :=
   ⟨by
-    rw [← LinearMap.range_eq_top.2 hf, ← Submodule.map_top]
+    rw [← LinearMap.range_eq_top.2 hf]; rw [← Submodule.map_top]
     exact hM.1.map f⟩
 #align module.finite.of_surjective Module.Finite.of_surjective
 
@@ -589,7 +588,7 @@ variable (M)
 theorem of_restrictScalars_finite (R A M : Type*) [CommSemiring R] [Semiring A] [AddCommMonoid M]
     [Module R M] [Module A M] [Algebra R A] [IsScalarTower R A M] [hM : Finite R M] :
     Finite A M := by
-  rw [finite_def, Submodule.fg_def] at hM ⊢
+  rw [finite_def] at hM ⊢; rw [Submodule.fg_def] at hM ⊢
   obtain ⟨S, hSfin, hSgen⟩ := hM
   refine' ⟨S, hSfin, eq_top_iff.2 _⟩
   have := Submodule.span_le_restrictScalars R A S
@@ -653,10 +652,9 @@ instance Module.Finite.base_change [CommSemiring R] [Semiring A] [Algebra R A] [
     · intro x y
       -- Porting note: new TC reminder
       haveI : IsScalarTower R A (TensorProduct R A M) := TensorProduct.isScalarTower_left
-      rw [Finset.coe_image, ← Submodule.span_span_of_tower R, Submodule.span_image, hs,
-        Submodule.map_top, LinearMap.range_coe]
+      rw [Finset.coe_image]; rw [← Submodule.span_span_of_tower R]; rw [Submodule.span_image]; rw [hs]; rw [Submodule.map_top]; rw [LinearMap.range_coe]
       change _ ∈ Submodule.span A (Set.range <| TensorProduct.mk R A M 1)
-      rw [← mul_one x, ← smul_eq_mul, ← TensorProduct.smul_tmul']
+      rw [← mul_one x]; rw [← smul_eq_mul]; rw [← TensorProduct.smul_tmul']
       exact Submodule.smul_mem _ x (Submodule.subset_span <| Set.mem_range_self y)
     · exact fun _ _ => Submodule.add_mem _
 #align module.finite.base_change Module.Finite.base_change

@@ -103,7 +103,7 @@ theorem arith_mean_le_rpow_mean (w z : ι → ℝ) (hw : ∀ i ∈ s, 0 ≤ w i)
     (hz : ∀ i ∈ s, 0 ≤ z i) {p : ℝ} (hp : 1 ≤ p) :
     ∑ i in s, w i * z i ≤ (∑ i in s, w i * z i ^ p) ^ (1 / p) := by
   have : 0 < p := by positivity
-  rw [← rpow_le_rpow_iff _ _ this, ← rpow_mul, one_div_mul_cancel (ne_of_gt this), rpow_one]
+  rw [← rpow_le_rpow_iff _ _ this]; rw [← rpow_mul]; rw [one_div_mul_cancel (ne_of_gt this)]; rw [rpow_one]
   exact rpow_arith_mean_le_arith_mean_rpow s w z hw hw' hz hp
   all_goals
     apply_rules [sum_nonneg, rpow_nonneg_of_nonneg]
@@ -184,7 +184,7 @@ theorem add_rpow_le_rpow_add {p : ℝ} (a b : ℝ≥0) (hp1 : 1 ≤ p) : a ^ p +
   have h_nonzero : ¬(a = 0 ∧ b = 0) := by rwa [add_eq_zero_iff] at h_zero
   have h_add : a / (a + b) + b / (a + b) = 1 := by rw [div_add_div_same, div_self h_zero]
   have h := add_rpow_le_one_of_add_le_one (a / (a + b)) (b / (a + b)) h_add.le hp1
-  rw [div_rpow a (a + b), div_rpow b (a + b)] at h
+  rw [div_rpow a (a + b)] at h; rw [div_rpow b (a + b)] at h
   have hab_0 : (a + b) ^ p ≠ 0 := by simp [hp_pos, h_nonzero]
   have hab_0' : 0 < (a + b) ^ p := zero_lt_iff.mpr hab_0
   have h_mul : (a + b) ^ p * (a ^ p / (a + b) ^ p + b ^ p / (a + b) ^ p) ≤ (a + b) ^ p := by
@@ -204,14 +204,12 @@ theorem rpow_add_rpow_le_add {p : ℝ} (a b : ℝ≥0) (hp1 : 1 ≤ p) :
 theorem rpow_add_rpow_le {p q : ℝ} (a b : ℝ≥0) (hp_pos : 0 < p) (hpq : p ≤ q) :
     (a ^ q + b ^ q) ^ (1 / q) ≤ (a ^ p + b ^ p) ^ (1 / p) := by
   have h_rpow : ∀ a : ℝ≥0, a ^ q = (a ^ p) ^ (q / p) := fun a => by
-    rw [← NNReal.rpow_mul, div_eq_inv_mul, ← mul_assoc, _root_.mul_inv_cancel hp_pos.ne.symm,
-      one_mul]
+    rw [← NNReal.rpow_mul]; rw [div_eq_inv_mul]; rw [← mul_assoc]; rw [_root_.mul_inv_cancel hp_pos.ne.symm]; rw [one_mul]
   have h_rpow_add_rpow_le_add :
     ((a ^ p) ^ (q / p) + (b ^ p) ^ (q / p)) ^ (1 / (q / p)) ≤ a ^ p + b ^ p := by
     refine' rpow_add_rpow_le_add (a ^ p) (b ^ p) _
     rwa [one_le_div hp_pos]
-  rw [h_rpow a, h_rpow b, NNReal.le_rpow_one_div_iff hp_pos, ← NNReal.rpow_mul, mul_comm,
-    mul_one_div]
+  rw [h_rpow a]; rw [h_rpow b]; rw [NNReal.le_rpow_one_div_iff hp_pos]; rw [← NNReal.rpow_mul]; rw [mul_comm]; rw [mul_one_div]
   rwa [one_div_div] at h_rpow_add_rpow_le_add
 #align nnreal.rpow_add_rpow_le NNReal.rpow_add_rpow_le
 
@@ -242,7 +240,7 @@ theorem rpow_arith_mean_le_arith_mean_rpow (w z : ι → ℝ≥0∞) (hw' : ∑ 
     simp [ENNReal.mul_eq_top, hp_pos, hp_nonneg, hp_not_neg]
   refine' le_of_top_imp_top_of_toNNReal_le _ _
   · -- first, prove `(∑ i in s, w i * z i) ^ p = ⊤ → ∑ i in s, (w i * z i ^ p) = ⊤`
-    rw [rpow_eq_top_iff, sum_eq_top_iff, sum_eq_top_iff]
+    rw [rpow_eq_top_iff]; rw [sum_eq_top_iff]; rw [sum_eq_top_iff]
     intro h
     simp only [and_false_iff, hp_not_neg, false_or_iff] at h
     rcases h.left with ⟨a, H, ha⟩
@@ -256,7 +254,7 @@ theorem rpow_arith_mean_le_arith_mean_rpow (w z : ι → ℝ≥0∞) (hw' : ∑ 
     have h_top : ∀ a : ι, a ∈ s → w a * z a ≠ ⊤ :=
       haveI h_top_sum : ∑ i : ι in s, w i * z i ≠ ⊤ := by
         intro h
-        rw [h, top_rpow_of_pos hp_pos] at h_top_rpow_sum
+        rw [h] at h_top_rpow_sum; rw [top_rpow_of_pos hp_pos] at h_top_rpow_sum
         exact h_top_rpow_sum rfl
       fun a ha => (lt_top_of_sum_ne_top h_top_sum ha).ne
     have h_top_rpow : ∀ a : ι, a ∈ s → w a * z a ^ p ≠ ⊤ := by
@@ -325,13 +323,12 @@ theorem rpow_add_rpow_le_add {p : ℝ} (a b : ℝ≥0∞) (hp1 : 1 ≤ p) :
 theorem rpow_add_rpow_le {p q : ℝ} (a b : ℝ≥0∞) (hp_pos : 0 < p) (hpq : p ≤ q) :
     (a ^ q + b ^ q) ^ (1 / q) ≤ (a ^ p + b ^ p) ^ (1 / p) := by
   have h_rpow : ∀ a : ℝ≥0∞, a ^ q = (a ^ p) ^ (q / p) := fun a => by
-    rw [← ENNReal.rpow_mul, _root_.mul_div_cancel' _ hp_pos.ne']
+    rw [← ENNReal.rpow_mul]; rw [_root_.mul_div_cancel' _ hp_pos.ne']
   have h_rpow_add_rpow_le_add :
     ((a ^ p) ^ (q / p) + (b ^ p) ^ (q / p)) ^ (1 / (q / p)) ≤ a ^ p + b ^ p := by
     refine' rpow_add_rpow_le_add (a ^ p) (b ^ p) _
     rwa [one_le_div hp_pos]
-  rw [h_rpow a, h_rpow b, ENNReal.le_rpow_one_div_iff hp_pos, ← ENNReal.rpow_mul, mul_comm,
-    mul_one_div]
+  rw [h_rpow a]; rw [h_rpow b]; rw [ENNReal.le_rpow_one_div_iff hp_pos]; rw [← ENNReal.rpow_mul]; rw [mul_comm]; rw [mul_one_div]
   rwa [one_div_div] at h_rpow_add_rpow_le_add
 #align ennreal.rpow_add_rpow_le ENNReal.rpow_add_rpow_le
 

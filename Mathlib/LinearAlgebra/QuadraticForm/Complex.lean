@@ -41,13 +41,9 @@ noncomputable def isometryEquivSumSquares [DecidableEq ι] (w' : ι → ℂ) :
   refine' sum_congr rfl fun j hj => _
   have hsum : (∑ i : ι, v i • ((isUnit_iff_ne_zero.2 <| hw' i).unit : ℂ) • (Pi.basisFun ℂ ι) i) j =
       v j • w j ^ (-(1 / 2 : ℂ)) := by
-    rw [Finset.sum_apply, sum_eq_single j, Pi.basisFun_apply, IsUnit.unit_spec,
-      LinearMap.stdBasis_apply, Pi.smul_apply, Pi.smul_apply, Function.update_same, smul_eq_mul,
-      smul_eq_mul, smul_eq_mul, mul_one]
+    rw [Finset.sum_apply]; rw [sum_eq_single j]; rw [Pi.basisFun_apply]; rw [IsUnit.unit_spec]; rw [LinearMap.stdBasis_apply]; rw [Pi.smul_apply]; rw [Pi.smul_apply]; rw [Function.update_same]; rw [smul_eq_mul]; rw [smul_eq_mul]; rw [smul_eq_mul]; rw [mul_one]
     intro i _ hij
-    rw [Pi.basisFun_apply, LinearMap.stdBasis_apply, Pi.smul_apply, Pi.smul_apply,
-      Function.update_noteq hij.symm, Pi.zero_apply, smul_eq_mul, smul_eq_mul,
-      mul_zero, mul_zero]
+    rw [Pi.basisFun_apply]; rw [LinearMap.stdBasis_apply]; rw [Pi.smul_apply]; rw [Pi.smul_apply]; rw [Function.update_noteq hij.symm]; rw [Pi.zero_apply]; rw [smul_eq_mul]; rw [smul_eq_mul]; rw [mul_zero]; rw [mul_zero]
     intro hj'; exact False.elim (hj' hj)
   simp_rw [Basis.unitsSMul_apply]
   erw [hsum, smul_eq_mul]
@@ -58,7 +54,7 @@ noncomputable def isometryEquivSumSquares [DecidableEq ι] (w' : ι → ℂ) :
   rw [hww']
   suffices v j * v j = w j ^ (-(1 / 2 : ℂ)) * w j ^ (-(1 / 2 : ℂ)) * w j * v j * v j by
     rw [this]; ring
-  rw [← Complex.cpow_add _ _ (w j).ne_zero, show -(1 / 2 : ℂ) + -(1 / 2) = -1 by simp [← two_mul],
+  rw [← Complex.cpow_add _ _ (w j).ne_zero]; rw [show -(1 / 2 : ℂ) + -(1 / 2) = -1 by simp [← two_mul],
     Complex.cpow_neg_one, inv_mul_cancel (w j).ne_zero, one_mul]
 #align quadratic_form.isometry_sum_squares QuadraticForm.isometryEquivSumSquares
 

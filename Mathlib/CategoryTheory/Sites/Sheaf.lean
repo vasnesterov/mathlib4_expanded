@@ -361,7 +361,7 @@ theorem isSheaf_iff_isSheaf_of_type (P : Cᵒᵖ ⥤ Type w) :
       funext x
       apply (hP S hS).isSeparatedFor.ext
       intro Y' f hf
-      rw [Presieve.IsSheafFor.valid_glue _ _ _ hf, ← hy _ hf]
+      rw [Presieve.IsSheafFor.valid_glue _ _ _ hf]; rw [← hy _ hf]
       rfl
 #align category_theory.is_sheaf_iff_is_sheaf_of_type CategoryTheory.isSheaf_iff_isSheaf_of_type
 
@@ -587,7 +587,7 @@ theorem w : forkMap R P ≫ firstMap R P = forkMap R P ≫ secondMap R P := by
   rintro ⟨⟨Y, f, hf⟩, ⟨Z, g, hg⟩⟩
   simp only [firstMap, secondMap, forkMap, limit.lift_π, limit.lift_π_assoc, assoc, Fan.mk_π_app,
     Subtype.coe_mk]
-  rw [← P.map_comp, ← op_comp, pullback.condition]
+  rw [← P.map_comp]; rw [← op_comp]; rw [pullback.condition]
   simp
 #align category_theory.presheaf.w CategoryTheory.Presheaf.w
 
@@ -668,7 +668,7 @@ hold.
 -/
 theorem isSheaf_iff_isSheaf_forget (s : A' ⥤ Type max v₁ u₁) [HasLimits A'] [PreservesLimits s]
     [ReflectsIsomorphisms s] : IsSheaf J P' ↔ IsSheaf J (P' ⋙ s) := by
-  rw [isSheaf_iff_isSheaf', isSheaf_iff_isSheaf']
+  rw [isSheaf_iff_isSheaf']; rw [isSheaf_iff_isSheaf']
   refine' forall_congr' (fun U => ball_congr (fun R _ => _))
   letI : ReflectsLimits s := reflectsLimitsOfReflectsIsomorphisms
   have : IsLimit (s.mapCone (Fork.ofι _ (w R P'))) ≃ IsLimit (Fork.ofι _ (w R (P' ⋙ s))) :=

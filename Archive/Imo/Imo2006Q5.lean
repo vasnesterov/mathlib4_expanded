@@ -70,11 +70,11 @@ theorem Polynomial.isPeriodicPt_eval_two {P : Polynomial ℤ} {t : ℤ}
   let C : Cycle ℤ := (periodicOrbit (fun x => P.eval x) t).map fun x => P.eval x - x
   have HC : ∀ {n : ℕ}, (fun x => P.eval x)^[n + 1] t - (fun x => P.eval x)^[n] t ∈ C := by
     intro n
-    rw [Cycle.mem_map, Function.iterate_succ_apply']
+    rw [Cycle.mem_map]; rw [Function.iterate_succ_apply']
     exact ⟨_, iterate_mem_periodicOrbit ht n, rfl⟩
   -- Elements in C are all divisible by one another.
   have Hdvd : C.Chain (· ∣ ·) := by
-    rw [Cycle.chain_map, periodicOrbit_chain' _ ht]
+    rw [Cycle.chain_map]; rw [periodicOrbit_chain' _ ht]
     intro n
     convert sub_dvd_eval_sub ((fun x => P.eval x)^[n + 1] t) ((fun x => P.eval x)^[n] t) P <;>
       rw [Function.iterate_succ_apply']
@@ -100,17 +100,16 @@ theorem Polynomial.isPeriodicPt_eval_two {P : Polynomial ℤ} {t : ℤ}
       · apply Eq.trans _ (Int.sign_add_eq_of_sign_eq IH)
         have H := Heq n.succ 0
         dsimp at H ⊢
-        rw [← H, sub_add_sub_cancel']
+        rw [← H]; rw [sub_add_sub_cancel']
     -- This implies that the sign of P(t) - t is the same as the sign of P^k(t) - t, which is 0.
     -- Hence P(t) = t and P(P(t)) = P(t).
     rcases ht with ⟨_ | k, hk, hk'⟩
     · exact (irrefl 0 hk).elim
     · have H := IH k
-      rw [hk'.isFixedPt.eq, sub_self, Int.sign_zero, eq_comm, Int.sign_eq_zero_iff_zero,
-        sub_eq_zero] at H
+      rw [hk'.isFixedPt.eq] at H; rw [sub_self] at H; rw [Int.sign_zero] at H; rw [eq_comm] at H; rw [Int.sign_eq_zero_iff_zero] at H; rw [sub_eq_zero] at H
       simp [IsPeriodicPt, IsFixedPt, H]
   · -- We take two nonequal consecutive entries.
-    rw [Cycle.chain_map, periodicOrbit_chain' _ ht] at HC'
+    rw [Cycle.chain_map] at HC'; rw [periodicOrbit_chain' _ ht] at HC'
     push_neg at HC'
     cases' HC' with n hn
     -- They must have opposite sign, so that P^{k + 1}(t) - P^k(t) = P^{k + 2}(t) - P^{k + 1}(t).
@@ -140,7 +139,7 @@ theorem imo2006_q5' {P : Polynomial ℤ} (hP : 1 < P.natDegree) :
     simpa using hP
   have hPX' : P - X ≠ 0 := by
     intro h
-    rw [h, natDegree_zero] at hPX
+    rw [h] at hPX; rw [natDegree_zero] at hPX
     rw [← hPX] at hP
     exact (zero_le_one.not_lt hP).elim
   -- If every root of P(P(t)) - t is also a root of P(t) - t, then we're done.
@@ -150,21 +149,21 @@ theorem imo2006_q5' {P : Polynomial ℤ} (hP : 1 < P.natDegree) :
   -- Otherwise, take a, b with P(a) = b, P(b) = a, a ≠ b.
   · rcases Finset.not_subset.1 H with ⟨a, ha, hab⟩
     replace ha := isRoot_of_mem_roots (Multiset.mem_toFinset.1 ha)
-    rw [IsRoot.def, eval_sub, eval_comp, eval_X, sub_eq_zero] at ha
-    rw [Multiset.mem_toFinset, mem_roots hPX', IsRoot.def, eval_sub, eval_X, sub_eq_zero] at hab
+    rw [IsRoot.def] at ha; rw [eval_sub] at ha; rw [eval_comp] at ha; rw [eval_X] at ha; rw [sub_eq_zero] at ha
+    rw [Multiset.mem_toFinset] at hab; rw [mem_roots hPX'] at hab; rw [IsRoot.def] at hab; rw [eval_sub] at hab; rw [eval_X] at hab; rw [sub_eq_zero] at hab
     set b := P.eval a
     -- More auxiliary lemmas on degrees.
     have hPab : (P + (X : ℤ[X]) - a - b).natDegree = P.natDegree := by
-      rw [sub_sub, ← Int.cast_add]
+      rw [sub_sub]; rw [← Int.cast_add]
       have h₁ : (P + X).natDegree = P.natDegree := by
         rw [natDegree_add_eq_left_of_natDegree_lt]
         simpa using hP
       rwa [natDegree_sub_eq_left_of_natDegree_lt]
-      rw [h₁, natDegree_int_cast]
+      rw [h₁]; rw [natDegree_int_cast]
       exact zero_lt_one.trans hP
     have hPab' : P + (X : ℤ[X]) - a - b ≠ 0 := by
       intro h
-      rw [h, natDegree_zero] at hPab
+      rw [h] at hPab; rw [natDegree_zero] at hPab
       rw [← hPab] at hP
       exact (zero_le_one.not_lt hP).elim
     -- We claim that every root of P(P(t)) - t is a root of P(t) + t - a - b. This allows us to
@@ -175,7 +174,7 @@ theorem imo2006_q5' {P : Polynomial ℤ} (hP : 1 < P.natDegree) :
     · -- Let t be a root of P(P(t)) - t, define u = P(t).
       intro t ht
       replace ht := isRoot_of_mem_roots (Multiset.mem_toFinset.1 ht)
-      rw [IsRoot.def, eval_sub, eval_comp, eval_X, sub_eq_zero] at ht
+      rw [IsRoot.def] at ht; rw [eval_sub] at ht; rw [eval_comp] at ht; rw [eval_X] at ht; rw [sub_eq_zero] at ht
       simp only [mem_roots hPab', sub_eq_iff_eq_add, Multiset.mem_toFinset, IsRoot.def, eval_sub,
         eval_add, eval_X, eval_C, eval_int_cast, Int.cast_id, zero_add]
       -- An auxiliary lemma proved earlier implies we only need to show |t - a| = |u - b| and
@@ -200,7 +199,7 @@ theorem imo2006_q5 {P : Polynomial ℤ} (hP : 1 < P.natDegree) {k : ℕ} (hk : 0
   have hP' : P.comp P - X ≠ 0 := by
     simpa [Nat.iterate] using Polynomial.iterate_comp_sub_X_ne hP zero_lt_two
   replace ht := isRoot_of_mem_roots (Multiset.mem_toFinset.1 ht)
-  rw [IsRoot.def, eval_sub, iterate_comp_eval, eval_X, sub_eq_zero] at ht
-  rw [Multiset.mem_toFinset, mem_roots hP', IsRoot.def, eval_sub, eval_comp, eval_X, sub_eq_zero]
+  rw [IsRoot.def] at ht; rw [eval_sub] at ht; rw [iterate_comp_eval] at ht; rw [eval_X] at ht; rw [sub_eq_zero] at ht
+  rw [Multiset.mem_toFinset]; rw [mem_roots hP']; rw [IsRoot.def]; rw [eval_sub]; rw [eval_comp]; rw [eval_X]; rw [sub_eq_zero]
   exact Polynomial.isPeriodicPt_eval_two ⟨k, hk, ht⟩
 #align imo2006_q5 imo2006_q5

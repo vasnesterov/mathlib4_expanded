@@ -321,7 +321,7 @@ theorem bounded_le_inter_not_le [SemilatticeSup α] (a : α) :
 
 theorem unbounded_le_inter_not_le [SemilatticeSup α] (a : α) :
     Unbounded (· ≤ ·) (s ∩ { b | ¬b ≤ a }) ↔ Unbounded (· ≤ ·) s := by
-  rw [← not_bounded_iff, ← not_bounded_iff, not_iff_not]
+  rw [← not_bounded_iff]; rw [← not_bounded_iff]; rw [not_iff_not]
   exact bounded_le_inter_not_le a
 #align set.unbounded_le_inter_not_le Set.unbounded_le_inter_not_le
 
@@ -345,7 +345,7 @@ theorem bounded_le_inter_le [LinearOrder α] (a : α) :
 
 theorem unbounded_le_inter_le [LinearOrder α] (a : α) :
     Unbounded (· ≤ ·) (s ∩ { b | a ≤ b }) ↔ Unbounded (· ≤ ·) s := by
-  rw [← not_bounded_iff, ← not_bounded_iff, not_iff_not]
+  rw [← not_bounded_iff]; rw [← not_bounded_iff]; rw [not_iff_not]
   exact bounded_le_inter_le a
 #align set.unbounded_le_inter_le Set.unbounded_le_inter_le
 
@@ -359,7 +359,7 @@ theorem bounded_lt_inter_not_lt [SemilatticeSup α] (a : α) :
 
 theorem unbounded_lt_inter_not_lt [SemilatticeSup α] (a : α) :
     Unbounded (· < ·) (s ∩ { b | ¬b < a }) ↔ Unbounded (· < ·) s := by
-  rw [← not_bounded_iff, ← not_bounded_iff, not_iff_not]
+  rw [← not_bounded_iff]; rw [← not_bounded_iff]; rw [not_iff_not]
   exact bounded_lt_inter_not_lt a
 #align set.unbounded_lt_inter_not_lt Set.unbounded_lt_inter_not_lt
 
@@ -377,13 +377,13 @@ theorem unbounded_lt_inter_le [LinearOrder α] (a : α) :
 
 theorem bounded_lt_inter_lt [LinearOrder α] [NoMaxOrder α] (a : α) :
     Bounded (· < ·) (s ∩ { b | a < b }) ↔ Bounded (· < ·) s := by
-  rw [← bounded_le_iff_bounded_lt, ← bounded_le_iff_bounded_lt]
+  rw [← bounded_le_iff_bounded_lt]; rw [← bounded_le_iff_bounded_lt]
   exact bounded_le_inter_lt a
 #align set.bounded_lt_inter_lt Set.bounded_lt_inter_lt
 
 theorem unbounded_lt_inter_lt [LinearOrder α] [NoMaxOrder α] (a : α) :
     Unbounded (· < ·) (s ∩ { b | a < b }) ↔ Unbounded (· < ·) s := by
-  rw [← not_bounded_iff, ← not_bounded_iff, not_iff_not]
+  rw [← not_bounded_iff]; rw [← not_bounded_iff]; rw [not_iff_not]
   exact bounded_lt_inter_lt a
 #align set.unbounded_lt_inter_lt Set.unbounded_lt_inter_lt
 

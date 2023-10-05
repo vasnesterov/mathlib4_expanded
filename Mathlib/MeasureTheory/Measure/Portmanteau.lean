@@ -426,7 +426,7 @@ theorem ProbabilityMeasure.tendsto_measure_of_null_frontier_of_tendsto {Ω ι : 
     {μs : ι → ProbabilityMeasure Ω} (μs_lim : Tendsto μs L (𝓝 μ)) {E : Set Ω}
     (E_nullbdry : μ (frontier E) = 0) : Tendsto (fun i => μs i E) L (𝓝 (μ E)) := by
   have E_nullbdry' : (μ : Measure Ω) (frontier E) = 0 := by
-    rw [← ProbabilityMeasure.ennreal_coeFn_eq_coeFn_toMeasure, E_nullbdry, ENNReal.coe_zero]
+    rw [← ProbabilityMeasure.ennreal_coeFn_eq_coeFn_toMeasure]; rw [E_nullbdry]; rw [ENNReal.coe_zero]
   have key := ProbabilityMeasure.tendsto_measure_of_null_frontier_of_tendsto' μs_lim E_nullbdry'
   exact (ENNReal.tendsto_toNNReal (measure_ne_top (↑μ) E)).comp key
 #align measure_theory.probability_measure.tendsto_measure_of_null_frontier_of_tendsto MeasureTheory.ProbabilityMeasure.tendsto_measure_of_null_frontier_of_tendsto
@@ -468,7 +468,7 @@ theorem exists_null_frontier_thickening (μ : Measure Ω) [SigmaFinite μ] (s : 
   have key := Measure.countable_meas_pos_of_disjoint_iUnion (μ := μ) mbles disjs
   have aux := measure_diff_null (s₁ := Ioo a b) (Set.Countable.measure_zero key volume)
   have len_pos : 0 < ENNReal.ofReal (b - a) := by simp only [hab, ENNReal.ofReal_pos, sub_pos]
-  rw [← Real.volume_Ioo, ← aux] at len_pos
+  rw [← Real.volume_Ioo] at len_pos; rw [← aux] at len_pos
   rcases nonempty_of_measure_ne_zero len_pos.ne.symm with ⟨r, ⟨r_in_Ioo, hr⟩⟩
   refine' ⟨r, r_in_Ioo, _⟩
   simpa only [mem_setOf_eq, not_lt, le_zero_iff] using hr

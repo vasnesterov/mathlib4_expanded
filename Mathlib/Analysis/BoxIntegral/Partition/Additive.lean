@@ -106,7 +106,7 @@ instance : AddCommMonoid (ι →ᵇᵃ[I₀] M) :=
 @[simp]
 theorem map_split_add (f : ι →ᵇᵃ[I₀] M) (hI : ↑I ≤ I₀) (i : ι) (x : ℝ) :
     (I.splitLower i x).elim' 0 f + (I.splitUpper i x).elim' 0 f = f I := by
-  rw [← f.sum_partition_boxes hI (isPartitionSplit I i x), sum_split_boxes]
+  rw [← f.sum_partition_boxes hI (isPartitionSplit I i x)]; rw [sum_split_boxes]
 #align box_integral.box_additive_map.map_split_add BoxIntegral.BoxAdditiveMap.map_split_add
 
 /-- If `f` is box-additive on subboxes of `I₀`, then it is box-additive on subboxes of any
@@ -127,7 +127,7 @@ def ofMapSplitAdd [Fintype ι] (f : Box ι → M) (I₀ : WithTop (Box ι))
   · intro I hI s
     induction' s using Finset.induction_on with a s _ ihs
     · simp
-    rw [splitMany_insert, inf_split, ← ihs, biUnion_boxes, sum_biUnion_boxes]
+    rw [splitMany_insert]; rw [inf_split]; rw [← ihs]; rw [biUnion_boxes]; rw [sum_biUnion_boxes]
     refine' Finset.sum_congr rfl fun J' hJ' => _
     by_cases h : a.2 ∈ Ioo (J'.lower a.1) (J'.upper a.1)
     · rw [sum_split_boxes]
@@ -136,7 +136,7 @@ def ofMapSplitAdd [Fintype ι] (f : Box ι → M) (I₀ : WithTop (Box ι))
   intro I hI π hπ
   have Hle : ∀ J ∈ π, ↑J ≤ I₀ := fun J hJ => (WithTop.coe_le_coe.2 <| π.le_of_mem hJ).trans hI
   rcases hπ.exists_splitMany_le with ⟨s, hs⟩
-  rw [← hf _ hI, ← inf_of_le_right hs, inf_splitMany, biUnion_boxes, sum_biUnion_boxes]
+  rw [← hf _ hI]; rw [← inf_of_le_right hs]; rw [inf_splitMany]; rw [biUnion_boxes]; rw [sum_biUnion_boxes]
   exact Finset.sum_congr rfl fun J hJ => (hf _ (Hle _ hJ) _).symm
 #align box_integral.box_additive_map.of_map_split_add BoxIntegral.BoxAdditiveMap.ofMapSplitAdd
 
@@ -205,10 +205,9 @@ def upperSubLower.{u} {G : Type u} [AddCommGroup G] (I₀ : Box (Fin (n + 1))) (
         abel
       · have : (J.face i : WithTop (Box (Fin n))) ≤ I₀.face i :=
           WithTop.coe_le_coe.2 (face_mono hJ i)
-        rw [le_iff_Icc, @Box.Icc_eq_pi _ I₀] at hJ
+        rw [le_iff_Icc] at hJ; rw [@Box.Icc_eq_pi _ I₀] at hJ
         simp only
-        rw [hf _ (hJ J.upper_mem_Icc _ trivial), hf _ (hJ J.lower_mem_Icc _ trivial),
-          ← (fb _).map_split_add this j x, ← (fb _).map_split_add this j x]
+        rw [hf _ (hJ J.upper_mem_Icc _ trivial)]; rw [hf _ (hJ J.lower_mem_Icc _ trivial)]; rw [← (fb _).map_split_add this j x]; rw [← (fb _).map_split_add this j x]
         have hx' : x ∈ Ioo ((J.face i).lower j) ((J.face i).upper j) := hx
         simp only [Box.splitLower_def hx, Box.splitUpper_def hx, Box.splitLower_def hx',
           Box.splitUpper_def hx', ← WithBot.some_eq_coe, Option.elim', Box.face_mk,

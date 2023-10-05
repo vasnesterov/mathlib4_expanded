@@ -223,7 +223,7 @@ def mulKer (f : M → P) (h : ∀ x y, f (x * y) = f x * f y) : Con M
   toSetoid := Setoid.ker f
   mul' h1 h2 := by
     dsimp [Setoid.ker, onFun] at *
-    rw [h, h1, h2, h]
+    rw [h]; rw [h1]; rw [h2]; rw [h]
 #align con.mul_ker Con.mulKer
 #align add_con.add_ker AddCon.addKer
 
@@ -597,7 +597,7 @@ additive congruence relation containing the supremum of the set's image under th
 underlying binary relation."]
 theorem sSup_def {S : Set (Con M)} :
     sSup S = conGen (sSup (@Set.image (Con M) (M → M → Prop) ((⇑) : Con M → M → M → Prop) S)) := by
-  rw [sSup_eq_conGen, sSup_image]
+  rw [sSup_eq_conGen]; rw [sSup_image]
   congr with (x y)
   simp only [sSup_image, iSup_apply, iSup_Prop_eq, exists_prop, rel_eq_coe]
 #align con.Sup_def Con.sSup_def
@@ -951,7 +951,7 @@ theorem lift_apply_mk' (f : c.Quotient →* P) :
 @[to_additive "Homomorphisms on the quotient of an `AddMonoid` by an additive congruence relation
 are equal if they are equal on elements that are coercions from the `AddMonoid`."]
 theorem lift_funext (f g : c.Quotient →* P) (h : ∀ a : M, f a = g a) : f = g := by
-  rw [← lift_apply_mk' f, ← lift_apply_mk' g]
+  rw [← lift_apply_mk' f]; rw [← lift_apply_mk' g]
   congr 1
   exact FunLike.ext_iff.2 h
 #align con.lift_funext Con.lift_funext
@@ -1339,7 +1339,7 @@ def liftOnUnits (u : Units c.Quotient) (f : ∀ x y : M, c (x * y) 1 → c (y * 
         f x y (c.eq.1 hxy) (c.eq.1 hyx))
       (fun x y x' y' hx hy => _) u.3 u.4
   refine' Function.hfunext _ _
-  rw [c.eq.2 hx, c.eq.2 hy]
+  rw [c.eq.2 hx]; rw [c.eq.2 hy]
   · rintro Hxy Hxy' -
     refine' Function.hfunext _ _
     · rw [c.eq.2 hx, c.eq.2 hy]

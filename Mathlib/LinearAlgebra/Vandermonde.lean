@@ -100,7 +100,7 @@ theorem det_vandermonde {n : ℕ} (v : Fin n → R) :
             Matrix _ _ R) := by
       congr
       ext i j
-      rw [Fin.succAbove_zero, Matrix.cons_val_succ, Fin.val_succ, mul_comm]
+      rw [Fin.succAbove_zero]; rw [Matrix.cons_val_succ]; rw [Fin.val_succ]; rw [mul_comm]
       exact (geom_sum₂_mul (v i.succ) (v 0) (j + 1 : ℕ)).symm
     _ =
         (Finset.prod Finset.univ (fun i => v (Fin.succ i) - v 0)) *
@@ -120,7 +120,7 @@ theorem det_vandermonde {n : ℕ} (v : Fin n → R) :
     rw [Matrix.cons_val_zero]
     refine' Fin.cases _ (fun i => _) i
     · simp
-    rw [Matrix.cons_val_succ, Matrix.cons_val_succ, Pi.one_apply]
+    rw [Matrix.cons_val_succ]; rw [Matrix.cons_val_succ]; rw [Pi.one_apply]
     ring
   · cases n
     · rw [det_eq_one_of_card_eq_zero (Fintype.card_fin 0),
@@ -130,10 +130,10 @@ theorem det_vandermonde {n : ℕ} (v : Fin n → R) :
       simp
     · intro i j
       simp only [smul_eq_mul, Pi.add_apply, Fin.val_succ, Fin.coe_castSucc, Pi.smul_apply]
-      rw [Finset.sum_range_succ, add_comm, tsub_self, pow_zero, mul_one, Finset.mul_sum]
+      rw [Finset.sum_range_succ]; rw [add_comm]; rw [tsub_self]; rw [pow_zero]; rw [mul_one]; rw [Finset.mul_sum]
       congr 1
       refine' Finset.sum_congr rfl fun i' hi' => _
-      rw [mul_left_comm (v 0), Nat.succ_sub, pow_succ]
+      rw [mul_left_comm (v 0)]; rw [Nat.succ_sub]; rw [pow_succ]
       exact Nat.lt_succ_iff.mp (Finset.mem_range.mp hi')
 #align matrix.det_vandermonde Matrix.det_vandermonde
 
@@ -145,7 +145,7 @@ theorem det_vandermonde_eq_zero_iff [IsDomain R] {n : ℕ} {v : Fin n → R} :
     exact ⟨j, i, h₂, (mem_Ioi.mp h₁).ne'⟩
   · simp only [Ne.def, forall_exists_index, and_imp]
     refine' fun i j h₁ h₂ => Matrix.det_zero_of_row_eq h₂ (funext fun k => _)
-    rw [vandermonde_apply, vandermonde_apply, h₁]
+    rw [vandermonde_apply]; rw [vandermonde_apply]; rw [h₁]
 #align matrix.det_vandermonde_eq_zero_iff Matrix.det_vandermonde_eq_zero_iff
 
 theorem det_vandermonde_ne_zero_iff [IsDomain R] {n : ℕ} {v : Fin n → R} :

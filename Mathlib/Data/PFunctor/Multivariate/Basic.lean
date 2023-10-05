@@ -159,7 +159,7 @@ theorem liftP_iff {α : TypeVec n} (p : ∀ ⦃i⦄, α i → Prop) (x : P.Obj �
   · rintro ⟨y, hy⟩
     cases' h : y with a f
     refine' ⟨a, fun i j => (f i j).val, _, fun i j => (f i j).property⟩
-    rw [← hy, h, map_eq]
+    rw [← hy]; rw [h]; rw [map_eq]
     rfl
   rintro ⟨a, f, xeq, pf⟩
   use ⟨a, fun i j => ⟨f i j, pf i j⟩⟩

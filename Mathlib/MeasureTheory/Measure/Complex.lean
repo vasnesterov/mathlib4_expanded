@@ -63,8 +63,8 @@ def im : ComplexMeasure α →ₗ[ℝ] SignedMeasure α :=
 def _root_.MeasureTheory.SignedMeasure.toComplexMeasure (s t : SignedMeasure α) :
     ComplexMeasure α where
   measureOf' i := ⟨s i, t i⟩
-  empty' := by dsimp only; rw [s.empty, t.empty]; rfl
-  not_measurable' i hi := by dsimp only; rw [s.not_measurable hi, t.not_measurable hi]; rfl
+  empty' := by dsimp only; rw [s.empty]; rw [t.empty]; rfl
+  not_measurable' i hi := by dsimp only; rw [s.not_measurable hi]; rw [t.not_measurable hi]; rfl
   m_iUnion' f hf hfdisj := (Complex.hasSum_iff _ _).2 ⟨s.m_iUnion hf hfdisj, t.m_iUnion hf hfdisj⟩
 #align measure_theory.signed_measure.to_complex_measure MeasureTheory.SignedMeasure.toComplexMeasure
 
@@ -119,7 +119,7 @@ theorem absolutelyContinuous_ennreal_iff (c : ComplexMeasure α) (μ : VectorMea
   constructor <;> intro h
   · constructor <;> · intro i hi; simp [h hi]
   · intro i hi
-    rw [← Complex.re_add_im (c i), (_ : (c i).re = 0), (_ : (c i).im = 0)]
+    rw [← Complex.re_add_im (c i)]; rw [(_ : (c i).re = 0)]; rw [(_ : (c i).im = 0)]
     exacts [by simp, h.2 hi, h.1 hi]
 #align measure_theory.complex_measure.absolutely_continuous_ennreal_iff MeasureTheory.ComplexMeasure.absolutelyContinuous_ennreal_iff
 

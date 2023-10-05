@@ -81,7 +81,7 @@ theorem inducing_of_inducing_compose {f : α → β} {g : β → γ} (hf : Conti
     (hgf : Inducing (g ∘ f)) : Inducing f :=
   ⟨le_antisymm (by rwa [← continuous_iff_le_induced])
       (by
-        rw [hgf.induced, ← induced_compose]
+        rw [hgf.induced]; rw [← induced_compose]
         exact induced_mono hg.le_induced)⟩
 #align inducing_of_inducing_compose inducing_of_inducing_compose
 
@@ -111,7 +111,7 @@ theorem Inducing.map_nhds_of_mem {f : α → β} (hf : Inducing f) (a : α) (h :
 theorem Inducing.mapClusterPt_iff {f : α → β} (hf : Inducing f) {a : α} {l : Filter α} :
     MapClusterPt (f a) l f ↔ ClusterPt a l := by
   delta MapClusterPt ClusterPt
-  rw [← Filter.push_pull', ← hf.nhds_eq_comap, map_neBot_iff]
+  rw [← Filter.push_pull']; rw [← hf.nhds_eq_comap]; rw [map_neBot_iff]
 
 theorem Inducing.image_mem_nhdsWithin {f : α → β} (hf : Inducing f) {a : α} {s : Set α}
     (hs : s ∈ 𝓝 a) : f '' s ∈ 𝓝[range f] f a :=
@@ -120,7 +120,7 @@ theorem Inducing.image_mem_nhdsWithin {f : α → β} (hf : Inducing f) {a : α}
 
 theorem Inducing.tendsto_nhds_iff {ι : Type*} {f : ι → β} {g : β → γ} {a : Filter ι} {b : β}
     (hg : Inducing g) : Tendsto f a (𝓝 b) ↔ Tendsto (g ∘ f) a (𝓝 (g b)) := by
-  rw [hg.nhds_eq_comap, tendsto_comap_iff]
+  rw [hg.nhds_eq_comap]; rw [tendsto_comap_iff]
 #align inducing.tendsto_nhds_iff Inducing.tendsto_nhds_iff
 
 theorem Inducing.continuousAt_iff {f : α → β} {g : β → γ} (hg : Inducing g) {x : α} :
@@ -152,7 +152,7 @@ protected theorem Inducing.inducing_iff {f : α → β} {g : β → γ} (hg : In
 theorem Inducing.closure_eq_preimage_closure_image {f : α → β} (hf : Inducing f) (s : Set α) :
     closure s = f ⁻¹' closure (f '' s) := by
   ext x
-  rw [Set.mem_preimage, ← closure_induced, hf.induced]
+  rw [Set.mem_preimage]; rw [← closure_induced]; rw [hf.induced]
 #align inducing.closure_eq_preimage_closure_image Inducing.closure_eq_preimage_closure_image
 
 theorem Inducing.isClosed_iff {f : α → β} (hf : Inducing f) {s : Set α} :
@@ -312,7 +312,7 @@ theorem of_inverse {g : β → α} (hf : Continuous f) (hg : Continuous g) (h : 
 #align quotient_map.of_inverse QuotientMap.of_inverse
 
 protected theorem continuous_iff (hf : QuotientMap f) : Continuous g ↔ Continuous (g ∘ f) := by
-  rw [continuous_iff_coinduced_le, continuous_iff_coinduced_le, hf.right, coinduced_compose]
+  rw [continuous_iff_coinduced_le]; rw [continuous_iff_coinduced_le]; rw [hf.right]; rw [coinduced_compose]
 #align quotient_map.continuous_iff QuotientMap.continuous_iff
 
 protected theorem continuous (hf : QuotientMap f) : Continuous f :=
@@ -555,7 +555,7 @@ theorem IsClosedMap.closure_image_eq_of_continuous [TopologicalSpace α] [Topolo
 theorem IsClosedMap.lift'_closure_map_eq [TopologicalSpace α] [TopologicalSpace β]
     {f : α → β} (f_closed : IsClosedMap f) (f_cont : Continuous f) (F : Filter α) :
     (map f F).lift' closure = map f (F.lift' closure) := by
-  rw [map_lift'_eq2 (monotone_closure β), map_lift'_eq (monotone_closure α)]
+  rw [map_lift'_eq2 (monotone_closure β)]; rw [map_lift'_eq (monotone_closure α)]
   congr
   ext s : 1
   exact f_closed.closure_image_eq_of_continuous f_cont s
@@ -563,8 +563,7 @@ theorem IsClosedMap.lift'_closure_map_eq [TopologicalSpace α] [TopologicalSpace
 theorem IsClosedMap.mapClusterPt_iff_lift'_closure [TopologicalSpace α] [TopologicalSpace β]
     {F : Filter α} {f : α → β} (f_closed : IsClosedMap f) (f_cont : Continuous f) {y : β} :
     MapClusterPt y F f ↔ ((F.lift' closure) ⊓ 𝓟 (f ⁻¹' {y})).NeBot := by
-  rw [MapClusterPt, clusterPt_iff_lift'_closure', f_closed.lift'_closure_map_eq f_cont,
-      ← comap_principal, ← map_neBot_iff f, Filter.push_pull, principal_singleton]
+  rw [MapClusterPt]; rw [clusterPt_iff_lift'_closure']; rw [f_closed.lift'_closure_map_eq f_cont]; rw [← comap_principal]; rw [← map_neBot_iff f]; rw [Filter.push_pull]; rw [principal_singleton]
 
 section OpenEmbedding
 
@@ -601,7 +600,7 @@ theorem OpenEmbedding.tendsto_nhds_iff {ι : Type*} {f : ι → β} {g : β → 
 
 theorem OpenEmbedding.tendsto_nhds_iff' {f : α → β} (hf : OpenEmbedding f) {g : β → γ}
     {l : Filter γ} {a : α} : Tendsto (g ∘ f) (𝓝 a) l ↔ Tendsto g (𝓝 (f a)) l := by
-  rw [Tendsto, ← map_map, hf.map_nhds_eq]; rfl
+  rw [Tendsto]; rw [← map_map]; rw [hf.map_nhds_eq]; rfl
 
 theorem OpenEmbedding.continuous {f : α → β} (hf : OpenEmbedding f) : Continuous f :=
   hf.toEmbedding.continuous
@@ -609,7 +608,7 @@ theorem OpenEmbedding.continuous {f : α → β} (hf : OpenEmbedding f) : Contin
 
 theorem OpenEmbedding.open_iff_preimage_open {f : α → β} (hf : OpenEmbedding f) {s : Set β}
     (hs : s ⊆ range f) : IsOpen s ↔ IsOpen (f ⁻¹' s) := by
-  rw [hf.open_iff_image_open, image_preimage_eq_inter_range, inter_eq_self_of_subset_left hs]
+  rw [hf.open_iff_image_open]; rw [image_preimage_eq_inter_range]; rw [inter_eq_self_of_subset_left hs]
 #align open_embedding.open_iff_preimage_open OpenEmbedding.open_iff_preimage_open
 
 theorem openEmbedding_of_embedding_open {f : α → β} (h₁ : Embedding f) (h₂ : IsOpenMap f) :
@@ -698,7 +697,7 @@ theorem ClosedEmbedding.closed_iff_image_closed (hf : ClosedEmbedding f) {s : Se
 
 theorem ClosedEmbedding.closed_iff_preimage_closed (hf : ClosedEmbedding f) {s : Set β}
     (hs : s ⊆ range f) : IsClosed s ↔ IsClosed (f ⁻¹' s) := by
-  rw [hf.closed_iff_image_closed, image_preimage_eq_of_subset hs]
+  rw [hf.closed_iff_image_closed]; rw [image_preimage_eq_of_subset hs]
 #align closed_embedding.closed_iff_preimage_closed ClosedEmbedding.closed_iff_preimage_closed
 
 theorem closedEmbedding_of_embedding_closed (h₁ : Embedding f) (h₂ : IsClosedMap f) :
@@ -711,7 +710,7 @@ theorem closedEmbedding_of_continuous_injective_closed (h₁ : Continuous f) (h�
   refine closedEmbedding_of_embedding_closed ⟨⟨?_⟩, h₂⟩ h₃
   refine h₁.le_induced.antisymm fun s hs => ?_
   refine ⟨(f '' sᶜ)ᶜ, (h₃ _ hs.isClosed_compl).isOpen_compl, ?_⟩
-  rw [preimage_compl, preimage_image_eq _ h₂, compl_compl]
+  rw [preimage_compl]; rw [preimage_image_eq _ h₂]; rw [compl_compl]
 #align closed_embedding_of_continuous_injective_closed closedEmbedding_of_continuous_injective_closed
 
 theorem closedEmbedding_id : ClosedEmbedding (@id α) :=

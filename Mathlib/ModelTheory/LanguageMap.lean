@@ -374,8 +374,8 @@ protected def symm : L' ≃ᴸ L :=
 @[simps, trans]
 protected def trans (e : L ≃ᴸ L') (e' : L' ≃ᴸ L'') : L ≃ᴸ L'' :=
   ⟨e'.toLHom.comp e.toLHom, e.invLHom.comp e'.invLHom, by
-    rw [LHom.comp_assoc, ← LHom.comp_assoc e'.invLHom, e'.left_inv, LHom.id_comp, e.left_inv], by
-    rw [LHom.comp_assoc, ← LHom.comp_assoc e.toLHom, e.right_inv, LHom.id_comp, e'.right_inv]⟩
+    rw [LHom.comp_assoc]; rw [← LHom.comp_assoc e'.invLHom]; rw [e'.left_inv]; rw [LHom.id_comp]; rw [e.left_inv], by
+    rw [LHom.comp_assoc]; rw [← LHom.comp_assoc e.toLHom]; rw [e.right_inv]; rw [LHom.id_comp]; rw [e'.right_inv]⟩
 #align first_order.lanugage.Lequiv.trans FirstOrder.Language.LEquiv.trans
 
 end LEquiv
@@ -457,7 +457,7 @@ scoped[FirstOrder] notation:95 L "[[" α "]]" => Language.withConstants L α
 @[simp]
 theorem card_withConstants :
     L[[α]].card = Cardinal.lift.{w'} L.card + Cardinal.lift.{max u v} #α := by
-  rw [withConstants, card_sum, card_constantsOn]
+  rw [withConstants]; rw [card_sum]; rw [card_constantsOn]
 #align first_order.language.card_with_constants FirstOrder.Language.card_withConstants
 
 /-- The language map adding constants.  -/

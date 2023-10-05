@@ -51,10 +51,10 @@ instance (priority := 100) OrderedCommGroup.to_hasUpperLowerClosure [OrderedComm
       rw [closure_smul]
       exact ⟨x, hx, div_mul_cancel' _ _⟩
   isOpen_upperClosure s hs := by
-    rw [← mul_one s, ← mul_upperClosure]
+    rw [← mul_one s]; rw [← mul_upperClosure]
     exact hs.mul_right
   isOpen_lowerClosure s hs := by
-    rw [← mul_one s, ← mul_lowerClosure]
+    rw [← mul_one s]; rw [← mul_lowerClosure]
     exact hs.mul_right
 #align ordered_comm_group.to_has_upper_lower_closure OrderedCommGroup.to_hasUpperLowerClosure
 #align ordered_add_comm_group.to_has_upper_lower_closure OrderedAddCommGroup.to_hasUpperLowerClosure
@@ -99,7 +99,7 @@ oooooxx
 ```
 -/
 protected theorem IsUpperSet.interior (h : IsUpperSet s) : IsUpperSet (interior s) := by
-  rw [← isLowerSet_compl, ← closure_compl]
+  rw [← isLowerSet_compl]; rw [← closure_compl]
   exact h.compl.closure
 #align is_upper_set.interior IsUpperSet.interior
 
@@ -108,7 +108,7 @@ protected theorem IsLowerSet.interior (h : IsLowerSet s) : IsLowerSet (interior 
 #align is_lower_set.interior IsLowerSet.interior
 
 protected theorem Set.OrdConnected.interior (h : s.OrdConnected) : (interior s).OrdConnected := by
-  rw [← h.upperClosure_inter_lowerClosure, interior_inter]
+  rw [← h.upperClosure_inter_lowerClosure]; rw [interior_inter]
   exact
     (upperClosure s).upper.interior.ordConnected.inter (lowerClosure s).lower.interior.ordConnected
 #align set.ord_connected.interior Set.OrdConnected.interior

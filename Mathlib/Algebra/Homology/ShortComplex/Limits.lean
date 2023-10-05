@@ -42,14 +42,14 @@ def isLimitOfIsLimitπ (c : Cone F)
         have eq₁₂ := fun j => (c.π.app j).comm₁₂
         have eq₁₂' := fun j => (s.π.app j).comm₁₂
         dsimp at eq₁ eq₂ eq₁₂ eq₁₂' ⊢
-        rw [assoc, assoc, ← eq₁₂, reassoc_of% eq₁, eq₂, eq₁₂'])
+        rw [assoc]; rw [assoc]; rw [← eq₁₂]; rw [reassoc_of% eq₁]; rw [eq₂]; rw [eq₁₂'])
       comm₂₃ := h₃.hom_ext (fun j => by
         have eq₂ := h₂.fac (π₂.mapCone s)
         have eq₃ := h₃.fac (π₃.mapCone s)
         have eq₂₃ := fun j => (c.π.app j).comm₂₃
         have eq₂₃' := fun j => (s.π.app j).comm₂₃
         dsimp at eq₂ eq₃ eq₂₃ eq₂₃' ⊢
-        rw [assoc, assoc, ← eq₂₃, reassoc_of% eq₂, eq₃, eq₂₃']) }
+        rw [assoc]; rw [assoc]; rw [← eq₂₃]; rw [reassoc_of% eq₂]; rw [eq₃]; rw [eq₂₃']) }
   fac s j := by ext <;> apply IsLimit.fac
   uniq s m hm := by
     ext
@@ -170,14 +170,14 @@ def isColimitOfIsColimitπ (c : Cocone F)
         have eq₁₂ := fun j => (c.ι.app j).comm₁₂
         have eq₁₂' := fun j => (s.ι.app j).comm₁₂
         dsimp at eq₁ eq₂ eq₁₂ eq₁₂' ⊢
-        rw [reassoc_of% (eq₁ j), eq₁₂', reassoc_of% eq₁₂, eq₂])
+        rw [reassoc_of% (eq₁ j)]; rw [eq₁₂']; rw [reassoc_of% eq₁₂]; rw [eq₂])
       comm₂₃ := h₂.hom_ext (fun j => by
         have eq₂ := h₂.fac (π₂.mapCocone s)
         have eq₃ := h₃.fac (π₃.mapCocone s)
         have eq₂₃ := fun j => (c.ι.app j).comm₂₃
         have eq₂₃' := fun j => (s.ι.app j).comm₂₃
         dsimp at eq₂ eq₃ eq₂₃ eq₂₃' ⊢
-        rw [reassoc_of% (eq₂ j), eq₂₃', reassoc_of% eq₂₃, eq₃]) }
+        rw [reassoc_of% (eq₂ j)]; rw [eq₂₃']; rw [reassoc_of% eq₂₃]; rw [eq₃]) }
   fac s j := by
     ext
     · apply IsColimit.fac h₁

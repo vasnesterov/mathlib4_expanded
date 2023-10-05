@@ -103,8 +103,8 @@ protected theorem comp_of_aemeasurable {u : γ → δ} (h : IdentDistrib f g μ 
   { aemeasurable_fst := hu.comp_aemeasurable h.aemeasurable_fst
     aemeasurable_snd := by rw [h.map_eq] at hu; exact hu.comp_aemeasurable h.aemeasurable_snd
     map_eq := by
-      rw [← AEMeasurable.map_map_of_aemeasurable hu h.aemeasurable_fst, ←
-        AEMeasurable.map_map_of_aemeasurable _ h.aemeasurable_snd, h.map_eq]
+      rw [← AEMeasurable.map_map_of_aemeasurable hu h.aemeasurable_fst]; rw [←
+        AEMeasurable.map_map_of_aemeasurable _ h.aemeasurable_snd]; rw [h.map_eq]
       rwa [← h.map_eq] }
 #align probability_theory.ident_distrib.comp_of_ae_measurable ProbabilityTheory.IdentDistrib.comp_of_aemeasurable
 
@@ -131,8 +131,8 @@ lemma _root_.MeasureTheory.AEStronglyMeasurable.identDistrib_mk
 
 theorem measure_mem_eq (h : IdentDistrib f g μ ν) {s : Set γ} (hs : MeasurableSet s) :
     μ (f ⁻¹' s) = ν (g ⁻¹' s) := by
-  rw [← Measure.map_apply_of_aemeasurable h.aemeasurable_fst hs, ←
-    Measure.map_apply_of_aemeasurable h.aemeasurable_snd hs, h.map_eq]
+  rw [← Measure.map_apply_of_aemeasurable h.aemeasurable_fst hs]; rw [←
+    Measure.map_apply_of_aemeasurable h.aemeasurable_snd hs]; rw [h.map_eq]
 #align probability_theory.ident_distrib.measure_mem_eq ProbabilityTheory.IdentDistrib.measure_mem_eq
 
 alias measure_preimage_eq := measure_mem_eq
@@ -183,8 +183,8 @@ theorem essSup_eq [ConditionallyCompleteLinearOrder γ] [TopologicalSpace γ] [O
 theorem lintegral_eq {f : α → ℝ≥0∞} {g : β → ℝ≥0∞} (h : IdentDistrib f g μ ν) :
     ∫⁻ x, f x ∂μ = ∫⁻ x, g x ∂ν := by
   change ∫⁻ x, id (f x) ∂μ = ∫⁻ x, id (g x) ∂ν
-  rw [← lintegral_map' aemeasurable_id h.aemeasurable_fst, ←
-    lintegral_map' aemeasurable_id h.aemeasurable_snd, h.map_eq]
+  rw [← lintegral_map' aemeasurable_id h.aemeasurable_fst]; rw [←
+    lintegral_map' aemeasurable_id h.aemeasurable_snd]; rw [h.map_eq]
 #align probability_theory.ident_distrib.lintegral_eq ProbabilityTheory.IdentDistrib.lintegral_eq
 
 theorem integral_eq [NormedAddCommGroup γ] [NormedSpace ℝ γ] [BorelSpace γ]
@@ -200,7 +200,7 @@ theorem integral_eq [NormedAddCommGroup γ] [NormedSpace ℝ γ] [BorelSpace γ]
     change ∫ x, id (f x) ∂μ = ∫ x, id (g x) ∂ν
     rw [← integral_map h.aemeasurable_fst A]
     rw [h.map_eq] at A
-    rw [← integral_map h.aemeasurable_snd A, h.map_eq]
+    rw [← integral_map h.aemeasurable_snd A]; rw [h.map_eq]
   · rw [integral_non_aestronglyMeasurable hf]
     rw [h.aestronglyMeasurable_iff] at hf
     rw [integral_non_aestronglyMeasurable hf]
@@ -331,7 +331,7 @@ theorem Memℒp.uniformIntegrable_of_identDistrib_aux {ι : Type*} {f : ι → �
     ext x
     simp_rw [← norm_toNNReal]
     exact Real.le_toNNReal_iff_coe_le (norm_nonneg _)
-  rw [this, ← snorm_norm, ← snorm_norm (Set.indicator _ _)]
+  rw [this]; rw [← snorm_norm]; rw [← snorm_norm (Set.indicator _ _)]
   simp_rw [norm_indicator_eq_indicator_norm, coe_nnnorm]
   let F : E → ℝ := (fun x : E => if (⟨C, hC₁.le⟩ : ℝ≥0) ≤ ‖x‖₊ then ‖x‖ else 0)
   have F_meas : Measurable F := by
@@ -340,8 +340,7 @@ theorem Memℒp.uniformIntegrable_of_identDistrib_aux {ι : Type*} {f : ι → �
     intro k
     ext x
     simp only [Set.indicator, Set.mem_setOf_eq]; norm_cast
-  rw [this, this, ← snorm_map_measure F_meas.aestronglyMeasurable (hf i).aemeasurable_fst,
-    (hf i).map_eq, snorm_map_measure F_meas.aestronglyMeasurable (hf j).aemeasurable_fst]
+  rw [this]; rw [this]; rw [← snorm_map_measure F_meas.aestronglyMeasurable (hf i).aemeasurable_fst]; rw [(hf i).map_eq]; rw [snorm_map_measure F_meas.aestronglyMeasurable (hf j).aemeasurable_fst]
 #align probability_theory.mem_ℒp.uniform_integrable_of_ident_distrib_aux ProbabilityTheory.Memℒp.uniformIntegrable_of_identDistrib_aux
 
 /-- A sequence of identically distributed Lᵖ functions is p-uniformly integrable. -/

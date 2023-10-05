@@ -92,8 +92,7 @@ def objD : ∀ n : ℕ, (objX X (n + 1) : C) ⟶ (objX X n : C)
     erw [Category.assoc, ← X.δ_comp_δ (Fin.zero_le i.succ)]
     -- We can rewrite the arrow out of the intersection of all the kernels as a composition
     -- of a morphism we don't care about with the arrow out of the kernel of `X.δ i.succ.succ`.
-    rw [← factorThru_arrow _ _ (finset_inf_arrow_factors Finset.univ _ i.succ (by simp)),
-      Category.assoc, kernelSubobject_arrow_comp_assoc, zero_comp, comp_zero]
+    rw [← factorThru_arrow _ _ (finset_inf_arrow_factors Finset.univ _ i.succ (by simp))]; rw [Category.assoc]; rw [kernelSubobject_arrow_comp_assoc]; rw [zero_comp]; rw [comp_zero]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.normalized_Moore_complex.obj_d AlgebraicTopology.NormalizedMooreComplex.objD
 

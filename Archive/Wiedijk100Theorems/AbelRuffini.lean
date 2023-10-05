@@ -67,7 +67,7 @@ theorem degree_Phi : (Φ R a b).degree = ((5 : ℕ) : WithBot ℕ) := by
   suffices degree (X ^ 5 - C (a : R) * X) = ((5 : ℕ) : WithBot ℕ) by
     rwa [Φ, degree_add_eq_left_of_degree_lt]
     convert (degree_C_le (R := R)).trans_lt (WithBot.coe_lt_coe.mpr (show 0 < 5 by norm_num))
-  rw [degree_sub_eq_left_of_degree_lt] <;> rw [degree_X_pow]
+  rw [degree_sub_eq_left_of_degree_lt]  <;> rw [degree_X_pow]
   exact (degree_C_mul_X_le (a : R)).trans_lt (WithBot.coe_lt_coe.mpr (show 1 < 5 by norm_num))
 #align abel_ruffini.degree_Phi AbelRuffini.degree_Phi
 
@@ -76,7 +76,7 @@ theorem natDegree_Phi : (Φ R a b).natDegree = 5 :=
 #align abel_ruffini.nat_degree_Phi AbelRuffini.natDegree_Phi
 
 theorem leadingCoeff_Phi : (Φ R a b).leadingCoeff = 1 := by
-  rw [Polynomial.leadingCoeff, natDegree_Phi, coeff_five_Phi]
+  rw [Polynomial.leadingCoeff]; rw [natDegree_Phi]; rw [coeff_five_Phi]
 #align abel_ruffini.leading_coeff_Phi AbelRuffini.leadingCoeff_Phi
 
 theorem monic_Phi : (Φ R a b).Monic :=
@@ -85,7 +85,7 @@ theorem monic_Phi : (Φ R a b).Monic :=
 
 theorem irreducible_Phi (p : ℕ) (hp : p.Prime) (hpa : p ∣ a) (hpb : p ∣ b) (hp2b : ¬p ^ 2 ∣ b) :
     Irreducible (Φ ℚ a b) := by
-  rw [← map_Phi a b (Int.castRingHom ℚ), ← IsPrimitive.Int.irreducible_iff_irreducible_map_cast]
+  rw [← map_Phi a b (Int.castRingHom ℚ)]; rw [← IsPrimitive.Int.irreducible_iff_irreducible_map_cast]
   apply irreducible_of_eisenstein_criterion
   · rwa [span_singleton_prime (Int.coe_nat_ne_zero.mpr hp.ne_zero), Int.prime_iff_natAbs_prime]
   · rw [leadingCoeff_Phi, mem_span_singleton]
@@ -110,7 +110,7 @@ theorem real_roots_Phi_le : Fintype.card ((Φ ℚ a b).rootSet ℝ) ≤ 3 := by
   suffices : (Polynomial.rootSet (C (20 : ℚ) * X ^ 3) ℝ).Subsingleton
   · norm_num [Fintype.card_le_one_iff_subsingleton, ← mul_assoc] at *
     exact this
-  rw [rootSet_C_mul_X_pow] <;>
+  rw [rootSet_C_mul_X_pow]  <;>
   norm_num
 #align abel_ruffini.real_roots_Phi_le AbelRuffini.real_roots_Phi_le
 

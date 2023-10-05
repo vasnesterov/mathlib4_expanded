@@ -128,7 +128,7 @@ theorem eq_inter_halfspace [Nontrivial 𝕜] {A B : Set E} (hAB : IsExposed 𝕜
     ∃ l : E →L[𝕜] 𝕜, ∃ a, B = { x ∈ A | a ≤ l x } := by
   obtain rfl | hB := B.eq_empty_or_nonempty
   · refine' ⟨0, 1, _⟩
-    rw [eq_comm, eq_empty_iff_forall_not_mem]
+    rw [eq_comm]; rw [eq_empty_iff_forall_not_mem]
     rintro x ⟨-, h⟩
     rw [ContinuousLinearMap.zero_apply] at h
     have : ¬(1 : 𝕜) ≤ 0 := not_le_of_lt zero_lt_one
@@ -157,7 +157,7 @@ theorem sInter [ContinuousAdd 𝕜] {F : Finset (Set E)} (hF : F.Nonempty)
   induction F using Finset.induction with
   | empty => exfalso; exact Finset.not_nonempty_empty hF
   | @insert C F _ hF' =>
-    rw [Finset.coe_insert, sInter_insert]
+    rw [Finset.coe_insert]; rw [sInter_insert]
     obtain rfl | hFnemp := F.eq_empty_or_nonempty
     · rw [Finset.coe_empty, sInter_empty, inter_univ]
       exact hAF C (Finset.mem_singleton_self C)
@@ -224,7 +224,7 @@ theorem mem_exposedPoints_iff_exposed_singleton : x ∈ A.exposedPoints 𝕜 ↔
           ⟨⟨hxA, fun y hy => (hl y hy).1⟩, fun z hz => (hl z hz.1).2 (hz.2 x hxA)⟩⟩
   rintro h
   obtain ⟨l, hl⟩ := h ⟨x, mem_singleton _⟩
-  rw [eq_comm, eq_singleton_iff_unique_mem] at hl
+  rw [eq_comm] at hl; rw [eq_singleton_iff_unique_mem] at hl
   exact
     ⟨hl.1.1, l, fun y hy =>
       ⟨hl.1.2 y hy, fun hxy => hl.2 y ⟨hy, fun z hz => (hl.1.2 z hz).trans hxy⟩⟩⟩

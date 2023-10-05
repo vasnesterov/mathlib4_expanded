@@ -96,7 +96,7 @@ theorem minpoly_dvd_pow_mod {p : ℕ} [hprime : Fact p.Prime] (hdiv : ¬p ∣ n)
   set Q := minpoly ℤ (μ ^ p)
   have hfrob :
     map (Int.castRingHom (ZMod p)) Q ^ p = map (Int.castRingHom (ZMod p)) (expand ℤ p Q) := by
-    rw [← ZMod.expand_card, map_expand]
+    rw [← ZMod.expand_card]; rw [map_expand]
   rw [hfrob]
   apply RingHom.map_dvd (mapRingHom (Int.castRingHom (ZMod p)))
   exact minpoly_dvd_expand h hdiv
@@ -145,10 +145,9 @@ theorem minpoly_eq_pow {p : ℕ} [hprime : Fact p.Prime] (hdiv : ¬p ∣ n) :
     · apply (map_dvd_map (Int.castRingHom ℚ) Int.cast_injective Qmonic).2
       exact minpoly_dvd_x_pow_sub_one (pow_of_prime h hprime.1 hdiv)
   replace prod := RingHom.map_dvd (mapRingHom (Int.castRingHom (ZMod p))) prod
-  rw [coe_mapRingHom, Polynomial.map_mul, Polynomial.map_sub, Polynomial.map_one,
-    Polynomial.map_pow, map_X] at prod
+  rw [coe_mapRingHom] at prod; rw [Polynomial.map_mul] at prod; rw [Polynomial.map_sub] at prod; rw [Polynomial.map_one] at prod; rw [Polynomial.map_pow] at prod; rw [map_X] at prod
   obtain ⟨R, hR⟩ := minpoly_dvd_mod_p h hdiv
-  rw [hR, ← mul_assoc, ← Polynomial.map_mul, ← sq, Polynomial.map_pow] at prod
+  rw [hR] at prod; rw [← mul_assoc] at prod; rw [← Polynomial.map_mul] at prod; rw [← sq] at prod; rw [Polynomial.map_pow] at prod
   have habs : map (Int.castRingHom (ZMod p)) P ^ 2 ∣ map (Int.castRingHom (ZMod p)) P ^ 2 * R := by
     use R
   replace habs :=

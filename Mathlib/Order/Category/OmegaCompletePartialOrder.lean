@@ -104,7 +104,7 @@ instance omegaCompletePartialOrderEqualizer {α β : Type*} [OmegaCompletePartia
     [OmegaCompletePartialOrder β] (f g : α →𝒄 β) :
     OmegaCompletePartialOrder { a : α // f a = g a } :=
   OmegaCompletePartialOrder.subtype _ fun c hc => by
-    rw [f.continuous, g.continuous]
+    rw [f.continuous]; rw [g.continuous]
     congr 1
     apply OrderHom.ext; funext x -- Porting note: Originally `ext`
     apply hc _ ⟨_, rfl⟩

@@ -176,7 +176,7 @@ theorem closure_reProdIm (s t : Set ℝ) : closure (s ×ℂ t) = closure s ×ℂ
 #align complex.closure_re_prod_im Complex.closure_reProdIm
 
 theorem interior_reProdIm (s t : Set ℝ) : interior (s ×ℂ t) = interior s ×ℂ interior t := by
-  rw [Set.reProdIm, Set.reProdIm, interior_inter, interior_preimage_re, interior_preimage_im]
+  rw [Set.reProdIm]; rw [Set.reProdIm]; rw [interior_inter]; rw [interior_preimage_re]; rw [interior_preimage_im]
 #align complex.interior_re_prod_im Complex.interior_reProdIm
 
 theorem frontier_reProdIm (s t : Set ℝ) :

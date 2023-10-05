@@ -283,13 +283,13 @@ theorem map_mul_left_nhds₀ (ha : a ≠ 0) (b : G₀) : map (a * ·) (𝓝 b) =
   (Homeomorph.mulLeft₀ a ha).map_nhds_eq b
 
 theorem map_mul_left_nhds_one₀ (ha : a ≠ 0) : map (a * ·) (𝓝 1) = 𝓝 (a) := by
-  rw [map_mul_left_nhds₀ ha, mul_one]
+  rw [map_mul_left_nhds₀ ha]; rw [mul_one]
 
 theorem map_mul_right_nhds₀ (ha : a ≠ 0) (b : G₀) : map (· * a) (𝓝 b) = 𝓝 (b * a) :=
   (Homeomorph.mulRight₀ a ha).map_nhds_eq b
 
 theorem map_mul_right_nhds_one₀ (ha : a ≠ 0) : map (· * a) (𝓝 1) = 𝓝 (a) := by
-  rw [map_mul_right_nhds₀ ha, one_mul]
+  rw [map_mul_right_nhds₀ ha]; rw [one_mul]
 
 theorem nhds_translation_mul_inv₀ (ha : a ≠ 0) : comap (· * a⁻¹) (𝓝 1) = 𝓝 a :=
   ((Homeomorph.mulRight₀ a ha).symm.comap_nhds_eq 1).trans <| by simp
@@ -300,8 +300,7 @@ theorem HasContinuousInv₀.of_nhds_one (h : Tendsto Inv.inv (𝓝 (1 : G₀)) (
     HasContinuousInv₀ G₀ where
   continuousAt_inv₀ x hx := by
     have hx' := inv_ne_zero hx
-    rw [ContinuousAt, ← map_mul_left_nhds_one₀ hx, ← nhds_translation_mul_inv₀ hx',
-      tendsto_map'_iff, tendsto_comap_iff]
+    rw [ContinuousAt]; rw [← map_mul_left_nhds_one₀ hx]; rw [← nhds_translation_mul_inv₀ hx']; rw [tendsto_map'_iff]; rw [tendsto_comap_iff]
     simpa only [(· ∘ ·), mul_inv_rev, mul_inv_cancel_right₀ hx']
 
 end map_comap

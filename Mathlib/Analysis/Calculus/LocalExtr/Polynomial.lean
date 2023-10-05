@@ -42,7 +42,7 @@ theorem card_roots_toFinset_le_card_roots_derivative_diff_roots_succ (p : ℝ[X]
     exact zero_le _
   have hp : p ≠ 0 := ne_of_apply_ne derivative (by rwa [derivative_zero])
   refine' Finset.card_le_diff_of_interleaved fun x hx y hy hxy hxy' => _
-  rw [Multiset.mem_toFinset, mem_roots hp] at hx hy
+  rw [Multiset.mem_toFinset] at hx hy; rw [mem_roots hp] at hx hy
   obtain ⟨z, hz1, hz2⟩ := exists_deriv_eq_zero hxy p.continuousOn (hx.trans hy.symm)
   refine' ⟨z, _, hz1⟩
   rwa [Multiset.mem_toFinset, mem_roots hp', IsRoot, ← p.deriv]
@@ -79,11 +79,11 @@ theorem card_roots_le_derivative (p : ℝ[X]) :
       simp only [← count_roots]
       refine' add_le_add_left (add_le_add_right ((Finset.card_eq_sum_ones _).trans_le _) _) _
       refine' Finset.sum_le_sum fun x hx => Nat.succ_le_iff.2 <| _
-      rw [Multiset.count_pos, ← Multiset.mem_toFinset]
+      rw [Multiset.count_pos]; rw [← Multiset.mem_toFinset]
       exact (Finset.mem_sdiff.1 hx).1
     _ = Multiset.card (derivative p).roots + 1 := by
-      rw [← add_assoc, ← Finset.sum_union Finset.disjoint_sdiff, Finset.union_sdiff_self_eq_union, ←
-        Multiset.toFinset_sum_count_eq, ← Finset.sum_subset (Finset.subset_union_right _ _)]
+      rw [← add_assoc]; rw [← Finset.sum_union Finset.disjoint_sdiff]; rw [Finset.union_sdiff_self_eq_union]; rw [←
+        Multiset.toFinset_sum_count_eq]; rw [← Finset.sum_subset (Finset.subset_union_right _ _)]
       intro x _ hx₂
       simpa only [Multiset.mem_toFinset, Multiset.count_eq_zero] using hx₂
 #align polynomial.card_roots_le_derivative Polynomial.card_roots_le_derivative

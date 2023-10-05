@@ -73,18 +73,16 @@ variable [Algebra F K] [Algebra F L] [IsScalarTower F K L]
 instance map (f : F[X]) [IsSplittingField F L f] : IsSplittingField K L (f.map <| algebraMap F K) :=
   ⟨by rw [splits_map_iff, ← IsScalarTower.algebraMap_eq]; exact splits L f,
     Subalgebra.restrictScalars_injective F <| by
-      rw [rootSet, aroots, map_map, ← IsScalarTower.algebraMap_eq, Subalgebra.restrictScalars_top,
-        eq_top_iff, ← adjoin_rootSet L f, Algebra.adjoin_le_iff]
+      rw [rootSet]; rw [aroots]; rw [map_map]; rw [← IsScalarTower.algebraMap_eq]; rw [Subalgebra.restrictScalars_top]; rw [eq_top_iff]; rw [← adjoin_rootSet L f]; rw [Algebra.adjoin_le_iff]
       exact fun x hx => @Algebra.subset_adjoin K _ _ _ _ _ _ hx⟩
 #align polynomial.is_splitting_field.map Polynomial.IsSplittingField.map
 
 theorem splits_iff (f : K[X]) [IsSplittingField K L f] :
     Polynomial.Splits (RingHom.id K) f ↔ (⊤ : Subalgebra K L) = ⊥ :=
   ⟨fun h => by -- Porting note: replaced term-mode proof
-    rw [eq_bot_iff, ← adjoin_rootSet L f, rootSet, aroots, roots_map (algebraMap K L) h,
-      Algebra.adjoin_le_iff]
+    rw [eq_bot_iff]; rw [← adjoin_rootSet L f]; rw [rootSet]; rw [aroots]; rw [roots_map (algebraMap K L) h]; rw [Algebra.adjoin_le_iff]
     intro y hy
-    rw [Multiset.toFinset_map, Finset.mem_coe, Finset.mem_image] at hy
+    rw [Multiset.toFinset_map] at hy; rw [Finset.mem_coe] at hy; rw [Finset.mem_image] at hy
     obtain ⟨x : K, -, hxy : algebraMap K L x = y⟩ := hy
     rw [← hxy]
     exact SetLike.mem_coe.2 <| Subalgebra.algebraMap_mem _ _,
@@ -99,13 +97,7 @@ theorem mul (f g : F[X]) (hf : f ≠ 0) (hg : g ≠ 0) [IsSplittingField F K f]
   ⟨(IsScalarTower.algebraMap_eq F K L).symm ▸
       splits_mul _ (splits_comp_of_splits _ _ (splits K f))
         ((splits_map_iff _ _).1 (splits L <| g.map <| algebraMap F K)), by
-    rw [rootSet, aroots_mul (mul_ne_zero hf hg),
-      Multiset.toFinset_add, Finset.coe_union, Algebra.adjoin_union_eq_adjoin_adjoin,
-      aroots_def, aroots_def, IsScalarTower.algebraMap_eq F K L, ← map_map,
-      roots_map (algebraMap K L) ((splits_id_iff_splits <| algebraMap F K).2 <| splits K f),
-      Multiset.toFinset_map, Finset.coe_image, Algebra.adjoin_algebraMap, ← rootSet, adjoin_rootSet,
-      Algebra.map_top, IsScalarTower.adjoin_range_toAlgHom, ← map_map, ← rootSet, adjoin_rootSet,
-      Subalgebra.restrictScalars_top]⟩
+    rw [rootSet]; rw [aroots_mul (mul_ne_zero hf hg)]; rw [Multiset.toFinset_add]; rw [Finset.coe_union]; rw [Algebra.adjoin_union_eq_adjoin_adjoin]; rw [aroots_def]; rw [aroots_def]; rw [IsScalarTower.algebraMap_eq F K L]; rw [← map_map]; rw [roots_map (algebraMap K L) ((splits_id_iff_splits <| algebraMap F K).2 <| splits K f)]; rw [Multiset.toFinset_map]; rw [Finset.coe_image]; rw [Algebra.adjoin_algebraMap]; rw [← rootSet]; rw [adjoin_rootSet]; rw [Algebra.map_top]; rw [IsScalarTower.adjoin_range_toAlgHom]; rw [← map_map]; rw [← rootSet]; rw [adjoin_rootSet]; rw [Subalgebra.restrictScalars_top]⟩
 #align polynomial.is_splitting_field.mul Polynomial.IsSplittingField.mul
 
 end ScalarTower
@@ -161,7 +153,7 @@ theorem splits_of_splits {F : IntermediateField K L} (h : p.Splits (algebraMap K
   rw [splits_iff_exists_multiset]
   refine' ⟨Multiset.pmap Subtype.mk _ hF, map_injective _ (algebraMap F L).injective _⟩
   conv_lhs =>
-    rw [Polynomial.map_map, ← IsScalarTower.algebraMap_eq, eq_prod_roots_of_splits h, ←
+    rw [Polynomial.map_map]; rw [← IsScalarTower.algebraMap_eq]; rw [eq_prod_roots_of_splits h]; rw [←
       Multiset.pmap_eq_map _ _ _ hF]
   simp_rw [Polynomial.map_mul, Polynomial.map_multiset_prod, Multiset.map_pmap, Polynomial.map_sub,
     map_C, map_X]

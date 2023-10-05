@@ -114,7 +114,7 @@ protected noncomputable def succ {r : α → α → Prop} (wf : WellFounded r) (
 
 protected theorem lt_succ {r : α → α → Prop} (wf : WellFounded r) {x : α} (h : ∃ y, r x y) :
     r x (wf.succ x) := by
-  rw [WellFounded.succ, dif_pos h]
+  rw [WellFounded.succ]; rw [dif_pos h]
   apply min_mem
 #align well_founded.lt_succ WellFounded.lt_succ
 
@@ -126,7 +126,7 @@ protected theorem lt_succ_iff {r : α → α → Prop} [wo : IsWellOrder α r] {
   · intro h'
     have : ¬r x y := by
       intro hy
-      rw [WellFounded.succ, dif_pos] at h'
+      rw [WellFounded.succ] at h'; rw [dif_pos] at h'
       exact wo.wf.not_lt_min _ h hy h'
     rcases trichotomous_of r x y with (hy | hy | hy)
     exfalso

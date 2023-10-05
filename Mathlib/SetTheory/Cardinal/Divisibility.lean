@@ -49,12 +49,12 @@ theorem isUnit_iff : IsUnit a ↔ a = 1 := by
   · exact (not_isUnit_zero h).elim
   rw [isUnit_iff_forall_dvd] at h
   cases' h 1 with t ht
-  rw [eq_comm, mul_eq_one_iff'] at ht
+  rw [eq_comm] at ht; rw [mul_eq_one_iff'] at ht
   · exact ht.1
   · exact one_le_iff_ne_zero.mpr ha
   · apply one_le_iff_ne_zero.mpr
     intro h
-    rw [h, mul_zero] at ht
+    rw [h] at ht; rw [mul_zero] at ht
     exact zero_ne_one ht
 #align cardinal.is_unit_iff Cardinal.isUnit_iff
 
@@ -89,7 +89,7 @@ theorem prime_of_aleph0_le (ha : ℵ₀ ≤ a) : Prime a := by
 #align cardinal.prime_of_aleph_0_le Cardinal.prime_of_aleph0_le
 
 theorem not_irreducible_of_aleph0_le (ha : ℵ₀ ≤ a) : ¬Irreducible a := by
-  rw [irreducible_iff, not_and_or]
+  rw [irreducible_iff]; rw [not_and_or]
   refine' Or.inr fun h => _
   simpa [mul_aleph0_eq ha, isUnit_iff, (one_lt_aleph0.trans_le ha).ne', one_lt_aleph0.ne'] using
     h a ℵ₀
@@ -100,7 +100,7 @@ theorem nat_coe_dvd_iff : (n : Cardinal) ∣ m ↔ n ∣ m := by
   refine' ⟨_, fun ⟨h, ht⟩ => ⟨h, by exact_mod_cast ht⟩⟩
   rintro ⟨k, hk⟩
   have : ↑m < ℵ₀ := nat_lt_aleph0 m
-  rw [hk, mul_lt_aleph0_iff] at this
+  rw [hk] at this; rw [mul_lt_aleph0_iff] at this
   rcases this with (h | h | ⟨-, hk'⟩)
   iterate 2 simp only [h, mul_zero, zero_mul, Nat.cast_eq_zero] at hk; simp [hk]
   lift k to ℕ using hk'
@@ -124,7 +124,7 @@ theorem nat_is_prime_iff : Prime (n : Cardinal) ↔ n.Prime := by
   rcases aleph0_le_mul_iff.mp h' with ⟨hb, hc, hℵ₀⟩
   have hn : (n : Cardinal) ≠ 0 := by
     intro h
-    rw [h, zero_dvd_iff, mul_eq_zero] at hbc
+    rw [h] at hbc; rw [zero_dvd_iff] at hbc; rw [mul_eq_zero] at hbc
     cases hbc <;> contradiction
   wlog hℵ₀b : ℵ₀ ≤ b
   refine' (this h c b _ _ hc hb hℵ₀.symm hn (hℵ₀.resolve_left hℵ₀b)).symm <;> try assumption

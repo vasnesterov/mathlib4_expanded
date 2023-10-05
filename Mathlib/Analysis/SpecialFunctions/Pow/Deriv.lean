@@ -36,7 +36,7 @@ theorem hasStrictFDerivAt_cpow {p : ℂ × ℂ} (hp : 0 < p.1.re ∨ p.1.im ≠ 
   have : (fun x : ℂ × ℂ => x.1 ^ x.2) =ᶠ[𝓝 p] fun x => exp (log x.1 * x.2) :=
     ((isOpen_ne.preimage continuous_fst).eventually_mem A).mono fun p hp =>
       cpow_def_of_ne_zero hp _
-  rw [cpow_sub _ _ A, cpow_one, mul_div_left_comm, mul_smul, mul_smul]
+  rw [cpow_sub _ _ A]; rw [cpow_one]; rw [mul_div_left_comm]; rw [mul_smul]; rw [mul_smul]
   refine' HasStrictFDerivAt.congr_of_eventuallyEq _ this.symm
   simpa only [cpow_def_of_ne_zero A, div_eq_mul_inv, mul_smul, add_comm, smul_add] using
     ((hasStrictFDerivAt_fst.clog hp).mul hasStrictFDerivAt_snd).cexp
@@ -53,7 +53,7 @@ theorem hasStrictDerivAt_const_cpow {x y : ℂ} (h : x ≠ 0 ∨ y ≠ 0) :
     HasStrictDerivAt (fun y => x ^ y) (x ^ y * log x) y := by
   rcases em (x = 0) with (rfl | hx)
   · replace h := h.neg_resolve_left rfl
-    rw [log_zero, mul_zero]
+    rw [log_zero]; rw [mul_zero]
     refine' (hasStrictDerivAt_const _ 0).congr_of_eventuallyEq _
     exact (isOpen_ne.eventually_mem h).mono fun y hy => (zero_cpow hy).symm
   · simpa only [cpow_def_of_ne_zero hx, mul_one] using
@@ -208,7 +208,7 @@ theorem HasDerivWithinAt.cpow_const (hf : HasDerivWithinAt f f' s x)
 line, it is still real-differentiable, and the derivative is what one would formally expect. -/
 theorem hasDerivAt_ofReal_cpow {x : ℝ} (hx : x ≠ 0) {r : ℂ} (hr : r ≠ -1) :
     HasDerivAt (fun y : ℝ => (y : ℂ) ^ (r + 1) / (r + 1)) (x ^ r) x := by
-  rw [Ne.def, ← add_eq_zero_iff_eq_neg, ← Ne.def] at hr
+  rw [Ne.def] at hr; rw [← add_eq_zero_iff_eq_neg] at hr; rw [← Ne.def] at hr
   rcases lt_or_gt_of_ne hx.symm with (hx | hx)
   · -- easy case : `0 < x`
     -- Porting note: proof used to be
@@ -233,14 +233,13 @@ theorem hasDerivAt_ofReal_cpow {x : ℝ} (hx : x ≠ 0) {r : ℂ} (hr : r ≠ -1
         ((r + 1) * (-↑x) ^ r * exp (↑π * I * r)) x by
       convert this.div_const (r + 1) using 1
       conv_rhs => rw [mul_assoc, mul_comm, mul_div_cancel _ hr]
-    rw [mul_add ((π : ℂ) * _), mul_one, exp_add, exp_pi_mul_I, mul_comm (_ : ℂ) (-1 : ℂ),
-      neg_one_mul]
+    rw [mul_add ((π : ℂ) * _)]; rw [mul_one]; rw [exp_add]; rw [exp_pi_mul_I]; rw [mul_comm (_ : ℂ) (-1 : ℂ)]; rw [neg_one_mul]
     simp_rw [mul_neg, ← neg_mul, ← ofReal_neg]
     suffices HasDerivAt (fun y : ℝ => ↑(-y) ^ (r + 1)) (-(r + 1) * ↑(-x) ^ r) x by
       convert this.neg.mul_const _ using 1; ring
     suffices HasDerivAt (fun y : ℝ => ↑y ^ (r + 1)) ((r + 1) * ↑(-x) ^ r) (-x) by
       convert @HasDerivAt.scomp ℝ _ ℂ _ _ x ℝ _ _ _ _ _ _ _ _ this (hasDerivAt_neg x) using 1
-      rw [real_smul, ofReal_neg 1, ofReal_one]; ring
+      rw [real_smul]; rw [ofReal_neg 1]; rw [ofReal_one]; ring
     suffices HasDerivAt (fun y : ℂ => y ^ (r + 1)) ((r + 1) * ↑(-x) ^ r) ↑(-x) by
       exact this.comp_ofReal
     conv in ↑_ ^ _ => rw [(by ring : r = r + 1 - 1)]
@@ -265,8 +264,7 @@ theorem hasStrictFDerivAt_rpow_of_pos (p : ℝ × ℝ) (hp : 0 < p.1) :
     (continuousAt_fst.eventually (lt_mem_nhds hp)).mono fun p hp => rpow_def_of_pos hp _
   refine' HasStrictFDerivAt.congr_of_eventuallyEq _ this.symm
   convert ((hasStrictFDerivAt_fst.log hp.ne').mul hasStrictFDerivAt_snd).exp using 1
-  rw [rpow_sub_one hp.ne', ← rpow_def_of_pos hp, smul_add, smul_smul, mul_div_left_comm,
-    div_eq_mul_inv, smul_smul, smul_smul, mul_assoc, add_comm]
+  rw [rpow_sub_one hp.ne']; rw [← rpow_def_of_pos hp]; rw [smul_add]; rw [smul_smul]; rw [mul_div_left_comm]; rw [div_eq_mul_inv]; rw [smul_smul]; rw [smul_smul]; rw [mul_assoc]; rw [add_comm]
 #align real.has_strict_fderiv_at_rpow_of_pos Real.hasStrictFDerivAt_rpow_of_pos
 
 /-- `(x, y) ↦ x ^ y` is strictly differentiable at `p : ℝ × ℝ` such that `p.fst < 0`. -/
@@ -282,7 +280,7 @@ theorem hasStrictFDerivAt_rpow_of_neg (p : ℝ × ℝ) (hp : p.1 < 0) :
     (hasStrictFDerivAt_snd.mul_const π).cos using 1
   simp_rw [rpow_sub_one hp.ne, smul_add, ← add_assoc, smul_smul, ← add_smul, ← mul_assoc,
     mul_comm (cos _), ← rpow_def_of_neg hp]
-  rw [div_eq_mul_inv, add_comm]; congr 2 <;> ring
+  rw [div_eq_mul_inv]; rw [add_comm]; congr 2 <;> ring
 #align real.has_strict_fderiv_at_rpow_of_neg Real.hasStrictFDerivAt_rpow_of_neg
 
 /-- The function `fun (x, y) => x ^ y` is infinitely smooth at `(x, y)` unless `x = 0`. -/
@@ -382,8 +380,8 @@ theorem contDiff_rpow_const_of_le {p : ℝ} {n : ℕ} (h : ↑n ≤ p) :
   induction' n with n ihn generalizing p
   · exact contDiff_zero.2 (continuous_id.rpow_const fun x => Or.inr <| by simpa using h)
   · have h1 : 1 ≤ p := le_trans (by simp) h
-    rw [Nat.cast_succ, ← le_sub_iff_add_le] at h
-    rw [contDiff_succ_iff_deriv, deriv_rpow_const' h1]
+    rw [Nat.cast_succ] at h; rw [← le_sub_iff_add_le] at h
+    rw [contDiff_succ_iff_deriv]; rw [deriv_rpow_const' h1]
     refine' ⟨differentiable_rpow_const h1, contDiff_const.mul (ihn h)⟩
 #align real.cont_diff_rpow_const_of_le Real.contDiff_rpow_const_of_le
 

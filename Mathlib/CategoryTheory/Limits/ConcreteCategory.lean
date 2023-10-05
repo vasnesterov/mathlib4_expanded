@@ -217,7 +217,7 @@ theorem Concrete.isColimit_rep_eq_of_exists {D : Cocone F} {i j : J} (hD : IsCol
   erw [T.hom.w, T.hom.w]
   obtain ⟨k, f, g, h⟩ := h
   have : G.ι.app i x = (G.ι.app k (F.map f x) : G.pt) := Quot.sound ⟨f, rfl⟩
-  rw [this, h]
+  rw [this]; rw [h]
   symm
   exact Quot.sound ⟨g, rfl⟩
 #align category_theory.limits.concrete.is_colimit_rep_eq_of_exists CategoryTheory.Limits.Concrete.isColimit_rep_eq_of_exists

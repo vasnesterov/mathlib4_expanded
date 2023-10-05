@@ -133,7 +133,7 @@ theorem nnnorm_star_mul_self {x : E} : ‖x⋆ * x‖₊ = ‖x‖₊ * ‖x‖�
 
 @[simp]
 theorem star_mul_self_eq_zero_iff (x : E) : x⋆ * x = 0 ↔ x = 0 := by
-  rw [← norm_eq_zero, norm_star_mul_self]
+  rw [← norm_eq_zero]; rw [norm_star_mul_self]
   exact mul_self_eq_zero.trans norm_eq_zero
 #align cstar_ring.star_mul_self_eq_zero_iff CstarRing.star_mul_self_eq_zero_iff
 
@@ -205,7 +205,7 @@ variable [NormedRing E] [StarRing E] [CstarRing E]
 @[simp, nolint simpNF] -- Porting note: simp cannot prove this
 theorem norm_one [Nontrivial E] : ‖(1 : E)‖ = 1 := by
   have : 0 < ‖(1 : E)‖ := norm_pos_iff.mpr one_ne_zero
-  rw [← mul_left_inj' this.ne', ← norm_star_mul_self, mul_one, star_one, one_mul]
+  rw [← mul_left_inj' this.ne']; rw [← norm_star_mul_self]; rw [mul_one]; rw [star_one]; rw [one_mul]
 #align cstar_ring.norm_one CstarRing.norm_one
 
 -- see Note [lower instance priority]
@@ -213,8 +213,7 @@ instance (priority := 100) [Nontrivial E] : NormOneClass E :=
   ⟨norm_one⟩
 
 theorem norm_coe_unitary [Nontrivial E] (U : unitary E) : ‖(U : E)‖ = 1 := by
-  rw [← sq_eq_sq (norm_nonneg _) zero_le_one, one_pow 2, sq, ← CstarRing.norm_star_mul_self,
-    unitary.coe_star_mul_self, CstarRing.norm_one]
+  rw [← sq_eq_sq (norm_nonneg _) zero_le_one]; rw [one_pow 2]; rw [sq]; rw [← CstarRing.norm_star_mul_self]; rw [unitary.coe_star_mul_self]; rw [CstarRing.norm_one]
 #align cstar_ring.norm_coe_unitary CstarRing.norm_coe_unitary
 
 @[simp]
@@ -269,7 +268,7 @@ theorem IsSelfAdjoint.nnnorm_pow_two_pow [NormedRing E] [StarRing E] [CstarRing 
   · simp only [pow_zero, pow_one, Nat.zero_eq]
   · rw [pow_succ, pow_mul', sq]
     nth_rw 1 [← selfAdjoint.mem_iff.mp hx]
-    rw [← star_pow, CstarRing.nnnorm_star_mul_self, ← sq, hk, pow_mul']
+    rw [← star_pow]; rw [CstarRing.nnnorm_star_mul_self]; rw [← sq]; rw [hk]; rw [pow_mul']
 #align is_self_adjoint.nnnorm_pow_two_pow IsSelfAdjoint.nnnorm_pow_two_pow
 
 theorem selfAdjoint.nnnorm_pow_two_pow [NormedRing E] [StarRing E] [CstarRing E] (x : selfAdjoint E)

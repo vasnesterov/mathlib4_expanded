@@ -45,7 +45,7 @@ theorem coe_sections :
   | [] => rfl
   | a :: l => by
     simp
-    rw [← cons_coe, sections_cons, bind_map_comm, coe_sections l]
+    rw [← cons_coe]; rw [sections_cons]; rw [bind_map_comm]; rw [coe_sections l]
     simp [List.sections, (· ∘ ·), List.bind]
 #align multiset.coe_sections Multiset.coe_sections
 

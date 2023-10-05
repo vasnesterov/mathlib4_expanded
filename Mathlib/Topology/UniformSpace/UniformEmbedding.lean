@@ -45,7 +45,7 @@ protected lemma UniformInducing.comap_uniformSpace {f : α → β} (hf : Uniform
 
 lemma uniformInducing_iff' {f : α → β} :
     UniformInducing f ↔ UniformContinuous f ∧ comap (Prod.map f f) (𝓤 β) ≤ 𝓤 α := by
-  rw [uniformInducing_iff, UniformContinuous, tendsto_iff_comap, le_antisymm_iff, and_comm]; rfl
+  rw [uniformInducing_iff]; rw [UniformContinuous]; rw [tendsto_iff_comap]; rw [le_antisymm_iff]; rw [and_comm]; rfl
 #align uniform_inducing_iff' uniformInducing_iff'
 
 protected lemma Filter.HasBasis.uniformInducing_iff {ι ι'} {p : ι → Prop} {p' : ι' → Prop} {s s'}
@@ -84,7 +84,7 @@ theorem UniformInducing.cauchy_map_iff {f : α → β} (hf : UniformInducing f) 
 theorem uniformInducing_of_compose {f : α → β} {g : β → γ} (hf : UniformContinuous f)
     (hg : UniformContinuous g) (hgf : UniformInducing (g ∘ f)) : UniformInducing f := by
   refine' ⟨le_antisymm _ hf.le_comap⟩
-  rw [← hgf.1, ← Prod.map_def, ← Prod.map_def, ← Prod.map_comp_map f f g g, ← comap_comap]
+  rw [← hgf.1]; rw [← Prod.map_def]; rw [← Prod.map_def]; rw [← Prod.map_comp_map f f g g]; rw [← comap_comap]
   exact comap_mono hg.le_comap
 #align uniform_inducing_of_compose uniformInducing_of_compose
 
@@ -95,7 +95,7 @@ theorem UniformInducing.uniformContinuous {f : α → β} (hf : UniformInducing 
 theorem UniformInducing.uniformContinuous_iff {f : α → β} {g : β → γ} (hg : UniformInducing g) :
     UniformContinuous f ↔ UniformContinuous (g ∘ f) := by
   dsimp only [UniformContinuous, Tendsto]
-  rw [← hg.comap_uniformity, ← map_le_iff_le_comap, Filter.map_map]; rfl
+  rw [← hg.comap_uniformity]; rw [← map_le_iff_le_comap]; rw [Filter.map_map]; rfl
 #align uniform_inducing.uniform_continuous_iff UniformInducing.uniformContinuous_iff
 
 theorem UniformInducing.inducing {f : α → β} (h : UniformInducing f) : Inducing f := by
@@ -134,7 +134,7 @@ structure UniformEmbedding (f : α → β) extends UniformInducing f : Prop wher
 
 theorem uniformEmbedding_iff' {f : α → β} :
     UniformEmbedding f ↔ Injective f ∧ UniformContinuous f ∧ comap (Prod.map f f) (𝓤 β) ≤ 𝓤 α := by
-  rw [uniformEmbedding_iff, and_comm, uniformInducing_iff']
+  rw [uniformEmbedding_iff]; rw [and_comm]; rw [uniformInducing_iff']
 #align uniform_embedding_iff' uniformEmbedding_iff'
 
 theorem Filter.HasBasis.uniformEmbedding_iff' {ι ι'} {p : ι → Prop} {p' : ι' → Prop} {s s'}
@@ -142,7 +142,7 @@ theorem Filter.HasBasis.uniformEmbedding_iff' {ι ι'} {p : ι → Prop} {p' : �
     UniformEmbedding f ↔ Injective f ∧
       (∀ i, p' i → ∃ j, p j ∧ ∀ x y, (x, y) ∈ s j → (f x, f y) ∈ s' i) ∧
         (∀ j, p j → ∃ i, p' i ∧ ∀ x y, (f x, f y) ∈ s' i → (x, y) ∈ s j) := by
-  rw [uniformEmbedding_iff, and_comm, h.uniformInducing_iff h']
+  rw [uniformEmbedding_iff]; rw [and_comm]; rw [h.uniformInducing_iff h']
 #align filter.has_basis.uniform_embedding_iff' Filter.HasBasis.uniformEmbedding_iff'
 
 theorem Filter.HasBasis.uniformEmbedding_iff {ι ι'} {p : ι → Prop} {p' : ι' → Prop} {s s'}
@@ -275,7 +275,7 @@ theorem isComplete_of_complete_image {m : α → β} {s : Set α} (hm : UniformI
   rw [le_principal_iff] at hfs
   obtain ⟨_, ⟨x, hx, rfl⟩, hyf⟩ : ∃ y ∈ m '' s, map m f ≤ 𝓝 y
   exact hs (f.map m) (hf.map hm.uniformContinuous) (le_principal_iff.2 (image_mem_map hfs))
-  rw [map_le_iff_le_comap, ← nhds_induced, ← hm.inducing.induced] at hyf
+  rw [map_le_iff_le_comap] at hyf; rw [← nhds_induced] at hyf; rw [← hm.inducing.induced] at hyf
   exact ⟨x, hx, hyf⟩
 #align is_complete_of_complete_image isComplete_of_complete_image
 
@@ -297,13 +297,13 @@ theorem isComplete_image_iff {m : α → β} {s : Set α} (hm : UniformInducing 
   have cf' : Cauchy (comap m' f) :=
     hf.comap' hm'.comap_uniformity.le (NeBot.comap_of_range_mem hf.1 hfm)
   rcases CompleteSpace.complete cf' with ⟨x, hx⟩
-  rw [hm'.inducing.nhds_eq_comap, comap_le_comap_iff hfm] at hx
+  rw [hm'.inducing.nhds_eq_comap] at hx; rw [comap_le_comap_iff hfm] at hx
   exact ⟨m' x, mem_range_self _, hx⟩
 #align is_complete_image_iff isComplete_image_iff
 
 theorem completeSpace_iff_isComplete_range {f : α → β} (hf : UniformInducing f) :
     CompleteSpace α ↔ IsComplete (range f) := by
-  rw [completeSpace_iff_isComplete_univ, ← isComplete_image_iff hf, image_univ]
+  rw [completeSpace_iff_isComplete_univ]; rw [← isComplete_image_iff hf]; rw [image_univ]
 #align complete_space_iff_is_complete_range completeSpace_iff_isComplete_range
 
 theorem UniformInducing.isComplete_range [CompleteSpace α] {f : α → β} (hf : UniformInducing f) :
@@ -313,8 +313,7 @@ theorem UniformInducing.isComplete_range [CompleteSpace α] {f : α → β} (hf 
 
 theorem completeSpace_congr {e : α ≃ β} (he : UniformEmbedding e) :
     CompleteSpace α ↔ CompleteSpace β := by
-  rw [completeSpace_iff_isComplete_range he.toUniformInducing, e.range_eq_univ,
-    completeSpace_iff_isComplete_univ]
+  rw [completeSpace_iff_isComplete_range he.toUniformInducing]; rw [e.range_eq_univ]; rw [completeSpace_iff_isComplete_univ]
 #align complete_space_congr completeSpace_congr
 
 theorem completeSpace_coe_iff_isComplete {s : Set α} : CompleteSpace s ↔ IsComplete s :=
@@ -394,7 +393,7 @@ theorem totallyBounded_preimage {f : α → β} {s : Set β} (hf : UniformEmbedd
 #align totally_bounded_preimage totallyBounded_preimage
 
 instance CompleteSpace.sum [CompleteSpace α] [CompleteSpace β] : CompleteSpace (Sum α β) := by
-  rw [completeSpace_iff_isComplete_univ, ← range_inl_union_range_inr]
+  rw [completeSpace_iff_isComplete_univ]; rw [← range_inl_union_range_inr]
   exact uniformEmbedding_inl.toUniformInducing.isComplete_range.union
     uniformEmbedding_inr.toUniformInducing.isComplete_range
 #align complete_space.sum CompleteSpace.sum

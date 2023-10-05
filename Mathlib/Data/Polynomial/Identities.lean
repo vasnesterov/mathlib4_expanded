@@ -103,11 +103,11 @@ for some `z` in the ring.
 -/
 def evalSubFactor (f : R[X]) (x y : R) : { z : R // f.eval x - f.eval y = z * (x - y) } := by
   refine' ⟨f.sum fun i r => r * (powSubPowFactor x y i).val, _⟩
-  delta eval; rw [eval₂_eq_sum, eval₂_eq_sum];
+  delta eval; rw [eval₂_eq_sum]; rw [eval₂_eq_sum];
   simp only [sum, ← Finset.sum_sub_distrib, Finset.sum_mul]
   dsimp
   congr with i
-  rw [mul_assoc, ← (powSubPowFactor x y _).prop, mul_sub]
+  rw [mul_assoc]; rw [← (powSubPowFactor x y _).prop]; rw [mul_sub]
 #align polynomial.eval_sub_factor Polynomial.evalSubFactor
 
 end Identities

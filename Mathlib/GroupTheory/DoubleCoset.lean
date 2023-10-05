@@ -50,9 +50,7 @@ theorem mem_doset_self (H K : Subgroup G) (a : G) : a ∈ doset a H K :=
 theorem doset_eq_of_mem {H K : Subgroup G} {a b : G} (hb : b ∈ doset a H K) :
     doset b H K = doset a H K := by
   obtain ⟨_, k, ⟨h, a, hh, rfl : _ = _, rfl⟩, hk, rfl⟩ := hb
-  rw [doset, doset, ← Set.singleton_mul_singleton, ← Set.singleton_mul_singleton, mul_assoc,
-    mul_assoc, Subgroup.singleton_mul_subgroup hk, ← mul_assoc, ← mul_assoc,
-    Subgroup.subgroup_mul_singleton hh]
+  rw [doset]; rw [doset]; rw [← Set.singleton_mul_singleton]; rw [← Set.singleton_mul_singleton]; rw [mul_assoc]; rw [mul_assoc]; rw [Subgroup.singleton_mul_subgroup hk]; rw [← mul_assoc]; rw [← mul_assoc]; rw [Subgroup.subgroup_mul_singleton hh]
 #align doset.doset_eq_of_mem Doset.doset_eq_of_mem
 
 theorem mem_doset_of_not_disjoint {H K : Subgroup G} {a b : G}
@@ -91,7 +89,7 @@ theorem rel_iff {H K : Subgroup G} {x y : G} :
 theorem bot_rel_eq_leftRel (H : Subgroup G) :
     (setoid ↑(⊥ : Subgroup G) ↑H).Rel = (QuotientGroup.leftRel H).Rel := by
   ext a b
-  rw [rel_iff, Setoid.Rel, QuotientGroup.leftRel_apply]
+  rw [rel_iff]; rw [Setoid.Rel]; rw [QuotientGroup.leftRel_apply]
   constructor
   · rintro ⟨a, rfl : a = 1, b, hb, rfl⟩
     change a⁻¹ * (1 * a * b) ∈ H
@@ -103,7 +101,7 @@ theorem bot_rel_eq_leftRel (H : Subgroup G) :
 theorem rel_bot_eq_right_group_rel (H : Subgroup G) :
     (setoid ↑H ↑(⊥ : Subgroup G)).Rel = (QuotientGroup.rightRel H).Rel := by
   ext a b
-  rw [rel_iff, Setoid.Rel, QuotientGroup.rightRel_apply]
+  rw [rel_iff]; rw [Setoid.Rel]; rw [QuotientGroup.rightRel_apply]
   constructor
   · rintro ⟨b, hb, a, rfl : a = 1, rfl⟩
     change b * a * 1 * a⁻¹ ∈ H
@@ -141,7 +139,7 @@ theorem mk_out'_eq_mul (H K : Subgroup G) (g : G) :
   rw [out_eq'] at this
   obtain ⟨h, h_h, k, hk, T⟩ := this.1 rfl
   refine' ⟨h⁻¹, k⁻¹, H.inv_mem h_h, K.inv_mem hk, eq_mul_inv_of_mul_eq (eq_inv_mul_of_mul_eq _)⟩
-  rw [← mul_assoc, ← T]
+  rw [← mul_assoc]; rw [← T]
 #align doset.mk_out'_eq_mul Doset.mk_out'_eq_mul
 
 theorem mk_eq_of_doset_eq {H K : Subgroup G} {a b : G} (h : doset a H K = doset b H K) :

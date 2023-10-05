@@ -71,12 +71,12 @@ theorem not_of_mem_foldl_argAux (hr₀ : Irreflexive r) (hr₁ : Transitive r) :
   induction' l using List.reverseRecOn with tl a ih
   · simp
   intro b m o hb ho
-  rw [foldl_append, foldl_cons, foldl_nil, argAux] at ho
+  rw [foldl_append] at ho; rw [foldl_cons] at ho; rw [foldl_nil] at ho; rw [argAux] at ho
   cases' hf : foldl (argAux r) o tl with c
   · rw [hf] at ho
     rw [foldl_argAux_eq_none] at hf
     simp_all [hf.1, hf.2, hr₀ _]
-  rw [hf, Option.mem_def] at ho
+  rw [hf] at ho; rw [Option.mem_def] at ho
   dsimp only at ho
   split_ifs at ho with hac <;> cases' mem_append.1 hb with h h <;>
     injection ho with ho <;> subst ho
@@ -184,11 +184,11 @@ theorem argmax_cons (f : α → β) (a : α) (l : List α) :
     argmax f (a :: l) =
       Option.casesOn (argmax f l) (some a) fun c => if f a < f c then some c else some a :=
   List.reverseRecOn l rfl fun hd tl ih => by
-    rw [← cons_append, argmax_concat, ih, argmax_concat]
+    rw [← cons_append]; rw [argmax_concat]; rw [ih]; rw [argmax_concat]
     cases' h : argmax f hd with m
     · simp [h]
     dsimp
-    rw [← apply_ite, ← apply_ite]
+    rw [← apply_ite]; rw [← apply_ite]
     dsimp
     split_ifs <;> try rfl
     · exact absurd (lt_trans ‹f a < f m› ‹_›) ‹_›
@@ -240,7 +240,7 @@ theorem mem_argmax_iff :
       · have :=
           _root_.le_antisymm (hma n (argmax_mem harg) (le_of_mem_argmax hml harg))
             (index_of_argmax harg hml (ham _ (argmax_mem harg)))
-        rw [(indexOf_inj hml (argmax_mem harg)).1 this, Option.mem_def]⟩
+        rw [(indexOf_inj hml (argmax_mem harg)).1 this]; rw [Option.mem_def]⟩
 #align list.mem_argmax_iff List.mem_argmax_iff
 
 theorem argmax_eq_some_iff :
@@ -372,7 +372,7 @@ theorem minimum_concat (a : α) (l : List α) : minimum (l ++ [a]) = min (minimu
 
 theorem maximum_cons (a : α) (l : List α) : maximum (a :: l) = max ↑a (maximum l) :=
   List.reverseRecOn l (by simp [@max_eq_left (WithBot α) _ _ _ bot_le]) fun tl hd ih => by
-    rw [← cons_append, maximum_concat, ih, maximum_concat, max_assoc]
+    rw [← cons_append]; rw [maximum_concat]; rw [ih]; rw [maximum_concat]; rw [max_assoc]
 #align list.maximum_cons List.maximum_cons
 
 theorem minimum_cons (a : α) (l : List α) : minimum (a :: l) = min ↑a (minimum l) :=
@@ -390,7 +390,7 @@ theorem le_minimum_of_forall_le {b : WithTop α} (h : ∀ a ∈ l, b ≤ a) : b 
   maximum_le_of_forall_le (α:= αᵒᵈ) h
 
 theorem maximum_eq_coe_iff : maximum l = m ↔ m ∈ l ∧ ∀ a ∈ l, a ≤ m := by
-  rw [maximum, ← WithBot.some_eq_coe, argmax_eq_some_iff]
+  rw [maximum]; rw [← WithBot.some_eq_coe]; rw [argmax_eq_some_iff]
   simp only [id_eq, and_congr_right_iff, and_iff_left_iff_imp]
   intro _ h a hal hma
   rw [_root_.le_antisymm hma (h a hal)]

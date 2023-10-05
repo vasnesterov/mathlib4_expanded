@@ -27,11 +27,11 @@ instance Int.euclideanDomain : EuclideanDomain ℤ :=
     r := fun a b => a.natAbs < b.natAbs,
     r_wellFounded := (measure natAbs).wf
     remainder_lt := fun a b b0 => Int.ofNat_lt.1 <| by
-      rw [Int.natAbs_of_nonneg (Int.emod_nonneg _ b0), ← Int.abs_eq_natAbs]
+      rw [Int.natAbs_of_nonneg (Int.emod_nonneg _ b0)]; rw [← Int.abs_eq_natAbs]
       exact Int.emod_lt _ b0
     mul_left_not_lt := fun a b b0 =>
       not_lt_of_ge <| by
-        rw [← mul_one a.natAbs, Int.natAbs_mul]
+        rw [← mul_one a.natAbs]; rw [Int.natAbs_mul]
         rw [←Int.natAbs_pos] at b0
         exact Nat.mul_le_mul_of_nonneg_left b0 }
 

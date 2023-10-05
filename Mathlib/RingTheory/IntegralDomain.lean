@@ -75,7 +75,7 @@ theorem Finset.exists_eq_pow_of_mul_eq_pow_of_coprime {ι R : Type*} [CommSemiri
     (hprod : ∏ i in s, f i = c ^ n) : ∀ i ∈ s, ∃ d : R, f i = d ^ n := by
   classical
     intro i hi
-    rw [← insert_erase hi, prod_insert (not_mem_erase i s)] at hprod
+    rw [← insert_erase hi] at hprod; rw [prod_insert (not_mem_erase i s)] at hprod
     refine'
       exists_eq_pow_of_mul_eq_pow_of_coprime
         (IsCoprime.prod_right fun j hj => h i hi j (erase_subset i s hj) fun hij => _) hprod
@@ -127,7 +127,7 @@ theorem card_nthRoots_subgroup_units [Fintype G] [DecidableEq G] (f : G →* R) 
   apply card_le_card_of_inj_on f
   · intro g hg
     rw [mem_filter] at hg
-    rw [Multiset.mem_toFinset, mem_nthRoots hn, ← f.map_pow, hg.2]
+    rw [Multiset.mem_toFinset]; rw [mem_nthRoots hn]; rw [← f.map_pow]; rw [hg.2]
   · intros
     apply hf
     assumption
@@ -182,7 +182,7 @@ theorem div_eq_quo_add_rem_div (f : R[X]) {g : R[X]} (hg : g.Monic) :
       (map_ne_zero_iff _ (IsFractionRing.injective R[X] K)).mpr (Monic.ne_zero hg)
     field_simp [hg']
     -- porting note: `norm_cast` was here, but does nothing.
-    rw [add_comm, mul_comm, ← map_mul, ← map_add, modByMonic_add_div f hg]
+    rw [add_comm]; rw [mul_comm]; rw [← map_mul]; rw [← map_add]; rw [modByMonic_add_div f hg]
 
 #align polynomial.div_eq_quo_add_rem_div Polynomial.div_eq_quo_add_rem_div
 
@@ -267,10 +267,10 @@ theorem sum_hom_units_eq_zero (f : G →* R) (hf : f ≠ 1) : ∑ g : G, f g = 0
             (fun b _ => let ⟨n, hn⟩ := hx b
               ⟨n % orderOf x, mem_range.2 (Nat.mod_lt _ (orderOf_pos _)),
                -- Porting note: have to use `dsimp` to apply the function
-               by dsimp at hn ⊢; rw [← pow_eq_mod_orderOf, hn]⟩)
+               by dsimp at hn ⊢; rw [← pow_eq_mod_orderOf]; rw [hn]⟩)
       _ = 0 := ?_
 
-    rw [← mul_left_inj' hx1, zero_mul, geom_sum_mul]
+    rw [← mul_left_inj' hx1]; rw [zero_mul]; rw [geom_sum_mul]
     norm_cast
     simp [pow_orderOf_eq_one]
 #align sum_hom_units_eq_zero sum_hom_units_eq_zero

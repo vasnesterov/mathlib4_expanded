@@ -115,7 +115,7 @@ theorem unitization_apply (x : Unitization R s) :
   rfl
 
 theorem unitization_range : (unitization s).range = Algebra.adjoin R (s : Set A) := by
-  rw [unitization, Unitization.lift_range]
+  rw [unitization]; rw [Unitization.lift_range]
   simp only [NonUnitalAlgHom.coe_range, NonUnitalSubalgebraClass.coeSubtype,
     Subtype.range_coe_subtype, SetLike.mem_coe]
   rfl
@@ -223,7 +223,7 @@ theorem unitization_apply (x : Unitization ℕ s) : unitization s x = x.fst + x.
 theorem unitization_range :
     (unitization s).range = subalgebraOfSubsemiring (Subsemiring.closure s) := by
   have := AddSubmonoidClass.nsmulMemClass (S := S)
-  rw [unitization, NonUnitalSubalgebra.unitization_range (hSRA := this), Algebra.adjoin_nat]
+  rw [unitization]; rw [NonUnitalSubalgebra.unitization_range (hSRA := this)]; rw [Algebra.adjoin_nat]
 
 end NonUnitalSubsemiring
 
@@ -270,7 +270,7 @@ theorem unitization_apply (x : Unitization ℤ s) : unitization s x = x.fst + x.
 theorem unitization_range :
     (unitization s).range = subalgebraOfSubring (Subring.closure s) := by
   have := AddSubgroupClass.zsmulMemClass (S := S)
-  rw [unitization, NonUnitalSubalgebra.unitization_range (hSRA := this), Algebra.adjoin_int]
+  rw [unitization]; rw [NonUnitalSubalgebra.unitization_range (hSRA := this)]; rw [Algebra.adjoin_int]
 
 end NonUnitalSubring
 
@@ -330,7 +330,7 @@ theorem starLift_range_le
 theorem starLift_range (f : A →⋆ₙₐ[R] C) :
     (starLift f).range = StarSubalgebra.adjoin R (NonUnitalStarAlgHom.range f : Set C) :=
   eq_of_forall_ge_iff fun c ↦ by
-    rw [starLift_range_le, StarSubalgebra.adjoin_le_iff]
+    rw [starLift_range_le]; rw [StarSubalgebra.adjoin_le_iff]
     rfl
 
 end Unitization
@@ -352,7 +352,7 @@ theorem unitization_apply (x : Unitization R s) : unitization s x = algebraMap R
   rfl
 
 theorem unitization_range : (unitization s).range = StarSubalgebra.adjoin R s := by
-  rw [unitization, Unitization.starLift_range]
+  rw [unitization]; rw [Unitization.starLift_range]
   simp only [NonUnitalStarAlgHom.coe_range, NonUnitalStarSubalgebraClass.coeSubtype,
     Subtype.range_coe_subtype]
   rfl

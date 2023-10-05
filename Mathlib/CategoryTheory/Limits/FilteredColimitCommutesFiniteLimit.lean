@@ -128,10 +128,7 @@ theorem colimitLimitToLimitColimit_injective :
     rw [← W _ _ (fH j)]
     rw [← W _ _ (gH j)]
     -- porting note: this was `simp [w]` in lean 3; this is presumably a confluence issue
-    rw [lim_map, lim_map, Limit.map_π_apply', Limit.map_π_apply', Functor.map_comp,
-      Functor.map_comp, FunctorToTypes.comp, FunctorToTypes.comp, curry_obj_map_app,
-      curry_obj_map_app, curry_obj_map_app, Functor.comp_map, Functor.comp_map,
-      Functor.comp_map, swap_map, swap_map, swap_map, w]
+    rw [lim_map]; rw [lim_map]; rw [Limit.map_π_apply']; rw [Limit.map_π_apply']; rw [Functor.map_comp]; rw [Functor.map_comp]; rw [FunctorToTypes.comp]; rw [FunctorToTypes.comp]; rw [curry_obj_map_app]; rw [curry_obj_map_app]; rw [curry_obj_map_app]; rw [Functor.comp_map]; rw [Functor.comp_map]; rw [Functor.comp_map]; rw [swap_map]; rw [swap_map]; rw [swap_map]; rw [w]
 #align category_theory.limits.colimit_limit_to_limit_colimit_injective CategoryTheory.Limits.colimitLimitToLimitColimit_injective
 
 end
@@ -202,7 +199,7 @@ theorem colimitLimitToLimitColimit_surjective :
         ((curry.obj F).obj j').map (gf f) (F.map ((𝟙 j', g j') : (j', k j') ⟶ (j', k')) (y j')) =
           ((curry.obj F).obj j').map (hf f) (F.map ((f, g j) : (j, k j) ⟶ (j', k')) (y j)) :=
         (w f).choose_spec.choose_spec.choose_spec
-      rw [curry_obj_obj_map, curry_obj_obj_map] at q
+      rw [curry_obj_obj_map] at q; rw [curry_obj_obj_map] at q
       -- porting note: Lean 4 `dsimp` unfolds `gf` and `hf` in `q` :-(
       -- See discussion at https://leanprover.zulipchat.com/#narrow/stream/270676-lean4/topic/.60dsimp.60.20unfolding.20local.20lets
       simp_rw [← FunctorToTypes.map_comp_apply, CategoryStruct.comp] at q
@@ -240,7 +237,7 @@ theorem colimitLimitToLimitColimit_surjective :
     let i : ∀ {j j'} (f : j ⟶ j'), kf f ⟶ k'' := fun {j} {j'} f => i' (kfO f)
     have s : ∀ {j₁ j₂ j₃ j₄} (f : j₁ ⟶ j₂) (f' : j₃ ⟶ j₄), gf f ≫ i f = hf f' ≫ i f' := by
       intros j₁ j₂ j₃ j₄ f f'
-      rw [s', s']
+      rw [s']; rw [s']
       -- porting note: the three goals here in Lean 3 were in a different order
       exact k'O
       swap
@@ -292,9 +289,9 @@ theorem colimitLimitToLimitColimit_surjective :
                 (F.map ((𝟙 j', g j' ≫ gf f) : (j', k j') ⟶ (j', kf f)) (y j')) :=
             by rw [← wf f]
           _ = F.map ((𝟙 j', g j' ≫ gf f ≫ i f) : (j', k j') ⟶ (j', k'')) (y j') := by
-            rw [← FunctorToTypes.map_comp_apply, prod_comp, id_comp, assoc]
+            rw [← FunctorToTypes.map_comp_apply]; rw [prod_comp]; rw [id_comp]; rw [assoc]
           _ = F.map ((𝟙 j', g j' ≫ gf (𝟙 j') ≫ i (𝟙 j')) : (j', k j') ⟶ (j', k'')) (y j') := by
-            rw [s f (𝟙 j'), ← s (𝟙 j') (𝟙 j')]
+            rw [s f (𝟙 j')]; rw [← s (𝟙 j') (𝟙 j')]
     -- Finally we check that this maps to `x`.
     · -- We can do this componentwise:
       apply limit_ext'
@@ -308,8 +305,7 @@ theorem colimitLimitToLimitColimit_surjective :
       -- porting note: the lean 3 proof finished with
       -- `simp only [Bifunctor.map_id_comp, types_comp_apply, Bifunctor.map_id, types_id_apply]`
       -- which doesn't work; the corresponding `rw` works fine:
-      rw [Bifunctor.map_id_comp, Bifunctor.map_id_comp, types_comp_apply, types_comp_apply,
-        Bifunctor.map_id, types_id_apply]
+      rw [Bifunctor.map_id_comp]; rw [Bifunctor.map_id_comp]; rw [types_comp_apply]; rw [types_comp_apply]; rw [Bifunctor.map_id]; rw [types_id_apply]
 #align category_theory.limits.colimit_limit_to_limit_colimit_surjective CategoryTheory.Limits.colimitLimitToLimitColimit_surjective
 
 instance colimitLimitToLimitColimit_isIso : IsIso (colimitLimitToLimitColimit F) :=

@@ -496,7 +496,7 @@ instance : Inhabited (skewAdjoint R) :=
 set_option linter.deprecated false in
 @[deprecated]
 theorem bit0_mem {x : R} (hx : x ∈ skewAdjoint R) : bit0 x ∈ skewAdjoint R := by
-  rw [mem_iff, star_bit0, mem_iff.mp hx, bit0, bit0, neg_add]
+  rw [mem_iff]; rw [star_bit0]; rw [mem_iff.mp hx]; rw [bit0]; rw [bit0]; rw [neg_add]
 #align skew_adjoint.bit0_mem skewAdjoint.bit0_mem
 
 end AddGroup
@@ -530,7 +530,7 @@ variable [Star R] [TrivialStar R] [AddCommGroup A] [StarAddMonoid A]
 
 theorem smul_mem [Monoid R] [DistribMulAction R A] [StarModule R A] (r : R) {x : A}
     (h : x ∈ skewAdjoint A) : r • x ∈ skewAdjoint A := by
-  rw [mem_iff, star_smul, star_trivial, mem_iff.mp h, smul_neg r]
+  rw [mem_iff]; rw [star_smul]; rw [star_trivial]; rw [mem_iff.mp h]; rw [smul_neg r]
 #align skew_adjoint.smul_mem skewAdjoint.smul_mem
 
 instance [Monoid R] [DistribMulAction R A] [StarModule R A] : SMul R (skewAdjoint A) where

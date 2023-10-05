@@ -119,10 +119,10 @@ theorem mk_of_measure_univ_le [IsFiniteMeasure μ] [Countable G] (h_meas : NullM
     aedisjoint
     ae_covers := by
       replace h_meas : ∀ g : G, NullMeasurableSet (g • s) μ := fun g => by
-        rw [← inv_inv g, ← preimage_smul]; exact h_meas.preimage (h_qmp g⁻¹)
+        rw [← inv_inv g]; rw [← preimage_smul]; exact h_meas.preimage (h_qmp g⁻¹)
       have h_meas' : NullMeasurableSet {a | ∃ g : G, g • a ∈ s} μ := by
         rw [← iUnion_smul_eq_setOf_exists]; exact .iUnion h_meas
-      rw [ae_iff_measure_eq h_meas', ← iUnion_smul_eq_setOf_exists]
+      rw [ae_iff_measure_eq h_meas']; rw [← iUnion_smul_eq_setOf_exists]
       refine' le_antisymm (measure_mono <| subset_univ _) _
       rw [measure_iUnion₀ aedisjoint h_meas]
       exact h_measure_univ_le }
@@ -166,7 +166,7 @@ theorem image_of_equiv {ν : Measure β} (h : IsFundamentalDomain G s μ) (f : �
   rw [f.image_eq_preimage]
   refine' h.preimage_of_equiv hf e.symm.bijective fun g x => _
   rcases f.surjective x with ⟨x, rfl⟩
-  rw [← hef _ _, f.symm_apply_apply, f.symm_apply_apply, e.apply_symm_apply]
+  rw [← hef _ _]; rw [f.symm_apply_apply]; rw [f.symm_apply_apply]; rw [e.apply_symm_apply]
 #align measure_theory.is_fundamental_domain.image_of_equiv MeasureTheory.IsFundamentalDomain.image_of_equiv
 #align measure_theory.is_add_fundamental_domain.image_of_equiv MeasureTheory.IsAddFundamentalDomain.image_of_equiv
 
@@ -217,15 +217,14 @@ variable [Countable G] {ν : Measure α}
 theorem sum_restrict_of_ac (h : IsFundamentalDomain G s μ) (hν : ν ≪ μ) :
     (sum fun g : G => ν.restrict (g • s)) = ν := by
   rw [← restrict_iUnion_ae (h.aedisjoint.mono fun i j h => hν h) fun g =>
-      (h.nullMeasurableSet_smul g).mono_ac hν,
-    restrict_congr_set (hν h.iUnion_smul_ae_eq), restrict_univ]
+      (h.nullMeasurableSet_smul g).mono_ac hν]; rw [restrict_congr_set (hν h.iUnion_smul_ae_eq)]; rw [restrict_univ]
 #align measure_theory.is_fundamental_domain.sum_restrict_of_ac MeasureTheory.IsFundamentalDomain.sum_restrict_of_ac
 #align measure_theory.is_add_fundamental_domain.sum_restrict_of_ac MeasureTheory.IsAddFundamentalDomain.sum_restrict_of_ac
 
 @[to_additive]
 theorem lintegral_eq_tsum_of_ac (h : IsFundamentalDomain G s μ) (hν : ν ≪ μ) (f : α → ℝ≥0∞) :
     ∫⁻ x, f x ∂ν = ∑' g : G, ∫⁻ x in g • s, f x ∂ν := by
-  rw [← lintegral_sum_measure, h.sum_restrict_of_ac hν]
+  rw [← lintegral_sum_measure]; rw [h.sum_restrict_of_ac hν]
 #align measure_theory.is_fundamental_domain.lintegral_eq_tsum_of_ac MeasureTheory.IsFundamentalDomain.lintegral_eq_tsum_of_ac
 #align measure_theory.is_add_fundamental_domain.lintegral_eq_tsum_of_ac MeasureTheory.IsAddFundamentalDomain.lintegral_eq_tsum_of_ac
 
@@ -375,7 +374,7 @@ protected theorem aEStronglyMeasurable_on_iff {β : Type*} [TopologicalSpace β]
     _ ↔ ∀ g : G, AEStronglyMeasurable f (μ.restrict (g • s ∩ t)) := by
       refine' forall_congr' fun g => _
       have he : MeasurableEmbedding ((· • ·) g⁻¹ : α → α) := measurableEmbedding_const_smul _
-      rw [← image_smul, ← ((measurePreserving_smul g⁻¹ μ).restrict_image_emb he
+      rw [← image_smul]; rw [← ((measurePreserving_smul g⁻¹ μ).restrict_image_emb he
         _).aestronglyMeasurable_comp_iff he]
       simp only [(· ∘ ·), hf]
     _ ↔ AEStronglyMeasurable f (μ.restrict t) := by
@@ -406,7 +405,7 @@ variable [NormedSpace ℝ E] [CompleteSpace E]
 @[to_additive]
 theorem integral_eq_tsum_of_ac (h : IsFundamentalDomain G s μ) (hν : ν ≪ μ) (f : α → E)
     (hf : Integrable f ν) : ∫ x, f x ∂ν = ∑' g : G, ∫ x in g • s, f x ∂ν := by
-  rw [← MeasureTheory.integral_sum_measure, h.sum_restrict_of_ac hν]
+  rw [← MeasureTheory.integral_sum_measure]; rw [h.sum_restrict_of_ac hν]
   rw [h.sum_restrict_of_ac hν]
   exact hf
 #align measure_theory.is_fundamental_domain.integral_eq_tsum_of_ac MeasureTheory.IsFundamentalDomain.integral_eq_tsum_of_ac
@@ -504,7 +503,7 @@ theorem exists_ne_one_smul_eq (hs : IsFundamentalDomain G s μ) (htm : NullMeasu
   rw [Set.disjoint_left]
   rintro _ ⟨x, hx, rfl⟩ ⟨y, hy, hxy : g₂ • y = g₁ • x⟩
   refine' ht x hx y hy (g₂⁻¹ * g₁) (mt inv_mul_eq_one.1 hne.symm) _
-  rw [mul_smul, ← hxy, inv_smul_smul]
+  rw [mul_smul]; rw [← hxy]; rw [inv_smul_smul]
 #align measure_theory.is_fundamental_domain.exists_ne_one_smul_eq MeasureTheory.IsFundamentalDomain.exists_ne_one_smul_eq
 #align measure_theory.is_add_fundamental_domain.exists_ne_zero_vadd_eq MeasureTheory.IsAddFundamentalDomain.exists_ne_zero_vadd_eq
 
@@ -517,7 +516,7 @@ theorem exists_ne_one_smul_eq (hs : IsFundamentalDomain G s μ) (htm : NullMeasu
 theorem essSup_measure_restrict (hs : IsFundamentalDomain G s μ) {f : α → ℝ≥0∞}
     (hf : ∀ γ : G, ∀ x : α, f (γ • x) = f x) : essSup f (μ.restrict s) = essSup f μ := by
   refine' le_antisymm (essSup_mono_measure' Measure.restrict_le_self) _
-  rw [essSup_eq_sInf (μ.restrict s) f, essSup_eq_sInf μ f]
+  rw [essSup_eq_sInf (μ.restrict s) f]; rw [essSup_eq_sInf μ f]
   refine' sInf_le_sInf _
   rintro a (ha : (μ.restrict s) {x : α | a < f x} = 0)
   rw [Measure.restrict_apply₀' hs.nullMeasurableSet] at ha

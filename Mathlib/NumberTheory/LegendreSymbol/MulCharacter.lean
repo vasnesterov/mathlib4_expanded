@@ -191,7 +191,7 @@ noncomputable def ofUnitHom (f : Rˣ →* R'ˣ) : MulChar R R' where
         by_cases hy : IsUnit y
         · simp only [hy, dif_pos]
           have hm : (IsUnit.mul_iff.mpr ⟨hx, hy⟩).unit = hx.unit * hy.unit := Units.eq_iff.mp rfl
-          rw [hm, map_mul]
+          rw [hm]; rw [map_mul]
           norm_cast
         · simp only [hy, not_false_iff, dif_neg, mul_zero]
       · simp only [hx, IsUnit.mul_iff, false_and_iff, not_false_iff, dif_neg, zero_mul]
@@ -210,7 +210,7 @@ noncomputable def equivToUnitHom : MulChar R R' ≃ (Rˣ →* R'ˣ) where
   left_inv := by
     intro χ
     ext x
-    rw [ofUnitHom_coe, coe_toUnitHom]
+    rw [ofUnitHom_coe]; rw [coe_toUnitHom]
   right_inv := by
     intro f
     ext x
@@ -344,7 +344,7 @@ theorem inv_apply {R : Type u} [CommMonoidWithZero R] (χ : MulChar R R') (a : R
     nontriviality R
     intro ha
     -- `nontriviality R` by itself doesn't do it
-    rw [map_nonunit _ ha, Ring.inverse_non_unit a ha, MulChar.map_zero χ]
+    rw [map_nonunit _ ha]; rw [Ring.inverse_non_unit a ha]; rw [MulChar.map_zero χ]
 #align mul_char.inv_apply MulChar.inv_apply
 
 /-- When the domain has a zero, then the inverse of a multiplicative character `χ`,
@@ -357,7 +357,7 @@ theorem inv_apply' {R : Type u} [Field R] (χ : MulChar R R') (a : R) : χ⁻¹ 
 -- Porting note: @[simp] can prove this (later)
 theorem inv_mul (χ : MulChar R R') : χ⁻¹ * χ = 1 := by
   ext x
-  rw [coeToFun_mul, Pi.mul_apply, inv_apply_eq_inv]
+  rw [coeToFun_mul]; rw [Pi.mul_apply]; rw [inv_apply_eq_inv]
   -- Porting note: was
   -- simp only [Ring.inverse_mul_cancel _ (IsUnit.map _ x.isUnit)]
   erw [Ring.inverse_mul_cancel _ (IsUnit.map χ x.isUnit)]
@@ -476,13 +476,13 @@ theorem IsQuadratic.inv {χ : MulChar R R'} (hχ : χ.IsQuadratic) : χ⁻¹ = �
   · rw [h₁, Ring.inverse_one]
   · -- Porting note: was `by norm_cast`
     have : (-1 : R') = (-1 : R'ˣ) := by rw [Units.val_neg, Units.val_one]
-    rw [h₂, this, Ring.inverse_unit (-1 : R'ˣ)]
+    rw [h₂]; rw [this]; rw [Ring.inverse_unit (-1 : R'ˣ)]
     rfl
 #align mul_char.is_quadratic.inv MulChar.IsQuadratic.inv
 
 /-- The square of a quadratic character is the trivial character. -/
 theorem IsQuadratic.sq_eq_one {χ : MulChar R R'} (hχ : χ.IsQuadratic) : χ ^ 2 = 1 := by
-  rw [← mul_left_inv χ, pow_two, hχ.inv]
+  rw [← mul_left_inv χ]; rw [pow_two]; rw [hχ.inv]
 #align mul_char.is_quadratic.sq_eq_one MulChar.IsQuadratic.sq_eq_one
 
 /-- The `p`th power of a quadratic character is itself, when `p` is the (prime) characteristic
@@ -501,14 +501,14 @@ theorem IsQuadratic.pow_char {χ : MulChar R R'} (hχ : χ.IsQuadratic) (p : ℕ
 theorem IsQuadratic.pow_even {χ : MulChar R R'} (hχ : χ.IsQuadratic) {n : ℕ} (hn : Even n) :
     χ ^ n = 1 := by
   obtain ⟨n, rfl⟩ := even_iff_two_dvd.mp hn
-  rw [pow_mul, hχ.sq_eq_one, one_pow]
+  rw [pow_mul]; rw [hχ.sq_eq_one]; rw [one_pow]
 #align mul_char.is_quadratic.pow_even MulChar.IsQuadratic.pow_even
 
 /-- The `n`th power of a quadratic character is itself, when `n` is odd. -/
 theorem IsQuadratic.pow_odd {χ : MulChar R R'} (hχ : χ.IsQuadratic) {n : ℕ} (hn : Odd n) :
     χ ^ n = χ := by
   obtain ⟨n, rfl⟩ := hn
-  rw [pow_add, pow_one, hχ.pow_even (even_two_mul _), one_mul]
+  rw [pow_add]; rw [pow_one]; rw [hχ.pow_even (even_two_mul _)]; rw [one_mul]
 #align mul_char.is_quadratic.pow_odd MulChar.IsQuadratic.pow_odd
 
 open BigOperators

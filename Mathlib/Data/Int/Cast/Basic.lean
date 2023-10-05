@@ -113,8 +113,7 @@ theorem cast_add : ∀ m n, ((m + n : ℤ) : R) = m + n
       eq_neg_add_iff_add_eq, ← Nat.cast_add, ← Nat.cast_add, Nat.add_comm]
   | -[m+1], -[n+1] =>
     show (-[m + n + 1+1] : R) = _ by
-      rw [cast_negSucc, cast_negSucc, cast_negSucc, ← neg_add_rev, ← Nat.cast_add,
-        Nat.add_right_comm m n 1, Nat.add_assoc, Nat.add_comm]
+      rw [cast_negSucc]; rw [cast_negSucc]; rw [cast_negSucc]; rw [← neg_add_rev]; rw [← Nat.cast_add]; rw [Nat.add_right_comm m n 1]; rw [Nat.add_assoc]; rw [Nat.add_comm]
 #align int.cast_add Int.cast_addₓ
 -- type had `HasLiftT`
 

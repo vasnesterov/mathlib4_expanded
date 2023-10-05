@@ -162,7 +162,7 @@ alias ⟨_, Commute.star_star⟩ := commute_star_star
 #align commute.star_star Commute.star_star
 
 theorem commute_star_comm {x y : R} : Commute (star x) y ↔ Commute x (star y) := by
-  rw [← commute_star_star, star_star]
+  rw [← commute_star_star]; rw [star_star]
 #align commute_star_comm commute_star_comm
 
 end StarMul
@@ -435,7 +435,7 @@ theorem star_zpow₀ [DivisionSemiring R] [StarRing R] (x : R) (z : ℤ) : star 
 @[simp]
 theorem star_div' [Semifield R] [StarRing R] (x y : R) : star (x / y) = star x / star y := by
   apply op_injective
-  rw [division_def, op_div, mul_comm, star_mul, star_inv', op_mul, op_inv]
+  rw [division_def]; rw [op_div]; rw [mul_comm]; rw [star_mul]; rw [star_inv']; rw [op_mul]; rw [op_inv]
 #align star_div' star_div'
 
 section
@@ -556,8 +556,8 @@ theorem Ring.inverse_star [Semiring R] [StarRing R] (a : R) :
     Ring.inverse (star a) = star (Ring.inverse a) := by
   by_cases ha : IsUnit a
   · obtain ⟨u, rfl⟩ := ha
-    rw [Ring.inverse_unit, ← Units.coe_star, Ring.inverse_unit, ← Units.coe_star_inv]
-  rw [Ring.inverse_non_unit _ ha, Ring.inverse_non_unit _ (mt isUnit_star.mp ha), star_zero]
+    rw [Ring.inverse_unit]; rw [← Units.coe_star]; rw [Ring.inverse_unit]; rw [← Units.coe_star_inv]
+  rw [Ring.inverse_non_unit _ ha]; rw [Ring.inverse_non_unit _ (mt isUnit_star.mp ha)]; rw [star_zero]
 #align ring.inverse_star Ring.inverse_star
 
 instance Invertible.star {R : Type*} [MulOneClass R] [StarMul R] (r : R) [Invertible r] :
@@ -571,9 +571,9 @@ theorem star_invOf {R : Type*} [Monoid R] [StarMul R] (r : R) [Invertible r]
     [Invertible (star r)] : star (⅟ r) = ⅟ (star r) := by
   have : star (⅟ r) = star (⅟ r) * ((star r) * ⅟ (star r)) := by
     simp only [mul_invOf_self, mul_one]
-  rw [this, ← mul_assoc]
+  rw [this]; rw [← mul_assoc]
   have : (star (⅟ r)) * (star r) = star 1 := by rw [← star_mul, mul_invOf_self]
-  rw [this, star_one, one_mul]
+  rw [this]; rw [star_one]; rw [one_mul]
 #align star_inv_of star_invOf
 
 namespace MulOpposite

@@ -45,7 +45,7 @@ def AffineMap.restrict (φ : P₁ →ᵃ[k] P₂) {E : AffineSubspace k P₁} {F
   refine' ⟨_, _, _⟩
   · exact fun x => ⟨φ x, hEF <| AffineSubspace.mem_map.mpr ⟨x, x.property, rfl⟩⟩
   · refine' φ.linear.restrict (_ : E.direction ≤ F.direction.comap φ.linear)
-    rw [← Submodule.map_le_iff_le_comap, ← AffineSubspace.map_direction]
+    rw [← Submodule.map_le_iff_le_comap]; rw [← AffineSubspace.map_direction]
     exact AffineSubspace.direction_le hEF
   · intro p v
     simp only [Subtype.ext_iff, Subtype.coe_mk, AffineSubspace.coe_vadd]
@@ -60,7 +60,7 @@ theorem AffineMap.restrict.coe_apply (φ : P₁ →ᵃ[k] P₂) {E : AffineSubsp
 
 theorem AffineMap.restrict.linear_aux {φ : P₁ →ᵃ[k] P₂} {E : AffineSubspace k P₁}
     {F : AffineSubspace k P₂} (hEF : E.map φ ≤ F) : E.direction ≤ F.direction.comap φ.linear := by
-  rw [← Submodule.map_le_iff_le_comap, ← AffineSubspace.map_direction]
+  rw [← Submodule.map_le_iff_le_comap]; rw [← AffineSubspace.map_direction]
   exact AffineSubspace.direction_le hEF
 #align affine_map.restrict.linear_aux AffineMap.restrict.linear_aux
 
@@ -82,7 +82,7 @@ theorem AffineMap.restrict.surjective (φ : P₁ →ᵃ[k] P₂) {E : AffineSubs
     {F : AffineSubspace k P₂} [Nonempty E] [Nonempty F] (h : E.map φ = F) :
     Function.Surjective (AffineMap.restrict φ (le_of_eq h)) := by
   rintro ⟨x, hx : x ∈ F⟩
-  rw [← h, AffineSubspace.mem_map] at hx
+  rw [← h] at hx; rw [AffineSubspace.mem_map] at hx
   obtain ⟨y, hy, rfl⟩ := hx
   exact ⟨⟨y, hy⟩, rfl⟩
 #align affine_map.restrict.surjective AffineMap.restrict.surjective

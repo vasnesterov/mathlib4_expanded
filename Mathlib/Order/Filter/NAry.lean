@@ -260,17 +260,17 @@ theorem map₂_map₂_right (m : α → δ → ε) (n : β → γ → δ) :
 
 theorem map_map₂ (m : α → β → γ) (n : γ → δ) :
     (map₂ m f g).map n = map₂ (fun a b => n (m a b)) f g := by
-  rw [← map_prod_eq_map₂, ← map_prod_eq_map₂, map_map]; rfl
+  rw [← map_prod_eq_map₂]; rw [← map_prod_eq_map₂]; rw [map_map]; rfl
 #align filter.map_map₂ Filter.map_map₂
 
 theorem map₂_map_left (m : γ → β → δ) (n : α → γ) :
     map₂ m (f.map n) g = map₂ (fun a b => m (n a) b) f g := by
-  rw [← map_prod_eq_map₂, ← map_prod_eq_map₂, ← @map_id _ g, prod_map_map_eq, map_map, map_id]; rfl
+  rw [← map_prod_eq_map₂]; rw [← map_prod_eq_map₂]; rw [← @map_id _ g]; rw [prod_map_map_eq]; rw [map_map]; rw [map_id]; rfl
 #align filter.map₂_map_left Filter.map₂_map_left
 
 theorem map₂_map_right (m : α → γ → δ) (n : β → γ) :
     map₂ m f (g.map n) = map₂ (fun a b => m a (n b)) f g := by
-  rw [map₂_swap, map₂_map_left, map₂_swap]
+  rw [map₂_swap]; rw [map₂_map_left]; rw [map₂_swap]
 #align filter.map₂_map_right Filter.map₂_map_right
 
 @[simp]
@@ -309,14 +309,14 @@ theorem map₂_comm {n : β → α → γ} (h_comm : ∀ a b, m a b = n b a) : m
 theorem map₂_left_comm {m : α → δ → ε} {n : β → γ → δ} {m' : α → γ → δ'} {n' : β → δ' → ε}
     (h_left_comm : ∀ a b c, m a (n b c) = n' b (m' a c)) :
     map₂ m f (map₂ n g h) = map₂ n' g (map₂ m' f h) := by
-  rw [map₂_swap m', map₂_swap m]
+  rw [map₂_swap m']; rw [map₂_swap m]
   exact map₂_assoc fun _ _ _ => h_left_comm _ _ _
 #align filter.map₂_left_comm Filter.map₂_left_comm
 
 theorem map₂_right_comm {m : δ → γ → ε} {n : α → β → δ} {m' : α → γ → δ'} {n' : δ' → β → ε}
     (h_right_comm : ∀ a b c, m (n a b) c = n' (m' a c) b) :
     map₂ m (map₂ n f g) h = map₂ n' (map₂ m' f h) g := by
-  rw [map₂_swap n, map₂_swap n']
+  rw [map₂_swap n]; rw [map₂_swap n']
   exact map₂_assoc fun _ _ _ => h_right_comm _ _ _
 #align filter.map₂_right_comm Filter.map₂_right_comm
 

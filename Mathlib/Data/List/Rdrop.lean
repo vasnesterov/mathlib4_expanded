@@ -109,12 +109,12 @@ theorem rdropWhile_concat (x : α) :
 
 @[simp]
 theorem rdropWhile_concat_pos (x : α) (h : p x) : rdropWhile p (l ++ [x]) = rdropWhile p l := by
-  rw [rdropWhile_concat, if_pos h]
+  rw [rdropWhile_concat]; rw [if_pos h]
 #align list.rdrop_while_concat_pos List.rdropWhile_concat_pos
 
 @[simp]
 theorem rdropWhile_concat_neg (x : α) (h : ¬p x) : rdropWhile p (l ++ [x]) = l ++ [x] := by
-  rw [rdropWhile_concat, if_neg h]
+  rw [rdropWhile_concat]; rw [if_neg h]
 #align list.rdrop_while_concat_neg List.rdropWhile_concat_neg
 
 theorem rdropWhile_singleton (x : α) : rdropWhile p [x] = if p x then [] else [x] := by
@@ -128,7 +128,7 @@ theorem rdropWhile_last_not (hl : l.rdropWhile p ≠ []) : ¬p ((rdropWhile p l)
 #align list.rdrop_while_last_not List.rdropWhile_last_not
 
 theorem rdropWhile_prefix : l.rdropWhile p <+: l := by
-  rw [← reverse_suffix, rdropWhile, reverse_reverse]
+  rw [← reverse_suffix]; rw [rdropWhile]; rw [reverse_reverse]
   exact dropWhile_suffix _
 #align list.rdrop_while_prefix List.rdropWhile_prefix
 
@@ -149,13 +149,13 @@ theorem dropWhile_eq_self_iff : dropWhile p l = l ↔ ∀ hl : 0 < l.length, ¬p
   · rw [dropWhile]
     refine' ⟨fun h => _, fun h => _⟩
     · intro _ H
-      rw [nthLe, get] at H
+      rw [nthLe] at H; rw [get] at H
       refine' (cons_ne_self hd tl) (Sublist.antisymm _ (sublist_cons _ _))
       rw [← h]
       simp only [H]
       exact List.isSuffix.sublist (dropWhile_suffix p)
     · have := h (by simp only [length, Nat.succ_pos])
-      rw [nthLe, get] at this
+      rw [nthLe] at this; rw [get] at this
       simp_rw [this]
 #align list.drop_while_eq_self_iff List.dropWhile_eq_self_iff
 
@@ -207,11 +207,11 @@ theorem rtakeWhile_concat_pos (x : α) (h : p x) :
 
 @[simp]
 theorem rtakeWhile_concat_neg (x : α) (h : ¬p x) : rtakeWhile p (l ++ [x]) = [] := by
-  rw [rtakeWhile_concat, if_neg h]
+  rw [rtakeWhile_concat]; rw [if_neg h]
 #align list.rtake_while_concat_neg List.rtakeWhile_concat_neg
 
 theorem rtakeWhile_suffix : l.rtakeWhile p <:+ l := by
-  rw [← reverse_prefix, rtakeWhile, reverse_reverse]
+  rw [← reverse_prefix]; rw [rtakeWhile]; rw [reverse_reverse]
   exact takeWhile_prefix _
 #align list.rtake_while_suffix List.rtakeWhile_suffix
 
@@ -236,7 +236,7 @@ theorem rtakeWhile_eq_nil_iff : rtakeWhile p l = [] ↔ ∀ hl : l ≠ [], ¬p (
 #align list.rtake_while_eq_nil_iff List.rtakeWhile_eq_nil_iff
 
 theorem mem_rtakeWhile_imp {x : α} (hx : x ∈ rtakeWhile p l) : p x := by
-  rw [rtakeWhile, mem_reverse] at hx
+  rw [rtakeWhile] at hx; rw [mem_reverse] at hx
   exact mem_takeWhile_imp hx
 #align list.mem_rtake_while_imp List.mem_rtakeWhile_imp
 

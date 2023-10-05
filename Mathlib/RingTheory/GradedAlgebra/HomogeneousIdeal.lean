@@ -149,7 +149,7 @@ theorem Ideal.isHomogeneous_iff_subset_iInter :
 theorem Ideal.mul_homogeneous_element_mem_of_mem {I : Ideal A} (r x : A) (hx₁ : Homogeneous 𝒜 x)
     (hx₂ : x ∈ I) (j : ι) : GradedRing.proj 𝒜 j (r * x) ∈ I := by
   classical
-  rw [← DirectSum.sum_support_decompose 𝒜 r, Finset.sum_mul, map_sum]
+  rw [← DirectSum.sum_support_decompose 𝒜 r]; rw [Finset.sum_mul]; rw [map_sum]
   apply Ideal.sum_mem
   intro k _
   obtain ⟨i, hi⟩ := hx₁
@@ -164,11 +164,10 @@ theorem Ideal.mul_homogeneous_element_mem_of_mem {I : Ideal A} (r x : A) (hx₁ 
 theorem Ideal.homogeneous_span (s : Set A) (h : ∀ x ∈ s, Homogeneous 𝒜 x) :
     (Ideal.span s).IsHomogeneous 𝒜 := by
   rintro i r hr
-  rw [Ideal.span, Finsupp.span_eq_range_total] at hr
+  rw [Ideal.span] at hr; rw [Finsupp.span_eq_range_total] at hr
   rw [LinearMap.mem_range] at hr
   obtain ⟨s, rfl⟩ := hr
-  rw [Finsupp.total_apply, Finsupp.sum, decompose_sum, DFinsupp.finset_sum_apply,
-    AddSubmonoidClass.coe_finset_sum]
+  rw [Finsupp.total_apply]; rw [Finsupp.sum]; rw [decompose_sum]; rw [DFinsupp.finset_sum_apply]; rw [AddSubmonoidClass.coe_finset_sum]
   refine' Ideal.sum_mem _ _
   rintro z hz1
   rw [smul_eq_mul]
@@ -224,7 +223,7 @@ theorem Ideal.IsHomogeneous.iff_eq : I.IsHomogeneous 𝒜 ↔ (I.homogeneousCore
 
 theorem Ideal.IsHomogeneous.iff_exists :
     I.IsHomogeneous 𝒜 ↔ ∃ S : Set (homogeneousSubmonoid 𝒜), I = Ideal.span ((↑) '' S) := by
-  rw [Ideal.IsHomogeneous.iff_eq, eq_comm]
+  rw [Ideal.IsHomogeneous.iff_eq]; rw [eq_comm]
   exact ((Set.image_preimage.compose (Submodule.gi _ _).gc).exists_eq_l _).symm
 #align ideal.is_homogeneous.iff_exists Ideal.IsHomogeneous.iff_exists
 
@@ -248,7 +247,7 @@ namespace Ideal.IsHomogeneous
 
 theorem bot : Ideal.IsHomogeneous 𝒜 ⊥ := fun i r hr => by
   simp only [Ideal.mem_bot] at hr
-  rw [hr, decompose_zero, zero_apply]
+  rw [hr]; rw [decompose_zero]; rw [zero_apply]
   apply Ideal.zero_mem
 #align ideal.is_homogeneous.bot Ideal.IsHomogeneous.bot
 
@@ -390,13 +389,13 @@ theorem toIdeal_sInf (ℐ : Set (HomogeneousIdeal 𝒜)) : (sInf ℐ).toIdeal = 
 @[simp]
 theorem toIdeal_iSup {κ : Sort*} (s : κ → HomogeneousIdeal 𝒜) :
     (⨆ i, s i).toIdeal = ⨆ i, (s i).toIdeal := by
-  rw [iSup, toIdeal_sSup, iSup_range]
+  rw [iSup]; rw [toIdeal_sSup]; rw [iSup_range]
 #align homogeneous_ideal.to_ideal_supr HomogeneousIdeal.toIdeal_iSup
 
 @[simp]
 theorem toIdeal_iInf {κ : Sort*} (s : κ → HomogeneousIdeal 𝒜) :
     (⨅ i, s i).toIdeal = ⨅ i, (s i).toIdeal := by
-  rw [iInf, toIdeal_sInf, iInf_range]
+  rw [iInf]; rw [toIdeal_sInf]; rw [iInf_range]
 #align homogeneous_ideal.to_ideal_infi HomogeneousIdeal.toIdeal_iInf
 
 -- @[simp] -- Porting note: simp can prove this
@@ -513,7 +512,7 @@ theorem Ideal.homogeneousCore'_eq_sSup :
   have coe_mono : Monotone (toIdeal : HomogeneousIdeal 𝒜 → Ideal A) := fun x y => id
   convert coe_mono.map_isGreatest (Ideal.homogeneousCore.gc 𝒜).isGreatest_u using 1
   ext x
-  rw [mem_image, mem_setOf_eq]
+  rw [mem_image]; rw [mem_setOf_eq]
   refine' ⟨fun hI => ⟨⟨x, hI.1⟩, ⟨hI.2, rfl⟩⟩, _⟩
   rintro ⟨x, ⟨hx, rfl⟩⟩
   exact ⟨x.isHomogeneous, hx⟩
@@ -593,7 +592,7 @@ theorem Ideal.homogeneousHull_eq_iSup :
         rintro _ ⟨x, -, rfl⟩
         apply SetLike.homogeneous_coe)⟩ := by
   ext1
-  rw [Ideal.toIdeal_homogeneousHull_eq_iSup, toIdeal_iSup]
+  rw [Ideal.toIdeal_homogeneousHull_eq_iSup]; rw [toIdeal_iSup]
   rfl
 #align ideal.homogeneous_hull_eq_supr Ideal.homogeneousHull_eq_iSup
 

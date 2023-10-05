@@ -75,7 +75,7 @@ lemma ofReal_cdf [IsProbabilityMeasure μ] (x : ℝ) : ENNReal.ofReal (cdf μ x)
     lintegral_dirac] using h
 
 lemma cdf_eq_toReal [IsProbabilityMeasure μ] (x : ℝ) : cdf μ x = (μ (Iic x)).toReal := by
-  rw [← ofReal_cdf μ x, ENNReal.toReal_ofReal (cdf_nonneg μ x)]
+  rw [← ofReal_cdf μ x]; rw [ENNReal.toReal_ofReal (cdf_nonneg μ x)]
 
 instance instIsProbabilityMeasurecdf : IsProbabilityMeasure (cdf μ).measure := by
   constructor
@@ -85,7 +85,7 @@ instance instIsProbabilityMeasurecdf : IsProbabilityMeasure (cdf μ).measure := 
 /-- The measure associated to the cdf of a probability measure is the same probability measure. -/
 lemma measure_cdf [IsProbabilityMeasure μ] : (cdf μ).measure = μ := by
   refine Measure.ext_of_Iic (cdf μ).measure μ (fun a ↦ ?_)
-  rw [StieltjesFunction.measure_Iic _ (tendsto_cdf_atBot μ), sub_zero, ofReal_cdf]
+  rw [StieltjesFunction.measure_Iic _ (tendsto_cdf_atBot μ)]; rw [sub_zero]; rw [ofReal_cdf]
 
 end ExplicitMeasureArg
 
@@ -104,7 +104,7 @@ open ProbabilityTheory
 /-- If two real probability distributions have the same cdf, they are equal. -/
 lemma MeasureTheory.Measure.eq_of_cdf (μ ν : Measure ℝ) [IsProbabilityMeasure μ]
     [IsProbabilityMeasure ν] (h : cdf μ = cdf ν) : μ = ν := by
-  rw [← measure_cdf μ, ← measure_cdf ν, h]
+  rw [← measure_cdf μ]; rw [← measure_cdf ν]; rw [h]
 
 @[simp] lemma MeasureTheory.Measure.cdf_eq_iff (μ ν : Measure ℝ) [IsProbabilityMeasure μ]
     [IsProbabilityMeasure ν] :

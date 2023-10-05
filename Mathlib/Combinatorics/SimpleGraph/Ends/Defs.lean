@@ -146,7 +146,7 @@ protected theorem pairwise_disjoint :
 theorem mem_of_adj : ∀ {C : G.ComponentCompl K} (c d : V), c ∈ C → d ∉ K → G.Adj c d → d ∈ C :=
   fun {C} c d ⟨cnK, h⟩ dnK cd =>
   ⟨dnK, by
-    rw [← h, ConnectedComponent.eq]
+    rw [← h]; rw [ConnectedComponent.eq]
     exact Adj.reachable cd.symm⟩
 #align simple_graph.component_compl.mem_of_adj SimpleGraph.ComponentCompl.mem_of_adj
 
@@ -257,7 +257,7 @@ instance componentCompl_finite [LocallyFinite G] [Gpc : Fact G.Preconnected] (K 
   -- If K is empty, then removing K doesn't change the graph, which is connected, hence has a
   -- single connected component
   · dsimp [ComponentCompl]
-    rw [Finset.coe_empty, Set.compl_empty]
+    rw [Finset.coe_empty]; rw [Set.compl_empty]
     have := Gpc.out.subsingleton_connectedComponent
     exact Finite.of_equiv _ (induceUnivIso G).connectedComponentEquiv.symm
   -- Otherwise, we consider the function `touch` mapping a connected component to one of its
@@ -302,7 +302,7 @@ protected def «end» :=
 theorem end_hom_mk_of_mk {s} (sec : s ∈ G.end) {K L : (Finset V)ᵒᵖ} (h : L ⟶ K) {v : V}
     (vnL : v ∉ L.unop) (hs : s L = G.componentComplMk vnL) :
     s K = G.componentComplMk (Set.not_mem_subset (le_of_op_hom h : _ ⊆ _) vnL) := by
-  rw [← sec h, hs]
+  rw [← sec h]; rw [hs]
   apply ComponentCompl.hom_mk _ (le_of_op_hom h : _ ⊆ _)
 #align simple_graph.end_hom_mk_of_mk SimpleGraph.end_hom_mk_of_mk
 

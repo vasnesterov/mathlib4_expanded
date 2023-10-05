@@ -278,7 +278,7 @@ theorem ConvexOn.translate_right (hf : ConvexOn 𝕜 s f) (c : E) :
   ⟨hf.1.translate_preimage_right _, fun x hx y hy a b ha hb hab =>
     calc
       f (c + (a • x + b • y)) = f (a • (c + x) + b • (c + y)) := by
-        rw [smul_add, smul_add, add_add_add_comm, Convex.combo_self hab]
+        rw [smul_add]; rw [smul_add]; rw [add_add_add_comm]; rw [Convex.combo_self hab]
       _ ≤ a • f (c + x) + b • f (c + y) := hf.2 hx hy ha hb hab
       ⟩
 #align convex_on.translate_right ConvexOn.translate_right
@@ -845,7 +845,7 @@ theorem neg_convexOn_iff : ConvexOn 𝕜 s (-f) ↔ ConcaveOn 𝕜 s f := by
 /-- A function `-f` is concave iff `f` is convex. -/
 @[simp]
 theorem neg_concaveOn_iff : ConcaveOn 𝕜 s (-f) ↔ ConvexOn 𝕜 s f := by
-  rw [← neg_convexOn_iff, neg_neg f]
+  rw [← neg_convexOn_iff]; rw [neg_neg f]
 #align neg_concave_on_iff neg_concaveOn_iff
 
 /-- A function `-f` is strictly convex iff `f` is strictly concave. -/
@@ -866,7 +866,7 @@ theorem neg_strictConvexOn_iff : StrictConvexOn 𝕜 s (-f) ↔ StrictConcaveOn 
 /-- A function `-f` is strictly concave iff `f` is strictly convex. -/
 @[simp]
 theorem neg_strictConcaveOn_iff : StrictConcaveOn 𝕜 s (-f) ↔ StrictConvexOn 𝕜 s f := by
-  rw [← neg_strictConvexOn_iff, neg_neg f]
+  rw [← neg_strictConvexOn_iff]; rw [neg_neg f]
 #align neg_strict_concave_on_iff neg_strictConcaveOn_iff
 
 alias ⟨_, ConcaveOn.neg⟩ := neg_convexOn_iff
@@ -934,7 +934,7 @@ theorem StrictConvexOn.translate_right (hf : StrictConvexOn 𝕜 s f) (c : E) :
   ⟨hf.1.translate_preimage_right _, fun x hx y hy hxy a b ha hb hab =>
     calc
       f (c + (a • x + b • y)) = f (a • (c + x) + b • (c + y)) := by
-        rw [smul_add, smul_add, add_add_add_comm, Convex.combo_self hab]
+        rw [smul_add]; rw [smul_add]; rw [add_add_add_comm]; rw [Convex.combo_self hab]
       _ < a • f (c + x) + b • f (c + y) := hf.2 hx hy ((add_right_injective c).ne hxy) ha hb hab⟩
 #align strict_convex_on.translate_right StrictConvexOn.translate_right
 
@@ -1044,7 +1044,7 @@ theorem convexOn_iff_div {f : E → β} :
   and_congr Iff.rfl ⟨by
     intro h x hx y hy a b ha hb hab
     apply h hx hy (div_nonneg ha hab.le) (div_nonneg hb hab.le)
-    rw [← add_div, div_self hab.ne'], by
+    rw [← add_div]; rw [div_self hab.ne'], by
     intro h x hx y hy a b ha hb hab
     simpa [hab, zero_lt_one] using h hx hy ha hb⟩
 #align convex_on_iff_div convexOn_iff_div
@@ -1064,7 +1064,7 @@ theorem strictConvexOn_iff_div {f : E → β} :
     intro h x hx y hy hxy a b ha hb
     have hab := add_pos ha hb
     apply h hx hy hxy (div_pos ha hab) (div_pos hb hab)
-    rw [← add_div, div_self hab.ne'], by
+    rw [← add_div]; rw [div_self hab.ne'], by
     intro h x hx y hy hxy a b ha hb hab
     simpa [hab, zero_lt_one] using h hx hy hxy ha hb⟩
 #align strict_convex_on_iff_div strictConvexOn_iff_div
@@ -1094,7 +1094,7 @@ theorem OrderIso.strictConvexOn_symm (f : α ≃o β) (hf : StrictConcaveOn 𝕜
   obtain ⟨y', hy''⟩ := f.surjective.exists.mp ⟨y, rfl⟩
   have hxy' : x' ≠ y' := by rw [←f.injective.ne_iff, ←hx'', ←hy'']; exact hxy
   simp only [hx'', hy'', OrderIso.symm_apply_apply, gt_iff_lt]
-  rw [←f.lt_iff_lt, OrderIso.apply_symm_apply]
+  rw [←f.lt_iff_lt]; rw [OrderIso.apply_symm_apply]
   exact hf.2 (by simp : x' ∈ univ) (by simp : y' ∈ univ) hxy' ha hb hab
 
 theorem OrderIso.convexOn_symm (f : α ≃o β) (hf : ConcaveOn 𝕜 univ f) :
@@ -1103,7 +1103,7 @@ theorem OrderIso.convexOn_symm (f : α ≃o β) (hf : ConcaveOn 𝕜 univ f) :
   obtain ⟨x', hx''⟩ := f.surjective.exists.mp ⟨x, rfl⟩
   obtain ⟨y', hy''⟩ := f.surjective.exists.mp ⟨y, rfl⟩
   simp only [hx'', hy'', OrderIso.symm_apply_apply, gt_iff_lt]
-  rw [←f.le_iff_le, OrderIso.apply_symm_apply]
+  rw [←f.le_iff_le]; rw [OrderIso.apply_symm_apply]
   exact hf.2 (by simp : x' ∈ univ) (by simp : y' ∈ univ) ha hb hab
 
 theorem OrderIso.strictConcaveOn_symm (f : α ≃o β) (hf : StrictConvexOn 𝕜 univ f) :
@@ -1113,7 +1113,7 @@ theorem OrderIso.strictConcaveOn_symm (f : α ≃o β) (hf : StrictConvexOn 𝕜
   obtain ⟨y', hy''⟩ := f.surjective.exists.mp ⟨y, rfl⟩
   have hxy' : x' ≠ y' := by rw [←f.injective.ne_iff, ←hx'', ←hy'']; exact hxy
   simp only [hx'', hy'', OrderIso.symm_apply_apply, gt_iff_lt]
-  rw [←f.lt_iff_lt, OrderIso.apply_symm_apply]
+  rw [←f.lt_iff_lt]; rw [OrderIso.apply_symm_apply]
   exact hf.2 (by simp : x' ∈ univ) (by simp : y' ∈ univ) hxy' ha hb hab
 
 theorem OrderIso.concaveOn_symm (f : α ≃o β) (hf : ConvexOn 𝕜 univ f) :
@@ -1122,7 +1122,7 @@ theorem OrderIso.concaveOn_symm (f : α ≃o β) (hf : ConvexOn 𝕜 univ f) :
   obtain ⟨x', hx''⟩ := f.surjective.exists.mp ⟨x, rfl⟩
   obtain ⟨y', hy''⟩ := f.surjective.exists.mp ⟨y, rfl⟩
   simp only [hx'', hy'', OrderIso.symm_apply_apply, gt_iff_lt]
-  rw [←f.le_iff_le, OrderIso.apply_symm_apply]
+  rw [←f.le_iff_le]; rw [OrderIso.apply_symm_apply]
   exact hf.2 (by simp : x' ∈ univ) (by simp : y' ∈ univ) ha hb hab
 
 end OrderIso

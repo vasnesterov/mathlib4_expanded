@@ -96,11 +96,11 @@ theorem dedup_eq_cons (l : List α) (a : α) (l' : List α) :
   refine' ⟨fun h => _, fun h => _⟩
   · refine' ⟨mem_dedup.1 (h.symm ▸ mem_cons_self _ _), fun ha => _, by rw [h, tail_cons]⟩
     have : count a l.dedup ≤ 1 := nodup_iff_count_le_one.1 (nodup_dedup l) a
-    rw [h, count_cons_self, add_le_iff_nonpos_left] at this
+    rw [h] at this; rw [count_cons_self] at this; rw [add_le_iff_nonpos_left] at this
     exact not_le_of_lt (count_pos_iff_mem.2 ha) this
   · have := @List.cons_head!_tail α ⟨a⟩ _ (ne_nil_of_mem (mem_dedup.2 h.1))
     have hal : a ∈ l.dedup := mem_dedup.2 h.1
-    rw [← this, mem_cons, or_iff_not_imp_right] at hal
+    rw [← this] at hal; rw [mem_cons] at hal; rw [or_iff_not_imp_right] at hal
     exact this ▸ h.2.2.symm ▸ cons_eq_cons.2 ⟨(hal (h.2.2.symm ▸ h.2.1)).symm, rfl⟩
 #align list.dedup_eq_cons List.dedup_eq_cons
 
@@ -125,7 +125,7 @@ theorem dedup_idem {l : List α} : dedup (dedup l) = dedup l :=
 theorem dedup_append (l₁ l₂ : List α) : dedup (l₁ ++ l₂) = l₁ ∪ dedup l₂ := by
   induction' l₁ with a l₁ IH; · rfl
   simp only [cons_union] at *
-  rw [← IH, cons_append]
+  rw [← IH]; rw [cons_append]
   by_cases h : a ∈ dedup (l₁ ++ l₂)
   · rw [dedup_cons_of_mem' h, insert_of_mem h]
   · rw [dedup_cons_of_not_mem' h, insert_of_not_mem h]
@@ -135,8 +135,7 @@ theorem replicate_dedup {x : α} : ∀ {k}, k ≠ 0 → (replicate k x).dedup = 
   | 0, h => (h rfl).elim
   | 1, _ => rfl
   | n + 2, _ => by
-    rw [replicate_succ, dedup_cons_of_mem (mem_replicate.2 ⟨n.succ_ne_zero, rfl⟩),
-      replicate_dedup n.succ_ne_zero]
+    rw [replicate_succ]; rw [dedup_cons_of_mem (mem_replicate.2 ⟨n.succ_ne_zero, rfl⟩)]; rw [replicate_dedup n.succ_ne_zero]
 #align list.replicate_dedup List.replicate_dedup
 
 theorem count_dedup (l : List α) (a : α) : l.dedup.count a = if a ∈ l then 1 else 0 := by

@@ -43,9 +43,9 @@ theorem norm_exp_mul_sq_le {z : ℂ} (hz : 0 < z.im) (n : ℤ) :
       rw [(by push_cast; ring : ↑π * I * (n : ℂ) ^ 2 * z = ↑(π * (n : ℝ) ^ 2) * (z * I)),
         ofReal_mul_re, mul_I_re]
       ring
-    rw [this, exp_mul, ← Int.cast_pow, rpow_int_cast]
+    rw [this]; rw [exp_mul]; rw [← Int.cast_pow]; rw [rpow_int_cast]
   · have : n ^ 2 = ↑(n.natAbs ^ 2) := by rw [Nat.cast_pow, Int.natAbs_sq]
-    rw [this, zpow_ofNat]
+    rw [this]; rw [zpow_ofNat]
     exact pow_le_pow_of_le_one (exp_pos _).le h.le ((sq n.natAbs).symm ▸ n.natAbs.le_mul_self)
 #align norm_exp_mul_sq_le norm_exp_mul_sq_le
 
@@ -87,14 +87,14 @@ set_option linter.uppercaseLean3 false in
 theorem jacobiTheta_S_smul (τ : ℍ) :
     jacobiTheta ↑(ModularGroup.S • τ) = (-I * τ) ^ (1 / 2 : ℂ) * jacobiTheta τ := by
   unfold jacobiTheta
-  rw [UpperHalfPlane.modular_S_smul, UpperHalfPlane.coe_mk]
+  rw [UpperHalfPlane.modular_S_smul]; rw [UpperHalfPlane.coe_mk]
   have ha : 0 < (-I * τ).re := by
-    rw [neg_mul, neg_re, mul_re, I_re, I_im, zero_mul, one_mul, zero_sub, neg_neg]
+    rw [neg_mul]; rw [neg_re]; rw [mul_re]; rw [I_re]; rw [I_im]; rw [zero_mul]; rw [one_mul]; rw [zero_sub]; rw [neg_neg]
     exact τ.im_pos
   have ha' : (-I * τ) ^ (1 / 2 : ℂ) ≠ 0 := by
-    rw [Ne.def, cpow_eq_zero_iff]
+    rw [Ne.def]; rw [cpow_eq_zero_iff]
     contrapose! ha
-    rw [ha.1, zero_re]
+    rw [ha.1]; rw [zero_re]
   have hτ : (τ : ℂ) ≠ 0 := τ.ne_zero
   have := Complex.tsum_exp_neg_mul_int_sq ha
   rw [mul_comm ((1 : ℂ) / _) _, mul_one_div, eq_div_iff ha', mul_comm _ (_ ^ _), eq_comm] at this
@@ -102,7 +102,7 @@ theorem jacobiTheta_S_smul (τ : ℍ) :
     intro n
     field_simp [hτ, I_ne_zero]
     ring_nf
-    rw [I_sq, mul_neg, mul_one, neg_neg]
+    rw [I_sq]; rw [mul_neg]; rw [mul_one]; rw [neg_neg]
   simp_rw [expo1] at this
   have expo2 : ∀ n : ℤ, -↑π * (-I * ↑τ) * (n : ℂ) ^ 2 = ↑π * I * (n : ℂ) ^ 2 * ↑τ := by
     intro n
@@ -126,8 +126,7 @@ theorem hasSum_nat_jacobiTheta {z : ℂ} (hz : 0 < im z) :
 
 theorem jacobiTheta_eq_tsum_nat {z : ℂ} (hz : 0 < im z) :
     jacobiTheta z = ↑1 + ↑2 * ∑' n : ℕ, cexp (π * I * ((n : ℂ) + 1) ^ 2 * z) := by
-  rw [(hasSum_nat_jacobiTheta hz).tsum_eq, mul_div_cancel' _ (two_ne_zero' ℂ), ← add_sub_assoc,
-    add_sub_cancel']
+  rw [(hasSum_nat_jacobiTheta hz).tsum_eq]; rw [mul_div_cancel' _ (two_ne_zero' ℂ)]; rw [← add_sub_assoc]; rw [add_sub_cancel']
 #align jacobi_theta_eq_tsum_nat jacobiTheta_eq_tsum_nat
 
 /-- An explicit upper bound for `‖jacobiTheta τ - 1‖`. -/
@@ -137,8 +136,7 @@ theorem norm_jacobiTheta_sub_one_le {z : ℂ} (hz : 0 < im z) :
       rexp (-π * z.im) / (1 - rexp (-π * z.im)) by
     calc
       ‖jacobiTheta z - 1‖ = ↑2 * ‖∑' n : ℕ, cexp (π * I * ((n : ℂ) + 1) ^ 2 * z)‖ := by
-        rw [sub_eq_iff_eq_add'.mpr (jacobiTheta_eq_tsum_nat hz), norm_mul, Complex.norm_eq_abs,
-          Complex.abs_two]
+        rw [sub_eq_iff_eq_add'.mpr (jacobiTheta_eq_tsum_nat hz)]; rw [norm_mul]; rw [Complex.norm_eq_abs]; rw [Complex.abs_two]
       _ ≤ 2 * (rexp (-π * z.im) / (1 - rexp (-π * z.im))) := by
         rwa [mul_le_mul_left (zero_lt_two' ℝ)]
       _ = 2 / (1 - rexp (-π * z.im)) * rexp (-π * z.im) := by rw [div_mul_comm, mul_comm]
@@ -162,9 +160,9 @@ theorem isBigO_at_im_infty_jacobiTheta_sub_one :
   simp_rw [IsBigO, IsBigOWith, Filter.eventually_comap, Filter.eventually_atTop]
   refine' ⟨2 / (1 - rexp (-π)), 1, fun y hy z hz =>
     (norm_jacobiTheta_sub_one_le (hz.symm ▸ zero_lt_one.trans_le hy : 0 < im z)).trans _⟩
-  rw [Real.norm_eq_abs, Real.abs_exp]
+  rw [Real.norm_eq_abs]; rw [Real.abs_exp]
   refine' mul_le_mul_of_nonneg_right _ (exp_pos _).le
-  rw [div_le_div_left (zero_lt_two' ℝ), sub_le_sub_iff_left, exp_le_exp, neg_mul, neg_le_neg_iff]
+  rw [div_le_div_left (zero_lt_two' ℝ)]; rw [sub_le_sub_iff_left]; rw [exp_le_exp]; rw [neg_mul]; rw [neg_le_neg_iff]
   · exact le_mul_of_one_le_right pi_pos.le (hz.symm ▸ hy)
   · rw [sub_pos, exp_lt_one_iff, neg_mul, neg_lt_zero]
     exact mul_pos pi_pos (hz.symm ▸ zero_lt_one.trans_le hy)

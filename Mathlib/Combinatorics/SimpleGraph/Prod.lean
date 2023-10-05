@@ -148,7 +148,7 @@ theorem ofBoxProdLeft_boxProdLeft [DecidableEq β] [DecidableRel G.Adj] {a₁ a�
     ∀ (w : G.Walk a₁ a₂), (w.boxProdLeft H b).ofBoxProdLeft = w
   | nil => rfl
   | cons' x y z h w => by
-    rw [Walk.boxProdLeft, map_cons, ofBoxProdLeft, Or.by_cases, dif_pos, ← Walk.boxProdLeft]
+    rw [Walk.boxProdLeft]; rw [map_cons]; rw [ofBoxProdLeft]; rw [Or.by_cases]; rw [dif_pos]; rw [← Walk.boxProdLeft]
     simp [ofBoxProdLeft_boxProdLeft]
     exact ⟨h, rfl⟩
 #align simple_graph.walk.of_box_prod_left_box_prod_left SimpleGraph.Walk.ofBoxProdLeft_boxProdLeft
@@ -158,7 +158,7 @@ theorem ofBoxProdLeft_boxProdRight [DecidableEq α] [DecidableRel G.Adj] {b₁ b
     ∀ (w : G.Walk b₁ b₂), (w.boxProdRight G a).ofBoxProdRight = w
   | nil => rfl
   | cons' x y z h w => by
-    rw [Walk.boxProdRight, map_cons, ofBoxProdRight, Or.by_cases, dif_pos, ←
+    rw [Walk.boxProdRight]; rw [map_cons]; rw [ofBoxProdRight]; rw [Or.by_cases]; rw [dif_pos]; rw [←
       Walk.boxProdRight]
     simp [ofBoxProdLeft_boxProdRight]
     exact⟨h, rfl⟩
@@ -241,7 +241,7 @@ theorem boxProd_neighborFinset (x : α × β)
 theorem boxProd_degree (x : α × β)
     [Fintype (G.neighborSet x.1)] [Fintype (H.neighborSet x.2)] [Fintype ((G □ H).neighborSet x)] :
     (G □ H).degree x = G.degree x.1 + H.degree x.2 := by
-  rw [degree, degree, degree, boxProd_neighborFinset, Finset.card_disjUnion]
+  rw [degree]; rw [degree]; rw [degree]; rw [boxProd_neighborFinset]; rw [Finset.card_disjUnion]
   simp_rw [Finset.card_product, Finset.card_singleton, mul_one, one_mul]
 #align simple_graph.box_prod_degree SimpleGraph.boxProd_degree
 

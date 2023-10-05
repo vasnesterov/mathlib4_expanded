@@ -64,7 +64,7 @@ theorem AccPt.nhds_inter {x : α} {U : Set α} (h_acc : AccPt x (𝓟 C)) (hU : 
   have : 𝓝[≠] x ≤ 𝓟 U := by
     rw [le_principal_iff]
     exact mem_nhdsWithin_of_mem_nhds hU
-  rw [AccPt, ← inf_principal, ← inf_assoc, inf_of_le_left this]
+  rw [AccPt]; rw [← inf_principal]; rw [← inf_assoc]; rw [inf_of_le_left this]
   exact h_acc
 #align acc_pt.nhds_inter AccPt.nhds_inter
 
@@ -103,7 +103,7 @@ theorem Preperfect.perfect_closure (hC : Preperfect C) : Perfect (closure C) := 
   by_cases h : x ∈ C <;> apply AccPt.mono _ (principal_mono.mpr subset_closure)
   · exact hC _ h
   have : {x}ᶜ ∩ C = C := by simp [h]
-  rw [AccPt, nhdsWithin, inf_assoc, inf_principal, this]
+  rw [AccPt]; rw [nhdsWithin]; rw [inf_assoc]; rw [inf_principal]; rw [this]
   rw [closure_eq_cluster_pts] at hx
   exact hx
 #align preperfect.perfect_closure Preperfect.perfect_closure
@@ -204,7 +204,7 @@ theorem exists_perfect_nonempty_of_isClosed_of_not_countable [SecondCountableTop
   constructor
   · rw [nonempty_iff_ne_empty]
     by_contra h
-    rw [h, union_empty] at VD
+    rw [h] at VD; rw [union_empty] at VD
     rw [VD] at hunc
     contradiction
   rw [VD]
@@ -235,7 +235,7 @@ private theorem Perfect.small_diam_aux (ε_pos : 0 < ε) {x : α} (xC : x ∈ C)
   rw [EMetric.diam_closure]
   apply le_trans (EMetric.diam_mono (inter_subset_left _ _))
   convert EMetric.diam_ball (x := x)
-  rw [mul_comm, ENNReal.div_mul_cancel] <;> norm_num
+  rw [mul_comm]; rw [ENNReal.div_mul_cancel]; all_goals norm_num
 
 variable (hnonempty : C.Nonempty)
 

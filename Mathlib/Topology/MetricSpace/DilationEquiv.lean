@@ -73,8 +73,7 @@ def symm (e : X ≃ᵈ Y) : Y ≃ᵈ X where
   edist_eq' := by
     refine ⟨(ratio e)⁻¹, inv_ne_zero <| ratio_ne_zero e, e.surjective.forall₂.2 fun x y ↦ ?_⟩
     simp_rw [Equiv.toFun_as_coe, Equiv.symm_apply_apply, coe_toEquiv, edist_eq]
-    rw [← mul_assoc, ← ENNReal.coe_mul, inv_mul_cancel (ratio_ne_zero e),
-      ENNReal.coe_one, one_mul]
+    rw [← mul_assoc]; rw [← ENNReal.coe_mul]; rw [inv_mul_cancel (ratio_ne_zero e)]; rw [ENNReal.coe_one]; rw [one_mul]
 
 @[simp] theorem symm_symm (e : X ≃ᵈ Y) : e.symm.symm = e := rfl
 @[simp] theorem apply_symm_apply (e : X ≃ᵈ Y) (x : Y) : e (e.symm x) = x := e.right_inv x
@@ -170,7 +169,7 @@ def toPerm : (X ≃ᵈ X) →* Equiv.Perm X where
 
 @[norm_cast]
 theorem coe_pow (e : X ≃ᵈ X) (n : ℕ) : ⇑(e ^ n) = e^[n] := by
-  rw [← coe_toEquiv, ← toPerm_apply, map_pow, Equiv.Perm.coe_pow]; rfl
+  rw [← coe_toEquiv]; rw [← toPerm_apply]; rw [map_pow]; rw [Equiv.Perm.coe_pow]; rfl
 
 end PseudoEMetricSpace
 

@@ -91,7 +91,7 @@ theorem eq_of_edist_zero_on {f f' : α → E} {s : Set α} (h : ∀ ⦃x⦄, x �
   dsimp only [eVariationOn]
   congr 1 with p : 1
   congr 1 with i : 1
-  rw [edist_congr_right (h <| p.snd.prop.2 (i + 1)), edist_congr_left (h <| p.snd.prop.2 i)]
+  rw [edist_congr_right (h <| p.snd.prop.2 (i + 1))]; rw [edist_congr_left (h <| p.snd.prop.2 i)]
 #align evariation_on.eq_of_edist_zero_on eVariationOn.eq_of_edist_zero_on
 
 theorem eq_of_eqOn {f f' : α → E} {s : Set α} (h : EqOn f f' s) :
@@ -165,7 +165,7 @@ theorem eq_zero_iff (f : α → E) {s : Set α} :
     eVariationOn f s = 0 ↔ ∀ x ∈ s, ∀ y ∈ s, edist (f x) (f y) = 0 := by
   constructor
   · rintro h x xs y ys
-    rw [← le_zero_iff, ← h]
+    rw [← le_zero_iff]; rw [← h]
     exact edist_le f xs ys
   · rintro h
     dsimp only [eVariationOn]
@@ -178,7 +178,7 @@ theorem constant_on {f : α → E} {s : Set α} (hf : (f '' s).Subsingleton) :
     eVariationOn f s = 0 := by
   rw [eq_zero_iff]
   rintro x xs y ys
-  rw [hf ⟨x, xs, rfl⟩ ⟨y, ys, rfl⟩, edist_self]
+  rw [hf ⟨x, xs, rfl⟩ ⟨y, ys, rfl⟩]; rw [edist_self]
 #align evariation_on.constant_on eVariationOn.constant_on
 
 @[simp]
@@ -225,7 +225,7 @@ theorem lowerSemicontinuous_uniformOn (s : Set α) :
 theorem _root_.BoundedVariationOn.dist_le {E : Type*} [PseudoMetricSpace E] {f : α → E}
     {s : Set α} (h : BoundedVariationOn f s) {x y : α} (hx : x ∈ s) (hy : y ∈ s) :
     dist (f x) (f y) ≤ (eVariationOn f s).toReal := by
-  rw [← ENNReal.ofReal_le_ofReal_iff ENNReal.toReal_nonneg, ENNReal.ofReal_toReal h, ← edist_dist]
+  rw [← ENNReal.ofReal_le_ofReal_iff ENNReal.toReal_nonneg]; rw [ENNReal.ofReal_toReal h]; rw [← edist_dist]
   exact edist_le f hx hy
 #align has_bounded_variation_on.dist_le BoundedVariationOn.dist_le
 
@@ -294,7 +294,7 @@ theorem add_point (f : α → E) {s : Set α} {x : α} (hx : x ∈ s) (u : ℕ �
       exact hu (Nat.le_succ _)
     · have A : i < N := hi ▸ i.lt_succ_self
       have B : ¬i + 1 < N := by rw [← hi]; exact fun h => h.ne rfl
-      rw [if_pos A, if_neg B, if_pos hi]
+      rw [if_pos A]; rw [if_neg B]; rw [if_pos hi]
       have T := Nat.find_min exists_N A
       push_neg at T
       exact T (A.le.trans hN.1)
@@ -302,12 +302,12 @@ theorem add_point (f : α → E) {s : Set α} {x : α} (hx : x ∈ s) (u : ℕ �
       have B : ¬i + 1 < N := hi.not_lt
       have C : ¬i + 1 = N := hi.ne.symm
       have D : i + 1 - 1 = i := Nat.pred_succ i
-      rw [if_neg A, if_neg B, if_neg C, D]
+      rw [if_neg A]; rw [if_neg B]; rw [if_neg C]; rw [D]
       split_ifs
       · exact hN.2.le.trans (hu (le_of_not_lt A))
       · exact hu (Nat.pred_le _)
   refine' ⟨w, n + 1, hw, ws, (mem_image _ _ _).2 ⟨N, hN.1.trans_lt (Nat.lt_succ_self n), _⟩, _⟩
-  · dsimp only; rw [if_neg (lt_irrefl N), if_pos rfl]
+  · dsimp only; rw [if_neg (lt_irrefl N)]; rw [if_pos rfl]
   rcases eq_or_lt_of_le (zero_le N) with (Npos | Npos)
   · calc
       (∑ i in Finset.range n, edist (f (u (i + 1))) (f (u i))) =
@@ -329,7 +329,7 @@ theorem add_point (f : α → E) {s : Set α} {x : α} (hx : x ∈ s) (u : ℕ �
           ((∑ i in Finset.Ico 0 (N - 1), edist (f (u (i + 1))) (f (u i))) +
               ∑ i in Finset.Ico (N - 1) N, edist (f (u (i + 1))) (f (u i))) +
             ∑ i in Finset.Ico N n, edist (f (u (i + 1))) (f (u i)) := by
-        rw [Finset.sum_Ico_consecutive, Finset.sum_Ico_consecutive, Finset.range_eq_Ico]
+        rw [Finset.sum_Ico_consecutive]; rw [Finset.sum_Ico_consecutive]; rw [Finset.range_eq_Ico]
         · exact zero_le _
         · exact hN.1
         · exact zero_le _
@@ -343,7 +343,7 @@ theorem add_point (f : α → E) {s : Set α} {x : α} (hx : x ∈ s) (u : ℕ �
           dsimp only
           have A : i + 1 < N := Nat.lt_pred_iff.1 hi
           have B : i < N := Nat.lt_of_succ_lt A
-          rw [if_pos A, if_pos B]
+          rw [if_pos A]; rw [if_pos B]
         · have A : N - 1 + 1 = N := Nat.succ_pred_eq_of_pos Npos
           have : Finset.Ico (N - 1) N = {N - 1} := by rw [← Nat.Ico_succ_singleton, A]
           simp only [this, A, Finset.sum_singleton]
@@ -351,18 +351,18 @@ theorem add_point (f : α → E) {s : Set α} {x : α} (hx : x ∈ s) (u : ℕ �
           rw [Finset.mem_Ico] at hi
           dsimp only
           have A : ¬1 + i + 1 < N := fun h => by
-            rw [add_assoc, add_comm] at h
+            rw [add_assoc] at h; rw [add_comm] at h
             exact hi.left.not_lt (i.lt_succ_self.trans (i.succ.lt_succ_self.trans h))
           have B : ¬1 + i + 1 = N := fun h => by
-            rw [← h, add_assoc, add_comm] at hi
+            rw [← h] at hi; rw [add_assoc] at hi; rw [add_comm] at hi
             exact Nat.not_succ_le_self i (i.succ.le_succ.trans hi.left)
           have C : ¬1 + i < N := fun h => by
             rw [add_comm] at h
             exact hi.left.not_lt (i.lt_succ_self.trans h)
           have D : ¬1 + i = N := fun h => by
-            rw [← h, add_comm, Nat.succ_le_iff] at hi
+            rw [← h] at hi; rw [add_comm] at hi; rw [Nat.succ_le_iff] at hi
             exact hi.left.ne rfl
-          rw [if_neg A, if_neg B, if_neg C, if_neg D]
+          rw [if_neg A]; rw [if_neg B]; rw [if_neg C]; rw [if_neg D]
           congr 3 <;> · rw [add_comm, Nat.sub_one]; apply Nat.pred_succ
       _ = (∑ i in Finset.Ico 0 (N - 1), edist (f (w (i + 1))) (f (w i))) +
               edist (f (w (N + 1))) (f (w (N - 1))) +
@@ -381,11 +381,10 @@ theorem add_point (f : α → E) {s : Set α} {x : α} (hx : x ∈ s) (u : ℕ �
         have A : N - 1 + 1 = N := Nat.succ_pred_eq_of_pos Npos
         have B : N - 1 + 1 < N + 1 := A.symm ▸ N.lt_succ_self
         have C : N - 1 < N + 1 := lt_of_le_of_lt N.pred_le N.lt_succ_self
-        rw [Finset.sum_eq_sum_Ico_succ_bot C, Finset.sum_eq_sum_Ico_succ_bot B, A, Finset.Ico_self,
-          Finset.sum_empty, add_zero, add_comm (edist _ _)]
+        rw [Finset.sum_eq_sum_Ico_succ_bot C]; rw [Finset.sum_eq_sum_Ico_succ_bot B]; rw [A]; rw [Finset.Ico_self]; rw [Finset.sum_empty]; rw [add_zero]; rw [add_comm (edist _ _)]
         exact edist_triangle _ _ _
       _ = ∑ j in Finset.range (n + 1), edist (f (w (j + 1))) (f (w j)) := by
-        rw [Finset.sum_Ico_consecutive, Finset.sum_Ico_consecutive, Finset.range_eq_Ico]
+        rw [Finset.sum_Ico_consecutive]; rw [Finset.sum_Ico_consecutive]; rw [Finset.range_eq_Ico]
         · exact zero_le _
         · exact Nat.succ_le_succ hN.left
         · exact zero_le _
@@ -511,7 +510,7 @@ theorem Icc_add_Icc (f : α → E) {s : Set α} {a b c : α} (hab : a ≤ b) (hb
     ⟨⟨hb, hab, le_rfl⟩, (inter_subset_right _ _).trans Icc_subset_Iic_self⟩
   have B : IsLeast (s ∩ Icc b c) b :=
     ⟨⟨hb, le_rfl, hbc⟩, (inter_subset_right _ _).trans Icc_subset_Ici_self⟩
-  rw [← eVariationOn.union f A B, ← inter_union_distrib_left, Icc_union_Icc_eq_Icc hab hbc]
+  rw [← eVariationOn.union f A B]; rw [← inter_union_distrib_left]; rw [Icc_union_Icc_eq_Icc hab hbc]
 #align evariation_on.Icc_add_Icc eVariationOn.Icc_add_Icc
 
 section Monotone
@@ -534,7 +533,7 @@ theorem comp_le_of_antitoneOn (f : α → E) {s : Set α} {t : Set β} (φ : β 
       fun i => φst (ut _)⟩
     le_rfl
   dsimp only [Subtype.coe_mk]
-  rw [edist_comm, Nat.sub_sub, add_comm, Nat.sub_succ, Nat.add_one, Nat.succ_pred_eq_of_pos]
+  rw [edist_comm]; rw [Nat.sub_sub]; rw [add_comm]; rw [Nat.sub_succ]; rw [Nat.add_one]; rw [Nat.succ_pred_eq_of_pos]
   simp only [Function.comp_apply]
   simpa only [tsub_pos_iff_lt, Finset.mem_range] using hx
 #align evariation_on.comp_le_of_antitone_on eVariationOn.comp_le_of_antitoneOn
@@ -615,7 +614,7 @@ theorem MonotoneOn.eVariationOn_le {f : α → ℝ} {s : Set α} (hf : MonotoneO
         ∑ i in Finset.range n, ENNReal.ofReal (f (u (i + 1)) - f (u i)) := by
       refine Finset.sum_congr rfl fun i hi => ?_
       simp only [Finset.mem_range] at hi
-      rw [edist_dist, Real.dist_eq, abs_of_nonneg]
+      rw [edist_dist]; rw [Real.dist_eq]; rw [abs_of_nonneg]
       exact sub_nonneg_of_le (hf (us i).1 (us (i + 1)).1 (hu (Nat.le_succ _)))
     _ = ENNReal.ofReal (∑ i in Finset.range n, (f (u (i + 1)) - f (u i))) := by
       rw [ENNReal.ofReal_sum_of_nonneg]
@@ -645,7 +644,7 @@ variable (f : α → E) (s : Set α)
 
 protected theorem self (a : α) : variationOnFromTo f s a a = 0 := by
   dsimp only [variationOnFromTo]
-  rw [if_pos le_rfl, Icc_self, eVariationOn.subsingleton, ENNReal.zero_toReal]
+  rw [if_pos le_rfl]; rw [Icc_self]; rw [eVariationOn.subsingleton]; rw [ENNReal.zero_toReal]
   exact fun x hx y hy => hx.2.trans hy.2.symm
 #align variation_on_from_to.self variationOnFromTo.self
 
@@ -673,7 +672,7 @@ protected theorem eq_of_le {a b : α} (h : a ≤ b) :
 
 protected theorem eq_of_ge {a b : α} (h : b ≤ a) :
     variationOnFromTo f s a b = -(eVariationOn f (s ∩ Icc b a)).toReal := by
-  rw [variationOnFromTo.eq_neg_swap, neg_inj, variationOnFromTo.eq_of_le f s h]
+  rw [variationOnFromTo.eq_neg_swap]; rw [neg_inj]; rw [variationOnFromTo.eq_of_le f s h]
 #align variation_on_from_to.eq_of_ge variationOnFromTo.eq_of_ge
 
 protected theorem add {f : α → E} {s : Set α} (hf : LocallyBoundedVariationOn f s) {a b c : α}
@@ -685,9 +684,7 @@ protected theorem add {f : α → E} {s : Set α} (hf : LocallyBoundedVariationO
     simp only [variationOnFromTo.eq_neg_swap f s y x, Subtype.coe_mk, add_right_neg,
       forall_true_left]
   · rintro x y z xy yz xs ys zs
-    rw [variationOnFromTo.eq_of_le f s xy, variationOnFromTo.eq_of_le f s yz,
-      variationOnFromTo.eq_of_le f s (xy.trans yz),
-      ← ENNReal.toReal_add (hf x y xs ys) (hf y z ys zs), eVariationOn.Icc_add_Icc f xy yz ys]
+    rw [variationOnFromTo.eq_of_le f s xy]; rw [variationOnFromTo.eq_of_le f s yz]; rw [variationOnFromTo.eq_of_le f s (xy.trans yz)]; rw [← ENNReal.toReal_add (hf x y xs ys) (hf y z ys zs)]; rw [eVariationOn.Icc_add_Icc f xy yz ys]
 #align variation_on_from_to.add variationOnFromTo.add
 
 protected theorem edist_zero_of_eq_zero {f : α → E} {s : Set α} (hf : LocallyBoundedVariationOn f s)
@@ -696,10 +693,9 @@ protected theorem edist_zero_of_eq_zero {f : α → E} {s : Set α} (hf : Locall
   wlog h' : a ≤ b
   · rw [edist_comm]
     apply this f s hf hb ha _ (le_of_not_le h')
-    rw [variationOnFromTo.eq_neg_swap, h, neg_zero]
+    rw [variationOnFromTo.eq_neg_swap]; rw [h]; rw [neg_zero]
   · apply le_antisymm _ (zero_le _)
-    rw [← ENNReal.ofReal_zero, ← h, variationOnFromTo.eq_of_le f s h',
-      ENNReal.ofReal_toReal (hf a b ha hb)]
+    rw [← ENNReal.ofReal_zero]; rw [← h]; rw [variationOnFromTo.eq_of_le f s h']; rw [ENNReal.ofReal_toReal (hf a b ha hb)]
     apply eVariationOn.edist_le
     exacts [⟨ha, ⟨le_rfl, h'⟩⟩, ⟨hb, ⟨h', le_rfl⟩⟩]
 #align variation_on_from_to.edist_zero_of_eq_zero variationOnFromTo.edist_zero_of_eq_zero
@@ -714,16 +710,14 @@ protected theorem eq_zero_iff_of_le {f : α → E} {s : Set α} (hf : LocallyBou
     {a b : α} (ha : a ∈ s) (hb : b ∈ s) (ab : a ≤ b) :
     variationOnFromTo f s a b = 0 ↔
       ∀ ⦃x⦄ (_hx : x ∈ s ∩ Icc a b) ⦃y⦄ (_hy : y ∈ s ∩ Icc a b), edist (f x) (f y) = 0 := by
-  rw [variationOnFromTo.eq_of_le _ _ ab, ENNReal.toReal_eq_zero_iff, or_iff_left (hf a b ha hb),
-    eVariationOn.eq_zero_iff]
+  rw [variationOnFromTo.eq_of_le _ _ ab]; rw [ENNReal.toReal_eq_zero_iff]; rw [or_iff_left (hf a b ha hb)]; rw [eVariationOn.eq_zero_iff]
 #align variation_on_from_to.eq_zero_iff_of_le variationOnFromTo.eq_zero_iff_of_le
 
 protected theorem eq_zero_iff_of_ge {f : α → E} {s : Set α} (hf : LocallyBoundedVariationOn f s)
     {a b : α} (ha : a ∈ s) (hb : b ∈ s) (ba : b ≤ a) :
     variationOnFromTo f s a b = 0 ↔
       ∀ ⦃x⦄ (_hx : x ∈ s ∩ Icc b a) ⦃y⦄ (_hy : y ∈ s ∩ Icc b a), edist (f x) (f y) = 0 := by
-  rw [variationOnFromTo.eq_of_ge _ _ ba, neg_eq_zero, ENNReal.toReal_eq_zero_iff,
-    or_iff_left (hf b a hb ha), eVariationOn.eq_zero_iff]
+  rw [variationOnFromTo.eq_of_ge _ _ ba]; rw [neg_eq_zero]; rw [ENNReal.toReal_eq_zero_iff]; rw [or_iff_left (hf b a hb ha)]; rw [eVariationOn.eq_zero_iff]
 #align variation_on_from_to.eq_zero_iff_of_ge variationOnFromTo.eq_zero_iff_of_ge
 
 protected theorem eq_zero_iff {f : α → E} {s : Set α} (hf : LocallyBoundedVariationOn f s) {a b : α}
@@ -757,17 +751,17 @@ protected theorem antitoneOn (hf : LocallyBoundedVariationOn f s) {b : α} (bs :
 protected theorem sub_self_monotoneOn {f : α → ℝ} {s : Set α} (hf : LocallyBoundedVariationOn f s)
     {a : α} (as : a ∈ s) : MonotoneOn (variationOnFromTo f s a - f) s := by
   rintro b bs c cs bc
-  rw [Pi.sub_apply, Pi.sub_apply, le_sub_iff_add_le, add_comm_sub, ← le_sub_iff_add_le']
+  rw [Pi.sub_apply]; rw [Pi.sub_apply]; rw [le_sub_iff_add_le]; rw [add_comm_sub]; rw [← le_sub_iff_add_le']
   calc
     f c - f b ≤ |f c - f b| := le_abs_self _
     _ = dist (f b) (f c) := by rw [dist_comm, Real.dist_eq]
     _ ≤ variationOnFromTo f s b c := by
-      rw [variationOnFromTo.eq_of_le f s bc, dist_edist]
+      rw [variationOnFromTo.eq_of_le f s bc]; rw [dist_edist]
       apply ENNReal.toReal_mono (hf b c bs cs)
       apply eVariationOn.edist_le f
       exacts [⟨bs, le_rfl, bc⟩, ⟨cs, bc, le_rfl⟩]
     _ = variationOnFromTo f s a c - variationOnFromTo f s a b := by
-      rw [← variationOnFromTo.add hf as bs cs, add_sub_cancel']
+      rw [← variationOnFromTo.add hf as bs cs]; rw [add_sub_cancel']
 
 #align variation_on_from_to.sub_self_monotone_on variationOnFromTo.sub_self_monotoneOn
 

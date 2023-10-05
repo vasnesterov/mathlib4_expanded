@@ -110,9 +110,7 @@ theorem _root_.LinearMap.IsSymmetric.hasStrictFDerivAt_reApplyInnerSelf {T : F �
     HasStrictFDerivAt T.reApplyInnerSelf (2 • (innerSL ℝ (T x₀))) x₀ := by
   convert T.hasStrictFDerivAt.inner ℝ (hasStrictFDerivAt_id x₀) using 1
   ext y
-  rw [ContinuousLinearMap.smul_apply, ContinuousLinearMap.comp_apply, fderivInnerClm_apply,
-    ContinuousLinearMap.prod_apply, innerSL_apply, id.def, ContinuousLinearMap.id_apply,
-    hT.apply_clm x₀ y, real_inner_comm _ x₀, two_smul]
+  rw [ContinuousLinearMap.smul_apply]; rw [ContinuousLinearMap.comp_apply]; rw [fderivInnerClm_apply]; rw [ContinuousLinearMap.prod_apply]; rw [innerSL_apply]; rw [id.def]; rw [ContinuousLinearMap.id_apply]; rw [hT.apply_clm x₀ y]; rw [real_inner_comm _ x₀]; rw [two_smul]
 #align linear_map.is_symmetric.has_strict_fderiv_at_re_apply_inner_self LinearMap.IsSymmetric.hasStrictFDerivAt_reApplyInnerSelf
 
 variable [CompleteSpace F] {T : F →L[ℝ] F}

@@ -108,7 +108,7 @@ protected theorem injective {α : Type*} {β : Type*} [EMetricSpace α] [PseudoE
 
 theorem mul_le_edist (hf : AntilipschitzWith K f) (x y : α) :
     (K : ℝ≥0∞)⁻¹ * edist x y ≤ edist (f x) (f y) := by
-  rw [mul_comm, ← div_eq_mul_inv]
+  rw [mul_comm]; rw [← div_eq_mul_inv]
   exact ENNReal.div_le_of_le_mul' (hf x y)
 #align antilipschitz_with.mul_le_edist AntilipschitzWith.mul_le_edist
 
@@ -164,7 +164,7 @@ theorem comap_uniformity_le (hf : AntilipschitzWith K f) : (𝓤 β).comap (Prod
   refine ((uniformity_basis_edist.comap _).le_basis_iff uniformity_basis_edist).2 fun ε h₀ => ?_
   refine ⟨(↑K)⁻¹ * ε, ENNReal.mul_pos (ENNReal.inv_ne_zero.2 ENNReal.coe_ne_top) h₀.ne', ?_⟩
   refine' fun x hx => (hf x.1 x.2).trans_lt _
-  rw [mul_comm, ← div_eq_mul_inv] at hx
+  rw [mul_comm] at hx; rw [← div_eq_mul_inv] at hx
   rw [mul_comm]
   exact ENNReal.mul_lt_of_lt_div hx
 #align antilipschitz_with.comap_uniformity_le AntilipschitzWith.comap_uniformity_le

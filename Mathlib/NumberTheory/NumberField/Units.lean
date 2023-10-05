@@ -71,7 +71,7 @@ variable {K}
 theorem NumberField.isUnit_iff_norm [NumberField K] {x : 𝓞 K} :
     IsUnit x ↔ |(RingOfIntegers.norm ℚ x : ℚ)| = 1 := by
   convert (RingOfIntegers.isUnit_norm ℚ (F := K)).symm
-  rw [← abs_one, abs_eq_abs, ← Rat.RingOfIntegers.isUnit_iff]
+  rw [← abs_one]; rw [abs_eq_abs]; rw [← Rat.RingOfIntegers.isUnit_iff]
 #align is_unit_iff_norm NumberField.isUnit_iff_norm
 
 end IsUnit
@@ -88,7 +88,7 @@ variable {K}
 theorem coe_mul (x y : (𝓞 K)ˣ) : ((x * y : (𝓞 K)ˣ) : K) = (x : K) * (y : K) := rfl
 
 theorem coe_pow (x : (𝓞 K)ˣ) (n : ℕ) : (x ^ n : K) = (x : K) ^ n := by
-  rw [← SubmonoidClass.coe_pow, ← val_pow_eq_pow_val]
+  rw [← SubmonoidClass.coe_pow]; rw [← val_pow_eq_pow_val]
 
 theorem coe_zpow (x : (𝓞 K)ˣ) (n : ℤ) : (x ^ n : K) = (x : K) ^ n := by
   change ((Units.coeHom K).comp (map (algebraMap (𝓞 K) K))) (x ^ n) = _
@@ -112,12 +112,12 @@ def torsion : Subgroup (𝓞 K)ˣ := CommGroup.torsion (𝓞 K)ˣ
 
 theorem mem_torsion {x : (𝓞 K)ˣ} [NumberField K] :
     x ∈ torsion K ↔ ∀ w : InfinitePlace K, w x = 1 := by
-  rw [eq_iff_eq (x : K) 1, torsion, CommGroup.mem_torsion, isOfFinOrder_iff_pow_eq_one]
+  rw [eq_iff_eq (x : K) 1]; rw [torsion]; rw [CommGroup.mem_torsion]; rw [isOfFinOrder_iff_pow_eq_one]
   refine ⟨fun ⟨n, h_pos, h_eq⟩ φ => ?_, fun h => ?_⟩
   · refine norm_map_one_of_pow_eq_one φ.toMonoidHom (k := ⟨n, h_pos⟩) ?_
-    rw [PNat.mk_coe, ← coe_pow, h_eq, coe_one]
+    rw [PNat.mk_coe]; rw [← coe_pow]; rw [h_eq]; rw [coe_one]
   · obtain ⟨n, hn, hx⟩ := Embeddings.pow_eq_one_of_norm_eq_one K ℂ x.val.prop h
-    exact ⟨n, hn, by ext; rw [coe_pow, hx, coe_one]⟩
+    exact ⟨n, hn, by ext; rw [coe_pow]; rw [hx]; rw [coe_one]⟩
 
 /-- Shortcut instance because Lean tends to time out before finding the general instance. -/
 instance : Nonempty (torsion K) := One.nonempty
@@ -151,7 +151,7 @@ theorem rootsOfUnity_eq_one [NumberField K] {k : ℕ+} (hc : Nat.Coprime k (tors
   refine orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes hc ?_ ?_)
   · exact orderOf_dvd_of_pow_eq_one h
   · have hζ : ζ ∈ torsion K := by
-      rw [torsion, CommGroup.mem_torsion, isOfFinOrder_iff_pow_eq_one]
+      rw [torsion]; rw [CommGroup.mem_torsion]; rw [isOfFinOrder_iff_pow_eq_one]
       exact ⟨k, k.prop, h⟩
     rw [orderOf_submonoid (⟨ζ, hζ⟩ : torsion K)]
     exact orderOf_dvd_card_univ
@@ -161,7 +161,7 @@ group. -/
 theorem rootsOfUnity_eq_torsion [NumberField K] :
     rootsOfUnity (torsionOrder K) (𝓞 K) = torsion K := by
   ext ζ
-  rw [torsion, mem_rootsOfUnity]
+  rw [torsion]; rw [mem_rootsOfUnity]
   refine ⟨fun h => ?_, fun h => ?_⟩
   · rw [CommGroup.mem_torsion, isOfFinOrder_iff_pow_eq_one]
     exact ⟨↑(torsionOrder K), (torsionOrder K).prop, h⟩
@@ -211,11 +211,9 @@ theorem logEmbedding_component (x : (𝓞 K)ˣ) (w : {w : InfinitePlace K // w �
 theorem sum_logEmbedding_component (x : (𝓞 K)ˣ) :
     ∑ w, logEmbedding K x w = - mult (w₀ : InfinitePlace K) * Real.log (w₀ (x : K)) := by
   have h := congr_arg Real.log (prod_eq_abs_norm (x : K))
-  rw [show |(Algebra.norm ℚ) (x : K)| = 1 from isUnit_iff_norm.mp x.isUnit, Rat.cast_one,
-    Real.log_one, Real.log_prod] at h
+  rw [show |(Algebra.norm ℚ) (x : K)| = 1 from isUnit_iff_norm.mp x.isUnit] at h; rw [Rat.cast_one] at h; rw [Real.log_one] at h; rw [Real.log_prod] at h
   · simp_rw [Real.log_pow] at h
-    rw [← insert_erase (mem_univ w₀), sum_insert (not_mem_erase w₀ univ), add_comm,
-      add_eq_zero_iff_eq_neg] at h
+    rw [← insert_erase (mem_univ w₀)] at h; rw [sum_insert (not_mem_erase w₀ univ)] at h; rw [add_comm] at h; rw [add_eq_zero_iff_eq_neg] at h
     convert h using 1
     · refine (sum_subtype _ (fun w => ?_) (fun w => (mult w) * (Real.log (w (x : K))))).symm
       exact ⟨ne_of_mem_erase, fun h => mem_erase_of_ne_of_mem h (mem_univ w)⟩
@@ -224,7 +222,7 @@ theorem sum_logEmbedding_component (x : (𝓞 K)ˣ) :
 
 theorem mult_log_place_eq_zero {x : (𝓞 K)ˣ} {w : InfinitePlace K} :
     mult w * Real.log (w x) = 0 ↔ w x = 1 := by
-  rw [mul_eq_zero, or_iff_right, Real.log_eq_zero, or_iff_right, or_iff_left]
+  rw [mul_eq_zero]; rw [or_iff_right]; rw [Real.log_eq_zero]; rw [or_iff_right]; rw [or_iff_left]
   · linarith [(map_nonneg _ _ : 0 ≤ w x)]
   · simp only [ne_eq, map_eq_zero, coe_ne_zero x]
   · refine (ne_of_gt ?_)
@@ -236,13 +234,13 @@ theorem logEmbedding_eq_zero_iff {x : (𝓞 K)ˣ} :
   refine ⟨fun h w => ?_, fun h => ?_⟩
   · by_cases hw : w = w₀
     · suffices -mult w₀ * Real.log (w₀ (x : K)) = 0 by
-        rw [neg_mul, neg_eq_zero, ← hw] at this
+        rw [neg_mul] at this; rw [neg_eq_zero] at this; rw [← hw] at this
         exact mult_log_place_eq_zero.mp this
-      rw [← sum_logEmbedding_component, sum_eq_zero]
+      rw [← sum_logEmbedding_component]; rw [sum_eq_zero]
       exact fun w _ => congrFun h w
     · exact mult_log_place_eq_zero.mp (congrFun h ⟨w, hw⟩)
   · ext w
-    rw [logEmbedding_component, h w.val, Real.log_one, mul_zero, Pi.zero_apply]
+    rw [logEmbedding_component]; rw [h w.val]; rw [Real.log_one]; rw [mul_zero]; rw [Pi.zero_apply]
 
 theorem logEmbedding_component_le {r : ℝ} {x : (𝓞 K)ˣ} (hr : 0 ≤ r) (h : ‖logEmbedding K x‖ ≤ r)
     (w : {w : InfinitePlace K // w ≠ w₀}) : |logEmbedding K x w| ≤ r := by
@@ -269,7 +267,7 @@ theorem log_le_of_logEmbedding_le {r : ℝ} {x : (𝓞 K)ˣ} (hr : 0 ≤ r) (h :
       refine mul_le_mul ?_ le_rfl hr (Fintype.card (InfinitePlace K)).cast_nonneg
       simp [card_univ]
   · have hyp := logEmbedding_component_le hr h ⟨w, hw⟩
-    rw [logEmbedding_component, abs_mul, Nat.abs_cast] at hyp
+    rw [logEmbedding_component] at hyp; rw [abs_mul] at hyp; rw [Nat.abs_cast] at hyp
     refine (le_trans ?_ hyp).trans ?_
     · exact tool _ (abs_nonneg _)
     · nth_rw 1 [← one_mul r]
@@ -349,7 +347,7 @@ theorem seq_next {x : 𝓞 K} (hx : x ≠ 0) :
     · refine div_lt_self ?_ (by norm_num)
       simp only [pos_iff, ne_eq, ZeroMemClass.coe_eq_zero, hx]
   intro _ _
-  rw [ne_eq, Nonneg.mk_eq_zero, div_eq_zero_iff, map_eq_zero, not_or, ZeroMemClass.coe_eq_zero]
+  rw [ne_eq]; rw [Nonneg.mk_eq_zero]; rw [div_eq_zero_iff]; rw [map_eq_zero]; rw [not_or]; rw [ZeroMemClass.coe_eq_zero]
   exact ⟨hx, by norm_num⟩
 
 /-- An infinite sequence of nonzero algebraic integers of `K` satisfying the following properties:
@@ -396,7 +394,7 @@ theorem seq_norm_le (n : ℕ) :
         simp only [Nat.lt_one_iff.mp hB, CharP.cast_eq_zero, mul_zero, zero_le]
       simp only [ne_eq, seq, map_one, Int.natAbs_one, this]
   | succ n =>
-      rw [← Nat.cast_le (α := ℚ), Int.cast_natAbs, Int.cast_abs, Algebra.coe_norm_int]
+      rw [← Nat.cast_le (α := ℚ)]; rw [Int.cast_natAbs]; rw [Int.cast_abs]; rw [Algebra.coe_norm_int]
       exact (seq_next K w₁ hB (seq K w₁ hB n).prop).choose_spec.2.2
 
 /-- Construct a unit associated to the place `w₁`. The family, for `w₁ ≠ w₀`, formed by the
@@ -416,11 +414,10 @@ theorem exists_unit (w₁ : InfinitePlace K ) :
     · simp only [pos_iff, ne_eq, ZeroMemClass.coe_eq_zero, ne_zero]
     · calc
         _ = w ((seq K w₁ hB m : K) * (seq K w₁ hB n : K)⁻¹) := by
-          rw [← congr_arg ((↑) : (𝓞 K) → K) hu.choose_spec, mul_comm, Submonoid.coe_mul,
-            ← mul_assoc, inv_mul_cancel (seq_ne_zero K w₁ hB n), one_mul]
+          rw [← congr_arg ((↑) : (𝓞 K) → K) hu.choose_spec]; rw [mul_comm]; rw [Submonoid.coe_mul]; rw [← mul_assoc]; rw [inv_mul_cancel (seq_ne_zero K w₁ hB n)]; rw [one_mul]
         _ = w (seq K w₁ hB m) * w (seq K w₁ hB n)⁻¹ := _root_.map_mul _ _ _
         _ < 1 := by
-          rw [map_inv₀, mul_inv_lt_iff (pos_iff.mpr (seq_ne_zero K w₁ hB n)), mul_one]
+          rw [map_inv₀]; rw [mul_inv_lt_iff (pos_iff.mpr (seq_ne_zero K w₁ hB n))]; rw [mul_one]
           exact seq_decreasing K w₁ hB hnm w hw
   refine Set.Finite.exists_lt_map_eq_of_forall_mem
     (t := { I : Ideal (𝓞 K) | 1 ≤ Ideal.absNorm I ∧ Ideal.absNorm I ≤ B })
@@ -441,7 +438,7 @@ theorem unitLattice_span_eq_top :
   let v := fun w : { w : InfinitePlace K // w ≠ w₀ } => logEmbedding K (exists_unit K w).choose
   -- To prove the result, it is enough to prove that the family `v` is linearly independent
   suffices B.det v ≠ 0 by
-    rw [← isUnit_iff_ne_zero, ← is_basis_iff_det] at this
+    rw [← isUnit_iff_ne_zero] at this; rw [← is_basis_iff_det] at this
     rw [← this.2]
     exact Submodule.span_monotone (fun _ ⟨w, hw⟩ =>
       ⟨(exists_unit K w).choose, trivial, by rw [← hw]⟩)
@@ -449,8 +446,7 @@ theorem unitLattice_span_eq_top :
   -- We use a specific lemma to prove that this determinant is nonzero
   refine det_ne_zero_of_sum_col_lt_diag (fun w => ?_)
   simp_rw [Real.norm_eq_abs, Basis.coePiBasisFun.toMatrix_eq_transpose, Matrix.transpose_apply]
-  rw [← sub_pos, sum_congr rfl (fun x hx => abs_of_neg ?_), sum_neg_distrib, sub_neg_eq_add,
-    sum_erase_eq_sub (mem_univ _), ← add_comm_sub]
+  rw [← sub_pos]; rw [sum_congr rfl (fun x hx => abs_of_neg ?_)]; rw [sum_neg_distrib]; rw [sub_neg_eq_add]; rw [sum_erase_eq_sub (mem_univ _)]; rw [← add_comm_sub]
   refine add_pos_of_nonneg_of_pos ?_ ?_
   · rw [sub_nonneg]
     exact le_abs_self _
@@ -506,15 +502,13 @@ theorem unitLattice_rank :
 `ℤ`-module. -/
 def unitLatticeEquiv : (unitLattice K) ≃ₗ[ℤ] Additive ((𝓞 K)ˣ ⧸ (torsion K)) := by
   refine AddEquiv.toIntLinearEquiv ?_
-  rw [unitLattice, ← AddMonoidHom.range_eq_map (logEmbedding K)]
+  rw [unitLattice]; rw [← AddMonoidHom.range_eq_map (logEmbedding K)]
   refine (QuotientAddGroup.quotientKerEquivRange (logEmbedding K)).symm.trans ?_
   refine (QuotientAddGroup.quotientAddEquivOfEq ?_).trans
     (QuotientAddGroup.quotientKerEquivOfSurjective
       (MonoidHom.toAdditive (QuotientGroup.mk' (torsion K))) (fun x => ?_))
   · ext
-    rw [AddMonoidHom.mem_ker, AddMonoidHom.mem_ker, logEmbedding_eq_zero_iff,
-      MonoidHom.toAdditive_apply_apply, ofMul_eq_zero, QuotientGroup.mk'_apply,
-      QuotientGroup.eq_one_iff]
+    rw [AddMonoidHom.mem_ker]; rw [AddMonoidHom.mem_ker]; rw [logEmbedding_eq_zero_iff]; rw [MonoidHom.toAdditive_apply_apply]; rw [ofMul_eq_zero]; rw [QuotientGroup.mk'_apply]; rw [QuotientGroup.eq_one_iff]
     rfl
   · refine ⟨Additive.ofMul x.out', ?_⟩
     simp only [MonoidHom.toAdditive_apply_apply, toMul_ofMul, QuotientGroup.mk'_apply,
@@ -529,12 +523,12 @@ instance : Module.Finite ℤ (Additive ((𝓞 K)ˣ ⧸ (torsion K))) :=
 
 theorem rank_modTorsion :
     FiniteDimensional.finrank ℤ (Additive ((𝓞 K)ˣ ⧸ (torsion K))) = rank K := by
-  rw [← LinearEquiv.finrank_eq (unitLatticeEquiv K), unitLattice_rank]
+  rw [← LinearEquiv.finrank_eq (unitLatticeEquiv K)]; rw [unitLattice_rank]
 
 /-- A basis of the quotient `(𝓞 K)ˣ ⧸ (torsion K)` seen as an additive ℤ-module. -/
 def basisModTorsion : Basis (Fin (rank K)) ℤ (Additive ((𝓞 K)ˣ ⧸ (torsion K))) :=
   Basis.reindex (Module.Free.chooseBasis ℤ _) (Fintype.equivOfCardEq <| by
-    rw [← FiniteDimensional.finrank_eq_card_chooseBasisIndex, rank_modTorsion, Fintype.card_fin])
+    rw [← FiniteDimensional.finrank_eq_card_chooseBasisIndex]; rw [rank_modTorsion]; rw [Fintype.card_fin])
 
 /-- A fundamental system of units of `K`. The units of `fundSystem` are arbitrary lifts of the
 units in `basisModTorsion`. -/
@@ -548,11 +542,10 @@ theorem fun_eq_repr {x ζ : (𝓞 K)ˣ} {f : Fin (rank K) → ℤ} (hζ : ζ ∈
     (h : x = ζ * ∏ i, (fundSystem K i) ^ (f i)) :
     f = (basisModTorsion K).repr (Additive.ofMul ↑x) := by
   suffices Additive.ofMul ↑x = ∑ i, (f i) • (basisModTorsion K i) by
-    rw [← (basisModTorsion K).repr_sum_self f, ← this]
+    rw [← (basisModTorsion K).repr_sum_self f]; rw [← this]
   calc
     Additive.ofMul ↑x = ∑ i, (f i) • Additive.ofMul ↑(fundSystem K i) := by
-                      rw [h, QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff _).mpr hζ, one_mul,
-                        QuotientGroup.mk_prod, ofMul_prod]; rfl
+                      rw [h]; rw [QuotientGroup.mk_mul]; rw [(QuotientGroup.eq_one_iff _).mpr hζ]; rw [one_mul]; rw [QuotientGroup.mk_prod]; rw [ofMul_prod]; rfl
                     _ = ∑ i, (f i) • (basisModTorsion K i) := by
                       simp_rw [fundSystem, QuotientGroup.out_eq', ofMul_toMul]
 
@@ -562,10 +555,9 @@ theorem exist_unique_eq_mul_prod (x : (𝓞 K)ˣ) : ∃! (ζ : torsion K) (e : F
     x = ζ * ∏ i, (fundSystem K i) ^ (e i) := by
   let ζ := x * (∏ i, (fundSystem K i) ^ ((basisModTorsion K).repr (Additive.ofMul ↑x) i))⁻¹
   have h_tors : ζ ∈ torsion K := by
-    rw [← QuotientGroup.eq_one_iff, QuotientGroup.mk_mul, QuotientGroup.mk_inv, ← ofMul_eq_zero,
-      ofMul_mul, ofMul_inv, QuotientGroup.mk_prod, ofMul_prod]
+    rw [← QuotientGroup.eq_one_iff]; rw [QuotientGroup.mk_mul]; rw [QuotientGroup.mk_inv]; rw [← ofMul_eq_zero]; rw [ofMul_mul]; rw [ofMul_inv]; rw [QuotientGroup.mk_prod]; rw [ofMul_prod]
     simp_rw [QuotientGroup.mk_zpow, ofMul_zpow, fundSystem, QuotientGroup.out_eq', ofMul_toMul]
-    rw [add_eq_zero_iff_eq_neg, neg_neg]
+    rw [add_eq_zero_iff_eq_neg]; rw [neg_neg]
     exact ((basisModTorsion K).sum_repr (Additive.ofMul ↑x)).symm
   refine ⟨⟨ζ, h_tors⟩, ?_, ?_⟩
   · refine ⟨((basisModTorsion K).repr (Additive.ofMul ↑x) : Fin (rank K) → ℤ), ?_, ?_⟩

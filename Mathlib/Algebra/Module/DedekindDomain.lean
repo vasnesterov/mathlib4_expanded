@@ -45,8 +45,7 @@ theorem isInternal_prime_power_torsion_of_is_torsion_by_ideal {I : Ideal R} (hI 
     prime_of_factor p (Multiset.mem_toFinset.mp hp)
   apply @torsionBySet_isInternal _ _ _ _ _ _ _ _ (fun p => p ^ P.count p) _
   · convert hM
-    rw [← Finset.inf_eq_iInf, IsDedekindDomain.inf_prime_pow_eq_prod, ← Finset.prod_multiset_count,
-      ← associated_iff_eq]
+    rw [← Finset.inf_eq_iInf]; rw [IsDedekindDomain.inf_prime_pow_eq_prod]; rw [← Finset.prod_multiset_count]; rw [← associated_iff_eq]
     · exact factors_prod hI
     · exact prime_of_mem
     · exact fun _ _ _ _ ij => ij

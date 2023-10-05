@@ -88,7 +88,7 @@ theorem nhds_coe {r : ℝ≥0} : 𝓝 (r : ℝ≥0∞) = (𝓝 r).map (↑) :=
 
 theorem tendsto_nhds_coe_iff {α : Type*} {l : Filter α} {x : ℝ≥0} {f : ℝ≥0∞ → α} :
     Tendsto f (𝓝 ↑x) l ↔ Tendsto (f ∘ (↑) : ℝ≥0 → α) (𝓝 x) l := by
-  rw [nhds_coe, tendsto_map'_iff]
+  rw [nhds_coe]; rw [tendsto_map'_iff]
 #align ennreal.tendsto_nhds_coe_iff ENNReal.tendsto_nhds_coe_iff
 
 theorem continuousAt_coe_iff {α : Type*} [TopologicalSpace α] {x : ℝ≥0} {f : ℝ≥0∞ → α} :
@@ -113,7 +113,7 @@ theorem tendsto_ofReal {f : Filter α} {m : α → ℝ} {a : ℝ} (h : Tendsto m
 theorem tendsto_toNNReal {a : ℝ≥0∞} (ha : a ≠ ⊤) :
     Tendsto ENNReal.toNNReal (𝓝 a) (𝓝 a.toNNReal) := by
   lift a to ℝ≥0 using ha
-  rw [nhds_coe, tendsto_map'_iff]
+  rw [nhds_coe]; rw [tendsto_map'_iff]
   exact tendsto_id
 #align ennreal.tendsto_to_nnreal ENNReal.tendsto_toNNReal
 
@@ -183,7 +183,7 @@ theorem tendsto_nat_nhds_top : Tendsto (fun n : ℕ => ↑n) atTop (𝓝 ∞) :=
 @[simp, norm_cast]
 theorem tendsto_coe_nhds_top {f : α → ℝ≥0} {l : Filter α} :
     Tendsto (fun x => (f x : ℝ≥0∞)) l (𝓝 ∞) ↔ Tendsto f l atTop := by
-  rw [tendsto_nhds_top_iff_nnreal, atTop_basis_Ioi.tendsto_right_iff]; simp
+  rw [tendsto_nhds_top_iff_nnreal]; rw [atTop_basis_Ioi.tendsto_right_iff]; simp
 #align ennreal.tendsto_coe_nhds_top ENNReal.tendsto_coe_nhds_top
 
 theorem tendsto_ofReal_atTop : Tendsto ENNReal.ofReal atTop (𝓝 ∞) :=
@@ -304,7 +304,7 @@ theorem tendsto_sub : ∀ {a b : ℝ≥0∞}, (a ≠ ∞ ∨ b ≠ ∞) →
     Tendsto (fun p : ℝ≥0∞ × ℝ≥0∞ => p.1 - p.2) (𝓝 (a, b)) (𝓝 (a - b))
   | ⊤, ⊤, h => by simp only at h
   | ⊤, (b : ℝ≥0), _ => by
-    rw [top_sub_coe, tendsto_nhds_top_iff_nnreal]
+    rw [top_sub_coe]; rw [tendsto_nhds_top_iff_nnreal]
     refine fun x => ((lt_mem_nhds <| @coe_lt_top (b + 1 + x)).prod_nhds
       (ge_mem_nhds <| coe_lt_coe.2 <| lt_add_one b)).mono fun y hy => ?_
     rw [lt_tsub_iff_left]
@@ -484,7 +484,7 @@ theorem iInf_mul_left' {ι} {f : ι → ℝ≥0∞} {a : ℝ≥0∞} (h : a = �
     (h0 : a = 0 → Nonempty ι) : ⨅ i, a * f i = a * ⨅ i, f i := by
   by_cases H : a = ⊤ ∧ ⨅ i, f i = 0
   · rcases h H.1 H.2 with ⟨i, hi⟩
-    rw [H.2, mul_zero, ← bot_eq_zero, iInf_eq_bot]
+    rw [H.2]; rw [mul_zero]; rw [← bot_eq_zero]; rw [iInf_eq_bot]
     exact fun b hb => ⟨i, by rwa [hi, mul_zero, ← bot_eq_zero]⟩
   · rw [not_and_or] at H
     cases isEmpty_or_nonempty ι
@@ -584,11 +584,11 @@ theorem add_biSup {ι} {s : Set ι} (hs : s.Nonempty) {f : ι → ℝ≥0∞} :
 #align ennreal.add_bsupr ENNReal.add_biSup
 
 theorem sSup_add {s : Set ℝ≥0∞} (hs : s.Nonempty) : sSup s + a = ⨆ b ∈ s, b + a := by
-  rw [sSup_eq_iSup, biSup_add hs]
+  rw [sSup_eq_iSup]; rw [biSup_add hs]
 #align ennreal.Sup_add ENNReal.sSup_add
 
 theorem add_iSup {ι : Sort*} {s : ι → ℝ≥0∞} [Nonempty ι] : a + iSup s = ⨆ b, a + s b := by
-  rw [add_comm, iSup_add]; simp [add_comm]
+  rw [add_comm]; rw [iSup_add]; simp [add_comm]
 #align ennreal.add_supr ENNReal.add_iSup
 
 theorem iSup_add_iSup_le {ι ι' : Sort*} [Nonempty ι] [Nonempty ι'] {f : ι → ℝ≥0∞} {g : ι' → ℝ≥0∞}
@@ -630,7 +630,7 @@ theorem finset_sum_iSup_nat {α} {ι} [SemilatticeSup ι] {s : Finset α} {f : �
   · simp
   · intro a s has ih
     simp only [Finset.sum_insert has]
-    rw [ih, iSup_add_iSup_of_monotone (hf a)]
+    rw [ih]; rw [iSup_add_iSup_of_monotone (hf a)]
     intro i j h
     exact Finset.sum_le_sum fun a _ => hf a h
 #align ennreal.finset_sum_supr_nat ENNReal.finset_sum_iSup_nat
@@ -650,7 +650,7 @@ theorem mul_sSup {s : Set ℝ≥0∞} {a : ℝ≥0∞} : a * sSup s = ⨆ i ∈ 
 #align ennreal.mul_Sup ENNReal.mul_sSup
 
 theorem iSup_mul {ι : Sort*} {f : ι → ℝ≥0∞} {a : ℝ≥0∞} : iSup f * a = ⨆ i, f i * a := by
-  rw [mul_comm, mul_iSup]; congr; funext; rw [mul_comm]
+  rw [mul_comm]; rw [mul_iSup]; congr; funext; rw [mul_comm]
 #align ennreal.supr_mul ENNReal.iSup_mul
 
 theorem smul_iSup {ι : Sort*} {R} [SMul R ℝ≥0∞] [IsScalarTower R ℝ≥0∞ ℝ≥0∞] (f : ι → ℝ≥0∞)
@@ -727,7 +727,7 @@ theorem exists_upcrossings_of_not_bounded_under {ι : Type*} {l : Filter ι} {x 
     (hf : liminf (fun i => (Real.nnabs (x i) : ℝ≥0∞)) l ≠ ∞)
     (hbdd : ¬IsBoundedUnder (· ≤ ·) l fun i => |x i|) :
     ∃ a b : ℚ, a < b ∧ (∃ᶠ i in l, x i < a) ∧ ∃ᶠ i in l, ↑b < x i := by
-  rw [isBoundedUnder_le_abs, not_and_or] at hbdd
+  rw [isBoundedUnder_le_abs] at hbdd; rw [not_and_or] at hbdd
   obtain hbdd | hbdd := hbdd
   · obtain ⟨R, hR⟩ := exists_frequently_lt_of_liminf_ne_top hf
     obtain ⟨q, hq⟩ := exists_rat_gt R
@@ -921,7 +921,7 @@ theorem tsum_iSup_eq {α : Type*} (a : α) {f : α → ℝ≥0∞} : (∑' b : �
 theorem hasSum_iff_tendsto_nat {f : ℕ → ℝ≥0∞} (r : ℝ≥0∞) :
     HasSum f r ↔ Tendsto (fun n : ℕ => ∑ i in Finset.range n, f i) atTop (𝓝 r) := by
   refine' ⟨HasSum.tendsto_sum_nat, fun h => _⟩
-  rw [← iSup_eq_of_tendsto _ h, ← ENNReal.tsum_eq_iSup_nat]
+  rw [← iSup_eq_of_tendsto _ h]; rw [← ENNReal.tsum_eq_iSup_nat]
   · exact ENNReal.summable.hasSum
   · exact fun s t hst => Finset.sum_le_sum_of_subset (Finset.range_subset.2 hst)
 #align ennreal.has_sum_iff_tendsto_nat ENNReal.hasSum_iff_tendsto_nat
@@ -947,7 +947,7 @@ theorem tendsto_cofinite_zero_of_tsum_ne_top {α} {f : α → ℝ≥0∞} (hf : 
   have f_ne_top : ∀ n, f n ≠ ∞ := ENNReal.ne_top_of_tsum_ne_top hf
   have h_f_coe : f = fun n => ((f n).toNNReal : ENNReal) :=
     funext fun n => (coe_toNNReal (f_ne_top n)).symm
-  rw [h_f_coe, ← @coe_zero, tendsto_coe]
+  rw [h_f_coe]; rw [← @coe_zero]; rw [tendsto_coe]
   exact NNReal.tendsto_cofinite_zero_of_summable (summable_toNNReal_of_tsum_ne_top hf)
 #align ennreal.tendsto_cofinite_zero_of_tsum_ne_top ENNReal.tendsto_cofinite_zero_of_tsum_ne_top
 
@@ -1028,7 +1028,7 @@ theorem tsum_eq_add_tsum_ite {f : β → ℝ≥0∞} (b : β) :
 
 theorem tsum_add_one_eq_top {f : ℕ → ℝ≥0∞} (hf : ∑' n, f n = ∞) (hf0 : f 0 ≠ ∞) :
     ∑' n, f (n + 1) = ∞ := by
-  rw [tsum_eq_zero_add' ENNReal.summable, add_eq_top] at hf
+  rw [tsum_eq_zero_add' ENNReal.summable] at hf; rw [add_eq_top] at hf
   exact hf.resolve_left hf0
 #align ennreal.tsum_add_one_eq_top ENNReal.tsum_add_one_eq_top
 
@@ -1127,7 +1127,7 @@ theorem _root_.Summable.countable_support_nnreal (f : α → ℝ≥0) (h : Summa
 the sequence of partial sum converges to `r`. -/
 theorem hasSum_iff_tendsto_nat {f : ℕ → ℝ≥0} {r : ℝ≥0} :
     HasSum f r ↔ Tendsto (fun n : ℕ => ∑ i in Finset.range n, f i) atTop (𝓝 r) := by
-  rw [← ENNReal.hasSum_coe, ENNReal.hasSum_iff_tendsto_nat]
+  rw [← ENNReal.hasSum_coe]; rw [ENNReal.hasSum_iff_tendsto_nat]
   simp only [← ENNReal.coe_finset_sum]
   exact ENNReal.tendsto_coe
 #align nnreal.has_sum_iff_tendsto_nat NNReal.hasSum_iff_tendsto_nat
@@ -1144,7 +1144,7 @@ theorem not_summable_iff_tendsto_nat_atTop {f : ℕ → ℝ≥0} :
 
 theorem summable_iff_not_tendsto_nat_atTop {f : ℕ → ℝ≥0} :
     Summable f ↔ ¬Tendsto (fun n : ℕ => ∑ i in Finset.range n, f i) atTop atTop := by
-  rw [← not_iff_not, Classical.not_not, not_summable_iff_tendsto_nat_atTop]
+  rw [← not_iff_not]; rw [Classical.not_not]; rw [not_summable_iff_tendsto_nat_atTop]
 #align nnreal.summable_iff_not_tendsto_nat_at_top NNReal.summable_iff_not_tendsto_nat_atTop
 
 theorem summable_of_sum_range_le {f : ℕ → ℝ≥0} {c : ℝ≥0}
@@ -1336,7 +1336,7 @@ theorem not_summable_iff_tendsto_nat_atTop_of_nonneg {f : ℕ → ℝ} (hf : ∀
 
 theorem summable_iff_not_tendsto_nat_atTop_of_nonneg {f : ℕ → ℝ} (hf : ∀ n, 0 ≤ f n) :
     Summable f ↔ ¬Tendsto (fun n : ℕ => ∑ i in Finset.range n, f i) atTop atTop := by
-  rw [← not_iff_not, Classical.not_not, not_summable_iff_tendsto_nat_atTop_of_nonneg hf]
+  rw [← not_iff_not]; rw [Classical.not_not]; rw [not_summable_iff_tendsto_nat_atTop_of_nonneg hf]
 #align summable_iff_not_tendsto_nat_at_top_of_nonneg summable_iff_not_tendsto_nat_atTop_of_nonneg
 
 theorem summable_sigma_of_nonneg {β : α → Type*} {f : (Σ x, β x) → ℝ} (hf : ∀ x, 0 ≤ f x) :
@@ -1521,7 +1521,7 @@ theorem ediam_eq {s : Set ℝ} (h : Bornology.IsBounded s) :
   · have := Real.subset_Icc_sInf_sSup_of_isBounded h
     exact Real.dist_le_of_mem_Icc (this hx) (this hy)
   · apply ENNReal.ofReal_le_of_le_toReal
-    rw [← Metric.diam, ← Metric.diam_closure]
+    rw [← Metric.diam]; rw [← Metric.diam_closure]
     have h' := Real.isBounded_iff_bddBelow_bddAbove.1 h
     calc sSup s - sInf s ≤ dist (sSup s) (sInf s) := le_abs_self _
     _ ≤ Metric.diam (closure s) := dist_le_diam_of_mem h.closure (csSup_mem_closure hne h'.2)
@@ -1530,7 +1530,7 @@ theorem ediam_eq {s : Set ℝ} (h : Bornology.IsBounded s) :
 
 /-- For a bounded set `s : Set ℝ`, its `Metric.diam` is equal to `sSup s - sInf s`. -/
 theorem diam_eq {s : Set ℝ} (h : Bornology.IsBounded s) : Metric.diam s = sSup s - sInf s := by
-  rw [Metric.diam, Real.ediam_eq h, ENNReal.toReal_ofReal]
+  rw [Metric.diam]; rw [Real.ediam_eq h]; rw [ENNReal.toReal_ofReal]
   rw [Real.isBounded_iff_bddBelow_bddAbove] at h
   exact sub_nonneg.2 (Real.sInf_le_sSup s h.1 h.2)
 #align real.diam_eq Real.diam_eq

@@ -454,7 +454,7 @@ The ordering here is chosen so that `or.inl` refer to moves by Left, and `or.inr
 moves by Right. -/
 theorem lf_iff_exists_le {x y : PGame} :
     x ⧏ y ↔ (∃ i, x ≤ y.moveLeft i) ∨ ∃ j, x.moveRight j ≤ y := by
-  rw [LF, le_iff_forall_lf, not_and_or]
+  rw [LF]; rw [le_iff_forall_lf]; rw [not_and_or]
   simp
 #align pgame.lf_iff_exists_le SetTheory.PGame.lf_iff_exists_le
 
@@ -1032,7 +1032,7 @@ theorem lt_or_equiv_or_gt_or_fuzzy (x y : PGame) : x < y ∨ (x ≈ y) ∨ y < x
 #align pgame.lt_or_equiv_or_gt_or_fuzzy SetTheory.PGame.lt_or_equiv_or_gt_or_fuzzy
 
 theorem lt_or_equiv_or_gf (x y : PGame) : x < y ∨ (x ≈ y) ∨ y ⧏ x := by
-  rw [lf_iff_lt_or_fuzzy, Fuzzy.swap_iff]
+  rw [lf_iff_lt_or_fuzzy]; rw [Fuzzy.swap_iff]
   exact lt_or_equiv_or_gt_or_fuzzy x y
 #align pgame.lt_or_equiv_or_gf SetTheory.PGame.lt_or_equiv_or_gf
 
@@ -1256,7 +1256,7 @@ theorem neg_ofLists (L R : List PGame) :
 #align pgame.neg_of_lists SetTheory.PGame.neg_ofLists
 
 theorem isOption_neg {x y : PGame} : IsOption x (-y) ↔ IsOption (-x) y := by
-  rw [IsOption_iff, IsOption_iff, or_comm]
+  rw [IsOption_iff]; rw [IsOption_iff]; rw [or_comm]
   cases y;
   apply or_congr <;>
     · apply exists_congr
@@ -1267,7 +1267,7 @@ theorem isOption_neg {x y : PGame} : IsOption x (-y) ↔ IsOption (-x) y := by
 
 @[simp]
 theorem isOption_neg_neg {x y : PGame} : IsOption (-x) (-y) ↔ IsOption x y := by
-  rw [isOption_neg, neg_neg]
+  rw [isOption_neg]; rw [neg_neg]
 #align pgame.is_option_neg_neg SetTheory.PGame.isOption_neg_neg
 
 theorem leftMoves_neg : ∀ x : PGame, (-x).LeftMoves = x.RightMoves
@@ -1361,18 +1361,18 @@ theorem neg_lf_neg_iff {x y : PGame} : -y ⧏ -x ↔ x ⧏ y :=
 
 @[simp]
 theorem neg_lt_neg_iff {x y : PGame} : -y < -x ↔ x < y := by
-  rw [lt_iff_le_and_lf, lt_iff_le_and_lf, neg_le_neg_iff, neg_lf_neg_iff]
+  rw [lt_iff_le_and_lf]; rw [lt_iff_le_and_lf]; rw [neg_le_neg_iff]; rw [neg_lf_neg_iff]
 #align pgame.neg_lt_neg_iff SetTheory.PGame.neg_lt_neg_iff
 
 @[simp]
 theorem neg_equiv_neg_iff {x y : PGame} : (-x ≈ -y) ↔ (x ≈ y) := by
   show Equiv (-x) (-y) ↔ Equiv x y
-  rw [Equiv, Equiv, neg_le_neg_iff, neg_le_neg_iff, and_comm]
+  rw [Equiv]; rw [Equiv]; rw [neg_le_neg_iff]; rw [neg_le_neg_iff]; rw [and_comm]
 #align pgame.neg_equiv_neg_iff SetTheory.PGame.neg_equiv_neg_iff
 
 @[simp]
 theorem neg_fuzzy_neg_iff {x y : PGame} : -x ‖ -y ↔ x ‖ y := by
-  rw [Fuzzy, Fuzzy, neg_lf_neg_iff, neg_lf_neg_iff, and_comm]
+  rw [Fuzzy]; rw [Fuzzy]; rw [neg_lf_neg_iff]; rw [neg_lf_neg_iff]; rw [and_comm]
 #align pgame.neg_fuzzy_neg_iff SetTheory.PGame.neg_fuzzy_neg_iff
 
 theorem neg_le_iff {x y : PGame} : -y ≤ x ↔ -x ≤ y := by rw [← neg_neg x, neg_le_neg_iff, neg_neg]
@@ -1385,11 +1385,11 @@ theorem neg_lt_iff {x y : PGame} : -y < x ↔ -x < y := by rw [← neg_neg x, ne
 #align pgame.neg_lt_iff SetTheory.PGame.neg_lt_iff
 
 theorem neg_equiv_iff {x y : PGame} : (-x ≈ y) ↔ (x ≈ -y) := by
-  rw [← neg_neg y, neg_equiv_neg_iff, neg_neg]
+  rw [← neg_neg y]; rw [neg_equiv_neg_iff]; rw [neg_neg]
 #align pgame.neg_equiv_iff SetTheory.PGame.neg_equiv_iff
 
 theorem neg_fuzzy_iff {x y : PGame} : -x ‖ y ↔ x ‖ -y := by
-  rw [← neg_neg y, neg_fuzzy_neg_iff, neg_neg]
+  rw [← neg_neg y]; rw [neg_fuzzy_neg_iff]; rw [neg_neg]
 #align pgame.neg_fuzzy_iff SetTheory.PGame.neg_fuzzy_iff
 
 theorem le_neg_iff {x y : PGame} : y ≤ -x ↔ x ≤ -y := by rw [← neg_neg x, neg_le_neg_iff, neg_neg]
@@ -1611,7 +1611,7 @@ instance isEmpty_nat_rightMoves : ∀ n : ℕ, IsEmpty (RightMoves n)
   | 0 => inferInstanceAs (IsEmpty PEmpty)
   | n + 1 => by
     haveI := isEmpty_nat_rightMoves n
-    rw [PGame.nat_succ, rightMoves_add]
+    rw [PGame.nat_succ]; rw [rightMoves_add]
     infer_instance
 #align pgame.is_empty_nat_right_moves SetTheory.PGame.isEmpty_nat_rightMoves
 
@@ -1711,7 +1711,7 @@ theorem add_left_neg_le_zero : ∀ x : PGame, -x + x ≤ 0
 #align pgame.add_left_neg_le_zero SetTheory.PGame.add_left_neg_le_zero
 
 theorem zero_le_add_left_neg (x : PGame) : 0 ≤ -x + x := by
-  rw [← neg_le_neg_iff, neg_zero]
+  rw [← neg_le_neg_iff]; rw [neg_zero]
   exact neg_add_le.trans (add_left_neg_le_zero _)
 #align pgame.zero_le_add_left_neg SetTheory.PGame.zero_le_add_left_neg
 

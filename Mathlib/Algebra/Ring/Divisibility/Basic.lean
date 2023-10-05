@@ -112,11 +112,11 @@ theorem dvd_sub_left (h : a ∣ c) : a ∣ b - c ↔ a ∣ b := by
 another element `c` iff `a` divides `c`. -/
 theorem dvd_sub_right (h : a ∣ b) : a ∣ b - c ↔ a ∣ c := by
   --porting note: Needed to give `α` explicitly
-  rw [sub_eq_add_neg, dvd_add_right h, dvd_neg (α := α)]
+  rw [sub_eq_add_neg]; rw [dvd_add_right h]; rw [dvd_neg (α := α)]
 #align dvd_sub_right dvd_sub_right
 
 theorem dvd_iff_dvd_of_dvd_sub (h : a ∣ b - c) : a ∣ b ↔ a ∣ c := by
-  rw [← sub_add_cancel b c, dvd_add_right h]
+  rw [← sub_add_cancel b c]; rw [dvd_add_right h]
 #align dvd_iff_dvd_of_dvd_sub dvd_iff_dvd_of_dvd_sub
 
 --porting note: Needed to give `α` explicitly
@@ -167,7 +167,7 @@ variable [NonUnitalCommRing α] {a b c : α}
 theorem dvd_mul_sub_mul {k a b x y : α} (hab : k ∣ a - b) (hxy : k ∣ x - y) :
     k ∣ a * x - b * y := by
   convert dvd_add (hxy.mul_left a) (hab.mul_right y) using 1
-  rw [mul_sub_left_distrib, mul_sub_right_distrib]
+  rw [mul_sub_left_distrib]; rw [mul_sub_right_distrib]
   simp only [sub_eq_add_neg, add_assoc, neg_add_cancel_left]
 #align dvd_mul_sub_mul dvd_mul_sub_mul
 

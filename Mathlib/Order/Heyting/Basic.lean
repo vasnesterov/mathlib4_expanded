@@ -382,7 +382,7 @@ theorem himp_himp (a b c : α) : a ⇨ b ⇨ c = a ⊓ b ⇨ c :=
 
 -- `(q → r) → (p → q) → q → r`
 theorem himp_le_himp_himp_himp : b ⇨ c ≤ (a ⇨ b) ⇨ a ⇨ c := by
-  rw [le_himp_iff, le_himp_iff, inf_assoc, himp_inf_self, ← inf_assoc, himp_inf_self, inf_assoc]
+  rw [le_himp_iff]; rw [le_himp_iff]; rw [inf_assoc]; rw [himp_inf_self]; rw [← inf_assoc]; rw [himp_inf_self]; rw [inf_assoc]
   exact inf_le_left
 #align himp_le_himp_himp_himp himp_le_himp_himp_himp
 
@@ -404,7 +404,7 @@ theorem himp_inf_distrib (a b c : α) : a ⇨ b ⊓ c = (a ⇨ b) ⊓ (a ⇨ c) 
 
 theorem sup_himp_distrib (a b c : α) : a ⊔ b ⇨ c = (a ⇨ c) ⊓ (b ⇨ c) :=
   eq_of_forall_le_iff fun d => by
-    rw [le_inf_iff, le_himp_comm, sup_le_iff]
+    rw [le_inf_iff]; rw [le_himp_comm]; rw [sup_le_iff]
     simp_rw [le_himp_comm]
 #align sup_himp_distrib sup_himp_distrib
 
@@ -422,17 +422,17 @@ theorem himp_le_himp (hab : a ≤ b) (hcd : c ≤ d) : b ⇨ c ≤ a ⇨ d :=
 
 @[simp]
 theorem sup_himp_self_left (a b : α) : a ⊔ b ⇨ a = b ⇨ a := by
-  rw [sup_himp_distrib, himp_self, top_inf_eq]
+  rw [sup_himp_distrib]; rw [himp_self]; rw [top_inf_eq]
 #align sup_himp_self_left sup_himp_self_left
 
 @[simp]
 theorem sup_himp_self_right (a b : α) : a ⊔ b ⇨ b = a ⇨ b := by
-  rw [sup_himp_distrib, himp_self, inf_top_eq]
+  rw [sup_himp_distrib]; rw [himp_self]; rw [inf_top_eq]
 #align sup_himp_self_right sup_himp_self_right
 
 theorem Codisjoint.himp_eq_right (h : Codisjoint a b) : b ⇨ a = a := by
   conv_rhs => rw [← @top_himp _ _ a]
-  rw [← h.eq_top, sup_himp_self_left]
+  rw [← h.eq_top]; rw [sup_himp_self_left]
 #align codisjoint.himp_eq_right Codisjoint.himp_eq_right
 
 theorem Codisjoint.himp_eq_left (h : Codisjoint a b) : a ⇨ b = b :=
@@ -440,11 +440,11 @@ theorem Codisjoint.himp_eq_left (h : Codisjoint a b) : a ⇨ b = b :=
 #align codisjoint.himp_eq_left Codisjoint.himp_eq_left
 
 theorem Codisjoint.himp_inf_cancel_right (h : Codisjoint a b) : a ⇨ a ⊓ b = b := by
-  rw [himp_inf_distrib, himp_self, top_inf_eq, h.himp_eq_left]
+  rw [himp_inf_distrib]; rw [himp_self]; rw [top_inf_eq]; rw [h.himp_eq_left]
 #align codisjoint.himp_inf_cancel_right Codisjoint.himp_inf_cancel_right
 
 theorem Codisjoint.himp_inf_cancel_left (h : Codisjoint a b) : b ⇨ a ⊓ b = a := by
-  rw [himp_inf_distrib, himp_self, inf_top_eq, h.himp_eq_right]
+  rw [himp_inf_distrib]; rw [himp_self]; rw [inf_top_eq]; rw [h.himp_eq_right]
 #align codisjoint.himp_inf_cancel_left Codisjoint.himp_inf_cancel_left
 
 /-- See `himp_le` for a stronger version in Boolean algebras. -/
@@ -457,7 +457,7 @@ theorem le_himp_himp : a ≤ (a ⇨ b) ⇨ b :=
 #align le_himp_himp le_himp_himp
 
 theorem himp_triangle (a b c : α) : (a ⇨ b) ⊓ (b ⇨ c) ≤ a ⇨ c := by
-  rw [le_himp_iff, inf_right_comm, ← le_himp_iff]
+  rw [le_himp_iff]; rw [inf_right_comm]; rw [← le_himp_iff]
   exact himp_inf_le.trans le_himp_himp
 #align himp_triangle himp_triangle
 
@@ -571,7 +571,7 @@ theorem sup_sdiff_eq_sup (h : c ≤ a) : a ⊔ b \ c = a ⊔ b :=
 
 -- cf. `Set.union_diff_cancel'`
 theorem sup_sdiff_cancel' (hab : a ≤ b) (hbc : b ≤ c) : b ⊔ c \ a = c := by
-  rw [sup_sdiff_eq_sup hab, sup_of_le_right hbc]
+  rw [sup_sdiff_eq_sup hab]; rw [sup_of_le_right hbc]
 #align sup_sdiff_cancel' sup_sdiff_cancel'
 
 theorem sup_sdiff_cancel_right (h : a ≤ b) : a ⊔ b \ a = b :=
@@ -604,8 +604,7 @@ theorem bot_sdiff : ⊥ \ a = ⊥ :=
 #align bot_sdiff bot_sdiff
 
 theorem sdiff_sdiff_sdiff_le_sdiff : (a \ b) \ (a \ c) ≤ c \ b := by
-  rw [sdiff_le_iff, sdiff_le_iff, sup_left_comm, sup_sdiff_self, sup_left_comm, sdiff_sup_self,
-    sup_left_comm]
+  rw [sdiff_le_iff]; rw [sdiff_le_iff]; rw [sup_left_comm]; rw [sup_sdiff_self]; rw [sup_left_comm]; rw [sdiff_sup_self]; rw [sup_left_comm]
   exact le_sup_left
 #align sdiff_sdiff_sdiff_le_sdiff sdiff_sdiff_sdiff_le_sdiff
 
@@ -643,7 +642,7 @@ theorem sup_sdiff_distrib (a b c : α) : (a ⊔ b) \ c = a \ c ⊔ b \ c :=
 
 theorem sdiff_inf_distrib (a b c : α) : a \ (b ⊓ c) = a \ b ⊔ a \ c :=
   eq_of_forall_ge_iff fun d => by
-    rw [sup_le_iff, sdiff_le_comm, le_inf_iff]
+    rw [sup_le_iff]; rw [sdiff_le_comm]; rw [le_inf_iff]
     simp_rw [sdiff_le_comm]
 #align sdiff_inf_distrib sdiff_inf_distrib
 
@@ -678,17 +677,17 @@ theorem sdiff_inf : a \ (b ⊓ c) = a \ b ⊔ a \ c :=
 
 @[simp]
 theorem sdiff_inf_self_left (a b : α) : a \ (a ⊓ b) = a \ b := by
-  rw [sdiff_inf, sdiff_self, bot_sup_eq]
+  rw [sdiff_inf]; rw [sdiff_self]; rw [bot_sup_eq]
 #align sdiff_inf_self_left sdiff_inf_self_left
 
 @[simp]
 theorem sdiff_inf_self_right (a b : α) : b \ (a ⊓ b) = b \ a := by
-  rw [sdiff_inf, sdiff_self, sup_bot_eq]
+  rw [sdiff_inf]; rw [sdiff_self]; rw [sup_bot_eq]
 #align sdiff_inf_self_right sdiff_inf_self_right
 
 theorem Disjoint.sdiff_eq_left (h : Disjoint a b) : a \ b = a := by
   conv_rhs => rw [← @sdiff_bot _ _ a]
-  rw [← h.eq_bot, sdiff_inf_self_left]
+  rw [← h.eq_bot]; rw [sdiff_inf_self_left]
 #align disjoint.sdiff_eq_left Disjoint.sdiff_eq_left
 
 theorem Disjoint.sdiff_eq_right (h : Disjoint a b) : b \ a = b :=
@@ -696,11 +695,11 @@ theorem Disjoint.sdiff_eq_right (h : Disjoint a b) : b \ a = b :=
 #align disjoint.sdiff_eq_right Disjoint.sdiff_eq_right
 
 theorem Disjoint.sup_sdiff_cancel_left (h : Disjoint a b) : (a ⊔ b) \ a = b := by
-  rw [sup_sdiff, sdiff_self, bot_sup_eq, h.sdiff_eq_right]
+  rw [sup_sdiff]; rw [sdiff_self]; rw [bot_sup_eq]; rw [h.sdiff_eq_right]
 #align disjoint.sup_sdiff_cancel_left Disjoint.sup_sdiff_cancel_left
 
 theorem Disjoint.sup_sdiff_cancel_right (h : Disjoint a b) : (a ⊔ b) \ b = a := by
-  rw [sup_sdiff, sdiff_self, sup_bot_eq, h.sdiff_eq_left]
+  rw [sup_sdiff]; rw [sdiff_self]; rw [sup_bot_eq]; rw [h.sdiff_eq_left]
 #align disjoint.sup_sdiff_cancel_right Disjoint.sup_sdiff_cancel_right
 
 /-- See `le_sdiff` for a stronger version in generalised Boolean algebras. -/
@@ -713,7 +712,7 @@ theorem sdiff_sdiff_le : a \ (a \ b) ≤ b :=
 #align sdiff_sdiff_le sdiff_sdiff_le
 
 theorem sdiff_triangle (a b c : α) : a \ c ≤ a \ b ⊔ b \ c := by
-  rw [sdiff_le_iff, sup_left_comm, ← sdiff_le_iff]
+  rw [sdiff_le_iff]; rw [sup_left_comm]; rw [← sdiff_le_iff]
   exact sdiff_sdiff_le.trans le_sup_sdiff
 #align sdiff_triangle sdiff_triangle
 
@@ -722,12 +721,12 @@ theorem sdiff_sup_sdiff_cancel (hba : b ≤ a) (hcb : c ≤ b) : a \ b ⊔ b \ c
 #align sdiff_sup_sdiff_cancel sdiff_sup_sdiff_cancel
 
 theorem sdiff_le_sdiff_of_sup_le_sup_left (h : c ⊔ a ≤ c ⊔ b) : a \ c ≤ b \ c := by
-  rw [← sup_sdiff_left_self, ← @sup_sdiff_left_self _ _ _ b]
+  rw [← sup_sdiff_left_self]; rw [← @sup_sdiff_left_self _ _ _ b]
   exact sdiff_le_sdiff_right h
 #align sdiff_le_sdiff_of_sup_le_sup_left sdiff_le_sdiff_of_sup_le_sup_left
 
 theorem sdiff_le_sdiff_of_sup_le_sup_right (h : a ⊔ c ≤ b ⊔ c) : a \ c ≤ b \ c := by
-  rw [← sup_sdiff_right_self, ← @sup_sdiff_right_self _ _ b]
+  rw [← sup_sdiff_right_self]; rw [← @sup_sdiff_right_self _ _ b]
   exact sdiff_le_sdiff_right h
 #align sdiff_le_sdiff_of_sup_le_sup_right sdiff_le_sdiff_of_sup_le_sup_right
 
@@ -814,7 +813,7 @@ theorem himp_compl_comm (a b : α) : a ⇨ bᶜ = b ⇨ aᶜ := by simp_rw [← 
 #align himp_compl_comm himp_compl_comm
 
 theorem le_compl_iff_disjoint_right : a ≤ bᶜ ↔ Disjoint a b := by
-  rw [← himp_bot, le_himp_iff, disjoint_iff_inf_le]
+  rw [← himp_bot]; rw [le_himp_iff]; rw [disjoint_iff_inf_le]
 #align le_compl_iff_disjoint_right le_compl_iff_disjoint_right
 
 theorem le_compl_iff_disjoint_left : a ≤ bᶜ ↔ Disjoint b a :=
@@ -822,7 +821,7 @@ theorem le_compl_iff_disjoint_left : a ≤ bᶜ ↔ Disjoint b a :=
 #align le_compl_iff_disjoint_left le_compl_iff_disjoint_left
 
 theorem le_compl_comm : a ≤ bᶜ ↔ b ≤ aᶜ := by
-  rw [le_compl_iff_disjoint_right, le_compl_iff_disjoint_left]
+  rw [le_compl_iff_disjoint_right]; rw [le_compl_iff_disjoint_left]
 #align le_compl_comm le_compl_comm
 
 alias ⟨_, Disjoint.le_compl_right⟩ := le_compl_iff_disjoint_right
@@ -893,7 +892,7 @@ theorem compl_bot : (⊥ : α)ᶜ = ⊤ := by rw [← himp_bot, himp_self]
 #align compl_bot compl_bot
 
 @[simp] theorem le_compl_self : a ≤ aᶜ ↔ a = ⊥ := by
-  rw [le_compl_iff_disjoint_left, disjoint_self]
+  rw [le_compl_iff_disjoint_left]; rw [disjoint_self]
 
 @[simp] theorem ne_compl_self [Nontrivial α] : a ≠ aᶜ := by
   intro h
@@ -940,8 +939,7 @@ theorem compl_sup_compl_le : aᶜ ⊔ bᶜ ≤ (a ⊓ b)ᶜ :=
 
 theorem compl_compl_inf_distrib (a b : α) : (a ⊓ b)ᶜᶜ = aᶜᶜ ⊓ bᶜᶜ := by
   refine' ((compl_anti compl_sup_compl_le).trans (compl_sup_distrib _ _).le).antisymm _
-  rw [le_compl_iff_disjoint_right, disjoint_assoc, disjoint_compl_compl_left_iff,
-    disjoint_left_comm, disjoint_compl_compl_left_iff, ← disjoint_assoc, inf_comm]
+  rw [le_compl_iff_disjoint_right]; rw [disjoint_assoc]; rw [disjoint_compl_compl_left_iff]; rw [disjoint_left_comm]; rw [disjoint_compl_compl_left_iff]; rw [← disjoint_assoc]; rw [inf_comm]
   exact disjoint_compl_right
 #align compl_compl_inf_distrib compl_compl_inf_distrib
 
@@ -950,7 +948,7 @@ theorem compl_compl_himp_distrib (a b : α) : (a ⇨ b)ᶜᶜ = aᶜᶜ ⇨ bᶜ
   · rw [le_himp_iff, ← compl_compl_inf_distrib]
     exact compl_anti (compl_anti himp_inf_le)
   · refine' le_compl_comm.1 ((compl_anti compl_sup_le_himp).trans _)
-    rw [compl_sup_distrib, le_compl_iff_disjoint_right, disjoint_right_comm, ←
+    rw [compl_sup_distrib]; rw [le_compl_iff_disjoint_right]; rw [disjoint_right_comm]; rw [←
       le_compl_iff_disjoint_right]
     exact inf_himp_le
 #align compl_compl_himp_distrib compl_compl_himp_distrib
@@ -1028,7 +1026,7 @@ theorem hnot_sdiff_comm (a b : α) : ￢a \ b = ￢b \ a := by simp_rw [← top_
 #align hnot_sdiff_comm hnot_sdiff_comm
 
 theorem hnot_le_iff_codisjoint_right : ￢a ≤ b ↔ Codisjoint a b := by
-  rw [← top_sdiff', sdiff_le_iff, codisjoint_iff_le_sup]
+  rw [← top_sdiff']; rw [sdiff_le_iff]; rw [codisjoint_iff_le_sup]
 #align hnot_le_iff_codisjoint_right hnot_le_iff_codisjoint_right
 
 theorem hnot_le_iff_codisjoint_left : ￢a ≤ b ↔ Codisjoint b a :=
@@ -1036,7 +1034,7 @@ theorem hnot_le_iff_codisjoint_left : ￢a ≤ b ↔ Codisjoint b a :=
 #align hnot_le_iff_codisjoint_left hnot_le_iff_codisjoint_left
 
 theorem hnot_le_comm : ￢a ≤ b ↔ ￢b ≤ a := by
-  rw [hnot_le_iff_codisjoint_right, hnot_le_iff_codisjoint_left]
+  rw [hnot_le_iff_codisjoint_right]; rw [hnot_le_iff_codisjoint_left]
 #align hnot_le_comm hnot_le_comm
 
 alias ⟨_, Codisjoint.hnot_le_right⟩ := hnot_le_iff_codisjoint_right
@@ -1120,15 +1118,14 @@ theorem le_hnot_inf_hnot : ￢(a ⊔ b) ≤ ￢a ⊓ ￢b :=
 
 theorem hnot_hnot_sup_distrib (a b : α) : ￢￢(a ⊔ b) = ￢￢a ⊔ ￢￢b := by
   refine' ((hnot_inf_distrib _ _).ge.trans <| hnot_anti le_hnot_inf_hnot).antisymm' _
-  rw [hnot_le_iff_codisjoint_left, codisjoint_assoc, codisjoint_hnot_hnot_left_iff,
-    codisjoint_left_comm, codisjoint_hnot_hnot_left_iff, ← codisjoint_assoc, sup_comm]
+  rw [hnot_le_iff_codisjoint_left]; rw [codisjoint_assoc]; rw [codisjoint_hnot_hnot_left_iff]; rw [codisjoint_left_comm]; rw [codisjoint_hnot_hnot_left_iff]; rw [← codisjoint_assoc]; rw [sup_comm]
   exact codisjoint_hnot_right
 #align hnot_hnot_sup_distrib hnot_hnot_sup_distrib
 
 theorem hnot_hnot_sdiff_distrib (a b : α) : ￢￢(a \ b) = ￢￢a \ ￢￢b := by
   refine' le_antisymm _ _
   · refine' hnot_le_comm.1 ((hnot_anti sdiff_le_inf_hnot).trans' _)
-    rw [hnot_inf_distrib, hnot_le_iff_codisjoint_right, codisjoint_left_comm, ←
+    rw [hnot_inf_distrib]; rw [hnot_le_iff_codisjoint_right]; rw [codisjoint_left_comm]; rw [←
       hnot_le_iff_codisjoint_right]
     exact le_sdiff_sup
   · rw [sdiff_le_iff, ← hnot_hnot_sup_distrib]

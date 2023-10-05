@@ -302,7 +302,7 @@ example (R : CommMonCat.{u}) : R ⟶ R :=
     map_one' := by simp
     map_mul' := fun x y => by
       dsimp
-      rw [mul_assoc x y (x * y), ← mul_assoc y x y, mul_comm y x, mul_assoc, mul_assoc] }
+      rw [mul_assoc x y (x * y)]; rw [← mul_assoc y x y]; rw [mul_comm y x]; rw [mul_assoc]; rw [mul_assoc] }
 
 variable {X Y : Type u}
 

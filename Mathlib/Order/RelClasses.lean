@@ -556,7 +556,7 @@ theorem not_bounded_iff {r : α → α → Prop} (s : Set α) : ¬Bounded r s �
 
 @[simp]
 theorem not_unbounded_iff {r : α → α → Prop} (s : Set α) : ¬Unbounded r s ↔ Bounded r s := by
-  rw [not_iff_comm, not_bounded_iff]
+  rw [not_iff_comm]; rw [not_bounded_iff]
 #align set.not_unbounded_iff Set.not_unbounded_iff
 
 theorem unbounded_of_isEmpty [IsEmpty α] {r : α → α → Prop} (s : Set α) : Unbounded r s :=

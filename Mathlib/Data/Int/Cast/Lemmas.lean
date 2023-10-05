@@ -47,7 +47,7 @@ theorem coe_nat_succ_pos (n : ℕ) : 0 < (n.succ : ℤ) :=
 #align int.coe_nat_succ_pos Int.coe_nat_succ_pos
 
 lemma toNat_lt' {a : ℤ} {b : ℕ} (hb : b ≠ 0) : a.toNat < b ↔ a < b := by
-  rw [←toNat_lt_toNat, toNat_coe_nat]; exact coe_nat_pos.2 hb.bot_lt
+  rw [←toNat_lt_toNat]; rw [toNat_coe_nat]; exact coe_nat_pos.2 hb.bot_lt
 #align int.to_nat_lt Int.toNat_lt'
 
 lemma natMod_lt {a : ℤ} {b : ℕ} (hb : b ≠ 0) : a.natMod b < b :=
@@ -107,7 +107,7 @@ theorem cast_mono [OrderedRing α] : Monotone (fun x : ℤ => (x : α)) := by
   intro m n h
   rw [← sub_nonneg] at h
   lift n - m to ℕ using h with k hk
-  rw [← sub_nonneg, ← cast_sub, ← hk, cast_ofNat]
+  rw [← sub_nonneg]; rw [← cast_sub]; rw [← hk]; rw [cast_ofNat]
   exact k.cast_nonneg
 #align int.cast_mono Int.cast_mono
 
@@ -121,7 +121,7 @@ theorem cast_nonneg [OrderedRing α] [Nontrivial α] : ∀ {n : ℤ}, (0 : α) �
 
 @[simp, norm_cast]
 theorem cast_le [OrderedRing α] [Nontrivial α] {m n : ℤ} : (m : α) ≤ n ↔ m ≤ n := by
-  rw [← sub_nonneg, ← cast_sub, cast_nonneg, sub_nonneg]
+  rw [← sub_nonneg]; rw [← cast_sub]; rw [cast_nonneg]; rw [sub_nonneg]
 #align int.cast_le Int.cast_le
 
 theorem cast_strictMono [OrderedRing α] [Nontrivial α] : StrictMono (fun x : ℤ => (x : α)) :=
@@ -135,17 +135,17 @@ theorem cast_lt [OrderedRing α] [Nontrivial α] {m n : ℤ} : (m : α) < n ↔ 
 
 @[simp]
 theorem cast_nonpos [OrderedRing α] [Nontrivial α] {n : ℤ} : (n : α) ≤ 0 ↔ n ≤ 0 := by
-  rw [← cast_zero, cast_le]
+  rw [← cast_zero]; rw [cast_le]
 #align int.cast_nonpos Int.cast_nonpos
 
 @[simp]
 theorem cast_pos [OrderedRing α] [Nontrivial α] {n : ℤ} : (0 : α) < n ↔ 0 < n := by
-  rw [← cast_zero, cast_lt]
+  rw [← cast_zero]; rw [cast_lt]
 #align int.cast_pos Int.cast_pos
 
 @[simp]
 theorem cast_lt_zero [OrderedRing α] [Nontrivial α] {n : ℤ} : (n : α) < 0 ↔ n < 0 := by
-  rw [← cast_zero, cast_lt]
+  rw [← cast_zero]; rw [cast_lt]
 #align int.cast_lt_zero Int.cast_lt_zero
 
 section LinearOrderedRing
@@ -170,7 +170,7 @@ theorem cast_one_le_of_pos (h : 0 < a) : (1 : α) ≤ a := by exact_mod_cast Int
 #align int.cast_one_le_of_pos Int.cast_one_le_of_pos
 
 theorem cast_le_neg_one_of_neg (h : a < 0) : (a : α) ≤ -1 := by
-  rw [← Int.cast_one, ← Int.cast_neg, cast_le]
+  rw [← Int.cast_one]; rw [← Int.cast_neg]; rw [cast_le]
   exact Int.le_sub_one_of_lt h
 #align int.cast_le_neg_one_of_neg Int.cast_le_neg_one_of_neg
 
@@ -189,7 +189,7 @@ theorem nneg_mul_add_sq_of_abs_le_one {x : α} (hx : |x| ≤ 1) : (0 : α) ≤ n
   have hnx' : n < 0 → x + n ≤ 0 := fun hn => by
     have := _root_.add_le_add (le_of_abs_le hx) (cast_le_neg_one_of_neg hn)
     rwa [add_right_neg] at this
-  rw [← mul_add, mul_nonneg_iff]
+  rw [← mul_add]; rw [mul_nonneg_iff]
   rcases lt_trichotomy n 0 with (h | rfl | h)
   · exact Or.inr ⟨by exact_mod_cast h.le, hnx' h⟩
   · simp [le_total 0 x]

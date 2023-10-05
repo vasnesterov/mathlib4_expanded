@@ -177,9 +177,9 @@ theorem norm_bound_of_odd_sum {x y z : ℤ} (h : x + y = 2 * z + 1) :
   suffices 4 * z * z + 4 * z + 1 + 1 ≤ 2 * x * x + 2 * y * y by
     rw [← mul_le_mul_left (zero_lt_two' ℤ)]; ring_nf at this ⊢; exact this
   have h' : (x + y) * (x + y) = 4 * z * z + 4 * z + 1 := by rw [h]; ring
-  rw [← add_sq_add_sq_sub, h', add_le_add_iff_left]
+  rw [← add_sq_add_sq_sub]; rw [h']; rw [add_le_add_iff_left]
   suffices 0 < (x - y) * (x - y) by apply Int.add_one_le_of_lt this
-  rw [mul_self_pos, sub_ne_zero]; apply Int.ne_of_odd_add ⟨z, h⟩
+  rw [mul_self_pos]; rw [sub_ne_zero]; apply Int.ne_of_odd_add ⟨z, h⟩
 #align imo1998_q2.norm_bound_of_odd_sum Imo1998Q2.norm_bound_of_odd_sum
 
 section
@@ -195,7 +195,7 @@ theorem judge_pairs_card_lower_bound {z : ℕ} (hJ : Fintype.card J = 2 * z + 1)
   rw [h]; apply Int.le_of_ofNat_le_ofNat; simp only [Int.ofNat_add, Int.ofNat_mul]
   apply norm_bound_of_odd_sum
   suffices x + y = 2 * z + 1 by simp [← Int.ofNat_add, this]
-  rw [Finset.filter_card_add_filter_neg_card_eq_card, ← hJ]; rfl
+  rw [Finset.filter_card_add_filter_neg_card_eq_card]; rw [← hJ]; rfl
 #align imo1998_q2.judge_pairs_card_lower_bound Imo1998Q2.judge_pairs_card_lower_bound
 
 theorem distinct_judge_pairs_card_lower_bound {z : ℕ} (hJ : Fintype.card J = 2 * z + 1) (c : C) :
@@ -209,7 +209,7 @@ theorem distinct_judge_pairs_card_lower_bound {z : ℕ} (hJ : Fintype.card J = 2
     · suffices p.judge₁ = p.judge₂ by simp [this]
       aesop
   have hst' : (s \ t).card = 2 * z + 1 := by rw [hst, Finset.diag_card, ← hJ]; rfl
-  rw [Finset.filter_and, ← Finset.sdiff_sdiff_self_left s t, Finset.card_sdiff]
+  rw [Finset.filter_and]; rw [← Finset.sdiff_sdiff_self_left s t]; rw [Finset.card_sdiff]
   · rw [hst']; rw [add_assoc] at hs; apply le_tsub_of_add_le_right hs
   · apply Finset.sdiff_subset
 #align imo1998_q2.distinct_judge_pairs_card_lower_bound Imo1998Q2.distinct_judge_pairs_card_lower_bound
@@ -248,13 +248,13 @@ theorem imo1998_q2 [Fintype J] [Fintype C] (a b k : ℕ) (hC : Fintype.card C = 
   rw [clear_denominators ha hb.pos]
   obtain ⟨z, hz⟩ := hb; rw [hz] at hJ; rw [hz]
   have h := le_trans (A_card_lower_bound r hJ) (A_card_upper_bound r hk)
-  rw [hC, hJ] at h
+  rw [hC] at h; rw [hJ] at h
   -- We are now essentially done; we just need to bash `h` into exactly the right shape.
   have hl : k * ((2 * z + 1) * (2 * z + 1) - (2 * z + 1)) = k * (2 * (2 * z + 1)) * z := by
     have : 0 < 2 * z + 1 := by aesop
     simp only [mul_comm, add_mul, one_mul, nonpos_iff_eq_zero, add_tsub_cancel_right]; ring
   have hr : 2 * z * z * a = 2 * z * a * z := by ring
-  rw [hl, hr] at h
+  rw [hl] at h; rw [hr] at h
   cases' z with z
   · simp
   · exact le_of_mul_le_mul_right h z.succ_pos

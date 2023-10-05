@@ -73,7 +73,7 @@ theorem parallelepiped_comp_equiv (v : ι → E) (e : ι' ≃ ι) :
         ⟨fun i => h.1 (e.symm i), fun i => h.2 (e.symm i)⟩⟩
     · simpa only [Equiv.symm_apply_apply] using h.1 (e i)
     · simpa only [Equiv.symm_apply_apply] using h.2 (e i)
-  rw [this, ← image_comp]
+  rw [this]; rw [← image_comp]
   congr 1 with x
   have := fun z : ι' → ℝ => e.symm.sum_comp fun i => z i • v (e i)
   simp_rw [Equiv.apply_symm_apply] at this
@@ -163,7 +163,7 @@ theorem parallelepiped_single [DecidableEq ι] (a : ι → ℝ) :
       simp only [smul_eq_mul, Pi.mul_apply]
       cases' eq_or_ne (a i) 0 with hai hai
       · rw [hai, inf_idem, sup_idem, ← le_antisymm_iff] at h
-        rw [hai, ← h, zero_div, zero_mul]
+        rw [hai]; rw [← h]; rw [zero_div]; rw [zero_mul]
       · rw [div_mul_cancel _ hai]
 #align parallelepiped_single parallelepiped_single
 
@@ -185,7 +185,7 @@ def Basis.parallelepiped (b : Basis ι ℝ E) : PositiveCompacts E where
       convert H
       exact (b.equivFun_symm_apply _).symm
     have A : Set.Nonempty (interior (Icc (0 : ι → ℝ) 1)) := by
-      rw [← pi_univ_Icc, interior_pi_set (@finite_univ ι _)]
+      rw [← pi_univ_Icc]; rw [interior_pi_set (@finite_univ ι _)]
       simp only [univ_pi_nonempty_iff, Pi.zero_apply, Pi.one_apply, interior_Icc, nonempty_Ioo,
         zero_lt_one, imp_true_iff]
     rwa [← Homeomorph.image_interior, nonempty_image_iff]
@@ -242,7 +242,7 @@ theorem Basis.addHaar_eq_iff [SecondCountableTopology E] (b : Basis ι ℝ E) (�
 @[simp]
 theorem Basis.addHaar_reindex (b : Basis ι ℝ E) (e : ι ≃ ι') :
     (b.reindex e).addHaar = b.addHaar := by
-  rw [Basis.addHaar, b.parallelepiped_reindex e, ← Basis.addHaar]
+  rw [Basis.addHaar]; rw [b.parallelepiped_reindex e]; rw [← Basis.addHaar]
 
 theorem Basis.addHaar_self (b : Basis ι ℝ E) : b.addHaar (_root_.parallelepiped b) = 1 := by
   rw [Basis.addHaar]; exact addHaarMeasure_self

@@ -108,7 +108,7 @@ def regularOfIsPullbackSndOfRegular {P Q R S : C} {f : P ⟶ Q} {g : P ⟶ R} {h
     apply Fork.IsLimit.mk' _ _
     intro s
     have l₁ : (Fork.ι s ≫ k) ≫ RegularMono.left = (Fork.ι s ≫ k) ≫ hr.right := by
-      rw [Category.assoc, s.condition, Category.assoc]
+      rw [Category.assoc]; rw [s.condition]; rw [Category.assoc]
     obtain ⟨l, hl⟩ := Fork.IsLimit.lift' hr.isLimit _ l₁
     obtain ⟨p, _, hp₂⟩ := PullbackCone.IsLimit.lift' t _ _ hl
     refine' ⟨p, hp₂, _⟩
@@ -245,7 +245,7 @@ def regularOfIsPushoutSndOfRegular {P Q R S : C} {f : P ⟶ Q} {g : P ⟶ R} {h 
     apply Cofork.IsColimit.mk' _ _
     intro s
     have l₁ : gr.left ≫ f ≫ s.π = gr.right ≫ f ≫ s.π := by
-      rw [← Category.assoc, ← Category.assoc, s.condition]
+      rw [← Category.assoc]; rw [← Category.assoc]; rw [s.condition]
     obtain ⟨l, hl⟩ := Cofork.IsColimit.desc' gr.isColimit (f ≫ Cofork.π s) l₁
     obtain ⟨p, hp₁, _⟩ := PushoutCocone.IsColimit.desc' t _ _ hl.symm
     refine' ⟨p, hp₁, _⟩

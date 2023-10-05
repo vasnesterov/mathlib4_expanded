@@ -57,9 +57,8 @@ theorem lift_rank_mul_lift_rank :
   -- to fix as it is a projection.
   obtain ⟨_, b⟩ := Module.Free.exists_basis (R := F) (M := K)
   obtain ⟨_, c⟩ := Module.Free.exists_basis (R := K) (M := A)
-  rw [← (Module.rank F K).lift_id, ← b.mk_eq_rank, ← (Module.rank K A).lift_id, ← c.mk_eq_rank, ←
-    lift_umax.{w, v}, ← (b.smul c).mk_eq_rank, mk_prod, lift_mul, lift_lift, lift_lift, lift_lift,
-    lift_lift, lift_umax.{v, w}]
+  rw [← (Module.rank F K).lift_id]; rw [← b.mk_eq_rank]; rw [← (Module.rank K A).lift_id]; rw [← c.mk_eq_rank]; rw [←
+    lift_umax.{w, v}]; rw [← (b.smul c).mk_eq_rank]; rw [mk_prod]; rw [lift_mul]; rw [lift_lift]; rw [lift_lift]; rw [lift_lift]; rw [lift_lift]; rw [lift_umax.{v, w}]
 #align lift_rank_mul_lift_rank lift_rank_mul_lift_rank
 
 /-- Tower law: if `A` is a `K`-module and `K` is an extension of `F` then
@@ -80,8 +79,7 @@ theorem FiniteDimensional.finrank_mul_finrank' [Module.Finite F K]
   letI := nontrivial_of_invariantBasisNumber F
   let b := Module.Free.chooseBasis F K
   let c := Module.Free.chooseBasis K A
-  rw [finrank_eq_card_basis b, finrank_eq_card_basis c, finrank_eq_card_basis (b.smul c),
-    Fintype.card_prod]
+  rw [finrank_eq_card_basis b]; rw [finrank_eq_card_basis c]; rw [finrank_eq_card_basis (b.smul c)]; rw [Fintype.card_prod]
 #align finite_dimensional.finrank_mul_finrank' FiniteDimensional.finrank_mul_finrank'
 
 end Ring
@@ -114,7 +112,7 @@ theorem left (K L : Type*) [Field K] [Algebra F K] [Ring L] [Nontrivial L] [Alge
 theorem right [hf : FiniteDimensional F A] : FiniteDimensional K A :=
   let ⟨⟨b, hb⟩⟩ := hf
   ⟨⟨b, Submodule.restrictScalars_injective F _ _ <| by
-    rw [Submodule.restrictScalars_top, eq_top_iff, ← hb, Submodule.span_le]
+    rw [Submodule.restrictScalars_top]; rw [eq_top_iff]; rw [← hb]; rw [Submodule.span_le]
     exact Submodule.subset_span⟩⟩
 #align finite_dimensional.right FiniteDimensional.right
 

@@ -168,7 +168,7 @@ theorem filter_product_card (s : Finset α) (t : Finset β) (p : α → Prop) (q
       (s.filter p).card * (t.filter q).card +
         (s.filter (¬ p ·)).card * (t.filter (¬ q ·)).card := by
   classical
-    rw [← card_product, ← card_product, ← filter_product, ← filter_product, ← card_union_eq]
+    rw [← card_product]; rw [← card_product]; rw [← filter_product]; rw [← filter_product]; rw [← card_union_eq]
     · apply congr_arg
       ext ⟨a, b⟩
       simp only [filter_union_right, mem_filter, mem_product]
@@ -212,8 +212,7 @@ theorem nonempty_product : (s ×ˢ t).Nonempty ↔ s.Nonempty ∧ t.Nonempty :=
 
 @[simp]
 theorem product_eq_empty {s : Finset α} {t : Finset β} : s ×ˢ t = ∅ ↔ s = ∅ ∨ t = ∅ := by
-  rw [← not_nonempty_iff_eq_empty, nonempty_product, not_and_or, not_nonempty_iff_eq_empty,
-    not_nonempty_iff_eq_empty]
+  rw [← not_nonempty_iff_eq_empty]; rw [nonempty_product]; rw [not_and_or]; rw [not_nonempty_iff_eq_empty]; rw [not_nonempty_iff_eq_empty]
 #align finset.product_eq_empty Finset.product_eq_empty
 
 @[simp]
@@ -328,7 +327,7 @@ theorem diag_card : (diag s).card = s.card := by
     simpa using h
   · rcases h with ⟨a, h1, h2⟩
     have h := Prod.mk.inj h2
-    rw [← h.1, ← h.2]
+    rw [← h.1]; rw [← h.2]
     use h1
 #align finset.diag_card Finset.diag_card
 
@@ -374,12 +373,11 @@ theorem disjoint_diag_offDiag : Disjoint s.diag s.offDiag :=
 #align finset.disjoint_diag_off_diag Finset.disjoint_diag_offDiag
 
 theorem product_sdiff_diag : s ×ˢ s \ s.diag = s.offDiag := by
-  rw [← diag_union_offDiag, union_comm, union_sdiff_self,
-    sdiff_eq_self_of_disjoint (disjoint_diag_offDiag _).symm]
+  rw [← diag_union_offDiag]; rw [union_comm]; rw [union_sdiff_self]; rw [sdiff_eq_self_of_disjoint (disjoint_diag_offDiag _).symm]
 #align finset.product_sdiff_diag Finset.product_sdiff_diag
 
 theorem product_sdiff_offDiag : s ×ˢ s \ s.offDiag = s.diag := by
-  rw [← diag_union_offDiag, union_sdiff_self, sdiff_eq_self_of_disjoint (disjoint_diag_offDiag _)]
+  rw [← diag_union_offDiag]; rw [union_sdiff_self]; rw [sdiff_eq_self_of_disjoint (disjoint_diag_offDiag _)]
 #align finset.product_sdiff_off_diag Finset.product_sdiff_offDiag
 
 theorem diag_inter : (s ∩ t).diag = s.diag ∩ t.diag :=
@@ -413,16 +411,15 @@ theorem offDiag_singleton : ({a} : Finset α).offDiag = ∅ := by simp [← Fins
 #align finset.off_diag_singleton Finset.offDiag_singleton
 
 theorem diag_singleton : ({a} : Finset α).diag = {(a, a)} := by
-  rw [← product_sdiff_offDiag, offDiag_singleton, sdiff_empty, singleton_product_singleton]
+  rw [← product_sdiff_offDiag]; rw [offDiag_singleton]; rw [sdiff_empty]; rw [singleton_product_singleton]
 #align finset.diag_singleton Finset.diag_singleton
 
 theorem diag_insert : (insert a s).diag = insert (a, a) s.diag := by
-  rw [insert_eq, insert_eq, diag_union, diag_singleton]
+  rw [insert_eq]; rw [insert_eq]; rw [diag_union]; rw [diag_singleton]
 #align finset.diag_insert Finset.diag_insert
 
 theorem offDiag_insert (has : a ∉ s) : (insert a s).offDiag = s.offDiag ∪ {a} ×ˢ s ∪ s ×ˢ {a} := by
-  rw [insert_eq, union_comm, offDiag_union (disjoint_singleton_right.2 has), offDiag_singleton,
-    union_empty, union_right_comm]
+  rw [insert_eq]; rw [union_comm]; rw [offDiag_union (disjoint_singleton_right.2 has)]; rw [offDiag_singleton]; rw [union_empty]; rw [union_right_comm]
 #align finset.off_diag_insert Finset.offDiag_insert
 
 end Diag

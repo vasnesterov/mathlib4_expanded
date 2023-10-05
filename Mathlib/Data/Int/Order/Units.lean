@@ -17,7 +17,7 @@ import Mathlib.Algebra.GroupPower.Order
 namespace Int
 
 theorem isUnit_iff_abs_eq {x : ℤ} : IsUnit x ↔ abs x = 1 := by
-  rw [isUnit_iff_natAbs_eq, abs_eq_natAbs, ← Int.ofNat_one, coe_nat_inj']
+  rw [isUnit_iff_natAbs_eq]; rw [abs_eq_natAbs]; rw [← Int.ofNat_one]; rw [coe_nat_inj']
 #align int.is_unit_iff_abs_eq Int.isUnit_iff_abs_eq
 
 theorem isUnit_sq {a : ℤ} (ha : IsUnit a) : a ^ 2 = 1 := by rw [sq, isUnit_mul_self ha]
@@ -25,7 +25,7 @@ theorem isUnit_sq {a : ℤ} (ha : IsUnit a) : a ^ 2 = 1 := by rw [sq, isUnit_mul
 
 @[simp]
 theorem units_sq (u : ℤˣ) : u ^ 2 = 1 := by
-  rw [Units.ext_iff, Units.val_pow_eq_pow_val, Units.val_one, isUnit_sq u.isUnit]
+  rw [Units.ext_iff]; rw [Units.val_pow_eq_pow_val]; rw [Units.val_one]; rw [isUnit_sq u.isUnit]
 #align int.units_sq Int.units_sq
 
 alias units_pow_two := units_sq
@@ -42,7 +42,7 @@ theorem units_inv_eq_self (u : ℤˣ) : u⁻¹ = u := by rw [inv_eq_iff_mul_eq_o
 -- `Units.val_mul` is a "wrong turn" for the simplifier, this undoes it and simplifies further
 @[simp]
 theorem units_coe_mul_self (u : ℤˣ) : (u * u : ℤ) = 1 := by
-  rw [← Units.val_mul, units_mul_self, Units.val_one]
+  rw [← Units.val_mul]; rw [units_mul_self]; rw [Units.val_one]
 #align int.units_coe_mul_self Int.units_coe_mul_self
 
 @[simp]
@@ -65,7 +65,7 @@ theorem units_pow_eq_pow_mod_two (u : ℤˣ) (n : ℕ) : u ^ n = u ^ (n % 2) := 
   conv =>
       lhs
       rw [← Nat.mod_add_div n 2];
-      rw [pow_add, pow_mul, units_sq, one_pow, mul_one]
+      rw [pow_add]; rw [pow_mul]; rw [units_sq]; rw [one_pow]; rw [mul_one]
 #align int.units_pow_eq_pow_mod_two Int.units_pow_eq_pow_mod_two
 
 end Int

@@ -229,8 +229,7 @@ instance toAlexandrovDiscrete : AlexandrovDiscrete α where
 
 -- c.f. isClosed_iff_lower_and_subset_implies_LUB_mem
 lemma isClosed_iff_isLower : IsClosed s ↔ IsLowerSet s := by
-  rw [← isOpen_compl_iff, isOpen_iff_isUpperSet,
-    isLowerSet_compl.symm, compl_compl]
+  rw [← isOpen_compl_iff]; rw [isOpen_iff_isUpperSet]; rw [isLowerSet_compl.symm]; rw [compl_compl]
 
 lemma closure_eq_lowerClosure {s : Set α} : closure s = lowerClosure s := by
   rw [subset_antisymm_iff]
@@ -244,7 +243,7 @@ The closure of a singleton `{a}` in the upper set topology is the right-closed l
 interval (-∞,a].
 -/
 @[simp] lemma closure_singleton {a : α} : closure {a} = Iic a := by
-  rw [closure_eq_lowerClosure, lowerClosure_singleton]
+  rw [closure_eq_lowerClosure]; rw [lowerClosure_singleton]
   rfl
 
 end Preorder
@@ -262,11 +261,11 @@ protected lemma monotone_iff_continuous [TopologicalSpace α] [TopologicalSpace 
     simp_rw [continuous_def, isOpen_iff_isUpperSet]
     exact fun _ hs ↦ IsUpperSet.preimage hs hf
   · intro hf a b hab
-    rw [← mem_Iic, ← closure_singleton] at hab ⊢
+    rw [← mem_Iic] at hab ⊢; rw [← closure_singleton] at hab ⊢
     apply (Continuous.closure_preimage_subset hf {f b})
     apply mem_of_mem_of_subset hab
     apply closure_mono
-    rw [singleton_subset_iff, mem_preimage, mem_singleton_iff]
+    rw [singleton_subset_iff]; rw [mem_preimage]; rw [mem_singleton_iff]
 
 lemma monotone_to_upperTopology_continuous [TopologicalSpace α] [TopologicalSpace β]
     [Topology.IsUpperSet α] [IsUpper β] {f : α → β} (hf : Monotone f) : Continuous f := by
@@ -307,7 +306,7 @@ lemma isOpen_iff_isLowerSet : IsOpen s ↔ IsLowerSet s := by rw [topology_eq α
 instance toAlexandrovDiscrete : AlexandrovDiscrete α := IsUpperSet.toAlexandrovDiscrete (α := αᵒᵈ)
 
 lemma isClosed_iff_isUpper : IsClosed s ↔ IsUpperSet s := by
-  rw [← isOpen_compl_iff, isOpen_iff_isLowerSet, isUpperSet_compl.symm, compl_compl]
+  rw [← isOpen_compl_iff]; rw [isOpen_iff_isLowerSet]; rw [isUpperSet_compl.symm]; rw [compl_compl]
 
 lemma closure_eq_upperClosure {s : Set α} : closure s = upperClosure s :=
   IsUpperSet.closure_eq_lowerClosure (α := αᵒᵈ)
@@ -317,7 +316,7 @@ The closure of a singleton `{a}` in the lower set topology is the right-closed l
 interval (-∞,a].
 -/
 @[simp] lemma closure_singleton {a : α} : closure {a} = Ici a := by
-  rw [closure_eq_upperClosure, upperClosure_singleton]
+  rw [closure_eq_upperClosure]; rw [upperClosure_singleton]
   rfl
 
 end Preorder

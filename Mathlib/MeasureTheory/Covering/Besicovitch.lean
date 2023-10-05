@@ -332,7 +332,7 @@ theorem mem_iUnionUpTo_lastStep (x : β) : p.c x ∈ p.iUnionUpTo p.lastStep := 
     have := exists_lt_of_lt_csSup ?_ B
     · simpa only [exists_prop, mem_range, exists_exists_and_eq_and, Subtype.exists,
       Subtype.coe_mk]
-    rw [← image_univ, nonempty_image_iff]
+    rw [← image_univ]; rw [nonempty_image_iff]
     exact ⟨⟨_, h⟩, mem_univ _⟩
   rcases A y with (Hy | Hy)
   · exact hy1 Hy
@@ -443,7 +443,7 @@ theorem color_lt {i : Ordinal.{u}} (hi : i < p.lastStep) {N : ℕ}
         have G_lt : G a < G b := by
           rcases G_le.lt_or_eq with (H | H); · exact H
           have A : (a : ℕ) ≠ b := Fin.val_injective.ne a_ne_b
-          rw [← color_G a (Nat.lt_succ_iff.1 a.2), ← color_G b (Nat.lt_succ_iff.1 b.2), H] at A
+          rw [← color_G a (Nat.lt_succ_iff.1 a.2)] at A; rw [← color_G b (Nat.lt_succ_iff.1 b.2)] at A; rw [H] at A
           exact (A rfl).elim
         exact Or.inl (Gab a b G_lt)
       hlast := by
@@ -477,7 +477,7 @@ theorem exist_disjoint_covering_families {N : ℕ} {τ : ℝ} (hτ : 1 < τ)
   -- induction, to be able to choose garbage when there is no point left).
   cases isEmpty_or_nonempty β
   · refine' ⟨fun _ => ∅, fun _ => pairwiseDisjoint_empty, _⟩
-    rw [← image_univ, eq_empty_of_isEmpty (univ : Set β)]
+    rw [← image_univ]; rw [eq_empty_of_isEmpty (univ : Set β)]
     simp
   -- Now, assume `β` is nonempty.
   let p : TauPackage β α :=
@@ -615,7 +615,7 @@ theorem exist_finset_disjoint_balls_large_measure (μ : Measure α) [IsFiniteMea
     exact ENNReal.add_lt_add_left (ENNReal.nat_ne_top N) zero_lt_one
   have B : μ (o ∩ v i) = ∑' x : u i, μ (o ∩ closedBall x (r x)) := by
     have : o ∩ v i = ⋃ (x : s) (_ : x ∈ u i), o ∩ closedBall x (r x) := by simp only [inter_iUnion]
-    rw [this, measure_biUnion (u_count i)]
+    rw [this]; rw [measure_biUnion (u_count i)]
     · exact (hu i).mono fun k => inter_subset_right _ _
     · exact fun b _ => omeas.inter measurableSet_closedBall
   -- A large enough finite subfamily of `u i` will also cover a proportion `> 1/(N+1)` of `s`.
@@ -639,21 +639,19 @@ theorem exist_finset_disjoint_balls_large_measure (μ : Measure α) [IsFiniteMea
   · suffices H : μ (o \ ⋃ x ∈ w, closedBall (↑x) (r ↑x)) ≤ N / (N + 1) * μ s
     · rw [Finset.set_biUnion_finset_image]
       exact le_trans (measure_mono (diff_subset_diff so (Subset.refl _))) H
-    rw [← diff_inter_self_eq_diff,
-      measure_diff_le_iff_le_add _ (inter_subset_right _ _) (measure_lt_top μ _).ne]
+    rw [← diff_inter_self_eq_diff]; rw [measure_diff_le_iff_le_add _ (inter_subset_right _ _) (measure_lt_top μ _).ne]
     swap
     · apply MeasurableSet.inter _ omeas
       haveI : Encodable (u i) := (u_count i).toEncodable
       exact MeasurableSet.iUnion fun b => MeasurableSet.iUnion fun _ => measurableSet_closedBall
     calc
       μ o = 1 / (N + 1) * μ s + N / (N + 1) * μ s := by
-        rw [μo, ← add_mul, ENNReal.div_add_div_same, add_comm, ENNReal.div_self, one_mul] <;> simp
+        rw [μo]; rw [← add_mul]; rw [ENNReal.div_add_div_same]; rw [add_comm]; rw [ENNReal.div_self]; rw [one_mul]; all_goals simp
       _ ≤ μ ((⋃ x ∈ w, closedBall (↑x) (r ↑x)) ∩ o) + N / (N + 1) * μ s := by
         refine' add_le_add _ le_rfl
-        rw [div_eq_mul_inv, one_mul, mul_comm, ← div_eq_mul_inv]
+        rw [div_eq_mul_inv]; rw [one_mul]; rw [mul_comm]; rw [← div_eq_mul_inv]
         apply hw.le.trans (le_of_eq _)
-        rw [← Finset.set_biUnion_coe, inter_comm _ o, inter_iUnion₂, Finset.set_biUnion_coe,
-          measure_biUnion_finset]
+        rw [← Finset.set_biUnion_coe]; rw [inter_comm _ o]; rw [inter_iUnion₂]; rw [Finset.set_biUnion_coe]; rw [measure_biUnion_finset]
         · have : (w : Set (u i)).PairwiseDisjoint
               fun b : u i => closedBall (b : α) (r (b : α)) := by
             intro k _ l _ hkl; exact hu i k.2 l.2 (Subtype.val_injective.ne hkl)
@@ -744,7 +742,7 @@ theorem exists_disjoint_closedBall_covering_ae_of_finiteMeasure_aux (μ : Measur
       · intro p hp q hq hpq
         rcases(mem_image _ _ _).1 hq with ⟨q', q'v, rfl⟩
         apply disjoint_of_subset_left _ (hr q' (vs' q'v)).2
-        rw [hB, ← Finset.set_biUnion_coe]
+        rw [hB]; rw [← Finset.set_biUnion_coe]
         exact subset_biUnion_of_mem (u := fun x : α × ℝ => closedBall x.1 x.2) hp
     · intro p hp
       rcases Finset.mem_union.1 hp with (h'p | h'p)
@@ -757,7 +755,7 @@ theorem exists_disjoint_closedBall_covering_ae_of_finiteMeasure_aux (μ : Measur
       · rcases Finset.mem_image.1 h'p with ⟨p', p'v, rfl⟩
         exact (hr p' (vs' p'v)).1.1
     · convert hμv using 2
-      rw [Finset.set_biUnion_union, ← diff_diff, Finset.set_biUnion_finset_image]
+      rw [Finset.set_biUnion_union]; rw [← diff_diff]; rw [Finset.set_biUnion_finset_image]
   /- Define `F` associating to a finite good covering the above enlarged good covering, covering
     a proportion `1/(N+1)` of leftover points. Iterating `F`, one will get larger and larger good
     coverings, missing in the end only a measure-zero set. -/
@@ -800,11 +798,11 @@ theorem exists_disjoint_closedBall_covering_ae_of_finiteMeasure_aux (μ : Measur
             N / (N + 1) * μ (s \ ⋃ (p : α × ℝ) (_ : p ∈ u n), closedBall p.fst p.snd) := by
           rw [u_succ]; exact (hF (u n) (Pu n)).2.2
         _ ≤ (N / (N + 1) : ℝ≥0∞) ^ n.succ * μ s := by
-          rw [pow_succ, mul_assoc]; exact mul_le_mul_left' IH _
+          rw [pow_succ]; rw [mul_assoc]; exact mul_le_mul_left' IH _
     have C : Tendsto (fun n : ℕ => ((N : ℝ≥0∞) / (N + 1)) ^ n * μ s) atTop (𝓝 (0 * μ s)) := by
       apply ENNReal.Tendsto.mul_const _ (Or.inr (measure_lt_top μ s).ne)
       apply ENNReal.tendsto_pow_atTop_nhds_0_of_lt_1
-      rw [ENNReal.div_lt_iff, one_mul]
+      rw [ENNReal.div_lt_iff]; rw [one_mul]
       · conv_lhs => rw [← add_zero (N : ℝ≥0∞)]
         exact ENNReal.add_lt_add_left (ENNReal.nat_ne_top N) zero_lt_one
       · simp only [true_or_iff, add_eq_zero_iff, Ne.def, not_false_iff, one_ne_zero, and_false_iff]
@@ -814,7 +812,7 @@ theorem exists_disjoint_closedBall_covering_ae_of_finiteMeasure_aux (μ : Measur
     exact le_of_tendsto_of_tendsto' tendsto_const_nhds C fun n => (A n).trans (B n)
   · refine' (pairwiseDisjoint_iUnion _).2 fun n => (Pu n).1
     apply (monotone_nat_of_le_succ fun n => ?_).directed_le
-    rw [← Nat.succ_eq_add_one, u_succ]
+    rw [← Nat.succ_eq_add_one]; rw [u_succ]
     exact (hF (u n) (Pu n)).1
 #align besicovitch.exists_disjoint_closed_ball_covering_ae_of_finite_measure_aux Besicovitch.exists_disjoint_closedBall_covering_ae_of_finiteMeasure_aux
 
@@ -902,7 +900,7 @@ theorem exists_disjoint_closedBall_covering_ae (μ : Measure α) [SigmaFinite μ
       ⋃ (x : α) (_ : x ∈ t), closedBall x (r x) =
         ⋃ (p : α × ℝ) (_ : p ∈ (fun x => (x, r x)) '' t), closedBall p.1 p.2 :=
       by conv_rhs => rw [biUnion_image]
-    rw [this, im_t]
+    rw [this]; rw [im_t]
     exact μv
   · have A : InjOn (fun x : α => (x, r x)) t := by
       simp (config := { contextual := true }) only [InjOn, Prod.mk.inj_iff, imp_true_iff,

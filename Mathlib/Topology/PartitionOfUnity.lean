@@ -377,7 +377,7 @@ def toPOUFun (i : ι) (x : X) : ℝ :=
 #align bump_covering.to_pou_fun BumpCovering.toPOUFun
 
 theorem toPOUFun_zero_of_zero {i : ι} {x : X} (h : f i x = 0) : f.toPOUFun i x = 0 := by
-  rw [toPOUFun, h, zero_mul]
+  rw [toPOUFun]; rw [h]; rw [zero_mul]
 #align bump_covering.to_pou_fun_zero_of_zero BumpCovering.toPOUFun_zero_of_zero
 
 theorem support_toPOUFun_subset (i : ι) : support (f.toPOUFun i) ⊆ support (f i) :=
@@ -388,8 +388,8 @@ theorem toPOUFun_eq_mul_prod (i : ι) (x : X) (t : Finset ι)
     (ht : ∀ j, WellOrderingRel j i → f j x ≠ 0 → j ∈ t) :
     f.toPOUFun i x = f i x * ∏ j in t.filter fun j => WellOrderingRel j i, (1 - f j x) := by
   refine' congr_arg _ (finprod_cond_eq_prod_of_cond_iff _ fun {j} hj => _)
-  rw [Ne.def, sub_eq_self] at hj
-  rw [Finset.mem_filter, Iff.comm, and_iff_right_iff_imp]
+  rw [Ne.def] at hj; rw [sub_eq_self] at hj
+  rw [Finset.mem_filter]; rw [Iff.comm]; rw [and_iff_right_iff_imp]
   exact flip (ht j) hj
 #align bump_covering.to_pou_fun_eq_mul_prod BumpCovering.toPOUFun_eq_mul_prod
 
@@ -400,11 +400,10 @@ theorem sum_toPOUFun_eq (x : X) : ∑ᶠ i, f.toPOUFun i x = 1 - ∏ᶠ i, (1 - 
     rw [hs]
     exact fun i hi => f.support_toPOUFun_subset i hi
   have B : (mulSupport fun i => 1 - f i x) ⊆ s := by
-    rw [hs, mulSupport_one_sub]
+    rw [hs]; rw [mulSupport_one_sub]
     exact fun i => id
   letI : LinearOrder ι := linearOrderOfSTO WellOrderingRel
-  rw [finsum_eq_sum_of_support_subset _ A, finprod_eq_prod_of_mulSupport_subset _ B,
-    Finset.prod_one_sub_ordered, sub_sub_cancel]
+  rw [finsum_eq_sum_of_support_subset _ A]; rw [finprod_eq_prod_of_mulSupport_subset _ B]; rw [Finset.prod_one_sub_ordered]; rw [sub_sub_cancel]
   refine' Finset.sum_congr rfl fun i _ => _
   convert f.toPOUFun_eq_mul_prod _ _ _ fun j _ hj => _
   rwa [Finite.mem_toFinset]

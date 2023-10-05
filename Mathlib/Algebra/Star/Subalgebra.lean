@@ -391,7 +391,7 @@ def starClosure (S : Subalgebra R A) : StarSubalgebra R A where
   toSubalgebra := S ⊔ star S
   star_mem' := fun {a} ha => by
     simp only [Subalgebra.mem_carrier, ← (@Algebra.gi R A _ _ _).l_sup_u _ _] at *
-    rw [← mem_star_iff _ a, star_adjoin_comm, sup_comm]
+    rw [← mem_star_iff _ a]; rw [star_adjoin_comm]; rw [sup_comm]
     simpa using ha
 #align subalgebra.star_closure Subalgebra.starClosure
 
@@ -465,7 +465,7 @@ variable {R}
 
 protected theorem gc : GaloisConnection (adjoin R : Set A → StarSubalgebra R A) (↑) := by
   intro s S
-  rw [← toSubalgebra_le_iff, adjoin_toSubalgebra, Algebra.adjoin_le_iff, coe_toSubalgebra]
+  rw [← toSubalgebra_le_iff]; rw [adjoin_toSubalgebra]; rw [Algebra.adjoin_le_iff]; rw [coe_toSubalgebra]
   exact
     ⟨fun h => (Set.subset_union_left s _).trans h, fun h =>
       Set.union_subset h fun x hx => star_star x ▸ star_mem (show star x ∈ S from h hx)⟩
@@ -560,7 +560,7 @@ def adjoinCommSemiringOfComm {s : Set A} (hcomm : ∀ a : A, a ∈ s → ∀ b :
       rintro ⟨x, hx⟩ ⟨y, hy⟩
       ext
       simp only [MulMemClass.mk_mul_mk]
-      rw [← mem_toSubalgebra, adjoin_toSubalgebra] at hx hy
+      rw [← mem_toSubalgebra] at hx hy; rw [adjoin_toSubalgebra] at hx hy
       letI : CommSemiring (Algebra.adjoin R (s ∪ star s)) :=
         Algebra.adjoinCommSemiringOfComm R
           (by
@@ -592,7 +592,7 @@ instance adjoinCommSemiringOfIsStarNormal (x : A) [IsStarNormal x] :
   adjoinCommSemiringOfComm R
     (fun a ha b hb => by
       rw [Set.mem_singleton_iff] at ha hb
-      rw [ha, hb])
+      rw [ha]; rw [hb])
     fun a ha b hb => by
     rw [Set.mem_singleton_iff] at ha hb
     simpa only [ha, hb] using (star_comm_self' x).symm
@@ -707,7 +707,7 @@ theorem bot_toSubalgebra : (⊥ : StarSubalgebra R A).toSubalgebra = ⊥ := by
 #align star_subalgebra.bot_to_subalgebra StarSubalgebra.bot_toSubalgebra
 
 theorem mem_bot {x : A} : x ∈ (⊥ : StarSubalgebra R A) ↔ x ∈ Set.range (algebraMap R A) := by
-  rw [← mem_toSubalgebra, bot_toSubalgebra, Algebra.mem_bot]
+  rw [← mem_toSubalgebra]; rw [bot_toSubalgebra]; rw [Algebra.mem_bot]
 #align star_subalgebra.mem_bot StarSubalgebra.mem_bot
 
 @[simp]

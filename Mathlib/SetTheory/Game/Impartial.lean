@@ -127,13 +127,13 @@ variable (G : PGame) [Impartial G]
 
 theorem nonpos : ¬0 < G := fun h => by
   have h' := neg_lt_neg_iff.2 h
-  rw [neg_zero, lt_congr_left (Equiv.symm (neg_equiv_self G))] at h'
+  rw [neg_zero] at h'; rw [lt_congr_left (Equiv.symm (neg_equiv_self G))] at h'
   exact (h.trans h').false
 #align pgame.impartial.nonpos SetTheory.PGame.Impartial.nonpos
 
 theorem nonneg : ¬G < 0 := fun h => by
   have h' := neg_lt_neg_iff.2 h
-  rw [neg_zero, lt_congr_right (Equiv.symm (neg_equiv_self G))] at h'
+  rw [neg_zero] at h'; rw [lt_congr_right (Equiv.symm (neg_equiv_self G))] at h'
   exact (h.trans h').false
 #align pgame.impartial.nonneg SetTheory.PGame.Impartial.nonneg
 
@@ -168,24 +168,22 @@ theorem mk'_add_self : (⟦G⟧ : Quotient setoid) + ⟦G⟧ = 0 :=
 
 /-- This lemma doesn't require `H` to be impartial. -/
 theorem equiv_iff_add_equiv_zero (H : PGame) : (H ≈ G) ↔ (H + G ≈ 0) := by
-  rw [Game.PGame.equiv_iff_game_eq, ← @add_right_cancel_iff _ _ _ ⟦G⟧, mk'_add_self, ← quot_add,
-    Game.PGame.equiv_iff_game_eq]
+  rw [Game.PGame.equiv_iff_game_eq]; rw [← @add_right_cancel_iff _ _ _ ⟦G⟧]; rw [mk'_add_self]; rw [← quot_add]; rw [Game.PGame.equiv_iff_game_eq]
   rfl
 #align pgame.impartial.equiv_iff_add_equiv_zero SetTheory.PGame.Impartial.equiv_iff_add_equiv_zero
 
 /-- This lemma doesn't require `H` to be impartial. -/
 theorem equiv_iff_add_equiv_zero' (H : PGame) : (G ≈ H) ↔ (G + H ≈ 0) := by
-  rw [Game.PGame.equiv_iff_game_eq, ← @add_left_cancel_iff _ _ _ ⟦G⟧, mk'_add_self, ← quot_add,
-    Game.PGame.equiv_iff_game_eq]
+  rw [Game.PGame.equiv_iff_game_eq]; rw [← @add_left_cancel_iff _ _ _ ⟦G⟧]; rw [mk'_add_self]; rw [← quot_add]; rw [Game.PGame.equiv_iff_game_eq]
   exact ⟨Eq.symm, Eq.symm⟩
 #align pgame.impartial.equiv_iff_add_equiv_zero' SetTheory.PGame.Impartial.equiv_iff_add_equiv_zero'
 
 theorem le_zero_iff {G : PGame} [G.Impartial] : G ≤ 0 ↔ 0 ≤ G := by
-  rw [← zero_le_neg_iff, le_congr_right (neg_equiv_self G)]
+  rw [← zero_le_neg_iff]; rw [le_congr_right (neg_equiv_self G)]
 #align pgame.impartial.le_zero_iff SetTheory.PGame.Impartial.le_zero_iff
 
 theorem lf_zero_iff {G : PGame} [G.Impartial] : G ⧏ 0 ↔ 0 ⧏ G := by
-  rw [← zero_lf_neg_iff, lf_congr_right (neg_equiv_self G)]
+  rw [← zero_lf_neg_iff]; rw [lf_congr_right (neg_equiv_self G)]
 #align pgame.impartial.lf_zero_iff SetTheory.PGame.Impartial.lf_zero_iff
 
 theorem equiv_zero_iff_le : (G ≈ 0) ↔ G ≤ 0 :=
@@ -222,14 +220,14 @@ theorem forall_rightMoves_fuzzy_iff_equiv_zero : (∀ j, G.moveRight j ‖ 0) �
 
 theorem exists_left_move_equiv_iff_fuzzy_zero : (∃ i, G.moveLeft i ≈ 0) ↔ G ‖ 0 := by
   refine' ⟨fun ⟨i, hi⟩ => (fuzzy_zero_iff_gf G).2 (lf_of_le_moveLeft hi.2), fun hn => _⟩
-  rw [fuzzy_zero_iff_gf G, zero_lf_le] at hn
+  rw [fuzzy_zero_iff_gf G] at hn; rw [zero_lf_le] at hn
   cases' hn with i hi
   exact ⟨i, (equiv_zero_iff_ge _).2 hi⟩
 #align pgame.impartial.exists_left_move_equiv_iff_fuzzy_zero SetTheory.PGame.Impartial.exists_left_move_equiv_iff_fuzzy_zero
 
 theorem exists_right_move_equiv_iff_fuzzy_zero : (∃ j, G.moveRight j ≈ 0) ↔ G ‖ 0 := by
   refine' ⟨fun ⟨i, hi⟩ => (fuzzy_zero_iff_lf G).2 (lf_of_moveRight_le hi.1), fun hn => _⟩
-  rw [fuzzy_zero_iff_lf G, lf_zero_le] at hn
+  rw [fuzzy_zero_iff_lf G] at hn; rw [lf_zero_le] at hn
   cases' hn with i hi
   exact ⟨i, (equiv_zero_iff_le _).2 hi⟩
 #align pgame.impartial.exists_right_move_equiv_iff_fuzzy_zero SetTheory.PGame.Impartial.exists_right_move_equiv_iff_fuzzy_zero

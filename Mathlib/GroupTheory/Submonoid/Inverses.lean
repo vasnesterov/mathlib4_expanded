@@ -69,7 +69,7 @@ def leftInv : Submonoid M where
 theorem leftInv_leftInv_le : S.leftInv.leftInv ≤ S := by
   rintro x ⟨⟨y, z, h₁⟩, h₂ : x * y = 1⟩
   convert z.prop
-  rw [← mul_one x, ← h₁, ← mul_assoc, h₂, one_mul]
+  rw [← mul_one x]; rw [← h₁]; rw [← mul_assoc]; rw [h₂]; rw [one_mul]
 #align submonoid.left_inv_left_inv_le Submonoid.leftInv_leftInv_le
 #align add_submonoid.left_neg_left_neg_le AddSubmonoid.leftNeg_leftNeg_le
 
@@ -120,7 +120,7 @@ variable [CommMonoid M] (S : Submonoid M)
 
 @[to_additive (attr := simp)]
 theorem fromLeftInv_mul (x : S.leftInv) : (S.fromLeftInv x : M) * x = 1 := by
-  rw [mul_comm, mul_fromLeftInv]
+  rw [mul_comm]; rw [mul_fromLeftInv]
 #align submonoid.from_left_inv_mul Submonoid.fromLeftInv_mul
 #align add_submonoid.from_left_neg_add AddSubmonoid.fromLeftNeg_add
 
@@ -145,8 +145,8 @@ noncomputable def fromCommLeftInv : S.leftInv →* S where
   map_one' := S.fromLeftInv_one
   map_mul' x y :=
     Subtype.ext <| by
-      rw [fromLeftInv_eq_iff, mul_comm x, Submonoid.coe_mul, Submonoid.coe_mul, mul_assoc, ←
-        mul_assoc (x : M), mul_fromLeftInv, one_mul, mul_fromLeftInv]
+      rw [fromLeftInv_eq_iff]; rw [mul_comm x]; rw [Submonoid.coe_mul]; rw [Submonoid.coe_mul]; rw [mul_assoc]; rw [←
+        mul_assoc (x : M)]; rw [mul_fromLeftInv]; rw [one_mul]; rw [mul_fromLeftInv]
 #align submonoid.from_comm_left_inv Submonoid.fromCommLeftInv
 #align add_submonoid.from_comm_left_neg AddSubmonoid.fromCommLeftNeg
 
@@ -235,7 +235,7 @@ theorem leftInv_eq_inv : S.leftInv = S⁻¹ :=
 
 @[to_additive (attr := simp)]
 theorem fromLeftInv_eq_inv (x : S.leftInv) : (S.fromLeftInv x : M) = (x : M)⁻¹ := by
-  rw [← mul_right_inj (x : M), mul_right_inv, mul_fromLeftInv]
+  rw [← mul_right_inj (x : M)]; rw [mul_right_inv]; rw [mul_fromLeftInv]
 #align submonoid.from_left_inv_eq_inv Submonoid.fromLeftInv_eq_inv
 #align add_submonoid.from_left_neg_eq_neg AddSubmonoid.fromLeftNeg_eq_neg
 
@@ -247,7 +247,7 @@ variable [CommGroup M] (S : Submonoid M) (hS : S ≤ IsUnit.submonoid M)
 
 @[to_additive (attr := simp)]
 theorem leftInvEquiv_symm_eq_inv (x : S) : ((S.leftInvEquiv hS).symm x : M) = (x : M)⁻¹ := by
-  rw [← mul_right_inj (x : M), mul_right_inv, mul_leftInvEquiv_symm]
+  rw [← mul_right_inj (x : M)]; rw [mul_right_inv]; rw [mul_leftInvEquiv_symm]
 #align submonoid.left_inv_equiv_symm_eq_inv Submonoid.leftInvEquiv_symm_eq_inv
 #align add_submonoid.left_neg_equiv_symm_eq_neg AddSubmonoid.leftNegEquiv_symm_eq_neg
 

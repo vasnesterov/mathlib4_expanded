@@ -111,7 +111,7 @@ instance (priority := 100) ConditionallyCompleteLinearOrder.toCompactIccSpace (�
   have hy : y ∈ Icc a b := ⟨hc.1.trans hxy.1.le, hxy.2⟩
   by_cases hay : Icc a y ∈ f
   · refine' mem_of_superset (f.diff_mem_iff.2 ⟨f.diff_mem_iff.2 ⟨hay, hcs.2⟩, hpt y hy⟩) _
-    rw [diff_subset_iff, union_comm, Ico_union_right hxy.1.le, diff_subset_iff]
+    rw [diff_subset_iff]; rw [union_comm]; rw [Ico_union_right hxy.1.le]; rw [diff_subset_iff]
     exact Icc_subset_Icc_union_Icc
   · exact ((hsc.1 ⟨hy, hay⟩).not_lt hxy.1).elim
 #align conditionally_complete_linear_order.to_compact_Icc_space ConditionallyCompleteLinearOrder.toCompactIccSpace
@@ -295,7 +295,7 @@ theorem Continuous.exists_forall_le_of_hasCompactMulSupport [ClosedIicTopology �
     [One α] {f : β → α} (hf : Continuous f) (h : HasCompactMulSupport f) :
     ∃ x : β, ∀ y : β, f x ≤ f y := by
   obtain ⟨_, ⟨x, rfl⟩, hx⟩ := (h.isCompact_range hf).exists_isLeast (range_nonempty _)
-  rw [mem_lowerBounds, forall_range_iff] at hx
+  rw [mem_lowerBounds] at hx; rw [forall_range_iff] at hx
   exact ⟨x, hx⟩
 #align continuous.exists_forall_le_of_has_compact_mul_support Continuous.exists_forall_le_of_hasCompactMulSupport
 #align continuous.exists_forall_le_of_has_compact_support Continuous.exists_forall_le_of_hasCompactSupport
@@ -510,7 +510,7 @@ theorem IsCompact.continuous_sSup {f : γ → β → α} {K : Set β} (hK : IsCo
   obtain ⟨y, hyK, h2y, hy⟩ :=
     hK.exists_sSup_image_eq_and_ge h0K
       (show Continuous fun y => f x y from hf.comp <| Continuous.Prod.mk x).continuousOn
-  rw [ContinuousAt, h2y, tendsto_order]
+  rw [ContinuousAt]; rw [h2y]; rw [tendsto_order]
   have := tendsto_order.mp ((show Continuous fun x => f x y
     from hf.comp <| continuous_id.prod_mk continuous_const).tendsto x)
   refine' ⟨fun z hz => _, fun z hz => _⟩

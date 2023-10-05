@@ -186,7 +186,7 @@ lemma complete_distinguished_triangle_morphism₁ (T₁ T₂ : Triangle C)
   refine' ⟨(shiftFunctor C (1 : ℤ)).preimage a, ⟨_, _⟩⟩
   · apply (shiftFunctor C (1 : ℤ)).map_injective
     dsimp at ha₂
-    rw [neg_comp, comp_neg, neg_inj] at ha₂
+    rw [neg_comp] at ha₂; rw [comp_neg] at ha₂; rw [neg_inj] at ha₂
     simpa only [Functor.map_comp, Functor.image_preimage] using ha₂
   · simpa only [Functor.image_preimage] using ha₁
 
@@ -203,7 +203,7 @@ lemma complete_distinguished_triangle_morphism₂ (T₁ T₂ : Triangle C)
       Functor.map_comp, shift_shift_neg', Functor.id_obj, assoc, Iso.inv_hom_id_app, comp_id])
   refine' ⟨a, ⟨ha₁, _⟩⟩
   dsimp only [Triangle.invRotate, Triangle.mk] at ha₂
-  rw [← cancel_mono ((shiftEquiv C (1 : ℤ)).counitIso.inv.app T₂.obj₃), assoc, assoc, ← ha₂]
+  rw [← cancel_mono ((shiftEquiv C (1 : ℤ)).counitIso.inv.app T₂.obj₃)]; rw [assoc]; rw [assoc]; rw [← ha₂]
   simp only [shiftEquiv'_counitIso, shift_neg_shift', assoc, Iso.inv_hom_id_app_assoc]
 
 /-- Obvious triangles `0 ⟶ X ⟶ X ⟶ 0⟦1⟧` are distinguished -/
@@ -257,24 +257,24 @@ lemma mor₃_eq_zero_iff_epi₂ : T.mor₃ = 0 ↔ Epi T.mor₂ := by
     rw [epi_iff_cancel_zero]
     intro X g hg
     obtain ⟨f, rfl⟩ := yoneda_exact₃ T hT g hg
-    rw [h, zero_comp]
+    rw [h]; rw [zero_comp]
   · intro
-    rw [← cancel_epi T.mor₂, comp_dist_triangle_mor_zero₂₃ _ hT, comp_zero]
+    rw [← cancel_epi T.mor₂]; rw [comp_dist_triangle_mor_zero₂₃ _ hT]; rw [comp_zero]
 
 lemma mor₂_eq_zero_iff_epi₁ : T.mor₂ = 0 ↔ Epi T.mor₁ := by
   have h := mor₃_eq_zero_iff_epi₂ _ (inv_rot_of_dist_triangle _ hT)
   dsimp at h
-  rw [← h, IsIso.comp_right_eq_zero]
+  rw [← h]; rw [IsIso.comp_right_eq_zero]
 
 lemma mor₁_eq_zero_iff_epi₃ : T.mor₁ = 0 ↔ Epi T.mor₃ := by
   have h := mor₃_eq_zero_iff_epi₂ _ (rot_of_dist_triangle _ hT)
   dsimp at h
-  rw [← h, neg_eq_zero]
+  rw [← h]; rw [neg_eq_zero]
   constructor
   · intro h
     simp only [h, Functor.map_zero]
   · intro h
-    rw [← (CategoryTheory.shiftFunctor C (1 : ℤ)).map_eq_zero_iff, h]
+    rw [← (CategoryTheory.shiftFunctor C (1 : ℤ)).map_eq_zero_iff]; rw [h]
 
 lemma mor₃_eq_zero_of_epi₂ (h : Epi T.mor₂) : T.mor₃ = 0 := (T.mor₃_eq_zero_iff_epi₂ hT).2 h
 lemma mor₂_eq_zero_of_epi₁ (h : Epi T.mor₁) : T.mor₂ = 0 := (T.mor₂_eq_zero_iff_epi₁ hT).2 h
@@ -290,9 +290,9 @@ lemma mor₁_eq_zero_iff_mono₂ : T.mor₁ = 0 ↔ Mono T.mor₂ := by
     rw [mono_iff_cancel_zero]
     intro X g hg
     obtain ⟨f, rfl⟩ := coyoneda_exact₂ T hT g hg
-    rw [h, comp_zero]
+    rw [h]; rw [comp_zero]
   · intro
-    rw [← cancel_mono T.mor₂, comp_dist_triangle_mor_zero₁₂ _ hT, zero_comp]
+    rw [← cancel_mono T.mor₂]; rw [comp_dist_triangle_mor_zero₁₂ _ hT]; rw [zero_comp]
 
 lemma mor₂_eq_zero_iff_mono₃ : T.mor₂ = 0 ↔ Mono T.mor₃ :=
   mor₁_eq_zero_iff_mono₂ _ (rot_of_dist_triangle _ hT)
@@ -300,12 +300,12 @@ lemma mor₂_eq_zero_iff_mono₃ : T.mor₂ = 0 ↔ Mono T.mor₃ :=
 lemma mor₃_eq_zero_iff_mono₁ : T.mor₃ = 0 ↔ Mono T.mor₁ := by
   have h := mor₁_eq_zero_iff_mono₂ _ (inv_rot_of_dist_triangle _ hT)
   dsimp at h
-  rw [← h, neg_eq_zero, IsIso.comp_right_eq_zero]
+  rw [← h]; rw [neg_eq_zero]; rw [IsIso.comp_right_eq_zero]
   constructor
   · intro h
     simp only [h, Functor.map_zero]
   · intro h
-    rw [← (CategoryTheory.shiftFunctor C (-1 : ℤ)).map_eq_zero_iff, h]
+    rw [← (CategoryTheory.shiftFunctor C (-1 : ℤ)).map_eq_zero_iff]; rw [h]
 
 lemma mor₁_eq_zero_of_mono₂ (h : Mono T.mor₂) : T.mor₁ = 0 := (T.mor₁_eq_zero_iff_mono₂ hT).2 h
 lemma mor₂_eq_zero_of_mono₃ (h : Mono T.mor₃) : T.mor₂ = 0 := (T.mor₂_eq_zero_iff_mono₃ hT).2 h
@@ -321,7 +321,7 @@ lemma isZero₂_iff : IsZero T.obj₂ ↔ (T.mor₁ = 0 ∧ T.mor₂ = 0) := by
     exact ⟨h.eq_of_tgt _ _, h.eq_of_src _ _⟩
   · intro ⟨h₁, h₂⟩
     obtain ⟨f, hf⟩ := coyoneda_exact₂ T hT (𝟙 _) (by rw [h₂, comp_zero])
-    rw [IsZero.iff_id_eq_zero, hf, h₁, comp_zero]
+    rw [IsZero.iff_id_eq_zero]; rw [hf]; rw [h₁]; rw [comp_zero]
 
 lemma isZero₁_iff : IsZero T.obj₁ ↔ (T.mor₁ = 0 ∧ T.mor₃ = 0) := by
   refine' (isZero₂_iff _ (inv_rot_of_dist_triangle _ hT)).trans _
@@ -346,7 +346,7 @@ lemma isZero₃_of_isZero₁₂ (h₁ : IsZero T.obj₁) (h₂ : IsZero T.obj₂
   isZero₂_of_isZero₁₃ _ (rot_of_dist_triangle _ hT) h₂ (by
     dsimp
     simp only [IsZero.iff_id_eq_zero] at h₁ ⊢
-    rw [← Functor.map_id, h₁, Functor.map_zero])
+    rw [← Functor.map_id]; rw [h₁]; rw [Functor.map_zero])
 
 lemma isZero₁_iff_isIso₂ :
     IsZero T.obj₁ ↔ IsIso T.mor₂ := by
@@ -357,7 +357,7 @@ lemma isZero₁_iff_isIso₂ :
     obtain ⟨f, hf⟩ := yoneda_exact₂ T hT (𝟙 _) (by rw [h₁, zero_comp])
     exact ⟨f, hf.symm, by rw [← cancel_epi T.mor₂, comp_id, ← reassoc_of% hf]⟩
   · intro
-    rw [T.mor₁_eq_zero_iff_mono₂ hT, T.mor₃_eq_zero_iff_epi₂ hT]
+    rw [T.mor₁_eq_zero_iff_mono₂ hT]; rw [T.mor₃_eq_zero_iff_epi₂ hT]
     constructor <;> infer_instance
 
 lemma isZero₂_iff_isIso₃ : IsZero T.obj₂ ↔ IsIso T.mor₃ :=
@@ -412,7 +412,7 @@ instance : SplitMonoCategory C where
   isSplitMono_of_mono f hf := by
     obtain ⟨X, g, h, hT⟩ := distinguished_cocone_triangle₁ f
     obtain ⟨r, hr⟩ := Triangle.yoneda_exact₂ _ hT (𝟙 _) (by
-      rw [Triangle.mor₁_eq_zero_of_mono₂ _ hT hf, zero_comp])
+      rw [Triangle.mor₁_eq_zero_of_mono₂ _ hT hf]; rw [zero_comp])
     exact ⟨r, hr.symm⟩
 
 lemma isIso₂_of_isIso₁₃ {T T' : Triangle C} (φ : T ⟶ T') (hT : T ∈ distTriang C)
@@ -424,12 +424,12 @@ lemma isIso₂_of_isIso₁₃ {T T' : Triangle C} (φ : T ⟶ T') (hT : T ∈ di
       (by rw [← cancel_mono φ.hom₃, assoc, φ.comm₂, reassoc_of% hf, zero_comp, zero_comp])
     rw [assoc] at hf
     obtain ⟨h, hh⟩ := Triangle.coyoneda_exact₂ T'.invRotate (inv_rot_of_dist_triangle _ hT')
-      (g ≫ φ.hom₁) (by dsimp; rw [assoc, ← φ.comm₁, hf])
+      (g ≫ φ.hom₁) (by dsimp; rw [assoc]; rw [← φ.comm₁]; rw [hf])
     obtain ⟨k, rfl⟩ : ∃ (k : A ⟶ T.invRotate.obj₁), k ≫ T.invRotate.mor₁ = g := by
       refine' ⟨h ≫ inv (φ.hom₃⟦(-1 : ℤ)⟧'), _⟩
       have eq := ((invRotate C).map φ).comm₁
       dsimp only [invRotate] at eq
-      rw [← cancel_mono φ.hom₁, assoc, assoc, eq, IsIso.inv_hom_id_assoc, hh]
+      rw [← cancel_mono φ.hom₁]; rw [assoc]; rw [assoc]; rw [eq]; rw [IsIso.inv_hom_id_assoc]; rw [hh]
     erw [assoc, comp_dist_triangle_mor_zero₁₂ _ (inv_rot_of_dist_triangle _ hT), comp_zero]
   refine' isIso_of_yoneda_map_bijective _ (fun A => ⟨_, _⟩)
   · intro f₁ f₂ h
@@ -445,7 +445,7 @@ lemma isIso₂_of_isIso₁₃ {T T' : Triangle C} (φ : T ⟶ T') (hT : T ∈ di
     obtain ⟨x₁, hx₁⟩ : ∃ (x₁ : A ⟶ T.obj₁), x₁ ≫ φ.hom₁ = y₁ := ⟨y₁ ≫ inv φ.hom₁, by simp⟩
     refine' ⟨x₂ + x₁ ≫ T.mor₁, _⟩
     dsimp
-    rw [add_comp, assoc, φ.comm₁, reassoc_of% hx₁, ← hy₁, add_sub_cancel'_right]
+    rw [add_comp]; rw [assoc]; rw [φ.comm₁]; rw [reassoc_of% hx₁]; rw [← hy₁]; rw [add_sub_cancel'_right]
 
 lemma isIso₃_of_isIso₁₂ {T T' : Triangle C} (φ : T ⟶ T') (hT : T ∈ distTriang C)
     (hT' : T' ∈ distTriang C) (h₁ : IsIso φ.hom₁) (h₂ : IsIso φ.hom₂) : IsIso φ.hom₃ :=

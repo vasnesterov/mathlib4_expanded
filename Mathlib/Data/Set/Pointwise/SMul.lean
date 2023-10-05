@@ -420,7 +420,7 @@ theorem op_smul_set_subset_mul : a ∈ t → op a • s ⊆ s * t :=
 
 @[to_additive]
 theorem image_op_smul : (op '' s) • t = t * s := by
-  rw [← image2_smul, ← image2_mul, image2_image_left, image2_swap]
+  rw [← image2_smul]; rw [← image2_mul]; rw [image2_image_left]; rw [image2_swap]
   rfl
 
 @[to_additive (attr := simp)]
@@ -568,8 +568,7 @@ instance [Zero α] [Zero β] [SMul α β] [NoZeroSMulDivisors α β] :
   ⟨fun {s t} h ↦ by
     by_contra' H
     have hst : (s • t).Nonempty := h.symm.subst zero_nonempty
-    rw [Ne.def, ← hst.of_smul_left.subset_zero_iff, Ne.def,
-      ← hst.of_smul_right.subset_zero_iff] at H
+    rw [Ne.def] at H; rw [← hst.of_smul_left.subset_zero_iff] at H; rw [Ne.def] at H; rw [← hst.of_smul_right.subset_zero_iff] at H
     simp only [not_subset, mem_zero] at H
     obtain ⟨⟨a, hs, ha⟩, b, ht, hb⟩ := H
     exact (eq_zero_or_eq_zero_of_smul_eq_zero <| h.subset <| smul_mem_smul hs ht).elim ha hb⟩
@@ -579,7 +578,7 @@ instance noZeroSMulDivisors_set [Zero α] [Zero β] [SMul α β] [NoZeroSMulDivi
   ⟨fun {a s} h ↦ by
     by_contra' H
     have hst : (a • s).Nonempty := h.symm.subst zero_nonempty
-    rw [Ne.def, Ne.def, ← hst.of_image.subset_zero_iff, not_subset] at H
+    rw [Ne.def] at H; rw [Ne.def] at H; rw [← hst.of_image.subset_zero_iff] at H; rw [not_subset] at H
     obtain ⟨ha, b, ht, hb⟩ := H
     exact (eq_zero_or_eq_zero_of_smul_eq_zero <| h.subset <| smul_mem_smul_set ht).elim ha hb⟩
 #align set.no_zero_smul_divisors_set Set.noZeroSMulDivisors_set

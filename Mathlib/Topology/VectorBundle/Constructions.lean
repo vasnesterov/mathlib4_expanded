@@ -95,12 +95,12 @@ theorem coordChangeL_prod [e₁.IsLinear 𝕜] [e₁'.IsLinear 𝕜] [e₂.IsLin
     (hb : b ∈ (e₁.prod e₂).baseSet ∩ (e₁'.prod e₂').baseSet) :
     ((e₁.prod e₂).coordChangeL 𝕜 (e₁'.prod e₂') b : F₁ × F₂ →L[𝕜] F₁ × F₂) =
       (e₁.coordChangeL 𝕜 e₁' b : F₁ →L[𝕜] F₁).prodMap (e₂.coordChangeL 𝕜 e₂' b) := by
-  rw [ContinuousLinearMap.ext_iff, ContinuousLinearMap.coe_prodMap']
+  rw [ContinuousLinearMap.ext_iff]; rw [ContinuousLinearMap.coe_prodMap']
   rintro ⟨v₁, v₂⟩
   show
     (e₁.prod e₂).coordChangeL 𝕜 (e₁'.prod e₂') b (v₁, v₂) =
       (e₁.coordChangeL 𝕜 e₁' b v₁, e₂.coordChangeL 𝕜 e₂' b v₂)
-  rw [e₁.coordChangeL_apply e₁', e₂.coordChangeL_apply e₂', (e₁.prod e₂).coordChangeL_apply']
+  rw [e₁.coordChangeL_apply e₁']; rw [e₂.coordChangeL_apply e₂']; rw [(e₁.prod e₂).coordChangeL_apply']
   exacts [rfl, hb, ⟨hb.1.2, hb.2.2⟩, ⟨hb.1.1, hb.2.1⟩]
 set_option linter.uppercaseLean3 false in
 #align trivialization.coord_changeL_prod Trivialization.coordChangeL_prod
@@ -141,7 +141,7 @@ instance VectorBundle.prod [VectorBundle 𝕜 F₁ E₁] [VectorBundle 𝕜 F₂
       rintro ⟨v₁, v₂⟩
       show (e₁.prod e₂).coordChangeL 𝕜 (e₁'.prod e₂') b (v₁, v₂) =
         (e₁.coordChangeL 𝕜 e₁' b v₁, e₂.coordChangeL 𝕜 e₂' b v₂)
-      rw [e₁.coordChangeL_apply e₁', e₂.coordChangeL_apply e₂', (e₁.prod e₂).coordChangeL_apply']
+      rw [e₁.coordChangeL_apply e₁']; rw [e₂.coordChangeL_apply e₂']; rw [(e₁.prod e₂).coordChangeL_apply']
       exacts [rfl, hb, ⟨hb.1.2, hb.2.2⟩, ⟨hb.1.1, hb.2.1⟩]
 #align vector_bundle.prod VectorBundle.prod
 
@@ -155,7 +155,7 @@ theorem Trivialization.continuousLinearEquivAt_prod {e₁ : Trivialization F₁ 
       (e₁.continuousLinearEquivAt 𝕜 x hx.1).prod (e₂.continuousLinearEquivAt 𝕜 x hx.2) := by
   ext v : 2
   obtain ⟨v₁, v₂⟩ := v
-  rw [(e₁.prod e₂).continuousLinearEquivAt_apply 𝕜, Trivialization.prod]
+  rw [(e₁.prod e₂).continuousLinearEquivAt_apply 𝕜]; rw [Trivialization.prod]
   exact (congr_arg Prod.snd (prod_apply 𝕜 hx.1 hx.2 v₁ v₂) : _)
 #align trivialization.continuous_linear_equiv_at_prod Trivialization.continuousLinearEquivAt_prodₓ
 
@@ -192,7 +192,7 @@ instance VectorBundle.pullback [∀ x, TopologicalSpace (E x)] [FiberBundle F E]
       (map_continuous f).continuousOn fun b hb => hb).congr _
     rintro b (hb : f b ∈ e.baseSet ∩ e'.baseSet); ext v
     show ((e.pullback f).coordChangeL 𝕜 (e'.pullback f) b) v = (e.coordChangeL 𝕜 e' (f b)) v
-    rw [e.coordChangeL_apply e' hb, (e.pullback f).coordChangeL_apply' _]
+    rw [e.coordChangeL_apply e' hb]; rw [(e.pullback f).coordChangeL_apply' _]
     exacts [rfl, hb]
 #align vector_bundle.pullback VectorBundle.pullback
 

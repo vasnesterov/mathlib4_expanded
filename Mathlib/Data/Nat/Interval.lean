@@ -28,33 +28,33 @@ instance : LocallyFiniteOrder ℕ where
   finsetIoc a b := ⟨List.range' (a + 1) (b - a), List.nodup_range' _ _⟩
   finsetIoo a b := ⟨List.range' (a + 1) (b - a - 1), List.nodup_range' _ _⟩
   finset_mem_Icc a b x := by
-    rw [Finset.mem_mk, Multiset.mem_coe, List.mem_range'_1]
+    rw [Finset.mem_mk]; rw [Multiset.mem_coe]; rw [List.mem_range'_1]
     cases le_or_lt a b with
     | inl h => rw [add_tsub_cancel_of_le (Nat.lt_succ_of_le h).le, Nat.lt_succ_iff]
     | inr h =>
-      rw [tsub_eq_zero_iff_le.2 (succ_le_of_lt h), add_zero]
+      rw [tsub_eq_zero_iff_le.2 (succ_le_of_lt h)]; rw [add_zero]
       exact iff_of_false (fun hx => hx.2.not_le hx.1) fun hx => h.not_le (hx.1.trans hx.2)
   finset_mem_Ico a b x := by
-    rw [Finset.mem_mk, Multiset.mem_coe, List.mem_range'_1]
+    rw [Finset.mem_mk]; rw [Multiset.mem_coe]; rw [List.mem_range'_1]
     cases le_or_lt a b with
     | inl h => rw [add_tsub_cancel_of_le h]
     | inr h =>
-      rw [tsub_eq_zero_iff_le.2 h.le, add_zero]
+      rw [tsub_eq_zero_iff_le.2 h.le]; rw [add_zero]
       exact iff_of_false (fun hx => hx.2.not_le hx.1) fun hx => h.not_le (hx.1.trans hx.2.le)
   finset_mem_Ioc a b x := by
-    rw [Finset.mem_mk, Multiset.mem_coe, List.mem_range'_1]
+    rw [Finset.mem_mk]; rw [Multiset.mem_coe]; rw [List.mem_range'_1]
     cases le_or_lt a b with
     | inl h =>
-      rw [← succ_sub_succ, add_tsub_cancel_of_le (succ_le_succ h), Nat.lt_succ_iff, Nat.succ_le_iff]
+      rw [← succ_sub_succ]; rw [add_tsub_cancel_of_le (succ_le_succ h)]; rw [Nat.lt_succ_iff]; rw [Nat.succ_le_iff]
     | inr h =>
-      rw [tsub_eq_zero_iff_le.2 h.le, add_zero]
+      rw [tsub_eq_zero_iff_le.2 h.le]; rw [add_zero]
       exact iff_of_false (fun hx => hx.2.not_le hx.1) fun hx => h.not_le (hx.1.le.trans hx.2)
   finset_mem_Ioo a b x := by
-    rw [Finset.mem_mk, Multiset.mem_coe, List.mem_range'_1, ← tsub_add_eq_tsub_tsub]
+    rw [Finset.mem_mk]; rw [Multiset.mem_coe]; rw [List.mem_range'_1]; rw [← tsub_add_eq_tsub_tsub]
     cases le_or_lt (a + 1) b with
     | inl h => rw [add_tsub_cancel_of_le h, Nat.succ_le_iff]
     | inr h =>
-      rw [tsub_eq_zero_iff_le.2 h.le, add_zero]
+      rw [tsub_eq_zero_iff_le.2 h.le]; rw [add_zero]
       exact iff_of_false (fun hx => hx.2.not_le hx.1) fun hx => h.not_le (hx.1.trans hx.2)
 
 variable (a b c : ℕ)
@@ -83,7 +83,7 @@ theorem uIcc_eq_range' :
 
 theorem Iio_eq_range : Iio = range := by
   ext b x
-  rw [mem_Iio, mem_range]
+  rw [mem_Iio]; rw [mem_range]
 #align nat.Iio_eq_range Nat.Iio_eq_range
 
 @[simp]
@@ -118,13 +118,13 @@ theorem card_Ioo : (Ioo a b).card = b - a - 1 :=
 theorem card_uIcc : (uIcc a b).card = (b - a : ℤ).natAbs + 1 := by
   refine' (card_Icc _ _).trans (Int.ofNat.inj _)
   change ((↑) : ℕ → ℤ) _ = _
-  rw [sup_eq_max, inf_eq_min, Int.ofNat_sub]
+  rw [sup_eq_max]; rw [inf_eq_min]; rw [Int.ofNat_sub]
   · rw [add_comm, Int.ofNat_add, add_sub_assoc]
     -- porting note: `norm_cast` puts a `Int.subSubNat` in the goal
     -- norm_cast
     change _ = ↑(Int.natAbs (b - a) + 1)
     push_cast
-    rw [max_sub_min_eq_abs, add_comm]
+    rw [max_sub_min_eq_abs]; rw [add_comm]
   · exact min_le_max.trans le_self_add
 #align nat.card_uIcc Nat.card_uIcc
 
@@ -139,31 +139,31 @@ theorem card_Iio : (Iio b).card = b := by rw [Iio_eq_Ico, card_Ico, bot_eq_zero,
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIcc : Fintype.card (Set.Icc a b) = b + 1 - a := by
-  rw [Fintype.card_ofFinset, card_Icc]
+  rw [Fintype.card_ofFinset]; rw [card_Icc]
 #align nat.card_fintype_Icc Nat.card_fintypeIcc
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIco : Fintype.card (Set.Ico a b) = b - a := by
-  rw [Fintype.card_ofFinset, card_Ico]
+  rw [Fintype.card_ofFinset]; rw [card_Ico]
 #align nat.card_fintype_Ico Nat.card_fintypeIco
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIoc : Fintype.card (Set.Ioc a b) = b - a := by
-  rw [Fintype.card_ofFinset, card_Ioc]
+  rw [Fintype.card_ofFinset]; rw [card_Ioc]
 #align nat.card_fintype_Ioc Nat.card_fintypeIoc
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIoo : Fintype.card (Set.Ioo a b) = b - a - 1 := by
-  rw [Fintype.card_ofFinset, card_Ioo]
+  rw [Fintype.card_ofFinset]; rw [card_Ioo]
 #align nat.card_fintype_Ioo Nat.card_fintypeIoo
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIic : Fintype.card (Set.Iic b) = b + 1 := by
-  rw [Fintype.card_ofFinset, card_Iic]
+  rw [Fintype.card_ofFinset]; rw [card_Iic]
 #align nat.card_fintype_Iic Nat.card_fintypeIic
 
 -- Porting note: simp can prove this
@@ -174,27 +174,27 @@ theorem card_fintypeIio : Fintype.card (Set.Iio b) = b := by rw [Fintype.card_of
 -- TODO@Yaël: Generalize all the following lemmas to `SuccOrder`
 theorem Icc_succ_left : Icc a.succ b = Ioc a b := by
   ext x
-  rw [mem_Icc, mem_Ioc, succ_le_iff]
+  rw [mem_Icc]; rw [mem_Ioc]; rw [succ_le_iff]
 #align nat.Icc_succ_left Nat.Icc_succ_left
 
 theorem Ico_succ_right : Ico a b.succ = Icc a b := by
   ext x
-  rw [mem_Ico, mem_Icc, lt_succ_iff]
+  rw [mem_Ico]; rw [mem_Icc]; rw [lt_succ_iff]
 #align nat.Ico_succ_right Nat.Ico_succ_right
 
 theorem Ico_succ_left : Ico a.succ b = Ioo a b := by
   ext x
-  rw [mem_Ico, mem_Ioo, succ_le_iff]
+  rw [mem_Ico]; rw [mem_Ioo]; rw [succ_le_iff]
 #align nat.Ico_succ_left Nat.Ico_succ_left
 
 theorem Icc_pred_right {b : ℕ} (h : 0 < b) : Icc a (b - 1) = Ico a b := by
   ext x
-  rw [mem_Icc, mem_Ico, lt_iff_le_pred h]
+  rw [mem_Icc]; rw [mem_Ico]; rw [lt_iff_le_pred h]
 #align nat.Icc_pred_right Nat.Icc_pred_right
 
 theorem Ico_succ_succ : Ico a.succ b.succ = Ioc a b := by
   ext x
-  rw [mem_Ico, mem_Ioc, succ_le_iff, lt_succ_iff]
+  rw [mem_Ico]; rw [mem_Ioc]; rw [succ_le_iff]; rw [lt_succ_iff]
 #align nat.Ico_succ_succ Nat.Ico_succ_succ
 
 @[simp]
@@ -203,7 +203,7 @@ theorem Ico_succ_singleton : Ico a (a + 1) = {a} := by rw [Ico_succ_right, Icc_s
 
 @[simp]
 theorem Ico_pred_singleton {a : ℕ} (h : 0 < a) : Ico (a - 1) a = {a - 1} := by
-  rw [← Icc_pred_right _ h, Icc_self]
+  rw [← Icc_pred_right _ h]; rw [Icc_self]
 #align nat.Ico_pred_singleton Nat.Ico_pred_singleton
 
 @[simp]
@@ -213,11 +213,11 @@ theorem Ioc_succ_singleton : Ioc b (b + 1) = {b + 1} := by rw [← Nat.Icc_succ_
 variable {a b c}
 
 theorem Ico_succ_right_eq_insert_Ico (h : a ≤ b) : Ico a (b + 1) = insert b (Ico a b) := by
-  rw [Ico_succ_right, ← Ico_insert_right h]
+  rw [Ico_succ_right]; rw [← Ico_insert_right h]
 #align nat.Ico_succ_right_eq_insert_Ico Nat.Ico_succ_right_eq_insert_Ico
 
 theorem Ico_insert_succ_left (h : a < b) : insert a (Ico a.succ b) = Ico a b := by
-  rw [Ico_succ_left, ← Ioo_insert_left h]
+  rw [Ico_succ_left]; rw [← Ioo_insert_left h]
 #align nat.Ico_insert_succ_left Nat.Ico_insert_succ_left
 
 theorem image_sub_const_Ico (h : c ≤ a) :
@@ -237,7 +237,7 @@ theorem image_sub_const_Ico (h : c ≤ a) :
 theorem Ico_image_const_sub_eq_Ico (hac : a ≤ c) :
     ((Ico a b).image fun x => c - x) = Ico (c + 1 - b) (c + 1 - a) := by
   ext x
-  rw [mem_image, mem_Ico]
+  rw [mem_image]; rw [mem_Ico]
   constructor
   · rintro ⟨x, hx, rfl⟩
     rw [mem_Ico] at hx
@@ -253,7 +253,7 @@ theorem Ico_image_const_sub_eq_Ico (hac : a ≤ c) :
       rw [← succ_sub_succ c]
       exact (tsub_le_tsub_iff_left (succ_le_succ <| hx.2.le.trans h)).2 hx.2
   · rintro ⟨hb, ha⟩
-    rw [lt_tsub_iff_left, lt_succ_iff] at ha
+    rw [lt_tsub_iff_left] at ha; rw [lt_succ_iff] at ha
     have hx : x ≤ c := (Nat.le_add_left _ _).trans ha
     refine' ⟨c - x, _, tsub_tsub_cancel_of_le hx⟩
     · rw [mem_Ico]
@@ -264,8 +264,7 @@ theorem Ico_image_const_sub_eq_Ico (hac : a ≤ c) :
 
 theorem Ico_succ_left_eq_erase_Ico : Ico a.succ b = erase (Ico a b) a := by
   ext x
-  rw [Ico_succ_left, mem_erase, mem_Ico, mem_Ioo, ← and_assoc, ne_comm, @and_comm (a ≠ x),
-    lt_iff_le_and_ne]
+  rw [Ico_succ_left]; rw [mem_erase]; rw [mem_Ico]; rw [mem_Ioo]; rw [← and_assoc]; rw [ne_comm]; rw [@and_comm (a ≠ x)]; rw [lt_iff_le_and_ne]
 #align nat.Ico_succ_left_eq_erase_Ico Nat.Ico_succ_left_eq_erase_Ico
 
 theorem mod_injOn_Ico (n a : ℕ) : Set.InjOn (· % a) (Finset.Ico n (n + a)) := by
@@ -274,8 +273,7 @@ theorem mod_injOn_Ico (n a : ℕ) : Set.InjOn (· % a) (Finset.Ico n (n + a)) :=
     rintro k hk l hl (hkl : k % a = l % a)
     simp only [Finset.mem_range, Finset.mem_coe] at hk hl
     rwa [mod_eq_of_lt hk, mod_eq_of_lt hl] at hkl
-  rw [Ico_succ_left_eq_erase_Ico, succ_add, succ_eq_add_one,
-    Ico_succ_right_eq_insert_Ico le_self_add]
+  rw [Ico_succ_left_eq_erase_Ico]; rw [succ_add]; rw [succ_eq_add_one]; rw [Ico_succ_right_eq_insert_Ico le_self_add]
   rintro k hk l hl (hkl : k % a = l % a)
   have ha : 0 < a := by
     by_contra ha
@@ -312,7 +310,7 @@ theorem image_Ico_mod (n a : ℕ) : (Ico n (n + a)).image (· % a) = range a := 
       refine' hn.symm.le.trans (add_le_add_right _ _)
       simpa only [zero_add] using add_le_add (zero_le i) (Nat.mod_lt n ha.bot_lt).le
     · refine' lt_of_lt_of_le (add_lt_add_right hi (a * (n / a + 1))) _
-      rw [mul_add, mul_one, ← add_assoc, hn]
+      rw [mul_add]; rw [mul_one]; rw [← add_assoc]; rw [hn]
     · rw [Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt hia]
   · refine' ⟨i + a * (n / a), ⟨_, _⟩, _⟩
     · exact hn.symm.le.trans (add_le_add_right hi _)
@@ -349,7 +347,7 @@ theorem range_image_pred_top_sub (n : ℕ) :
 
 -- Porting note: had to use `@` and specify `(a + b)` explicitly. mathlib3 managed without.
 theorem range_add_eq_union : range (a + b) = range a ∪ (range b).map (addLeftEmbedding a) := by
-  rw [Finset.range_eq_Ico, map_eq_image]
+  rw [Finset.range_eq_Ico]; rw [map_eq_image]
   convert (@Ico_union_Ico_eq_Ico _ _ _ _ _ (a + b) a.zero_le le_self_add).symm
   exact image_add_left_Ico _ _ _
 #align finset.range_add_eq_union Finset.range_add_eq_union

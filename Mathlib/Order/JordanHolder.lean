@@ -192,7 +192,7 @@ theorem mem_def {x : X} {s : CompositionSeries X} : x ∈ s ↔ x ∈ Set.range 
 theorem total {s : CompositionSeries X} {x y : X} (hx : x ∈ s) (hy : y ∈ s) : x ≤ y ∨ y ≤ x := by
   rcases Set.mem_range.1 hx with ⟨i, rfl⟩
   rcases Set.mem_range.1 hy with ⟨j, rfl⟩
-  rw [s.strictMono.le_iff_le, s.strictMono.le_iff_le]
+  rw [s.strictMono.le_iff_le]; rw [s.strictMono.le_iff_le]
   exact le_total i j
 #align composition_series.total CompositionSeries.total
 
@@ -214,11 +214,11 @@ theorem ext_fun {s₁ s₂ : CompositionSeries X} (hl : s₁.length = s₂.lengt
 
 @[simp]
 theorem length_toList (s : CompositionSeries X) : s.toList.length = s.length + 1 := by
-  rw [toList, List.length_ofFn]
+  rw [toList]; rw [List.length_ofFn]
 #align composition_series.length_to_list CompositionSeries.length_toList
 
 theorem toList_ne_nil (s : CompositionSeries X) : s.toList ≠ [] := by
-  rw [← List.length_pos_iff_ne_nil, length_toList]; exact Nat.succ_pos _
+  rw [← List.length_pos_iff_ne_nil]; rw [length_toList]; exact Nat.succ_pos _
 #align composition_series.to_list_ne_nil CompositionSeries.toList_ne_nil
 
 theorem toList_injective : Function.Injective (@CompositionSeries.toList X _ _) :=
@@ -254,7 +254,7 @@ theorem chain'_toList (s : CompositionSeries X) : List.Chain' IsMaximal s.toList
 theorem toList_sorted (s : CompositionSeries X) : s.toList.Sorted (· < ·) :=
   List.pairwise_iff_get.2 fun i j h => by
     dsimp [toList]
-    rw [List.get_ofFn, List.get_ofFn]
+    rw [List.get_ofFn]; rw [List.get_ofFn]
     exact s.strictMono h
 #align composition_series.to_list_sorted CompositionSeries.toList_sorted
 
@@ -264,7 +264,7 @@ theorem toList_nodup (s : CompositionSeries X) : s.toList.Nodup :=
 
 @[simp]
 theorem mem_toList {s : CompositionSeries X} {x : X} : x ∈ s.toList ↔ x ∈ s := by
-  rw [toList, List.mem_ofFn, mem_def]
+  rw [toList]; rw [List.mem_ofFn]; rw [mem_def]
 #align composition_series.mem_to_list CompositionSeries.mem_toList
 
 /-- Make a `CompositionSeries X` from the ordered list of its elements. -/
@@ -441,7 +441,7 @@ theorem isMaximal_eraseTop_top {s : CompositionSeries X} (h : 0 < s.length) :
     IsMaximal s.eraseTop.top s.top := by
   have : s.length - 1 + 1 = s.length := by
     conv_rhs => rw [← Nat.succ_sub_one s.length]; rw [Nat.succ_sub h]
-  rw [top_eraseTop, top]
+  rw [top_eraseTop]; rw [top]
   convert s.step ⟨s.length - 1, Nat.sub_lt h zero_lt_one⟩; ext; simp [this]
 #align composition_series.is_maximal_erase_top_top CompositionSeries.isMaximal_eraseTop_top
 
@@ -501,10 +501,10 @@ def append (s₁ s₂ : CompositionSeries X) (h : s₁.top = s₂.bot) : Composi
   step' i := by
     refine' Fin.addCases _ _ i
     · intro i
-      rw [append_succ_castAdd_aux _ _ _ h, append_castAdd_aux]
+      rw [append_succ_castAdd_aux _ _ _ h]; rw [append_castAdd_aux]
       exact s₁.step i
     · intro i
-      rw [append_natAdd_aux, append_succ_natAdd_aux]
+      rw [append_natAdd_aux]; rw [append_succ_natAdd_aux]
       exact s₂.step i
 #align composition_series.append CompositionSeries.append
 
@@ -516,25 +516,25 @@ theorem coe_append (s₁ s₂ : CompositionSeries X) (h) :
 @[simp]
 theorem append_castAdd {s₁ s₂ : CompositionSeries X} (h : s₁.top = s₂.bot) (i : Fin s₁.length) :
     append s₁ s₂ h (Fin.castSucc <| Fin.castAdd s₂.length i) = s₁ (Fin.castSucc i) := by
-  rw [coe_append, append_castAdd_aux _ _ i]
+  rw [coe_append]; rw [append_castAdd_aux _ _ i]
 #align composition_series.append_cast_add CompositionSeries.append_castAdd
 
 @[simp]
 theorem append_succ_castAdd {s₁ s₂ : CompositionSeries X} (h : s₁.top = s₂.bot)
     (i : Fin s₁.length) : append s₁ s₂ h (Fin.castAdd s₂.length i).succ = s₁ i.succ := by
-  rw [coe_append, append_succ_castAdd_aux _ _ _ h]
+  rw [coe_append]; rw [append_succ_castAdd_aux _ _ _ h]
 #align composition_series.append_succ_cast_add CompositionSeries.append_succ_castAdd
 
 @[simp]
 theorem append_natAdd {s₁ s₂ : CompositionSeries X} (h : s₁.top = s₂.bot) (i : Fin s₂.length) :
     append s₁ s₂ h (Fin.castSucc <| Fin.natAdd s₁.length i) = s₂ (Fin.castSucc i) := by
-  rw [coe_append, append_natAdd_aux _ _ i]
+  rw [coe_append]; rw [append_natAdd_aux _ _ i]
 #align composition_series.append_nat_add CompositionSeries.append_natAdd
 
 @[simp]
 theorem append_succ_natAdd {s₁ s₂ : CompositionSeries X} (h : s₁.top = s₂.bot) (i : Fin s₂.length) :
     append s₁ s₂ h (Fin.natAdd s₁.length i).succ = s₂ i.succ := by
-  rw [coe_append, append_succ_natAdd_aux _ _ i]
+  rw [coe_append]; rw [append_succ_natAdd_aux _ _ i]
 #align composition_series.append_succ_nat_add CompositionSeries.append_succ_natAdd
 
 /-- Add an element to the top of a `CompositionSeries` -/
@@ -546,7 +546,7 @@ def snoc (s : CompositionSeries X) (x : X) (hsat : IsMaximal s.top x) : Composit
     refine' Fin.lastCases _ _ i
     · rwa [Fin.snoc_castSucc, Fin.succ_last, Fin.snoc_last, ← top]
     · intro i
-      rw [Fin.snoc_castSucc, ← Fin.castSucc_fin_succ, Fin.snoc_castSucc]
+      rw [Fin.snoc_castSucc]; rw [← Fin.castSucc_fin_succ]; rw [Fin.snoc_castSucc]
       exact s.step _
 #align composition_series.snoc CompositionSeries.snoc
 
@@ -571,7 +571,7 @@ theorem snoc_castSucc (s : CompositionSeries X) (x : X) (hsat : IsMaximal s.top 
 @[simp]
 theorem bot_snoc (s : CompositionSeries X) (x : X) (hsat : IsMaximal s.top x) :
     (snoc s x hsat).bot = s.bot := by
-  rw [bot, bot, ← snoc_castSucc s x hsat 0, Fin.castSucc_zero' (n := s.length + 1)]
+  rw [bot]; rw [bot]; rw [← snoc_castSucc s x hsat 0]; rw [Fin.castSucc_zero' (n := s.length + 1)]
 #align composition_series.bot_snoc CompositionSeries.bot_snoc
 
 theorem mem_snoc {s : CompositionSeries X} {x y : X} {hsat : IsMaximal s.top x} :

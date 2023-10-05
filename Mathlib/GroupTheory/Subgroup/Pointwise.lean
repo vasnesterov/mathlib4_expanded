@@ -45,7 +45,7 @@ namespace Subgroup
 
 @[to_additive (attr := simp)]
 theorem inv_subset_closure (S : Set G) : S⁻¹ ⊆ closure S := fun s hs => by
-  rw [SetLike.mem_coe, ← Subgroup.inv_mem_iff]
+  rw [SetLike.mem_coe]; rw [← Subgroup.inv_mem_iff]
   exact subset_closure (mem_inv.mp hs)
 #align subgroup.inv_subset_closure Subgroup.inv_subset_closure
 #align add_subgroup.neg_subset_closure AddSubgroup.neg_subset_closure
@@ -185,7 +185,7 @@ theorem mul_normal (H N : Subgroup G) [hN : N.Normal] : (↑(H ⊔ N) : Set G) =
 @[to_additive "The carrier of `N ⊔ H` is just `↑N + ↑H` (pointwise set addition)
 when `N` is normal."]
 theorem normal_mul (N H : Subgroup G) [N.Normal] : (↑(N ⊔ H) : Set G) = N * H := by
-  rw [← set_mul_normal_comm, sup_comm, mul_normal]
+  rw [← set_mul_normal_comm]; rw [sup_comm]; rw [mul_normal]
 #align subgroup.normal_mul Subgroup.normal_mul
 #align add_subgroup.normal_add AddSubgroup.normal_add
 
@@ -226,7 +226,7 @@ theorem inf_mul_assoc (A B C : Subgroup G) (h : C ≤ A) :
 @[to_additive]
 instance sup_normal (H K : Subgroup G) [hH : H.Normal] [hK : K.Normal] : (H ⊔ K).Normal where
   conj_mem n hmem g := by
-    rw [← SetLike.mem_coe, normal_mul] at hmem ⊢
+    rw [← SetLike.mem_coe] at hmem ⊢; rw [normal_mul] at hmem ⊢
     rcases hmem with ⟨h, k, hh, hk, rfl⟩
     refine ⟨g * h * g⁻¹, g * k * g⁻¹, hH.conj_mem h hh g, hK.conj_mem k hk g, ?_⟩
     simp only [mul_assoc, inv_mul_cancel_left]

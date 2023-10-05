@@ -60,25 +60,25 @@ decreasing_by exact mem_Iio.1 i.2
 /-- This lemma uses `∑ i in` instead of `∑ i :`.-/
 theorem gramSchmidt_def (f : ι → E) (n : ι) :
     gramSchmidt 𝕜 f n = f n - ∑ i in Iio n, orthogonalProjection (𝕜 ∙ gramSchmidt 𝕜 f i) (f n) := by
-  rw [← sum_attach, attach_eq_univ, gramSchmidt]
+  rw [← sum_attach]; rw [attach_eq_univ]; rw [gramSchmidt]
 #align gram_schmidt_def gramSchmidt_def
 
 theorem gramSchmidt_def' (f : ι → E) (n : ι) :
     f n = gramSchmidt 𝕜 f n + ∑ i in Iio n, orthogonalProjection (𝕜 ∙ gramSchmidt 𝕜 f i) (f n) := by
-  rw [gramSchmidt_def, sub_add_cancel]
+  rw [gramSchmidt_def]; rw [sub_add_cancel]
 #align gram_schmidt_def' gramSchmidt_def'
 
 theorem gramSchmidt_def'' (f : ι → E) (n : ι) :
     f n = gramSchmidt 𝕜 f n + ∑ i in Iio n,
       (⟪gramSchmidt 𝕜 f i, f n⟫ / (‖gramSchmidt 𝕜 f i‖ : 𝕜) ^ 2) • gramSchmidt 𝕜 f i := by
   convert gramSchmidt_def' 𝕜 f n
-  rw [orthogonalProjection_singleton, IsROrC.ofReal_pow]
+  rw [orthogonalProjection_singleton]; rw [IsROrC.ofReal_pow]
 #align gram_schmidt_def'' gramSchmidt_def''
 
 @[simp]
 theorem gramSchmidt_zero {ι : Type*} [LinearOrder ι] [LocallyFiniteOrder ι] [OrderBot ι]
     [IsWellOrder ι (· < ·)] (f : ι → E) : gramSchmidt 𝕜 f ⊥ = f ⊥ := by
-  rw [gramSchmidt_def, Iio_eq_Ico, Finset.Ico_self, Finset.sum_empty, sub_zero]
+  rw [gramSchmidt_def]; rw [Iio_eq_Ico]; rw [Finset.Ico_self]; rw [Finset.sum_empty]; rw [sub_zero]
 #align gram_schmidt_zero gramSchmidt_zero
 
 /-- **Gram-Schmidt Orthogonalisation**:
@@ -205,7 +205,7 @@ theorem gramSchmidt_ne_zero_coe {f : ι → E} (n : ι)
     (h₀ : LinearIndependent 𝕜 (f ∘ ((↑) : Set.Iic n → ι))) : gramSchmidt 𝕜 f n ≠ 0 := by
   by_contra h
   have h₁ : f n ∈ span 𝕜 (f '' Set.Iio n) := by
-    rw [← span_gramSchmidt_Iio 𝕜 f n, gramSchmidt_def' 𝕜 f, h, zero_add]
+    rw [← span_gramSchmidt_Iio 𝕜 f n]; rw [gramSchmidt_def' 𝕜 f]; rw [h]; rw [zero_add]
     apply Submodule.sum_mem _ _
     intro a ha
     simp only [Set.mem_image, Set.mem_Iio, orthogonalProjection_singleton]
@@ -354,8 +354,8 @@ theorem gramSchmidtOrthonormalBasis_apply_of_orthogonal {f : ι → E}
     (hf : Pairwise fun i j => ⟪f i, f j⟫ = 0) {i : ι} (hi : f i ≠ 0) :
     gramSchmidtOrthonormalBasis h f i = (‖f i‖⁻¹ : 𝕜) • f i := by
   have H : gramSchmidtNormed 𝕜 f i = (‖f i‖⁻¹ : 𝕜) • f i := by
-    rw [gramSchmidtNormed, gramSchmidt_of_orthogonal 𝕜 hf]
-  rw [gramSchmidtOrthonormalBasis_apply h, H]
+    rw [gramSchmidtNormed]; rw [gramSchmidt_of_orthogonal 𝕜 hf]
+  rw [gramSchmidtOrthonormalBasis_apply h]; rw [H]
   simpa [H] using hi
 #align gram_schmidt_orthonormal_basis_apply_of_orthogonal gramSchmidtOrthonormalBasis_apply_of_orthogonal
 

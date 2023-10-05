@@ -111,8 +111,8 @@ theorem cantorFunction_le (h1 : 0 ≤ c) (h2 : c < 1) (h3 : ∀ n, f n → g n) 
 
 theorem cantorFunction_succ (f : ℕ → Bool) (h1 : 0 ≤ c) (h2 : c < 1) :
     cantorFunction c f = cond (f 0) 1 0 + c * cantorFunction c fun n => f (n + 1) := by
-  rw [cantorFunction, tsum_eq_zero_add (summable_cantor_function f h1 h2)]
-  rw [cantorFunctionAux_succ, tsum_mul_left, cantorFunctionAux, _root_.pow_zero]
+  rw [cantorFunction]; rw [tsum_eq_zero_add (summable_cantor_function f h1 h2)]
+  rw [cantorFunctionAux_succ]; rw [tsum_mul_left]; rw [cantorFunctionAux]; rw [_root_.pow_zero]
   rfl
 #align cardinal.cantor_function_succ Cardinal.cantorFunction_succ
 
@@ -142,7 +142,7 @@ theorem increasing_cantorFunction (h1 : 0 < c) (h2 : c < 1 / 2) {n : ℕ} {f g :
     apply (cantorFunction_le (le_of_lt h1) h3 hf_max).trans_lt
     refine' lt_of_lt_of_le _ (cantorFunction_le (le_of_lt h1) h3 hg_min)
     have : c / (1 - c) < 1 := by
-      rw [div_lt_one, lt_sub_iff_add_lt]
+      rw [div_lt_one]; rw [lt_sub_iff_add_lt]
       · convert _root_.add_lt_add h2 h2
         norm_num
       rwa [sub_pos]
@@ -156,7 +156,7 @@ theorem increasing_cantorFunction (h1 : 0 < c) (h2 : c < 1 / 2) {n : ℕ} {f g :
         contradiction
         rfl
       · exact cantorFunctionAux_zero _
-  rw [cantorFunction_succ f (le_of_lt h1) h3, cantorFunction_succ g (le_of_lt h1) h3]
+  rw [cantorFunction_succ f (le_of_lt h1) h3]; rw [cantorFunction_succ g (le_of_lt h1) h3]
   rw [hn 0 <| zero_lt_succ n]
   apply add_lt_add_left
   rw [mul_lt_mul_left h1]
@@ -202,9 +202,9 @@ theorem mk_real : #ℝ = 𝔠 := by
   · rw [Real.equivCauchy.cardinal_eq]
     apply mk_quotient_le.trans
     apply (mk_subtype_le _).trans_eq
-    rw [← power_def, mk_nat, mkRat, aleph0_power_aleph0]
+    rw [← power_def]; rw [mk_nat]; rw [mkRat]; rw [aleph0_power_aleph0]
   · convert mk_le_of_injective (cantorFunction_injective _ _)
-    rw [← power_def, mk_bool, mk_nat, two_power_aleph0]
+    rw [← power_def]; rw [mk_bool]; rw [mk_nat]; rw [two_power_aleph0]
     exact 1 / 3
     norm_num
     norm_num
@@ -216,7 +216,7 @@ theorem mk_univ_real : #(Set.univ : Set ℝ) = 𝔠 := by rw [mk_univ, mk_real]
 
 /-- **Non-Denumerability of the Continuum**: The reals are not countable. -/
 theorem not_countable_real : ¬(Set.univ : Set ℝ).Countable := by
-  rw [← le_aleph0_iff_set_countable, not_le, mk_univ_real]
+  rw [← le_aleph0_iff_set_countable]; rw [not_le]; rw [mk_univ_real]
   apply cantor
 #align cardinal.not_countable_real Cardinal.not_countable_real
 
@@ -265,11 +265,11 @@ theorem mk_Ioo_real {a b : ℝ} (h : a < b) : #(Ioo a b) = 𝔠 := by
   refine' le_antisymm (mk_real ▸ mk_set_le _) _
   have h1 : #((fun x => x - a) '' Ioo a b) ≤ #(Ioo a b) := mk_image_le
   refine' le_trans _ h1
-  rw [image_sub_const_Ioo, sub_self]
+  rw [image_sub_const_Ioo]; rw [sub_self]
   replace h := sub_pos_of_lt h
   have h2 : #(Inv.inv '' Ioo 0 (b - a)) ≤ #(Ioo 0 (b - a)) := mk_image_le
   refine' le_trans _ h2
-  rw [image_inv, inv_Ioo_0_left h, mk_Ioi_real]
+  rw [image_inv]; rw [inv_Ioo_0_left h]; rw [mk_Ioi_real]
 #align cardinal.mk_Ioo_real Cardinal.mk_Ioo_real
 
 /-- The cardinality of the interval [a, b). -/

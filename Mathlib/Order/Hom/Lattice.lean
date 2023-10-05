@@ -264,11 +264,11 @@ variable [Lattice α] [BoundedOrder α] [Lattice β] [BoundedOrder β] [BoundedL
   (f : F) {a b : α}
 
 theorem Disjoint.map (h : Disjoint a b) : Disjoint (f a) (f b) := by
-  rw [disjoint_iff, ← map_inf, h.eq_bot, map_bot]
+  rw [disjoint_iff]; rw [← map_inf]; rw [h.eq_bot]; rw [map_bot]
 #align disjoint.map Disjoint.map
 
 theorem Codisjoint.map (h : Codisjoint a b) : Codisjoint (f a) (f b) := by
-  rw [codisjoint_iff, ← map_sup, h.eq_top, map_top]
+  rw [codisjoint_iff]; rw [← map_sup]; rw [h.eq_top]; rw [map_top]
 #align codisjoint.map Codisjoint.map
 
 theorem IsCompl.map (h : IsCompl a b) : IsCompl (f a) (f b) :=
@@ -288,12 +288,12 @@ theorem map_compl' (a : α) : f aᶜ = (f a)ᶜ :=
 
 /-- Special case of `map_sdiff` for boolean algebras. -/
 theorem map_sdiff' (a b : α) : f (a \ b) = f a \ f b := by
-  rw [sdiff_eq, sdiff_eq, map_inf, map_compl']
+  rw [sdiff_eq]; rw [sdiff_eq]; rw [map_inf]; rw [map_compl']
 #align map_sdiff' map_sdiff'
 
 /-- Special case of `map_symmDiff` for boolean algebras. -/
 theorem map_symmDiff' (a b : α) : f (a ∆ b) = f a ∆ f b := by
-  rw [symmDiff, symmDiff, map_sup, map_sdiff', map_sdiff']
+  rw [symmDiff]; rw [symmDiff]; rw [map_sup]; rw [map_sdiff']; rw [map_sdiff']
 #align map_symm_diff' map_symmDiff'
 
 end BooleanAlgebra
@@ -458,7 +458,7 @@ variable {α}
 instance : Sup (SupHom α β) :=
   ⟨fun f g =>
     ⟨f ⊔ g, fun a b => by
-      rw [Pi.sup_apply, map_sup, map_sup]
+      rw [Pi.sup_apply]; rw [map_sup]; rw [map_sup]
       exact sup_sup_sup_comm _ _ _ _⟩⟩
 
 instance : SemilatticeSup (SupHom α β) :=
@@ -646,7 +646,7 @@ variable {α}
 instance : Inf (InfHom α β) :=
   ⟨fun f g =>
     ⟨f ⊓ g, fun a b => by
-      rw [Pi.inf_apply, map_inf, map_inf]
+      rw [Pi.inf_apply]; rw [map_inf]; rw [map_inf]
       exact inf_inf_inf_comm _ _ _ _⟩⟩
 
 instance : SemilatticeInf (InfHom α β) :=

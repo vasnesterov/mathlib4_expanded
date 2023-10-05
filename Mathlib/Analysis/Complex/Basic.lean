@@ -75,8 +75,7 @@ instance : DenselyNormedField ℂ where
 
 instance {R : Type*} [NormedField R] [NormedAlgebra R ℝ] : NormedAlgebra R ℂ where
   norm_smul_le r x := by
-    rw [← algebraMap_smul ℝ r x, real_smul, norm_mul, norm_eq_abs, abs_ofReal, ← Real.norm_eq_abs,
-      norm_algebraMap']
+    rw [← algebraMap_smul ℝ r x]; rw [real_smul]; rw [norm_mul]; rw [norm_eq_abs]; rw [abs_ofReal]; rw [← Real.norm_eq_abs]; rw [norm_algebraMap']
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
 
@@ -91,7 +90,7 @@ theorem dist_eq (z w : ℂ) : dist z w = abs (z - w) :=
 #align complex.dist_eq Complex.dist_eq
 
 theorem dist_eq_re_im (z w : ℂ) : dist z w = Real.sqrt ((z.re - w.re) ^ 2 + (z.im - w.im) ^ 2) := by
-  rw [sq, sq]
+  rw [sq]; rw [sq]
   rfl
 #align complex.dist_eq_re_im Complex.dist_eq_re_im
 
@@ -102,7 +101,7 @@ theorem dist_mk (x₁ y₁ x₂ y₂ : ℝ) :
 #align complex.dist_mk Complex.dist_mk
 
 theorem dist_of_re_eq {z w : ℂ} (h : z.re = w.re) : dist z w = dist z.im w.im := by
-  rw [dist_eq_re_im, h, sub_self, zero_pow two_pos, zero_add, Real.sqrt_sq_eq_abs, Real.dist_eq]
+  rw [dist_eq_re_im]; rw [h]; rw [sub_self]; rw [zero_pow two_pos]; rw [zero_add]; rw [Real.sqrt_sq_eq_abs]; rw [Real.dist_eq]
 #align complex.dist_of_re_eq Complex.dist_of_re_eq
 
 theorem nndist_of_re_eq {z w : ℂ} (h : z.re = w.re) : nndist z w = nndist z.im w.im :=
@@ -110,11 +109,11 @@ theorem nndist_of_re_eq {z w : ℂ} (h : z.re = w.re) : nndist z w = nndist z.im
 #align complex.nndist_of_re_eq Complex.nndist_of_re_eq
 
 theorem edist_of_re_eq {z w : ℂ} (h : z.re = w.re) : edist z w = edist z.im w.im := by
-  rw [edist_nndist, edist_nndist, nndist_of_re_eq h]
+  rw [edist_nndist]; rw [edist_nndist]; rw [nndist_of_re_eq h]
 #align complex.edist_of_re_eq Complex.edist_of_re_eq
 
 theorem dist_of_im_eq {z w : ℂ} (h : z.im = w.im) : dist z w = dist z.re w.re := by
-  rw [dist_eq_re_im, h, sub_self, zero_pow two_pos, add_zero, Real.sqrt_sq_eq_abs, Real.dist_eq]
+  rw [dist_eq_re_im]; rw [h]; rw [sub_self]; rw [zero_pow two_pos]; rw [add_zero]; rw [Real.sqrt_sq_eq_abs]; rw [Real.dist_eq]
 #align complex.dist_of_im_eq Complex.dist_of_im_eq
 
 theorem nndist_of_im_eq {z w : ℂ} (h : z.im = w.im) : nndist z w = nndist z.re w.re :=
@@ -122,12 +121,11 @@ theorem nndist_of_im_eq {z w : ℂ} (h : z.im = w.im) : nndist z w = nndist z.re
 #align complex.nndist_of_im_eq Complex.nndist_of_im_eq
 
 theorem edist_of_im_eq {z w : ℂ} (h : z.im = w.im) : edist z w = edist z.re w.re := by
-  rw [edist_nndist, edist_nndist, nndist_of_im_eq h]
+  rw [edist_nndist]; rw [edist_nndist]; rw [nndist_of_im_eq h]
 #align complex.edist_of_im_eq Complex.edist_of_im_eq
 
 theorem dist_conj_self (z : ℂ) : dist (conj z) z = 2 * |z.im| := by
-  rw [dist_of_re_eq (conj_re z), conj_im, dist_comm, Real.dist_eq, sub_neg_eq_add, ← two_mul,
-    _root_.abs_mul, abs_of_pos (zero_lt_two' ℝ)]
+  rw [dist_of_re_eq (conj_re z)]; rw [conj_im]; rw [dist_comm]; rw [Real.dist_eq]; rw [sub_neg_eq_add]; rw [← two_mul]; rw [_root_.abs_mul]; rw [abs_of_pos (zero_lt_two' ℝ)]
 #align complex.dist_conj_self Complex.dist_conj_self
 
 theorem nndist_conj_self (z : ℂ) : nndist (conj z) z = 2 * Real.nnabs z.im :=
@@ -138,7 +136,7 @@ theorem dist_self_conj (z : ℂ) : dist z (conj z) = 2 * |z.im| := by rw [dist_c
 #align complex.dist_self_conj Complex.dist_self_conj
 
 theorem nndist_self_conj (z : ℂ) : nndist z (conj z) = 2 * Real.nnabs z.im := by
-  rw [nndist_comm, nndist_conj_self]
+  rw [nndist_comm]; rw [nndist_conj_self]
 #align complex.nndist_self_conj Complex.nndist_self_conj
 
 @[simp 1100]
@@ -166,7 +164,7 @@ theorem norm_int {n : ℤ} : ‖(n : ℂ)‖ = |(n : ℝ)| := (int_cast_abs n).s
 #align complex.norm_int Complex.norm_int
 
 theorem norm_int_of_nonneg {n : ℤ} (hn : 0 ≤ n) : ‖(n : ℂ)‖ = n := by
-  rw [norm_int, ← Int.cast_abs, _root_.abs_of_nonneg hn]
+  rw [norm_int]; rw [← Int.cast_abs]; rw [_root_.abs_of_nonneg hn]
 #align complex.norm_int_of_nonneg Complex.norm_int_of_nonneg
 
 @[continuity]
@@ -196,7 +194,7 @@ theorem nnnorm_int (n : ℤ) : ‖(n : ℂ)‖₊ = ‖n‖₊ :=
 
 theorem nnnorm_eq_one_of_pow_eq_one {ζ : ℂ} {n : ℕ} (h : ζ ^ n = 1) (hn : n ≠ 0) : ‖ζ‖₊ = 1 := by
   refine' (@pow_left_inj NNReal _ _ _ _ zero_le' zero_le' hn.bot_lt).mp _
-  rw [← nnnorm_pow, h, nnnorm_one, one_pow]
+  rw [← nnnorm_pow]; rw [h]; rw [nnnorm_one]; rw [one_pow]
 #align complex.nnnorm_eq_one_of_pow_eq_one Complex.nnnorm_eq_one_of_pow_eq_one
 
 theorem norm_eq_one_of_pow_eq_one {ζ : ℂ} {n : ℕ} (h : ζ ^ n = 1) (hn : n ≠ 0) : ‖ζ‖ = 1 :=
@@ -335,7 +333,7 @@ theorem nndist_conj_conj (z w : ℂ) : nndist (conj z) (conj w) = nndist z w :=
 #align complex.nndist_conj_conj Complex.nndist_conj_conj
 
 theorem dist_conj_comm (z w : ℂ) : dist (conj z) w = dist z (conj w) := by
-  rw [← dist_conj_conj, conj_conj]
+  rw [← dist_conj_conj]; rw [conj_conj]
 #align complex.dist_conj_comm Complex.dist_conj_comm
 
 theorem nndist_conj_comm (z w : ℂ) : nndist (conj z) w = nndist z (conj w) :=
@@ -440,7 +438,7 @@ open ComplexOrder
 
 theorem eq_coe_norm_of_nonneg {z : ℂ} (hz : 0 ≤ z) : z = ↑‖z‖ := by
   lift z to ℝ using hz.2.symm
-  rw [norm_eq_abs, abs_ofReal, _root_.abs_of_nonneg (id hz.1 : 0 ≤ z)]
+  rw [norm_eq_abs]; rw [abs_ofReal]; rw [_root_.abs_of_nonneg (id hz.1 : 0 ≤ z)]
 #align complex.eq_coe_norm_of_nonneg Complex.eq_coe_norm_of_nonneg
 
 end ComplexOrder

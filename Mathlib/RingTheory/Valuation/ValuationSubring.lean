@@ -202,14 +202,14 @@ theorem valuation_surjective : Function.Surjective A.valuation := surjective_quo
 #align valuation_subring.valuation_surjective ValuationSubring.valuation_surjective
 
 theorem valuation_unit (a : Aˣ) : A.valuation a = 1 := by
-  rw [← A.valuation.map_one, valuation_eq_iff]; use a; simp
+  rw [← A.valuation.map_one]; rw [valuation_eq_iff]; use a; simp
 #align valuation_subring.valuation_unit ValuationSubring.valuation_unit
 
 theorem valuation_eq_one_iff (a : A) : IsUnit a ↔ A.valuation a = 1 :=
   ⟨fun h => A.valuation_unit h.unit, fun h => by
     have ha : (a : K) ≠ 0
     · intro c
-      rw [c, A.valuation.map_zero] at h
+      rw [c] at h; rw [A.valuation.map_zero] at h
       exact zero_ne_one h
     have ha' : (a : K)⁻¹ ∈ A := by rw [← valuation_le_one_iff, map_inv₀, h, inv_one]
     apply isUnit_of_mul_eq_one a ⟨a⁻¹, ha'⟩; ext; field_simp⟩
@@ -331,7 +331,7 @@ theorem le_ofPrime (A : ValuationSubring K) (P : Ideal A) [P.IsPrime] : A ≤ of
 
 theorem ofPrime_valuation_eq_one_iff_mem_primeCompl (A : ValuationSubring K) (P : Ideal A)
     [P.IsPrime] (x : A) : (ofPrime A P).valuation x = 1 ↔ x ∈ P.primeCompl := by
-  rw [← IsLocalization.AtPrime.isUnit_to_map_iff (A.ofPrime P) P x, valuation_eq_one_iff]; rfl
+  rw [← IsLocalization.AtPrime.isUnit_to_map_iff (A.ofPrime P) P x]; rw [valuation_eq_one_iff]; rfl
 #align valuation_subring.of_prime_valuation_eq_one_iff_mem_prime_compl ValuationSubring.ofPrime_valuation_eq_one_iff_mem_primeCompl
 
 @[simp]
@@ -359,7 +359,7 @@ theorem ofPrime_idealOfLE (R S : ValuationSubring K) (h : R ≤ S) :
       use 1, ⟨x⁻¹, hr⟩; constructor
       · field_simp
       · change (⟨x⁻¹, h hr⟩ : S) ∉ nonunits S
-        rw [mem_nonunits_iff, Classical.not_not]
+        rw [mem_nonunits_iff]; rw [Classical.not_not]
         apply isUnit_of_mul_eq_one _ (⟨x, hx⟩ : S)
         ext; field_simp
 #align valuation_subring.of_prime_ideal_of_le ValuationSubring.ofPrime_idealOfLE
@@ -373,7 +373,7 @@ theorem idealOfLE_le_of_le (R S : ValuationSubring K) (hR : A ≤ R) (hS : A ≤
   (valuation_lt_one_iff R _).2
     (by
       by_contra c; push_neg at c; replace c := monotone_mapOfLE R S h c
-      rw [(mapOfLE _ _ _).map_one, mapOfLE_valuation_apply] at c
+      rw [(mapOfLE _ _ _).map_one] at c; rw [mapOfLE_valuation_apply] at c
       apply not_le_of_lt ((valuation_lt_one_iff S _).1 hx) c)
 #align valuation_subring.ideal_of_le_le_of_le ValuationSubring.idealOfLE_le_of_le
 
@@ -427,7 +427,7 @@ def valuationSubring : ValuationSubring K :=
       cases' le_or_lt (v x) 1 with h h
       · left; exact h
       · right; change v x⁻¹ ≤ 1
-        rw [map_inv₀ v, ← inv_one, inv_le_inv₀]
+        rw [map_inv₀ v]; rw [← inv_one]; rw [inv_le_inv₀]
         · exact le_of_lt h
         · intro c; simp [c] at h
         · exact one_ne_zero }
@@ -505,7 +505,7 @@ theorem coe_unitGroupMulEquiv_symm_apply (a : Aˣ) : ((A.unitGroupMulEquiv.symm 
 theorem unitGroup_le_unitGroup {A B : ValuationSubring K} : A.unitGroup ≤ B.unitGroup ↔ A ≤ B := by
   constructor
   · intro h x hx
-    rw [← A.valuation_le_one_iff x, le_iff_lt_or_eq] at hx
+    rw [← A.valuation_le_one_iff x] at hx; rw [le_iff_lt_or_eq] at hx
     by_cases h_1 : x = 0; · simp only [h_1, zero_mem]
     by_cases h_2 : 1 + x = 0
     · simp only [← add_eq_zero_iff_neg_eq.1 h_2, neg_mem _ _ (one_mem _)]
@@ -559,7 +559,7 @@ theorem nonunits_le_nonunits {A B : ValuationSubring K} : B.nonunits ≤ A.nonun
   constructor
   · intro h x hx
     by_cases h_1 : x = 0; · simp only [h_1, zero_mem]
-    rw [← valuation_le_one_iff, ← not_lt, Valuation.one_lt_val_iff _ h_1] at hx ⊢
+    rw [← valuation_le_one_iff] at hx ⊢; rw [← not_lt] at hx ⊢; rw [Valuation.one_lt_val_iff _ h_1] at hx ⊢
     by_contra h_2; exact hx (h h_2)
   · intro h x hx
     by_contra h_1; exact not_lt.2 (monotone_mapOfLE _ _ h (not_lt.1 h_1)) hx
@@ -633,8 +633,7 @@ def principalUnitGroup : Subgroup Kˣ where
     rw [Set.mem_setOf] at ha hb
     refine' lt_of_le_of_lt _ (max_lt hb ha)
     -- Porting note: `sub_add_sub_cancel` needed some help
-    rw [← one_mul (A.valuation (b - 1)), ← A.valuation.map_one_add_of_lt ha, add_sub_cancel'_right,
-      ← Valuation.map_mul, mul_sub_one, ← sub_add_sub_cancel (↑(a * b) : K) _ 1]
+    rw [← one_mul (A.valuation (b - 1))]; rw [← A.valuation.map_one_add_of_lt ha]; rw [add_sub_cancel'_right]; rw [← Valuation.map_mul]; rw [mul_sub_one]; rw [← sub_add_sub_cancel (↑(a * b) : K) _ 1]
     exact A.valuation.map_add _ _
   one_mem' := by simp
   inv_mem' := by
@@ -642,7 +641,7 @@ def principalUnitGroup : Subgroup Kˣ where
     intro a ha
     conv =>
       lhs
-      rw [← mul_one (A.valuation _), ← A.valuation.map_one_add_of_lt ha]
+      rw [← mul_one (A.valuation _)]; rw [← A.valuation.map_one_add_of_lt ha]
     rwa [add_sub_cancel'_right, ← Valuation.map_mul, sub_mul, Units.inv_mul, ← neg_sub, one_mul,
       Valuation.map_neg]
 #align valuation_subring.principal_unit_group ValuationSubring.principalUnitGroup
@@ -691,9 +690,9 @@ def principalUnitGroupOrderEmbedding : ValuationSubring K ↪o (Subgroup Kˣ)ᵒ
 theorem coe_mem_principalUnitGroup_iff {x : A.unitGroup} :
     (x : Kˣ) ∈ A.principalUnitGroup ↔
       A.unitGroupMulEquiv x ∈ (Units.map (LocalRing.residue A).toMonoidHom).ker := by
-  rw [MonoidHom.mem_ker, Units.ext_iff]
+  rw [MonoidHom.mem_ker]; rw [Units.ext_iff]
   let π := Ideal.Quotient.mk (LocalRing.maximalIdeal A); convert_to _ ↔ π _ = 1
-  rw [← π.map_one, ← sub_eq_zero, ← π.map_sub, Ideal.Quotient.eq_zero_iff_mem, valuation_lt_one_iff]
+  rw [← π.map_one]; rw [← sub_eq_zero]; rw [← π.map_sub]; rw [Ideal.Quotient.eq_zero_iff_mem]; rw [valuation_lt_one_iff]
   simp [mem_principalUnitGroup_iff]
 #align valuation_subring.coe_mem_principal_unit_group_iff ValuationSubring.coe_mem_principalUnitGroup_iff
 
@@ -742,7 +741,7 @@ theorem ker_unitGroupToResidueFieldUnits :
   -- Porting note: simp fails but rw works
   -- See https://github.com/leanprover-community/mathlib4/issues/5026
   -- simp [Subgroup.mem_comap, Subgroup.coeSubtype, coe_mem_principalUnitGroup_iff]
-  rw [Subgroup.mem_comap, Subgroup.coeSubtype, coe_mem_principalUnitGroup_iff]
+  rw [Subgroup.mem_comap]; rw [Subgroup.coeSubtype]; rw [coe_mem_principalUnitGroup_iff]
   rfl
   -- simp [Subgroup.mem_comap, Subgroup.coeSubtype, coe_mem_principalUnitGroup_iff]
 #align valuation_subring.ker_unit_group_to_residue_field_units ValuationSubring.ker_unitGroupToResidueFieldUnits

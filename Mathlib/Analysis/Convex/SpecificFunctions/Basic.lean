@@ -193,7 +193,7 @@ theorem one_add_mul_self_lt_rpow_one_add {s : ℝ} (hs : -1 ≤ s) (hs' : s ≠ 
   have hs1 : 0 < 1 + s := by linarith
   cases' le_or_lt (1 + p * s) 0 with hs2 hs2
   · exact hs2.trans_lt (rpow_pos_of_pos hs1 _)
-  rw [rpow_def_of_pos hs1, ← exp_log hs2]
+  rw [rpow_def_of_pos hs1]; rw [← exp_log hs2]
   apply exp_strictMono
   have hp : 0 < p := by positivity
   have hs3 : 1 + s ≠ 1 := by contrapose! hs'; linarith
@@ -247,7 +247,7 @@ theorem strictConvexOn_rpow {p : ℝ} (hp : 1 < p) : StrictConvexOn ℝ (Ici 0) 
     have hyx''''' : -1 ≤ x / y - 1 := by linarith only [hyx'''']
     have : 1 - (1 + (x / y - 1)) ^ p < -p * (x / y - 1) := by
       linarith [one_add_mul_self_lt_rpow_one_add hyx''''' hyx'''.ne hp]
-    rw [div_lt_iff h3, ← div_lt_div_right hy']
+    rw [div_lt_iff h3]; rw [← div_lt_div_right hy']
     convert this using 1
     · have H : (x / y) ^ p = x ^ p / y ^ p := div_rpow hx hy.le _
       ring_nf at H ⊢
@@ -262,7 +262,7 @@ theorem strictConvexOn_rpow {p : ℝ} (hp : 1 < p) : StrictConvexOn ℝ (Ici 0) 
     have hyz'''' : -1 ≤ z / y - 1 := by linarith only [hyz'']
     have : p * (z / y - 1) < (1 + (z / y - 1)) ^ p - 1 := by
       linarith [one_add_mul_self_lt_rpow_one_add hyz'''' hyz'''.ne' hp]
-    rw [lt_div_iff hyz', ← div_lt_div_right hy']
+    rw [lt_div_iff hyz']; rw [← div_lt_div_right hy']
     convert this using 1
     · ring_nf at H1 ⊢
       field_simp at H1 ⊢

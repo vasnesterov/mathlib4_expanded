@@ -92,7 +92,7 @@ def IsEulerian {u v : V} (p : G.Walk u v) : Prop :=
 #align simple_graph.walk.is_eulerian SimpleGraph.Walk.IsEulerian
 
 theorem IsEulerian.isTrail {u v : V} {p : G.Walk u v} (h : p.IsEulerian) : p.IsTrail := by
-  rw [isTrail_def, List.nodup_iff_count_le_one]
+  rw [isTrail_def]; rw [List.nodup_iff_count_le_one]
   intro e
   by_cases he : e ∈ p.edges
   · exact (h e (edges_subset_edgeSet _ he)).le
@@ -135,12 +135,12 @@ theorem IsEulerian.edgesFinset_eq [Fintype G.edgeSet] {u v : V} {p : G.Walk u v}
 theorem IsEulerian.even_degree_iff {x u v : V} {p : G.Walk u v} (ht : p.IsEulerian) [Fintype V]
     [DecidableRel G.Adj] : Even (G.degree x) ↔ u ≠ v → x ≠ u ∧ x ≠ v := by
   convert ht.isTrail.even_countP_edges_iff x
-  rw [← Multiset.coe_countP, Multiset.countP_eq_card_filter, ← card_incidenceFinset_eq_degree]
+  rw [← Multiset.coe_countP]; rw [Multiset.countP_eq_card_filter]; rw [← card_incidenceFinset_eq_degree]
   change Multiset.card _ = _
   congr 1
   convert_to _ = (ht.isTrail.edgesFinset.filter (Membership.mem x)).val
   have : Fintype G.edgeSet := fintypeEdgeSet ht
-  rw [ht.edgesFinset_eq, G.incidenceFinset_eq_filter x]
+  rw [ht.edgesFinset_eq]; rw [G.incidenceFinset_eq_filter x]
 #align simple_graph.walk.is_eulerian.even_degree_iff SimpleGraph.Walk.IsEulerian.even_degree_iff
 
 theorem IsEulerian.card_filter_odd_degree [Fintype V] [DecidableRel G.Adj] {u v : V}

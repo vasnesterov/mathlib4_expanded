@@ -79,7 +79,7 @@ theorem tendsto_birkhoffAverage_apply_sub_birkhoffAverage {f : α → α} {g : �
   have : Tendsto (fun n : ℕ ↦ C / n) atTop (𝓝 0) :=
     tendsto_const_nhds.div_atTop tendsto_nat_cast_atTop_atTop
   refine squeeze_zero_norm (fun n ↦ ?_) this
-  rw [← dist_eq_norm, dist_birkhoffAverage_apply_birkhoffAverage]
+  rw [← dist_eq_norm]; rw [dist_birkhoffAverage_apply_birkhoffAverage]
   gcongr
   exact hC n 0
 

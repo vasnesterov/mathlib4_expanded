@@ -39,11 +39,11 @@ theorem pow_inv_comm₀ (a : G₀) (m n : ℕ) : a⁻¹ ^ m * a ^ n = a ^ n * a�
 #align pow_inv_comm₀ pow_inv_comm₀
 
 theorem inv_pow_sub₀ (ha : a ≠ 0) (h : n ≤ m) : a⁻¹ ^ (m - n) = (a ^ m)⁻¹ * a ^ n := by
-  rw [pow_sub₀ _ (inv_ne_zero ha) h, inv_pow, inv_pow, inv_inv]
+  rw [pow_sub₀ _ (inv_ne_zero ha) h]; rw [inv_pow]; rw [inv_pow]; rw [inv_inv]
 #align inv_pow_sub₀ inv_pow_sub₀
 
 theorem inv_pow_sub_of_lt (a : G₀) (h : n < m) : a⁻¹ ^ (m - n) = (a ^ m)⁻¹ * a ^ n := by
-  rw [pow_sub_of_lt a⁻¹ h, inv_pow, inv_pow, inv_inv]
+  rw [pow_sub_of_lt a⁻¹ h]; rw [inv_pow]; rw [inv_pow]; rw [inv_inv]
 #align inv_pow_sub_of_lt inv_pow_sub_of_lt
 
 end NatPow
@@ -60,7 +60,7 @@ variable {G₀ : Type*} [GroupWithZero G₀]
 
 theorem zero_zpow : ∀ z : ℤ, z ≠ 0 → (0 : G₀) ^ z = 0
   | (n : ℕ), h => by
-    rw [zpow_ofNat, zero_pow']
+    rw [zpow_ofNat]; rw [zero_pow']
     simpa using h
   | -[n+1], _ => by simp
 #align zero_zpow zero_zpow
@@ -75,9 +75,7 @@ theorem zpow_add_one₀ {a : G₀} (ha : a ≠ 0) : ∀ n : ℤ, a ^ (n + 1) = a
   | (n : ℕ) => by simp only [← Int.ofNat_succ, zpow_ofNat, pow_succ']
   | -[0+1] => by erw [zpow_zero, zpow_negSucc, pow_one, inv_mul_cancel ha]
   | -[n + 1+1] => by
-    rw [Int.negSucc_eq, zpow_neg, neg_add, neg_add_cancel_right, zpow_neg, ← Int.ofNat_succ,
-      zpow_ofNat, zpow_ofNat, pow_succ _ (n + 1), mul_inv_rev, mul_assoc, inv_mul_cancel ha,
-      mul_one]
+    rw [Int.negSucc_eq]; rw [zpow_neg]; rw [neg_add]; rw [neg_add_cancel_right]; rw [zpow_neg]; rw [← Int.ofNat_succ]; rw [zpow_ofNat]; rw [zpow_ofNat]; rw [pow_succ _ (n + 1)]; rw [mul_inv_rev]; rw [mul_assoc]; rw [inv_mul_cancel ha]; rw [mul_one]
 #align zpow_add_one₀ zpow_add_one₀
 
 theorem zpow_sub_one₀ {a : G₀} (ha : a ≠ 0) (n : ℤ) : a ^ (n - 1) = a ^ n * a⁻¹ :=
@@ -103,12 +101,12 @@ theorem zpow_add' {a : G₀} {m n : ℤ} (h : a ≠ 0 ∨ m + n ≠ 0 ∨ m = 0 
   · subst a
     simp only [false_or_iff, eq_self_iff_true, not_true, Ne.def, hm, hn, false_and_iff,
       or_false_iff] at h
-    rw [zero_zpow _ h, zero_zpow _ hm, zero_mul]
+    rw [zero_zpow _ h]; rw [zero_zpow _ hm]; rw [zero_mul]
   · exact zpow_add₀ ha m n
 #align zpow_add' zpow_add'
 
 theorem zpow_one_add₀ {a : G₀} (h : a ≠ 0) (i : ℤ) : a ^ (1 + i) = a * a ^ i := by
-  rw [zpow_add₀ h, zpow_one]
+  rw [zpow_add₀ h]; rw [zpow_one]
 #align zpow_one_add₀ zpow_one_add₀
 
 theorem SemiconjBy.zpow_right₀ {a x y : G₀} (h : SemiconjBy a x y) :
@@ -151,7 +149,7 @@ theorem zpow_ne_zero_of_ne_zero {a : G₀} (ha : a ≠ 0) : ∀ z : ℤ, a ^ z �
 #align zpow_ne_zero_of_ne_zero zpow_ne_zero_of_ne_zero
 
 theorem zpow_sub₀ {a : G₀} (ha : a ≠ 0) (z1 z2 : ℤ) : a ^ (z1 - z2) = a ^ z1 / a ^ z2 := by
-  rw [sub_eq_add_neg, zpow_add₀ ha, zpow_neg, div_eq_mul_inv]
+  rw [sub_eq_add_neg]; rw [zpow_add₀ ha]; rw [zpow_neg]; rw [div_eq_mul_inv]
 #align zpow_sub₀ zpow_sub₀
 
 theorem zpow_eq_zero {x : G₀} {n : ℤ} (h : x ^ n = 0) : x = 0 :=
@@ -180,7 +178,7 @@ variable {G₀ : Type*} [CommGroupWithZero G₀]
 theorem div_sq_cancel (a b : G₀) : a ^ 2 * b / a = a * b := by
   by_cases ha : a = 0
   · simp [ha]
-  rw [sq, mul_assoc, mul_div_cancel_left _ ha]
+  rw [sq]; rw [mul_assoc]; rw [mul_div_cancel_left _ ha]
 #align div_sq_cancel div_sq_cancel
 
 end

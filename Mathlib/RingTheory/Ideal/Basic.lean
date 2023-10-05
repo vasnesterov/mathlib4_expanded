@@ -369,7 +369,7 @@ theorem mem_span_pair {x y z : α} : z ∈ span ({x, y} : Set α) ↔ ∃ a b, a
 theorem span_pair_add_mul_left {R : Type u} [CommRing R] {x y : R} (z : R) :
     (span {x + y * z, y} : Ideal R) = span {x, y} := by
   ext
-  rw [mem_span_pair, mem_span_pair]
+  rw [mem_span_pair]; rw [mem_span_pair]
   exact
     ⟨fun ⟨a, b, h⟩ =>
       ⟨a, b + a * z, by
@@ -384,7 +384,7 @@ theorem span_pair_add_mul_left {R : Type u} [CommRing R] {x y : R} (z : R) :
 @[simp]
 theorem span_pair_add_mul_right {R : Type u} [CommRing R] {x y : R} (z : R) :
     (span {x, y + x * z} : Ideal R) = span {x, y} := by
-  rw [span_pair_comm, span_pair_add_mul_left, span_pair_comm]
+  rw [span_pair_comm]; rw [span_pair_add_mul_left]; rw [span_pair_comm]
 #align ideal.span_pair_add_mul_right Ideal.span_pair_add_mul_right
 
 theorem IsMaximal.exists_inv {I : Ideal α} (hI : I.IsMaximal) {x} (hx : x ∉ I) :
@@ -509,7 +509,7 @@ theorem span_singleton_le_span_singleton {x y : α} :
 
 theorem span_singleton_eq_span_singleton {α : Type u} [CommRing α] [IsDomain α] {x y : α} :
     span ({x} : Set α) = span ({y} : Set α) ↔ Associated x y := by
-  rw [← dvd_dvd_iff_associated, le_antisymm_iff, and_comm]
+  rw [← dvd_dvd_iff_associated]; rw [le_antisymm_iff]; rw [and_comm]
   apply and_congr <;> rw [span_singleton_le_span_singleton]
 #align ideal.span_singleton_eq_span_singleton Ideal.span_singleton_eq_span_singleton
 
@@ -518,7 +518,7 @@ theorem span_singleton_mul_right_unit {a : α} (h2 : IsUnit a) (x : α) :
 #align ideal.span_singleton_mul_right_unit Ideal.span_singleton_mul_right_unit
 
 theorem span_singleton_eq_top {x} : span ({x} : Set α) = ⊤ ↔ IsUnit x := by
-  rw [isUnit_iff_dvd_one, ← span_singleton_le_span_singleton, span_singleton_one, eq_top_iff]
+  rw [isUnit_iff_dvd_one]; rw [← span_singleton_le_span_singleton]; rw [span_singleton_one]; rw [eq_top_iff]
 #align ideal.span_singleton_eq_top Ideal.span_singleton_eq_top
 
 theorem span_singleton_prime {p : α} (hp : p ≠ 0) : IsPrime (span ({p} : Set α)) ↔ Prime p := by
@@ -535,7 +535,7 @@ theorem IsMaximal.isPrime {I : Ideal α} (H : I.IsMaximal) : I.IsPrime :=
       specialize oJ J x IJ hx xJ
       rcases Submodule.mem_span_insert.mp oJ with ⟨a, b, h, oe⟩
       obtain F : y * 1 = y * (a • x + b) := congr_arg (fun g : α => y * g) oe
-      rw [← mul_one y, F, mul_add, mul_comm, smul_eq_mul, mul_assoc]
+      rw [← mul_one y]; rw [F]; rw [mul_add]; rw [mul_comm]; rw [smul_eq_mul]; rw [mul_assoc]
       refine' Submodule.add_mem I (I.mul_mem_left a hxy) (Submodule.smul_mem I y _)
       rwa [Submodule.span_eq] at h⟩
 #align ideal.is_maximal.is_prime Ideal.IsMaximal.isPrime
@@ -547,8 +547,7 @@ instance (priority := 100) IsMaximal.isPrime' (I : Ideal α) : ∀ [_H : I.IsMax
 
 theorem span_singleton_lt_span_singleton [CommRing β] [IsDomain β] {x y : β} :
     span ({x} : Set β) < span ({y} : Set β) ↔ DvdNotUnit y x := by
-  rw [lt_iff_le_not_le, span_singleton_le_span_singleton, span_singleton_le_span_singleton,
-    dvd_and_not_dvd_iff]
+  rw [lt_iff_le_not_le]; rw [span_singleton_le_span_singleton]; rw [span_singleton_le_span_singleton]; rw [dvd_and_not_dvd_iff]
 #align ideal.span_singleton_lt_span_singleton Ideal.span_singleton_lt_span_singleton
 
 theorem factors_decreasing [CommRing β] [IsDomain β] (b₁ b₂ : β) (h₁ : b₁ ≠ 0) (h₂ : ¬IsUnit b₂) :
@@ -599,14 +598,14 @@ theorem pow_multiset_sum_mem_span_pow [DecidableEq α] (s : Multiset α) (n : �
       ((Multiset.card s + 1) * n + 1).choose c, 0, Submodule.zero_mem _, _⟩
     rw [mul_comm _ (a ^ (n + 1))]
     simp_rw [← mul_assoc]
-    rw [← pow_add, add_zero, add_tsub_cancel_of_le h]
+    rw [← pow_add]; rw [add_zero]; rw [add_tsub_cancel_of_le h]
   · use 0
     simp_rw [zero_mul, zero_add]
     refine' ⟨_, _, rfl⟩
     replace h : c ≤ n := Nat.lt_succ_iff.mp (not_le.mp h)
     have : (Multiset.card s + 1) * n + 1 - c = Multiset.card s * n + 1 + (n - c) := by
-      rw [add_mul, one_mul, add_assoc, add_comm n 1, ← add_assoc, add_tsub_assoc_of_le h]
-    rw [this, pow_add]
+      rw [add_mul]; rw [one_mul]; rw [add_assoc]; rw [add_comm n 1]; rw [← add_assoc]; rw [add_tsub_assoc_of_le h]
+    rw [this]; rw [pow_add]
     simp_rw [mul_assoc, mul_comm (s.sum ^ (Multiset.card s * n + 1)), ← mul_assoc]
     exact mul_mem_left _ _ hs
 #align ideal.pow_multiset_sum_mem_span_pow Ideal.pow_multiset_sum_mem_span_pow
@@ -626,20 +625,20 @@ theorem span_pow_eq_top (s : Set α) (hs : span s = ⊤) (n : ℕ) :
     · rw [Set.image_empty, hs]
       trivial
     · exact subset_span ⟨_, hx, pow_zero _⟩
-  rw [eq_top_iff_one, span, Finsupp.mem_span_iff_total] at hs
+  rw [eq_top_iff_one] at hs; rw [span] at hs; rw [Finsupp.mem_span_iff_total] at hs
   rcases hs with ⟨f, hf⟩
   have hf : (f.support.sum fun a => f a * a) = 1 := hf -- Porting note: was `change ... at hf`
   have := sum_pow_mem_span_pow f.support (fun a => f a * a) n
-  rw [hf, one_pow] at this
+  rw [hf] at this; rw [one_pow] at this
   refine' span_le.mpr _ this
   rintro _ hx
   simp_rw [Set.mem_image] at hx
   rcases hx with ⟨x, _, rfl⟩
   have : span ({(x:α) ^ (n + 1)} : Set α) ≤ span ((fun x : α => x ^ (n + 1)) '' s) := by
-    rw [span_le, Set.singleton_subset_iff]
+    rw [span_le]; rw [Set.singleton_subset_iff]
     exact subset_span ⟨x, x.prop, rfl⟩
   refine' this _
-  rw [mul_pow, mem_span_singleton]
+  rw [mul_pow]; rw [mem_span_singleton]
   exact ⟨f x ^ (n + 1), mul_comm _ _⟩
 #align ideal.span_pow_eq_top Ideal.span_pow_eq_top
 
@@ -756,13 +755,13 @@ theorem not_isField_iff_exists_ideal_bot_lt_and_lt_top [Nontrivial R] :
   · intro h
     obtain ⟨x, nz, nu⟩ := exists_not_isUnit_of_not_isField h
     use Ideal.span {x}
-    rw [bot_lt_iff_ne_bot, lt_top_iff_ne_top]
+    rw [bot_lt_iff_ne_bot]; rw [lt_top_iff_ne_top]
     exact ⟨mt Ideal.span_singleton_eq_bot.mp nz, mt Ideal.span_singleton_eq_top.mp nu⟩
   · rintro ⟨I, bot_lt, lt_top⟩ hf
     obtain ⟨x, mem, ne_zero⟩ := SetLike.exists_of_lt bot_lt
     rw [Submodule.mem_bot] at ne_zero
     obtain ⟨y, hy⟩ := hf.mul_inv_cancel ne_zero
-    rw [lt_top_iff_ne_top, Ne.def, Ideal.eq_top_iff_one, ← hy] at lt_top
+    rw [lt_top_iff_ne_top] at lt_top; rw [Ne.def] at lt_top; rw [Ideal.eq_top_iff_one] at lt_top; rw [← hy] at lt_top
     exact lt_top (I.mul_mem_right _ mem)
 #align ring.not_is_field_iff_exists_ideal_bot_lt_and_lt_top Ring.not_isField_iff_exists_ideal_bot_lt_and_lt_top
 
@@ -784,7 +783,7 @@ theorem isField_iff_isSimpleOrder_ideal : IsField R ↔ IsSimpleOrder (Ideal R) 
   · exact
       ⟨fun h => (not_isField_of_subsingleton _ h).elim, fun h =>
         (false_of_nontrivial_of_subsingleton <| Ideal R).elim⟩
-  rw [← not_iff_not, Ring.not_isField_iff_exists_ideal_bot_lt_and_lt_top, ← not_iff_not]
+  rw [← not_iff_not]; rw [Ring.not_isField_iff_exists_ideal_bot_lt_and_lt_top]; rw [← not_iff_not]
   push_neg
   simp_rw [lt_top_iff_ne_top, bot_lt_iff_ne_bot, ← or_iff_not_imp_left, not_ne_iff]
   exact ⟨fun h => ⟨h⟩, fun h => h.2⟩

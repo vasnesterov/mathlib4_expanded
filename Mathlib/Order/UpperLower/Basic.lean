@@ -614,13 +614,13 @@ theorem mem_sInf_iff : a ∈ sInf S ↔ ∃ s ∈ S, a ∈ s :=
 
 @[simp]
 theorem mem_iSup_iff {f : ι → UpperSet α} : (a ∈ ⨆ i, f i) ↔ ∀ i, a ∈ f i := by
-  rw [← SetLike.mem_coe, coe_iSup]
+  rw [← SetLike.mem_coe]; rw [coe_iSup]
   exact mem_iInter
 #align upper_set.mem_supr_iff UpperSet.mem_iSup_iff
 
 @[simp]
 theorem mem_iInf_iff {f : ι → UpperSet α} : (a ∈ ⨅ i, f i) ↔ ∃ i, a ∈ f i := by
-  rw [← SetLike.mem_coe, coe_iInf]
+  rw [← SetLike.mem_coe]; rw [coe_iInf]
   exact mem_iUnion
 #align upper_set.mem_infi_iff UpperSet.mem_iInf_iff
 
@@ -765,13 +765,13 @@ theorem mem_sInf_iff : a ∈ sInf S ↔ ∀ s ∈ S, a ∈ s :=
 
 @[simp]
 theorem mem_iSup_iff {f : ι → LowerSet α} : (a ∈ ⨆ i, f i) ↔ ∃ i, a ∈ f i := by
-  rw [← SetLike.mem_coe, coe_iSup]
+  rw [← SetLike.mem_coe]; rw [coe_iSup]
   exact mem_iUnion
 #align lower_set.mem_supr_iff LowerSet.mem_iSup_iff
 
 @[simp]
 theorem mem_iInf_iff {f : ι → LowerSet α} : (a ∈ ⨅ i, f i) ↔ ∀ i, a ∈ f i := by
-  rw [← SetLike.mem_coe, coe_iInf]
+  rw [← SetLike.mem_coe]; rw [coe_iInf]
   exact mem_iInter
 #align lower_set.mem_infi_iff LowerSet.mem_iInf_iff
 
@@ -1013,7 +1013,7 @@ theorem symm_map (f : α ≃o β) : (map f).symm = map f.symm :=
 
 @[simp]
 theorem mem_map : b ∈ map f s ↔ f.symm b ∈ s := by
-  rw [← f.symm_symm, ← symm_map, f.symm_symm]
+  rw [← f.symm_symm]; rw [← symm_map]; rw [f.symm_symm]
   rfl
 #align upper_set.mem_map UpperSet.mem_map
 
@@ -1058,7 +1058,7 @@ theorem symm_map (f : α ≃o β) : (map f).symm = map f.symm :=
 
 @[simp]
 theorem mem_map {f : α ≃o β} {b : β} : b ∈ map f s ↔ f.symm b ∈ s := by
-  rw [← f.symm_symm, ← symm_map, f.symm_symm]
+  rw [← f.symm_symm]; rw [← symm_map]; rw [f.symm_symm]
   rfl
 #align lower_set.mem_map LowerSet.mem_map
 
@@ -1371,7 +1371,7 @@ protected theorem LowerSet.lowerClosure (s : LowerSet α) : lowerClosure (s : Se
 @[simp]
 theorem upperClosure_image (f : α ≃o β) :
     upperClosure (f '' s) = UpperSet.map f (upperClosure s) := by
-  rw [← f.symm_symm, ← UpperSet.symm_map, f.symm_symm]
+  rw [← f.symm_symm]; rw [← UpperSet.symm_map]; rw [f.symm_symm]
   ext
   simp [-UpperSet.symm_map, UpperSet.map, OrderIso.symm, ← f.le_symm_apply]
 #align upper_closure_image upperClosure_image
@@ -1379,7 +1379,7 @@ theorem upperClosure_image (f : α ≃o β) :
 @[simp]
 theorem lowerClosure_image (f : α ≃o β) :
     lowerClosure (f '' s) = LowerSet.map f (lowerClosure s) := by
-  rw [← f.symm_symm, ← LowerSet.symm_map, f.symm_symm]
+  rw [← f.symm_symm]; rw [← LowerSet.symm_map]; rw [f.symm_symm]
   ext
   simp [-LowerSet.symm_map, LowerSet.map, OrderIso.symm, ← f.symm_apply_le]
 #align lower_closure_image lowerClosure_image

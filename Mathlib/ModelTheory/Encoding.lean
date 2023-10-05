@@ -86,7 +86,7 @@ theorem listDecode_encode_list (l : List (L.Term α)) :
           (listDecode (((finRange n).bind fun i : Fin n => (ts i).listEncode) ++ l)).get? ↑i =
             some (some (ts i)) := by
         intro i
-        rw [h, get?_append, get?_map]
+        rw [h]; rw [get?_append]; rw [get?_map]
         · simp only [Option.map_eq_some', Function.comp_apply, get?_eq_some]
           refine' ⟨i, ⟨lt_of_lt_of_le i.2 (ge_of_eq (length_finRange _)), _⟩, rfl⟩
           rw [get_finRange]
@@ -97,7 +97,7 @@ theorem listDecode_encode_list (l : List (L.Term α)) :
       refine' congr (congr rfl (congr rfl (congr rfl (funext fun i => Option.get_of_mem _ _)))) _
       · simp [h']
       · rw [h, drop_left']
-        rw [length_map, length_finRange]
+        rw [length_map]; rw [length_finRange]
 #align first_order.language.term.list_decode_encode_list FirstOrder.Language.Term.listDecode_encode_list
 
 /-- An encoding of terms as lists. -/
@@ -125,16 +125,14 @@ theorem card_sigma : #(Σn, L.Term (Sum α (Fin n))) = max ℵ₀ #(Sum α (Σi,
   refine' le_antisymm _ _
   · rw [mk_sigma]
     refine' (sum_le_iSup_lift _).trans _
-    rw [mk_nat, lift_aleph0, mul_eq_max_of_aleph0_le_left le_rfl, max_le_iff,
-      ciSup_le_iff' (bddAbove_range _)]
+    rw [mk_nat]; rw [lift_aleph0]; rw [mul_eq_max_of_aleph0_le_left le_rfl]; rw [max_le_iff]; rw [ciSup_le_iff' (bddAbove_range _)]
     · refine' ⟨le_max_left _ _, fun i => card_le.trans _⟩
       refine' max_le (le_max_left _ _) _
-      rw [← add_eq_max le_rfl, mk_sum, mk_sum, mk_sum, add_comm (Cardinal.lift #α), lift_add,
-        add_assoc, lift_lift, lift_lift, mk_fin, lift_natCast]
+      rw [← add_eq_max le_rfl]; rw [mk_sum]; rw [mk_sum]; rw [mk_sum]; rw [add_comm (Cardinal.lift #α)]; rw [lift_add]; rw [add_assoc]; rw [lift_lift]; rw [lift_lift]; rw [mk_fin]; rw [lift_natCast]
       exact add_le_add_right (nat_lt_aleph0 _).le _
     · rw [← one_le_iff_ne_zero]
       refine' _root_.trans _ (le_ciSup (bddAbove_range _) 1)
-      rw [one_le_iff_ne_zero, mk_ne_zero_iff]
+      rw [one_le_iff_ne_zero]; rw [mk_ne_zero_iff]
       exact ⟨var (Sum.inr 0)⟩
   · rw [max_le_iff, ← infinite_iff]
     refine' ⟨Infinite.of_injective (fun i => ⟨i + 1, var (Sum.inr i)⟩) fun i j ij => _, _⟩
@@ -156,7 +154,7 @@ theorem card_sigma : #(Σn, L.Term (Sum α (Fin n))) = max ℵ₀ #(Sum α (Σi,
 instance [Encodable α] [Encodable (Σi, L.Functions i)] : Encodable (L.Term α) :=
   Encodable.ofLeftInjection listEncode (fun l => (listDecode l).head?.join) fun t => by
     simp only
-    rw [← bind_singleton listEncode, listDecode_encode_list]
+    rw [← bind_singleton listEncode]; rw [listDecode_encode_list]
     simp only [Option.join, head?, List.map, Option.some_bind, id.def]
 
 instance [h1 : Countable α] [h2 : Countable (Σl, L.Functions l)] : Countable (L.Term α) := by
@@ -219,7 +217,7 @@ def listDecode : ∀ l : List (Sum (Σk, L.Term (Sum α (Fin k))) (Sum (Σn, L.R
         (↑(listDecode l).2 : List (Sum (Σk, L.Term (Sum α (Fin k))) (Sum (Σn, L.Relations n) ℕ))) <
         1 + (1 + 1) + SizeOf.sizeOf l := by
       refine' lt_of_le_of_lt (listDecode l).2.2 (max_lt _ (Nat.lt_add_of_pos_left (by decide)))
-      rw [add_assoc, lt_add_iff_pos_right, add_pos_iff]
+      rw [add_assoc]; rw [lt_add_iff_pos_right]; rw [add_pos_iff]
       exact Or.inl zero_lt_two
     ⟨sigmaImp (listDecode l).1 (listDecode (listDecode l).2).1,
       (listDecode (listDecode l).2).2,
@@ -257,7 +255,7 @@ theorem listDecode_encode_list (l : List (Σn, L.BoundedFormula α n)) :
           simp only [Option.join, map_append, map_map, Option.bind_eq_some, id.def, exists_eq_right,
             get?_eq_some, length_append, length_map, length_finRange]
           refine' ⟨lt_of_lt_of_le i.2 le_self_add, _⟩
-          rw [get_append, get_map]
+          rw [get_append]; rw [get_map]
           · simp only [Sum.getLeft?, get_finRange, Fin.eta, Function.comp_apply, eq_self_iff_true,
               heq_iff_eq, and_self_iff]
           · simp only [length_map, length_finRange, is_lt]
@@ -272,20 +270,19 @@ theorem listDecode_encode_list (l : List (Σn, L.BoundedFormula α n)) :
         simp only [Sigma.mk.inj_iff, heq_eq_eq, rel.injEq, true_and]
         refine' ⟨funext fun i => _, _⟩
         · obtain ⟨h1, h2⟩ := Option.eq_some_iff_get_eq.1 (h i)
-          rw [eq_mp_eq_cast, cast_eq_iff_heq]
+          rw [eq_mp_eq_cast]; rw [cast_eq_iff_heq]
           exact (Sigma.ext_iff.1 ((Sigma.eta (Option.get _ h1)).trans h2)).2
-        rw [List.drop_append_eq_append_drop, length_map, length_finRange, Nat.sub_self, drop,
-          drop_eq_nil_of_le, nil_append]
-        rw [length_map, length_finRange]
+        rw [List.drop_append_eq_append_drop]; rw [length_map]; rw [length_finRange]; rw [Nat.sub_self]; rw [drop]; rw [drop_eq_nil_of_le]; rw [nil_append]
+        rw [length_map]; rw [length_finRange]
     · rw [listEncode, List.append_assoc, cons_append, listDecode]
       simp only [] at *
-      rw [(ih1 _).1, (ih1 _).2, (ih2 _).1, (ih2 _).2, sigmaImp]
+      rw [(ih1 _).1]; rw [(ih1 _).2]; rw [(ih2 _).1]; rw [(ih2 _).2]; rw [sigmaImp]
       simp only [dite_true]
       exact ⟨rfl, trivial⟩
     · rw [listEncode, cons_append, listDecode]
       simp only
       simp only [] at *
-      rw [(ih _).1, (ih _).2, sigmaAll]
+      rw [(ih _).1]; rw [(ih _).2]; rw [sigmaAll]
       exact ⟨rfl, rfl⟩
 #align first_order.language.bounded_formula.list_decode_encode_list FirstOrder.Language.BoundedFormula.listDecode_encode_list
 
@@ -311,13 +308,11 @@ theorem listEncode_sigma_injective :
 theorem card_le : #(Σn, L.BoundedFormula α n) ≤
     max ℵ₀ (Cardinal.lift.{max u v} #α + Cardinal.lift.{u'} L.card) := by
   refine' lift_le.1 (BoundedFormula.encoding.card_le_card_list.trans _)
-  rw [encoding_Γ, mk_list_eq_max_mk_aleph0, lift_max, lift_aleph0, lift_max, lift_aleph0,
-    max_le_iff]
+  rw [encoding_Γ]; rw [mk_list_eq_max_mk_aleph0]; rw [lift_max]; rw [lift_aleph0]; rw [lift_max]; rw [lift_aleph0]; rw [max_le_iff]
   refine' ⟨_, le_max_left _ _⟩
-  rw [mk_sum, Term.card_sigma, mk_sum, ← add_eq_max le_rfl, mk_sum, mk_nat]
+  rw [mk_sum]; rw [Term.card_sigma]; rw [mk_sum]; rw [← add_eq_max le_rfl]; rw [mk_sum]; rw [mk_nat]
   simp only [lift_add, lift_lift, lift_aleph0]
-  rw [← add_assoc, add_comm, ← add_assoc, ← add_assoc, aleph0_add_aleph0, add_assoc,
-    add_eq_max le_rfl, add_assoc, card, Symbols, mk_sum, lift_add, lift_lift, lift_lift]
+  rw [← add_assoc]; rw [add_comm]; rw [← add_assoc]; rw [← add_assoc]; rw [aleph0_add_aleph0]; rw [add_assoc]; rw [add_eq_max le_rfl]; rw [add_assoc]; rw [card]; rw [Symbols]; rw [mk_sum]; rw [lift_add]; rw [lift_lift]; rw [lift_lift]
 #align first_order.language.bounded_formula.card_le FirstOrder.Language.BoundedFormula.card_le
 
 end BoundedFormula

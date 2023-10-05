@@ -80,7 +80,7 @@ theorem hnot_boundary (a : α) : ￢∂ a = ⊤ := by rw [boundary, hnot_inf_dis
 /-- **Leibniz rule** for the co-Heyting boundary. -/
 theorem boundary_inf (a b : α) : ∂ (a ⊓ b) = ∂ a ⊓ b ⊔ a ⊓ ∂ b := by
   unfold boundary
-  rw [hnot_inf_distrib, inf_sup_left, inf_right_comm, ← inf_assoc]
+  rw [hnot_inf_distrib]; rw [inf_sup_left]; rw [inf_right_comm]; rw [← inf_assoc]
 #align coheyting.boundary_inf Coheyting.boundary_inf
 
 theorem boundary_inf_le : ∂ (a ⊓ b) ≤ ∂ a ⊔ ∂ b :=
@@ -88,7 +88,7 @@ theorem boundary_inf_le : ∂ (a ⊓ b) ≤ ∂ a ⊔ ∂ b :=
 #align coheyting.boundary_inf_le Coheyting.boundary_inf_le
 
 theorem boundary_sup_le : ∂ (a ⊔ b) ≤ ∂ a ⊔ ∂ b := by
-  rw [boundary, inf_sup_right]
+  rw [boundary]; rw [inf_sup_right]
   exact
     sup_le_sup (inf_le_inf_left _ <| hnot_anti le_sup_left)
       (inf_le_inf_left _ <| hnot_anti le_sup_right)
@@ -119,7 +119,7 @@ theorem boundary_le_boundary_sup_sup_boundary_inf_left : ∂ a ≤ ∂ (a ⊔ b)
 #align coheyting.boundary_le_boundary_sup_sup_boundary_inf_left Coheyting.boundary_le_boundary_sup_sup_boundary_inf_left
 
 theorem boundary_le_boundary_sup_sup_boundary_inf_right : ∂ b ≤ ∂ (a ⊔ b) ⊔ ∂ (a ⊓ b) := by
-  rw [@sup_comm _ _ a, inf_comm]
+  rw [@sup_comm _ _ a]; rw [inf_comm]
   exact boundary_le_boundary_sup_sup_boundary_inf_left
 #align coheyting.boundary_le_boundary_sup_sup_boundary_inf_right Coheyting.boundary_le_boundary_sup_sup_boundary_inf_right
 
@@ -134,7 +134,7 @@ theorem boundary_idem (a : α) : ∂ ∂ a = ∂ a := by rw [boundary, hnot_boun
 #align coheyting.boundary_idem Coheyting.boundary_idem
 
 theorem hnot_hnot_sup_boundary (a : α) : ￢￢a ⊔ ∂ a = a := by
-  rw [boundary, sup_inf_left, hnot_sup_self, inf_top_eq, sup_eq_right]
+  rw [boundary]; rw [sup_inf_left]; rw [hnot_sup_self]; rw [inf_top_eq]; rw [sup_eq_right]
   exact hnot_hnot_le
 #align coheyting.hnot_hnot_sup_boundary Coheyting.hnot_hnot_sup_boundary
 

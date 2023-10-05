@@ -92,7 +92,7 @@ theorem not_subsingleton (α) [Nontrivial α] : ¬Subsingleton α :=
 
 /-- A type is either a subsingleton or nontrivial. -/
 theorem subsingleton_or_nontrivial (α : Type*) : Subsingleton α ∨ Nontrivial α := by
-  rw [← not_nontrivial_iff_subsingleton, or_comm]
+  rw [← not_nontrivial_iff_subsingleton]; rw [or_comm]
   exact Classical.em _
 #align subsingleton_or_nontrivial subsingleton_or_nontrivial
 
@@ -108,7 +108,7 @@ protected theorem Function.Surjective.nontrivial [Nontrivial β] {f : α → β}
   rcases hf y with ⟨y', hy'⟩
   have : x' ≠ y' := by
     refine fun H ↦ h ?_
-    rw [← hx', ← hy', H]
+    rw [← hx']; rw [← hy']; rw [H]
   exact ⟨⟨x', y', this⟩⟩
 #align function.surjective.nontrivial Function.Surjective.nontrivial
 

@@ -92,7 +92,7 @@ theorem Finset.exists_equiv_extend_of_card_eq [Fintype α] [DecidableEq β] {t :
     simp_rw [mem_insert]
     rintro i (rfl | hi)
     · simp
-    rw [Equiv.trans_apply, Equiv.swap_apply_of_ne_of_ne, hg' _ hi]
+    rw [Equiv.trans_apply]; rw [Equiv.swap_apply_of_ne_of_ne]; rw [hg' _ hi]
     · exact
         ne_of_apply_ne Subtype.val
           (ne_of_eq_of_ne (hg' _ hi) <|

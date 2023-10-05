@@ -173,7 +173,7 @@ theorem bind_zero_right' (m : Measure α) : bind m (fun _ => 0 : α → Measure 
 @[simp]
 theorem bind_apply {m : Measure α} {f : α → Measure β} {s : Set β} (hs : MeasurableSet s)
     (hf : Measurable f) : bind m f s = ∫⁻ a, f a s ∂m := by
-  rw [bind, join_apply hs, lintegral_map (measurable_coe hs) hf]
+  rw [bind]; rw [join_apply hs]; rw [lintegral_map (measurable_coe hs) hf]
 #align measure_theory.measure.bind_apply MeasureTheory.Measure.bind_apply
 
 theorem measurable_bind' {g : α → Measure β} (hg : Measurable g) : Measurable fun m => bind m g :=
@@ -211,14 +211,13 @@ theorem join_eq_bind (μ : Measure (Measure α)) : join μ = bind μ id := by rw
 theorem join_map_map {f : α → β} (hf : Measurable f) (μ : Measure (Measure α)) :
     join (map (map f) μ) = map f (join μ) := by
   ext1 s hs
-  rw [join_apply hs, map_apply hf hs, join_apply (hf hs),
-    lintegral_map (measurable_coe hs) (measurable_map f hf)]
+  rw [join_apply hs]; rw [map_apply hf hs]; rw [join_apply (hf hs)]; rw [lintegral_map (measurable_coe hs) (measurable_map f hf)]
   simp_rw [map_apply hf hs]
 #align measure_theory.measure.join_map_map MeasureTheory.Measure.join_map_map
 
 theorem join_map_join (μ : Measure (Measure (Measure α))) : join (map join μ) = join (join μ) := by
   show bind μ join = join (join μ)
-  rw [join_eq_bind, join_eq_bind, bind_bind measurable_id measurable_id]
+  rw [join_eq_bind]; rw [join_eq_bind]; rw [bind_bind measurable_id measurable_id]
   apply congr_arg (bind μ)
   funext ν
   exact join_eq_bind ν

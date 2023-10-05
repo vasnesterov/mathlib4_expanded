@@ -93,7 +93,7 @@ protected theorem IsChain.insert (hs : IsChain r s) (ha : ∀ b ∈ s, a ≠ b �
 
 theorem isChain_univ_iff : IsChain r (univ : Set α) ↔ IsTrichotomous α r := by
   refine' ⟨fun h => ⟨fun a b => _⟩, fun h => @isChain_of_trichotomous _ _ h univ⟩
-  rw [or_left_comm, or_iff_not_imp_left]
+  rw [or_left_comm]; rw [or_iff_not_imp_left]
   exact h trivial trivial
 #align is_chain_univ_iff isChain_univ_iff
 

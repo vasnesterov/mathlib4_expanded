@@ -333,7 +333,7 @@ theorem compl₂_apply (g : Q →ₛₗ[σ₄₂] N) (m : M) (q : Q) : f.compl�
 @[simp]
 theorem compl₂_id : f.compl₂ LinearMap.id = f := by
   ext
-  rw [compl₂_apply, id_coe, id.def]
+  rw [compl₂_apply]; rw [id_coe]; rw [id.def]
 #align linear_map.compl₂_id LinearMap.compl₂_id
 
 /-- Composing linear maps `Q → M` and `Q' → N` with a bilinear map `M → N → P` to

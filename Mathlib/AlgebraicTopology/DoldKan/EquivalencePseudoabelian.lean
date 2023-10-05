@@ -123,14 +123,14 @@ theorem hε :
       (Γ₂N₁ : (toKaroubiEquivalence _).functor ≅
           (N₁ : SimplicialObject C ⥤ _) ⋙ Preadditive.DoldKan.equivalence.inverse) := by
   ext1
-  rw [← cancel_epi Γ₂N₁.inv, Iso.inv_hom_id]
+  rw [← cancel_epi Γ₂N₁.inv]; rw [Iso.inv_hom_id]
   ext X : 2
   rw [NatTrans.comp_app]
   erw [compatibility_Γ₂N₁_Γ₂N₂_natTrans X]
-  rw [Compatibility.υ_hom_app, Preadditive.DoldKan.equivalence_unitIso, Iso.app_inv, assoc]
+  rw [Compatibility.υ_hom_app]; rw [Preadditive.DoldKan.equivalence_unitIso]; rw [Iso.app_inv]; rw [assoc]
   erw [← NatTrans.comp_app_assoc, IsIso.hom_inv_id]
-  rw [NatTrans.id_app, id_comp, NatTrans.id_app, eqToIso.hom, eqToHom_app, eqToHom_map]
-  rw [compatibility_Γ₂N₁_Γ₂N₂_inv_app, eqToHom_trans, eqToHom_refl]
+  rw [NatTrans.id_app]; rw [id_comp]; rw [NatTrans.id_app]; rw [eqToIso.hom]; rw [eqToHom_app]; rw [eqToHom_map]
+  rw [compatibility_Γ₂N₁_Γ₂N₂_inv_app]; rw [eqToHom_trans]; rw [eqToHom_refl]
 #align category_theory.idempotents.dold_kan.hε CategoryTheory.Idempotents.DoldKan.hε
 
 /-- The unit isomorphism induced by `Γ₂N₁`. -/

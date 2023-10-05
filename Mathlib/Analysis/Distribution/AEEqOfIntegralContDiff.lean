@@ -96,10 +96,10 @@ theorem ae_eq_zero_of_integral_smooth_smul_eq_zero (hf : LocallyIntegrable f μ)
         suffices H : ∀ᶠ n in atTop, g n x = 0
         · filter_upwards [H] with n hn using by simp [hn]
         obtain ⟨ε, εpos, hε⟩ : ∃ ε, 0 < ε ∧ x ∉ thickening ε s := by
-          rw [← hs.isClosed.closure_eq, closure_eq_iInter_thickening s] at hxs
+          rw [← hs.isClosed.closure_eq] at hxs; rw [closure_eq_iInter_thickening s] at hxs
           simpa using hxs
         filter_upwards [(tendsto_order.1 u_lim).2 _ εpos] with n hn
-        rw [← nmem_support, g_supp]
+        rw [← nmem_support]; rw [g_supp]
         contrapose! hε
         exact thickening_mono hn.le s hε
     exact tendsto_integral_of_dominated_convergence bound A B C D
@@ -120,7 +120,7 @@ theorem ae_eq_of_integral_smooth_smul_eq
     apply ae_eq_zero_of_integral_smooth_smul_eq_zero I (hf.sub hf')
     intro g g_diff g_supp
     simp only [Pi.sub_apply, smul_sub]
-    rw [integral_sub, sub_eq_zero]
+    rw [integral_sub]; rw [sub_eq_zero]
     · exact h g g_diff g_supp
     · exact hf.integrable_smul_left_of_hasCompactSupport g_diff.continuous g_supp
     · exact hf'.integrable_smul_left_of_hasCompactSupport g_diff.continuous g_supp

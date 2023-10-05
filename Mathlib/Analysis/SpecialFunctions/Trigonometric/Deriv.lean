@@ -37,8 +37,7 @@ theorem hasStrictDerivAt_sin (x : ℂ) : HasStrictDerivAt sin (cos x) x := by
   convert ((((hasStrictDerivAt_id x).neg.mul_const I).cexp.sub
     ((hasStrictDerivAt_id x).mul_const I).cexp).mul_const I).mul_const (2 : ℂ)⁻¹ using 1
   simp only [Function.comp, id]
-  rw [sub_mul, mul_assoc, mul_assoc, I_mul_I, neg_one_mul, neg_neg, mul_one, one_mul, mul_assoc,
-    I_mul_I, mul_neg_one, sub_neg_eq_add, add_comm]
+  rw [sub_mul]; rw [mul_assoc]; rw [mul_assoc]; rw [I_mul_I]; rw [neg_one_mul]; rw [neg_neg]; rw [mul_one]; rw [one_mul]; rw [mul_assoc]; rw [I_mul_I]; rw [mul_neg_one]; rw [sub_neg_eq_add]; rw [add_comm]
 #align complex.has_strict_deriv_at_sin Complex.hasStrictDerivAt_sin
 
 /-- The complex sine function is everywhere differentiable, with the derivative `cos x`. -/
@@ -104,7 +103,7 @@ theorem hasStrictDerivAt_sinh (x : ℂ) : HasStrictDerivAt sinh (cosh x) x := by
   simp only [cosh, div_eq_mul_inv]
   convert ((hasStrictDerivAt_exp x).sub (hasStrictDerivAt_id x).neg.cexp).mul_const (2 : ℂ)⁻¹
     using 1
-  rw [id, mul_neg_one, sub_eq_add_neg, neg_neg]
+  rw [id]; rw [mul_neg_one]; rw [sub_eq_add_neg]; rw [neg_neg]
 #align complex.has_strict_deriv_at_sinh Complex.hasStrictDerivAt_sinh
 
 /-- The complex hyperbolic sine function is everywhere differentiable, with the derivative
@@ -135,7 +134,7 @@ theorem hasStrictDerivAt_cosh (x : ℂ) : HasStrictDerivAt cosh (sinh x) x := by
   simp only [sinh, div_eq_mul_inv]
   convert ((hasStrictDerivAt_exp x).add (hasStrictDerivAt_id x).neg.cexp).mul_const (2 : ℂ)⁻¹
     using 1
-  rw [id, mul_neg_one, sub_eq_add_neg]
+  rw [id]; rw [mul_neg_one]; rw [sub_eq_add_neg]
 #align complex.has_strict_deriv_at_cosh Complex.hasStrictDerivAt_cosh
 
 /-- The complex hyperbolic cosine function is everywhere differentiable, with the derivative
@@ -720,7 +719,7 @@ theorem abs_sinh (x : ℝ) : |sinh x| = sinh |x| := by
 
 theorem cosh_strictMonoOn : StrictMonoOn cosh (Ici 0) :=
   (convex_Ici _).strictMonoOn_of_deriv_pos continuous_cosh.continuousOn fun x hx => by
-    rw [interior_Ici, mem_Ioi] at hx; rwa [deriv_cosh, sinh_pos_iff]
+    rw [interior_Ici] at hx; rw [mem_Ioi] at hx; rwa [deriv_cosh, sinh_pos_iff]
 #align real.cosh_strict_mono_on Real.cosh_strictMonoOn
 
 @[simp]
@@ -749,7 +748,7 @@ theorem sinh_sub_id_strictMono : StrictMono fun x => sinh x - x := by
   refine' (convex_Ici _).strictMonoOn_of_deriv_pos _ fun x hx => _
   · exact (continuous_sinh.sub continuous_id).continuousOn
   · rw [interior_Ici, mem_Ioi] at hx
-    rw [deriv_sub, deriv_sinh, deriv_id'', sub_pos, one_lt_cosh]
+    rw [deriv_sub]; rw [deriv_sinh]; rw [deriv_id'']; rw [sub_pos]; rw [one_lt_cosh]
     exacts [hx.ne', differentiableAt_sinh, differentiableAt_id]
 #align real.sinh_sub_id_strict_mono Real.sinh_sub_id_strictMono
 

@@ -214,7 +214,7 @@ theorem exists_embedding_l_infty : ∃ f : X → ℕ →ᵇ ℝ, Embedding f := 
     replace hy : dist (F y UV) (F x UV) < ε UV
     exact (BoundedContinuousFunction.dist_coe_le_dist _).trans_lt hy
     contrapose! hy
-    rw [hF, hF, hfε UV hy, hf0 UV hxU, Pi.zero_apply, dist_zero_right]
+    rw [hF]; rw [hF]; rw [hfε UV hy]; rw [hf0 UV hxU]; rw [Pi.zero_apply]; rw [dist_zero_right]
     exact le_abs_self _
   · /- Finally, we prove that `F` is continuous. Given `δ > 0`, consider the set `T` of `(U, V) ∈ s`
     such that `ε (U, V) ≥ δ`. Since `ε` tends to zero, `T` is finite. Since each `f` is continuous,

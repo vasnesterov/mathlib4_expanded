@@ -40,13 +40,12 @@ theorem card_embedding_eq {α β : Type*} [Fintype α] [Fintype β] [emb : Finty
   refine' Fintype.induction_empty_option (P := fun t ↦ ‖t ↪ β‖ = ‖β‖.descFactorial ‖t‖)
         (fun α₁ α₂ h₂ e ih ↦ ?_) (?_) (fun γ h ih ↦ ?_) α <;> dsimp only <;> clear! α
   · letI := Fintype.ofEquiv _ e.symm
-    rw [← card_congr (Equiv.embeddingCongr e (Equiv.refl β)), ih, card_congr e]
+    rw [← card_congr (Equiv.embeddingCongr e (Equiv.refl β))]; rw [ih]; rw [card_congr e]
   · rw [card_pempty, Nat.descFactorial_zero, card_eq_one_iff]
     exact ⟨Embedding.ofIsEmpty, fun x ↦ FunLike.ext _ _ isEmptyElim⟩
   · classical
     dsimp only at ih
-    rw [card_option, Nat.descFactorial_succ, card_congr (Embedding.optionEmbeddingEquiv γ β),
-        card_sigma, ←ih]
+    rw [card_option]; rw [Nat.descFactorial_succ]; rw [card_congr (Embedding.optionEmbeddingEquiv γ β)]; rw [card_sigma]; rw [←ih]
     simp only [Fintype.card_compl_set, Fintype.card_range, Finset.sum_const, Finset.card_univ,
       smul_eq_mul, mul_comm]
 #align fintype.card_embedding_eq Fintype.card_embedding_eq

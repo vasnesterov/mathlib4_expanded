@@ -146,7 +146,7 @@ theorem nonempty_hom_of_forall_finite_subgraph_hom [Finite W]
       Quiver.Hom.op (CategoryTheory.homOfLE singletonFinsubgraph_le_adj_left)
     have hv' : Opposite.op (finsubgraphOfAdj e) ⟶ Opposite.op (singletonFinsubgraph v') :=
       Quiver.Hom.op (CategoryTheory.homOfLE singletonFinsubgraph_le_adj_right)
-    rw [← hu hv, ← hu hv']
+    rw [← hu hv]; rw [← hu hv']
     -- porting note: was `apply Hom.map_adj`
     refine' Hom.map_adj (u (Opposite.op (finsubgraphOfAdj e))) _
     -- `v` and `v'` are definitionally adjacent in `finsubgraphOfAdj e`

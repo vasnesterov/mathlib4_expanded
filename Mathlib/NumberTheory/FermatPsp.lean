@@ -88,7 +88,7 @@ theorem coprime_of_probablePrime {n b : ℕ} (h : ProbablePrime n b) (h₁ : 1 �
     replace h := dvd_of_mul_right_dvd h
     -- Because `k` divides `b ^ (n - 1) - 1`, if we can show that `k` also divides `b ^ (n - 1)`,
     -- then we know `k` divides 1.
-    rw [Nat.dvd_add_iff_right h, Nat.sub_add_cancel (Nat.one_le_pow _ _ h₂)]
+    rw [Nat.dvd_add_iff_right h]; rw [Nat.sub_add_cancel (Nat.one_le_pow _ _ h₂)]
     -- Since `k` divides `b`, `k` also divides any power of `b` except `b ^ 0`. Therefore, it
     -- suffices to show that `n - 1` isn't zero. However, we know that `n - 1` isn't zero because we
     -- assumed `2 ≤ n` when doing `by_cases`.
@@ -139,7 +139,7 @@ private theorem pow_gt_exponent {a : ℕ} (b : ℕ) (h : 2 ≤ a) : b < a ^ b :=
 private theorem a_id_helper {a b : ℕ} (ha : 2 ≤ a) (hb : 2 ≤ b) : 2 ≤ (a ^ b - 1) / (a - 1) := by
   change 1 < _
   have h₁ : a - 1 ∣ a ^ b - 1 := by simpa only [one_pow] using nat_sub_dvd_pow_sub_pow a 1 b
-  rw [Nat.lt_div_iff_mul_lt h₁, mul_one, tsub_lt_tsub_iff_right (Nat.le_of_succ_le ha)]
+  rw [Nat.lt_div_iff_mul_lt h₁]; rw [mul_one]; rw [tsub_lt_tsub_iff_right (Nat.le_of_succ_le ha)]
   exact self_lt_pow (Nat.lt_of_succ_le ha) hb
 
 private theorem b_id_helper {a b : ℕ} (ha : 2 ≤ a) (hb : 2 < b) : 2 ≤ (a ^ b + 1) / (a + 1) := by
@@ -232,14 +232,14 @@ private theorem psp_from_prime_psp {b : ℕ} (b_ge_two : 2 ≤ b) {p : ℕ} (p_p
     rw [Nat.div_mul_cancel hd] at AB_id
     apply_fun fun x => x - (b ^ 2 - 1) at AB_id
     nth_rw 2 [← one_mul (b ^ 2 - 1)] at AB_id
-    rw [← Nat.mul_sub_right_distrib, mul_comm] at AB_id
+    rw [← Nat.mul_sub_right_distrib] at AB_id; rw [mul_comm] at AB_id
     rw [AB_id]
     exact bp_helper hi_b hi_p
   -- If `b` is even, then `b^p` is also even, so `2 ∣ b^p + b`
   -- If `b` is odd, then `b^p` is also odd, so `2 ∣ b^p + b`
   have ha₂ : 2 ∣ b ^ p + b := by
     -- Porting note: golfed
-    rw [← even_iff_two_dvd, Nat.even_add, Nat.even_pow' p_prime.ne_zero]
+    rw [← even_iff_two_dvd]; rw [Nat.even_add]; rw [Nat.even_pow' p_prime.ne_zero]
   -- Since `b` isn't divisible by `p`, `b` is coprime with `p`. we can use Fermat's Little Theorem
   -- to prove this.
   have ha₃ : p ∣ b ^ (p - 1) - 1 := by
@@ -315,7 +315,7 @@ private theorem psp_from_prime_gt_p {b : ℕ} (b_ge_two : 2 ≤ b) {p : ℕ} (p_
     have h₂ : 0 < b ^ 2 - 1 := by
       linarith [show 3 ≤ b ^ 2 - 1 from le_tsub_of_add_le_left (show 4 ≤ b ^ 2 by nlinarith)]
     rwa [Nat.mul_div_cancel _ h₂] at h₁
-  rw [Nat.mul_sub_left_distrib, mul_one, pow_mul]
+  rw [Nat.mul_sub_left_distrib]; rw [mul_one]; rw [pow_mul]
   conv_rhs => rw [← Nat.sub_add_cancel (show 1 ≤ p by linarith)]
   rw [pow_succ (b ^ 2)]
   suffices h : p * b ^ 2 < (b ^ 2) ^ (p - 1) * b ^ 2
@@ -327,7 +327,7 @@ private theorem psp_from_prime_gt_p {b : ℕ} (b_ge_two : 2 ≤ b) {p : ℕ} (p_
   · have : 4 ≤ b ^ 2 := by nlinarith
     have : 0 < b ^ 2 := by linarith
     exact mul_lt_mul_of_pos_right h this
-  rw [← pow_mul, Nat.mul_sub_left_distrib, mul_one]
+  rw [← pow_mul]; rw [Nat.mul_sub_left_distrib]; rw [mul_one]
   have : 2 ≤ 2 * p - 2 := le_tsub_of_add_le_left (show 4 ≤ 2 * p by linarith)
   have : 2 + p ≤ 2 * p := by linarith
   have : p ≤ 2 * p - 2 := le_tsub_of_add_le_left this

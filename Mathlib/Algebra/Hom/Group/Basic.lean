@@ -76,7 +76,7 @@ instance [Mul M] [CommSemigroup N] : Mul (M →ₙ* N) :=
       map_mul' := fun x y => by
         intros
         show f (x * y) * g (x * y) = f x * g x * (f y * g y)
-        rw [f.map_mul, g.map_mul, ← mul_assoc, ← mul_assoc, mul_right_comm (f x)] }⟩
+        rw [f.map_mul]; rw [g.map_mul]; rw [← mul_assoc]; rw [← mul_assoc]; rw [mul_right_comm (f x)] }⟩
 
 @[to_additive (attr := simp)]
 theorem mul_apply {M N} [Mul M] [CommSemigroup N] (f g : M →ₙ* N) (x : M) :
@@ -114,7 +114,7 @@ instance mul {M N} [MulOneClass M] [CommMonoid N] : Mul (M →* N) :=
       map_mul' := fun x y => by
         intros
         show f (x * y) * g (x * y) = f x * g x * (f y * g y)
-        rw [f.map_mul, g.map_mul, ← mul_assoc, ← mul_assoc, mul_right_comm (f x)] }⟩
+        rw [f.map_mul]; rw [g.map_mul]; rw [← mul_assoc]; rw [← mul_assoc]; rw [mul_right_comm (f x)] }⟩
 
 /-- Given two additive monoid morphisms `f`, `g` to an additive commutative monoid,
 `f + g` is the additive monoid morphism sending `x` to `f x + g x`. -/
@@ -258,5 +258,5 @@ with zero morphism sending `x` to `f x * g x`. -/
 instance [MulZeroOneClass M] [CommMonoidWithZero N] : Mul (M →*₀ N) :=
   ⟨fun f g => { (f * g : M →* N) with
     toFun := fun a => f a * g a,
-    map_zero' := by dsimp only []; rw [map_zero, zero_mul] }⟩
+    map_zero' := by dsimp only []; rw [map_zero]; rw [zero_mul] }⟩
     -- Porting note: why do we need `dsimp` here?

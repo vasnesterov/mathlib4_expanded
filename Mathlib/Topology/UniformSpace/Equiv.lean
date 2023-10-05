@@ -253,8 +253,7 @@ noncomputable def ofUniformEmbedding (f : α → β) (hf : UniformEmbedding f) :
     where
   uniformContinuous_toFun := hf.toUniformInducing.uniformContinuous.subtype_mk _
   uniformContinuous_invFun := by
-    rw [hf.toUniformInducing.uniformContinuous_iff, Equiv.invFun_as_coe,
-      Equiv.self_comp_ofInjective_symm]
+    rw [hf.toUniformInducing.uniformContinuous_iff]; rw [Equiv.invFun_as_coe]; rw [Equiv.self_comp_ofInjective_symm]
     exact uniformContinuous_subtype_val
   toEquiv := Equiv.ofInjective f hf.inj
 #align uniform_equiv.of_uniform_embedding UniformEquiv.ofUniformEmbedding
@@ -319,7 +318,7 @@ def prodAssoc : (α × β) × γ ≃ᵤ α × β × γ
     (uniformContinuous_fst.comp uniformContinuous_fst).prod_mk
       ((uniformContinuous_snd.comp uniformContinuous_fst).prod_mk uniformContinuous_snd)
   uniformContinuous_invFun := by -- Porting note: the `rw` was not necessary in Lean 3
-    rw [Equiv.invFun, Equiv.prodAssoc]
+    rw [Equiv.invFun]; rw [Equiv.prodAssoc]
     exact (uniformContinuous_fst.prod_mk (uniformContinuous_fst.comp
     uniformContinuous_snd)).prod_mk (uniformContinuous_snd.comp uniformContinuous_snd)
   toEquiv := Equiv.prodAssoc α β γ

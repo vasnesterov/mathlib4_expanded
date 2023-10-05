@@ -83,20 +83,20 @@ theorem mem_orthogonal_singleton_iff_inner_right {u v : E} : v ∈ (𝕜 ∙ u)�
 
 /-- A vector in `(𝕜 ∙ u)ᗮ` is orthogonal to `u`. -/
 theorem mem_orthogonal_singleton_iff_inner_left {u v : E} : v ∈ (𝕜 ∙ u)ᗮ ↔ ⟪v, u⟫ = 0 := by
-  rw [mem_orthogonal_singleton_iff_inner_right, inner_eq_zero_symm]
+  rw [mem_orthogonal_singleton_iff_inner_right]; rw [inner_eq_zero_symm]
 #align submodule.mem_orthogonal_singleton_iff_inner_left Submodule.mem_orthogonal_singleton_iff_inner_left
 
 theorem sub_mem_orthogonal_of_inner_left {x y : E} (h : ∀ v : K, ⟪x, v⟫ = ⟪y, v⟫) : x - y ∈ Kᗮ := by
   rw [mem_orthogonal']
   intro u hu
-  rw [inner_sub_left, sub_eq_zero]
+  rw [inner_sub_left]; rw [sub_eq_zero]
   exact h ⟨u, hu⟩
 #align submodule.sub_mem_orthogonal_of_inner_left Submodule.sub_mem_orthogonal_of_inner_left
 
 theorem sub_mem_orthogonal_of_inner_right {x y : E} (h : ∀ v : K, ⟪(v : E), x⟫ = ⟪(v : E), y⟫) :
     x - y ∈ Kᗮ := by
   intro u hu
-  rw [inner_sub_right, sub_eq_zero]
+  rw [inner_sub_right]; rw [sub_eq_zero]
   exact h ⟨u, hu⟩
 #align submodule.sub_mem_orthogonal_of_inner_right Submodule.sub_mem_orthogonal_of_inner_right
 
@@ -187,7 +187,7 @@ theorem sInf_orthogonal (s : Set <| Submodule 𝕜 E) : ⨅ K ∈ s, Kᗮ = (sSu
 @[simp]
 theorem top_orthogonal_eq_bot : (⊤ : Submodule 𝕜 E)ᗮ = ⊥ := by
   ext x
-  rw [mem_bot, mem_orthogonal]
+  rw [mem_bot]; rw [mem_orthogonal]
   exact
     ⟨fun h => inner_self_eq_zero.mp (h x mem_top), by
       rintro rfl
@@ -196,7 +196,7 @@ theorem top_orthogonal_eq_bot : (⊤ : Submodule 𝕜 E)ᗮ = ⊥ := by
 
 @[simp]
 theorem bot_orthogonal_eq_top : (⊥ : Submodule 𝕜 E)ᗮ = ⊤ := by
-  rw [← top_orthogonal_eq_bot, eq_top_iff]
+  rw [← top_orthogonal_eq_bot]; rw [eq_top_iff]
   exact le_orthogonal_orthogonal ⊤
 #align submodule.bot_orthogonal_eq_top Submodule.bot_orthogonal_eq_top
 

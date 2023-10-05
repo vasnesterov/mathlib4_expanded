@@ -65,10 +65,7 @@ set_option linter.uppercaseLean3 false in
 def PInftyToNormalizedMooreComplex (X : SimplicialObject A) : K[X] ⟶ N[X] :=
   ChainComplex.ofHom _ _ _ _ _ _
     (fun n => factorThru _ _ (factors_normalizedMooreComplex_PInfty n)) fun n => by
-    rw [← cancel_mono (NormalizedMooreComplex.objX X n).arrow, assoc, assoc, factorThru_arrow,
-      ← inclusionOfMooreComplexMap_f, ← normalizedMooreComplex_objD,
-      ← (inclusionOfMooreComplexMap X).comm (n + 1) n, inclusionOfMooreComplexMap_f,
-      factorThru_arrow_assoc, ← alternatingFaceMapComplex_obj_d]
+    rw [← cancel_mono (NormalizedMooreComplex.objX X n).arrow]; rw [assoc]; rw [assoc]; rw [factorThru_arrow]; rw [← inclusionOfMooreComplexMap_f]; rw [← normalizedMooreComplex_objD]; rw [← (inclusionOfMooreComplexMap X).comm (n + 1) n]; rw [inclusionOfMooreComplexMap_f]; rw [factorThru_arrow_assoc]; rw [← alternatingFaceMapComplex_obj_d]
     exact PInfty.comm (n + 1) n
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.P_infty_to_normalized_Moore_complex AlgebraicTopology.DoldKan.PInftyToNormalizedMooreComplex

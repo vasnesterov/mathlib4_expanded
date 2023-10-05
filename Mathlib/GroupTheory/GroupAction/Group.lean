@@ -39,7 +39,7 @@ theorem inv_smul_smul (c : α) (x : β) : c⁻¹ • c • x = x := by rw [smul_
 
 @[to_additive (attr := simp)]
 theorem smul_inv_smul (c : α) (x : β) : c • c⁻¹ • x = x := by
-  rw [smul_smul, mul_right_inv, one_smul]
+  rw [smul_smul]; rw [mul_right_inv]; rw [one_smul]
 #align smul_inv_smul smul_inv_smul
 #align vadd_neg_vadd vadd_neg_vadd
 
@@ -119,7 +119,7 @@ theorem eq_inv_smul_iff {a : α} {x y : β} : x = a⁻¹ • y ↔ a • x = y :
 
 theorem smul_inv [Group β] [SMulCommClass α β β] [IsScalarTower α β β] (c : α) (x : β) :
     (c • x)⁻¹ = c⁻¹ • x⁻¹ := by
-  rw [inv_eq_iff_mul_eq_one, smul_mul_smul, mul_right_inv, mul_right_inv, one_smul]
+  rw [inv_eq_iff_mul_eq_one]; rw [smul_mul_smul]; rw [mul_right_inv]; rw [mul_right_inv]; rw [one_smul]
 #align smul_inv smul_inv
 
 theorem smul_zpow [Group β] [SMulCommClass α β β] [IsScalarTower α β β] (c : α) (x : β) (p : ℤ) :
@@ -137,7 +137,7 @@ theorem Commute.smul_right_iff [Mul β] [SMulCommClass α β β] [IsScalarTower 
 @[simp]
 theorem Commute.smul_left_iff [Mul β] [SMulCommClass α β β] [IsScalarTower α β β] {a b : β}
     (r : α) : Commute (r • a) b ↔ Commute a b := by
-  rw [Commute.symm_iff, Commute.smul_right_iff, Commute.symm_iff]
+  rw [Commute.symm_iff]; rw [Commute.smul_right_iff]; rw [Commute.symm_iff]
 #align commute.smul_left_iff Commute.smul_left_iff
 
 @[to_additive]
@@ -416,7 +416,7 @@ theorem isUnit_smul_iff [MulAction α β] [SMulCommClass α β β] [IsScalarTowe
 
 theorem IsUnit.smul_sub_iff_sub_inv_smul [AddGroup β] [DistribMulAction α β] [IsScalarTower α β β]
     [SMulCommClass α β β] (r : α) (a : β) : IsUnit (r • (1 : β) - a) ↔ IsUnit (1 - r⁻¹ • a) := by
-  rw [← isUnit_smul_iff r (1 - r⁻¹ • a), smul_sub, smul_inv_smul]
+  rw [← isUnit_smul_iff r (1 - r⁻¹ • a)]; rw [smul_sub]; rw [smul_inv_smul]
 #align is_unit.smul_sub_iff_sub_inv_smul IsUnit.smul_sub_iff_sub_inv_smul
 
 end SMul

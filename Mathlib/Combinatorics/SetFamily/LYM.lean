@@ -70,18 +70,18 @@ theorem card_mul_le_card_shadow_mul (h𝒜 : (𝒜 : Set (Finset α)).Sized r) :
     simp_rw [image_subset_iff, mem_bipartiteBelow]
     exact fun a ha => ⟨erase_mem_shadow hs ha, erase_subset _ _⟩
   refine' le_trans _ tsub_tsub_le_tsub_add
-  rw [← (Set.Sized.shadow h𝒜) hs, ← card_compl, ← card_image_of_injOn (insert_inj_on' _)]
+  rw [← (Set.Sized.shadow h𝒜) hs]; rw [← card_compl]; rw [← card_image_of_injOn (insert_inj_on' _)]
   refine' card_le_of_subset fun t ht => _
   -- porting note: commented out the following line
   -- infer_instance
   rw [mem_bipartiteAbove] at ht
   have : ∅ ∉ 𝒜 := by
-    rw [← mem_coe, h𝒜.empty_mem_iff, coe_eq_singleton]
+    rw [← mem_coe]; rw [h𝒜.empty_mem_iff]; rw [coe_eq_singleton]
     rintro rfl
     rw [shadow_singleton_empty] at hs
     exact not_mem_empty s hs
   have h := exists_eq_insert_iff.2 ⟨ht.2, by
-    rw [(sized_shadow_iff this).1 (Set.Sized.shadow h𝒜) ht.1, (Set.Sized.shadow h𝒜) hs]⟩
+    rw [(sized_shadow_iff this).1 (Set.Sized.shadow h𝒜) ht.1]; rw [(Set.Sized.shadow h𝒜) hs]⟩
   rcases h with ⟨a, ha, rfl⟩
   exact mem_image_of_mem _ (mem_compl.2 ha)
 #align finset.card_mul_le_card_shadow_mul Finset.card_mul_le_card_shadow_mul
@@ -95,11 +95,11 @@ theorem card_div_choose_le_card_shadow_div_choose (hr : r ≠ 0)
   · rw [choose_eq_zero_of_lt hr', cast_zero, div_zero]
     exact div_nonneg (cast_nonneg _) (cast_nonneg _)
   replace h𝒜 := card_mul_le_card_shadow_mul h𝒜
-  rw [div_le_div_iff] <;> norm_cast
+  rw [div_le_div_iff]  <;> norm_cast
   · cases' r with r
     · exact (hr rfl).elim
     rw [Nat.succ_eq_add_one] at *
-    rw [tsub_add_eq_add_tsub hr', add_tsub_add_eq_tsub_right] at h𝒜
+    rw [tsub_add_eq_add_tsub hr'] at h𝒜; rw [add_tsub_add_eq_tsub_right] at h𝒜
     apply le_of_mul_le_mul_right _ (pos_iff_ne_zero.2 hr)
     convert Nat.mul_le_mul_right ((Fintype.card α).choose r) h𝒜 using 1
     · simp [mul_assoc, Nat.choose_succ_right_eq]
@@ -153,14 +153,14 @@ theorem slice_union_shadow_falling_succ : 𝒜 # k ∪ ∂ (falling (k + 1) 𝒜
   · rintro (h | ⟨s, ⟨⟨t, ht, hst⟩, hs⟩, a, ha, rfl⟩)
     · exact ⟨⟨s, h.1, Subset.refl _⟩, h.2⟩
     refine' ⟨⟨t, ht, (erase_subset _ _).trans hst⟩, _⟩
-    rw [card_erase_of_mem ha, hs]
+    rw [card_erase_of_mem ha]; rw [hs]
     rfl
   · rintro ⟨⟨t, ht, hst⟩, hs⟩
     by_cases h : s ∈ 𝒜
     · exact Or.inl ⟨h, hs⟩
     obtain ⟨a, ha, hst⟩ := ssubset_iff.1 (ssubset_of_subset_of_ne hst (ht.ne_of_not_mem h).symm)
     refine' Or.inr ⟨insert a s, ⟨⟨t, ht, hst⟩, _⟩, a, mem_insert_self _ _, erase_insert ha⟩
-    rw [card_insert_of_not_mem ha, hs]
+    rw [card_insert_of_not_mem ha]; rw [hs]
 #align finset.slice_union_shadow_falling_succ Finset.slice_union_shadow_falling_succ
 
 variable {𝒜 k}
@@ -189,10 +189,8 @@ theorem le_card_falling_div_choose [Fintype α] (hk : k ≤ Fintype.card α)
       choose_self, cast_one, div_one, cast_le]
     exact card_le_of_subset (slice_subset_falling _ _)
   rw [succ_eq_add_one] at *
-  rw [sum_range_succ, ← slice_union_shadow_falling_succ,
-    card_disjoint_union (IsAntichain.disjoint_slice_shadow_falling h𝒜), cast_add, _root_.add_div,
-    add_comm]
-  rw [← tsub_tsub, tsub_add_cancel_of_le (le_tsub_of_add_le_left hk)]
+  rw [sum_range_succ]; rw [← slice_union_shadow_falling_succ]; rw [card_disjoint_union (IsAntichain.disjoint_slice_shadow_falling h𝒜)]; rw [cast_add]; rw [_root_.add_div]; rw [add_comm]
+  rw [← tsub_tsub]; rw [tsub_add_cancel_of_le (le_tsub_of_add_le_left hk)]
   exact
     add_le_add_left
       ((ih <| le_of_succ_le hk).trans <|
@@ -212,7 +210,7 @@ theorem sum_card_slice_div_choose_le_one [Fintype α]
   classical
     rw [← sum_flip]
     refine' (le_card_falling_div_choose le_rfl h𝒜).trans _
-    rw [div_le_iff] <;> norm_cast
+    rw [div_le_iff]  <;> norm_cast
     · simpa only [Nat.sub_self, one_mul, Nat.choose_zero_right, falling] using
         Set.Sized.card_le (sized_falling 0 𝒜)
     · rw [tsub_self, choose_zero_right]
@@ -232,12 +230,12 @@ theorem IsAntichain.sperner [Fintype α] {𝒜 : Finset (Finset α)}
   classical
     suffices (∑ r in Iic (Fintype.card α),
         ((𝒜 # r).card : ℚ) / (Fintype.card α).choose (Fintype.card α / 2)) ≤ 1 by
-      rw [← sum_div, ← Nat.cast_sum, div_le_one] at this
+      rw [← sum_div] at this; rw [← Nat.cast_sum] at this; rw [div_le_one] at this
       simp only [cast_le] at this
       rwa [sum_card_slice] at this
       simp only [cast_pos]
       exact choose_pos (Nat.div_le_self _ _)
-    rw [Iic_eq_Icc, ← Ico_succ_right, bot_eq_zero, Ico_zero_eq_range]
+    rw [Iic_eq_Icc]; rw [← Ico_succ_right]; rw [bot_eq_zero]; rw [Ico_zero_eq_range]
     refine' (sum_le_sum fun r hr => _).trans (sum_card_slice_div_choose_le_one h𝒜)
     rw [mem_range] at hr
     refine' div_le_div_of_le_left _ _ _ <;> norm_cast

@@ -234,7 +234,7 @@ theorem exists_measurable_superset_ae_eq (h : NullMeasurableSet s μ) :
 #align measure_theory.null_measurable_set.exists_measurable_superset_ae_eq MeasureTheory.NullMeasurableSet.exists_measurable_superset_ae_eq
 
 theorem toMeasurable_ae_eq (h : NullMeasurableSet s μ) : toMeasurable μ s =ᵐ[μ] s := by
-  rw [toMeasurable_def, dif_pos]
+  rw [toMeasurable_def]; rw [dif_pos]
   exact (exists_measurable_superset_ae_eq h).choose_spec.snd.2
 #align measure_theory.null_measurable_set.to_measurable_ae_eq MeasureTheory.NullMeasurableSet.toMeasurable_ae_eq
 
@@ -272,8 +272,7 @@ theorem exists_subordinate_pairwise_disjoint [Countable ι] {s : ι → Set α}
 theorem measure_iUnion {m0 : MeasurableSpace α} {μ : Measure α} [Countable ι] {f : ι → Set α}
     (hn : Pairwise (Disjoint on f)) (h : ∀ i, MeasurableSet (f i)) :
     μ (⋃ i, f i) = ∑' i, μ (f i) := by
-  rw [measure_eq_extend (MeasurableSet.iUnion h),
-    extend_iUnion MeasurableSet.empty _ MeasurableSet.iUnion _ hn h]
+  rw [measure_eq_extend (MeasurableSet.iUnion h)]; rw [extend_iUnion MeasurableSet.empty _ MeasurableSet.iUnion _ hn h]
   · simp [measure_eq_extend, h]
   · exact μ.empty
   · exact μ.m_iUnion
@@ -291,7 +290,7 @@ theorem measure_iUnion₀ [Countable ι] {f : ι → Set α} (hd : Pairwise (AED
 
 theorem measure_union₀_aux (hs : NullMeasurableSet s μ) (ht : NullMeasurableSet t μ)
     (hd : AEDisjoint μ s t) : μ (s ∪ t) = μ s + μ t := by
-  rw [union_eq_iUnion, measure_iUnion₀, tsum_fintype, Fintype.sum_bool, cond, cond]
+  rw [union_eq_iUnion]; rw [measure_iUnion₀]; rw [tsum_fintype]; rw [Fintype.sum_bool]; rw [cond]; rw [cond]
   exacts [(pairwise_on_bool AEDisjoint.symmetric).2 hd, fun b => Bool.casesOn b ht hs]
 #align measure_theory.measure_union₀_aux MeasureTheory.measure_union₀_aux
 
@@ -319,13 +318,13 @@ theorem measure_inter_add_diff₀ (s : Set α) (ht : NullMeasurableSet t μ) :
 
 theorem measure_union_add_inter₀ (s : Set α) (ht : NullMeasurableSet t μ) :
     μ (s ∪ t) + μ (s ∩ t) = μ s + μ t := by
-  rw [← measure_inter_add_diff₀ (s ∪ t) ht, union_inter_cancel_right, union_diff_right, ←
-    measure_inter_add_diff₀ s ht, add_comm, ← add_assoc, add_right_comm]
+  rw [← measure_inter_add_diff₀ (s ∪ t) ht]; rw [union_inter_cancel_right]; rw [union_diff_right]; rw [←
+    measure_inter_add_diff₀ s ht]; rw [add_comm]; rw [← add_assoc]; rw [add_right_comm]
 #align measure_theory.measure_union_add_inter₀ MeasureTheory.measure_union_add_inter₀
 
 theorem measure_union_add_inter₀' (hs : NullMeasurableSet s μ) (t : Set α) :
     μ (s ∪ t) + μ (s ∩ t) = μ s + μ t := by
-  rw [union_comm, inter_comm, measure_union_add_inter₀ t hs, add_comm]
+  rw [union_comm]; rw [inter_comm]; rw [measure_union_add_inter₀ t hs]; rw [add_comm]
 #align measure_theory.measure_union_add_inter₀' MeasureTheory.measure_union_add_inter₀'
 
 theorem measure_union₀ (ht : NullMeasurableSet t μ) (hd : AEDisjoint μ s t) :
@@ -489,7 +488,7 @@ def completion {_ : MeasurableSpace α} (μ : Measure α) :
       (@OuterMeasure.le_trim (NullMeasurableSpace α μ) _ _)
     rw [@OuterMeasure.trim_eq_iInf (NullMeasurableSpace α μ) _];
     have : ∀ s, μ.toOuterMeasure s = μ s := by simp only [forall_const]
-    rw [this, measure_eq_iInf]
+    rw [this]; rw [measure_eq_iInf]
     apply iInf₂_mono
     exact fun t _ht => iInf_mono' fun h => ⟨MeasurableSet.nullMeasurableSet h, le_rfl⟩
 #align measure_theory.measure.completion MeasureTheory.Measure.completion

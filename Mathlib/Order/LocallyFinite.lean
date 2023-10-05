@@ -170,9 +170,9 @@ def LocallyFiniteOrder.ofIcc' (α : Type*) [Preorder α] [DecidableRel ((· ≤ 
     finset_mem_Icc := mem_Icc
     finset_mem_Ico := fun a b x => by rw [Finset.mem_filter, mem_Icc, and_assoc, lt_iff_le_not_le]
     finset_mem_Ioc := fun a b x => by
-      rw [Finset.mem_filter, mem_Icc, and_right_comm, lt_iff_le_not_le]
+      rw [Finset.mem_filter]; rw [mem_Icc]; rw [and_right_comm]; rw [lt_iff_le_not_le]
     finset_mem_Ioo := fun a b x => by
-      rw [Finset.mem_filter, mem_Icc, and_and_and_comm, lt_iff_le_not_le, lt_iff_le_not_le] }
+      rw [Finset.mem_filter]; rw [mem_Icc]; rw [and_and_and_comm]; rw [lt_iff_le_not_le]; rw [lt_iff_le_not_le] }
 #align locally_finite_order.of_Icc' LocallyFiniteOrder.ofIcc'
 
 /-- A constructor from a definition of `Finset.Icc` alone, the other ones being derived by removing
@@ -188,9 +188,9 @@ def LocallyFiniteOrder.ofIcc (α : Type*) [PartialOrder α] [DecidableEq α]
     finset_mem_Icc := mem_Icc
     finset_mem_Ico := fun a b x => by rw [Finset.mem_filter, mem_Icc, and_assoc, lt_iff_le_and_ne]
     finset_mem_Ioc := fun a b x => by
-      rw [Finset.mem_filter, mem_Icc, and_right_comm, lt_iff_le_and_ne]
+      rw [Finset.mem_filter]; rw [mem_Icc]; rw [and_right_comm]; rw [lt_iff_le_and_ne]
     finset_mem_Ioo := fun a b x => by
-      rw [Finset.mem_filter, mem_Icc, and_and_and_comm, lt_iff_le_and_ne, lt_iff_le_and_ne] }
+      rw [Finset.mem_filter]; rw [mem_Icc]; rw [and_and_and_comm]; rw [lt_iff_le_and_ne]; rw [lt_iff_le_and_ne] }
 #align locally_finite_order.of_Icc LocallyFiniteOrder.ofIcc
 
 /-- A constructor from a definition of `Finset.Iic` alone, the other ones being derived by removing
@@ -549,22 +549,22 @@ def Ioo (a b : α) : Multiset α :=
 
 @[simp]
 theorem mem_Icc {a b x : α} : x ∈ Icc a b ↔ a ≤ x ∧ x ≤ b := by
-  rw [Icc, ← Finset.mem_def, Finset.mem_Icc]
+  rw [Icc]; rw [← Finset.mem_def]; rw [Finset.mem_Icc]
 #align multiset.mem_Icc Multiset.mem_Icc
 
 @[simp]
 theorem mem_Ico {a b x : α} : x ∈ Ico a b ↔ a ≤ x ∧ x < b := by
-  rw [Ico, ← Finset.mem_def, Finset.mem_Ico]
+  rw [Ico]; rw [← Finset.mem_def]; rw [Finset.mem_Ico]
 #align multiset.mem_Ico Multiset.mem_Ico
 
 @[simp]
 theorem mem_Ioc {a b x : α} : x ∈ Ioc a b ↔ a < x ∧ x ≤ b := by
-  rw [Ioc, ← Finset.mem_def, Finset.mem_Ioc]
+  rw [Ioc]; rw [← Finset.mem_def]; rw [Finset.mem_Ioc]
 #align multiset.mem_Ioc Multiset.mem_Ioc
 
 @[simp]
 theorem mem_Ioo {a b x : α} : x ∈ Ioo a b ↔ a < x ∧ x < b := by
-  rw [Ioo, ← Finset.mem_def, Finset.mem_Ioo]
+  rw [Ioo]; rw [← Finset.mem_def]; rw [Finset.mem_Ioo]
 #align multiset.mem_Ioo Multiset.mem_Ioo
 
 end LocallyFiniteOrder
@@ -726,7 +726,7 @@ variable [Preorder α] [Preorder β]
 noncomputable def LocallyFiniteOrder.ofFiniteIcc (h : ∀ a b : α, (Set.Icc a b).Finite) :
     LocallyFiniteOrder α :=
   @LocallyFiniteOrder.ofIcc' α _ (Classical.decRel _) (fun a b => (h a b).toFinset) fun a b x => by
-    rw [Set.Finite.mem_toFinset, Set.mem_Icc]
+    rw [Set.Finite.mem_toFinset]; rw [Set.mem_Icc]
 #align locally_finite_order.of_finite_Icc LocallyFiniteOrder.ofFiniteIcc
 
 /-- A fintype is a locally finite order.
@@ -755,16 +755,16 @@ instance : Subsingleton (LocallyFiniteOrder α) :=
       h₁_finset_mem_Icc h₁_finset_mem_Ico h₁_finset_mem_Ioc h₁_finset_mem_Ioo
     have hIcc : h₀_finset_Icc = h₁_finset_Icc := by
       ext a b x
-      rw [h₀_finset_mem_Icc, h₁_finset_mem_Icc]
+      rw [h₀_finset_mem_Icc]; rw [h₁_finset_mem_Icc]
     have hIco : h₀_finset_Ico = h₁_finset_Ico := by
       ext a b x
-      rw [h₀_finset_mem_Ico, h₁_finset_mem_Ico]
+      rw [h₀_finset_mem_Ico]; rw [h₁_finset_mem_Ico]
     have hIoc : h₀_finset_Ioc = h₁_finset_Ioc := by
       ext a b x
-      rw [h₀_finset_mem_Ioc, h₁_finset_mem_Ioc]
+      rw [h₀_finset_mem_Ioc]; rw [h₁_finset_mem_Ioc]
     have hIoo : h₀_finset_Ioo = h₁_finset_Ioo := by
       ext a b x
-      rw [h₀_finset_mem_Ioo, h₁_finset_mem_Ioo]
+      rw [h₀_finset_mem_Ioo]; rw [h₁_finset_mem_Ioo]
     simp_rw [hIcc, hIco, hIoc, hIoo]
 
 instance : Subsingleton (LocallyFiniteOrderTop α) :=
@@ -773,10 +773,10 @@ instance : Subsingleton (LocallyFiniteOrderTop α) :=
     cases' h₁ with h₁_finset_Ioi h₁_finset_Ici h₁_finset_mem_Ici h₁_finset_mem_Ioi
     have hIci : h₀_finset_Ici = h₁_finset_Ici := by
       ext a b
-      rw [h₀_finset_mem_Ici, h₁_finset_mem_Ici]
+      rw [h₀_finset_mem_Ici]; rw [h₁_finset_mem_Ici]
     have hIoi : h₀_finset_Ioi = h₁_finset_Ioi := by
       ext a b
-      rw [h₀_finset_mem_Ioi, h₁_finset_mem_Ioi]
+      rw [h₀_finset_mem_Ioi]; rw [h₁_finset_mem_Ioi]
     simp_rw [hIci, hIoi]
 
 instance : Subsingleton (LocallyFiniteOrderBot α) :=
@@ -785,10 +785,10 @@ instance : Subsingleton (LocallyFiniteOrderBot α) :=
     cases' h₁ with h₁_finset_Iio h₁_finset_Iic h₁_finset_mem_Iic h₁_finset_mem_Iio
     have hIic : h₀_finset_Iic = h₁_finset_Iic := by
       ext a b
-      rw [h₀_finset_mem_Iic, h₁_finset_mem_Iic]
+      rw [h₀_finset_mem_Iic]; rw [h₁_finset_mem_Iic]
     have hIio : h₀_finset_Iio = h₁_finset_Iio := by
       ext a b
-      rw [h₀_finset_mem_Iio, h₁_finset_mem_Iio]
+      rw [h₀_finset_mem_Iio]; rw [h₁_finset_mem_Iio]
     simp_rw [hIic, hIio]
 
 -- Should this be called `LocallyFiniteOrder.lift`?
@@ -831,56 +831,56 @@ instance OrderDual.locallyFiniteOrder : LocallyFiniteOrder αᵒᵈ where
 theorem Icc_toDual : Icc (toDual a) (toDual b) = (Icc b a).map toDual.toEmbedding := by
   refine' Eq.trans _ map_refl.symm
   ext c
-  rw [mem_Icc, mem_Icc (α := α)]
+  rw [mem_Icc]; rw [mem_Icc (α := α)]
   exact and_comm
 #align Icc_to_dual Icc_toDual
 
 theorem Ico_toDual : Ico (toDual a) (toDual b) = (Ioc b a).map toDual.toEmbedding := by
   refine' Eq.trans _ map_refl.symm
   ext c
-  rw [mem_Ico, mem_Ioc (α := α)]
+  rw [mem_Ico]; rw [mem_Ioc (α := α)]
   exact and_comm
 #align Ico_to_dual Ico_toDual
 
 theorem Ioc_toDual : Ioc (toDual a) (toDual b) = (Ico b a).map toDual.toEmbedding := by
   refine' Eq.trans _ map_refl.symm
   ext c
-  rw [mem_Ioc, mem_Ico (α := α)]
+  rw [mem_Ioc]; rw [mem_Ico (α := α)]
   exact and_comm
 #align Ioc_to_dual Ioc_toDual
 
 theorem Ioo_toDual : Ioo (toDual a) (toDual b) = (Ioo b a).map toDual.toEmbedding := by
   refine' Eq.trans _ map_refl.symm
   ext c
-  rw [mem_Ioo, mem_Ioo (α := α)]
+  rw [mem_Ioo]; rw [mem_Ioo (α := α)]
   exact and_comm
 #align Ioo_to_dual Ioo_toDual
 
 theorem Icc_ofDual (a b : αᵒᵈ) : Icc (ofDual a) (ofDual b) = (Icc b a).map ofDual.toEmbedding := by
   refine' Eq.trans _ map_refl.symm
   ext c
-  rw [mem_Icc, mem_Icc (α := αᵒᵈ)]
+  rw [mem_Icc]; rw [mem_Icc (α := αᵒᵈ)]
   exact and_comm
 #align Icc_of_dual Icc_ofDual
 
 theorem Ico_ofDual (a b : αᵒᵈ) : Ico (ofDual a) (ofDual b) = (Ioc b a).map ofDual.toEmbedding := by
   refine' Eq.trans _ map_refl.symm
   ext c
-  rw [mem_Ico, mem_Ioc (α := αᵒᵈ)]
+  rw [mem_Ico]; rw [mem_Ioc (α := αᵒᵈ)]
   exact and_comm
 #align Ico_of_dual Ico_ofDual
 
 theorem Ioc_ofDual (a b : αᵒᵈ) : Ioc (ofDual a) (ofDual b) = (Ico b a).map ofDual.toEmbedding := by
   refine' Eq.trans _ map_refl.symm
   ext c
-  rw [mem_Ioc, mem_Ico (α := αᵒᵈ)]
+  rw [mem_Ioc]; rw [mem_Ico (α := αᵒᵈ)]
   exact and_comm
 #align Ioc_of_dual Ioc_ofDual
 
 theorem Ioo_ofDual (a b : αᵒᵈ) : Ioo (ofDual a) (ofDual b) = (Ioo b a).map ofDual.toEmbedding := by
   refine' Eq.trans _ map_refl.symm
   ext c
-  rw [mem_Ioo, mem_Ioo (α := αᵒᵈ)]
+  rw [mem_Ioo]; rw [mem_Ioo (α := αᵒᵈ)]
   exact and_comm
 #align Ioo_of_dual Ioo_ofDual
 
@@ -959,19 +959,19 @@ namespace Prod
 instance [LocallyFiniteOrder α] [LocallyFiniteOrder β]
     [DecidableRel ((· ≤ ·) : α × β → α × β → Prop)] : LocallyFiniteOrder (α × β) :=
   LocallyFiniteOrder.ofIcc' (α × β) (fun a b => Icc a.fst b.fst ×ˢ Icc a.snd b.snd) fun a b x => by
-    rw [mem_product, mem_Icc, mem_Icc, and_and_and_comm]
+    rw [mem_product]; rw [mem_Icc]; rw [mem_Icc]; rw [and_and_and_comm]
     rfl
 
 instance [LocallyFiniteOrderTop α] [LocallyFiniteOrderTop β]
     [DecidableRel ((· ≤ ·) : α × β → α × β → Prop)] : LocallyFiniteOrderTop (α × β) :=
   LocallyFiniteOrderTop.ofIci' (α × β) (fun a => Ici a.fst ×ˢ Ici a.snd) fun a x => by
-    rw [mem_product, mem_Ici, mem_Ici]
+    rw [mem_product]; rw [mem_Ici]; rw [mem_Ici]
     rfl
 
 instance [LocallyFiniteOrderBot α] [LocallyFiniteOrderBot β]
     [DecidableRel ((· ≤ ·) : α × β → α × β → Prop)] : LocallyFiniteOrderBot (α × β) :=
   LocallyFiniteOrderBot.ofIic' (α × β) (fun a => Iic a.fst ×ˢ Iic a.snd) fun a x => by
-    rw [mem_product, mem_Iic, mem_Iic]
+    rw [mem_product]; rw [mem_Iic]; rw [mem_Iic]
     rfl
 
 theorem Icc_eq [LocallyFiniteOrder α] [LocallyFiniteOrder β]

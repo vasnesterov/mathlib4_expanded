@@ -51,8 +51,7 @@ theorem ideal_prod_eq (I : Ideal (R × S)) :
     I = Ideal.prod (map (RingHom.fst R S) I : Ideal R) (map (RingHom.snd R S) I) := by
   apply Ideal.ext
   rintro ⟨r, s⟩
-  rw [mem_prod, mem_map_iff_of_surjective (RingHom.fst R S) Prod.fst_surjective,
-    mem_map_iff_of_surjective (RingHom.snd R S) Prod.snd_surjective]
+  rw [mem_prod]; rw [mem_map_iff_of_surjective (RingHom.fst R S) Prod.fst_surjective]; rw [mem_map_iff_of_surjective (RingHom.snd R S) Prod.snd_surjective]
   refine' ⟨fun h => ⟨⟨_, ⟨h, rfl⟩⟩, ⟨_, ⟨h, rfl⟩⟩⟩, _⟩
   rintro ⟨⟨⟨r, s'⟩, ⟨h₁, rfl⟩⟩, ⟨⟨r', s⟩, ⟨h₂, rfl⟩⟩⟩
   simpa using I.add_mem (I.mul_mem_left (1, 0) h₁) (I.mul_mem_left (0, 1) h₂)
@@ -110,11 +109,11 @@ theorem isPrime_of_isPrime_prod_top {I : Ideal R} (h : (Ideal.prod I (⊤ : Idea
     I.IsPrime := by
   constructor
   · contrapose! h
-    rw [h, prod_top_top, isPrime_iff]
+    rw [h]; rw [prod_top_top]; rw [isPrime_iff]
     simp [isPrime_iff, h]
   · intro x y hxy
     have : (⟨x, 1⟩ : R × S) * ⟨y, 1⟩ ∈ prod I ⊤ := by
-      rw [Prod.mk_mul_mk, mul_one, mem_prod]
+      rw [Prod.mk_mul_mk]; rw [mul_one]; rw [mem_prod]
       exact ⟨hxy, trivial⟩
     simpa using h.mem_or_mem this
 #align ideal.is_prime_of_is_prime_prod_top Ideal.isPrime_of_isPrime_prod_top
@@ -130,7 +129,7 @@ theorem isPrime_ideal_prod_top {I : Ideal R} [h : I.IsPrime] : (prod I (⊤ : Id
   constructor
   · rcases h with ⟨h, -⟩
     contrapose! h
-    rw [← prod_top_top, prod.ext_iff] at h
+    rw [← prod_top_top] at h; rw [prod.ext_iff] at h
     exact h.1
   rintro ⟨r₁, s₁⟩ ⟨r₂, s₂⟩ ⟨h₁, _⟩
   cases' h.mem_or_mem h₁ with h h

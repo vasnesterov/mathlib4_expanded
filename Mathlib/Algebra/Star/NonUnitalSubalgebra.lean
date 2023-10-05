@@ -419,7 +419,7 @@ theorem mem_range_self (φ : F) (x : A) :
 @[simp]
 theorem coe_range (φ : F) :
     ((NonUnitalStarAlgHom.range φ : NonUnitalStarSubalgebra R B) : Set B) = Set.range (φ : A → B) :=
-  by ext; rw [SetLike.mem_coe, mem_range]; rfl
+  by ext; rw [SetLike.mem_coe]; rw [mem_range]; rfl
 
 theorem range_comp (f : A →⋆ₙₐ[R] B) (g : B →⋆ₙₐ[R] C) :
     NonUnitalStarAlgHom.range (g.comp f) = (NonUnitalStarAlgHom.range f).map g :=
@@ -649,8 +649,7 @@ variable {R}
 
 protected theorem gc : GaloisConnection (adjoin R : Set A → NonUnitalStarSubalgebra R A) (↑) := by
   intro s S
-  rw [← toNonUnitalSubalgebra_le_iff, adjoin_toNonUnitalSubalgebra,
-    NonUnitalAlgebra.adjoin_le_iff, coe_toNonUnitalSubalgebra]
+  rw [← toNonUnitalSubalgebra_le_iff]; rw [adjoin_toNonUnitalSubalgebra]; rw [NonUnitalAlgebra.adjoin_le_iff]; rw [coe_toNonUnitalSubalgebra]
   exact ⟨fun h => (Set.subset_union_left s _).trans h,
     fun h => Set.union_subset h fun x hx => star_star x ▸ star_mem (show star x ∈ S from h hx)⟩
 
@@ -751,7 +750,7 @@ instance : Inhabited (NonUnitalStarSubalgebra R A) :=
 
 theorem mem_bot {x : A} : x ∈ (⊥ : NonUnitalStarSubalgebra R A) ↔ x = 0 :=
   show x ∈ NonUnitalAlgebra.adjoin R (∅ ∪ star ∅ : Set A) ↔ x = 0 by
-    rw [Set.star_empty, Set.union_empty, NonUnitalAlgebra.adjoin_empty, NonUnitalAlgebra.mem_bot]
+    rw [Set.star_empty]; rw [Set.union_empty]; rw [NonUnitalAlgebra.adjoin_empty]; rw [NonUnitalAlgebra.mem_bot]
 
 theorem toNonUnitalSubalgebra_bot :
     (⊥ : NonUnitalStarSubalgebra R A).toNonUnitalSubalgebra = ⊥ := by
@@ -937,7 +936,7 @@ noncomputable def iSupLift [Nonempty ι] (K : ι → NonUnitalStarSubalgebra R A
           (fun i j x hxi hxj => by
             let ⟨k, hik, hjk⟩ := dir i j
             simp only
-            rw [hf i k hik, hf j k hjk]
+            rw [hf i k hik]; rw [hf j k hjk]
             rfl)
           (↑(iSup K)) (by rw [coe_iSup_of_directed dir])
       map_zero' := by

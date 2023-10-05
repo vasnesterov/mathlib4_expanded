@@ -75,7 +75,7 @@ theorem sigma_mono (hs : s₁ ⊆ s₂) (ht : ∀ i, t₁ i ⊆ t₂ i) : s₁.s
 theorem pairwiseDisjoint_map_sigmaMk :
     (s : Set ι).PairwiseDisjoint fun i => (t i).map (Embedding.sigmaMk i) := by
   intro i _ j _ hij
-  rw [Function.onFun, disjoint_left]
+  rw [Function.onFun]; rw [disjoint_left]
   simp_rw [mem_map, Function.Embedding.sigmaMk_apply]
   rintro _ ⟨y, _, rfl⟩ ⟨z, _, hz'⟩
   exact hij (congr_arg Sigma.fst hz'.symm)
@@ -133,7 +133,7 @@ theorem mem_sigmaLift (f : ∀ ⦃i⦄, α i → β i → Finset (γ i)) (a : Si
       rintro x hx rfl
       exact ⟨rfl, rfl, hx⟩
     · rintro ⟨⟨⟩, ⟨⟩, hx⟩
-      rw [sigmaLift, dif_pos rfl, mem_map]
+      rw [sigmaLift]; rw [dif_pos rfl]; rw [mem_map]
       exact ⟨_, hx, by simp [Sigma.ext_iff]⟩
   · rw [sigmaLift, dif_neg h]
     refine' iff_of_false (not_mem_empty _) _
@@ -143,7 +143,7 @@ theorem mem_sigmaLift (f : ∀ ⦃i⦄, α i → β i → Finset (γ i)) (a : Si
 
 theorem mk_mem_sigmaLift (f : ∀ ⦃i⦄, α i → β i → Finset (γ i)) (i : ι) (a : α i) (b : β i)
     (x : γ i) : (⟨i, x⟩ : Sigma γ) ∈ sigmaLift f ⟨i, a⟩ ⟨i, b⟩ ↔ x ∈ f a b := by
-  rw [sigmaLift, dif_pos rfl, mem_map]
+  rw [sigmaLift]; rw [dif_pos rfl]; rw [mem_map]
   refine' ⟨_, fun hx => ⟨_, hx, rfl⟩⟩
   rintro ⟨x, hx, _, rfl⟩
   exact hx

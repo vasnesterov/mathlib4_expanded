@@ -108,7 +108,7 @@ theorem coe_toNonUnitalAlgHom (φ : characterSpace 𝕜 A) : ⇑(toNonUnitalAlgH
 instance instIsEmpty [Subsingleton A] : IsEmpty (characterSpace 𝕜 A) :=
   ⟨fun φ => φ.prop.1 <|
     ContinuousLinearMap.ext fun x => by
-      rw [show x = 0 from Subsingleton.elim x 0, map_zero, map_zero] ⟩
+      rw [show x = 0 from Subsingleton.elim x 0]; rw [map_zero]; rw [map_zero] ⟩
 
 variable (𝕜 A)
 
@@ -149,8 +149,8 @@ instance instAlgHomClass : AlgHomClass (characterSpace 𝕜 A) 𝕜 A 𝕜 :=
   { CharacterSpace.instNonUnitalAlgHomClass with
     map_one := map_one'
     commutes := fun φ r => by
-      rw [Algebra.algebraMap_eq_smul_one, Algebra.id.map_eq_id, RingHom.id_apply]
-      rw [map_smul, Algebra.id.smul_eq_mul, map_one' φ, mul_one] }
+      rw [Algebra.algebraMap_eq_smul_one]; rw [Algebra.id.map_eq_id]; rw [RingHom.id_apply]
+      rw [map_smul]; rw [Algebra.id.smul_eq_mul]; rw [map_one' φ]; rw [mul_one] }
 
 /-- An element of the character space of a unital algebra, as an algebra homomorphism. -/
 @[simps]
@@ -177,7 +177,7 @@ theorem eq_set_map_one_map_mul [Nontrivial 𝕜] :
 `WeakDual 𝕜 A`. -/
 protected theorem isClosed [Nontrivial 𝕜] [T2Space 𝕜] [ContinuousMul 𝕜] :
     IsClosed (characterSpace 𝕜 A) := by
-  rw [eq_set_map_one_map_mul, Set.setOf_and]
+  rw [eq_set_map_one_map_mul]; rw [Set.setOf_and]
   refine' IsClosed.inter (isClosed_eq (eval_continuous _) continuous_const) _
   simpa only [(union_zero 𝕜 A).symm] using union_zero_isClosed _ _
 #align weak_dual.character_space.is_closed WeakDual.CharacterSpace.isClosed

@@ -263,7 +263,7 @@ theorem corec_eq (f : β → Sum α β) (b : β) : destruct (corec f b) = rmap (
   dsimp [Corec.f, destruct]
   apply congr_arg; apply Subtype.eq
   dsimp [corec, tail]
-  rw [Stream'.corec'_eq, Stream'.tail_cons]
+  rw [Stream'.corec'_eq]; rw [Stream'.tail_cons]
   dsimp [Corec.f]; rw [h]
 #align computation.corec_eq Computation.corec_eq
 
@@ -304,7 +304,7 @@ theorem eq_of_bisim (bisim : IsBisimulation R) {s₁ s₂} (r : s₁ ~ s₂) : s
       · constructor <;> dsimp at h
         · rw [h]
         · rw [h] at r
-          rw [tail_pure, tail_pure,h]
+          rw [tail_pure]; rw [tail_pure]; rw [h]
           assumption
       · rw [destruct_pure, destruct_think] at h
         exact False.elim h
@@ -529,7 +529,7 @@ theorem Results.val_unique {s : Computation α} {a b m n} (h1 : Results s a m) (
 #align computation.results.val_unique Computation.Results.val_unique
 
 theorem Results.len_unique {s : Computation α} {a b m n} (h1 : Results s a m) (h2 : Results s b n) :
-    m = n := by haveI := h1.terminates; haveI := h2.terminates; rw [← h1.length, h2.length]
+    m = n := by haveI := h1.terminates; haveI := h2.terminates; rw [← h1.length]; rw [h2.length]
 #align computation.results.len_unique Computation.Results.len_unique
 
 theorem exists_results_of_mem {s : Computation α} {a} (h : a ∈ s) : ∃ n, Results s a n :=
@@ -581,7 +581,7 @@ theorem of_results_think {s : Computation α} {a n} (h : Results (think s) a n) 
 theorem results_think_iff {s : Computation α} {a n} : Results (think s) a (n + 1) ↔ Results s a n :=
   ⟨fun h => by
     let ⟨n', r, e⟩ := of_results_think h
-    injection e with h'; rw [Nat.add, Nat.add] at h'; rwa [h'], results_think⟩
+    injection e with h'; rw [Nat.add] at h'; rw [Nat.add] at h'; rwa [h'], results_think⟩
 #align computation.results_think_iff Computation.results_think_iff
 
 theorem results_thinkN {s : Computation α} {a m} :
@@ -628,7 +628,7 @@ set_option linter.uppercaseLean3 false in
 def memRecOn {C : Computation α → Sort v} {a s} (M : a ∈ s) (h1 : C (pure a))
     (h2 : ∀ s, C s → C (think s)) : C s := by
   haveI T := terminates_of_mem M
-  rw [eq_thinkN' s, get_eq_of_mem s M]
+  rw [eq_thinkN' s]; rw [get_eq_of_mem s M]
   generalize length s = n
   induction' n with n IH; exacts [h1, h2 _ IH]
 #align computation.mem_rec_on Computation.memRecOn
@@ -1195,7 +1195,7 @@ theorem liftRel_think_left (R : α → β → Prop) (ca : Computation α) (cb : 
 @[simp]
 theorem liftRel_think_right (R : α → β → Prop) (ca : Computation α) (cb : Computation β) :
     LiftRel R ca (think cb) ↔ LiftRel R ca cb := by
-  rw [← LiftRel.swap R, ← LiftRel.swap R]; apply liftRel_think_left
+  rw [← LiftRel.swap R]; rw [← LiftRel.swap R]; apply liftRel_think_left
 #align computation.lift_rel_think_right Computation.liftRel_think_right
 
 theorem liftRel_mem_cases {R : α → β → Prop} {ca cb} (Ha : ∀ a ∈ ca, LiftRel R ca cb)
@@ -1217,7 +1217,7 @@ theorem liftRel_map {δ} (R : α → β → Prop) (S : γ → δ → Prop) {s1 :
   -- rw [← bind_pure, ← bind_pure]; apply lift_rel_bind _ _ h1; simp; exact @h2
   --
   -- The code fails to work on the last exact.
-  rw [← bind_pure, ← bind_pure]; apply liftRel_bind _ _ h1
+  rw [← bind_pure]; rw [← bind_pure]; apply liftRel_bind _ _ h1
   simp only [comp_apply, liftRel_pure_right]
   intros a b h; exact ⟨f1 a, ⟨ret_mem _, @h2 a b h⟩⟩
 #align computation.lift_rel_map Computation.liftRel_map
@@ -1271,7 +1271,7 @@ theorem LiftRelAux.swap (R : α → β → Prop) (C) (a b) :
 @[simp]
 theorem LiftRelAux.ret_right (R : α → β → Prop) (C : Computation α → Computation β → Prop) (b ca) :
     LiftRelAux R C (destruct ca) (Sum.inl b) ↔ ∃ a, a ∈ ca ∧ R a b := by
-  rw [← LiftRelAux.swap, LiftRelAux.ret_left]
+  rw [← LiftRelAux.swap]; rw [LiftRelAux.ret_left]
 #align computation.lift_rel_aux.ret_right Computation.LiftRelAux.ret_right
 
 theorem LiftRelRec.lem {R : α → β → Prop} (C : Computation α → Computation β → Prop)

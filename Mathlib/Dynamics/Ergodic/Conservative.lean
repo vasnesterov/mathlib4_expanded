@@ -154,7 +154,7 @@ theorem ae_forall_image_mem_imp_frequently_image_mem (hf : Conservative f μ)
     (hs : MeasurableSet s) : ∀ᵐ x ∂μ, ∀ k, f^[k] x ∈ s → ∃ᶠ n in atTop, f^[n] x ∈ s := by
   refine' ae_all_iff.2 fun k => _
   refine' (hf.ae_mem_imp_frequently_image_mem (hf.measurable.iterate k hs)).mono fun x hx hk => _
-  rw [← map_add_atTop_eq_nat k, frequently_map]
+  rw [← map_add_atTop_eq_nat k]; rw [frequently_map]
   refine' (hx hk).mono fun n hn => _
   rwa [add_comm, iterate_add_apply]
 #align measure_theory.conservative.ae_forall_image_mem_imp_frequently_image_mem MeasureTheory.Conservative.ae_forall_image_mem_imp_frequently_image_mem
@@ -198,7 +198,7 @@ protected theorem iterate (hf : Conservative f μ) (n : ℕ) : Conservative f^[n
     exact (Nat.modEq_iff_dvd' hkl.le).1 hn
   refine' ⟨f^[k] x, hk, m, _, _⟩
   · intro hm
-    rw [hm, mul_zero, eq_comm, tsub_eq_zero_iff_le] at this
+    rw [hm] at this; rw [mul_zero] at this; rw [eq_comm] at this; rw [tsub_eq_zero_iff_le] at this
     exact this.not_lt hkl
   · rwa [← iterate_mul, this, ← iterate_add_apply, tsub_add_cancel_of_le]
     exact hkl.le

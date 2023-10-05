@@ -147,7 +147,7 @@ section NonarchAddGroupSeminormClass
 variable [AddGroup E] [NonarchAddGroupSeminormClass F E] (f : F) (x y : E)
 
 theorem map_sub_le_max : f (x - y) ≤ max (f x) (f y) := by
-  rw [sub_eq_add_neg, ← NonarchAddGroupSeminormClass.map_neg_eq_map' f y]
+  rw [sub_eq_add_neg]; rw [← NonarchAddGroupSeminormClass.map_neg_eq_map' f y]
   exact map_add_le_max _ _ _
 #align map_sub_le_max map_sub_le_max
 
@@ -160,7 +160,7 @@ instance (priority := 100) NonarchAddGroupSeminormClass.toAddGroupSeminormClass 
     map_add_le_add := fun f x y =>
       haveI h_nonneg : ∀ a, 0 ≤ f a := by
         intro a
-        rw [← NonarchAddGroupSeminormClass.map_zero f, ← sub_self a]
+        rw [← NonarchAddGroupSeminormClass.map_zero f]; rw [← sub_self a]
         exact le_trans (map_sub_le_max _ _ _) (by rw [max_self (f a)])
       le_trans (map_add_le_max _ _ _)
         (max_le (le_add_of_nonneg_right (h_nonneg _)) (le_add_of_nonneg_left (h_nonneg _)))
@@ -295,7 +295,7 @@ instance : Sup (GroupSeminorm E) :=
   ⟨fun p q =>
     { toFun := p ⊔ q
       map_one' := by
-        rw [Pi.sup_apply, ← map_one_eq_zero p, sup_eq_left, map_one_eq_zero p, map_one_eq_zero q]
+        rw [Pi.sup_apply]; rw [← map_one_eq_zero p]; rw [sup_eq_left]; rw [map_one_eq_zero p]; rw [map_one_eq_zero q]
       mul_le' := fun x y =>
         sup_le ((map_mul_le_add p x y).trans <| add_le_add le_sup_left le_sup_left)
           ((map_mul_le_add q x y).trans <| add_le_add le_sup_right le_sup_right)
@@ -412,7 +412,7 @@ noncomputable instance : Inf (GroupSeminorm E) :=
       mul_le' := fun x y =>
         le_ciInf_add_ciInf fun u v => by
           refine' ciInf_le_of_le mul_bddBelow_range_add (u * v) _
-          rw [mul_div_mul_comm, add_add_add_comm]
+          rw [mul_div_mul_comm]; rw [add_add_add_comm]
           exact add_le_add (map_mul_le_add p _ _) (map_mul_le_add q _ _)
       inv' := fun x =>
         (inv_surjective.iInf_comp _).symm.trans <| by
@@ -452,7 +452,7 @@ instance toOne [DecidableEq E] : One (AddGroupSeminorm E) :=
       add_le' := fun x y => by
         by_cases hx : x = 0
         · simp only
-          rw [if_pos hx, hx, zero_add, zero_add]
+          rw [if_pos hx]; rw [hx]; rw [zero_add]; rw [zero_add]
         · simp only
           rw [if_neg hx]
           refine' le_add_of_le_of_nonneg _ _ <;> split_ifs <;> norm_num
@@ -623,7 +623,7 @@ instance toOne [DecidableEq E] : One (GroupSeminorm E) :=
       mul_le' := fun x y => by
         by_cases hx : x = 1
         · simp only
-          rw [if_pos hx, hx, one_mul, zero_add]
+          rw [if_pos hx]; rw [hx]; rw [one_mul]; rw [zero_add]
         · simp only
           rw [if_neg hx]
           refine' le_add_of_le_of_nonneg _ _ <;> split_ifs <;> norm_num

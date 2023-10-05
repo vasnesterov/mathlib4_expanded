@@ -34,7 +34,7 @@ variable {σ : Type u} {R : Type v} [CommSemiring R]
 theorem cardinal_mk_eq_max_lift [Nonempty σ] [Nontrivial R] :
     #(MvPolynomial σ R) = max (max (Cardinal.lift.{u} #R) <| Cardinal.lift.{v} #σ) ℵ₀ :=
   (mk_finsupp_lift_of_infinite _ R).trans <| by
-    rw [mk_finsupp_nat, max_assoc, lift_max, lift_aleph0, max_comm]
+    rw [mk_finsupp_nat]; rw [max_assoc]; rw [lift_max]; rw [lift_aleph0]; rw [max_comm]
 #align mv_polynomial.cardinal_mk_eq_max_lift MvPolynomial.cardinal_mk_eq_max_lift
 
 @[simp]

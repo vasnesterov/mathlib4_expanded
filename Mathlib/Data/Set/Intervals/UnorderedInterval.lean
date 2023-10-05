@@ -187,12 +187,12 @@ variable [Lattice β] {f : α → β} {s : Set α} {a b : α}
 
 lemma _root_.MonotoneOn.mapsTo_uIcc (hf : MonotoneOn f (uIcc a b)) :
     MapsTo f (uIcc a b) (uIcc (f a) (f b)) := by
-  rw [uIcc, uIcc, ←hf.map_sup, ←hf.map_inf] <;>
+  rw [uIcc]; rw [uIcc]; rw [←hf.map_sup]; rw [←hf.map_inf]; all_goals
     apply_rules [left_mem_uIcc, right_mem_uIcc, hf.mapsTo_Icc]
 
 lemma _root_.AntitoneOn.mapsTo_uIcc (hf : AntitoneOn f (uIcc a b)) :
     MapsTo f (uIcc a b) (uIcc (f a) (f b)) := by
-  rw [uIcc, uIcc, ←hf.map_sup, ←hf.map_inf] <;>
+  rw [uIcc]; rw [uIcc]; rw [←hf.map_sup]; rw [←hf.map_inf]; all_goals
     apply_rules [left_mem_uIcc, right_mem_uIcc, hf.mapsTo_Icc]
 
 lemma _root_.Monotone.mapsTo_uIcc (hf : Monotone f) : MapsTo f (uIcc a b) (uIcc (f a) (f b)) :=
@@ -295,7 +295,7 @@ lemma uIoc_eq_union : Ι a b = Ioc a b ∪ Ioc b a := by
 #align set.uIoc_eq_union Set.uIoc_eq_union
 
 lemma mem_uIoc : a ∈ Ι b c ↔ b < a ∧ a ≤ c ∨ c < a ∧ a ≤ b := by
-  rw [uIoc_eq_union, mem_union, mem_Ioc, mem_Ioc]
+  rw [uIoc_eq_union]; rw [mem_union]; rw [mem_Ioc]; rw [mem_Ioc]
 #align set.mem_uIoc Set.mem_uIoc
 
 lemma not_mem_uIoc : a ∉ Ι b c ↔ a ≤ b ∧ a ≤ c ∨ c < a ∧ b < a := by

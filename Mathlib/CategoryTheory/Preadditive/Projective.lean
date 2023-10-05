@@ -207,7 +207,7 @@ theorem map_projective (adj : F ⊣ G) [G.PreservesEpimorphisms] (P : C) (hP : P
   factors f g _ := by
     rcases hP.factors (adj.unit.app P ≫ G.map f) (G.map g) with ⟨f', hf'⟩
     use F.map f' ≫ adj.counit.app _
-    rw [Category.assoc, ← Adjunction.counit_naturality, ← Category.assoc, ← F.map_comp, hf']
+    rw [Category.assoc]; rw [← Adjunction.counit_naturality]; rw [← Category.assoc]; rw [← F.map_comp]; rw [hf']
     simp
 #align category_theory.adjunction.map_projective CategoryTheory.Adjunction.map_projective
 
@@ -289,8 +289,7 @@ theorem Exact.lift_comp {P Q R S : C} [Projective P] (h : P ⟶ R) (f : Q ⟶ R)
     rw [← imageSubobject_arrow_comp f]
   -- See the porting note on `Exact.epi`.
   haveI := hfg.epi
-  rw [← Category.assoc, factorThru_comp, ← imageToKernel_arrow f g, ← Category.assoc,
-    CategoryTheory.Projective.factorThru_comp, factorThruKernelSubobject_comp_arrow]
+  rw [← Category.assoc]; rw [factorThru_comp]; rw [← imageToKernel_arrow f g]; rw [← Category.assoc]; rw [CategoryTheory.Projective.factorThru_comp]; rw [factorThruKernelSubobject_comp_arrow]
 #align category_theory.exact.lift_comp CategoryTheory.Exact.lift_comp
 
 end

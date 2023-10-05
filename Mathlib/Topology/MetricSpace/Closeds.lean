@@ -61,7 +61,7 @@ theorem continuous_infEdist_hausdorffEdist :
     _ ≤ infEdist y t + edist x y + hausdorffEdist (t : Set α) s :=
       (add_le_add_right infEdist_le_infEdist_add_edist _)
     _ = infEdist y t + (edist x y + hausdorffEdist (s : Set α) t) := by
-      rw [add_assoc, hausdorffEdist_comm]
+      rw [add_assoc]; rw [hausdorffEdist_comm]
     _ ≤ infEdist y t + (edist (x, s) (y, t) + edist (x, s) (y, t)) :=
       (add_le_add_left (add_le_add (le_max_left _ _) (le_max_right _ _)) _)
     _ = infEdist y t + 2 * edist (x, s) (y, t) := by rw [← mul_two, mul_comm]

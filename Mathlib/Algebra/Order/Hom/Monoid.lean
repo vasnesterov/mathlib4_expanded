@@ -235,7 +235,7 @@ theorem monotone_iff_map_nonneg : Monotone (f : α → β) ↔ ∀ a, 0 ≤ a �
   ⟨fun h a => by
     rw [← map_zero f]
     apply h, fun h a b hl => by
-    rw [← sub_add_cancel b a, map_add f]
+    rw [← sub_add_cancel b a]; rw [map_add f]
     exact le_add_of_nonneg_left (h _ <| sub_nonneg.2 hl)⟩
 #align monotone_iff_map_nonneg monotone_iff_map_nonneg
 

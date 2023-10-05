@@ -162,7 +162,7 @@ theorem ext' [T : TopologicalSpace α] {σ : Type*} {F : Ctop α σ}
     (H : ∀ a s, s ∈ 𝓝 a ↔ ∃ b, a ∈ F b ∧ F b ⊆ s) : F.toTopsp = T := by
   refine' eq_of_nhds_eq_nhds fun x ↦ _
   ext s
-  rw [mem_nhds_toTopsp, H]
+  rw [mem_nhds_toTopsp]; rw [H]
 #align ctop.realizer.ext' Ctop.Realizer.ext'
 
 theorem ext [T : TopologicalSpace α] {σ : Type*} {F : Ctop α σ} (H₁ : ∀ a, IsOpen (F a))
@@ -279,5 +279,5 @@ def Compact.Realizer [TopologicalSpace α] (s : Set α) :=
 instance [TopologicalSpace α] : Inhabited (Compact.Realizer (∅ : Set α)) :=
   ⟨fun {f} F x h hF ↦ by
     suffices : f = ⊥; exact absurd this h
-    rw [← F.eq, eq_bot_iff]
+    rw [← F.eq]; rw [eq_bot_iff]
     exact λ s _ ↦ ⟨x, hF.trans s.empty_subset⟩⟩

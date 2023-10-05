@@ -80,8 +80,7 @@ theorem tietze_extension_step (f : X →ᵇ ℝ) (e : C(X, Y)) (he : ClosedEmbed
     cases' le_total (f x) (-‖f‖ / 3) with hle₁ hle₁
     · calc
         |g (e x) - f x| = -‖f‖ / 3 - f x := by
-          rw [hg₁ (mem_image_of_mem _ hle₁), Function.const_apply,
-            abs_of_nonneg (sub_nonneg.2 hle₁)]
+          rw [hg₁ (mem_image_of_mem _ hle₁)]; rw [Function.const_apply]; rw [abs_of_nonneg (sub_nonneg.2 hle₁)]
         _ ≤ 2 / 3 * ‖f‖ := by linarith
     · cases' le_total (f x) (‖f‖ / 3) with hle₂ hle₂
       · simp only [neg_div] at *
@@ -91,8 +90,7 @@ theorem tietze_extension_step (f : X →ᵇ ℝ) (e : C(X, Y)) (he : ClosedEmbed
           _ = 2 / 3 * ‖f‖ := by linarith
       · calc
           |g (e x) - f x| = f x - ‖f‖ / 3 := by
-            rw [hg₂ (mem_image_of_mem _ hle₂), abs_sub_comm, Function.const_apply,
-              abs_of_nonneg (sub_nonneg.2 hle₂)]
+            rw [hg₂ (mem_image_of_mem _ hle₂)]; rw [abs_sub_comm]; rw [Function.const_apply]; rw [abs_of_nonneg (sub_nonneg.2 hle₂)]
           _ ≤ 2 / 3 * ‖f‖ := by linarith
 #align bounded_continuous_function.tietze_extension_step BoundedContinuousFunction.tietze_extension_step
 
@@ -120,7 +118,7 @@ theorem exists_extension_norm_eq_of_closedEmbedding' (f : X →ᵇ ℝ) (e : C(X
     intro n
     calc
       dist (g n) (g (n + 1)) = ‖F (f - (g n).compContinuous e)‖ := by
-        rw [g_succ, dist_eq_norm', add_sub_cancel']
+        rw [g_succ]; rw [dist_eq_norm']; rw [add_sub_cancel']
       _ ≤ ‖f - (g n).compContinuous e‖ / 3 := (hF_norm _)
       _ = 1 / 3 * dist ((g n).compContinuous e) f := by rw [dist_eq_norm', one_div, div_eq_inv_mul]
       _ ≤ 1 / 3 * ((2 / 3) ^ n * ‖f‖) := (mul_le_mul_of_nonneg_left (hgf n) (by norm_num1))

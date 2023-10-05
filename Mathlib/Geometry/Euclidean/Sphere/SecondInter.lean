@@ -88,13 +88,13 @@ theorem Sphere.eq_or_eq_secondInter_of_mem_mk'_span_singleton_iff_mem {s : Spher
     · rwa [h, Sphere.secondInter_mem]
   · rw [AffineSubspace.mem_mk'_iff_vsub_mem, Submodule.mem_span_singleton] at hp'
     rcases hp' with ⟨r, hr⟩
-    rw [eq_comm, ← eq_vadd_iff_vsub_eq] at hr
+    rw [eq_comm] at hr; rw [← eq_vadd_iff_vsub_eq] at hr
     subst hr
     by_cases hv : v = 0
     · simp [hv]
     rw [Sphere.secondInter]
     rw [mem_sphere] at h hp
-    rw [← hp, dist_smul_vadd_eq_dist _ _ hv] at h
+    rw [← hp] at h; rw [dist_smul_vadd_eq_dist _ _ hv] at h
     rcases h with (h | h) <;> simp [h]
 #align euclidean_geometry.sphere.eq_or_eq_second_inter_of_mem_mk'_span_singleton_iff_mem EuclideanGeometry.Sphere.eq_or_eq_secondInter_of_mem_mk'_span_singleton_iff_mem
 
@@ -104,15 +104,14 @@ theorem Sphere.secondInter_smul (s : Sphere P) (p : P) (v : V) {r : ℝ} (hr : r
     s.secondInter p (r • v) = s.secondInter p v := by
   simp_rw [Sphere.secondInter, real_inner_smul_left, inner_smul_right, smul_smul,
     div_mul_eq_div_div]
-  rw [mul_comm, ← mul_div_assoc, ← mul_div_assoc, mul_div_cancel_left _ hr, mul_comm, mul_assoc,
-    mul_div_cancel_left _ hr, mul_comm]
+  rw [mul_comm]; rw [← mul_div_assoc]; rw [← mul_div_assoc]; rw [mul_div_cancel_left _ hr]; rw [mul_comm]; rw [mul_assoc]; rw [mul_div_cancel_left _ hr]; rw [mul_comm]
 #align euclidean_geometry.sphere.second_inter_smul EuclideanGeometry.Sphere.secondInter_smul
 
 /-- `secondInter` is unchanged by negating the vector. -/
 @[simp]
 theorem Sphere.secondInter_neg (s : Sphere P) (p : P) (v : V) :
     s.secondInter p (-v) = s.secondInter p v := by
-  rw [← neg_one_smul ℝ v, s.secondInter_smul p v (by norm_num : (-1 : ℝ) ≠ 0)]
+  rw [← neg_one_smul ℝ v]; rw [s.secondInter_smul p v (by norm_num : (-1 : ℝ) ≠ 0)]
 #align euclidean_geometry.sphere.second_inter_neg EuclideanGeometry.Sphere.secondInter_neg
 
 /-- Applying `secondInter` twice returns the original point. -/
@@ -123,7 +122,7 @@ theorem Sphere.secondInter_secondInter (s : Sphere P) (p : P) (v : V) :
   have hv' : ⟪v, v⟫ ≠ 0 := inner_self_ne_zero.2 hv
   simp only [Sphere.secondInter, vadd_vsub_assoc, vadd_vadd, inner_add_right, inner_smul_right,
     div_mul_cancel _ hv']
-  rw [← @vsub_eq_zero_iff_eq V, vadd_vsub, ← add_smul, ← add_div]
+  rw [← @vsub_eq_zero_iff_eq V]; rw [vadd_vsub]; rw [← add_smul]; rw [← add_div]
   convert zero_smul ℝ (M := V) _
   convert zero_div (G₀ := ℝ) _
   ring
@@ -148,7 +147,7 @@ theorem Sphere.secondInter_vsub_mem_affineSpan (s : Sphere P) (p₁ p₂ : P) :
 `secondInter`, the three points are collinear. -/
 theorem Sphere.secondInter_collinear (s : Sphere P) (p p' : P) :
     Collinear ℝ ({p, p', s.secondInter p (p' -ᵥ p)} : Set P) := by
-  rw [Set.pair_comm, Set.insert_comm]
+  rw [Set.pair_comm]; rw [Set.insert_comm]
   exact
     (collinear_insert_iff_of_mem_affineSpan (s.secondInter_vsub_mem_affineSpan _ _)).2
       (collinear_pair ℝ _ _)
@@ -164,8 +163,7 @@ theorem Sphere.wbtw_secondInter {s : Sphere P} {p p' : P} (hp : p ∈ s)
     wbtw_of_collinear_of_dist_center_le_radius (s.secondInter_collinear p p') hp hp'
       ((Sphere.secondInter_mem _).2 hp) _
   intro he
-  rw [eq_comm, Sphere.secondInter_eq_self_iff, ← neg_neg (p' -ᵥ p), inner_neg_left,
-    neg_vsub_eq_vsub_rev, neg_eq_zero, eq_comm] at he
+  rw [eq_comm] at he; rw [Sphere.secondInter_eq_self_iff] at he; rw [← neg_neg (p' -ᵥ p)] at he; rw [inner_neg_left] at he; rw [neg_vsub_eq_vsub_rev] at he; rw [neg_eq_zero] at he; rw [eq_comm] at he
   exact ((inner_pos_or_eq_of_dist_le_radius hp hp').resolve_right (Ne.symm h)).ne he
 #align euclidean_geometry.sphere.wbtw_second_inter EuclideanGeometry.Sphere.wbtw_secondInter
 
@@ -179,7 +177,7 @@ theorem Sphere.sbtw_secondInter {s : Sphere P} {p p' : P} (hp : p ∈ s)
     rw [mem_sphere] at hp
     simp [hp] at hp'
   · rintro h
-    rw [h, mem_sphere.1 ((Sphere.secondInter_mem _).2 hp)] at hp'
+    rw [h] at hp'; rw [mem_sphere.1 ((Sphere.secondInter_mem _).2 hp)] at hp'
     exact lt_irrefl _ hp'
 #align euclidean_geometry.sphere.sbtw_second_inter EuclideanGeometry.Sphere.sbtw_secondInter
 

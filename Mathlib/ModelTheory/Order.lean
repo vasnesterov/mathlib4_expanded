@@ -172,7 +172,7 @@ theorem orderedStructure_iff [IsOrdered L] [LE M] [L.Structure M] :
 #align first_order.language.ordered_structure_iff FirstOrder.Language.orderedStructure_iff
 
 instance orderedStructure_LE [LE M] : OrderedStructure Language.order M := by
-  rw [orderedStructure_iff, orderLHom_order]
+  rw [orderedStructure_iff]; rw [orderLHom_order]
   exact LHom.id_isExpansionOn M
 #align first_order.language.ordered_structure_has_le FirstOrder.Language.orderedStructure_LE
 
@@ -204,7 +204,7 @@ variable [IsOrdered L] [L.Structure M]
 @[simp]
 theorem relMap_leSymb [LE M] [L.OrderedStructure M] {a b : M} :
     RelMap (leSymb : L.Relations 2) ![a, b] ↔ a ≤ b := by
-  rw [← orderLHom_leSymb, LHom.map_onRelation]
+  rw [← orderLHom_leSymb]; rw [LHom.map_onRelation]
   rfl
 #align first_order.language.rel_map_le_symb FirstOrder.Language.relMap_leSymb
 

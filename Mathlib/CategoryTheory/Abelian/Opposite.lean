@@ -48,10 +48,10 @@ def kernelOpUnop : (kernel f.op).unop ≅ cokernel f where
   hom := (kernel.lift f.op (cokernel.π f).op <| by simp [← op_comp]).unop
   inv :=
     cokernel.desc f (kernel.ι f.op).unop <| by
-      rw [← f.unop_op, ← unop_comp, f.unop_op]
+      rw [← f.unop_op]; rw [← unop_comp]; rw [f.unop_op]
       simp
   hom_inv_id := by
-    rw [← unop_id, ← (cokernel.desc f _ _).unop_op, ← unop_comp]
+    rw [← unop_id]; rw [← (cokernel.desc f _ _).unop_op]; rw [← unop_comp]
     congr 1
     ext
     simp [← op_comp]
@@ -67,11 +67,11 @@ def kernelOpUnop : (kernel f.op).unop ≅ cokernel f where
 def cokernelOpUnop : (cokernel f.op).unop ≅ kernel f where
   hom :=
     kernel.lift f (cokernel.π f.op).unop <| by
-      rw [← f.unop_op, ← unop_comp, f.unop_op]
+      rw [← f.unop_op]; rw [← unop_comp]; rw [f.unop_op]
       simp
   inv := (cokernel.desc f.op (kernel.ι f).op <| by simp [← op_comp]).unop
   hom_inv_id := by
-    rw [← unop_id, ← (kernel.lift f _ _).unop_op, ← unop_comp]
+    rw [← unop_id]; rw [← (kernel.lift f _ _).unop_op]; rw [← unop_comp]
     congr 1
     ext
     simp [← op_comp]
@@ -180,12 +180,12 @@ theorem imageUnopOp_hom_comp_image_ι :
 
 theorem factorThruImage_comp_imageUnopOp_inv :
     factorThruImage g ≫ (imageUnopOp g).inv = (image.ι g.unop).op := by
-  rw [Iso.comp_inv_eq, image_ι_op_comp_imageUnopOp_hom]
+  rw [Iso.comp_inv_eq]; rw [image_ι_op_comp_imageUnopOp_hom]
 #align category_theory.factor_thru_image_comp_image_unop_op_inv CategoryTheory.factorThruImage_comp_imageUnopOp_inv
 
 theorem imageUnopOp_inv_comp_op_factorThruImage :
     (imageUnopOp g).inv ≫ (factorThruImage g.unop).op = image.ι g := by
-  rw [Iso.inv_comp_eq, imageUnopOp_hom_comp_image_ι]
+  rw [Iso.inv_comp_eq]; rw [imageUnopOp_hom_comp_image_ι]
 #align category_theory.image_unop_op_inv_comp_op_factor_thru_image CategoryTheory.imageUnopOp_inv_comp_op_factorThruImage
 
 end

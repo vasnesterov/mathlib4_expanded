@@ -347,7 +347,7 @@ def Proj.stalkIso' (x : ProjectiveSpectrum.top 𝒜) :
       erw [eq1] at eq2
       erw [eq2, Quotient.eq''] at eq3
       change Localization.mk _ _ = Localization.mk _ _ at eq3
-      rw [Localization.mk_eq_mk', IsLocalization.eq] at eq3
+      rw [Localization.mk_eq_mk'] at eq3; rw [IsLocalization.eq] at eq3
       obtain ⟨⟨c, hc⟩, eq3⟩ := eq3
       have eq3' :
         ∀ (y : ProjectiveSpectrum.top 𝒜)
@@ -362,7 +362,7 @@ def Proj.stalkIso' (x : ProjectiveSpectrum.top 𝒜) :
                 rw [← ProjectiveSpectrum.mem_basicOpen]
                 exact leOfHom (Opens.infLELeft _ _ ≫ Opens.infLERight _ _) hy⟩ := by
         intro y hy
-        rw [Localization.mk_eq_mk', IsLocalization.eq]
+        rw [Localization.mk_eq_mk']; rw [IsLocalization.eq]
         exact
           ⟨⟨c, show c ∉ y.asHomogeneousIdeal by
                   rw [← ProjectiveSpectrum.mem_basicOpen]
@@ -395,7 +395,7 @@ def Proj.stalkIso' (x : ProjectiveSpectrum.top 𝒜) :
           rw [homogeneousLocalizationToStalk]
           erw [stalkToFiberRingHom_germ 𝒜 (ProjectiveSpectrum.basicOpen 𝒜 f.den) ⟨x, _⟩
               (sectionInBasicOpen _ x f)]
-          rw [sectionInBasicOpen, HomogeneousLocalization.ext_iff_val, f.eq_num_div_den]
+          rw [sectionInBasicOpen]; rw [HomogeneousLocalization.ext_iff_val]; rw [f.eq_num_div_den]
           simp only [unop_op, HomogeneousLocalization.val_mk'', mk_eq_monoidOf_mk'] ⟩⟩
 set_option linter.uppercaseLean3 false in
 #align algebraic_geometry.Proj.stalk_iso' AlgebraicGeometry.Proj.stalkIso'

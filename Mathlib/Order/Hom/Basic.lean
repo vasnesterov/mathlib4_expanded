@@ -879,7 +879,7 @@ theorem symm_symm (e : α ≃o β) : e.symm.symm = e := by
 #align order_iso.symm_symm OrderIso.symm_symm
 
 theorem symm_injective : Function.Injective (symm : α ≃o β → β ≃o α) := fun e e' h => by
-  rw [← e.symm_symm, h, e'.symm_symm]
+  rw [← e.symm_symm]; rw [h]; rw [e'.symm_symm]
 #align order_iso.symm_injective OrderIso.symm_injective
 
 @[simp]
@@ -1062,11 +1062,11 @@ def ofCmpEqCmp {α β} [LinearOrder α] [LinearOrder β] (f : α → β) (g : β
     (h : ∀ (a : α) (b : β), cmp a (g b) = cmp (f a) b) : α ≃o β :=
   have gf : ∀ a : α, a = g (f a) := by
     intro
-    rw [← cmp_eq_eq_iff, h, cmp_self_eq_eq]
+    rw [← cmp_eq_eq_iff]; rw [h]; rw [cmp_self_eq_eq]
   { toFun := f, invFun := g, left_inv := fun a => (gf a).symm,
     right_inv := by
       intro
-      rw [← cmp_eq_eq_iff, ← h, cmp_self_eq_eq],
+      rw [← cmp_eq_eq_iff]; rw [← h]; rw [cmp_self_eq_eq],
     map_rel_iff' := by
       intros a b
       apply le_iff_le_of_cmp_eq_cmp
@@ -1163,7 +1163,7 @@ section LatticeIsos
 theorem OrderIso.map_bot' [LE α] [PartialOrder β] (f : α ≃o β) {x : α} {y : β} (hx : ∀ x', x ≤ x')
     (hy : ∀ y', y ≤ y') : f x = y := by
   refine' le_antisymm _ (hy _)
-  rw [← f.apply_symm_apply y, f.map_rel_iff]
+  rw [← f.apply_symm_apply y]; rw [f.map_rel_iff]
   apply hx
 #align order_iso.map_bot' OrderIso.map_bot'
 
@@ -1205,14 +1205,14 @@ theorem OrderIso.map_sup [SemilatticeSup α] [SemilatticeSup β] (f : α ≃o β
 /-- Note that this goal could also be stated `(Disjoint on f) a b` -/
 theorem Disjoint.map_orderIso [SemilatticeInf α] [OrderBot α] [SemilatticeInf β] [OrderBot β]
     {a b : α} (f : α ≃o β) (ha : Disjoint a b) : Disjoint (f a) (f b) := by
-  rw [disjoint_iff_inf_le, ← f.map_inf, ← f.map_bot]
+  rw [disjoint_iff_inf_le]; rw [← f.map_inf]; rw [← f.map_bot]
   exact f.monotone ha.le_bot
 #align disjoint.map_order_iso Disjoint.map_orderIso
 
 /-- Note that this goal could also be stated `(Codisjoint on f) a b` -/
 theorem Codisjoint.map_orderIso [SemilatticeSup α] [OrderTop α] [SemilatticeSup β] [OrderTop β]
     {a b : α} (f : α ≃o β) (ha : Codisjoint a b) : Codisjoint (f a) (f b) := by
-  rw [codisjoint_iff_le_sup, ← f.map_sup, ← f.map_top]
+  rw [codisjoint_iff_le_sup]; rw [← f.map_sup]; rw [← f.map_top]
   exact f.monotone ha.top_le
 #align codisjoint.map_order_iso Codisjoint.map_orderIso
 

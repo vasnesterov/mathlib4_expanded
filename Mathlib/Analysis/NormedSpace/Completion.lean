@@ -88,7 +88,7 @@ instance [SeminormedRing A] : NormedRing (Completion A) :=
       · refine' isClosed_eq (Completion.uniformContinuous_extension₂ _).continuous _
         exact Continuous.comp Completion.continuous_extension continuous_sub
       · intro x y
-        rw [← Completion.coe_sub, norm_coe, Completion.dist_eq, dist_eq_norm]
+        rw [← Completion.coe_sub]; rw [norm_coe]; rw [Completion.dist_eq]; rw [dist_eq_norm]
     norm_mul := fun x y => by
       refine Completion.induction_on₂ x y ?_ ?_ <;> clear x y
       · exact

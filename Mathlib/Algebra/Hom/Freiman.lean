@@ -223,7 +223,7 @@ protected def id (A : Set α) (n : ℕ) : A →*[n] α where
 protected def comp (f : B →*[n] γ) (g : A →*[n] β) (hAB : A.MapsTo g B) : A →*[n] γ where
   toFun := f ∘ g
   map_prod_eq_map_prod' hsA htA hs ht h := by
-    rw [← map_map, ← map_map]
+    rw [← map_map]; rw [← map_map]
     apply map_prod_eq_map_prod f _ _ ((card_map _ _).trans hs)
     · rwa [card_map]
     · apply (map_prod_eq_map_prod g hsA htA hs ht h)
@@ -332,7 +332,7 @@ instance : Mul (A →*[n] β) :=
   ⟨fun f g =>
     { toFun := fun x => f x * g x
       map_prod_eq_map_prod' := fun hsA htA hs ht h => by
-          rw [prod_map_mul, prod_map_mul]
+          rw [prod_map_mul]; rw [prod_map_mul]
           rw [map_prod_eq_map_prod f hsA htA hs ht h]
           rw [map_prod_eq_map_prod g hsA htA hs ht h]}⟩
 
@@ -358,7 +358,7 @@ instance : Inv (A →*[n] G) :=
   ⟨fun f =>
     { toFun := fun x => (f x)⁻¹
       map_prod_eq_map_prod' := fun hsA htA hs ht h => by
-        rw [prod_map_inv, prod_map_inv, map_prod_eq_map_prod f hsA htA hs ht h] }⟩
+        rw [prod_map_inv]; rw [prod_map_inv]; rw [map_prod_eq_map_prod f hsA htA hs ht h] }⟩
 
 @[to_additive (attr := simp)]
 theorem inv_apply (f : A →*[n] G) (x : α) : f⁻¹ x = (f x)⁻¹ :=
@@ -381,8 +381,7 @@ instance : Div (A →*[n] G) :=
   ⟨fun f g =>
     { toFun := fun x => f x / g x
       map_prod_eq_map_prod' := fun hsA htA hs ht h => by
-        rw [prod_map_div, prod_map_div, map_prod_eq_map_prod f hsA htA hs ht h,
-          map_prod_eq_map_prod g hsA htA hs ht h] }⟩
+        rw [prod_map_div]; rw [prod_map_div]; rw [map_prod_eq_map_prod f hsA htA hs ht h]; rw [map_prod_eq_map_prod g hsA htA hs ht h] }⟩
 
 @[to_additive (attr := simp)]
 theorem div_apply (f g : A →*[n] G) (x : α) : (f / g) x = f x / g x :=
@@ -454,7 +453,7 @@ inferrable. -/
       wouldn't be inferrable."]
 instance MonoidHom.freimanHomClass : FreimanHomClass (α →* β) Set.univ β n where
   map_prod_eq_map_prod' f s t _ _ _ _ h := by
-    rw [← f.map_multiset_prod, h, f.map_multiset_prod]
+    rw [← f.map_multiset_prod]; rw [h]; rw [f.map_multiset_prod]
 #align monoid_hom.freiman_hom_class MonoidHom.freimanHomClass
 #align add_monoid_hom.freiman_hom_class AddMonoidHom.addFreimanHomClass
 
@@ -494,7 +493,7 @@ theorem map_prod_eq_map_prod_of_le [FreimanHomClass F A β n] (f : F) {s t : Mul
     (hst : s.prod = t.prod) (h : m ≤ n) : (s.map f).prod = (t.map f).prod := by
   obtain rfl | hm := m.eq_zero_or_pos
   · rw [card_eq_zero] at hs ht
-    rw [hs, ht]
+    rw [hs]; rw [ht]
   simp [← hs, card_pos_iff_exists_mem] at hm
   obtain ⟨a, ha⟩ := hm
   suffices

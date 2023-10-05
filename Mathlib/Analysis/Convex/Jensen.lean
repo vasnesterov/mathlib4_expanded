@@ -110,8 +110,8 @@ theorem ConvexOn.exists_ge_of_centerMass (h : ConvexOn 𝕜 s f) (hw₀ : ∀ i 
     exact ⟨i, hi.1, (smul_le_smul_iff_of_pos <| (hw₀ i hi.1).lt_of_ne hi.2.symm).1 hfi⟩
   have hw' : (0 : 𝕜) < ∑ i in filter (fun i => w i ≠ 0) t, w i := by rwa [sum_filter_ne_zero]
   refine' exists_le_of_sum_le (nonempty_of_sum_ne_zero hw'.ne') _
-  rw [← sum_smul, ← smul_le_smul_iff_of_pos (inv_pos.2 hw'), inv_smul_smul₀ hw'.ne', ←
-    Finset.centerMass, Finset.centerMass_filter_ne_zero]
+  rw [← sum_smul]; rw [← smul_le_smul_iff_of_pos (inv_pos.2 hw')]; rw [inv_smul_smul₀ hw'.ne']; rw [←
+    Finset.centerMass]; rw [Finset.centerMass_filter_ne_zero]
   exact h.map_centerMass_le hw₀ hw₁ hp
 #align convex_on.exists_ge_of_center_mass ConvexOn.exists_ge_of_centerMass
 

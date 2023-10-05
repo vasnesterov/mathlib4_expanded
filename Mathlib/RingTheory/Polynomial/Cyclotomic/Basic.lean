@@ -132,13 +132,13 @@ theorem roots_of_cyclotomic (n : ℕ) (R : Type*) [CommRing R] [IsDomain R] :
 varies over the `n`-th roots of unity. -/
 theorem X_pow_sub_one_eq_prod {ζ : R} {n : ℕ} (hpos : 0 < n) (h : IsPrimitiveRoot ζ n) :
     X ^ n - 1 = ∏ ζ in nthRootsFinset n R, (X - C ζ) := by
-  rw [nthRootsFinset, ← Multiset.toFinset_eq (IsPrimitiveRoot.nthRoots_nodup h)]
+  rw [nthRootsFinset]; rw [← Multiset.toFinset_eq (IsPrimitiveRoot.nthRoots_nodup h)]
   simp only [Finset.prod_mk, RingHom.map_one]
   rw [nthRoots]
   have hmonic : (X ^ n - C (1 : R)).Monic := monic_X_pow_sub_C (1 : R) (ne_of_lt hpos).symm
   symm
   apply prod_multiset_X_sub_C_of_monic_of_roots_card_eq hmonic
-  rw [@natDegree_X_pow_sub_C R _ _ n 1, ← nthRoots]
+  rw [@natDegree_X_pow_sub_C R _ _ n 1]; rw [← nthRoots]
   exact IsPrimitiveRoot.card_nthRoots h
 set_option linter.uppercaseLean3 false in
 #align polynomial.X_pow_sub_one_eq_prod Polynomial.X_pow_sub_one_eq_prod
@@ -159,7 +159,7 @@ theorem cyclotomic'_splits (n : ℕ) : Splits (RingHom.id K) (cyclotomic' n K) :
 /-- If there is a primitive `n`-th root of unity in `K`, then `X ^ n - 1` splits. -/
 theorem X_pow_sub_one_splits {ζ : K} {n : ℕ} (h : IsPrimitiveRoot ζ n) :
     Splits (RingHom.id K) (X ^ n - C (1 : K)) := by
-  rw [splits_iff_card_roots, ← nthRoots, IsPrimitiveRoot.card_nthRoots h, natDegree_X_pow_sub_C]
+  rw [splits_iff_card_roots]; rw [← nthRoots]; rw [IsPrimitiveRoot.card_nthRoots h]; rw [natDegree_X_pow_sub_C]
 set_option linter.uppercaseLean3 false in
 #align polynomial.X_pow_sub_one_splits Polynomial.X_pow_sub_one_splits
 
@@ -180,8 +180,7 @@ set_option linter.uppercaseLean3 false in
 theorem cyclotomic'_eq_X_pow_sub_one_div {K : Type*} [CommRing K] [IsDomain K] {ζ : K} {n : ℕ}
     (hpos : 0 < n) (h : IsPrimitiveRoot ζ n) :
     cyclotomic' n K = (X ^ n - 1) /ₘ ∏ i in Nat.properDivisors n, cyclotomic' i K := by
-  rw [← prod_cyclotomic'_eq_X_pow_sub_one hpos h, ← Nat.cons_self_properDivisors hpos.ne',
-    Finset.prod_cons]
+  rw [← prod_cyclotomic'_eq_X_pow_sub_one hpos h]; rw [← Nat.cons_self_properDivisors hpos.ne']; rw [Finset.prod_cons]
   have prod_monic : (∏ i in Nat.properDivisors n, cyclotomic' i K).Monic := by
     apply monic_prod_of_monic
     intro i _
@@ -228,7 +227,7 @@ theorem int_coeff_of_cyclotomic' {K : Type*} [CommRing K] [IsDomain K] {ζ : K} 
   replace huniq := div_modByMonic_unique (cyclotomic' k K) (0 : K[X]) Bmo huniq
   simp only [lifts, RingHom.mem_rangeS]
   use Q₁
-  rw [coe_mapRingHom, map_divByMonic (Int.castRingHom K) hB₁mo, hB₁, ← huniq.1]
+  rw [coe_mapRingHom]; rw [map_divByMonic (Int.castRingHom K) hB₁mo]; rw [hB₁]; rw [← huniq.1]
   simp
 #align polynomial.int_coeff_of_cyclotomic' Polynomial.int_coeff_of_cyclotomic'
 
@@ -240,7 +239,7 @@ theorem unique_int_coeff_of_cycl {K : Type*} [CommRing K] [IsDomain K] [CharZero
   obtain ⟨P, hP⟩ := int_coeff_of_cyclotomic' h
   refine' ⟨P, hP.1, fun Q hQ => _⟩
   apply map_injective (Int.castRingHom K) Int.cast_injective
-  rw [hP.1, hQ]
+  rw [hP.1]; rw [hQ]
 #align polynomial.unique_int_coeff_of_cycl Polynomial.unique_int_coeff_of_cycl
 
 end Field
@@ -283,20 +282,20 @@ theorem int_cyclotomic_spec (n : ℕ) :
 theorem int_cyclotomic_unique {n : ℕ} {P : ℤ[X]} (h : map (Int.castRingHom ℂ) P = cyclotomic' n ℂ) :
     P = cyclotomic n ℤ := by
   apply map_injective (Int.castRingHom ℂ) Int.cast_injective
-  rw [h, (int_cyclotomic_spec n).1]
+  rw [h]; rw [(int_cyclotomic_spec n).1]
 #align polynomial.int_cyclotomic_unique Polynomial.int_cyclotomic_unique
 
 /-- The definition of `cyclotomic n R` commutes with any ring homomorphism. -/
 @[simp]
 theorem map_cyclotomic (n : ℕ) {R S : Type*} [Ring R] [Ring S] (f : R →+* S) :
     map f (cyclotomic n R) = cyclotomic n S := by
-  rw [← map_cyclotomic_int n R, ← map_cyclotomic_int n S, map_map]
+  rw [← map_cyclotomic_int n R]; rw [← map_cyclotomic_int n S]; rw [map_map]
   congr!
 #align polynomial.map_cyclotomic Polynomial.map_cyclotomic
 
 theorem cyclotomic.eval_apply {R S : Type*} (q : R) (n : ℕ) [Ring R] [Ring S] (f : R →+* S) :
     eval (f q) (cyclotomic n S) = f (eval q (cyclotomic n R)) := by
-  rw [← map_cyclotomic n f, eval_map, eval₂_at_apply]
+  rw [← map_cyclotomic n f]; rw [eval_map]; rw [eval₂_at_apply]
 #align polynomial.cyclotomic.eval_apply Polynomial.cyclotomic.eval_apply
 
 /-- The zeroth cyclotomic polyomial is `1`. -/
@@ -311,7 +310,7 @@ theorem cyclotomic_one (R : Type*) [Ring R] : cyclotomic 1 R = X - 1 := by
   have hspec : map (Int.castRingHom ℂ) (X - 1) = cyclotomic' 1 ℂ := by
     simp only [cyclotomic'_one, PNat.one_coe, map_X, Polynomial.map_one, Polynomial.map_sub]
   symm
-  rw [← map_cyclotomic_int, ← int_cyclotomic_unique hspec]
+  rw [← map_cyclotomic_int]; rw [← int_cyclotomic_unique hspec]
   simp only [map_X, Polynomial.map_one, Polynomial.map_sub]
 #align polynomial.cyclotomic_one Polynomial.cyclotomic_one
 
@@ -347,13 +346,13 @@ theorem degree_cyclotomic (n : ℕ) (R : Type*) [Ring R] [Nontrivial R] :
 /-- The natural degree of `cyclotomic n` is `totient n`. -/
 theorem natDegree_cyclotomic (n : ℕ) (R : Type*) [Ring R] [Nontrivial R] :
     (cyclotomic n R).natDegree = Nat.totient n := by
-  rw [natDegree, degree_cyclotomic]; norm_cast
+  rw [natDegree]; rw [degree_cyclotomic]; norm_cast
 #align polynomial.nat_degree_cyclotomic Polynomial.natDegree_cyclotomic
 
 /-- The degree of `cyclotomic n R` is positive. -/
 theorem degree_cyclotomic_pos (n : ℕ) (R : Type*) (hpos : 0 < n) [Ring R] [Nontrivial R] :
     0 < (cyclotomic n R).degree := by
-  rw [degree_cyclotomic n R, Nat.cast_pos]; exact Nat.totient_pos hpos
+  rw [degree_cyclotomic n R]; rw [Nat.cast_pos]; exact Nat.totient_pos hpos
 #align polynomial.degree_cyclotomic_pos Polynomial.degree_cyclotomic_pos
 
 open Finset
@@ -388,8 +387,7 @@ theorem prod_cyclotomic_eq_geom_sum {n : ℕ} (h : 0 < n) (R) [CommRing R] :
   suffices (∏ i in n.divisors.erase 1, cyclotomic i ℤ) = ∑ i in Finset.range n, X ^ i by
     simpa only [Polynomial.map_prod, map_cyclotomic_int, Polynomial.map_sum, Polynomial.map_pow,
       Polynomial.map_X] using congr_arg (map (Int.castRingHom R)) this
-  rw [← mul_left_inj' (cyclotomic_ne_zero 1 ℤ), prod_erase_mul _ _ (Nat.one_mem_divisors.2 h.ne'),
-    cyclotomic_one, geom_sum_mul, prod_cyclotomic_eq_X_pow_sub_one h]
+  rw [← mul_left_inj' (cyclotomic_ne_zero 1 ℤ)]; rw [prod_erase_mul _ _ (Nat.one_mem_divisors.2 h.ne')]; rw [cyclotomic_one]; rw [geom_sum_mul]; rw [prod_cyclotomic_eq_X_pow_sub_one h]
 #align polynomial.prod_cyclotomic_eq_geom_sum Polynomial.prod_cyclotomic_eq_geom_sum
 
 /-- If `p` is prime, then `cyclotomic p R = ∑ i in range p, X ^ i`. -/
@@ -398,8 +396,7 @@ theorem cyclotomic_prime (R : Type*) [Ring R] (p : ℕ) [hp : Fact p.Prime] :
   suffices cyclotomic p ℤ = ∑ i in range p, X ^ i by
     simpa only [map_cyclotomic_int, Polynomial.map_sum, Polynomial.map_pow, Polynomial.map_X] using
       congr_arg (map (Int.castRingHom R)) this
-  rw [← prod_cyclotomic_eq_geom_sum hp.out.pos, hp.out.divisors,
-    erase_insert (mem_singleton.not.2 hp.out.ne_one.symm), prod_singleton]
+  rw [← prod_cyclotomic_eq_geom_sum hp.out.pos]; rw [hp.out.divisors]; rw [erase_insert (mem_singleton.not.2 hp.out.ne_one.symm)]; rw [prod_singleton]
 #align polynomial.cyclotomic_prime Polynomial.cyclotomic_prime
 
 theorem cyclotomic_prime_mul_X_sub_one (R : Type*) [Ring R] (p : ℕ) [hn : Fact (Nat.Prime p)] :
@@ -434,8 +431,7 @@ theorem X_pow_sub_one_mul_prod_cyclotomic_eq_X_pow_sub_one_of_dvd (R) [CommRing 
   obtain ⟨hd, hdn⟩ := Nat.mem_properDivisors.mp h
   have h0n : 0 < n := pos_of_gt hdn
   have h0d : 0 < d := Nat.pos_of_dvd_of_pos hd h0n
-  rw [← prod_cyclotomic_eq_X_pow_sub_one h0d, ← prod_cyclotomic_eq_X_pow_sub_one h0n, mul_comm,
-    Finset.prod_sdiff (Nat.divisors_subset_of_dvd h0n.ne' hd)]
+  rw [← prod_cyclotomic_eq_X_pow_sub_one h0d]; rw [← prod_cyclotomic_eq_X_pow_sub_one h0n]; rw [mul_comm]; rw [Finset.prod_sdiff (Nat.divisors_subset_of_dvd h0n.ne' hd)]
 set_option linter.uppercaseLean3 false in
 #align polynomial.X_pow_sub_one_mul_prod_cyclotomic_eq_X_pow_sub_one_of_dvd Polynomial.X_pow_sub_one_mul_prod_cyclotomic_eq_X_pow_sub_one_of_dvd
 
@@ -447,7 +443,7 @@ theorem X_pow_sub_one_mul_cyclotomic_dvd_X_pow_sub_one_of_dvd (R) [CommRing R] {
   convert X_pow_sub_one_mul_prod_cyclotomic_eq_X_pow_sub_one_of_dvd R h using 1
   rw [mul_assoc]
   congr 1
-  rw [← Nat.insert_self_properDivisors hdn.ne_bot, insert_sdiff_of_not_mem, prod_insert]
+  rw [← Nat.insert_self_properDivisors hdn.ne_bot]; rw [insert_sdiff_of_not_mem]; rw [prod_insert]
   · exact Finset.not_mem_sdiff_of_not_mem_left Nat.properDivisors.not_self_mem
   · exact fun hk => hdn.not_le <| Nat.divisor_le hk
 set_option linter.uppercaseLean3 false in
@@ -469,8 +465,8 @@ theorem cyclotomic_eq_prod_X_pow_sub_one_pow_moebius {n : ℕ} (R : Type*) [Comm
   have h : ∀ n : ℕ, 0 < n → (∏ i in Nat.divisors n, algebraMap _ (RatFunc R) (cyclotomic i R)) =
       algebraMap _ _ (X ^ n - 1 : R[X]) := by
     intro n hn
-    rw [← prod_cyclotomic_eq_X_pow_sub_one hn R, map_prod]
-  rw [(prod_eq_iff_prod_pow_moebius_eq_of_nonzero (fun n hn => _) fun n hn => _).1 h n hpos] <;>
+    rw [← prod_cyclotomic_eq_X_pow_sub_one hn R]; rw [map_prod]
+  rw [(prod_eq_iff_prod_pow_moebius_eq_of_nonzero (fun n hn => _) fun n hn => _).1 h n hpos]  <;>
     simp_rw [Ne.def, IsFractionRing.to_map_eq_zero_iff]
   · simp [cyclotomic_ne_zero]
   · intro n hn
@@ -486,8 +482,7 @@ end ArithmeticFunction
 theorem cyclotomic_eq_X_pow_sub_one_div {R : Type*} [CommRing R] {n : ℕ} (hpos : 0 < n) :
     cyclotomic n R = (X ^ n - 1) /ₘ ∏ i in Nat.properDivisors n, cyclotomic i R := by
   nontriviality R
-  rw [← prod_cyclotomic_eq_X_pow_sub_one hpos, ← Nat.cons_self_properDivisors hpos.ne',
-    Finset.prod_cons]
+  rw [← prod_cyclotomic_eq_X_pow_sub_one hpos]; rw [← Nat.cons_self_properDivisors hpos.ne']; rw [Finset.prod_cons]
   have prod_monic : (∏ i in Nat.properDivisors n, cyclotomic i R).Monic := by
     apply monic_prod_of_monic
     intro i _
@@ -509,9 +504,7 @@ theorem X_pow_sub_one_dvd_prod_cyclotomic (R : Type*) [CommRing R] {n m : ℕ} (
   replace hm := Nat.mem_properDivisors.2
     ⟨hm, lt_of_le_of_ne (Nat.divisor_le (Nat.mem_divisors.2 ⟨hm, hpos.ne'⟩)) hdiff⟩
   rw [← Finset.sdiff_union_of_subset (Nat.divisors_subset_properDivisors (ne_of_lt hpos).symm
-    (Nat.mem_properDivisors.1 hm).1 (ne_of_lt (Nat.mem_properDivisors.1 hm).2)),
-    Finset.prod_union Finset.sdiff_disjoint,
-    prod_cyclotomic_eq_X_pow_sub_one (Nat.pos_of_mem_properDivisors hm)]
+    (Nat.mem_properDivisors.1 hm).1 (ne_of_lt (Nat.mem_properDivisors.1 hm).2))]; rw [Finset.prod_union Finset.sdiff_disjoint]; rw [prod_cyclotomic_eq_X_pow_sub_one (Nat.pos_of_mem_properDivisors hm)]
   exact ⟨∏ x : ℕ in n.properDivisors \ m.divisors, cyclotomic x R, by rw [mul_comm]⟩
 set_option linter.uppercaseLean3 false in
 #align polynomial.X_pow_sub_one_dvd_prod_cyclotomic Polynomial.X_pow_sub_one_dvd_prod_cyclotomic
@@ -530,8 +523,7 @@ theorem cyclotomic_eq_prod_X_sub_primitiveRoots {K : Type*} [CommRing K] [IsDoma
     obtain ⟨d, hd⟩ := (Nat.mem_properDivisors.1 hi).1
     rw [mul_comm] at hd
     exact hk i (Nat.mem_properDivisors.1 hi).2 (IsPrimitiveRoot.pow hpos hz hd)
-  rw [@cyclotomic_eq_X_pow_sub_one_div _ _ _ hpos, cyclotomic'_eq_X_pow_sub_one_div hpos hz,
-    Finset.prod_congr (refl k.properDivisors) h]
+  rw [@cyclotomic_eq_X_pow_sub_one_div _ _ _ hpos]; rw [cyclotomic'_eq_X_pow_sub_one_div hpos hz]; rw [Finset.prod_congr (refl k.properDivisors) h]
 set_option linter.uppercaseLean3 false in
 #align polynomial.cyclotomic_eq_prod_X_sub_primitive_roots Polynomial.cyclotomic_eq_prod_X_sub_primitiveRoots
 
@@ -546,9 +538,9 @@ theorem eq_cyclotomic_iff {R : Type*} [CommRing R] {n : ℕ} (hpos : 0 < n) (P :
       apply monic_prod_of_monic
       intro i _
       exact cyclotomic.monic i R
-    rw [@cyclotomic_eq_X_pow_sub_one_div R _ _ hpos, (div_modByMonic_unique P 0 prod_monic _).1]
+    rw [@cyclotomic_eq_X_pow_sub_one_div R _ _ hpos]; rw [(div_modByMonic_unique P 0 prod_monic _).1]
     refine' ⟨by rwa [zero_add, mul_comm], _⟩
-    rw [degree_zero, bot_lt_iff_ne_bot]
+    rw [degree_zero]; rw [bot_lt_iff_ne_bot]
     intro h
     exact Monic.ne_zero prod_monic (degree_eq_bot.1 h)
 #align polynomial.eq_cyclotomic_iff Polynomial.eq_cyclotomic_iff
@@ -564,19 +556,19 @@ theorem cyclotomic_prime_pow_eq_geom_sum {R : Type*} [CommRing R] {p n : ℕ} (h
     have := eq_cyclotomic_iff (R := R) (P := ∑ i in range p, (X ^ p ^ m) ^ i)
       (pow_pos hp.pos (m + 1))
     rw [eq_comm] at this
-    rw [this, Nat.prod_properDivisors_prime_pow hp]
+    rw [this]; rw [Nat.prod_properDivisors_prime_pow hp]
   induction' n with n_n n_ih
   · haveI := Fact.mk hp; simp [cyclotomic_prime]
   rw [((eq_cyclotomic_iff (pow_pos hp.pos (n_n.succ + 1)) _).mpr _).symm]
-  rw [Nat.prod_properDivisors_prime_pow hp, Finset.prod_range_succ, n_ih]
+  rw [Nat.prod_properDivisors_prime_pow hp]; rw [Finset.prod_range_succ]; rw [n_ih]
   rw [this] at n_ih
-  rw [mul_comm _ (∑ i in _, _), n_ih, geom_sum_mul, sub_left_inj, ← pow_mul, pow_add, pow_one]
+  rw [mul_comm _ (∑ i in _, _)]; rw [n_ih]; rw [geom_sum_mul]; rw [sub_left_inj]; rw [← pow_mul]; rw [pow_add]; rw [pow_one]
 #align polynomial.cyclotomic_prime_pow_eq_geom_sum Polynomial.cyclotomic_prime_pow_eq_geom_sum
 
 theorem cyclotomic_prime_pow_mul_X_pow_sub_one (R : Type*) [CommRing R] (p k : ℕ)
     [hn : Fact (Nat.Prime p)] :
     cyclotomic (p ^ (k + 1)) R * (X ^ p ^ k - 1) = X ^ p ^ (k + 1) - 1 := by
-  rw [cyclotomic_prime_pow_eq_geom_sum hn.out, geom_sum_mul, ← pow_mul, pow_succ, mul_comm]
+  rw [cyclotomic_prime_pow_eq_geom_sum hn.out]; rw [geom_sum_mul]; rw [← pow_mul]; rw [pow_succ]; rw [mul_comm]
 set_option linter.uppercaseLean3 false in
 #align polynomial.cyclotomic_prime_pow_mul_X_pow_sub_one Polynomial.cyclotomic_prime_pow_mul_X_pow_sub_one
 
@@ -586,8 +578,7 @@ theorem cyclotomic_coeff_zero (R : Type*) [CommRing R] {n : ℕ} (hn : 1 < n) :
   induction' n using Nat.strong_induction_on with n hi
   have hprod : (∏ i in Nat.properDivisors n, (Polynomial.cyclotomic i R).coeff 0) = -1 := by
     rw [← Finset.insert_erase (Nat.one_mem_properDivisors_iff_one_lt.2
-      (lt_of_lt_of_le one_lt_two hn)), Finset.prod_insert (Finset.not_mem_erase 1 _),
-      cyclotomic_one R]
+      (lt_of_lt_of_le one_lt_two hn))]; rw [Finset.prod_insert (Finset.not_mem_erase 1 _)]; rw [cyclotomic_one R]
     have hleq : ∀ j ∈ n.properDivisors.erase 1, 2 ≤ j := by
       intro j hj
       apply Nat.succ_le_of_lt
@@ -601,9 +592,8 @@ theorem cyclotomic_coeff_zero (R : Type*) [CommRing R] {n : ℕ} (hn : 1 < n) :
       simp only [Finset.prod_const_one]
     simp only [hrw, mul_one, zero_sub, coeff_one_zero, coeff_X_zero, coeff_sub]
   have heq : (X ^ n - 1 : R[X]).coeff 0 = -(cyclotomic n R).coeff 0 := by
-    rw [← prod_cyclotomic_eq_X_pow_sub_one (zero_le_one.trans_lt hn), ←
-      Nat.cons_self_properDivisors hn.ne_bot, Finset.prod_cons, mul_coeff_zero, coeff_zero_prod,
-      hprod, mul_neg, mul_one]
+    rw [← prod_cyclotomic_eq_X_pow_sub_one (zero_le_one.trans_lt hn)]; rw [←
+      Nat.cons_self_properDivisors hn.ne_bot]; rw [Finset.prod_cons]; rw [mul_coeff_zero]; rw [coeff_zero_prod]; rw [hprod]; rw [mul_neg]; rw [mul_one]
   have hzero : (X ^ n - 1 : R[X]).coeff 0 = (-1 : R) := by
     rw [coeff_zero_eq_eval_zero _]
     simp only [zero_pow (lt_of_lt_of_le zero_lt_two hn), eval_X, eval_one, zero_sub, eval_pow,
@@ -620,7 +610,7 @@ theorem coprime_of_root_cyclotomic {n : ℕ} (hpos : 0 < n) {p : ℕ} [hprime : 
   rw [hprime.1.coprime_iff_not_dvd]
   intro h
   replace h := (ZMod.nat_cast_zmod_eq_zero_iff_dvd a p).2 h
-  rw [IsRoot.def, eq_natCast, h, ← coeff_zero_eq_eval_zero] at hroot
+  rw [IsRoot.def] at hroot; rw [eq_natCast] at hroot; rw [h] at hroot; rw [← coeff_zero_eq_eval_zero] at hroot
   by_cases hone : n = 1
   · simp only [hone, cyclotomic_one, zero_sub, coeff_one_zero, coeff_X_zero, neg_eq_zero,
       one_ne_zero, coeff_sub] at hroot
@@ -644,8 +634,7 @@ theorem orderOf_root_cyclotomic_dvd {n : ℕ} (hpos : 0 < n) {p : ℕ} [Fact p.P
     apply Units.val_eq_one.1
     simp only [sub_eq_zero.mp hpow, ZMod.coe_unitOfCoprime, Units.val_pow_eq_pow_val]
   rw [IsRoot.def] at hroot
-  rw [← prod_cyclotomic_eq_X_pow_sub_one hpos (ZMod p), ← Nat.cons_self_properDivisors hpos.ne',
-    Finset.prod_cons, eval_mul, hroot, zero_mul]
+  rw [← prod_cyclotomic_eq_X_pow_sub_one hpos (ZMod p)]; rw [← Nat.cons_self_properDivisors hpos.ne']; rw [Finset.prod_cons]; rw [eval_mul]; rw [hroot]; rw [zero_mul]
 #align polynomial.order_of_root_cyclotomic_dvd Polynomial.orderOf_root_cyclotomic_dvd
 
 end Order

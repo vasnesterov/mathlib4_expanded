@@ -42,7 +42,7 @@ theorem surjective_stableUnderBaseChange : StableUnderBaseChange surjective := b
   | zero => exact ⟨0, map_zero _⟩
   | tmul x y =>
     obtain ⟨y, rfl⟩ := h y; use y • x; dsimp
-    rw [TensorProduct.smul_tmul, Algebra.algebraMap_eq_smul_one]
+    rw [TensorProduct.smul_tmul]; rw [Algebra.algebraMap_eq_smul_one]
   | add x y ex ey => obtain ⟨⟨x, rfl⟩, ⟨y, rfl⟩⟩ := ex, ey; exact ⟨x + y, map_add _ x y⟩
 #align ring_hom.surjective_stable_under_base_change RingHom.surjective_stableUnderBaseChange
 
@@ -53,7 +53,7 @@ theorem surjective_ofLocalizationSpan : OfLocalizationSpan surjective := by
   skip
   letI := f.toAlgebra
   show Function.Surjective (Algebra.ofId R S)
-  rw [← Algebra.range_top_iff_surjective, eq_top_iff]
+  rw [← Algebra.range_top_iff_surjective]; rw [eq_top_iff]
   rintro x -
   obtain ⟨l, hl⟩ :=
     (Finsupp.mem_span_iff_total R s 1).mp (show _ ∈ Ideal.span s by rw [hs]; trivial)

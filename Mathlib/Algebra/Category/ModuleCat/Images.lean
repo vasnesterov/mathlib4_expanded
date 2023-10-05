@@ -80,7 +80,7 @@ noncomputable def image.lift (F' : MonoFactorisation f) : image f ⟶ F'.I where
 theorem image.lift_fac (F' : MonoFactorisation f) : image.lift F' ≫ F'.m = image.ι f := by
   ext x
   change (F'.e ≫ F'.m) _ = _
-  rw [F'.fac, (Classical.indefiniteDescription _ x.2).2]
+  rw [F'.fac]; rw [(Classical.indefiniteDescription _ x.2).2]
   rfl
 #align Module.image.lift_fac ModuleCat.image.lift_fac
 

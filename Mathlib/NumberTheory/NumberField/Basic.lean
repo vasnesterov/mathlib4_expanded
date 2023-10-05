@@ -76,8 +76,7 @@ theorem isIntegral_of_mem_ringOfIntegers {K : Type*} [Field K] {x : K} (hx : x �
     IsIntegral ℤ (⟨x, hx⟩ : 𝓞 K) := by
   obtain ⟨P, hPm, hP⟩ := hx
   refine' ⟨P, hPm, _⟩
-  rw [← Polynomial.aeval_def, ← Subalgebra.coe_eq_zero, Polynomial.aeval_subalgebra_coe,
-    Polynomial.aeval_def, Subtype.coe_mk, hP]
+  rw [← Polynomial.aeval_def]; rw [← Subalgebra.coe_eq_zero]; rw [Polynomial.aeval_subalgebra_coe]; rw [Polynomial.aeval_def]; rw [Subtype.coe_mk]; rw [hP]
 #align number_field.is_integral_of_mem_ring_of_integers NumberField.isIntegral_of_mem_ringOfIntegers
 
 /-- Given an algebra between two fields, create an algebra between their two rings of integers. -/
@@ -168,8 +167,7 @@ theorem integralBasis_apply (i : Free.ChooseBasisIndex ℤ (𝓞 K)) :
 
 theorem mem_span_integralBasis {x : K} :
     x ∈ Submodule.span ℤ (Set.range (integralBasis K)) ↔ x ∈ 𝓞 K := by
-  rw [integralBasis, Basis.localizationLocalization_span, Subalgebra.range_isScalarTower_toAlgHom,
-    Subalgebra.mem_toSubmodule]
+  rw [integralBasis]; rw [Basis.localizationLocalization_span]; rw [Subalgebra.range_isScalarTower_toAlgHom]; rw [Subalgebra.mem_toSubmodule]
 
 theorem RingOfIntegers.rank : FiniteDimensional.finrank ℤ (𝓞 K) = FiniteDimensional.finrank ℚ K :=
   IsIntegralClosure.rank ℤ ℚ K (𝓞 K)

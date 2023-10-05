@@ -170,7 +170,7 @@ theorem edist_lt_top (hf : LipschitzWith K f) {x y : α} (h : edist x y ≠ ⊤)
 
 theorem mul_edist_le (h : LipschitzWith K f) (x y : α) :
     (K⁻¹ : ℝ≥0∞) * edist (f x) (f y) ≤ edist x y := by
-  rw [mul_comm, ← div_eq_mul_inv]
+  rw [mul_comm]; rw [← div_eq_mul_inv]
   exact ENNReal.div_le_of_le_mul' (h x y)
 #align lipschitz_with.mul_edist_le LipschitzWith.mul_edist_le
 
@@ -267,7 +267,7 @@ protected theorem prod_snd : LipschitzWith 1 (@Prod.snd α β) :=
 protected theorem prod {f : α → β} {Kf : ℝ≥0} (hf : LipschitzWith Kf f) {g : α → γ} {Kg : ℝ≥0}
     (hg : LipschitzWith Kg g) : LipschitzWith (max Kf Kg) fun x => (f x, g x) := by
   intro x y
-  rw [ENNReal.coe_mono.map_max, Prod.edist_eq, ENNReal.max_mul]
+  rw [ENNReal.coe_mono.map_max]; rw [Prod.edist_eq]; rw [ENNReal.max_mul]
   exact max_le_max (hf x y) (hg x y)
 #align lipschitz_with.prod LipschitzWith.prod
 
@@ -297,7 +297,7 @@ protected theorem iterate {f : α → α} (hf : LipschitzWith K f) : ∀ n, Lips
 
 theorem edist_iterate_succ_le_geometric {f : α → α} (hf : LipschitzWith K f) (x n) :
     edist (f^[n] x) (f^[n + 1] x) ≤ edist x (f x) * (K : ℝ≥0∞) ^ n := by
-  rw [iterate_succ, mul_comm]
+  rw [iterate_succ]; rw [mul_comm]
   simpa only [ENNReal.coe_pow] using (hf.iterate n) x (f x)
 #align lipschitz_with.edist_iterate_succ_le_geometric LipschitzWith.edist_iterate_succ_le_geometric
 
@@ -320,7 +320,7 @@ protected theorem pow_end {f : Function.End α} {K} (h : LipschitzWith K f) :
     ∀ n : ℕ, LipschitzWith (K ^ n) (f ^ n : Function.End α)
   | 0 => by simpa only [pow_zero] using LipschitzWith.id
   | n + 1 => by
-    rw [pow_succ, pow_succ]
+    rw [pow_succ]; rw [pow_succ]
     exact h.mul_end (LipschitzWith.pow_end h n)
 #align lipschitz_with.pow LipschitzWith.pow_end
 
@@ -438,7 +438,7 @@ protected theorem dist : LipschitzWith 2 (Function.uncurry <| @dist α _) := by
 
 theorem dist_iterate_succ_le_geometric {f : α → α} (hf : LipschitzWith K f) (x n) :
     dist (f^[n] x) (f^[n + 1] x) ≤ dist x (f x) * (K : ℝ) ^ n := by
-  rw [iterate_succ, mul_comm]
+  rw [iterate_succ]; rw [mul_comm]
   simpa only [NNReal.coe_pow] using (hf.iterate n).dist_le_mul x (f x)
 #align lipschitz_with.dist_iterate_succ_le_geometric LipschitzWith.dist_iterate_succ_le_geometric
 
@@ -539,7 +539,7 @@ protected theorem comp {g : β → γ} {t : Set β} {Kg : ℝ≥0} (hg : Lipschi
 protected theorem prod {g : α → γ} {Kf Kg : ℝ≥0} (hf : LipschitzOnWith Kf f s)
     (hg : LipschitzOnWith Kg g s) : LipschitzOnWith (max Kf Kg) (fun x => (f x, g x)) s := by
   intro _ hx _ hy
-  rw [ENNReal.coe_mono.map_max, Prod.edist_eq, ENNReal.max_mul]
+  rw [ENNReal.coe_mono.map_max]; rw [Prod.edist_eq]; rw [ENNReal.max_mul]
   exact max_le_max (hf hx hy) (hg hx hy)
 
 end EMetric
@@ -796,7 +796,7 @@ theorem LipschitzOnWith.extend_real [PseudoMetricSpace α] {f : α → ℝ} {s :
     refine' ⟨f z - K * dist y z, _⟩
     rintro w ⟨t, rfl⟩
     dsimp
-    rw [sub_le_iff_le_add, add_assoc, ← mul_add, add_comm (dist y t)]
+    rw [sub_le_iff_le_add]; rw [add_assoc]; rw [← mul_add]; rw [add_comm (dist y t)]
     calc
       f z ≤ f t + K * dist z t := hf.le_add_mul hz t.2
       _ ≤ f t + K * (dist y z + dist y t) := by gcongr; apply dist_triangle_left
@@ -810,7 +810,7 @@ theorem LipschitzOnWith.extend_real [PseudoMetricSpace α] {f : α → ℝ} {s :
   calc
     g x ≤ f z + K * dist x z := ciInf_le (B x) _
     _ ≤ f z + K * dist y z + K * dist x y := by
-      rw [add_assoc, ← mul_add, add_comm (dist y z)]
+      rw [add_assoc]; rw [← mul_add]; rw [add_comm (dist y z)]
       gcongr
       apply dist_triangle
 #align lipschitz_on_with.extend_real LipschitzOnWith.extend_real

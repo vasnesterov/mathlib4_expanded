@@ -74,7 +74,7 @@ theorem Simple.of_iso {X Y : C} [Simple Y] (i : X ≅ Y) : Simple X :=
           intro w
           apply h
           simpa using (cancel_mono i.inv).2 w
-        rw [← Category.comp_id f, ← i.hom_inv_id, ← Category.assoc]
+        rw [← Category.comp_id f]; rw [← i.hom_inv_id]; rw [← Category.assoc]
         infer_instance }
 #align category_theory.simple.of_iso CategoryTheory.Simple.of_iso
 
@@ -192,14 +192,14 @@ variable [Preadditive C] [HasBinaryBiproducts C]
 -- There are another three potential variations of this lemma,
 -- but as any one suffices to prove `indecomposable_of_simple` we will not give them all.
 theorem Biprod.isIso_inl_iff_isZero (X Y : C) : IsIso (biprod.inl : X ⟶ X ⊞ Y) ↔ IsZero Y := by
-  rw [biprod.isIso_inl_iff_id_eq_fst_comp_inl, ← biprod.total, add_right_eq_self]
+  rw [biprod.isIso_inl_iff_id_eq_fst_comp_inl]; rw [← biprod.total]; rw [add_right_eq_self]
   constructor
   · intro h
     replace h := h =≫ biprod.snd
     simpa [← IsZero.iff_isSplitEpi_eq_zero (biprod.snd : X ⊞ Y ⟶ Y)] using h
   · intro h
     rw [IsZero.iff_isSplitEpi_eq_zero (biprod.snd : X ⊞ Y ⟶ Y)] at h
-    rw [h, zero_comp]
+    rw [h]; rw [zero_comp]
 #align category_theory.biprod.is_iso_inl_iff_is_zero CategoryTheory.Biprod.isIso_inl_iff_isZero
 
 /-- Any simple object in a preadditive category is indecomposable. -/

@@ -58,7 +58,7 @@ theorem MonovaryOn.sum_smul_sum_le_card_smul_sum (hfg : MonovaryOn f g s) :
     ((∑ i in s, f i) • ∑ i in s, g i) ≤ s.card • ∑ i in s, f i • g i := by
   classical
     obtain ⟨σ, hσ, hs⟩ := s.countable_toSet.exists_cycleOn
-    rw [← card_range s.card, sum_smul_sum_eq_sum_perm hσ]
+    rw [← card_range s.card]; rw [sum_smul_sum_eq_sum_perm hσ]
     exact
       sum_le_card_nsmul _ _ _ fun n _ =>
         hfg.sum_smul_comp_perm_le_sum_smul fun x hx => hs fun h => hx <| IsFixedPt.perm_pow h _
@@ -154,8 +154,8 @@ theorem sum_div_card_sq_le_sum_sq_div_card :
     ((∑ i in s, f i) / s.card) ^ 2 ≤ (∑ i in s, f i ^ 2) / s.card := by
   obtain rfl | hs := s.eq_empty_or_nonempty
   · simp
-  rw [← card_pos, ← @Nat.cast_pos α] at hs
-  rw [div_pow, div_le_div_iff (sq_pos_of_ne_zero _ hs.ne') hs, sq (s.card : α), mul_left_comm, ←
+  rw [← card_pos] at hs; rw [← @Nat.cast_pos α] at hs
+  rw [div_pow]; rw [div_le_div_iff (sq_pos_of_ne_zero _ hs.ne') hs]; rw [sq (s.card : α)]; rw [mul_left_comm]; rw [←
     mul_assoc]
   exact mul_le_mul_of_nonneg_right sq_sum_le_card_mul_sum_sq hs.le
 #align sum_div_card_sq_le_sum_sq_div_card sum_div_card_sq_le_sum_sq_div_card

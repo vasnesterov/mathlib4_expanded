@@ -171,7 +171,7 @@ theorem smul_tprodCoeff [DecidableEq ι] (z : R) (f : ∀ i, s i) (i : ι) (r : 
     tprodCoeff R z (update f i (r • f i)) = tprodCoeff R (r • z) f := by
   have h₁ : r • z = r • (1 : R) * z := by rw [smul_mul_assoc, one_mul]
   have h₂ : r • f i = (r • (1 : R)) • f i := (smul_one_smul _ _ _).symm
-  rw [h₁, h₂]
+  rw [h₁]; rw [h₂]
   exact smul_tprodCoeff_aux z f i _
 #align pi_tensor_product.smul_tprod_coeff PiTensorProduct.smul_tprodCoeff
 
@@ -302,7 +302,7 @@ def tprod : MultilinearMap R s (⨂[R] i, s i) where
   toFun := tprodCoeff R 1
   map_add' {_ f} i x y := (add_tprodCoeff (1 : R) f i x y).symm
   map_smul' {_ f} i r x := by
-    rw [smul_tprodCoeff', ← smul_tprodCoeff (1 : R) _ i, update_idem, update_same]
+    rw [smul_tprodCoeff']; rw [← smul_tprodCoeff (1 : R) _ i]; rw [update_idem]; rw [update_same]
 #align pi_tensor_product.tprod PiTensorProduct.tprod
 
 variable {R}
@@ -337,7 +337,7 @@ theorem ext {φ₁ φ₂ : (⨂[R] i, s i) →ₗ[R] E}
   refine' fun z ↦
     PiTensorProduct.induction_on' z _ fun {x y} hx hy ↦ by rw [φ₁.map_add, φ₂.map_add, hx, hy]
   · intro r f
-    rw [tprodCoeff_eq_smul_tprod, φ₁.map_smul, φ₂.map_smul]
+    rw [tprodCoeff_eq_smul_tprod]; rw [φ₁.map_smul]; rw [φ₂.map_smul]
     apply _root_.congr_arg
     exact MultilinearMap.congr_fun H f
 #align pi_tensor_product.ext PiTensorProduct.ext
@@ -364,7 +364,7 @@ def liftAux (φ : MultilinearMap R s E) : (⨂[R] i, s i) →+ E :=
 
 theorem liftAux_tprod (φ : MultilinearMap R s E) (f : ∀ i, s i) : liftAux φ (tprod R f) = φ f := by
   simp only [liftAux, liftAddHom, tprod_eq_tprodCoeff_one, tprodCoeff, AddCon.coe_mk']
-  rw [FreeAddMonoid.of, FreeAddMonoid.ofList, Equiv.refl_apply, AddCon.lift_coe]
+  rw [FreeAddMonoid.of]; rw [FreeAddMonoid.ofList]; rw [Equiv.refl_apply]; rw [AddCon.lift_coe]
   dsimp [FreeAddMonoid.lift, FreeAddMonoid.sumAux]
   show _ • _ = _
   rw [one_smul]
@@ -378,9 +378,9 @@ theorem liftAux.smul {φ : MultilinearMap R s E} (r : R) (x : ⨂[R] i, s i) :
     liftAux φ (r • x) = r • liftAux φ x := by
   refine' PiTensorProduct.induction_on' x _ _
   · intro z f
-    rw [smul_tprodCoeff' r z f, liftAux_tprodCoeff, liftAux_tprodCoeff, smul_assoc]
+    rw [smul_tprodCoeff' r z f]; rw [liftAux_tprodCoeff]; rw [liftAux_tprodCoeff]; rw [smul_assoc]
   · intro z y ihz ihy
-    rw [smul_add, (liftAux φ).map_add, ihz, ihy, (liftAux φ).map_add, smul_add]
+    rw [smul_add]; rw [(liftAux φ).map_add]; rw [ihz]; rw [ihy]; rw [(liftAux φ).map_add]; rw [smul_add]
 #align pi_tensor_product.lift_aux.smul PiTensorProduct.liftAux.smul
 
 /-- Constructing a linear map `(⨂[R] i, s i) → E` given a `MultilinearMap R s E` with the
@@ -511,7 +511,7 @@ theorem reindex_symm (e : ι ≃ ι₂) : (reindex R M e).symm = reindex R M e.s
 theorem reindex_refl : reindex R M (Equiv.refl ι) = LinearEquiv.refl R _ := by
   apply LinearEquiv.toLinearMap_injective
   ext
-  rw [reindex_comp_tprod, LinearEquiv.refl_toLinearMap, Equiv.refl_symm]
+  rw [reindex_comp_tprod]; rw [LinearEquiv.refl_toLinearMap]; rw [Equiv.refl_symm]
   rfl
 #align pi_tensor_product.reindex_refl PiTensorProduct.reindex_refl
 
@@ -531,7 +531,7 @@ def isEmptyEquiv [IsEmpty ι] : (⨂[R] _ : ι, M) ≃ₗ[R] R where
       aesop
     · simp only
       intro x y hx hy
-      rw [map_add, add_smul, hx, hy]
+      rw [map_add]; rw [add_smul]; rw [hx]; rw [hy]
   right_inv t := by simp
   map_add' := LinearMap.map_add _
   map_smul' := fun r x => by
@@ -558,14 +558,13 @@ def subsingletonEquiv [Subsingleton ι] (i₀ : ι) : (⨂[R] _ : ι, M) ≃ₗ[
     have : ∀ (f : ι → M) (z : M), (fun _ : ι ↦ z) = update f i₀ z := by
       intro f z
       ext i
-      rw [Subsingleton.elim i i₀, Function.update_same]
+      rw [Subsingleton.elim i i₀]; rw [Function.update_same]
     refine x.induction_on ?_ ?_
     · intro r f
       simp only [LinearMap.map_smul, lift.tprod, ofSubsingleton_apply, Function.eval, this f,
         MultilinearMap.map_smul, update_eq_self]
     · intro x y hx hy
-      rw [LinearMap.map_add, this 0 (_ + _), MultilinearMap.map_add, ← this 0 (lift _ _), hx,
-        ← this 0 (lift _ _), hy]
+      rw [LinearMap.map_add]; rw [this 0 (_ + _)]; rw [MultilinearMap.map_add]; rw [← this 0 (lift _ _)]; rw [hx]; rw [← this 0 (lift _ _)]; rw [hy]
   right_inv t := by simp only [ofSubsingleton_apply, lift.tprod, Function.eval_apply]
   map_add' := LinearMap.map_add _
   map_smul' := fun r x => by

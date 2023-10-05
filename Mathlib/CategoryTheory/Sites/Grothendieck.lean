@@ -145,7 +145,7 @@ theorem superset_covering (Hss : S ≤ R) (sjx : S ∈ J X) : R ∈ J X := by
   apply J.transitive sjx R fun Y f hf => _
   intros Y f hf
   apply covering_of_eq_top
-  rw [← top_le_iff, ← S.pullback_eq_top_of_mem hf]
+  rw [← top_le_iff]; rw [← S.pullback_eq_top_of_mem hf]
   apply Sieve.pullback_monotone _ Hss
 #align category_theory.grothendieck_topology.superset_covering CategoryTheory.GrothendieckTopology.superset_covering
 
@@ -157,7 +157,7 @@ Section 2, Definition 1 (iv).
 theorem intersection_covering (rj : R ∈ J X) (sj : S ∈ J X) : R ⊓ S ∈ J X := by
   apply J.transitive rj _ fun Y f Hf => _
   intros Y f hf
-  rw [Sieve.pullback_inter, R.pullback_eq_top_of_mem hf]
+  rw [Sieve.pullback_inter]; rw [R.pullback_eq_top_of_mem hf]
   simp [sj]
 #align category_theory.grothendieck_topology.intersection_covering CategoryTheory.GrothendieckTopology.intersection_covering
 
@@ -188,7 +188,7 @@ theorem covering_iff_covers_id (S : Sieve X) : S ∈ J X ↔ J.Covers S (𝟙 X)
 
 /-- The maximality axiom in 'arrow' form: Any arrow `f` in `S` is covered by `S`. -/
 theorem arrow_max (f : Y ⟶ X) (S : Sieve X) (hf : S f) : J.Covers S f := by
-  rw [Covers, (Sieve.pullback_eq_top_iff_mem f).1 hf]
+  rw [Covers]; rw [(Sieve.pullback_eq_top_iff_mem f).1 hf]
   apply J.top_mem
 #align category_theory.grothendieck_topology.arrow_max CategoryTheory.GrothendieckTopology.arrow_max
 
@@ -230,7 +230,7 @@ def trivial : GrothendieckTopology C where
     rw [Set.mem_singleton_iff] at hf ⊢
     simp [hf]
   transitive' X S hS R hR := by
-    rw [Set.mem_singleton_iff, ← Sieve.id_mem_iff_eq_top] at hS
+    rw [Set.mem_singleton_iff] at hS; rw [← Sieve.id_mem_iff_eq_top] at hS
     simpa using hR hS
 #align category_theory.grothendieck_topology.trivial CategoryTheory.GrothendieckTopology.trivial
 
@@ -333,7 +333,7 @@ theorem top_covering : S ∈ (⊤ : GrothendieckTopology C) X :=
 #align category_theory.grothendieck_topology.top_covering CategoryTheory.GrothendieckTopology.top_covering
 
 theorem bot_covers (S : Sieve X) (f : Y ⟶ X) : (⊥ : GrothendieckTopology C).Covers S f ↔ S f := by
-  rw [covers_iff, bot_covering, ← Sieve.pullback_eq_top_iff_mem]
+  rw [covers_iff]; rw [bot_covering]; rw [← Sieve.pullback_eq_top_iff_mem]
 #align category_theory.grothendieck_topology.bot_covers CategoryTheory.GrothendieckTopology.bot_covers
 
 @[simp]

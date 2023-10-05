@@ -77,8 +77,7 @@ end MeasurableSpace
 
 theorem IsPiSystem.singleton {α} (S : Set α) : IsPiSystem ({S} : Set (Set α)) := by
   intro s h_s t h_t _
-  rw [Set.mem_singleton_iff.1 h_s, Set.mem_singleton_iff.1 h_t, Set.inter_self,
-    Set.mem_singleton_iff]
+  rw [Set.mem_singleton_iff.1 h_s]; rw [Set.mem_singleton_iff.1 h_t]; rw [Set.inter_self]; rw [Set.mem_singleton_iff]
 #align is_pi_system.singleton IsPiSystem.singleton
 
 theorem IsPiSystem.insert_empty {α} {S : Set (Set α)} (h_pi : IsPiSystem S) :
@@ -353,7 +352,7 @@ theorem mem_generatePiSystem_iUnion_elim' {α β} {g : β → Set (Set α)} {s :
       at h_b
     cases' h_b with h_b_w h_b_h
     have h_b_alt : b = (Subtype.mk b h_b_w).val := rfl
-    rw [h_b_alt, Subtype.val_injective.extend_apply]
+    rw [h_b_alt]; rw [Subtype.val_injective.extend_apply]
     apply h_t'
     apply h_b_h
 #align mem_generate_pi_system_Union_elim' mem_generatePiSystem_iUnion_elim'
@@ -443,7 +442,7 @@ theorem isPiSystem_piiUnionInter (π : ι → Set (Set α)) (hpi : ∀ x, IsPiSy
     simp only [hp1S, hp2S, Finset.coe_union, union_subset_iff, and_self_iff]
   use p1 ∪ p2, hp_union_ss, g
   have h_inter_eq : t1 ∩ t2 = ⋂ i ∈ p1 ∪ p2, g i := by
-    rw [ht1_eq, ht2_eq]
+    rw [ht1_eq]; rw [ht2_eq]
     simp_rw [← Set.inf_eq_inter]
     ext1 x
     simp only [inf_eq_inter, mem_inter_iff, mem_iInter, Finset.mem_union]
@@ -750,7 +749,7 @@ theorem induction_on_inter {C : Set α → Prop} {s : Set (Set α)} [m : Measura
         Pairwise (Disjoint on f) → (∀ i, MeasurableSet (f i)) → (∀ i, C (f i)) → C (⋃ i, f i)) :
     ∀ ⦃t⦄, MeasurableSet t → C t :=
   have eq : MeasurableSet = DynkinSystem.GenerateHas s := by
-    rw [h_eq, DynkinSystem.generateFrom_eq h_inter]
+    rw [h_eq]; rw [DynkinSystem.generateFrom_eq h_inter]
     rfl
   fun t ht =>
   have : DynkinSystem.GenerateHas s t := by rwa [eq] at ht

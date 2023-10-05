@@ -57,11 +57,11 @@ theorem preimage_closedBall (x : ℤ) (r : ℝ) : (↑) ⁻¹' closedBall (x : �
 #align int.preimage_closed_ball Int.preimage_closedBall
 
 theorem ball_eq_Ioo (x : ℤ) (r : ℝ) : ball x r = Ioo ⌊↑x - r⌋ ⌈↑x + r⌉ := by
-  rw [← preimage_ball, Real.ball_eq_Ioo, preimage_Ioo]
+  rw [← preimage_ball]; rw [Real.ball_eq_Ioo]; rw [preimage_Ioo]
 #align int.ball_eq_Ioo Int.ball_eq_Ioo
 
 theorem closedBall_eq_Icc (x : ℤ) (r : ℝ) : closedBall x r = Icc ⌈↑x - r⌉ ⌊↑x + r⌋ := by
-  rw [← preimage_closedBall, Real.closedBall_eq_Icc, preimage_Icc]
+  rw [← preimage_closedBall]; rw [Real.closedBall_eq_Icc]; rw [preimage_Icc]
 #align int.closed_ball_eq_Icc Int.closedBall_eq_Icc
 
 instance : ProperSpace ℤ :=
@@ -77,7 +77,7 @@ theorem cocompact_eq : cocompact ℤ = atBot ⊔ atTop := by
 
 @[simp]
 theorem cofinite_eq : (cofinite : Filter ℤ) = atBot ⊔ atTop := by
-  rw [← cocompact_eq_cofinite, cocompact_eq]
+  rw [← cocompact_eq_cofinite]; rw [cocompact_eq]
 #align int.cofinite_eq Int.cofinite_eq
 
 end Int

@@ -59,12 +59,12 @@ theorem Int.comap_cast_atBot [StrictOrderedRing R] [Archimedean R] :
 
 theorem tendsto_int_cast_atTop_iff [StrictOrderedRing R] [Archimedean R] {f : α → ℤ}
     {l : Filter α} : Tendsto (fun n => (f n : R)) l atTop ↔ Tendsto f l atTop := by
-  rw [← @Int.comap_cast_atTop R, tendsto_comap_iff]; rfl
+  rw [← @Int.comap_cast_atTop R]; rw [tendsto_comap_iff]; rfl
 #align tendsto_coe_int_at_top_iff tendsto_int_cast_atTop_iff
 
 theorem tendsto_int_cast_atBot_iff [StrictOrderedRing R] [Archimedean R] {f : α → ℤ}
     {l : Filter α} : Tendsto (fun n => (f n : R)) l atBot ↔ Tendsto f l atBot := by
-  rw [← @Int.comap_cast_atBot R, tendsto_comap_iff]; rfl
+  rw [← @Int.comap_cast_atBot R]; rw [tendsto_comap_iff]; rfl
 #align tendsto_coe_int_at_bot_iff tendsto_int_cast_atBot_iff
 
 theorem tendsto_int_cast_atTop_atTop [StrictOrderedRing R] [Archimedean R] :
@@ -96,12 +96,12 @@ theorem Rat.comap_cast_atTop [LinearOrderedField R] [Archimedean R] :
 
 theorem tendsto_rat_cast_atTop_iff [LinearOrderedField R] [Archimedean R] {f : α → ℚ}
     {l : Filter α} : Tendsto (fun n => (f n : R)) l atTop ↔ Tendsto f l atTop := by
-  rw [← @Rat.comap_cast_atTop R, tendsto_comap_iff]; rfl
+  rw [← @Rat.comap_cast_atTop R]; rw [tendsto_comap_iff]; rfl
 #align tendsto_coe_rat_at_top_iff tendsto_rat_cast_atTop_iff
 
 theorem tendsto_rat_cast_atBot_iff [LinearOrderedField R] [Archimedean R] {f : α → ℚ}
     {l : Filter α} : Tendsto (fun n => (f n : R)) l atBot ↔ Tendsto f l atBot := by
-  rw [← @Rat.comap_cast_atBot R, tendsto_comap_iff]; rfl
+  rw [← @Rat.comap_cast_atBot R]; rw [tendsto_comap_iff]; rfl
 #align tendsto_coe_rat_at_bot_iff tendsto_rat_cast_atBot_iff
 
 theorem Filter.Eventually.rat_cast_atTop [LinearOrderedField R] [Archimedean R] {p : R → Prop}

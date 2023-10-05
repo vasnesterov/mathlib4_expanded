@@ -39,16 +39,16 @@ instance : LocallyFiniteOrder (Finset α)
   finsetIoc s t := t.powerset.filter ((· ⊂ ·) s)
   finsetIoo s t := t.ssubsets.filter ((· ⊂ ·) s)
   finset_mem_Icc s t u := by
-    rw [mem_filter, mem_powerset]
+    rw [mem_filter]; rw [mem_powerset]
     exact and_comm
   finset_mem_Ico s t u := by
-    rw [mem_filter, mem_ssubsets]
+    rw [mem_filter]; rw [mem_ssubsets]
     exact and_comm
   finset_mem_Ioc s t u := by
-    rw [mem_filter, mem_powerset]
+    rw [mem_filter]; rw [mem_powerset]
     exact and_comm
   finset_mem_Ioo s t u := by
-    rw [mem_filter, mem_ssubsets]
+    rw [mem_filter]; rw [mem_ssubsets]
     exact and_comm
 
 theorem Icc_eq_filter_powerset : Icc s t = t.powerset.filter ((· ⊆ ·) s) :=
@@ -99,26 +99,26 @@ theorem Ico_eq_image_ssubsets (h : s ⊆ t) : Ico s t = (t \ s).ssubsets.image (
 
 /-- Cardinality of a non-empty `Icc` of finsets. -/
 theorem card_Icc_finset (h : s ⊆ t) : (Icc s t).card = 2 ^ (t.card - s.card) := by
-  rw [← card_sdiff h, ← card_powerset, Icc_eq_image_powerset h, Finset.card_image_iff]
+  rw [← card_sdiff h]; rw [← card_powerset]; rw [Icc_eq_image_powerset h]; rw [Finset.card_image_iff]
   rintro u hu v hv (huv : s ⊔ u = s ⊔ v)
-  rw [mem_coe, mem_powerset] at hu hv
-  rw [← (disjoint_sdiff.mono_right hu : Disjoint s u).sup_sdiff_cancel_left, ←
-    (disjoint_sdiff.mono_right hv : Disjoint s v).sup_sdiff_cancel_left, huv]
+  rw [mem_coe] at hu hv; rw [mem_powerset] at hu hv
+  rw [← (disjoint_sdiff.mono_right hu : Disjoint s u).sup_sdiff_cancel_left]; rw [←
+    (disjoint_sdiff.mono_right hv : Disjoint s v).sup_sdiff_cancel_left]; rw [huv]
 #align finset.card_Icc_finset Finset.card_Icc_finset
 
 /-- Cardinality of an `Ico` of finsets. -/
 theorem card_Ico_finset (h : s ⊆ t) : (Ico s t).card = 2 ^ (t.card - s.card) - 1 := by
-  rw [card_Ico_eq_card_Icc_sub_one, card_Icc_finset h]
+  rw [card_Ico_eq_card_Icc_sub_one]; rw [card_Icc_finset h]
 #align finset.card_Ico_finset Finset.card_Ico_finset
 
 /-- Cardinality of an `Ioc` of finsets. -/
 theorem card_Ioc_finset (h : s ⊆ t) : (Ioc s t).card = 2 ^ (t.card - s.card) - 1 := by
-  rw [card_Ioc_eq_card_Icc_sub_one, card_Icc_finset h]
+  rw [card_Ioc_eq_card_Icc_sub_one]; rw [card_Icc_finset h]
 #align finset.card_Ioc_finset Finset.card_Ioc_finset
 
 /-- Cardinality of an `Ioo` of finsets. -/
 theorem card_Ioo_finset (h : s ⊆ t) : (Ioo s t).card = 2 ^ (t.card - s.card) - 2 := by
-  rw [card_Ioo_eq_card_Icc_sub_two, card_Icc_finset h]
+  rw [card_Ioo_eq_card_Icc_sub_two]; rw [card_Icc_finset h]
 #align finset.card_Ioo_finset Finset.card_Ioo_finset
 
 /-- Cardinality of an `Iic` of finsets. -/
@@ -127,7 +127,7 @@ theorem card_Iic_finset : (Iic s).card = 2 ^ s.card := by rw [Iic_eq_powerset, c
 
 /-- Cardinality of an `Iio` of finsets. -/
 theorem card_Iio_finset : (Iio s).card = 2 ^ s.card - 1 := by
-  rw [Iio_eq_ssubsets, ssubsets, card_erase_of_mem (mem_powerset_self _), card_powerset]
+  rw [Iio_eq_ssubsets]; rw [ssubsets]; rw [card_erase_of_mem (mem_powerset_self _)]; rw [card_powerset]
 #align finset.card_Iio_finset Finset.card_Iio_finset
 
 end Decidable

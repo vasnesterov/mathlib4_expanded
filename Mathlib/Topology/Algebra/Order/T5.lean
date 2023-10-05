@@ -34,7 +34,7 @@ theorem compl_section_ordSeparatingSet_mem_nhdsWithin_Ici (hd : Disjoint s (clos
     (ha : a ∈ s) : (ordConnectedSection (ordSeparatingSet s t))ᶜ ∈ 𝓝[≥] a := by
   have hmem : tᶜ ∈ 𝓝[≥] a := by
     refine' mem_nhdsWithin_of_mem_nhds _
-    rw [← mem_interior_iff_mem_nhds, interior_compl]
+    rw [← mem_interior_iff_mem_nhds]; rw [interior_compl]
     exact disjoint_left.1 hd ha
   rcases exists_Icc_mem_subset_of_mem_nhdsWithin_Ici hmem with ⟨b, hab, hmem', hsub⟩
   by_cases H : Disjoint (Icc a b) (ordConnectedSection <| ordSeparatingSet s t)
@@ -73,7 +73,7 @@ theorem compl_section_ordSeparatingSet_mem_nhdsWithin_Iic (hd : Disjoint s (clos
 
 theorem compl_section_ordSeparatingSet_mem_nhds (hd : Disjoint s (closure t)) (ha : a ∈ s) :
     (ordConnectedSection <| ordSeparatingSet s t)ᶜ ∈ 𝓝 a := by
-  rw [← nhds_left_sup_nhds_right, mem_sup]
+  rw [← nhds_left_sup_nhds_right]; rw [mem_sup]
   exact
     ⟨compl_section_ordSeparatingSet_mem_nhdsWithin_Iic hd ha,
       compl_section_ordSeparatingSet_mem_nhdsWithin_Ici hd ha⟩
@@ -82,7 +82,7 @@ theorem compl_section_ordSeparatingSet_mem_nhds (hd : Disjoint s (closure t)) (h
 theorem ordT5Nhd_mem_nhdsSet (hd : Disjoint s (closure t)) : ordT5Nhd s t ∈ 𝓝ˢ s :=
   bUnion_mem_nhdsSet fun x hx => ordConnectedComponent_mem_nhds.2 <| inter_mem
     (by
-      rw [← mem_interior_iff_mem_nhds, interior_compl]
+      rw [← mem_interior_iff_mem_nhds]; rw [interior_compl]
       exact disjoint_left.1 hd hx)
     (compl_section_ordSeparatingSet_mem_nhds hd hx)
 #align set.ord_t5_nhd_mem_nhds_set Set.ordT5Nhd_mem_nhdsSet

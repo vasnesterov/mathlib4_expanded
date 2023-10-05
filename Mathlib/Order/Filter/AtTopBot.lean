@@ -305,7 +305,7 @@ theorem OrderBot.atBot_eq (α) [PartialOrder α] [OrderBot α] : (atBot : Filter
 @[nontriviality]
 theorem Subsingleton.atTop_eq (α) [Subsingleton α] [Preorder α] : (atTop : Filter α) = ⊤ := by
   refine' top_unique fun s hs x => _
-  rw [atTop, ciInf_subsingleton x, mem_principal] at hs
+  rw [atTop] at hs; rw [ciInf_subsingleton x] at hs; rw [mem_principal] at hs
   exact hs left_mem_Ici
 #align filter.subsingleton.at_top_eq Filter.Subsingleton.atTop_eq
 
@@ -456,7 +456,7 @@ theorem comap_atBot (e : α ≃o β) : comap e atBot = atBot :=
 
 @[simp]
 theorem map_atTop (e : α ≃o β) : map (e : α → β) atTop = atTop := by
-  rw [← e.comap_atTop, map_comap_of_surjective e.surjective]
+  rw [← e.comap_atTop]; rw [map_comap_of_surjective e.surjective]
 #align order_iso.map_at_top OrderIso.map_atTop
 
 @[simp]
@@ -475,7 +475,7 @@ theorem tendsto_atBot (e : α ≃o β) : Tendsto e atBot atBot :=
 @[simp]
 theorem tendsto_atTop_iff {l : Filter γ} {f : γ → α} (e : α ≃o β) :
     Tendsto (fun x => e (f x)) l atTop ↔ Tendsto f l atTop := by
-  rw [← e.comap_atTop, tendsto_comap_iff]; rfl
+  rw [← e.comap_atTop]; rw [tendsto_comap_iff]; rfl
 #align order_iso.tendsto_at_top_iff OrderIso.tendsto_atTop_iff
 
 @[simp]
@@ -552,7 +552,7 @@ theorem Eventually.atTop_of_arithmetic {p : ℕ → Prop} {n : ℕ} (hn : n ≠ 
   rw [← Nat.div_add_mod b n]
   have hlt := Nat.mod_lt b hn.bot_lt
   refine hN _ hlt _ ?_
-  rw [ge_iff_le, Nat.le_div_iff_mul_le hn.bot_lt, mul_comm]
+  rw [ge_iff_le]; rw [Nat.le_div_iff_mul_le hn.bot_lt]; rw [mul_comm]
   exact (Finset.le_sup (f := (n * N ·)) (Finset.mem_range.2 hlt)).trans hb
 
 theorem exists_le_of_tendsto_atTop [SemilatticeSup α] [Preorder β] {u : α → β}
@@ -992,7 +992,7 @@ theorem comap_abs_atTop : comap (abs : α → α) atTop = atBot ⊔ atTop := by
       (sup_le tendsto_abs_atBot_atTop.le_comap tendsto_abs_atTop_atTop.le_comap)
   rintro ⟨a, b⟩ -
   refine' ⟨max (-a) b, trivial, fun x hx => _⟩
-  rw [mem_preimage, mem_Ici, le_abs', max_le_iff, ← min_neg_neg, le_min_iff, neg_neg] at hx
+  rw [mem_preimage] at hx; rw [mem_Ici] at hx; rw [le_abs'] at hx; rw [max_le_iff] at hx; rw [← min_neg_neg] at hx; rw [le_min_iff] at hx; rw [neg_neg] at hx
   exact hx.imp And.left And.right
 #align filter.comap_abs_at_top Filter.comap_abs_atTop
 
@@ -1320,7 +1320,7 @@ theorem tendsto_atBot' [Nonempty α] [SemilatticeInf α] {f : α → β} {l : Fi
 
 theorem tendsto_atTop_principal [Nonempty β] [SemilatticeSup β] {f : β → α} {s : Set α} :
     Tendsto f atTop (𝓟 s) ↔ ∃ N, ∀ n ≥ N, f n ∈ s := by
-  rw [tendsto_iff_comap, comap_principal, le_principal_iff, mem_atTop_sets]; rfl
+  rw [tendsto_iff_comap]; rw [comap_principal]; rw [le_principal_iff]; rw [mem_atTop_sets]; rfl
 #align filter.tendsto_at_top_principal Filter.tendsto_atTop_principal
 
 theorem tendsto_atBot_principal [Nonempty β] [SemilatticeInf β] {f : β → α} {s : Set α} :
@@ -1403,7 +1403,7 @@ theorem comap_embedding_atBot [Preorder β] [Preorder γ] {e : β → γ}
 theorem tendsto_atTop_embedding [Preorder β] [Preorder γ] {f : α → β} {e : β → γ} {l : Filter α}
     (hm : ∀ b₁ b₂, e b₁ ≤ e b₂ ↔ b₁ ≤ b₂) (hu : ∀ c, ∃ b, c ≤ e b) :
     Tendsto (e ∘ f) l atTop ↔ Tendsto f l atTop := by
-  rw [← comap_embedding_atTop hm hu, tendsto_comap_iff]
+  rw [← comap_embedding_atTop hm hu]; rw [tendsto_comap_iff]
 #align filter.tendsto_at_top_embedding Filter.tendsto_atTop_embedding
 
 /-- A function `f` goes to `-∞` independent of an order-preserving embedding `e`. -/
@@ -1470,7 +1470,7 @@ theorem prod_atBot_atBot_eq [Preorder β₁] [Preorder β₂] :
 -- porting note: generalized from `SemilatticeSup` to `Preorder`
 theorem prod_map_atTop_eq {α₁ α₂ β₁ β₂ : Type*} [Preorder β₁] [Preorder β₂]
     (u₁ : β₁ → α₁) (u₂ : β₂ → α₂) : map u₁ atTop ×ˢ map u₂ atTop = map (Prod.map u₁ u₂) atTop := by
-  rw [prod_map_map_eq, prod_atTop_atTop_eq, Prod.map_def]
+  rw [prod_map_map_eq]; rw [prod_atTop_atTop_eq]; rw [Prod.map_def]
 #align filter.prod_map_at_top_eq Filter.prod_map_atTop_eq
 
 -- porting note: generalized from `SemilatticeSup` to `Preorder`
@@ -1565,7 +1565,7 @@ theorem map_atTop_eq_of_gc [SemilatticeSup α] [SemilatticeSup β] {f : α → �
       (hf.tendsto_atTop_atTop fun b => ⟨g (b ⊔ b'), le_sup_left.trans <| hgi _ le_sup_right⟩) _
   rw [@map_atTop_eq _ _ ⟨g b'⟩]
   refine' le_iInf fun a => iInf_le_of_le (f a ⊔ b') <| principal_mono.2 fun b hb => _
-  rw [mem_Ici, sup_le_iff] at hb
+  rw [mem_Ici] at hb; rw [sup_le_iff] at hb
   exact ⟨g b, (gc _ _ hb.2).1 hb.1, le_antisymm ((gc _ _ hb.2).2 le_rfl) (hgi _ hb.2)⟩
 #align filter.map_at_top_eq_of_gc Filter.map_atTop_eq_of_gc
 
@@ -1620,7 +1620,7 @@ theorem atTop_Ioi_eq [SemilatticeSup α] (a : α) : atTop = comap ((↑) : Ioi a
 /-- The `atTop` filter for an open interval `Ici a` comes from the `atTop` filter in the ambient
 order. -/
 theorem atTop_Ici_eq [SemilatticeSup α] (a : α) : atTop = comap ((↑) : Ici a → α) atTop := by
-  rw [← map_val_Ici_atTop a, comap_map Subtype.coe_injective]
+  rw [← map_val_Ici_atTop a]; rw [comap_map Subtype.coe_injective]
 #align filter.at_top_Ici_eq Filter.atTop_Ici_eq
 
 /-- The `atBot` filter for an open interval `Iio a` comes from the `atBot` filter in the ambient
@@ -1652,46 +1652,46 @@ theorem atBot_Iic_eq [SemilatticeInf α] (a : α) : atBot = comap ((↑) : Iic a
 
 theorem tendsto_Ioi_atTop [SemilatticeSup α] {a : α} {f : β → Ioi a} {l : Filter β} :
     Tendsto f l atTop ↔ Tendsto (fun x => (f x : α)) l atTop := by
-  rw [atTop_Ioi_eq, tendsto_comap_iff]; rfl
+  rw [atTop_Ioi_eq]; rw [tendsto_comap_iff]; rfl
 #align filter.tendsto_Ioi_at_top Filter.tendsto_Ioi_atTop
 
 theorem tendsto_Iio_atBot [SemilatticeInf α] {a : α} {f : β → Iio a} {l : Filter β} :
     Tendsto f l atBot ↔ Tendsto (fun x => (f x : α)) l atBot := by
-  rw [atBot_Iio_eq, tendsto_comap_iff]; rfl
+  rw [atBot_Iio_eq]; rw [tendsto_comap_iff]; rfl
 #align filter.tendsto_Iio_at_bot Filter.tendsto_Iio_atBot
 
 theorem tendsto_Ici_atTop [SemilatticeSup α] {a : α} {f : β → Ici a} {l : Filter β} :
     Tendsto f l atTop ↔ Tendsto (fun x => (f x : α)) l atTop := by
-  rw [atTop_Ici_eq, tendsto_comap_iff]; rfl
+  rw [atTop_Ici_eq]; rw [tendsto_comap_iff]; rfl
 #align filter.tendsto_Ici_at_top Filter.tendsto_Ici_atTop
 
 theorem tendsto_Iic_atBot [SemilatticeInf α] {a : α} {f : β → Iic a} {l : Filter β} :
     Tendsto f l atBot ↔ Tendsto (fun x => (f x : α)) l atBot := by
-  rw [atBot_Iic_eq, tendsto_comap_iff]; rfl
+  rw [atBot_Iic_eq]; rw [tendsto_comap_iff]; rfl
 #align filter.tendsto_Iic_at_bot Filter.tendsto_Iic_atBot
 
 @[simp, nolint simpNF] -- Porting note: linter claims that LHS doesn't simplify. It does.
 theorem tendsto_comp_val_Ioi_atTop [SemilatticeSup α] [NoMaxOrder α] {a : α} {f : α → β}
     {l : Filter β} : Tendsto (fun x : Ioi a => f x) atTop l ↔ Tendsto f atTop l := by
-  rw [← map_val_Ioi_atTop a, tendsto_map'_iff]; rfl
+  rw [← map_val_Ioi_atTop a]; rw [tendsto_map'_iff]; rfl
 #align filter.tendsto_comp_coe_Ioi_at_top Filter.tendsto_comp_val_Ioi_atTop
 
 @[simp, nolint simpNF] -- Porting note: linter claims that LHS doesn't simplify. It does.
 theorem tendsto_comp_val_Ici_atTop [SemilatticeSup α] {a : α} {f : α → β} {l : Filter β} :
     Tendsto (fun x : Ici a => f x) atTop l ↔ Tendsto f atTop l := by
-  rw [← map_val_Ici_atTop a, tendsto_map'_iff]; rfl
+  rw [← map_val_Ici_atTop a]; rw [tendsto_map'_iff]; rfl
 #align filter.tendsto_comp_coe_Ici_at_top Filter.tendsto_comp_val_Ici_atTop
 
 @[simp, nolint simpNF] -- Porting note: linter claims that LHS doesn't simplify. It does.
 theorem tendsto_comp_val_Iio_atBot [SemilatticeInf α] [NoMinOrder α] {a : α} {f : α → β}
     {l : Filter β} : Tendsto (fun x : Iio a => f x) atBot l ↔ Tendsto f atBot l := by
-  rw [← map_val_Iio_atBot a, tendsto_map'_iff]; rfl
+  rw [← map_val_Iio_atBot a]; rw [tendsto_map'_iff]; rfl
 #align filter.tendsto_comp_coe_Iio_at_bot Filter.tendsto_comp_val_Iio_atBot
 
 @[simp, nolint simpNF] -- Porting note: linter claims that LHS doesn't simplify. It does.
 theorem tendsto_comp_val_Iic_atBot [SemilatticeInf α] {a : α} {f : α → β} {l : Filter β} :
     Tendsto (fun x : Iic a => f x) atBot l ↔ Tendsto f atBot l := by
-  rw [← map_val_Iic_atBot a, tendsto_map'_iff]; rfl
+  rw [← map_val_Iic_atBot a]; rw [tendsto_map'_iff]; rfl
 #align filter.tendsto_comp_coe_Iic_at_bot Filter.tendsto_comp_val_Iic_atBot
 
 theorem map_add_atTop_eq_nat (k : ℕ) : map (fun a => a + k) atTop = atTop :=
@@ -1715,7 +1715,7 @@ theorem tendsto_sub_atTop_nat (k : ℕ) : Tendsto (fun a => a - k) atTop atTop :
 theorem tendsto_add_atTop_iff_nat {f : ℕ → α} {l : Filter α} (k : ℕ) :
     Tendsto (fun n => f (n + k)) atTop l ↔ Tendsto f atTop l :=
   show Tendsto (f ∘ fun n => n + k) atTop l ↔ Tendsto f atTop l by
-    rw [← tendsto_map'_iff, map_add_atTop_eq_nat]
+    rw [← tendsto_map'_iff]; rw [map_add_atTop_eq_nat]
 #align filter.tendsto_add_at_top_iff_nat Filter.tendsto_add_atTop_iff_nat
 
 theorem map_div_atTop_eq_nat (k : ℕ) (hk : 0 < k) : map (fun a => a / k) atTop = atTop :=
@@ -1911,7 +1911,7 @@ theorem tendsto_iff_seq_tendsto {f : α → β} {k : Filter α} {l : Filter β} 
   contrapose! H
   have : NeBot (k ⊓ 𝓟 (f ⁻¹' sᶜ)) := by simpa [neBot_iff, inf_principal_eq_bot]
   rcases (k ⊓ 𝓟 (f ⁻¹' sᶜ)).exists_seq_tendsto with ⟨x, hx⟩
-  rw [tendsto_inf, tendsto_principal] at hx
+  rw [tendsto_inf] at hx; rw [tendsto_principal] at hx
   refine' ⟨x, hx.1, fun h => _⟩
   rcases (hx.2.and (h hs)).exists with ⟨N, hnmem, hmem⟩
   exact hnmem hmem
@@ -1948,7 +1948,7 @@ theorem frequently_iff_seq_frequently {ι : Type*} {l : Filter ι} {p : ι → P
   · obtain ⟨x, hx_tendsto, hx_freq⟩ := h_exists_freq
     simp_rw [Filter.Frequently, Filter.Eventually] at hx_freq ⊢
     have : { n : ℕ | ¬p (x n) } = { n | x n ∈ { y | ¬p y } } := rfl
-    rw [this, ← mem_map'] at hx_freq
+    rw [this] at hx_freq; rw [← mem_map'] at hx_freq
     exact mt (@hx_tendsto _) hx_freq
 #align filter.frequently_iff_seq_frequently Filter.frequently_iff_seq_frequently
 
@@ -1958,7 +1958,7 @@ theorem eventually_iff_seq_eventually {ι : Type*} {l : Filter ι} {p : ι → P
   have : (∀ᶠ n in l, p n) ↔ ¬∃ᶠ n in l, ¬p n := by
     rw [not_frequently]
     simp_rw [not_not]
-  rw [this, frequently_iff_seq_frequently]
+  rw [this]; rw [frequently_iff_seq_frequently]
   push_neg
   simp_rw [not_frequently, not_not]
 #align filter.eventually_iff_seq_eventually Filter.eventually_iff_seq_eventually

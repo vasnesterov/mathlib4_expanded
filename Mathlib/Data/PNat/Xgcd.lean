@@ -221,7 +221,7 @@ theorem flip_isReduced : (flip u).IsReduced ↔ u.IsReduced := by
 
 theorem flip_isSpecial : (flip u).IsSpecial ↔ u.IsSpecial := by
   dsimp [IsSpecial, flip]
-  rw [mul_comm u.x, mul_comm u.zp, add_comm u.zp]
+  rw [mul_comm u.x]; rw [mul_comm u.zp]; rw [add_comm u.zp]
 #align pnat.xgcd_type.flip_is_special PNat.XgcdType.flip_isSpecial
 
 theorem flip_v : (flip u).v = u.v.swap := by
@@ -241,7 +241,7 @@ theorem rq_eq : u.r + (u.bp + 1) * u.q = u.ap + 1 :=
 theorem qp_eq (hr : u.r = 0) : u.q = u.qp + 1 := by
   by_cases hq : u.q = 0
   · let h := u.rq_eq
-    rw [hr, hq, mul_zero, add_zero] at h
+    rw [hr] at h; rw [hq] at h; rw [mul_zero] at h; rw [add_zero] at h
     cases h
   · exact (Nat.succ_pred_eq_of_pos (Nat.pos_of_ne_zero hq)).symm
 #align pnat.xgcd_type.qp_eq PNat.XgcdType.qp_eq
@@ -262,9 +262,9 @@ theorem start_isSpecial (a b : ℕ+) : (start a b).IsSpecial := by
 theorem start_v (a b : ℕ+) : (start a b).v = ⟨a, b⟩ := by
   dsimp [start, v, XgcdType.a, XgcdType.b, w, z]
   have : succ 0 = 1 := rfl
-  rw [this, one_mul, one_mul, zero_mul, zero_mul, zero_add, add_zero]
-  rw [← Nat.pred_eq_sub_one, ← Nat.pred_eq_sub_one]
-  rw [Nat.succ_pred_eq_of_pos a.pos, Nat.succ_pred_eq_of_pos b.pos]
+  rw [this]; rw [one_mul]; rw [one_mul]; rw [zero_mul]; rw [zero_mul]; rw [zero_add]; rw [add_zero]
+  rw [← Nat.pred_eq_sub_one]; rw [← Nat.pred_eq_sub_one]
+  rw [Nat.succ_pred_eq_of_pos a.pos]; rw [Nat.succ_pred_eq_of_pos b.pos]
 #align pnat.xgcd_type.start_v PNat.XgcdType.start_v
 
 /-- `finish` happens when the reducing process ends. -/
@@ -279,20 +279,20 @@ theorem finish_isReduced : u.finish.IsReduced := by
 
 theorem finish_isSpecial (hs : u.IsSpecial) : u.finish.IsSpecial := by
   dsimp [IsSpecial, finish] at hs ⊢
-  rw [add_mul _ _ u.y, add_comm _ (u.x * u.y), ← hs]
+  rw [add_mul _ _ u.y]; rw [add_comm _ (u.x * u.y)]; rw [← hs]
   ring
 #align pnat.xgcd_type.finish_is_special PNat.XgcdType.finish_isSpecial
 
 theorem finish_v (hr : u.r = 0) : u.finish.v = u.v := by
   let ha : u.r + u.b * u.q = u.a := u.rq_eq
-  rw [hr, zero_add] at ha
+  rw [hr] at ha; rw [zero_add] at ha
   ext
   · change (u.wp + 1) * u.b + ((u.wp + 1) * u.qp + u.x) * u.b = u.w * u.a + u.x * u.b
     have : u.wp + 1 = u.w := rfl
-    rw [this, ← ha, u.qp_eq hr]
+    rw [this]; rw [← ha]; rw [u.qp_eq hr]
     ring
   · change u.y * u.b + (u.y * u.qp + u.z) * u.b = u.y * u.a + u.z * u.b
-    rw [← ha, u.qp_eq hr]
+    rw [← ha]; rw [u.qp_eq hr]
     ring
 #align pnat.xgcd_type.finish_v PNat.XgcdType.finish_v
 
@@ -314,7 +314,7 @@ theorem step_wf (hr : u.r ≠ 0) : SizeOf.sizeOf u.step < SizeOf.sizeOf u := by
 
 theorem step_isSpecial (hs : u.IsSpecial) : u.step.IsSpecial := by
   dsimp [IsSpecial, step] at hs ⊢
-  rw [mul_add, mul_comm u.y u.x, ← hs]
+  rw [mul_add]; rw [mul_comm u.y u.x]; rw [← hs]
   ring
 #align pnat.xgcd_type.step_is_special PNat.XgcdType.step_isSpecial
 
@@ -324,10 +324,10 @@ theorem step_v (hr : u.r ≠ 0) : u.step.v = u.v.swap := by
   let hr : u.r - 1 + 1 = u.r := (add_comm _ 1).trans (add_tsub_cancel_of_le (Nat.pos_of_ne_zero hr))
   ext
   · change ((u.y * u.q + u.z) * u.b + u.y * (u.r - 1 + 1) : ℕ) = u.y * u.a + u.z * u.b
-    rw [← ha, hr]
+    rw [← ha]; rw [hr]
     ring
   · change ((u.w * u.q + u.x) * u.b + u.w * (u.r - 1 + 1) : ℕ) = u.w * u.a + u.x * u.b
-    rw [← ha, hr]
+    rw [← ha]; rw [hr]
     ring
 #align pnat.xgcd_type.step_v PNat.XgcdType.step_v
 
@@ -363,7 +363,7 @@ theorem reduce_isReduced : ∀ u : XgcdType, u.reduce.IsReduced
         exact u.finish_isReduced)
       fun h => by
       have : SizeOf.sizeOf u.step < SizeOf.sizeOf u := u.step_wf h
-      rw [reduce_b h, flip_isReduced]
+      rw [reduce_b h]; rw [flip_isReduced]
       apply reduce_isReduced
 #align pnat.xgcd_type.reduce_reduced PNat.XgcdType.reduce_isReduced
 
@@ -391,7 +391,7 @@ theorem reduce_v : ∀ u : XgcdType, u.reduce.v = u.v
   | u =>
     dite (u.r = 0) (fun h => by rw [reduce_a h, finish_v u h]) fun h => by
       have : SizeOf.sizeOf u.step < SizeOf.sizeOf u := u.step_wf h
-      rw [reduce_b h, flip_v, reduce_v (step u), step_v u h, Prod.swap_swap]
+      rw [reduce_b h]; rw [flip_v]; rw [reduce_v (step u)]; rw [step_v u h]; rw [Prod.swap_swap]
 #align pnat.xgcd_type.reduce_v PNat.XgcdType.reduce_v
 
 end XgcdType
@@ -442,12 +442,12 @@ def gcdB' : ℕ+ :=
 
 theorem gcdA'_coe : (gcdA' a b : ℕ) = gcdW a b + gcdX a b := by
   dsimp [gcdA', gcdX, gcdW, XgcdType.w]
-  rw [Nat.succ_eq_add_one, Nat.succ_eq_add_one, add_right_comm]
+  rw [Nat.succ_eq_add_one]; rw [Nat.succ_eq_add_one]; rw [add_right_comm]
 #align pnat.gcd_a'_coe PNat.gcdA'_coe
 
 theorem gcdB'_coe : (gcdB' a b : ℕ) = gcdY a b + gcdZ a b := by
   dsimp [gcdB', gcdY, gcdZ, XgcdType.z]
-  rw [Nat.succ_eq_add_one, Nat.succ_eq_add_one, add_assoc]
+  rw [Nat.succ_eq_add_one]; rw [Nat.succ_eq_add_one]; rw [add_assoc]
 #align pnat.gcd_b'_coe PNat.gcdB'_coe
 
 theorem gcd_props :
@@ -478,7 +478,7 @@ theorem gcd_props :
   have _ : u.v = ⟨a, b⟩ := XgcdType.start_v a b
   let hv : Prod.mk (w * d + x * ur.b : ℕ) (y * d + z * ur.b : ℕ) = ⟨a, b⟩ :=
     u.reduce_v.trans (XgcdType.start_v a b)
-  rw [← hb, ← add_mul, ← add_mul, ← ha', ← hb'] at hv
+  rw [← hb] at hv; rw [← add_mul] at hv; rw [← add_mul] at hv; rw [← ha'] at hv; rw [← hb'] at hv
   have ha'' : (a : ℕ) = a' * d := (congr_arg Prod.fst hv).symm
   have hb'' : (b : ℕ) = b' * d := (congr_arg Prod.snd hv).symm
   constructor
@@ -486,20 +486,20 @@ theorem gcd_props :
   constructor
   exact eq hb''
   have hza' : (z * a' : ℕ) = x * b' + 1 := by
-    rw [ha', hb', mul_add, mul_add, mul_comm (z : ℕ), hdet']
+    rw [ha']; rw [hb']; rw [mul_add]; rw [mul_add]; rw [mul_comm (z : ℕ)]; rw [hdet']
     ring
   have hwb' : (w * b' : ℕ) = y * a' + 1 := by
-    rw [ha', hb', mul_add, mul_add, hdet']
+    rw [ha']; rw [hb']; rw [mul_add]; rw [mul_add]; rw [hdet']
     ring
   constructor
   · apply eq
-    rw [succPNat_coe, Nat.succ_eq_add_one, mul_coe, hza']
+    rw [succPNat_coe]; rw [Nat.succ_eq_add_one]; rw [mul_coe]; rw [hza']
   constructor
   · apply eq
-    rw [succPNat_coe, Nat.succ_eq_add_one, mul_coe, hwb']
-  rw [ha'', hb'']
+    rw [succPNat_coe]; rw [Nat.succ_eq_add_one]; rw [mul_coe]; rw [hwb']
+  rw [ha'']; rw [hb'']
   repeat' rw [← @mul_assoc]
-  rw [hza', hwb']
+  rw [hza']; rw [hwb']
   constructor <;> ring
 #align pnat.gcd_props PNat.gcd_props
 

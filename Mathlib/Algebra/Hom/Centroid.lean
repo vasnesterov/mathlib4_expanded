@@ -263,10 +263,10 @@ instance hasNsmul : SMul ℕ (CentroidHom α) :=
     { ((SMul.smul n f) : α →+ α) with
         map_mul_left' := fun a b ↦ by
           change n • f (a * b) = a * n • f b
-          rw [map_mul_left f, ← mul_smul_comm]
+          rw [map_mul_left f]; rw [← mul_smul_comm]
         map_mul_right' := fun a b ↦ by
           change n • f (a * b) = n • f a * b
-          rw [map_mul_right f, ← smul_mul_assoc] }⟩
+          rw [map_mul_right f]; rw [← smul_mul_assoc] }⟩
 #align centroid_hom.has_nsmul CentroidHom.hasNsmul
 
 instance hasNpowNat : Pow (CentroidHom α) ℕ :=
@@ -396,7 +396,7 @@ instance : Semiring (CentroidHom α) :=
 
 theorem comp_mul_comm (T S : CentroidHom α) (a b : α) : (T ∘ S) (a * b) = (S ∘ T) (a * b) := by
   simp
-  rw [map_mul_right, map_mul_left, ← map_mul_right, ← map_mul_left]
+  rw [map_mul_right]; rw [map_mul_left]; rw [← map_mul_right]; rw [← map_mul_left]
 #align centroid_hom.comp_mul_comm CentroidHom.comp_mul_comm
 
 end NonUnitalNonAssocSemiring
@@ -431,10 +431,10 @@ instance hasZsmul : SMul ℤ (CentroidHom α) :=
     { (SMul.smul n f : α →+ α) with
       map_mul_left' := fun a b ↦ by
         change n • f (a * b) = a * n • f b
-        rw [map_mul_left f, ← mul_smul_comm]
+        rw [map_mul_left f]; rw [← mul_smul_comm]
       map_mul_right' := fun a b ↦ by
         change n • f (a * b) = n • f a * b
-        rw [map_mul_right f, ← smul_mul_assoc] }⟩
+        rw [map_mul_right f]; rw [← smul_mul_assoc] }⟩
 #align centroid_hom.has_zsmul CentroidHom.hasZsmul
 
 instance : IntCast (CentroidHom α) where intCast z := z • (1 : CentroidHom α)
@@ -510,8 +510,7 @@ def commRing (h : ∀ a b : α, (∀ r : α, a * r * b = 0) → a = 0 ∨ b = 0)
     mul_comm := fun f g ↦ by
       ext
       refine' sub_eq_zero.1 ((or_self_iff _).1 <| (h _ _) fun r ↦ _)
-      rw [mul_assoc, sub_mul, sub_eq_zero, ← map_mul_right, ← map_mul_right, coe_mul, coe_mul,
-        comp_mul_comm] }
+      rw [mul_assoc]; rw [sub_mul]; rw [sub_eq_zero]; rw [← map_mul_right]; rw [← map_mul_right]; rw [coe_mul]; rw [coe_mul]; rw [comp_mul_comm] }
 #align centroid_hom.comm_ring CentroidHom.commRing
 
 end NonUnitalRing

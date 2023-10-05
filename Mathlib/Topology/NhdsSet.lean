@@ -41,7 +41,7 @@ def nhdsSet (s : Set α) : Filter α :=
 
 theorem nhdsSet_diagonal (α) [TopologicalSpace (α × α)] :
     𝓝ˢ (diagonal α) = ⨆ (x : α), 𝓝 (x, x) := by
-  rw [nhdsSet, ← range_diag, ← range_comp]
+  rw [nhdsSet]; rw [← range_diag]; rw [← range_comp]
   rfl
 #align nhds_set_diagonal nhdsSet_diagonal
 
@@ -61,14 +61,13 @@ theorem subset_interior_iff_mem_nhdsSet : s ⊆ interior t ↔ t ∈ 𝓝ˢ s :=
 #align subset_interior_iff_mem_nhds_set subset_interior_iff_mem_nhdsSet
 
 theorem disjoint_principal_nhdsSet : Disjoint (𝓟 s) (𝓝ˢ t) ↔ Disjoint (closure s) t := by
-  rw [disjoint_principal_left, ← subset_interior_iff_mem_nhdsSet, interior_compl,
-    subset_compl_iff_disjoint_left]
+  rw [disjoint_principal_left]; rw [← subset_interior_iff_mem_nhdsSet]; rw [interior_compl]; rw [subset_compl_iff_disjoint_left]
 
 theorem disjoint_nhdsSet_principal : Disjoint (𝓝ˢ s) (𝓟 t) ↔ Disjoint s (closure t) := by
-  rw [disjoint_comm, disjoint_principal_nhdsSet, disjoint_comm]
+  rw [disjoint_comm]; rw [disjoint_principal_nhdsSet]; rw [disjoint_comm]
 
 theorem mem_nhdsSet_iff_exists : s ∈ 𝓝ˢ t ↔ ∃ U : Set α, IsOpen U ∧ t ⊆ U ∧ U ⊆ s := by
-  rw [← subset_interior_iff_mem_nhdsSet, subset_interior_iff]
+  rw [← subset_interior_iff_mem_nhdsSet]; rw [subset_interior_iff]
 #align mem_nhds_set_iff_exists mem_nhdsSet_iff_exists
 
 theorem hasBasis_nhdsSet (s : Set α) : (𝓝ˢ s).HasBasis (fun U => IsOpen U ∧ s ⊆ U) fun U => U :=
@@ -76,7 +75,7 @@ theorem hasBasis_nhdsSet (s : Set α) : (𝓝ˢ s).HasBasis (fun U => IsOpen U �
 #align has_basis_nhds_set hasBasis_nhdsSet
 
 theorem IsOpen.mem_nhdsSet (hU : IsOpen s) : s ∈ 𝓝ˢ t ↔ t ⊆ s := by
-  rw [← subset_interior_iff_mem_nhdsSet, hU.interior_eq]
+  rw [← subset_interior_iff_mem_nhdsSet]; rw [hU.interior_eq]
 #align is_open.mem_nhds_set IsOpen.mem_nhdsSet
 
 theorem principal_le_nhdsSet : 𝓟 s ≤ 𝓝ˢ s := fun _s hs =>
@@ -93,8 +92,7 @@ nonrec theorem Filter.EventuallyEq.self_of_nhdsSet {f g : α → β} (h : f =ᶠ
 
 @[simp]
 theorem nhdsSet_eq_principal_iff : 𝓝ˢ s = 𝓟 s ↔ IsOpen s := by
-  rw [← principal_le_nhdsSet.le_iff_eq, le_principal_iff, mem_nhdsSet_iff_forall,
-    isOpen_iff_mem_nhds]
+  rw [← principal_le_nhdsSet.le_iff_eq]; rw [le_principal_iff]; rw [mem_nhdsSet_iff_forall]; rw [isOpen_iff_mem_nhds]
 #align nhds_set_eq_principal_iff nhdsSet_eq_principal_iff
 
 alias ⟨_, IsOpen.nhdsSet_eq⟩ := nhdsSet_eq_principal_iff
@@ -148,7 +146,7 @@ theorem union_mem_nhdsSet (h₁ : s₁ ∈ 𝓝ˢ t₁) (h₂ : s₂ ∈ 𝓝ˢ 
 
 @[simp]
 theorem nhdsSet_insert (x : α) (s : Set α) : 𝓝ˢ (insert x s) = 𝓝 x ⊔ 𝓝ˢ s := by
-  rw [insert_eq, nhdsSet_union, nhdsSet_singleton]
+  rw [insert_eq]; rw [nhdsSet_union]; rw [nhdsSet_singleton]
 
 /-- Preimage of a set neighborhood of `t` under a continuous map `f` is a set neighborhood of `s`
 provided that `f` maps `s` to `t`.  -/

@@ -135,11 +135,11 @@ theorem symmDiff_eq_bot {a b : α} : a ∆ b = ⊥ ↔ a = b := by
 #align symm_diff_eq_bot symmDiff_eq_bot
 
 theorem symmDiff_of_le {a b : α} (h : a ≤ b) : a ∆ b = b \ a := by
-  rw [symmDiff, sdiff_eq_bot_iff.2 h, bot_sup_eq]
+  rw [symmDiff]; rw [sdiff_eq_bot_iff.2 h]; rw [bot_sup_eq]
 #align symm_diff_of_le symmDiff_of_le
 
 theorem symmDiff_of_ge {a b : α} (h : b ≤ a) : a ∆ b = a \ b := by
-  rw [symmDiff, sdiff_eq_bot_iff.2 h, sup_bot_eq]
+  rw [symmDiff]; rw [sdiff_eq_bot_iff.2 h]; rw [sup_bot_eq]
 #align symm_diff_of_ge symmDiff_of_ge
 
 theorem symmDiff_le {a b c : α} (ha : a ≤ b ⊔ c) (hb : b ≤ a ⊔ c) : a ∆ b ≤ c :=
@@ -159,11 +159,11 @@ theorem symmDiff_eq_sup_sdiff_inf : a ∆ b = (a ⊔ b) \ (a ⊓ b) := by simp [
 #align symm_diff_eq_sup_sdiff_inf symmDiff_eq_sup_sdiff_inf
 
 theorem Disjoint.symmDiff_eq_sup {a b : α} (h : Disjoint a b) : a ∆ b = a ⊔ b := by
-  rw [symmDiff, h.sdiff_eq_left, h.sdiff_eq_right]
+  rw [symmDiff]; rw [h.sdiff_eq_left]; rw [h.sdiff_eq_right]
 #align disjoint.symm_diff_eq_sup Disjoint.symmDiff_eq_sup
 
 theorem symmDiff_sdiff : a ∆ b \ c = a \ (b ⊔ c) ⊔ b \ (a ⊔ c) := by
-  rw [symmDiff, sup_sdiff_distrib, sdiff_sdiff_left, sdiff_sdiff_left]
+  rw [symmDiff]; rw [sup_sdiff_distrib]; rw [sdiff_sdiff_left]; rw [sdiff_sdiff_left]
 #align symm_diff_sdiff symmDiff_sdiff
 
 @[simp]
@@ -174,7 +174,7 @@ theorem symmDiff_sdiff_inf : a ∆ b \ (a ⊓ b) = a ∆ b := by
 
 @[simp]
 theorem symmDiff_sdiff_eq_sup : a ∆ (b \ a) = a ⊔ b := by
-  rw [symmDiff, sdiff_idem]
+  rw [symmDiff]; rw [sdiff_idem]
   exact
     le_antisymm (sup_le_sup sdiff_le sdiff_le)
       (sup_le le_sdiff_sup <| le_sdiff_sup.trans <| sup_le le_sup_right le_sdiff_sup)
@@ -182,13 +182,13 @@ theorem symmDiff_sdiff_eq_sup : a ∆ (b \ a) = a ⊔ b := by
 
 @[simp]
 theorem sdiff_symmDiff_eq_sup : (a \ b) ∆ b = a ⊔ b := by
-  rw [symmDiff_comm, symmDiff_sdiff_eq_sup, sup_comm]
+  rw [symmDiff_comm]; rw [symmDiff_sdiff_eq_sup]; rw [sup_comm]
 #align sdiff_symm_diff_eq_sup sdiff_symmDiff_eq_sup
 
 @[simp]
 theorem symmDiff_sup_inf : a ∆ b ⊔ a ⊓ b = a ⊔ b := by
   refine' le_antisymm (sup_le symmDiff_le_sup inf_le_sup) _
-  rw [sup_inf_left, symmDiff]
+  rw [sup_inf_left]; rw [symmDiff]
   refine' sup_le (le_inf le_sup_right _) (le_inf _ le_sup_right)
   · rw [sup_right_comm]
     exact le_sup_of_le_left le_sdiff_sup
@@ -202,17 +202,17 @@ theorem inf_sup_symmDiff : a ⊓ b ⊔ a ∆ b = a ⊔ b := by rw [sup_comm, sym
 
 @[simp]
 theorem symmDiff_symmDiff_inf : a ∆ b ∆ (a ⊓ b) = a ⊔ b := by
-  rw [← symmDiff_sdiff_inf a, sdiff_symmDiff_eq_sup, symmDiff_sup_inf]
+  rw [← symmDiff_sdiff_inf a]; rw [sdiff_symmDiff_eq_sup]; rw [symmDiff_sup_inf]
 #align symm_diff_symm_diff_inf symmDiff_symmDiff_inf
 
 @[simp]
 theorem inf_symmDiff_symmDiff : (a ⊓ b) ∆ (a ∆ b) = a ⊔ b := by
-  rw [symmDiff_comm, symmDiff_symmDiff_inf]
+  rw [symmDiff_comm]; rw [symmDiff_symmDiff_inf]
 #align inf_symm_diff_symm_diff inf_symmDiff_symmDiff
 
 theorem symmDiff_triangle : a ∆ c ≤ a ∆ b ⊔ b ∆ c := by
   refine' (sup_le_sup (sdiff_triangle a b c) <| sdiff_triangle _ b _).trans_eq _
-  rw [@sup_comm _ _ (c \ b), sup_sup_sup_comm, symmDiff, symmDiff]
+  rw [@sup_comm _ _ (c \ b)]; rw [sup_sup_sup_comm]; rw [symmDiff]; rw [symmDiff]
 #align symm_diff_triangle symmDiff_triangle
 
 end GeneralizedCoheytingAlgebra
@@ -256,11 +256,11 @@ theorem bihimp_eq_top {a b : α} : a ⇔ b = ⊤ ↔ a = b :=
 #align bihimp_eq_top bihimp_eq_top
 
 theorem bihimp_of_le {a b : α} (h : a ≤ b) : a ⇔ b = b ⇨ a := by
-  rw [bihimp, himp_eq_top_iff.2 h, inf_top_eq]
+  rw [bihimp]; rw [himp_eq_top_iff.2 h]; rw [inf_top_eq]
 #align bihimp_of_le bihimp_of_le
 
 theorem bihimp_of_ge {a b : α} (h : b ≤ a) : a ⇔ b = a ⇨ b := by
-  rw [bihimp, himp_eq_top_iff.2 h, top_inf_eq]
+  rw [bihimp]; rw [himp_eq_top_iff.2 h]; rw [top_inf_eq]
 #align bihimp_of_ge bihimp_of_ge
 
 theorem le_bihimp {a b c : α} (hb : a ⊓ b ≤ c) (hc : a ⊓ c ≤ b) : a ≤ b ⇔ c :=
@@ -280,11 +280,11 @@ theorem bihimp_eq_inf_himp_inf : a ⇔ b = a ⊔ b ⇨ a ⊓ b := by simp [himp_
 #align bihimp_eq_inf_himp_inf bihimp_eq_inf_himp_inf
 
 theorem Codisjoint.bihimp_eq_inf {a b : α} (h : Codisjoint a b) : a ⇔ b = a ⊓ b := by
-  rw [bihimp, h.himp_eq_left, h.himp_eq_right]
+  rw [bihimp]; rw [h.himp_eq_left]; rw [h.himp_eq_right]
 #align codisjoint.bihimp_eq_inf Codisjoint.bihimp_eq_inf
 
 theorem himp_bihimp : a ⇨ b ⇔ c = (a ⊓ c ⇨ b) ⊓ (a ⊓ b ⇨ c) := by
-  rw [bihimp, himp_inf_distrib, himp_himp, himp_himp]
+  rw [bihimp]; rw [himp_inf_distrib]; rw [himp_himp]; rw [himp_himp]
 #align himp_bihimp himp_bihimp
 
 @[simp]
@@ -343,7 +343,7 @@ theorem top_symmDiff' : ⊤ ∆ a = ￢a := by simp [symmDiff]
 
 @[simp]
 theorem hnot_symmDiff_self : (￢a) ∆ a = ⊤ := by
-  rw [eq_top_iff, symmDiff, hnot_sdiff, sup_sdiff_self]
+  rw [eq_top_iff]; rw [symmDiff]; rw [hnot_sdiff]; rw [sup_sdiff_self]
   exact Codisjoint.top_le codisjoint_hnot_left
 #align hnot_symm_diff_self hnot_symmDiff_self
 
@@ -352,7 +352,7 @@ theorem symmDiff_hnot_self : a ∆ (￢a) = ⊤ := by rw [symmDiff_comm, hnot_sy
 #align symm_diff_hnot_self symmDiff_hnot_self
 
 theorem IsCompl.symmDiff_eq_top {a b : α} (h : IsCompl a b) : a ∆ b = ⊤ := by
-  rw [h.eq_hnot, hnot_symmDiff_self]
+  rw [h.eq_hnot]; rw [hnot_symmDiff_self]
 #align is_compl.symm_diff_eq_top IsCompl.symmDiff_eq_top
 
 end CoheytingAlgebra
@@ -380,7 +380,7 @@ theorem bihimp_hnot_self : a ⇔ aᶜ = ⊥ :=
 #align bihimp_hnot_self bihimp_hnot_self
 
 theorem IsCompl.bihimp_eq_bot {a b : α} (h : IsCompl a b) : a ⇔ b = ⊥ := by
-  rw [h.eq_compl, compl_bihimp_self]
+  rw [h.eq_compl]; rw [compl_bihimp_self]
 #align is_compl.bihimp_eq_bot IsCompl.bihimp_eq_bot
 
 end HeytingAlgebra
@@ -400,8 +400,7 @@ theorem disjoint_symmDiff_inf : Disjoint (a ∆ b) (a ⊓ b) := by
 #align disjoint_symm_diff_inf disjoint_symmDiff_inf
 
 theorem inf_symmDiff_distrib_left : a ⊓ b ∆ c = (a ⊓ b) ∆ (a ⊓ c) := by
-  rw [symmDiff_eq_sup_sdiff_inf, inf_sdiff_distrib_left, inf_sup_left, inf_inf_distrib_left,
-    symmDiff_eq_sup_sdiff_inf]
+  rw [symmDiff_eq_sup_sdiff_inf]; rw [inf_sdiff_distrib_left]; rw [inf_sup_left]; rw [inf_inf_distrib_left]; rw [symmDiff_eq_sup_sdiff_inf]
 #align inf_symm_diff_distrib_left inf_symmDiff_distrib_left
 
 theorem inf_symmDiff_distrib_right : a ∆ b ⊓ c = (a ⊓ c) ∆ (b ⊓ c) := by
@@ -413,12 +412,12 @@ theorem sdiff_symmDiff : c \ a ∆ b = c ⊓ a ⊓ b ⊔ c \ a ⊓ c \ b := by
 #align sdiff_symm_diff sdiff_symmDiff
 
 theorem sdiff_symmDiff' : c \ a ∆ b = c ⊓ a ⊓ b ⊔ c \ (a ⊔ b) := by
-  rw [sdiff_symmDiff, sdiff_sup]
+  rw [sdiff_symmDiff]; rw [sdiff_sup]
 #align sdiff_symm_diff' sdiff_symmDiff'
 
 @[simp]
 theorem symmDiff_sdiff_left : a ∆ b \ a = b \ a := by
-  rw [symmDiff_def, sup_sdiff, sdiff_idem, sdiff_sdiff_self, bot_sup_eq]
+  rw [symmDiff_def]; rw [sup_sdiff]; rw [sdiff_idem]; rw [sdiff_sdiff_self]; rw [bot_sup_eq]
 #align symm_diff_sdiff_left symmDiff_sdiff_left
 
 @[simp]
@@ -431,12 +430,12 @@ theorem sdiff_symmDiff_left : a \ a ∆ b = a ⊓ b := by simp [sdiff_symmDiff]
 
 @[simp]
 theorem sdiff_symmDiff_right : b \ a ∆ b = a ⊓ b := by
-  rw [symmDiff_comm, inf_comm, sdiff_symmDiff_left]
+  rw [symmDiff_comm]; rw [inf_comm]; rw [sdiff_symmDiff_left]
 #align sdiff_symm_diff_right sdiff_symmDiff_right
 
 theorem symmDiff_eq_sup : a ∆ b = a ⊔ b ↔ Disjoint a b := by
   refine' ⟨fun h => _, Disjoint.symmDiff_eq_sup⟩
-  rw [symmDiff_eq_sup_sdiff_inf, sdiff_eq_self_iff_disjoint] at h
+  rw [symmDiff_eq_sup_sdiff_inf] at h; rw [sdiff_eq_self_iff_disjoint] at h
   exact h.of_disjoint_inf_of_le le_sup_left
 #align symm_diff_eq_sup symmDiff_eq_sup
 
@@ -449,7 +448,7 @@ theorem le_symmDiff_iff_left : a ≤ a ∆ b ↔ Disjoint a b := by
 
 @[simp]
 theorem le_symmDiff_iff_right : b ≤ a ∆ b ↔ Disjoint a b := by
-  rw [symmDiff_comm, le_symmDiff_iff_left, disjoint_comm]
+  rw [symmDiff_comm]; rw [le_symmDiff_iff_left]; rw [disjoint_comm]
 #align le_symm_diff_iff_right le_symmDiff_iff_right
 
 theorem symmDiff_symmDiff_left :
@@ -471,7 +470,7 @@ theorem symmDiff_symmDiff_right :
 #align symm_diff_symm_diff_right symmDiff_symmDiff_right
 
 theorem symmDiff_assoc : a ∆ b ∆ c = a ∆ (b ∆ c) := by
-  rw [symmDiff_symmDiff_left, symmDiff_symmDiff_right]
+  rw [symmDiff_symmDiff_left]; rw [symmDiff_symmDiff_right]
 #align symm_diff_assoc symmDiff_assoc
 
 instance symmDiff_isAssociative : IsAssociative α (· ∆ ·) :=
@@ -499,7 +498,7 @@ theorem symmDiff_symmDiff_cancel_right : b ∆ a ∆ a = b := by simp [symmDiff_
 
 @[simp]
 theorem symmDiff_symmDiff_self' : a ∆ b ∆ a = b := by
-  rw [symmDiff_comm, symmDiff_symmDiff_cancel_left]
+  rw [symmDiff_comm]; rw [symmDiff_symmDiff_cancel_left]
 #align symm_diff_symm_diff_self' symmDiff_symmDiff_self'
 
 theorem symmDiff_left_involutive (a : α) : Involutive (· ∆ a) :=
@@ -714,7 +713,7 @@ theorem bihimp_eq : a ⇔ b = (a ⊔ bᶜ) ⊓ (b ⊔ aᶜ) := by simp only [(·
 #align bihimp_eq bihimp_eq
 
 theorem symmDiff_eq' : a ∆ b = (a ⊔ b) ⊓ (aᶜ ⊔ bᶜ) := by
-  rw [symmDiff_eq_sup_sdiff_inf, sdiff_eq, compl_inf]
+  rw [symmDiff_eq_sup_sdiff_inf]; rw [sdiff_eq]; rw [compl_inf]
 #align symm_diff_eq' symmDiff_eq'
 
 theorem bihimp_eq' : a ⇔ b = a ⊓ b ⊔ aᶜ ⊓ bᶜ :=
@@ -751,14 +750,12 @@ theorem compl_bihimp_compl : aᶜ ⇔ bᶜ = a ⇔ b :=
 
 @[simp]
 theorem symmDiff_eq_top : a ∆ b = ⊤ ↔ IsCompl a b := by
-  rw [symmDiff_eq', ← compl_inf, inf_eq_top_iff, compl_eq_top, isCompl_iff, disjoint_iff,
-    codisjoint_iff, and_comm]
+  rw [symmDiff_eq']; rw [← compl_inf]; rw [inf_eq_top_iff]; rw [compl_eq_top]; rw [isCompl_iff]; rw [disjoint_iff]; rw [codisjoint_iff]; rw [and_comm]
 #align symm_diff_eq_top symmDiff_eq_top
 
 @[simp]
 theorem bihimp_eq_bot : a ⇔ b = ⊥ ↔ IsCompl a b := by
-  rw [bihimp_eq', ← compl_sup, sup_eq_bot_iff, compl_eq_bot, isCompl_iff, disjoint_iff,
-    codisjoint_iff]
+  rw [bihimp_eq']; rw [← compl_sup]; rw [sup_eq_bot_iff]; rw [compl_eq_bot]; rw [isCompl_iff]; rw [disjoint_iff]; rw [codisjoint_iff]
 #align bihimp_eq_bot bihimp_eq_bot
 
 @[simp]
@@ -781,7 +778,7 @@ theorem symmDiff_symmDiff_right' :
     _ = a ⊓ b ⊓ c ⊔ a ⊓ bᶜ ⊓ cᶜ ⊔ aᶜ ⊓ b ⊓ cᶜ ⊔ aᶜ ⊓ bᶜ ⊓ c := (by
       congr 1
       · congr 1
-        rw [inf_comm, inf_assoc]
+        rw [inf_comm]; rw [inf_assoc]
       · apply inf_left_right_swap)
 #align symm_diff_symm_diff_right' symmDiff_symmDiff_right'
 

@@ -59,7 +59,7 @@ theorem circulant_col_zero_eq [AddGroup n] (v : n → α) (i : n) : circulant v 
 theorem circulant_injective [AddGroup n] : Injective (circulant : (n → α) → Matrix n n α) := by
   intro v w h
   ext k
-  rw [← circulant_col_zero_eq v, ← circulant_col_zero_eq w, h]
+  rw [← circulant_col_zero_eq v]; rw [← circulant_col_zero_eq w]; rw [h]
 #align matrix.circulant_injective Matrix.circulant_injective
 
 theorem Fin.circulant_injective : ∀ n, Injective fun v : Fin n → α => circulant v
@@ -188,7 +188,7 @@ theorem Fin.circulant_ite (α) [Zero α] [One α] :
 /-- A circulant of `v` is symmetric iff `v` equals its reverse. -/
 theorem circulant_isSymm_iff [AddGroup n] {v : n → α} :
     (circulant v).IsSymm ↔ ∀ i, v (-i) = v i := by
-  rw [IsSymm, transpose_circulant, circulant_inj, funext_iff]
+  rw [IsSymm]; rw [transpose_circulant]; rw [circulant_inj]; rw [funext_iff]
 #align matrix.circulant_is_symm_iff Matrix.circulant_isSymm_iff
 
 theorem Fin.circulant_isSymm_iff : ∀ {n} {v : Fin n → α}, (circulant v).IsSymm ↔ ∀ i, v (-i) = v i

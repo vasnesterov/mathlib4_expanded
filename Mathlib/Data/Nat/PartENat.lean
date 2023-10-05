@@ -165,7 +165,7 @@ theorem natCast_get {x : PartENat} (h : x.Dom) : (x.get h : PartENat) = x := by
 
 @[simp, norm_cast]
 theorem get_natCast' (x : ℕ) (h : (x : PartENat).Dom) : get (x : PartENat) h = x := by
-  rw [← natCast_inj, natCast_get]
+  rw [← natCast_inj]; rw [natCast_get]
 #align part_enat.get_coe' PartENat.get_natCast'
 
 theorem get_natCast {x : ℕ} : get (x : PartENat) (dom_natCast x) = x :=
@@ -242,7 +242,7 @@ instance partialOrder : PartialOrder PartENat where
     Part.ext' ⟨hyx₁, hxy₁⟩ fun _ _ => le_antisymm (hxy₂ _) (hyx₂ _)
 
 theorem lt_def (x y : PartENat) : x < y ↔ ∃ hx : x.Dom, ∀ hy : y.Dom, x.get hx < y.get hy := by
-  rw [lt_iff_le_not_le, le_def, le_def, not_exists]
+  rw [lt_iff_le_not_le]; rw [le_def]; rw [le_def]; rw [not_exists]
   constructor
   · rintro ⟨⟨hyx, H⟩, h⟩
     by_cases hx : x.Dom
@@ -269,14 +269,14 @@ theorem coe_le_coe {x y : ℕ} : (x : PartENat) ≤ y ↔ x ≤ y := by
 
 @[simp, norm_cast]
 theorem coe_lt_coe {x y : ℕ} : (x : PartENat) < y ↔ x < y := by
-  rw [lt_iff_le_not_le, lt_iff_le_not_le, coe_le_coe, coe_le_coe]
+  rw [lt_iff_le_not_le]; rw [lt_iff_le_not_le]; rw [coe_le_coe]; rw [coe_le_coe]
 #align part_enat.coe_lt_coe PartENat.coe_lt_coe
 
 @[simp]
 theorem get_le_get {x y : PartENat} {hx : x.Dom} {hy : y.Dom} : x.get hx ≤ y.get hy ↔ x ≤ y := by
   conv =>
     lhs
-    rw [← coe_le_coe, natCast_get, natCast_get]
+    rw [← coe_le_coe]; rw [natCast_get]; rw [natCast_get]
 #align part_enat.get_le_get PartENat.get_le_get
 
 theorem le_coe_iff (x : PartENat) (n : ℕ) : x ≤ n ↔ ∃ h : x.Dom, x.get h ≤ n := by
@@ -388,7 +388,7 @@ theorem pos_iff_one_le {x : PartENat} : 0 < x ↔ 1 ≤ x :=
   PartENat.casesOn x
     (by simp only [iff_true_iff, le_top, natCast_lt_top, ← @Nat.cast_zero PartENat])
     fun n => by
-      rw [← Nat.cast_zero, ← Nat.cast_one, PartENat.coe_lt_coe, PartENat.coe_le_coe]
+      rw [← Nat.cast_zero]; rw [← Nat.cast_one]; rw [PartENat.coe_lt_coe]; rw [PartENat.coe_le_coe]
       rfl
 #align part_enat.pos_iff_one_le PartENat.pos_iff_one_le
 
@@ -437,14 +437,14 @@ noncomputable instance : CanonicallyOrderedAddMonoid PartENat :=
       PartENat.casesOn b (fun _ => ⟨⊤, (add_top _).symm⟩) fun b =>
         PartENat.casesOn a (fun h => ((natCast_lt_top _).not_le h).elim) fun a h =>
           ⟨(b - a : ℕ), by
-            rw [← Nat.cast_add, natCast_inj, add_comm, tsub_add_cancel_of_le (coe_le_coe.1 h)]⟩ }
+            rw [← Nat.cast_add]; rw [natCast_inj]; rw [add_comm]; rw [tsub_add_cancel_of_le (coe_le_coe.1 h)]⟩ }
 
 theorem eq_natCast_sub_of_add_eq_natCast {x y : PartENat} {n : ℕ} (h : x + y = n) :
     x = ↑(n - y.get (dom_of_le_natCast ((le_add_left le_rfl).trans_eq h))) := by
   lift x to ℕ using dom_of_le_natCast ((le_add_right le_rfl).trans_eq h)
   lift y to ℕ using dom_of_le_natCast ((le_add_left le_rfl).trans_eq h)
-  rw [← Nat.cast_add, natCast_inj] at h
-  rw [get_natCast, natCast_inj, eq_tsub_of_add_eq h]
+  rw [← Nat.cast_add] at h; rw [natCast_inj] at h
+  rw [get_natCast]; rw [natCast_inj]; rw [eq_tsub_of_add_eq h]
 #align part_enat.eq_coe_sub_of_add_eq_coe PartENat.eq_natCast_sub_of_add_eq_natCast
 
 protected theorem add_lt_add_right {x y z : PartENat} (h : x < y) (hz : z ≠ ⊤) : x + z < y + z := by
@@ -464,7 +464,7 @@ protected theorem add_lt_add_iff_right {x y z : PartENat} (hz : z ≠ ⊤) : x +
 #align part_enat.add_lt_add_iff_right PartENat.add_lt_add_iff_right
 
 protected theorem add_lt_add_iff_left {x y z : PartENat} (hz : z ≠ ⊤) : z + x < z + y ↔ x < y := by
-  rw [add_comm z, add_comm z, PartENat.add_lt_add_iff_right hz]
+  rw [add_comm z]; rw [add_comm z]; rw [PartENat.add_lt_add_iff_right hz]
 #align part_enat.add_lt_add_iff_left PartENat.add_lt_add_iff_left
 
 protected theorem lt_add_iff_pos_right {x y : PartENat} (hx : x ≠ ⊤) : x < x + y ↔ 0 < y := by
@@ -503,7 +503,7 @@ theorem add_one_le_iff_lt {x y : PartENat} (hx : x ≠ ⊤) : x + 1 ≤ y ↔ x 
 #align part_enat.add_one_le_iff_lt PartENat.add_one_le_iff_lt
 
 theorem coe_succ_le_iff {n : ℕ} {e : PartENat} : ↑n.succ ≤ e ↔ ↑n < e:= by
-  rw [Nat.succ_eq_add_one n, Nat.cast_add, Nat.cast_one, add_one_le_iff_lt (natCast_ne_top n)]
+  rw [Nat.succ_eq_add_one n]; rw [Nat.cast_add]; rw [Nat.cast_one]; rw [add_one_le_iff_lt (natCast_ne_top n)]
 #align part_enat.coe_succ_le_succ_iff PartENat.coe_succ_le_iff
 
 theorem lt_add_one_iff_lt {x y : PartENat} (hx : x ≠ ⊤) : x < y + 1 ↔ x ≤ y := by
@@ -517,7 +517,7 @@ theorem lt_add_one_iff_lt {x y : PartENat} (hx : x ≠ ⊤) : x < y + 1 ↔ x �
 #align part_enat.lt_add_one_iff_lt PartENat.lt_add_one_iff_lt
 
 lemma lt_coe_succ_iff_le {x : PartENat} {n : ℕ} (hx : x ≠ ⊤) : x < n.succ ↔ x ≤ n := by
-  rw [Nat.succ_eq_add_one n, Nat.cast_add, Nat.cast_one, lt_add_one_iff_lt hx]
+  rw [Nat.succ_eq_add_one n]; rw [Nat.cast_add]; rw [Nat.cast_one]; rw [lt_add_one_iff_lt hx]
 #align part_enat.lt_coe_succ_iff_le PartENat.lt_coe_succ_iff_le
 
 theorem add_eq_top_iff {a b : PartENat} : a + b = ⊤ ↔ a = ⊤ ∨ b = ⊤ := by
@@ -536,7 +536,7 @@ protected theorem add_right_cancel_iff {a b c : PartENat} (hc : c ≠ ⊤) : a +
 #align part_enat.add_right_cancel_iff PartENat.add_right_cancel_iff
 
 protected theorem add_left_cancel_iff {a b c : PartENat} (ha : a ≠ ⊤) : a + b = a + c ↔ b = c := by
-  rw [add_comm a, add_comm a, PartENat.add_right_cancel_iff ha]
+  rw [add_comm a]; rw [add_comm a]; rw [PartENat.add_right_cancel_iff ha]
 #align part_enat.add_left_cancel_iff PartENat.add_left_cancel_iff
 
 section WithTop

@@ -64,14 +64,14 @@ protected theorem Function.Injective.isLeftCancelMulZero
     [IsLeftCancelMulZero M₀'] : IsLeftCancelMulZero M₀ :=
   { mul_left_cancel_of_ne_zero := fun Hne He => by
       have := congr_arg f He
-      rw [mul, mul] at this
+      rw [mul] at this; rw [mul] at this
       exact hf (mul_left_cancel₀ (fun Hfa => Hne <| hf <| by rw [Hfa, zero]) this) }
 
 protected theorem Function.Injective.isRightCancelMulZero
     [IsRightCancelMulZero M₀'] : IsRightCancelMulZero M₀ :=
   { mul_right_cancel_of_ne_zero := fun Hne He => by
       have := congr_arg f He
-      rw [mul, mul] at this
+      rw [mul] at this; rw [mul] at this
       exact hf (mul_right_cancel₀ (fun Hfa => Hne <| hf <| by rw [Hfa, zero]) this) }
 
 end NoZeroDivisors

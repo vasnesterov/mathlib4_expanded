@@ -85,15 +85,12 @@ instance : CoeFun (M ↪ₑ[L] N) fun _ => M → N :=
 theorem map_boundedFormula (f : M ↪ₑ[L] N) {α : Type*} {n : ℕ} (φ : L.BoundedFormula α n)
     (v : α → M) (xs : Fin n → M) : φ.Realize (f ∘ v) (f ∘ xs) ↔ φ.Realize v xs := by
   classical
-    rw [← BoundedFormula.realize_restrictFreeVar Set.Subset.rfl, Set.inclusion_eq_id, iff_eq_eq]
+    rw [← BoundedFormula.realize_restrictFreeVar Set.Subset.rfl]; rw [Set.inclusion_eq_id]; rw [iff_eq_eq]
     have h :=
       f.map_formula' ((φ.restrictFreeVar id).toFormula.relabel (Fintype.equivFin _))
         (Sum.elim (v ∘ (↑)) xs ∘ (Fintype.equivFin _).symm)
     simp only [Formula.realize_relabel, BoundedFormula.realize_toFormula, iff_eq_eq] at h
-    rw [← Function.comp.assoc _ _ (Fintype.equivFin _).symm,
-      Function.comp.assoc _ (Fintype.equivFin _).symm (Fintype.equivFin _), Equiv.symm_comp_self,
-      Function.comp.right_id, Function.comp.assoc, Sum.elim_comp_inl,
-      Function.comp.assoc _ _ Sum.inr, Sum.elim_comp_inr, ← Function.comp.assoc] at h
+    rw [← Function.comp.assoc _ _ (Fintype.equivFin _).symm] at h; rw [Function.comp.assoc _ (Fintype.equivFin _).symm (Fintype.equivFin _)] at h; rw [Equiv.symm_comp_self] at h; rw [Function.comp.right_id] at h; rw [Function.comp.assoc] at h; rw [Sum.elim_comp_inl] at h; rw [Function.comp.assoc _ _ Sum.inr] at h; rw [Sum.elim_comp_inr] at h; rw [← Function.comp.assoc] at h
     refine' h.trans _
     erw [Function.comp.assoc _ _ (Fintype.equivFin _), Equiv.symm_comp_self, Function.comp.right_id,
       Sum.elim_comp_inl, Sum.elim_comp_inr (v ∘ Subtype.val) xs,
@@ -104,11 +101,11 @@ theorem map_boundedFormula (f : M ↪ₑ[L] N) {α : Type*} {n : ℕ} (φ : L.Bo
 @[simp]
 theorem map_formula (f : M ↪ₑ[L] N) {α : Type*} (φ : L.Formula α) (x : α → M) :
     φ.Realize (f ∘ x) ↔ φ.Realize x := by
-  rw [Formula.Realize, Formula.Realize, ← f.map_boundedFormula, Unique.eq_default (f ∘ default)]
+  rw [Formula.Realize]; rw [Formula.Realize]; rw [← f.map_boundedFormula]; rw [Unique.eq_default (f ∘ default)]
 #align first_order.language.elementary_embedding.map_formula FirstOrder.Language.ElementaryEmbedding.map_formula
 
 theorem map_sentence (f : M ↪ₑ[L] N) (φ : L.Sentence) : M ⊨ φ ↔ N ⊨ φ := by
-  rw [Sentence.Realize, Sentence.Realize, ← f.map_formula, Unique.eq_default (f ∘ default)]
+  rw [Sentence.Realize]; rw [Sentence.Realize]; rw [← f.map_formula]; rw [Unique.eq_default (f ∘ default)]
 #align first_order.language.elementary_embedding.map_sentence FirstOrder.Language.ElementaryEmbedding.map_sentence
 
 theorem theory_model_iff (f : M ↪ₑ[L] N) (T : L.Theory) : M ⊨ T ↔ N ⊨ T := by
@@ -125,7 +122,7 @@ theorem injective (φ : M ↪ₑ[L] N) : Function.Injective φ := by
   intro x y
   have h :=
     φ.map_formula ((var 0).equal (var 1) : L.Formula (Fin 2)) fun i => if i = 0 then x else y
-  rw [Formula.realize_equal, Formula.realize_equal] at h
+  rw [Formula.realize_equal] at h; rw [Formula.realize_equal] at h
   simp only [Nat.one_ne_zero, Term.realize, Fin.one_eq_zero_iff, if_true, eq_self_iff_true,
     Function.comp_apply, if_false] at h
   exact h.1
@@ -139,8 +136,8 @@ instance embeddingLike : EmbeddingLike (M ↪ₑ[L] N) M N :=
 theorem map_fun (φ : M ↪ₑ[L] N) {n : ℕ} (f : L.Functions n) (x : Fin n → M) :
     φ (funMap f x) = funMap f (φ ∘ x) := by
   have h := φ.map_formula (Formula.graph f) (Fin.cons (funMap f x) x)
-  rw [Formula.realize_graph, Fin.comp_cons, Formula.realize_graph] at h
-  rw [eq_comm, h]
+  rw [Formula.realize_graph] at h; rw [Fin.comp_cons] at h; rw [Formula.realize_graph] at h
+  rw [eq_comm]; rw [h]
 #align first_order.language.elementary_embedding.map_fun FirstOrder.Language.ElementaryEmbedding.map_fun
 
 @[simp]
@@ -304,10 +301,10 @@ theorem isElementary_of_exists (f : M ↪[L] N)
     · contrapose!
       rintro ⟨a, ha⟩
       obtain ⟨b, hb⟩ := htv n φ.not xs a (by
-          rw [BoundedFormula.realize_not, ← Unique.eq_default (f ∘ default)]
+          rw [BoundedFormula.realize_not]; rw [← Unique.eq_default (f ∘ default)]
           exact ha)
       · refine' ⟨b, fun h => hb (Eq.mp _ ((ih _).2 h))⟩
-        rw [Unique.eq_default (f ∘ default), Fin.comp_snoc]
+        rw [Unique.eq_default (f ∘ default)]; rw [Fin.comp_snoc]
 #align first_order.language.embedding.is_elementary_of_exists FirstOrder.Language.Embedding.isElementary_of_exists
 
 /-- Bundles an embedding satisfying the Tarski-Vaught test as an elementary embedding. -/

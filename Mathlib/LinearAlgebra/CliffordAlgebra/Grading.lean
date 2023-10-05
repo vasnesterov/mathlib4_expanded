@@ -50,7 +50,7 @@ theorem ι_mem_evenOdd_one (m : M) : ι Q m ∈ evenOdd Q 1 :=
 theorem ι_mul_ι_mem_evenOdd_zero (m₁ m₂ : M) : ι Q m₁ * ι Q m₂ ∈ evenOdd Q 0 :=
   Submodule.mem_iSup_of_mem ⟨2, rfl⟩
     (by
-      rw [Subtype.coe_mk, pow_two]
+      rw [Subtype.coe_mk]; rw [pow_two]
       exact
         Submodule.mul_mem_mul (LinearMap.mem_range_self (ι Q) m₁)
           (LinearMap.mem_range_self (ι Q) m₂))
@@ -87,7 +87,7 @@ theorem GradedAlgebra.ι_apply (m : M) :
 
 nonrec theorem GradedAlgebra.ι_sq_scalar (m : M) :
     GradedAlgebra.ι Q m * GradedAlgebra.ι Q m = algebraMap R _ (Q m) := by
-  rw [GradedAlgebra.ι_apply Q, DirectSum.of_mul_of, DirectSum.algebraMap_apply]
+  rw [GradedAlgebra.ι_apply Q]; rw [DirectSum.of_mul_of]; rw [DirectSum.algebraMap_apply]
   refine' DirectSum.of_eq_of_gradedMonoid_eq (Sigma.subtype_ext rfl <| ι_sq_scalar _ _)
 #align clifford_algebra.graded_algebra.ι_sq_scalar CliffordAlgebra.GradedAlgebra.ι_sq_scalar
 
@@ -104,13 +104,13 @@ theorem GradedAlgebra.lift_ι_eq (i' : ZMod 2) (x' : evenOdd Q i') :
     change x ∈ LinearMap.range (ι Q) ^ i at hx
     induction hx using Submodule.pow_induction_on_left' with
     | hr r =>
-      rw [AlgHom.commutes, DirectSum.algebraMap_apply]; rfl
+      rw [AlgHom.commutes]; rw [DirectSum.algebraMap_apply]; rfl
     | hadd x y i hx hy ihx ihy =>
-      rw [AlgHom.map_add, ihx, ihy, ← map_add]
+      rw [AlgHom.map_add]; rw [ihx]; rw [ihy]; rw [← map_add]
       rfl
     | hmul m hm i x hx ih =>
       obtain ⟨_, rfl⟩ := hm
-      rw [AlgHom.map_mul, ih, lift_ι_apply, GradedAlgebra.ι_apply Q, DirectSum.of_mul_of]
+      rw [AlgHom.map_mul]; rw [ih]; rw [lift_ι_apply]; rw [GradedAlgebra.ι_apply Q]; rw [DirectSum.of_mul_of]
       refine' DirectSum.of_eq_of_gradedMonoid_eq (Sigma.subtype_ext _ _) <;>
         dsimp only [GradedMonoid.mk, Subtype.coe_mk]
       · rw [Nat.succ_eq_add_one, add_comm, Nat.cast_add, Nat.cast_one]
@@ -120,7 +120,7 @@ theorem GradedAlgebra.lift_ι_eq (i' : ZMod 2) (x' : evenOdd Q i') :
     apply Eq.symm
     apply DFinsupp.single_eq_zero.mpr; rfl
   | hadd x y hx hy ihx ihy =>
-    rw [AlgHom.map_add, ihx, ihy, ← map_add]; rfl
+    rw [AlgHom.map_add]; rw [ihx]; rw [ihy]; rw [← map_add]; rfl
 #align clifford_algebra.graded_algebra.lift_ι_eq CliffordAlgebra.GradedAlgebra.lift_ι_eq
 
 /-- The clifford algebra is graded by the even and odd parts. -/
@@ -134,12 +134,12 @@ instance gradedAlgebra : GradedAlgebra (evenOdd Q) :=
       ext m
       dsimp only [LinearMap.comp_apply, AlgHom.toLinearMap_apply, AlgHom.comp_apply,
         AlgHom.id_apply]
-      rw [lift_ι_apply, GradedAlgebra.ι_apply Q, DirectSum.coeAlgHom_of])
+      rw [lift_ι_apply]; rw [GradedAlgebra.ι_apply Q]; rw [DirectSum.coeAlgHom_of])
     (by apply GradedAlgebra.lift_ι_eq Q)
 #align clifford_algebra.graded_algebra CliffordAlgebra.gradedAlgebra
 
 theorem iSup_ι_range_eq_top : ⨆ i : ℕ, LinearMap.range (ι Q) ^ i = ⊤ := by
-  rw [← (DirectSum.Decomposition.isInternal (evenOdd Q)).submodule_iSup_eq_top, eq_comm]
+  rw [← (DirectSum.Decomposition.isInternal (evenOdd Q)).submodule_iSup_eq_top]; rw [eq_comm]
   calc
     -- porting note: needs extra annotations, no longer unifies against the goal in the face of
     -- ambiguity
@@ -257,7 +257,7 @@ theorem odd_induction {P : ∀ x, x ∈ evenOdd Q 1 → Prop}
     (x : CliffordAlgebra Q) (hx : x ∈ evenOdd Q 1) : P x hx := by
   refine' evenOdd_induction Q 1 (fun ιv => _) (@hadd) hιι_mul x hx
   -- porting note: was `simp_rw [ZMod.val_one, pow_one]`, lean4#1926
-  intro h; rw [ZMod.val_one, pow_one] at h; revert h
+  intro h; rw [ZMod.val_one] at h; rw [pow_one] at h; revert h
   rintro ⟨v, rfl⟩
   exact hι v
 #align clifford_algebra.odd_induction CliffordAlgebra.odd_induction

@@ -83,7 +83,7 @@ is a probability measure. -/
 theorem cond_isProbabilityMeasure [IsFiniteMeasure μ] (hcs : μ s ≠ 0) :
     IsProbabilityMeasure (μ[|s]) :=
   ⟨by
-    rw [cond, Measure.smul_apply, Measure.restrict_apply MeasurableSet.univ, Set.univ_inter]
+    rw [cond]; rw [Measure.smul_apply]; rw [Measure.restrict_apply MeasurableSet.univ]; rw [Set.univ_inter]
     exact ENNReal.inv_mul_cancel hcs (measure_ne_top _ s)⟩
 #align probability_theory.cond_is_probability_measure ProbabilityTheory.cond_isProbabilityMeasure
 
@@ -100,11 +100,11 @@ theorem cond_univ [IsProbabilityMeasure μ] : μ[|Set.univ] = μ := by
 
 /-- The axiomatic definition of conditional probability derived from a measure-theoretic one. -/
 theorem cond_apply (hms : MeasurableSet s) (t : Set Ω) : μ[t|s] = (μ s)⁻¹ * μ (s ∩ t) := by
-  rw [cond, Measure.smul_apply, Measure.restrict_apply' hms, Set.inter_comm, smul_eq_mul]
+  rw [cond]; rw [Measure.smul_apply]; rw [Measure.restrict_apply' hms]; rw [Set.inter_comm]; rw [smul_eq_mul]
 #align probability_theory.cond_apply ProbabilityTheory.cond_apply
 
 theorem cond_inter_self (hms : MeasurableSet s) (t : Set Ω) : μ[s ∩ t|s] = μ[t|s] := by
-  rw [cond_apply _ hms, ← Set.inter_assoc, Set.inter_self, ← cond_apply _ hms]
+  rw [cond_apply _ hms]; rw [← Set.inter_assoc]; rw [Set.inter_self]; rw [← cond_apply _ hms]
 #align probability_theory.cond_inter_self ProbabilityTheory.cond_inter_self
 
 theorem inter_pos_of_cond_ne_zero (hms : MeasurableSet s) (hcst : μ[t|s] ≠ 0) : 0 < μ (s ∩ t) := by
@@ -139,7 +139,7 @@ theorem cond_cond_eq_cond_inter [IsFiniteMeasure μ] (hms : MeasurableSet s) (hm
 
 theorem cond_mul_eq_inter' (hms : MeasurableSet s) (hcs : μ s ≠ 0) (hcs' : μ s ≠ ∞) (t : Set Ω) :
     μ[t|s] * μ s = μ (s ∩ t) := by
-  rw [cond_apply μ hms t, mul_comm, ← mul_assoc, ENNReal.mul_inv_cancel hcs hcs', one_mul]
+  rw [cond_apply μ hms t]; rw [mul_comm]; rw [← mul_assoc]; rw [ENNReal.mul_inv_cancel hcs hcs']; rw [one_mul]
 #align probability_theory.cond_mul_eq_inter' ProbabilityTheory.cond_mul_eq_inter'
 
 theorem cond_mul_eq_inter [IsFiniteMeasure μ] (hms : MeasurableSet s) (hcs : μ s ≠ 0) (t : Set Ω) :
@@ -150,8 +150,7 @@ theorem cond_mul_eq_inter [IsFiniteMeasure μ] (hms : MeasurableSet s) (hcs : μ
 /-- A version of the law of total probability. -/
 theorem cond_add_cond_compl_eq [IsFiniteMeasure μ] (hms : MeasurableSet s) (hcs : μ s ≠ 0)
     (hcs' : μ sᶜ ≠ 0) : μ[t|s] * μ s + μ[t|sᶜ] * μ sᶜ = μ t := by
-  rw [cond_mul_eq_inter μ hms hcs, cond_mul_eq_inter μ hms.compl hcs', Set.inter_comm _ t,
-    Set.inter_comm _ t]
+  rw [cond_mul_eq_inter μ hms hcs]; rw [cond_mul_eq_inter μ hms.compl hcs']; rw [Set.inter_comm _ t]; rw [Set.inter_comm _ t]
   exact measure_inter_add_diff t hms
 #align probability_theory.cond_add_cond_compl_eq ProbabilityTheory.cond_add_cond_compl_eq
 

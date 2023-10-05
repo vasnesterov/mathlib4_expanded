@@ -80,8 +80,8 @@ def multiforkEvaluationCone (F : K ⥤ Sheaf J D) (E : Cone (F ⋙ sheafToPreshe
         rw [Category.id_comp]
         apply Presheaf.IsSheaf.hom_ext (F.obj j).2 W
         intro ii
-        rw [Presheaf.IsSheaf.amalgamate_map, Category.assoc, ← (F.map f).val.naturality, ←
-          Category.assoc, Presheaf.IsSheaf.amalgamate_map]
+        rw [Presheaf.IsSheaf.amalgamate_map]; rw [Category.assoc]; rw [← (F.map f).val.naturality]; rw [←
+          Category.assoc]; rw [Presheaf.IsSheaf.amalgamate_map]
         dsimp [Multifork.ofι]
         erw [Category.assoc, ← E.w f]
         aesop_cat }

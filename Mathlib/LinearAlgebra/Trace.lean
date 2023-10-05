@@ -68,15 +68,15 @@ theorem traceAux_eq : traceAux R b = traceAux R c :=
     calc
       Matrix.trace (LinearMap.toMatrix b b f) =
           Matrix.trace (LinearMap.toMatrix b b ((LinearMap.id.comp f).comp LinearMap.id)) := by
-        rw [LinearMap.id_comp, LinearMap.comp_id]
+        rw [LinearMap.id_comp]; rw [LinearMap.comp_id]
       _ = Matrix.trace (LinearMap.toMatrix c b LinearMap.id * LinearMap.toMatrix c c f *
           LinearMap.toMatrix b c LinearMap.id) := by
-        rw [LinearMap.toMatrix_comp _ c, LinearMap.toMatrix_comp _ c]
+        rw [LinearMap.toMatrix_comp _ c]; rw [LinearMap.toMatrix_comp _ c]
       _ = Matrix.trace (LinearMap.toMatrix c c f * LinearMap.toMatrix b c LinearMap.id *
           LinearMap.toMatrix c b LinearMap.id) := by
-        rw [Matrix.mul_assoc, Matrix.trace_mul_comm]
+        rw [Matrix.mul_assoc]; rw [Matrix.trace_mul_comm]
       _ = Matrix.trace (LinearMap.toMatrix c c ((f.comp LinearMap.id).comp LinearMap.id)) := by
-        rw [LinearMap.toMatrix_comp _ b, LinearMap.toMatrix_comp _ c]
+        rw [LinearMap.toMatrix_comp _ b]; rw [LinearMap.toMatrix_comp _ c]
       _ = Matrix.trace (LinearMap.toMatrix c c f) := by rw [LinearMap.comp_id, LinearMap.comp_id]
 #align linear_map.trace_aux_eq LinearMap.traceAux_eq
 
@@ -95,15 +95,14 @@ variable {M}
 theorem trace_eq_matrix_trace_of_finset {s : Finset M} (b : Basis s R M) (f : M →ₗ[R] M) :
     trace R M f = Matrix.trace (LinearMap.toMatrix b b f) := by
   have : ∃ s : Finset M, Nonempty (Basis s R M) := ⟨s, ⟨b⟩⟩
-  rw [trace, dif_pos this, ← traceAux_def]
+  rw [trace]; rw [dif_pos this]; rw [← traceAux_def]
   congr 1
   apply traceAux_eq
 #align linear_map.trace_eq_matrix_trace_of_finset LinearMap.trace_eq_matrix_trace_of_finset
 
 theorem trace_eq_matrix_trace (f : M →ₗ[R] M) :
     trace R M f = Matrix.trace (LinearMap.toMatrix b b f) := by
-  rw [trace_eq_matrix_trace_of_finset R b.reindexFinsetRange, ← traceAux_def, ← traceAux_def,
-    traceAux_eq R b b.reindexFinsetRange]
+  rw [trace_eq_matrix_trace_of_finset R b.reindexFinsetRange]; rw [← traceAux_def]; rw [← traceAux_def]; rw [traceAux_eq R b b.reindexFinsetRange]
 #align linear_map.trace_eq_matrix_trace LinearMap.trace_eq_matrix_trace
 
 theorem trace_mul_comm (f g : M →ₗ[R] M) : trace R M (f * g) = trace R M (g * f) :=
@@ -116,11 +115,11 @@ theorem trace_mul_comm (f g : M →ₗ[R] M) : trace R M (f * g) = trace R M (g 
 
 lemma trace_mul_cycle (f g h : M →ₗ[R] M) :
     trace R M (f * g * h) = trace R M (h * f * g) := by
-  rw [LinearMap.trace_mul_comm, ← mul_assoc]
+  rw [LinearMap.trace_mul_comm]; rw [← mul_assoc]
 
 lemma trace_mul_cycle' (f g h : M →ₗ[R] M) :
     trace R M (f * (g * h)) = trace R M (h * (f * g)) := by
-  rw [← mul_assoc, LinearMap.trace_mul_comm]
+  rw [← mul_assoc]; rw [LinearMap.trace_mul_comm]
 
 /-- The trace of an endomorphism is invariant under conjugation -/
 @[simp]
@@ -149,7 +148,7 @@ theorem trace_eq_contract_of_basis [Finite ι] (b : Basis ι R M) :
     apply Basis.ext (Basis.tensorProduct (Basis.dualBasis b) b)
     rintro ⟨i, j⟩
     simp only [Function.comp_apply, Basis.tensorProduct_apply, Basis.coe_dualBasis, coe_comp]
-    rw [trace_eq_matrix_trace R b, toMatrix_dualTensorHom]
+    rw [trace_eq_matrix_trace R b]; rw [toMatrix_dualTensorHom]
     by_cases hij : i = j
     · rw [hij]
       simp
@@ -179,7 +178,7 @@ theorem trace_eq_contract : LinearMap.trace R M ∘ₗ dualTensorHom R M M = con
 @[simp]
 theorem trace_eq_contract_apply (x : Module.Dual R M ⊗[R] M) :
     (LinearMap.trace R M) ((dualTensorHom R M M) x) = contractLeft R M x := by
-  rw [← comp_apply, trace_eq_contract]
+  rw [← comp_apply]; rw [trace_eq_contract]
 #align linear_map.trace_eq_contract_apply LinearMap.trace_eq_contract_apply
 
 /-- When `M` is finite free, the trace of a linear map correspond to the contraction pairing under
@@ -195,7 +194,7 @@ theorem trace_one : trace R M 1 = (finrank R M : R) := by
   cases subsingleton_or_nontrivial R
   · simp
   have b := Module.Free.chooseBasis R M
-  rw [trace_eq_matrix_trace R b, toMatrix_one, finrank_eq_card_chooseBasisIndex]
+  rw [trace_eq_matrix_trace R b]; rw [toMatrix_one]; rw [finrank_eq_card_chooseBasisIndex]
   simp
 #align linear_map.trace_one LinearMap.trace_one
 
@@ -271,7 +270,7 @@ variable {R M N P}
 @[simp]
 theorem trace_transpose' (f : M →ₗ[R] M) :
     trace R _ (Module.Dual.transpose (R := R) f) = trace R M f := by
-  rw [← comp_apply, trace_transpose]
+  rw [← comp_apply]; rw [trace_transpose]
 #align linear_map.trace_transpose' LinearMap.trace_transpose'
 
 theorem trace_tensorProduct' (f : M →ₗ[R] M) (g : N →ₗ[R] N) :
@@ -291,22 +290,21 @@ theorem trace_comp_comm' (f : M →ₗ[R] N) (g : N →ₗ[R] M) :
 
 lemma trace_comp_cycle (f : M →ₗ[R] N) (g : N →ₗ[R] P) (h : P →ₗ[R] M) :
     trace R P (g ∘ₗ f ∘ₗ h) = trace R N (f ∘ₗ h ∘ₗ g) := by
-  rw [trace_comp_comm', comp_assoc]
+  rw [trace_comp_comm']; rw [comp_assoc]
 
 lemma trace_comp_cycle' (f : M →ₗ[R] N) (g : N →ₗ[R] P) (h : P →ₗ[R] M) :
     trace R P ((g ∘ₗ f) ∘ₗ h) = trace R M ((h ∘ₗ g) ∘ₗ f) := by
-  rw [trace_comp_comm', ← comp_assoc]
+  rw [trace_comp_comm']; rw [← comp_assoc]
 
 @[simp]
 theorem trace_conj' (f : M →ₗ[R] M) (e : M ≃ₗ[R] N) : trace R N (e.conj f) = trace R M f := by
-  rw [e.conj_apply, trace_comp_comm', ← comp_assoc, LinearEquiv.comp_coe,
-    LinearEquiv.self_trans_symm, LinearEquiv.refl_toLinearMap, id_comp]
+  rw [e.conj_apply]; rw [trace_comp_comm']; rw [← comp_assoc]; rw [LinearEquiv.comp_coe]; rw [LinearEquiv.self_trans_symm]; rw [LinearEquiv.refl_toLinearMap]; rw [id_comp]
 #align linear_map.trace_conj' LinearMap.trace_conj'
 
 theorem IsProj.trace {p : Submodule R M} {f : M →ₗ[R] M} (h : IsProj p f) [Module.Free R p]
     [Module.Finite R p] [Module.Free R (ker f)] [Module.Finite R (ker f)] :
     trace R M f = (finrank R p : R) := by
-  rw [h.eq_conj_prodMap, trace_conj', trace_prodMap', trace_id, map_zero, add_zero]
+  rw [h.eq_conj_prodMap]; rw [trace_conj']; rw [trace_prodMap']; rw [trace_id]; rw [map_zero]; rw [add_zero]
 #align linear_map.is_proj.trace LinearMap.IsProj.trace
 
 lemma isNilpotent_trace_of_isNilpotent {f : M →ₗ[R] M} (hf : IsNilpotent f) :

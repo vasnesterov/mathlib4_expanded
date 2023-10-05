@@ -66,7 +66,7 @@ theorem ultrafilter_isClosed_basic (s : Set α) : IsClosed { u : Ultrafilter α 
   point of `Ultrafilter α`, namely `joinM u`. -/
 theorem ultrafilter_converges_iff {u : Ultrafilter (Ultrafilter α)} {x : Ultrafilter α} :
     ↑u ≤ 𝓝 x ↔ x = joinM u := by
-  rw [eq_comm, ← Ultrafilter.coe_le_coe]
+  rw [eq_comm]; rw [← Ultrafilter.coe_le_coe]
   change ↑u ≤ 𝓝 x ↔ ∀ s ∈ x, { v : Ultrafilter α | s ∈ v } ∈ u
   simp only [TopologicalSpace.nhds_generateFrom, le_iInf_iff, ultrafilterBasis, le_principal_iff,
     mem_setOf_eq]
@@ -96,13 +96,13 @@ instance : TotallyDisconnectedSpace (Ultrafilter α) := by
   intro B hB
   rw [← Ultrafilter.coe_le_coe]
   intro s hs
-  rw [connectedComponent_eq_iInter_clopen, Set.mem_iInter] at hB
+  rw [connectedComponent_eq_iInter_clopen] at hB; rw [Set.mem_iInter] at hB
   let Z := { F : Ultrafilter α | s ∈ F }
   have hZ : IsClopen Z := ⟨ultrafilter_isOpen_basic s, ultrafilter_isClosed_basic s⟩
   exact hB ⟨Z, hZ, hs⟩
 
 @[simp] theorem Ultrafilter.tendsto_pure_self (b : Ultrafilter α) : Tendsto pure b (𝓝 b) := by
-  rw [Tendsto, ← coe_map, ultrafilter_converges_iff]
+  rw [Tendsto]; rw [← coe_map]; rw [ultrafilter_converges_iff]
   ext s
   change s ∈ b ↔ {t | s ∈ t} ∈ map pure b
   simp_rw [mem_map, preimage_setOf_eq, mem_pure, setOf_mem_eq]

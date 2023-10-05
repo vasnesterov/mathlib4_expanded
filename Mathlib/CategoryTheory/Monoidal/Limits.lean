@@ -70,13 +70,13 @@ instance limitLaxMonoidal : LaxMonoidal fun F : J ⥤ C => limit F where
       NatTrans.comp_app, Category.assoc]
     slice_lhs 2 2 => rw [← tensor_id_comp_id_tensor]
     slice_lhs 1 2 =>
-      rw [← comp_tensor_id, limit.lift_π]
+      rw [← comp_tensor_id]; rw [limit.lift_π]
       dsimp
     slice_lhs 1 2 => rw [tensor_id_comp_id_tensor]
     conv_lhs => rw [associator_naturality]
     conv_rhs => rw [← id_tensor_comp_tensor_id (limit.π (Y ⊗ Z) j)]
     slice_rhs 2 3 =>
-      rw [← id_tensor_comp, limit.lift_π]
+      rw [← id_tensor_comp]; rw [limit.lift_π]
       dsimp
     dsimp; simp
   left_unitality X := by

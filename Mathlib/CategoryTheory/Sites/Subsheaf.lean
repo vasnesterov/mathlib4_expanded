@@ -169,7 +169,7 @@ theorem Subpresheaf.family_of_elements_compatible {U : Cᵒᵖ} (s : F.obj U) :
   intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ h₁ h₂ e
   refine Subtype.ext ?_ -- port note: `ext1` does not work here
   change F.map g₁.op (F.map f₁.op s) = F.map g₂.op (F.map f₂.op s)
-  rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp, e]
+  rw [← FunctorToTypes.map_comp_apply]; rw [← FunctorToTypes.map_comp_apply]; rw [← op_comp]; rw [← op_comp]; rw [e]
 #align category_theory.grothendieck_topology.subpresheaf.family_of_elements_compatible CategoryTheory.GrothendieckTopology.Subpresheaf.family_of_elements_compatible
 
 theorem Subpresheaf.nat_trans_naturality (f : F' ⟶ G.toPresheaf) {U V : Cᵒᵖ} (i : U ⟶ V)
@@ -236,11 +236,11 @@ theorem Subpresheaf.sheafify_isSheaf (hF : Presieve.IsSheaf J F) :
       intro V' i' hi'
       have hi'' : S' (i' ≫ i) := ⟨_, _, _, hi, hi', rfl⟩
       have := H _ hi''
-      rw [op_comp, F.map_comp] at this
+      rw [op_comp] at this; rw [F.map_comp] at this
       refine' this.trans (congr_arg Subtype.val (hx _ _ (hi₂ _ _ hi'') hi (h₂ _ _ hi'')))
   have : x''.Compatible := by
     intro V₁ V₂ V₃ g₁ g₂ g₃ g₄ S₁ S₂ e
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply]
+    rw [← FunctorToTypes.map_comp_apply]; rw [← FunctorToTypes.map_comp_apply]
     exact
       congr_arg Subtype.val
         (hx (g₁ ≫ i₁ _ _ S₁) (g₂ ≫ i₁ _ _ S₂) (hi₂ _ _ S₁) (hi₂ _ _ S₂)
@@ -438,7 +438,7 @@ instance {F F' : Sheaf J (Type w)} (f : F ⟶ F') : Epi (toImageSheaf f) := by
   apply ((isSheaf_iff_isSheaf_of_type J _).mp G'.2 _ hx).isSeparatedFor.ext
   rintro V i ⟨y, e'⟩
   change (g₁.val.app _ ≫ G'.val.map _) _ = (g₂.val.app _ ≫ G'.val.map _) _
-  rw [← NatTrans.naturality, ← NatTrans.naturality]
+  rw [← NatTrans.naturality]; rw [← NatTrans.naturality]
   have E : (toImageSheaf f).val.app (op V) y = (imageSheaf f).val.map i.op ⟨s, hx⟩ :=
     Subtype.ext e'
   have := congr_arg (fun f : F ⟶ G' => (Sheaf.Hom.val f).app _ y) e
@@ -474,9 +474,9 @@ noncomputable def imageFactorization {F F' : Sheaf J TypeMax.{v, u}} (f : F ⟶ 
         ext1
         dsimp [imageMonoFactorization]
         generalize_proofs h
-        rw [← Subpresheaf.homOfLe_ι h, Category.assoc]
+        rw [← Subpresheaf.homOfLe_ι h]; rw [Category.assoc]
         congr 1
-        rw [IsIso.inv_comp_eq, toImagePresheaf_ι] }
+        rw [IsIso.inv_comp_eq]; rw [toImagePresheaf_ι] }
 #align category_theory.grothendieck_topology.image_factorization CategoryTheory.GrothendieckTopology.imageFactorization
 
 instance : Limits.HasImages (Sheaf J (Type max v u)) :=

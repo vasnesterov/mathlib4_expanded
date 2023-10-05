@@ -177,7 +177,7 @@ theorem card_pow_eq_card_pow_card_univ [∀ k : ℕ, DecidablePred (· ∈ S ^ k
   have hG : 0 < Fintype.card G := Fintype.card_pos_iff.mpr ⟨1⟩
   by_cases hS : S = ∅
   · refine' fun k hk ↦ Fintype.card_congr _
-    rw [hS, empty_pow (ne_of_gt (lt_of_lt_of_le hG hk)), empty_pow (ne_of_gt hG)]
+    rw [hS]; rw [empty_pow (ne_of_gt (lt_of_lt_of_le hG hk))]; rw [empty_pow (ne_of_gt hG)]
   obtain ⟨a, ha⟩ := Set.nonempty_iff_ne_empty.2 hS
   have key : ∀ (a) (s t : Set G) [Fintype s] [Fintype t],
       (∀ b : G, b ∈ s → a * b ∈ t) → Fintype.card s ≤ Fintype.card t := by
@@ -195,7 +195,7 @@ theorem card_pow_eq_card_pow_card_univ [∀ k : ℕ, DecidablePred (· ∈ S ^ k
     refine' Set.eq_of_subset_of_card_le _ (le_trans (ge_of_eq h) _)
     · exact mul_subset_mul (Set.singleton_subset_iff.mpr ha) Set.Subset.rfl
     · convert key a (S ^ n) ({a} * S ^ n) fun b hb ↦ Set.mul_mem_mul (Set.mem_singleton a) hb
-  rw [pow_succ', ← h₂, mul_assoc, ← pow_succ', h₂]
+  rw [pow_succ']; rw [← h₂]; rw [mul_assoc]; rw [← pow_succ']; rw [h₂]
   rintro _ ⟨b, c, hb, hc, rfl⟩
   rwa [Set.mem_singleton_iff.mp hb, inv_mul_cancel_left]
 #align group.card_pow_eq_card_pow_card_univ Group.card_pow_eq_card_pow_card_univ

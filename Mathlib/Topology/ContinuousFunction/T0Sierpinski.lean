@@ -55,7 +55,7 @@ theorem productOfMemOpens_inducing : Inducing (productOfMemOpens X) := by
 theorem productOfMemOpens_injective [T0Space X] : Function.Injective (productOfMemOpens X) := by
   intro x1 x2 h
   apply Inseparable.eq
-  rw [← Inducing.inseparable_iff (productOfMemOpens_inducing X), h]
+  rw [← Inducing.inseparable_iff (productOfMemOpens_inducing X)]; rw [h]
 #align topological_space.product_of_mem_opens_injective TopologicalSpace.productOfMemOpens_injective
 
 theorem productOfMemOpens_embedding [T0Space X] : Embedding (productOfMemOpens X) :=

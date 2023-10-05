@@ -104,13 +104,13 @@ theorem exists_continuousLinearEquiv_apply_eq [ContinuousSMul R V]
     left_inv := fun z ↦ by
       simp only [id_eq, eq_mpr_eq_cast, RingHom.id_apply, smul_eq_mul, AddHom.toFun_eq_coe,
         AddHom.coe_mk, map_add, map_smulₛₗ, map_sub, Gx, mul_sub, mul_one, add_sub_cancel'_right]
-      rw [mul_comm (G z), ← mul_assoc, inv_mul_cancel Gy]
+      rw [mul_comm (G z)]; rw [← mul_assoc]; rw [inv_mul_cancel Gy]
       simp only [smul_sub, one_mul]
       abel
     right_inv := fun z ↦ by
       simp only [map_add, map_smulₛₗ, map_mul, map_inv₀, RingHom.id_apply, map_sub, Gx,
         smul_eq_mul, mul_sub, mul_one]
-      rw [mul_comm _ (G y), ← mul_assoc, mul_inv_cancel Gy]
+      rw [mul_comm _ (G y)]; rw [← mul_assoc]; rw [mul_inv_cancel Gy]
       simp only [smul_sub, one_mul, add_sub_cancel'_right]
       abel
     continuous_toFun := continuous_id.add (G.continuous.smul continuous_const)

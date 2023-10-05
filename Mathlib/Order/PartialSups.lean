@@ -122,7 +122,7 @@ theorem partialSups_eq_sup'_range (f : ℕ → α) (n : ℕ) :
   · simp
   · dsimp [partialSups] at ih ⊢
     simp_rw [@Finset.range_succ n.succ]
-    rw [ih, Finset.sup'_insert, sup_comm]
+    rw [ih]; rw [Finset.sup'_insert]; rw [sup_comm]
 #align partial_sups_eq_sup'_range partialSups_eq_sup'_range
 
 end SemilatticeSup
@@ -132,7 +132,7 @@ theorem partialSups_eq_sup_range [SemilatticeSup α] [OrderBot α] (f : ℕ → 
   induction' n with n ih
   · simp
   · dsimp [partialSups] at ih ⊢
-    rw [Finset.range_succ, Finset.sup_insert, sup_comm, ih]
+    rw [Finset.range_succ]; rw [Finset.sup_insert]; rw [sup_comm]; rw [ih]
 #align partial_sups_eq_sup_range partialSups_eq_sup_range
 
 /- Note this lemma requires a distributive lattice, so is not useful (or true) in situations such as
@@ -151,7 +151,7 @@ variable [ConditionallyCompleteLattice α]
 
 theorem partialSups_eq_ciSup_Iic (f : ℕ → α) (n : ℕ) : partialSups f n = ⨆ i : Set.Iic n, f i := by
   have : Set.Iio (n + 1) = Set.Iic n := Set.ext fun _ => Nat.lt_succ_iff
-  rw [partialSups_eq_sup'_range, Finset.sup'_eq_csSup_image, Finset.coe_range, iSup, this]
+  rw [partialSups_eq_sup'_range]; rw [Finset.sup'_eq_csSup_image]; rw [Finset.coe_range]; rw [iSup]; rw [this]
   simp only [Set.range, Subtype.exists, Set.mem_Iic, exists_prop, (· '' ·)]
 #align partial_sups_eq_csupr_Iic partialSups_eq_ciSup_Iic
 
@@ -181,7 +181,7 @@ theorem iSup_partialSups_eq (f : ℕ → α) : ⨆ n, partialSups f n = ⨆ n, f
 
 theorem iSup_le_iSup_of_partialSups_le_partialSups {f g : ℕ → α}
     (h : partialSups f ≤ partialSups g) : ⨆ n, f n ≤ ⨆ n, g n := by
-  rw [← iSup_partialSups_eq f, ← iSup_partialSups_eq g]
+  rw [← iSup_partialSups_eq f]; rw [← iSup_partialSups_eq g]
   exact iSup_mono h
 #align supr_le_supr_of_partial_sups_le_partial_sups iSup_le_iSup_of_partialSups_le_partialSups
 

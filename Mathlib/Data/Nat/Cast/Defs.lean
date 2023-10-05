@@ -131,7 +131,7 @@ namespace Nat
 
 @[simp, norm_cast]
 theorem cast_one [AddMonoidWithOne R] : ((1 : ℕ) : R) = 1 := by
-  rw [cast_succ, Nat.cast_zero, zero_add]
+  rw [cast_succ]; rw [Nat.cast_zero]; rw [zero_add]
 #align nat.cast_one Nat.cast_oneₓ
 
 @[simp, norm_cast]
@@ -158,12 +158,12 @@ theorem binCast_eq [AddMonoidWithOne R] (n : ℕ) : (Nat.binCast n : R) = ((n : 
       rw [Nat.binCast]
       by_cases h : (k + 1) % 2 = 0
       · rw [←Nat.mod_add_div (succ k) 2]
-        rw [if_pos h, hk _ $ Nat.div_lt_self (Nat.succ_pos k) (Nat.le_refl 2), ←Nat.cast_add]
-        rw [Nat.succ_eq_add_one, h, Nat.zero_add, Nat.succ_mul, Nat.one_mul]
+        rw [if_pos h]; rw [hk _ $ Nat.div_lt_self (Nat.succ_pos k) (Nat.le_refl 2)]; rw [←Nat.cast_add]
+        rw [Nat.succ_eq_add_one]; rw [h]; rw [Nat.zero_add]; rw [Nat.succ_mul]; rw [Nat.one_mul]
       · rw [←Nat.mod_add_div (succ k) 2]
-        rw [if_neg h, hk _ $ Nat.div_lt_self (Nat.succ_pos k) (Nat.le_refl 2), ←Nat.cast_add]
+        rw [if_neg h]; rw [hk _ $ Nat.div_lt_self (Nat.succ_pos k) (Nat.le_refl 2)]; rw [←Nat.cast_add]
         have h1 := Or.resolve_left (Nat.mod_two_eq_zero_or_one (succ k)) h
-        rw [h1, Nat.add_comm 1, Nat.succ_mul, Nat.one_mul]
+        rw [h1]; rw [Nat.add_comm 1]; rw [Nat.succ_mul]; rw [Nat.one_mul]
         simp only [Nat.cast_add, Nat.cast_one]
 #align nat.bin_cast_eq Nat.binCast_eq
 
@@ -177,7 +177,7 @@ theorem cast_bit0 [AddMonoidWithOne R] (n : ℕ) : ((bit0 n : ℕ) : R) = bit0 (
 
 @[norm_cast, deprecated]
 theorem cast_bit1 [AddMonoidWithOne R] (n : ℕ) : ((bit1 n : ℕ) : R) = bit1 (n : R) := by
-  rw [bit1, cast_add_one, cast_bit0]; rfl
+  rw [bit1]; rw [cast_add_one]; rw [cast_bit0]; rfl
 #align nat.cast_bit1 Nat.cast_bit1
 
 end deprecated
@@ -204,22 +204,21 @@ protected def AddMonoidWithOne.binary {R : Type*} [AddMonoid R] [One R] : AddMon
     natCast_succ := fun n => by
       dsimp only [NatCast.natCast]
       letI : AddMonoidWithOne R := AddMonoidWithOne.unary
-      rw [Nat.binCast_eq, Nat.binCast_eq, Nat.cast_succ] }
+      rw [Nat.binCast_eq]; rw [Nat.binCast_eq]; rw [Nat.cast_succ] }
 #align add_monoid_with_one.binary AddMonoidWithOne.binary
 
 theorem one_add_one_eq_two [AddMonoidWithOne α] : 1 + 1 = (2 : α) := by
-  rw [←Nat.cast_one, ←Nat.cast_add]
+  rw [←Nat.cast_one]; rw [←Nat.cast_add]
   apply congrArg
   decide
 #align one_add_one_eq_two one_add_one_eq_two
 
 theorem two_add_one_eq_three [AddMonoidWithOne α] : 2 + 1 = (3 : α) := by
-  rw [←one_add_one_eq_two, ←Nat.cast_one, ←Nat.cast_add, ←Nat.cast_add]
+  rw [←one_add_one_eq_two]; rw [←Nat.cast_one]; rw [←Nat.cast_add]; rw [←Nat.cast_add]
   apply congrArg
   decide
 
 theorem three_add_one_eq_four [AddMonoidWithOne α] : 3 + 1 = (4 : α) := by
-  rw [←two_add_one_eq_three, ←one_add_one_eq_two, ←Nat.cast_one,
-    ←Nat.cast_add, ←Nat.cast_add, ←Nat.cast_add]
+  rw [←two_add_one_eq_three]; rw [←one_add_one_eq_two]; rw [←Nat.cast_one]; rw [←Nat.cast_add]; rw [←Nat.cast_add]; rw [←Nat.cast_add]
   apply congrArg
   decide

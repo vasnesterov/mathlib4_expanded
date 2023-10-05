@@ -64,7 +64,7 @@ variable {𝕜}
 theorem Subsingleton.convexIndependent [Subsingleton ι] (p : ι → E) : ConvexIndependent 𝕜 p := by
   intro s x hx
   have : (convexHull 𝕜 (p '' s)).Nonempty := ⟨p x, hx⟩
-  rw [convexHull_nonempty_iff, Set.nonempty_image_iff] at this
+  rw [convexHull_nonempty_iff] at this; rw [Set.nonempty_image_iff] at this
   rwa [Subsingleton.mem_iff_nonempty]
 #align subsingleton.convex_independent Subsingleton.convexIndependent
 
@@ -72,7 +72,7 @@ theorem Subsingleton.convexIndependent [Subsingleton ι] (p : ι → E) : Convex
 protected theorem ConvexIndependent.injective {p : ι → E} (hc : ConvexIndependent 𝕜 p) :
     Function.Injective p := by
   refine' fun i j hij => hc {j} i _
-  rw [hij, Set.image_singleton, convexHull_singleton]
+  rw [hij]; rw [Set.image_singleton]; rw [convexHull_singleton]
   exact Set.mem_singleton _
 #align convex_independent.injective ConvexIndependent.injective
 
@@ -100,7 +100,7 @@ protected theorem ConvexIndependent.range {p : ι → E} (hc : ConvexIndependent
   let fe : Set.range p ↪ ι := ⟨f, fun x₁ x₂ he => Subtype.ext (hf x₁ ▸ hf x₂ ▸ he ▸ rfl)⟩
   convert hc.comp_embedding fe
   ext
-  rw [Embedding.coeFn_mk, comp_apply, hf]
+  rw [Embedding.coeFn_mk]; rw [comp_apply]; rw [hf]
 #align convex_independent.range ConvexIndependent.range
 
 /-- A subset of a convex independent set of points is convex independent as well. -/
@@ -181,7 +181,7 @@ theorem convexIndependent_iff_finset {p : ι → E} :
     rintro a b hab
     rw [← mem_singleton]
     refine' h {b} a _
-    rw [hab, image_singleton, coe_singleton, convexHull_singleton]
+    rw [hab]; rw [image_singleton]; rw [coe_singleton]; rw [convexHull_singleton]
     exact Set.mem_singleton _
   rw [convexHull_eq_union_convexHull_finite_subsets] at hx
   simp_rw [Set.mem_iUnion] at hx

@@ -192,8 +192,7 @@ def isoMk {X Y : Comma L₁ R₁} (l : X.left ≅ Y.left) (r : X.right ≅ Y.rig
     { left := l.inv
       right := r.inv
       w := by
-        rw [← L₁.mapIso_inv l, Iso.inv_comp_eq, L₁.mapIso_hom, ← Category.assoc, h,
-          Category.assoc, ← R₁.map_comp]
+        rw [← L₁.mapIso_inv l]; rw [Iso.inv_comp_eq]; rw [L₁.mapIso_hom]; rw [← Category.assoc]; rw [h]; rw [Category.assoc]; rw [← R₁.map_comp]
         simp }
 #align category_theory.comma.iso_mk CategoryTheory.Comma.isoMk
 

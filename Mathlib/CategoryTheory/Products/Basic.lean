@@ -208,8 +208,7 @@ def evaluationUncurried : C × (C ⥤ D) ⥤ D where
   map_comp := fun {X} {Y} {Z} f g => by
     cases g; cases f; cases Z; cases Y; cases X
     simp only [prod_comp, NatTrans.comp_app, Functor.map_comp, Category.assoc]
-    rw [← NatTrans.comp_app, NatTrans.naturality, NatTrans.comp_app, Category.assoc,
-      NatTrans.naturality]
+    rw [← NatTrans.comp_app]; rw [NatTrans.naturality]; rw [NatTrans.comp_app]; rw [Category.assoc]; rw [NatTrans.naturality]
 #align category_theory.evaluation_uncurried CategoryTheory.evaluationUncurried
 
 variable {C}

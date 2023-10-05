@@ -418,18 +418,18 @@ theorem le_imp_le_of_lt_imp_lt {β} [Preorder α] [LinearOrder β] {a b : α} {c
 section Ord
 
 theorem compare_lt_iff_lt {a b : α} : (compare a b = .lt) ↔ a < b := by
-  rw [LinearOrder.compare_eq_compareOfLessAndEq, compareOfLessAndEq]
+  rw [LinearOrder.compare_eq_compareOfLessAndEq]; rw [compareOfLessAndEq]
   split_ifs <;> simp only [*, lt_irrefl]
 
 theorem compare_gt_iff_gt {a b : α} : (compare a b = .gt) ↔ a > b := by
-  rw [LinearOrder.compare_eq_compareOfLessAndEq, compareOfLessAndEq]
+  rw [LinearOrder.compare_eq_compareOfLessAndEq]; rw [compareOfLessAndEq]
   split_ifs <;> simp only [*, lt_irrefl, not_lt_of_gt]
   case _ h₁ h₂ =>
     have h : b < a := lt_trichotomy a b |>.resolve_left h₁ |>.resolve_left h₂
     exact true_iff_iff.2 h
 
 theorem compare_eq_iff_eq {a b : α} : (compare a b = .eq) ↔ a = b := by
-  rw [LinearOrder.compare_eq_compareOfLessAndEq, compareOfLessAndEq]
+  rw [LinearOrder.compare_eq_compareOfLessAndEq]; rw [compareOfLessAndEq]
   split_ifs <;> try simp only []
   case _ h   => exact false_iff_iff.2 <| ne_iff_lt_or_gt.2 <| .inl h
   case _ _ h => exact true_iff_iff.2 h

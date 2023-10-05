@@ -592,7 +592,7 @@ def coneOfDiagramInitial {X : J} (tX : IsInitial X) (F : J ⥤ C) : Cone F where
     { app := fun j => F.map (tX.to j)
       naturality := fun j j' k => by
         dsimp
-        rw [← F.map_comp, Category.id_comp, tX.hom_ext (tX.to j ≫ k) (tX.to j')] }
+        rw [← F.map_comp]; rw [Category.id_comp]; rw [tX.hom_ext (tX.to j ≫ k) (tX.to j')] }
 #align category_theory.limits.cone_of_diagram_initial CategoryTheory.Limits.coneOfDiagramInitial
 
 /-- From a functor `F : J ⥤ C`, given an initial object of `J`, show the cone
@@ -656,7 +656,7 @@ def coconeOfDiagramTerminal {X : J} (tX : IsTerminal X) (F : J ⥤ C) : Cocone F
     { app := fun j => F.map (tX.from j)
       naturality := fun j j' k => by
         dsimp
-        rw [← F.map_comp, Category.comp_id, tX.hom_ext (k ≫ tX.from j') (tX.from j)] }
+        rw [← F.map_comp]; rw [Category.comp_id]; rw [tX.hom_ext (k ≫ tX.from j') (tX.from j)] }
 #align category_theory.limits.cocone_of_diagram_terminal CategoryTheory.Limits.coconeOfDiagramTerminal
 
 /-- From a functor `F : J ⥤ C`, given a terminal object of `J`, show the cocone
@@ -666,7 +666,7 @@ def colimitOfDiagramTerminal {X : J} (tX : IsTerminal X) (F : J ⥤ C) :
   desc s := s.ι.app X
   uniq s m w := by
     conv_rhs => dsimp -- Porting note: why do I need this much firepower?
-    rw [← w X, coconeOfDiagramTerminal_ι_app, tX.hom_ext (tX.from X) (𝟙 _)]
+    rw [← w X]; rw [coconeOfDiagramTerminal_ι_app]; rw [tX.hom_ext (tX.from X) (𝟙 _)]
     simp
 #align category_theory.limits.colimit_of_diagram_terminal CategoryTheory.Limits.colimitOfDiagramTerminal
 

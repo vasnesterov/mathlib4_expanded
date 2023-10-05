@@ -366,7 +366,7 @@ theorem refl_symm : (refl M).symm = refl M := rfl
 def trans (h1 : M ≃* N) (h2 : N ≃* P) : M ≃* P :=
   { h1.toEquiv.trans h2.toEquiv with
     map_mul' := fun x y => show h2 (h1 (x * y)) = h2 (h1 x) * h2 (h1 y) by
-      rw [h1.map_mul, h2.map_mul] }
+      rw [h1.map_mul]; rw [h2.map_mul] }
 #align mul_equiv.trans MulEquiv.trans
 #align add_equiv.trans AddEquiv.trans
 

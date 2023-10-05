@@ -145,13 +145,13 @@ theorem nhds_eq_map (a : ℝₗ) : 𝓝 a = map toReal.symm (𝓝[≥] (toReal a
 #align counterexample.sorgenfrey_line.nhds_eq_map Counterexample.SorgenfreyLine.nhds_eq_map
 
 theorem nhds_eq_comap (a : ℝₗ) : 𝓝 a = comap toReal (𝓝[≥] (toReal a)) := by
-  rw [← map_toReal_nhds, comap_map toReal.injective]
+  rw [← map_toReal_nhds]; rw [comap_map toReal.injective]
 #align counterexample.sorgenfrey_line.nhds_eq_comap Counterexample.SorgenfreyLine.nhds_eq_comap
 
 @[continuity]
 theorem continuous_toReal : Continuous toReal :=
   continuous_iff_continuousAt.2 fun x => by
-    rw [ContinuousAt, Tendsto, map_toReal_nhds]
+    rw [ContinuousAt]; rw [Tendsto]; rw [map_toReal_nhds]
     exact inf_le_left
 #align counterexample.sorgenfrey_line.continuous_to_real Counterexample.SorgenfreyLine.continuous_toReal
 
@@ -161,8 +161,7 @@ instance : OrderClosedTopology ℝₗ :=
 instance : ContinuousAdd ℝₗ := by
   refine' ⟨continuous_iff_continuousAt.2 _⟩
   rintro ⟨x, y⟩
-  rw [ContinuousAt, nhds_prod_eq, nhds_eq_comap (x + y), tendsto_comap_iff,
-    nhds_eq_map, nhds_eq_map, prod_map_map_eq, ← nhdsWithin_prod_eq, Ici_prod_Ici]
+  rw [ContinuousAt]; rw [nhds_prod_eq]; rw [nhds_eq_comap (x + y)]; rw [tendsto_comap_iff]; rw [nhds_eq_map]; rw [nhds_eq_map]; rw [prod_map_map_eq]; rw [← nhdsWithin_prod_eq]; rw [Ici_prod_Ici]
   exact (continuous_add.tendsto _).inf (MapsTo.tendsto fun x hx => add_le_add hx.1 hx.2)
 
 theorem isClopen_Ici (a : ℝₗ) : IsClopen (Ici a) :=
@@ -274,7 +273,7 @@ theorem isSeparable_antidiagonal (c : ℝₗ) : IsSeparable {x : ℝₗ × ℝ�
 /-- An antidiagonal is a separable set but is not a separable space. -/
 theorem not_separableSpace_antidiagonal (c : ℝₗ) :
     ¬SeparableSpace {x : ℝₗ × ℝₗ | x.1 + x.2 = c} := by
-  rw [separableSpace_iff_countable, ← Cardinal.mk_le_aleph0_iff, cardinal_antidiagonal, not_le]
+  rw [separableSpace_iff_countable]; rw [← Cardinal.mk_le_aleph0_iff]; rw [cardinal_antidiagonal]; rw [not_le]
   exact Cardinal.aleph0_lt_continuum
 
 theorem nhds_prod_antitone_basis_inv_pnat (x y : ℝₗ) :
@@ -325,7 +324,7 @@ theorem not_separatedNhds_rat_irrational_antidiag :
   obtain ⟨x, hxn, hx_irr, rfl⟩ :
       ∃ x : ℝ, x ∈ Ioo (r : ℝ) (r + (n : ℝ)⁻¹) ∧ Irrational x ∧ k (toReal.symm x) = N := by
     have : (r : ℝ) ∈ closure (Ioo (r : ℝ) (r + (n : ℝ)⁻¹)) := by
-      rw [closure_Ioo h₀'.ne, left_mem_Icc]
+      rw [closure_Ioo h₀'.ne]; rw [left_mem_Icc]
       exact h₀'.le
     rcases mem_closure_iff_nhds.1 this _ (mem_interior_iff_mem_nhds.1 hr) with ⟨x', hx', hx'ε⟩
     exact mem_closure_iff.1 hx' _ isOpen_Ioo hx'ε

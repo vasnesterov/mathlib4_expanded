@@ -71,7 +71,7 @@ theorem lift_of_splits {F K L : Type*} [Field F] [Field K] [Field L] [Algebra F 
     rcases H with ⟨⟨H1, H2⟩, H3⟩
     cases' ih H3 with f
     choose H3 _ using H3
-    rw [coe_insert, Set.insert_eq, Set.union_comm, Algebra.adjoin_union_eq_adjoin_adjoin]
+    rw [coe_insert]; rw [Set.insert_eq]; rw [Set.union_comm]; rw [Algebra.adjoin_union_eq_adjoin_adjoin]
     letI := (f : Algebra.adjoin F (↑s : Set K) →+* L).toAlgebra
     haveI : FiniteDimensional F (Algebra.adjoin F (↑s : Set K)) :=
       ((Submodule.fg_iff_finiteDimensional _).1

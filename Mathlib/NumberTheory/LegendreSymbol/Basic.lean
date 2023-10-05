@@ -75,7 +75,7 @@ theorem pow_div_two_eq_neg_one_or_one {a : ZMod p} (ha : a ≠ 0) :
     a ^ (p / 2) = 1 ∨ a ^ (p / 2) = -1 := by
   cases' Prime.eq_two_or_odd (@Fact.out p.Prime _) with hp2 hp_odd
   · subst p; revert a ha; intro a; fin_cases a; tauto; simp
-  rw [← mul_self_eq_one_iff, ← pow_add, ← two_mul, two_mul_odd_div_two hp_odd]
+  rw [← mul_self_eq_one_iff]; rw [← pow_add]; rw [← two_mul]; rw [two_mul_odd_div_two hp_odd]
   exact pow_card_sub_one_eq_one ha
 #align zmod.pow_div_two_eq_neg_one_or_one ZMod.pow_div_two_eq_neg_one_or_one
 
@@ -120,7 +120,7 @@ theorem eq_pow (a : ℤ) : (legendreSym p a : ZMod p) = (a : ZMod p) ^ (p / 2) :
     · have := (ringChar_zmod_n p).symm.trans hc
       -- p = 2
       subst p
-      rw [legendreSym, quadraticChar_eq_one_of_char_two hc ha]
+      rw [legendreSym]; rw [quadraticChar_eq_one_of_char_two hc ha]
       revert ha
       push_cast
       generalize (a : ZMod 2) = b; fin_cases b
@@ -241,7 +241,7 @@ theorem eq_one_of_sq_sub_mul_sq_eq_zero' {p : ℕ} [Fact p.Prime] {a : ℤ} (ha 
     {x y : ZMod p} (hx : x ≠ 0) (hxy : x ^ 2 - a * y ^ 2 = 0) : legendreSym p a = 1 := by
   haveI hy : y ≠ 0 := by
     rintro rfl
-    rw [zero_pow' 2 (by norm_num), mul_zero, sub_zero, pow_eq_zero_iff
+    rw [zero_pow' 2 (by norm_num)] at hxy; rw [mul_zero] at hxy; rw [sub_zero] at hxy; rw [pow_eq_zero_iff
         (by norm_num : 0 < 2)] at hxy
     exact hx hxy
   exact eq_one_of_sq_sub_mul_sq_eq_zero ha hy hxy
@@ -298,7 +298,7 @@ namespace ZMod
 
 /-- `-1` is a square in `ZMod p` iff `p` is not congruent to `3` mod `4`. -/
 theorem exists_sq_eq_neg_one_iff : IsSquare (-1 : ZMod p) ↔ p % 4 ≠ 3 := by
-  rw [FiniteField.isSquare_neg_one_iff, card p]
+  rw [FiniteField.isSquare_neg_one_iff]; rw [card p]
 #align zmod.exists_sq_eq_neg_one_iff ZMod.exists_sq_eq_neg_one_iff
 
 theorem mod_four_ne_three_of_sq_eq_neg_one {y : ZMod p} (hy : y ^ 2 = -1) : p % 4 ≠ 3 :=

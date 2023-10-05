@@ -58,11 +58,11 @@ theorem nhds_right' (a : Ordinal) : 𝓝[>] a = ⊥ := (covby_succ a).nhdsWithin
 
 -- todo: generalize to a `SuccOrder`
 theorem nhds_left'_eq_nhds_ne (a : Ordinal) : 𝓝[<] a = 𝓝[≠] a := by
-  rw [← nhds_left'_sup_nhds_right', nhds_right', sup_bot_eq]
+  rw [← nhds_left'_sup_nhds_right']; rw [nhds_right']; rw [sup_bot_eq]
 
 -- todo: generalize to a `SuccOrder`
 theorem nhds_left_eq_nhds (a : Ordinal) : 𝓝[≤] a = 𝓝 a := by
-  rw [← nhds_left_sup_nhds_right', nhds_right', sup_bot_eq]
+  rw [← nhds_left_sup_nhds_right']; rw [nhds_right']; rw [sup_bot_eq]
 
 -- todo: generalize to a `SuccOrder`
 theorem nhdsBasis_Ioc (h : a ≠ 0) : (𝓝 a).HasBasis (· < a) (Set.Ioc · a) :=
@@ -118,7 +118,7 @@ theorem mem_closure_tfae (a : Ordinal.{u}) (s : Set Ordinal) :
     exact ⟨_, out_nonempty_iff_ne_zero.2 h₀, familyOfBFamily o f, fun _ => hfs _ _, rfl⟩
   tfae_have 6 → 1
   · rintro ⟨ι, hne, f, hfs, rfl⟩
-    rw [sup, iSup]
+    rw [sup]; rw [iSup]
     exact closure_mono (range_subset_iff.2 hfs) <| csSup_mem_closure (range_nonempty f)
       (bddAbove_range.{u, u} f)
   tfae_finish
@@ -190,7 +190,7 @@ theorem isNormal_iff_strictMono_and_continuous (f : Ordinal.{u} → Ordinal.{u})
     rw [isOpen_iff] at *
     intro o ho ho'
     rcases hs _ ho (h.isLimit ho') with ⟨a, ha, has⟩
-    rw [← IsNormal.bsup_eq.{u, u} h ho', lt_bsup] at ha
+    rw [← IsNormal.bsup_eq.{u, u} h ho'] at ha; rw [lt_bsup] at ha
     rcases ha with ⟨b, hb, hab⟩
     exact
       ⟨b, hb, fun c hc =>

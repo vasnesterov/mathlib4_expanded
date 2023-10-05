@@ -369,7 +369,7 @@ instance [Semiring R'] [SMul R' R] [Module R' A] [IsScalarTower R' R A] : IsScal
 instance algebra' [CommSemiring R'] [SMul R' R] [Algebra R' A] [IsScalarTower R' R A] :
     Algebra R' S :=
   { (algebraMap R' A).codRestrict S fun x => by
-      rw [Algebra.algebraMap_eq_smul_one, ← smul_one_smul R x (1 : A), ←
+      rw [Algebra.algebraMap_eq_smul_one]; rw [← smul_one_smul R x (1 : A)]; rw [←
         Algebra.algebraMap_eq_smul_one]
       exact algebraMap_mem S
           _ with
@@ -622,7 +622,7 @@ theorem mem_range_self (φ : A →ₐ[R] B) (x : A) : φ x ∈ φ.range :=
 @[simp]
 theorem coe_range (φ : A →ₐ[R] B) : (φ.range : Set B) = Set.range φ := by
   ext
-  rw [SetLike.mem_coe, mem_range]
+  rw [SetLike.mem_coe]; rw [mem_range]
   rfl
 #align alg_hom.coe_range AlgHom.coe_range
 
@@ -670,9 +670,9 @@ def equalizer (ϕ ψ : A →ₐ[R] B) : Subalgebra R A where
   zero_mem' := by simp only [Set.mem_setOf_eq, map_zero]
   one_mem' := by simp only [Set.mem_setOf_eq, map_one]
   add_mem' {x y} (hx : ϕ x = ψ x) (hy : ϕ y = ψ y) := by
-    rw [Set.mem_setOf_eq, ϕ.map_add, ψ.map_add, hx, hy]
+    rw [Set.mem_setOf_eq]; rw [ϕ.map_add]; rw [ψ.map_add]; rw [hx]; rw [hy]
   mul_mem' {x y} (hx : ϕ x = ψ x) (hy : ϕ y = ψ y) := by
-    rw [Set.mem_setOf_eq, ϕ.map_mul, ψ.map_mul, hx, hy]
+    rw [Set.mem_setOf_eq]; rw [ϕ.map_mul]; rw [ψ.map_mul]; rw [hx]; rw [hy]
   algebraMap_mem' x := by rw [Set.mem_setOf_eq, AlgHom.commutes, AlgHom.commutes]
 #align alg_hom.equalizer AlgHom.equalizer
 
@@ -896,7 +896,7 @@ instance : Inhabited (Subalgebra R A) := ⟨⊥⟩
 
 theorem mem_bot {x : A} : x ∈ (⊥ : Subalgebra R A) ↔ x ∈ Set.range (algebraMap R A) :=
   suffices (ofId R A).range = (⊥ : Subalgebra R A) by
-    rw [← this, ← SetLike.mem_coe, AlgHom.coe_range]
+    rw [← this]; rw [← SetLike.mem_coe]; rw [AlgHom.coe_range]
     rfl
   le_bot_iff.mp fun x hx => Subalgebra.range_le _ ((ofId R A).coe_range ▸ hx)
 #align algebra.mem_bot Algebra.mem_bot
@@ -1187,7 +1187,7 @@ noncomputable def iSupLift [Nonempty ι] (K : ι → Subalgebra R A) (dir : Dire
         (fun i j x hxi hxj => by
           let ⟨k, hik, hjk⟩ := dir i j
           dsimp
-          rw [hf i k hik, hf j k hjk]
+          rw [hf i k hik]; rw [hf j k hjk]
           rfl)
         T (by rw [hT, coe_iSup_of_directed dir])
     map_one' := by apply Set.iUnionLift_const _ (fun _ => 1) <;> simp
@@ -1316,15 +1316,13 @@ theorem algebraMap_eq {R A : Type*} [CommSemiring R] [CommSemiring A] [Semiring 
 @[simp]
 theorem rangeS_algebraMap {R A : Type*} [CommSemiring R] [CommSemiring A] [Algebra R A]
     (S : Subalgebra R A) : (algebraMap S A).rangeS = S.toSubsemiring := by
-  rw [algebraMap_eq, Algebra.id.map_eq_id, RingHom.id_comp, ← toSubsemiring_subtype,
-    Subsemiring.rangeS_subtype]
+  rw [algebraMap_eq]; rw [Algebra.id.map_eq_id]; rw [RingHom.id_comp]; rw [← toSubsemiring_subtype]; rw [Subsemiring.rangeS_subtype]
 #align subalgebra.srange_algebra_map Subalgebra.rangeS_algebraMap
 
 @[simp]
 theorem range_algebraMap {R A : Type*} [CommRing R] [CommRing A] [Algebra R A]
     (S : Subalgebra R A) : (algebraMap S A).range = S.toSubring := by
-  rw [algebraMap_eq, Algebra.id.map_eq_id, RingHom.id_comp, ← toSubring_subtype,
-    Subring.range_subtype]
+  rw [algebraMap_eq]; rw [Algebra.id.map_eq_id]; rw [RingHom.id_comp]; rw [← toSubring_subtype]; rw [Subring.range_subtype]
 #align subalgebra.range_algebra_map Subalgebra.range_algebraMap
 
 instance noZeroSMulDivisors_top [NoZeroDivisors A] (S : Subalgebra R A) : NoZeroSMulDivisors S A :=
@@ -1447,7 +1445,7 @@ theorem mem_of_finset_sum_eq_one_of_pow_smul_mem {S : Type*} [CommRing S] [Algeb
     show S'.subtype (∑ i in ι', l' i * s' i) = 1
     simpa only [map_sum, map_mul] using e
   have : Ideal.span (s' '' ι') = ⊤ := by
-    rw [Ideal.eq_top_iff_one, ← e']
+    rw [Ideal.eq_top_iff_one]; rw [← e']
     apply sum_mem
     intros i hi
     exact Ideal.mul_mem_left _ _ <| Ideal.subset_span <| Set.mem_image_of_mem s' hi
@@ -1456,7 +1454,7 @@ theorem mem_of_finset_sum_eq_one_of_pow_smul_mem {S : Type*} [CommRing S] [Algeb
   apply (Algebra.ofId S' S).range.toSubmodule.mem_of_span_top_of_smul_mem _ hN
   rintro ⟨_, _, ⟨i, hi, rfl⟩, rfl⟩
   change s' i ^ N • x ∈ _
-  rw [← tsub_add_cancel_of_le (show n i ≤ N from Finset.le_sup hi), pow_add, mul_smul]
+  rw [← tsub_add_cancel_of_le (show n i ≤ N from Finset.le_sup hi)]; rw [pow_add]; rw [mul_smul]
   refine' Submodule.smul_mem _ (⟨_, pow_mem (hs i) _⟩ : S') _
   exact ⟨⟨_, hn i⟩, rfl⟩
 #align subalgebra.mem_of_finset_sum_eq_one_of_pow_smul_mem Subalgebra.mem_of_finset_sum_eq_one_of_pow_smul_mem
@@ -1498,7 +1496,7 @@ def subalgebraOfSubring (S : Subring R) : Subalgebra ℤ R :=
       Int.induction_on i (by simpa using S.zero_mem)
         (fun i ih => by simpa using S.add_mem ih S.one_mem) fun i ih =>
         show ((-i - 1 : ℤ) : R) ∈ S by
-          rw [Int.cast_sub, Int.cast_one]
+          rw [Int.cast_sub]; rw [Int.cast_one]
           exact S.sub_mem ih S.one_mem }
 #align subalgebra_of_subring subalgebraOfSubring
 

@@ -323,7 +323,7 @@ instance instMetricSpace : MetricSpace (CompleteCopy s) := by
       · refine (tendsto_const_nhds.dist continuous_subtype_val.continuousAt).add
           (tendsto_const_nhds.sub <| ?_).abs
         refine (continuousAt_inv_infDist_pt ?_).comp continuous_subtype_val.continuousAt
-        rw [s.isOpen.isClosed_compl.closure_eq, mem_compl_iff, not_not]
+        rw [s.isOpen.isClosed_compl.closure_eq]; rw [mem_compl_iff]; rw [not_not]
         exact x.2
       simp only [dist_self, sub_self, abs_zero, zero_add] at this
       exact mem_of_superset (this <| gt_mem_nhds ε0) hε

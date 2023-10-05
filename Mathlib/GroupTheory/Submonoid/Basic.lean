@@ -249,7 +249,7 @@ instance : Bot (Submonoid M) :=
       one_mem' := Set.mem_singleton 1
       mul_mem' := fun ha hb => by
         simp only [Set.mem_singleton_iff] at *
-        rw [ha, hb, mul_one] }⟩
+        rw [ha]; rw [hb]; rw [mul_one] }⟩
 
 @[to_additive]
 instance : Inhabited (Submonoid M) :=
@@ -539,14 +539,14 @@ theorem closure_iUnion {ι} (s : ι → Set M) : closure (⋃ i, s i) = ⨆ i, c
 -- Porting note: `simp` can now prove this, so we remove the `@[simp]` attribute
 @[to_additive]
 theorem closure_singleton_le_iff_mem (m : M) (p : Submonoid M) : closure {m} ≤ p ↔ m ∈ p := by
-  rw [closure_le, singleton_subset_iff, SetLike.mem_coe]
+  rw [closure_le]; rw [singleton_subset_iff]; rw [SetLike.mem_coe]
 #align submonoid.closure_singleton_le_iff_mem Submonoid.closure_singleton_le_iff_mem
 #align add_submonoid.closure_singleton_le_iff_mem AddSubmonoid.closure_singleton_le_iff_mem
 
 @[to_additive]
 theorem mem_iSup {ι : Sort*} (p : ι → Submonoid M) {m : M} :
     (m ∈ ⨆ i, p i) ↔ ∀ N, (∀ i, p i ≤ N) → m ∈ N := by
-  rw [← closure_singleton_le_iff_mem, le_iSup_iff]
+  rw [← closure_singleton_le_iff_mem]; rw [le_iSup_iff]
   simp only [closure_singleton_le_iff_mem]
 #align submonoid.mem_supr Submonoid.mem_iSup
 #align add_submonoid.mem_supr AddSubmonoid.mem_iSup
@@ -666,7 +666,7 @@ def ofClosureMEqTopLeft {M N} [Monoid M] [Monoid N] {s : Set M} (f : M → N) (h
   map_one' := h1
   map_mul' x :=
     (dense_induction (p := _) x hs hmul fun y => by rw [one_mul, h1, one_mul]) fun a b ha hb y => by
-      rw [mul_assoc, ha, ha, hb, mul_assoc]
+      rw [mul_assoc]; rw [ha]; rw [ha]; rw [hb]; rw [mul_assoc]
 #align monoid_hom.of_mclosure_eq_top_left MonoidHom.ofClosureMEqTopLeft
 #align add_monoid_hom.of_mclosure_eq_top_left AddMonoidHom.ofClosureMEqTopLeft
 

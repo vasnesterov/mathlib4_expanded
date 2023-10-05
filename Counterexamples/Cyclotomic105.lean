@@ -67,8 +67,7 @@ theorem cyclotomic_7 : cyclotomic 7 ℤ = 1 + X + X ^ 2 + X ^ 3 + X ^ 4 + X ^ 5 
 
 theorem cyclotomic_15 : cyclotomic 15 ℤ = 1 - X + X ^ 3 - X ^ 4 + X ^ 5 - X ^ 7 + X ^ 8 := by
   refine' ((eq_cyclotomic_iff (by norm_num) _).2 _).symm
-  rw [properDivisors_15, Finset.prod_insert _, Finset.prod_insert _, Finset.prod_singleton,
-    cyclotomic_one, cyclotomic_3, cyclotomic_5]
+  rw [properDivisors_15]; rw [Finset.prod_insert _]; rw [Finset.prod_insert _]; rw [Finset.prod_singleton]; rw [cyclotomic_one]; rw [cyclotomic_3]; rw [cyclotomic_5]
   ring
   repeat' norm_num
 #align counterexample.cyclotomic_15 Counterexample.cyclotomic_15
@@ -76,8 +75,7 @@ theorem cyclotomic_15 : cyclotomic 15 ℤ = 1 - X + X ^ 3 - X ^ 4 + X ^ 5 - X ^ 
 theorem cyclotomic_21 :
     cyclotomic 21 ℤ = 1 - X + X ^ 3 - X ^ 4 + X ^ 6 - X ^ 8 + X ^ 9 - X ^ 11 + X ^ 12 := by
   refine' ((eq_cyclotomic_iff (by norm_num) _).2 _).symm
-  rw [properDivisors_21, Finset.prod_insert _, Finset.prod_insert _, Finset.prod_singleton,
-    cyclotomic_one, cyclotomic_3, cyclotomic_7]
+  rw [properDivisors_21]; rw [Finset.prod_insert _]; rw [Finset.prod_insert _]; rw [Finset.prod_singleton]; rw [cyclotomic_one]; rw [cyclotomic_3]; rw [cyclotomic_7]
   ring
   repeat' norm_num
 #align counterexample.cyclotomic_21 Counterexample.cyclotomic_21
@@ -87,8 +85,7 @@ theorem cyclotomic_35 :
       1 - X + X ^ 5 - X ^ 6 + X ^ 7 - X ^ 8 + X ^ 10 - X ^ 11 + X ^ 12 - X ^ 13 + X ^ 14 - X ^ 16 +
         X ^ 17 - X ^ 18 + X ^ 19 - X ^ 23 + X ^ 24 := by
   refine' ((eq_cyclotomic_iff (by norm_num) _).2 _).symm
-  rw [properDivisors_35, Finset.prod_insert _, Finset.prod_insert _, Finset.prod_singleton,
-    cyclotomic_one, cyclotomic_5, cyclotomic_7]
+  rw [properDivisors_35]; rw [Finset.prod_insert _]; rw [Finset.prod_insert _]; rw [Finset.prod_singleton]; rw [cyclotomic_one]; rw [cyclotomic_5]; rw [cyclotomic_7]
   ring
   repeat' norm_num
 #align counterexample.cyclotomic_35 Counterexample.cyclotomic_35
@@ -102,8 +99,7 @@ theorem cyclotomic_105 :
   refine' ((eq_cyclotomic_iff (by norm_num) _).2 _).symm
   rw [properDivisors_105]
   repeat' rw [Finset.prod_insert (α := ℕ) (β := ℤ[X])]
-  rw [Finset.prod_singleton, cyclotomic_one, cyclotomic_3, cyclotomic_5, cyclotomic_7,
-    cyclotomic_15, cyclotomic_21, cyclotomic_35]
+  rw [Finset.prod_singleton]; rw [cyclotomic_one]; rw [cyclotomic_3]; rw [cyclotomic_5]; rw [cyclotomic_7]; rw [cyclotomic_15]; rw [cyclotomic_21]; rw [cyclotomic_35]
   ring
   repeat' norm_num
 #align counterexample.cyclotomic_105 Counterexample.cyclotomic_105

@@ -65,7 +65,7 @@ theorem mem_pi_of_mem (i : ι) {s : Set (α i)} (hs : s ∈ f i) : eval i ⁻¹'
 #align filter.mem_pi_of_mem Filter.mem_pi_of_mem
 
 theorem pi_mem_pi {I : Set ι} (hI : I.Finite) (h : ∀ i ∈ I, s i ∈ f i) : I.pi s ∈ pi f := by
-  rw [pi_def, biInter_eq_iInter]
+  rw [pi_def]; rw [biInter_eq_iInter]
   refine' mem_iInf_of_iInter hI (fun i => _) Subset.rfl
   exact preimage_mem_comap (h i i.2)
 #align filter.pi_mem_pi Filter.pi_mem_pi
@@ -128,7 +128,7 @@ theorem pi_inf_principal_univ_pi_eq_bot :
 @[simp]
 theorem pi_inf_principal_pi_eq_bot [∀ i, NeBot (f i)] {I : Set ι} :
     pi f ⊓ 𝓟 (Set.pi I s) = ⊥ ↔ ∃ i ∈ I, f i ⊓ 𝓟 (s i) = ⊥ := by
-  rw [← univ_pi_piecewise_univ I, pi_inf_principal_univ_pi_eq_bot]
+  rw [← univ_pi_piecewise_univ I]; rw [pi_inf_principal_univ_pi_eq_bot]
   refine' exists_congr fun i => _
   by_cases hi : i ∈ I <;> simp [hi, NeBot.ne']
 #align filter.pi_inf_principal_pi_eq_bot Filter.pi_inf_principal_pi_eq_bot

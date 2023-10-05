@@ -125,7 +125,7 @@ noncomputable def partialFunToPointed : PartialFun ⥤ Pointed := by
         convert Part.some_toOption a)
       map_comp := fun f g => Pointed.Hom.ext _ _ <| funext fun o => Option.recOn o rfl fun a => by
         dsimp [CategoryStruct.comp]
-        rw [Part.bind_toOption g (f a), Option.elim'_eq_elim] }
+        rw [Part.bind_toOption g (f a)]; rw [Option.elim'_eq_elim] }
 #align PartialFun_to_Pointed partialFunToPointed
 
 /-- The equivalence induced by `PartialFunToPointed` and `PointedToPartialFun`.
@@ -153,7 +153,7 @@ noncomputable def partialFunEquivPointed : PartialFun.{u} ≌ Pointed :=
             simp_rw [Part.mem_some_iff, Subtype.mk_eq_mk]
             constructor
             · rintro ⟨_, ⟨h₁, h₂⟩, h₃⟩
-              rw [h₃, ← h₂, dif_pos h₁]
+              rw [h₃]; rw [← h₂]; rw [dif_pos h₁]
             · intro h
               split_ifs at h with ha
               rw [some_inj] at h
@@ -182,7 +182,7 @@ noncomputable def partialFunEquivPointed : PartialFun.{u} ≌ Pointed :=
             dsimp
             -- porting note: `rw [Part.elim_toOption]` does not work because there are
             -- conflicting `Decidable` instances
-            rw [Option.elim'_eq_elim, @Part.elim_toOption _ _ _ (Classical.propDecidable _)]
+            rw [Option.elim'_eq_elim]; rw [@Part.elim_toOption _ _ _ (Classical.propDecidable _)]
             split_ifs with h
             · rfl
             · exact Eq.symm (of_not_not h)))

@@ -35,8 +35,7 @@ theorem IsClosed.mk_lt_continuum [NormalSpace X] {s : Set X} (hs : IsClosed s)
   calc
     -- Any function `s → ℝ` is continuous, hence `2 ^ 𝔠 ≤ #C(s, ℝ)`
     2 ^ 𝔠 ≤ #C(s, ℝ) := by
-      rw [(ContinuousMap.equivFnOfDiscrete _ _).cardinal_eq, mk_arrow, mk_real, lift_continuum,
-        lift_uzero]
+      rw [(ContinuousMap.equivFnOfDiscrete _ _).cardinal_eq]; rw [mk_arrow]; rw [mk_real]; rw [lift_continuum]; rw [lift_uzero]
       exact (power_le_power_left two_ne_zero h).trans (power_le_power_right (nat_lt_continuum 2).le)
     -- By the Tietze Extension Theorem, any function `f : C(s, ℝ)` can be extended to `C(X, ℝ)`,
     -- hence `#C(s, ℝ) ≤ #C(X, ℝ)`
@@ -49,7 +48,7 @@ theorem IsClosed.mk_lt_continuum [NormalSpace X] {s : Set X} (hs : IsClosed s)
     _ ≤ #(t → ℝ) := mk_le_of_injective FunLike.coe_injective
     -- Since `t` is countable, we have `#(t → ℝ) ≤ 𝔠`
     _ ≤ 𝔠 := by
-      rw [mk_arrow, mk_real, lift_uzero, lift_continuum, continuum, ← power_mul]
+      rw [mk_arrow]; rw [mk_real]; rw [lift_uzero]; rw [lift_continuum]; rw [continuum]; rw [← power_mul]
       exact power_le_power_left two_ne_zero mk_le_aleph0
 
 /-- Let `s` be a closed set in a separable space. If the induced topology on `s` is discrete and `s`

@@ -67,7 +67,7 @@ theorem PInfty_comp_map_mono_eq_zero (X : SimplicialObject C) {n : ℕ} {Δ' : S
         linarith
     by_cases hj₁ : j₁ = 0
     · subst hj₁
-      rw [assoc, ← SimplexCategory.δ_comp_δ'' (Fin.zero_le _)]
+      rw [assoc]; rw [← SimplexCategory.δ_comp_δ'' (Fin.zero_le _)]
       simp only [op_comp, X.map_comp, assoc, PInfty_f]
       erw [(HigherFacesVanish.of_P _ _).comp_δ_eq_zero_assoc _ j₂.succ_ne_zero, zero_comp]
       simp only [Nat.succ_eq_add_one, Nat.add, Fin.succ]
@@ -99,7 +99,7 @@ theorem Γ₀_obj_termwise_mapMono_comp_PInfty (X : SimplicialObject C) {Δ Δ' 
     subst h'
     simp only [Γ₀.Obj.Termwise.mapMono_δ₀' _ i hi]
     dsimp
-    rw [← PInfty.comm _ n, AlternatingFaceMapComplex.obj_d_eq]
+    rw [← PInfty.comm _ n]; rw [AlternatingFaceMapComplex.obj_d_eq]
     simp only [eq_self_iff_true, id_comp, if_true, Preadditive.comp_sum]
     rw [Finset.sum_eq_single (0 : Fin (n + 2))]
     rotate_left
@@ -190,8 +190,7 @@ attribute [irreducible] compatibility_Γ₂N₁_Γ₂N₂
 lemma compatibility_Γ₂N₁_Γ₂N₂_inv_app (X : SimplicialObject C) :
     compatibility_Γ₂N₁_Γ₂N₂.inv.app X =
       eqToHom (by rw [← Functor.assoc, compatibility_N₁_N₂]) := by
-  rw [← cancel_mono (compatibility_Γ₂N₁_Γ₂N₂.hom.app X), Iso.inv_hom_id_app,
-    compatibility_Γ₂N₁_Γ₂N₂_hom_app, eqToHom_trans, eqToHom_refl]
+  rw [← cancel_mono (compatibility_Γ₂N₁_Γ₂N₂.hom.app X)]; rw [Iso.inv_hom_id_app]; rw [compatibility_Γ₂N₁_Γ₂N₂_hom_app]; rw [eqToHom_trans]; rw [eqToHom_refl]
 
 namespace Γ₂N₂
 
@@ -208,7 +207,7 @@ theorem natTrans_app_f_app (P : Karoubi (SimplicialObject C)) :
         (compatibility_Γ₂N₁_Γ₂N₂.hom ≫ Γ₂N₁.natTrans).app P.X ≫ P.decompId_p := by
   dsimp only [natTrans]
   rw [whiskeringLeft_obj_preimage_app
-    (compatibility_Γ₂N₁_Γ₂N₂.hom ≫ Γ₂N₁.natTrans : _ ⟶ toKaroubi _ ⋙ 𝟭 _) P, Functor.id_map]
+    (compatibility_Γ₂N₁_Γ₂N₂.hom ≫ Γ₂N₁.natTrans : _ ⟶ toKaroubi _ ⋙ 𝟭 _) P]; rw [Functor.id_map]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.Γ₂N₂.nat_trans_app_f_app AlgebraicTopology.DoldKan.Γ₂N₂.natTrans_app_f_app
 
@@ -224,10 +223,10 @@ theorem compatibility_Γ₂N₁_Γ₂N₂_natTrans (X : SimplicialObject C) :
   rw [Γ₂N₂.natTrans_app_f_app]
   dsimp only [Karoubi.decompId_i_toKaroubi, Karoubi.decompId_p_toKaroubi, Functor.comp_map,
     NatTrans.comp_app]
-  rw [N₂.map_id, Γ₂.map_id, Iso.app_inv]
+  rw [N₂.map_id]; rw [Γ₂.map_id]; rw [Iso.app_inv]
   dsimp only [toKaroubi]
   erw [id_comp]
-  rw [comp_id, Iso.inv_hom_id_app_assoc]
+  rw [comp_id]; rw [Iso.inv_hom_id_app_assoc]
 
 theorem identity_N₂_objectwise (P : Karoubi (SimplicialObject C)) :
     (N₂Γ₂.inv.app (N₂.obj P) : N₂.obj P ⟶ N₂.obj (Γ₂.obj (N₂.obj P))) ≫
@@ -259,7 +258,7 @@ theorem identity_N₂ :
   ext P : 2
   dsimp only [NatTrans.comp_app, NatTrans.hcomp_app, Functor.comp_map, Functor.associator,
     NatTrans.id_app, Functor.comp_obj]
-  rw [Γ₂.map_id, N₂.map_id, comp_id, id_comp, id_comp, identity_N₂_objectwise P]
+  rw [Γ₂.map_id]; rw [N₂.map_id]; rw [comp_id]; rw [id_comp]; rw [id_comp]; rw [identity_N₂_objectwise P]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.identity_N₂ AlgebraicTopology.DoldKan.identity_N₂
 

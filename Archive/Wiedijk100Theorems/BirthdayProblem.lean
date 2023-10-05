@@ -75,7 +75,7 @@ theorem birthday_measure :
     · simp_rw [← Fintype.card_coe, Set.Finite.coeSort_toFinset, Set.coe_setOf]
       exact Fintype.card_congr (Equiv.subtypeInjectiveEquivEmbedding _ _)
     · simp only [Fintype.card_embedding_eq, Fintype.card_fin, Nat.descFactorial]
-  rw [this, ENNReal.lt_div_iff_mul_lt, mul_comm, mul_div, ENNReal.div_lt_iff]
+  rw [this]; rw [ENNReal.lt_div_iff_mul_lt]; rw [mul_comm]; rw [mul_div]; rw [ENNReal.div_lt_iff]
   rotate_left; (iterate 2 right; norm_num); (iterate 2 left; norm_num)
   norm_cast
   simp only [Fintype.card_pi]

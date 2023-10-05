@@ -145,13 +145,13 @@ theorem comap_op_one :
 @[simp]
 theorem map_unop_one :
     map (↑(opLinearEquiv R : A ≃ₗ[R] Aᵐᵒᵖ).symm : Aᵐᵒᵖ →ₗ[R] A) (1 : Submodule R Aᵐᵒᵖ) = 1 := by
-  rw [← comap_equiv_eq_map_symm, comap_op_one]
+  rw [← comap_equiv_eq_map_symm]; rw [comap_op_one]
 #align submodule.map_unop_one Submodule.map_unop_one
 
 @[simp]
 theorem comap_unop_one :
     comap (↑(opLinearEquiv R : A ≃ₗ[R] Aᵐᵒᵖ).symm : Aᵐᵒᵖ →ₗ[R] A) (1 : Submodule R A) = 1 := by
-  rw [← map_equiv_eq_comap_symm, map_op_one]
+  rw [← map_equiv_eq_comap_symm]; rw [map_op_one]
 #align submodule.comap_unop_one Submodule.comap_unop_one
 
 /-- Multiplication of sub-R-modules of an R-algebra A. The submodule `M * N` is the
@@ -171,14 +171,14 @@ theorem mul_le : M * N ≤ P ↔ ∀ m ∈ M, ∀ n ∈ N, m * n ∈ P :=
 theorem mul_toAddSubmonoid (M N : Submodule R A) :
     (M * N).toAddSubmonoid = M.toAddSubmonoid * N.toAddSubmonoid := by
   dsimp [HMul.hMul, Mul.mul]  --porting note: added `hMul`
-  rw [map₂, iSup_toAddSubmonoid]
+  rw [map₂]; rw [iSup_toAddSubmonoid]
   rfl
 #align submodule.mul_to_add_submonoid Submodule.mul_toAddSubmonoid
 
 @[elab_as_elim]
 protected theorem mul_induction_on {C : A → Prop} {r : A} (hr : r ∈ M * N)
     (hm : ∀ m ∈ M, ∀ n ∈ N, C (m * n)) (ha : ∀ x y, C x → C y → C (x + y)) : C r := by
-  rw [← mem_toAddSubmonoid, mul_toAddSubmonoid] at hr
+  rw [← mem_toAddSubmonoid] at hr; rw [mul_toAddSubmonoid] at hr
   exact AddSubmonoid.mul_induction_on hr hm ha
 #align submodule.mul_induction_on Submodule.mul_induction_on
 
@@ -283,7 +283,7 @@ theorem map_op_mul :
   apply le_antisymm
   · simp_rw [map_le_iff_le_comap]
     refine' mul_le.2 fun m hm n hn => _
-    rw [mem_comap, map_equiv_eq_comap_symm, map_equiv_eq_comap_symm]
+    rw [mem_comap]; rw [map_equiv_eq_comap_symm]; rw [map_equiv_eq_comap_symm]
     show op n * op m ∈ _
     exact mul_mem_mul hn hm
   · refine' mul_le.2 (MulOpposite.rec' fun m hm => MulOpposite.rec' fun n hn => _)
@@ -305,8 +305,7 @@ theorem map_unop_mul (M N : Submodule R Aᵐᵒᵖ) :
   have : Function.Injective (↑(opLinearEquiv R : A ≃ₗ[R] Aᵐᵒᵖ) : A →ₗ[R] Aᵐᵒᵖ) :=
     LinearEquiv.injective _
   map_injective_of_injective this <| by
-    rw [← map_comp, map_op_mul, ← map_comp, ← map_comp, LinearEquiv.comp_coe,
-      LinearEquiv.symm_trans_self, LinearEquiv.refl_toLinearMap, map_id, map_id, map_id]
+    rw [← map_comp]; rw [map_op_mul]; rw [← map_comp]; rw [← map_comp]; rw [LinearEquiv.comp_coe]; rw [LinearEquiv.symm_trans_self]; rw [LinearEquiv.refl_toLinearMap]; rw [map_id]; rw [map_id]; rw [map_id]
 #align submodule.map_unop_mul Submodule.map_unop_mul
 
 theorem comap_op_mul (M N : Submodule R Aᵐᵒᵖ) :
@@ -403,7 +402,7 @@ theorem span_pow (s : Set A) : ∀ n : ℕ, span R s ^ n = span R (s ^ n)
 #align submodule.span_pow Submodule.span_pow
 
 theorem pow_eq_span_pow_set (n : ℕ) : M ^ n = span R ((M : Set A) ^ n) := by
-  rw [← span_pow, span_eq]
+  rw [← span_pow]; rw [span_eq]
 #align submodule.pow_eq_span_pow_set Submodule.pow_eq_span_pow_set
 
 theorem pow_subset_pow {n : ℕ} : (↑M : Set A) ^ n ⊆ ↑(M ^ n : Submodule R A) :=
@@ -557,7 +556,7 @@ def span.ringHom : SetSemiring A →+* Submodule R A where
   map_add' := span_union
   map_mul' s t := by
     dsimp only -- porting note: new, needed due to new-style structures
-    rw [SetSemiring.down_mul, span_mul_span]
+    rw [SetSemiring.down_mul]; rw [span_mul_span]
 #align submodule.span.ring_hom Submodule.span.ringHom
 
 section
@@ -609,12 +608,12 @@ theorem prod_span {ι : Type*} (s : Finset ι) (M : ι → Set A) :
   refine' Finset.induction_on s _ _
   · simp [one_eq_span, Set.singleton_one]
   · intro _ _ H ih
-    rw [Finset.prod_insert H, Finset.prod_insert H, ih, span_mul_span]
+    rw [Finset.prod_insert H]; rw [Finset.prod_insert H]; rw [ih]; rw [span_mul_span]
 #align submodule.prod_span Submodule.prod_span
 
 theorem prod_span_singleton {ι : Type*} (s : Finset ι) (x : ι → A) :
     (∏ i in s, span R ({x i} : Set A)) = span R {∏ i in s, x i} := by
-  rw [prod_span, Set.finset_prod_singleton]
+  rw [prod_span]; rw [Set.finset_prod_singleton]
 #align submodule.prod_span_singleton Submodule.prod_span_singleton
 
 variable (R A)
@@ -656,7 +655,7 @@ theorem smul_singleton (a : A) (M : Submodule R A) :
   apply le_antisymm
   · rw [span_le]
     rintro _ ⟨b, m, hb, hm, rfl⟩
-    rw [SetLike.mem_coe, mem_map, Set.mem_singleton_iff.mp hb]
+    rw [SetLike.mem_coe]; rw [mem_map]; rw [Set.mem_singleton_iff.mp hb]
     exact ⟨m, hm, rfl⟩
   · rintro _ ⟨m, hm, rfl⟩
     exact subset_span ⟨a, m, Set.mem_singleton a, hm, rfl⟩
@@ -700,7 +699,7 @@ theorem le_div_iff {I J K : Submodule R A} : I ≤ J / K ↔ ∀ x ∈ I, ∀ z 
 #align submodule.le_div_iff Submodule.le_div_iff
 
 theorem le_div_iff_mul_le {I J K : Submodule R A} : I ≤ J / K ↔ I * K ≤ J := by
-  rw [le_div_iff, mul_le]
+  rw [le_div_iff]; rw [mul_le]
 #align submodule.le_div_iff_mul_le Submodule.le_div_iff_mul_le
 
 @[simp]

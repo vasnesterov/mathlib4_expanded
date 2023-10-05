@@ -331,17 +331,17 @@ instance : CommApplicative FreeAbelianGroup.{u} where
     refine' FreeAbelianGroup.induction_on' x _ _ _ _
     · rw [FreeAbelianGroup.map_zero, zero_seq, seq_zero]
     · intro p
-      rw [map_pure, pure_seq]
+      rw [map_pure]; rw [pure_seq]
       exact FreeAbelianGroup.induction_on' y
         (by rw [FreeAbelianGroup.map_zero, FreeAbelianGroup.map_zero, zero_seq])
         (fun q ↦ by rw [map_pure, map_pure, pure_seq, map_pure])
         (fun q ih ↦ by rw [FreeAbelianGroup.map_neg, FreeAbelianGroup.map_neg, neg_seq, ih])
         fun y₁ y₂ ih1 ih2 ↦ by
-          rw [FreeAbelianGroup.map_add, FreeAbelianGroup.map_add, add_seq, ih1, ih2]
+          rw [FreeAbelianGroup.map_add]; rw [FreeAbelianGroup.map_add]; rw [add_seq]; rw [ih1]; rw [ih2]
     · intro p ih
-      rw [FreeAbelianGroup.map_neg, neg_seq, seq_neg, ih]
+      rw [FreeAbelianGroup.map_neg]; rw [neg_seq]; rw [seq_neg]; rw [ih]
     · intro x₁ x₂ ih1 ih2
-      rw [FreeAbelianGroup.map_add, add_seq, seq_add, ih1, ih2]
+      rw [FreeAbelianGroup.map_add]; rw [add_seq]; rw [seq_add]; rw [ih1]; rw [ih2]
 
 end Monad
 
@@ -412,7 +412,7 @@ theorem mul_def (x y : FreeAbelianGroup α) :
 
 @[simp]
 theorem of_mul_of (x y : α) : of x * of y = of (x * y) := by
-  rw [mul_def, lift.of, lift.of]
+  rw [mul_def]; rw [lift.of]; rw [lift.of]
 #align free_abelian_group.of_mul_of FreeAbelianGroup.of_mul_of
 
 theorem of_mul (x y : α) : of (x * y) = of x * of y :=
@@ -474,13 +474,13 @@ instance ring : Ring (FreeAbelianGroup α) :=
       dsimp only [(· * ·), Mul.mul, OfNat.ofNat, One.one]
       refine' FreeAbelianGroup.induction_on x rfl _ _ _
       · intro L
-        rw [lift.of, lift.of]
+        rw [lift.of]; rw [lift.of]
         congr 1
         exact one_mul L
       · intro L ih
-        rw [map_neg, ih]
+        rw [map_neg]; rw [ih]
       · intro x1 x2 ih1 ih2
-        rw [map_add, ih1, ih2] }
+        rw [map_add]; rw [ih1]; rw [ih2] }
 
 variable {α}
 
@@ -515,7 +515,7 @@ def liftMonoid : (α →* R) ≃ (FreeAbelianGroup α →+* R) where
           simp only [add_mul, map_add, ih1, ih2]
       · rw [mul_neg, map_neg, map_neg, mul_neg, ih]
       · intro y1 y2 ih1 ih2
-        rw [mul_add, map_add, map_add, mul_add, ih1, ih2] }
+        rw [mul_add]; rw [map_add]; rw [map_add]; rw [mul_add]; rw [ih1]; rw [ih2] }
   invFun F := MonoidHom.comp (↑F) ofMulHom
   left_inv f := MonoidHom.ext <| by
     simp only [RingHom.coe_monoidHom_mk, MonoidHom.coe_comp, MonoidHom.coe_mk, OneHom.coe_mk,
@@ -565,13 +565,13 @@ instance [CommMonoid α] : CommRing (FreeAbelianGroup α) :=
           congr 1
           exact mul_comm _ _
         · intro t ih
-          rw [mul_neg, ih, neg_mul_eq_neg_mul]
+          rw [mul_neg]; rw [ih]; rw [neg_mul_eq_neg_mul]
         · intro y1 y2 ih1 ih2
-          rw [mul_add, add_mul, ih1, ih2]
+          rw [mul_add]; rw [add_mul]; rw [ih1]; rw [ih2]
       · intro s ih
-        rw [neg_mul, ih, neg_mul_eq_mul_neg]
+        rw [neg_mul]; rw [ih]; rw [neg_mul_eq_mul_neg]
       · intro x1 x2 ih1 ih2
-        rw [add_mul, mul_add, ih1, ih2] }
+        rw [add_mul]; rw [mul_add]; rw [ih1]; rw [ih2] }
 
 instance pemptyUnique : Unique (FreeAbelianGroup PEmpty) where
   default := 0
@@ -589,9 +589,9 @@ def punitEquiv (T : Type*) [Unique T] : FreeAbelianGroup T ≃+ ℤ where
     (Unique.forall_iff.2 <| by simp only [one_smul, lift.of]) (Unique.forall_iff.2 <| by simp)
     fun x y hx hy ↦ by
       simp only [AddMonoidHom.map_add, add_smul] at *
-      rw [hx, hy]
+      rw [hx]; rw [hy]
   right_inv n := by
-    rw [AddMonoidHom.map_zsmul, lift.of]
+    rw [AddMonoidHom.map_zsmul]; rw [lift.of]
     exact zsmul_int_one n
   map_add' := AddMonoidHom.map_add _
 #align free_abelian_group.punit_equiv FreeAbelianGroup.punitEquiv
@@ -602,11 +602,11 @@ def equivOfEquiv {α β : Type*} (f : α ≃ β) : FreeAbelianGroup α ≃+ Free
   invFun := map f.symm
   left_inv := by
     intro x
-    rw [← map_comp_apply, Equiv.symm_comp_self, map_id]
+    rw [← map_comp_apply]; rw [Equiv.symm_comp_self]; rw [map_id]
     rfl
   right_inv := by
     intro x
-    rw [← map_comp_apply, Equiv.self_comp_symm, map_id]
+    rw [← map_comp_apply]; rw [Equiv.self_comp_symm]; rw [map_id]
     rfl
   map_add' := AddMonoidHom.map_add _
 #align free_abelian_group.equiv_of_equiv FreeAbelianGroup.equivOfEquiv

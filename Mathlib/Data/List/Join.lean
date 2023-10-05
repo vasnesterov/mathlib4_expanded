@@ -182,7 +182,7 @@ theorem nthLe_join (L : List (List α)) {i j : ℕ} (hi : i < L.length)
     nthLe L.join (((L.map length).take i).sum + j) (sum_take_map_length_lt2 L hi hj) =
       nthLe (nthLe L i hi) j hj := by
   have := nthLe_take L.join (sum_take_map_length_lt2 L hi hj) (sum_take_map_length_lt1 L hi hj)
-  rw [this, nthLe_drop, nthLe_of_eq (drop_take_succ_join_eq_nthLe L hi)]
+  rw [this]; rw [nthLe_drop]; rw [nthLe_of_eq (drop_take_succ_join_eq_nthLe L hi)]
 #align list.nth_le_join List.nthLe_join
 
 /-- Two lists of sublists are equal iff their joins coincide, as well as the lengths of the
@@ -195,7 +195,7 @@ theorem eq_iff_join_eq (L L' : List (List α)) :
   · have : length (map length L) = length (map length L') := by rw [length_eq]
     simpa using this
   · intro n h₁ h₂
-    rw [← drop_take_succ_join_eq_get, ← drop_take_succ_join_eq_get, join_eq, length_eq]
+    rw [← drop_take_succ_join_eq_get]; rw [← drop_take_succ_join_eq_get]; rw [join_eq]; rw [length_eq]
 #align list.eq_iff_join_eq List.eq_iff_join_eq
 
 theorem join_drop_length_sub_one {L : List (List α)} (h : L ≠ []) :

@@ -74,12 +74,12 @@ theorem prod_factors : ∀ {n}, n ≠ 0 → List.prod (factors n) = n
       have h₁ : (k + 2) / m ≠ 0 := fun h => by
         have : (k + 2) = 0 * m := (Nat.div_eq_iff_eq_mul_left (minFac_pos _) (minFac_dvd _)).1 h
         rw [zero_mul] at this; exact (show k + 2 ≠ 0 by simp) this
-      rw [factors, List.prod_cons, prod_factors h₁, Nat.mul_div_cancel' (minFac_dvd _)]
+      rw [factors]; rw [List.prod_cons]; rw [prod_factors h₁]; rw [Nat.mul_div_cancel' (minFac_dvd _)]
 #align nat.prod_factors Nat.prod_factors
 
 theorem factors_prime {p : ℕ} (hp : Nat.Prime p) : p.factors = [p] := by
   have : p = p - 2 + 2 := (tsub_eq_iff_eq_add_of_le hp.two_le).mp rfl
-  rw [this, Nat.factors]
+  rw [this]; rw [Nat.factors]
   simp only [Eq.symm this]
   have : Nat.minFac p = p := (Nat.prime_def_minFac.mp hp).2
   simp only [this, Nat.factors, Nat.div_self (Nat.Prime.pos hp)]
@@ -188,8 +188,7 @@ theorem Prime.factors_pow {p : ℕ} (hp : p.Prime) (n : ℕ) :
 theorem eq_prime_pow_of_unique_prime_dvd {n p : ℕ} (hpos : n ≠ 0)
     (h : ∀ {d}, Nat.Prime d → d ∣ n → d = p) : n = p ^ n.factors.length := by
   set k := n.factors.length
-  rw [← prod_factors hpos, ← prod_replicate k p,
-    eq_replicate_of_mem fun d hd => h (prime_of_mem_factors hd) (dvd_of_mem_factors hd)]
+  rw [← prod_factors hpos]; rw [← prod_replicate k p]; rw [eq_replicate_of_mem fun d hd => h (prime_of_mem_factors hd) (dvd_of_mem_factors hd)]
 #align nat.eq_prime_pow_of_unique_prime_dvd Nat.eq_prime_pow_of_unique_prime_dvd
 
 /-- For positive `a` and `b`, the prime factors of `a * b` are the union of those of `a` and `b` -/
@@ -243,16 +242,14 @@ theorem dvd_of_factors_subperm {a b : ℕ} (ha : a ≠ 0) (h : a.factors <+~ b.f
   --use (b.factors.diff a.succ.succ.factors).prod
   use (@List.diff _ instBEq b.factors a.succ.succ.factors).prod
   nth_rw 1 [← Nat.prod_factors ha]
-  rw [← List.prod_append,
-    List.Perm.prod_eq <| List.subperm_append_diff_self_of_count_le <| List.subperm_ext_iff.mp h,
-    Nat.prod_factors hb.ne']
+  rw [← List.prod_append]; rw [List.Perm.prod_eq <| List.subperm_append_diff_self_of_count_le <| List.subperm_ext_iff.mp h]; rw [Nat.prod_factors hb.ne']
 #align nat.dvd_of_factors_subperm Nat.dvd_of_factors_subperm
 
 end
 
 theorem mem_factors_mul {a b : ℕ} (ha : a ≠ 0) (hb : b ≠ 0) {p : ℕ} :
     p ∈ (a * b).factors ↔ p ∈ a.factors ∨ p ∈ b.factors := by
-  rw [mem_factors (mul_ne_zero ha hb), mem_factors ha, mem_factors hb, ← and_or_left]
+  rw [mem_factors (mul_ne_zero ha hb)]; rw [mem_factors ha]; rw [mem_factors hb]; rw [← and_or_left]
   simpa only [and_congr_right_iff] using Prime.dvd_mul
 #align nat.mem_factors_mul Nat.mem_factors_mul
 
@@ -271,7 +268,7 @@ theorem mem_factors_mul_of_coprime {a b : ℕ} (hab : Coprime a b) (p : ℕ) :
   · simp [(coprime_zero_left _).mp hab]
   rcases b.eq_zero_or_pos with (rfl | hb)
   · simp [(coprime_zero_right _).mp hab]
-  rw [mem_factors_mul ha.ne' hb.ne', List.mem_union_iff]
+  rw [mem_factors_mul ha.ne' hb.ne']; rw [List.mem_union_iff]
 #align nat.mem_factors_mul_of_coprime Nat.mem_factors_mul_of_coprime
 
 open List

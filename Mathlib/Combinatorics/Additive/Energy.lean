@@ -129,7 +129,7 @@ variable [CommMonoid α]
 @[to_additive additiveEnergy_comm]
 theorem multiplicativeEnergy_comm (s t : Finset α) :
     multiplicativeEnergy s t = multiplicativeEnergy t s := by
-  rw [multiplicativeEnergy, ← Finset.card_map (Equiv.prodComm _ _).toEmbedding, map_filter]
+  rw [multiplicativeEnergy]; rw [← Finset.card_map (Equiv.prodComm _ _).toEmbedding]; rw [map_filter]
   simp [-Finset.card_map, eq_comm, multiplicativeEnergy, mul_comm, map_eq_image, Function.comp]
 #align finset.multiplicative_energy_comm Finset.multiplicativeEnergy_comm
 #align finset.additive_energy_comm Finset.additiveEnergy_comm
@@ -163,7 +163,7 @@ theorem multiplicativeEnergy_univ_left :
 @[to_additive (attr := simp) additiveEnergy_univ_right]
 theorem multiplicativeEnergy_univ_right :
     multiplicativeEnergy s univ = Fintype.card α * s.card ^ 2 := by
-  rw [multiplicativeEnergy_comm, multiplicativeEnergy_univ_left]
+  rw [multiplicativeEnergy_comm]; rw [multiplicativeEnergy_univ_left]
 #align finset.multiplicative_energy_univ_right Finset.multiplicativeEnergy_univ_right
 #align finset.additive_energy_univ_right Finset.additiveEnergy_univ_right
 

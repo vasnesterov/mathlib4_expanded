@@ -156,7 +156,7 @@ theorem cutMap_add (a b : α) : cutMap β (a + b) = cutMap β a + cutMap β b :=
       exact_mod_cast sub_lt_comm.mp hq₁q
   · rintro _ ⟨_, _, ⟨qa, ha, rfl⟩, ⟨qb, hb, rfl⟩, rfl⟩
     refine' ⟨qa + qb, _, by norm_cast⟩
-    rw [mem_setOf_eq, cast_add]
+    rw [mem_setOf_eq]; rw [cast_add]
     exact add_lt_add ha hb
 #align linear_ordered_field.cut_map_add LinearOrderedField.cutMap_add
 
@@ -236,17 +236,17 @@ variable (α β)
 @[simp]
 theorem inducedMap_inducedMap (a : α) : inducedMap β γ (inducedMap α β a) = inducedMap α γ a :=
   eq_of_forall_rat_lt_iff_lt fun q => by
-    rw [coe_lt_inducedMap_iff, coe_lt_inducedMap_iff, Iff.comm, coe_lt_inducedMap_iff]
+    rw [coe_lt_inducedMap_iff]; rw [coe_lt_inducedMap_iff]; rw [Iff.comm]; rw [coe_lt_inducedMap_iff]
 #align linear_ordered_field.induced_map_induced_map LinearOrderedField.inducedMap_inducedMap
 
 --@[simp] -- Porting note: simp can prove it
 theorem inducedMap_inv_self (b : β) : inducedMap γ β (inducedMap β γ b) = b := by
-  rw [inducedMap_inducedMap, inducedMap_self]
+  rw [inducedMap_inducedMap]; rw [inducedMap_self]
 #align linear_ordered_field.induced_map_inv_self LinearOrderedField.inducedMap_inv_self
 
 theorem inducedMap_add (x y : α) :
     inducedMap α β (x + y) = inducedMap α β x + inducedMap α β y := by
-  rw [inducedMap, cutMap_add]
+  rw [inducedMap]; rw [cutMap_add]
   exact csSup_add (cutMap_nonempty β x) (cutMap_bddAbove β x) (cutMap_nonempty β y)
     (cutMap_bddAbove β y)
 #align linear_ordered_field.induced_map_add LinearOrderedField.inducedMap_add
@@ -271,7 +271,7 @@ theorem exists_mem_cutMap_mul_self_of_lt_inducedMap_mul_self (ha : 0 < a) (b : �
     (hba : b < inducedMap α β a * inducedMap α β a) : ∃ c ∈ cutMap β (a * a), b < c := by
   obtain hb | hb := lt_or_le b 0
   · refine ⟨0, ?_, hb⟩
-    rw [← Rat.cast_zero, coe_mem_cutMap_iff, Rat.cast_zero]
+    rw [← Rat.cast_zero]; rw [coe_mem_cutMap_iff]; rw [Rat.cast_zero]
     exact mul_self_pos.2 ha.ne'
   obtain ⟨q, hq, hbq, hqa⟩ := exists_rat_pow_btwn two_ne_zero hba (hb.trans_lt hba)
   rw [← cast_pow] at hbq

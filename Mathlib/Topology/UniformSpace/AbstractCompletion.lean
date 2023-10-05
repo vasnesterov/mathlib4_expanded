@@ -224,7 +224,7 @@ theorem extend_map [CompleteSpace γ] [SeparatedSpace γ] {f : β → γ} {g : �
     pkg'.extend f ∘ map g = pkg.extend (f ∘ g) :=
   pkg.funext (pkg'.continuous_extend.comp (pkg.continuous_map pkg' _)) pkg.continuous_extend
     fun a => by
-    rw [pkg.extend_coe (hf.comp hg), comp_apply, pkg.map_coe pkg' hg, pkg'.extend_coe hf]
+    rw [pkg.extend_coe (hf.comp hg)]; rw [comp_apply]; rw [pkg.map_coe pkg' hg]; rw [pkg'.extend_coe hf]
     rfl
 #align abstract_completion.extend_map AbstractCompletion.extend_map
 
@@ -260,7 +260,7 @@ theorem inverse_compare : pkg.compare pkg' ∘ pkg'.compare pkg = id := by
   have uc' := pkg'.uniformContinuous_compare pkg
   apply pkg'.funext (uc.comp uc').continuous continuous_id
   intro a
-  rw [comp_apply, pkg'.compare_coe pkg, pkg.compare_coe pkg']
+  rw [comp_apply]; rw [pkg'.compare_coe pkg]; rw [pkg.compare_coe pkg']
   rfl
 #align abstract_completion.inverse_compare AbstractCompletion.inverse_compare
 
@@ -341,7 +341,7 @@ variable {f : α → β → γ}
 variable [CompleteSpace γ] (f)
 
 theorem uniformContinuous_extension₂ : UniformContinuous₂ (pkg.extend₂ pkg' f) := by
-  rw [uniformContinuous₂_def, AbstractCompletion.extend₂, uncurry_curry]
+  rw [uniformContinuous₂_def]; rw [AbstractCompletion.extend₂]; rw [uncurry_curry]
   apply uniformContinuous_extend
 #align abstract_completion.uniform_continuous_extension₂ AbstractCompletion.uniformContinuous_extension₂
 

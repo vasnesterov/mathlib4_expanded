@@ -70,8 +70,7 @@ lemma pullbackShiftFunctorZero_inv_app :
 lemma pullbackShiftFunctorZero_hom_app :
     (shiftFunctorZero _ A).hom.app X =
       (pullbackShiftIso C φ 0 0 (by simp)).hom.app X ≫ (shiftFunctorZero C B).hom.app X := by
-  rw [← cancel_epi ((shiftFunctorZero _ A).inv.app X), Iso.inv_hom_id_app,
-    pullbackShiftFunctorZero_inv_app, assoc, Iso.inv_hom_id_app_assoc, Iso.inv_hom_id_app]
+  rw [← cancel_epi ((shiftFunctorZero _ A).inv.app X)]; rw [Iso.inv_hom_id_app]; rw [pullbackShiftFunctorZero_inv_app]; rw [assoc]; rw [Iso.inv_hom_id_app_assoc]; rw [Iso.inv_hom_id_app]
   rfl
 
 lemma pullbackShiftFunctorAdd'_inv_app :
@@ -96,10 +95,7 @@ lemma pullbackShiftFunctorAdd'_hom_app :
       (shiftFunctorAdd' C b₁ b₂ b₃ (by rw [h₁, h₂, h₃, ← h, φ.map_add])).hom.app X ≫
       (pullbackShiftIso C φ a₂ b₂ h₂).inv.app _ ≫
       (shiftFunctor (PullbackShift C φ) a₂).map ((pullbackShiftIso C φ a₁ b₁ h₁).inv.app X) := by
-  rw [← cancel_epi ((shiftFunctorAdd' _ a₁ a₂ a₃ h ).inv.app X), Iso.inv_hom_id_app,
-    pullbackShiftFunctorAdd'_inv_app φ X a₁ a₂ a₃ h b₁ b₂ b₃ h₁ h₂ h₃, assoc, assoc, assoc,
-    Iso.inv_hom_id_app_assoc, Iso.inv_hom_id_app_assoc, Iso.hom_inv_id_app_assoc,
-    ← Functor.map_comp, Iso.hom_inv_id_app, Functor.map_id]
+  rw [← cancel_epi ((shiftFunctorAdd' _ a₁ a₂ a₃ h ).inv.app X)]; rw [Iso.inv_hom_id_app]; rw [pullbackShiftFunctorAdd'_inv_app φ X a₁ a₂ a₃ h b₁ b₂ b₃ h₁ h₂ h₃]; rw [assoc]; rw [assoc]; rw [assoc]; rw [Iso.inv_hom_id_app_assoc]; rw [Iso.inv_hom_id_app_assoc]; rw [Iso.hom_inv_id_app_assoc]; rw [← Functor.map_comp]; rw [Iso.hom_inv_id_app]; rw [Functor.map_id]
   rfl
 
 end CategoryTheory

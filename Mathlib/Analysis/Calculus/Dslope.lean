@@ -71,7 +71,7 @@ theorem sub_smul_dslope (f : 𝕜 → E) (a b : 𝕜) : (b - a) • dslope f a b
 
 theorem dslope_sub_smul_of_ne (f : 𝕜 → E) (h : b ≠ a) :
     dslope (fun x => (x - a) • f x) a b = f b := by
-  rw [dslope_of_ne _ h, slope_sub_smul _ h.symm]
+  rw [dslope_of_ne _ h]; rw [slope_sub_smul _ h.symm]
 #align dslope_sub_smul_of_ne dslope_sub_smul_of_ne
 
 theorem eqOn_dslope_sub_smul (f : 𝕜 → E) (a : 𝕜) :

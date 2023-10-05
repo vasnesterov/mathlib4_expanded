@@ -224,8 +224,8 @@ def obj (K : ChainComplex C ℕ) : SimplicialObject C where
     rfl)
   map_comp {Δ'' Δ' Δ} θ' θ := colimit.hom_ext (fun ⟨A⟩ => by
     have fac : θ.unop ≫ θ'.unop ≫ A.e = (θ' ≫ θ).unop ≫ A.e := by rw [unop_comp, assoc]
-    rw [← image.fac (θ'.unop ≫ A.e), ← assoc, ←
-      image.fac (θ.unop ≫ factorThruImage (θ'.unop ≫ A.e)), assoc] at fac
+    rw [← image.fac (θ'.unop ≫ A.e)] at fac; rw [← assoc] at fac; rw [←
+      image.fac (θ.unop ≫ factorThruImage (θ'.unop ≫ A.e))] at fac; rw [assoc] at fac
     simp only [Obj.map_on_summand₀'_assoc K A θ', Obj.map_on_summand₀' K _ θ,
       Obj.Termwise.mapMono_comp_assoc, Obj.map_on_summand₀ K A fac]
     rfl)
@@ -347,7 +347,7 @@ theorem HigherFacesVanish.on_Γ₀_summand_id (K : ChainComplex C ℕ) (n : ℕ)
     HigherFacesVanish (n + 1) ((Γ₀.splitting K).ιSummand (Splitting.IndexSet.id (op [n + 1]))) := by
   intro j _
   have eq := Γ₀.Obj.mapMono_on_summand_id K (SimplexCategory.δ j.succ)
-  rw [Γ₀.Obj.Termwise.mapMono_eq_zero K, zero_comp] at eq; rotate_left
+  rw [Γ₀.Obj.Termwise.mapMono_eq_zero K] at eq; rw [zero_comp] at eq; rotate_left
   · intro h
     exact (Nat.succ_ne_self n) (congr_arg SimplexCategory.len h)
   · exact fun h => Fin.succ_ne_zero j (by simpa only [Isδ₀.iff] using h)

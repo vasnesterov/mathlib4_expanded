@@ -73,7 +73,7 @@ theorem LinearMap.exists_map_addHaar_eq_smul_addHaar' (h : Function.Surjective L
       rw [← hyz]; simp only [LinearEquiv.apply_symm_apply]
     simp [this]
   have I : μ.map L = ((μ.map M.symm).map P).map L' := by
-    rw [Measure.map_map, Measure.map_map, A]
+    rw [Measure.map_map]; rw [Measure.map_map]; rw [A]
     · rfl
     · exact L'_cont.measurable.comp P_cont.measurable
     · exact M_cont.measurable
@@ -93,7 +93,7 @@ theorem LinearMap.exists_map_addHaar_eq_smul_addHaar' (h : Function.Surjective L
     exact isAddHaarMeasure_eq_smul_isAddHaarMeasure _ _
   refine ⟨c₀ * c₁, by simp [pos_iff_ne_zero, c₀_pos, c₁_pos], ENNReal.mul_lt_top c₀_fin c₁_fin, ?_⟩
   simp only [I, h₀, Measure.map_smul, J, smul_smul, h₁]
-  rw [mul_assoc, mul_comm _ c₁, ← mul_assoc]
+  rw [mul_assoc]; rw [mul_comm _ c₁]; rw [← mul_assoc]
 
 /-- The image of an additive Haar measure under a surjective linear map is proportional to a given
 additive Haar measure, with a positive (but maybe infinite) factor. -/

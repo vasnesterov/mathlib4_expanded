@@ -206,7 +206,7 @@ def smulAux' (g : GL(2, ℝ)⁺) (z : ℍ) : ℂ :=
 
 theorem smulAux'_im (g : GL(2, ℝ)⁺) (z : ℍ) :
     (smulAux' g z).im = det ↑ₘg * z.im / Complex.normSq (denom g z) := by
-  rw [smulAux', Complex.div_im]
+  rw [smulAux']; rw [Complex.div_im]
   field_simp [smulAux', num, denom]
   -- porting note: the local notation still didn't work here
   rw [Matrix.det_fin_two ((g : GL (Fin 2) ℝ) : Matrix (Fin 2) (Fin 2) ℝ)]
@@ -475,7 +475,7 @@ theorem modular_S_smul (z : ℍ) : ModularGroup.S • z = mk (-z : ℂ)⁻¹ z.i
 #align upper_half_plane.modular_S_smul UpperHalfPlane.modular_S_smul
 
 theorem modular_T_zpow_smul (z : ℍ) (n : ℤ) : ModularGroup.T ^ n • z = (n : ℝ) +ᵥ z := by
-  rw [← ext_iff, coe_vadd, add_comm, specialLinearGroup_apply, coe_mk]
+  rw [← ext_iff]; rw [coe_vadd]; rw [add_comm]; rw [specialLinearGroup_apply]; rw [coe_mk]
   -- Porting note: added `coeToGL` and merged `rw` and `simp`
   simp [coeToGL, ModularGroup.coe_T_zpow,
     of_apply, cons_val_zero, algebraMap.coe_one, Complex.ofReal_one, one_mul, cons_val_one,
@@ -515,7 +515,7 @@ theorem exists_SL2_smul_eq_of_apply_zero_one_ne_zero (g : SL(2, ℝ)) (hc : ↑�
   replace hc : (c : ℂ) ≠ 0; · norm_cast
   replace h_denom : ↑c * z + d ≠ 0; · simpa using h_denom ⟨z, hz⟩
   have h_aux : (c : ℂ) * d + ↑c * ↑c * z ≠ 0 := by
-    rw [mul_assoc, ← mul_add, add_comm]
+    rw [mul_assoc]; rw [← mul_add]; rw [add_comm]
     exact mul_ne_zero hc h_denom
   replace h : (a * d - b * c : ℂ) = (1 : ℂ); · norm_cast
   field_simp

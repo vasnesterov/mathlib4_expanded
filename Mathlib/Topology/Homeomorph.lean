@@ -276,7 +276,7 @@ theorem isPreconnected_image {s : Set α} (h : α ≃ₜ β) :
 @[simp]
 theorem isPreconnected_preimage {s : Set β} (h : α ≃ₜ β) :
     IsPreconnected (h ⁻¹' s) ↔ IsPreconnected s := by
-  rw [← image_symm, isPreconnected_image]
+  rw [← image_symm]; rw [isPreconnected_image]
 
 @[simp]
 theorem isConnected_image {s : Set α} (h : α ≃ₜ β) :
@@ -286,7 +286,7 @@ theorem isConnected_image {s : Set α} (h : α ≃ₜ β) :
 @[simp]
 theorem isConnected_preimage {s : Set β} (h : α ≃ₜ β) :
     IsConnected (h ⁻¹' s) ↔ IsConnected s := by
-  rw [← image_symm, isConnected_image]
+  rw [← image_symm]; rw [isConnected_image]
 
 @[simp]
 theorem comap_cocompact (h : α ≃ₜ β) : comap h (cocompact β) = cocompact α :=
@@ -297,7 +297,7 @@ theorem comap_cocompact (h : α ≃ₜ β) : comap h (cocompact β) = cocompact 
 
 @[simp]
 theorem map_cocompact (h : α ≃ₜ β) : map h (cocompact α) = cocompact β := by
-  rw [← h.comap_cocompact, map_comap_of_surjective h.surjective]
+  rw [← h.comap_cocompact]; rw [map_comap_of_surjective h.surjective]
 #align homeomorph.map_cocompact Homeomorph.map_cocompact
 
 protected theorem compactSpace [CompactSpace α] (h : α ≃ₜ β) : CompactSpace β where
@@ -331,7 +331,7 @@ theorem isOpen_preimage (h : α ≃ₜ β) {s : Set β} : IsOpen (h ⁻¹' s) �
 
 @[simp]
 theorem isOpen_image (h : α ≃ₜ β) {s : Set α} : IsOpen (h '' s) ↔ IsOpen s := by
-  rw [← preimage_symm, isOpen_preimage]
+  rw [← preimage_symm]; rw [isOpen_preimage]
 #align homeomorph.is_open_image Homeomorph.isOpen_image
 
 protected theorem isOpenMap (h : α ≃ₜ β) : IsOpenMap h := fun _ => h.isOpen_image.2
@@ -344,7 +344,7 @@ theorem isClosed_preimage (h : α ≃ₜ β) {s : Set β} : IsClosed (h ⁻¹' s
 
 @[simp]
 theorem isClosed_image (h : α ≃ₜ β) {s : Set α} : IsClosed (h '' s) ↔ IsClosed s := by
-  rw [← preimage_symm, isClosed_preimage]
+  rw [← preimage_symm]; rw [isClosed_preimage]
 #align homeomorph.is_closed_image Homeomorph.isClosed_image
 
 protected theorem isClosedMap (h : α ≃ₜ β) : IsClosedMap h := fun _ => h.isClosed_image.2
@@ -370,7 +370,7 @@ theorem preimage_closure (h : α ≃ₜ β) (s : Set β) : h ⁻¹' closure s = 
 #align homeomorph.preimage_closure Homeomorph.preimage_closure
 
 theorem image_closure (h : α ≃ₜ β) (s : Set α) : h '' closure s = closure (h '' s) := by
-  rw [← preimage_symm, preimage_closure]
+  rw [← preimage_symm]; rw [preimage_closure]
 #align homeomorph.image_closure Homeomorph.image_closure
 
 theorem preimage_interior (h : α ≃ₜ β) (s : Set β) : h ⁻¹' interior s = interior (h ⁻¹' s) :=
@@ -378,7 +378,7 @@ theorem preimage_interior (h : α ≃ₜ β) (s : Set β) : h ⁻¹' interior s 
 #align homeomorph.preimage_interior Homeomorph.preimage_interior
 
 theorem image_interior (h : α ≃ₜ β) (s : Set α) : h '' interior s = interior (h '' s) := by
-  rw [← preimage_symm, preimage_interior]
+  rw [← preimage_symm]; rw [preimage_interior]
 #align homeomorph.image_interior Homeomorph.image_interior
 
 theorem preimage_frontier (h : α ≃ₜ β) (s : Set β) : h ⁻¹' frontier s = frontier (h ⁻¹' s) :=
@@ -386,7 +386,7 @@ theorem preimage_frontier (h : α ≃ₜ β) (s : Set β) : h ⁻¹' frontier s 
 #align homeomorph.preimage_frontier Homeomorph.preimage_frontier
 
 theorem image_frontier (h : α ≃ₜ β) (s : Set α) : h '' frontier s = frontier (h '' s) := by
-  rw [← preimage_symm, preimage_frontier]
+  rw [← preimage_symm]; rw [preimage_frontier]
 #align homeomorph.image_frontier Homeomorph.image_frontier
 
 @[to_additive]
@@ -402,7 +402,7 @@ theorem map_nhds_eq (h : α ≃ₜ β) (x : α) : map h (𝓝 x) = 𝓝 (h x) :=
 #align homeomorph.map_nhds_eq Homeomorph.map_nhds_eq
 
 theorem symm_map_nhds_eq (h : α ≃ₜ β) (x : α) : map h.symm (𝓝 (h x)) = 𝓝 x := by
-  rw [h.symm.map_nhds_eq, h.symm_apply_apply]
+  rw [h.symm.map_nhds_eq]; rw [h.symm_apply_apply]
 #align homeomorph.symm_map_nhds_eq Homeomorph.symm_map_nhds_eq
 
 theorem nhds_eq_comap (h : α ≃ₜ β) (x : α) : 𝓝 x = comap h (𝓝 (h x)) :=
@@ -411,7 +411,7 @@ theorem nhds_eq_comap (h : α ≃ₜ β) (x : α) : 𝓝 x = comap h (𝓝 (h x)
 
 @[simp]
 theorem comap_nhds_eq (h : α ≃ₜ β) (y : β) : comap h (𝓝 y) = 𝓝 (h.symm y) := by
-  rw [h.nhds_eq_comap, h.apply_symm_apply]
+  rw [h.nhds_eq_comap]; rw [h.apply_symm_apply]
 #align homeomorph.comap_nhds_eq Homeomorph.comap_nhds_eq
 
 /-- If the codomain of a homeomorphism is a locally connected space, then the domain is also
@@ -471,7 +471,7 @@ theorem comp_continuousWithinAt_iff (h : α ≃ₜ β) (f : γ → α) (s : Set 
 theorem comp_isOpenMap_iff (h : α ≃ₜ β) {f : γ → α} : IsOpenMap (h ∘ f) ↔ IsOpenMap f := by
   refine' ⟨_, fun hf => h.isOpenMap.comp hf⟩
   intro hf
-  rw [← Function.comp.left_id f, ← h.symm_comp_self, Function.comp.assoc]
+  rw [← Function.comp.left_id f]; rw [← h.symm_comp_self]; rw [Function.comp.assoc]
   exact h.symm.isOpenMap.comp hf
 #align homeomorph.comp_is_open_map_iff Homeomorph.comp_isOpenMap_iff
 
@@ -479,7 +479,7 @@ theorem comp_isOpenMap_iff (h : α ≃ₜ β) {f : γ → α} : IsOpenMap (h ∘
 theorem comp_isOpenMap_iff' (h : α ≃ₜ β) {f : β → γ} : IsOpenMap (f ∘ h) ↔ IsOpenMap f := by
   refine' ⟨_, fun hf => hf.comp h.isOpenMap⟩
   intro hf
-  rw [← Function.comp.right_id f, ← h.self_comp_symm, ← Function.comp.assoc]
+  rw [← Function.comp.right_id f]; rw [← h.self_comp_symm]; rw [← Function.comp.assoc]
   exact hf.comp h.symm.isOpenMap
 #align homeomorph.comp_is_open_map_iff' Homeomorph.comp_isOpenMap_iff'
 

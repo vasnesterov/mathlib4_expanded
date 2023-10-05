@@ -80,7 +80,7 @@ theorem invOf_neg [Monoid α] [HasDistribNeg α] (a : α) [Invertible a] [Invert
 @[simp]
 theorem one_sub_invOf_two [Ring α] [Invertible (2 : α)] : 1 - (⅟ 2 : α) = ⅟ 2 :=
   (isUnit_of_invertible (2 : α)).mul_right_inj.1 <| by
-    rw [mul_sub, mul_invOf_self, mul_one, ← one_add_one_eq_two, add_sub_cancel]
+    rw [mul_sub]; rw [mul_invOf_self]; rw [mul_one]; rw [← one_add_one_eq_two]; rw [add_sub_cancel]
 #align one_sub_inv_of_two one_sub_invOf_two
 
 @[simp]
@@ -123,8 +123,7 @@ def invertibleOfInvertibleMul (a b : α) [Invertible a] [Invertible (a * b)] : I
   invOf := ⅟ (a * b) * a
   invOf_mul_self := by rw [mul_assoc, invOf_mul_self]
   mul_invOf_self := by
-    rw [← (isUnit_of_invertible a).mul_right_inj, ← mul_assoc, ← mul_assoc, mul_invOf_self, mul_one,
-      one_mul]
+    rw [← (isUnit_of_invertible a).mul_right_inj]; rw [← mul_assoc]; rw [← mul_assoc]; rw [mul_invOf_self]; rw [mul_one]; rw [one_mul]
 #align invertible_of_invertible_mul invertibleOfInvertibleMul
 
 /-- This is the `Invertible` version of `Units.isUnit_mul_units` -/
@@ -132,8 +131,7 @@ def invertibleOfInvertibleMul (a b : α) [Invertible a] [Invertible (a * b)] : I
 def invertibleOfMulInvertible (a b : α) [Invertible (a * b)] [Invertible b] : Invertible a where
   invOf := b * ⅟ (a * b)
   invOf_mul_self := by
-    rw [← (isUnit_of_invertible b).mul_left_inj, mul_assoc, mul_assoc, invOf_mul_self, mul_one,
-      one_mul]
+    rw [← (isUnit_of_invertible b).mul_left_inj]; rw [mul_assoc]; rw [mul_assoc]; rw [invOf_mul_self]; rw [mul_one]; rw [one_mul]
   mul_invOf_self := by rw [← mul_assoc, mul_invOf_self]
 #align invertible_of_mul_invertible invertibleOfMulInvertible
 

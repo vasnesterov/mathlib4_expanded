@@ -140,8 +140,8 @@ variable {N : Type*} [Monoid N]
 theorem ext_hom (f g : CoprodI M →* N) (h : ∀ i, f.comp (of : M i →* _) = g.comp of) : f = g :=
   (MonoidHom.cancel_right Con.mk'_surjective).mp <|
     FreeMonoid.hom_eq fun ⟨i, x⟩ => by
-      rw [MonoidHom.comp_apply, MonoidHom.comp_apply, ← of_apply, ← MonoidHom.comp_apply, ←
-        MonoidHom.comp_apply, h]
+      rw [MonoidHom.comp_apply]; rw [MonoidHom.comp_apply]; rw [← of_apply]; rw [← MonoidHom.comp_apply]; rw [←
+        MonoidHom.comp_apply]; rw [h]
 #align free_product.ext_hom Monoid.CoprodI.ext_hom
 
 /-- A map out of the free product corresponds to a family of maps out of the summands. This is the
@@ -163,7 +163,7 @@ def lift : (∀ i, M i →* N) ≃ (CoprodI M →* N) where
   left_inv := by
     intro fi
     ext i x
-    rw [MonoidHom.comp_apply, of_apply, Con.lift_mk', FreeMonoid.lift_eval_of]
+    rw [MonoidHom.comp_apply]; rw [of_apply]; rw [Con.lift_mk']; rw [FreeMonoid.lift_eval_of]
   right_inv := by
     intro f
     ext i x
@@ -241,10 +241,9 @@ instance : Group (CoprodI G) :=
       | h_one => rw [MonoidHom.map_one, MulOpposite.unop_one, one_mul]
       | h_of m ih =>
         change of _⁻¹ * of _ = 1
-        rw [← of.map_mul, mul_left_inv, of.map_one]
+        rw [← of.map_mul]; rw [mul_left_inv]; rw [of.map_one]
       | h_mul x y ihx ihy =>
-        rw [MonoidHom.map_mul, MulOpposite.unop_mul, mul_assoc, ← mul_assoc _ x y, ihx, one_mul,
-          ihy] }
+        rw [MonoidHom.map_mul]; rw [MulOpposite.unop_mul]; rw [mul_assoc]; rw [← mul_assoc _ x y]; rw [ihx]; rw [one_mul]; rw [ihy] }
 
 theorem lift_range_le {N} [Group N] (f : ∀ i, G i →* N) {s : Subgroup N}
     (h : ∀ i, (f i).range ≤ s) : (lift f).range ≤ s := by
@@ -518,7 +517,7 @@ theorem of_smul_def (i) (w : Word M) (m : M i) :
 theorem equivPair_smul_same {i} (m : M i) (w : Word M) :
     equivPair i (of m • w) = ⟨m * (equivPair i w).head, (equivPair i w).tail,
       (equivPair i w).fstIdx_ne⟩ := by
-  rw [of_smul_def, ← equivPair_symm]
+  rw [of_smul_def]; rw [← equivPair_symm]
   simp
 
 @[simp]
@@ -535,7 +534,7 @@ theorem mem_smul_iff {i j : ι} {m₁ : M i} {m₂ : M j} {w : Word M} :
       ∨ (m₁ ≠ 1 ∧ ∃ (hij : i = j),(⟨i, m₁⟩ ∈ w.toList.tail) ∨
         (∃ m', ⟨j, m'⟩ ∈ w.toList.head? ∧ m₁ = hij ▸ (m₂ * m')) ∨
         (w.fstIdx ≠ some j ∧ m₁ = hij ▸ m₂)) := by
-  rw [of_smul_def, mem_rcons_iff, mem_equivPair_tail_iff, equivPair_head, or_assoc]
+  rw [of_smul_def]; rw [mem_rcons_iff]; rw [mem_equivPair_tail_iff]; rw [equivPair_head]; rw [or_assoc]
   by_cases hij : i = j
   · subst i
     simp only [not_true, ne_eq, false_and, exists_prop, true_and, false_or]
@@ -570,7 +569,7 @@ theorem mem_smul_iff_of_ne {i j : ι} (hij : i ≠ j) {m₁ : M i} {m₂ : M j} 
 
 theorem cons_eq_smul {i} {m : M i} {ls h1 h2} :
     cons m ls h1 h2 = of m • ls := by
-  rw [of_smul_def, equivPair_eq_of_fstIdx_ne _]
+  rw [of_smul_def]; rw [equivPair_eq_of_fstIdx_ne _]
   · simp [cons, rcons, h2]
   · exact h1
 #align free_product.word.cons_eq_smul Monoid.CoprodI.Word.cons_eq_smul
@@ -582,7 +581,7 @@ theorem rcons_eq_smul {i} (p : Pair M i) :
 @[simp]
 theorem equivPair_head_smul_equivPair_tail {i : ι} (w : Word M) :
     of (equivPair i w).head • (equivPair i w).tail = w := by
-  rw [← rcons_eq_smul, ← equivPair_symm, Equiv.symm_apply_apply]
+  rw [← rcons_eq_smul]; rw [← equivPair_symm]; rw [Equiv.symm_apply_apply]
 
 theorem equivPair_tail_eq_inv_smul {G : ι → Type*} [∀ i, Group (G i)]
     [∀i, DecidableEq (G i)] {i} (w : Word G) :
@@ -603,28 +602,27 @@ theorem prod_smul (m) : ∀ w : Word M, prod (m • w) = m * prod w := by
   induction m using CoprodI.induction_on with
   | h_one =>
     intro
-    rw [one_smul, one_mul]
+    rw [one_smul]; rw [one_mul]
   | h_of _ =>
     intros
-    rw [of_smul_def, prod_rcons, of.map_mul, mul_assoc, ← prod_rcons, ← equivPair_symm,
-      Equiv.symm_apply_apply]
+    rw [of_smul_def]; rw [prod_rcons]; rw [of.map_mul]; rw [mul_assoc]; rw [← prod_rcons]; rw [← equivPair_symm]; rw [Equiv.symm_apply_apply]
   | h_mul x y hx hy =>
     intro w
-    rw [mul_smul, hx, hy, mul_assoc]
+    rw [mul_smul]; rw [hx]; rw [hy]; rw [mul_assoc]
 #align free_product.word.prod_smul Monoid.CoprodI.Word.prod_smul
 
 /-- Each element of the free product corresponds to a unique reduced word. -/
 def equiv : CoprodI M ≃ Word M where
   toFun m := m • empty
   invFun w := prod w
-  left_inv m := by dsimp only; rw [prod_smul, prod_empty, mul_one]
+  left_inv m := by dsimp only; rw [prod_smul]; rw [prod_empty]; rw [mul_one]
   right_inv := by
     apply smul_induction
     · dsimp only
-      rw [prod_empty, one_smul]
+      rw [prod_empty]; rw [one_smul]
     · dsimp only
       intro i m w ih
-      rw [prod_smul, mul_smul, ih]
+      rw [prod_smul]; rw [mul_smul]; rw [ih]
 #align free_product.word.equiv Monoid.CoprodI.Word.equiv
 
 instance : DecidableEq (Word M) :=
@@ -713,8 +711,8 @@ def toWord {i j} (w : NeWord M i j) : Word M
     · exact List.chain'_singleton _
     · refine List.Chain'.append (by assumption) (by assumption) ?_
       intro x hx y hy
-      rw [toList_getLast?, Option.mem_some_iff] at hx
-      rw [toList_head?, Option.mem_some_iff] at hy
+      rw [toList_getLast?] at hx; rw [Option.mem_some_iff] at hx
+      rw [toList_head?] at hy; rw [Option.mem_some_iff] at hy
       subst hx
       subst hy
       assumption
@@ -1062,7 +1060,7 @@ theorem _root_.FreeGroup.injective_lift_of_ping_pong : Function.Injective (FreeG
         (@freeGroupEquivCoprodI ι).toMonoidHom := by
     ext i
     simp
-  rw [this, MonoidHom.coe_comp]
+  rw [this]; rw [MonoidHom.coe_comp]
   clear this
   refine' Function.Injective.comp _ (MulEquiv.injective freeGroupEquivCoprodI)
   -- Step two: Invoke the ping-pong lemma for free products
@@ -1126,7 +1124,7 @@ theorem _root_.FreeGroup.injective_lift_of_ping_pong : Function.Injective (FreeG
         _ ⊆ Y i := by
           refine' Int.le_induction_down (P := fun n => a i ^ n • (X i)ᶜ ⊆ Y i) _ _ _ h1n
           · dsimp
-            rw [zpow_neg, zpow_one]
+            rw [zpow_neg]; rw [zpow_one]
             exact hY i
           · dsimp
             intro n _ hi
@@ -1142,7 +1140,7 @@ theorem _root_.FreeGroup.injective_lift_of_ping_pong : Function.Injective (FreeG
     right
     use Inhabited.default
     simp only
-    rw [FreeGroup.freeGroupUnitEquivInt.cardinal_eq, Cardinal.mk_denumerable]
+    rw [FreeGroup.freeGroupUnitEquivInt.cardinal_eq]; rw [Cardinal.mk_denumerable]
     apply le_of_lt
     exact nat_lt_aleph0 3
 #align free_group.injective_lift_of_ping_pong FreeGroup.injective_lift_of_ping_pong

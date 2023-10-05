@@ -111,30 +111,30 @@ theorem foldr_reverse (f : M →ₗ[R] N →ₗ[R] N) (hf) (n : N) (x : Clifford
 
 @[simp]
 theorem foldl_ι (f : M →ₗ[R] N →ₗ[R] N) (hf) (n : N) (m : M) : foldl Q f hf n (ι Q m) = f m n := by
-  rw [← foldr_reverse, reverse_ι, foldr_ι]
+  rw [← foldr_reverse]; rw [reverse_ι]; rw [foldr_ι]
 #align clifford_algebra.foldl_ι CliffordAlgebra.foldl_ι
 
 @[simp]
 theorem foldl_algebraMap (f : M →ₗ[R] N →ₗ[R] N) (hf) (n : N) (r : R) :
     foldl Q f hf n (algebraMap R _ r) = r • n := by
-  rw [← foldr_reverse, reverse.commutes, foldr_algebraMap]
+  rw [← foldr_reverse]; rw [reverse.commutes]; rw [foldr_algebraMap]
 #align clifford_algebra.foldl_algebra_map CliffordAlgebra.foldl_algebraMap
 
 @[simp]
 theorem foldl_one (f : M →ₗ[R] N →ₗ[R] N) (hf) (n : N) : foldl Q f hf n 1 = n := by
-  rw [← foldr_reverse, reverse.map_one, foldr_one]
+  rw [← foldr_reverse]; rw [reverse.map_one]; rw [foldr_one]
 #align clifford_algebra.foldl_one CliffordAlgebra.foldl_one
 
 @[simp]
 theorem foldl_mul (f : M →ₗ[R] N →ₗ[R] N) (hf) (n : N) (a b : CliffordAlgebra Q) :
     foldl Q f hf n (a * b) = foldl Q f hf (foldl Q f hf n a) b := by
-  rw [← foldr_reverse, ← foldr_reverse, ← foldr_reverse, reverse.map_mul, foldr_mul]
+  rw [← foldr_reverse]; rw [← foldr_reverse]; rw [← foldr_reverse]; rw [reverse.map_mul]; rw [foldr_mul]
 #align clifford_algebra.foldl_mul CliffordAlgebra.foldl_mul
 
 /-- This lemma demonstrates the origin of the `foldl` name. -/
 theorem foldl_prod_map_ι (l : List M) (f : M →ₗ[R] N →ₗ[R] N) (hf) (n : N) :
     foldl Q f hf n (l.map <| ι Q).prod = List.foldl (fun m n => f n m) n l := by
-  rw [← foldr_reverse, reverse_prod_map_ι, ← List.map_reverse, foldr_prod_map_ι, List.foldr_reverse]
+  rw [← foldr_reverse]; rw [reverse_prod_map_ι]; rw [← List.map_reverse]; rw [foldr_prod_map_ι]; rw [List.foldr_reverse]
 #align clifford_algebra.foldl_prod_map_ι CliffordAlgebra.foldl_prod_map_ι
 
 end Foldl
@@ -198,7 +198,7 @@ theorem foldr'Aux_foldr'Aux (f : M →ₗ[R] CliffordAlgebra Q × N →ₗ[R] N)
     foldr'Aux Q f v (foldr'Aux Q f v x_fx) = Q v • x_fx := by
   cases' x_fx with x fx
   simp only [foldr'Aux_apply_apply]
-  rw [← mul_assoc, ι_sq_scalar, ← Algebra.smul_def, hf, Prod.smul_mk]
+  rw [← mul_assoc]; rw [ι_sq_scalar]; rw [← Algebra.smul_def]; rw [hf]; rw [Prod.smul_mk]
 #align clifford_algebra.foldr'_aux_foldr'_aux CliffordAlgebra.foldr'Aux_foldr'Aux
 
 /-- Fold a bilinear map along the generators of a term of the clifford algebra, with the rule
@@ -226,7 +226,7 @@ theorem foldr'_ι_mul (f : M →ₗ[R] CliffordAlgebra Q × N →ₗ[R] N)
     (hf : ∀ m x fx, f m (ι Q m * x, f m (x, fx)) = Q m • fx) (n m) (x) :
     foldr' Q f hf n (ι Q m * x) = f m (x, foldr' Q f hf n x) := by
   dsimp [foldr']
-  rw [foldr_mul, foldr_ι, foldr'Aux_apply_apply]
+  rw [foldr_mul]; rw [foldr_ι]; rw [foldr'Aux_apply_apply]
   refine' congr_arg (f m) (Prod.mk.eta.symm.trans _)
   congr 1
   induction' x using CliffordAlgebra.left_induction with r x y hx hy m x hx

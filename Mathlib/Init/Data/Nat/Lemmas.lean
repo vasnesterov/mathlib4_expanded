@@ -415,7 +415,7 @@ Many lemmas are proven more generally in mathlib `algebra/order/sub` -/
 #align nat.sub_self_add Nat.sub_self_add
 
 protected theorem le_sub_iff_right {x y k : ℕ} (h : k ≤ y) : x ≤ y - k ↔ x + k ≤ y := by
-  rw [← Nat.add_sub_cancel x k, Nat.sub_le_sub_iff_right h, Nat.add_sub_cancel]
+  rw [← Nat.add_sub_cancel x k]; rw [Nat.sub_le_sub_iff_right h]; rw [Nat.add_sub_cancel]
 #align nat.le_sub_iff_right Nat.le_sub_iff_right
 
 #align nat.sub_lt_of_pos_le Nat.sub_lt_of_pos_le
@@ -447,7 +447,7 @@ protected theorem le_sub_iff_right {x y k : ℕ} (h : k ≤ y) : x ≤ y - k ↔
 #align nat.succ_sub_sub_succ Nat.succ_sub_sub_succ
 
 protected theorem sub.right_comm (m n k : ℕ) : m - n - k = m - k - n := by
-  rw [Nat.sub_sub, Nat.sub_sub, Nat.add_comm]
+  rw [Nat.sub_sub]; rw [Nat.sub_sub]; rw [Nat.add_comm]
 #align nat.sub.right_comm Nat.sub.right_comm
 
 #align nat.succ_sub Nat.succ_sub
@@ -622,7 +622,7 @@ theorem cond_decide_mod_two (x : ℕ) [d : Decidable (x % 2 = 1)] :
 #align nat.div_div_eq_div_mul Nat.div_div_eq_div_mul
 
 protected theorem mul_div_mul {m : ℕ} (n k : ℕ) (H : 0 < m) : m * n / (m * k) = n / k := by
-  rw [← Nat.div_div_eq_div_mul, Nat.mul_div_cancel_left _ H]
+  rw [← Nat.div_div_eq_div_mul]; rw [Nat.mul_div_cancel_left _ H]
 #align nat.mul_div_mul Nat.mul_div_mul
 
 #align nat.div_lt_self Nat.div_lt_self

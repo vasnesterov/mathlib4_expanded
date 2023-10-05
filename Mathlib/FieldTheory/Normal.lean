@@ -80,7 +80,7 @@ theorem Normal.exists_isSplittingField [h : Normal F K] [FiniteDimensional F K] 
   refine'
     ⟨∏ x, minpoly F (s x), splits_prod _ fun x _ => h.splits (s x),
       Subalgebra.toSubmodule.injective _⟩
-  rw [Algebra.top_toSubmodule, eq_top_iff, ← s.span_eq, Submodule.span_le, Set.range_subset_iff]
+  rw [Algebra.top_toSubmodule]; rw [eq_top_iff]; rw [← s.span_eq]; rw [Submodule.span_le]; rw [Set.range_subset_iff]
   refine' fun x =>
     Algebra.subset_adjoin
       (Multiset.mem_toFinset.mpr <|
@@ -88,7 +88,7 @@ theorem Normal.exists_isSplittingField [h : Normal F K] [FiniteDimensional F K] 
               mt (Polynomial.map_eq_zero <| algebraMap F K).1 <|
                 Finset.prod_ne_zero_iff.2 fun x _ => _).2 _)
   · exact minpoly.ne_zero (h.isIntegral (s x))
-  rw [IsRoot.def, eval_map, ← aeval_def, AlgHom.map_prod]
+  rw [IsRoot.def]; rw [eval_map]; rw [← aeval_def]; rw [AlgHom.map_prod]
   exact Finset.prod_eq_zero (Finset.mem_univ _) (minpoly.aeval _ _)
 #align normal.exists_is_splitting_field Normal.exists_isSplittingField
 
@@ -121,7 +121,7 @@ theorem AlgHom.normal_bijective [h : Normal F E] (ϕ : E →ₐ[F] K) : Function
           (minpoly.dvd E x
             ((algebraMap K E).injective
               (by
-                rw [RingHom.map_zero, aeval_map_algebraMap, ← aeval_algebraMap_apply]
+                rw [RingHom.map_zero]; rw [aeval_map_algebraMap]; rw [← aeval_algebraMap_apply]
                 exact minpoly.aeval F (algebraMap K E x))))) with
       y hy
     exact ⟨y, hy⟩⟩
@@ -175,12 +175,12 @@ theorem Normal.of_isSplittingField (p : F[X]) [hFEp : IsSplittingField F E p] : 
   let pbED := AdjoinRoot.powerBasis q_irred.ne_zero
   haveI : FiniteDimensional E D := PowerBasis.finiteDimensional pbED
   have finrankED : FiniteDimensional.finrank E D = q.natDegree := by
-    rw [PowerBasis.finrank pbED, AdjoinRoot.powerBasis_dim]
+    rw [PowerBasis.finrank pbED]; rw [AdjoinRoot.powerBasis_dim]
   haveI : FiniteDimensional F D := FiniteDimensional.trans F E D
   rsuffices ⟨ϕ⟩ : Nonempty (D →ₐ[F] E)
   --Porting note: the `change` was `rw [← WithBot.coe_one]`
   · change degree q = ↑(1 : ℕ)
-    rw [degree_eq_iff_natDegree_eq q_irred.ne_zero, ← finrankED]
+    rw [degree_eq_iff_natDegree_eq q_irred.ne_zero]; rw [← finrankED]
     have nat_lemma : ∀ a b c : ℕ, a * b = c → c ≤ a → 0 < c → b = 1 := by
       intro a b c h1 h2 h3
       nlinarith
@@ -193,8 +193,7 @@ theorem Normal.of_isSplittingField (p : F[X]) [hFEp : IsSplittingField F E p] : 
   haveI Hx_irred := Fact.mk (minpoly.irreducible Hx)
 -- Porting note: `heval` added since now Lean wants the proof explicitly in several places.
   have heval : eval₂ (algebraMap F D) (AdjoinRoot.root q) (minpoly F x) = 0 := by
-    rw [algebraMap_eq F E D, ← eval₂_map, hr, AdjoinRoot.algebraMap_eq, eval₂_mul,
-      AdjoinRoot.eval₂_root, zero_mul]
+    rw [algebraMap_eq F E D]; rw [← eval₂_map]; rw [hr]; rw [AdjoinRoot.algebraMap_eq]; rw [eval₂_mul]; rw [AdjoinRoot.eval₂_root]; rw [zero_mul]
   letI : Algebra C D :=
     RingHom.toAlgebra (AdjoinRoot.lift (algebraMap F D) (AdjoinRoot.root q) heval)
   letI : Algebra C E := RingHom.toAlgebra (AdjoinRoot.lift (algebraMap F E) x (minpoly.aeval F x))
@@ -202,7 +201,7 @@ theorem Normal.of_isSplittingField (p : F[X]) [hFEp : IsSplittingField F E p] : 
   haveI : IsScalarTower F C E := by
     refine' of_algebraMap_eq fun y => (AdjoinRoot.lift_of _).symm
 -- Porting note: the following proof was just `_`.
-    rw [← aeval_def, minpoly.aeval]
+    rw [← aeval_def]; rw [minpoly.aeval]
   suffices Nonempty (D →ₐ[C] E) by exact Nonempty.map (AlgHom.restrictScalars F) this
   let S : Set D := ((p.aroots E).map (algebraMap E D)).toFinset
   suffices ⊤ ≤ IntermediateField.adjoin C S by
@@ -217,25 +216,25 @@ theorem Normal.of_isSplittingField (p : F[X]) [hFEp : IsSplittingField F E p] : 
       exact
         splits_of_splits_of_dvd _ hp hFEp.splits (minpoly.dvd F z (mem_aroots.mp hz1).2)
     · apply minpoly.dvd
-      rw [← hz2, aeval_def, eval₂_map, ← algebraMap_eq F C D, algebraMap_eq F E D, ← hom_eval₂, ←
-        aeval_def, minpoly.aeval F z, RingHom.map_zero]
-  rw [← IntermediateField.toSubalgebra_le_toSubalgebra, IntermediateField.top_toSubalgebra]
+      rw [← hz2]; rw [aeval_def]; rw [eval₂_map]; rw [← algebraMap_eq F C D]; rw [algebraMap_eq F E D]; rw [← hom_eval₂]; rw [←
+        aeval_def]; rw [minpoly.aeval F z]; rw [RingHom.map_zero]
+  rw [← IntermediateField.toSubalgebra_le_toSubalgebra]; rw [IntermediateField.top_toSubalgebra]
   apply ge_trans (IntermediateField.algebra_adjoin_le_adjoin C S)
   suffices
     (Algebra.adjoin C S).restrictScalars F =
       (Algebra.adjoin E {AdjoinRoot.root q}).restrictScalars F by
-    rw [AdjoinRoot.adjoinRoot_eq_top, Subalgebra.restrictScalars_top, ←
+    rw [AdjoinRoot.adjoinRoot_eq_top] at this; rw [Subalgebra.restrictScalars_top] at this; rw [←
       @Subalgebra.restrictScalars_top F C] at this
     exact top_le_iff.mpr (Subalgebra.restrictScalars_injective F this)
 /- Porting note: the `change` was `dsimp only [S]`. This is the step that requires increasing
 `maxHeartbeats`. Using `set S ... with hS` doesn't work. -/
   change Subalgebra.restrictScalars F (Algebra.adjoin C
     (((p.aroots E).map (algebraMap E D)).toFinset : Set D)) = _
-  rw [← Finset.image_toFinset, Finset.coe_image]
+  rw [← Finset.image_toFinset]; rw [Finset.coe_image]
   apply
     Eq.trans
       (Algebra.adjoin_res_eq_adjoin_res F E C D hFEp.adjoin_rootSet AdjoinRoot.adjoinRoot_eq_top)
-  rw [Set.image_singleton, RingHom.algebraMap_toAlgebra, AdjoinRoot.lift_root]
+  rw [Set.image_singleton]; rw [RingHom.algebraMap_toAlgebra]; rw [AdjoinRoot.lift_root]
 #align normal.of_is_splitting_field Normal.of_isSplittingField
 
 end NormalTower
@@ -256,10 +255,10 @@ instance normal_iSup {ι : Type*} (t : ι → IntermediateField F K) [h : ∀ i,
     apply Normal.of_isSplittingField (∏ i in s, minpoly F i.2)
   have hE : E ≤ ⨆ i, t i := by
     refine' iSup_le fun i => iSup_le fun _ => le_iSup_of_le i.1 _
-    rw [adjoin_le_iff, ← image_rootSet ((h i.1).splits i.2) (t i.1).val]
+    rw [adjoin_le_iff]; rw [← image_rootSet ((h i.1).splits i.2) (t i.1).val]
     exact fun _ ⟨a, _, h⟩ => h ▸ a.2
   have := hF.splits ⟨x, hx⟩
-  rw [minpoly_eq, Subtype.coe_mk, ← minpoly_eq] at this
+  rw [minpoly_eq] at this; rw [Subtype.coe_mk] at this; rw [← minpoly_eq] at this
   exact Polynomial.splits_comp_of_splits _ (inclusion hE).toRingHom this
 #align intermediate_field.normal_supr IntermediateField.normal_iSup
 
@@ -297,7 +296,7 @@ def AlgHom.restrictNormalAux [h : Normal F E] :
     ⟨ϕ x, by
       suffices (toAlgHom F E K₁).range.map ϕ ≤ _ by exact this ⟨x, Subtype.mem x, rfl⟩
       rintro x ⟨y, ⟨z, hy⟩, hx⟩
-      rw [← hx, ← hy]
+      rw [← hx]; rw [← hy]
       apply minpoly.mem_range_of_degree_eq_one E
       refine'
         Or.resolve_left (h.splits z).def (minpoly.ne_zero (h.isIntegral z)) (minpoly.irreducible _)
@@ -344,9 +343,8 @@ theorem AlgHom.fieldRange_of_normal [Algebra F K] {E : IntermediateField F K} [N
 -- Porting note: this was `IsScalarTower F E E := by infer_instance`.
   letI : Algebra E E := Algebra.id E
   let g := f.restrictNormal' E
-  rw [← show E.val.comp ↑g = f from FunLike.ext_iff.mpr (f.restrictNormal_commutes E), ←
-    IntermediateField.AlgHom.map_fieldRange, IntermediateField.AlgEquiv.fieldRange_eq_top g,
-      ← IntermediateField.AlgHom.fieldRange_eq_map, IntermediateField.fieldRange_val]
+  rw [← show E.val.comp ↑g = f from FunLike.ext_iff.mpr (f.restrictNormal_commutes E)]; rw [←
+    IntermediateField.AlgHom.map_fieldRange]; rw [IntermediateField.AlgEquiv.fieldRange_eq_top g]; rw [← IntermediateField.AlgHom.fieldRange_eq_map]; rw [IntermediateField.fieldRange_val]
 #align alg_hom.field_range_of_normal AlgHom.fieldRange_of_normal
 
 /-- Restrict algebra isomorphism to a normal subfield -/

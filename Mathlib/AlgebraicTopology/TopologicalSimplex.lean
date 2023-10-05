@@ -58,14 +58,14 @@ def toTopMap {x y : SimplexCategory} (f : x ⟶ y) : x.toTopObj → y.toTopObj :
     convert hg
     · simp [Finset.eq_univ_iff_forall]
     · intro i _ j _ h
-      rw [Function.onFun, disjoint_iff_inf_le]
+      rw [Function.onFun]; rw [disjoint_iff_inf_le]
       intro e he
       simp only [Finset.bot_eq_empty, Finset.not_mem_empty]
       apply h
       simp only [Finset.mem_univ, forall_true_left,
         ge_iff_le, Finset.le_eq_subset, Finset.inf_eq_inter, Finset.mem_inter,
         Finset.mem_filter, true_and] at he
-      rw [← he.1, he.2]⟩
+      rw [← he.1]; rw [he.2]⟩
 set_option linter.uppercaseLean3 false in
 #align simplex_category.to_Top_map SimplexCategory.toTopMap
 
@@ -101,21 +101,21 @@ def toTop : SimplexCategory ⥤ TopCat where
     apply toTopObj.ext
     funext i
     dsimp
-    rw [CategoryTheory.comp_apply, ContinuousMap.coe_mk, ContinuousMap.coe_mk, ContinuousMap.coe_mk]
+    rw [CategoryTheory.comp_apply]; rw [ContinuousMap.coe_mk]; rw [ContinuousMap.coe_mk]; rw [ContinuousMap.coe_mk]
     simp only [coe_toTopMap]
     erw [← Finset.sum_biUnion]
     · apply Finset.sum_congr
       · exact Finset.ext (fun j => ⟨fun hj => by simpa using hj, fun hj => by simpa using hj⟩)
       · tauto
     · intro j _ k _ h
-      rw [Function.onFun, disjoint_iff_inf_le]
+      rw [Function.onFun]; rw [disjoint_iff_inf_le]
       intro e he
       simp only [Finset.bot_eq_empty, Finset.not_mem_empty]
       apply h
       simp only [Finset.mem_univ, forall_true_left,
         ge_iff_le, Finset.le_eq_subset, Finset.inf_eq_inter, Finset.mem_inter,
         Finset.mem_filter, true_and] at he
-      rw [← he.1, he.2]
+      rw [← he.1]; rw [he.2]
 set_option linter.uppercaseLean3 false in
 #align simplex_category.to_Top SimplexCategory.toTop
 

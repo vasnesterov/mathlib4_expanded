@@ -115,7 +115,7 @@ theorem nodup_antidiagonalTuple (k n : ℕ) : List.Nodup (antidiagonalTuple k n)
     · rw [List.mem_map] at hx₁ hx₂
       obtain ⟨⟨x₁, hx₁, rfl⟩, ⟨x₂, hx₂, h₁₂⟩⟩ := hx₁, hx₂
       dsimp at h₁₂
-      rw [Fin.cons_eq_cons, Nat.succ_inj'] at h₁₂
+      rw [Fin.cons_eq_cons] at h₁₂; rw [Nat.succ_inj'] at h₁₂
       obtain ⟨h₁₂, rfl⟩ := h₁₂
       rw [h₁₂] at h
       exact h (List.mem_map_of_mem _ hx₁) (List.mem_map_of_mem _ hx₂)
@@ -124,8 +124,7 @@ theorem nodup_antidiagonalTuple (k n : ℕ) : List.Nodup (antidiagonalTuple k n)
 theorem antidiagonalTuple_zero_right : ∀ k, antidiagonalTuple k 0 = [0]
   | 0 => (congr_arg fun x => [x]) <| Subsingleton.elim _ _
   | k + 1 => by
-    rw [antidiagonalTuple, antidiagonal_zero, List.bind_singleton, antidiagonalTuple_zero_right k,
-      List.map_singleton]
+    rw [antidiagonalTuple]; rw [antidiagonal_zero]; rw [List.bind_singleton]; rw [antidiagonalTuple_zero_right k]; rw [List.map_singleton]
     exact congr_arg (fun x => [x]) Matrix.cons_zero_zero
 #align list.nat.antidiagonal_tuple_zero_right List.Nat.antidiagonalTuple_zero_right
 
@@ -138,7 +137,7 @@ theorem antidiagonalTuple_one (n : ℕ) : antidiagonalTuple 1 n = [![n]] := by
   simp_rw [List.bind_eq_nil, List.mem_range, List.map_eq_nil]
   intro x hx
   obtain ⟨m, rfl⟩ := Nat.exists_eq_add_of_lt hx
-  rw [add_assoc, add_tsub_cancel_left, antidiagonalTuple_zero_succ]
+  rw [add_assoc]; rw [add_tsub_cancel_left]; rw [antidiagonalTuple_zero_succ]
 #align list.nat.antidiagonal_tuple_one List.Nat.antidiagonalTuple_one
 
 theorem antidiagonalTuple_two (n : ℕ) :

@@ -59,10 +59,10 @@ instance [ExtremallyDisconnected X] [T2Space X] : TotallySeparatedSpace X :=
     refine ⟨closure U, (closure U)ᶜ, ExtremallyDisconnected.open_closure U hUV.1,
       by simp only [isOpen_compl_iff, isClosed_closure], subset_closure hUV.2.2.1, ?_,
       by simp only [Set.union_compl_self, Set.subset_univ], disjoint_compl_right⟩
-    rw [Set.mem_compl_iff, mem_closure_iff]
+    rw [Set.mem_compl_iff]; rw [mem_closure_iff]
     push_neg
     refine' ⟨V, ⟨hUV.2.1, hUV.2.2.2.1, _⟩⟩
-    rw [Set.not_nonempty_iff_eq_empty, ← Set.disjoint_iff_inter_eq_empty, disjoint_comm]
+    rw [Set.not_nonempty_iff_eq_empty]; rw [← Set.disjoint_iff_inter_eq_empty]; rw [disjoint_comm]
     exact hUV.2.2.2.2 }
 
 end TotallySeparated
@@ -90,7 +90,7 @@ theorem StoneCech.projective [DiscreteTopology X] : CompactT2.Projective (StoneC
   let h : StoneCech X → Y := stoneCechExtend ht
   have hh : Continuous h := continuous_stoneCechExtend ht
   refine' ⟨h, hh, denseRange_stoneCechUnit.equalizer (hg.comp hh) hf _⟩
-  rw [comp.assoc, stoneCechExtend_extends ht, ← comp.assoc, hs, comp.left_id]
+  rw [comp.assoc]; rw [stoneCechExtend_extends ht]; rw [← comp.assoc]; rw [hs]; rw [comp.left_id]
 #align stone_cech.projective StoneCech.projective
 
 protected theorem CompactT2.Projective.extremallyDisconnected [CompactSpace X] [T2Space X]
@@ -116,8 +116,7 @@ protected theorem CompactT2.Projective.extremallyDisconnected [CompactSpace X] [
   have hφ : Continuous φ := continuous_subtype_val.comp hg
   have hφ₁ : ∀ x, (φ x).1 = x := congr_fun g_sec
   suffices closure U = φ ⁻¹' Z₂ by
-    rw [this, preimage_comp, ← isClosed_compl_iff, ← preimage_compl,
-      ← preimage_subtype_coe_eq_compl Subset.rfl]
+    rw [this]; rw [preimage_comp]; rw [← isClosed_compl_iff]; rw [← preimage_compl]; rw [← preimage_subtype_coe_eq_compl Subset.rfl]
     · exact hZ₁.preimage hφ
     · rw [hZ₁₂.inter_eq, inter_empty]
   refine' (closure_minimal _ <| hZ₂.preimage hφ).antisymm fun x hx => _
@@ -224,9 +223,7 @@ private lemma ExtremallyDisconnected.homeoCompactToT2_injective [ExtremallyDisco
   have G₁_open' : IsOpen (ρ '' G₁ᶜ)ᶜ := (G₁_comp.image ρ_cont).isClosed.isOpen_compl
   have G₂_open' : IsOpen (ρ '' G₂ᶜ)ᶜ := (G₂_comp.image ρ_cont).isClosed.isOpen_compl
   have disj' : Disjoint (ρ '' G₁ᶜ)ᶜ (ρ '' G₂ᶜ)ᶜ := by
-    rw [disjoint_iff_inter_eq_empty, ← compl_union, ← image_union, ← compl_inter,
-      disjoint_iff_inter_eq_empty.mp disj, compl_empty, compl_empty_iff,
-      image_univ_of_surjective ρ_surj]
+    rw [disjoint_iff_inter_eq_empty]; rw [← compl_union]; rw [← image_union]; rw [← compl_inter]; rw [disjoint_iff_inter_eq_empty.mp disj]; rw [compl_empty]; rw [compl_empty_iff]; rw [image_univ_of_surjective ρ_surj]
   -- apply Lemma 2.2 to prove their closures are disjoint
   have disj'' : Disjoint (closure (ρ '' G₁ᶜ)ᶜ) (closure (ρ '' G₂ᶜ)ᶜ) :=
     disjoint_closure_of_disjoint_isOpen disj' G₁_open' G₂_open'
@@ -273,7 +270,7 @@ protected theorem CompactT2.ExtremallyDisconnected.projective [ExtremallyDisconn
   have π₂_cont : Continuous π₂ := continuous_snd.comp continuous_subtype_val
   refine ⟨E.restrict π₂ ∘ ρ'.symm, ⟨π₂_cont.continuousOn.restrict.comp ρ'.symm.continuous, ?_⟩⟩
   suffices f ∘ E.restrict π₂ = φ ∘ ρ' by
-    rw [← comp.assoc, this, comp.assoc, Homeomorph.self_comp_symm, comp.right_id]
+    rw [← comp.assoc]; rw [this]; rw [comp.assoc]; rw [Homeomorph.self_comp_symm]; rw [comp.right_id]
   ext x
   exact x.val.mem.symm
 

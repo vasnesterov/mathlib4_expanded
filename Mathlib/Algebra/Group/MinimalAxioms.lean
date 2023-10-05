@@ -47,8 +47,8 @@ def Group.ofLeftAxioms {G : Type u} [Mul G] [Inv G] [One G]
           _ = (a * a⁻¹)⁻¹ * (a * ((a⁻¹ * a) * a⁻¹)) := by
             simp only [assoc]
           _ = 1 := by
-            rw [mul_left_inv, one_mul, mul_left_inv]
-      rw [← mul_left_inv a, ← assoc, mul_right_inv a, one_mul] }
+            rw [mul_left_inv]; rw [one_mul]; rw [mul_left_inv]
+      rw [← mul_left_inv a]; rw [← assoc]; rw [mul_right_inv a]; rw [one_mul] }
 
 /-- Define a `Group` structure on a Type by proving `∀ a, a * 1 = a` and
 `∀ a, a * a⁻¹ = 1`.
@@ -70,9 +70,9 @@ def Group.ofRightAxioms {G : Type u} [Mul G] [Inv G] [One G]
       _ = ((a⁻¹ * (a * a⁻¹)) * a) * (a⁻¹ * a)⁻¹ := by
         simp only [assoc]
       _ = 1 := by
-        rw [mul_right_inv, mul_one, mul_right_inv]
+        rw [mul_right_inv]; rw [mul_one]; rw [mul_right_inv]
   { mul_assoc := assoc,
     mul_one := mul_one,
     mul_left_inv := mul_left_inv,
     one_mul := fun a => by
-      rw [← mul_right_inv a, assoc, mul_left_inv, mul_one] }
+      rw [← mul_right_inv a]; rw [assoc]; rw [mul_left_inv]; rw [mul_one] }

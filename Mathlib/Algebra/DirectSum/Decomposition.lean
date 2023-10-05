@@ -107,7 +107,7 @@ theorem decompose_symm_of {i : ι} (x : ℳ i) : (decompose ℳ).symm (DirectSum
 
 @[simp]
 theorem decompose_coe {i : ι} (x : ℳ i) : decompose ℳ (x : M) = DirectSum.of _ i x := by
-  rw [← decompose_symm_of _, Equiv.apply_symm_apply]
+  rw [← decompose_symm_of _]; rw [Equiv.apply_symm_apply]
 #align direct_sum.decompose_coe DirectSum.decompose_coe
 
 theorem decompose_of_mem {x : M} {i : ι} (hx : x ∈ ℳ i) :
@@ -116,12 +116,12 @@ theorem decompose_of_mem {x : M} {i : ι} (hx : x ∈ ℳ i) :
 #align direct_sum.decompose_of_mem DirectSum.decompose_of_mem
 
 theorem decompose_of_mem_same {x : M} {i : ι} (hx : x ∈ ℳ i) : (decompose ℳ x i : M) = x := by
-  rw [decompose_of_mem _ hx, DirectSum.of_eq_same]
+  rw [decompose_of_mem _ hx]; rw [DirectSum.of_eq_same]
 #align direct_sum.decompose_of_mem_same DirectSum.decompose_of_mem_same
 
 theorem decompose_of_mem_ne {x : M} {i j : ι} (hx : x ∈ ℳ i) (hij : i ≠ j) :
     (decompose ℳ x j : M) = 0 := by
-  rw [decompose_of_mem _ hx, DirectSum.of_eq_of_ne _ _ _ _ hij, ZeroMemClass.coe_zero]
+  rw [decompose_of_mem _ hx]; rw [DirectSum.of_eq_of_ne _ _ _ _ hij]; rw [ZeroMemClass.coe_zero]
 #align direct_sum.decompose_of_mem_ne DirectSum.decompose_of_mem_ne
 
 /-- If `M` is graded by `ι` with degree `i` component `ℳ i`, then it is isomorphic as
@@ -175,7 +175,7 @@ theorem decompose_symm_sum {ι'} (s : Finset ι') (f : ι' → ⨁ i, ℳ i) :
 theorem sum_support_decompose [∀ (i) (x : ℳ i), Decidable (x ≠ 0)] (r : M) :
     (∑ i in (decompose ℳ r).support, (decompose ℳ r i : M)) = r := by
   conv_rhs =>
-    rw [← (decompose ℳ).symm_apply_apply r, ← sum_support_of (fun i ↦ ℳ i) (decompose ℳ r)]
+    rw [← (decompose ℳ).symm_apply_apply r]; rw [← sum_support_of (fun i ↦ ℳ i) (decompose ℳ r)]
   rw [decompose_symm_sum]
   simp_rw [decompose_symm_of]
 #align direct_sum.sum_support_decompose DirectSum.sum_support_decompose

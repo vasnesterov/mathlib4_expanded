@@ -113,7 +113,7 @@ protected def equiv : CliffordAlgebra (0 : QuadraticForm R Unit) ≃ₐ[R] R :=
     (CliffordAlgebra.lift (0 : QuadraticForm R Unit) <|
       ⟨0, fun m : Unit => (zero_mul (0 : R)).trans (algebraMap R _).map_zero.symm⟩)
     (Algebra.ofId R _) (by ext x; exact AlgHom.commutes _ x)
-    (by ext : 1; rw [ι_eq_zero, LinearMap.comp_zero, LinearMap.comp_zero])
+    (by ext : 1; rw [ι_eq_zero]; rw [LinearMap.comp_zero]; rw [LinearMap.comp_zero])
 #align clifford_algebra_ring.equiv CliffordAlgebraRing.equiv
 
 end CliffordAlgebraRing
@@ -169,7 +169,7 @@ theorem toComplex_involute (c : CliffordAlgebra Q) :
 def ofComplex : ℂ →ₐ[ℝ] CliffordAlgebra Q :=
   Complex.lift
     ⟨CliffordAlgebra.ι Q 1, by
-      rw [CliffordAlgebra.ι_sq_scalar, Q_apply, one_mul, RingHom.map_neg, RingHom.map_one]⟩
+      rw [CliffordAlgebra.ι_sq_scalar]; rw [Q_apply]; rw [one_mul]; rw [RingHom.map_neg]; rw [RingHom.map_one]⟩
 #align clifford_algebra_complex.of_complex CliffordAlgebraComplex.ofComplex
 
 @[simp]
@@ -182,7 +182,7 @@ set_option linter.uppercaseLean3 false in
 theorem toComplex_comp_ofComplex : toComplex.comp ofComplex = AlgHom.id ℝ ℂ := by
   ext1
   dsimp only [AlgHom.comp_apply, Subtype.coe_mk, AlgHom.id_apply]
-  rw [ofComplex_I, toComplex_ι, one_smul]
+  rw [ofComplex_I]; rw [toComplex_ι]; rw [one_smul]
 #align clifford_algebra_complex.to_complex_comp_of_complex CliffordAlgebraComplex.toComplex_comp_ofComplex
 
 @[simp]
@@ -195,7 +195,7 @@ theorem ofComplex_comp_toComplex : ofComplex.comp toComplex = AlgHom.id ℝ (Cli
   ext
   dsimp only [LinearMap.comp_apply, Subtype.coe_mk, AlgHom.id_apply, AlgHom.toLinearMap_apply,
     AlgHom.comp_apply]
-  rw [toComplex_ι, one_smul, ofComplex_I]
+  rw [toComplex_ι]; rw [one_smul]; rw [ofComplex_I]
 #align clifford_algebra_complex.of_complex_comp_to_complex CliffordAlgebraComplex.ofComplex_comp_toComplex
 
 @[simp]
@@ -216,7 +216,7 @@ instance : CommRing (CliffordAlgebra Q) :=
   { CliffordAlgebra.instRing _ with
     mul_comm := fun x y =>
       CliffordAlgebraComplex.equiv.injective <| by
-        rw [AlgEquiv.map_mul, mul_comm, AlgEquiv.map_mul] }
+        rw [AlgEquiv.map_mul]; rw [mul_comm]; rw [AlgEquiv.map_mul] }
 
 -- Porting note: Changed `x.reverse` to `reverse (R := ℝ) x`
 /-- `reverse` is a no-op over `CliffordAlgebraComplex.Q`. -/
@@ -237,7 +237,7 @@ theorem reverse_eq_id : (reverse : CliffordAlgebra Q →ₗ[ℝ] _) = LinearMap.
 @[simp]
 theorem ofComplex_conj (c : ℂ) : ofComplex (conj c) = involute (ofComplex c) :=
   CliffordAlgebraComplex.equiv.injective <| by
-    rw [equiv_apply, equiv_apply, toComplex_involute, toComplex_ofComplex, toComplex_ofComplex]
+    rw [equiv_apply]; rw [equiv_apply]; rw [toComplex_involute]; rw [toComplex_ofComplex]; rw [toComplex_ofComplex]
 #align clifford_algebra_complex.of_complex_conj CliffordAlgebraComplex.ofComplex_conj
 
 -- this name is too short for us to want it visible after `open CliffordAlgebraComplex`
@@ -276,14 +276,14 @@ def quaternionBasis : QuaternionAlgebra.Basis (CliffordAlgebra (Q c₁ c₂)) c�
   j := ι (Q c₁ c₂) (0, 1)
   k := ι (Q c₁ c₂) (1, 0) * ι (Q c₁ c₂) (0, 1)
   i_mul_i := by
-    rw [ι_sq_scalar, Q_apply, ← Algebra.algebraMap_eq_smul_one]
+    rw [ι_sq_scalar]; rw [Q_apply]; rw [← Algebra.algebraMap_eq_smul_one]
     simp
   j_mul_j := by
-    rw [ι_sq_scalar, Q_apply, ← Algebra.algebraMap_eq_smul_one]
+    rw [ι_sq_scalar]; rw [Q_apply]; rw [← Algebra.algebraMap_eq_smul_one]
     simp
   i_mul_j := rfl
   j_mul_i := by
-    rw [eq_neg_iff_add_eq_zero, ι_mul_ι_add_swap, QuadraticForm.polar]
+    rw [eq_neg_iff_add_eq_zero]; rw [ι_mul_ι_add_swap]; rw [QuadraticForm.polar]
     simp
 #align clifford_algebra_quaternion.quaternion_basis CliffordAlgebraQuaternion.quaternionBasis
 
@@ -316,8 +316,7 @@ theorem toQuaternion_star (c : CliffordAlgebra (Q c₁ c₂)) :
     simp only [reverse.commutes, AlgHom.commutes, QuaternionAlgebra.coe_algebraMap,
       QuaternionAlgebra.star_coe]
   case h_grade1 x =>
-    rw [reverse_ι, involute_ι, toQuaternion_ι, AlgHom.map_neg, toQuaternion_ι,
-      QuaternionAlgebra.neg_mk, star_mk, neg_zero]
+    rw [reverse_ι]; rw [involute_ι]; rw [toQuaternion_ι]; rw [AlgHom.map_neg]; rw [toQuaternion_ι]; rw [QuaternionAlgebra.neg_mk]; rw [star_mk]; rw [neg_zero]
   case h_mul x₁ x₂ hx₁ hx₂ => simp only [reverse.map_mul, AlgHom.map_mul, hx₁, hx₂, star_mul]
   case h_add x₁ x₂ hx₁ hx₂ => simp only [reverse.map_add, AlgHom.map_add, hx₁, hx₂, star_add]
 #align clifford_algebra_quaternion.to_quaternion_star CliffordAlgebraQuaternion.toQuaternion_star
@@ -378,8 +377,7 @@ protected def equiv : CliffordAlgebra (Q c₁ c₂) ≃ₐ[R] ℍ[R,c₁,c₂] :
 @[simp]
 theorem ofQuaternion_star (q : ℍ[R,c₁,c₂]) : ofQuaternion (star q) = star (ofQuaternion q) :=
   CliffordAlgebraQuaternion.equiv.injective <| by
-    rw [equiv_apply, equiv_apply, toQuaternion_star, toQuaternion_ofQuaternion,
-      toQuaternion_ofQuaternion]
+    rw [equiv_apply]; rw [equiv_apply]; rw [toQuaternion_star]; rw [toQuaternion_ofQuaternion]; rw [toQuaternion_ofQuaternion]
 #align clifford_algebra_quaternion.of_quaternion_star CliffordAlgebraQuaternion.ofQuaternion_star
 
 -- this name is too short for us to want it visible after `open CliffordAlgebraQuaternion`
@@ -399,9 +397,7 @@ open DualNumber TrivSqZeroExt
 variable {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
 
 theorem ι_mul_ι (r₁ r₂) : ι (0 : QuadraticForm R R) r₁ * ι (0 : QuadraticForm R R) r₂ = 0 := by
-  rw [← mul_one r₁, ← mul_one r₂, ← smul_eq_mul R, ← smul_eq_mul R, LinearMap.map_smul,
-    LinearMap.map_smul, smul_mul_smul, ι_sq_scalar, QuadraticForm.zero_apply, RingHom.map_zero,
-    smul_zero]
+  rw [← mul_one r₁]; rw [← mul_one r₂]; rw [← smul_eq_mul R]; rw [← smul_eq_mul R]; rw [LinearMap.map_smul]; rw [LinearMap.map_smul]; rw [smul_mul_smul]; rw [ι_sq_scalar]; rw [QuadraticForm.zero_apply]; rw [RingHom.map_zero]; rw [smul_zero]
 #align clifford_algebra_dual_number.ι_mul_ι CliffordAlgebraDualNumber.ι_mul_ι
 
 /-- The clifford algebra over a 1-dimensional vector space with 0 quadratic form is isomorphic to

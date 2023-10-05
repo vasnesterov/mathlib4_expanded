@@ -81,7 +81,7 @@ theorem mem_ball_self {x : E} {r : ℝ} (hr : 0 < r) : x ∈ ball x r :=
 
 theorem closedBall_eq_image (x : E) (r : ℝ) :
     closedBall x r = toEuclidean.symm '' Metric.closedBall (toEuclidean x) r := by
-  rw [toEuclidean.image_symm_eq_preimage, closedBall_eq_preimage]
+  rw [toEuclidean.image_symm_eq_preimage]; rw [closedBall_eq_preimage]
 #align euclidean.closed_ball_eq_image Euclidean.closedBall_eq_image
 
 nonrec theorem isCompact_closedBall {x : E} {r : ℝ} : IsCompact (closedBall x r) := by
@@ -94,13 +94,12 @@ theorem isClosed_closedBall {x : E} {r : ℝ} : IsClosed (closedBall x r) :=
 #align euclidean.is_closed_closed_ball Euclidean.isClosed_closedBall
 
 nonrec theorem closure_ball (x : E) {r : ℝ} (h : r ≠ 0) : closure (ball x r) = closedBall x r := by
-  rw [ball_eq_preimage, ← toEuclidean.preimage_closure, closure_ball (toEuclidean x) h,
-    closedBall_eq_preimage]
+  rw [ball_eq_preimage]; rw [← toEuclidean.preimage_closure]; rw [closure_ball (toEuclidean x) h]; rw [closedBall_eq_preimage]
 #align euclidean.closure_ball Euclidean.closure_ball
 
 nonrec theorem exists_pos_lt_subset_ball {R : ℝ} {s : Set E} {x : E} (hR : 0 < R) (hs : IsClosed s)
     (h : s ⊆ ball x R) : ∃ r ∈ Ioo 0 R, s ⊆ ball x r := by
-  rw [ball_eq_preimage, ← image_subset_iff] at h
+  rw [ball_eq_preimage] at h; rw [← image_subset_iff] at h
   rcases exists_pos_lt_subset_ball hR (toEuclidean.isClosed_image.2 hs) h with ⟨r, hr, hsr⟩
   exact ⟨r, hr, image_subset_iff.1 hsr⟩
 #align euclidean.exists_pos_lt_subset_ball Euclidean.exists_pos_lt_subset_ball

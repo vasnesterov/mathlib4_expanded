@@ -192,5 +192,5 @@ theorem String.length_data (s : String) : s.data.length = s.length :=
 #align string.length_to_list String.length_data
 
 theorem List.asString_eq {l : List Char} {s : String} : l.asString = s ↔ l = s.toList := by
-  rw [← asString_inv_toList s, asString_inj, asString_inv_toList s]
+  rw [← asString_inv_toList s]; rw [asString_inj]; rw [asString_inv_toList s]
 #align list.as_string_eq List.asString_eq

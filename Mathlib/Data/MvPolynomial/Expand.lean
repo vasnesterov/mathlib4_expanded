@@ -60,7 +60,7 @@ theorem expand_one_apply (f : MvPolynomial σ R) : expand 1 f = f := by
 @[simp]
 theorem expand_one : expand 1 = AlgHom.id R (MvPolynomial σ R) := by
   ext1 f
-  rw [expand_one_apply, AlgHom.id_apply]
+  rw [expand_one_apply]; rw [AlgHom.id_apply]
 #align mv_polynomial.expand_one MvPolynomial.expand_one
 
 theorem expand_comp_bind₁ (p : ℕ) (f : σ → MvPolynomial τ R) :
@@ -72,7 +72,7 @@ theorem expand_comp_bind₁ (p : ℕ) (f : σ → MvPolynomial τ R) :
 
 theorem expand_bind₁ (p : ℕ) (f : σ → MvPolynomial τ R) (φ : MvPolynomial σ R) :
     expand p (bind₁ f φ) = bind₁ (fun i ↦ expand p (f i)) φ := by
-  rw [← AlgHom.comp_apply, expand_comp_bind₁]
+  rw [← AlgHom.comp_apply]; rw [expand_comp_bind₁]
 #align mv_polynomial.expand_bind₁ MvPolynomial.expand_bind₁
 
 @[simp]

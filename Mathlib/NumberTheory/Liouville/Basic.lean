@@ -40,7 +40,7 @@ protected theorem irrational {x : ℝ} (h : Liouville x) : Irrational x := by
   -- By contradiction, `x = a / b`, with `a ∈ ℤ`, `0 < b ∈ ℕ` is a Liouville number,
   rintro ⟨⟨a, b, bN0, cop⟩, rfl⟩
   -- clear up the mess of constructions of rationals
-  rw [Rat.cast_mk', ← div_eq_mul_inv] at h
+  rw [Rat.cast_mk'] at h; rw [← div_eq_mul_inv] at h
   -- Since `a / b` is a Liouville number, there are `p, q ∈ ℤ`, with `q1 : 1 < q`,
   -- `a0 : a / b ≠ p / q` and `a1 : |a / b - p / q| < 1 / q ^ (b + 1)`
   rcases h (b + 1) with ⟨p, q, q1, a0, a1⟩
@@ -65,7 +65,7 @@ protected theorem irrational {x : ℝ} (h : Liouville x) : Irrational x := by
   -- Actually, the absolute value of an integer is a natural number
   lift |a * ↑q - ↑b * p| to ℕ using abs_nonneg (a * ↑q - ↑b * p) with e he
   -- At a1, revert to natural numbers
-  rw [← Int.ofNat_mul, ← Int.coe_nat_pow, ← Int.ofNat_mul, Int.ofNat_lt] at a1
+  rw [← Int.ofNat_mul] at a1; rw [← Int.coe_nat_pow] at a1; rw [← Int.ofNat_mul] at a1; rw [Int.ofNat_lt] at a1
   -- Recall this is by contradiction: we obtained the inequality `b * q ≤ x * q ^ (b + 1)`, so
   -- we are done.
   exact not_le.mpr a1 (Nat.mul_lt_mul_pow_succ (Int.coe_nat_pos.mp ap) (Int.ofNat_lt.mp q1)).le
@@ -159,7 +159,7 @@ theorem exists_pos_real_of_irrational_root {α : ℝ} (ha : Irrational α) {f : 
     exact @mem_closedBall_self ℝ _ α ζ (le_of_lt z0)
   -- 3: the weird inequality of Liouville type with powers of the denominators.
   · show 1 ≤ (a + 1 : ℝ) ^ f.natDegree * |eval α fR - eval ((z : ℝ) / (a + 1)) fR|
-    rw [fa, zero_sub, abs_neg]
+    rw [fa]; rw [zero_sub]; rw [abs_neg]
     rw [show (a + 1 : ℝ) = ((a + 1 : ℕ) : ℤ) by norm_cast] at hq ⊢
     -- key observation: the right-hand side of the inequality is an *integer*.  Therefore,
     -- if its absolute value is not at least one, then it vanishes.  Proceed by contradiction
@@ -197,7 +197,7 @@ protected theorem transcendental {x : ℝ} (lx : Liouville x) : Transcendental �
   -- recall, this is a proof by contradiction!
   refine' lt_irrefl ((b : ℝ) ^ f.natDegree * |x - ↑a / ↑b|) _
   -- clear denominators at `a1`
-  rw [lt_div_iff' (pow_pos b0 _), pow_add, mul_assoc] at a1
+  rw [lt_div_iff' (pow_pos b0 _)] at a1; rw [pow_add] at a1; rw [mul_assoc] at a1
   -- split the inequality via `1 / A`.
   refine' (_ : (b : ℝ) ^ f.natDegree * |x - a / b| < 1 / A).trans_le _
   -- This branch of the proof uses the Liouville condition and the Archimedean property

@@ -281,7 +281,7 @@ theorem natTrans_ext {F₁ F₂ : D ⥤ E} (τ τ' : F₁ ⟶ F₂)
     (h : ∀ X : C, τ.app (L.obj X) = τ'.app (L.obj X)) : τ = τ' := by
   haveI : CategoryTheory.EssSurj L := essSurj L W
   ext Y
-  rw [← cancel_epi (F₁.map (L.objObjPreimageIso Y).hom), τ.naturality, τ'.naturality, h]
+  rw [← cancel_epi (F₁.map (L.objObjPreimageIso Y).hom)]; rw [τ.naturality]; rw [τ'.naturality]; rw [h]
 #align category_theory.localization.nat_trans_ext CategoryTheory.Localization.natTrans_ext
 
 -- porting note: the field `iso` was renamed `Lifting.iso'` and it was redefined as

@@ -161,7 +161,7 @@ theorem tendsto_pow_neg_atTop {n : ℕ} (hn : n ≠ 0) :
 theorem tendsto_zpow_atTop_zero {n : ℤ} (hn : n < 0) :
     Tendsto (fun x : 𝕜 => x ^ n) atTop (𝓝 0) := by
   lift -n to ℕ using le_of_lt (neg_pos.mpr hn) with N h
-  rw [← neg_pos, ← h, Nat.cast_pos] at hn
+  rw [← neg_pos] at hn; rw [← h] at hn; rw [Nat.cast_pos] at hn
   simpa only [h, neg_neg] using tendsto_pow_neg_atTop hn.ne'
 #align tendsto_zpow_at_top_zero tendsto_zpow_atTop_zero
 
@@ -223,7 +223,7 @@ instance (priority := 100) LinearOrderedField.toTopologicalDivisionRing :
 -- porting note: todo: generalize to a `GroupWithZero`
 theorem nhdsWithin_pos_comap_mul_left {x : 𝕜} (hx : 0 < x) :
     comap (x * ·) (𝓝[>] 0) = 𝓝[>] 0 := by
-  rw [nhdsWithin, comap_inf, comap_principal, preimage_const_mul_Ioi _ hx, zero_div]
+  rw [nhdsWithin]; rw [comap_inf]; rw [comap_principal]; rw [preimage_const_mul_Ioi _ hx]; rw [zero_div]
   congr 1
   refine ((Homeomorph.mulLeft₀ x hx.ne').comap_nhds_eq _).trans ?_
   simp

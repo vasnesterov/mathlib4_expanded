@@ -75,7 +75,7 @@ theorem gcd_dvd_right (x y : R) : gcd x y ∣ y :=
 
 theorem dvd_gcd {x y z : R} (hx : z ∣ x) (hy : z ∣ y) : z ∣ gcd x y := by
   rw [← Ideal.span_singleton_le_span_singleton] at hx hy ⊢
-  rw [span_gcd, Ideal.span_insert, sup_le_iff]
+  rw [span_gcd]; rw [Ideal.span_insert]; rw [sup_le_iff]
   exact ⟨hx, hy⟩
 #align is_bezout.dvd_gcd IsBezout.dvd_gcd
 
@@ -127,18 +127,18 @@ theorem TFAE [IsBezout R] [IsDomain R] :
     · intro; infer_instance
     tfae_have 4 → 1
     · rintro ⟨h⟩
-      rw [isNoetherianRing_iff, isNoetherian_iff_fg_wellFounded]
+      rw [isNoetherianRing_iff]; rw [isNoetherian_iff_fg_wellFounded]
       apply RelEmbedding.wellFounded _ h
       have : ∀ I : { J : Ideal R // J.FG }, ∃ x : R, (I : Ideal R) = Ideal.span {x} :=
         fun ⟨I, hI⟩ => (IsBezout.isPrincipal_of_FG I hI).1
       choose f hf using this
       exact
         { toFun := f
-          inj' := fun x y e => by ext1; rw [hf, hf, e]
+          inj' := fun x y e => by ext1; rw [hf]; rw [hf]; rw [e]
           map_rel_iff' := by
             dsimp
             intro a b
-            rw [← Ideal.span_singleton_lt_span_singleton, ← hf, ← hf]
+            rw [← Ideal.span_singleton_lt_span_singleton]; rw [← hf]; rw [← hf]
             rfl }
     tfae_finish
 #align is_bezout.tfae IsBezout.TFAE

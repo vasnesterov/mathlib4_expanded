@@ -53,9 +53,9 @@ private theorem sqrt_isSqrt (n : ℕ) : IsSqrt n (sqrt n) := by
     simp only [IsSqrt, sqrt, h, ite_false]
     refine ⟨sqrt.iter_sq_le _ _, sqrt.lt_iter_succ_sq _ _ ?_⟩
     simp only [mul_add, add_mul, one_mul, mul_one, ← add_assoc]
-    rw [lt_add_one_iff, add_assoc, ← mul_two]
+    rw [lt_add_one_iff]; rw [add_assoc]; rw [← mul_two]
     refine le_trans (div_add_mod' (n + 2) 2).ge ?_
-    rw [add_comm, add_le_add_iff_right, add_mod_right]
+    rw [add_comm]; rw [add_le_add_iff_right]; rw [add_mod_right]
     simp only [zero_lt_two, add_div_right, succ_mul_succ_eq]
     refine le_trans (b := 1) ?_ ?_
     · exact (lt_succ.1 $ mod_lt n zero_lt_two)
@@ -140,7 +140,7 @@ theorem sqrt_add_eq (n : ℕ) {a : ℕ} (h : a ≤ n + n) : sqrt (n * n + a) = n
   le_antisymm
     (le_of_lt_succ <|
       sqrt_lt.2 <| by
-        rw [succ_mul, mul_succ, add_succ, add_assoc];
+        rw [succ_mul]; rw [mul_succ]; rw [add_succ]; rw [add_assoc];
           exact lt_succ_of_le (Nat.add_le_add_left h _))
     (le_sqrt.2 <| Nat.le_add_right _ _)
 #align nat.sqrt_add_eq Nat.sqrt_add_eq

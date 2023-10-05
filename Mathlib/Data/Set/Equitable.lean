@@ -96,7 +96,7 @@ theorem equitableOn_iff_le_le_add_one :
   rintro ⟨b, hb⟩
   by_cases h : ∀ a ∈ s, f a = b + 1
   · intro a ha
-    rw [h _ ha, sum_const_nat h, Nat.mul_div_cancel_left _ (card_pos.2 ⟨a, ha⟩)]
+    rw [h _ ha]; rw [sum_const_nat h]; rw [Nat.mul_div_cancel_left _ (card_pos.2 ⟨a, ha⟩)]
     exact ⟨le_rfl, Nat.le_succ _⟩
   push_neg at h
   obtain ⟨x, hx₁, hx₂⟩ := h
@@ -107,7 +107,7 @@ theorem equitableOn_iff_le_le_add_one :
   refine'
     Nat.div_eq_of_lt_le (le_trans (by simp [mul_comm]) (sum_le_sum fun a ha => (hb a ha).1))
       ((sum_lt_sum (fun a ha => (hb a ha).2) ⟨_, hx₁, (hb _ hx₁).2.lt_of_ne hx₂⟩).trans_le _)
-  rw [mul_comm, sum_const_nat]
+  rw [mul_comm]; rw [sum_const_nat]
   exact fun _ _ => rfl
 #align finset.equitable_on_iff_le_le_add_one Finset.equitableOn_iff_le_le_add_one
 

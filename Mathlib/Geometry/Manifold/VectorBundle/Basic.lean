@@ -113,7 +113,7 @@ theorem FiberBundle.chartedSpace_chartAt (x : TotalSpace F E) :
         (chartAt HB x.proj).prod (LocalHomeomorph.refl F) := by
   dsimp only [chartAt_comp, prodChartedSpace_chartAt, FiberBundle.chartedSpace'_chartAt,
     chartAt_self_eq]
-  rw [Trivialization.coe_coe, Trivialization.coe_fst' _ (mem_baseSet_trivializationAt F E x.proj)]
+  rw [Trivialization.coe_coe]; rw [Trivialization.coe_fst' _ (mem_baseSet_trivializationAt F E x.proj)]
 #align fiber_bundle.charted_space_chart_at FiberBundle.chartedSpace_chartAt
 
 theorem FiberBundle.chartedSpace_chartAt_symm_fst (x : TotalSpace F E) (y : ModelProd HB F)
@@ -144,14 +144,14 @@ protected theorem FiberBundle.extChartAt (x : TotalSpace F E) :
   simp_rw [extChartAt, FiberBundle.chartedSpace_chartAt, extend]
   simp only [LocalEquiv.trans_assoc, mfld_simps]
   -- porting note: should not be needed
-  rw [LocalEquiv.prod_trans, LocalEquiv.refl_trans]
+  rw [LocalEquiv.prod_trans]; rw [LocalEquiv.refl_trans]
 #align fiber_bundle.ext_chart_at FiberBundle.extChartAt
 
 protected theorem FiberBundle.extChartAt_target (x : TotalSpace F E) :
     (extChartAt (IB.prod 𝓘(𝕜, F)) x).target =
       ((extChartAt IB x.proj).target ∩
         (extChartAt IB x.proj).symm ⁻¹' (trivializationAt F E x.proj).baseSet) ×ˢ univ := by
-  rw [FiberBundle.extChartAt, LocalEquiv.trans_target, Trivialization.target_eq, inter_prod]
+  rw [FiberBundle.extChartAt]; rw [LocalEquiv.trans_target]; rw [Trivialization.target_eq]; rw [inter_prod]
   rfl
 
 theorem FiberBundle.writtenInExtChartAt_trivializationAt {x : TotalSpace F E} {y}
@@ -182,7 +182,7 @@ theorem contMDiffWithinAt_totalSpace (f : M → TotalSpace F E) {s : Set M} {x�
       ContMDiffWithinAt IM IB n (fun x => (f x).proj) s x₀ ∧
       ContMDiffWithinAt IM 𝓘(𝕜, F) n (fun x ↦ (trivializationAt F E (f x₀).proj (f x)).2) s x₀ := by
   simp (config := { singlePass := true }) only [contMDiffWithinAt_iff_target]
-  rw [and_and_and_comm, ← FiberBundle.continuousWithinAt_totalSpace, and_congr_right_iff]
+  rw [and_and_and_comm]; rw [← FiberBundle.continuousWithinAt_totalSpace]; rw [and_congr_right_iff]
   intro hf
   simp_rw [modelWithCornersSelf_prod, FiberBundle.extChartAt, Function.comp, LocalEquiv.trans_apply,
     LocalEquiv.prod_coe, LocalEquiv.refl_coe, extChartAt_self_apply, modelWithCornersSelf_coe,
@@ -453,7 +453,7 @@ theorem ContMDiffWithinAt.change_section_trivialization {f : M → TotalSpace F 
   rw [Trivialization.mem_source] at he he'
   refine (hp.coordChange hf he he').congr_of_eventuallyEq ?_ ?_
   · filter_upwards [hp.continuousWithinAt (e.open_baseSet.mem_nhds he)] with y hy
-    rw [Function.comp_apply, e.coordChange_apply_snd _ hy]
+    rw [Function.comp_apply]; rw [e.coordChange_apply_snd _ hy]
   · rw [Function.comp_apply, e.coordChange_apply_snd _ he]
 
 theorem Trivialization.contMDiffWithinAt_snd_comp_iff₂ {f : M → TotalSpace F E}
@@ -710,8 +710,7 @@ theorem smoothVectorBundle : @SmoothVectorBundle
       refine' (a.smoothOn_smoothCoordChange he he').congr _
       intro b hb
       ext v
-      rw [a.smoothCoordChange_apply he he' hb v, ContinuousLinearEquiv.coe_coe,
-        Trivialization.coordChangeL_apply]
+      rw [a.smoothCoordChange_apply he he' hb v]; rw [ContinuousLinearEquiv.coe_coe]; rw [Trivialization.coordChangeL_apply]
       exacts [rfl, hb] }
 #align vector_prebundle.smooth_vector_bundle VectorPrebundle.smoothVectorBundle
 

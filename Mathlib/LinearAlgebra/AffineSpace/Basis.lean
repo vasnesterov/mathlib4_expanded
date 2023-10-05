@@ -122,7 +122,7 @@ noncomputable def basisOf (i : ι) : Basis { j : ι // j ≠ i } k V :=
     (by
       suffices
         Submodule.span k (range fun j : { x // x ≠ i } => b ↑j -ᵥ b i) = vectorSpan k (range b) by
-        rw [this, ← direction_affineSpan, b.tot, AffineSubspace.direction_top]
+        rw [this]; rw [← direction_affineSpan]; rw [b.tot]; rw [AffineSubspace.direction_top]
       conv_rhs => rw [← image_univ]
       rw [vectorSpan_image_eq_span_vsub_set_right_ne k b (mem_univ i)]
       congr
@@ -149,8 +149,7 @@ noncomputable def coord (i : ι) : P →ᵃ[k] k where
   linear := -(b.basisOf i).sumCoords
   map_vadd' q v := by
     dsimp only
-    rw [vadd_vsub_assoc, LinearMap.map_add, vadd_eq_add, LinearMap.neg_apply,
-      sub_add_eq_sub_sub_swap, add_comm, sub_eq_add_neg]
+    rw [vadd_vsub_assoc]; rw [LinearMap.map_add]; rw [vadd_eq_add]; rw [LinearMap.neg_apply]; rw [sub_add_eq_sub_sub_swap]; rw [add_comm]; rw [sub_eq_add_neg]
 #align affine_basis.coord AffineBasis.coord
 
 @[simp]
@@ -175,8 +174,7 @@ theorem coord_apply_ne (h : i ≠ j) : b.coord i (b j) = 0 := by
   -- Porting note:
   -- in mathlib3 we didn't need to given the `fun j => j ≠ i` argument to `Subtype.coe_mk`,
   -- but I don't think we can complain: this proof was over-golfed.
-  rw [coord, AffineMap.coe_mk, ← @Subtype.coe_mk _ (fun j => j ≠ i) j h.symm, ← b.basisOf_apply,
-    Basis.sumCoords_self_apply, sub_self]
+  rw [coord]; rw [AffineMap.coe_mk]; rw [← @Subtype.coe_mk _ (fun j => j ≠ i) j h.symm]; rw [← b.basisOf_apply]; rw [Basis.sumCoords_self_apply]; rw [sub_self]
 #align affine_basis.coord_apply_ne AffineBasis.coord_apply_ne
 
 theorem coord_apply [DecidableEq ι] (i j : ι) : b.coord i (b j) = if i = j then 1 else 0 := by
@@ -232,7 +230,7 @@ theorem linear_combination_coord_eq_self [Fintype ι] (b : AffineBasis ι k V) (
 
 theorem ext_elem [Finite ι] {q₁ q₂ : P} (h : ∀ i, b.coord i q₁ = b.coord i q₂) : q₁ = q₂ := by
   cases nonempty_fintype ι
-  rw [← b.affineCombination_coord_eq_self q₁, ← b.affineCombination_coord_eq_self q₂]
+  rw [← b.affineCombination_coord_eq_self q₁]; rw [← b.affineCombination_coord_eq_self q₂]
   simp only [h]
 #align affine_basis.ext_elem AffineBasis.ext_elem
 
@@ -248,7 +246,7 @@ theorem coe_coord_of_subsingleton_eq_one [Subsingleton ι] (i : ι) : (b.coord i
   have hi : i ∈ s := by simp
   have hw : s.sum (Function.const ι (1 : k)) = 1 := by simp
   have hq : q = s.affineCombination k b (Function.const ι (1 : k)) := by simp
-  rw [Pi.one_apply, hq, b.coord_apply_combination_of_mem hi hw, Function.const_apply]
+  rw [Pi.one_apply]; rw [hq]; rw [b.coord_apply_combination_of_mem hi hw]; rw [Function.const_apply]
 #align affine_basis.coe_coord_of_subsingleton_eq_one AffineBasis.coe_coord_of_subsingleton_eq_one
 
 theorem surjective_coord [Nontrivial ι] (i : ι) : Function.Surjective <| b.coord i := by
@@ -282,10 +280,9 @@ noncomputable def coords : P →ᵃ[k] ι → k where
     -- simp only [linear_eq_sumCoords, LinearMap.coe_mk, LinearMap.neg_apply, Pi.vadd_apply',
     --   AffineMap.map_vadd]
     -- but now we need to `dsimp` before `AffineMap.map_vadd` works.
-    rw [LinearMap.coe_mk, Pi.vadd_apply']
+    rw [LinearMap.coe_mk]; rw [Pi.vadd_apply']
     dsimp
-    rw [AffineMap.map_vadd, linear_eq_sumCoords,
-        LinearMap.neg_apply]
+    rw [AffineMap.map_vadd]; rw [linear_eq_sumCoords]; rw [LinearMap.neg_apply]
     simp only [ne_eq, Basis.coe_sumCoords, vadd_eq_add]
 #align affine_basis.coords AffineBasis.coords
 
@@ -303,16 +300,14 @@ variable [DivisionRing k] [Module k V]
 @[simp]
 theorem coord_apply_centroid [CharZero k] (b : AffineBasis ι k P) {s : Finset ι} {i : ι}
     (hi : i ∈ s) : b.coord i (s.centroid k b) = (s.card : k)⁻¹ := by
-  rw [Finset.centroid,
-    b.coord_apply_combination_of_mem hi (s.sum_centroidWeights_eq_one_of_nonempty _ ⟨i, hi⟩),
-    Finset.centroidWeights, Function.const_apply]
+  rw [Finset.centroid]; rw [b.coord_apply_combination_of_mem hi (s.sum_centroidWeights_eq_one_of_nonempty _ ⟨i, hi⟩)]; rw [Finset.centroidWeights]; rw [Function.const_apply]
 #align affine_basis.coord_apply_centroid AffineBasis.coord_apply_centroid
 
 theorem exists_affine_subbasis {t : Set P} (ht : affineSpan k t = ⊤) :
     ∃ (s : _) (_ : s ⊆ t) (b : AffineBasis (↥s) k P), ⇑b = ((↑) : s → P) := by
   obtain ⟨s, hst, h_tot, h_ind⟩ := exists_affineIndependent k V t
   refine' ⟨s, hst, ⟨(↑), h_ind, _⟩, rfl⟩
-  rw [Subtype.range_coe, h_tot, ht]
+  rw [Subtype.range_coe]; rw [h_tot]; rw [ht]
 #align affine_basis.exists_affine_subbasis AffineBasis.exists_affine_subbasis
 
 variable (k V P)

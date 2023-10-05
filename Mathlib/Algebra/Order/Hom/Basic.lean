@@ -241,7 +241,7 @@ variable [Group α] [OrderedAddCommMonoid β] [GroupSeminormClass F α β] (f : 
 
 @[to_additive]
 theorem map_div_le_add : f (x / y) ≤ f x + f y := by
-  rw [div_eq_mul_inv, ← map_inv_eq_map f y]
+  rw [div_eq_mul_inv]; rw [← map_inv_eq_map f y]
   exact map_mul_le_add _ _ _
 #align map_div_le_add map_div_le_add
 #align map_sub_le_add map_sub_le_add
@@ -265,7 +265,7 @@ example [OrderedAddCommGroup β] : OrderedAddCommMonoid β :=
 @[to_additive]
 theorem abs_sub_map_le_div [Group α] [LinearOrderedAddCommGroup β] [GroupSeminormClass F α β]
     (f : F) (x y : α) : |f x - f y| ≤ f (x / y) := by
-  rw [abs_sub_le_iff, sub_le_iff_le_add', sub_le_iff_le_add']
+  rw [abs_sub_le_iff]; rw [sub_le_iff_le_add']; rw [sub_le_iff_le_add']
   exact ⟨le_map_add_map_div _ _ _, le_map_add_map_div' _ _ _⟩
 #align abs_sub_map_le_div abs_sub_map_le_div
 #align abs_sub_map_le_sub abs_sub_map_le_sub
@@ -277,7 +277,7 @@ instance (priority := 100) GroupSeminormClass.toNonnegHomClass [Group α]
   { ‹GroupSeminormClass F α β› with
     map_nonneg := fun f a =>
       (nsmul_nonneg_iff two_ne_zero).1 <| by
-        rw [two_nsmul, ← map_one_eq_zero f, ← div_self' a]
+        rw [two_nsmul]; rw [← map_one_eq_zero f]; rw [← div_self' a]
         exact map_div_le_add _ _ _ }
 #align group_seminorm_class.to_nonneg_hom_class GroupSeminormClass.toNonnegHomClass
 #align add_group_seminorm_class.to_nonneg_hom_class AddGroupSeminormClass.toNonnegHomClass

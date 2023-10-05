@@ -133,8 +133,7 @@ private theorem mul_smul' [DecidableEq ι] [GSemiring A] [Gmodule A M] (a b : �
       FunLike.congr_fun (FunLike.congr_fun (FunLike.congr_fun this a) b) c
   ext ai ax bi bx ci cx : 6
   dsimp only [coe_comp, Function.comp_apply, compHom_apply_apply, flip_apply, flipHom_apply]
-  rw [smulAddMonoidHom_apply_of_of, smulAddMonoidHom_apply_of_of, DirectSum.mulHom_of_of,
-    smulAddMonoidHom_apply_of_of]
+  rw [smulAddMonoidHom_apply_of_of]; rw [smulAddMonoidHom_apply_of_of]; rw [DirectSum.mulHom_of_of]; rw [smulAddMonoidHom_apply_of_of]
   exact
     DirectSum.of_eq_of_gradedMonoid_eq
       (mul_smul (GradedMonoid.mk ai ax) (GradedMonoid.mk bi bx) (GradedMonoid.mk ci cx))
@@ -229,11 +228,9 @@ def linearEquiv [DecidableEq ι] [GradedRing 𝓐] [DirectSum.Decomposition 𝓜
     (DirectSum.decomposeAddEquiv 𝓜).right_inv⟩
   intro x y
   classical
-  rw [AddHom.toFun_eq_coe, ← DirectSum.sum_support_decompose 𝓐 x, map_sum, Finset.sum_smul,
-    AddEquiv.coe_toAddHom, map_sum, Finset.sum_smul]
+  rw [AddHom.toFun_eq_coe]; rw [← DirectSum.sum_support_decompose 𝓐 x]; rw [map_sum]; rw [Finset.sum_smul]; rw [AddEquiv.coe_toAddHom]; rw [map_sum]; rw [Finset.sum_smul]
   refine Finset.sum_congr rfl (fun i _hi => ?_)
-  rw [RingHom.id_apply, ← DirectSum.sum_support_decompose 𝓜 y, map_sum, Finset.smul_sum, map_sum,
-    Finset.smul_sum]
+  rw [RingHom.id_apply]; rw [← DirectSum.sum_support_decompose 𝓜 y]; rw [map_sum]; rw [Finset.smul_sum]; rw [map_sum]; rw [Finset.smul_sum]
   refine Finset.sum_congr rfl (fun j _hj => ?_)
   rw [show (decompose 𝓐 x i : A) • (decomposeAddEquiv 𝓜 ↑(decompose 𝓜 y j) : (⨁ i, 𝓜 i)) =
     DirectSum.Gmodule.smulAddMonoidHom _ _ (decompose 𝓐 ↑(decompose 𝓐 x i))

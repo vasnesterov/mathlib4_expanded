@@ -138,7 +138,7 @@ theorem Filter.Tendsto.mul_const (b : M) {c : M} {f : α → M} {l : Filter α}
 
 @[to_additive]
 theorem le_nhds_mul (a b : M) : 𝓝 a * 𝓝 b ≤ 𝓝 (a * b) := by
-  rw [← map₂_mul, ← map_uncurry_prod, ← nhds_prod_eq]
+  rw [← map₂_mul]; rw [← map_uncurry_prod]; rw [← nhds_prod_eq]
   exact continuous_mul.tendsto _
 #align le_nhds_mul le_nhds_mul
 #align le_nhds_add le_nhds_add
@@ -288,7 +288,7 @@ theorem ContinuousMul.of_nhds_one {M : Type u} [Monoid M] [TopologicalSpace M]
         by rw [key, ← Filter.map_map]
       _ ≤ map ((fun x : M => x₀ * x) ∘ fun x => x * y₀) (𝓝 1) := map_mono hmul
       _ = 𝓝 (x₀ * y₀) := by
-        rw [← Filter.map_map, ← hright, hleft y₀, Filter.map_map, key₂, ← hleft]⟩
+        rw [← Filter.map_map]; rw [← hright]; rw [hleft y₀]; rw [Filter.map_map]; rw [key₂]; rw [← hleft]⟩
 #align has_continuous_mul.of_nhds_one ContinuousMul.of_nhds_one
 #align has_continuous_add.of_nhds_zero ContinuousAdd.of_nhds_zero
 

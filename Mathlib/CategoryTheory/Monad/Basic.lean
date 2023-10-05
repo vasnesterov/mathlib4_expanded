@@ -301,7 +301,7 @@ def ComonadIso.mk {M N : Comonad C} (f : (M : C ⥤ C) ≅ N)
       app_δ := fun X => by
         rw [← NatIso.cancel_natIso_hom_left f]
         simp only [reassoc_of% (f_δ X), Iso.hom_inv_id_app_assoc, NatTrans.naturality_assoc]
-        rw [← Functor.map_comp, Iso.hom_inv_id_app, Functor.map_id]
+        rw [← Functor.map_comp]; rw [Iso.hom_inv_id_app]; rw [Functor.map_id]
         apply (comp_id _).symm }
 #align category_theory.comonad_iso.mk CategoryTheory.ComonadIso.mk
 

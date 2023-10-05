@@ -168,7 +168,7 @@ theorem EffectiveEpiFamily.transitive_of_finite {α : Type} [Fintype α] {Y : α
   · apply Coverage.saturate.of
     use α, inferInstance, Y, π
   · intro V f ⟨Y₁, h, g, ⟨hY, hf⟩⟩
-    rw [← hf, Sieve.pullback_comp]
+    rw [← hf]; rw [Sieve.pullback_comp]
     apply (coherentTopology C).pullback_stable'
     apply coherentTopology.mem_sieves_of_hasEffectiveEpiFamily
     -- Need to show that the pullback of the family `π_n` to a given `Y i` is effective epimorphic

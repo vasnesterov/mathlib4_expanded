@@ -341,7 +341,7 @@ theorem Odd.add_even (hm : Odd m) (hn : Even n) : Odd (m + n) := by
 theorem Odd.add_odd : Odd m → Odd n → Even (m + n) := by
   rintro ⟨m, rfl⟩ ⟨n, rfl⟩
   refine' ⟨n + m + 1, _⟩
-  rw [two_mul, two_mul]
+  rw [two_mul]; rw [two_mul]
   ac_rfl
 #align odd.add_odd Odd.add_odd
 
@@ -375,8 +375,7 @@ theorem Odd.map [RingHomClass F α β] (f : F) : Odd m → Odd (f m) := by
 theorem Odd.mul : Odd m → Odd n → Odd (m * n) := by
   rintro ⟨m, rfl⟩ ⟨n, rfl⟩
   refine' ⟨2 * m * n + n + m, _⟩
-  rw [mul_add, add_mul, mul_one, ← add_assoc, one_mul, mul_assoc, ← mul_add, ← mul_add, ← mul_assoc,
-    ← Nat.cast_two, ← Nat.cast_comm]
+  rw [mul_add]; rw [add_mul]; rw [mul_one]; rw [← add_assoc]; rw [one_mul]; rw [mul_assoc]; rw [← mul_add]; rw [← mul_add]; rw [← mul_assoc]; rw [← Nat.cast_two]; rw [← Nat.cast_comm]
 #align odd.mul Odd.mul
 
 theorem Odd.pow (hm : Odd m) : ∀ {a : ℕ}, Odd (m ^ a)
@@ -415,7 +414,7 @@ variable [CanonicallyOrderedCommSemiring α]
 -- either `2 • t` or `t + t` instead of `2 * t`.
 theorem Odd.pos [Nontrivial α] {n : α} (hn : Odd n) : 0 < n := by
   obtain ⟨k, rfl⟩ := hn
-  rw [pos_iff_ne_zero, Ne.def, add_eq_zero_iff, not_and']
+  rw [pos_iff_ne_zero]; rw [Ne.def]; rw [add_eq_zero_iff]; rw [not_and']
   exact fun h => (one_ne_zero h).elim
 #align odd.pos Odd.pos
 
@@ -436,8 +435,8 @@ theorem even_neg_two : Even (-2 : α) := by simp only [even_neg, even_two]
 theorem Odd.neg (hp : Odd a) : Odd (-a) := by
   obtain ⟨k, hk⟩ := hp
   use -(k + 1)
-  rw [mul_neg, mul_add, neg_add, add_assoc, two_mul (1 : α), neg_add, neg_add_cancel_right, ←
-    neg_add, hk]
+  rw [mul_neg]; rw [mul_add]; rw [neg_add]; rw [add_assoc]; rw [two_mul (1 : α)]; rw [neg_add]; rw [neg_add_cancel_right]; rw [←
+    neg_add]; rw [hk]
 #align odd.neg Odd.neg
 
 @[simp]
@@ -514,12 +513,12 @@ theorem Odd.pow_neg_iff (hn : Odd n) : a ^ n < 0 ↔ a < 0 :=
 
 theorem Even.pow_pos_iff (hn : Even n) (h₀ : 0 < n) : 0 < a ^ n ↔ a ≠ 0 :=
   ⟨fun h ha => by
-    rw [ha, zero_pow h₀] at h
+    rw [ha] at h; rw [zero_pow h₀] at h
     exact lt_irrefl 0 h, hn.pow_pos⟩
 #align even.pow_pos_iff Even.pow_pos_iff
 
 theorem Even.pow_abs {p : ℕ} (hp : Even p) (a : R) : |a| ^ p = a ^ p := by
-  rw [← abs_pow, abs_eq_self]
+  rw [← abs_pow]; rw [abs_eq_self]
   exact hp.pow_nonneg _
 #align even.pow_abs Even.pow_abs
 

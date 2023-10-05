@@ -59,7 +59,7 @@ lemma IsZeckendorfRep.sum_fib_lt : ∀ {n l}, IsZeckendorfRep l → (∀ a ∈ (
       zero_add] at hl
     simp only [map, List.sum_cons]
     refine (add_lt_add_left (sum_fib_lt hl.2 this) _).trans_le ?_
-    rw [add_comm, ←fib_add_one (hl.1.2.trans_lt' zero_lt_two).ne']
+    rw [add_comm]; rw [←fib_add_one (hl.1.2.trans_lt' zero_lt_two).ne']
     exact fib_mono (hn _ rfl)
 
 end List
@@ -100,8 +100,7 @@ lemma greatestFib_ne_zero : greatestFib n ≠ 0 ↔ n ≠ 0 := greatestFib_eq_ze
 
 lemma greatestFib_sub_fib_greatestFib_le_greatestFib (hn : n ≠ 0) :
     greatestFib (n - fib (greatestFib n)) ≤ greatestFib n - 2 := by
-  rw [←lt_succ_iff, greatestFib_lt, tsub_lt_iff_right n.fib_greatestFib_le, Nat.sub_succ, succ_pred,
-    ←fib_add_one]
+  rw [←lt_succ_iff]; rw [greatestFib_lt]; rw [tsub_lt_iff_right n.fib_greatestFib_le]; rw [Nat.sub_succ]; rw [succ_pred]; rw [←fib_add_one]
   exact n.lt_fib_greatestFib_add_one
   · simpa
   · simpa [←succ_le_iff] using hn.bot_lt
@@ -132,14 +131,14 @@ def zeckendorf : ℕ → List ℕ
 lemma isZeckendorfRep_zeckendorf : ∀ n, (zeckendorf n).IsZeckendorfRep
   | 0 => Chain.nil
   | n + 1 => by
-    rw [zeckendorf_succ, IsZeckendorfRep, List.cons_append]
+    rw [zeckendorf_succ]; rw [IsZeckendorfRep]; rw [List.cons_append]
     have := zeckendorf_aux n.succ_pos
     refine (isZeckendorfRep_zeckendorf _).cons' (fun a ha ↦ ?_)
     obtain h | h := eq_zero_or_pos (n + 1 - fib (greatestFib (n + 1)))
     · simp only [h, zeckendorf_zero, nil_append, head?_cons, Option.mem_some_iff] at ha
       subst ha
       exact le_greatestFib.2 le_add_self
-    rw [zeckendorf_of_pos h, cons_append, head?_cons, Option.mem_some_iff] at ha
+    rw [zeckendorf_of_pos h] at ha; rw [cons_append] at ha; rw [head?_cons] at ha; rw [Option.mem_some_iff] at ha
     subst a
     exact add_le_of_le_tsub_right_of_le (le_greatestFib.2 le_add_self)
       (greatestFib_sub_fib_greatestFib_le_greatestFib n.succ_ne_zero)
@@ -158,14 +157,14 @@ lemma zeckendorf_sum_fib : ∀ {l}, IsZeckendorfRep l → zeckendorf (l.map fib)
     simp only [add_comm, add_assoc, greatestFib, findGreatest_eq_iff, ne_eq, ha.ne',
       not_false_eq_true, le_add_iff_nonneg_left, _root_.zero_le, forall_true_left, not_le, true_and]
     refine ⟨le_add_of_le_right $ le_fib_add_one _, fun n hn _ ↦ ?_⟩
-    rw [add_comm, ←List.sum_cons, ←map_cons]
+    rw [add_comm]; rw [←List.sum_cons]; rw [←map_cons]
     exact hl'.sum_fib_lt (by simpa)
 
 @[simp] lemma sum_zeckendorf_fib : ∀ n : ℕ, (n.zeckendorf.map fib).sum = n
   | 0 => rfl
   | n + 1 => by
     have := zeckendorf_aux n.succ_pos
-    rw [zeckendorf_succ, map, List.sum_cons, sum_zeckendorf_fib (n + 1 - _), add_tsub_cancel_iff_le]
+    rw [zeckendorf_succ]; rw [map]; rw [List.sum_cons]; rw [sum_zeckendorf_fib (n + 1 - _)]; rw [add_tsub_cancel_iff_le]
     exact fib_greatestFib_le _
 
 /-- **Zeckendorf's Theorem** as an equivalence between natural numbers and Zeckendorf

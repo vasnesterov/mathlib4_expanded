@@ -304,7 +304,7 @@ instance Subalgebra.normedRing {𝕜 : Type*} [CommRing 𝕜] {E : Type*} [Norme
 theorem Nat.norm_cast_le : ∀ n : ℕ, ‖(n : α)‖ ≤ n * ‖(1 : α)‖
   | 0 => by simp
   | n + 1 => by
-    rw [n.cast_succ, n.cast_succ, add_mul, one_mul]
+    rw [n.cast_succ]; rw [n.cast_succ]; rw [add_mul]; rw [one_mul]
     exact norm_add_le_of_le (Nat.norm_cast_le n) le_rfl
 #align nat.norm_cast_le Nat.norm_cast_le
 
@@ -312,7 +312,7 @@ theorem List.norm_prod_le' : ∀ {l : List α}, l ≠ [] → ‖l.prod‖ ≤ (l
   | [], h => (h rfl).elim
   | [a], _ => by simp
   | a::b::l, _ => by
-    rw [List.map_cons, List.prod_cons, @List.prod_cons _ _ _ ‖a‖]
+    rw [List.map_cons]; rw [List.prod_cons]; rw [@List.prod_cons _ _ _ ‖a‖]
     refine' le_trans (norm_mul_le _ _) (mul_le_mul_of_nonneg_left _ (norm_nonneg _))
     exact List.norm_prod_le' (List.cons_ne_nil b l)
 #align list.norm_prod_le' List.norm_prod_le'
@@ -474,7 +474,7 @@ instance (priority := 100) semi_normed_ring_top_monoid [NonUnitalSeminormedRing 
           intro e
           calc
             ‖e.1 * e.2 - x.1 * x.2‖ ≤ ‖e.1 * (e.2 - x.2) + (e.1 - x.1) * x.2‖ := by
-              rw [_root_.mul_sub, _root_.sub_mul, sub_add_sub_cancel]
+              rw [_root_.mul_sub]; rw [_root_.sub_mul]; rw [sub_add_sub_cancel]
             -- porting note: `ENNReal.{mul_sub, sub_mul}` should be protected
             _ ≤ ‖e.1‖ * ‖e.2 - x.2‖ + ‖e.1 - x.1‖ * ‖x.2‖ :=
               norm_add_le_of_le (norm_mul_le _ _) (norm_mul_le _ _)
@@ -590,8 +590,7 @@ theorem nnnorm_zpow : ∀ (a : α) (n : ℤ), ‖a ^ n‖₊ = ‖a‖₊ ^ n :=
 
 theorem dist_inv_inv₀ {z w : α} (hz : z ≠ 0) (hw : w ≠ 0) :
     dist z⁻¹ w⁻¹ = dist z w / (‖z‖ * ‖w‖) := by
-  rw [dist_eq_norm, inv_sub_inv' hz hw, norm_mul, norm_mul, norm_inv, norm_inv, mul_comm ‖z‖⁻¹,
-    mul_assoc, dist_eq_norm', div_eq_mul_inv, mul_inv]
+  rw [dist_eq_norm]; rw [inv_sub_inv' hz hw]; rw [norm_mul]; rw [norm_mul]; rw [norm_inv]; rw [norm_inv]; rw [mul_comm ‖z‖⁻¹]; rw [mul_assoc]; rw [dist_eq_norm']; rw [div_eq_mul_inv]; rw [mul_inv]
 #align dist_inv_inv₀ dist_inv_inv₀
 
 theorem nndist_inv_inv₀ {z w : α} (hz : z ≠ 0) (hw : w ≠ 0) :
@@ -626,8 +625,7 @@ instance (priority := 100) NormedDivisionRing.to_hasContinuousInv₀ : HasContin
     have e0 : e ≠ 0 := norm_pos_iff.1 (ε0.trans he)
     calc
       ‖e⁻¹ - r⁻¹‖ = ‖r‖⁻¹ * ‖r - e‖ * ‖e‖⁻¹ := by
-        rw [← norm_inv, ← norm_inv, ← norm_mul, ← norm_mul, _root_.mul_sub, _root_.sub_mul,
-          mul_assoc _ e, inv_mul_cancel r0, mul_inv_cancel e0, one_mul, mul_one]
+        rw [← norm_inv]; rw [← norm_inv]; rw [← norm_mul]; rw [← norm_mul]; rw [_root_.mul_sub]; rw [_root_.sub_mul]; rw [mul_assoc _ e]; rw [inv_mul_cancel r0]; rw [mul_inv_cancel e0]; rw [one_mul]; rw [mul_one]
       -- porting note: `ENNReal.{mul_sub, sub_mul}` should be `protected`
       _ = ‖r - e‖ / ‖r‖ / ‖e‖ := by field_simp [mul_comm]
       _ ≤ ‖r - e‖ / ‖r‖ / ε := by gcongr
@@ -644,7 +642,7 @@ instance (priority := 100) NormedDivisionRing.to_topologicalDivisionRing : Topol
 
 theorem norm_map_one_of_pow_eq_one [Monoid β] (φ : β →* α) {x : β} {k : ℕ+} (h : x ^ (k : ℕ) = 1) :
     ‖φ x‖ = 1 := by
-  rw [← pow_left_inj, ← norm_pow, ← map_pow, h, map_one, norm_one, one_pow]
+  rw [← pow_left_inj]; rw [← norm_pow]; rw [← map_pow]; rw [h]; rw [map_one]; rw [norm_one]; rw [one_pow]
   exacts [norm_nonneg _, zero_le_one, k.pos]
 #align norm_map_one_of_pow_eq_one norm_map_one_of_pow_eq_one
 
@@ -742,7 +740,7 @@ variable {α}
 
 @[instance]
 theorem punctured_nhds_neBot (x : α) : NeBot (𝓝[≠] x) := by
-  rw [← mem_closure_iff_nhdsWithin_neBot, Metric.mem_closure_iff]
+  rw [← mem_closure_iff_nhdsWithin_neBot]; rw [Metric.mem_closure_iff]
   rintro ε ε0
   rcases exists_norm_lt α ε0 with ⟨b, hb0, hbε⟩
   refine' ⟨x + b, mt (Set.mem_singleton_iff.trans add_right_eq_self).1 <| norm_pos_iff.1 hb0, _⟩
@@ -813,7 +811,7 @@ theorem toNNReal_mul_nnnorm {x : ℝ} (y : ℝ) (hx : 0 ≤ x) : x.toNNReal * �
 #align real.to_nnreal_mul_nnnorm Real.toNNReal_mul_nnnorm
 
 theorem nnnorm_mul_toNNReal (x : ℝ) {y : ℝ} (hy : 0 ≤ y) : ‖x‖₊ * y.toNNReal = ‖x * y‖₊ := by
-  rw [mul_comm, mul_comm x, toNNReal_mul_nnnorm x hy]
+  rw [mul_comm]; rw [mul_comm x]; rw [toNNReal_mul_nnnorm x hy]
 #align real.nnnorm_mul_to_nnreal Real.nnnorm_mul_toNNReal
 
 end Real

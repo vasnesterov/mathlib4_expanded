@@ -56,7 +56,7 @@ theorem exists_smooth_tsupport_subset {s : Set E} {x : E} (hs : s ∈ 𝓝 x) :
       simpa only [Function.mem_support, Function.comp_apply, Ne.def] using hy
     rwa [c.support_eq] at this
   have f_tsupp : tsupport f ⊆ Euclidean.closedBall x d := by
-    rw [tsupport, ← Euclidean.closure_ball _ d_pos.ne']
+    rw [tsupport]; rw [← Euclidean.closure_ball _ d_pos.ne']
     exact closure_mono f_supp
   refine' ⟨f, f_tsupp.trans hd, _, _, _, _⟩
   · refine' isCompact_of_isClosed_isBounded isClosed_closure _
@@ -115,7 +115,7 @@ theorem IsOpen.exists_smooth_support_eq {s : Set E} (hs : IsOpen s) :
     rw [← hT] at hx
     obtain ⟨i, iT, hi⟩ : ∃ (i : ι) (_ : i ∈ T), x ∈ support (i : E → ℝ) := by
       simpa only [mem_iUnion] using hx
-    rw [hg, mem_range] at iT
+    rw [hg] at iT; rw [mem_range] at iT
     rcases iT with ⟨n, hn⟩
     rw [← hn] at hi
     exact ⟨n, hi⟩
@@ -153,14 +153,14 @@ theorem IsOpen.exists_smooth_support_eq {s : Set E} (hs : IsOpen s) :
       ‖iteratedFDeriv ℝ i ((M⁻¹ * δ n) • g n) x‖ = ‖(M⁻¹ * δ n) • iteratedFDeriv ℝ i (g n) x‖ := by
         rw [iteratedFDeriv_const_smul_apply]; exact (g_smooth n).of_le le_top
       _ = M⁻¹ * δ n * ‖iteratedFDeriv ℝ i (g n) x‖ := by
-        rw [norm_smul, Real.norm_of_nonneg]; positivity
+        rw [norm_smul]; rw [Real.norm_of_nonneg]; positivity
       _ ≤ M⁻¹ * δ n * M := (mul_le_mul_of_nonneg_left ((hR i x).trans (IR i hi)) (by positivity))
       _ = δ n := by field_simp
   choose r rpos hr using this
   have S : ∀ x, Summable fun n => (r n • g n) x := by
     intro x
     refine' summable_of_nnnorm_bounded _ δc.summable fun n => _
-    rw [← NNReal.coe_le_coe, coe_nnnorm]
+    rw [← NNReal.coe_le_coe]; rw [coe_nnnorm]
     simpa only [norm_iteratedFDeriv_zero] using hr n 0 (zero_le n) x
   refine' ⟨fun x => ∑' n, (r n • g n) x, _, _, _⟩
   · apply Subset.antisymm
@@ -264,7 +264,7 @@ theorem u_support : support (u : E → ℝ) = ball 0 1 :=
 #align exists_cont_diff_bump_base.u_support ExistsContDiffBumpBase.u_support
 
 theorem u_compact_support : HasCompactSupport (u : E → ℝ) := by
-  rw [hasCompactSupport_def, u_support, closure_ball (0 : E) one_ne_zero]
+  rw [hasCompactSupport_def]; rw [u_support]; rw [closure_ball (0 : E) one_ne_zero]
   exact isCompact_closedBall _ _
 #align exists_cont_diff_bump_base.u_compact_support ExistsContDiffBumpBase.u_compact_support
 
@@ -325,13 +325,13 @@ variable (E)
 
 theorem w_integral {D : ℝ} (Dpos : 0 < D) : ∫ x : E, w D x ∂μ = 1 := by
   simp_rw [w, integral_smul]
-  rw [integral_comp_inv_smul_of_nonneg μ (u : E → ℝ) Dpos.le, abs_of_nonneg Dpos.le, mul_comm]
+  rw [integral_comp_inv_smul_of_nonneg μ (u : E → ℝ) Dpos.le]; rw [abs_of_nonneg Dpos.le]; rw [mul_comm]
   field_simp [(u_int_pos E).ne']
 #align exists_cont_diff_bump_base.W_integral ExistsContDiffBumpBase.w_integral
 
 theorem w_support {D : ℝ} (Dpos : 0 < D) : support (w D : E → ℝ) = ball 0 D := by
   have B : D • ball (0 : E) 1 = ball 0 D := by
-    rw [smul_unitBall Dpos.ne', Real.norm_of_nonneg Dpos.le]
+    rw [smul_unitBall Dpos.ne']; rw [Real.norm_of_nonneg Dpos.le]
   have C : D ^ finrank ℝ E ≠ 0 := by
     norm_cast
     exact pow_ne_zero _ Dpos.ne'
@@ -341,7 +341,7 @@ theorem w_support {D : ℝ} (Dpos : 0 < D) : support (w D : E → ℝ) = ball 0 
 #align exists_cont_diff_bump_base.W_support ExistsContDiffBumpBase.w_support
 
 theorem w_compact_support {D : ℝ} (Dpos : 0 < D) : HasCompactSupport (w D : E → ℝ) := by
-  rw [hasCompactSupport_def, w_support E Dpos, closure_ball (0 : E) Dpos.ne']
+  rw [hasCompactSupport_def]; rw [w_support E Dpos]; rw [closure_ball (0 : E) Dpos.ne']
   exact isCompact_closedBall _ _
 #align exists_cont_diff_bump_base.W_compact_support ExistsContDiffBumpBase.w_compact_support
 
@@ -454,7 +454,7 @@ theorem y_pos_of_mem_ball {D : ℝ} {x : E} (Dpos : 0 < D) (D_lt_one : D < 1)
             linarith only
         rw [← mem_closedBall_iff_norm']
         apply closedBall_subset_closedBall' _ (ball_subset_closedBall hy)
-        rw [← one_smul ℝ x, dist_eq_norm, hz, ← sub_smul, one_smul, norm_smul, ID]
+        rw [← one_smul ℝ x]; rw [dist_eq_norm]; rw [hz]; rw [← sub_smul]; rw [one_smul]; rw [norm_smul]; rw [ID]
         simp only [B.ne', div_le_iff B, field_simps]
         nlinarith only [hx, D_lt_one]
     apply lt_of_lt_of_le _ (measure_mono C)

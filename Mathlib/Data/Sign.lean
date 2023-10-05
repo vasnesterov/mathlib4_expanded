@@ -326,7 +326,7 @@ theorem sign_neg (ha : a < 0) : sign a = -1 := by rwa [sign_apply, if_neg <| asy
 theorem sign_eq_one_iff : sign a = 1 ↔ 0 < a := by
   refine' ⟨fun h => _, fun h => sign_pos h⟩
   by_contra hn
-  rw [sign_apply, if_neg hn] at h
+  rw [sign_apply] at h; rw [if_neg hn] at h
   split_ifs at h
 #align sign_eq_one_iff sign_eq_one_iff
 

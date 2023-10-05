@@ -381,10 +381,10 @@ theorem applyId_injective [DecidableEq α] {xs ys : List α} (h₀ : List.Nodup 
     suffices some x = some y by injection this
     have h₂ := h₁.length_eq
     rw [List.applyId_zip_eq h₀ h₂ _ _ _ hx] at h
-    rw [← hx, ← hy]; congr
+    rw [← hx]; rw [← hy]; congr
     apply List.get?_injective _ (h₁.nodup_iff.1 h₀)
     · symm; rw [h]
-      rw [← List.applyId_zip_eq] <;> assumption
+      rw [← List.applyId_zip_eq]  <;> assumption
     · rw [← h₁.length_eq]
       rw [List.get?_eq_some] at hx
       cases' hx with hx hx'
@@ -479,7 +479,7 @@ protected theorem injective [DecidableEq α] (f : InjectiveFunction α) : Inject
   generalize h₁ : xs.map (@id ((Σ _ : α, α) → α) <| @Sigma.snd α fun _ : α => α) = xs₁
   dsimp [id] at h₁
   have hxs : xs = TotalFunction.List.toFinmap' (xs₀.zip xs₁) := by
-    rw [← h₀, ← h₁, List.toFinmap']; clear h₀ h₁ xs₀ xs₁ hperm hnodup
+    rw [← h₀]; rw [← h₁]; rw [List.toFinmap']; clear h₀ h₁ xs₀ xs₁ hperm hnodup
     induction xs
     case nil => simp only [List.zip_nil_right, List.map_nil]
     case cons xs_hd xs_tl

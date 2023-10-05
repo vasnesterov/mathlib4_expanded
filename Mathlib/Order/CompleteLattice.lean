@@ -671,12 +671,12 @@ theorem iSup_plift_down (f : ι → α) : ⨆ i, f (PLift.down i) = ⨆ i, f i :
 #align supr_plift_down iSup_plift_down
 
 theorem iSup_range' (g : β → α) (f : ι → β) : ⨆ b : range f, g b = ⨆ i, g (f i) := by
-  rw [iSup, iSup, ← image_eq_range, ← range_comp]
+  rw [iSup]; rw [iSup]; rw [← image_eq_range]; rw [← range_comp]
   rfl
 #align supr_range' iSup_range'
 
 theorem sSup_image' {s : Set β} {f : β → α} : sSup (f '' s) = ⨆ a : s, f a := by
-  rw [iSup, image_eq_range]
+  rw [iSup]; rw [image_eq_range]
 #align Sup_image' sSup_image'
 
 end SupSet
@@ -1222,7 +1222,7 @@ theorem iInf_subtype'' {ι} (s : Set ι) (f : ι → α) : ⨅ i : s, f i = ⨅ 
 
 theorem biSup_const {ι : Sort _} {a : α} {s : Set ι} (hs : s.Nonempty) : ⨆ i ∈ s, a = a := by
   haveI : Nonempty s := Set.nonempty_coe_sort.mpr hs
-  rw [← iSup_subtype'', iSup_const]
+  rw [← iSup_subtype'']; rw [iSup_const]
 #align bsupr_const biSup_const
 
 theorem biInf_const {ι : Sort _} {a : α} {s : Set ι} (hs : s.Nonempty) : ⨅ i ∈ s, a = a :=
@@ -1247,19 +1247,19 @@ begin
 end
 -/
 theorem iSup_sup [Nonempty ι] {f : ι → α} {a : α} : (⨆ x, f x) ⊔ a = ⨆ x, f x ⊔ a := by
-  rw [iSup_sup_eq, iSup_const]
+  rw [iSup_sup_eq]; rw [iSup_const]
 #align supr_sup iSup_sup
 
 theorem iInf_inf [Nonempty ι] {f : ι → α} {a : α} : (⨅ x, f x) ⊓ a = ⨅ x, f x ⊓ a := by
-  rw [iInf_inf_eq, iInf_const]
+  rw [iInf_inf_eq]; rw [iInf_const]
 #align infi_inf iInf_inf
 
 theorem sup_iSup [Nonempty ι] {f : ι → α} {a : α} : (a ⊔ ⨆ x, f x) = ⨆ x, a ⊔ f x := by
-  rw [iSup_sup_eq, iSup_const]
+  rw [iSup_sup_eq]; rw [iSup_const]
 #align sup_supr sup_iSup
 
 theorem inf_iInf [Nonempty ι] {f : ι → α} {a : α} : (a ⊓ ⨅ x, f x) = ⨅ x, a ⊓ f x := by
-  rw [iInf_inf_eq, iInf_const]
+  rw [iInf_inf_eq]; rw [iInf_const]
 #align inf_infi inf_iInf
 
 theorem biSup_sup {p : ι → Prop} {f : ∀ i, p i → α} {a : α} (h : ∃ i, p i) :
@@ -1267,7 +1267,7 @@ theorem biSup_sup {p : ι → Prop} {f : ∀ i, p i → α} {a : α} (h : ∃ i,
   haveI : Nonempty { i // p i } :=
     let ⟨i, hi⟩ := h
     ⟨⟨i, hi⟩⟩
-  rw [iSup_subtype', iSup_subtype', iSup_sup]
+  rw [iSup_subtype']; rw [iSup_subtype']; rw [iSup_sup]
 #align bsupr_sup biSup_sup
 
 theorem sup_biSup {p : ι → Prop} {f : ∀ i, p i → α} {a : α} (h : ∃ i, p i) :
@@ -1381,7 +1381,7 @@ theorem iInf_ite (f g : ι → α) :
 end
 
 theorem iSup_range {g : β → α} {f : ι → β} : ⨆ b ∈ range f, g b = ⨆ i, g (f i) := by
-  rw [← iSup_subtype'', iSup_range']
+  rw [← iSup_subtype'']; rw [iSup_range']
 #align supr_range iSup_range
 
 theorem iInf_range : ∀ {g : β → α} {f : ι → β}, ⨅ b ∈ range f, g b = ⨅ i, g (f i) :=
@@ -1389,7 +1389,7 @@ theorem iInf_range : ∀ {g : β → α} {f : ι → β}, ⨅ b ∈ range f, g b
 #align infi_range iInf_range
 
 theorem sSup_image {s : Set β} {f : β → α} : sSup (f '' s) = ⨆ a ∈ s, f a := by
-  rw [← iSup_subtype'', sSup_image']
+  rw [← iSup_subtype'']; rw [sSup_image']
 #align Sup_image sSup_image
 
 theorem sInf_image {s : Set β} {f : β → α} : sInf (f '' s) = ⨅ a ∈ s, f a :=
@@ -1463,11 +1463,11 @@ theorem iInf_singleton {f : β → α} {b : β} : ⨅ x ∈ (singleton b : Set �
 #align infi_singleton iInf_singleton
 
 theorem iSup_pair {f : β → α} {a b : β} : ⨆ x ∈ ({a, b} : Set β), f x = f a ⊔ f b := by
-  rw [iSup_insert, iSup_singleton]
+  rw [iSup_insert]; rw [iSup_singleton]
 #align supr_pair iSup_pair
 
 theorem iInf_pair {f : β → α} {a b : β} : ⨅ x ∈ ({a, b} : Set β), f x = f a ⊓ f b := by
-  rw [iInf_insert, iInf_singleton]
+  rw [iInf_insert]; rw [iInf_singleton]
 #align infi_pair iInf_pair
 
 theorem iSup_image {γ} {f : β → γ} {g : γ → α} {t : Set β} :
@@ -1512,7 +1512,7 @@ theorem iInf_of_empty [IsEmpty ι] (f : ι → α) : iInf f = ⊤ :=
 #align infi_of_empty iInf_of_empty
 
 theorem iSup_bool_eq {f : Bool → α} : ⨆ b : Bool, f b = f true ⊔ f false := by
-  rw [iSup, Bool.range_eq, sSup_pair, sup_comm]
+  rw [iSup]; rw [Bool.range_eq]; rw [sSup_pair]; rw [sup_comm]
 #align supr_bool_eq iSup_bool_eq
 
 theorem iInf_bool_eq {f : Bool → α} : ⨅ b : Bool, f b = f true ⊓ f false :=
@@ -1520,7 +1520,7 @@ theorem iInf_bool_eq {f : Bool → α} : ⨅ b : Bool, f b = f true ⊓ f false 
 #align infi_bool_eq iInf_bool_eq
 
 theorem sup_eq_iSup (x y : α) : x ⊔ y = ⨆ b : Bool, cond b x y := by
-  rw [iSup_bool_eq, Bool.cond_true, Bool.cond_false]
+  rw [iSup_bool_eq]; rw [Bool.cond_true]; rw [Bool.cond_false]
 #align sup_eq_supr sup_eq_iSup
 
 theorem inf_eq_iInf (x y : α) : x ⊓ y = ⨅ b : Bool, cond b x y :=
@@ -1688,7 +1688,7 @@ theorem inf_iInf_nat_succ (u : ℕ → α) : (u 0 ⊓ ⨅ i, u (i + 1)) = ⨅ i,
 #align inf_infi_nat_succ inf_iInf_nat_succ
 
 theorem iInf_nat_gt_zero_eq (f : ℕ → α) : ⨅ i > 0, f i = ⨅ i, f (i + 1) := by
-  rw [← iInf_range, Nat.range_succ]
+  rw [← iInf_range]; rw [Nat.range_succ]
   simp
 #align infi_nat_gt_zero_eq iInf_nat_gt_zero_eq
 

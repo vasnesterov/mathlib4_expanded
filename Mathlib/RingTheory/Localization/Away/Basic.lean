@@ -72,7 +72,7 @@ noncomputable def lift (hg : IsUnit (g x)) : S →+* P :=
   IsLocalization.lift fun y : Submonoid.powers x =>
     show IsUnit (g y.1) by
       obtain ⟨n, hn⟩ := y.2
-      rw [← hn, g.map_pow]
+      rw [← hn]; rw [g.map_pow]
       exact IsUnit.map (powMonoidHom n : P →* P) hg
 #align is_localization.away.lift IsLocalization.Away.lift
 
@@ -92,7 +92,7 @@ noncomputable def awayToAwayRight (y : R) [Algebra R P] [IsLocalization.Away (x 
   lift x <|
     show IsUnit ((algebraMap R P) x) from
       isUnit_of_mul_eq_one ((algebraMap R P) x) (mk' P y ⟨x * y, Submonoid.mem_powers _⟩) <| by
-        rw [mul_mk'_eq_mk'_of_mul, mk'_self]
+        rw [mul_mk'_eq_mk'_of_mul]; rw [mk'_self]
 #align is_localization.away.away_to_away_right IsLocalization.Away.awayToAwayRight
 
 variable (S) (Q : Type*) [CommSemiring Q] [Algebra P Q]
@@ -129,7 +129,7 @@ noncomputable def atUnits (H : ∀ x : M, IsUnit (x : R)) : R ≃ₐ[R] S := by
     obtain ⟨u, hu⟩ := H s
     use x * u.inv
     dsimp [Algebra.ofId, RingHom.toFun_eq_coe, AlgHom.coe_mks]
-    rw [RingHom.map_mul, ← eq, ← hu, mul_assoc, ← RingHom.map_mul]
+    rw [RingHom.map_mul]; rw [← eq]; rw [← hu]; rw [mul_assoc]; rw [← RingHom.map_mul]
     simp
 #align is_localization.at_units IsLocalization.atUnits
 
@@ -258,13 +258,11 @@ theorem selfZpow_add {n m : ℤ} : selfZpow x B (n + m) = selfZpow x B n * selfZ
   · rw [selfZpow_of_nonneg _ _ hn, selfZpow_of_nonneg _ _ hm,
       selfZpow_of_nonneg _ _ (add_nonneg hn hm), Int.natAbs_add_nonneg hn hm, pow_add]
   · have : n + m = n.natAbs - m.natAbs := by
-      rw [Int.natAbs_of_nonneg hn, Int.ofNat_natAbs_of_nonpos hm.le, sub_neg_eq_add]
-    rw [selfZpow_of_nonneg _ _ hn, selfZpow_of_neg _ _ hm, this, selfZpow_sub_cast_nat,
-      IsLocalization.mk'_eq_mul_mk'_one, map_pow]
+      rw [Int.natAbs_of_nonneg hn]; rw [Int.ofNat_natAbs_of_nonpos hm.le]; rw [sub_neg_eq_add]
+    rw [selfZpow_of_nonneg _ _ hn]; rw [selfZpow_of_neg _ _ hm]; rw [this]; rw [selfZpow_sub_cast_nat]; rw [IsLocalization.mk'_eq_mul_mk'_one]; rw [map_pow]
   · have : n + m = m.natAbs - n.natAbs := by
-      rw [Int.natAbs_of_nonneg hm, Int.ofNat_natAbs_of_nonpos hn.le, sub_neg_eq_add, add_comm]
-    rw [selfZpow_of_nonneg _ _ hm, selfZpow_of_neg _ _ hn, this, selfZpow_sub_cast_nat,
-      IsLocalization.mk'_eq_mul_mk'_one, map_pow, mul_comm]
+      rw [Int.natAbs_of_nonneg hm]; rw [Int.ofNat_natAbs_of_nonpos hn.le]; rw [sub_neg_eq_add]; rw [add_comm]
+    rw [selfZpow_of_nonneg _ _ hm]; rw [selfZpow_of_neg _ _ hn]; rw [this]; rw [selfZpow_sub_cast_nat]; rw [IsLocalization.mk'_eq_mul_mk'_one]; rw [map_pow]; rw [mul_comm]
   · rw [selfZpow_of_neg _ _ hn, selfZpow_of_neg _ _ hm, selfZpow_of_neg _ _ (add_neg hn hm),
       Int.natAbs_add_neg hn hm, ← mk'_mul, one_mul]
     congr
@@ -286,13 +284,13 @@ theorem selfZpow_mul_neg (d : ℤ) : selfZpow x B d * selfZpow x B (-d) = 1 := b
 #align self_zpow_mul_neg selfZpow_mul_neg
 
 theorem selfZpow_neg_mul (d : ℤ) : selfZpow x B (-d) * selfZpow x B d = 1 := by
-  rw [mul_comm, selfZpow_mul_neg x B d]
+  rw [mul_comm]; rw [selfZpow_mul_neg x B d]
 #align self_zpow_neg_mul selfZpow_neg_mul
 
 theorem selfZpow_pow_sub (a : R) (b : B) (m d : ℤ) :
     selfZpow x B (m - d) * mk' B a (1 : Submonoid.powers x) = b ↔
       selfZpow x B m * mk' B a (1 : Submonoid.powers x) = selfZpow x B d * b := by
-  rw [sub_eq_add_neg, selfZpow_add, mul_assoc, mul_comm _ (mk' B a 1), ← mul_assoc]
+  rw [sub_eq_add_neg]; rw [selfZpow_add]; rw [mul_assoc]; rw [mul_comm _ (mk' B a 1)]; rw [← mul_assoc]
   constructor
   · intro h
     have := congr_arg (fun s : B => s * selfZpow x B d) h
@@ -327,8 +325,7 @@ theorem exists_reduced_fraction' {b : B} (hb : b ≠ 0) (hx : Irreducible x) :
   classical
   obtain ⟨m, a, hyp1, hyp2⟩ := max_power_factor ha₀ hx
   refine' ⟨a, m - d, _⟩
-  rw [← mk'_one (M := Submonoid.powers x) B, selfZpow_pow_sub, selfZpow_coe_nat, selfZpow_coe_nat,
-    ← map_pow _ _ d, mul_comm _ b, H, hyp2, map_mul, map_pow _ _ m]
+  rw [← mk'_one (M := Submonoid.powers x) B]; rw [selfZpow_pow_sub]; rw [selfZpow_coe_nat]; rw [selfZpow_coe_nat]; rw [← map_pow _ _ d]; rw [mul_comm _ b]; rw [H]; rw [hyp2]; rw [map_mul]; rw [map_pow _ _ m]
   exact ⟨hyp1, congr_arg _ (IsLocalization.mk'_one _ _)⟩
 #align exists_reduced_fraction' exists_reduced_fraction'
 

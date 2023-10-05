@@ -69,7 +69,7 @@ variable [DecidableEq n] [DecidableEq m]
 theorem Matrix.toLinearMap₂'Aux_stdBasis (f : Matrix n m R) (i : n) (j : m) :
     f.toLinearMap₂'Aux σ₁ σ₂ (LinearMap.stdBasis R₁ (fun _ => R₁) i 1)
       (LinearMap.stdBasis R₂ (fun _ => R₂) j 1) = f i j := by
-  rw [Matrix.toLinearMap₂'Aux, mk₂'ₛₗ_apply]
+  rw [Matrix.toLinearMap₂'Aux]; rw [mk₂'ₛₗ_apply]
   have : (∑ i', ∑ j', (if i = i' then 1 else 0) * f i' j' * if j = j' then 1 else 0) = f i j := by
     simp_rw [mul_assoc, ← Finset.mul_sum]
     simp only [boole_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true, mul_comm (f _ _)]
@@ -304,13 +304,13 @@ theorem LinearMap.toMatrix₂'_compl₁₂ (B : (n → R) →ₗ[R] (m → R) �
 
 theorem LinearMap.toMatrix₂'_comp (B : (n → R) →ₗ[R] (m → R) →ₗ[R] R) (f : (n' → R) →ₗ[R] n → R) :
     toMatrix₂' (B.comp f) = (toMatrix' f)ᵀ * toMatrix₂' B := by
-  rw [← LinearMap.compl₂_id (B.comp f), ← LinearMap.compl₁₂]
+  rw [← LinearMap.compl₂_id (B.comp f)]; rw [← LinearMap.compl₁₂]
   simp
 #align linear_map.to_matrix₂'_comp LinearMap.toMatrix₂'_comp
 
 theorem LinearMap.toMatrix₂'_compl₂ (B : (n → R) →ₗ[R] (m → R) →ₗ[R] R) (f : (m' → R) →ₗ[R] m → R) :
     toMatrix₂' (B.compl₂ f) = toMatrix₂' B * toMatrix' f := by
-  rw [← LinearMap.comp_id B, ← LinearMap.compl₁₂]
+  rw [← LinearMap.comp_id B]; rw [← LinearMap.compl₁₂]
   simp
 #align linear_map.to_matrix₂'_compl₂ LinearMap.toMatrix₂'_compl₂
 
@@ -411,7 +411,7 @@ theorem Matrix.toLinearMap₂_basisFun :
 theorem LinearMap.toMatrix₂_basisFun :
     LinearMap.toMatrix₂ (Pi.basisFun R n) (Pi.basisFun R m) = LinearMap.toMatrix₂' := by
   ext B
-  rw [LinearMap.toMatrix₂_apply, LinearMap.toMatrix₂'_apply, Pi.basisFun_apply, Pi.basisFun_apply]
+  rw [LinearMap.toMatrix₂_apply]; rw [LinearMap.toMatrix₂'_apply]; rw [Pi.basisFun_apply]; rw [Pi.basisFun_apply]
 #align linear_map.to_matrix₂_basis_fun LinearMap.toMatrix₂_basisFun
 
 @[simp]
@@ -464,13 +464,13 @@ theorem LinearMap.toMatrix₂_compl₁₂ (B : M₁ →ₗ[R] M₂ →ₗ[R] R) 
 
 theorem LinearMap.toMatrix₂_comp (B : M₁ →ₗ[R] M₂ →ₗ[R] R) (f : M₁' →ₗ[R] M₁) :
     LinearMap.toMatrix₂ b₁' b₂ (B.comp f) = (toMatrix b₁' b₁ f)ᵀ * LinearMap.toMatrix₂ b₁ b₂ B := by
-  rw [← LinearMap.compl₂_id (B.comp f), ← LinearMap.compl₁₂, LinearMap.toMatrix₂_compl₁₂ b₁ b₂]
+  rw [← LinearMap.compl₂_id (B.comp f)]; rw [← LinearMap.compl₁₂]; rw [LinearMap.toMatrix₂_compl₁₂ b₁ b₂]
   simp
 #align linear_map.to_matrix₂_comp LinearMap.toMatrix₂_comp
 
 theorem LinearMap.toMatrix₂_compl₂ (B : M₁ →ₗ[R] M₂ →ₗ[R] R) (f : M₂' →ₗ[R] M₂) :
     LinearMap.toMatrix₂ b₁ b₂' (B.compl₂ f) = LinearMap.toMatrix₂ b₁ b₂ B * toMatrix b₂' b₂ f := by
-  rw [← LinearMap.comp_id B, ← LinearMap.compl₁₂, LinearMap.toMatrix₂_compl₁₂ b₁ b₂]
+  rw [← LinearMap.comp_id B]; rw [← LinearMap.compl₁₂]; rw [LinearMap.toMatrix₂_compl₁₂ b₁ b₂]
   simp
 #align linear_map.to_matrix₂_compl₂ LinearMap.toMatrix₂_compl₂
 
@@ -480,7 +480,7 @@ theorem LinearMap.toMatrix₂_mul_basis_toMatrix (c₁ : Basis n' R M₁) (c₂ 
     (b₁.toMatrix c₁)ᵀ * LinearMap.toMatrix₂ b₁ b₂ B * b₂.toMatrix c₂ =
       LinearMap.toMatrix₂ c₁ c₂ B := by
   simp_rw [← LinearMap.toMatrix_id_eq_basis_toMatrix]
-  rw [← LinearMap.toMatrix₂_compl₁₂, LinearMap.compl₁₂_id_id]
+  rw [← LinearMap.toMatrix₂_compl₁₂]; rw [LinearMap.compl₁₂_id_id]
 #align linear_map.to_matrix₂_mul_basis_to_matrix LinearMap.toMatrix₂_mul_basis_toMatrix
 
 theorem LinearMap.mul_toMatrix₂_mul (B : M₁ →ₗ[R] M₂ →ₗ[R] R) (M : Matrix n' n R)
@@ -492,12 +492,12 @@ theorem LinearMap.mul_toMatrix₂_mul (B : M₁ →ₗ[R] M₂ →ₗ[R] R) (M :
 
 theorem LinearMap.mul_toMatrix₂ (B : M₁ →ₗ[R] M₂ →ₗ[R] R) (M : Matrix n' n R) :
     M * LinearMap.toMatrix₂ b₁ b₂ B = LinearMap.toMatrix₂ b₁' b₂ (B.comp (toLin b₁' b₁ Mᵀ)) := by
-  rw [LinearMap.toMatrix₂_comp b₁, toMatrix_toLin, transpose_transpose]
+  rw [LinearMap.toMatrix₂_comp b₁]; rw [toMatrix_toLin]; rw [transpose_transpose]
 #align linear_map.mul_to_matrix₂ LinearMap.mul_toMatrix₂
 
 theorem LinearMap.toMatrix₂_mul (B : M₁ →ₗ[R] M₂ →ₗ[R] R) (M : Matrix m m' R) :
     LinearMap.toMatrix₂ b₁ b₂ B * M = LinearMap.toMatrix₂ b₁ b₂' (B.compl₂ (toLin b₂' b₂ M)) := by
-  rw [LinearMap.toMatrix₂_compl₂ b₁ b₂, toMatrix_toLin]
+  rw [LinearMap.toMatrix₂_compl₂ b₁ b₂]; rw [toMatrix_toLin]
 #align linear_map.to_matrix₂_mul LinearMap.toMatrix₂_mul
 
 theorem Matrix.toLinearMap₂_compl₁₂ (M : Matrix n m R) (P : Matrix n n' R) (Q : Matrix m m' R) :
@@ -706,8 +706,7 @@ theorem _root_.Matrix.Nondegenerate.toLinearMap₂ {M : Matrix ι ι R₁} (h : 
 @[simp]
 theorem _root_.Matrix.separatingLeft_toLinearMap₂_iff {M : Matrix ι ι R₁} (b : Basis ι R₁ M₁) :
     (toLinearMap₂ b b M).SeparatingLeft ↔ M.Nondegenerate := by
-  rw [← Matrix.separatingLeft_toLinearMap₂'_iff_separatingLeft_toLinearMap₂,
-    Matrix.separatingLeft_toLinearMap₂'_iff]
+  rw [← Matrix.separatingLeft_toLinearMap₂'_iff_separatingLeft_toLinearMap₂]; rw [Matrix.separatingLeft_toLinearMap₂'_iff]
 #align matrix.separating_left_to_linear_map₂_iff Matrix.separatingLeft_toLinearMap₂_iff
 
 -- Lemmas transferring nondegeneracy between a bilinear form and its associated matrix
@@ -740,7 +739,7 @@ variable [IsDomain R₁]
 
 theorem separatingLeft_toLinearMap₂'_iff_det_ne_zero {M : Matrix ι ι R₁} :
     M.toLinearMap₂'.SeparatingLeft ↔ M.det ≠ 0 := by
-  rw [Matrix.separatingLeft_toLinearMap₂'_iff, Matrix.nondegenerate_iff_det_ne_zero]
+  rw [Matrix.separatingLeft_toLinearMap₂'_iff]; rw [Matrix.nondegenerate_iff_det_ne_zero]
 #align linear_map.separating_left_to_linear_map₂'_iff_det_ne_zero LinearMap.separatingLeft_toLinearMap₂'_iff_det_ne_zero
 
 theorem separatingLeft_toLinearMap₂'_of_det_ne_zero' (M : Matrix ι ι R₁) (h : M.det ≠ 0) :
@@ -750,7 +749,7 @@ theorem separatingLeft_toLinearMap₂'_of_det_ne_zero' (M : Matrix ι ι R₁) (
 
 theorem separatingLeft_iff_det_ne_zero {B : M₁ →ₗ[R₁] M₁ →ₗ[R₁] R₁} (b : Basis ι R₁ M₁) :
     B.SeparatingLeft ↔ (toMatrix₂ b b B).det ≠ 0 := by
-  rw [← Matrix.nondegenerate_iff_det_ne_zero, nondegenerate_toMatrix_iff]
+  rw [← Matrix.nondegenerate_iff_det_ne_zero]; rw [nondegenerate_toMatrix_iff]
 #align linear_map.separating_left_iff_det_ne_zero LinearMap.separatingLeft_iff_det_ne_zero
 
 theorem separatingLeft_of_det_ne_zero {B : M₁ →ₗ[R₁] M₁ →ₗ[R₁] R₁} (b : Basis ι R₁ M₁)

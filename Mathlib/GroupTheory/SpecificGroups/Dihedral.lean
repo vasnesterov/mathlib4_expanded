@@ -123,7 +123,7 @@ instance : Nontrivial (DihedralGroup n) :=
 /-- If `0 < n`, then `DihedralGroup n` has `2n` elements.
 -/
 theorem card [NeZero n] : Fintype.card (DihedralGroup n) = 2 * n := by
-  rw [← Fintype.card_eq.mpr ⟨fintypeHelper⟩, Fintype.card_sum, ZMod.card, two_mul]
+  rw [← Fintype.card_eq.mpr ⟨fintypeHelper⟩]; rw [Fintype.card_sum]; rw [ZMod.card]; rw [two_mul]
 #align dihedral_group.card DihedralGroup.card
 
 theorem nat_card : Nat.card (DihedralGroup n) = 2 * n := by
@@ -144,7 +144,7 @@ theorem r_one_pow (k : ℕ) : (r 1 : DihedralGroup n) ^ k = r k := by
 
 -- @[simp] -- Porting note: simp changes the goal to `r 0 = 1`. `r_one_pow_n` is no longer useful.
 theorem r_one_pow_n : r (1 : ZMod n) ^ n = 1 := by
-  rw [r_one_pow, one_def]
+  rw [r_one_pow]; rw [one_def]
   congr 1
   exact ZMod.nat_cast_self _
 #align dihedral_group.r_one_pow_n DihedralGroup.r_one_pow_n
@@ -171,7 +171,7 @@ theorem orderOf_r_one : orderOf (r 1 : DihedralGroup n) = n := by
   rcases eq_zero_or_neZero n with (rfl | hn)
   · rw [orderOf_eq_zero_iff']
     intro n hn
-    rw [r_one_pow, one_def]
+    rw [r_one_pow]; rw [one_def]
     apply mt r.inj
     simpa using hn.ne'
   · apply (Nat.le_of_dvd (NeZero.pos n) <|
@@ -180,7 +180,7 @@ theorem orderOf_r_one : orderOf (r 1 : DihedralGroup n) = n := by
     have h1 : (r 1 : DihedralGroup n) ^ orderOf (r 1) = 1 := pow_orderOf_eq_one _
     rw [r_one_pow] at h1
     injection h1 with h2
-    rw [← ZMod.val_eq_zero, ZMod.val_nat_cast, Nat.mod_eq_of_lt h] at h2
+    rw [← ZMod.val_eq_zero] at h2; rw [ZMod.val_nat_cast] at h2; rw [Nat.mod_eq_of_lt h] at h2
     exact absurd h2.symm (orderOf_pos _).ne
 #align dihedral_group.order_of_r_one DihedralGroup.orderOf_r_one
 
@@ -188,7 +188,7 @@ theorem orderOf_r_one : orderOf (r 1 : DihedralGroup n) = n := by
 -/
 theorem orderOf_r [NeZero n] (i : ZMod n) : orderOf (r i) = n / Nat.gcd n i.val := by
   conv_lhs => rw [← ZMod.nat_cast_zmod_val i]
-  rw [← r_one_pow, orderOf_pow, orderOf_r_one]
+  rw [← r_one_pow]; rw [orderOf_pow]; rw [orderOf_r_one]
 #align dihedral_group.order_of_r DihedralGroup.orderOf_r
 
 theorem exponent : Monoid.exponent (DihedralGroup n) = lcm n 2 := by
@@ -234,8 +234,8 @@ def OddCommuteEquiv (hn : Odd n) : { p : DihedralGroup n × DihedralGroup n // C
         simpa [sub_eq_add_neg, eq_neg_iff_add_eq_zero, hu, eq_comm (a := j) (b := 0)] using h.eq
       | ⟨⟨sr i, sr j⟩, h⟩ => by
         replace h := r.inj h
-        rw [←neg_sub, neg_eq_iff_add_eq_zero, hu, sub_eq_zero] at h
-        rw [Subtype.ext_iff, Prod.ext_iff, sr.injEq, sr.injEq, h, and_self, ←two_mul]
+        rw [←neg_sub] at h; rw [neg_eq_iff_add_eq_zero] at h; rw [hu] at h; rw [sub_eq_zero] at h
+        rw [Subtype.ext_iff]; rw [Prod.ext_iff]; rw [sr.injEq]; rw [sr.injEq]; rw [h]; rw [and_self]; rw [←two_mul]
         exact u.inv_mul_cancel_left j
     right_inv := fun
       | .inl i => rfl
@@ -253,8 +253,7 @@ lemma card_commute_odd (hn : Odd n) :
 
 lemma card_conjClasses_odd (hn : Odd n) :
     Nat.card (ConjClasses (DihedralGroup n)) = (n + 3) / 2 := by
-  rw [←Nat.mul_div_mul_left _ 2 hn.pos, ← card_commute_odd hn, mul_comm,
-    card_comm_eq_card_conjClasses_mul_card, nat_card, Nat.mul_div_left _ (mul_pos two_pos hn.pos)]
+  rw [←Nat.mul_div_mul_left _ 2 hn.pos]; rw [← card_commute_odd hn]; rw [mul_comm]; rw [card_comm_eq_card_conjClasses_mul_card]; rw [nat_card]; rw [Nat.mul_div_left _ (mul_pos two_pos hn.pos)]
 
 
 end DihedralGroup

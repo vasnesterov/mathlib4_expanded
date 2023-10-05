@@ -29,7 +29,7 @@ theorem bind_singleton (f : α → List β) (x : α) : [x].bind f = f x :=
 
 theorem map_eq_bind {α β} (f : α → β) (l : List α) : map f l = l.bind fun x => [f x] := by
   simp only [← map_singleton]
-  rw [← bind_singleton' l, bind_map, bind_singleton']
+  rw [← bind_singleton' l]; rw [bind_map]; rw [bind_singleton']
 #align list.map_eq_bind List.map_eq_bind
 
 theorem bind_assoc {α β} (l : List α) (f : α → List β) (g : β → List γ) :

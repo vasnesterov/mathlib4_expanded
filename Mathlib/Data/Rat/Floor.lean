@@ -44,7 +44,7 @@ protected theorem le_floor {z : ℤ} : ∀ {r : ℚ}, z ≤ Rat.floor r ↔ (z :
     have h' := Int.ofNat_lt.2 (Nat.pos_of_ne_zero h)
     conv =>
       rhs
-      rw [coe_int_eq_divInt, Rat.le_def zero_lt_one h', mul_one]
+      rw [coe_int_eq_divInt]; rw [Rat.le_def zero_lt_one h']; rw [mul_one]
     exact Int.le_ediv_iff_mul_le h'
 #align rat.le_floor Rat.le_floor
 
@@ -62,7 +62,7 @@ theorem floor_int_div_nat_eq_div {n : ℤ} {d : ℕ} : ⌊(↑n : ℚ) / (↑d :
   obtain ⟨c, n_eq_c_mul_num, d_eq_c_mul_denom⟩ : ∃ c, n = c * q.num ∧ (d : ℤ) = c * q.den := by
     rw [q_eq]
     exact_mod_cast @Rat.exists_eq_mul_div_num_and_eq_mul_div_den n d (by exact_mod_cast hd.ne')
-  rw [n_eq_c_mul_num, d_eq_c_mul_denom]
+  rw [n_eq_c_mul_num]; rw [d_eq_c_mul_denom]
   refine' (Int.mul_ediv_mul_of_pos _ _ <| pos_of_mul_pos_left _ <| Int.coe_nat_nonneg q.den).symm
   rwa [← d_eq_c_mul_denom, Int.coe_nat_pos]
 #align rat.floor_int_div_nat_eq_div Rat.floor_int_div_nat_eq_div
@@ -74,7 +74,7 @@ theorem floor_cast (x : ℚ) : ⌊(x : α)⌋ = ⌊x⌋ :=
 
 @[simp, norm_cast]
 theorem ceil_cast (x : ℚ) : ⌈(x : α)⌉ = ⌈x⌉ := by
-  rw [← neg_inj, ← floor_neg, ← floor_neg, ← Rat.cast_neg, Rat.floor_cast]
+  rw [← neg_inj]; rw [← floor_neg]; rw [← floor_neg]; rw [← Rat.cast_neg]; rw [Rat.floor_cast]
 #align rat.ceil_cast Rat.ceil_cast
 
 @[simp, norm_cast]
@@ -82,7 +82,7 @@ theorem round_cast (x : ℚ) : round (x : α) = round x := by
   -- Porting note: `simp` worked rather than `simp [H]` in mathlib3
   have H : ((2 : ℚ) : α) = (2 : α) := Rat.cast_coe_nat 2
   have : ((x + 1 / 2 : ℚ) : α) = x + 1 / 2 := by simp [H]
-  rw [round_eq, round_eq, ← this, floor_cast]
+  rw [round_eq]; rw [round_eq]; rw [← this]; rw [floor_cast]
 #align rat.round_cast Rat.round_cast
 
 @[simp, norm_cast]
@@ -93,7 +93,7 @@ theorem cast_fract (x : ℚ) : (↑(fract x) : α) = fract (x : α) := by
 end Rat
 
 theorem Int.mod_nat_eq_sub_mul_floor_rat_div {n : ℤ} {d : ℕ} : n % d = n - d * ⌊(n : ℚ) / d⌋ := by
-  rw [eq_sub_of_add_eq <| Int.emod_add_ediv n d, Rat.floor_int_div_nat_eq_div]
+  rw [eq_sub_of_add_eq <| Int.emod_add_ediv n d]; rw [Rat.floor_int_div_nat_eq_div]
 #align int.mod_nat_eq_sub_mul_floor_rat_div Int.mod_nat_eq_sub_mul_floor_rat_div
 
 theorem Nat.coprime_sub_mul_floor_rat_div_of_coprime {n d : ℕ} (n_coprime_d : n.Coprime d) :

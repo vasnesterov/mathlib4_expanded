@@ -93,14 +93,14 @@ theorem naturality_app {F G : C ⥤ D ⥤ E} (T : F ⟶ G) (Z : D) {X Y : C} (f 
 theorem mono_of_mono_app (α : F ⟶ G) [∀ X : C, Mono (α.app X)] : Mono α :=
   ⟨fun g h eq => by
     ext X
-    rw [← cancel_mono (α.app X), ← comp_app, eq, comp_app]⟩
+    rw [← cancel_mono (α.app X)]; rw [← comp_app]; rw [eq]; rw [comp_app]⟩
 #align category_theory.nat_trans.mono_of_mono_app CategoryTheory.NatTrans.mono_of_mono_app
 
 /-- A natural transformation is an epimorphism if each component is. -/
 theorem epi_of_epi_app (α : F ⟶ G) [∀ X : C, Epi (α.app X)] : Epi α :=
   ⟨fun g h eq => by
     ext X
-    rw [← cancel_epi (α.app X), ← comp_app, eq, comp_app]⟩
+    rw [← cancel_epi (α.app X)]; rw [← comp_app]; rw [eq]; rw [comp_app]⟩
 #align category_theory.nat_trans.epi_of_epi_app CategoryTheory.NatTrans.epi_of_epi_app
 
 /-- `hcomp α β` is the horizontal composition of natural transformations. -/
@@ -108,8 +108,7 @@ theorem epi_of_epi_app (α : F ⟶ G) [∀ X : C, Epi (α.app X)] : Epi α :=
 def hcomp {H I : D ⥤ E} (α : F ⟶ G) (β : H ⟶ I) : F ⋙ H ⟶ G ⋙ I where
   app := fun X : C => β.app (F.obj X) ≫ I.map (α.app X)
   naturality X Y f := by
-    rw [Functor.comp_map, Functor.comp_map, ← assoc, naturality, assoc, ← map_comp I, naturality,
-      map_comp, assoc]
+    rw [Functor.comp_map]; rw [Functor.comp_map]; rw [← assoc]; rw [naturality]; rw [assoc]; rw [← map_comp I]; rw [naturality]; rw [map_comp]; rw [assoc]
 #align category_theory.nat_trans.hcomp CategoryTheory.NatTrans.hcomp
 #align category_theory.nat_trans.hcomp_app CategoryTheory.NatTrans.hcomp_app
 

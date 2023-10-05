@@ -74,7 +74,7 @@ protected theorem ContinuousLinearEquiv.hasSum {f : ι → M} (e : M ≃SL[σ] M
 /-- Applying a continuous linear map commutes with taking an (infinite) sum. -/
 protected theorem ContinuousLinearEquiv.hasSum' {f : ι → M} (e : M ≃SL[σ] M₂) {x : M} :
     HasSum (fun b : ι => e (f b)) (e x) ↔ HasSum f x := by
-  rw [e.hasSum, ContinuousLinearEquiv.symm_apply_apply]
+  rw [e.hasSum]; rw [ContinuousLinearEquiv.symm_apply_apply]
 #align continuous_linear_equiv.has_sum' ContinuousLinearEquiv.hasSum'
 
 protected theorem ContinuousLinearEquiv.summable {f : ι → M} (e : M ≃SL[σ] M₂) :
@@ -89,7 +89,7 @@ theorem ContinuousLinearEquiv.tsum_eq_iff [T2Space M] [T2Space M₂] {f : ι →
       ⟨fun h => (e.hasSum.mp ((e.summable.mpr hf).hasSum_iff.mpr h)).tsum_eq, fun h =>
         (e.hasSum.mpr (hf.hasSum_iff.mpr h)).tsum_eq⟩
   · have hf' : ¬Summable fun z => e (f z) := fun h => hf (e.summable.mp h)
-    rw [tsum_eq_zero_of_not_summable hf, tsum_eq_zero_of_not_summable hf']
+    rw [tsum_eq_zero_of_not_summable hf]; rw [tsum_eq_zero_of_not_summable hf']
     refine ⟨?_, fun H => ?_⟩
     · rintro rfl
       simp

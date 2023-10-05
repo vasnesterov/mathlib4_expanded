@@ -85,7 +85,7 @@ theorem diagramNatTrans_zero [Preadditive D] (X : C) (P Q : Cᵒᵖ ⥤ D) :
   ext : 2
   refine' Multiequalizer.hom_ext _ _ _ (fun i => _)
   dsimp
-  rw [zero_comp, Multiequalizer.lift_ι, comp_zero]
+  rw [zero_comp]; rw [Multiequalizer.lift_ι]; rw [comp_zero]
 #align category_theory.grothendieck_topology.diagram_nat_trans_zero CategoryTheory.GrothendieckTopology.diagramNatTrans_zero
 
 @[simp]
@@ -168,7 +168,7 @@ def plusMap {P Q : Cᵒᵖ ⥤ D} (η : P ⟶ Q) : J.plusObj P ⟶ J.plusObj Q w
 theorem plusMap_id (P : Cᵒᵖ ⥤ D) : J.plusMap (𝟙 P) = 𝟙 _ := by
   ext : 2
   dsimp only [plusMap, plusObj]
-  rw [J.diagramNatTrans_id, NatTrans.id_app]
+  rw [J.diagramNatTrans_id]; rw [NatTrans.id_app]
   ext
   dsimp
   simp
@@ -211,7 +211,7 @@ def toPlus : P ⟶ J.plusObj P where
     simp only [diagramPullback_app, colimit.ι_pre, ι_colimMap_assoc, Category.assoc]
     dsimp only [Functor.op, unop_op]
     let e : (J.pullback f.unop).obj ⊤ ⟶ ⊤ := homOfLE (OrderTop.le_top _)
-    rw [← colimit.w _ e.op, ← Category.assoc, ← Category.assoc, ← Category.assoc]
+    rw [← colimit.w _ e.op]; rw [← Category.assoc]; rw [← Category.assoc]; rw [← Category.assoc]
     congr 1
     refine' Multiequalizer.hom_ext _ _ _ (fun I => _)
     simp only [Multiequalizer.lift_ι, Category.assoc]
@@ -248,7 +248,7 @@ theorem plusMap_toPlus : J.plusMap (J.toPlus P) = J.toPlus (J.plusObj P) := by
   refine' colimit.hom_ext (fun S => _)
   dsimp only [plusMap, toPlus]
   let e : S.unop ⟶ ⊤ := homOfLE (OrderTop.le_top _)
-  rw [ι_colimMap, ← colimit.w _ e.op, ← Category.assoc, ← Category.assoc]
+  rw [ι_colimMap]; rw [← colimit.w _ e.op]; rw [← Category.assoc]; rw [← Category.assoc]
   congr 1
   refine' Multiequalizer.hom_ext _ _ _ (fun I => _)
   erw [Multiequalizer.lift_ι]
@@ -321,7 +321,7 @@ theorem toPlus_plusLift {P Q : Cᵒᵖ ⥤ D} (η : P ⟶ Q) (hQ : Presheaf.IsSh
 theorem plusLift_unique {P Q : Cᵒᵖ ⥤ D} (η : P ⟶ Q) (hQ : Presheaf.IsSheaf J Q)
     (γ : J.plusObj P ⟶ Q) (hγ : J.toPlus P ≫ γ = η) : γ = J.plusLift η hQ := by
   dsimp only [plusLift]
-  rw [Iso.eq_comp_inv, ← hγ, plusMap_comp]
+  rw [Iso.eq_comp_inv]; rw [← hγ]; rw [plusMap_comp]
   simp
 #align category_theory.grothendieck_topology.plus_lift_unique CategoryTheory.GrothendieckTopology.plusLift_unique
 
@@ -339,7 +339,7 @@ theorem plus_hom_ext {P Q : Cᵒᵖ ⥤ D} (η γ : J.plusObj P ⟶ Q) (hQ : Pre
 theorem isoToPlus_inv (hP : Presheaf.IsSheaf J P) :
     (J.isoToPlus P hP).inv = J.plusLift (𝟙 _) hP := by
   apply J.plusLift_unique
-  rw [Iso.comp_inv_eq, Category.id_comp]
+  rw [Iso.comp_inv_eq]; rw [Category.id_comp]
   rfl
 #align category_theory.grothendieck_topology.iso_to_plus_inv CategoryTheory.GrothendieckTopology.isoToPlus_inv
 
@@ -347,7 +347,7 @@ theorem isoToPlus_inv (hP : Presheaf.IsSheaf J P) :
 theorem plusMap_plusLift {P Q R : Cᵒᵖ ⥤ D} (η : P ⟶ Q) (γ : Q ⟶ R) (hR : Presheaf.IsSheaf J R) :
     J.plusMap η ≫ J.plusLift γ hR = J.plusLift (η ≫ γ) hR := by
   apply J.plusLift_unique
-  rw [← Category.assoc, ← J.toPlus_naturality, Category.assoc, J.toPlus_plusLift]
+  rw [← Category.assoc]; rw [← J.toPlus_naturality]; rw [Category.assoc]; rw [J.toPlus_plusLift]
 #align category_theory.grothendieck_topology.plus_map_plus_lift CategoryTheory.GrothendieckTopology.plusMap_plusLift
 
 instance plusFunctor_preservesZeroMorphisms [Preadditive D] :
@@ -355,7 +355,7 @@ instance plusFunctor_preservesZeroMorphisms [Preadditive D] :
   map_zero F G := by
     ext
     dsimp
-    rw [J.plusMap_zero, NatTrans.app_zero]
+    rw [J.plusMap_zero]; rw [NatTrans.app_zero]
 #align category_theory.grothendieck_topology.plus_functor_preserves_zero_morphisms CategoryTheory.GrothendieckTopology.plusFunctor_preservesZeroMorphisms
 
 end

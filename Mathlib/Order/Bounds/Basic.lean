@@ -414,7 +414,7 @@ theorem BddAbove.union [IsDirected α (· ≤ ·)] {s t : Set α} :
     BddAbove s → BddAbove t → BddAbove (s ∪ t) := by
   rintro ⟨a, ha⟩ ⟨b, hb⟩
   obtain ⟨c, hca, hcb⟩ := exists_ge_ge a b
-  rw [BddAbove, upperBounds_union]
+  rw [BddAbove]; rw [upperBounds_union]
   exact ⟨c, upperBounds_mono_mem hca ha, upperBounds_mono_mem hcb hb⟩
 #align bdd_above.union BddAbove.union
 
@@ -482,7 +482,7 @@ theorem IsGLB.inter_Iic_of_mem [LinearOrder γ] {s : Set γ} {a b : γ} (ha : Is
 
 theorem bddAbove_iff_exists_ge [SemilatticeSup γ] {s : Set γ} (x₀ : γ) :
     BddAbove s ↔ ∃ x, x₀ ≤ x ∧ ∀ y ∈ s, y ≤ x := by
-  rw [bddAbove_def, exists_ge_and_iff_exists]
+  rw [bddAbove_def]; rw [exists_ge_and_iff_exists]
   exact Monotone.ball fun x _ => monotone_le
 #align bdd_above_iff_exists_ge bddAbove_iff_exists_ge
 
@@ -970,13 +970,13 @@ protected theorem IsLeast.insert [LinearOrder γ] (a) {b} {s : Set γ} (hs : IsL
 @[simp]
 theorem upperBounds_insert (a : α) (s : Set α) :
     upperBounds (insert a s) = Ici a ∩ upperBounds s := by
-  rw [insert_eq, upperBounds_union, upperBounds_singleton]
+  rw [insert_eq]; rw [upperBounds_union]; rw [upperBounds_singleton]
 #align upper_bounds_insert upperBounds_insert
 
 @[simp]
 theorem lowerBounds_insert (a : α) (s : Set α) :
     lowerBounds (insert a s) = Iic a ∩ lowerBounds s := by
-  rw [insert_eq, lowerBounds_union, lowerBounds_singleton]
+  rw [insert_eq]; rw [lowerBounds_union]; rw [lowerBounds_singleton]
 #align lower_bounds_insert lowerBounds_insert
 
 /-- When there is a global maximum, every set is bounded above. -/
@@ -1660,8 +1660,7 @@ protected theorem ScottContinuous.monotone (h : ScottContinuous f) : Monotone f 
   refine' fun a b hab =>
     (h (insert_nonempty _ _) (directedOn_pair le_refl hab) _).1
       (mem_image_of_mem _ <| mem_insert _ _)
-  rw [IsLUB, upperBounds_insert, upperBounds_singleton,
-    inter_eq_self_of_subset_right (Ici_subset_Ici.2 hab)]
+  rw [IsLUB]; rw [upperBounds_insert]; rw [upperBounds_singleton]; rw [inter_eq_self_of_subset_right (Ici_subset_Ici.2 hab)]
   exact isLeast_Ici
 #align scott_continuous.monotone ScottContinuous.monotone
 

@@ -213,7 +213,7 @@ theorem LipschitzOnWith.extend_finite_dimension {α : Type*} [PseudoMetricSpace 
   · have LAsymm : LipschitzWith ‖A.symm.toContinuousLinearMap‖₊ A.symm := by
       apply A.symm.lipschitz
     apply (LAsymm.comp hg).weaken
-    rw [lipschitzExtensionConstant, ← mul_assoc]
+    rw [lipschitzExtensionConstant]; rw [← mul_assoc]
     refine' mul_le_mul' (le_max_left _ _) le_rfl
   · intro x hx
     have : A (f x) = g x := gs hx
@@ -249,7 +249,7 @@ protected theorem LinearIndependent.eventually {ι} [Finite ι] {f : ι → E}
     LinearMap.comp_apply, LinearMap.proj_apply, LinearMap.smulRight_apply, LinearMap.id_apply, ←
     Finset.sum_sub_distrib, ← smul_sub, ← sub_smul, NNReal.coe_sum, coe_nnnorm, Finset.sum_mul]
   refine' norm_sum_le_of_le _ fun i _ => _
-  rw [norm_smul, mul_comm]
+  rw [norm_smul]; rw [mul_comm]
   gcongr
   exact norm_le_pi_norm (v - u) i
 #align linear_independent.eventually LinearIndependent.eventually
@@ -345,8 +345,7 @@ instance [FiniteDimensional 𝕜 E] [SecondCountableTopology F] :
     replace hn : ∀ i : Fin d, ‖(φ - (v.constrL <| u ∘ n)) (v i)‖ ≤ ε / (2 * C)
     · simp [hn]
     have : C * (ε / (2 * C)) = ε / 2 := by
-      rw [eq_div_iff (two_ne_zero : (2 : ℝ) ≠ 0), mul_comm, ← mul_assoc,
-        mul_div_cancel' _ (ne_of_gt h_2C)]
+      rw [eq_div_iff (two_ne_zero : (2 : ℝ) ≠ 0)]; rw [mul_comm]; rw [← mul_assoc]; rw [mul_div_cancel' _ (ne_of_gt h_2C)]
     specialize hC (le_of_lt hε2C) hn
     rwa [this] at hC
   choose n hn using this
@@ -555,7 +554,7 @@ def ContinuousLinearEquiv.piRing (ι : Type*) [Fintype ι] [DecidableEq ι] :
       apply le_trans (norm_sum_le _ _)
       rw [smul_mul_assoc]
       refine' Finset.sum_le_card_nsmul _ _ _ fun i _ => _
-      rw [norm_smul, mul_comm]
+      rw [norm_smul]; rw [mul_comm]
       gcongr <;> apply norm_le_pi_norm }
 #align continuous_linear_equiv.pi_ring ContinuousLinearEquiv.piRing
 
@@ -568,7 +567,7 @@ theorem continuousOn_clm_apply {X : Type*} [TopologicalSpace X] [FiniteDimension
   let e₁ : E ≃L[𝕜] Fin d → 𝕜 := ContinuousLinearEquiv.ofFinrankEq hd
   let e₂ : (E →L[𝕜] F) ≃L[𝕜] Fin d → F :=
     (e₁.arrowCongr (1 : F ≃L[𝕜] F)).trans (ContinuousLinearEquiv.piRing (Fin d))
-  rw [← Function.comp.left_id f, ← e₂.symm_comp_self]
+  rw [← Function.comp.left_id f]; rw [← e₂.symm_comp_self]
   exact e₂.symm.continuous.comp_continuousOn (continuousOn_pi.mpr fun i => h _)
 #align continuous_on_clm_apply continuousOn_clm_apply
 
@@ -645,7 +644,7 @@ nonrec theorem IsCompact.exists_mem_frontier_infDist_compl_eq_dist {E : Type*}
     exact exists_mem_frontier_infDist_compl_eq_dist hx hK.ne_univ
   · refine' ⟨x, hx', _⟩
     rw [frontier_eq_closure_inter_closure] at hx'
-    rw [Metric.infDist_zero_of_mem_closure hx'.2, dist_self]
+    rw [Metric.infDist_zero_of_mem_closure hx'.2]; rw [dist_self]
 #align is_compact.exists_mem_frontier_inf_dist_compl_eq_dist IsCompact.exists_mem_frontier_infDist_compl_eq_dist
 
 /-- In a finite dimensional vector space over `ℝ`, the series `∑ x, ‖f x‖` is unconditionally
@@ -669,7 +668,7 @@ theorem summable_norm_iff {α E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ
   have : ∀ i, Summable fun x => ‖g x i‖ := fun i => (Pi.summable.1 hg i).abs
   refine'
     summable_of_norm_bounded _ (summable_sum fun i (_ : i ∈ Finset.univ) => this i) fun x => _
-  rw [norm_norm, pi_norm_le_iff_of_nonneg]
+  rw [norm_norm]; rw [pi_norm_le_iff_of_nonneg]
   · refine' fun i => Finset.single_le_sum (f := fun i => ‖g x i‖) (fun i _ => _) (Finset.mem_univ i)
     exact norm_nonneg (g x i)
   · exact Finset.sum_nonneg fun _ _ => norm_nonneg _

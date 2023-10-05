@@ -33,9 +33,7 @@ def monoidalClosedHomEquiv (M N P : ModuleCat.{u} R) :
   left_inv f := by
     apply TensorProduct.ext'
     intro m n
-    rw [coe_comp, Function.comp_apply, MonoidalCategory.braiding_hom_apply,
-      TensorProduct.lift.tmul, LinearMap.compr₂_apply,
-      TensorProduct.mk_apply, coe_comp, Function.comp_apply, MonoidalCategory.braiding_hom_apply]
+    rw [coe_comp]; rw [Function.comp_apply]; rw [MonoidalCategory.braiding_hom_apply]; rw [TensorProduct.lift.tmul]; rw [LinearMap.compr₂_apply]; rw [TensorProduct.mk_apply]; rw [coe_comp]; rw [Function.comp_apply]; rw [MonoidalCategory.braiding_hom_apply]
   right_inv f := rfl
 set_option linter.uppercaseLean3 false in
 #align Module.monoidal_closed_hom_equiv ModuleCat.monoidalClosedHomEquiv

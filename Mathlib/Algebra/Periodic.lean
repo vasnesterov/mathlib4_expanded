@@ -173,7 +173,7 @@ protected theorem Periodic.neg [AddGroup α] (h : Periodic f c) : Periodic f (-c
 
 theorem Periodic.sub_period [AddGroup α] (h1 : Periodic f c₁) (h2 : Periodic f c₂) :
     Periodic f (c₁ - c₂) := fun x => by
-  rw [sub_eq_add_neg, ← add_assoc, h2.neg, h1]
+  rw [sub_eq_add_neg]; rw [← add_assoc]; rw [h2.neg]; rw [h1]
 #align function.periodic.sub_period Function.Periodic.sub_period
 
 theorem Periodic.const_add [AddSemigroup α] (h : Periodic f c) (a : α) :
@@ -318,8 +318,7 @@ theorem Periodic.image_uIcc [LinearOrderedAddCommGroup α] [Archimedean α] (h :
     (hc : c ≠ 0) (a : α) : f '' uIcc a (a + c) = range f := by
   cases hc.lt_or_lt with
   | inl hc =>
-    rw [uIcc_of_ge (add_le_of_nonpos_right hc.le), ← h.neg.image_Icc (neg_pos.2 hc) (a + c),
-      add_neg_cancel_right]
+    rw [uIcc_of_ge (add_le_of_nonpos_right hc.le)]; rw [← h.neg.image_Icc (neg_pos.2 hc) (a + c)]; rw [add_neg_cancel_right]
   | inr hc => rw [uIcc_of_le (le_add_of_nonneg_right hc.le), h.image_Icc hc]
 
 theorem periodic_with_period_zero [AddZeroClass α] (f : α → β) : Periodic f 0 := fun x => by
@@ -388,7 +387,7 @@ theorem Antiperiodic.nat_even_mul_periodic [Semiring α] [InvolutiveNeg β] (h :
 
 theorem Antiperiodic.nat_odd_mul_antiperiodic [Semiring α] [InvolutiveNeg β] (h : Antiperiodic f c)
     (n : ℕ) : Antiperiodic f (n * (2 * c) + c) := fun x => by
-  rw [← add_assoc, h, h.periodic.nat_mul]
+  rw [← add_assoc]; rw [h]; rw [h.periodic.nat_mul]
 #align function.antiperiodic.nat_odd_mul_antiperiodic Function.Antiperiodic.nat_odd_mul_antiperiodic
 
 theorem Antiperiodic.int_even_mul_periodic [Ring α] [InvolutiveNeg β] (h : Antiperiodic f c)
@@ -398,7 +397,7 @@ theorem Antiperiodic.int_even_mul_periodic [Ring α] [InvolutiveNeg β] (h : Ant
 
 theorem Antiperiodic.int_odd_mul_antiperiodic [Ring α] [InvolutiveNeg β] (h : Antiperiodic f c)
     (n : ℤ) : Antiperiodic f (n * (2 * c) + c) := fun x => by
-  rw [← add_assoc, h, h.periodic.int_mul]
+  rw [← add_assoc]; rw [h]; rw [h.periodic.int_mul]
 #align function.antiperiodic.int_odd_mul_antiperiodic Function.Antiperiodic.int_odd_mul_antiperiodic
 
 theorem Antiperiodic.sub_eq [AddGroup α] [InvolutiveNeg β] (h : Antiperiodic f c) (x : α) :

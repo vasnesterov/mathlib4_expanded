@@ -41,14 +41,14 @@ theorem numDerangements_tendsto_inv_e :
     rw [Real.exp_eq_exp_ℝ]
     exact expSeries_div_hasSum_exp ℝ (-1 : ℝ)
   intro n
-  rw [← Int.cast_ofNat, numDerangements_sum]
+  rw [← Int.cast_ofNat]; rw [numDerangements_sum]
   push_cast
   rw [Finset.sum_div]
   -- get down to individual terms
   refine' Finset.sum_congr (refl _) _
   intro k hk
   have h_le : k ≤ n := Finset.mem_range_succ_iff.mp hk
-  rw [Nat.ascFactorial_eq_div, add_tsub_cancel_of_le h_le]
+  rw [Nat.ascFactorial_eq_div]; rw [add_tsub_cancel_of_le h_le]
   push_cast [Nat.factorial_dvd_factorial h_le]
   field_simp [Nat.factorial_ne_zero]
   ring

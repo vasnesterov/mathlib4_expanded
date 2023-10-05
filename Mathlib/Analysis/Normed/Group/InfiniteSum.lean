@@ -40,7 +40,7 @@ variable {ι α E F : Type*} [SeminormedAddCommGroup E] [SeminormedAddCommGroup 
 theorem cauchySeq_finset_iff_vanishing_norm {f : ι → E} :
     (CauchySeq fun s : Finset ι => ∑ i in s, f i) ↔
       ∀ ε > (0 : ℝ), ∃ s : Finset ι, ∀ t, Disjoint t s → ‖∑ i in t, f i‖ < ε := by
-  rw [cauchySeq_finset_iff_vanishing, nhds_basis_ball.forall_iff]
+  rw [cauchySeq_finset_iff_vanishing]; rw [nhds_basis_ball.forall_iff]
   · simp only [ball_zero_eq, Set.mem_setOf_eq]
   · rintro s t hst ⟨s', hs'⟩
     exact ⟨s', fun t' ht' => hst <| hs' _ ht'⟩
@@ -48,7 +48,7 @@ theorem cauchySeq_finset_iff_vanishing_norm {f : ι → E} :
 
 theorem summable_iff_vanishing_norm [CompleteSpace E] {f : ι → E} :
     Summable f ↔ ∀ ε > (0 : ℝ), ∃ s : Finset ι, ∀ t, Disjoint t s → ‖∑ i in t, f i‖ < ε := by
-  rw [summable_iff_cauchySeq_finset, cauchySeq_finset_iff_vanishing_norm]
+  rw [summable_iff_cauchySeq_finset]; rw [cauchySeq_finset_iff_vanishing_norm]
 #align summable_iff_vanishing_norm summable_iff_vanishing_norm
 
 theorem cauchySeq_finset_of_norm_bounded_eventually {f : ι → E} {g : ι → ℝ} (hg : Summable g)
@@ -80,7 +80,7 @@ theorem cauchySeq_range_of_norm_bounded {f : ℕ → E} (g : ℕ → ℝ)
   refine' Metric.cauchySeq_iff'.2 fun ε hε => _
   refine' (Metric.cauchySeq_iff'.1 hg ε hε).imp fun N hg n hn => _
   specialize hg n hn
-  rw [dist_eq_norm, ← sum_Ico_eq_sub _ hn] at hg ⊢
+  rw [dist_eq_norm] at hg ⊢; rw [← sum_Ico_eq_sub _ hn] at hg ⊢
   calc
     ‖∑ k in Ico N n, f k‖ ≤ ∑ k in _, ‖f k‖ := norm_sum_le _ _
     _ ≤ ∑ k in _, g k := (sum_le_sum fun x _ => hf x)

@@ -91,7 +91,7 @@ theorem distrib (f g h k : X ⟶ Y) : (f +ᵣ g) +ₗ h +ᵣ k = (f +ₗ h) +ᵣ
       ext <;> aesop_cat
   have h₂ : diag ≫ biprod.desc (𝟙 Y) (𝟙 Y) = biprod.desc (f +ₗ h) (g +ₗ k) := by
     ext <;> simp [reassoc_of% hd₁, reassoc_of% hd₂]
-  rw [leftAdd, h₁, Category.assoc, h₂, rightAdd]
+  rw [leftAdd]; rw [h₁]; rw [Category.assoc]; rw [h₂]; rw [rightAdd]
 #align category_theory.semiadditive_of_binary_biproducts.distrib CategoryTheory.SemiadditiveOfBinaryBiproducts.distrib
 
 /-- In a category with binary biproducts, the morphisms form a commutative monoid. -/

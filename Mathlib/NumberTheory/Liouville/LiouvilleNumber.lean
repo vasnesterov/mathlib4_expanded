@@ -178,9 +178,9 @@ theorem partialSum_eq_rat {m : ℕ} (hm : 0 < m) (k : ℕ) :
       pow_one, pow_one]⟩
   · rcases h with ⟨p_k, h_k⟩
     use p_k * m ^ ((k + 1)! - k !) + 1
-    rw [partialSum_succ, h_k, div_add_div, div_eq_div_iff, add_mul]
+    rw [partialSum_succ]; rw [h_k]; rw [div_add_div]; rw [div_eq_div_iff]; rw [add_mul]
     · norm_cast
-      rw [add_mul, one_mul, Nat.factorial_succ, add_mul, one_mul, add_tsub_cancel_right, pow_add]
+      rw [add_mul]; rw [one_mul]; rw [Nat.factorial_succ]; rw [add_mul]; rw [one_mul]; rw [add_tsub_cancel_right]; rw [pow_add]
       simp [mul_assoc]
     all_goals positivity
 #align liouville_number.partial_sum_eq_rat LiouvilleNumber.partialSum_eq_rat
@@ -200,7 +200,7 @@ theorem liouville_liouvilleNumber {m : ℕ} (hm : 2 ≤ m) : Liouville (liouvill
   push_cast
   rw [Nat.cast_pow] at hp
   -- separate out the sum of the first `n` terms and the rest
-  rw [← partialSum_add_remainder m1 n, ← hp]
+  rw [← partialSum_add_remainder m1 n]; rw [← hp]
   have hpos := remainder_pos m1 n
   simpa [abs_of_pos hpos, hpos.ne'] using @remainder_lt n m (by assumption_mod_cast)
 #align liouville_liouville_number liouville_liouvilleNumber

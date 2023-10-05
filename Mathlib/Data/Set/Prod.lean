@@ -280,12 +280,12 @@ theorem mk_preimage_prod_right_eq_if [DecidablePred (· ∈ s)] :
 
 theorem mk_preimage_prod_left_fn_eq_if [DecidablePred (· ∈ t)] (f : γ → α) :
     (fun a => (f a, b)) ⁻¹' s ×ˢ t = if b ∈ t then f ⁻¹' s else ∅ := by
-  rw [← mk_preimage_prod_left_eq_if, prod_preimage_left, preimage_preimage]
+  rw [← mk_preimage_prod_left_eq_if]; rw [prod_preimage_left]; rw [preimage_preimage]
 #align set.mk_preimage_prod_left_fn_eq_if Set.mk_preimage_prod_left_fn_eq_if
 
 theorem mk_preimage_prod_right_fn_eq_if [DecidablePred (· ∈ s)] (g : δ → β) :
     (fun b => (a, g b)) ⁻¹' s ×ˢ t = if a ∈ s then g ⁻¹' t else ∅ := by
-  rw [← mk_preimage_prod_right_eq_if, prod_preimage_right, preimage_preimage]
+  rw [← mk_preimage_prod_right_eq_if]; rw [prod_preimage_right]; rw [preimage_preimage]
 #align set.mk_preimage_prod_right_fn_eq_if Set.mk_preimage_prod_right_fn_eq_if
 
 @[simp]
@@ -296,7 +296,7 @@ theorem preimage_swap_prod (s : Set α) (t : Set β) : Prod.swap ⁻¹' s ×ˢ t
 
 @[simp]
 theorem image_swap_prod (s : Set α) (t : Set β) : Prod.swap '' s ×ˢ t = t ×ˢ s := by
-  rw [image_swap_eq_preimage_swap, preimage_swap_prod]
+  rw [image_swap_eq_preimage_swap]; rw [preimage_swap_prod]
 #align set.image_swap_prod Set.image_swap_prod
 
 theorem prod_image_image_eq {m₁ : α → γ} {m₂ : β → δ} :
@@ -328,7 +328,7 @@ theorem prod_univ_range_eq {m₂ : β → δ} :
 theorem range_pair_subset (f : α → β) (g : α → γ) :
     (range fun x => (f x, g x)) ⊆ range f ×ˢ range g := by
   have : (fun x => (f x, g x)) = Prod.map f g ∘ fun x => (x, x) := funext fun x => rfl
-  rw [this, ← range_prod_map]
+  rw [this]; rw [← range_prod_map]
   apply range_comp_subset_range
 #align set.range_pair_subset Set.range_pair_subset
 
@@ -427,8 +427,8 @@ theorem prod_eq_prod_iff_of_nonempty (h : (s ×ˢ t).Nonempty) :
   · intro heq
     have h₁ : (s₁ ×ˢ t₁ : Set _).Nonempty := by rwa [← heq]
     rw [prod_nonempty_iff] at h h₁
-    rw [← fst_image_prod s h.2, ← fst_image_prod s₁ h₁.2, heq, eq_self_iff_true, true_and_iff, ←
-      snd_image_prod h.1 t, ← snd_image_prod h₁.1 t₁, heq]
+    rw [← fst_image_prod s h.2]; rw [← fst_image_prod s₁ h₁.2]; rw [heq]; rw [eq_self_iff_true]; rw [true_and_iff]; rw [←
+      snd_image_prod h.1 t]; rw [← snd_image_prod h₁.1 t₁]; rw [heq]
   · rintro ⟨rfl, rfl⟩
     rfl
 #align set.prod_eq_prod_iff_of_nonempty Set.prod_eq_prod_iff_of_nonempty
@@ -442,7 +442,7 @@ theorem prod_eq_prod_iff :
     rintro ⟨rfl, rfl⟩
     exact prod_eq_empty_iff.mp h
   rw [prod_eq_prod_iff_of_nonempty h]
-  rw [nonempty_iff_ne_empty, Ne.def, prod_eq_empty_iff] at h
+  rw [nonempty_iff_ne_empty] at h; rw [Ne.def] at h; rw [prod_eq_empty_iff] at h
   simp_rw [h, false_and_iff, or_false_iff]
 #align set.prod_eq_prod_iff Set.prod_eq_prod_iff
 
@@ -525,7 +525,7 @@ theorem range_diag : (range fun x => (x, x)) = diagonal α := by
 #align set.range_diag Set.range_diag
 
 theorem diagonal_subset_iff {s} : diagonal α ⊆ s ↔ ∀ x, (x, x) ∈ s := by
-  rw [← range_diag, range_subset_iff]
+  rw [← range_diag]; rw [range_subset_iff]
 #align set.diagonal_subset_iff Set.diagonal_subset_iff
 
 @[simp]
@@ -579,7 +579,7 @@ theorem offDiag_nonempty : s.offDiag.Nonempty ↔ s.Nontrivial := by
 
 @[simp]
 theorem offDiag_eq_empty : s.offDiag = ∅ ↔ s.Subsingleton := by
-  rw [← not_nonempty_iff_eq_empty, ← not_nontrivial_iff, offDiag_nonempty.not]
+  rw [← not_nonempty_iff_eq_empty]; rw [← not_nontrivial_iff]; rw [offDiag_nonempty.not]
 #align set.off_diag_eq_empty Set.offDiag_eq_empty
 
 alias ⟨_, Nontrivial.offDiag_nonempty⟩ := offDiag_nonempty
@@ -644,7 +644,7 @@ theorem offDiag_union (h : Disjoint s t) :
 #align set.off_diag_union Set.offDiag_union
 
 theorem offDiag_insert (ha : a ∉ s) : (insert a s).offDiag = s.offDiag ∪ {a} ×ˢ s ∪ s ×ˢ {a} := by
-  rw [insert_eq, union_comm, offDiag_union, offDiag_singleton, union_empty, union_right_comm]
+  rw [insert_eq]; rw [union_comm]; rw [offDiag_union]; rw [offDiag_singleton]; rw [union_empty]; rw [union_right_comm]
   rw [disjoint_left]
   rintro b hb (rfl : b = a)
   exact ha hb
@@ -725,7 +725,7 @@ theorem univ_pi_nonempty_iff : (pi univ t).Nonempty ↔ ∀ i, (t i).Nonempty :=
 #align set.univ_pi_nonempty_iff Set.univ_pi_nonempty_iff
 
 theorem pi_eq_empty_iff : s.pi t = ∅ ↔ ∃ i, IsEmpty (α i) ∨ i ∈ s ∧ t i = ∅ := by
-  rw [← not_nonempty_iff_eq_empty, pi_nonempty_iff]
+  rw [← not_nonempty_iff_eq_empty]; rw [pi_nonempty_iff]
   push_neg
   refine' exists_congr fun i => _
   cases isEmpty_or_nonempty (α i) <;> simp [*, forall_and, eq_empty_iff_forall_not_mem]
@@ -818,7 +818,7 @@ theorem union_pi : (s₁ ∪ s₂).pi t = s₁.pi t ∩ s₂.pi t := by
 
 @[simp]
 theorem pi_inter_compl (s : Set ι) : pi s t ∩ pi sᶜ t = pi univ t := by
-  rw [← union_pi, union_compl_self]
+  rw [← union_pi]; rw [union_compl_self]
 #align set.pi_inter_compl Set.pi_inter_compl
 
 theorem pi_update_of_not_mem [DecidableEq ι] (hi : i ∉ s) (f : ∀ j, α j) (a : α i)
@@ -846,7 +846,7 @@ theorem univ_pi_update [DecidableEq ι] {β : ∀ _, Type*} (i : ι) (f : ∀ j,
 
 theorem univ_pi_update_univ [DecidableEq ι] (i : ι) (s : Set (α i)) :
     pi univ (update (fun j : ι => (univ : Set (α j))) i s) = eval i ⁻¹' s := by
-  rw [univ_pi_update i (fun j => (univ : Set (α j))) s fun j t => t, pi_univ, inter_univ, preimage]
+  rw [univ_pi_update i (fun j => (univ : Set (α j))) s fun j t => t]; rw [pi_univ]; rw [inter_univ]; rw [preimage]
 #align set.univ_pi_update_univ Set.univ_pi_update_univ
 
 theorem eval_image_pi_subset (hs : i ∈ s) : eval i '' s.pi t ⊆ t i :=
@@ -877,7 +877,7 @@ theorem eval_image_univ_pi (ht : (pi univ t).Nonempty) :
 theorem pi_subset_pi_iff : pi s t₁ ⊆ pi s t₂ ↔ (∀ i ∈ s, t₁ i ⊆ t₂ i) ∨ pi s t₁ = ∅ := by
   refine'
     ⟨fun h => or_iff_not_imp_right.2 _, fun h => h.elim pi_mono fun h' => h'.symm ▸ empty_subset _⟩
-  rw [← Ne.def, ← nonempty_iff_ne_empty]
+  rw [← Ne.def]; rw [← nonempty_iff_ne_empty]
   intro hne i hi
   simpa only [eval_image_pi hi hne, eval_image_pi hi (hne.mono h)] using
     image_subset (fun f : ∀ i, α i => f i) h

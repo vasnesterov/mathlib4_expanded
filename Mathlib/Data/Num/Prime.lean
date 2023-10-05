@@ -49,7 +49,7 @@ theorem minFacAux_to_nat {fuel : ℕ} {n k : PosNum} (h : Nat.sqrt n < fuel + k.
   simp_rw [← mul_to_nat]
   simp only [cast_lt, dvd_to_nat]
   split_ifs <;> try rfl
-  rw [ih] <;> [congr; convert Nat.lt_succ_of_lt h using 1] <;>
+  rw [ih]  <;> [congr; convert Nat.lt_succ_of_lt h using 1] <;>
     simp only [_root_.bit1, _root_.bit0, cast_bit1, cast_succ, Nat.succ_eq_add_one, add_assoc,
       add_left_comm, ← one_add_one_eq_two]
 #align pos_num.min_fac_aux_to_nat PosNum.minFacAux_to_nat
@@ -95,14 +95,14 @@ instance decidablePrime : DecidablePred PosNum.Prime
       (by
         refine' Nat.prime_def_minFac.trans ((and_iff_right _).trans <| eq_comm.trans _)
         · exact bit0_le_bit0.2 (Nat.succ_le_of_lt (to_nat_pos _))
-        rw [← minFac_to_nat, to_nat_inj]
+        rw [← minFac_to_nat]; rw [to_nat_inj]
         exact ⟨bit0.inj, congr_arg _⟩)
   | bit1 n =>
     decidable_of_iff' (minFacAux (bit1 n) n 1 = bit1 n)
       (by
         refine' Nat.prime_def_minFac.trans ((and_iff_right _).trans _)
         · exact Nat.bit0_le_bit1_iff.2 (to_nat_pos _)
-        rw [← minFac_to_nat, to_nat_inj]; rfl)
+        rw [← minFac_to_nat]; rw [to_nat_inj]; rfl)
 #align pos_num.decidable_prime PosNum.decidablePrime
 
 end PosNum

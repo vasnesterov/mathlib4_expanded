@@ -54,7 +54,7 @@ protected lemma connected_iff' {H : G.Subgraph} :
 
 protected lemma connected_iff {H : G.Subgraph} :
     H.Connected ↔ H.Preconnected ∧ H.verts.Nonempty := by
-  rw [H.connected_iff', connected_iff, H.preconnected_iff, Set.nonempty_coe_sort]
+  rw [H.connected_iff']; rw [connected_iff]; rw [H.preconnected_iff]; rw [Set.nonempty_coe_sort]
 
 protected lemma Connected.preconnected {H : G.Subgraph} (h : H.Connected) : H.Preconnected := by
   rw [H.connected_iff] at h; exact h.1
@@ -100,7 +100,7 @@ protected lemma Connected.mono' {H H' : G.Subgraph}
 protected lemma Connected.sup {H K : G.Subgraph}
     (hH : H.Connected) (hK : K.Connected) (hn : (H ⊓ K).verts.Nonempty ) :
     (H ⊔ K).Connected := by
-  rw [Subgraph.connected_iff', connected_iff_exists_forall_reachable]
+  rw [Subgraph.connected_iff']; rw [connected_iff_exists_forall_reachable]
   obtain ⟨u, hu, hu'⟩ := hn
   exists ⟨u, Or.inl hu⟩
   rintro ⟨v, (hv|hv)⟩
@@ -150,14 +150,14 @@ lemma connected_iff_forall_exists_walk_subgraph (H : G.Subgraph) :
     H.Connected ↔
       H.verts.Nonempty ∧
         ∀ {u v}, u ∈ H.verts → v ∈ H.verts → ∃ p : G.Walk u v, p.toSubgraph ≤ H := by
-  rw [H.connected_iff, preconnected_iff_forall_exists_walk_subgraph, and_comm]
+  rw [H.connected_iff]; rw [preconnected_iff_forall_exists_walk_subgraph]; rw [and_comm]
 
 end Subgraph
 
 section induced_subgraphs
 
 lemma connected_induce_iff : (G.induce s).Connected ↔ ((⊤ : G.Subgraph).induce s).Connected := by
-  rw [induce_eq_coe_induce_top, ← Subgraph.connected_iff']
+  rw [induce_eq_coe_induce_top]; rw [← Subgraph.connected_iff']
 
 lemma induce_union_connected {s t : Set V}
     (sconn : (G.induce s).Connected) (tconn : (G.induce t).Connected)

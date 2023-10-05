@@ -111,7 +111,7 @@ theorem trans (hxy : SameRay R x y) (hyz : SameRay R y z) (hy : y = 0 → x = 0 
   rcases hxy.exists_pos hx hy with ⟨r₁, r₂, hr₁, hr₂, h₁⟩
   rcases hyz.exists_pos hy hz with ⟨r₃, r₄, hr₃, hr₄, h₂⟩
   refine' Or.inr (Or.inr <| ⟨r₃ * r₁, r₂ * r₄, mul_pos hr₃ hr₁, mul_pos hr₂ hr₄, _⟩)
-  rw [mul_smul, mul_smul, h₁, ← h₂, smul_comm]
+  rw [mul_smul]; rw [mul_smul]; rw [h₁]; rw [← h₂]; rw [smul_comm]
 #align same_ray.trans SameRay.trans
 
 /-- A vector is in the same ray as a nonnegative multiple of itself. -/
@@ -348,7 +348,7 @@ namespace Module.Ray
 /-- Scaling by a positive unit is a no-op. -/
 theorem units_smul_of_pos (u : Rˣ) (hu : 0 < (u.1 : R)) (v : Module.Ray R M) : u • v = v := by
   induction v using Module.Ray.ind
-  rw [smul_rayOfNeZero, ray_eq_iff]
+  rw [smul_rayOfNeZero]; rw [ray_eq_iff]
   exact SameRay.sameRay_pos_smul_left _ hu
 #align module.ray.units_smul_of_pos Module.Ray.units_smul_of_pos
 
@@ -473,7 +473,7 @@ instance : InvolutiveNeg (Module.Ray R M)
 /-- A ray does not equal its own negation. -/
 theorem ne_neg_self [NoZeroSMulDivisors R M] (x : Module.Ray R M) : x ≠ -x := by
   induction' x using Module.Ray.ind with x hx
-  rw [neg_rayOfNeZero, Ne.def, ray_eq_iff]
+  rw [neg_rayOfNeZero]; rw [Ne.def]; rw [ray_eq_iff]
   exact mt eq_zero_of_sameRay_self_neg hx
 #align module.ray.ne_neg_self Module.Ray.ne_neg_self
 
@@ -485,7 +485,7 @@ theorem neg_units_smul (u : Rˣ) (v : Module.Ray R M) : -u • v = -(u • v) :=
 -- Porting note: `(u.1 : R)` was `(u : R)`, CoeHead from R to Rˣ does not seem to work.
 /-- Scaling by a negative unit is negation. -/
 theorem units_smul_of_neg (u : Rˣ) (hu : u.1 < 0) (v : Module.Ray R M) : u • v = -v := by
-  rw [← neg_inj, neg_neg, ← neg_units_smul, units_smul_of_pos]
+  rw [← neg_inj]; rw [neg_neg]; rw [← neg_units_smul]; rw [units_smul_of_pos]
   rwa [Units.val_neg, Right.neg_pos_iff]
 #align module.ray.units_smul_of_neg Module.Ray.units_smul_of_neg
 
@@ -553,7 +553,7 @@ theorem sameRay_smul_left_iff_of_ne {v : M} (hv : v ≠ 0) {r : R} (hr : r ≠ 0
 
 @[simp]
 theorem sameRay_neg_smul_right_iff {v : M} {r : R} : SameRay R (-v) (r • v) ↔ r ≤ 0 ∨ v = 0 := by
-  rw [← sameRay_neg_iff, neg_neg, ← neg_smul, sameRay_smul_right_iff, neg_nonneg]
+  rw [← sameRay_neg_iff]; rw [neg_neg]; rw [← neg_smul]; rw [sameRay_smul_right_iff]; rw [neg_nonneg]
 #align same_ray_neg_smul_right_iff sameRay_neg_smul_right_iff
 
 theorem sameRay_neg_smul_right_iff_of_ne {v : M} {r : R} (hv : v ≠ 0) (hr : r ≠ 0) :
@@ -580,8 +580,7 @@ theorem units_smul_eq_self_iff {u : Rˣ} {v : Module.Ray R M} : u • v = v ↔ 
 
 @[simp]
 theorem units_smul_eq_neg_iff {u : Rˣ} {v : Module.Ray R M} : u • v = -v ↔ u.1 < 0 := by
-  rw [← neg_inj, neg_neg, ← Module.Ray.neg_units_smul, units_smul_eq_self_iff, Units.val_neg,
-    neg_pos]
+  rw [← neg_inj]; rw [neg_neg]; rw [← Module.Ray.neg_units_smul]; rw [units_smul_eq_self_iff]; rw [Units.val_neg]; rw [neg_pos]
 #align units_smul_eq_neg_iff units_smul_eq_neg_iff
 
 /-- Two vectors are in the same ray, or the first is in the same ray as the negation of the
@@ -596,25 +595,24 @@ theorem sameRay_or_sameRay_neg_iff_not_linearIndependent {x y : M} :
     · exact False.elim (hx hx0)
     · exact False.elim (hy hy0)
     · refine' ⟨![r₁, -r₂], _⟩
-      rw [Fin.sum_univ_two, Fin.exists_fin_two]
+      rw [Fin.sum_univ_two]; rw [Fin.exists_fin_two]
       simp [h, hr₁.ne.symm]
     · exact False.elim (hx hx0)
     · exact False.elim (hy (neg_eq_zero.1 hy0))
     · refine' ⟨![r₁, r₂], _⟩
-      rw [Fin.sum_univ_two, Fin.exists_fin_two]
+      rw [Fin.sum_univ_two]; rw [Fin.exists_fin_two]
       simp [h, hr₁.ne.symm]
   · rcases h with ⟨m, hm, hmne⟩
-    rw [Fin.sum_univ_two, add_eq_zero_iff_eq_neg, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons] at hm
+    rw [Fin.sum_univ_two] at hm; rw [add_eq_zero_iff_eq_neg] at hm; rw [Matrix.cons_val_zero] at hm; rw [Matrix.cons_val_one] at hm; rw [Matrix.head_cons] at hm
     rcases lt_trichotomy (m 0) 0 with (hm0 | hm0 | hm0) <;>
       rcases lt_trichotomy (m 1) 0 with (hm1 | hm1 | hm1)
     · refine'
         Or.inr (Or.inr (Or.inr ⟨-m 0, -m 1, Left.neg_pos_iff.2 hm0, Left.neg_pos_iff.2 hm1, _⟩))
-      rw [neg_smul_neg, neg_smul, hm, neg_neg]
+      rw [neg_smul_neg]; rw [neg_smul]; rw [hm]; rw [neg_neg]
     · exfalso
       simp [hm1, hx, hm0.ne] at hm
     · refine' Or.inl (Or.inr (Or.inr ⟨-m 0, m 1, Left.neg_pos_iff.2 hm0, hm1, _⟩))
-      rw [neg_smul, hm, neg_neg]
+      rw [neg_smul]; rw [hm]; rw [neg_neg]
     · exfalso
       simp [hm0, hy, hm1.ne] at hm
     · rw [Fin.exists_fin_two] at hmne

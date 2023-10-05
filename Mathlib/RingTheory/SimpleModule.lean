@@ -73,7 +73,7 @@ theorem isSimpleModule_iff_isCoatom : IsSimpleModule R (M ⧸ m) ↔ IsCoatom m 
 theorem covby_iff_quot_is_simple {A B : Submodule R M} (hAB : A ≤ B) :
     A ⋖ B ↔ IsSimpleModule R (B ⧸ Submodule.comap B.subtype A) := by
   set f : Submodule R B ≃o Set.Iic B := Submodule.MapSubtype.relIso B with hf
-  rw [covby_iff_coatom_Iic hAB, isSimpleModule_iff_isCoatom, ← OrderIso.isCoatom_iff f, hf]
+  rw [covby_iff_coatom_Iic hAB]; rw [isSimpleModule_iff_isCoatom]; rw [← OrderIso.isCoatom_iff f]; rw [hf]
   simp [-OrderIso.isCoatom_iff, Submodule.MapSubtype.relIso, Submodule.map_comap_subtype,
     inf_eq_right.2 hAB]
 #align covby_iff_quot_is_simple covby_iff_quot_is_simple
@@ -121,7 +121,7 @@ namespace LinearMap
 
 theorem injective_or_eq_zero [IsSimpleModule R M] (f : M →ₗ[R] N) :
     Function.Injective f ∨ f = 0 := by
-  rw [← ker_eq_bot, ← ker_eq_top]
+  rw [← ker_eq_bot]; rw [← ker_eq_top]
   apply eq_bot_or_eq_top
 #align linear_map.injective_or_eq_zero LinearMap.injective_or_eq_zero
 
@@ -132,7 +132,7 @@ theorem injective_of_ne_zero [IsSimpleModule R M] {f : M →ₗ[R] N} (h : f ≠
 
 theorem surjective_or_eq_zero [IsSimpleModule R N] (f : M →ₗ[R] N) :
     Function.Surjective f ∨ f = 0 := by
-  rw [← range_eq_top, ← range_eq_bot, or_comm]
+  rw [← range_eq_top]; rw [← range_eq_bot]; rw [or_comm]
   apply eq_bot_or_eq_top
 #align linear_map.surjective_or_eq_zero LinearMap.surjective_or_eq_zero
 
@@ -182,12 +182,12 @@ noncomputable instance _root_.Module.End.divisionRing
         contrapose! h
         intro x y
         simp_rw [ext_iff, one_apply, zero_apply] at h
-        rw [← h x, h y]⟩
+        rw [← h x]; rw [h y]⟩
     mul_inv_cancel := by
       intro a a0
       change a * dite _ _ _ = 1
       ext x
-      rw [dif_neg a0, mul_eq_comp, one_apply, comp_apply]
+      rw [dif_neg a0]; rw [mul_eq_comp]; rw [one_apply]; rw [comp_apply]
       exact (Equiv.ofBijective _ (bijective_of_ne_zero a0)).right_inv x
     inv_zero := dif_pos rfl }
 #align module.End.division_ring Module.End.divisionRing
@@ -214,7 +214,7 @@ theorem iso_trans {X Y Z : Submodule R M × Submodule R M} : Iso X Y → Iso Y Z
 theorem second_iso {X Y : Submodule R M} (_ : X ⋖ X ⊔ Y) :
     Iso (X,X ⊔ Y) (X ⊓ Y,Y) := by
   constructor
-  rw [sup_comm, inf_comm]
+  rw [sup_comm]; rw [inf_comm]
   dsimp
   exact (LinearMap.quotientInfEquivSupQuotient Y X).symm
 

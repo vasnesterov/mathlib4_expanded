@@ -696,7 +696,7 @@ set_option linter.uppercaseLean3 false in
 @[simp]
 theorem of_d (j : α) : (of X d sq).d (j + 1) j = d j := by
   dsimp [of]
-  rw [if_pos rfl, Category.id_comp]
+  rw [if_pos rfl]; rw [Category.id_comp]
 #align chain_complex.of_d ChainComplex.of_d
 
 theorem of_d_ne {i j : α} (h : i ≠ j + 1) : (of X d sq).d i j = 0 := by
@@ -799,13 +799,13 @@ set_option linter.uppercaseLean3 false in
 @[simp]
 theorem mk_d_1_0 : (mk X₀ X₁ X₂ d₀ d₁ s succ).d 1 0 = d₀ := by
   change ite (1 = 0 + 1) (𝟙 X₁ ≫ d₀) 0 = d₀
-  rw [if_pos rfl, Category.id_comp]
+  rw [if_pos rfl]; rw [Category.id_comp]
 #align chain_complex.mk_d_1_0 ChainComplex.mk_d_1_0
 
 @[simp]
 theorem mk_d_2_0 : (mk X₀ X₁ X₂ d₀ d₁ s succ).d 2 1 = d₁ := by
   change ite (2 = 1 + 1) (𝟙 X₂ ≫ d₁) 0 = d₁
-  rw [if_pos rfl, Category.id_comp]
+  rw [if_pos rfl]; rw [Category.id_comp]
 #align chain_complex.mk_d_2_0 ChainComplex.mk_d_2_0
 
 -- TODO simp lemmas for the inductive steps? It's not entirely clear that they are needed.
@@ -840,7 +840,7 @@ set_option linter.uppercaseLean3 false in
 @[simp]
 theorem mk'_d_1_0 : (mk' X₀ X₁ d₀ succ').d 1 0 = d₀ := by
   change ite (1 = 0 + 1) (𝟙 X₁ ≫ d₀) 0 = d₀
-  rw [if_pos rfl, Category.id_comp]
+  rw [if_pos rfl]; rw [Category.id_comp]
 #align chain_complex.mk'_d_1_0 ChainComplex.mk'_d_1_0
 
 /- Porting note:
@@ -967,7 +967,7 @@ set_option linter.uppercaseLean3 false in
 @[simp]
 theorem of_d (j : α) : (of X d sq).d j (j + 1) = d j := by
   dsimp [of]
-  rw [if_pos rfl, Category.comp_id]
+  rw [if_pos rfl]; rw [Category.comp_id]
 #align cochain_complex.of_d CochainComplex.of_d
 
 theorem of_d_ne {i j : α} (h : i + 1 ≠ j) : (of X d sq).d i j = 0 := by
@@ -1071,13 +1071,13 @@ set_option linter.uppercaseLean3 false in
 @[simp]
 theorem mk_d_1_0 : (mk X₀ X₁ X₂ d₀ d₁ s succ).d 0 1 = d₀ := by
   change ite (1 = 0 + 1) (d₀ ≫ 𝟙 X₁) 0 = d₀
-  rw [if_pos rfl, Category.comp_id]
+  rw [if_pos rfl]; rw [Category.comp_id]
 #align cochain_complex.mk_d_1_0 CochainComplex.mk_d_1_0
 
 @[simp]
 theorem mk_d_2_0 : (mk X₀ X₁ X₂ d₀ d₁ s succ).d 1 2 = d₁ := by
   change ite (2 = 1 + 1) (d₁ ≫ 𝟙 X₂) 0 = d₁
-  rw [if_pos rfl, Category.comp_id]
+  rw [if_pos rfl]; rw [Category.comp_id]
 #align cochain_complex.mk_d_2_0 CochainComplex.mk_d_2_0
 
 -- TODO simp lemmas for the inductive steps? It's not entirely clear that they are needed.
@@ -1111,7 +1111,7 @@ set_option linter.uppercaseLean3 false in
 @[simp]
 theorem mk'_d_1_0 : (mk' X₀ X₁ d₀ succ').d 0 1 = d₀ := by
   change ite (1 = 0 + 1) (d₀ ≫ 𝟙 X₁) 0 = d₀
-  rw [if_pos rfl, Category.comp_id]
+  rw [if_pos rfl]; rw [Category.comp_id]
 #align cochain_complex.mk'_d_1_0 CochainComplex.mk'_d_1_0
 
 -- TODO simp lemmas for the inductive steps? It's not entirely clear that they are needed.

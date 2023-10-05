@@ -256,7 +256,7 @@ theorem head_nil : head (nil : Seq α) = none :=
 
 @[simp]
 theorem head_cons (a : α) (s) : head (cons a s) = some a := by
-  rw [head_eq_destruct, destruct_cons, Option.map_eq_map, Option.map_some']
+  rw [head_eq_destruct]; rw [destruct_cons]; rw [Option.map_eq_map]; rw [Option.map_some']
 #align stream.seq.head_cons Stream'.Seq.head_cons
 
 @[simp]
@@ -351,7 +351,7 @@ theorem corec_eq (f : β → Option (α × β)) (b : β) :
   apply congr_arg fun b' => some (a, b')
   apply Subtype.eq
   dsimp [corec, tail]
-  rw [Stream'.corec'_eq, Stream'.tail_cons]
+  rw [Stream'.corec'_eq]; rw [Stream'.tail_cons]
   dsimp [Corec.f]; rw [h]
 #align stream.seq.corec_eq Stream'.Seq.corec_eq
 
@@ -393,14 +393,14 @@ theorem eq_of_bisim (bisim : IsBisimulation R) {s₁ s₂} (r : s₁ ~ s₂) : s
         · rfl
         · assumption
       · intro x s _ this
-        rw [destruct_nil, destruct_cons] at this
+        rw [destruct_nil] at this; rw [destruct_cons] at this
         exact False.elim this
       · intro x s _ this
-        rw [destruct_nil, destruct_cons] at this
+        rw [destruct_nil] at this; rw [destruct_cons] at this
         exact False.elim this
       · intro x s x' s' _ this
-        rw [destruct_cons, destruct_cons] at this
-        rw [head_cons, head_cons, tail_cons, tail_cons]
+        rw [destruct_cons] at this; rw [destruct_cons] at this
+        rw [head_cons]; rw [head_cons]; rw [tail_cons]; rw [tail_cons]
         cases' this with h1 h2
         constructor
         rw [h1]
@@ -426,7 +426,7 @@ theorem coinduction2 (s) (f g : Seq α → Seq β)
     f s = g s := by
   refine' eq_of_bisim (fun s1 s2 => ∃ s, s1 = f s ∧ s2 = g s) _ ⟨s, rfl, rfl⟩
   intro s1 s2 h; rcases h with ⟨s, h1, h2⟩
-  rw [h1, h2]; apply H
+  rw [h1]; rw [h2]; apply H
 #align stream.seq.coinduction2 Stream'.Seq.coinduction2
 
 /-- Embed a list as a sequence -/
@@ -662,7 +662,7 @@ theorem append_nil (s : Seq α) : append s nil = s := by
   apply recOn s _ _
   · trivial
   · intro x s
-    rw [cons_append, destruct_cons, destruct_cons]
+    rw [cons_append]; rw [destruct_cons]; rw [destruct_cons]
     dsimp
     exact ⟨rfl, s, rfl, rfl⟩
 #align stream.seq.append_nil Stream'.Seq.append_nil
@@ -700,7 +700,7 @@ theorem map_cons (f : α → β) (a) : ∀ s, map f (cons a s) = cons (f a) (map
 theorem map_id : ∀ s : Seq α, map id s = s
   | ⟨s, al⟩ => by
     apply Subtype.eq; dsimp [map]
-    rw [Option.map_id, Stream'.map_id]
+    rw [Option.map_id]; rw [Stream'.map_id]
 #align stream.seq.map_id Stream'.Seq.map_id
 
 @[simp]
@@ -846,7 +846,7 @@ theorem dropn_tail (s : Seq α) (n) : drop (tail s) n = drop s (n + 1) := by
 @[simp]
 theorem head_dropn (s : Seq α) (n) : head (drop s n) = get? s n := by
   induction' n with n IH generalizing s; · rfl
-  rw [Nat.succ_eq_add_one, ← get?_tail, ← dropn_tail]; apply IH
+  rw [Nat.succ_eq_add_one]; rw [← get?_tail]; rw [← dropn_tail]; apply IH
 #align stream.seq.head_dropn Stream'.Seq.head_dropn
 
 theorem mem_map (f : α → β) {a : α} : ∀ {s : Seq α}, a ∈ s → f a ∈ map f s
@@ -970,7 +970,7 @@ theorem bind_ret (f : α → β) : ∀ s, bind s (ret ∘ f) = map f s
   | ⟨a, s⟩ => by
     dsimp [bind, map]
     -- Porting note: Was `rw [map_comp]; simp [Function.comp, ret]`
-    rw [map_comp, ret]
+    rw [map_comp]; rw [ret]
     simp
 #align stream.seq1.bind_ret Stream'.Seq1.bind_ret
 

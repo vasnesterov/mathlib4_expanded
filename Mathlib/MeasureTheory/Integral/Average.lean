@@ -89,7 +89,7 @@ theorem laverage_eq' (f : α → ℝ≥0∞) : ⨍⁻ x, f x ∂μ = ∫⁻ x, f
 #align measure_theory.laverage_eq' MeasureTheory.laverage_eq'
 
 theorem laverage_eq (f : α → ℝ≥0∞) : ⨍⁻ x, f x ∂μ = (∫⁻ x, f x ∂μ) / μ univ := by
-  rw [laverage_eq', lintegral_smul_measure, ENNReal.div_eq_inv_mul]
+  rw [laverage_eq']; rw [lintegral_smul_measure]; rw [ENNReal.div_eq_inv_mul]
 #align measure_theory.laverage_eq MeasureTheory.laverage_eq
 
 theorem laverage_eq_lintegral [IsProbabilityMeasure μ] (f : α → ℝ≥0∞) :
@@ -156,7 +156,7 @@ theorem laverage_add_measure :
 theorem measure_mul_setLaverage (f : α → ℝ≥0∞) (h : μ s ≠ ∞) :
     μ s * ⨍⁻ x in s, f x ∂μ = ∫⁻ x in s, f x ∂μ := by
   have := Fact.mk h.lt_top
-  rw [←measure_mul_laverage, restrict_apply_univ]
+  rw [←measure_mul_laverage]; rw [restrict_apply_univ]
 #align measure_theory.measure_mul_set_laverage MeasureTheory.measure_mul_setLaverage
 
 theorem laverage_union (hd : AEDisjoint μ s t) (ht : NullMeasurableSet t μ) :
@@ -171,8 +171,7 @@ theorem laverage_union_mem_openSegment (hd : AEDisjoint μ s t) (ht : NullMeasur
   refine'
     ⟨μ s / (μ s + μ t), μ t / (μ s + μ t), ENNReal.div_pos hs₀ <| add_ne_top.2 ⟨hsμ, htμ⟩,
       ENNReal.div_pos ht₀ <| add_ne_top.2 ⟨hsμ, htμ⟩, _, (laverage_union hd ht).symm⟩
-  rw [←ENNReal.add_div,
-    ENNReal.div_self (add_eq_zero.not.2 fun h => hs₀ h.1) (add_ne_top.2 ⟨hsμ, htμ⟩)]
+  rw [←ENNReal.add_div]; rw [ENNReal.div_self (add_eq_zero.not.2 fun h => hs₀ h.1) (add_ne_top.2 ⟨hsμ, htμ⟩)]
 #align measure_theory.laverage_union_mem_open_segment MeasureTheory.laverage_union_mem_openSegment
 
 theorem laverage_union_mem_segment (hd : AEDisjoint μ s t) (ht : NullMeasurableSet t μ)
@@ -180,12 +179,11 @@ theorem laverage_union_mem_segment (hd : AEDisjoint μ s t) (ht : NullMeasurable
     ⨍⁻ x in s ∪ t, f x ∂μ ∈ [⨍⁻ x in s, f x ∂μ -[ℝ≥0∞] ⨍⁻ x in t, f x ∂μ] := by
   by_cases hs₀ : μ s = 0
   · rw [←ae_eq_empty] at hs₀
-    rw [restrict_congr_set (hs₀.union EventuallyEq.rfl), empty_union]
+    rw [restrict_congr_set (hs₀.union EventuallyEq.rfl)]; rw [empty_union]
     exact right_mem_segment _ _ _
   · refine'
       ⟨μ s / (μ s + μ t), μ t / (μ s + μ t), zero_le _, zero_le _, _, (laverage_union hd ht).symm⟩
-    rw [←ENNReal.add_div,
-      ENNReal.div_self (add_eq_zero.not.2 fun h => hs₀ h.1) (add_ne_top.2 ⟨hsμ, htμ⟩)]
+    rw [←ENNReal.add_div]; rw [ENNReal.div_self (add_eq_zero.not.2 fun h => hs₀ h.1) (add_ne_top.2 ⟨hsμ, htμ⟩)]
 #align measure_theory.laverage_union_mem_segment MeasureTheory.laverage_union_mem_segment
 
 theorem laverage_mem_openSegment_compl_self [IsFiniteMeasure μ] (hs : NullMeasurableSet s μ)
@@ -266,7 +264,7 @@ theorem average_zero : ⨍ _, (0 : E) ∂μ = 0 := by rw [average, integral_zero
 
 @[simp]
 theorem average_zero_measure (f : α → E) : ⨍ x, f x ∂(0 : Measure α) = 0 := by
-  rw [average, smul_zero, integral_zero_measure]
+  rw [average]; rw [smul_zero]; rw [integral_zero_measure]
 #align measure_theory.average_zero_measure MeasureTheory.average_zero_measure
 
 @[simp]
@@ -279,11 +277,11 @@ theorem average_eq' (f : α → E) : ⨍ x, f x ∂μ = ∫ x, f x ∂(μ univ)�
 #align measure_theory.average_eq' MeasureTheory.average_eq'
 
 theorem average_eq (f : α → E) : ⨍ x, f x ∂μ = (μ univ).toReal⁻¹ • ∫ x, f x ∂μ := by
-  rw [average_eq', integral_smul_measure, ENNReal.toReal_inv]
+  rw [average_eq']; rw [integral_smul_measure]; rw [ENNReal.toReal_inv]
 #align measure_theory.average_eq MeasureTheory.average_eq
 
 theorem average_eq_integral [IsProbabilityMeasure μ] (f : α → E) : ⨍ x, f x ∂μ = ∫ x, f x ∂μ := by
-  rw [average, measure_univ, inv_one, one_smul]
+  rw [average]; rw [measure_univ]; rw [inv_one]; rw [one_smul]
 #align measure_theory.average_eq_integral MeasureTheory.average_eq_integral
 
 @[simp]
@@ -326,7 +324,7 @@ theorem average_add_measure [IsFiniteMeasure μ] {ν : Measure α} [IsFiniteMeas
         ((ν univ).toReal / ((μ univ).toReal + (ν univ).toReal)) • ⨍ x, f x ∂ν := by
   simp only [div_eq_inv_mul, mul_smul, measure_smul_average, ←smul_add,
     ←integral_add_measure hμ hν, ←ENNReal.toReal_add (measure_ne_top μ _) (measure_ne_top ν _)]
-  rw [average_eq, Measure.add_apply]
+  rw [average_eq]; rw [Measure.add_apply]
 #align measure_theory.average_add_measure MeasureTheory.average_add_measure
 
 theorem average_pair {f : α → E} {g : α → F} (hfi : Integrable f μ) (hgi : Integrable g μ) :
@@ -337,7 +335,7 @@ theorem average_pair {f : α → E} {g : α → F} (hfi : Integrable f μ) (hgi 
 theorem measure_smul_setAverage (f : α → E) {s : Set α} (h : μ s ≠ ∞) :
     (μ s).toReal • ⨍ x in s, f x ∂μ = ∫ x in s, f x ∂μ := by
   haveI := Fact.mk h.lt_top
-  rw [←measure_smul_average, restrict_apply_univ]
+  rw [←measure_smul_average]; rw [restrict_apply_univ]
 #align measure_theory.measure_smul_set_average MeasureTheory.measure_smul_setAverage
 
 theorem average_union {f : α → E} {s t : Set α} (hd : AEDisjoint μ s t) (ht : NullMeasurableSet t μ)
@@ -346,7 +344,7 @@ theorem average_union {f : α → E} {s t : Set α} (hd : AEDisjoint μ s t) (ht
       ((μ s).toReal / ((μ s).toReal + (μ t).toReal)) • ⨍ x in s, f x ∂μ +
         ((μ t).toReal / ((μ s).toReal + (μ t).toReal)) • ⨍ x in t, f x ∂μ := by
   haveI := Fact.mk hsμ.lt_top; haveI := Fact.mk htμ.lt_top
-  rw [restrict_union₀ hd ht, average_add_measure hfs hft, restrict_apply_univ, restrict_apply_univ]
+  rw [restrict_union₀ hd ht]; rw [average_add_measure hfs hft]; rw [restrict_apply_univ]; rw [restrict_apply_univ]
 #align measure_theory.average_union MeasureTheory.average_union
 
 theorem average_union_mem_openSegment {f : α → E} {s t : Set α} (hd : AEDisjoint μ s t)
@@ -365,7 +363,7 @@ theorem average_union_mem_segment {f : α → E} {s t : Set α} (hd : AEDisjoint
     ⨍ x in s ∪ t, f x ∂μ ∈ [⨍ x in s, f x ∂μ -[ℝ] ⨍ x in t, f x ∂μ] := by
   by_cases hse : μ s = 0
   · rw [←ae_eq_empty] at hse
-    rw [restrict_congr_set (hse.union EventuallyEq.rfl), empty_union]
+    rw [restrict_congr_set (hse.union EventuallyEq.rfl)]; rw [empty_union]
     exact right_mem_segment _ _ _
   · refine'
       mem_segment_iff_div.mpr
@@ -387,7 +385,7 @@ theorem average_mem_openSegment_compl_self [IsFiniteMeasure μ] {f : α → E} {
 @[simp]
 theorem average_const (μ : Measure α) [IsFiniteMeasure μ] [h : NeZero μ] (c : E) :
     ⨍ _x, c ∂μ = c := by
-  rw [average, integral_const, measure_univ, ENNReal.one_toReal, one_smul]
+  rw [average]; rw [integral_const]; rw [measure_univ]; rw [ENNReal.one_toReal]; rw [one_smul]
 #align measure_theory.average_const MeasureTheory.average_const
 
 theorem setAverage_const {s : Set α} (hs₀ : μ s ≠ 0) (hs : μ s ≠ ∞) (c : E) :
@@ -422,7 +420,7 @@ theorem setAverage_sub_setAverage (hs : μ s ≠ ∞) (f : α → E) :
 
 theorem integral_average_sub [IsFiniteMeasure μ] (hf : Integrable f μ) :
     ∫ x, ⨍ a, f a ∂μ - f x ∂μ = 0 := by
-  rw [integral_sub (integrable_const _) hf, integral_average, sub_self]
+  rw [integral_sub (integrable_const _) hf]; rw [integral_average]; rw [sub_self]
 #align measure_theory.integral_average_sub MeasureTheory.integral_average_sub
 
 theorem setIntegral_setAverage_sub (hs : μ s ≠ ∞) (hf : IntegrableOn f s μ) :
@@ -449,7 +447,7 @@ theorem ofReal_setAverage {f : α → ℝ} (hf : IntegrableOn f s μ) (hf₀ : 0
 
 theorem toReal_laverage {f : α → ℝ≥0∞} (hf : AEMeasurable f μ) (hf' : ∀ᵐ x ∂μ, f x ≠ ∞) :
     (⨍⁻ x, f x ∂μ).toReal = ⨍ x, (f x).toReal ∂μ := by
-    rw [average_eq, laverage_eq, smul_eq_mul, toReal_div, div_eq_inv_mul, ←
+    rw [average_eq]; rw [laverage_eq]; rw [smul_eq_mul]; rw [toReal_div]; rw [div_eq_inv_mul]; rw [←
       integral_toReal hf (hf'.mono fun _ => lt_top_iff_ne_top.2)]
 #align measure_theory.to_real_laverage MeasureTheory.toReal_laverage
 
@@ -613,11 +611,10 @@ theorem measure_le_setLaverage_pos (hμ : μ s ≠ 0) (hμ₁ : μ s ≠ ∞)
   obtain h | h := eq_or_ne (∫⁻ a in s, f a ∂μ) ∞
   · simpa [mul_top, hμ₁, laverage, h, top_div_of_ne_top hμ₁, pos_iff_ne_zero] using hμ
   have := measure_le_setAverage_pos hμ hμ₁ (integrable_toReal_of_lintegral_ne_top hf h)
-  rw [←setOf_inter_eq_sep, ←Measure.restrict_apply₀
+  rw [←setOf_inter_eq_sep]; rw [←Measure.restrict_apply₀
     (hf.aestronglyMeasurable.nullMeasurableSet_le aestronglyMeasurable_const)]
-  rw [←setOf_inter_eq_sep, ←Measure.restrict_apply₀
-    (hf.ennreal_toReal.aestronglyMeasurable.nullMeasurableSet_le aestronglyMeasurable_const),
-    ←measure_diff_null (measure_eq_top_of_lintegral_ne_top hf h)] at this
+  rw [←setOf_inter_eq_sep] at this; rw [←Measure.restrict_apply₀
+    (hf.ennreal_toReal.aestronglyMeasurable.nullMeasurableSet_le aestronglyMeasurable_const)] at this; rw [←measure_diff_null (measure_eq_top_of_lintegral_ne_top hf h)] at this
   refine' this.trans_le (measure_mono _)
   rintro x ⟨hfx, hx⟩
   dsimp at hfx
@@ -638,12 +635,12 @@ theorem measure_setLaverage_le_pos (hμ : μ s ≠ 0) (hs : NullMeasurableSet s 
   have :=
     measure_setAverage_le_pos hμ hμ₁ (integrable_toReal_of_lintegral_ne_top hg.aemeasurable hint)
   simp_rw [←setOf_inter_eq_sep, ←Measure.restrict_apply₀' hs, hfg']
-  rw [←setOf_inter_eq_sep, ←Measure.restrict_apply₀' hs, ←
+  rw [←setOf_inter_eq_sep] at this; rw [←Measure.restrict_apply₀' hs] at this; rw [←
     measure_diff_null (measure_eq_top_of_lintegral_ne_top hg.aemeasurable hint)] at this
   refine' this.trans_le (measure_mono _)
   rintro x ⟨hfx, hx⟩
   dsimp at hfx
-  rw [←toReal_laverage hg.aemeasurable, toReal_le_toReal (setLaverage_lt_top hint).ne hx] at hfx
+  rw [←toReal_laverage hg.aemeasurable] at hfx; rw [toReal_le_toReal (setLaverage_lt_top hint).ne hx] at hfx
   exact hfx.trans (hgf _)
   · simp_rw [ae_iff, not_ne_iff]
     exact measure_eq_top_of_lintegral_ne_top hg.aemeasurable hint
@@ -782,7 +779,7 @@ theorem tendsto_integral_smul_of_tendsto_average_norm_sub
     simp only [integral_undef hi, lt_self_iff_false, not_false_eq_true]
   have I : ∀ᶠ i in l, ∫ y, g i y • (f y - c) ∂μ + (∫ y, g i y ∂μ) • c = ∫ y, g i y • f y ∂μ := by
     filter_upwards [f_int, g_int, g_supp, g_bound] with i hif hig hisupp hibound
-    rw [← integral_smul_const, ← integral_add]
+    rw [← integral_smul_const]; rw [← integral_add]
     · simp only [smul_sub, sub_add_cancel]
     · simp_rw [smul_sub]
       apply Integrable.sub _ (hig.smul_const _)

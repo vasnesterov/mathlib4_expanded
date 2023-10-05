@@ -132,13 +132,13 @@ theorem antitone_const_tsub : Antitone fun x => c - x := fun _ _ hxy => tsub_le_
 
 /-- See `add_tsub_assoc_of_le` for the equality. -/
 theorem add_tsub_le_assoc : a + b - c ≤ a + (b - c) := by
-  rw [tsub_le_iff_left, add_left_comm]
+  rw [tsub_le_iff_left]; rw [add_left_comm]
   exact add_le_add_left le_add_tsub a
 #align add_tsub_le_assoc add_tsub_le_assoc
 
 /-- See `tsub_add_eq_add_tsub` for the equality. -/
 theorem add_tsub_le_tsub_add : a + b - c ≤ a - c + b := by
-  rw [add_comm, add_comm _ b]
+  rw [add_comm]; rw [add_comm _ b]
   exact add_tsub_le_assoc
 #align add_tsub_le_tsub_add add_tsub_le_tsub_add
 
@@ -148,17 +148,17 @@ theorem add_le_add_add_tsub : a + b ≤ a + c + (b - c) := by
 #align add_le_add_add_tsub add_le_add_add_tsub
 
 theorem le_tsub_add_add : a + b ≤ a - c + (b + c) := by
-  rw [add_comm a, add_comm (a - c)]
+  rw [add_comm a]; rw [add_comm (a - c)]
   exact add_le_add_add_tsub
 #align le_tsub_add_add le_tsub_add_add
 
 theorem tsub_le_tsub_add_tsub : a - c ≤ a - b + (b - c) := by
-  rw [tsub_le_iff_left, ← add_assoc, add_right_comm]
+  rw [tsub_le_iff_left]; rw [← add_assoc]; rw [add_right_comm]
   exact le_add_tsub.trans (add_le_add_right le_add_tsub _)
 #align tsub_le_tsub_add_tsub tsub_le_tsub_add_tsub
 
 theorem tsub_tsub_tsub_le_tsub : c - a - (c - b) ≤ b - a := by
-  rw [tsub_le_iff_left, tsub_le_iff_left, add_left_comm]
+  rw [tsub_le_iff_left]; rw [tsub_le_iff_left]; rw [add_left_comm]
   exact le_tsub_add.trans (add_le_add_left le_add_tsub _)
 #align tsub_tsub_tsub_le_tsub tsub_tsub_tsub_le_tsub
 
@@ -172,21 +172,21 @@ theorem tsub_tsub_le_tsub_add {a b c : α} : a - (b - c) ≤ a - b + c :=
 
 /-- See `tsub_add_tsub_comm` for the equality. -/
 theorem add_tsub_add_le_tsub_add_tsub : a + b - (c + d) ≤ a - c + (b - d) := by
-  rw [add_comm c, tsub_le_iff_left, add_assoc, ← tsub_le_iff_left, ← tsub_le_iff_left]
+  rw [add_comm c]; rw [tsub_le_iff_left]; rw [add_assoc]; rw [← tsub_le_iff_left]; rw [← tsub_le_iff_left]
   refine' (tsub_le_tsub_right add_tsub_le_assoc c).trans _
-  rw [add_comm a, add_comm (a - c)]
+  rw [add_comm a]; rw [add_comm (a - c)]
   exact add_tsub_le_assoc
 #align add_tsub_add_le_tsub_add_tsub add_tsub_add_le_tsub_add_tsub
 
 /-- See `add_tsub_add_eq_tsub_left` for the equality. -/
 theorem add_tsub_add_le_tsub_left : a + b - (a + c) ≤ b - c := by
-  rw [tsub_le_iff_left, add_assoc]
+  rw [tsub_le_iff_left]; rw [add_assoc]
   exact add_le_add_left le_add_tsub _
 #align add_tsub_add_le_tsub_left add_tsub_add_le_tsub_left
 
 /-- See `add_tsub_add_eq_tsub_right` for the equality. -/
 theorem add_tsub_add_le_tsub_right : a + c - (b + c) ≤ a - b := by
-  rw [tsub_le_iff_left, add_right_comm]
+  rw [tsub_le_iff_left]; rw [add_right_comm]
   exact add_le_add_right le_add_tsub c
 #align add_tsub_add_le_tsub_right add_tsub_add_le_tsub_right
 
@@ -274,7 +274,7 @@ theorem tsub_add_eq_tsub_tsub_swap (a b c : α) : a - (b + c) = a - c - b := by
 #align tsub_add_eq_tsub_tsub_swap tsub_add_eq_tsub_tsub_swap
 
 theorem tsub_right_comm : a - b - c = a - c - b := by
-  rw [←tsub_add_eq_tsub_tsub, tsub_add_eq_tsub_tsub_swap]
+  rw [←tsub_add_eq_tsub_tsub]; rw [tsub_add_eq_tsub_tsub_swap]
 #align tsub_right_comm tsub_right_comm
 
 /-! ### Lemmas that assume that an element is `AddLECancellable`. -/
@@ -307,7 +307,7 @@ protected theorem add_tsub_cancel_left (ha : AddLECancellable a) : a + b - a = b
 #align add_le_cancellable.add_tsub_cancel_left AddLECancellable.add_tsub_cancel_left
 
 protected theorem lt_add_of_tsub_lt_left (hb : AddLECancellable b) (h : a - b < c) : a < b + c := by
-  rw [lt_iff_le_and_ne, ← tsub_le_iff_left]
+  rw [lt_iff_le_and_ne]; rw [← tsub_le_iff_left]
   refine' ⟨h.le, _⟩
   rintro rfl
   simp [hb] at h
@@ -315,7 +315,7 @@ protected theorem lt_add_of_tsub_lt_left (hb : AddLECancellable b) (h : a - b < 
 
 protected theorem lt_add_of_tsub_lt_right (hc : AddLECancellable c) (h : a - c < b) :
     a < b + c := by
-  rw [lt_iff_le_and_ne, ← tsub_le_iff_right]
+  rw [lt_iff_le_and_ne]; rw [← tsub_le_iff_right]
   refine' ⟨h.le, _⟩
   rintro rfl
   simp [hc] at h
@@ -394,7 +394,7 @@ theorem add_tsub_add_eq_tsub_right (a c b : α) : a + c - (b + c) = a - b := by
 #align add_tsub_add_eq_tsub_right add_tsub_add_eq_tsub_right
 
 theorem add_tsub_add_eq_tsub_left (a b c : α) : a + b - (a + c) = b - c := by
-  rw [add_comm a b, add_comm a c, add_tsub_add_eq_tsub_right]
+  rw [add_comm a b]; rw [add_comm a c]; rw [add_tsub_add_eq_tsub_right]
 #align add_tsub_add_eq_tsub_left add_tsub_add_eq_tsub_left
 
 end Both

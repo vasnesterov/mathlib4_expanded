@@ -46,7 +46,7 @@ theorem log_div_self_antitoneOn : AntitoneOn (fun x : ℝ => log x / x) { x | ex
   have y_pos : 0 < y := (exp_pos 1).trans_le hey
   have hlogx : 1 ≤ log x := by rwa [le_log_iff_exp_le x_pos]
   have hyx : 0 ≤ y / x - 1 := by rwa [le_sub_iff_add_le, le_div_iff x_pos, zero_add, one_mul]
-  rw [div_le_iff y_pos, ← sub_le_sub_iff_right (log x)]
+  rw [div_le_iff y_pos]; rw [← sub_le_sub_iff_right (log x)]
   calc
     log y - log x = log (y / x) := by rw [log_div y_pos.ne' x_pos.ne']
     _ ≤ y / x - 1 := (log_le_sub_one_of_pos (div_pos y_pos x_pos))
@@ -64,9 +64,7 @@ theorem log_div_self_rpow_antitoneOn {a : ℝ} (ha : 0 < a) :
   have y_nonneg : 0 ≤ y := by linarith
   nth_rw 1 [← rpow_one y]
   nth_rw 1 [← rpow_one x]
-  rw [← div_self (ne_of_lt ha).symm, div_eq_mul_one_div a a, rpow_mul y_nonneg, rpow_mul x_nonneg,
-    log_rpow (rpow_pos_of_pos y_pos a), log_rpow (rpow_pos_of_pos x_pos a), mul_div_assoc,
-    mul_div_assoc, mul_le_mul_left (one_div_pos.mpr ha)]
+  rw [← div_self (ne_of_lt ha).symm]; rw [div_eq_mul_one_div a a]; rw [rpow_mul y_nonneg]; rw [rpow_mul x_nonneg]; rw [log_rpow (rpow_pos_of_pos y_pos a)]; rw [log_rpow (rpow_pos_of_pos x_pos a)]; rw [mul_div_assoc]; rw [mul_div_assoc]; rw [mul_le_mul_left (one_div_pos.mpr ha)]
   · refine' log_div_self_antitoneOn _ _ _
     · simp only [Set.mem_setOf_eq]
       convert rpow_le_rpow _ hex (le_of_lt ha) using 1

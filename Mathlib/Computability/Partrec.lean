@@ -471,7 +471,7 @@ theorem nat_rec {f : α → ℕ} {g : α →. σ} {h : α → ℕ × σ →. σ}
   (Nat.Partrec.prec' hf hg hh).of_eq fun n => by
     cases' e : decode (α := α) n with a <;> simp [e]
     induction' f a with m IH <;> simp
-    rw [IH, Part.bind_map]
+    rw [IH]; rw [Part.bind_map]
     congr; funext s
     simp [encodek]
 #align partrec.nat_elim Partrec.nat_rec

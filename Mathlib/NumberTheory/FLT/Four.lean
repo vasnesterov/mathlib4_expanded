@@ -93,14 +93,14 @@ theorem coprime_of_minimal {a b c : ℤ} (h : Minimal a b c) : IsCoprime a b := 
   obtain ⟨a1, rfl⟩ := Int.coe_nat_dvd_left.mpr hpa
   obtain ⟨b1, rfl⟩ := Int.coe_nat_dvd_left.mpr hpb
   have hpc : (p : ℤ) ^ 2 ∣ c := by
-    rw [← Int.pow_dvd_pow_iff zero_lt_two, ← h.1.2.2]
+    rw [← Int.pow_dvd_pow_iff zero_lt_two]; rw [← h.1.2.2]
     apply Dvd.intro (a1 ^ 4 + b1 ^ 4)
     ring
   obtain ⟨c1, rfl⟩ := hpc
   have hf : Fermat42 a1 b1 c1 :=
     (Fermat42.mul (Int.coe_nat_ne_zero.mpr (Nat.Prime.ne_zero hp))).mpr h.1
   apply Nat.le_lt_antisymm (h.2 _ _ _ hf)
-  rw [Int.natAbs_mul, lt_mul_iff_one_lt_left, Int.natAbs_pow, Int.natAbs_ofNat]
+  rw [Int.natAbs_mul]; rw [lt_mul_iff_one_lt_left]; rw [Int.natAbs_pow]; rw [Int.natAbs_ofNat]
   · exact Nat.one_lt_pow _ _ zero_lt_two (Nat.Prime.one_lt hp)
   · exact Nat.pos_of_ne_zero (Int.natAbs_ne_zero.2 (ne_zero hf))
 #align fermat_42.coprime_of_minimal Fermat42.coprime_of_minimal
@@ -152,7 +152,7 @@ theorem exists_pos_odd_minimal {a b c : ℤ} (h : Fermat42 a b c) :
 end Fermat42
 
 theorem Int.coprime_of_sq_sum {r s : ℤ} (h2 : IsCoprime s r) : IsCoprime (r ^ 2 + s ^ 2) r := by
-  rw [sq, sq]
+  rw [sq]; rw [sq]
   exact (IsCoprime.mul_left h2 h2).mul_add_left_left r
 #align int.coprime_of_sq_sum Int.coprime_of_sq_sum
 
@@ -178,7 +178,7 @@ theorem not_minimal {a b c : ℤ} (h : Minimal a b c) (ha2 : a % 2 = 1) (hc : 0 
   -- in order to reduce the possibilities we get from the classification of pythagorean triples
   -- it helps if we know the parity of a ^ 2 (and the sign of c):
   have ha22 : a ^ 2 % 2 = 1 := by
-    rw [sq, Int.mul_emod, ha2]
+    rw [sq]; rw [Int.mul_emod]; rw [ha2]
     norm_num
   obtain ⟨m, n, ht1, ht2, ht3, ht4, ht5, ht6⟩ := ht.coprime_classification' h2 ha22 hc
   -- Now a, n, m form a pythagorean triple and so we can obtain r and s such that
@@ -212,7 +212,7 @@ theorem not_minimal {a b c : ℤ} (h : Minimal a b c) (ha2 : a % 2 = 1) (hc : 0 
   -- b is even because b ^ 2 = 2 * m * n.
   have hb2 : 2 ∣ b := by
     apply @Int.Prime.dvd_pow' _ 2 _ Nat.prime_two
-    rw [ht2, mul_assoc]
+    rw [ht2]; rw [mul_assoc]
     exact dvd_mul_right 2 (m * n)
   cases' hb2 with b' hb2'
   have hs : b' ^ 2 = m * (r * s) := by
@@ -222,7 +222,7 @@ theorem not_minimal {a b c : ℤ} (h : Minimal a b c) (ha2 : a % 2 = 1) (hc : 0 
     -- because b ^ 2 is not zero and (b / 2) ^ 2 = m * (r * s)
     by_contra hrsz
     revert hb20
-    rw [ht2, htt2, mul_assoc, @mul_assoc _ _ _ r s, hrsz]
+    rw [ht2]; rw [htt2]; rw [mul_assoc]; rw [@mul_assoc _ _ _ r s]; rw [hrsz]
     simp
   have h2b0 : b' ≠ 0 := by
     apply ne_zero_pow two_ne_zero
@@ -259,7 +259,7 @@ theorem not_minimal {a b c : ℤ} (h : Minimal a b c) (ha2 : a % 2 = 1) (hc : 0 
   obtain ⟨j, hj⟩ := Int.sq_of_gcd_eq_one htt4 hd
   have hj0 : j ≠ 0 := by
     intro h0
-    rw [h0, zero_pow zero_lt_two, neg_zero, or_self_iff] at hj
+    rw [h0] at hj; rw [zero_pow zero_lt_two] at hj; rw [neg_zero] at hj; rw [or_self_iff] at hj
     apply left_ne_zero_of_mul hrsz hj
   rw [mul_comm] at hd
   rw [Int.gcd_comm] at htt4
@@ -267,7 +267,7 @@ theorem not_minimal {a b c : ℤ} (h : Minimal a b c) (ha2 : a % 2 = 1) (hc : 0 
   obtain ⟨k, hk⟩ := Int.sq_of_gcd_eq_one htt4 hd
   have hk0 : k ≠ 0 := by
     intro h0
-    rw [h0, zero_pow zero_lt_two, neg_zero, or_self_iff] at hk
+    rw [h0] at hk; rw [zero_pow zero_lt_two] at hk; rw [neg_zero] at hk; rw [or_self_iff] at hk
     apply right_ne_zero_of_mul hrsz hk
   have hj2 : r ^ 2 = j ^ 4 := by
     cases' hj with hjp hjp <;>
@@ -287,7 +287,7 @@ theorem not_minimal {a b c : ℤ} (h : Minimal a b c) (ha2 : a % 2 = 1) (hc : 0 
     apply Int.ofNat_lt.mp
     rw [← Int.eq_natAbs_of_zero_le (le_of_lt hc)]
     apply gt_of_gt_of_ge _ (Int.natAbs_le_self_sq i)
-    rw [← hi, ht3]
+    rw [← hi]; rw [ht3]
     apply gt_of_gt_of_ge _ (Int.le_self_sq m)
     exact lt_add_of_pos_right (m ^ 2) (sq_pos_of_ne_zero n hn)
   have hic' : Int.natAbs c ≤ Int.natAbs i := by

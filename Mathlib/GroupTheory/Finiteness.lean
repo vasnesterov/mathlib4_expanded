@@ -154,10 +154,9 @@ theorem Submonoid.FG.map_injective {M' : Type*} [Monoid M'] {P : Submonoid M} (e
   obtain ⟨s, hs⟩ := h
   use s.preimage e (he.injOn _)
   apply Submonoid.map_injective_of_injective he
-  rw [← hs, MonoidHom.map_mclosure e, Finset.coe_preimage]
+  rw [← hs]; rw [MonoidHom.map_mclosure e]; rw [Finset.coe_preimage]
   congr
-  rw [Set.image_preimage_eq_iff, ← MonoidHom.coe_mrange e, ← Submonoid.closure_le, hs,
-      MonoidHom.mrange_eq_map e]
+  rw [Set.image_preimage_eq_iff]; rw [← MonoidHom.coe_mrange e]; rw [← Submonoid.closure_le]; rw [hs]; rw [MonoidHom.mrange_eq_map e]
   exact Submonoid.monotone_map le_top
 #align submonoid.fg.map_injective Submonoid.FG.map_injective
 #align add_submonoid.fg.map_injective AddSubmonoid.FG.map_injective
@@ -202,7 +201,7 @@ instance Monoid.powers_fg (r : M) : Monoid.FG (Submonoid.powers r) :=
 @[to_additive]
 instance Monoid.closure_finset_fg (s : Finset M) : Monoid.FG (Submonoid.closure (s : Set M)) := by
   refine' ⟨⟨s.preimage Subtype.val (Subtype.coe_injective.injOn _), _⟩⟩
-  rw [Finset.coe_preimage, Submonoid.closure_closure_coe_preimage]
+  rw [Finset.coe_preimage]; rw [Submonoid.closure_closure_coe_preimage]
 #align monoid.closure_finset_fg Monoid.closure_finset_fg
 #align add_monoid.closure_finset_fg AddMonoid.closure_finset_fg
 
@@ -260,12 +259,12 @@ theorem Subgroup.fg_iff_submonoid_fg (P : Subgroup G) : P.FG ↔ P.toSubmonoid.F
 #align add_subgroup.fg_iff_add_submonoid.fg AddSubgroup.fg_iff_addSubmonoid_fg
 
 theorem Subgroup.fg_iff_add_fg (P : Subgroup G) : P.FG ↔ P.toAddSubgroup.FG := by
-  rw [Subgroup.fg_iff_submonoid_fg, AddSubgroup.fg_iff_addSubmonoid_fg]
+  rw [Subgroup.fg_iff_submonoid_fg]; rw [AddSubgroup.fg_iff_addSubmonoid_fg]
   exact (Subgroup.toSubmonoid P).fg_iff_add_fg
 #align subgroup.fg_iff_add_fg Subgroup.fg_iff_add_fg
 
 theorem AddSubgroup.fg_iff_mul_fg (P : AddSubgroup H) : P.FG ↔ P.toSubgroup.FG := by
-  rw [AddSubgroup.fg_iff_addSubmonoid_fg, Subgroup.fg_iff_submonoid_fg]
+  rw [AddSubgroup.fg_iff_addSubmonoid_fg]; rw [Subgroup.fg_iff_submonoid_fg]
   exact AddSubmonoid.fg_iff_mul_fg (AddSubgroup.toAddSubmonoid P)
 #align add_subgroup.fg_iff_mul_fg AddSubgroup.fg_iff_mul_fg
 
@@ -368,7 +367,7 @@ instance Group.fg_range {G' : Type*} [Group G'] [Group.FG G] (f : G →* G') : G
 @[to_additive]
 instance Group.closure_finset_fg (s : Finset G) : Group.FG (Subgroup.closure (s : Set G)) := by
   refine' ⟨⟨s.preimage Subtype.val (Subtype.coe_injective.injOn _), _⟩⟩
-  rw [Finset.coe_preimage, ← Subgroup.coeSubtype, Subgroup.closure_preimage_eq_top]
+  rw [Finset.coe_preimage]; rw [← Subgroup.coeSubtype]; rw [Subgroup.closure_preimage_eq_top]
 #align group.closure_finset_fg Group.closure_finset_fg
 #align add_group.closure_finset_fg AddGroup.closure_finset_fg
 
@@ -411,7 +410,7 @@ theorem Group.rank_le_of_surjective [Group.FG G] [Group.FG G'] (f : G →* G')
     obtain ⟨S, hS1, hS2⟩ := Group.rank_spec G
     trans (S.image f).card
     · apply Group.rank_le
-      rw [Finset.coe_image, ← MonoidHom.map_closure, hS2, Subgroup.map_top_of_surjective f hf]
+      rw [Finset.coe_image]; rw [← MonoidHom.map_closure]; rw [hS2]; rw [Subgroup.map_top_of_surjective f hf]
     · exact Finset.card_image_le.trans_eq hS1
 #align group.rank_le_of_surjective Group.rank_le_of_surjective
 #align add_group.rank_le_of_surjective AddGroup.rank_le_of_surjective
@@ -448,7 +447,7 @@ theorem rank_closure_finset_le_card (s : Finset G) : Group.rank (closure (s : Se
       exact closure_preimage_eq_top (s : Set G)
     apply (Group.rank_le (closure (s : Set G)) ht).trans
     suffices H : Set.InjOn Subtype.val (t : Set (closure (s : Set G)))
-    rw [← Finset.card_image_of_injOn H, Finset.image_preimage]
+    rw [← Finset.card_image_of_injOn H]; rw [Finset.image_preimage]
     · apply Finset.card_filter_le
     · apply Subtype.coe_injective.injOn
 #align subgroup.rank_closure_finset_le_card Subgroup.rank_closure_finset_le_card
@@ -458,7 +457,7 @@ theorem rank_closure_finset_le_card (s : Finset G) : Group.rank (closure (s : Se
 theorem rank_closure_finite_le_nat_card (s : Set G) [Finite s] :
     Group.rank (closure s) ≤ Nat.card s := by
   haveI := Fintype.ofFinite s
-  rw [Nat.card_eq_fintype_card, ← s.toFinset_card, ← rank_congr (congr_arg _ s.coe_toFinset)]
+  rw [Nat.card_eq_fintype_card]; rw [← s.toFinset_card]; rw [← rank_congr (congr_arg _ s.coe_toFinset)]
   exact rank_closure_finset_le_card s.toFinset
 #align subgroup.rank_closure_finite_le_nat_card Subgroup.rank_closure_finite_le_nat_card
 #align add_subgroup.rank_closure_finite_le_nat_card AddSubgroup.rank_closure_finite_le_nat_card

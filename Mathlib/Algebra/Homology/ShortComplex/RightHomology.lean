@@ -156,8 +156,7 @@ def ofIsLimitKernelFork (hf : S.f = 0) (c : KernelFork S.g) (hc : IsLimit c) :
 
 @[simp] lemma ofIsLimitKernelFork_g' (hf : S.f = 0) (c : KernelFork S.g)
     (hc : IsLimit c) : (ofIsLimitKernelFork S hf c hc).g' = S.g := by
-  rw [← cancel_epi (ofIsLimitKernelFork S hf c hc).p, p_g',
-    ofIsLimitKernelFork_p, id_comp]
+  rw [← cancel_epi (ofIsLimitKernelFork S hf c hc).p]; rw [p_g']; rw [ofIsLimitKernelFork_p]; rw [id_comp]
 
 /-- When the first map `S.f` is zero, this is the right homology data on `S` given by
 the chosen `kernel S.g` -/
@@ -207,7 +206,7 @@ def ofZeros (hf : S.f = 0) (hg : S.g = 0) : S.RightHomologyData where
 @[simp]
 lemma ofZeros_g' (hf : S.f = 0) (hg : S.g = 0) :
     (ofZeros S hf hg).g' = 0 := by
-  rw [← cancel_epi ((ofZeros S hf hg).p), comp_zero, p_g', hg]
+  rw [← cancel_epi ((ofZeros S hf hg).p)]; rw [comp_zero]; rw [p_g']; rw [hg]
 
 end RightHomologyData
 
@@ -697,8 +696,7 @@ lemma rightHomologyMap'_comp (φ₁ : S₁ ⟶ S₂) (φ₂ : S₂ ⟶ S₃)
       rightHomologyMap' φ₂ h₂ h₃ := by
   let γ₁ := rightHomologyMapData φ₁ h₁ h₂
   let γ₂ := rightHomologyMapData φ₂ h₂ h₃
-  rw [γ₁.rightHomologyMap'_eq, γ₂.rightHomologyMap'_eq, (γ₁.comp γ₂).rightHomologyMap'_eq,
-    RightHomologyMapData.comp_φH]
+  rw [γ₁.rightHomologyMap'_eq]; rw [γ₂.rightHomologyMap'_eq]; rw [(γ₁.comp γ₂).rightHomologyMap'_eq]; rw [RightHomologyMapData.comp_φH]
 
 @[reassoc]
 lemma opcyclesMap'_comp (φ₁ : S₁ ⟶ S₂) (φ₂ : S₂ ⟶ S₃)
@@ -706,8 +704,7 @@ lemma opcyclesMap'_comp (φ₁ : S₁ ⟶ S₂) (φ₂ : S₂ ⟶ S₃)
     opcyclesMap' (φ₁ ≫ φ₂) h₁ h₃ = opcyclesMap' φ₁ h₁ h₂ ≫ opcyclesMap' φ₂ h₂ h₃ := by
   let γ₁ := rightHomologyMapData φ₁ h₁ h₂
   let γ₂ := rightHomologyMapData φ₂ h₂ h₃
-  rw [γ₁.opcyclesMap'_eq, γ₂.opcyclesMap'_eq, (γ₁.comp γ₂).opcyclesMap'_eq,
-    RightHomologyMapData.comp_φQ]
+  rw [γ₁.opcyclesMap'_eq]; rw [γ₂.opcyclesMap'_eq]; rw [(γ₁.comp γ₂).opcyclesMap'_eq]; rw [RightHomologyMapData.comp_φQ]
 
 @[simp]
 lemma rightHomologyMap_comp [HasRightHomology S₁] [HasRightHomology S₂] [HasRightHomology S₃]
@@ -830,14 +827,13 @@ variable {φ : S₁ ⟶ S₂} {h₁ : S₁.RightHomologyData} {h₂ : S₂.Right
 lemma rightHomologyMap_eq [S₁.HasRightHomology] [S₂.HasRightHomology] :
     rightHomologyMap φ = h₁.rightHomologyIso.hom ≫ γ.φH ≫ h₂.rightHomologyIso.inv := by
   dsimp [RightHomologyData.rightHomologyIso, rightHomologyMapIso']
-  rw [← γ.rightHomologyMap'_eq, ← rightHomologyMap'_comp,
-    ← rightHomologyMap'_comp, id_comp, comp_id]
+  rw [← γ.rightHomologyMap'_eq]; rw [← rightHomologyMap'_comp]; rw [← rightHomologyMap'_comp]; rw [id_comp]; rw [comp_id]
   rfl
 
 lemma opcyclesMap_eq [S₁.HasRightHomology] [S₂.HasRightHomology] :
     opcyclesMap φ = h₁.opcyclesIso.hom ≫ γ.φQ ≫ h₂.opcyclesIso.inv := by
   dsimp [RightHomologyData.opcyclesIso, cyclesMapIso']
-  rw [← γ.opcyclesMap'_eq, ← opcyclesMap'_comp, ← opcyclesMap'_comp, id_comp, comp_id]
+  rw [← γ.opcyclesMap'_eq]; rw [← opcyclesMap'_comp]; rw [← opcyclesMap'_comp]; rw [id_comp]; rw [comp_id]
   rfl
 
 lemma rightHomologyMap_comm [S₁.HasRightHomology] [S₂.HasRightHomology] :
@@ -1051,8 +1047,7 @@ noncomputable def ofEpiOfIsIsoOfMono' : RightHomologyData S₁ := by
 @[simp] lemma ofEpiOfIsIsoOfMono'_ι : (ofEpiOfIsIsoOfMono' φ h).ι = h.ι := rfl
 
 @[simp] lemma ofEpiOfIsIsoOfMono'_g'_τ₃ : (ofEpiOfIsIsoOfMono' φ h).g' ≫ φ.τ₃ = h.g' := by
-  rw [← cancel_epi (ofEpiOfIsIsoOfMono' φ h).p, p_g'_assoc, ofEpiOfIsIsoOfMono'_p,
-    assoc, p_g', φ.comm₂₃]
+  rw [← cancel_epi (ofEpiOfIsIsoOfMono' φ h).p]; rw [p_g'_assoc]; rw [ofEpiOfIsIsoOfMono'_p]; rw [assoc]; rw [p_g']; rw [φ.comm₂₃]
 
 end
 
@@ -1209,7 +1204,7 @@ lemma RightHomologyData.opcyclesIso_inv_comp_descOpcycles :
 @[simp]
 lemma RightHomologyData.opcyclesIso_hom_comp_descQ :
     h.opcyclesIso.hom ≫ h.descQ k hk = S.descOpcycles k hk := by
-  rw [← h.opcyclesIso_inv_comp_descOpcycles, Iso.hom_inv_id_assoc]
+  rw [← h.opcyclesIso_inv_comp_descOpcycles]; rw [Iso.hom_inv_id_assoc]
 
 end
 

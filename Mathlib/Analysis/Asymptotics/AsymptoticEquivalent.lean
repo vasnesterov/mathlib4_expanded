@@ -100,7 +100,7 @@ theorem IsEquivalent.isTheta_symm (h : u ~[l] v) : v =Θ[l] u :=
 
 @[refl]
 theorem IsEquivalent.refl : u ~[l] u := by
-  rw [IsEquivalent, sub_self]
+  rw [IsEquivalent]; rw [sub_self]
   exact isLittleO_zero _ _
 #align asymptotics.is_equivalent.refl Asymptotics.IsEquivalent.refl
 
@@ -126,13 +126,13 @@ theorem IsEquivalent.congr_right {u v w : α → β} {l : Filter α} (huv : u ~[
 #align asymptotics.is_equivalent.congr_right Asymptotics.IsEquivalent.congr_right
 
 theorem isEquivalent_zero_iff_eventually_zero : u ~[l] 0 ↔ u =ᶠ[l] 0 := by
-  rw [IsEquivalent, sub_zero]
+  rw [IsEquivalent]; rw [sub_zero]
   exact isLittleO_zero_right_iff
 #align asymptotics.is_equivalent_zero_iff_eventually_zero Asymptotics.isEquivalent_zero_iff_eventually_zero
 
 theorem isEquivalent_zero_iff_isBigO_zero : u ~[l] 0 ↔ u =O[l] (0 : α → β) := by
   refine' ⟨IsEquivalent.isBigO, fun h ↦ _⟩
-  rw [isEquivalent_zero_iff_eventually_zero, eventuallyEq_iff_exists_mem]
+  rw [isEquivalent_zero_iff_eventually_zero]; rw [eventuallyEq_iff_exists_mem]
   exact ⟨{ x : α | u x = 0 }, isBigO_zero_right_iff.mp h, fun x hx ↦ hx⟩
 set_option linter.uppercaseLean3 false in
 #align asymptotics.is_equivalent_zero_iff_is_O_zero Asymptotics.isEquivalent_zero_iff_isBigO_zero
@@ -200,7 +200,7 @@ variable {α β : Type*} [NormedField β] {t u v w : α → β} {l : Filter α}
 
 theorem isEquivalent_iff_exists_eq_mul :
     u ~[l] v ↔ ∃ (φ : α → β) (_ : Tendsto φ l (𝓝 1)), u =ᶠ[l] φ * v := by
-  rw [IsEquivalent, isLittleO_iff_exists_eq_mul]
+  rw [IsEquivalent]; rw [isLittleO_iff_exists_eq_mul]
   constructor <;> rintro ⟨φ, hφ, h⟩ <;> [refine' ⟨φ + 1, _, _⟩; refine' ⟨φ - 1, _, _⟩]
   · conv in 𝓝 _ => rw [← zero_add (1 : β)]
     exact hφ.add tendsto_const_nhds
@@ -253,7 +253,7 @@ theorem IsEquivalent.smul {α E 𝕜 : Type*} [NormedField 𝕜] [NormedAddCommG
     convert (habφ.comp₂ (· • ·) <| EventuallyEq.refl _ u).sub
       (EventuallyEq.refl _ fun x ↦ b x • v x) using 1
     ext
-    rw [Pi.mul_apply, mul_comm, mul_smul, ← smul_sub]
+    rw [Pi.mul_apply]; rw [mul_comm]; rw [mul_smul]; rw [← smul_sub]
   refine' (isLittleO_congr this.symm <| EventuallyEq.rfl).mp ((isBigO_refl b l).smul_isLittleO _)
   rcases huv.isBigO.exists_pos with ⟨C, hC, hCuv⟩
   rw [IsEquivalent] at *

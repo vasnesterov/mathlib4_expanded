@@ -178,7 +178,7 @@ theorem age.countable_quotient [h : Countable M] : (Quotient.mk' '' L.age M).Cou
     rintro ⟨P, ⟨⟨s, hs⟩, ⟨PM⟩⟩, hP2⟩
     have : P ≈ N := by apply Quotient.eq'.mp; rw [hP2]; rfl -- Porting note: added
     refine' ⟨s.image PM, Setoid.trans (b := P) _ this⟩
-    rw [← Embedding.coe_toHom, Finset.coe_image, closure_image PM.toHom, hs, ← Hom.range_eq_map]
+    rw [← Embedding.coe_toHom]; rw [Finset.coe_image]; rw [closure_image PM.toHom]; rw [hs]; rw [← Hom.range_eq_map]
     exact ⟨PM.equivRange.symm⟩
 #align first_order.language.age.countable_quotient FirstOrder.Language.age.countable_quotient
 
@@ -197,12 +197,10 @@ theorem age_directLimit {ι : Type w} [Preorder ι] [IsDirected ι (· ≤ ·)] 
     obtain ⟨i, hi⟩ := Finset.exists_le (s.image (Sigma.fst ∘ out))
     have e' := (DirectLimit.of L ι G f i).equivRange.symm.toEmbedding
     refine' ⟨i, Mfg, ⟨e'.comp ((Substructure.inclusion _).comp e.equivRange.toEmbedding)⟩⟩
-    rw [← hs, closure_le]
+    rw [← hs]; rw [closure_le]
     intro x hx
     refine' ⟨f (out x).1 i (hi (out x).1 (Finset.mem_image_of_mem _ hx)) (out x).2, _⟩
-    rw [Embedding.coe_toHom, DirectLimit.of_apply, @Quotient.mk_eq_iff_out _ (_),
-      DirectLimit.equiv_iff G f _ (hi (out x).1 (Finset.mem_image_of_mem _ hx)),
-      DirectedSystem.map_self]
+    rw [Embedding.coe_toHom]; rw [DirectLimit.of_apply]; rw [@Quotient.mk_eq_iff_out _ (_)]; rw [DirectLimit.equiv_iff G f _ (hi (out x).1 (Finset.mem_image_of_mem _ hx))]; rw [DirectedSystem.map_self]
     rfl
   · rintro ⟨i, Mfg, ⟨e⟩⟩
     exact ⟨Mfg, ⟨Embedding.comp (DirectLimit.of L ι G f i) e⟩⟩

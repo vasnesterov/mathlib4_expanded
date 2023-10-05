@@ -139,7 +139,7 @@ element, then `b` is right-regular. -/
 an add-right-regular element, then `b` is add-right-regular."]
 theorem IsRightRegular.of_mul (ab : IsRightRegular (b * a)) : IsRightRegular b := by
   refine' fun x y xy => ab (_ : x * (b * a) = y * (b * a))
-  rw [← mul_assoc, ← mul_assoc]
+  rw [← mul_assoc]; rw [← mul_assoc]
   exact congr_fun (congr_arg (· * ·) xy) a
 #align is_right_regular.of_mul IsRightRegular.of_mul
 #align is_add_right_regular.of_add IsAddRightRegular.of_add
@@ -212,7 +212,7 @@ theorem isLeftRegular_zero_iff_subsingleton : IsLeftRegular (0 : R) ↔ Subsingl
 
 /-- In a non-trivial `MulZeroClass`, the `0` element is not left-regular. -/
 theorem not_isLeftRegular_zero_iff : ¬IsLeftRegular (0 : R) ↔ Nontrivial R := by
-  rw [nontrivial_iff, not_iff_comm, isLeftRegular_zero_iff_subsingleton, subsingleton_iff]
+  rw [nontrivial_iff]; rw [not_iff_comm]; rw [isLeftRegular_zero_iff_subsingleton]; rw [subsingleton_iff]
   push_neg
   exact Iff.rfl
 #align not_is_left_regular_zero_iff not_isLeftRegular_zero_iff
@@ -224,7 +224,7 @@ theorem isRightRegular_zero_iff_subsingleton : IsRightRegular (0 : R) ↔ Subsin
 
 /-- In a non-trivial `MulZeroClass`, the `0` element is not right-regular. -/
 theorem not_isRightRegular_zero_iff : ¬IsRightRegular (0 : R) ↔ Nontrivial R := by
-  rw [nontrivial_iff, not_iff_comm, isRightRegular_zero_iff_subsingleton, subsingleton_iff]
+  rw [nontrivial_iff]; rw [not_iff_comm]; rw [isRightRegular_zero_iff_subsingleton]; rw [subsingleton_iff]
   push_neg
   exact Iff.rfl
 #align not_is_right_regular_zero_iff not_isRightRegular_zero_iff
@@ -240,7 +240,7 @@ theorem IsLeftRegular.ne_zero [Nontrivial R] (la : IsLeftRegular a) : a ≠ 0 :=
   rintro rfl
   rcases exists_pair_ne R with ⟨x, y, xy⟩
   refine' xy (la (_ : 0 * x = 0 * y)) -- Porting note: lean4 seems to need the type signature
-  rw [zero_mul, zero_mul]
+  rw [zero_mul]; rw [zero_mul]
 #align is_left_regular.ne_zero IsLeftRegular.ne_zero
 
 /-- A right-regular element of a `Nontrivial` `MulZeroClass` is non-zero. -/
@@ -248,7 +248,7 @@ theorem IsRightRegular.ne_zero [Nontrivial R] (ra : IsRightRegular a) : a ≠ 0 
   rintro rfl
   rcases exists_pair_ne R with ⟨x, y, xy⟩
   refine' xy (ra (_ : x * 0 = y * 0))
-  rw [mul_zero, mul_zero]
+  rw [mul_zero]; rw [mul_zero]
 #align is_right_regular.ne_zero IsRightRegular.ne_zero
 
 /-- A regular element of a `Nontrivial` `MulZeroClass` is non-zero. -/

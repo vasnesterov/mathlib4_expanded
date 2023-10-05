@@ -76,7 +76,7 @@ variable {T : E →ₗ.[𝕜] F} {S : F →ₗ.[𝕜] E}
 @[symm]
 protected theorem IsFormalAdjoint.symm (h : T.IsFormalAdjoint S) :
     S.IsFormalAdjoint T := fun y _ => by
-  rw [← inner_conj_symm, ← inner_conj_symm (y : F), h]
+  rw [← inner_conj_symm]; rw [← inner_conj_symm (y : F)]; rw [h]
 #align linear_pmap.is_formal_adjoint.symm LinearPMap.IsFormalAdjoint.symm
 
 variable (T)
@@ -88,11 +88,11 @@ This definition is needed to construct the adjoint operator and the preferred ve
 def adjointDomain : Submodule 𝕜 F where
   carrier := {y | Continuous ((innerₛₗ 𝕜 y).comp T.toFun)}
   zero_mem' := by
-    rw [Set.mem_setOf_eq, LinearMap.map_zero, LinearMap.zero_comp]
+    rw [Set.mem_setOf_eq]; rw [LinearMap.map_zero]; rw [LinearMap.zero_comp]
     exact continuous_zero
   add_mem' hx hy := by rw [Set.mem_setOf_eq, LinearMap.map_add] at *; exact hx.add hy
   smul_mem' a x hx := by
-    rw [Set.mem_setOf_eq, LinearMap.map_smulₛₗ] at *
+    rw [Set.mem_setOf_eq] at *; rw [LinearMap.map_smulₛₗ] at *
     exact hx.const_smul (conj a)
 #align linear_pmap.adjoint_domain LinearPMap.adjointDomain
 
@@ -258,9 +258,9 @@ theorem _root_.IsSelfAdjoint.dense_domain (hA : IsSelfAdjoint A) : Dense (A.doma
   by_contra h
   rw [isSelfAdjoint_def] at hA
   have h' : A.domain = ⊤ := by
-    rw [← hA, Submodule.eq_top_iff']
+    rw [← hA]; rw [Submodule.eq_top_iff']
     intro x
-    rw [mem_adjoint_domain_iff, ← hA]
+    rw [mem_adjoint_domain_iff]; rw [← hA]
     refine (innerSL 𝕜 x).cont.comp ?_
     simp [adjoint, h, continuous_const]
   simp [h'] at h

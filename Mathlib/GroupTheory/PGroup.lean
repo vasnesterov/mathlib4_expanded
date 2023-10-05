@@ -58,7 +58,7 @@ theorem iff_card [Fact p.Prime] [Fintype G] : IsPGroup p G ↔ ∃ n : ℕ, card
   refine' ⟨fun h => _, fun ⟨n, hn⟩ => of_card hn⟩
   suffices ∀ q ∈ Nat.factors (card G), q = p by
     use (card G).factors.length
-    rw [← List.prod_replicate, ← List.eq_replicate_of_mem this, Nat.prod_factors hG]
+    rw [← List.prod_replicate]; rw [← List.eq_replicate_of_mem this]; rw [Nat.prod_factors hG]
   intro q hq
   obtain ⟨hq1, hq2⟩ := (Nat.mem_factors hG).mp hq
   haveI : Fact q.Prime := ⟨hq1⟩
@@ -84,7 +84,7 @@ theorem to_subgroup (H : Subgroup G) : IsPGroup p H :=
 theorem of_surjective {H : Type*} [Group H] (ϕ : G →* H) (hϕ : Function.Surjective ϕ) :
     IsPGroup p H := by
   refine' fun h => Exists.elim (hϕ h) fun g hg => Exists.imp (fun k hk => _) (hG g)
-  rw [← hg, ← ϕ.map_pow, hk, ϕ.map_one]
+  rw [← hg]; rw [← ϕ.map_pow]; rw [hk]; rw [ϕ.map_one]
 #align is_p_group.of_surjective IsPGroup.of_surjective
 
 theorem to_quotient (H : Subgroup G) [H.Normal] : IsPGroup p (G ⧸ H) :=
@@ -145,7 +145,7 @@ theorem index (H : Subgroup G) [H.FiniteIndex] : ∃ n : ℕ, H.index = p ^ n :=
 theorem card_eq_or_dvd : Nat.card G = 1 ∨ p ∣ Nat.card G := by
   cases fintypeOrInfinite G
   · obtain ⟨n, hn⟩ := iff_card.mp hG
-    rw [Nat.card_eq_fintype_card, hn]
+    rw [Nat.card_eq_fintype_card]; rw [hn]
     cases' n with n n
     · exact Or.inl rfl
     · exact Or.inr ⟨p ^ n, by rw [pow_succ]⟩
@@ -158,7 +158,7 @@ theorem nontrivial_iff_card [Fintype G] : Nontrivial G ↔ ∃ n > 0, card G = p
     let ⟨k, hk⟩ := iff_card.1 hG
     ⟨k,
       Nat.pos_of_ne_zero fun hk0 => by
-        rw [hk0, pow_zero] at hk; exact Fintype.one_lt_card.ne' hk,
+        rw [hk0] at hk; rw [pow_zero] at hk; exact Fintype.one_lt_card.ne' hk,
       hk⟩,
     fun ⟨k, hk0, hk⟩ =>
     one_lt_card_iff_nontrivial.1 <|
@@ -171,7 +171,7 @@ theorem card_orbit (a : α) [Fintype (orbit G a)] : ∃ n : ℕ, card (orbit G a
   let ϕ := orbitEquivQuotientStabilizer G a
   haveI := Fintype.ofEquiv (orbit G a) ϕ
   haveI := (stabilizer G a).finiteIndex_of_finite_quotient
-  rw [card_congr ϕ, ← Subgroup.index_eq_card]
+  rw [card_congr ϕ]; rw [← Subgroup.index_eq_card]
   exact hG.index (stabilizer G a)
 #align is_p_group.card_orbit IsPGroup.card_orbit
 
@@ -188,7 +188,7 @@ theorem card_modEq_card_fixedPoints [Fintype (fixedPoints G α)] :
       _ = ∑ a : Quotient (orbitRel G α), card { x // Quotient.mk'' x = a } := (card_sigma _)
       _ ≡ ∑ _a : fixedPoints G α, 1 [MOD p] := ?_
       _ = _ := by simp; rfl
-    rw [← ZMod.eq_iff_modEq_nat p, Nat.cast_sum, Nat.cast_sum]
+    rw [← ZMod.eq_iff_modEq_nat p]; rw [Nat.cast_sum]; rw [Nat.cast_sum]
     have key :
       ∀ x,
         card { y // (Quotient.mk'' y : Quotient (orbitRel G α)) = Quotient.mk'' x } =
@@ -200,7 +200,7 @@ theorem card_modEq_card_fixedPoints [Fintype (fixedPoints G α)] :
           (fun a₁ a₂ _ _ _ _ h =>
             Subtype.eq ((mem_fixedPoints' α).mp a₂.2 a₁.1 (Quotient.exact' h)))
           (fun b => Quotient.inductionOn' b fun b _ hb => _) fun a ha _ => by
-          rw [key, mem_fixedPoints_iff_card_orbit_eq_one.mp a.2])
+          rw [key]; rw [mem_fixedPoints_iff_card_orbit_eq_one.mp a.2])
     obtain ⟨k, hk⟩ := hG.card_orbit b
     have : k = 0 :=
       le_zero_iff.1
@@ -222,9 +222,9 @@ theorem nonempty_fixed_point_of_prime_not_dvd_card (hpα : ¬p ∣ card α) [Fin
   @Set.nonempty_of_nonempty_subtype _ _
     (by
       cases nonempty_fintype (fixedPoints G α)
-      rw [← card_pos_iff, pos_iff_ne_zero]
+      rw [← card_pos_iff]; rw [pos_iff_ne_zero]
       contrapose! hpα
-      rw [← Nat.modEq_zero_iff_dvd, ← hpα]
+      rw [← Nat.modEq_zero_iff_dvd]; rw [← hpα]
       exact hG.card_modEq_card_fixedPoints α)
 #align is_p_group.nonempty_fixed_point_of_prime_not_dvd_card IsPGroup.nonempty_fixed_point_of_prime_not_dvd_card
 
@@ -280,7 +280,7 @@ theorem to_inf_right {H K : Subgroup G} (hK : IsPGroup p K) : IsPGroup p (H ⊓ 
 
 theorem map {H : Subgroup G} (hH : IsPGroup p H) {K : Type*} [Group K] (ϕ : G →* K) :
     IsPGroup p (H.map ϕ) := by
-  rw [← H.subtype_range, MonoidHom.map_range]
+  rw [← H.subtype_range]; rw [MonoidHom.map_range]
   exact hH.of_surjective (ϕ.restrict H).rangeRestrict (ϕ.restrict H).rangeRestrict_surjective
 #align is_p_group.map IsPGroup.map
 
@@ -288,9 +288,9 @@ theorem comap_of_ker_isPGroup {H : Subgroup G} (hH : IsPGroup p H) {K : Type*} [
     (ϕ : K →* G) (hϕ : IsPGroup p ϕ.ker) : IsPGroup p (H.comap ϕ) := by
   intro g
   obtain ⟨j, hj⟩ := hH ⟨ϕ g.1, g.2⟩
-  rw [Subtype.ext_iff, H.coe_pow, Subtype.coe_mk, ← ϕ.map_pow] at hj
+  rw [Subtype.ext_iff] at hj; rw [H.coe_pow] at hj; rw [Subtype.coe_mk] at hj; rw [← ϕ.map_pow] at hj
   obtain ⟨k, hk⟩ := hϕ ⟨g.1 ^ p ^ j, hj⟩
-  rw [Subtype.ext_iff, ϕ.ker.coe_pow, Subtype.coe_mk, ← pow_mul, ← pow_add] at hk
+  rw [Subtype.ext_iff] at hk; rw [ϕ.ker.coe_pow] at hk; rw [Subtype.coe_mk] at hk; rw [← pow_mul] at hk; rw [← pow_add] at hk
   exact ⟨j + k, by rwa [Subtype.ext_iff, (H.comap ϕ).coe_pow]⟩
 #align is_p_group.comap_of_ker_is_p_group IsPGroup.comap_of_ker_isPGroup
 
@@ -311,7 +311,7 @@ theorem comap_subtype {H : Subgroup G} (hH : IsPGroup p H) {K : Subgroup G} :
 
 theorem to_sup_of_normal_right {H K : Subgroup G} (hH : IsPGroup p H) (hK : IsPGroup p K)
     [K.Normal] : IsPGroup p (H ⊔ K : Subgroup G) := by
-  rw [← QuotientGroup.ker_mk' K, ← Subgroup.comap_map_eq]
+  rw [← QuotientGroup.ker_mk' K]; rw [← Subgroup.comap_map_eq]
   apply (hH.map (QuotientGroup.mk' K)).comap_of_ker_isPGroup
   rwa [QuotientGroup.ker_mk']
 #align is_p_group.to_sup_of_normal_right IsPGroup.to_sup_of_normal_right
@@ -354,7 +354,7 @@ theorem disjoint_of_ne (p₁ p₂ : ℕ) [hp₁ : Fact p₁.Prime] [hp₂ : Fact
   intro x hx₁ hx₂
   obtain ⟨n₁, hn₁⟩ := iff_orderOf.mp hH₁ ⟨x, hx₁⟩
   obtain ⟨n₂, hn₂⟩ := iff_orderOf.mp hH₂ ⟨x, hx₂⟩
-  rw [← orderOf_subgroup, Subgroup.coe_mk] at hn₁ hn₂
+  rw [← orderOf_subgroup] at hn₁ hn₂; rw [Subgroup.coe_mk] at hn₁ hn₂
   have : p₁ ^ n₁ = p₂ ^ n₂ := by rw [← hn₁, ← hn₂]
   rcases n₁.eq_zero_or_pos with (rfl | hn₁)
   · simpa using hn₁
@@ -381,7 +381,7 @@ theorem cyclic_center_quotient_of_card_eq_prime_sq (hG : card G = p ^ 2) :
     IsCyclic (G ⧸ center G) := by
   classical
     rcases card_center_eq_prime_pow hG zero_lt_two with ⟨k, hk0, hk⟩
-    rw [card_eq_card_quotient_mul_card_subgroup (center G), mul_comm, hk] at hG
+    rw [card_eq_card_quotient_mul_card_subgroup (center G)] at hG; rw [mul_comm] at hG; rw [hk] at hG
     have hk2 := (Nat.pow_dvd_pow_iff_le_right (Fact.out (p := p.Prime)).one_lt).1 ⟨_, hG.symm⟩
     interval_cases k
     · rw [sq, pow_one, mul_right_inj' (Fact.out (p := p.Prime)).ne_zero] at hG

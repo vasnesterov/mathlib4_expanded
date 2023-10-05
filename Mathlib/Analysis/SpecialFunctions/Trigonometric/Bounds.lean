@@ -47,7 +47,7 @@ theorem sin_lt {x : ℝ} (h : 0 < x) : sin x < x := by
   · exact (sin_le_one x).trans_lt h'
   have hx : |x| = x := abs_of_nonneg h.le
   have := le_of_abs_le (sin_bound <| show |x| ≤ 1 by rwa [hx])
-  rw [sub_le_iff_le_add', hx] at this
+  rw [sub_le_iff_le_add'] at this; rw [hx] at this
   apply this.trans_lt
   rw [sub_add, sub_lt_self_iff, sub_pos, div_eq_mul_inv (x ^ 3)]
   refine' mul_lt_mul' _ (by norm_num) (by norm_num) (pow_pos h 3)
@@ -63,10 +63,10 @@ a simpler proof. -/
 theorem sin_gt_sub_cube {x : ℝ} (h : 0 < x) (h' : x ≤ 1) : x - x ^ 3 / 4 < sin x := by
   have hx : |x| = x := abs_of_nonneg h.le
   have := neg_le_of_abs_le (sin_bound <| show |x| ≤ 1 by rwa [hx])
-  rw [le_sub_iff_add_le, hx] at this
+  rw [le_sub_iff_add_le] at this; rw [hx] at this
   refine' lt_of_lt_of_le _ this
   have : x ^ 3 / ↑4 - x ^ 3 / ↑6 = x ^ 3 * 12⁻¹ := by norm_num [div_eq_mul_inv, ← mul_sub]
-  rw [add_comm, sub_add, sub_neg_eq_add, sub_lt_sub_iff_left, ← lt_sub_iff_add_lt', this]
+  rw [add_comm]; rw [sub_add]; rw [sub_neg_eq_add]; rw [sub_lt_sub_iff_left]; rw [← lt_sub_iff_add_lt']; rw [this]
   refine' mul_lt_mul' _ (by norm_num) (by norm_num) (pow_pos h 3)
   apply pow_le_pow_of_le_one h.le h'
   norm_num
@@ -136,11 +136,8 @@ theorem cos_lt_one_div_sqrt_sq_add_one {x : ℝ} (hx1 : -(3 * π / 2) ≤ x) (hx
   rcases lt_or_le y (π / 2) with (hy2' | hy1')
   · -- Main case : `0 < y < π / 2`
     have hy4 : 0 < cos y := cos_pos_of_mem_Ioo ⟨by linarith, hy2'⟩
-    rw [← abs_of_nonneg (cos_nonneg_of_mem_Icc ⟨by linarith, hy2'.le⟩), ←
-      abs_of_nonneg (one_div_nonneg.mpr (sqrt_nonneg _)), ← sq_lt_sq, div_pow, one_pow,
-      sq_sqrt hy3.le, lt_one_div (pow_pos hy4 _) hy3, ← inv_one_add_tan_sq hy4.ne', one_div,
-      inv_inv, add_comm, add_lt_add_iff_left, sq_lt_sq, abs_of_pos hy1,
-      abs_of_nonneg (tan_nonneg_of_nonneg_of_le_pi_div_two hy1.le hy2'.le)]
+    rw [← abs_of_nonneg (cos_nonneg_of_mem_Icc ⟨by linarith, hy2'.le⟩)]; rw [←
+      abs_of_nonneg (one_div_nonneg.mpr (sqrt_nonneg _))]; rw [← sq_lt_sq]; rw [div_pow]; rw [one_pow]; rw [sq_sqrt hy3.le]; rw [lt_one_div (pow_pos hy4 _) hy3]; rw [← inv_one_add_tan_sq hy4.ne']; rw [one_div]; rw [inv_inv]; rw [add_comm]; rw [add_lt_add_iff_left]; rw [sq_lt_sq]; rw [abs_of_pos hy1]; rw [abs_of_nonneg (tan_nonneg_of_nonneg_of_le_pi_div_two hy1.le hy2'.le)]
     exact Real.lt_tan hy1 hy2'
   · -- Easy case : `π / 2 ≤ y ≤ 3 * π / 2`
     refine' lt_of_le_of_lt _ (one_div_pos.mpr <| sqrt_pos_of_pos hy3)

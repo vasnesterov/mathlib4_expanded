@@ -127,11 +127,11 @@ theorem mul_mul_div (a : G₀) (hb : b ≠ 0) : a = a * b * (1 / b) :=
 #align mul_mul_div mul_mul_div
 
 theorem div_div_div_cancel_right (a : G₀) (hc : c ≠ 0) : a / c / (b / c) = a / b := by
-  rw [div_div_eq_mul_div, div_mul_cancel _ hc]
+  rw [div_div_eq_mul_div]; rw [div_mul_cancel _ hc]
 #align div_div_div_cancel_right div_div_div_cancel_right
 
 theorem div_mul_div_cancel (a : G₀) (hc : c ≠ 0) : a / c * (c / b) = a / b := by
-  rw [← mul_div_assoc, div_mul_cancel _ hc]
+  rw [← mul_div_assoc]; rw [div_mul_cancel _ hc]
 #align div_mul_div_cancel div_mul_div_cancel
 
 theorem div_mul_cancel_of_imp {a b : G₀} (h : b = 0 → a = 0) : a / b * b = a :=
@@ -159,7 +159,7 @@ theorem div_mul_right (b : G₀) (ha : a ≠ 0) : a / (a * b) = 1 / b :=
 #align div_mul_right div_mul_right
 
 theorem mul_div_cancel_left_of_imp {a b : G₀} (h : a = 0 → b = 0) : a * b / a = b := by
-  rw [mul_comm, mul_div_cancel_of_imp h]
+  rw [mul_comm]; rw [mul_div_cancel_of_imp h]
 #align mul_div_cancel_left_of_imp mul_div_cancel_left_of_imp
 
 theorem mul_div_cancel_left (b : G₀) (ha : a ≠ 0) : a * b / a = b :=
@@ -167,7 +167,7 @@ theorem mul_div_cancel_left (b : G₀) (ha : a ≠ 0) : a * b / a = b :=
 #align mul_div_cancel_left mul_div_cancel_left
 
 theorem mul_div_cancel_of_imp' {a b : G₀} (h : b = 0 → a = 0) : b * (a / b) = a := by
-  rw [mul_comm, div_mul_cancel_of_imp h]
+  rw [mul_comm]; rw [div_mul_cancel_of_imp h]
 #align mul_div_cancel_of_imp' mul_div_cancel_of_imp'
 
 theorem mul_div_cancel' (a : G₀) (hb : b ≠ 0) : b * (a / b) = a :=
@@ -180,7 +180,7 @@ theorem mul_div_mul_left (a b : G₀) (hc : c ≠ 0) : c * a / (c * b) = a / b :
 
 theorem mul_eq_mul_of_div_eq_div (a : G₀) {b : G₀} (c : G₀) {d : G₀} (hb : b ≠ 0) (hd : d ≠ 0)
     (h : a / b = c / d) : a * d = c * b := by
-  rw [← mul_one a, ← div_self hb, ← mul_comm_div, h, div_mul_eq_mul_div, div_mul_cancel _ hd]
+  rw [← mul_one a]; rw [← div_self hb]; rw [← mul_comm_div]; rw [h]; rw [div_mul_eq_mul_div]; rw [div_mul_cancel _ hd]
 #align mul_eq_mul_of_div_eq_div mul_eq_mul_of_div_eq_div
 
 @[field_simps]
@@ -197,11 +197,11 @@ theorem div_div_cancel_left' (ha : a ≠ 0) : a / b / a = b⁻¹ :=
 #align div_div_cancel_left' div_div_cancel_left'
 
 theorem div_helper (b : G₀) (h : a ≠ 0) : 1 / (a * b) * a = 1 / b := by
-  rw [div_mul_eq_mul_div, one_mul, div_mul_right _ h]
+  rw [div_mul_eq_mul_div]; rw [one_mul]; rw [div_mul_right _ h]
 #align div_helper div_helper
 
 theorem div_div_div_cancel_left' (a b : G₀) (hc : c ≠ 0) : c / a / (c / b) = b / a := by
-  rw [div_div_div_eq, mul_comm, mul_div_mul_right _ _ hc]
+  rw [div_div_div_eq]; rw [mul_comm]; rw [mul_div_mul_right _ _ hc]
 
 end CommGroupWithZero
 
@@ -239,7 +239,7 @@ theorem map_inv₀ : f a⁻¹ = (f a)⁻¹ := by
   by_cases h : a = 0
   · simp [h, map_zero f]
   · apply eq_inv_of_mul_eq_one_left
-    rw [← map_mul, inv_mul_cancel h, map_one]
+    rw [← map_mul]; rw [inv_mul_cancel h]; rw [map_one]
 #align map_inv₀ map_inv₀
 
 @[simp]

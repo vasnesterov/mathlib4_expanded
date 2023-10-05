@@ -43,7 +43,7 @@ def isBinaryProductOfIsTerminalIsPullback (F : Discrete WalkingPair ⥤ C) (c : 
     let c' :=
       PullbackCone.mk (m ≫ c.π.app ⟨WalkingPair.left⟩) (m ≫ c.π.app ⟨WalkingPair.right⟩ : _)
         (hX.hom_ext (_ ≫ f) (_ ≫ g))
-    dsimp; rw [← J, ← J]
+    dsimp; rw [← J]; rw [← J]
     apply hc.hom_ext
     rintro (_ | (_ | _)) <;> simp only [PullbackCone.mk_π_app_one, PullbackCone.mk_π_app]
     exacts [(Category.assoc _ _ _).symm.trans (hc.fac_assoc c' WalkingCospan.left f).symm,
@@ -139,7 +139,7 @@ def isBinaryCoproductOfIsInitialIsPushout (F : Discrete WalkingPair ⥤ C) (c : 
     let c' :=
       PushoutCocone.mk (c.ι.app ⟨WalkingPair.left⟩ ≫ m) (c.ι.app ⟨WalkingPair.right⟩ ≫ m)
         (hX.hom_ext (f ≫ _) (g ≫ _))
-    dsimp; rw [← J, ← J]
+    dsimp; rw [← J]; rw [← J]
     apply hc.hom_ext
     rintro (_ | (_ | _)) <;>
       simp only [PushoutCocone.mk_ι_app_zero, PushoutCocone.mk_ι_app, Category.assoc]

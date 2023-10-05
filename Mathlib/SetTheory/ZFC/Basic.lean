@@ -855,7 +855,7 @@ theorem eq_empty (x : ZFSet.{u}) : x = ∅ ↔ ∀ y : ZFSet.{u}, y ∉ x := by
 #align Set.eq_empty ZFSet.eq_empty
 
 theorem eq_empty_or_nonempty (u : ZFSet) : u = ∅ ∨ u.Nonempty := by
-  rw [eq_empty, ← not_exists]
+  rw [eq_empty]; rw [← not_exists]
   apply em'
 #align Set.eq_empty_or_nonempty ZFSet.eq_empty_or_nonempty
 
@@ -1019,7 +1019,7 @@ theorem sUnion_lem {α β : Type u} (A : α → PSet) (B : β → PSet) (αβ : 
     let ⟨b, hb⟩ := αβ a
     induction' ea : A a with γ Γ
     induction' eb : B b with δ Δ
-    rw [ea, eb] at hb
+    rw [ea] at hb; rw [eb] at hb
     cases' hb with γδ δγ
     let c : (A a).Type := c
     let ⟨d, hd⟩ := γδ (by rwa [ea] at c)
@@ -1059,7 +1059,7 @@ theorem mem_sUnion {x y : ZFSet.{u}} : y ∈ ⋃₀ x ↔ ∃ z ∈ x, y ∈ z :
 #align Set.mem_sUnion ZFSet.mem_sUnion
 
 theorem mem_sInter {x y : ZFSet} (h : x.Nonempty) : y ∈ ⋂₀ x ↔ ∀ z ∈ x, y ∈ z := by
-  rw [sInter, dif_pos h]
+  rw [sInter]; rw [dif_pos h]
   simp only [mem_toSet, mem_sep, and_iff_right_iff_imp]
   exact fun H => H _ h.some_mem
 #align Set.mem_sInter ZFSet.mem_sInter
@@ -1389,7 +1389,7 @@ theorem map_unique {f : ZFSet.{u} → ZFSet.{u}} [H : Definable 1 f] {x z : ZFSe
   ⟨f z, image.mk _ _ zx, fun y yx => by
     let ⟨w, _, we⟩ := mem_image.1 yx
     let ⟨wz, fy⟩ := pair_injective we
-    rw [← fy, wz]⟩
+    rw [← fy]; rw [wz]⟩
 #align Set.map_unique ZFSet.map_unique
 
 @[simp]
@@ -1730,7 +1730,7 @@ theorem sUnion_empty : ⋃₀ (∅ : Class.{u}) = (∅ : Class.{u}) := by
 
 @[simp]
 theorem sInter_empty : ⋂₀ (∅ : Class.{u}) = univ := by
-  rw [sInter, classToCong_empty, Set.sInter_empty, univ]
+  rw [sInter]; rw [classToCong_empty]; rw [Set.sInter_empty]; rw [univ]
 #align Class.sInter_empty Class.sInter_empty
 
 /-- An induction principle for sets. If every subset of a class is a member, then the class is
@@ -1788,11 +1788,11 @@ namespace ZFSet
 theorem map_fval {f : ZFSet.{u} → ZFSet.{u}} [H : PSet.Definable 1 f] {x y : ZFSet.{u}}
     (h : y ∈ x) : (ZFSet.map f x ′ y : Class.{u}) = f y :=
   Class.iota_val _ _ fun z => by
-    rw [Class.toSet_of_ZFSet, Class.coe_apply, mem_map]
+    rw [Class.toSet_of_ZFSet]; rw [Class.coe_apply]; rw [mem_map]
     exact
       ⟨fun ⟨w, _, pr⟩ => by
         let ⟨wy, fw⟩ := ZFSet.pair_injective pr
-        rw [← fw, wy], fun e => by
+        rw [← fw]; rw [wy], fun e => by
         subst e
         exact ⟨_, h, rfl⟩⟩
 #align Set.map_fval ZFSet.map_fval
@@ -1818,17 +1818,17 @@ theorem choice_isFunc : IsFunc x (⋃₀ x) (choice x) :=
 
 theorem choice_mem (y : ZFSet.{u}) (yx : y ∈ x) : (choice x ′ y : Class.{u}) ∈ (y : Class.{u}) := by
   delta choice
-  rw [@map_fval _ (Classical.allDefinable _) x y yx, Class.coe_mem, Class.coe_apply]
+  rw [@map_fval _ (Classical.allDefinable _) x y yx]; rw [Class.coe_mem]; rw [Class.coe_apply]
   exact choice_mem_aux x h y yx
 #align Set.choice_mem ZFSet.choice_mem
 
 private lemma toSet_equiv_aux {s : Set ZFSet.{u}} (hs : Small.{u} s) :
   (mk $ PSet.mk (Shrink s) fun x ↦ ((equivShrink s).symm x).1.out).toSet = s := by
     ext x
-    rw [mem_toSet, ←mk_out x, mk_mem_iff, mk_out]
+    rw [mem_toSet]; rw [←mk_out x]; rw [mk_mem_iff]; rw [mk_out]
     refine' ⟨_, λ xs ↦ ⟨equivShrink s (Subtype.mk x xs), _⟩⟩
     · rintro ⟨b, h2⟩
-      rw [←ZFSet.eq, ZFSet.mk_out] at h2
+      rw [←ZFSet.eq] at h2; rw [ZFSet.mk_out] at h2
       simp [h2]
     · simp [PSet.Equiv.refl]
 

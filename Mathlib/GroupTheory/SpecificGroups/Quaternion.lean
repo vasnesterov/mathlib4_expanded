@@ -172,7 +172,7 @@ instance : Nontrivial (QuaternionGroup n) :=
 /-- If `0 < n`, then `QuaternionGroup n` has `4n` elements.
 -/
 theorem card [NeZero n] : Fintype.card (QuaternionGroup n) = 4 * n := by
-  rw [← Fintype.card_eq.mpr ⟨fintypeHelper⟩, Fintype.card_sum, ZMod.card, two_mul]
+  rw [← Fintype.card_eq.mpr ⟨fintypeHelper⟩]; rw [Fintype.card_sum]; rw [ZMod.card]; rw [two_mul]
   ring
 #align quaternion_group.card QuaternionGroup.card
 
@@ -188,7 +188,7 @@ theorem a_one_pow (k : ℕ) : (a 1 : QuaternionGroup n) ^ k = a k := by
 
 -- @[simp] -- Porting note: simp changes this to `a 0 = 1`, so this is no longer a good simp lemma.
 theorem a_one_pow_n : (a 1 : QuaternionGroup n) ^ (2 * n) = 1 := by
-  rw [a_one_pow, one_def]
+  rw [a_one_pow]; rw [one_def]
   congr 1
   exact ZMod.nat_cast_self _
 #align quaternion_group.a_one_pow_n QuaternionGroup.a_one_pow_n
@@ -199,8 +199,7 @@ theorem xa_sq (i : ZMod (2 * n)) : xa i ^ 2 = a n := by simp [sq]
 
 @[simp]
 theorem xa_pow_four (i : ZMod (2 * n)) : xa i ^ 4 = 1 := by
-  rw [pow_succ, pow_succ, sq, xa_mul_xa, xa_mul_a, xa_mul_xa, add_sub_cancel, add_sub_assoc,
-    add_sub_cancel']
+  rw [pow_succ]; rw [pow_succ]; rw [sq]; rw [xa_mul_xa]; rw [xa_mul_a]; rw [xa_mul_xa]; rw [add_sub_cancel]; rw [add_sub_assoc]; rw [add_sub_cancel']
   norm_cast
   rw [← two_mul]
   simp [one_def]
@@ -226,7 +225,7 @@ theorem orderOf_xa [NeZero n] (i : ZMod (2 * n)) : orderOf (xa i) = 4 := by
 /-- In the special case `n = 1`, `Quaternion 1` is a cyclic group (of order `4`). -/
 theorem quaternionGroup_one_isCyclic : IsCyclic (QuaternionGroup 1) := by
   apply isCyclic_of_orderOf_eq_card
-  rw [card, mul_one]
+  rw [card]; rw [mul_one]
   exact orderOf_xa 0
 #align quaternion_group.quaternion_group_one_is_cyclic QuaternionGroup.quaternionGroup_one_isCyclic
 
@@ -238,7 +237,7 @@ theorem orderOf_a_one : orderOf (a 1 : QuaternionGroup n) = 2 * n := by
   · subst hn
     simp_rw [mul_zero, orderOf_eq_zero_iff']
     intro n h
-    rw [one_def, a_one_pow]
+    rw [one_def]; rw [a_one_pow]
     apply mt a.inj
     haveI : CharZero (ZMod (2 * 0)) := ZMod.charZero
     simpa using h.ne'
@@ -248,7 +247,7 @@ theorem orderOf_a_one : orderOf (a 1 : QuaternionGroup n) = 2 * n := by
   have h1 : (a 1 : QuaternionGroup n) ^ orderOf (a 1) = 1 := pow_orderOf_eq_one _
   rw [a_one_pow] at h1
   injection h1 with h2
-  rw [← ZMod.val_eq_zero, ZMod.val_nat_cast, Nat.mod_eq_of_lt h] at h2
+  rw [← ZMod.val_eq_zero] at h2; rw [ZMod.val_nat_cast] at h2; rw [Nat.mod_eq_of_lt h] at h2
   exact absurd h2.symm (orderOf_pos _).ne
 #align quaternion_group.order_of_a_one QuaternionGroup.orderOf_a_one
 
@@ -257,11 +256,11 @@ theorem orderOf_a_one : orderOf (a 1 : QuaternionGroup n) = 2 * n := by
 theorem orderOf_a [NeZero n] (i : ZMod (2 * n)) :
     orderOf (a i) = 2 * n / Nat.gcd (2 * n) i.val := by
   conv_lhs => rw [← ZMod.nat_cast_zmod_val i]
-  rw [← a_one_pow, orderOf_pow, orderOf_a_one]
+  rw [← a_one_pow]; rw [orderOf_pow]; rw [orderOf_a_one]
 #align quaternion_group.order_of_a QuaternionGroup.orderOf_a
 
 theorem exponent : Monoid.exponent (QuaternionGroup n) = 2 * lcm n 2 := by
-  rw [← normalize_eq 2, ← lcm_mul_left, normalize_eq]
+  rw [← normalize_eq 2]; rw [← lcm_mul_left]; rw [normalize_eq]
   norm_num
   cases' eq_zero_or_neZero n with hn hn
   · subst hn

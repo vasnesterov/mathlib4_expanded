@@ -118,9 +118,9 @@ theorem ext :
       (_ : ∀ (i) (hi : i ∈ l), v.elim hi = w.elim hi), v = w
   | [], _, v, w, _ => PUnit.ext v w
   | i :: is, hl, v, w, hvw => by
-    apply Prod.ext; rw [← elim_self v, hvw, elim_self]
+    apply Prod.ext; rw [← elim_self v]; rw [hvw]; rw [elim_self]
     refine' ext (nodup_cons.mp hl).2 fun j hj => _
-    rw [← elim_of_mem hl, hvw, elim_of_mem hl]
+    rw [← elim_of_mem hl]; rw [hvw]; rw [elim_of_mem hl]
 #align list.tprod.ext List.TProd.ext
 
 /-- A version of `TProd.elim` when `l` contains all elements. In this case we get a function into
@@ -164,9 +164,9 @@ theorem mk_preimage_tprod :
       rw [mk_preimage_tprod l t]
 
     -- `simp [Set.TProd, TProd.mk, this]` can close this goal but is slow.
-    rw [Set.tprod, TProd.mk, mem_preimage, mem_pi, prod_mk_mem_set_prod_eq]
+    rw [Set.tprod]; rw [TProd.mk]; rw [mem_preimage]; rw [mem_pi]; rw [prod_mk_mem_set_prod_eq]
     simp_rw [mem_setOf_eq, mem_cons]
-    rw [forall_eq_or_imp, and_congr_right_iff]
+    rw [forall_eq_or_imp]; rw [and_congr_right_iff]
     exact fun _ => h
 #align set.mk_preimage_tprod Set.mk_preimage_tprod
 
@@ -175,7 +175,7 @@ theorem elim_preimage_pi [DecidableEq ι] {l : List ι} (hnd : l.Nodup) (h : ∀
   have h2 : { i | i ∈ l } = univ := by
     ext i
     simp [h]
-  rw [← h2, ← mk_preimage_tprod, preimage_preimage]
+  rw [← h2]; rw [← mk_preimage_tprod]; rw [preimage_preimage]
   simp only [TProd.mk_elim hnd h]
   dsimp; rfl
 #align set.elim_preimage_pi Set.elim_preimage_pi

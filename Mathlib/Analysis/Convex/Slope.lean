@@ -100,20 +100,20 @@ theorem convexOn_of_slope_mono_adjacent (hs : Convex 𝕜 s)
   LinearOrder.convexOn_of_lt hs fun x hx z hz hxz a b ha hb hab => by
     let y := a * x + b * z
     have hxy : x < y := by
-      rw [← one_mul x, ← hab, add_mul]
+      rw [← one_mul x]; rw [← hab]; rw [add_mul]
       exact add_lt_add_left ((mul_lt_mul_left hb).2 hxz) _
     have hyz : y < z := by
-      rw [← one_mul z, ← hab, add_mul]
+      rw [← one_mul z]; rw [← hab]; rw [add_mul]
       exact add_lt_add_right ((mul_lt_mul_left ha).2 hxz) _
     have : (f y - f x) * (z - y) ≤ (f z - f y) * (y - x) :=
       (div_le_div_iff (sub_pos.2 hxy) (sub_pos.2 hyz)).1 (hf hx hz hxy hyz)
     have hxz : 0 < z - x := sub_pos.2 (hxy.trans hyz)
     have ha : (z - y) / (z - x) = a := by
-      rw [eq_comm, ← sub_eq_iff_eq_add'] at hab
+      rw [eq_comm] at hab; rw [← sub_eq_iff_eq_add'] at hab
       simp_rw [div_eq_iff hxz.ne', ← hab]
       ring
     have hb : (y - x) / (z - x) = b := by
-      rw [eq_comm, ← sub_eq_iff_eq_add] at hab
+      rw [eq_comm] at hab; rw [← sub_eq_iff_eq_add] at hab
       simp_rw [div_eq_iff hxz.ne', ← hab]
       ring
     rwa [sub_mul, sub_mul, sub_le_iff_le_add', ← add_sub_assoc, le_sub_iff_add_le, ← mul_add,
@@ -145,20 +145,20 @@ theorem strictConvexOn_of_slope_strict_mono_adjacent (hs : Convex 𝕜 s)
   LinearOrder.strictConvexOn_of_lt hs fun x hx z hz hxz a b ha hb hab => by
     let y := a * x + b * z
     have hxy : x < y := by
-      rw [← one_mul x, ← hab, add_mul]
+      rw [← one_mul x]; rw [← hab]; rw [add_mul]
       exact add_lt_add_left ((mul_lt_mul_left hb).2 hxz) _
     have hyz : y < z := by
-      rw [← one_mul z, ← hab, add_mul]
+      rw [← one_mul z]; rw [← hab]; rw [add_mul]
       exact add_lt_add_right ((mul_lt_mul_left ha).2 hxz) _
     have : (f y - f x) * (z - y) < (f z - f y) * (y - x) :=
       (div_lt_div_iff (sub_pos.2 hxy) (sub_pos.2 hyz)).1 (hf hx hz hxy hyz)
     have hxz : 0 < z - x := sub_pos.2 (hxy.trans hyz)
     have ha : (z - y) / (z - x) = a := by
-      rw [eq_comm, ← sub_eq_iff_eq_add'] at hab
+      rw [eq_comm] at hab; rw [← sub_eq_iff_eq_add'] at hab
       simp_rw [div_eq_iff hxz.ne', ← hab]
       ring
     have hb : (y - x) / (z - x) = b := by
-      rw [eq_comm, ← sub_eq_iff_eq_add] at hab
+      rw [eq_comm] at hab; rw [← sub_eq_iff_eq_add] at hab
       simp_rw [div_eq_iff hxz.ne', ← hab]
       ring
     rwa [sub_mul, sub_mul, sub_lt_iff_lt_add', ← add_sub_assoc, lt_sub_iff_add_lt, ← mul_add,

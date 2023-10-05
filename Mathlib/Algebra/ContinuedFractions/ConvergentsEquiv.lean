@@ -159,8 +159,7 @@ theorem succ_succ_nth_convergent'_aux_eq_succ_nth_convergent'_aux_squashSeq :
     convergents'Aux s (n + 2) = convergents'Aux (squashSeq s n) (n + 1) := by
   cases' s_succ_nth_eq : s.get? <| n + 1 with gp_succ_n
   case none =>
-    rw [squashSeq_eq_self_of_terminated s_succ_nth_eq,
-      convergents'Aux_stable_step_of_terminated s_succ_nth_eq]
+    rw [squashSeq_eq_self_of_terminated s_succ_nth_eq]; rw [convergents'Aux_stable_step_of_terminated s_succ_nth_eq]
   case some =>
     induction' n with m IH generalizing s gp_succ_n
     case zero =>
@@ -304,8 +303,7 @@ theorem succ_nth_convergent_eq_squashGCF_nth_convergent [Field K]
           ((pb + a / b) * pA' + pa * ppA') / ((pb + a / b) * pB' + pa * ppB') := by
         have : g'.s.get? n' = some ⟨pa, pb + a / b⟩ :=
           squashSeq_nth_of_not_terminated s_n'th_eq s_nth_eq
-        rw [convergent_eq_conts_a_div_conts_b,
-          continuants_recurrenceAux this n'th_conts_aux_eq'.symm succ_n'th_conts_aux_eq'.symm]
+        rw [convergent_eq_conts_a_div_conts_b]; rw [continuants_recurrenceAux this n'th_conts_aux_eq'.symm succ_n'th_conts_aux_eq'.symm]
       rw [this]
       -- then compute the convergent of the original gcf by recursively unfolding the continuants
       -- computation twice
@@ -315,8 +313,7 @@ theorem succ_nth_convergent_eq_squashGCF_nth_convergent [Field K]
         have : g.continuantsAux (n' + 2) = ⟨pb * pA + pa * ppA, pb * pB + pa * ppB⟩ :=
           continuantsAux_recurrence s_n'th_eq n'th_conts_aux_eq.symm succ_n'th_conts_aux_eq.symm
         -- and a second time
-        rw [convergent_eq_conts_a_div_conts_b,
-          continuants_recurrenceAux s_nth_eq succ_n'th_conts_aux_eq.symm this]
+        rw [convergent_eq_conts_a_div_conts_b]; rw [continuants_recurrenceAux s_nth_eq succ_n'th_conts_aux_eq.symm this]
       rw [this]
       suffices
         ((pb + a / b) * pA + pa * ppA) / ((pb + a / b) * pB + pa * ppB) =
@@ -353,7 +350,7 @@ theorem convergents_eq_convergents' [LinearOrderedField K]
       rwa [succ_nth_convergent'_eq_squashGCF_nth_convergent']
     cases' Decidable.em (TerminatedAt g n) with terminated_at_n not_terminated_at_n
     · have g'_eq_g : g' = g := squashGCF_eq_self_of_terminated terminated_at_n
-      rw [convergents_stable_of_terminated n.le_succ terminated_at_n, g'_eq_g, IH _]
+      rw [convergents_stable_of_terminated n.le_succ terminated_at_n]; rw [g'_eq_g]; rw [IH _]
       intro _ _ m_lt_n s_mth_eq
       exact s_pos (Nat.lt.step m_lt_n) s_mth_eq
     · suffices g.convergents (n + 1) = g'.convergents n by

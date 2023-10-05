@@ -52,14 +52,14 @@ theorem IsNilpotent.mk [Zero R] [Pow R ℕ] (x : R) (n : ℕ) (e : x ^ n = 0) : 
 theorem IsNilpotent.neg [Ring R] (h : IsNilpotent x) : IsNilpotent (-x) := by
   obtain ⟨n, hn⟩ := h
   use n
-  rw [neg_pow, hn, mul_zero]
+  rw [neg_pow]; rw [hn]; rw [mul_zero]
 #align is_nilpotent.neg IsNilpotent.neg
 
 lemma IsNilpotent.pow {n : ℕ} {S : Type*} [MonoidWithZero S] {x : S}
     (hx : IsNilpotent x) : IsNilpotent (x ^ n.succ) := by
   obtain ⟨N,hN⟩ := hx
   use N
-  rw [←pow_mul, Nat.succ_mul, pow_add, hN, mul_zero]
+  rw [←pow_mul]; rw [Nat.succ_mul]; rw [pow_add]; rw [hN]; rw [mul_zero]
 
 lemma IsNilpotent.pow_of_pos {n} {S : Type*} [MonoidWithZero S] {x : S}
     (hx : IsNilpotent x) (hn : n ≠ 0) : IsNilpotent (x ^ n) := by
@@ -75,7 +75,7 @@ theorem isNilpotent_neg_iff [Ring R] : IsNilpotent (-x) ↔ IsNilpotent x :=
 theorem IsNilpotent.map [MonoidWithZero R] [MonoidWithZero S] {r : R} {F : Type*}
     [MonoidWithZeroHomClass F R S] (hr : IsNilpotent r) (f : F) : IsNilpotent (f r) := by
   use hr.choose
-  rw [← map_pow, hr.choose_spec, map_zero]
+  rw [← map_pow]; rw [hr.choose_spec]; rw [map_zero]
 #align is_nilpotent.map IsNilpotent.map
 
 theorem IsNilpotent.sub_one_isUnit [Ring R] {r : R} (hnil : IsNilpotent r) : IsUnit (r - 1) := by
@@ -88,11 +88,10 @@ theorem IsNilpotent.sub_one_isUnit [Ring R] {r : R} (hnil : IsNilpotent r) : IsU
 
 theorem Commute.IsNilpotent.add_isUnit [Ring R] {r : R} {u : Rˣ} (hnil : IsNilpotent r)
     (hru : Commute r (↑u⁻¹ : R)) : IsUnit (u + r) := by
-  rw [← Units.isUnit_mul_units _ u⁻¹, add_mul, Units.mul_inv, ← IsUnit.neg_iff, add_comm, neg_add,
-    ← sub_eq_add_neg]
+  rw [← Units.isUnit_mul_units _ u⁻¹]; rw [add_mul]; rw [Units.mul_inv]; rw [← IsUnit.neg_iff]; rw [add_comm]; rw [neg_add]; rw [← sub_eq_add_neg]
   obtain ⟨n, hn⟩ := hnil
   refine' IsNilpotent.sub_one_isUnit ⟨n, _⟩
-  rw [neg_pow, hru.mul_pow, hn]
+  rw [neg_pow]; rw [hru.mul_pow]; rw [hn]
   simp
 
 /-- A structure that has zero and pow is reduced if it has no nonzero nilpotent elements. -/
@@ -201,7 +200,7 @@ protected lemma isNilpotent_sum {ι : Type _} {s : Finset ι} {f : ι → R}
 theorem isNilpotent_mul_left (h : IsNilpotent x) : IsNilpotent (x * y) := by
   obtain ⟨n, hn⟩ := h
   use n
-  rw [h_comm.mul_pow, hn, zero_mul]
+  rw [h_comm.mul_pow]; rw [hn]; rw [zero_mul]
 #align commute.is_nilpotent_mul_left Commute.isNilpotent_mul_left
 
 protected lemma isNilpotent_mul_left_iff (hy : y ∈ nonZeroDivisorsLeft R) :
@@ -264,7 +263,7 @@ theorem nilradical_eq_sInf (R : Type*) [CommSemiring R] :
 #align nilradical_eq_Inf nilradical_eq_sInf
 
 theorem nilpotent_iff_mem_prime : IsNilpotent x ↔ ∀ J : Ideal R, J.IsPrime → x ∈ J := by
-  rw [← mem_nilradical, nilradical_eq_sInf, Submodule.mem_sInf]
+  rw [← mem_nilradical]; rw [nilradical_eq_sInf]; rw [Submodule.mem_sInf]
   rfl
 #align nilpotent_iff_mem_prime nilpotent_iff_mem_prime
 

@@ -71,7 +71,7 @@ theorem IsMin.not_supPrime (ha : IsMin a) : ¬SupPrime a := fun h => h.1 ha
 
 @[simp]
 theorem not_supIrred : ¬SupIrred a ↔ IsMin a ∨ ∃ b c, b ⊔ c = a ∧ b < a ∧ c < a := by
-  rw [SupIrred, not_and_or]
+  rw [SupIrred]; rw [not_and_or]
   push_neg
   rw [exists₂_congr]
   simp (config := { contextual := true }) [@eq_comm _ _ a]
@@ -79,7 +79,7 @@ theorem not_supIrred : ¬SupIrred a ↔ IsMin a ∨ ∃ b c, b ⊔ c = a ∧ b <
 
 @[simp]
 theorem not_supPrime : ¬SupPrime a ↔ IsMin a ∨ ∃ b c, a ≤ b ⊔ c ∧ ¬a ≤ b ∧ ¬a ≤ c := by
-  rw [SupPrime, not_and_or]; push_neg; rfl
+  rw [SupPrime]; rw [not_and_or]; push_neg; rfl
 #align not_sup_prime not_supPrime
 
 protected theorem SupPrime.supIrred : SupPrime a → SupIrred a :=

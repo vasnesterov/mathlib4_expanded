@@ -45,14 +45,14 @@ def coyonedaTensorUnit (C : Type u) [Category.{v} C] [MonoidalCategory C] :
       ext ⟨⟨f, g⟩, h⟩; dsimp at f g h
       dsimp; simp only [Iso.cancel_iso_inv_left, Category.assoc]
       conv_lhs =>
-        rw [← Category.id_comp h, tensor_comp, Category.assoc, associator_naturality, ←
-          Category.assoc, unitors_inv_equal, triangle_assoc_comp_right_inv]
+        rw [← Category.id_comp h]; rw [tensor_comp]; rw [Category.assoc]; rw [associator_naturality]; rw [←
+          Category.assoc]; rw [unitors_inv_equal]; rw [triangle_assoc_comp_right_inv]
       conv_rhs => rw [← Category.id_comp f, tensor_comp]
     left_unitality := by aesop_cat
     right_unitality := fun X => by
       ext ⟨f, ⟨⟩⟩; dsimp at f
       dsimp; simp only [Category.assoc]
-      rw [rightUnitor_naturality, unitors_inv_equal, Iso.inv_hom_id_assoc] }
+      rw [rightUnitor_naturality]; rw [unitors_inv_equal]; rw [Iso.inv_hom_id_assoc] }
 #align category_theory.coyoneda_tensor_unit CategoryTheory.coyonedaTensorUnit
 
 end CategoryTheory

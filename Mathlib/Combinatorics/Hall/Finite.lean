@@ -52,7 +52,7 @@ theorem hall_cond_of_erase {x : ι} (a : α)
     (s' : Finset { x' : ι | x' ≠ x }) : s'.card ≤ (s'.biUnion fun x' => (t x').erase a).card := by
   haveI := Classical.decEq ι
   specialize ha (s'.image fun z => z.1)
-  rw [Nonempty.image_iff, Finset.card_image_of_injective s' Subtype.coe_injective] at ha
+  rw [Nonempty.image_iff] at ha; rw [Finset.card_image_of_injective s' Subtype.coe_injective] at ha
   by_cases he : s'.Nonempty
   · have ha' : s'.card < (s'.biUnion fun x => t x).card := by
       convert ha he fun h => by simpa [← h] using mem_univ x using 2
@@ -144,7 +144,7 @@ theorem hall_cond_of_compl {ι : Type u} {t : ι → Finset α} {s : Finset ι}
     exact absurd hx hc
   have : s'.card = (s ∪ s'.image fun z => z.1).card - s.card := by
     simp [disj, card_image_of_injective _ Subtype.coe_injective]
-  rw [this, hus]
+  rw [this]; rw [hus]
   refine' (tsub_le_tsub_right (ht _) _).trans _
   rw [← card_sdiff]
   · refine' (card_le_of_subset _).trans le_rfl
@@ -263,7 +263,7 @@ theorem Finset.all_card_le_biUnion_card_iff_existsInjective' {ι α : Type*} [Fi
     rw [← card_image_of_injective s hf₁]
     apply card_le_of_subset
     intro
-    rw [mem_image, mem_biUnion]
+    rw [mem_image]; rw [mem_biUnion]
     rintro ⟨x, hx, rfl⟩
     exact ⟨x, hx, hf₂ x⟩
 #align finset.all_card_le_bUnion_card_iff_exists_injective' Finset.all_card_le_biUnion_card_iff_existsInjective'

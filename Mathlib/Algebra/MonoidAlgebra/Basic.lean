@@ -216,9 +216,9 @@ instance nonUnitalSemiring : NonUnitalSemiring (MonoidAlgebra k G) :=
       -- Porting note: `reducible` cannot be `local` so proof gets long.
       simp only [mul_def]
       rw [sum_sum_index]; congr; ext a₁ b₁
-      rw [sum_sum_index, sum_sum_index]; congr; ext a₂ b₂
-      rw [sum_sum_index, sum_single_index]; congr; ext a₃ b₃
-      rw [sum_single_index, mul_assoc, mul_assoc]
+      rw [sum_sum_index]; rw [sum_sum_index]; congr; ext a₂ b₂
+      rw [sum_sum_index]; rw [sum_single_index]; congr; ext a₃ b₃
+      rw [sum_single_index]; rw [mul_assoc]; rw [mul_assoc]
       all_goals simp only [single_zero, single_add, forall_true_iff, add_mul,
         mul_add, zero_mul, mul_zero, sum_zero, sum_add] }
 #align monoid_algebra.non_unital_semiring MonoidAlgebra.nonUnitalSemiring
@@ -414,7 +414,7 @@ variable [Semiring k]
 theorem mul_apply [DecidableEq G] [Mul G] (f g : MonoidAlgebra k G) (x : G) :
     (f * g) x = f.sum fun a₁ b₁ => g.sum fun a₂ b₂ => if a₁ * a₂ = x then b₁ * b₂ else 0 := by
   -- Porting note: `reducible` cannot be `local` so proof gets long.
-  rw [mul_def, Finsupp.sum_apply]; congr; ext
+  rw [mul_def]; rw [Finsupp.sum_apply]; congr; ext
   rw [Finsupp.sum_apply]; congr; ext
   apply single_apply
 #align monoid_algebra.mul_apply MonoidAlgebra.mul_apply
@@ -505,7 +505,7 @@ end
 
 theorem smul_of [MulOneClass G] (g : G) (r : k) : r • of k G g = single g r := by
   -- Porting note: Was `simp`.
-  rw [of_apply, smul_single', mul_one]
+  rw [of_apply]; rw [smul_single']; rw [mul_one]
 #align monoid_algebra.smul_of MonoidAlgebra.smul_of
 
 theorem of_injective [MulOneClass G] [Nontrivial k] :
@@ -549,7 +549,7 @@ theorem mul_single_one_apply [MulOneClass G] (f : MonoidAlgebra k G) (r : k) (x 
 theorem mul_single_apply_of_not_exists_mul [Mul G] (r : k) {g g' : G} (x : MonoidAlgebra k G)
     (h : ¬∃ d, g' = d * g) : (x * single g r) g' = 0 := by
   classical
-    rw [mul_apply, Finsupp.sum_comm, Finsupp.sum_single_index]
+    rw [mul_apply]; rw [Finsupp.sum_comm]; rw [Finsupp.sum_single_index]
     swap
     · simp_rw [Finsupp.sum, mul_zero, ite_self, Finset.sum_const_zero]
     · apply Finset.sum_eq_zero
@@ -580,7 +580,7 @@ theorem single_one_mul_apply [MulOneClass G] (f : MonoidAlgebra k G) (r : k) (x 
 theorem single_mul_apply_of_not_exists_mul [Mul G] (r : k) {g g' : G} (x : MonoidAlgebra k G)
     (h : ¬∃ d, g' = g * d) : (single g r * x) g' = 0 := by
   classical
-    rw [mul_apply, Finsupp.sum_single_index]
+    rw [mul_apply]; rw [Finsupp.sum_single_index]
     swap
     · simp_rw [Finsupp.sum, zero_mul, ite_self, Finset.sum_const_zero]
     · apply Finset.sum_eq_zero
@@ -601,7 +601,7 @@ theorem liftNC_smul [MulOneClass G] {R : Type*} [Semiring R] (f : k →+* R) (g 
   -- Porting note: `reducible` cannot be `local` so the proof gets more complex.
   unfold MonoidAlgebra
   simp
-  rw [liftNC_single, liftNC_single, AddMonoidHom.coe_coe, map_mul, mul_assoc]
+  rw [liftNC_single]; rw [liftNC_single]; rw [AddMonoidHom.coe_coe]; rw [map_mul]; rw [mul_assoc]
 #align monoid_algebra.lift_nc_smul MonoidAlgebra.liftNC_smul
 
 end MiscTheorems
@@ -680,7 +680,7 @@ def liftMagma [Module k A] [IsScalarTower k A A] [SMulCommClass k A A] :
       map_smul' := fun t' a => by
         -- Porting note: `dsimp` is required for beta reduction.
         dsimp only []
-        rw [Finsupp.smul_sum, sum_smul_index']
+        rw [Finsupp.smul_sum]; rw [sum_smul_index']
         · simp_rw [smul_assoc]
         · intro m
           exact zero_smul k (f m)
@@ -727,7 +727,7 @@ theorem single_one_comm [CommSemiring k] [MulOneClass G] (r : k) (f : MonoidAlge
     single (1 : G) r * f = f * single (1 : G) r := by
   -- Porting note: `ext` → `refine Finsupp.ext fun _ => ?_`
   refine Finsupp.ext fun _ => ?_
-  rw [single_one_mul_apply, mul_single_one_apply, mul_comm]
+  rw [single_one_mul_apply]; rw [mul_single_one_apply]; rw [mul_comm]
 #align monoid_algebra.single_one_comm MonoidAlgebra.single_one_comm
 
 /-- `Finsupp.single 1` as a `RingHom` -/
@@ -760,8 +760,7 @@ theorem ringHom_ext {R} [Semiring k] [MulOneClass G] [Semiring R] {f g : MonoidA
     f = g :=
   RingHom.coe_addMonoidHom_injective <|
     addHom_ext fun a b => by
-      rw [← single, ← one_mul a, ← mul_one b, ← single_mul_single, AddMonoidHom.coe_coe f,
-        AddMonoidHom.coe_coe g, f.map_mul, g.map_mul, h₁, h_of]
+      rw [← single]; rw [← one_mul a]; rw [← mul_one b]; rw [← single_mul_single]; rw [AddMonoidHom.coe_coe f]; rw [AddMonoidHom.coe_coe g]; rw [f.map_mul]; rw [g.map_mul]; rw [h₁]; rw [h_of]
 #align monoid_algebra.ring_hom_ext MonoidAlgebra.ringHom_ext
 
 /-- If two ring homomorphisms from `MonoidAlgebra k G` are equal on all `single a 1`
@@ -829,7 +828,7 @@ theorem induction_on [Semiring k] [Monoid G] {p : MonoidAlgebra k G → Prop} (f
   · simpa using hsmul 0 (of k G 1) (hM 1)
   · convert hsmul r (of k G g) (hM g)
     -- Porting note: Was `simp only`.
-    rw [of_apply, smul_single', mul_one]
+    rw [of_apply]; rw [smul_single']; rw [mul_one]
 #align monoid_algebra.induction_on MonoidAlgebra.induction_on
 
 end Algebra
@@ -901,12 +900,12 @@ theorem lift_symm_apply (F : MonoidAlgebra k G →ₐ[k] A) (x : G) :
 #align monoid_algebra.lift_symm_apply MonoidAlgebra.lift_symm_apply
 
 theorem lift_of (F : G →* A) (x) : lift k G A F (of k G x) = F x := by
-  rw [of_apply, ← lift_symm_apply, Equiv.symm_apply_apply]
+  rw [of_apply]; rw [← lift_symm_apply]; rw [Equiv.symm_apply_apply]
 #align monoid_algebra.lift_of MonoidAlgebra.lift_of
 
 @[simp]
 theorem lift_single (F : G →* A) (a b) : lift k G A F (single a b) = b • F a := by
-  rw [lift_def, liftNC_single, Algebra.smul_def, AddMonoidHom.coe_coe]
+  rw [lift_def]; rw [liftNC_single]; rw [Algebra.smul_def]; rw [AddMonoidHom.coe_coe]
 #align monoid_algebra.lift_single MonoidAlgebra.lift_single
 
 theorem lift_unique' (F : MonoidAlgebra k G →ₐ[k] A) :
@@ -1052,7 +1051,7 @@ variable {ι : Type ui}
 theorem prod_single [CommSemiring k] [CommMonoid G] {s : Finset ι} {a : ι → G} {b : ι → k} :
     (∏ i in s, single (a i) (b i)) = single (∏ i in s, a i) (∏ i in s, b i) :=
   Finset.cons_induction_on s rfl fun a s has ih => by
-    rw [prod_cons has, ih, single_mul_single, prod_cons has, prod_cons has]
+    rw [prod_cons has]; rw [ih]; rw [single_mul_single]; rw [prod_cons has]; rw [prod_cons has]
 #align monoid_algebra.prod_single MonoidAlgebra.prod_single
 
 end
@@ -1080,7 +1079,7 @@ theorem mul_apply_left (f g : MonoidAlgebra k G) (x : G) :
     (f * g) x = f.sum fun a b => b * g (a⁻¹ * x) :=
   calc
     (f * g) x = sum f fun a b => (single a b * g) x := by
-      rw [← Finsupp.sum_apply, ← Finsupp.sum_mul g f, f.sum_single]
+      rw [← Finsupp.sum_apply]; rw [← Finsupp.sum_mul g f]; rw [f.sum_single]
     _ = _ := by simp only [single_mul_apply, Finsupp.sum]
 #align monoid_algebra.mul_apply_left MonoidAlgebra.mul_apply_left
 
@@ -1089,7 +1088,7 @@ theorem mul_apply_right (f g : MonoidAlgebra k G) (x : G) :
     (f * g) x = g.sum fun a b => f (x * a⁻¹) * b :=
   calc
     (f * g) x = sum g fun a b => (f * single a b) x := by
-      rw [← Finsupp.sum_apply, ← Finsupp.mul_sum f g, g.sum_single]
+      rw [← Finsupp.sum_apply]; rw [← Finsupp.mul_sum f g]; rw [g.sum_single]
     _ = _ := by simp only [mul_single_apply, Finsupp.sum]
 #align monoid_algebra.mul_apply_right MonoidAlgebra.mul_apply_right
 
@@ -1109,8 +1108,7 @@ protected noncomputable def opRingEquiv [Monoid G] :
   { opAddEquiv.symm.trans <|
       (Finsupp.mapRange.addEquiv (opAddEquiv : k ≃+ kᵐᵒᵖ)).trans <| Finsupp.domCongr opEquiv with
     map_mul' := by
-      rw [Equiv.toFun_as_coe, AddEquiv.toEquiv_eq_coe, AddEquiv.coe_toEquiv,
-        ← AddEquiv.coe_toAddMonoidHom]
+      rw [Equiv.toFun_as_coe]; rw [AddEquiv.toEquiv_eq_coe]; rw [AddEquiv.coe_toEquiv]; rw [← AddEquiv.coe_toAddMonoidHom]
       refine Iff.mpr (AddMonoidHom.map_mul_iff (R := (MonoidAlgebra k G)ᵐᵒᵖ)
         (S := MonoidAlgebra kᵐᵒᵖ Gᵐᵒᵖ) _) ?_
       -- Porting note: Was `ext`.
@@ -1118,9 +1116,7 @@ protected noncomputable def opRingEquiv [Monoid G] :
         AddMonoidHom.mul_op_ext _ _ <| addHom_ext' fun i₂ => AddMonoidHom.ext fun r₂ => ?_
       -- Porting note: `reducible` cannot be `local` so proof gets long.
       simp
-      rw [AddEquiv.trans_apply, AddEquiv.trans_apply, AddEquiv.trans_apply, AddEquiv.trans_apply,
-        AddEquiv.trans_apply, AddEquiv.trans_apply,
-        MulOpposite.opAddEquiv_symm_apply, MulOpposite.unop_mul (α := MonoidAlgebra k G)]
+      rw [AddEquiv.trans_apply]; rw [AddEquiv.trans_apply]; rw [AddEquiv.trans_apply]; rw [AddEquiv.trans_apply]; rw [AddEquiv.trans_apply]; rw [AddEquiv.trans_apply]; rw [MulOpposite.opAddEquiv_symm_apply]; rw [MulOpposite.unop_mul (α := MonoidAlgebra k G)]
       simp }
 #align monoid_algebra.op_ring_equiv MonoidAlgebra.opRingEquiv
 #align monoid_algebra.op_ring_equiv_apply MonoidAlgebra.opRingEquiv_apply
@@ -1155,7 +1151,7 @@ def submoduleOfSmulMem (W : Submodule k V) (h : ∀ (g : G) (v : V), v ∈ W →
   add_mem' := W.add_mem'
   smul_mem' := by
     intro f v hv
-    rw [← Finsupp.sum_single f, Finsupp.sum, Finset.sum_smul]
+    rw [← Finsupp.sum_single f]; rw [Finsupp.sum]; rw [Finset.sum_smul]
     simp_rw [← smul_of, smul_assoc]
     exact Submodule.sum_smul_mem W _ fun g _ => h g v hv
 #align monoid_algebra.submodule_of_smul_mem MonoidAlgebra.submoduleOfSmulMem
@@ -1358,9 +1354,9 @@ instance nonUnitalSemiring : NonUnitalSemiring k[G] :=
       -- Porting note: `reducible` cannot be `local` so proof gets long.
       simp only [mul_def]
       rw [sum_sum_index]; congr; ext a₁ b₁
-      rw [sum_sum_index, sum_sum_index]; congr; ext a₂ b₂
-      rw [sum_sum_index, sum_single_index]; congr; ext a₃ b₃
-      rw [sum_single_index, mul_assoc, add_assoc]
+      rw [sum_sum_index]; rw [sum_sum_index]; congr; ext a₂ b₂
+      rw [sum_sum_index]; rw [sum_single_index]; congr; ext a₃ b₃
+      rw [sum_single_index]; rw [mul_assoc]; rw [add_assoc]
       all_goals simp only [single_zero, single_add, forall_true_iff, add_mul,
         mul_add, zero_mul, mul_zero, sum_zero, sum_add] }
 #align add_monoid_algebra.non_unital_semiring AddMonoidAlgebra.nonUnitalSemiring
@@ -1548,7 +1544,7 @@ theorem single_pow [AddMonoid G] {a : G} {b : k} : ∀ n : ℕ, single a b ^ n =
     simp only [pow_zero, zero_nsmul]
     rfl
   | n + 1 => by
-    rw [pow_succ, pow_succ, single_pow n, single_mul_single, add_comm, add_nsmul, one_nsmul]
+    rw [pow_succ]; rw [pow_succ]; rw [single_pow n]; rw [single_mul_single]; rw [add_comm]; rw [add_nsmul]; rw [one_nsmul]
 #align add_monoid_algebra.single_pow AddMonoidAlgebra.single_pow
 
 /-- Like `Finsupp.mapDomain_zero`, but for the `1` we define in this file -/
@@ -1686,7 +1682,7 @@ theorem induction_on [AddMonoid G] {p : k[G] → Prop} (f : k[G])
   · simpa using hsmul 0 (of k G (Multiplicative.ofAdd 0)) (hM 0)
   · convert hsmul r (of k G (Multiplicative.ofAdd g)) (hM g)
     -- Porting note: Was `simp only`.
-    rw [of_apply, toAdd_ofAdd, smul_single', mul_one]
+    rw [of_apply]; rw [toAdd_ofAdd]; rw [smul_single']; rw [mul_one]
 #align add_monoid_algebra.induction_on AddMonoidAlgebra.induction_on
 
 /-- If `f : G → H` is an additive homomorphism between two additive monoids, then
@@ -1856,16 +1852,14 @@ protected noncomputable def opRingEquiv [AddCommMonoid G] :
   { MulOpposite.opAddEquiv.symm.trans
       (Finsupp.mapRange.addEquiv (MulOpposite.opAddEquiv : k ≃+ kᵐᵒᵖ)) with
     map_mul' := by
-      rw [Equiv.toFun_as_coe, AddEquiv.toEquiv_eq_coe, AddEquiv.coe_toEquiv,
-        ← AddEquiv.coe_toAddMonoidHom]
+      rw [Equiv.toFun_as_coe]; rw [AddEquiv.toEquiv_eq_coe]; rw [AddEquiv.coe_toEquiv]; rw [← AddEquiv.coe_toAddMonoidHom]
       refine Iff.mpr (AddMonoidHom.map_mul_iff (R := k[G]ᵐᵒᵖ) (S := kᵐᵒᵖ[G]) _) ?_
       -- Porting note: Was `ext`.
       refine AddMonoidHom.mul_op_ext _ _ <| addHom_ext' fun i₁ => AddMonoidHom.ext fun r₁ =>
         AddMonoidHom.mul_op_ext _ _ <| addHom_ext' fun i₂ => AddMonoidHom.ext fun r₂ => ?_
       -- Porting note: `reducible` cannot be `local` so proof gets long.
       dsimp
-      rw [AddEquiv.trans_apply, AddEquiv.trans_apply, AddEquiv.trans_apply,
-        MulOpposite.opAddEquiv_symm_apply, MulOpposite.unop_mul (α := k[G])]
+      rw [AddEquiv.trans_apply]; rw [AddEquiv.trans_apply]; rw [AddEquiv.trans_apply]; rw [MulOpposite.opAddEquiv_symm_apply]; rw [MulOpposite.unop_mul (α := k[G])]
       dsimp
       simp only [mapRange_single, single_mul_single, ← op_mul, add_comm] }
 #align add_monoid_algebra.op_ring_equiv AddMonoidAlgebra.opRingEquiv
@@ -1992,7 +1986,7 @@ theorem lift_of (F : Multiplicative G →* A) (x : Multiplicative G) :
 @[simp]
 theorem lift_single (F : Multiplicative G →* A) (a b) :
     lift k G A F (single a b) = b • F (Multiplicative.ofAdd a) := by
-  rw [lift_def, liftNC_single, Algebra.smul_def, AddMonoidHom.coe_coe]
+  rw [lift_def]; rw [liftNC_single]; rw [Algebra.smul_def]; rw [AddMonoidHom.coe_coe]
 #align add_monoid_algebra.lift_single AddMonoidAlgebra.lift_single
 
 theorem lift_unique' (F : k[G] →ₐ[k] A) :
@@ -2027,7 +2021,7 @@ variable {ι : Type ui}
 theorem prod_single [CommSemiring k] [AddCommMonoid G] {s : Finset ι} {a : ι → G} {b : ι → k} :
     (∏ i in s, single (a i) (b i)) = single (∑ i in s, a i) (∏ i in s, b i) :=
   Finset.cons_induction_on s rfl fun a s has ih => by
-    rw [prod_cons has, ih, single_mul_single, sum_cons has, prod_cons has]
+    rw [prod_cons has]; rw [ih]; rw [single_mul_single]; rw [sum_cons has]; rw [prod_cons has]
 #align add_monoid_algebra.prod_single AddMonoidAlgebra.prod_single
 
 end

@@ -180,8 +180,7 @@ theorem kstar_def_nonempty (l : Language α) :
     refine' ⟨S.filter fun l ↦ ¬List.isEmpty l, by simp, fun y hy ↦ _⟩
     -- Porting note: The previous code was:
     -- rw [mem_filter, empty_iff_eq_nil] at hy
-    rw [mem_filter, decide_not, Bool.decide_coe, Bool.not_eq_true', ← Bool.bool_iff_false,
-      isEmpty_iff_eq_nil] at hy
+    rw [mem_filter] at hy; rw [decide_not] at hy; rw [Bool.decide_coe] at hy; rw [Bool.not_eq_true'] at hy; rw [← Bool.bool_iff_false] at hy; rw [isEmpty_iff_eq_nil] at hy
     exact ⟨h y hy.1, hy.2⟩
   · rintro ⟨S, hx, h⟩
     exact ⟨S, hx, fun y hy ↦ (h y hy).1⟩
@@ -255,7 +254,7 @@ theorem kstar_eq_iSup_pow (l : Language α) : l∗ = ⨆ i : ℕ, l ^ i := by
 
 @[simp]
 theorem map_kstar (f : α → β) (l : Language α) : map f l∗ = (map f l)∗ := by
-  rw [kstar_eq_iSup_pow, kstar_eq_iSup_pow]
+  rw [kstar_eq_iSup_pow]; rw [kstar_eq_iSup_pow]
   simp_rw [← map_pow]
   exact image_iUnion
 #align language.map_kstar Language.map_kstar
@@ -272,7 +271,7 @@ theorem one_add_self_mul_kstar_eq_kstar (l : Language α) : 1 + l * l∗ = l∗ 
 
 @[simp]
 theorem one_add_kstar_mul_self_eq_kstar (l : Language α) : 1 + l∗ * l = l∗ := by
-  rw [mul_self_kstar_comm, one_add_self_mul_kstar_eq_kstar]
+  rw [mul_self_kstar_comm]; rw [one_add_self_mul_kstar_eq_kstar]
 #align language.one_add_kstar_mul_self_eq_kstar Language.one_add_kstar_mul_self_eq_kstar
 
 instance : KleeneAlgebra (Language α) :=
@@ -282,14 +281,14 @@ instance : KleeneAlgebra (Language α) :=
     mul_kstar_le_kstar := fun a ↦ (one_add_self_mul_kstar_eq_kstar a).le.trans' le_sup_right,
     kstar_mul_le_kstar := fun a ↦ (one_add_kstar_mul_self_eq_kstar a).le.trans' le_sup_right,
     kstar_mul_le_self := fun l m h ↦ by
-      rw [kstar_eq_iSup_pow, iSup_mul]
+      rw [kstar_eq_iSup_pow]; rw [iSup_mul]
       refine' iSup_le (fun n ↦ _)
       induction' n with n ih
       · simp
       rw [pow_succ', mul_assoc (l^n) l m]
       exact le_trans (le_mul_congr le_rfl h) ih,
     mul_kstar_le_self := fun l m h ↦ by
-      rw [kstar_eq_iSup_pow, mul_iSup]
+      rw [kstar_eq_iSup_pow]; rw [mul_iSup]
       refine' iSup_le (fun n ↦ _)
       induction' n with n ih
       · simp

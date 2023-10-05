@@ -135,7 +135,7 @@ variable (s : Set α)
 
 theorem toOuterMeasure_uniformOfFintype_apply :
     (uniformOfFintype α).toOuterMeasure s = Fintype.card s / Fintype.card α := by
-  rw [uniformOfFintype, toOuterMeasure_uniformOfFinset_apply,Fintype.card_ofFinset]
+  rw [uniformOfFintype]; rw [toOuterMeasure_uniformOfFinset_apply]; rw [Fintype.card_ofFinset]
   rfl
 #align pmf.to_outer_measure_uniform_of_fintype_apply Pmf.toOuterMeasure_uniformOfFintype_apply
 
@@ -165,8 +165,7 @@ def ofMultiset (s : Multiset α) (hs : s ≠ 0) : Pmf α :=
             (tsum_eq_sum fun a ha =>
               Nat.cast_eq_zero.2 <| by rwa [Multiset.count_eq_zero, ← Multiset.mem_toFinset]))
         _ = 1 := by
-          rw [← Nat.cast_sum, Multiset.toFinset_sum_count_eq s,
-            ENNReal.inv_mul_cancel (Nat.cast_ne_zero.2 (hs ∘ Multiset.card_eq_zero.1))
+          rw [← Nat.cast_sum]; rw [Multiset.toFinset_sum_count_eq s]; rw [ENNReal.inv_mul_cancel (Nat.cast_ne_zero.2 (hs ∘ Multiset.card_eq_zero.1))
               (ENNReal.nat_ne_top _)]
         )⟩
 #align pmf.of_multiset Pmf.ofMultiset

@@ -66,7 +66,7 @@ theorem countP_of' (x : α) :
 #align free_monoid.countp_of' FreeMonoid.countP_of'
 
 theorem countP_of (x : α) : countP p (of x) = if p x then Multiplicative.ofAdd 1 else 1 := by
-  rw [countP_of', ofAdd_zero]
+  rw [countP_of']; rw [ofAdd_zero]
 #align free_monoid.countp_of FreeMonoid.countP_of
 
 -- `rfl` is not transitive

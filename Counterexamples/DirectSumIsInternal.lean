@@ -71,7 +71,7 @@ def withSign.independent : CompleteLattice.Independent withSign := by
 #align counterexample.with_sign.independent Counterexample.withSign.independent
 
 theorem withSign.iSup : iSup withSign = ⊤ := by
-  rw [← Finset.sup_univ_eq_iSup, UnitsInt.univ, Finset.sup_insert, Finset.sup_singleton]
+  rw [← Finset.sup_univ_eq_iSup]; rw [UnitsInt.univ]; rw [Finset.sup_insert]; rw [Finset.sup_singleton]
   exact withSign.isCompl.sup_eq_top
 #align counterexample.with_sign.supr Counterexample.withSign.iSup
 
@@ -88,12 +88,10 @@ theorem withSign.not_injective :
     -- porting note: `DFinsupp.singleAddHom_apply` doesn't work so we have to unfold
     dsimp [DirectSum.lof_eq_of, DirectSum.of, DFinsupp.singleAddHom] at h
     replace h := FunLike.congr_fun h 1
-    rw [DFinsupp.zero_apply, DFinsupp.add_apply, DFinsupp.single_eq_same,
-      DFinsupp.single_eq_of_ne UnitsInt.one_ne_neg_one.symm, add_zero, Subtype.ext_iff,
-      Submodule.coe_zero] at h
+    rw [DFinsupp.zero_apply] at h; rw [DFinsupp.add_apply] at h; rw [DFinsupp.single_eq_same] at h; rw [DFinsupp.single_eq_of_ne UnitsInt.one_ne_neg_one.symm] at h; rw [add_zero] at h; rw [Subtype.ext_iff] at h; rw [Submodule.coe_zero] at h
     apply zero_ne_one h.symm
   apply hinj.ne this
-  rw [LinearMap.map_zero, LinearMap.map_add, DirectSum.toModule_lof, DirectSum.toModule_lof]
+  rw [LinearMap.map_zero]; rw [LinearMap.map_add]; rw [DirectSum.toModule_lof]; rw [DirectSum.toModule_lof]
   simp
 #align counterexample.with_sign.not_injective Counterexample.withSign.not_injective
 

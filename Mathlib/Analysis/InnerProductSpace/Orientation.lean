@@ -199,7 +199,7 @@ theorem volumeForm_zero_neg [_i : Fact (finrank ℝ E = 0)] :
   simp_rw [volumeForm, Or.by_cases, positiveOrientation]
   apply if_neg
   simp only [neg_rayOfNeZero]
-  rw [ray_eq_iff, SameRay.sameRay_comm]
+  rw [ray_eq_iff]; rw [SameRay.sameRay_comm]
   intro h
   simpa using
     congr_arg AlternatingMap.constLinearEquivOfIsEmpty.symm (eq_zero_of_sameRay_self_neg h)
@@ -214,7 +214,7 @@ theorem volumeForm_robust (b : OrthonormalBasis (Fin n) ℝ E) (hb : b.toBasis.o
       have : o = positiveOrientation := hb.symm.trans b.toBasis.orientation_isEmpty
       simp_rw [volumeForm, Or.by_cases, dif_pos this, Basis.det_isEmpty]
   · simp_rw [volumeForm]
-    rw [same_orientation_iff_det_eq_det, hb]
+    rw [same_orientation_iff_det_eq_det]; rw [hb]
     exact o.finOrthonormalBasis_orientation _ _
 #align orientation.volume_form_robust Orientation.volumeForm_robust
 
@@ -244,8 +244,8 @@ theorem volumeForm_neg_orientation : (-o).volumeForm = -o.volumeForm := by
   have h₁ : e.toBasis.orientation = o := o.finOrthonormalBasis_orientation _ _
   have h₂ : e.toBasis.orientation ≠ -o := by
     symm
-    rw [e.toBasis.orientation_ne_iff_eq_neg, h₁]
-  rw [o.volumeForm_robust e h₁, (-o).volumeForm_robust_neg e h₂]
+    rw [e.toBasis.orientation_ne_iff_eq_neg]; rw [h₁]
+  rw [o.volumeForm_robust e h₁]; rw [(-o).volumeForm_robust_neg e h₂]
 #align orientation.volume_form_neg_orientation Orientation.volumeForm_neg_orientation
 
 theorem volumeForm_robust' (b : OrthonormalBasis (Fin n) ℝ E) (v : Fin n → E) :
@@ -266,7 +266,7 @@ theorem abs_volumeForm_apply_le (v : Fin n → E) : |o.volumeForm v| ≤ ∏ i :
   have : finrank ℝ E = Fintype.card (Fin n.succ) := by simpa using _i.out
   let b : OrthonormalBasis (Fin n.succ) ℝ E := gramSchmidtOrthonormalBasis this v
   have hb : b.toBasis.det v = ∏ i, ⟪b i, v i⟫ := gramSchmidtOrthonormalBasis_det this v
-  rw [o.volumeForm_robust' b, hb, Finset.abs_prod]
+  rw [o.volumeForm_robust' b]; rw [hb]; rw [Finset.abs_prod]
   apply Finset.prod_le_prod
   · intro i _
     positivity
@@ -290,7 +290,7 @@ theorem abs_volumeForm_apply_of_pairwise_orthogonal {v : Fin n → E}
   have hdim : finrank ℝ E = Fintype.card (Fin n.succ) := by simpa using _i.out
   let b : OrthonormalBasis (Fin n.succ) ℝ E := gramSchmidtOrthonormalBasis hdim v
   have hb : b.toBasis.det v = ∏ i, ⟪b i, v i⟫ := gramSchmidtOrthonormalBasis_det hdim v
-  rw [o.volumeForm_robust' b, hb, Finset.abs_prod]
+  rw [o.volumeForm_robust' b]; rw [hb]; rw [Finset.abs_prod]
   by_cases h : ∃ i, v i = 0
   obtain ⟨i, hi⟩ := h
   · rw [Finset.prod_eq_zero (Finset.mem_univ i), Finset.prod_eq_zero (Finset.mem_univ i)] <;>
@@ -338,7 +338,7 @@ theorem volumeForm_comp_linearIsometryEquiv (φ : E ≃ₗᵢ[ℝ] E)
   convert o.volumeForm_map φ (φ ∘ x)
   · symm
     rwa [← o.map_eq_iff_det_pos φ.toLinearEquiv] at hφ
-    rw [_i.out, Fintype.card_fin]
+    rw [_i.out]; rw [Fintype.card_fin]
   · ext
     simp
 #align orientation.volume_form_comp_linear_isometry_equiv Orientation.volumeForm_comp_linearIsometryEquiv

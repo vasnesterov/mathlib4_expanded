@@ -197,8 +197,8 @@ theorem exists_gt (v : PartialRefinement u s) (hs : IsClosed s) (i : ι) (hi : i
     · rw [update_noteq (ne_of_mem_of_not_mem hj hi)]
       exact v.closure_subset hj
   · intro j hj
-    rw [mem_insert_iff, not_or] at hj
-    rw [update_noteq hj.1, v.apply_eq hj.2]
+    rw [mem_insert_iff] at hj; rw [not_or] at hj
+    rw [update_noteq hj.1]; rw [v.apply_eq hj.2]
   · refine' ⟨subset_insert _ _, fun j hj => _⟩
     exact (update_noteq (ne_of_mem_of_not_mem hj hi) _ _).symm
   · exact fun hle => hi (hle.1 <| mem_insert _ _)

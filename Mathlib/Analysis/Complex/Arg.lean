@@ -35,11 +35,11 @@ theorem sameRay_iff : SameRay ℝ x y ↔ x = 0 ∨ y = 0 ∨ x.arg = y.arg := b
   · simp
   simp only [hx, hy, false_or_iff, sameRay_iff_norm_smul_eq, arg_eq_arg_iff hx hy]
   field_simp [hx, hy]
-  rw [mul_comm, eq_comm]
+  rw [mul_comm]; rw [eq_comm]
 #align complex.same_ray_iff Complex.sameRay_iff
 
 theorem sameRay_iff_arg_div_eq_zero : SameRay ℝ x y ↔ arg (x / y) = 0 := by
-  rw [← Real.Angle.toReal_zero, ← arg_coe_angle_eq_iff_eq_toReal, sameRay_iff]
+  rw [← Real.Angle.toReal_zero]; rw [← arg_coe_angle_eq_iff_eq_toReal]; rw [sameRay_iff]
   by_cases hx : x = 0; · simp [hx]
   by_cases hy : y = 0; · simp [hy]
   simp [hx, hy, arg_div_coe_angle, sub_eq_zero]

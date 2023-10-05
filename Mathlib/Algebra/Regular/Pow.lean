@@ -34,7 +34,7 @@ theorem IsLeftRegular.pow (n : ℕ) (rla : IsLeftRegular a) : IsLeftRegular (a ^
 
 /-- Any power of a right-regular element is right-regular. -/
 theorem IsRightRegular.pow (n : ℕ) (rra : IsRightRegular a) : IsRightRegular (a ^ n) := by
-  rw [IsRightRegular, ← mul_right_iterate]
+  rw [IsRightRegular]; rw [← mul_right_iterate]
   exact rra.iterate n
 #align is_right_regular.pow IsRightRegular.pow
 
@@ -46,7 +46,7 @@ theorem IsRegular.pow (n : ℕ) (ra : IsRegular a) : IsRegular (a ^ n) :=
 /-- An element `a` is left-regular if and only if a positive power of `a` is left-regular. -/
 theorem IsLeftRegular.pow_iff {n : ℕ} (n0 : 0 < n) : IsLeftRegular (a ^ n) ↔ IsLeftRegular a := by
   refine' ⟨_, IsLeftRegular.pow n⟩
-  rw [← Nat.succ_pred_eq_of_pos n0, pow_succ']
+  rw [← Nat.succ_pred_eq_of_pos n0]; rw [pow_succ']
   exact IsLeftRegular.of_mul
 #align is_left_regular.pow_iff IsLeftRegular.pow_iff
 
@@ -54,7 +54,7 @@ theorem IsLeftRegular.pow_iff {n : ℕ} (n0 : 0 < n) : IsLeftRegular (a ^ n) ↔
 theorem IsRightRegular.pow_iff {n : ℕ} (n0 : 0 < n) :
     IsRightRegular (a ^ n) ↔ IsRightRegular a := by
   refine' ⟨_, IsRightRegular.pow n⟩
-  rw [← Nat.succ_pred_eq_of_pos n0, pow_succ]
+  rw [← Nat.succ_pred_eq_of_pos n0]; rw [pow_succ]
   exact IsRightRegular.of_mul
 #align is_right_regular.pow_iff IsRightRegular.pow_iff
 

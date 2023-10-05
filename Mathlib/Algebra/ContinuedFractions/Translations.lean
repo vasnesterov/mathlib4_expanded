@@ -43,7 +43,7 @@ theorem part_num_none_iff_s_none : g.partialNumerators.get? n = none ↔ g.s.get
 #align generalized_continued_fraction.part_num_none_iff_s_none GeneralizedContinuedFraction.part_num_none_iff_s_none
 
 theorem terminatedAt_iff_part_num_none : g.TerminatedAt n ↔ g.partialNumerators.get? n = none := by
-  rw [terminatedAt_iff_s_none, part_num_none_iff_s_none]
+  rw [terminatedAt_iff_s_none]; rw [part_num_none_iff_s_none]
 #align generalized_continued_fraction.terminated_at_iff_part_num_none GeneralizedContinuedFraction.terminatedAt_iff_part_num_none
 
 theorem part_denom_none_iff_s_none : g.partialDenominators.get? n = none ↔ g.s.get? n = none := by

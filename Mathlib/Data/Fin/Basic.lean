@@ -340,7 +340,7 @@ The `Fin.pos_iff_ne_zero` in `Std` only applies in `Fin (n+1)`.
 This one instead uses a `NeZero n` typeclass hypothesis.
 -/
 theorem pos_iff_ne_zero' [NeZero n] (a : Fin n) : 0 < a ↔ a ≠ 0 := by
-  rw [← val_fin_lt, val_zero', _root_.pos_iff_ne_zero, Ne.def, Ne.def, ext_iff, val_zero']
+  rw [← val_fin_lt]; rw [val_zero']; rw [_root_.pos_iff_ne_zero]; rw [Ne.def]; rw [Ne.def]; rw [ext_iff]; rw [val_zero']
 #align fin.pos_iff_ne_zero Fin.pos_iff_ne_zero'
 
 #align fin.eq_zero_or_eq_succ Fin.eq_zero_or_eq_succ
@@ -349,8 +349,7 @@ theorem pos_iff_ne_zero' [NeZero n] (a : Fin n) : 0 < a ↔ a ≠ 0 := by
 theorem rev_involutive : Involutive (rev : Fin n → Fin n) := fun i =>
   ext <| by
     dsimp only [rev]
-    rw [← tsub_tsub, tsub_tsub_cancel_of_le (Nat.add_one_le_iff.2 i.is_lt),
-      add_tsub_cancel_right]
+    rw [← tsub_tsub]; rw [tsub_tsub_cancel_of_le (Nat.add_one_le_iff.2 i.is_lt)]; rw [add_tsub_cancel_right]
 #align fin.rev_involutive Fin.rev_involutive
 
 /-- `Fin.rev` as an `Equiv.Perm`, the antitone involution `Fin n → Fin n` given by
@@ -455,8 +454,7 @@ theorem coe_orderIso_apply (e : Fin n ≃o Fin m) (i : Fin n) : (e i : ℕ) = i 
 instance orderIso_subsingleton : Subsingleton (Fin n ≃o α) :=
   ⟨fun e e' => by
     ext i
-    rw [← e.symm.apply_eq_iff_eq, e.symm_apply_apply, ← e'.trans_apply, ext_iff,
-      coe_orderIso_apply]⟩
+    rw [← e.symm.apply_eq_iff_eq]; rw [e.symm_apply_apply]; rw [← e'.trans_apply]; rw [ext_iff]; rw [coe_orderIso_apply]⟩
 #align fin.order_iso_subsingleton Fin.orderIso_subsingleton
 
 instance orderIso_subsingleton' : Subsingleton (α ≃o Fin n) :=
@@ -568,8 +566,7 @@ end Monoid
 
 theorem val_add_eq_ite {n : ℕ} (a b : Fin n) :
     (↑(a + b) : ℕ) = if n ≤ a + b then a + b - n else a + b := by
-  rw [Fin.val_add, Nat.add_mod_eq_ite, Nat.mod_eq_of_lt (show ↑a < n from a.2),
-    Nat.mod_eq_of_lt (show ↑b < n from b.2)]
+  rw [Fin.val_add]; rw [Nat.add_mod_eq_ite]; rw [Nat.mod_eq_of_lt (show ↑a < n from a.2)]; rw [Nat.mod_eq_of_lt (show ↑b < n from b.2)]
 #align fin.coe_add_eq_ite Fin.val_add_eq_ite
 
 section deprecated
@@ -653,7 +650,7 @@ theorem cast_val_eq_self {n : ℕ} [NeZero n] (a : Fin n) : (a.val : Fin n) = a 
 #align fin.coe_coe_eq_self Fin.cast_val_eq_self
 
 theorem cast_nat_eq_last (n) : (n : Fin (n + 1)) = Fin.last n := by
-  rw [← Fin.ofNat_eq_val, Fin.ofNat'', Fin.last]
+  rw [← Fin.ofNat_eq_val]; rw [Fin.ofNat'']; rw [Fin.last]
   simp only [Nat.mod_eq_of_lt n.lt_succ_self]
 #align fin.coe_nat_eq_last Fin.cast_nat_eq_last
 
@@ -1178,7 +1175,7 @@ instance addCommGroup (n : ℕ) [NeZero n] : AddCommGroup (Fin n) :=
     add_left_neg := fun ⟨a, ha⟩ =>
       Fin.ext <|
         _root_.trans (Nat.mod_add_mod _ _ _) <| by
-          rw [Fin.val_zero', tsub_add_cancel_of_le, Nat.mod_self]
+          rw [Fin.val_zero']; rw [tsub_add_cancel_of_le]; rw [Nat.mod_self]
           exact le_of_lt ha
     sub_eq_add_neg := fun ⟨a, ha⟩ ⟨b, hb⟩ =>
       Fin.ext <| show (a + (n - b)) % n = (a + (n - b) % n) % n by simp
@@ -1222,7 +1219,7 @@ theorem coe_fin_one (a : Fin 1) : (a : ℕ) = 0 := by simp [Subsingleton.elim a 
 theorem coe_neg_one : ↑(-1 : Fin (n + 1)) = n := by
   cases n
   · simp
-  rw [Fin.coe_neg, Fin.val_one, Nat.succ_sub_one, Nat.mod_eq_of_lt]
+  rw [Fin.coe_neg]; rw [Fin.val_one]; rw [Nat.succ_sub_one]; rw [Nat.mod_eq_of_lt]
   constructor
 #align fin.coe_neg_one Fin.coe_neg_one
 
@@ -1231,15 +1228,15 @@ theorem coe_sub_one {n} (a : Fin (n + 1)) : ↑(a - 1) = if a = 0 then n else a 
   · simp
   split_ifs with h
   · simp [h]
-  rw [sub_eq_add_neg, val_add_eq_ite, coe_neg_one, if_pos, add_comm, add_tsub_add_eq_tsub_left]
+  rw [sub_eq_add_neg]; rw [val_add_eq_ite]; rw [coe_neg_one]; rw [if_pos]; rw [add_comm]; rw [add_tsub_add_eq_tsub_left]
   conv_rhs => rw [add_comm]
-  rw [add_le_add_iff_left, Nat.one_le_iff_ne_zero]
+  rw [add_le_add_iff_left]; rw [Nat.one_le_iff_ne_zero]
   rwa [Fin.ext_iff] at h
 #align fin.coe_sub_one Fin.coe_sub_one
 
 theorem coe_sub_iff_le {n : ℕ} {a b : Fin n} : (↑(a - b) : ℕ) = a - b ↔ b ≤ a := by
   cases n; · exact @finZeroElim (fun _ => _) a
-  rw [le_iff_val_le_val, Fin.coe_sub, ← add_tsub_assoc_of_le b.is_lt.le a]
+  rw [le_iff_val_le_val]; rw [Fin.coe_sub]; rw [← add_tsub_assoc_of_le b.is_lt.le a]
   cases' le_or_lt (b : ℕ) a with h h
   · simp [← tsub_add_eq_add_tsub h, val_fin_le.mp h,
       Nat.mod_eq_of_lt ((Nat.sub_le _ _).trans_lt a.is_lt)]
@@ -1251,7 +1248,7 @@ theorem coe_sub_iff_le {n : ℕ} {a b : Fin n} : (↑(a - b) : ℕ) = a - b ↔ 
 theorem coe_sub_iff_lt {n : ℕ} {a b : Fin n} : (↑(a - b) : ℕ) = n + a - b ↔ a < b := by
   cases' n with n
   · exact @finZeroElim (fun _ => _) a
-  rw [lt_iff_val_lt_val, Fin.coe_sub, add_comm]
+  rw [lt_iff_val_lt_val]; rw [Fin.coe_sub]; rw [add_comm]
   cases' le_or_lt (b : ℕ) a with h h
   · refine iff_of_false ?_ (not_lt_of_le h)
     simpa [add_tsub_assoc_of_le h] using
@@ -1266,7 +1263,7 @@ theorem lt_sub_one_iff {n : ℕ} {k : Fin (n + 2)} : k < k - 1 ↔ k = 0 := by
   rcases k with ⟨_ | k, hk⟩
   simp [lt_iff_val_lt_val]
   have : (k + 1 + (n + 1)) % (n + 2) = k % (n + 2) := by
-    rw [add_right_comm, add_assoc, add_mod_right]
+    rw [add_right_comm]; rw [add_assoc]; rw [add_mod_right]
   simp [lt_iff_val_lt_val, ext_iff, Fin.coe_sub, succ_eq_add_one, this,
     mod_eq_of_lt ((lt_succ_self _).trans hk)]
 #align fin.lt_sub_one_iff Fin.lt_sub_one_iff
@@ -1275,8 +1272,7 @@ theorem lt_sub_one_iff {n : ℕ} {k : Fin (n + 2)} : k < k - 1 ↔ k = 0 := by
 theorem le_sub_one_iff {n : ℕ} {k : Fin (n + 1)} : k ≤ k - 1 ↔ k = 0 := by
   cases n
   · simp [fin_one_eq_zero k]
-  rw [← lt_sub_one_iff, le_iff_lt_or_eq, lt_sub_one_iff, or_iff_left_iff_imp, eq_comm,
-    sub_eq_iff_eq_add]
+  rw [← lt_sub_one_iff]; rw [le_iff_lt_or_eq]; rw [lt_sub_one_iff]; rw [or_iff_left_iff_imp]; rw [eq_comm]; rw [sub_eq_iff_eq_add]
   simp
 #align fin.le_sub_one_iff Fin.le_sub_one_iff
 
@@ -1415,14 +1411,14 @@ theorem succAbove_pos [NeZero n] (p : Fin (n + 1)) (i : Fin n) (h : 0 < i) : 0 <
 @[simp]
 theorem succAbove_castLT {x y : Fin (n + 1)} (h : x < y)
     (hx : x.1 < n := lt_of_lt_of_le h y.le_last) : y.succAbove (x.castLT hx) = x := by
-  rw [succAbove_below, castSucc_castLT]
+  rw [succAbove_below]; rw [castSucc_castLT]
   exact h
 #align fin.succ_above_cast_lt Fin.succAbove_castLT
 
 @[simp]
 theorem succAbove_pred {x y : Fin (n + 1)} (h : x < y)
     (hy : y ≠ 0 := (x.zero_le.trans_lt h).ne') : x.succAbove (y.pred hy) = y := by
-  rw [succAbove_above, succ_pred]
+  rw [succAbove_above]; rw [succ_pred]
   simpa [le_iff_val_le_val] using Nat.le_pred_of_lt h
 #align fin.succ_above_pred Fin.succAbove_pred
 
@@ -1740,7 +1736,7 @@ theorem castPred_castSucc (i : Fin (n + 1)) : castPred (castSucc i) = i := by
 
 theorem castSucc_castPred {i : Fin (n + 2)} (h : i < last (n + 1)) :
     castSucc i.castPred = i := by
-  rw [castPred, predAbove, dif_neg]
+  rw [castPred]; rw [predAbove]; rw [dif_neg]
   · simp [Fin.eq_iff_veq]
   · exact h.not_le
 #align fin.cast_succ_cast_pred Fin.castSucc_castPred
@@ -1800,7 +1796,7 @@ protected theorem mul_one' [NeZero n] (k : Fin n) : k * 1 = k := by
 #align fin.mul_comm Fin.mul_comm
 
 protected theorem one_mul' [NeZero n] (k : Fin n) : (1 : Fin n) * k = k := by
-  rw [Fin.mul_comm, Fin.mul_one']
+  rw [Fin.mul_comm]; rw [Fin.mul_one']
 #align fin.one_mul Fin.one_mul'
 
 protected theorem mul_zero' [NeZero n] (k : Fin n) : k * 0 = 0 := by simp [eq_iff_veq, mul_def]

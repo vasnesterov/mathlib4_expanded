@@ -119,7 +119,7 @@ theorem contDiffWithinAt_localInvariantProp (n : ℕ∞) :
     intro s x u f u_open xu
     have : I.symm ⁻¹' (s ∩ u) ∩ range I = I.symm ⁻¹' s ∩ range I ∩ I.symm ⁻¹' u := by
       simp only [inter_right_comm, preimage_inter]
-    rw [ContDiffWithinAtProp, ContDiffWithinAtProp, this]
+    rw [ContDiffWithinAtProp]; rw [ContDiffWithinAtProp]; rw [this]
     symm
     apply contDiffWithinAt_inter
     have : u ∈ 𝓝 (I.symm (I x)) := by
@@ -406,7 +406,7 @@ theorem contMDiffWithinAt_iff_image {x : M} (he : e ∈ maximalAtlas I M)
       ContinuousWithinAt f s x ∧
         ContDiffWithinAt 𝕜 n (e'.extend I' ∘ f ∘ (e.extend I).symm) (e.extend I '' s)
           (e.extend I x) := by
-  rw [contMDiffWithinAt_iff_of_mem_maximalAtlas he he' hx hy, and_congr_right_iff]
+  rw [contMDiffWithinAt_iff_of_mem_maximalAtlas he he' hx hy]; rw [and_congr_right_iff]
   refine' fun _ => contDiffWithinAt_congr_nhds _
   simp_rw [nhdsWithin_eq_iff_eventuallyEq, e.extend_symm_preimage_inter_range_eventuallyEq I hs hx]
 #align cont_mdiff_within_at_iff_image contMDiffWithinAt_iff_image
@@ -436,8 +436,8 @@ theorem contMDiffWithinAt_iff_of_mem_source' {x' : M} {y : M'} (hx : x' ∈ (cha
   rw [and_congr_right_iff]
   set e := extChartAt I x; set e' := extChartAt I' (f x)
   refine' fun hc => contDiffWithinAt_congr_nhds _
-  rw [← e.image_source_inter_eq', ← map_extChartAt_nhdsWithin_eq_image' I x hx, ←
-    map_extChartAt_nhdsWithin' I x hx, inter_comm, nhdsWithin_inter_of_mem]
+  rw [← e.image_source_inter_eq']; rw [← map_extChartAt_nhdsWithin_eq_image' I x hx]; rw [←
+    map_extChartAt_nhdsWithin' I x hx]; rw [inter_comm]; rw [nhdsWithin_inter_of_mem]
   exact hc (extChartAt_source_mem_nhds' _ _ hy)
 #align cont_mdiff_within_at_iff_of_mem_source' contMDiffWithinAt_iff_of_mem_source'
 
@@ -448,7 +448,7 @@ theorem contMDiffAt_iff_of_mem_source {x' : M} {y : M'} (hx : x' ∈ (chartAt H 
         ContDiffWithinAt 𝕜 n (extChartAt I' y ∘ f ∘ (extChartAt I x).symm) (range I)
           (extChartAt I x x') :=
   (contMDiffWithinAt_iff_of_mem_source hx hy).trans <| by
-    rw [continuousWithinAt_univ, preimage_univ, univ_inter]
+    rw [continuousWithinAt_univ]; rw [preimage_univ]; rw [univ_inter]
 #align cont_mdiff_at_iff_of_mem_source contMDiffAt_iff_of_mem_source
 
 theorem contMDiffWithinAt_iff_target_of_mem_source {x : M} {y : M'}
@@ -457,8 +457,7 @@ theorem contMDiffWithinAt_iff_target_of_mem_source {x : M} {y : M'}
       ContinuousWithinAt f s x ∧ ContMDiffWithinAt I 𝓘(𝕜, E') n (extChartAt I' y ∘ f) s x := by
   simp_rw [ContMDiffWithinAt]
   rw [(contDiffWithinAt_localInvariantProp I I' n).liftPropWithinAt_indep_chart_target
-      (chart_mem_maximalAtlas I' y) hy,
-    and_congr_right]
+      (chart_mem_maximalAtlas I' y) hy]; rw [and_congr_right]
   intro hf
   simp_rw [StructureGroupoid.liftPropWithinAt_self_target]
   simp_rw [((chartAt H' y).continuousAt hy).comp_continuousWithinAt hf]
@@ -470,8 +469,7 @@ theorem contMDiffWithinAt_iff_target_of_mem_source {x : M} {y : M'}
 theorem contMDiffAt_iff_target_of_mem_source {x : M} {y : M'} (hy : f x ∈ (chartAt H' y).source) :
     ContMDiffAt I I' n f x ↔
       ContinuousAt f x ∧ ContMDiffAt I 𝓘(𝕜, E') n (extChartAt I' y ∘ f) x := by
-  rw [ContMDiffAt, contMDiffWithinAt_iff_target_of_mem_source hy, continuousWithinAt_univ,
-    ContMDiffAt]
+  rw [ContMDiffAt]; rw [contMDiffWithinAt_iff_target_of_mem_source hy]; rw [continuousWithinAt_univ]; rw [ContMDiffAt]
 #align cont_mdiff_at_iff_target_of_mem_source contMDiffAt_iff_target_of_mem_source
 
 theorem contMDiffWithinAt_iff_source_of_mem_maximalAtlas (he : e ∈ maximalAtlas I M)
@@ -626,7 +624,7 @@ theorem contMDiff_iff_target :
     ContMDiff I I' n f ↔
       Continuous f ∧ ∀ y : M',
         ContMDiffOn I 𝓘(𝕜, E') n (extChartAt I' y ∘ f) (f ⁻¹' (extChartAt I' y).source) := by
-  rw [← contMDiffOn_univ, contMDiffOn_iff_target]
+  rw [← contMDiffOn_univ]; rw [contMDiffOn_iff_target]
   simp [continuous_iff_continuousOn_univ]
 #align cont_mdiff_iff_target contMDiff_iff_target
 
@@ -1153,7 +1151,7 @@ theorem contMDiffOn_extend_symm (he : e ∈ maximalAtlas I M) :
 theorem contMDiffOn_extChartAt_symm (x : M) :
     ContMDiffOn 𝓘(𝕜, E) I n (extChartAt I x).symm (extChartAt I x).target := by
   convert contMDiffOn_extend_symm (chart_mem_maximalAtlas I x)
-  rw [extChartAt_target, I.image_eq]
+  rw [extChartAt_target]; rw [I.image_eq]
 #align cont_mdiff_on_ext_chart_at_symm contMDiffOn_extChartAt_symm
 
 /-- An element of `contDiffGroupoid ⊤ I` is `C^n` for any `n`. -/
@@ -1348,7 +1346,7 @@ alias ⟨ContMDiffWithinAt.contDiffWithinAt, ContDiffWithinAt.contMDiffWithinAt�
 
 theorem contMDiffAt_iff_contDiffAt {f : E → E'} {x : E} :
     ContMDiffAt 𝓘(𝕜, E) 𝓘(𝕜, E') n f x ↔ ContDiffAt 𝕜 n f x := by
-  rw [← contMDiffWithinAt_univ, contMDiffWithinAt_iff_contDiffWithinAt, contDiffWithinAt_univ]
+  rw [← contMDiffWithinAt_univ]; rw [contMDiffWithinAt_iff_contDiffWithinAt]; rw [contDiffWithinAt_univ]
 #align cont_mdiff_at_iff_cont_diff_at contMDiffAt_iff_contDiffAt
 
 alias ⟨ContMDiffAt.contDiffAt, ContDiffAt.contMDiffAt⟩ := contMDiffAt_iff_contDiffAt
@@ -1365,7 +1363,7 @@ alias ⟨ContMDiffOn.contDiffOn, ContDiffOn.contMDiffOn⟩ := contMDiffOn_iff_co
 #align cont_diff_on.cont_mdiff_on ContDiffOn.contMDiffOn
 
 theorem contMDiff_iff_contDiff {f : E → E'} : ContMDiff 𝓘(𝕜, E) 𝓘(𝕜, E') n f ↔ ContDiff 𝕜 n f := by
-  rw [← contDiffOn_univ, ← contMDiffOn_univ, contMDiffOn_iff_contDiffOn]
+  rw [← contDiffOn_univ]; rw [← contMDiffOn_univ]; rw [contMDiffOn_iff_contDiffOn]
 #align cont_mdiff_iff_cont_diff contMDiff_iff_contDiff
 
 alias ⟨ContMDiff.contDiff, ContDiff.contMDiff⟩ := contMDiff_iff_contDiff
@@ -2056,7 +2054,7 @@ theorem isLocalStructomorphOn_contDiffGroupoid_iff_aux {f : LocalHomeomorph M M'
   let s : Set M := (f.trans c').source ∩ ((c.trans e).trans c'.symm).source
   refine' ⟨s, (f.trans c').open_source.inter ((c.trans e).trans c'.symm).open_source, _, _⟩
   · simp only [mfld_simps]
-    rw [← he'] <;> simp only [hx, hex, mfld_simps]
+    rw [← he']  <;> simp only [hx, hex, mfld_simps]
   -- We need to show `f` is `ContMDiffOn` the domain `s ∩ f.source`.  We show this in two
   -- steps: `f` is equal to `c'.symm ∘ e ∘ c` on that domain and that function is
   -- `ContMDiffOn` it.
@@ -2107,7 +2105,7 @@ theorem isLocalStructomorphOn_contDiffGroupoid_iff (f : LocalHomeomorph M M') :
       have h2 : c' ∘ f ∘ c.symm = ⇑(c.symm ≫ₕ f ≫ₕ c') := rfl
       have hcx : c x ∈ c.symm ⁻¹' f.source := by simp only [hx, mfld_simps]
       rw [h2]
-      rw [← h1, h2, LocalHomeomorph.isLocalStructomorphWithinAt_iff'] at hxf
+      rw [← h1] at hxf; rw [h2] at hxf; rw [LocalHomeomorph.isLocalStructomorphWithinAt_iff'] at hxf
       · exact hxf hcx
       · mfld_set_tac
       · apply Or.inl
@@ -2116,7 +2114,7 @@ theorem isLocalStructomorphOn_contDiffGroupoid_iff (f : LocalHomeomorph M M') :
       rw [← hef hex]
       dsimp only [Function.comp]
       have hfX : f.symm X ∈ c.source := by simp only [hX, mfld_simps]
-      rw [c.left_inv hfX, f.right_inv hX]
+      rw [c.left_inv hfX]; rw [f.right_inv hX]
     have h3e : EqOn (c ∘ f.symm ∘ c'.symm) e.symm (c'.symm ⁻¹' f.target ∩ e.target) := by
       have h1 : EqOn (c.symm ≫ₕ f ≫ₕ c').symm e.symm (e.target ∩ e.target) := by
         apply EqOn.symm
@@ -2124,7 +2122,7 @@ theorem isLocalStructomorphOn_contDiffGroupoid_iff (f : LocalHomeomorph M M') :
         · rw [inter_self, inter_eq_right.mpr h2e]
         · rw [inter_self]; exact hef.symm
       have h2 : e.target ⊆ (c.symm ≫ₕ f ≫ₕ c').target := by
-        intro x hx; rw [← e.right_inv hx, ← hef (e.symm.mapsTo hx)]
+        intro x hx; rw [← e.right_inv hx]; rw [← hef (e.symm.mapsTo hx)]
         exact LocalHomeomorph.mapsTo _ (h2e <| e.symm.mapsTo hx)
       rw [inter_self] at h1
       rwa [inter_eq_right.mpr]

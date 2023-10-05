@@ -144,31 +144,31 @@ theorem pair_lt_pair_right (a) {b₁ b₂} (h : b₁ < b₂) : pair a b₁ < pai
     exact mul_self_lt_mul_self h
   · by_cases h₂ : a < b₂ <;> simp [pair, h₂, h]
     simp at h₁
-    rw [add_comm, add_comm _ a, add_assoc, add_lt_add_iff_left]
+    rw [add_comm]; rw [add_comm _ a]; rw [add_assoc]; rw [add_lt_add_iff_left]
     rwa [add_comm, ← sqrt_lt, sqrt_add_eq]
     exact le_trans h₁ (Nat.le_add_left _ _)
 #align nat.mkpair_lt_mkpair_right Nat.pair_lt_pair_right
 
 theorem pair_lt_max_add_one_sq (m n : ℕ) : pair m n < (max m n + 1) ^ 2 := by
-  rw [pair, add_sq, mul_one, two_mul, sq, add_assoc, add_assoc]
+  rw [pair]; rw [add_sq]; rw [mul_one]; rw [two_mul]; rw [sq]; rw [add_assoc]; rw [add_assoc]
   cases' (lt_or_le m n) with h h
-  rw [if_pos h, max_eq_right h.le, add_lt_add_iff_left, add_assoc]
+  rw [if_pos h]; rw [max_eq_right h.le]; rw [add_lt_add_iff_left]; rw [add_assoc]
   exact h.trans_le (self_le_add_right n _)
-  rw [if_neg h.not_lt, max_eq_left h, add_lt_add_iff_left, add_assoc, add_lt_add_iff_left]
+  rw [if_neg h.not_lt]; rw [max_eq_left h]; rw [add_lt_add_iff_left]; rw [add_assoc]; rw [add_lt_add_iff_left]
   exact lt_succ_of_le h
 #align nat.mkpair_lt_max_add_one_sq Nat.pair_lt_max_add_one_sq
 
 theorem max_sq_add_min_le_pair (m n : ℕ) : max m n ^ 2 + min m n ≤ pair m n := by
   rw [pair]
   cases' lt_or_le m n with h h
-  rw [if_pos h, max_eq_right h.le, min_eq_left h.le, sq]
-  rw [if_neg h.not_lt, max_eq_left h, min_eq_right h, sq, add_assoc, add_le_add_iff_left]
+  rw [if_pos h]; rw [max_eq_right h.le]; rw [min_eq_left h.le]; rw [sq]
+  rw [if_neg h.not_lt]; rw [max_eq_left h]; rw [min_eq_right h]; rw [sq]; rw [add_assoc]; rw [add_le_add_iff_left]
   exact le_add_self
 #align nat.max_sq_add_min_le_mkpair Nat.max_sq_add_min_le_pair
 
 theorem add_le_pair (m n : ℕ) : m + n ≤ pair m n :=
   (max_sq_add_min_le_pair _ _).trans' <| by
-    rw [sq, ← min_add_max, add_comm, add_le_add_iff_right]
+    rw [sq]; rw [← min_add_max]; rw [add_comm]; rw [add_le_add_iff_right]
     exact le_mul_self _
 #align nat.add_le_mkpair Nat.add_le_pair
 
@@ -185,7 +185,7 @@ section CompleteLattice
 /- ./././Mathport/Syntax/Translate/Expr.lean:107:6: warning: expanding binder group (i j) -/
 theorem iSup_unpair {α} [CompleteLattice α] (f : ℕ → ℕ → α) :
     ⨆ n : ℕ, f n.unpair.1 n.unpair.2 = ⨆ (i : ℕ) (j : ℕ), f i j := by
-  rw [← (iSup_prod : ⨆ i : ℕ × ℕ, f i.1 i.2 = _), ← Nat.surjective_unpair.iSup_comp]
+  rw [← (iSup_prod : ⨆ i : ℕ × ℕ, f i.1 i.2 = _)]; rw [← Nat.surjective_unpair.iSup_comp]
 #align supr_unpair iSup_unpair
 
 /- ./././Mathport/Syntax/Translate/Expr.lean:107:6: warning: expanding binder group (i j) -/

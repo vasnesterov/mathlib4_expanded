@@ -35,7 +35,7 @@ def antidiagonal (n : ℕ) : Finset (ℕ × ℕ) :=
 /-- A pair (i, j) is contained in the antidiagonal of `n` if and only if `i + j = n`. -/
 @[simp]
 theorem mem_antidiagonal {n : ℕ} {x : ℕ × ℕ} : x ∈ antidiagonal n ↔ x.1 + x.2 = n := by
-  rw [antidiagonal, mem_def, Multiset.Nat.mem_antidiagonal]
+  rw [antidiagonal]; rw [mem_def]; rw [Multiset.Nat.mem_antidiagonal]
 #align finset.nat.mem_antidiagonal Finset.Nat.mem_antidiagonal
 
 /-- The cardinality of the antidiagonal of `n` is `n + 1`. -/
@@ -55,7 +55,7 @@ theorem antidiagonal_succ (n : ℕ) :
           (Embedding.prodMap ⟨Nat.succ, Nat.succ_injective⟩ (Embedding.refl _)))
         (by simp) := by
   apply eq_of_veq
-  rw [cons_val, map_val]
+  rw [cons_val]; rw [map_val]
   · apply Multiset.Nat.antidiagonal_succ
 #align finset.nat.antidiagonal_succ Finset.Nat.antidiagonal_succ
 
@@ -66,7 +66,7 @@ theorem antidiagonal_succ' (n : ℕ) :
           (Embedding.prodMap (Embedding.refl _) ⟨Nat.succ, Nat.succ_injective⟩))
         (by simp) := by
   apply eq_of_veq
-  rw [cons_val, map_val]
+  rw [cons_val]; rw [map_val]
   exact Multiset.Nat.antidiagonal_succ'
 #align finset.nat.antidiagonal_succ' Finset.Nat.antidiagonal_succ'
 
@@ -98,7 +98,7 @@ theorem antidiagonal_congr {n : ℕ} {p q : ℕ × ℕ} (hp : p ∈ antidiagonal
     (hq : q ∈ antidiagonal n) : p = q ↔ p.fst = q.fst := by
   refine' ⟨congr_arg Prod.fst, fun h ↦ Prod.ext h ((add_right_inj q.fst).mp _)⟩
   rw [mem_antidiagonal] at hp hq
-  rw [hq, ← h, hp]
+  rw [hq]; rw [← h]; rw [hp]
 #align finset.nat.antidiagonal_congr Finset.Nat.antidiagonal_congr
 
 /-- A point in the antidiagonal is determined by its first co-ordinate (subtype version of
@@ -139,7 +139,7 @@ theorem filter_snd_eq_antidiagonal (n m : ℕ) :
     filter (fun x : ℕ × ℕ ↦ x.snd = m) (antidiagonal n) = if m ≤ n then {(n - m, m)} else ∅ := by
   have : (fun x : ℕ × ℕ ↦ (x.snd = m)) ∘ Prod.swap = fun x : ℕ × ℕ ↦ x.fst = m := by
     ext; simp
-  rw [← map_swap_antidiagonal, filter_map]
+  rw [← map_swap_antidiagonal]; rw [filter_map]
   simp [this, filter_fst_eq_antidiagonal, apply_ite (Finset.map _)]
 #align finset.nat.filter_snd_eq_antidiagonal Finset.Nat.filter_snd_eq_antidiagonal
 
@@ -153,7 +153,7 @@ theorem filter_snd_eq_antidiagonal (n m : ℕ) :
       add_tsub_cancel_right]
   · rintro ⟨l, hl, rfl⟩
     refine' ⟨_, hl ▸ Nat.le_add_left j l⟩
-    rw [add_assoc, add_comm, add_assoc, add_comm j l, hl]
+    rw [add_assoc]; rw [add_comm]; rw [add_assoc]; rw [add_comm j l]; rw [hl]
     exact Nat.sub_add_cancel h
 
 @[simp] lemma antidiagonal_filter_fst_le_of_le {n k : ℕ} (h : k ≤ n) :
@@ -177,7 +177,7 @@ theorem filter_snd_eq_antidiagonal (n m : ℕ) :
   · rw [← Nat.sub_add_comm hi.2, hi.1]
   · rintro ⟨l, hl, rfl⟩
     refine' ⟨_, Nat.le_add_left k l⟩
-    rw [add_right_comm, hl]
+    rw [add_right_comm]; rw [hl]
     exact tsub_add_cancel_of_le h
 
 @[simp] lemma antidiagonal_filter_le_snd_of_le {n k : ℕ} (h : k ≤ n) :
@@ -217,7 +217,7 @@ end EquivProd
 def antidiagonalEquivFin (n : ℕ) : antidiagonal n ≃ Fin (n + 1) where
   toFun := fun ⟨⟨i, j⟩, h⟩ ↦ ⟨i, antidiagonal.fst_lt h⟩
   invFun := fun ⟨i, h⟩ ↦ ⟨⟨i, n - i⟩, by
-    rw [mem_antidiagonal, add_comm, tsub_add_cancel_iff_le]
+    rw [mem_antidiagonal]; rw [add_comm]; rw [tsub_add_cancel_iff_le]
     exact Nat.le_of_lt_succ h⟩
   left_inv := by rintro ⟨⟨i, j⟩, h⟩; ext; rfl
   right_inv x := rfl

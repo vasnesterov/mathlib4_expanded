@@ -158,8 +158,7 @@ See <https://stacks.math.columbia.edu/tag/0073>.
 In fact we prove a stronger version with arbitrary complete target category.
 -/
 theorem isSheaf_iff_isSheaf_comp : Presheaf.IsSheaf F ↔ Presheaf.IsSheaf (F ⋙ G) := by
-  rw [Presheaf.isSheaf_iff_isSheafEqualizerProducts,
-    Presheaf.isSheaf_iff_isSheafEqualizerProducts]
+  rw [Presheaf.isSheaf_iff_isSheafEqualizerProducts]; rw [Presheaf.isSheaf_iff_isSheafEqualizerProducts]
   constructor
   · intro S ι U
     -- We have that the sheaf condition fork for `F` is a limit fork,

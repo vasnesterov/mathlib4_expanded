@@ -57,7 +57,7 @@ variable {m n : Type*} [Fintype m] [Fintype n] {K : Type u} [Semifield K]
 theorem ker_diagonal_toLin' [DecidableEq m] (w : m → K) :
     ker (toLin' (diagonal w)) =
       ⨆ i ∈ { i | w i = 0 }, LinearMap.range (LinearMap.stdBasis K (fun _ => K) i) := by
-  rw [← comap_bot, ← iInf_ker_proj, comap_iInf]
+  rw [← comap_bot]; rw [← iInf_ker_proj]; rw [comap_iInf]
   have := fun i : m => ker_comp (toLin' (diagonal w)) (proj i)
   simp only [comap_iInf, ← this, proj_diagonal, ker_smul']
   have : univ ⊆ { i : m | w i = 0 } ∪ { i : m | w i = 0 }ᶜ := by rw [Set.union_compl_self]
@@ -69,9 +69,9 @@ theorem range_diagonal [DecidableEq m] (w : m → K) :
     LinearMap.range (toLin' (diagonal w)) =
       ⨆ i ∈ { i | w i ≠ 0 }, LinearMap.range (LinearMap.stdBasis K (fun _ => K) i) := by
   dsimp only [mem_setOf_eq]
-  rw [← Submodule.map_top, ← iSup_range_stdBasis, Submodule.map_iSup]
+  rw [← Submodule.map_top]; rw [← iSup_range_stdBasis]; rw [Submodule.map_iSup]
   congr; funext i
-  rw [← LinearMap.range_comp, diagonal_comp_stdBasis, ← range_smul']
+  rw [← LinearMap.range_comp]; rw [diagonal_comp_stdBasis]; rw [← range_smul']
 #align matrix.range_diagonal Matrix.range_diagonal
 
 end Semifield
@@ -90,7 +90,7 @@ theorem rank_diagonal [DecidableEq m] [DecidableEq K] (w : m → K) :
   have hd : Disjoint { i : m | w i ≠ 0 } { i : m | w i = 0 } := disjoint_compl_left
   have B₁ := iSup_range_stdBasis_eq_iInf_ker_proj K (fun _ : m => K) hd hu (Set.toFinite _)
   have B₂ := iInfKerProjEquiv K (fun _ ↦ K) hd hu
-  rw [LinearMap.rank, range_diagonal, B₁, ← @rank_fun' K]
+  rw [LinearMap.rank]; rw [range_diagonal]; rw [B₁]; rw [← @rank_fun' K]
   apply LinearEquiv.rank_eq
   apply B₂
 #align matrix.rank_diagonal LinearMap.rank_diagonal

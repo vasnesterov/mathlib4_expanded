@@ -53,7 +53,7 @@ variable {ι : Type*} [DecidableEq ι] [Fintype ι]
 @[to_additive]
 theorem prod_extend_by_one [CommMonoid α] (s : Finset ι) (f : ι → α) :
     ∏ i, (if i ∈ s then f i else 1) = ∏ i in s, f i := by
-  rw [← prod_filter, filter_mem_eq_inter, univ_inter]
+  rw [← prod_filter]; rw [filter_mem_eq_inter]; rw [univ_inter]
 #align fintype.prod_extend_by_one Fintype.prod_extend_by_one
 #align fintype.sum_extend_by_zero Fintype.sum_extend_by_zero
 
@@ -146,7 +146,7 @@ theorem Fintype.card_pi {β : α → Type*} [DecidableEq α] [Fintype α] [∀ a
 @[simp]
 theorem Fintype.card_fun [DecidableEq α] [Fintype α] [Fintype β] :
     Fintype.card (α → β) = Fintype.card β ^ Fintype.card α := by
-  rw [Fintype.card_pi, Finset.prod_const]; rfl
+  rw [Fintype.card_pi]; rw [Finset.prod_const]; rfl
 #align fintype.card_fun Fintype.card_fun
 
 @[simp]
@@ -236,7 +236,7 @@ theorem Fin.prod_univ_eq_prod_range [CommMonoid α] (f : ℕ → α) (n : ℕ) :
 @[to_additive]
 theorem Finset.prod_fin_eq_prod_range [CommMonoid β] {n : ℕ} (c : Fin n → β) :
     ∏ i, c i = ∏ i in Finset.range n, if h : i < n then c ⟨i, h⟩ else 1 := by
-  rw [← Fin.prod_univ_eq_prod_range, Finset.prod_congr rfl]
+  rw [← Fin.prod_univ_eq_prod_range]; rw [Finset.prod_congr rfl]
   rintro ⟨i, hi⟩ _
   simp only [hi, dif_pos]
 #align finset.prod_fin_eq_prod_range Finset.prod_fin_eq_prod_range
@@ -260,7 +260,7 @@ theorem Finset.prod_fiberwise [DecidableEq β] [Fintype β] [CommMonoid γ] (s :
 @[to_additive]
 theorem Fintype.prod_fiberwise [Fintype α] [DecidableEq β] [Fintype β] [CommMonoid γ] (f : α → β)
     (g : α → γ) : (∏ b : β, ∏ a : { a // f a = b }, g (a : α)) = ∏ a, g a := by
-  rw [← (Equiv.sigmaFiberEquiv f).prod_comp, ← univ_sigma_univ, prod_sigma]
+  rw [← (Equiv.sigmaFiberEquiv f).prod_comp]; rw [← univ_sigma_univ]; rw [prod_sigma]
   rfl
 #align fintype.prod_fiberwise Fintype.prod_fiberwise
 #align fintype.sum_fiberwise Fintype.sum_fiberwise

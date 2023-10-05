@@ -173,7 +173,7 @@ theorem fix_le {X : (a : _) → Part <| β a} (hX : f X ≤ X) : Part.fix f ≤ 
 variable {f} (hc : Continuous f)
 
 theorem fix_eq : Part.fix f = f (Part.fix f) := by
-  rw [fix_eq_ωSup f, hc]
+  rw [fix_eq_ωSup f]; rw [hc]
   apply le_antisymm
   · apply ωSup_le_ωSup_of_le _
     intro i
@@ -248,14 +248,14 @@ open OmegaCompletePartialOrder.Chain
 theorem continuous_curry : Continuous <| monotoneCurry α β γ := fun c ↦ by
   ext x y
   dsimp [curry, ωSup]
-  rw [map_comp, map_comp]
+  rw [map_comp]; rw [map_comp]
   rfl
 #align pi.continuous_curry Pi.continuous_curry
 
 theorem continuous_uncurry : Continuous <| monotoneUncurry α β γ := fun c ↦ by
   ext ⟨x, y⟩
   dsimp [uncurry, ωSup]
-  rw [map_comp, map_comp]
+  rw [map_comp]; rw [map_comp]
   rfl
 #align pi.continuous_uncurry Pi.continuous_uncurry
 

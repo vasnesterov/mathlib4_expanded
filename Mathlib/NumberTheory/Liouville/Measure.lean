@@ -51,7 +51,7 @@ theorem setOf_liouvilleWith_subset_aux :
   clear hxp x; intro x hxp hx01
   refine' ((hxp.frequently_lt_rpow_neg hn).and_eventually (eventually_ge_atTop 1)).mono _
   rintro b ⟨⟨a, -, hlt⟩, hb⟩
-  rw [rpow_neg b.cast_nonneg, ← one_div, ← Nat.cast_succ] at hlt
+  rw [rpow_neg b.cast_nonneg] at hlt; rw [← one_div] at hlt; rw [← Nat.cast_succ] at hlt
   refine' ⟨a, _, hlt⟩
   replace hb : (1 : ℝ) ≤ b; exact Nat.one_le_cast.2 hb
   have hb0 : (0 : ℝ) < b := zero_lt_one.trans_le hb
@@ -62,10 +62,9 @@ theorem setOf_liouvilleWith_subset_aux :
       _ ≤ (b : ℝ) ^ (2 + 1 / (n + 1 : ℕ) : ℝ) :=
         rpow_le_rpow_of_exponent_le hb (one_le_two.trans ?_)
     simpa using n.cast_add_one_pos.le
-  rw [sub_div' _ _ _ hb0.ne', abs_div, abs_of_pos hb0, div_lt_div_right hb0, abs_sub_lt_iff,
-    sub_lt_iff_lt_add, sub_lt_iff_lt_add, ← sub_lt_iff_lt_add'] at hlt
-  rw [Finset.mem_Icc, ← Int.lt_add_one_iff, ← Int.lt_add_one_iff, ← neg_lt_iff_pos_add, add_comm, ←
-    @Int.cast_lt ℝ, ← @Int.cast_lt ℝ]
+  rw [sub_div' _ _ _ hb0.ne'] at hlt; rw [abs_div] at hlt; rw [abs_of_pos hb0] at hlt; rw [div_lt_div_right hb0] at hlt; rw [abs_sub_lt_iff] at hlt; rw [sub_lt_iff_lt_add] at hlt; rw [sub_lt_iff_lt_add] at hlt; rw [← sub_lt_iff_lt_add'] at hlt
+  rw [Finset.mem_Icc]; rw [← Int.lt_add_one_iff]; rw [← Int.lt_add_one_iff]; rw [← neg_lt_iff_pos_add]; rw [add_comm]; rw [←
+    @Int.cast_lt ℝ]; rw [← @Int.cast_lt ℝ]
   push_cast
   refine' ⟨lt_of_le_of_lt _ hlt.1, hlt.2.trans_le _⟩
   · simp only [mul_nonneg hx01.left b.cast_nonneg, neg_le_sub_iff_le_add, le_add_iff_nonneg_left]
@@ -89,8 +88,7 @@ theorem volume_iUnion_setOf_liouvilleWith :
   simp only [setOf_exists, ← exists_prop, ← Real.dist_eq, ← mem_ball, setOf_mem_eq]
   set B : ℤ → ℕ → Set ℝ := fun a b => ball (a / b) (1 / (b : ℝ) ^ r)
   have hB : ∀ a b, volume (B a b) = ↑((2 : ℝ≥0) / (b : ℝ≥0) ^ r) := fun a b ↦ by
-    rw [Real.volume_ball, mul_one_div, ← NNReal.coe_two, ← NNReal.coe_nat_cast, ← NNReal.coe_rpow,
-      ← NNReal.coe_div, ENNReal.ofReal_coe_nnreal]
+    rw [Real.volume_ball]; rw [mul_one_div]; rw [← NNReal.coe_two]; rw [← NNReal.coe_nat_cast]; rw [← NNReal.coe_rpow]; rw [← NNReal.coe_div]; rw [ENNReal.ofReal_coe_nnreal]
   have : ∀ b : ℕ, volume (⋃ a ∈ Finset.Icc (0 : ℤ) b, B a b) ≤
       ↑(2 * ((b : ℝ≥0) ^ (1 - r) + (b : ℝ≥0) ^ (-r))) := fun b ↦
     calc

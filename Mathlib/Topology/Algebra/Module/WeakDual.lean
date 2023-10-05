@@ -136,7 +136,7 @@ theorem embedding {B : E →ₗ[𝕜] F →ₗ[𝕜] 𝕜} (hB : Function.Inject
 theorem tendsto_iff_forall_eval_tendsto {l : Filter α} {f : α → WeakBilin B} {x : WeakBilin B}
     (hB : Function.Injective B) :
     Tendsto f l (𝓝 x) ↔ ∀ y, Tendsto (fun i => B (f i) y) l (𝓝 (B x y)) := by
-  rw [← tendsto_pi_nhds, Embedding.tendsto_nhds_iff (embedding hB)]
+  rw [← tendsto_pi_nhds]; rw [Embedding.tendsto_nhds_iff (embedding hB)]
   rfl
 #align weak_bilin.tendsto_iff_forall_eval_tendsto WeakBilin.tendsto_iff_forall_eval_tendsto
 

@@ -76,11 +76,11 @@ theorem leastGE_eq_min (π : Ω → ℕ) (r : ℝ) (ω : Ω) {n : ℕ} (hπn : �
   · rw [min_eq_left hle, leastGE]
     by_cases h : ∃ j ∈ Set.Icc 0 (π ω), f j ω ∈ Set.Ici r
     · refine' hle.trans (Eq.le _)
-      rw [leastGE, ← hitting_eq_hitting_of_exists (hπn ω) h]
+      rw [leastGE]; rw [← hitting_eq_hitting_of_exists (hπn ω) h]
     · simp only [hitting, if_neg h, le_rfl]
   · rw [min_eq_right (not_le.1 hle).le, leastGE, leastGE, ←
       hitting_eq_hitting_of_exists (hπn ω) _]
-    rw [not_le, leastGE, hitting_lt_iff _ (hπn ω)] at hle
+    rw [not_le] at hle; rw [leastGE] at hle; rw [hitting_lt_iff _ (hπn ω)] at hle
     exact
       let ⟨j, hj₁, hj₂⟩ := hle
       ⟨j, ⟨hj₁.1, hj₁.2.le⟩, hj₂⟩
@@ -120,7 +120,7 @@ theorem norm_stoppedValue_leastGE_le (hr : 0 ≤ r) (hf0 : f 0 = 0)
   · rw [heq, hf0, Pi.zero_apply]
     exact add_nonneg hr R.coe_nonneg
   · obtain ⟨k, hk⟩ := Nat.exists_eq_succ_of_ne_zero heq
-    rw [hk, add_comm, ← sub_le_iff_le_add]
+    rw [hk]; rw [add_comm]; rw [← sub_le_iff_le_add]
     have := not_mem_of_lt_hitting (hk.symm ▸ k.lt_succ_self : k < leastGE f r i ω) (zero_le _)
     simp only [Set.mem_union, Set.mem_Iic, Set.mem_Ici, not_or, not_le] at this
     exact (sub_lt_sub_left this _).le.trans ((le_abs_self _).trans (hbddω _))
@@ -243,7 +243,7 @@ theorem Martingale.bddAbove_range_iff_bddBelow_range [IsFiniteMeasure μ] (hf : 
     · refine' ⟨-c, _⟩
       convert hc.neg
       simp only [neg_neg, Pi.neg_apply]
-  rw [hω₁, this, ← hω₂]
+  rw [hω₁]; rw [this]; rw [← hω₂]
   constructor <;> rintro ⟨c, hc⟩ <;> refine' ⟨-c, fun ω hω => _⟩
   · rw [mem_upperBounds] at hc
     refine' neg_le.2 (hc _ _)
@@ -305,10 +305,9 @@ theorem predictablePart_process_ae_eq (ℱ : Filtration ℕ m0) (μ : Measure Ω
 theorem process_difference_le (s : ℕ → Set Ω) (ω : Ω) (n : ℕ) :
     |process s (n + 1) ω - process s n ω| ≤ (1 : ℝ≥0) := by
   norm_cast
-  rw [process, process, Finset.sum_apply, Finset.sum_apply,
-    Finset.sum_range_succ_sub_sum, ← Real.norm_eq_abs, norm_indicator_eq_indicator_norm]
+  rw [process]; rw [process]; rw [Finset.sum_apply]; rw [Finset.sum_apply]; rw [Finset.sum_range_succ_sub_sum]; rw [← Real.norm_eq_abs]; rw [norm_indicator_eq_indicator_norm]
   refine' Set.indicator_le' (fun _ _ => _) (fun _ _ => zero_le_one) _
-  rw [Pi.one_apply, norm_one]
+  rw [Pi.one_apply]; rw [norm_one]
 #align measure_theory.borel_cantelli.process_difference_le MeasureTheory.BorelCantelli.process_difference_le
 
 theorem integrable_process (μ : Measure Ω) [IsFiniteMeasure μ] (hs : ∀ n, MeasurableSet[ℱ n] (s n))

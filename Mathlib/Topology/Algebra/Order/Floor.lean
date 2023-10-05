@@ -130,13 +130,13 @@ theorem tendsto_ceil_left' (n : ℤ) :
 theorem tendsto_floor_left (n : ℤ) :
     Tendsto (fun x => floor x : α → α) (𝓝[<] n) (𝓝[≤] (n - 1)) :=
   ((tendsto_pure_pure _ _).comp (tendsto_floor_left_pure_sub_one n)).mono_right <| by
-    rw [← @cast_one α, ← cast_sub]; exact pure_le_nhdsWithin le_rfl
+    rw [← @cast_one α]; rw [← cast_sub]; exact pure_le_nhdsWithin le_rfl
 #align tendsto_floor_left tendsto_floor_left
 
 theorem tendsto_ceil_right (n : ℤ) :
     Tendsto (fun x => ceil x : α → α) (𝓝[>] n) (𝓝[≥] (n + 1)) :=
   ((tendsto_pure_pure _ _).comp (tendsto_ceil_right_pure_add_one n)).mono_right <| by
-    rw [← @cast_one α, ← cast_add]; exact pure_le_nhdsWithin le_rfl
+    rw [← @cast_one α]; rw [← cast_add]; exact pure_le_nhdsWithin le_rfl
 #align tendsto_ceil_right tendsto_ceil_right
 
 theorem tendsto_floor_left' (n : ℤ) :

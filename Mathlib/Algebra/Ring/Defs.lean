@@ -152,19 +152,19 @@ section DistribMulOneClass
 variable [Add α] [MulOneClass α]
 
 theorem add_one_mul [RightDistribClass α] (a b : α) : (a + 1) * b = a * b + b := by
-  rw [add_mul, one_mul]
+  rw [add_mul]; rw [one_mul]
 #align add_one_mul add_one_mul
 
 theorem mul_add_one [LeftDistribClass α] (a b : α) : a * (b + 1) = a * b + a := by
-  rw [mul_add, mul_one]
+  rw [mul_add]; rw [mul_one]
 #align mul_add_one mul_add_one
 
 theorem one_add_mul [RightDistribClass α] (a b : α) : (1 + a) * b = b + a * b := by
-  rw [add_mul, one_mul]
+  rw [add_mul]; rw [one_mul]
 #align one_add_mul one_add_mul
 
 theorem mul_one_add [LeftDistribClass α] (a b : α) : a * (1 + b) = a + a * b := by
-  rw [mul_add, mul_one]
+  rw [mul_add]; rw [mul_one]
 #align mul_one_add mul_one_add
 
 end DistribMulOneClass

@@ -125,7 +125,7 @@ theorem N₂Γ₂_toKaroubi : toKaroubi (ChainComplex C ℕ) ⋙ Γ₂ ⋙ N₂ 
   have h' := Functor.congr_obj (functorExtension₁_comp_whiskeringLeft_toKaroubi
     (SimplicialObject C) (ChainComplex C ℕ)) N₁
   dsimp [N₂, Γ₂, functorExtension₁] at h h' ⊢
-  rw [← Functor.assoc, h, Functor.assoc, h']
+  rw [← Functor.assoc]; rw [h]; rw [Functor.assoc]; rw [h']
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.N₂Γ₂_to_karoubi AlgebraicTopology.DoldKan.N₂Γ₂_toKaroubi
 

@@ -262,13 +262,13 @@ def gcdB (x y : R) : R :=
 @[simp]
 theorem gcdA_zero_left {s : R} : gcdA 0 s = 0 := by
   unfold gcdA
-  rw [xgcd, xgcd_zero_left]
+  rw [xgcd]; rw [xgcd_zero_left]
 #align euclidean_domain.gcd_a_zero_left EuclideanDomain.gcdA_zero_left
 
 @[simp]
 theorem gcdB_zero_left {s : R} : gcdB 0 s = 1 := by
   unfold gcdB
-  rw [xgcd, xgcd_zero_left]
+  rw [xgcd]; rw [xgcd_zero_left]
 #align euclidean_domain.gcd_b_zero_left EuclideanDomain.gcdB_zero_left
 
 theorem xgcd_val (x y : R) : xgcd x y = (gcdA x y, gcdB x y) :=

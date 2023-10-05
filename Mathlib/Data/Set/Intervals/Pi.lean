@@ -91,8 +91,7 @@ theorem pi_univ_Ioc_update_left {x y : ∀ i, α i} {i₀ : ι} {m : α i₀} (h
     (pi univ fun i ↦ Ioc (update x i₀ m i) (y i)) =
       { z | m < z i₀ } ∩ pi univ fun i ↦ Ioc (x i) (y i) := by
   have : Ioc m (y i₀) = Ioi m ∩ Ioc (x i₀) (y i₀) := by
-    rw [← Ioi_inter_Iic, ← Ioi_inter_Iic, ← inter_assoc,
-      inter_eq_self_of_subset_left (Ioi_subset_Ioi hm)]
+    rw [← Ioi_inter_Iic]; rw [← Ioi_inter_Iic]; rw [← inter_assoc]; rw [inter_eq_self_of_subset_left (Ioi_subset_Ioi hm)]
   simp_rw [univ_pi_update i₀ _ _ fun i z ↦ Ioc z (y i), ← pi_inter_compl ({i₀} : Set ι),
     singleton_pi', ← inter_assoc, this]
   rfl
@@ -102,8 +101,7 @@ theorem pi_univ_Ioc_update_right {x y : ∀ i, α i} {i₀ : ι} {m : α i₀} (
     (pi univ fun i ↦ Ioc (x i) (update y i₀ m i)) =
       { z | z i₀ ≤ m } ∩ pi univ fun i ↦ Ioc (x i) (y i) := by
   have : Ioc (x i₀) m = Iic m ∩ Ioc (x i₀) (y i₀) := by
-    rw [← Ioi_inter_Iic, ← Ioi_inter_Iic, inter_left_comm,
-      inter_eq_self_of_subset_left (Iic_subset_Iic.2 hm)]
+    rw [← Ioi_inter_Iic]; rw [← Ioi_inter_Iic]; rw [inter_left_comm]; rw [inter_eq_self_of_subset_left (Iic_subset_Iic.2 hm)]
   simp_rw [univ_pi_update i₀ y m fun i z ↦ Ioc (x i) z, ← pi_inter_compl ({i₀} : Set ι),
     singleton_pi', ← inter_assoc, this]
   rfl
@@ -141,20 +139,17 @@ theorem image_update_Icc (f : ∀ i, α i) (i : ι) (a b : α i) :
 
 theorem image_update_Ico (f : ∀ i, α i) (i : ι) (a b : α i) :
     update f i '' Ico a b = Ico (update f i a) (update f i b) := by
-  rw [← Icc_diff_right, ← Icc_diff_right, image_diff (update_injective _ _), image_singleton,
-    image_update_Icc]
+  rw [← Icc_diff_right]; rw [← Icc_diff_right]; rw [image_diff (update_injective _ _)]; rw [image_singleton]; rw [image_update_Icc]
 #align set.image_update_Ico Set.image_update_Ico
 
 theorem image_update_Ioc (f : ∀ i, α i) (i : ι) (a b : α i) :
     update f i '' Ioc a b = Ioc (update f i a) (update f i b) := by
-  rw [← Icc_diff_left, ← Icc_diff_left, image_diff (update_injective _ _), image_singleton,
-    image_update_Icc]
+  rw [← Icc_diff_left]; rw [← Icc_diff_left]; rw [image_diff (update_injective _ _)]; rw [image_singleton]; rw [image_update_Icc]
 #align set.image_update_Ioc Set.image_update_Ioc
 
 theorem image_update_Ioo (f : ∀ i, α i) (i : ι) (a b : α i) :
     update f i '' Ioo a b = Ioo (update f i a) (update f i b) := by
-  rw [← Ico_diff_left, ← Ico_diff_left, image_diff (update_injective _ _), image_singleton,
-    image_update_Ico]
+  rw [← Ico_diff_left]; rw [← Ico_diff_left]; rw [image_diff (update_injective _ _)]; rw [image_singleton]; rw [image_update_Ico]
 #align set.image_update_Ioo Set.image_update_Ioo
 
 theorem image_update_Icc_left (f : ∀ i, α i) (i : ι) (a : α i) :

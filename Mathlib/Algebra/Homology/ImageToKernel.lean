@@ -74,7 +74,7 @@ lemma imageToKernel_arrow_apply [ConcreteCategory V] (w : f ≫ g = 0)
     (x : (forget V).obj (Subobject.underlying.obj (imageSubobject f))) :
     (kernelSubobject g).arrow (imageToKernel f g w x) =
       (imageSubobject f).arrow x := by
-  rw [← comp_apply, imageToKernel_arrow]
+  rw [← comp_apply]; rw [imageToKernel_arrow]
 
 -- This is less useful as a `simp` lemma than it initially appears,
 -- as it "loses" the information the morphism factors through the image.
@@ -348,14 +348,14 @@ def homology.mapIso (α : Arrow.mk f₁ ≅ Arrow.mk f₂) (β : Arrow.mk g₁ �
   inv :=
     homology.map w₂ w₁ α.inv β.inv
       (by
-        rw [← cancel_mono α.hom.right, ← Comma.comp_right, α.inv_hom_id, Comma.id_right, p, ←
-          Comma.comp_left, β.inv_hom_id, Comma.id_left]
+        rw [← cancel_mono α.hom.right]; rw [← Comma.comp_right]; rw [α.inv_hom_id]; rw [Comma.id_right]; rw [p]; rw [←
+          Comma.comp_left]; rw [β.inv_hom_id]; rw [Comma.id_left]
         rfl)
   hom_inv_id := by
-    rw [homology.map_comp, ← homology.map_id]
+    rw [homology.map_comp]; rw [← homology.map_id]
     congr <;> simp only [Iso.hom_inv_id]
   inv_hom_id := by
-    rw [homology.map_comp, ← homology.map_id]
+    rw [homology.map_comp]; rw [← homology.map_id]
     congr <;> simp only [Iso.inv_hom_id]
 #align homology.map_iso homology.mapIso
 
@@ -383,12 +383,12 @@ def homology.congr (pf : f = f') (pg : g = g') : homology f g w ≅ homology f' 
   hom_inv_id := by
     obtain rfl := pf
     obtain rfl := pg
-    rw [homology.map_comp, ← homology.map_id]
+    rw [homology.map_comp]; rw [← homology.map_id]
     congr <;> aesop_cat
   inv_hom_id := by
     obtain rfl := pf
     obtain rfl := pg
-    rw [homology.map_comp, ← homology.map_id]
+    rw [homology.map_comp]; rw [← homology.map_id]
     congr <;> aesop_cat
 #align homology.congr homology.congr
 

@@ -48,19 +48,19 @@ instance gradedAlgebra :
       ext m
       dsimp only [LinearMap.comp_apply, AlgHom.toLinearMap_apply, AlgHom.comp_apply,
         AlgHom.id_apply]
-      rw [lift_ι_apply, GradedAlgebra.ι_apply R M, DirectSum.coeAlgHom_of])
+      rw [lift_ι_apply]; rw [GradedAlgebra.ι_apply R M]; rw [DirectSum.coeAlgHom_of])
     fun i x => by
     cases' x with x hx
     dsimp only [Subtype.coe_mk, DirectSum.lof_eq_of]
     -- porting note: use new `induction using` support that failed in Lean 3
     induction hx using Submodule.pow_induction_on_left' with
     | hr r =>
-      rw [AlgHom.commutes, DirectSum.algebraMap_apply]; rfl
+      rw [AlgHom.commutes]; rw [DirectSum.algebraMap_apply]; rfl
     | hadd x y i hx hy ihx ihy =>
-      rw [AlgHom.map_add, ihx, ihy, ← map_add]; rfl
+      rw [AlgHom.map_add]; rw [ihx]; rw [ihy]; rw [← map_add]; rfl
     | hmul m hm i x hx ih =>
       obtain ⟨_, rfl⟩ := hm
-      rw [AlgHom.map_mul, ih, lift_ι_apply, GradedAlgebra.ι_apply R M, DirectSum.of_mul_of]
+      rw [AlgHom.map_mul]; rw [ih]; rw [lift_ι_apply]; rw [GradedAlgebra.ι_apply R M]; rw [DirectSum.of_mul_of]
       exact DirectSum.of_eq_of_gradedMonoid_eq (Sigma.subtype_ext (add_comm _ _) rfl)
 #align tensor_algebra.graded_algebra TensorAlgebra.gradedAlgebra
 

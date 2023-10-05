@@ -38,7 +38,7 @@ variable (σ K) [Field K]
 theorem quotient_mk_comp_C_injective (I : Ideal (MvPolynomial σ K)) (hI : I ≠ ⊤) :
     Function.Injective ((Ideal.Quotient.mk I).comp MvPolynomial.C) := by
   refine' (injective_iff_map_eq_zero _).2 fun x hx => _
-  rw [RingHom.comp_apply, Ideal.Quotient.eq_zero_iff_mem] at hx
+  rw [RingHom.comp_apply] at hx; rw [Ideal.Quotient.eq_zero_iff_mem] at hx
   refine' _root_.by_contradiction fun hx0 => absurd (I.eq_top_iff_one.2 _) hI
   have := I.mul_mem_left (MvPolynomial.C x⁻¹) hx
   rwa [← MvPolynomial.C.map_mul, inv_mul_cancel hx0, MvPolynomial.C_1] at this
@@ -56,7 +56,7 @@ variable {σ : Type u} {K : Type u} [Field K]
 open Classical
 
 theorem rank_mvPolynomial : Module.rank K (MvPolynomial σ K) = Cardinal.mk (σ →₀ ℕ) := by
-  rw [← Cardinal.lift_inj, ← (basisMonomials σ K).mk_eq_rank]
+  rw [← Cardinal.lift_inj]; rw [← (basisMonomials σ K).mk_eq_rank]
 #align mv_polynomial.rank_mv_polynomial MvPolynomial.rank_mvPolynomial
 
 end MvPolynomial

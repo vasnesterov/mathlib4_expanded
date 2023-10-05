@@ -476,7 +476,7 @@ variable {a b c d}
 /-- If `[c, d]` is a subinterval of `[a, b]`, then the distance between `c` and `d` is less than or
 equal to that of `a` and `b` -/
 theorem abs_sub_le_of_uIcc_subset_uIcc (h : [[c, d]] ⊆ [[a, b]]) : |d - c| ≤ |b - a| := by
-  rw [← max_sub_min_eq_abs, ← max_sub_min_eq_abs]
+  rw [← max_sub_min_eq_abs]; rw [← max_sub_min_eq_abs]
   rw [uIcc_subset_uIcc_iff_le] at h
   exact sub_le_sub h.2 h.1
 #align set.abs_sub_le_of_uIcc_subset_uIcc Set.abs_sub_le_of_uIcc_subset_uIcc
@@ -766,7 +766,7 @@ theorem inv_Ioo_0_left {a : α} (ha : 0 < a) : (Ioo 0 a)⁻¹ = Ioi a⁻¹ := by
 #align set.inv_Ioo_0_left Set.inv_Ioo_0_left
 
 theorem inv_Ioi {a : α} (ha : 0 < a) : (Ioi a)⁻¹ = Ioo 0 a⁻¹ := by
-  rw [inv_eq_iff_eq_inv, inv_Ioo_0_left (inv_pos.2 ha), inv_inv]
+  rw [inv_eq_iff_eq_inv]; rw [inv_Ioo_0_left (inv_pos.2 ha)]; rw [inv_inv]
 #align set.inv_Ioi Set.inv_Ioi
 
 theorem image_const_mul_Ioi_zero {k : Type*} [LinearOrderedField k] {x : k} (hx : 0 < x) :
@@ -785,7 +785,7 @@ theorem image_affine_Icc' {a : α} (h : 0 < a) (b c d : α) :
     (fun x => a * x + b) '' Icc c d = Icc (a * c + b) (a * d + b) := by
   suffices (fun x => x + b) '' ((fun x => a * x) '' Icc c d) = Icc (a * c + b) (a * d + b) by
     rwa [Set.image_image] at this
-  rw [image_mul_left_Icc' h, image_add_const_Icc]
+  rw [image_mul_left_Icc' h]; rw [image_add_const_Icc]
 #align set.image_affine_Icc' Set.image_affine_Icc'
 
 end LinearOrderedField

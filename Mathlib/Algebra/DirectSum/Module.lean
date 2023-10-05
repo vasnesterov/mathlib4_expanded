@@ -156,7 +156,7 @@ def linearEquivFunOnFintype [Fintype ι] : (⨁ i, M i) ≃ₗ[R] ∀ i, M i :=
     toFun := (↑)
     map_add' := fun f g ↦ by
       ext
-      rw [add_apply, Pi.add_apply]
+      rw [add_apply]; rw [Pi.add_apply]
     map_smul' := fun c f ↦ by
       simp_rw [RingHom.id_apply]
       rw [DFinsupp.coe_smul] }
@@ -326,7 +326,7 @@ variable {A}
 
 /-- If a direct sum of submodules is internal then the submodules span the module. -/
 theorem IsInternal.submodule_iSup_eq_top (h : IsInternal A) : iSup A = ⊤ := by
-  rw [Submodule.iSup_eq_range_dfinsupp_lsum, LinearMap.range_eq_top]
+  rw [Submodule.iSup_eq_range_dfinsupp_lsum]; rw [LinearMap.range_eq_top]
   exact Function.Bijective.surjective h
 #align direct_sum.is_internal.submodule_supr_eq_top DirectSum.IsInternal.submodule_iSup_eq_top
 
@@ -380,7 +380,7 @@ theorem IsInternal.isCompl {A : ι → Submodule R M} {i j : ι} (hij : i ≠ j)
     (h : (Set.univ : Set ι) = {i, j}) (hi : IsInternal A) : IsCompl (A i) (A j) :=
   ⟨hi.submodule_independent.pairwiseDisjoint hij,
     codisjoint_iff.mpr <| Eq.symm <| hi.submodule_iSup_eq_top.symm.trans <| by
-      rw [← sSup_pair, iSup, ← Set.image_univ, h, Set.image_insert_eq, Set.image_singleton]⟩
+      rw [← sSup_pair]; rw [iSup]; rw [← Set.image_univ]; rw [h]; rw [Set.image_insert_eq]; rw [Set.image_singleton]⟩
 #align direct_sum.is_internal.is_compl DirectSum.IsInternal.isCompl
 
 end Semiring
@@ -414,8 +414,7 @@ theorem isInternal_submodule_iff_independent_and_iSup_eq_top (A : ι → Submodu
 theorem isInternal_submodule_iff_isCompl (A : ι → Submodule R M) {i j : ι} (hij : i ≠ j)
     (h : (Set.univ : Set ι) = {i, j}) : IsInternal A ↔ IsCompl (A i) (A j) := by
   have : ∀ k, k = i ∨ k = j := fun k ↦ by simpa using Set.ext_iff.mp h k
-  rw [isInternal_submodule_iff_independent_and_iSup_eq_top, iSup, ← Set.image_univ, h,
-    Set.image_insert_eq, Set.image_singleton, sSup_pair, CompleteLattice.independent_pair hij this]
+  rw [isInternal_submodule_iff_independent_and_iSup_eq_top]; rw [iSup]; rw [← Set.image_univ]; rw [h]; rw [Set.image_insert_eq]; rw [Set.image_singleton]; rw [sSup_pair]; rw [CompleteLattice.independent_pair hij this]
   exact ⟨fun ⟨hd, ht⟩ ↦ ⟨hd, codisjoint_iff.mpr ht⟩, fun ⟨hd, ht⟩ ↦ ⟨hd, ht.eq_top⟩⟩
 #align direct_sum.is_internal_submodule_iff_is_compl DirectSum.isInternal_submodule_iff_isCompl
 

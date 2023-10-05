@@ -60,7 +60,7 @@ theorem nondenerate_dualProd :
   let h_d := e.symm.toLinearMap.comp (BilinForm.toLin <| dualProd R M)
   refine' (Function.Injective.of_comp_iff e.symm.injective
     (BilinForm.toLin <| dualProd R M)).symm.trans _
-  rw [← LinearEquiv.coe_toLinearMap, ← LinearMap.coe_comp]
+  rw [← LinearEquiv.coe_toLinearMap]; rw [← LinearMap.coe_comp]
   change Function.Injective h_d ↔ _
   have : h_d = LinearMap.prodMap LinearMap.id (Module.Dual.eval R M) := by
     refine' LinearMap.ext fun x => Prod.ext _ _
@@ -70,7 +70,7 @@ theorem nondenerate_dualProd :
     · ext
       dsimp [Module.Dual.eval, LinearEquiv.prodComm]
       simp
-  rw [this, LinearMap.coe_prodMap]
+  rw [this]; rw [LinearMap.coe_prodMap]
   refine' Prod.map_injective.trans _
   exact and_iff_right Function.injective_id
 #align bilin_form.nondenerate_dual_prod BilinForm.nondenerate_dualProd
@@ -91,13 +91,11 @@ def dualProd : QuadraticForm R (Module.Dual R M × M) where
   toFun p := p.1 p.2
   toFun_smul a p := by
     dsimp only  -- porting note: added
-    rw [Prod.smul_fst, Prod.smul_snd, LinearMap.smul_apply, LinearMap.map_smul, smul_eq_mul,
-      smul_eq_mul, mul_assoc]
+    rw [Prod.smul_fst]; rw [Prod.smul_snd]; rw [LinearMap.smul_apply]; rw [LinearMap.map_smul]; rw [smul_eq_mul]; rw [smul_eq_mul]; rw [mul_assoc]
   exists_companion' :=
     ⟨BilinForm.dualProd R M, fun p q => by
       dsimp only  -- porting note: added
-      rw [BilinForm.dualProd_apply, Prod.fst_add, Prod.snd_add, LinearMap.add_apply, map_add,
-        map_add, add_right_comm _ (q.1 q.2), add_comm (q.1 p.2) (p.1 q.2), ← add_assoc, ←
+      rw [BilinForm.dualProd_apply]; rw [Prod.fst_add]; rw [Prod.snd_add]; rw [LinearMap.add_apply]; rw [map_add]; rw [map_add]; rw [add_right_comm _ (q.1 q.2)]; rw [add_comm (q.1 p.2) (p.1 q.2)]; rw [← add_assoc]; rw [←
         add_assoc]⟩
 #align quadratic_form.dual_prod QuadraticForm.dualProd
 

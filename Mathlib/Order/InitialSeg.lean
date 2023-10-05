@@ -137,7 +137,7 @@ instance subsingleton_of_trichotomous_of_irrefl [IsTrichotomous β s] [IsIrrefl 
     ext a
     refine' IsWellFounded.induction r a fun b IH =>
       extensional_of_trichotomous_of_irrefl s fun x => _
-    rw [f.init_iff, g.init_iff]
+    rw [f.init_iff]; rw [g.init_iff]
     exact exists_congr fun x => and_congr_left fun hx => IH _ hx ▸ Iff.rfl⟩
 #align initial_seg.subsingleton_of_trichotomous_of_irrefl InitialSeg.subsingleton_of_trichotomous_of_irrefl
 
@@ -340,7 +340,7 @@ def ltEquiv {r : α → α → Prop} {s : β → β → Prop} {t : γ → γ →
     (g : s ≃r t) : PrincipalSeg r t :=
   ⟨@RelEmbedding.trans _ _ _ r s t f g, g f.top, by
     intro x
-    rw [← g.apply_symm_apply x, g.map_rel_iff, f.down', exists_congr]
+    rw [← g.apply_symm_apply x]; rw [g.map_rel_iff]; rw [f.down']; rw [exists_congr]
     intro y; exact ⟨congr_arg g, fun h => g.toEquiv.bijective.1 h⟩⟩
 #align principal_seg.lt_equiv PrincipalSeg.ltEquiv
 

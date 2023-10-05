@@ -117,7 +117,7 @@ theorem exists_list_of_mem_closure {a : R} (h : a ∈ closure s) :
         | _, ⟨L3, h3, rfl⟩ => List.forall_mem_cons.2 ⟨Or.inr rfl, h1 L3 h3⟩, by
         simp only [List.map_map, (· ∘ ·), List.prod_cons, neg_one_mul]
         refine' List.recOn L1 neg_zero.symm fun hd tl ih ↦ _
-        rw [List.map_cons, List.sum_cons, ih, List.map_cons, List.sum_cons, neg_add]⟩
+        rw [List.map_cons]; rw [List.sum_cons]; rw [ih]; rw [List.map_cons]; rw [List.sum_cons]; rw [neg_add]⟩
     fun {r1 r2} _ _ ih1 ih2 ↦ match r1, r2, ih1, ih2 with
     | _, _, ⟨L1, h1, rfl⟩, ⟨L2, h2, rfl⟩ =>
       ⟨L1 ++ L2, List.forall_mem_append.2 ⟨h1, h2⟩, by rw [List.map_append, List.sum_append]⟩
@@ -134,7 +134,7 @@ protected theorem InClosure.recOn {C : R → Prop} {x : R} (hx : x ∈ closure s
   · exact h0
   rw [List.forall_mem_cons] at HL
   suffices C (List.prod hd) by
-    rw [List.map_cons, List.sum_cons]
+    rw [List.map_cons]; rw [List.sum_cons]
     exact ha this (ih HL.2)
   replace HL := HL.1
   clear ih tl
@@ -148,7 +148,7 @@ protected theorem InClosure.recOn {C : R → Prop} {x : R} (hx : x ∈ closure s
       exact hs _ HL'.1 _ (ih HL'.2)
     · induction' L with hd tl ih
       · exact hneg1
-      rw [List.prod_cons, neg_mul_eq_mul_neg]
+      rw [List.prod_cons]; rw [neg_mul_eq_mul_neg]
       rw [List.forall_mem_cons] at HL'
       exact hs _ HL'.1 _ (ih HL'.2)
   induction' hd with hd tl ih

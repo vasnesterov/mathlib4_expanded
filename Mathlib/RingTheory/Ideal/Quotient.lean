@@ -68,7 +68,7 @@ protected def ringCon (I : Ideal R) : RingCon R :=
       rw [Submodule.quotientRel_r_def] at h₁ h₂ ⊢
       have F := I.add_mem (I.mul_mem_left a₂ h₁) (I.mul_mem_right b₁ h₂)
       have : a₁ * a₂ - b₁ * b₂ = a₂ * (a₁ - b₁) + (a₂ - b₂) * b₁ := by
-        rw [mul_sub, sub_mul, sub_add_sub_cancel, mul_comm, mul_comm b₁]
+        rw [mul_sub]; rw [sub_mul]; rw [sub_add_sub_cancel]; rw [mul_comm]; rw [mul_comm b₁]
       rwa [← this] at F }
 #align ideal.quotient.ring_con Ideal.Quotient.ringCon
 
@@ -135,7 +135,7 @@ theorem eq_zero_iff_mem {I : Ideal R} : mk I a = 0 ↔ a ∈ I :=
 
 -- Porting note: new theorem
 theorem mk_eq_mk_iff_sub_mem (x y : R) : mk I x = mk I y ↔ x - y ∈ I := by
-  rw [← eq_zero_iff_mem, map_sub, sub_eq_zero]
+  rw [← eq_zero_iff_mem]; rw [map_sub]; rw [sub_eq_zero]
 
 theorem zero_eq_one_iff {I : Ideal R} : (0 : R ⧸ I) = 1 ↔ I = ⊤ :=
   eq_comm.trans <| eq_zero_iff_mem.trans (eq_top_iff_one _).symm
@@ -150,8 +150,7 @@ protected theorem nontrivial {I : Ideal R} (hI : I ≠ ⊤) : Nontrivial (R ⧸ 
 #align ideal.quotient.nontrivial Ideal.Quotient.nontrivial
 
 theorem subsingleton_iff {I : Ideal R} : Subsingleton (R ⧸ I) ↔ I = ⊤ := by
-  rw [eq_top_iff_one, ← subsingleton_iff_zero_eq_one, eq_comm, ← (mk I).map_one,
-    Quotient.eq_zero_iff_mem]
+  rw [eq_top_iff_one]; rw [← subsingleton_iff_zero_eq_one]; rw [eq_comm]; rw [← (mk I).map_one]; rw [Quotient.eq_zero_iff_mem]
 #align ideal.quotient.subsingleton_iff Ideal.Quotient.subsingleton_iff
 
 instance : Unique (R ⧸ (⊤ : Ideal R)) :=
@@ -239,7 +238,7 @@ theorem maximal_of_isField (I : Ideal R) (hqf : IsField (R ⧸ I)) : I.IsMaximal
     exact hxy (Ideal.Quotient.eq.2 (mul_one (x - y) ▸ I.mul_mem_left _ h))
   · intro J x hIJ hxnI hxJ
     rcases hqf.mul_inv_cancel (mt Ideal.Quotient.eq_zero_iff_mem.1 hxnI) with ⟨⟨y⟩, hy⟩
-    rw [← zero_add (1 : R), ← sub_self (x * y), sub_add]
+    rw [← zero_add (1 : R)]; rw [← sub_self (x * y)]; rw [sub_add]
     refine' J.sub_mem (J.mul_mem_right _ hxJ) (hIJ (Ideal.Quotient.eq.1 hy))
 #align ideal.quotient.maximal_of_is_field Ideal.Quotient.maximal_of_isField
 
@@ -290,7 +289,7 @@ theorem factor_mk (S T : Ideal R) (H : S ≤ T) (x : R) : factor S T H (mk S x) 
 @[simp]
 theorem factor_comp_mk (S T : Ideal R) (H : S ≤ T) : (factor S T H).comp (mk S) = mk T := by
   ext x
-  rw [RingHom.comp_apply, factor_mk]
+  rw [RingHom.comp_apply]; rw [factor_mk]
 #align ideal.quotient.factor_comp_mk Ideal.Quotient.factor_comp_mk
 
 end Quotient
@@ -397,7 +396,7 @@ theorem exists_sub_one_mem_and_mem (s : Finset ι) {f : ι → Ideal R}
   have : ∀ j ∈ s, j ≠ i → ∃ r : R, ∃ _ : r - 1 ∈ f i, r ∈ f j := by
     intro j hjs hji
     specialize hf i his j hjs hji.symm
-    rw [eq_top_iff_one, Submodule.mem_sup] at hf
+    rw [eq_top_iff_one] at hf; rw [Submodule.mem_sup] at hf
     rcases hf with ⟨r, hri, s, hsj, hrs⟩
     refine' ⟨1 - r, _, _⟩
     · rw [sub_right_comm, sub_self, zero_sub]
@@ -424,10 +423,10 @@ theorem exists_sub_one_mem_and_mem (s : Finset ι) {f : ι → Ideal R}
     · rw [← Ideal.Quotient.mk_eq_mk_iff_sub_mem, map_one, map_prod]
       apply Finset.prod_eq_one
       intros
-      rw [← RingHom.map_one, Ideal.Quotient.mk_eq_mk_iff_sub_mem]
+      rw [← RingHom.map_one]; rw [Ideal.Quotient.mk_eq_mk_iff_sub_mem]
       apply hgi
     · intro j hjs hji
-      rw [← Quotient.eq_zero_iff_mem, map_prod]
+      rw [← Quotient.eq_zero_iff_mem]; rw [map_prod]
       refine' Finset.prod_eq_zero (Finset.mem_erase_of_ne_of_mem hji hjs) _
       rw [Quotient.eq_zero_iff_mem]
       exact hgj j hjs hji
@@ -444,7 +443,7 @@ theorem exists_sub_mem [Finite ι] {f : ι → Ideal R} (hf : ∀ i j, i ≠ j �
   rcases this with ⟨φ, hφ1, hφ2⟩
   use ∑ i, g i * φ i
   intro i
-  rw [← Quotient.mk_eq_mk_iff_sub_mem, map_sum]
+  rw [← Quotient.mk_eq_mk_iff_sub_mem]; rw [map_sum]
   refine' Eq.trans (Finset.sum_eq_single i _ _) _
   · intro j _ hji
     rw [Quotient.eq_zero_iff_mem]
@@ -452,8 +451,8 @@ theorem exists_sub_mem [Finite ι] {f : ι → Ideal R} (hf : ∀ i j, i ≠ j �
   · intro hi
     exact (hi <| Finset.mem_univ i).elim
   specialize hφ1 i
-  rw [← Quotient.mk_eq_mk_iff_sub_mem, RingHom.map_one] at hφ1
-  rw [RingHom.map_mul, hφ1, mul_one]
+  rw [← Quotient.mk_eq_mk_iff_sub_mem] at hφ1; rw [RingHom.map_one] at hφ1
+  rw [RingHom.map_mul]; rw [hφ1]; rw [mul_one]
 #align ideal.exists_sub_mem Ideal.exists_sub_mem
 
 /-- The homomorphism from `R/(⋂ i, f i)` to `∏ i, (R / f i)` featured in the Chinese

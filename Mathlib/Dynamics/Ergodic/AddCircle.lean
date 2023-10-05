@@ -56,7 +56,7 @@ theorem ae_empty_or_univ_of_forall_vadd_ae_eq_self {s : Set <| AddCircle T}
   set n : ι → ℕ := addOrderOf ∘ u
   have hT₀ : 0 < T := hT.out
   have hT₁ : ENNReal.ofReal T ≠ 0 := by simpa
-  rw [ae_eq_empty, ae_eq_univ_iff_measure_eq hs, AddCircle.measure_univ]
+  rw [ae_eq_empty]; rw [ae_eq_univ_iff_measure_eq hs]; rw [AddCircle.measure_univ]
   cases' eq_or_ne (μ s) 0 with h h; · exact Or.inl h
   right
   obtain ⟨d, -, hd⟩ : ∃ d, d ∈ s ∧ ∀ {ι'} {l : Filter ι'} (w : ι' → AddCircle T) (δ : ι' → ℝ),
@@ -90,13 +90,10 @@ theorem ae_empty_or_univ_of_forall_vadd_ae_eq_self {s : Set <| AddCircle T}
   have hI₀ : μ (I j) ≠ 0 := (measure_closedBall_pos _ d <| by positivity).ne.symm
   have hI₁ : μ (I j) ≠ ⊤ := measure_ne_top _ _
   have hI₂ : μ (I j) * ↑(n j) = ENNReal.ofReal T := by
-    rw [volume_closedBall, mul_div, mul_div_mul_left T _ two_ne_zero,
-      min_eq_right (div_le_self hT₀.le huj'), mul_comm, ← nsmul_eq_mul, ← ENNReal.ofReal_nsmul,
-      nsmul_eq_mul, mul_div_cancel']
+    rw [volume_closedBall]; rw [mul_div]; rw [mul_div_mul_left T _ two_ne_zero]; rw [min_eq_right (div_le_self hT₀.le huj')]; rw [mul_comm]; rw [← nsmul_eq_mul]; rw [← ENNReal.ofReal_nsmul]; rw [nsmul_eq_mul]; rw [mul_div_cancel']
     exact Nat.cast_ne_zero.mpr hj.ne'
-  rw [ENNReal.div_eq_div_iff hT₁ ENNReal.ofReal_ne_top hI₀ hI₁,
-    volume_of_add_preimage_eq s _ (u j) d huj (hu₁ j) closedBall_ae_eq_ball, nsmul_eq_mul, ←
-    mul_assoc, this, hI₂]
+  rw [ENNReal.div_eq_div_iff hT₁ ENNReal.ofReal_ne_top hI₀ hI₁]; rw [volume_of_add_preimage_eq s _ (u j) d huj (hu₁ j) closedBall_ae_eq_ball]; rw [nsmul_eq_mul]; rw [←
+    mul_assoc]; rw [this]; rw [hI₂]
 #align add_circle.ae_empty_or_univ_of_forall_vadd_ae_eq_self AddCircle.ae_empty_or_univ_of_forall_vadd_ae_eq_self
 
 theorem ergodic_zsmul {n : ℤ} (hn : 1 < |n|) : Ergodic fun y : AddCircle T => n • y :=
@@ -109,8 +106,7 @@ theorem ergodic_zsmul {n : ℤ} (hn : 1 < |n|) : Ergodic fun y : AddCircle T => 
           (pow_pos (pos_of_gt hn) j) (gcd_one_left _)
         norm_cast
       have hnu : ∀ j, n ^ j • u j = 0 := fun j => by
-        rw [← addOrderOf_dvd_iff_zsmul_eq_zero, hu₀, Int.coe_nat_pow, Int.coe_natAbs, ← abs_pow,
-          abs_dvd]
+        rw [← addOrderOf_dvd_iff_zsmul_eq_zero]; rw [hu₀]; rw [Int.coe_nat_pow]; rw [Int.coe_natAbs]; rw [← abs_pow]; rw [abs_dvd]
       have hu₁ : ∀ j, (u j +ᵥ s : Set _) =ᵐ[volume] s := fun j => by
         rw [vadd_eq_self_of_preimage_zsmul_eq_self hs' (hnu j)]
       have hu₂ : Tendsto (fun j => addOrderOf <| u j) atTop atTop := by
@@ -128,12 +124,12 @@ theorem ergodic_zsmul_add (x : AddCircle T) {n : ℤ} (h : 1 < |n|) : Ergodic fu
   have he : MeasurePreserving e volume volume :=
     measurePreserving_add_left volume (DivisibleBy.div x <| n - 1)
   suffices e ∘ f ∘ e.symm = fun y => n • y by
-    rw [← he.ergodic_conjugate_iff, this]; exact ergodic_zsmul h
+    rw [← he.ergodic_conjugate_iff]; rw [this]; exact ergodic_zsmul h
   replace h : n - 1 ≠ 0
   · rw [← abs_one] at h; rw [sub_ne_zero]; exact ne_of_apply_ne _ (ne_of_gt h)
   have hnx : n • DivisibleBy.div x (n - 1) = x + DivisibleBy.div x (n - 1) := by
     conv_rhs => congr; rw [← DivisibleBy.div_cancel x h]
-    rw [sub_smul, one_smul, sub_add_cancel]
+    rw [sub_smul]; rw [one_smul]; rw [sub_add_cancel]
   ext y
   simp only [hnx, MeasurableEquiv.coe_addLeft, MeasurableEquiv.symm_addLeft, comp_apply, smul_add,
     zsmul_neg', neg_smul, neg_add_rev]

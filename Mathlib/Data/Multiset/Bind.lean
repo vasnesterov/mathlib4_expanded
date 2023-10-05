@@ -95,7 +95,7 @@ def bind (s : Multiset α) (f : α → Multiset β) : Multiset β :=
 
 @[simp]
 theorem coe_bind (l : List α) (f : α → List β) : (@bind α β l fun a => f a) = l.bind f := by
-  rw [List.bind, ← coe_join, List.map_map]
+  rw [List.bind]; rw [← coe_join]; rw [List.map_map]
   rfl
 #align multiset.coe_bind Multiset.coe_bind
 
@@ -245,7 +245,7 @@ instance instSProd : SProd (Multiset α) (Multiset β) (Multiset (α × β)) whe
 theorem coe_product (l₁ : List α) (l₂ : List β) :
     (l₁ : Multiset α) ×ˢ (l₂ : Multiset β) = (l₁ ×ˢ l₂) := by
   dsimp only [SProd.sprod]
-  rw [product, List.product, ← coe_bind]
+  rw [product]; rw [List.product]; rw [← coe_bind]
   simp
 #align multiset.coe_product Multiset.coe_product
 
@@ -280,7 +280,7 @@ theorem add_product (s t : Multiset α) (u : Multiset β) : (s + t) ×ˢ u = s �
 @[simp]
 theorem product_add (s : Multiset α) : ∀ t u : Multiset β, s ×ˢ (t + u) = s ×ˢ t + s ×ˢ u :=
   Multiset.induction_on s (fun t u => rfl) fun a s IH t u => by
-    rw [cons_product, IH]
+    rw [cons_product]; rw [IH]
     simp [add_comm, add_left_comm, add_assoc]
 #align multiset.product_add Multiset.product_add
 
@@ -311,7 +311,7 @@ protected def sigma (s : Multiset α) (t : ∀ a, Multiset (σ a)) : Multiset (�
 @[simp]
 theorem coe_sigma (l₁ : List α) (l₂ : ∀ a, List (σ a)) :
     (@Multiset.sigma α σ l₁ fun a => l₂ a) = l₁.sigma l₂ := by
-  rw [Multiset.sigma, List.sigma, ← coe_bind]
+  rw [Multiset.sigma]; rw [List.sigma]; rw [← coe_bind]
   simp
 #align multiset.coe_sigma Multiset.coe_sigma
 
@@ -340,7 +340,7 @@ theorem add_sigma (s t : Multiset α) (u : ∀ a, Multiset (σ a)) :
 theorem sigma_add :
     ∀ t u : ∀ a, Multiset (σ a), (s.sigma fun a => t a + u a) = s.sigma t + s.sigma u :=
   Multiset.induction_on s (fun t u => rfl) fun a s IH t u => by
-    rw [cons_sigma, IH]
+    rw [cons_sigma]; rw [IH]
     simp [add_comm, add_left_comm, add_assoc]
 #align multiset.sigma_add Multiset.sigma_add
 

@@ -90,9 +90,7 @@ instance (j : ι) : Faithful (single V c j) where
     have := congr_hom w j
     dsimp at this
     simp only [dif_pos] at this
-    rw [← IsIso.inv_comp_eq, inv_eqToHom, eqToHom_trans_assoc, eqToHom_refl,
-      Category.id_comp, ← IsIso.comp_inv_eq, Category.assoc, inv_eqToHom, eqToHom_trans,
-      eqToHom_refl, Category.comp_id] at this
+    rw [← IsIso.inv_comp_eq] at this; rw [inv_eqToHom] at this; rw [eqToHom_trans_assoc] at this; rw [eqToHom_refl] at this; rw [Category.id_comp] at this; rw [← IsIso.comp_inv_eq] at this; rw [Category.assoc] at this; rw [inv_eqToHom] at this; rw [eqToHom_trans] at this; rw [eqToHom_refl] at this; rw [Category.comp_id] at this
     exact this
 
 instance (j : ι) : Full (single V c j) where

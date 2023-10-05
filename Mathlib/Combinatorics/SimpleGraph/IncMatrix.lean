@@ -83,17 +83,17 @@ theorem incMatrix_apply_mul_incMatrix_apply : G.incMatrix R a e * G.incMatrix R 
 
 theorem incMatrix_apply_mul_incMatrix_apply_of_not_adj (hab : a ≠ b) (h : ¬G.Adj a b) :
     G.incMatrix R a e * G.incMatrix R b e = 0 := by
-  rw [incMatrix_apply_mul_incMatrix_apply, Set.indicator_of_not_mem]
+  rw [incMatrix_apply_mul_incMatrix_apply]; rw [Set.indicator_of_not_mem]
   rw [G.incidenceSet_inter_incidenceSet_of_not_adj h hab]
   exact Set.not_mem_empty e
 #align simple_graph.inc_matrix_apply_mul_inc_matrix_apply_of_not_adj SimpleGraph.incMatrix_apply_mul_incMatrix_apply_of_not_adj
 
 theorem incMatrix_of_not_mem_incidenceSet (h : e ∉ G.incidenceSet a) : G.incMatrix R a e = 0 := by
-  rw [incMatrix_apply, Set.indicator_of_not_mem h]
+  rw [incMatrix_apply]; rw [Set.indicator_of_not_mem h]
 #align simple_graph.inc_matrix_of_not_mem_incidence_set SimpleGraph.incMatrix_of_not_mem_incidenceSet
 
 theorem incMatrix_of_mem_incidenceSet (h : e ∈ G.incidenceSet a) : G.incMatrix R a e = 1 := by
-  rw [incMatrix_apply, Set.indicator_of_mem h, Pi.one_apply]
+  rw [incMatrix_apply]; rw [Set.indicator_of_mem h]; rw [Pi.one_apply]
 #align simple_graph.inc_matrix_of_mem_incidence_set SimpleGraph.incMatrix_of_mem_incidenceSet
 
 variable [Nontrivial R]
@@ -135,7 +135,7 @@ theorem sum_incMatrix_apply_of_mem_edgeSet :
     refine' e.ind _
     intro a b h
     rw [mem_edgeSet] at h
-    rw [← Nat.cast_two, ← card_doubleton h.ne]
+    rw [← Nat.cast_two]; rw [← card_doubleton h.ne]
     simp only [incMatrix_apply', sum_boole, mk'_mem_incidenceSet_iff, h, true_and_iff]
     congr 2
     ext e
@@ -156,7 +156,7 @@ theorem incMatrix_transpose_mul_diag [DecidableRel G.Adj] :
     · revert h
       refine' e.ind _
       intro v w h
-      rw [← Nat.cast_two, ← card_doubleton (G.ne_of_adj h)]
+      rw [← Nat.cast_two]; rw [← card_doubleton (G.ne_of_adj h)]
       simp [mk'_mem_incidenceSet_iff, G.mem_edgeSet.mp h]
       congr 2
       ext u
@@ -180,7 +180,7 @@ theorem incMatrix_mul_transpose_apply_of_adj (h : G.Adj a b) :
       Set.indicator_apply, Pi.one_apply, sum_boole]
     convert @Nat.cast_one R _
     convert card_singleton ⟦(a, b)⟧
-    rw [← coe_eq_singleton, coe_filter_univ]
+    rw [← coe_eq_singleton]; rw [coe_filter_univ]
     exact G.incidenceSet_inter_incidenceSet_of_adj h
 #align simple_graph.inc_matrix_mul_transpose_apply_of_adj SimpleGraph.incMatrix_mul_transpose_apply_of_adj
 

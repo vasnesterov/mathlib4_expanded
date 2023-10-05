@@ -263,7 +263,7 @@ theorem WithLp.equiv_symm_single [DecidableEq ι] (i : ι) (a : 𝕜) :
 @[simp]
 theorem EuclideanSpace.single_apply [DecidableEq ι] (i : ι) (a : 𝕜) (j : ι) :
     (EuclideanSpace.single i a) j = ite (j = i) a 0 := by
-  rw [EuclideanSpace.single, WithLp.equiv_symm_pi_apply, ← Pi.single_apply i a j]
+  rw [EuclideanSpace.single]; rw [WithLp.equiv_symm_pi_apply]; rw [← Pi.single_apply i a j]
 #align euclidean_space.single_apply EuclideanSpace.single_apply
 
 theorem EuclideanSpace.inner_single_left [DecidableEq ι] (i : ι) (a : 𝕜) (v : EuclideanSpace 𝕜 ι) :
@@ -351,7 +351,7 @@ instance instFunLike : FunLike (OrthonormalBasis ι 𝕜 E) ι fun _ => E where
         simp only [LinearIsometryEquiv.toLinearEquiv_symm]
         refine LinearMap.pi_ext fun i k => ?_
         have : k = k • (1 : 𝕜) := by rw [smul_eq_mul, mul_one]
-        rw [this, Pi.single_smul]
+        rw [this]; rw [Pi.single_smul]
         replace h := congr_fun h i
         simp only [LinearEquiv.comp_coe, SMulHomClass.map_smul, LinearEquiv.coe_coe,
           LinearEquiv.trans_apply, WithLp.linearEquiv_symm_apply, WithLp.equiv_symm_single,
@@ -380,13 +380,13 @@ protected theorem repr_symm_single [DecidableEq ι] (b : OrthonormalBasis ι �
 @[simp]
 protected theorem repr_self [DecidableEq ι] (b : OrthonormalBasis ι 𝕜 E) (i : ι) :
     b.repr (b i) = EuclideanSpace.single i (1 : 𝕜) := by
-  rw [← b.repr_symm_single i, LinearIsometryEquiv.apply_symm_apply]
+  rw [← b.repr_symm_single i]; rw [LinearIsometryEquiv.apply_symm_apply]
 #align orthonormal_basis.repr_self OrthonormalBasis.repr_self
 
 protected theorem repr_apply_apply (b : OrthonormalBasis ι 𝕜 E) (v : E) (i : ι) :
     b.repr v i = ⟪b i, v⟫ := by
   classical
-    rw [← b.repr.inner_map_map (b i) v, b.repr_self i, EuclideanSpace.inner_single_left]
+    rw [← b.repr.inner_map_map (b i) v]; rw [b.repr_self i]; rw [EuclideanSpace.inner_single_left]
     simp only [one_mul, eq_self_iff_true, map_one]
 #align orthonormal_basis.repr_apply_apply OrthonormalBasis.repr_apply_apply
 
@@ -395,8 +395,7 @@ protected theorem orthonormal (b : OrthonormalBasis ι 𝕜 E) : Orthonormal �
   classical
     rw [orthonormal_iff_ite]
     intro i j
-    rw [← b.repr.inner_map_map (b i) (b j), b.repr_self i, b.repr_self j,
-      EuclideanSpace.inner_single_left, EuclideanSpace.single_apply, map_one, one_mul]
+    rw [← b.repr.inner_map_map (b i) (b j)]; rw [b.repr_self i]; rw [b.repr_self j]; rw [EuclideanSpace.inner_single_left]; rw [EuclideanSpace.single_apply]; rw [map_one]; rw [one_mul]
 #align orthonormal_basis.orthonormal OrthonormalBasis.orthonormal
 
 /-- The `Basis ι 𝕜 E` underlying the `OrthonormalBasis` -/
@@ -422,8 +421,7 @@ protected theorem coe_toBasis_repr (b : OrthonormalBasis ι 𝕜 E) :
 @[simp]
 protected theorem coe_toBasis_repr_apply (b : OrthonormalBasis ι 𝕜 E) (x : E) (i : ι) :
     b.toBasis.repr x i = b.repr x i := by
-  rw [← Basis.equivFun_apply, OrthonormalBasis.coe_toBasis_repr,
-    LinearIsometryEquiv.coe_toLinearEquiv]
+  rw [← Basis.equivFun_apply]; rw [OrthonormalBasis.coe_toBasis_repr]; rw [LinearIsometryEquiv.coe_toLinearEquiv]
 #align orthonormal_basis.coe_to_basis_repr_apply OrthonormalBasis.coe_toBasis_repr_apply
 
 protected theorem sum_repr (b : OrthonormalBasis ι 𝕜 E) (x : E) : ∑ i, b.repr x i • b i = x := by
@@ -440,7 +438,7 @@ protected theorem sum_inner_mul_inner (b : OrthonormalBasis ι 𝕜 E) (x y : E)
   have := congr_arg (innerSL 𝕜 x) (b.sum_repr y)
   rw [map_sum] at this
   convert this
-  rw [SMulHomClass.map_smul, b.repr_apply_apply, mul_comm]
+  rw [SMulHomClass.map_smul]; rw [b.repr_apply_apply]; rw [mul_comm]
   simp only [innerSL_apply, smul_eq_mul] -- Porting note: was `rfl`
 #align orthonormal_basis.sum_inner_mul_inner OrthonormalBasis.sum_inner_mul_inner
 
@@ -541,7 +539,7 @@ protected def span [DecidableEq E] {v' : ι' → E} (h : Orthonormal 𝕜 v') (s
   let φ : span 𝕜 (s.image v' : Set E) ≃ₗᵢ[𝕜] span 𝕜 (range (v' ∘ ((↑) : s → ι'))) :=
     LinearIsometryEquiv.ofEq _ _
       (by
-        rw [Finset.coe_image, image_eq_range]
+        rw [Finset.coe_image]; rw [image_eq_range]
         rfl)
   e₀.map φ.symm
 #align orthonormal_basis.span OrthonormalBasis.span
@@ -588,8 +586,7 @@ protected theorem reindex_apply (b : OrthonormalBasis ι 𝕜 E) (e : ι ≃ ι'
     dsimp [reindex]
     rw [coe_ofRepr]
     dsimp
-    rw [← b.repr_symm_single, LinearIsometryEquiv.piLpCongrLeft_symm,
-      EuclideanSpace.piLpCongrLeft_single]
+    rw [← b.repr_symm_single]; rw [LinearIsometryEquiv.piLpCongrLeft_symm]; rw [EuclideanSpace.piLpCongrLeft_single]
 #align orthonormal_basis.reindex_apply OrthonormalBasis.reindex_apply
 
 @[simp]
@@ -602,8 +599,7 @@ protected theorem coe_reindex (b : OrthonormalBasis ι 𝕜 E) (e : ι ≃ ι') 
 protected theorem repr_reindex (b : OrthonormalBasis ι 𝕜 E) (e : ι ≃ ι') (x : E) (i' : ι') :
     (b.reindex e).repr x i' = b.repr x (e.symm i') := by
   classical
-  rw [OrthonormalBasis.repr_apply_apply, b.repr_apply_apply, OrthonormalBasis.coe_reindex,
-    comp_apply]
+  rw [OrthonormalBasis.repr_apply_apply]; rw [b.repr_apply_apply]; rw [OrthonormalBasis.coe_reindex]; rw [comp_apply]
 #align orthonormal_basis.repr_reindex OrthonormalBasis.repr_reindex
 
 end OrthonormalBasis
@@ -688,7 +684,7 @@ theorem Complex.isometryOfOrthonormal_apply (v : OrthonormalBasis (Fin 2) ℝ F)
     Complex.isometryOfOrthonormal v z = z.re • v 0 + z.im • v 1 := by
   -- Porting note: was
   -- simp [Complex.isometryOfOrthonormal, ← v.sum_repr_symm]
-  rw [Complex.isometryOfOrthonormal, LinearIsometryEquiv.trans_apply]
+  rw [Complex.isometryOfOrthonormal]; rw [LinearIsometryEquiv.trans_apply]
   simp [← v.sum_repr_symm]
 #align complex.isometry_of_orthonormal_apply Complex.isometryOfOrthonormal_apply
 
@@ -957,7 +953,7 @@ noncomputable def LinearIsometry.extend (L : S →ₗᵢ[𝕜] V) : V →ₗᵢ[
         apply LinearMap.mem_range_self
       apply Submodule.inner_right_of_mem_orthogonal Lp1x Lp2x
     -- Apply the Pythagorean theorem and simplify
-    rw [← sq_eq_sq (norm_nonneg _) (norm_nonneg _), norm_sq_eq_add_norm_sq_projection x S]
+    rw [← sq_eq_sq (norm_nonneg _) (norm_nonneg _)]; rw [norm_sq_eq_add_norm_sq_projection x S]
     simp only [sq, Mx_decomp]
     rw [norm_add_sq_eq_norm_sq_add_norm_sq_of_inner_eq_zero (L (p1 x)) (L3 (p2 x)) Mx_orth]
     simp only [LinearIsometry.norm_map, _root_.add_left_inj, mul_eq_mul_left_iff,

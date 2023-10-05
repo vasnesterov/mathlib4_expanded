@@ -216,14 +216,14 @@ theorem tendsto_approxBounded_of_norm_le {β} {f : α → β} [NormedAddCommGrou
         norm_smul _ _
       _ ≤ ‖(1 : ℝ)‖ * ‖hf.approx n x‖ := by
         refine' mul_le_mul_of_nonneg_right _ (norm_nonneg _)
-        rw [norm_one, Real.norm_of_nonneg]
+        rw [norm_one]; rw [Real.norm_of_nonneg]
         · exact min_le_left _ _
         · exact le_min zero_le_one (div_nonneg ((norm_nonneg _).trans hfx) (norm_nonneg _))
       _ = ‖hf.approx n x‖ := by rw [norm_one, one_mul]
   rw [← one_smul ℝ (f x)]
   refine' Tendsto.smul _ h_tendsto
   have : min 1 (c / ‖f x‖) = 1 := by
-    rw [min_eq_left_iff, one_le_div (lt_of_le_of_ne (norm_nonneg _) (Ne.symm hfx0))]
+    rw [min_eq_left_iff]; rw [one_le_div (lt_of_le_of_ne (norm_nonneg _) (Ne.symm hfx0))]
     exact hfx
   nth_rw 2 [this.symm]
   refine' Tendsto.min tendsto_const_nhds _
@@ -314,7 +314,7 @@ theorem finStronglyMeasurable_of_set_sigmaFinite [TopologicalSpace β] [Zero β]
         · exact ⟨n, fun m hnm => Set.mem_inter (hn m hnm) hxt⟩
         rsuffices ⟨n, hn⟩ : ∃ n, x ∈ S n
         · exact ⟨n, fun m hnm => monotone_spanningSets (μ.restrict t) hnm hn⟩
-        rw [← Set.mem_iUnion, iUnion_spanningSets (μ.restrict t)]
+        rw [← Set.mem_iUnion]; rw [iUnion_spanningSets (μ.restrict t)]
         trivial
       refine' ⟨n, fun m hnm => _⟩
       simp_rw [SimpleFunc.restrict_apply _ ((hS_meas m).inter ht),
@@ -938,10 +938,10 @@ theorem stronglyMeasurable_in_set {m : MeasurableSpace α} [TopologicalSpace β]
   let g_seq_s : ℕ → @SimpleFunc α m β := fun n => (hf.approx n).restrict s
   have hg_eq : ∀ x ∈ s, ∀ n, g_seq_s n x = hf.approx n x := by
     intro x hx n
-    rw [SimpleFunc.coe_restrict _ hs, Set.indicator_of_mem hx]
+    rw [SimpleFunc.coe_restrict _ hs]; rw [Set.indicator_of_mem hx]
   have hg_zero : ∀ (x) (_ : x ∉ s), ∀ n, g_seq_s n x = 0 := by
     intro x hx n
-    rw [SimpleFunc.coe_restrict _ hs, Set.indicator_of_not_mem hx]
+    rw [SimpleFunc.coe_restrict _ hs]; rw [Set.indicator_of_not_mem hx]
   refine' ⟨g_seq_s, fun x => _, hg_zero⟩
   by_cases hx : x ∈ s
   · simp_rw [hg_eq x hx]
@@ -966,8 +966,7 @@ theorem stronglyMeasurable_of_measurableSpace_le_on {α E} {m m₂ : MeasurableS
   let g_seq_s₂ : ℕ → @SimpleFunc α m₂ E := fun n =>
     { toFun := g_seq_s n
       measurableSet_fiber' := fun x => by
-        rw [← Set.inter_univ (g_seq_s n ⁻¹' {x}), ← Set.union_compl_self s,
-          Set.inter_union_distrib_left, Set.inter_comm (g_seq_s n ⁻¹' {x})]
+        rw [← Set.inter_univ (g_seq_s n ⁻¹' {x})]; rw [← Set.union_compl_self s]; rw [Set.inter_union_distrib_left]; rw [Set.inter_comm (g_seq_s n ⁻¹' {x})]
         refine' MeasurableSet.union (hs _ (hs_m.inter _)) _
         · exact @SimpleFunc.measurableSet_fiber _ _ m _ _
         by_cases hx : x = 0
@@ -975,7 +974,7 @@ theorem stronglyMeasurable_of_measurableSpace_le_on {α E} {m m₂ : MeasurableS
             rw [this]
             exact hs_m₂.compl
           ext1 y
-          rw [hx, Set.mem_inter_iff, Set.mem_preimage, Set.mem_singleton_iff]
+          rw [hx]; rw [Set.mem_inter_iff]; rw [Set.mem_preimage]; rw [Set.mem_singleton_iff]
           exact ⟨fun h => h.2, fun h => ⟨hg_seq_zero y h n, h⟩⟩
         · suffices g_seq_s n ⁻¹' {x} ∩ sᶜ = ∅ by
             rw [this]
@@ -1020,7 +1019,7 @@ theorem exists_spanning_measurableSet_norm_le [SeminormedAddCommGroup β] {m m0 
       simp only [Set.mem_setOf_eq]
       refine' fun hif => hif.trans _
       exact_mod_cast hij
-    rw [this, norm_sets_spanning, iUnion_spanningSets (μ.trim hm), Set.inter_univ]
+    rw [this]; rw [norm_sets_spanning]; rw [iUnion_spanningSets (μ.trim hm)]; rw [Set.inter_univ]
 #align measure_theory.strongly_measurable.exists_spanning_measurable_set_norm_le MeasureTheory.StronglyMeasurable.exists_spanning_measurableSet_norm_le
 
 end StronglyMeasurable
@@ -1083,7 +1082,7 @@ theorem exists_set_sigmaFinite [Zero β] [TopologicalSpace β] [T2Space β]
   refine' ⟨t, MeasurableSet.iUnion hT_meas, _, _⟩
   · have h_fs_zero : ∀ n, ∀ x ∈ tᶜ, fs n x = 0 := by
       intro n x hxt
-      rw [Set.mem_compl_iff, Set.mem_iUnion, not_exists] at hxt
+      rw [Set.mem_compl_iff] at hxt; rw [Set.mem_iUnion] at hxt; rw [not_exists] at hxt
       simpa using hxt n
     refine' fun x hxt => tendsto_nhds_unique (h_approx x) _
     rw [funext fun n => h_fs_zero n x hxt]
@@ -1698,7 +1697,7 @@ theorem _root_.MeasureTheory.MeasurePreserving.aestronglyMeasurable_comp_iff {β
     {f : α → β} {mα : MeasurableSpace α} {μa : Measure α} {mβ : MeasurableSpace β} {μb : Measure β}
     (hf : MeasurePreserving f μa μb) (h₂ : MeasurableEmbedding f) {g : β → γ} :
     AEStronglyMeasurable (g ∘ f) μa ↔ AEStronglyMeasurable g μb := by
-  rw [← hf.map_eq, h₂.aestronglyMeasurable_map_iff]
+  rw [← hf.map_eq]; rw [h₂.aestronglyMeasurable_map_iff]
 #align measure_theory.measure_preserving.ae_strongly_measurable_comp_iff MeasureTheory.MeasurePreserving.aestronglyMeasurable_comp_iff
 
 /-- An almost everywhere sequential limit of almost everywhere strongly measurable functions is
@@ -1765,7 +1764,7 @@ theorem _root_.aestronglyMeasurable_sum_measure_iff [PseudoMetrizableSpace β]
 @[simp]
 theorem _root_.aestronglyMeasurable_add_measure_iff [PseudoMetrizableSpace β] {ν : Measure α} :
     AEStronglyMeasurable f (μ + ν) ↔ AEStronglyMeasurable f μ ∧ AEStronglyMeasurable f ν := by
-  rw [← sum_cond, aestronglyMeasurable_sum_measure_iff, Bool.forall_bool, and_comm]
+  rw [← sum_cond]; rw [aestronglyMeasurable_sum_measure_iff]; rw [Bool.forall_bool]; rw [and_comm]
   rfl
 #align ae_strongly_measurable_add_measure_iff aestronglyMeasurable_add_measure_iff
 
@@ -1901,9 +1900,9 @@ theorem _root_.aestronglyMeasurable_withDensity_iff {E : Type*} [NormedAddCommGr
       simp [hx]
   · rintro ⟨g', g'meas, hg'⟩
     refine' ⟨fun x => (f x : ℝ)⁻¹ • g' x, hf.coe_nnreal_real.inv.stronglyMeasurable.smul g'meas, _⟩
-    rw [EventuallyEq, ae_withDensity_iff hf.coe_nnreal_ennreal]
+    rw [EventuallyEq]; rw [ae_withDensity_iff hf.coe_nnreal_ennreal]
     filter_upwards [hg'] with x hx h'x
-    rw [← hx, smul_smul, _root_.inv_mul_cancel, one_smul]
+    rw [← hx]; rw [smul_smul]; rw [_root_.inv_mul_cancel]; rw [one_smul]
     simp only [Ne.def, ENNReal.coe_eq_zero] at h'x
     simpa only [NNReal.coe_eq_zero, Ne.def] using h'x
 #align ae_strongly_measurable_with_density_iff aestronglyMeasurable_withDensity_iff
@@ -2013,7 +2012,7 @@ theorem exists_set_sigmaFinite (hf : AEFinStronglyMeasurable f μ) :
   obtain ⟨t, ht, hgt_zero, htμ⟩ := hg.exists_set_sigmaFinite
   refine' ⟨t, ht, _, htμ⟩
   refine' EventuallyEq.trans (ae_restrict_of_ae hfg) _
-  rw [EventuallyEq, ae_restrict_iff' ht.compl]
+  rw [EventuallyEq]; rw [ae_restrict_iff' ht.compl]
   exact eventually_of_forall hgt_zero
 #align measure_theory.ae_fin_strongly_measurable.exists_set_sigma_finite MeasureTheory.AEFinStronglyMeasurable.exists_set_sigmaFinite
 
@@ -2095,7 +2094,7 @@ theorem measurable_uncurry_of_continuous_of_measurable {α β ι : Type*} [Topol
       (fun p : ↥(t_sf n).range × α => u (↑p.fst) p.snd) =
         (fun p : α × (t_sf n).range => u (↑p.snd) p.fst) ∘ Prod.swap :=
       rfl
-    rw [this, @measurable_swap_iff α (↥(t_sf n).range) β m]
+    rw [this]; rw [@measurable_swap_iff α (↥(t_sf n).range) β m]
     exact measurable_from_prod_countable fun j => h j
   have :
     (fun p : ι × α => u (t_sf n p.fst) p.snd) =
@@ -2129,7 +2128,7 @@ theorem stronglyMeasurable_uncurry_of_continuous_of_stronglyMeasurable {α β ι
         (fun p : ↥(t_sf n).range × α => u (↑p.fst) p.snd) =
           (fun p : α × (t_sf n).range => u (↑p.snd) p.fst) ∘ Prod.swap :=
         rfl
-      rw [this, measurable_swap_iff]
+      rw [this]; rw [measurable_swap_iff]
       exact measurable_from_prod_countable fun j => (h j).measurable
     · have : IsSeparable (⋃ i : (t_sf n).range, range (u i)) :=
         isSeparable_iUnion fun i => (h i).isSeparable_range

@@ -291,7 +291,7 @@ def equivalenceRightToLeft (F : Arrow C) (X : CosimplicialObject.Augmented C)
         ext
         · dsimp
           simp only [WidePushout.ι_desc_assoc, WidePushout.ι_desc]
-          rw [Category.assoc, ← X.right.map_comp]
+          rw [Category.assoc]; rw [← X.right.map_comp]
           rfl
         · dsimp
           simp only [Functor.const_obj_map, ← NatTrans.naturality, WidePushout.head_desc_assoc,
@@ -422,7 +422,7 @@ lemma wideCospan.limitIsoPi_inv_comp_pi [Finite ι] (X : C) (j : ι) :
 @[reassoc (attr := simp)]
 lemma wideCospan.limitIsoPi_hom_comp_pi [Finite ι] (X : C) (j : ι) :
     (wideCospan.limitIsoPi ι X).hom ≫ Pi.π _ j = WidePullback.π _ j := by
-  rw [← wideCospan.limitIsoPi_inv_comp_pi, Iso.hom_inv_id_assoc]
+  rw [← wideCospan.limitIsoPi_inv_comp_pi]; rw [Iso.hom_inv_id_assoc]
 
 /-- Given an object `X : C`, the Čech nerve of the hom to the terminal object `X ⟶ ⊤_ C` is
 naturally isomorphic to a simplicial object sending `[n]` to `Xⁿ⁺¹` (when `C` is `G-Set`, this is

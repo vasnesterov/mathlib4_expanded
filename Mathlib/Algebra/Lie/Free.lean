@@ -90,7 +90,7 @@ inductive Rel : lib R X → lib R X → Prop
 variable {R X}
 
 theorem Rel.addLeft (a : lib R X) {b c : lib R X} (h : Rel R X b c) : Rel R X (a + b) (a + c) := by
-  rw [add_comm _ b, add_comm _ c]; exact h.add_right _
+  rw [add_comm _ b]; rw [add_comm _ c]; exact h.add_right _
 #align free_lie_algebra.rel.add_left FreeLieAlgebra.Rel.addLeft
 
 theorem Rel.neg {a b : lib R X} (h : Rel R X a b) : Rel R X (-a) (-b) := by
@@ -107,7 +107,7 @@ theorem Rel.subRight {a b : lib R X} (c : lib R X) (h : Rel R X a b) : Rel R X (
 
 theorem Rel.smulOfTower {S : Type*} [Monoid S] [DistribMulAction S R] [IsScalarTower S R R] (t : S)
     (a b : lib R X) (h : Rel R X a b) : Rel R X (t • a) (t • b) := by
-  rw [← smul_one_smul R t a, ← smul_one_smul R t b]
+  rw [← smul_one_smul R t a]; rw [← smul_one_smul R t b]
   exact h.smul _
 #align free_lie_algebra.rel.smul_of_tower FreeLieAlgebra.Rel.smulOfTower
 
@@ -255,7 +255,7 @@ theorem lift_unique (f : X → L) (g : FreeLieAlgebra R X →ₗ⁅R⁆ L) : g �
 
 @[simp]
 theorem lift_of_apply (f : X → L) (x) : lift R f (of R x) = f x := by
-  rw [← @Function.comp_apply _ _ _ (lift R f) (of R) x, of_comp_lift]
+  rw [← @Function.comp_apply _ _ _ (lift R f) (of R) x]; rw [of_comp_lift]
 #align free_lie_algebra.lift_of_apply FreeLieAlgebra.lift_of_apply
 
 @[simp]

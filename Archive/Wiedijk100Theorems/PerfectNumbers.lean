@@ -46,10 +46,8 @@ theorem sigma_two_pow_eq_mersenne_succ (k : ℕ) : σ 1 (2 ^ k) = mersenne (k + 
 /-- Euclid's theorem that Mersenne primes induce perfect numbers -/
 theorem perfect_two_pow_mul_mersenne_of_prime (k : ℕ) (pr : (mersenne (k + 1)).Prime) :
     Nat.Perfect (2 ^ k * mersenne (k + 1)) := by
-  rw [Nat.perfect_iff_sum_divisors_eq_two_mul, ← mul_assoc, ← pow_succ, ← sigma_one_apply, mul_comm,
-    isMultiplicative_sigma.map_mul_of_coprime
-      (Nat.prime_two.coprime_pow_of_not_dvd (odd_mersenne_succ _)),
-    sigma_two_pow_eq_mersenne_succ]
+  rw [Nat.perfect_iff_sum_divisors_eq_two_mul]; rw [← mul_assoc]; rw [← pow_succ]; rw [← sigma_one_apply]; rw [mul_comm]; rw [isMultiplicative_sigma.map_mul_of_coprime
+      (Nat.prime_two.coprime_pow_of_not_dvd (odd_mersenne_succ _))]; rw [sigma_two_pow_eq_mersenne_succ]
   · simp [pr, Nat.prime_two, sigma_one_apply]
   · apply mul_pos (pow_pos _ k) (mersenne_pos (Nat.succ_pos k))
     norm_num
@@ -74,7 +72,7 @@ theorem eq_two_pow_mul_odd {n : ℕ} (hpos : 0 < n) : ∃ k m : ℕ, n = 2 ^ k *
   contrapose! hg
   rcases hg with ⟨k, rfl⟩
   apply Dvd.intro k
-  rw [pow_succ', mul_assoc, ← hm]
+  rw [pow_succ']; rw [mul_assoc]; rw [← hm]
 #align theorems_100.nat.eq_two_pow_mul_odd Theorems100.Nat.eq_two_pow_mul_odd
 
 /-- **Perfect Number Theorem**: Euler's theorem that even perfect numbers can be factored as a
@@ -85,36 +83,33 @@ theorem eq_two_pow_mul_prime_mersenne_of_even_perfect {n : ℕ} (ev : Even n) (p
   rcases eq_two_pow_mul_odd hpos with ⟨k, m, rfl, hm⟩
   use k
   rw [even_iff_two_dvd] at hm
-  rw [Nat.perfect_iff_sum_divisors_eq_two_mul hpos, ← sigma_one_apply,
-    isMultiplicative_sigma.map_mul_of_coprime (Nat.prime_two.coprime_pow_of_not_dvd hm).symm,
-    sigma_two_pow_eq_mersenne_succ, ← mul_assoc, ← pow_succ] at perf
+  rw [Nat.perfect_iff_sum_divisors_eq_two_mul hpos] at perf; rw [← sigma_one_apply] at perf; rw [isMultiplicative_sigma.map_mul_of_coprime (Nat.prime_two.coprime_pow_of_not_dvd hm).symm] at perf; rw [sigma_two_pow_eq_mersenne_succ] at perf; rw [← mul_assoc] at perf; rw [← pow_succ] at perf
   rcases Nat.Coprime.dvd_of_dvd_mul_left
       (Nat.prime_two.coprime_pow_of_not_dvd (odd_mersenne_succ _)) (Dvd.intro _ perf) with
     ⟨j, rfl⟩
-  rw [← mul_assoc, mul_comm _ (mersenne _), mul_assoc] at perf
+  rw [← mul_assoc] at perf; rw [mul_comm _ (mersenne _)] at perf; rw [mul_assoc] at perf
   have h := mul_left_cancel₀ (ne_of_gt (mersenne_pos (Nat.succ_pos _))) perf
-  rw [sigma_one_apply, Nat.sum_divisors_eq_sum_properDivisors_add_self, ← succ_mersenne, add_mul,
-    one_mul, add_comm] at h
+  rw [sigma_one_apply] at h; rw [Nat.sum_divisors_eq_sum_properDivisors_add_self] at h; rw [← succ_mersenne] at h; rw [add_mul] at h; rw [one_mul] at h; rw [add_comm] at h
   have hj := add_left_cancel h
   cases Nat.sum_properDivisors_dvd (by rw [hj]; apply Dvd.intro_left (mersenne (k + 1)) rfl) with
   | inl h_1 =>
     have j1 : j = 1 := Eq.trans hj.symm h_1
-    rw [j1, mul_one, Nat.sum_properDivisors_eq_one_iff_prime] at h_1
+    rw [j1] at h_1; rw [mul_one] at h_1; rw [Nat.sum_properDivisors_eq_one_iff_prime] at h_1
     simp [h_1, j1]
   | inr h_1 =>
     have jcon := Eq.trans hj.symm h_1
-    rw [← one_mul j, ← mul_assoc, mul_one] at jcon
+    rw [← one_mul j] at jcon; rw [← mul_assoc] at jcon; rw [mul_one] at jcon
     have jcon2 := mul_right_cancel₀ ?_ jcon
     · exfalso
       match k with
       | 0 =>
         apply hm
-        rw [← jcon2, pow_zero, one_mul, one_mul] at ev
-        rw [← jcon2, one_mul]
+        rw [← jcon2] at ev; rw [pow_zero] at ev; rw [one_mul] at ev; rw [one_mul] at ev
+        rw [← jcon2]; rw [one_mul]
         exact even_iff_two_dvd.mp ev
       | .succ k =>
         apply ne_of_lt _ jcon2
-        rw [mersenne, ← Nat.pred_eq_sub_one, Nat.lt_pred_iff, ← pow_one (Nat.succ 1)]
+        rw [mersenne]; rw [← Nat.pred_eq_sub_one]; rw [Nat.lt_pred_iff]; rw [← pow_one (Nat.succ 1)]
         apply pow_lt_pow (Nat.lt_succ_self 1) (Nat.succ_lt_succ (Nat.succ_pos k))
     contrapose! hm
     simp [hm]

@@ -66,7 +66,7 @@ theorem functionField_iff (Fqt : Type*) [Field Fqt] [Algebra Fq[X] Fqt]
   let e := IsLocalization.algEquiv Fq[X]⁰ (RatFunc Fq) Fqt
   have : ∀ (c) (x : F), e c • x = c • x := by
     intro c x
-    rw [Algebra.smul_def, Algebra.smul_def]
+    rw [Algebra.smul_def]; rw [Algebra.smul_def]
     congr
     refine' congr_fun (f := fun c => algebraMap Fqt F (e c)) _ c -- Porting note: Added `(f := _)`
     refine' IsLocalization.ext (nonZeroDivisors Fq[X]) _ _ _ _ _ _ _ <;> intros <;>
@@ -116,7 +116,7 @@ theorem algebraMap_injective : Function.Injective (⇑(algebraMap Fq[X] (ringOfI
     exact (algebraMap (RatFunc Fq) F).injective.comp (IsFractionRing.injective Fq[X] (RatFunc Fq))
   rw [injective_iff_map_eq_zero (algebraMap Fq[X] (↥(ringOfIntegers Fq F)))]
   intro p hp
-  rw [← Subtype.coe_inj, Subalgebra.coe_zero] at hp
+  rw [← Subtype.coe_inj] at hp; rw [Subalgebra.coe_zero] at hp
   rw [injective_iff_map_eq_zero (algebraMap Fq[X] F)] at hinj
   exact hinj p hp
 #align function_field.ring_of_integers.algebra_map_injective FunctionField.ringOfIntegers.algebraMap_injective
@@ -167,7 +167,7 @@ theorem InftyValuation.map_one' : inftyValuationDef Fq 1 = 1 :=
 
 theorem InftyValuation.map_mul' (x y : RatFunc Fq) :
     inftyValuationDef Fq (x * y) = inftyValuationDef Fq x * inftyValuationDef Fq y := by
-  rw [inftyValuationDef, inftyValuationDef, inftyValuationDef]
+  rw [inftyValuationDef]; rw [inftyValuationDef]; rw [inftyValuationDef]
   by_cases hx : x = 0
   · rw [hx, zero_mul, if_pos (Eq.refl _), zero_mul]
   · by_cases hy : y = 0
@@ -190,15 +190,14 @@ theorem InftyValuation.map_add_le_max' (x y : RatFunc Fq) :
       · rw [inftyValuationDef, if_pos hxy]; exact zero_le'
       · rw [inftyValuationDef, inftyValuationDef, inftyValuationDef, if_neg hx, if_neg hy,
           if_neg hxy]
-        rw [le_max_iff, WithZero.coe_le_coe, Multiplicative.ofAdd_le, WithZero.coe_le_coe,
-          Multiplicative.ofAdd_le, ← le_max_iff]
+        rw [le_max_iff]; rw [WithZero.coe_le_coe]; rw [Multiplicative.ofAdd_le]; rw [WithZero.coe_le_coe]; rw [Multiplicative.ofAdd_le]; rw [← le_max_iff]
         exact RatFunc.intDegree_add_le hy hxy
 #align function_field.infty_valuation.map_add_le_max' FunctionField.InftyValuation.map_add_le_max'
 
 @[simp]
 theorem inftyValuation_of_nonzero {x : RatFunc Fq} (hx : x ≠ 0) :
     inftyValuationDef Fq x = Multiplicative.ofAdd x.intDegree := by
-  rw [inftyValuationDef, if_neg hx]
+  rw [inftyValuationDef]; rw [if_neg hx]
 #align function_field.infty_valuation_of_nonzero FunctionField.inftyValuation_of_nonzero
 
 /-- The valuation at infinity on `Fq(t)`. -/
@@ -219,13 +218,13 @@ theorem inftyValuation_apply {x : RatFunc Fq} : inftyValuation Fq x = inftyValua
 theorem inftyValuation.C {k : Fq} (hk : k ≠ 0) :
     inftyValuationDef Fq (RatFunc.C k) = Multiplicative.ofAdd (0 : ℤ) := by
   have hCk : RatFunc.C k ≠ 0 := (map_ne_zero _).mpr hk
-  rw [inftyValuationDef, if_neg hCk, RatFunc.intDegree_C]
+  rw [inftyValuationDef]; rw [if_neg hCk]; rw [RatFunc.intDegree_C]
 set_option linter.uppercaseLean3 false in
 #align function_field.infty_valuation.C FunctionField.inftyValuation.C
 
 @[simp]
 theorem inftyValuation.X : inftyValuationDef Fq RatFunc.X = Multiplicative.ofAdd (1 : ℤ) := by
-  rw [inftyValuationDef, if_neg RatFunc.X_ne_zero, RatFunc.intDegree_X]
+  rw [inftyValuationDef]; rw [if_neg RatFunc.X_ne_zero]; rw [RatFunc.intDegree_X]
 set_option linter.uppercaseLean3 false in
 #align function_field.infty_valuation.X FunctionField.inftyValuation.X
 
@@ -234,8 +233,8 @@ theorem inftyValuation.polynomial {p : Fq[X]} (hp : p ≠ 0) :
     inftyValuationDef Fq (algebraMap Fq[X] (RatFunc Fq) p) =
       Multiplicative.ofAdd (p.natDegree : ℤ) := by
   have hp' : algebraMap Fq[X] (RatFunc Fq) p ≠ 0 := by
-    rw [Ne.def, RatFunc.algebraMap_eq_zero_iff]; exact hp
-  rw [inftyValuationDef, if_neg hp', RatFunc.intDegree_polynomial]
+    rw [Ne.def]; rw [RatFunc.algebraMap_eq_zero_iff]; exact hp
+  rw [inftyValuationDef]; rw [if_neg hp']; rw [RatFunc.intDegree_polynomial]
 #align function_field.infty_valuation.polynomial FunctionField.inftyValuation.polynomial
 
 /-- The valued field `Fq(t)` with the valuation at infinity. -/

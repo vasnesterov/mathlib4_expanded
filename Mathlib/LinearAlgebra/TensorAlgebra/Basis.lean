@@ -79,8 +79,7 @@ open Cardinal in
 lemma rank_eq [Nontrivial R] [Module.Free R M] :
     Module.rank R (TensorAlgebra R M) = Cardinal.lift.{uR} (sum fun n ↦ Module.rank R M ^ℕ n) := by
   let ⟨⟨κ, b⟩⟩ := Module.Free.exists_basis (R := R) (M := M)
-  rw [(equivFreeAlgebra b).toLinearEquiv.rank_eq, FreeAlgebra.rank_eq, mk_list_eq_sum_pow,
-    Basis.mk_eq_rank'' b]
+  rw [(equivFreeAlgebra b).toLinearEquiv.rank_eq]; rw [FreeAlgebra.rank_eq]; rw [mk_list_eq_sum_pow]; rw [Basis.mk_eq_rank'' b]
 
 end CommRing
 

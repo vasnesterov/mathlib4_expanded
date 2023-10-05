@@ -45,10 +45,10 @@ theorem eq_of_le_of_cast_pow_eq_zero [CharP R p] (i : ℕ) (hin : i ≤ n)
   contrapose! hpi
   replace hin := lt_of_le_of_ne hin hpi; clear hpi
   have : (p : TruncatedWittVector p n R) ^ i = WittVector.truncate n ((p : 𝕎 R) ^ i) := by
-    rw [RingHom.map_pow, map_natCast]
-  rw [this, ne_eq, ext_iff, not_forall]; clear this
+    rw [RingHom.map_pow]; rw [map_natCast]
+  rw [this]; rw [ne_eq]; rw [ext_iff]; rw [not_forall]; clear this
   use ⟨i, hin⟩
-  rw [WittVector.coeff_truncate, coeff_zero, Fin.val_mk, WittVector.coeff_p_pow]
+  rw [WittVector.coeff_truncate]; rw [coeff_zero]; rw [Fin.val_mk]; rw [WittVector.coeff_p_pow]
   haveI : Nontrivial R := CharP.nontrivial_of_char_ne_one hp.1.ne_one
   exact one_ne_zero
 #align truncated_witt_vector.eq_of_le_of_cast_pow_eq_zero TruncatedWittVector.eq_of_le_of_cast_pow_eq_zero
@@ -58,7 +58,7 @@ section Iso
 variable {R}
 
 theorem card_zmod : Fintype.card (TruncatedWittVector p n (ZMod p)) = p ^ n := by
-  rw [card, ZMod.card]
+  rw [card]; rw [ZMod.card]
 #align truncated_witt_vector.card_zmod TruncatedWittVector.card_zmod
 
 theorem charP_zmod : CharP (TruncatedWittVector p n (ZMod p)) (p ^ n) :=
@@ -152,9 +152,9 @@ theorem toZModPow_compat (m n : ℕ) (h : m ≤ n) :
     (ZMod.castHom _ (ZMod (p ^ m))).comp ((zmodEquivTrunc p n).symm.toRingHom.comp (truncate n))
     _ = ((zmodEquivTrunc p m).symm.toRingHom.comp (TruncatedWittVector.truncate h)).comp
           (truncate n) := by
-      rw [commutes_symm, RingHom.comp_assoc]
+      rw [commutes_symm]; rw [RingHom.comp_assoc]
     _ = (zmodEquivTrunc p m).symm.toRingHom.comp (truncate m) := by
-      rw [RingHom.comp_assoc, truncate_comp_wittVector_truncate]
+      rw [RingHom.comp_assoc]; rw [truncate_comp_wittVector_truncate]
 #align witt_vector.to_zmod_pow_compat WittVector.toZModPow_compat
 
 /-- `toPadicInt` lifts `toZModPow : 𝕎 (ZMod p) →+* ZMod (p ^ k)` to a ring hom to `ℤ_[p]`
@@ -183,9 +183,9 @@ def fromPadicInt : ℤ_[p] →+* 𝕎 (ZMod p) :=
 theorem toPadicInt_comp_fromPadicInt : (toPadicInt p).comp (fromPadicInt p) = RingHom.id ℤ_[p] := by
   rw [← PadicInt.toZModPow_eq_iff_ext]
   intro n
-  rw [← RingHom.comp_assoc, toPadicInt, PadicInt.lift_spec]
+  rw [← RingHom.comp_assoc]; rw [toPadicInt]; rw [PadicInt.lift_spec]
   simp only [fromPadicInt, toZModPow, RingHom.comp_id]
-  rw [RingHom.comp_assoc, truncate_comp_lift, ← RingHom.comp_assoc]
+  rw [RingHom.comp_assoc]; rw [truncate_comp_lift]; rw [← RingHom.comp_assoc]
   simp only [RingEquiv.symm_toRingHom_comp_toRingHom, RingHom.id_comp]
 #align witt_vector.to_padic_int_comp_from_padic_int WittVector.toPadicInt_comp_fromPadicInt
 
@@ -198,7 +198,7 @@ theorem fromPadicInt_comp_toPadicInt :
     (fromPadicInt p).comp (toPadicInt p) = RingHom.id (𝕎 (ZMod p)) := by
   apply WittVector.hom_ext
   intro n
-  rw [fromPadicInt, ← RingHom.comp_assoc, truncate_comp_lift, RingHom.comp_assoc]
+  rw [fromPadicInt]; rw [← RingHom.comp_assoc]; rw [truncate_comp_lift]; rw [RingHom.comp_assoc]
   simp only [toPadicInt, toZModPow, RingHom.comp_id, PadicInt.lift_spec, RingHom.id_comp, ←
     RingHom.comp_assoc, RingEquiv.toRingHom_comp_symm_toRingHom]
 #align witt_vector.from_padic_int_comp_to_padic_int WittVector.fromPadicInt_comp_toPadicInt

@@ -606,7 +606,7 @@ def Code.Ok (c : Code) :=
 
 theorem Code.Ok.zero {c} (h : Code.Ok c) {v} :
     Turing.eval step (stepNormal c Cont.halt v) = Cfg.halt <$> Code.eval c v := by
-  rw [h, ← bind_pure_comp]; congr; funext v
+  rw [h]; rw [← bind_pure_comp]; congr; funext v
   exact Part.eq_some_iff.2 (mem_eval.2 ⟨ReflTransGen.single rfl, rfl⟩)
 #align turing.to_partrec.code.ok.zero Turing.ToPartrec.Code.Ok.zero
 
@@ -644,7 +644,7 @@ theorem cont_eval_fix {f k v} (fok : Code.Ok f) :
     refine' fun c he => evalInduction he fun y h IH => _
     rintro v (⟨v'⟩ | ⟨k', v'⟩) rfl hr <;> rw [Cfg.then] at h IH <;> simp only [] at h IH
     · have := mem_eval.2 ⟨hr, rfl⟩
-      rw [fok, Part.bind_eq_bind, Part.mem_bind_iff] at this
+      rw [fok] at this; rw [Part.bind_eq_bind] at this; rw [Part.mem_bind_iff] at this
       obtain ⟨v'', h₁, h₂⟩ := this
       rw [reaches_eval] at h₂
       swap
@@ -660,7 +660,7 @@ theorem cont_eval_fix {f k v} (fok : Code.Ok f) :
         exact ReflTransGen.single rfl
       · obtain ⟨k₀, v₀, e₀⟩ := stepNormal.is_ret f Cont.halt v'.tail
         have e₁ := stepNormal_then f Cont.halt (Cont.fix f k) v'.tail
-        rw [e₀, Cont.then, Cfg.then] at e₁
+        rw [e₀] at e₁; rw [Cont.then] at e₁; rw [Cfg.then] at e₁
         simp only [] at e₁
         obtain ⟨v₁, hv₁, v₂, hv₂, h₃⟩ :=
           IH (stepRet (k₀.then (Cont.fix f k)) v₀) (by rw [stepRet, if_neg he, e₁]; rfl)
@@ -675,7 +675,7 @@ theorem cont_eval_fix {f k v} (fok : Code.Ok f) :
     swap
     exact ReflTransGen.single rfl
     refine' PFun.fixInduction he fun v (he : v' ∈ f.fix.eval v) IH => _
-    rw [fok, Part.bind_eq_bind, Part.mem_bind_iff]
+    rw [fok]; rw [Part.bind_eq_bind]; rw [Part.mem_bind_iff]
     obtain he | ⟨v'', he₁', _⟩ := PFun.mem_fix_iff.1 he
     · obtain ⟨v', he₁, he₂⟩ := (Part.mem_map_iff _).1 he
       split_ifs at he₂ with h; cases he₂
@@ -691,7 +691,7 @@ theorem cont_eval_fix {f k v} (fok : Code.Ok f) :
       rw [reaches_eval]
       swap
       exact ReflTransGen.single rfl
-      rw [stepRet, if_neg h]
+      rw [stepRet]; rw [if_neg h]
       exact IH v₁.tail ((Part.mem_map_iff _).2 ⟨_, he₁, if_neg h⟩)
 #align turing.to_partrec.cont_eval_fix Turing.ToPartrec.cont_eval_fix
 
@@ -699,16 +699,16 @@ theorem code_is_ok (c) : Code.Ok c := by
   induction c <;> intro k v <;> rw [stepNormal]
   iterate 3 simp only [Code.eval, pure_bind]
   case cons f fs IHf IHfs =>
-    rw [Code.eval, IHf]
+    rw [Code.eval]; rw [IHf]
     simp only [bind_assoc, Cont.eval, pure_bind]; congr; funext v
     rw [reaches_eval]; swap; exact ReflTransGen.single rfl
-    rw [stepRet, IHfs]; congr; funext v'
+    rw [stepRet]; rw [IHfs]; congr; funext v'
     refine' Eq.trans _ (Eq.symm _) <;> try exact reaches_eval (ReflTransGen.single rfl)
   case comp f g IHf IHg =>
-    rw [Code.eval, IHg]
+    rw [Code.eval]; rw [IHg]
     simp only [bind_assoc, Cont.eval, pure_bind]; congr; funext v
     rw [reaches_eval]; swap; exact ReflTransGen.single rfl
-    rw [stepRet, IHf]
+    rw [stepRet]; rw [IHf]
   case case f g IHf IHg =>
     simp only [Code.eval]
     cases v.headI <;> simp only [Code.eval] <;> [apply IHf; apply IHg]
@@ -725,21 +725,21 @@ theorem stepRet_eval {k v} : eval step (stepRet k v) = Cfg.halt <$> k.eval v := 
     simp only [mem_eval, Cont.eval, map_pure]
     exact Part.eq_some_iff.2 (mem_eval.2 ⟨ReflTransGen.refl, rfl⟩)
   case cons₁ fs as k IH =>
-    rw [Cont.eval, stepRet, code_is_ok]
+    rw [Cont.eval]; rw [stepRet]; rw [code_is_ok]
     simp only [← bind_pure_comp, bind_assoc]; congr; funext v'
     rw [reaches_eval]; swap; exact ReflTransGen.single rfl
-    rw [stepRet, IH, bind_pure_comp]
+    rw [stepRet]; rw [IH]; rw [bind_pure_comp]
   case cons₂ ns k IH => rw [Cont.eval, stepRet]; exact IH
   case comp f k IH =>
-    rw [Cont.eval, stepRet, code_is_ok]
+    rw [Cont.eval]; rw [stepRet]; rw [code_is_ok]
     simp only [← bind_pure_comp, bind_assoc]; congr; funext v'
     rw [reaches_eval]; swap; exact ReflTransGen.single rfl
-    rw [IH, bind_pure_comp]
+    rw [IH]; rw [bind_pure_comp]
   case fix f k IH =>
-    rw [Cont.eval, stepRet]; simp only [bind_pure_comp]
+    rw [Cont.eval]; rw [stepRet]; simp only [bind_pure_comp]
     split_ifs; · exact IH
     simp only [← bind_pure_comp, bind_assoc, cont_eval_fix (code_is_ok _)]
-    congr; funext; rw [bind_pure_comp, ← IH]
+    congr; funext; rw [bind_pure_comp]; rw [← IH]
     exact reaches_eval (ReflTransGen.single rfl)
 #align turing.to_partrec.step_ret_eval Turing.ToPartrec.stepRet_eval
 
@@ -1334,11 +1334,11 @@ theorem splitAtPred_eq {α} (p : α → Bool) :
     have IH := splitAtPred_eq p L
     cases' o with o
     · cases' l₁ with a' l₁ <;> rcases h₂ with ⟨⟨⟩, rfl⟩
-      rw [h₁ a (List.Mem.head _), cond, IH L none [] _ ⟨rfl, rfl⟩]
+      rw [h₁ a (List.Mem.head _)]; rw [cond]; rw [IH L none [] _ ⟨rfl, rfl⟩]
       exact fun x h => h₁ x (List.Mem.tail _ h)
     · cases' l₁ with a' l₁ <;> rcases h₂ with ⟨h₂, ⟨⟩⟩
       · rw [h₂, cond]
-      rw [h₁ a (List.Mem.head _), cond, IH l₁ (some o) l₂ _ ⟨h₂, _⟩] <;> try rfl
+      rw [h₁ a (List.Mem.head _)]; rw [cond]; rw [IH l₁ (some o) l₂ _ ⟨h₂, _⟩]; all_goals try rfl
       exact fun x h => h₁ x (List.Mem.tail _ h)
 #align turing.partrec_to_TM2.split_at_pred_eq Turing.PartrecToTM2.splitAtPred_eq
 
@@ -1422,7 +1422,7 @@ theorem clear_ok {p k q s L₁ o L₂} {S : K' → List Γ'} (e : splitAtPred p 
     revert e; cases p a <;> intro e <;>
       simp only [cond_false, cond_true, Prod.mk.injEq, true_and, false_and] at e ⊢
     · rcases e with ⟨e₁, e₂⟩
-      rw [e₁, e₂]
+      rw [e₁]; rw [e₂]
   · refine' TransGen.head rfl _
     simp
     cases' e₁ : S k with a' Sk <;> rw [e₁, splitAtPred] at e
@@ -1667,7 +1667,7 @@ theorem tr_ret_respects (k v s) : ∃ b₂,
       · exact ⟨rfl, rfl⟩
       cases' n with n
       · simp
-      rw [trList, List.headI, trNat, Nat.cast_succ, Num.add_one, Num.succ, List.tail]
+      rw [trList]; rw [List.headI]; rw [trNat]; rw [Nat.cast_succ]; rw [Num.add_one]; rw [Num.succ]; rw [List.tail]
       cases (n : Num).succ' <;> exact ⟨rfl, rfl⟩
     by_cases v.headI = 0 <;> simp only [h, ite_true, ite_false] at this ⊢
     · obtain ⟨c, h₁, h₂⟩ := IH v.tail (trList v).head?
@@ -1837,8 +1837,7 @@ theorem codeSupp_comp (f g k) :
     codeSupp (Code.comp f g) k =
       trStmts₁ (trNormal (Code.comp f g) k) ∪ codeSupp g (Cont'.comp f k) := by
   simp [codeSupp, codeSupp', contSupp, Finset.union_assoc]
-  rw [← Finset.union_assoc _ _ (contSupp k),
-    Finset.union_eq_right.2 (codeSupp'_self _ _)]
+  rw [← Finset.union_assoc _ _ (contSupp k)]; rw [Finset.union_eq_right.2 (codeSupp'_self _ _)]
 #align turing.partrec_to_TM2.code_supp_comp Turing.PartrecToTM2.codeSupp_comp
 
 @[simp]

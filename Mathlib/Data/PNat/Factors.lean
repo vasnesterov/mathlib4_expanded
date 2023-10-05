@@ -160,7 +160,7 @@ theorem to_ofNatMultiset (v : Multiset ℕ) (h) : (ofNatMultiset v h : Multiset 
   have : (fun p h => (Coe.coe : Nat.Primes → ℕ) ⟨p, h⟩) = fun p _ => id p := by
     funext p h
     rfl
-  rw [Multiset.map_pmap, this, Multiset.pmap_eq_map, Multiset.map_id]
+  rw [Multiset.map_pmap]; rw [this]; rw [Multiset.pmap_eq_map]; rw [Multiset.map_id]
 #align prime_multiset.to_of_nat_multiset PrimeMultiset.to_ofNatMultiset
 
 theorem prod_ofNatMultiset (v : Multiset ℕ) (h) : ((ofNatMultiset v h).prod : ℕ) = (v.prod : ℕ) :=
@@ -178,7 +178,7 @@ theorem to_ofPNatMultiset (v : Multiset ℕ+) (h) : (ofPNatMultiset v h : Multis
     funext p h
     apply Subtype.eq
     rfl
-  rw [Multiset.map_pmap, this, Multiset.pmap_eq_map, Multiset.map_id]
+  rw [Multiset.map_pmap]; rw [this]; rw [Multiset.pmap_eq_map]; rw [Multiset.map_id]
 #align prime_multiset.to_of_pnat_multiset PrimeMultiset.to_ofPNatMultiset
 
 theorem prod_ofPNatMultiset (v : Multiset ℕ+) (h) : ((ofPNatMultiset v h).prod : ℕ+) = v.prod := by
@@ -227,7 +227,7 @@ theorem prod_smul (d : ℕ) (u : PrimeMultiset) : (d • u).prod = Pow.pow u.pro
   induction' d with n ih
   · rfl
   · have : ∀ n' : ℕ, Pow.pow (prod u) n' = Monoid.npow n' (prod u) := fun _ ↦ rfl
-    rw [succ_nsmul, prod_add, ih, this, this, Monoid.npow_succ]
+    rw [succ_nsmul]; rw [prod_add]; rw [ih]; rw [this]; rw [this]; rw [Monoid.npow_succ]
 #align prime_multiset.prod_smul PrimeMultiset.prod_smul
 
 end PrimeMultiset
@@ -261,7 +261,7 @@ namespace PrimeMultiset
 theorem factorMultiset_prod (v : PrimeMultiset) : v.prod.factorMultiset = v := by
   apply PrimeMultiset.coeNat_injective
   suffices toNatMultiset (PNat.factorMultiset (prod v)) = toNatMultiset v by exact this
-  rw [v.prod.coeNat_factorMultiset, PrimeMultiset.coe_prod]
+  rw [v.prod.coeNat_factorMultiset]; rw [PrimeMultiset.coe_prod]
   rcases v with ⟨l⟩
   --unfold_coes
   dsimp [PrimeMultiset.toNatMultiset]
@@ -306,7 +306,7 @@ theorem factorMultiset_pow (n : ℕ+) (m : ℕ) :
     factorMultiset (Pow.pow n m ) = m • factorMultiset n := by
   let u := factorMultiset n
   have : n = u.prod := (prod_factorMultiset n).symm
-  rw [this, ← PrimeMultiset.prod_smul]
+  rw [this]; rw [← PrimeMultiset.prod_smul]
   repeat' rw [PrimeMultiset.factorMultiset_prod]
 #align pnat.factor_multiset_pow PNat.factorMultiset_pow
 
@@ -315,7 +315,7 @@ theorem factorMultiset_ofPrime (p : Nat.Primes) :
     (p : ℕ+).factorMultiset = PrimeMultiset.ofPrime p := by
   apply factorMultisetEquiv.symm.injective
   change (p : ℕ+).factorMultiset.prod = (PrimeMultiset.ofPrime p).prod
-  rw [(p : ℕ+).prod_factorMultiset, PrimeMultiset.prod_ofPrime]
+  rw [(p : ℕ+).prod_factorMultiset]; rw [PrimeMultiset.prod_ofPrime]
 #align pnat.factor_multiset_of_prime PNat.factorMultiset_ofPrime
 
 /-- We now have four different results that all encode the
@@ -324,12 +324,11 @@ theorem factorMultiset_ofPrime (p : Nat.Primes) :
 theorem factorMultiset_le_iff {m n : ℕ+} : factorMultiset m ≤ factorMultiset n ↔ m ∣ n := by
   constructor
   · intro h
-    rw [← prod_factorMultiset m, ← prod_factorMultiset m]
+    rw [← prod_factorMultiset m]; rw [← prod_factorMultiset m]
     apply Dvd.intro (n.factorMultiset - m.factorMultiset).prod
-    rw [← PrimeMultiset.prod_add, PrimeMultiset.factorMultiset_prod, add_tsub_cancel_of_le h,
-      prod_factorMultiset]
+    rw [← PrimeMultiset.prod_add]; rw [PrimeMultiset.factorMultiset_prod]; rw [add_tsub_cancel_of_le h]; rw [prod_factorMultiset]
   · intro h
-    rw [← mul_div_exact h, factorMultiset_mul]
+    rw [← mul_div_exact h]; rw [factorMultiset_mul]
     exact le_self_add
 #align pnat.factor_multiset_le_iff PNat.factorMultiset_le_iff
 
@@ -391,14 +390,13 @@ theorem factorMultiset_lcm (m n : ℕ+) :
 theorem count_factorMultiset (m : ℕ+) (p : Nat.Primes) (k : ℕ) :
     Pow.pow (p : ℕ+) k ∣ m ↔ k ≤ m.factorMultiset.count p := by
   intros
-  rw [Multiset.le_count_iff_replicate_le, ← factorMultiset_le_iff, factorMultiset_pow,
-    factorMultiset_ofPrime]
+  rw [Multiset.le_count_iff_replicate_le]; rw [← factorMultiset_le_iff]; rw [factorMultiset_pow]; rw [factorMultiset_ofPrime]
   congr! 2
   apply Multiset.eq_replicate.mpr
   constructor
   · rw [Multiset.card_nsmul, PrimeMultiset.card_ofPrime, mul_one]
   · intro q h
-    rw [PrimeMultiset.ofPrime, Multiset.nsmul_singleton _ k] at h
+    rw [PrimeMultiset.ofPrime] at h; rw [Multiset.nsmul_singleton _ k] at h
     exact Multiset.eq_of_mem_replicate h
 #align pnat.count_factor_multiset PNat.count_factorMultiset
 
@@ -412,7 +410,7 @@ theorem prod_inf (u v : PrimeMultiset) : (u ⊓ v).prod = PNat.gcd u.prod v.prod
   change (u ⊓ v).prod = PNat.gcd n m
   have : u = n.factorMultiset := u.factorMultiset_prod.symm; rw [this]
   have : v = m.factorMultiset := v.factorMultiset_prod.symm; rw [this]
-  rw [← PNat.factorMultiset_gcd n m, PNat.prod_factorMultiset]
+  rw [← PNat.factorMultiset_gcd n m]; rw [PNat.prod_factorMultiset]
 #align prime_multiset.prod_inf PrimeMultiset.prod_inf
 
 theorem prod_sup (u v : PrimeMultiset) : (u ⊔ v).prod = PNat.lcm u.prod v.prod := by
@@ -421,7 +419,7 @@ theorem prod_sup (u v : PrimeMultiset) : (u ⊔ v).prod = PNat.lcm u.prod v.prod
   change (u ⊔ v).prod = PNat.lcm n m
   have : u = n.factorMultiset := u.factorMultiset_prod.symm; rw [this]
   have : v = m.factorMultiset := v.factorMultiset_prod.symm; rw [this]
-  rw [← PNat.factorMultiset_lcm n m, PNat.prod_factorMultiset]
+  rw [← PNat.factorMultiset_lcm n m]; rw [PNat.prod_factorMultiset]
 #align prime_multiset.prod_sup PrimeMultiset.prod_sup
 
 end PrimeMultiset

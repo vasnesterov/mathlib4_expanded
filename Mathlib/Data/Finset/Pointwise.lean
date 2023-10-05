@@ -910,7 +910,7 @@ theorem coe_list_prod (s : List (Finset α)) : (↑s.prod : Set α) = (s.map (�
 @[to_additive]
 theorem mem_prod_list_ofFn {a : α} {s : Fin n → Finset α} :
     a ∈ (List.ofFn s).prod ↔ ∃ f : ∀ i : Fin n, s i, (List.ofFn fun i => (f i : α)).prod = a := by
-  rw [← mem_coe, coe_list_prod, List.map_ofFn, Set.mem_prod_list_ofFn]
+  rw [← mem_coe]; rw [coe_list_prod]; rw [List.map_ofFn]; rw [Set.mem_prod_list_ofFn]
   rfl
 #align finset.mem_prod_list_of_fn Finset.mem_prod_list_ofFn
 #align finset.mem_sum_list_of_fn Finset.mem_sum_list_ofFn
@@ -924,7 +924,7 @@ theorem mem_pow {a : α} {n : ℕ} :
 
 @[to_additive (attr := simp)]
 theorem empty_pow (hn : n ≠ 0) : (∅ : Finset α) ^ n = ∅ := by
-  rw [← tsub_add_cancel_of_le (Nat.succ_le_of_lt <| Nat.pos_of_ne_zero hn), pow_succ, empty_mul]
+  rw [← tsub_add_cancel_of_le (Nat.succ_le_of_lt <| Nat.pos_of_ne_zero hn)]; rw [pow_succ]; rw [empty_mul]
 #align finset.empty_pow Finset.empty_pow
 #align finset.empty_nsmul Finset.empty_nsmul
 
@@ -1017,7 +1017,7 @@ theorem isUnit_iff : IsUnit s ↔ ∃ a, s = {a} ∧ IsUnit a := by
   · rintro ⟨u, rfl⟩
     obtain ⟨a, b, ha, hb, h⟩ := Finset.mul_eq_one_iff.1 u.mul_inv
     refine' ⟨a, ha, ⟨a, b, h, singleton_injective _⟩, rfl⟩
-    rw [← singleton_mul_singleton, ← ha, ← hb]
+    rw [← singleton_mul_singleton]; rw [← ha]; rw [← hb]
     exact u.inv_mul
   · rintro ⟨a, rfl, ha⟩
     exact ha.finset
@@ -1110,7 +1110,7 @@ variable [Group α] [DivisionMonoid β] [MonoidHomClass F α β] (f : F) {s t : 
 
 @[to_additive (attr := simp)]
 theorem one_mem_div_iff : (1 : α) ∈ s / t ↔ ¬Disjoint s t := by
-  rw [← mem_coe, ← disjoint_coe, coe_div, Set.one_mem_div_iff]
+  rw [← mem_coe]; rw [← disjoint_coe]; rw [coe_div]; rw [Set.one_mem_div_iff]
 #align finset.one_mem_div_iff Finset.one_mem_div_iff
 #align finset.zero_mem_sub_iff Finset.zero_mem_sub_iff
 
@@ -1239,7 +1239,7 @@ theorem preimage_mul_left_one' : preimage 1 ((· * ·) a⁻¹) ((mul_right_injec
 
 @[to_additive]
 theorem preimage_mul_right_one' : preimage 1 (· * b⁻¹) ((mul_left_injective _).injOn _) = {b} := by
-  rw [preimage_mul_right_one, inv_inv]
+  rw [preimage_mul_right_one]; rw [inv_inv]
 #align finset.preimage_mul_right_one' Finset.preimage_mul_right_one'
 #align finset.preimage_add_right_zero' Finset.preimage_add_right_zero'
 
@@ -1797,7 +1797,7 @@ instance noZeroSMulDivisors [Zero α] [Zero β] [SMul α β] [NoZeroSMulDivisors
     intro s t h
     by_contra H
     have hst : (s • t).Nonempty := h.symm.subst zero_nonempty
-    rw [← hst.of_smul_left.subset_zero_iff, ← hst.of_smul_right.subset_zero_iff] at H
+    rw [← hst.of_smul_left.subset_zero_iff] at H; rw [← hst.of_smul_right.subset_zero_iff] at H
     push_neg at H
     simp_rw [not_subset, mem_zero] at H
     obtain ⟨⟨a, hs, ha⟩, b, ht, hb⟩ := H
@@ -1952,13 +1952,13 @@ theorem smul_mem_smul_finset_iff (a : α) : a • b ∈ a • s ↔ b ∈ s :=
 
 @[to_additive]
 theorem inv_smul_mem_iff : a⁻¹ • b ∈ s ↔ b ∈ a • s := by
-  rw [← smul_mem_smul_finset_iff a, smul_inv_smul]
+  rw [← smul_mem_smul_finset_iff a]; rw [smul_inv_smul]
 #align finset.inv_smul_mem_iff Finset.inv_smul_mem_iff
 #align finset.neg_vadd_mem_iff Finset.neg_vadd_mem_iff
 
 @[to_additive]
 theorem mem_inv_smul_finset_iff : b ∈ a⁻¹ • s ↔ a • b ∈ s := by
-  rw [← smul_mem_smul_finset_iff a, smul_inv_smul]
+  rw [← smul_mem_smul_finset_iff a]; rw [smul_inv_smul]
 #align finset.mem_inv_smul_finset_iff Finset.mem_inv_smul_finset_iff
 #align finset.mem_neg_vadd_finset_iff Finset.mem_neg_vadd_finset_iff
 
@@ -2153,12 +2153,12 @@ variable [NoZeroSMulDivisors α β] {a : α}
 
 theorem zero_mem_smul_iff :
     (0 : β) ∈ s • t ↔ (0 : α) ∈ s ∧ t.Nonempty ∨ (0 : β) ∈ t ∧ s.Nonempty := by
-  rw [← mem_coe, coe_smul, Set.zero_mem_smul_iff]
+  rw [← mem_coe]; rw [coe_smul]; rw [Set.zero_mem_smul_iff]
   rfl
 #align finset.zero_mem_smul_iff Finset.zero_mem_smul_iff
 
 theorem zero_mem_smul_finset_iff (ha : a ≠ 0) : (0 : β) ∈ a • t ↔ (0 : β) ∈ t := by
-  rw [← mem_coe, coe_smul_finset, Set.zero_mem_smul_set_iff ha, mem_coe]
+  rw [← mem_coe]; rw [coe_smul_finset]; rw [Set.zero_mem_smul_set_iff ha]; rw [mem_coe]
 #align finset.zero_mem_smul_finset_iff Finset.zero_mem_smul_finset_iff
 
 end SMulWithZero

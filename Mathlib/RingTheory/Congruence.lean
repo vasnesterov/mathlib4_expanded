@@ -83,7 +83,7 @@ instance : FunLike (RingCon R) R fun _ => R → Prop :=
       rcases x with ⟨⟨x, _⟩, _⟩
       rcases y with ⟨⟨y, _⟩, _⟩
       congr!
-      rw [Setoid.ext_iff,(show x.Rel = y.Rel from h)]
+      rw [Setoid.ext_iff]; rw [(show x.Rel = y.Rel from h)]
       simp}
 
 theorem rel_eq_coe : c.r = c :=

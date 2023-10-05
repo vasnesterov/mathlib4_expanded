@@ -61,7 +61,7 @@ theorem ae_eq_zero_of_forall_inner [NormedAddCommGroup E] [InnerProductSpace �
   have hs : DenseRange s := denseRange_denseSeq E
   have hf' : ∀ᵐ x ∂μ, ∀ n : ℕ, inner (s n) (f x) = (0 : 𝕜) := ae_all_iff.mpr fun n => hf (s n)
   refine' hf'.mono fun x hx => _
-  rw [Pi.zero_apply, ← @inner_self_eq_zero 𝕜]
+  rw [Pi.zero_apply]; rw [← @inner_self_eq_zero 𝕜]
   have h_closed : IsClosed {c : E | inner c (f x) = (0 : 𝕜)} :=
     isClosed_eq (continuous_id.inner continuous_const) continuous_const
   exact @isClosed_property ℕ E _ s (fun c => inner c (f x) = (0 : 𝕜)) hs h_closed (fun n => hx n) _
@@ -153,7 +153,7 @@ theorem ae_const_le_iff_forall_lt_measure_zero {β} [LinearOrder β] [Topologica
     constructor <;> intro h
     · obtain ⟨n, hn⟩ := ((tendsto_order.1 u_lim).1 _ h).exists; exact ⟨n, hn.le⟩
     · obtain ⟨n, hn⟩ := h; exact hn.trans_lt (u_lt _)
-  rw [h_Union, measure_iUnion_null_iff]
+  rw [h_Union]; rw [measure_iUnion_null_iff]
   intro n
   exact hc _ (u_lt n)
 #align measure_theory.ae_const_le_iff_forall_lt_measure_zero MeasureTheory.ae_const_le_iff_forall_lt_measure_zero
@@ -264,7 +264,7 @@ theorem ae_nonneg_of_forall_set_integral_nonneg_of_stronglyMeasurable (hfm : Str
     have h_const_le : (∫ x in s, f x ∂μ) ≤ ∫ _ in s, b ∂μ := by
       refine'
         set_integral_mono_ae_restrict hf.integrableOn (integrableOn_const.mpr (Or.inr mus)) _
-      rw [EventuallyLE, ae_restrict_iff hs]
+      rw [EventuallyLE]; rw [ae_restrict_iff hs]
       exact eventually_of_forall fun x hxs => hxs
     rwa [set_integral_const, smul_eq_mul, mul_comm] at h_const_le
   by_contra h
@@ -297,7 +297,7 @@ theorem ae_le_of_forall_set_integral_le {f g : α → ℝ} (hf : Integrable f μ
     f ≤ᵐ[μ] g := by
   rw [← eventually_sub_nonneg]
   refine' ae_nonneg_of_forall_set_integral_nonneg (hg.sub hf) fun s hs => _
-  rw [integral_sub' hg.integrableOn hf.integrableOn, sub_nonneg]
+  rw [integral_sub' hg.integrableOn hf.integrableOn]; rw [sub_nonneg]
   exact hf_le s hs
 #align measure_theory.ae_le_of_forall_set_integral_le MeasureTheory.ae_le_of_forall_set_integral_le
 
@@ -370,7 +370,7 @@ theorem ae_eq_zero_restrict_of_forall_set_integral_eq_zero_real {f : α → ℝ}
     ae_nonneg_restrict_of_forall_set_integral_nonneg (fun s hs hμs => (hf_int_finite s hs hμs).neg)
       (fun s hs hμs => _) ht hμt
   simp_rw [Pi.neg_apply]
-  rw [integral_neg, neg_nonneg]
+  rw [integral_neg]; rw [neg_nonneg]
   exact (hf_zero s hs hμs).le
 #align measure_theory.ae_eq_zero_restrict_of_forall_set_integral_eq_zero_real MeasureTheory.ae_eq_zero_restrict_of_forall_set_integral_eq_zero_real
 
@@ -387,7 +387,7 @@ theorem ae_eq_zero_restrict_of_forall_set_integral_eq_zero {f : α → E}
   · intro s hs hμs
     exact ContinuousLinearMap.integrable_comp c (hf_int_finite s hs hμs)
   · intro s hs hμs
-    rw [ContinuousLinearMap.integral_comp_comm c (hf_int_finite s hs hμs), hf_zero s hs hμs]
+    rw [ContinuousLinearMap.integral_comp_comm c (hf_int_finite s hs hμs)]; rw [hf_zero s hs hμs]
     exact ContinuousLinearMap.map_zero _
 #align measure_theory.ae_eq_zero_restrict_of_forall_set_integral_eq_zero MeasureTheory.ae_eq_zero_restrict_of_forall_set_integral_eq_zero
 
@@ -410,9 +410,8 @@ theorem ae_eq_zero_of_forall_set_integral_eq_of_sigmaFinite [SigmaFinite μ] {f 
     (hf_int_finite : ∀ s, MeasurableSet s → μ s < ∞ → IntegrableOn f s μ)
     (hf_zero : ∀ s : Set α, MeasurableSet s → μ s < ∞ → ∫ x in s, f x ∂μ = 0) : f =ᵐ[μ] 0 := by
   let S := spanningSets μ
-  rw [← @Measure.restrict_univ _ _ μ, ← iUnion_spanningSets μ, EventuallyEq, ae_iff,
-    Measure.restrict_apply' (MeasurableSet.iUnion (measurable_spanningSets μ))]
-  rw [Set.inter_iUnion, measure_iUnion_null_iff]
+  rw [← @Measure.restrict_univ _ _ μ]; rw [← iUnion_spanningSets μ]; rw [EventuallyEq]; rw [ae_iff]; rw [Measure.restrict_apply' (MeasurableSet.iUnion (measurable_spanningSets μ))]
+  rw [Set.inter_iUnion]; rw [measure_iUnion_null_iff]
   intro n
   have h_meas_n : MeasurableSet (S n) := measurable_spanningSets μ n
   have hμn : μ (S n) < ∞ := measure_spanningSets_lt_top μ n
@@ -428,8 +427,7 @@ theorem ae_eq_of_forall_set_integral_eq_of_sigmaFinite [SigmaFinite μ] {f g : �
   rw [← sub_ae_eq_zero]
   have hfg : ∀ s : Set α, MeasurableSet s → μ s < ∞ → (∫ x in s, (f - g) x ∂μ) = 0 := by
     intro s hs hμs
-    rw [integral_sub' (hf_int_finite s hs hμs) (hg_int_finite s hs hμs),
-      sub_eq_zero.mpr (hfg_eq s hs hμs)]
+    rw [integral_sub' (hf_int_finite s hs hμs) (hg_int_finite s hs hμs)]; rw [sub_eq_zero.mpr (hfg_eq s hs hμs)]
   have hfg_int : ∀ s, MeasurableSet s → μ s < ∞ → IntegrableOn (f - g) s μ := fun s hs hμs =>
     (hf_int_finite s hs hμs).sub (hg_int_finite s hs hμs)
   exact ae_eq_zero_of_forall_set_integral_eq_of_sigmaFinite hfg_int hfg
@@ -445,7 +443,7 @@ theorem AEFinStronglyMeasurable.ae_eq_zero_of_forall_set_integral_eq_zero {f : �
   haveI : SigmaFinite (μ.restrict t) := hf.sigmaFinite_restrict
   refine' ae_eq_zero_of_forall_set_integral_eq_of_sigmaFinite _ _
   · intro s hs hμs
-    rw [IntegrableOn, Measure.restrict_restrict hs]
+    rw [IntegrableOn]; rw [Measure.restrict_restrict hs]
     rw [Measure.restrict_apply hs] at hμs
     exact hf_int_finite _ (hs.inter hf.measurableSet) hμs
   · intro s hs hμs
@@ -462,8 +460,7 @@ theorem AEFinStronglyMeasurable.ae_eq_of_forall_set_integral_eq {f g : α → E}
   rw [← sub_ae_eq_zero]
   have hfg : ∀ s : Set α, MeasurableSet s → μ s < ∞ → (∫ x in s, (f - g) x ∂μ) = 0 := by
     intro s hs hμs
-    rw [integral_sub' (hf_int_finite s hs hμs) (hg_int_finite s hs hμs),
-      sub_eq_zero.mpr (hfg_eq s hs hμs)]
+    rw [integral_sub' (hf_int_finite s hs hμs) (hg_int_finite s hs hμs)]; rw [sub_eq_zero.mpr (hfg_eq s hs hμs)]
   have hfg_int : ∀ s, MeasurableSet s → μ s < ∞ → IntegrableOn (f - g) s μ := fun s hs hμs =>
     (hf_int_finite s hs hμs).sub (hg_int_finite s hs hμs)
   exact (hf.sub hg).ae_eq_zero_of_forall_set_integral_eq_zero hfg_int hfg
@@ -495,7 +492,7 @@ theorem ae_eq_zero_of_forall_set_integral_eq_of_finStronglyMeasurable_trim (hm :
   obtain ⟨t, ht_meas, htf_zero, htμ⟩ := hf.exists_set_sigmaFinite
   haveI : SigmaFinite ((μ.restrict t).trim hm) := by rwa [restrict_trim hm μ ht_meas] at htμ
   have htf_zero : f =ᵐ[μ.restrict tᶜ] 0 := by
-    rw [EventuallyEq, ae_restrict_iff' (MeasurableSet.compl (hm _ ht_meas))]
+    rw [EventuallyEq]; rw [ae_restrict_iff' (MeasurableSet.compl (hm _ ht_meas))]
     exact eventually_of_forall htf_zero
   have hf_meas_m : StronglyMeasurable[m] f := hf.stronglyMeasurable
   suffices : f =ᵐ[μ.restrict t] 0
@@ -504,15 +501,13 @@ theorem ae_eq_zero_of_forall_set_integral_eq_of_finStronglyMeasurable_trim (hm :
   refine' ae_eq_zero_of_forall_set_integral_eq_of_sigmaFinite _ _
   · intro s hs hμs
     unfold IntegrableOn
-    rw [restrict_trim hm (μ.restrict t) hs, Measure.restrict_restrict (hm s hs)]
-    rw [← restrict_trim hm μ ht_meas, Measure.restrict_apply hs,
-      trim_measurableSet_eq hm (hs.inter ht_meas)] at hμs
+    rw [restrict_trim hm (μ.restrict t) hs]; rw [Measure.restrict_restrict (hm s hs)]
+    rw [← restrict_trim hm μ ht_meas] at hμs; rw [Measure.restrict_apply hs] at hμs; rw [trim_measurableSet_eq hm (hs.inter ht_meas)] at hμs
     refine' Integrable.trim hm _ hf_meas_m
     exact hf_int_finite _ (hs.inter ht_meas) hμs
   · intro s hs hμs
-    rw [restrict_trim hm (μ.restrict t) hs, Measure.restrict_restrict (hm s hs)]
-    rw [← restrict_trim hm μ ht_meas, Measure.restrict_apply hs,
-      trim_measurableSet_eq hm (hs.inter ht_meas)] at hμs
+    rw [restrict_trim hm (μ.restrict t) hs]; rw [Measure.restrict_restrict (hm s hs)]
+    rw [← restrict_trim hm μ ht_meas] at hμs; rw [Measure.restrict_apply hs] at hμs; rw [trim_measurableSet_eq hm (hs.inter ht_meas)] at hμs
     rw [← integral_trim hm hf_meas_m]
     exact hf_zero _ (hs.inter ht_meas) hμs
 #align measure_theory.ae_eq_zero_of_forall_set_integral_eq_of_fin_strongly_measurable_trim MeasureTheory.ae_eq_zero_of_forall_set_integral_eq_of_finStronglyMeasurable_trim
@@ -591,7 +586,7 @@ lemma ae_eq_zero_of_forall_set_integral_isCompact_eq_zero'
     [SigmaCompactSpace β] [T2Space β] {μ : Measure β} {f : β → E} (hf : LocallyIntegrable f μ)
     (h'f : ∀ (s : Set β), IsCompact s → ∫ x in s, f x ∂μ = 0) :
     f =ᵐ[μ] 0 := by
-  rw [← Measure.restrict_univ (μ := μ), ← iUnion_compactCovering]
+  rw [← Measure.restrict_univ (μ := μ)]; rw [← iUnion_compactCovering]
   apply (ae_restrict_iUnion_iff _ _).2 (fun n ↦ ?_)
   apply ae_eq_zero_of_forall_set_integral_isCompact_eq_zero
   · exact hf.integrableOn_isCompact (isCompact_compactCovering β n)
@@ -613,9 +608,9 @@ theorem AEMeasurable.ae_eq_of_forall_set_lintegral_eq {f g : α → ℝ≥0∞} 
       (Integrable.ae_eq_of_forall_set_integral_eq _ _
         (integrable_toReal_of_lintegral_ne_top hf hfi)
         (integrable_toReal_of_lintegral_ne_top hg hgi) fun s hs hs' => _)
-  rw [integral_eq_lintegral_of_nonneg_ae, integral_eq_lintegral_of_nonneg_ae]
+  rw [integral_eq_lintegral_of_nonneg_ae]; rw [integral_eq_lintegral_of_nonneg_ae]
   · congr 1
-    rw [lintegral_congr_ae (ofReal_toReal_ae_eq _), lintegral_congr_ae (ofReal_toReal_ae_eq _)]
+    rw [lintegral_congr_ae (ofReal_toReal_ae_eq _)]; rw [lintegral_congr_ae (ofReal_toReal_ae_eq _)]
     · exact hfg hs hs'
     · refine' ae_lt_top' hg.restrict (ne_of_lt (lt_of_le_of_lt _ hgi.lt_top))
       exact @set_lintegral_univ α _ μ g ▸ lintegral_mono_set (Set.subset_univ _)

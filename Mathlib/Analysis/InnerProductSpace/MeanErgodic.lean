@@ -93,8 +93,7 @@ theorem ContinuousLinearMap.tendsto_birkhoffAverage_orthogonalProjection (f : E 
   · clear x
     /- In other words, we need to verify that any vector that is orthogonal to the range of `f - 1`
     is a fixed point of `f`. -/
-    rw [ker_orthogonalProjection, ← Submodule.topologicalClosure_coe, SetLike.coe_subset_coe,
-      ← Submodule.orthogonal_orthogonal_eq_closure]
+    rw [ker_orthogonalProjection]; rw [← Submodule.topologicalClosure_coe]; rw [SetLike.coe_subset_coe]; rw [← Submodule.orthogonal_orthogonal_eq_closure]
     /- To verify this, we verify `‖f x‖ ≤ ‖x‖` (because `‖f‖ ≤ 1`) and `⟪f x, x⟫ = ‖x‖²`. -/
     refine Submodule.orthogonal_le fun x hx ↦ eq_of_norm_le_re_inner_eq_norm_sq (𝕜 := 𝕜) ?_ ?_
     · simpa using f.le_of_op_norm_le hf x

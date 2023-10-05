@@ -121,14 +121,14 @@ local notation "⟪" x ", " y "⟫" => @inner 𝕜 _ _ x y
 
 theorem snorm_rpow_two_norm_lt_top (f : Lp F 2 μ) : snorm (fun x => ‖f x‖ ^ (2 : ℝ)) 1 μ < ∞ := by
   have h_two : ENNReal.ofReal (2 : ℝ) = 2 := by simp [zero_le_one]
-  rw [snorm_norm_rpow f zero_lt_two, one_mul, h_two]
+  rw [snorm_norm_rpow f zero_lt_two]; rw [one_mul]; rw [h_two]
   exact ENNReal.rpow_lt_top_of_nonneg zero_le_two (Lp.snorm_ne_top f)
 #align measure_theory.L2.snorm_rpow_two_norm_lt_top MeasureTheory.L2.snorm_rpow_two_norm_lt_top
 
 theorem snorm_inner_lt_top (f g : α →₂[μ] E) : snorm (fun x : α => ⟪f x, g x⟫) 1 μ < ∞ := by
   have h : ∀ x, ‖⟪f x, g x⟫‖ ≤ ‖‖f x‖ ^ (2 : ℝ) + ‖g x‖ ^ (2 : ℝ)‖ := by
     intro x
-    rw [← @Nat.cast_two ℝ, Real.rpow_nat_cast, Real.rpow_nat_cast]
+    rw [← @Nat.cast_two ℝ]; rw [Real.rpow_nat_cast]; rw [Real.rpow_nat_cast]
     calc
       ‖⟪f x, g x⟫‖ ≤ ‖f x‖ * ‖g x‖ := norm_inner_le_norm _ _
       _ ≤ 2 * ‖f x‖ * ‖g x‖ :=
@@ -165,20 +165,19 @@ theorem integral_inner_eq_sq_snorm (f : α →₂[μ] E) :
   congr
   ext1 x
   have h_two : (2 : ℝ) = ((2 : ℕ) : ℝ) := by simp
-  rw [← Real.rpow_nat_cast _ 2, ← h_two, ←
-    ENNReal.ofReal_rpow_of_nonneg (norm_nonneg _) zero_le_two, ofReal_norm_eq_coe_nnnorm]
+  rw [← Real.rpow_nat_cast _ 2]; rw [← h_two]; rw [←
+    ENNReal.ofReal_rpow_of_nonneg (norm_nonneg _) zero_le_two]; rw [ofReal_norm_eq_coe_nnnorm]
   norm_cast
 #align measure_theory.L2.integral_inner_eq_sq_snorm MeasureTheory.L2.integral_inner_eq_sq_snorm
 
 private theorem norm_sq_eq_inner' (f : α →₂[μ] E) : ‖f‖ ^ 2 = IsROrC.re ⟪f, f⟫ := by
   have h_two : (2 : ℝ≥0∞).toReal = 2 := by simp
-  rw [inner_def, integral_inner_eq_sq_snorm, norm_def, ← ENNReal.toReal_pow, IsROrC.ofReal_re,
-    ENNReal.toReal_eq_toReal (ENNReal.pow_ne_top (Lp.snorm_ne_top f)) _]
+  rw [inner_def]; rw [integral_inner_eq_sq_snorm]; rw [norm_def]; rw [← ENNReal.toReal_pow]; rw [IsROrC.ofReal_re]; rw [ENNReal.toReal_eq_toReal (ENNReal.pow_ne_top (Lp.snorm_ne_top f)) _]
   · rw [← ENNReal.rpow_nat_cast, snorm_eq_snorm' two_ne_zero ENNReal.two_ne_top, snorm', ←
       ENNReal.rpow_mul, one_div, h_two]
     simp
   · refine' (lintegral_rpow_nnnorm_lt_top_of_snorm'_lt_top zero_lt_two _).ne
-    rw [← h_two, ← snorm_eq_snorm' two_ne_zero ENNReal.two_ne_top]
+    rw [← h_two]; rw [← snorm_eq_snorm' two_ne_zero ENNReal.two_ne_top]
     exact Lp.snorm_lt_top f
 
 theorem mem_L1_inner (f g : α →₂[μ] E) :
@@ -203,14 +202,14 @@ private theorem add_left' (f f' g : α →₂[μ] E) : ⟪f + f', g⟫ = inner f
   -- congr
   -- rwa [Pi.add_apply] at hx
   simp only
-  rw [hx, Pi.add_apply]
+  rw [hx]; rw [Pi.add_apply]
 
 
 private theorem smul_left' (f g : α →₂[μ] E) (r : 𝕜) : ⟪r • f, g⟫ = conj r * inner f g := by
-  rw [inner_def, inner_def, ← smul_eq_mul, ← integral_smul]
+  rw [inner_def]; rw [inner_def]; rw [← smul_eq_mul]; rw [← integral_smul]
   refine' integral_congr_ae ((coeFn_smul r f).mono fun x hx => _)
   simp only
-  rw [smul_eq_mul, ← inner_smul_left, hx, Pi.smul_apply]
+  rw [smul_eq_mul]; rw [← inner_smul_left]; rw [hx]; rw [Pi.smul_apply]
   -- Porting note: was
   -- rw [smul_eq_mul, ← inner_smul_left]
   -- congr
@@ -233,7 +232,7 @@ variable (𝕜) {s : Set α}
 equal to the integral of the inner product over `s`: `∫ x in s, ⟪c, f x⟫ ∂μ`. -/
 theorem inner_indicatorConstLp_eq_set_integral_inner (f : Lp E 2 μ) (hs : MeasurableSet s) (c : E)
     (hμs : μ s ≠ ∞) : (⟪indicatorConstLp 2 hs hμs c, f⟫ : 𝕜) = ∫ x in s, ⟪c, f x⟫ ∂μ := by
-  rw [inner_def, ← integral_add_compl hs (L2.integrable_inner _ f)]
+  rw [inner_def]; rw [← integral_add_compl hs (L2.integrable_inner _ f)]
   have h_left : (∫ x in s, ⟪(indicatorConstLp 2 hs hμs c) x, f x⟫ ∂μ) = ∫ x in s, ⟪c, f x⟫ ∂μ := by
     suffices h_ae_eq : ∀ᵐ x ∂μ, x ∈ s → ⟪indicatorConstLp 2 hs hμs c x, f x⟫ = ⟪c, f x⟫
     exact set_integral_congr_ae hs h_ae_eq
@@ -255,7 +254,7 @@ theorem inner_indicatorConstLp_eq_set_integral_inner (f : Lp E 2 μ) (hs : Measu
     refine' h_indicator.mono fun x hx hxs => _
     rw [hx hxs]
     exact inner_zero_left _
-  rw [h_left, h_right, add_zero]
+  rw [h_left]; rw [h_right]; rw [add_zero]
 #align measure_theory.L2.inner_indicator_const_Lp_eq_set_integral_inner MeasureTheory.L2.inner_indicatorConstLp_eq_set_integral_inner
 
 /-- The inner product in `L2` of the indicator of a set `indicatorConstLp 2 hs hμs c` and `f` is
@@ -263,8 +262,7 @@ equal to the inner product of the constant `c` and the integral of `f` over `s`.
 theorem inner_indicatorConstLp_eq_inner_set_integral [CompleteSpace E] [NormedSpace ℝ E]
     (hs : MeasurableSet s) (hμs : μ s ≠ ∞) (c : E) (f : Lp E 2 μ) :
     (⟪indicatorConstLp 2 hs hμs c, f⟫ : 𝕜) = ⟪c, ∫ x in s, f x ∂μ⟫ := by
-  rw [← integral_inner (integrableOn_Lp_of_measure_ne_top f fact_one_le_two_ennreal.elim hμs),
-    L2.inner_indicatorConstLp_eq_set_integral_inner]
+  rw [← integral_inner (integrableOn_Lp_of_measure_ne_top f fact_one_le_two_ennreal.elim hμs)]; rw [L2.inner_indicatorConstLp_eq_set_integral_inner]
 #align measure_theory.L2.inner_indicator_const_Lp_eq_inner_set_integral MeasureTheory.L2.inner_indicatorConstLp_eq_inner_set_integral
 
 variable {𝕜}
@@ -302,7 +300,7 @@ theorem BoundedContinuousFunction.inner_toLp (f g : α →ᵇ 𝕜) :
   have hf_ae := f.coeFn_toLp 2 μ 𝕜
   have hg_ae := g.coeFn_toLp 2 μ 𝕜
   filter_upwards [hf_ae, hg_ae] with _ hf hg
-  rw [hf, hg]
+  rw [hf]; rw [hg]
   simp
 #align measure_theory.bounded_continuous_function.inner_to_Lp MeasureTheory.BoundedContinuousFunction.inner_toLp
 
@@ -318,7 +316,7 @@ theorem ContinuousMap.inner_toLp (f g : C(α, 𝕜)) :
   have hf_ae := f.coeFn_toLp (p := 2) (𝕜 := 𝕜) μ
   have hg_ae := g.coeFn_toLp (p := 2) (𝕜 := 𝕜) μ
   filter_upwards [hf_ae, hg_ae] with _ hf hg
-  rw [hf, hg]
+  rw [hf]; rw [hg]
   simp
 #align measure_theory.continuous_map.inner_to_Lp MeasureTheory.ContinuousMap.inner_toLp
 

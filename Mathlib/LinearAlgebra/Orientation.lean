@@ -77,7 +77,7 @@ theorem Orientation.map_apply (e : M ≃ₗ[R] N) (v : AlternatingMap R M R ι) 
 
 @[simp]
 theorem Orientation.map_refl : (Orientation.map ι <| LinearEquiv.refl R M) = Equiv.refl _ := by
-  rw [Orientation.map, AlternatingMap.domLCongr_refl, Module.Ray.map_refl]
+  rw [Orientation.map]; rw [AlternatingMap.domLCongr_refl]; rw [Module.Ray.map_refl]
 #align orientation.map_refl Orientation.map_refl
 
 @[simp]
@@ -103,7 +103,7 @@ theorem Orientation.reindex_apply (e : ι ≃ ι') (v : AlternatingMap R M R ι)
 
 @[simp]
 theorem Orientation.reindex_refl : (Orientation.reindex R M <| Equiv.refl ι) = Equiv.refl _ := by
-  rw [Orientation.reindex, AlternatingMap.domDomLcongr_refl, Module.Ray.map_refl]
+  rw [Orientation.reindex]; rw [AlternatingMap.domDomLcongr_refl]; rw [Module.Ray.map_refl]
 #align orientation.reindex_refl Orientation.reindex_refl
 
 @[simp]
@@ -169,12 +169,8 @@ theorem map_orientation_eq_det_inv_smul [Finite ι] (e : Basis ι R M) (x : Orie
   cases nonempty_fintype ι
   letI := Classical.decEq ι
   induction' x using Module.Ray.ind with g hg
-  rw [Orientation.map_apply, smul_rayOfNeZero, ray_eq_iff, Units.smul_def,
-    (g.compLinearMap f.symm).eq_smul_basis_det e, g.eq_smul_basis_det e,
-    AlternatingMap.compLinearMap_apply, AlternatingMap.smul_apply,
-    show (fun i ↦ (LinearEquiv.symm f).toLinearMap (e i)) = (LinearEquiv.symm f).toLinearMap ∘ e
-    by rfl, Basis.det_comp, Basis.det_self, mul_one, smul_eq_mul, mul_comm, mul_smul,
-    LinearEquiv.coe_inv_det]
+  rw [Orientation.map_apply]; rw [smul_rayOfNeZero]; rw [ray_eq_iff]; rw [Units.smul_def]; rw [(g.compLinearMap f.symm).eq_smul_basis_det e]; rw [g.eq_smul_basis_det e]; rw [AlternatingMap.compLinearMap_apply]; rw [AlternatingMap.smul_apply]; rw [show (fun i ↦ (LinearEquiv.symm f).toLinearMap (e i)) = (LinearEquiv.symm f).toLinearMap ∘ e
+    by rfl]; rw [Basis.det_comp]; rw [Basis.det_self]; rw [mul_one]; rw [smul_eq_mul]; rw [mul_comm]; rw [mul_smul]; rw [LinearEquiv.coe_inv_det]
 #align basis.map_orientation_eq_det_inv_smul Basis.map_orientation_eq_det_inv_smul
 
 variable [Fintype ι] [DecidableEq ι] [Fintype ι'] [DecidableEq ι']
@@ -198,8 +194,7 @@ theorem orientation_reindex [Nontrivial R] (e : Basis ι R M) (eι : ι ≃ ι')
 units. -/
 theorem orientation_unitsSMul [Nontrivial R] (e : Basis ι R M) (w : ι → Units R) :
     (e.unitsSMul w).orientation = (∏ i, w i)⁻¹ • e.orientation := by
-  rw [Basis.orientation, Basis.orientation, smul_rayOfNeZero, ray_eq_iff,
-    e.det.eq_smul_basis_det (e.unitsSMul w), det_unitsSMul_self, Units.smul_def, smul_smul]
+  rw [Basis.orientation]; rw [Basis.orientation]; rw [smul_rayOfNeZero]; rw [ray_eq_iff]; rw [e.det.eq_smul_basis_det (e.unitsSMul w)]; rw [det_unitsSMul_self]; rw [Units.smul_def]; rw [smul_smul]
   norm_cast
   simp
   exact SameRay.rfl
@@ -285,16 +280,14 @@ theorem orientation_ne_iff_eq_neg (e : Basis ι R M) (x : Orientation R M ι) :
 determinant is positive. -/
 theorem orientation_comp_linearEquiv_eq_iff_det_pos (e : Basis ι R M) (f : M ≃ₗ[R] M) :
     (e.map f).orientation = e.orientation ↔ 0 < LinearMap.det (f : M →ₗ[R] M) := by
-  rw [orientation_map, e.map_orientation_eq_det_inv_smul, units_inv_smul, units_smul_eq_self_iff,
-    LinearEquiv.coe_det]
+  rw [orientation_map]; rw [e.map_orientation_eq_det_inv_smul]; rw [units_inv_smul]; rw [units_smul_eq_self_iff]; rw [LinearEquiv.coe_det]
 #align basis.orientation_comp_linear_equiv_eq_iff_det_pos Basis.orientation_comp_linearEquiv_eq_iff_det_pos
 
 /-- Composing a basis with a linear equiv gives the negation of that orientation if and only if
 the determinant is negative. -/
 theorem orientation_comp_linearEquiv_eq_neg_iff_det_neg (e : Basis ι R M) (f : M ≃ₗ[R] M) :
     (e.map f).orientation = -e.orientation ↔ LinearMap.det (f : M →ₗ[R] M) < 0 := by
-  rw [orientation_map, e.map_orientation_eq_det_inv_smul, units_inv_smul, units_smul_eq_neg_iff,
-    LinearEquiv.coe_det]
+  rw [orientation_map]; rw [e.map_orientation_eq_det_inv_smul]; rw [units_inv_smul]; rw [units_smul_eq_neg_iff]; rw [LinearEquiv.coe_det]
 #align basis.orientation_comp_linear_equiv_eq_neg_iff_det_neg Basis.orientation_comp_linearEquiv_eq_neg_iff_det_neg
 
 /-- Negating a single basis vector (represented using `units_smul`) negates the corresponding
@@ -302,7 +295,7 @@ orientation. -/
 @[simp]
 theorem orientation_neg_single [Nontrivial R] (e : Basis ι R M) (i : ι) :
     (e.unitsSMul (Function.update 1 i (-1))).orientation = -e.orientation := by
-  rw [orientation_unitsSMul, Finset.prod_update_of_mem (Finset.mem_univ _)]
+  rw [orientation_unitsSMul]; rw [Finset.prod_update_of_mem (Finset.mem_univ _)]
   simp
 #align basis.orientation_neg_single Basis.orientation_neg_single
 
@@ -413,7 +406,7 @@ theorem map_eq_iff_det_pos (x : Orientation R M ι) (f : M ≃ₗ[R] M)
       refine' h.symm.trans _
       convert @Fintype.card_of_isEmpty ι _
     simp [LinearMap.det_eq_one_of_finrank_eq_zero H]
-  rw [map_eq_det_inv_smul _ _ h, units_inv_smul, units_smul_eq_self_iff, LinearEquiv.coe_det]
+  rw [map_eq_det_inv_smul _ _ h]; rw [units_inv_smul]; rw [units_smul_eq_self_iff]; rw [LinearEquiv.coe_det]
 #align orientation.map_eq_iff_det_pos Orientation.map_eq_iff_det_pos
 
 /-- If the index type has cardinality equal to the finite dimension, composing an alternating
@@ -431,7 +424,7 @@ theorem map_eq_neg_iff_det_neg (x : Orientation R M ι) (f : M ≃ₗ[R] M)
     rw [← h]
     exact Fintype.card_pos
   haveI : FiniteDimensional R M := finiteDimensional_of_finrank H
-  rw [map_eq_det_inv_smul _ _ h, units_inv_smul, units_smul_eq_neg_iff, LinearEquiv.coe_det]
+  rw [map_eq_det_inv_smul _ _ h]; rw [units_inv_smul]; rw [units_smul_eq_neg_iff]; rw [LinearEquiv.coe_det]
 #align orientation.map_eq_neg_iff_det_neg Orientation.map_eq_neg_iff_det_neg
 
 /-- If the index type has cardinality equal to the finite dimension, a basis with the given

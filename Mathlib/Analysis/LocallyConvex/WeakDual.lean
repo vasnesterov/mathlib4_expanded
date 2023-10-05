@@ -101,7 +101,7 @@ variable {B : E →ₗ[𝕜] F →ₗ[𝕜] 𝕜}
 theorem LinearMap.hasBasis_weakBilin (B : E →ₗ[𝕜] F →ₗ[𝕜] 𝕜) :
     (𝓝 (0 : WeakBilin B)).HasBasis B.toSeminormFamily.basisSets _root_.id := by
   let p := B.toSeminormFamily
-  rw [nhds_induced, nhds_pi]
+  rw [nhds_induced]; rw [nhds_pi]
   simp only [map_zero, LinearMap.zero_apply]
   have h := @Metric.nhds_basis_ball 𝕜 _ 0
   have h' := Filter.hasBasis_pi fun _ : F => h

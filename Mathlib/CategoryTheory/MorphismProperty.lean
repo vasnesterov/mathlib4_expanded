@@ -204,7 +204,7 @@ theorem RespectsIso.cancel_right_isIso {P : MorphismProperty C} (hP : RespectsIs
 
 theorem RespectsIso.arrow_iso_iff {P : MorphismProperty C} (hP : RespectsIso P) {f g : Arrow C}
     (e : f ≅ g) : P f.hom ↔ P g.hom := by
-  rw [← Arrow.inv_left_hom_right e.hom, hP.cancel_left_isIso, hP.cancel_right_isIso]
+  rw [← Arrow.inv_left_hom_right e.hom]; rw [hP.cancel_left_isIso]; rw [hP.cancel_right_isIso]
 #align category_theory.morphism_property.respects_iso.arrow_iso_iff CategoryTheory.MorphismProperty.RespectsIso.arrow_iso_iff
 
 theorem RespectsIso.arrow_mk_iso_iff {P : MorphismProperty C} (hP : RespectsIso P) {W X Y Z : C}
@@ -240,7 +240,7 @@ theorem StableUnderBaseChange.mk {P : MorphismProperty C} [HasPullbacks C] (hP�
     (hP₂ : ∀ (X Y S : C) (f : X ⟶ S) (g : Y ⟶ S) (_ : P g), P (pullback.fst : pullback f g ⟶ X)) :
     StableUnderBaseChange P := fun X Y Y' S f g f' g' sq hg => by
   let e := sq.flip.isoPullback
-  rw [← hP₁.cancel_left_isIso e.inv, sq.flip.isoPullback_inv_fst]
+  rw [← hP₁.cancel_left_isIso e.inv]; rw [sq.flip.isoPullback_inv_fst]
   exact hP₂ _ _ _ f g hg
 #align category_theory.morphism_property.stable_under_base_change.mk CategoryTheory.MorphismProperty.StableUnderBaseChange.mk
 
@@ -277,7 +277,7 @@ theorem StableUnderBaseChange.baseChange_map [HasPullbacks C] {P : MorphismPrope
       pullback.congrHom (g.w.trans (Category.comp_id _)) rfl
   have : e.inv ≫ pullback.snd = ((baseChange f).map g).left := by
     ext <;> dsimp <;> simp
-  rw [← this, hP.respectsIso.cancel_left_isIso]
+  rw [← this]; rw [hP.respectsIso.cancel_left_isIso]
   exact hP.snd _ _ H
 #align category_theory.morphism_property.stable_under_base_change.base_change_map CategoryTheory.MorphismProperty.StableUnderBaseChange.baseChange_map
 
@@ -305,7 +305,7 @@ theorem StableUnderCobaseChange.mk {P : MorphismProperty C} [HasPushouts C] (hP�
     (hP₂ : ∀ (A B A' : C) (f : A ⟶ A') (g : A ⟶ B) (_ : P f), P (pushout.inr : B ⟶ pushout f g)) :
     StableUnderCobaseChange P := fun A A' B B' f g f' g' sq hf => by
   let e := sq.flip.isoPushout
-  rw [← hP₁.cancel_right_isIso _ e.hom, sq.flip.inr_isoPushout_hom]
+  rw [← hP₁.cancel_right_isIso _ e.hom]; rw [sq.flip.inr_isoPushout_hom]
   exact hP₂ _ _ _ f g hf
 #align category_theory.morphism_property.stable_under_cobase_change.mk CategoryTheory.MorphismProperty.StableUnderCobaseChange.mk
 
@@ -646,7 +646,7 @@ lemma map_id_eq_isoClosure (P : MorphismProperty C) :
 
 lemma map_id (P : MorphismProperty C) (hP : RespectsIso P) :
     P.map (𝟭 _) = P := by
-  rw [map_id_eq_isoClosure, hP.isoClosure_eq]
+  rw [map_id_eq_isoClosure]; rw [hP.isoClosure_eq]
 
 @[simp]
 lemma map_map (P : MorphismProperty C) (F : C ⥤ D) {E : Type*} [Category E] (G : D ⥤ E) :
@@ -734,7 +734,7 @@ theorem RespectsIso.diagonal (hP : P.RespectsIso) : P.diagonal.RespectsIso := by
 theorem StableUnderComposition.diagonal (hP : StableUnderComposition P) (hP' : RespectsIso P)
     (hP'' : StableUnderBaseChange P) : P.diagonal.StableUnderComposition := by
   introv X h₁ h₂
-  rw [diagonal_iff, pullback.diagonal_comp]
+  rw [diagonal_iff]; rw [pullback.diagonal_comp]
   exact hP _ _ h₁ (by simpa [hP'.cancel_left_isIso] using hP''.snd _ _ h₂)
 #align category_theory.morphism_property.stable_under_composition.diagonal CategoryTheory.MorphismProperty.StableUnderComposition.diagonal
 
@@ -743,7 +743,7 @@ theorem StableUnderBaseChange.diagonal (hP : StableUnderBaseChange P) (hP' : Res
   StableUnderBaseChange.mk hP'.diagonal
     (by
       introv h
-      rw [diagonal_iff, diagonal_pullback_fst, hP'.cancel_left_isIso, hP'.cancel_right_isIso]
+      rw [diagonal_iff]; rw [diagonal_pullback_fst]; rw [hP'.cancel_left_isIso]; rw [hP'.cancel_right_isIso]
       exact hP.baseChange_map f _ (by simpa))
 #align category_theory.morphism_property.stable_under_base_change.diagonal CategoryTheory.MorphismProperty.StableUnderBaseChange.diagonal
 

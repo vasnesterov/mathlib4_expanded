@@ -108,7 +108,7 @@ theorem integrableOn_empty : IntegrableOn f ∅ μ := by simp [IntegrableOn, int
 
 @[simp]
 theorem integrableOn_univ : IntegrableOn f univ μ ↔ Integrable f μ := by
-  rw [IntegrableOn, Measure.restrict_univ]
+  rw [IntegrableOn]; rw [Measure.restrict_univ]
 #align measure_theory.integrable_on_univ MeasureTheory.integrableOn_univ
 
 theorem integrableOn_zero : IntegrableOn (fun _ => (0 : E)) s μ :=
@@ -166,7 +166,7 @@ theorem Integrable.integrableOn (h : Integrable f μ) : IntegrableOn f s μ :=
 
 theorem IntegrableOn.restrict (h : IntegrableOn f s μ) (hs : MeasurableSet s) :
     IntegrableOn f s (μ.restrict t) := by
-  rw [IntegrableOn, Measure.restrict_restrict hs]; exact h.mono_set (inter_subset_left _ _)
+  rw [IntegrableOn]; rw [Measure.restrict_restrict hs]; exact h.mono_set (inter_subset_left _ _)
 #align measure_theory.integrable_on.restrict MeasureTheory.IntegrableOn.restrict
 
 theorem IntegrableOn.left_of_union (h : IntegrableOn f (s ∪ t) μ) : IntegrableOn f s μ :=
@@ -193,7 +193,7 @@ theorem integrableOn_singleton_iff {x : α} [MeasurableSingletonClass α] :
   have : f =ᵐ[μ.restrict {x}] fun _ => f x := by
     filter_upwards [ae_restrict_mem (measurableSet_singleton x)]with _ ha
     simp only [mem_singleton_iff.1 ha]
-  rw [IntegrableOn, integrable_congr this, integrable_const_iff]
+  rw [IntegrableOn]; rw [integrable_congr this]; rw [integrable_const_iff]
   simp
 #align measure_theory.integrable_on_singleton_iff MeasureTheory.integrableOn_singleton_iff
 
@@ -278,8 +278,7 @@ theorem IntegrableOn.indicator (h : IntegrableOn f s μ) (ht : MeasurableSet t) 
 theorem integrable_indicatorConstLp {E} [NormedAddCommGroup E] {p : ℝ≥0∞} {s : Set α}
     (hs : MeasurableSet s) (hμs : μ s ≠ ∞) (c : E) :
     Integrable (indicatorConstLp p hs hμs c) μ := by
-  rw [integrable_congr indicatorConstLp_coeFn, integrable_indicator_iff hs, IntegrableOn,
-    integrable_const_iff, lt_top_iff_ne_top]
+  rw [integrable_congr indicatorConstLp_coeFn]; rw [integrable_indicator_iff hs]; rw [IntegrableOn]; rw [integrable_const_iff]; rw [lt_top_iff_ne_top]
   right
   simpa only [Set.univ_inter, MeasurableSet.univ, Measure.restrict_apply] using hμs
 set_option linter.uppercaseLean3 false in
@@ -294,8 +293,7 @@ theorem IntegrableOn.restrict_toMeasurable (hf : IntegrableOn f s μ) (h's : ∀
   let v n := toMeasurable (μ.restrict s) { x | u n ≤ ‖f x‖ }
   have A : ∀ n, μ (s ∩ v n) ≠ ∞ := by
     intro n
-    rw [inter_comm, ← Measure.restrict_apply (measurableSet_toMeasurable _ _),
-      measure_toMeasurable]
+    rw [inter_comm]; rw [← Measure.restrict_apply (measurableSet_toMeasurable _ _)]; rw [measure_toMeasurable]
     exact (hf.measure_norm_ge_lt_top (u_pos n)).ne
   apply Measure.restrict_toMeasurable_of_cover _ A
   intro x hx
@@ -313,7 +311,7 @@ theorem IntegrableOn.of_ae_diff_eq_zero (hf : IntegrableOn f s μ) (ht : NullMea
   have hu : IntegrableOn f u μ := hf.mono_set fun x hx => hx.1
   let v := toMeasurable μ u
   have A : IntegrableOn f v μ := by
-    rw [IntegrableOn, hu.restrict_toMeasurable]
+    rw [IntegrableOn]; rw [hu.restrict_toMeasurable]
     · exact hu
     · intro x hx; exact hx.2
   have B : IntegrableOn f (t \ v) μ := by
@@ -466,7 +464,7 @@ theorem Measure.FiniteAtFilter.integrableAtFilter {l : Filter α} [IsMeasurablyG
   rcases (hfm.eventually.and (hμ.eventually.and hC)).exists_measurable_mem_of_smallSets with
     ⟨s, hsl, hsm, hfm, hμ, hC⟩
   refine' ⟨s, hsl, ⟨hfm, hasFiniteIntegral_restrict_of_bounded hμ (C := C) _⟩⟩
-  rw [ae_restrict_eq hsm, eventually_inf_principal]
+  rw [ae_restrict_eq hsm]; rw [eventually_inf_principal]
   exact eventually_of_forall hC
 #align measure_theory.measure.finite_at_filter.integrable_at_filter MeasureTheory.Measure.FiniteAtFilter.integrableAtFilter
 
@@ -519,7 +517,7 @@ theorem ContinuousOn.aemeasurable [TopologicalSpace α] [OpensMeasurableSpace α
   intro t ht
   obtain ⟨u, u_open, hu⟩ : ∃ u : Set α, IsOpen u ∧ f ⁻¹' t ∩ s = u ∩ s :=
     _root_.continuousOn_iff'.1 hf t ht
-  rw [piecewise_preimage, Set.ite, hu]
+  rw [piecewise_preimage]; rw [Set.ite]; rw [hu]
   exact (u_open.measurableSet.inter hs).union ((measurable_const ht.measurableSet).diff hs)
 #align continuous_on.ae_measurable ContinuousOn.aemeasurable
 
@@ -678,19 +676,17 @@ theorem integrableOn_Ioc_iff_integrableOn_Ioo' (hb : μ {b} ≠ ∞) :
 
 theorem integrableOn_Icc_iff_integrableOn_Ioo' (ha : μ {a} ≠ ∞) (hb : μ {b} ≠ ∞) :
     IntegrableOn f (Icc a b) μ ↔ IntegrableOn f (Ioo a b) μ := by
-  rw [integrableOn_Icc_iff_integrableOn_Ioc' ha, integrableOn_Ioc_iff_integrableOn_Ioo' hb]
+  rw [integrableOn_Icc_iff_integrableOn_Ioc' ha]; rw [integrableOn_Ioc_iff_integrableOn_Ioo' hb]
 #align integrable_on_Icc_iff_integrable_on_Ioo' integrableOn_Icc_iff_integrableOn_Ioo'
 
 theorem integrableOn_Ici_iff_integrableOn_Ioi' (hb : μ {b} ≠ ∞) :
     IntegrableOn f (Ici b) μ ↔ IntegrableOn f (Ioi b) μ := by
-  rw [← Ioi_union_left, integrableOn_union,
-    eq_true (integrableOn_singleton_iff.mpr <| Or.inr hb.lt_top), and_true_iff]
+  rw [← Ioi_union_left]; rw [integrableOn_union]; rw [eq_true (integrableOn_singleton_iff.mpr <| Or.inr hb.lt_top)]; rw [and_true_iff]
 #align integrable_on_Ici_iff_integrable_on_Ioi' integrableOn_Ici_iff_integrableOn_Ioi'
 
 theorem integrableOn_Iic_iff_integrableOn_Iio' (hb : μ {b} ≠ ∞) :
     IntegrableOn f (Iic b) μ ↔ IntegrableOn f (Iio b) μ := by
-  rw [← Iio_union_right, integrableOn_union,
-    eq_true (integrableOn_singleton_iff.mpr <| Or.inr hb.lt_top), and_true_iff]
+  rw [← Iio_union_right]; rw [integrableOn_union]; rw [eq_true (integrableOn_singleton_iff.mpr <| Or.inr hb.lt_top)]; rw [and_true_iff]
 #align integrable_on_Iic_iff_integrable_on_Iio' integrableOn_Iic_iff_integrableOn_Iio'
 
 variable [NoAtoms μ]
@@ -717,7 +713,7 @@ theorem integrableOn_Ioc_iff_integrableOn_Ioo :
 
 theorem integrableOn_Icc_iff_integrableOn_Ioo :
     IntegrableOn f (Icc a b) μ ↔ IntegrableOn f (Ioo a b) μ := by
-  rw [integrableOn_Icc_iff_integrableOn_Ioc, integrableOn_Ioc_iff_integrableOn_Ioo]
+  rw [integrableOn_Icc_iff_integrableOn_Ioc]; rw [integrableOn_Ioc_iff_integrableOn_Ioo]
 #align integrable_on_Icc_iff_integrable_on_Ioo integrableOn_Icc_iff_integrableOn_Ioo
 
 theorem integrableOn_Ici_iff_integrableOn_Ioi :

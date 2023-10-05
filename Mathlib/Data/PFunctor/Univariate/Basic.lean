@@ -187,7 +187,7 @@ theorem liftp_iff {α : Type u} (p : α → Prop) (x : P.Obj α) :
   · rintro ⟨y, hy⟩
     cases' h : y with a f
     refine' ⟨a, fun i => (f i).val, _, fun i => (f i).property⟩
-    rw [← hy, h, PFunctor.map_eq]
+    rw [← hy]; rw [h]; rw [PFunctor.map_eq]
     congr
   rintro ⟨a, f, xeq, pf⟩
   use ⟨a, fun i => ⟨f i, pf i⟩⟩

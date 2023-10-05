@@ -61,7 +61,7 @@ namespace Bool
 
 instance : IsSimpleOrder Bool :=
   ⟨fun a => by
-    rw [← Finset.mem_singleton, Or.comm, ← Finset.mem_insert, top_eq_true, bot_eq_false, ←
+    rw [← Finset.mem_singleton]; rw [Or.comm]; rw [← Finset.mem_insert]; rw [top_eq_true]; rw [bot_eq_false]; rw [←
       Fintype.univ_bool]
     apply Finset.mem_univ⟩
 

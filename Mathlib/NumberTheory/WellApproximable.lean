@@ -289,26 +289,26 @@ theorem addWellApproximable_ae_empty_or_univ (δ : ℕ → ℝ) (hδ : Tendsto �
     rintro n ⟨hn, h_div, h_ndiv⟩
     have h_cop : (addOrderOf x).Coprime (n / p) := by
       obtain ⟨q, rfl⟩ := h_div
-      rw [hu₀, Subtype.coe_mk, hp.coprime_iff_not_dvd, q.mul_div_cancel_left hp.pos]
+      rw [hu₀]; rw [Subtype.coe_mk]; rw [hp.coprime_iff_not_dvd]; rw [q.mul_div_cancel_left hp.pos]
       exact fun contra => h_ndiv (mul_dvd_mul_left p contra)
     replace h_div : n / p * p = n := Nat.div_mul_cancel h_div
     have hf : f = (fun y => x + y) ∘ fun y => p • y := by ext; simp [add_comm x]; ac_rfl
     simp only at hf
     simp_rw [Function.comp_apply, le_eq_subset]
-    rw [sSupHom.setImage_toFun, hf, image_comp]
+    rw [sSupHom.setImage_toFun]; rw [hf]; rw [image_comp]
     have := @monotone_image 𝕊 𝕊 fun y => x + y
     specialize this (approxAddOrderOf.image_nsmul_subset (δ n) (n / p) hp.pos)
     simp only [h_div] at this ⊢
     refine' this.trans _
     convert approxAddOrderOf.vadd_subset_of_coprime (p * δ n) h_cop
-    rw [hu₀, Subtype.coe_mk, mul_comm p, h_div]
+    rw [hu₀]; rw [Subtype.coe_mk]; rw [mul_comm p]; rw [h_div]
   change (∀ᵐ x, x ∉ E) ∨ E ∈ volume.ae
-  rw [← eventuallyEq_empty, ← eventuallyEq_univ]
+  rw [← eventuallyEq_empty]; rw [← eventuallyEq_univ]
   have hC : ∀ p : Nat.Primes, u p +ᵥ C p = C p := by
     intro p
     let e := (AddAction.toPerm (u p) : Equiv.Perm 𝕊).toOrderIsoSet
     change e (C p) = C p
-    rw [OrderIso.apply_blimsup e, ← hu₀ p]
+    rw [OrderIso.apply_blimsup e]; rw [← hu₀ p]
     exact blimsup_congr (eventually_of_forall fun n hn =>
       approxAddOrderOf.vadd_eq_of_mul_dvd (δ n) hn.1 hn.2)
   by_cases h : ∀ p : Nat.Primes, A p =ᵐ[μ] (∅ : Set 𝕊) ∧ B p =ᵐ[μ] (∅ : Set 𝕊)
@@ -368,7 +368,7 @@ lemma _root_.NormedAddCommGroup.exists_norm_nsmul_le {A : Type*}
     suffices : μ (closedBall 0 (δ/2)) = 0
     · apply isOpen_univ.measure_ne_zero μ univ_nonempty $ le_zero_iff.mp $ le_trans hδ _
       simp [this]
-    rw [not_le, ← closedBall_eq_empty (x := (0 : A))] at contra
+    rw [not_le] at contra; rw [← closedBall_eq_empty (x := (0 : A))] at contra
     simp [contra]
   have h'' : ∀ j, (B j).Nonempty := by intro j; rwa [nonempty_closedBall]
   simpa using subsingleton_of_disjoint_isClosed_iUnion_eq_univ h'' h hB h'
@@ -379,8 +379,6 @@ See also `Real.exists_rat_abs_sub_le_and_den_le`. -/
 lemma exists_norm_nsmul_le (ξ : 𝕊) {n : ℕ} (hn : 0 < n) :
     ∃ j ∈ Icc 1 n, ‖j • ξ‖ ≤ T / ↑(n + 1) := by
   apply NormedAddCommGroup.exists_norm_nsmul_le (μ := volume) ξ hn
-  rw [AddCircle.measure_univ, volume_closedBall, ← ENNReal.ofReal_nsmul,
-    mul_div_cancel' _ two_ne_zero, min_eq_right (div_le_self hT.out.le $ by simp), nsmul_eq_mul,
-    mul_div_cancel' _ (Nat.cast_ne_zero.mpr n.succ_ne_zero)]
+  rw [AddCircle.measure_univ]; rw [volume_closedBall]; rw [← ENNReal.ofReal_nsmul]; rw [mul_div_cancel' _ two_ne_zero]; rw [min_eq_right (div_le_self hT.out.le $ by simp)]; rw [nsmul_eq_mul]; rw [mul_div_cancel' _ (Nat.cast_ne_zero.mpr n.succ_ne_zero)]
 
 end AddCircle

@@ -64,7 +64,7 @@ theorem divp_add_divp_same (a b : α) (u : αˣ) : a /ₚ u + b /ₚ u = (a + b)
 -- Needs to have higher simp priority than divp_sub_divp. 1000 is the default priority.
 @[field_simps 1010]
 theorem divp_sub_divp_same (a b : α) (u : αˣ) : a /ₚ u - b /ₚ u = (a - b) /ₚ u := by
-  rw [sub_eq_add_neg, sub_eq_add_neg, neg_divp, divp_add_divp_same]
+  rw [sub_eq_add_neg]; rw [sub_eq_add_neg]; rw [neg_divp]; rw [divp_add_divp_same]
 #align units.divp_sub_divp_same Units.divp_sub_divp_same
 
 @[field_simps]
@@ -85,7 +85,7 @@ theorem divp_add (a b : α) (u : αˣ) : a /ₚ u + b = (a + b * u) /ₚ u := by
 @[field_simps]
 theorem divp_sub (a b : α) (u : αˣ) : a /ₚ u - b = (a - b * u) /ₚ u := by
   simp only [divp, sub_mul, sub_right_inj]
-  rw [mul_assoc, Units.mul_inv, mul_one]
+  rw [mul_assoc]; rw [Units.mul_inv]; rw [mul_one]
 #align units.divp_sub Units.divp_sub
 
 end Ring
@@ -113,9 +113,8 @@ namespace Units
 theorem divp_add_divp [CommRing α] (a b : α) (u₁ u₂ : αˣ) :
     a /ₚ u₁ + b /ₚ u₂ = (a * u₂ + u₁ * b) /ₚ (u₁ * u₂) := by
   simp only [divp, add_mul, mul_inv_rev, val_mul]
-  rw [mul_comm (↑u₁ * b), mul_comm b]
-  rw [←mul_assoc, ←mul_assoc, mul_assoc a, mul_assoc (↑u₂⁻¹ : α), mul_inv, inv_mul, mul_one,
-    mul_one]
+  rw [mul_comm (↑u₁ * b)]; rw [mul_comm b]
+  rw [←mul_assoc]; rw [←mul_assoc]; rw [mul_assoc a]; rw [mul_assoc (↑u₂⁻¹ : α)]; rw [mul_inv]; rw [inv_mul]; rw [mul_one]; rw [mul_one]
   -- porting note: `assoc_rw` not ported: `assoc_rw [mul_inv, mul_inv, mul_one, mul_one]`
 #align units.divp_add_divp Units.divp_add_divp
 
@@ -126,7 +125,7 @@ theorem divp_sub_divp [CommRing α] (a b : α) (u₁ u₂ : αˣ) :
 #align units.divp_sub_divp Units.divp_sub_divp
 
 theorem add_eq_mul_one_add_div [Semiring R] {a : Rˣ} {b : R} : ↑a + b = a * (1 + ↑a⁻¹ * b) := by
-  rw [mul_add, mul_one, ← mul_assoc, Units.mul_inv, one_mul]
+  rw [mul_add]; rw [mul_one]; rw [← mul_assoc]; rw [Units.mul_inv]; rw [one_mul]
 #align units.add_eq_mul_one_add_div Units.add_eq_mul_one_add_div
 
 end Units

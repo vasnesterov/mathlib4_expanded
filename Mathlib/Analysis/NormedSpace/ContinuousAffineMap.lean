@@ -152,8 +152,7 @@ theorem smul_contLinear (t : R) (f : P →A[R] W) : (t • f).contLinear = t •
 
 theorem decomp (f : V →A[R] W) : (f : V → W) = f.contLinear + Function.const V (f 0) := by
   rcases f with ⟨f, h⟩
-  rw [coe_mk_const_linear_eq_linear, coe_mk, f.decomp, Pi.add_apply, LinearMap.map_zero, zero_add,
-    ← Function.const_def]
+  rw [coe_mk_const_linear_eq_linear]; rw [coe_mk]; rw [f.decomp]; rw [Pi.add_apply]; rw [LinearMap.map_zero]; rw [zero_add]; rw [← Function.const_def]
 #align continuous_affine_map.decomp ContinuousAffineMap.decomp
 
 section NormedSpaceStructure
@@ -208,7 +207,7 @@ noncomputable instance : NormedAddCommGroup (V →A[𝕜] W) :=
           simp only [norm_eq_zero] at h₁
           -- Porting note: prevously `coe_const, Function.const_apply` were in the previous
           -- `simp only`, but now they don't fire.
-          rw [coe_const, Function.const_apply] at h₁
+          rw [coe_const] at h₁; rw [Function.const_apply] at h₁
           rw [h₁]
           rfl
         · rw [norm_eq_zero', contLinear_eq_zero_iff_exists_const] at h₁
@@ -216,7 +215,7 @@ noncomputable instance : NormedAddCommGroup (V →A[𝕜] W) :=
           simp only [norm_le_zero_iff] at h₂
           -- Porting note: prevously `coe_const, Function.const_apply` were in the previous
           -- `simp only`, but now they don't fire.
-          rw [coe_const, Function.const_apply] at h₂
+          rw [coe_const] at h₂; rw [Function.const_apply] at h₂
           rw [h₂]
           rfl }
 
@@ -226,10 +225,10 @@ instance : NormedSpace 𝕜 (V →A[𝕜] W) where
     -- Porting note: previously all these rewrites were in the `simp only`,
     -- but now they don't fire.
     -- (in fact, `norm_smul` fires, but only once rather than twice!)
-    rw [coe_smul, Pi.smul_apply, norm_smul, ← mul_max_of_nonneg _ _ (norm_nonneg t)]
+    rw [coe_smul]; rw [Pi.smul_apply]; rw [norm_smul]; rw [← mul_max_of_nonneg _ _ (norm_nonneg t)]
 
 theorem norm_comp_le (g : W₂ →A[𝕜] V) : ‖f.comp g‖ ≤ ‖f‖ * ‖g‖ + ‖f 0‖ := by
-  rw [norm_def, max_le_iff]
+  rw [norm_def]; rw [max_le_iff]
   constructor
   · calc
       ‖f.comp g 0‖ = ‖f (g 0)‖ := by simp

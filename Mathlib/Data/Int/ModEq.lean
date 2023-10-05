@@ -80,7 +80,7 @@ theorem coe_nat_modEq_iff {a b n : ℕ} : a ≡ b [ZMOD n] ↔ a ≡ b [MOD n] :
 #align int.coe_nat_modeq_iff Int.coe_nat_modEq_iff
 
 theorem modEq_zero_iff_dvd : a ≡ 0 [ZMOD n] ↔ n ∣ a := by
-  rw [ModEq, zero_emod, dvd_iff_emod_eq_zero]
+  rw [ModEq]; rw [zero_emod]; rw [dvd_iff_emod_eq_zero]
 #align int.modeq_zero_iff_dvd Int.modEq_zero_iff_dvd
 
 theorem _root_.Dvd.dvd.modEq_zero_int (h : n ∣ a) : a ≡ 0 [ZMOD n] :=
@@ -92,7 +92,7 @@ theorem _root_.Dvd.dvd.zero_modEq_int (h : n ∣ a) : 0 ≡ a [ZMOD n] :=
 #align has_dvd.dvd.zero_modeq_int Dvd.dvd.zero_modEq_int
 
 theorem modEq_iff_dvd : a ≡ b [ZMOD n] ↔ n ∣ b - a := by
-  rw [ModEq, eq_comm]
+  rw [ModEq]; rw [eq_comm]
   simp [emod_eq_emod_iff_emod_sub_eq_zero, dvd_iff_emod_eq_zero]
 #align int.modeq_iff_dvd Int.modEq_iff_dvd
 
@@ -134,7 +134,7 @@ protected theorem mul_left' (h : a ≡ b [ZMOD n]) : c * a ≡ c * b [ZMOD c * n
 #align int.modeq.mul_left' Int.ModEq.mul_left'
 
 protected theorem mul_right' (h : a ≡ b [ZMOD n]) : a * c ≡ b * c [ZMOD n * c] := by
-  rw [mul_comm a, mul_comm b, mul_comm n]; exact h.mul_left'
+  rw [mul_comm a]; rw [mul_comm b]; rw [mul_comm n]; exact h.mul_left'
 #align int.modeq.mul_right' Int.ModEq.mul_right'
 
 @[gcongr]
@@ -166,7 +166,7 @@ protected theorem add_left_cancel' (c : ℤ) (h : c + a ≡ c + b [ZMOD n]) : a 
 
 protected theorem add_right_cancel (h₁ : c ≡ d [ZMOD n]) (h₂ : a + c ≡ b + d [ZMOD n]) :
     a ≡ b [ZMOD n] := by
-  rw [add_comm a, add_comm b] at h₂
+  rw [add_comm a] at h₂; rw [add_comm b] at h₂
   exact h₁.add_left_cancel h₂
 #align int.modeq.add_right_cancel Int.ModEq.add_right_cancel
 
@@ -180,7 +180,7 @@ protected theorem add_right_cancel' (c : ℤ) (h : a + c ≡ b + c [ZMOD n]) : a
 
 @[gcongr]
 protected theorem sub (h₁ : a ≡ b [ZMOD n]) (h₂ : c ≡ d [ZMOD n]) : a - c ≡ b - d [ZMOD n] := by
-  rw [sub_eq_add_neg, sub_eq_add_neg]
+  rw [sub_eq_add_neg]; rw [sub_eq_add_neg]
   exact h₁.add h₂.neg
 #align int.modeq.sub Int.ModEq.sub
 
@@ -207,7 +207,7 @@ protected theorem mul (h₁ : a ≡ b [ZMOD n]) (h₂ : c ≡ d [ZMOD n]) : a * 
 
 @[gcongr] protected theorem pow (m : ℕ) (h : a ≡ b [ZMOD n]) : a ^ m ≡ b ^ m [ZMOD n] := by
   induction' m with d hd; · rfl
-  rw [pow_succ, pow_succ]
+  rw [pow_succ]; rw [pow_succ]
   exact h.mul hd
 #align int.modeq.pow Int.ModEq.pow
 
@@ -267,15 +267,15 @@ theorem add_modEq_right : a + n ≡ a [ZMOD n] := ModEq.symm <| modEq_iff_dvd.2 
 theorem modEq_and_modEq_iff_modEq_mul {a b m n : ℤ} (hmn : m.natAbs.Coprime n.natAbs) :
     a ≡ b [ZMOD m] ∧ a ≡ b [ZMOD n] ↔ a ≡ b [ZMOD m * n] :=
   ⟨fun h => by
-    rw [modEq_iff_dvd, modEq_iff_dvd] at h
-    rw [modEq_iff_dvd, ← natAbs_dvd, ← dvd_natAbs, coe_nat_dvd, natAbs_mul]
+    rw [modEq_iff_dvd] at h; rw [modEq_iff_dvd] at h
+    rw [modEq_iff_dvd]; rw [← natAbs_dvd]; rw [← dvd_natAbs]; rw [coe_nat_dvd]; rw [natAbs_mul]
     refine' hmn.mul_dvd_of_dvd_of_dvd _ _ <;> rw [← coe_nat_dvd, natAbs_dvd, dvd_natAbs] <;>
       tauto,
     fun h => ⟨h.of_mul_right _, h.of_mul_left _⟩⟩
 #align int.modeq_and_modeq_iff_modeq_mul Int.modEq_and_modEq_iff_modEq_mul
 
 theorem gcd_a_modEq (a b : ℕ) : (a : ℤ) * Nat.gcdA a b ≡ Nat.gcd a b [ZMOD b] := by
-  rw [← add_zero ((a : ℤ) * _), Nat.gcd_eq_gcd_ab]
+  rw [← add_zero ((a : ℤ) * _)]; rw [Nat.gcd_eq_gcd_ab]
   exact (dvd_mul_right _ _).zero_modEq_int.add_left _
 #align int.gcd_a_modeq Int.gcd_a_modEq
 

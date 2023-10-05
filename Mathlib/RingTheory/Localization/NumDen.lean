@@ -102,9 +102,9 @@ theorem isInteger_of_isUnit_den {x : K} (h : IsUnit (den A x : A)) : IsInteger A
     IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors (den A x).2
   use ↑d⁻¹ * num A x
   refine' _root_.trans _ (mk'_num_den A x)
-  rw [map_mul, map_units_inv, hd]
+  rw [map_mul]; rw [map_units_inv]; rw [hd]
   apply mul_left_cancel₀ d_ne_zero
-  rw [← mul_assoc, mul_inv_cancel d_ne_zero, one_mul, mk'_spec']
+  rw [← mul_assoc]; rw [mul_inv_cancel d_ne_zero]; rw [one_mul]; rw [mk'_spec']
 #align is_fraction_ring.is_integer_of_is_unit_denom IsFractionRing.isInteger_of_isUnit_den
 
 theorem isUnit_den_of_num_eq_zero {x : K} (h : num A x = 0) : IsUnit (den A x : A) :=

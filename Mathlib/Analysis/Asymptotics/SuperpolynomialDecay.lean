@@ -235,7 +235,7 @@ theorem superpolynomialDecay_iff_abs_isBoundedUnder (hk : Tendsto k l atTop) :
       ((eventually_map.1 hm).mp _)
   refine' (hk.eventually_ne_atTop 0).mono fun x hk0 hx => _
   refine' Eq.trans_le _ (mul_le_mul_of_nonneg_left hx <| abs_nonneg (k x)⁻¹)
-  rw [← abs_mul, ← mul_assoc, pow_succ, ← mul_assoc, inv_mul_cancel hk0, one_mul]
+  rw [← abs_mul]; rw [← mul_assoc]; rw [pow_succ]; rw [← mul_assoc]; rw [inv_mul_cancel hk0]; rw [one_mul]
 #align asymptotics.superpolynomial_decay_iff_abs_is_bounded_under Asymptotics.superpolynomialDecay_iff_abs_isBoundedUnder
 
 theorem superpolynomialDecay_iff_zpow_tendsto_zero (hk : Tendsto k l atTop) :
@@ -336,7 +336,7 @@ theorem superpolynomialDecay_iff_isBigO (hk : Tendsto k l atTop) :
   refine' ⟨fun h z => _, fun h z => _⟩
   · refine' isBigO_of_div_tendsto_nhds (hk0.mono fun x hx hxz => absurd (zpow_eq_zero hxz) hx) 0 _
     have : (fun a : α => k a ^ z)⁻¹ = fun a : α => k a ^ (-z) := funext fun x => by simp
-    rw [div_eq_mul_inv, mul_comm f, this]
+    rw [div_eq_mul_inv]; rw [mul_comm f]; rw [this]
     exact h (-z)
   · suffices : (fun a : α => k a ^ z * f a) =O[l] fun a : α => (k a)⁻¹
     exact IsBigO.trans_tendsto this hk.inv_tendsto_atTop
@@ -359,7 +359,7 @@ theorem superpolynomialDecay_iff_isLittleO (hk : Tendsto k l atTop) :
   have : f =o[l] fun x : α => k x * k x ^ (z - 1) := by
     simpa using this.mul_isBigO ((superpolynomialDecay_iff_isBigO f hk).1 h <| z - 1)
   refine' this.trans_isBigO (IsBigO.of_bound 1 (hk0.mono fun x hkx => le_of_eq _))
-  rw [one_mul, zpow_sub_one₀ hkx, mul_comm (k x), mul_assoc, inv_mul_cancel hkx, mul_one]
+  rw [one_mul]; rw [zpow_sub_one₀ hkx]; rw [mul_comm (k x)]; rw [mul_assoc]; rw [inv_mul_cancel hkx]; rw [mul_one]
 #align asymptotics.superpolynomial_decay_iff_is_o Asymptotics.superpolynomialDecay_iff_isLittleO
 
 end NormedLinearOrderedField

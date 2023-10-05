@@ -67,7 +67,7 @@ instance instDistrib (n : ℕ) : Distrib (Fin n) :=
   { Fin.addCommSemigroup n, Fin.instCommSemigroup n with
     left_distrib := left_distrib_aux n
     right_distrib := fun a b c => by
-      rw [mul_comm, left_distrib_aux, mul_comm _ b, mul_comm] }
+      rw [mul_comm]; rw [left_distrib_aux]; rw [mul_comm _ b]; rw [mul_comm] }
 #align fin.distrib Fin.instDistrib
 
 /-- Commutative ring structure on `Fin n`. -/

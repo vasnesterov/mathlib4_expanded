@@ -77,7 +77,7 @@ instance oreSetBot : OreSet (⊥ : Submonoid R)
       rcases s with ⟨s, hs⟩
       rw [Submonoid.mem_bot] at hs
       subst hs
-      rw [one_mul, one_mul] at h
+      rw [one_mul] at h; rw [one_mul] at h
       subst h
       rfl⟩
   oreNum r _ := r

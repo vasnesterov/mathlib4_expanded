@@ -284,7 +284,7 @@ open scoped MatrixGroups
 
 theorem SL2_inv_expl_det (A : SL(2, R)) :
     det ![![A.1 1 1, -A.1 0 1], ![-A.1 1 0, A.1 0 0]] = 1 := by
-  rw [Matrix.det_fin_two, mul_comm]
+  rw [Matrix.det_fin_two]; rw [mul_comm]
   simp only [cons_val_zero, cons_val_one, head_cons, mul_neg, neg_mul, neg_neg]
   have := A.2
   rw [Matrix.det_fin_two] at this
@@ -296,7 +296,7 @@ theorem SL2_inv_expl (A : SL(2, R)) :
     A⁻¹ = ⟨![![A.1 1 1, -A.1 0 1], ![-A.1 1 0, A.1 0 0]], SL2_inv_expl_det A⟩ := by
   ext
   have := Matrix.adjugate_fin_two A.1
-  rw [coe_inv, this]
+  rw [coe_inv]; rw [this]
   rfl
 set_option linter.uppercaseLean3 false in
 #align matrix.special_linear_group.SL2_inv_expl Matrix.SpecialLinearGroup.SL2_inv_expl
@@ -366,7 +366,7 @@ theorem coe_T_zpow (n : ℤ) : ↑ₘ(T ^ n) = !![1, n; 0, 1] := by
   · rw [zpow_zero, coe_one, Matrix.one_fin_two]
   · simp_rw [zpow_add, zpow_one, coe_mul, h, coe_T, Matrix.mul_fin_two]
     congrm !![_, ?_; _, _]
-    rw [mul_one, mul_one, add_comm]
+    rw [mul_one]; rw [mul_one]; rw [add_comm]
   · simp_rw [zpow_sub, zpow_one, coe_mul, h, coe_T_inv, Matrix.mul_fin_two]
     congrm !![?_, ?_; _, _] <;> ring
 #align modular_group.coe_T_zpow ModularGroup.coe_T_zpow

@@ -241,7 +241,7 @@ theorem independent_range_of_coprime_order [Finite ι] [∀ i, Fintype (H i)]
     rw [disjoint_iff_inf_le]
     rintro f ⟨hxi, hxp⟩
     dsimp at hxi hxp
-    rw [iSup_subtype', ← noncommPiCoprod_range] at hxp
+    rw [iSup_subtype'] at hxp; rw [← noncommPiCoprod_range] at hxp
     rotate_left
     · intro _ _ hj
       apply hcomm
@@ -252,10 +252,10 @@ theorem independent_range_of_coprime_order [Finite ι] [∀ i, Fintype (H i)]
       rw [← hg'f]
       exact (orderOf_map_dvd _ _).trans orderOf_dvd_card_univ
     have hxp : orderOf f ∣ ∏ j : { j // j ≠ i }, Fintype.card (H j) := by
-      rw [← hgf, ← Fintype.card_pi]
+      rw [← hgf]; rw [← Fintype.card_pi]
       exact (orderOf_map_dvd _ _).trans orderOf_dvd_card_univ
     change f = 1
-    rw [← pow_one f, ← orderOf_dvd_iff_pow_eq_one]
+    rw [← pow_one f]; rw [← orderOf_dvd_iff_pow_eq_one]
     -- porting note: ouch, had to replace an ugly `convert`
     obtain ⟨c, hc⟩ := Nat.dvd_gcd hxp hxi
     use c

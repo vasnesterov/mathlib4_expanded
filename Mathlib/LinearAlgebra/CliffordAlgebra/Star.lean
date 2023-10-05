@@ -57,13 +57,13 @@ also conjugated all the scalars, but there appears to be nothing in the literatu
 doing this. -/
 @[simp]
 theorem star_smul (r : R) (x : CliffordAlgebra Q) : star (r • x) = r • star x := by
-  rw [star_def, star_def, map_smul, map_smul]
+  rw [star_def]; rw [star_def]; rw [map_smul]; rw [map_smul]
 #align clifford_algebra.star_smul CliffordAlgebra.star_smul
 
 @[simp]
 theorem star_algebraMap (r : R) :
     star (algebraMap R (CliffordAlgebra Q) r) = algebraMap R (CliffordAlgebra Q) r := by
-  rw [star_def, involute.commutes, reverse.commutes]
+  rw [star_def]; rw [involute.commutes]; rw [reverse.commutes]
 #align clifford_algebra.star_algebra_map CliffordAlgebra.star_algebraMap
 
 end CliffordAlgebra

@@ -68,7 +68,7 @@ theorem rat_mul_continuous_lemma {ε K₁ K₂ : α} (ε0 : 0 < ε) :
   set M := max 1 (max K₁ K₂)
   have : abv (a₁ - b₁) * abv b₂ + abv (a₂ - b₂) * abv a₁ < ε / 2 / M * M + ε / 2 / M * M := by
     gcongr
-  rw [← abv_mul abv, mul_comm, div_mul_cancel _ (ne_of_gt K0), ← abv_mul abv, add_halves] at this
+  rw [← abv_mul abv] at this; rw [mul_comm] at this; rw [div_mul_cancel _ (ne_of_gt K0)] at this; rw [← abv_mul abv] at this; rw [add_halves] at this
   simpa [sub_eq_add_neg, mul_add, add_mul, add_left_comm] using
     lt_of_le_of_lt (abv_add abv _ _) this
 #align rat_mul_continuous_lemma rat_mul_continuous_lemma
@@ -79,10 +79,9 @@ theorem rat_inv_continuous_lemma {β : Type*} [DivisionRing β] (abv : β → α
   refine' ⟨K * ε * K, mul_pos (mul_pos K0 ε0) K0, fun {a b} ha hb h => _⟩
   have a0 := K0.trans_le ha
   have b0 := K0.trans_le hb
-  rw [inv_sub_inv' ((abv_pos abv).1 a0) ((abv_pos abv).1 b0), abv_mul abv, abv_mul abv, abv_inv abv,
-    abv_inv abv, abv_sub abv]
+  rw [inv_sub_inv' ((abv_pos abv).1 a0) ((abv_pos abv).1 b0)]; rw [abv_mul abv]; rw [abv_mul abv]; rw [abv_inv abv]; rw [abv_inv abv]; rw [abv_sub abv]
   refine' lt_of_mul_lt_mul_left (lt_of_mul_lt_mul_right _ b0.le) a0.le
-  rw [mul_assoc, inv_mul_cancel_right₀ b0.ne', ← mul_assoc, mul_inv_cancel a0.ne', one_mul]
+  rw [mul_assoc]; rw [inv_mul_cancel_right₀ b0.ne']; rw [← mul_assoc]; rw [mul_inv_cancel a0.ne']; rw [one_mul]
   refine' h.trans_le _
   gcongr
 #align rat_inv_continuous_lemma rat_inv_continuous_lemma
@@ -190,7 +189,7 @@ theorem bounded (f : CauSeq β abv) : ∃ r, ∀ i, abv (f i) < r := by
   cases' lt_or_le j i with ij ij
   · exact lt_of_le_of_lt (this i _ (le_of_lt ij)) (lt_add_one _)
   · have := lt_of_le_of_lt (abv_add abv _ _) (add_lt_add_of_le_of_lt (this i _ le_rfl) (h _ ij))
-    rw [add_sub, add_comm] at this
+    rw [add_sub] at this; rw [add_comm] at this
     simpa using this
 #align cau_seq.bounded CauSeq.bounded
 
@@ -563,7 +562,7 @@ theorem mul_equiv_mul {f1 f2 g1 g2 : CauSeq β abv} (hf : f1 ≈ f2) (hg : g1 �
     f1 * g1 ≈ f2 * g2 := by
   change LimZero (f1 * g1 - f2 * g2)
   convert add_limZero (mul_limZero_left g1 hf) (mul_limZero_right f2 hg) using 1
-  rw [mul_sub, sub_mul]
+  rw [mul_sub]; rw [sub_mul]
   -- Porting note: doesn't work with `rw`, but did in Lean 3
   exact (sub_add_sub_cancel (f1*g1) (f2*g1) (f2*g2)).symm
   -- Porting note: was
@@ -713,7 +712,7 @@ theorem trichotomy (f : CauSeq α abs) : Pos f ∨ LimZero f ∨ Pos (-f) := by
         (le_trans h₁ <| neg_le_sub_iff_le_add'.1 <| le_of_lt (abs_lt.1 <| h₂ _ ij).1)
   · rwa [abs_of_nonpos] at this
     rw [abs_of_nonpos h] at h₁
-    rw [← sub_le_sub_iff_right, zero_sub]
+    rw [← sub_le_sub_iff_right]; rw [zero_sub]
     exact le_trans (le_of_lt (abs_lt.1 <| h₂ _ ij).2) h₁
 #align cau_seq.trichotomy CauSeq.trichotomy
 
@@ -799,7 +798,7 @@ theorem le_of_exists {f g : CauSeq α abs} (h : ∃ i, ∀ j ≥ i, f j ≤ g j)
 theorem exists_gt (f : CauSeq α abs) : ∃ a : α, f < const a :=
   let ⟨K, H⟩ := f.bounded
   ⟨K + 1, 1, zero_lt_one, 0, fun i _ => by
-    rw [sub_apply, const_apply, le_sub_iff_add_le', add_le_add_iff_right]
+    rw [sub_apply]; rw [const_apply]; rw [le_sub_iff_add_le']; rw [add_le_add_iff_right]
     exact le_of_lt (abs_lt.1 (H _)).2⟩
 #align cau_seq.exists_gt CauSeq.exists_gt
 
@@ -921,7 +920,7 @@ protected theorem sup_eq_right {a b : CauSeq α abs} (h : a ≤ b) : a ⊔ b ≈
     dsimp
     erw [← max_sub_sub_right]
     rwa [sub_self, max_eq_right, abs_zero]
-    rw [sub_nonpos, ← sub_nonneg]
+    rw [sub_nonpos]; rw [← sub_nonneg]
     exact ε0.le.trans (h _ hj)
   · refine' Setoid.trans (sup_equiv_sup h (Setoid.refl _)) _
     rw [CauSeq.sup_idem]

@@ -69,12 +69,12 @@ instance stalk_isReduced_of_reduced [IsReduced X] (x : X.carrier) :
   constructor
   rintro g ⟨n, e⟩
   obtain ⟨U, hxU, s, rfl⟩ := X.presheaf.germ_exist x g
-  rw [← map_pow, ← map_zero (X.presheaf.germ ⟨x, hxU⟩)] at e
+  rw [← map_pow] at e; rw [← map_zero (X.presheaf.germ ⟨x, hxU⟩)] at e
   obtain ⟨V, hxV, iU, iV, e'⟩ := X.presheaf.germ_eq x hxU hxU _ 0 e
-  rw [map_pow, map_zero] at e'
+  rw [map_pow] at e'; rw [map_zero] at e'
   replace e' := (IsNilpotent.mk _ _ e').eq_zero (R := X.presheaf.obj <| op V)
   erw [← ConcreteCategory.congr_hom (X.presheaf.germ_res iU ⟨x, hxV⟩) s]
-  rw [comp_apply, e', map_zero]
+  rw [comp_apply]; rw [e']; rw [map_zero]
 #align algebraic_geometry.stalk_is_reduced_of_reduced AlgebraicGeometry.stalk_isReduced_of_reduced
 
 theorem isReducedOfOpenImmersion {X Y : Scheme} (f : X ⟶ Y) [H : IsOpenImmersion f]
@@ -170,7 +170,7 @@ theorem eq_zero_of_basicOpen_eq_bot {X : Scheme} [hX : IsReduced X] {U : Opens X
     exact H
   · rintro X Y f hf
     have e : f.val.base ⁻¹' Set.range ↑f.val.base = Set.univ := by
-      rw [← Set.image_univ, Set.preimage_image_eq _ hf.base_open.inj]
+      rw [← Set.image_univ]; rw [Set.preimage_image_eq _ hf.base_open.inj]
     refine' ⟨_, _, e, rfl, _⟩
     rintro H hX s hs ⟨_, x, rfl⟩
     haveI := isReducedOfOpenImmersion f
@@ -186,7 +186,7 @@ theorem eq_zero_of_basicOpen_eq_bot {X : Scheme} [hX : IsReduced X] {U : Opens X
     -- what the hell?!
     replace hs := @IsNilpotent.eq_zero _ _ _ _ (show _ from ?_) hs
     rw [Iso.hom_inv_id_apply] at hs
-    rw [hs, map_zero]
+    rw [hs]; rw [map_zero]
     exact @IsReduced.component_reduced _ hX ⊤
 #align algebraic_geometry.eq_zero_of_basic_open_eq_bot AlgebraicGeometry.eq_zero_of_basicOpen_eq_bot
 
@@ -268,7 +268,7 @@ theorem isIntegralOfIsIrreducibleIsReduced [IsReduced X] [H : IrreducibleSpace X
     replace e' := Subtype.eq e'
     subst e'
     replace e := congr_arg (X.presheaf.germ x) e
-    rw [RingHom.map_mul, RingHom.map_zero] at e
+    rw [RingHom.map_mul] at e; rw [RingHom.map_zero] at e
     refine' zero_ne_one' (X.presheaf.stalk x.1) (isUnit_zero_iff.1 _)
     convert hx₁.mul hx₂
     exact e.symm

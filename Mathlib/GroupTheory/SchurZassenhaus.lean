@@ -88,11 +88,10 @@ noncomputable instance : MulAction G H.QuotientDiff where
 theorem smul_diff' (h : H) :
     diff (MonoidHom.id H) α (op (h : G) • β) = diff (MonoidHom.id H) α β * h ^ H.index := by
   letI := H.fintypeQuotientOfFiniteIndex
-  rw [diff, diff, index_eq_card, ←Finset.card_univ, ←Finset.prod_const, ←Finset.prod_mul_distrib]
+  rw [diff]; rw [diff]; rw [index_eq_card]; rw [←Finset.card_univ]; rw [←Finset.prod_const]; rw [←Finset.prod_mul_distrib]
   refine' Finset.prod_congr rfl fun q _ => _
   simp_rw [Subtype.ext_iff, MonoidHom.id_apply, coe_mul, mul_assoc, mul_right_inj]
-  rw [smul_apply_eq_smul_apply_inv_smul, smul_eq_mul_unop, unop_op, mul_left_inj, ←Subtype.ext_iff,
-    Equiv.apply_eq_iff_eq, inv_smul_eq_iff]
+  rw [smul_apply_eq_smul_apply_inv_smul]; rw [smul_eq_mul_unop]; rw [unop_op]; rw [mul_left_inj]; rw [←Subtype.ext_iff]; rw [Equiv.apply_eq_iff_eq]; rw [inv_smul_eq_iff]
   exact self_eq_mul_right.mpr ((QuotientGroup.eq_one_iff _).mpr h.2)
 #align subgroup.smul_diff' Subgroup.smul_diff'
 
@@ -102,7 +101,7 @@ theorem eq_one_of_smul_eq_one (hH : Nat.Coprime (Nat.card H) H.index) (α : H.Qu
     (powCoprime hH).injective <|
       calc
         h ^ H.index = diff (MonoidHom.id H) (op ((h⁻¹ : H) : G) • α) α := by
-          rw [← diff_inv, smul_diff', diff_self, one_mul, inv_pow, inv_inv]
+          rw [← diff_inv]; rw [smul_diff']; rw [diff_self]; rw [one_mul]; rw [inv_pow]; rw [inv_inv]
         _ = 1 ^ H.index := (Quotient.exact' hα).trans (one_pow H.index).symm
 
 #align subgroup.eq_one_of_smul_eq_one Subgroup.eq_one_of_smul_eq_one
@@ -173,7 +172,7 @@ private theorem step0 : N ≠ ⊥ := by
 private theorem step1 (K : Subgroup G) (hK : K ⊔ N = ⊤) : K = ⊤ := by
   contrapose! h3
   have h4 : (N.comap K.subtype).index = N.index := by
-    rw [← N.relindex_top_right, ← hK]
+    rw [← N.relindex_top_right]; rw [← hK]
     exact (relindex_sup_right K N).symm
   have h5 : Fintype.card K < Fintype.card G := by
     rw [← K.index_mul_card]
@@ -183,11 +182,9 @@ private theorem step1 (K : Subgroup G) (hK : K ⊔ N = ⊤) : K = ⊤ := by
     exact h1.coprime_dvd_left (card_comap_dvd_of_injective N K.subtype Subtype.coe_injective)
   obtain ⟨H, hH⟩ := h2 K h5 h6
   replace hH : Fintype.card (H.map K.subtype) = N.index := by
-    rw [←relindex_bot_left_eq_card, ←relindex_comap, MonoidHom.comap_bot, Subgroup.ker_subtype,
-      relindex_bot_left, ←IsComplement'.index_eq_card (IsComplement'.symm hH), index_comap,
-      subtype_range, ←relindex_sup_right, hK, relindex_top_right]
+    rw [←relindex_bot_left_eq_card]; rw [←relindex_comap]; rw [MonoidHom.comap_bot]; rw [Subgroup.ker_subtype]; rw [relindex_bot_left]; rw [←IsComplement'.index_eq_card (IsComplement'.symm hH)]; rw [index_comap]; rw [subtype_range]; rw [←relindex_sup_right]; rw [hK]; rw [relindex_top_right]
   have h7 : Fintype.card N * Fintype.card (H.map K.subtype) = Fintype.card G := by
-    rw [hH, ← N.index_mul_card, mul_comm]
+    rw [hH]; rw [← N.index_mul_card]; rw [mul_comm]
   have h8 : (Fintype.card N).Coprime (Fintype.card (H.map K.subtype)) := by
     rwa [hH]
   exact ⟨H.map K.subtype, isComplement'_of_coprime h7 h8⟩
@@ -198,7 +195,7 @@ private theorem step2 (K : Subgroup G) [K.Normal] (hK : K ≤ N) : K = ⊥ ∨ K
   have h4 := step1 h1 h2 h3
   contrapose! h4
   have h5 : Fintype.card (G ⧸ K) < Fintype.card G := by
-    rw [← index_eq_card, ← K.index_mul_card]
+    rw [← index_eq_card]; rw [← K.index_mul_card]
     refine'
       lt_mul_of_one_lt_right (Nat.pos_of_ne_zero index_ne_zero_of_finite)
         (K.one_lt_card_iff_ne_bot.mpr h4.1)
@@ -208,7 +205,7 @@ private theorem step2 (K : Subgroup G) [K.Normal] (hK : K ≤ N) : K = ⊥ ∨ K
     have index_pos : 0 < N.index := Nat.pos_of_ne_zero index_ne_zero_of_finite
     rw [index_map]
     refine' h1.coprime_dvd_left _
-    rw [← Nat.mul_dvd_mul_iff_left index_pos, index_mul_card, ← index_map, index_mul_card]
+    rw [← Nat.mul_dvd_mul_iff_left index_pos]; rw [index_mul_card]; rw [← index_map]; rw [index_mul_card]
     exact K.card_quotient_dvd_card
   obtain ⟨H, hH⟩ := h2 (G ⧸ K) h5 h6
   refine' ⟨H.comap (QuotientGroup.mk' K), _, _⟩
@@ -218,8 +215,7 @@ private theorem step2 (K : Subgroup G) [K.Normal] (hK : K ≤ N) : K = ⊥ ∨ K
     rwa [← key, comap_sup_eq, hH.symm.sup_eq_top, comap_top]
   · rw [← comap_top (QuotientGroup.mk' K)]
     intro hH'
-    rw [comap_injective this hH', isComplement'_top_right, map_eq_bot_iff,
-      QuotientGroup.ker_mk'] at hH
+    rw [comap_injective this hH'] at hH; rw [isComplement'_top_right] at hH; rw [map_eq_bot_iff] at hH; rw [QuotientGroup.ker_mk'] at hH
     · exact h4.2 (le_antisymm hK hH)
 
 /-- Do not use this lemma: It is made obsolete by `exists_right_complement'_of_coprime` -/
@@ -229,7 +225,7 @@ private theorem step3 (K : Subgroup N) [(K.map N.subtype).Normal] : K = ⊥ ∨ 
   conv at key =>
     rhs
     rhs
-    rw [← N.subtype_range, N.subtype.range_eq_map]
+    rw [← N.subtype_range]; rw [N.subtype.range_eq_map]
   have inj := map_injective N.subtype_injective
   rwa [inj.eq_iff, inj.eq_iff] at key
 
@@ -246,7 +242,7 @@ private theorem step5 {P : Sylow (Fintype.card N).minFac N} : P.1 ≠ ⊥ :=
 private theorem step6 : IsPGroup (Fintype.card N).minFac N := by
   haveI : Fact (Fintype.card N).minFac.Prime := ⟨step4 h1 h3⟩
   refine' Sylow.nonempty.elim fun P => P.2.of_surjective P.1.subtype _
-  rw [← MonoidHom.range_top_iff_surjective, subtype_range]
+  rw [← MonoidHom.range_top_iff_surjective]; rw [subtype_range]
   haveI : (P.1.map N.subtype).Normal :=
     normalizer_eq_top.mp (step1 h1 h2 h3 (P.1.map N.subtype).normalizer P.normalizer_sup_eq_top)
   exact (step3 h1 h2 h3 P.1).resolve_left (step5 h1 h3)

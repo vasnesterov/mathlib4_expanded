@@ -64,13 +64,12 @@ variable (M)
 
 theorem charpoly_sub_diagonal_degree_lt :
     (M.charpoly - ∏ i : n, (X - C (M i i))).degree < ↑(Fintype.card n - 1) := by
-  rw [charpoly, det_apply', ← insert_erase (mem_univ (Equiv.refl n)),
-    sum_insert (not_mem_erase (Equiv.refl n) univ), add_comm]
+  rw [charpoly]; rw [det_apply']; rw [← insert_erase (mem_univ (Equiv.refl n))]; rw [sum_insert (not_mem_erase (Equiv.refl n) univ)]; rw [add_comm]
   simp only [charmatrix_apply_eq, one_mul, Equiv.Perm.sign_refl, id.def, Int.cast_one,
     Units.val_one, add_sub_cancel, Equiv.coe_refl]
   rw [← mem_degreeLT]
   apply Submodule.sum_mem (degreeLT R (Fintype.card n - 1))
-  intro c hc; rw [← C_eq_int_cast, C_mul']
+  intro c hc; rw [← C_eq_int_cast]; rw [C_mul']
   apply Submodule.smul_mem (degreeLT R (Fintype.card n - 1)) ↑↑(Equiv.Perm.sign c)
   rw [mem_degreeLT]
   apply lt_of_le_of_lt degree_le_natDegree _
@@ -108,9 +107,9 @@ theorem charpoly_degree_eq_dim [Nontrivial R] (M : Matrix n n R) :
   rw [← sub_add_cancel M.charpoly (∏ i : n, (X - C (M i i)))]
   -- porting note: added `↑` in front of `Fintype.card n`
   have h1 : (∏ i : n, (X - C (M i i))).degree = ↑(Fintype.card n) := by
-    rw [degree_eq_iff_natDegree_eq_of_pos (Nat.pos_of_ne_zero h), natDegree_prod']
+    rw [degree_eq_iff_natDegree_eq_of_pos (Nat.pos_of_ne_zero h)]; rw [natDegree_prod']
     simp_rw [natDegree_X_sub_C]
-    rw [← Finset.card_univ, sum_const, smul_eq_mul, mul_one]
+    rw [← Finset.card_univ]; rw [sum_const]; rw [smul_eq_mul]; rw [mul_one]
     simp_rw [(monic_X_sub_C _).leadingCoeff]
     simp
   rw [degree_add_eq_right_of_degree_lt]
@@ -152,8 +151,7 @@ theorem charpoly_monic (M : Matrix n n R) : M.charpoly.Monic := by
 /-- See also `Matrix.coeff_charpolyRev_eq_neg_trace`. -/
 theorem trace_eq_neg_charpoly_coeff [Nonempty n] (M : Matrix n n R) :
     trace M = -M.charpoly.coeff (Fintype.card n - 1) := by
-  rw [charpoly_coeff_eq_prod_coeff_of_le _ le_rfl, Fintype.card,
-    prod_X_sub_C_coeff_card_pred univ (fun i : n => M i i) Fintype.card_pos, neg_neg, trace]
+  rw [charpoly_coeff_eq_prod_coeff_of_le _ le_rfl]; rw [Fintype.card]; rw [prod_X_sub_C_coeff_card_pred univ (fun i : n => M i i) Fintype.card_pos]; rw [neg_neg]; rw [trace]
   simp_rw [diag_apply]
 #align matrix.trace_eq_neg_charpoly_coeff Matrix.trace_eq_neg_charpoly_coeff
 
@@ -161,7 +159,7 @@ theorem trace_eq_neg_charpoly_coeff [Nonempty n] (M : Matrix n n R) :
 theorem matPolyEquiv_eval (M : Matrix n n R[X]) (r : R) (i j : n) :
     (matPolyEquiv M).eval ((scalar n) r) i j = (M i j).eval r := by
   unfold Polynomial.eval
-  rw [Polynomial.eval₂_def, Polynomial.eval₂_def]  -- porting note: was `unfold eval₂`
+  rw [Polynomial.eval₂_def]; rw [Polynomial.eval₂_def]  -- porting note: was `unfold eval₂`
   trans Polynomial.sum (matPolyEquiv M) fun (e : ℕ) (a : Matrix n n R) => (a * (scalar n) r ^ e) i j
   · unfold Polynomial.sum
     simp only [sum_apply]
@@ -182,7 +180,7 @@ theorem matPolyEquiv_eval (M : Matrix n n R[X]) (r : R) (i j : n) :
 
 theorem eval_det (M : Matrix n n R[X]) (r : R) :
     Polynomial.eval r M.det = (Polynomial.eval (scalar n r) (matPolyEquiv M)).det := by
-  rw [Polynomial.eval, ← coe_eval₂RingHom, RingHom.map_det]
+  rw [Polynomial.eval]; rw [← coe_eval₂RingHom]; rw [RingHom.map_det]
   apply congr_arg det
   ext
   symm
@@ -192,7 +190,7 @@ theorem eval_det (M : Matrix n n R[X]) (r : R) :
 
 theorem det_eq_sign_charpoly_coeff (M : Matrix n n R) :
     M.det = (-1) ^ Fintype.card n * M.charpoly.coeff 0 := by
-  rw [coeff_zero_eq_eval_zero, charpoly, eval_det, matPolyEquiv_charmatrix, ← det_smul]
+  rw [coeff_zero_eq_eval_zero]; rw [charpoly]; rw [eval_det]; rw [matPolyEquiv_charmatrix]; rw [← det_smul]
   simp
 #align matrix.det_eq_sign_charpoly_coeff Matrix.det_eq_sign_charpoly_coeff
 
@@ -205,8 +203,7 @@ theorem matPolyEquiv_eq_x_pow_sub_c {K : Type*} (k : ℕ) [Field K] (M : Matrix 
       X ^ k - C (M ^ k) := by
   -- porting note: `i` and `j` are used later on, but were not mentioned in mathlib3
   ext m i j
-  rw [coeff_sub, coeff_C, matPolyEquiv_coeff_apply, RingHom.mapMatrix_apply, Matrix.map_apply,
-    AlgHom.coe_toRingHom, DMatrix.sub_apply, coeff_X_pow]
+  rw [coeff_sub]; rw [coeff_C]; rw [matPolyEquiv_coeff_apply]; rw [RingHom.mapMatrix_apply]; rw [Matrix.map_apply]; rw [AlgHom.coe_toRingHom]; rw [DMatrix.sub_apply]; rw [coeff_X_pow]
   by_cases hij : i = j
   · rw [hij, charmatrix_apply_eq, AlgHom.map_sub, expand_C, expand_X, coeff_sub, coeff_X_pow,
       coeff_C]
@@ -243,16 +240,16 @@ section Ideal
 theorem coeff_charpoly_mem_ideal_pow {I : Ideal R} (h : ∀ i j, M i j ∈ I) (k : ℕ) :
     M.charpoly.coeff k ∈ I ^ (Fintype.card n - k) := by
   delta charpoly
-  rw [Matrix.det_apply, finset_sum_coeff]
+  rw [Matrix.det_apply]; rw [finset_sum_coeff]
   apply sum_mem
   rintro c -
-  rw [coeff_smul, Submodule.smul_mem_iff']
+  rw [coeff_smul]; rw [Submodule.smul_mem_iff']
   have : ∑ x : n, 1 = Fintype.card n := by rw [Finset.sum_const, card_univ, smul_eq_mul, mul_one]
   rw [← this]
   apply coeff_prod_mem_ideal_pow_tsub
   rintro i - (_ | k)
   · rw [Nat.zero_eq]  -- porting note: `rw [Nat.zero_eq]` was not present
-    rw [tsub_zero, pow_one, charmatrix_apply, coeff_sub, coeff_X_mul_zero, coeff_C_zero, zero_sub]
+    rw [tsub_zero]; rw [pow_one]; rw [charmatrix_apply]; rw [coeff_sub]; rw [coeff_X_mul_zero]; rw [coeff_C_zero]; rw [zero_sub]
     apply neg_mem  -- porting note: was `rw [neg_mem_iff]`, but Lean could not synth `NegMemClass`
     exact h (c i) i
   · rw [Nat.succ_eq_one_add, tsub_self_add, pow_zero, Ideal.one_eq_top]
@@ -292,12 +289,12 @@ lemma reverse_charpoly (M : Matrix n n R) :
     rwa [toLaurent_reverse, ← coe_toLaurentAlg, hp, hq, ← involutive_invert.injective.eq_iff,
       invert.map_mul, involutive_invert p, charpoly_natDegree_eq_dim,
       ← mul_one (Fintype.card n : ℤ), ← T_pow, invert.map_pow, invert_T, mul_comm]
-  rw [← det_smul, smul_sub, coe_scalar, ← smul_assoc, smul_eq_mul, ht, one_smul, invert.map_det]
+  rw [← det_smul]; rw [smul_sub]; rw [coe_scalar]; rw [← smul_assoc]; rw [smul_eq_mul]; rw [ht]; rw [one_smul]; rw [invert.map_det]
   simp [map_smul']
 
 @[simp] lemma eval_charpolyRev :
     eval 0 M.charpolyRev = 1 := by
-  rw [charpolyRev, ← coe_evalRingHom, RingHom.map_det, ← det_one (R := R) (n := n)]
+  rw [charpolyRev]; rw [← coe_evalRingHom]; rw [RingHom.map_det]; rw [← det_one (R := R) (n := n)]
   have : (1 - (X : R[X]) • M.map C).map (eval 0) = 1 := by
     ext i j; cases' eq_or_ne i j with hij hij <;> simp [hij]
   congr
@@ -314,7 +311,7 @@ lemma isUnit_charpolyRev_of_isNilpotent (hM : IsNilpotent M) :
   obtain ⟨k, hk⟩ := hM
   replace hk : 1 - (X : R[X]) • M.map C ∣ 1 := by
     convert one_sub_dvd_one_sub_pow ((X : R[X]) • M.map C) k
-    rw [← C.mapMatrix_apply, smul_pow, ← map_pow, hk, map_zero, smul_zero, sub_zero]
+    rw [← C.mapMatrix_apply]; rw [smul_pow]; rw [← map_pow]; rw [hk]; rw [map_zero]; rw [smul_zero]; rw [sub_zero]
   apply isUnit_of_dvd_one
   rw [← det_one (R := R[X]) (n := n)]
   exact map_dvd detMonoidHom hk
@@ -338,7 +335,7 @@ lemma isNilpotent_charpoly_sub_pow_of_isNilpotent (hM : IsNilpotent M) :
     (Polynomial.isUnit_iff'.mp (isUnit_charpolyRev_of_isNilpotent hM)).2
   have aux : (M.charpoly - X ^ (Fintype.card n)).natDegree ≤ M.charpoly.natDegree :=
     le_trans (natDegree_sub_le _ _) (by simp)
-  rw [← isNilpotent_reflect_iff aux, reflect_sub, ← reverse, M.reverse_charpoly]
+  rw [← isNilpotent_reflect_iff aux]; rw [reflect_sub]; rw [← reverse]; rw [M.reverse_charpoly]
   simpa [hp]
 
 end reverse

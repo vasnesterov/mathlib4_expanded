@@ -138,7 +138,7 @@ theorem convexJoin_assoc_aux (s t u : Set E) :
   obtain rfl | hb₂ := hb₂.eq_or_lt
   · refine' ⟨x, hx, y, ⟨y, hy, z, hz, left_mem_segment 𝕜 _ _⟩, a₁, b₁, ha₁, hb₁, hab₁, _⟩
     rw [add_zero] at hab₂
-    rw [hab₂, one_smul, zero_smul, add_zero]
+    rw [hab₂]; rw [one_smul]; rw [zero_smul]; rw [add_zero]
   have ha₂b₁ : 0 ≤ a₂ * b₁ := mul_nonneg ha₂ hb₁
   have hab : 0 < a₂ * b₁ + b₂ := add_pos_of_nonneg_of_pos ha₂b₁ hb₂
   refine'
@@ -197,13 +197,13 @@ protected theorem Convex.convexHull_union (hs : Convex 𝕜 s) (ht : Convex 𝕜
 
 theorem convexHull_union (hs : s.Nonempty) (ht : t.Nonempty) :
     convexHull 𝕜 (s ∪ t) = convexJoin 𝕜 (convexHull 𝕜 s) (convexHull 𝕜 t) := by
-  rw [← convexHull_convexHull_union_left, ← convexHull_convexHull_union_right]
+  rw [← convexHull_convexHull_union_left]; rw [← convexHull_convexHull_union_right]
   exact (convex_convexHull 𝕜 s).convexHull_union (convex_convexHull 𝕜 t) hs.convexHull ht.convexHull
 #align convex_hull_union convexHull_union
 
 theorem convexHull_insert (hs : s.Nonempty) :
     convexHull 𝕜 (insert x s) = convexJoin 𝕜 {x} (convexHull 𝕜 s) := by
-  rw [insert_eq, convexHull_union (singleton_nonempty _) hs, convexHull_singleton]
+  rw [insert_eq]; rw [convexHull_union (singleton_nonempty _) hs]; rw [convexHull_singleton]
 #align convex_hull_insert convexHull_insert
 
 theorem convexJoin_segments (a b c d : E) :
@@ -215,12 +215,12 @@ theorem convexJoin_segments (a b c d : E) :
 
 theorem convexJoin_segment_singleton (a b c : E) :
     convexJoin 𝕜 (segment 𝕜 a b) {c} = convexHull 𝕜 {a, b, c} := by
-  rw [← pair_eq_singleton, ← convexJoin_segments, segment_same, pair_eq_singleton]
+  rw [← pair_eq_singleton]; rw [← convexJoin_segments]; rw [segment_same]; rw [pair_eq_singleton]
 #align convex_join_segment_singleton convexJoin_segment_singleton
 
 theorem convexJoin_singleton_segment (a b c : E) :
     convexJoin 𝕜 {a} (segment 𝕜 b c) = convexHull 𝕜 {a, b, c} := by
-  rw [← segment_same 𝕜, convexJoin_segments, insert_idem]
+  rw [← segment_same 𝕜]; rw [convexJoin_segments]; rw [insert_idem]
 #align convex_join_singleton_segment convexJoin_singleton_segment
 
 -- porting note: moved 3 lemmas up to golf

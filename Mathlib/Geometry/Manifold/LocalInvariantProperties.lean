@@ -85,7 +85,7 @@ namespace LocalInvariantProp
 theorem congr_set {s t : Set H} {x : H} {f : H → H'} (hu : s =ᶠ[𝓝 x] t) : P f s x ↔ P f t x := by
   obtain ⟨o, host, ho, hxo⟩ := mem_nhds_iff.mp hu.mem_iff
   simp_rw [subset_def, mem_setOf, ← and_congr_left_iff, ← mem_inter_iff, ← Set.ext_iff] at host
-  rw [hG.is_local ho hxo, host, ← hG.is_local ho hxo]
+  rw [hG.is_local ho hxo]; rw [host]; rw [← hG.is_local ho hxo]
 #align structure_groupoid.local_invariant_prop.congr_set StructureGroupoid.LocalInvariantProp.congr_set
 
 theorem is_local_nhds {s u : Set H} {x : H} {f : H → H'} (hu : u ∈ 𝓝[s] x) :
@@ -143,7 +143,7 @@ theorem right_invariance {s : Set H} {x : H} {f : H → H'} {e : LocalHomeomorph
     (hxe : x ∈ e.source) : P (f ∘ e.symm) (e.symm ⁻¹' s) (e x) ↔ P f s x := by
   refine' ⟨fun h ↦ _, hG.right_invariance' he hxe⟩
   have := hG.right_invariance' (G.symm he) (e.mapsTo hxe) h
-  rw [e.symm_symm, e.left_inv hxe] at this
+  rw [e.symm_symm] at this; rw [e.left_inv hxe] at this
   refine' hG.congr _ ((hG.congr_set _).mp this)
   · refine' eventually_of_mem (e.open_source.mem_nhds hxe) fun x' hx' ↦ _
     simp_rw [Function.comp_apply, e.left_inv hx']
@@ -186,7 +186,7 @@ def LiftPropAt (P : (H → H') → Set H → H → Prop) (f : M → M') (x : M) 
 theorem liftPropAt_iff {P : (H → H') → Set H → H → Prop} {f : M → M'} {x : M} :
     LiftPropAt P f x ↔
       ContinuousAt f x ∧ P (chartAt H' (f x) ∘ f ∘ (chartAt H x).symm) univ (chartAt H x x) := by
-  rw [LiftPropAt, LiftPropWithinAt, continuousWithinAt_univ, preimage_univ]
+  rw [LiftPropAt]; rw [LiftPropWithinAt]; rw [continuousWithinAt_univ]; rw [preimage_univ]
 #align charted_space.lift_prop_at_iff ChartedSpace.liftPropAt_iff
 
 /-- Given a property of germs of functions and sets in the model space, then one defines
@@ -298,8 +298,7 @@ theorem liftPropWithinAt_indep_chart_aux (he : e ∈ G.maximalAtlas M) (xe : x �
     (xf : g x ∈ f.source) (hf' : f' ∈ G'.maximalAtlas M') (xf' : g x ∈ f'.source)
     (hgs : ContinuousWithinAt g s x) :
     P (f ∘ g ∘ e.symm) (e.symm ⁻¹' s) (e x) ↔ P (f' ∘ g ∘ e'.symm) (e'.symm ⁻¹' s) (e' x) := by
-  rw [← Function.comp.assoc, hG.liftPropWithinAt_indep_chart_source_aux (f ∘ g) he xe he' xe',
-    Function.comp.assoc, hG.liftPropWithinAt_indep_chart_target_aux xe' hf xf hf' xf' hgs]
+  rw [← Function.comp.assoc]; rw [hG.liftPropWithinAt_indep_chart_source_aux (f ∘ g) he xe he' xe']; rw [Function.comp.assoc]; rw [hG.liftPropWithinAt_indep_chart_target_aux xe' hf xf hf' xf' hgs]
 #align structure_groupoid.local_invariant_prop.lift_prop_within_at_indep_chart_aux StructureGroupoid.LocalInvariantProp.liftPropWithinAt_indep_chart_aux
 
 theorem liftPropWithinAt_indep_chart [HasGroupoid M G] [HasGroupoid M' G']
@@ -315,19 +314,17 @@ theorem liftPropWithinAt_indep_chart [HasGroupoid M G] [HasGroupoid M' G']
 theorem liftPropWithinAt_indep_chart_source [HasGroupoid M G] (he : e ∈ G.maximalAtlas M)
     (xe : x ∈ e.source) :
     LiftPropWithinAt P g s x ↔ LiftPropWithinAt P (g ∘ e.symm) (e.symm ⁻¹' s) (e x) := by
-  rw [liftPropWithinAt_self_source, LiftPropWithinAt,
-    e.symm.continuousWithinAt_iff_continuousWithinAt_comp_right xe, e.symm_symm]
+  rw [liftPropWithinAt_self_source]; rw [LiftPropWithinAt]; rw [e.symm.continuousWithinAt_iff_continuousWithinAt_comp_right xe]; rw [e.symm_symm]
   refine' and_congr Iff.rfl _
-  rw [Function.comp_apply, e.left_inv xe, ← Function.comp.assoc,
-    hG.liftPropWithinAt_indep_chart_source_aux (chartAt _ (g x) ∘ g) (chart_mem_maximalAtlas G x)
-      (mem_chart_source _ x) he xe, Function.comp.assoc]
+  rw [Function.comp_apply]; rw [e.left_inv xe]; rw [← Function.comp.assoc]; rw [hG.liftPropWithinAt_indep_chart_source_aux (chartAt _ (g x) ∘ g) (chart_mem_maximalAtlas G x)
+      (mem_chart_source _ x) he xe]; rw [Function.comp.assoc]
 #align structure_groupoid.local_invariant_prop.lift_prop_within_at_indep_chart_source StructureGroupoid.LocalInvariantProp.liftPropWithinAt_indep_chart_source
 
 /-- A version of `liftPropWithinAt_indep_chart`, only for the target. -/
 theorem liftPropWithinAt_indep_chart_target [HasGroupoid M' G'] (hf : f ∈ G'.maximalAtlas M')
     (xf : g x ∈ f.source) :
     LiftPropWithinAt P g s x ↔ ContinuousWithinAt g s x ∧ LiftPropWithinAt P (f ∘ g) s x := by
-  rw [liftPropWithinAt_self_target, LiftPropWithinAt, and_congr_right_iff]
+  rw [liftPropWithinAt_self_target]; rw [LiftPropWithinAt]; rw [and_congr_right_iff]
   intro hg
   simp_rw [(f.continuousAt xf).comp_continuousWithinAt hg, true_and_iff]
   exact hG.liftPropWithinAt_indep_chart_target_aux (mem_chart_source _ _)
@@ -340,8 +337,7 @@ theorem liftPropWithinAt_indep_chart' [HasGroupoid M G] [HasGroupoid M' G']
     (xf : g x ∈ f.source) :
     LiftPropWithinAt P g s x ↔
       ContinuousWithinAt g s x ∧ LiftPropWithinAt P (f ∘ g ∘ e.symm) (e.symm ⁻¹' s) (e x) := by
-  rw [hG.liftPropWithinAt_indep_chart he xe hf xf, liftPropWithinAt_self, and_left_comm,
-    Iff.comm, and_iff_right_iff_imp]
+  rw [hG.liftPropWithinAt_indep_chart he xe hf xf]; rw [liftPropWithinAt_self]; rw [and_left_comm]; rw [Iff.comm]; rw [and_iff_right_iff_imp]
   intro h
   have h1 := (e.symm.continuousWithinAt_iff_continuousWithinAt_comp_right xe).mp h.1
   have : ContinuousAt f ((g ∘ e.symm) (e x)) := by
@@ -359,7 +355,7 @@ theorem liftPropOn_indep_chart [HasGroupoid M G] [HasGroupoid M' G'] (he : e ∈
 
 theorem liftPropWithinAt_inter' (ht : t ∈ 𝓝[s] x) :
     LiftPropWithinAt P g (s ∩ t) x ↔ LiftPropWithinAt P g s x := by
-  rw [LiftPropWithinAt, LiftPropWithinAt, continuousWithinAt_inter' ht, hG.congr_set]
+  rw [LiftPropWithinAt]; rw [LiftPropWithinAt]; rw [continuousWithinAt_inter' ht]; rw [hG.congr_set]
   simp_rw [eventuallyEq_set, mem_preimage,
     (chartAt _ x).eventually_nhds' (fun x ↦ x ∈ s ∩ t ↔ x ∈ s) (mem_chart_source _ x)]
   exact (mem_nhdsWithin_iff_eventuallyEq.mp ht).symm.mem_iff
@@ -492,7 +488,7 @@ theorem liftPropAt_symm_of_mem_maximalAtlas [HasGroupoid M G] {x : H}
     (hx : x ∈ e.target) : LiftPropAt Q e.symm x := by
   suffices h : Q (e ∘ e.symm) univ x
   · have : e.symm x ∈ e.source := by simp only [hx, mfld_simps]
-    rw [LiftPropAt, hG.liftPropWithinAt_indep_chart G.id_mem_maximalAtlas (mem_univ _) he this]
+    rw [LiftPropAt]; rw [hG.liftPropWithinAt_indep_chart G.id_mem_maximalAtlas (mem_univ _) he this]
     refine' ⟨(e.symm.continuousAt hx).continuousWithinAt, _⟩
     simp only [h, mfld_simps]
   exact hG.congr' (e.eventually_right_inverse hx) (hQ x)
@@ -609,7 +605,7 @@ theorem isLocalStructomorphWithinAt_localInvariantProp [ClosedUnderRestriction G
       rcases h hx with ⟨e, heG, hef, hex⟩
       refine' ⟨e, heG, _, hex⟩
       intro y hy
-      rw [← hef hy, hfgs y hy.1]
+      rw [← hef hy]; rw [hfgs y hy.1]
     left_invariance' := by
       intro s x f e' he'G _ hfx h hx
       rcases h hx with ⟨e, heG, hef, hex⟩

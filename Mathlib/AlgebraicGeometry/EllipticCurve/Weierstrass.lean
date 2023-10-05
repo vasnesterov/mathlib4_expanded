@@ -195,11 +195,11 @@ def ofJ0 : WeierstrassCurve R :=
   ⟨0, 0, 1, 0, 0⟩
 
 lemma ofJ0_c₄ : (ofJ0 R).c₄ = 0 := by
-  rw [ofJ0, c₄, b₂, b₄]
+  rw [ofJ0]; rw [c₄]; rw [b₂]; rw [b₄]
   norm_num1
 
 lemma ofJ0_Δ : (ofJ0 R).Δ = -27 := by
-  rw [ofJ0, Δ, b₂, b₄, b₆, b₈]
+  rw [ofJ0]; rw [Δ]; rw [b₂]; rw [b₄]; rw [b₆]; rw [b₈]
   norm_num1
 
 /-- The Weierstrass curve $Y^2 = X^3 + X$.
@@ -208,11 +208,11 @@ def ofJ1728 : WeierstrassCurve R :=
   ⟨0, 0, 0, 1, 0⟩
 
 lemma ofJ1728_c₄ : (ofJ1728 R).c₄ = -48 := by
-  rw [ofJ1728, c₄, b₂, b₄]
+  rw [ofJ1728]; rw [c₄]; rw [b₂]; rw [b₄]
   norm_num1
 
 lemma ofJ1728_Δ : (ofJ1728 R).Δ = -64 := by
-  rw [ofJ1728, Δ, b₂, b₄, b₆, b₈]
+  rw [ofJ1728]; rw [Δ]; rw [b₂]; rw [b₄]; rw [b₆]; rw [b₈]
   norm_num1
 
 variable {R} (j : R)
@@ -290,7 +290,7 @@ lemma comp_id (C : VariableChange R) : comp C id = C := by
   simp only [comp, id, add_zero, mul_zero, one_mul, mul_one, one_pow, Units.val_one]
 
 lemma comp_left_inv (C : VariableChange R) : comp (inv C) C = id := by
-  rw [comp, id, inv]
+  rw [comp]; rw [id]; rw [inv]
   ext <;> dsimp only
   · exact C.u.inv_mul
   · linear_combination (norm := ring1) -C.r * pow_mul_pow_eq_one 2 C.u.inv_mul
@@ -329,7 +329,7 @@ def variableChange : WeierstrassCurve R where
 #align weierstrass_curve.variable_change WeierstrassCurve.variableChange
 
 lemma variableChange_id : W.variableChange VariableChange.id = W := by
-  rw [VariableChange.id, variableChange, inv_one, Units.val_one]
+  rw [VariableChange.id]; rw [variableChange]; rw [inv_one]; rw [Units.val_one]
   ext <;> (dsimp only; ring1)
 
 lemma variableChange_comp (C C' : VariableChange R) (W : WeierstrassCurve R) :
@@ -634,7 +634,7 @@ lemma irreducible_polynomial [IsDomain R] : Irreducible W.polynomial := by
     h with ⟨f, g, h0, h1⟩
   simp only [polynomial_eq, Cubic.coeff_eq_c, Cubic.coeff_eq_d] at h0 h1
   apply_fun degree at h0 h1
-  rw [Cubic.degree_of_a_ne_zero' <| neg_ne_zero.mpr <| one_ne_zero' R, degree_mul] at h0
+  rw [Cubic.degree_of_a_ne_zero' <| neg_ne_zero.mpr <| one_ne_zero' R] at h0; rw [degree_mul] at h0
   apply (h1.symm.le.trans Cubic.degree_of_b_eq_zero').not_lt
   rcases Nat.WithBot.add_eq_three_iff.mp h0.symm with h | h | h | h
   -- porting note: replaced two `any_goals` proofs with two `iterate 2` proofs
@@ -648,7 +648,7 @@ lemma eval_polynomial (x y : R) :
       y ^ 2 + W.a₁ * x * y + W.a₃ * y - (x ^ 3 + W.a₂ * x ^ 2 + W.a₄ * x + W.a₆) := by
   simp only [WeierstrassCurve.polynomial]
   eval_simp
-  rw [add_mul, ← add_assoc]
+  rw [add_mul]; rw [← add_assoc]
 #align weierstrass_curve.eval_polynomial WeierstrassCurve.eval_polynomial
 
 @[simp]
@@ -665,23 +665,23 @@ protected def equation (x y : R) : Prop :=
 lemma equation_iff' (x y : R) :
     W.equation x y ↔
       y ^ 2 + W.a₁ * x * y + W.a₃ * y - (x ^ 3 + W.a₂ * x ^ 2 + W.a₄ * x + W.a₆) = 0 := by
-  rw [WeierstrassCurve.equation, eval_polynomial]
+  rw [WeierstrassCurve.equation]; rw [eval_polynomial]
 #align weierstrass_curve.equation_iff' WeierstrassCurve.equation_iff'
 
 -- porting note: removed `@[simp]` to avoid a `simpNF` linter error
 lemma equation_iff (x y : R) :
     W.equation x y ↔ y ^ 2 + W.a₁ * x * y + W.a₃ * y = x ^ 3 + W.a₂ * x ^ 2 + W.a₄ * x + W.a₆ := by
-  rw [equation_iff', sub_eq_zero]
+  rw [equation_iff']; rw [sub_eq_zero]
 #align weierstrass_curve.equation_iff WeierstrassCurve.equation_iff
 
 @[simp]
 lemma equation_zero : W.equation 0 0 ↔ W.a₆ = 0 := by
-  rw [WeierstrassCurve.equation, C_0, eval_polynomial_zero, neg_eq_zero]
+  rw [WeierstrassCurve.equation]; rw [C_0]; rw [eval_polynomial_zero]; rw [neg_eq_zero]
 #align weierstrass_curve.equation_zero WeierstrassCurve.equation_zero
 
 lemma equation_iff_variableChange (x y : R) :
     W.equation x y ↔ (W.variableChange ⟨1, x, 0, y⟩).equation 0 0 := by
-  rw [equation_iff', ← neg_eq_zero, equation_zero, variableChange_a₆, inv_one, Units.val_one]
+  rw [equation_iff']; rw [← neg_eq_zero]; rw [equation_zero]; rw [variableChange_a₆]; rw [inv_one]; rw [Units.val_one]
   congr! 1
   ring1
 #align weierstrass_curve.equation_iff_variable_change WeierstrassCurve.equation_iff_variableChange
@@ -697,7 +697,7 @@ lemma equation_iff_baseChange [Nontrivial A] [NoZeroSMulDivisors R A] (x y : R) 
 lemma equation_iff_baseChange_of_baseChange [Nontrivial B] [NoZeroSMulDivisors A B] (x y : A) :
     (W.baseChange A).equation x y ↔
       (W.baseChange B).equation (algebraMap A B x) (algebraMap A B y) := by
-  rw [equation_iff_baseChange (W.baseChange A) B, baseChange_baseChange]
+  rw [equation_iff_baseChange (W.baseChange A) B]; rw [baseChange_baseChange]
 #align weierstrass_curve.equation_iff_base_change_of_base_change WeierstrassCurve.equation_iff_baseChange_of_baseChange
 
 /-! ### Nonsingularity of Weierstrass curves -/
@@ -760,35 +760,33 @@ lemma nonsingular_iff' (x y : R) :
     W.nonsingular x y ↔
       W.equation x y ∧
         (W.a₁ * y - (3 * x ^ 2 + 2 * W.a₂ * x + W.a₄) ≠ 0 ∨ 2 * y + W.a₁ * x + W.a₃ ≠ 0) := by
-  rw [WeierstrassCurve.nonsingular, equation_iff', eval_polynomialX, eval_polynomialY]
+  rw [WeierstrassCurve.nonsingular]; rw [equation_iff']; rw [eval_polynomialX]; rw [eval_polynomialY]
 #align weierstrass_curve.nonsingular_iff' WeierstrassCurve.nonsingular_iff'
 
 -- porting note: removed `@[simp]` to avoid a `simpNF` linter error
 lemma nonsingular_iff (x y : R) :
     W.nonsingular x y ↔
       W.equation x y ∧ (W.a₁ * y ≠ 3 * x ^ 2 + 2 * W.a₂ * x + W.a₄ ∨ y ≠ -y - W.a₁ * x - W.a₃) := by
-  rw [nonsingular_iff', sub_ne_zero, ← @sub_ne_zero _ _ y]
+  rw [nonsingular_iff']; rw [sub_ne_zero]; rw [← @sub_ne_zero _ _ y]
   congr! 3
   ring1
 #align weierstrass_curve.nonsingular_iff WeierstrassCurve.nonsingular_iff
 
 @[simp]
 lemma nonsingular_zero : W.nonsingular 0 0 ↔ W.a₆ = 0 ∧ (W.a₃ ≠ 0 ∨ W.a₄ ≠ 0) := by
-  rw [WeierstrassCurve.nonsingular, equation_zero, C_0, eval_polynomialX_zero, neg_ne_zero,
-    eval_polynomialY_zero, or_comm]
+  rw [WeierstrassCurve.nonsingular]; rw [equation_zero]; rw [C_0]; rw [eval_polynomialX_zero]; rw [neg_ne_zero]; rw [eval_polynomialY_zero]; rw [or_comm]
 #align weierstrass_curve.nonsingular_zero WeierstrassCurve.nonsingular_zero
 
 lemma nonsingular_iff_variableChange (x y : R) :
     W.nonsingular x y ↔ (W.variableChange ⟨1, x, 0, y⟩).nonsingular 0 0 := by
-  rw [nonsingular_iff', equation_iff_variableChange, equation_zero, ← neg_ne_zero, or_comm,
-    nonsingular_zero, variableChange_a₃, variableChange_a₄, inv_one, Units.val_one]
+  rw [nonsingular_iff']; rw [equation_iff_variableChange]; rw [equation_zero]; rw [← neg_ne_zero]; rw [or_comm]; rw [nonsingular_zero]; rw [variableChange_a₃]; rw [variableChange_a₄]; rw [inv_one]; rw [Units.val_one]
   simp only [variableChange]
   congr! 3 <;> ring1
 #align weierstrass_curve.nonsingular_iff_variable_change WeierstrassCurve.nonsingular_iff_variableChange
 
 lemma nonsingular_iff_baseChange [Nontrivial A] [NoZeroSMulDivisors R A] (x y : R) :
     W.nonsingular x y ↔ (W.baseChange A).nonsingular (algebraMap R A x) (algebraMap R A y) := by
-  rw [nonsingular_iff, nonsingular_iff, and_congr <| W.equation_iff_baseChange A x y]
+  rw [nonsingular_iff]; rw [nonsingular_iff]; rw [and_congr <| W.equation_iff_baseChange A x y]
   refine
     ⟨Or.imp (not_imp_not.mpr fun h => ?_) (not_imp_not.mpr fun h => ?_),
       Or.imp (not_imp_not.mpr fun h => ?_) (not_imp_not.mpr fun h => ?_)⟩
@@ -799,7 +797,7 @@ lemma nonsingular_iff_baseChange [Nontrivial A] [NoZeroSMulDivisors R A] (x y : 
 lemma nonsingular_iff_baseChange_of_baseChange [Nontrivial B] [NoZeroSMulDivisors A B] (x y : A) :
     (W.baseChange A).nonsingular x y ↔
       (W.baseChange B).nonsingular (algebraMap A B x) (algebraMap A B y) := by
-  rw [nonsingular_iff_baseChange (W.baseChange A) B, baseChange_baseChange]
+  rw [nonsingular_iff_baseChange (W.baseChange A) B]; rw [baseChange_baseChange]
 #align weierstrass_curve.nonsingular_iff_base_change_of_base_change WeierstrassCurve.nonsingular_iff_baseChange_of_baseChange
 
 lemma nonsingular_zero_of_Δ_ne_zero (h : W.equation 0 0) (hΔ : W.Δ ≠ 0) : W.nonsingular 0 0 := by
@@ -953,8 +951,7 @@ lemma basis_apply (n : Fin 2) :
     CoordinateRing.basis W n = (AdjoinRoot.powerBasis' W.monic_polynomial).gen ^ (n : ℕ) := by
   classical
   nontriviality R
-  rw [CoordinateRing.basis, Or.by_cases, dif_neg <| not_subsingleton R, Basis.reindex_apply,
-    PowerBasis.basis_eq_pow]
+  rw [CoordinateRing.basis]; rw [Or.by_cases]; rw [dif_neg <| not_subsingleton R]; rw [Basis.reindex_apply]; rw [PowerBasis.basis_eq_pow]
   rfl
 #align weierstrass_curve.coordinate_ring.basis_apply WeierstrassCurve.CoordinateRing.basis_apply
 
@@ -1200,11 +1197,11 @@ def ofJ : EllipticCurve F :=
 
 lemma ofJ_0_of_three_ne_zero [h3 : NeZero (3 : F)] :
     ofJ 0 = @ofJ0 _ _ (invertibleOfNonzero h3.out) := by
-  rw [ofJ, dif_pos rfl, dif_neg h3.out]
+  rw [ofJ]; rw [dif_pos rfl]; rw [dif_neg h3.out]
 
 lemma ofJ_0_of_three_eq_zero (h3 : (3 : F) = 0) :
     ofJ 0 = @ofJ1728 _ _ (invertibleOfNonzero <| two_or_three_ne_zero.neg_resolve_right h3) := by
-  rw [ofJ, dif_pos rfl, dif_pos h3]
+  rw [ofJ]; rw [dif_pos rfl]; rw [dif_pos h3]
 
 lemma ofJ_0_of_two_eq_zero (h2 : (2 : F) = 0) :
     ofJ 0 = @ofJ0 _ _ (invertibleOfNonzero <| two_or_three_ne_zero.neg_resolve_left h2) :=
@@ -1213,7 +1210,7 @@ lemma ofJ_0_of_two_eq_zero (h2 : (2 : F) = 0) :
 
 lemma ofJ_1728_of_three_eq_zero (h3 : (3 : F) = 0) :
     ofJ 1728 = @ofJ1728 _ _ (invertibleOfNonzero <| two_or_three_ne_zero.neg_resolve_right h3) := by
-  rw [ofJ, dif_pos <| by rw [show (1728 : F) = 3 * 576 by norm_num1, h3, zero_mul], dif_pos h3]
+  rw [ofJ]; rw [dif_pos <| by rw [show (1728 : F) = 3 * 576 by norm_num1, h3, zero_mul], dif_pos h3]
 
 lemma ofJ_1728_of_two_ne_zero [h2 : NeZero (2 : F)] :
     ofJ 1728 = @ofJ1728 _ _ (invertibleOfNonzero h2.out) := by
@@ -1222,16 +1219,16 @@ lemma ofJ_1728_of_two_ne_zero [h2 : NeZero (2 : F)] :
   · have h : (1728 : F) ≠ 0 := fun h => or_iff_not_and_not.mp
       (mul_eq_zero.mp <| by rwa [show 2 ^ 6 * 3 ^ 3 = (1728 : F) by norm_num1])
       ⟨pow_ne_zero 6 h2.out, pow_ne_zero 3 h3⟩
-    rw [ofJ, dif_neg h, dif_pos rfl]
+    rw [ofJ]; rw [dif_neg h]; rw [dif_pos rfl]
 
 lemma ofJ_1728_of_two_eq_zero (h2 : (2 : F) = 0) :
     ofJ 1728 = @ofJ0 _ _ (invertibleOfNonzero <| two_or_three_ne_zero.neg_resolve_left h2) := by
-  rw [ofJ, dif_pos <| by rw [show (1728 : F) = 2 * 864 by norm_num1, h2, zero_mul], dif_neg]
+  rw [ofJ]; rw [dif_pos <| by rw [show (1728 : F) = 2 * 864 by norm_num1, h2, zero_mul], dif_neg]
 
 lemma ofJ_ne_0_ne_1728 (h0 : j ≠ 0) (h1728 : j ≠ 1728) :
     ofJ j =
       @ofJ' _ _ j (invertibleOfNonzero h0) (invertibleOfNonzero <| sub_ne_zero_of_ne h1728) := by
-  rw [ofJ, dif_neg h0, dif_neg h1728]
+  rw [ofJ]; rw [dif_neg h0]; rw [dif_neg h1728]
 
 lemma ofJ_j : (ofJ j).j = j := by
   by_cases h0 : j = 0
@@ -1243,8 +1240,7 @@ lemma ofJ_j : (ofJ j).j = j := by
   · by_cases h1728 : j = 1728
     · have h2 : (2 : F) ≠ 0 :=
         fun h => h0 <| by rw [h1728, show (1728 : F) = 2 * 864 by norm_num1, h, zero_mul]
-      rw [h1728, ofJ_1728_of_two_ne_zero (h2 := neZero_iff.2 h2),
-        @ofJ1728_j _ _ <| invertibleOfNonzero h2]
+      rw [h1728]; rw [ofJ_1728_of_two_ne_zero (h2 := neZero_iff.2 h2)]; rw [@ofJ1728_j _ _ <| invertibleOfNonzero h2]
     · rw [ofJ_ne_0_ne_1728 j h0 h1728,
         @ofJ'_j _ _ _ (invertibleOfNonzero h0) (invertibleOfNonzero <| sub_ne_zero_of_ne h1728)]
 
@@ -1267,7 +1263,7 @@ When `R` is a field, any two Weierstrass equations isomorphic to `E` are related
 @[simps (config := { rhsMd := .default }) a₁ a₂ a₃ a₄ a₆ Δ' toWeierstrassCurve]
 def variableChange : EllipticCurve R :=
   ⟨E.toWeierstrassCurve.variableChange C, C.u⁻¹ ^ 12 * E.Δ', by
-    rw [Units.val_mul, Units.val_pow_eq_pow_val, coe_Δ', E.variableChange_Δ]⟩
+    rw [Units.val_mul]; rw [Units.val_pow_eq_pow_val]; rw [coe_Δ']; rw [E.variableChange_Δ]⟩
 #align elliptic_curve.variable_change EllipticCurve.variableChange
 
 lemma variableChange_id : E.variableChange WeierstrassCurve.VariableChange.id = E := by
@@ -1286,17 +1282,17 @@ instance instMulActionVariableChange :
   mul_smul := variableChange_comp
 
 lemma coe_variableChange_Δ' : (↑(E.variableChange C).Δ' : R) = (↑C.u⁻¹ : R) ^ 12 * E.Δ' := by
-  rw [variableChange_Δ', Units.val_mul, Units.val_pow_eq_pow_val]
+  rw [variableChange_Δ']; rw [Units.val_mul]; rw [Units.val_pow_eq_pow_val]
 #align elliptic_curve.coe_variable_change_Δ' EllipticCurve.coe_variableChange_Δ'
 
 lemma coe_inv_variableChange_Δ' :
     (↑(E.variableChange C).Δ'⁻¹ : R) = (C.u : R) ^ 12 * ↑E.Δ'⁻¹ := by
-  rw [variableChange_Δ', mul_inv, inv_pow, inv_inv, Units.val_mul, Units.val_pow_eq_pow_val]
+  rw [variableChange_Δ']; rw [mul_inv]; rw [inv_pow]; rw [inv_inv]; rw [Units.val_mul]; rw [Units.val_pow_eq_pow_val]
 #align elliptic_curve.coe_inv_variable_change_Δ' EllipticCurve.coe_inv_variableChange_Δ'
 
 @[simp]
 lemma variableChange_j : (E.variableChange C).j = E.j := by
-  rw [j, coe_inv_variableChange_Δ']
+  rw [j]; rw [coe_inv_variableChange_Δ']
   have hu : (C.u * ↑C.u⁻¹ : R) ^ 12 = 1 := by rw [C.u.mul_inv, one_pow]
   linear_combination (norm := (rw [variableChange_toWeierstrassCurve,
     WeierstrassCurve.variableChange_c₄, j]; ring1)) E.j * hu

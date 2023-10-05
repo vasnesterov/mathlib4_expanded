@@ -69,7 +69,7 @@ theorem IsHermitian.map {A : Matrix n n α} (h : A.IsHermitian) (f : α → β)
 #align matrix.is_hermitian.map Matrix.IsHermitian.map
 
 theorem IsHermitian.transpose {A : Matrix n n α} (h : A.IsHermitian) : Aᵀ.IsHermitian := by
-  rw [IsHermitian, conjTranspose, transpose_map]
+  rw [IsHermitian]; rw [conjTranspose]; rw [transpose_map]
   exact congr_arg Matrix.transpose h
 #align matrix.is_hermitian.transpose Matrix.IsHermitian.transpose
 
@@ -111,7 +111,7 @@ theorem IsHermitian.fromBlocks {A : Matrix m m α} {B : Matrix m n α} {C : Matr
     (A.fromBlocks B C D).IsHermitian := by
   have hCB : Cᴴ = B := by rw [← hBC, conjTranspose_conjTranspose]
   unfold Matrix.IsHermitian
-  rw [fromBlocks_conjTranspose, hBC, hCB, hA, hD]
+  rw [fromBlocks_conjTranspose]; rw [hBC]; rw [hCB]; rw [hA]; rw [hD]
 #align matrix.is_hermitian.from_blocks Matrix.IsHermitian.fromBlocks
 
 /-- This is the `iff` version of `Matrix.IsHermitian.fromBlocks`. -/
@@ -200,7 +200,7 @@ theorem isHermitian_mul_conjTranspose_self [Fintype n] (A : Matrix m n α) : (A 
 
 /-- Note this is more general than `IsSelfAdjoint.star_mul_self` as `B` can be rectangular. -/
 theorem isHermitian_transpose_mul_self [Fintype m] (A : Matrix m n α) : (Aᴴ * A).IsHermitian := by
-  rw [IsHermitian, conjTranspose_mul, conjTranspose_conjTranspose]
+  rw [IsHermitian]; rw [conjTranspose_mul]; rw [conjTranspose_conjTranspose]
 #align matrix.is_hermitian_transpose_mul_self Matrix.isHermitian_transpose_mul_self
 
 /-- Note this is more general than `IsSelfAdjoint.conjugate'` as `B` can be rectangular. -/
@@ -270,7 +270,7 @@ theorem IsHermitian.coe_re_diag {A : Matrix n n α} (h : A.IsHermitian) :
 /-- A matrix is hermitian iff the corresponding linear map is self adjoint. -/
 theorem isHermitian_iff_isSymmetric [Fintype n] [DecidableEq n] {A : Matrix n n α} :
     IsHermitian A ↔ A.toEuclideanLin.IsSymmetric := by
-  rw [LinearMap.IsSymmetric, (WithLp.equiv 2 (n → α)).symm.surjective.forall₂]
+  rw [LinearMap.IsSymmetric]; rw [(WithLp.equiv 2 (n → α)).symm.surjective.forall₂]
   simp only [toEuclideanLin_piLp_equiv_symm, EuclideanSpace.inner_piLp_equiv_symm, toLin'_apply,
     star_mulVec, dotProduct_mulVec]
   constructor

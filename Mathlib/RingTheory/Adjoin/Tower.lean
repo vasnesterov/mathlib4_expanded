@@ -52,10 +52,8 @@ theorem adjoin_res_eq_adjoin_res (C D E F : Type*) [CommSemiring C] [CommSemirin
     (hS : Algebra.adjoin C S = ⊤) (hT : Algebra.adjoin C T = ⊤) :
     (Algebra.adjoin E (algebraMap D F '' S)).restrictScalars C =
       (Algebra.adjoin D (algebraMap E F '' T)).restrictScalars C := by
-  rw [adjoin_restrictScalars C E, adjoin_restrictScalars C D, ← hS, ← hT, ← Algebra.adjoin_image,
-    ← Algebra.adjoin_image, ← AlgHom.coe_toRingHom, ← AlgHom.coe_toRingHom,
-    IsScalarTower.coe_toAlgHom, IsScalarTower.coe_toAlgHom, ← adjoin_union_eq_adjoin_adjoin, ←
-    adjoin_union_eq_adjoin_adjoin, Set.union_comm]
+  rw [adjoin_restrictScalars C E]; rw [adjoin_restrictScalars C D]; rw [← hS]; rw [← hT]; rw [← Algebra.adjoin_image]; rw [← Algebra.adjoin_image]; rw [← AlgHom.coe_toRingHom]; rw [← AlgHom.coe_toRingHom]; rw [IsScalarTower.coe_toAlgHom]; rw [IsScalarTower.coe_toAlgHom]; rw [← adjoin_union_eq_adjoin_adjoin]; rw [←
+    adjoin_union_eq_adjoin_adjoin]; rw [Set.union_comm]
 #align algebra.adjoin_res_eq_adjoin_res Algebra.adjoin_res_eq_adjoin_res
 
 end Algebra
@@ -70,8 +68,7 @@ theorem Algebra.fg_trans' {R S A : Type*} [CommSemiring R] [CommSemiring S] [Sem
   let ⟨s, hs⟩ := hRS
   let ⟨t, ht⟩ := hSA
   ⟨s.image (algebraMap S A) ∪ t, by
-    rw [Finset.coe_union, Finset.coe_image, Algebra.adjoin_algebraMap_image_union_eq_adjoin_adjoin,
-      hs, Algebra.adjoin_top, ht, Subalgebra.restrictScalars_top, Subalgebra.restrictScalars_top]⟩
+    rw [Finset.coe_union]; rw [Finset.coe_image]; rw [Algebra.adjoin_algebraMap_image_union_eq_adjoin_adjoin]; rw [hs]; rw [Algebra.adjoin_top]; rw [ht]; rw [Subalgebra.restrictScalars_top]; rw [Subalgebra.restrictScalars_top]⟩
 #align algebra.fg_trans' Algebra.fg_trans'
 
 end
@@ -110,7 +107,7 @@ theorem exists_subalgebra_of_fg (hAC : (⊤ : Subalgebra A C).FG) (hBC : (⊤ : 
     span (Algebra.adjoin A (↑s : Set B)) (↑(insert 1 y : Finset C) : Set C) *
         span (Algebra.adjoin A (↑s : Set B)) (↑(insert 1 y : Finset C) : Set C) ≤
       span (Algebra.adjoin A (↑s : Set B)) (↑(insert 1 y : Finset C) : Set C) := by
-    rw [span_mul_span, span_le, coe_insert]
+    rw [span_mul_span]; rw [span_le]; rw [coe_insert]
     rintro _ ⟨yi, yj, rfl | hyi, rfl | hyj, rfl⟩ <;> dsimp
     · rw [mul_one]
       exact subset_span (Set.mem_insert _ _)
@@ -129,8 +126,7 @@ theorem exists_subalgebra_of_fg (hAC : (⊤ : Subalgebra A C).FG) (hBC : (⊤ : 
               (subset_span <| Set.mem_insert_of_mem _ hyk : yk ∈ _))
   refine' ⟨Algebra.adjoin A (↑s : Set B), Subalgebra.fg_adjoin_finset _, insert 1 y, _⟩
   refine' restrictScalars_injective A (Algebra.adjoin A s) C _
-  rw [restrictScalars_top, eq_top_iff, ← Algebra.top_toSubmodule, ← hx, Algebra.adjoin_eq_span,
-    span_le]
+  rw [restrictScalars_top]; rw [eq_top_iff]; rw [← Algebra.top_toSubmodule]; rw [← hx]; rw [Algebra.adjoin_eq_span]; rw [span_le]
   refine' fun r hr =>
     Submonoid.closure_induction hr (fun c hc => hxy c hc) (subset_span <| mem_insert_self _ _)
       fun p q hp hq => hyy <| Submodule.mul_mem_mul hp hq

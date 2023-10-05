@@ -119,10 +119,10 @@ def isoOfHomotopyEquiv {C D : HomologicalComplex V c} (f : HomotopyEquiv C D) :
   hom := (quotient V c).map f.hom
   inv := (quotient V c).map f.inv
   hom_inv_id := by
-    rw [← (quotient V c).map_comp, ← (quotient V c).map_id]
+    rw [← (quotient V c).map_comp]; rw [← (quotient V c).map_id]
     exact eq_of_homotopy _ _ f.homotopyHomInvId
   inv_hom_id := by
-    rw [← (quotient V c).map_comp, ← (quotient V c).map_id]
+    rw [← (quotient V c).map_comp]; rw [← (quotient V c).map_id]
     exact eq_of_homotopy _ _ f.homotopyInvHomId
 #align homotopy_category.iso_of_homotopy_equiv HomotopyCategory.isoOfHomotopyEquiv
 

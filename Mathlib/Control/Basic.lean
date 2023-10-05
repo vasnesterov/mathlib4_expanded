@@ -82,7 +82,7 @@ open List
 
 theorem map_bind (x : m α) {g : α → m β} {f : β → γ} :
     f <$> (x >>= g) = x >>= fun a => f <$> g a := by
-  rw [← bind_pure_comp, bind_assoc]; simp [bind_pure_comp]
+  rw [← bind_pure_comp]; rw [bind_assoc]; simp [bind_pure_comp]
 #align map_bind map_bind
 
 theorem seq_bind_eq (x : m α) {g : β → m γ} {f : α → β} :

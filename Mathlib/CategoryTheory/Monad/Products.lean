@@ -56,7 +56,7 @@ def coalgebraToOver : Coalgebra (prodComonad X) ⥤ Over X where
   map f :=
     Over.homMk f.f
       (by
-        rw [Over.mk_hom, ← f.h_assoc]
+        rw [Over.mk_hom]; rw [← f.h_assoc]
         dsimp
         simp)
 #align category_theory.coalgebra_to_over CategoryTheory.coalgebraToOver
@@ -107,7 +107,7 @@ def algebraToUnder : Monad.Algebra (coprodMonad X) ⥤ Under X where
   map f :=
     Under.homMk f.f
       (by
-        rw [Under.mk_hom, Category.assoc, ← f.h]
+        rw [Under.mk_hom]; rw [Category.assoc]; rw [← f.h]
         dsimp
         simp)
 #align category_theory.algebra_to_under CategoryTheory.algebraToUnder

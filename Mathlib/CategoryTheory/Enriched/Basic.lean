@@ -114,18 +114,14 @@ instance (F : LaxMonoidalFunctor V W) : EnrichedCategory W (TransportEnrichment 
   id := fun X : C => F.ε ≫ F.map (eId V X)
   comp := fun X Y Z : C => F.μ _ _ ≫ F.map (eComp V X Y Z)
   id_comp X Y := by
-    rw [comp_tensor_id, Category.assoc, ← F.toFunctor.map_id, F.μ_natural_assoc,
-      F.toFunctor.map_id, F.left_unitality_inv_assoc, ← F.toFunctor.map_comp, ←
-      F.toFunctor.map_comp, e_id_comp, F.toFunctor.map_id]
+    rw [comp_tensor_id]; rw [Category.assoc]; rw [← F.toFunctor.map_id]; rw [F.μ_natural_assoc]; rw [F.toFunctor.map_id]; rw [F.left_unitality_inv_assoc]; rw [← F.toFunctor.map_comp]; rw [←
+      F.toFunctor.map_comp]; rw [e_id_comp]; rw [F.toFunctor.map_id]
   comp_id X Y := by
-    rw [id_tensor_comp, Category.assoc, ← F.toFunctor.map_id, F.μ_natural_assoc,
-      F.toFunctor.map_id, F.right_unitality_inv_assoc, ← F.toFunctor.map_comp, ←
-      F.toFunctor.map_comp, e_comp_id, F.toFunctor.map_id]
+    rw [id_tensor_comp]; rw [Category.assoc]; rw [← F.toFunctor.map_id]; rw [F.μ_natural_assoc]; rw [F.toFunctor.map_id]; rw [F.right_unitality_inv_assoc]; rw [← F.toFunctor.map_comp]; rw [←
+      F.toFunctor.map_comp]; rw [e_comp_id]; rw [F.toFunctor.map_id]
   assoc P Q R S := by
-    rw [comp_tensor_id, Category.assoc, ← F.toFunctor.map_id, F.μ_natural_assoc,
-      F.toFunctor.map_id, ← F.associativity_inv_assoc, ← F.toFunctor.map_comp, ←
-      F.toFunctor.map_comp, e_assoc, id_tensor_comp, Category.assoc, ← F.toFunctor.map_id,
-      F.μ_natural_assoc, F.toFunctor.map_comp]
+    rw [comp_tensor_id]; rw [Category.assoc]; rw [← F.toFunctor.map_id]; rw [F.μ_natural_assoc]; rw [F.toFunctor.map_id]; rw [← F.associativity_inv_assoc]; rw [← F.toFunctor.map_comp]; rw [←
+      F.toFunctor.map_comp]; rw [e_assoc]; rw [id_tensor_comp]; rw [Category.assoc]; rw [← F.toFunctor.map_id]; rw [F.μ_natural_assoc]; rw [F.toFunctor.map_comp]
 
 end
 
@@ -415,9 +411,8 @@ def enrichedNatTransYoneda (F G : EnrichedFunctor V C D) : Vᵒᵖ ⥤ Type max 
       naturality := fun X Y => by
         have p := σ.naturality X Y
         dsimp at p ⊢
-        rw [← id_tensor_comp_tensor_id (f.unop ≫ σ.app Y) _, id_tensor_comp, Category.assoc,
-          Category.assoc, ← braiding_naturality_assoc, id_tensor_comp_tensor_id_assoc, p, ←
-          tensor_comp_assoc, Category.id_comp] }
+        rw [← id_tensor_comp_tensor_id (f.unop ≫ σ.app Y) _]; rw [id_tensor_comp]; rw [Category.assoc]; rw [Category.assoc]; rw [← braiding_naturality_assoc]; rw [id_tensor_comp_tensor_id_assoc]; rw [p]; rw [←
+          tensor_comp_assoc]; rw [Category.id_comp] }
 #align category_theory.enriched_nat_trans_yoneda CategoryTheory.enrichedNatTransYoneda
 
 -- TODO assuming `[HasLimits C]` construct the actual object of natural transformations

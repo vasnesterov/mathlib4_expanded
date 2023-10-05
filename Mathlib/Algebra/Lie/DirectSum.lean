@@ -171,8 +171,7 @@ theorem lie_of_of_ne [DecidableEq ι] {i j : ι} (hij : j ≠ i) (x : L i) (y : 
 theorem lie_of_of_eq [DecidableEq ι] {i j : ι} (hij : j = i) (x : L i) (y : L j) :
     ⁅of L i x, of L j y⁆ = of L i ⁅x, hij.recOn y⁆ := by
   have : of L j y = of L i (hij.recOn y) := Eq.rec (Eq.refl _) hij
-  rw [this, ← lieAlgebraOf_apply R ι L i ⁅x, hij.recOn y⁆, LieHom.map_lie, lieAlgebraOf_apply,
-    lieAlgebraOf_apply]
+  rw [this]; rw [← lieAlgebraOf_apply R ι L i ⁅x, hij.recOn y⁆]; rw [LieHom.map_lie]; rw [lieAlgebraOf_apply]; rw [lieAlgebraOf_apply]
 #align direct_sum.lie_of_of_eq DirectSum.lie_of_of_eq
 
 @[simp]
@@ -203,16 +202,16 @@ def toLieAlgebra [DecidableEq ι] (L' : Type w₁) [LieRing L'] [LieAlgebra R L'
           toModule R ι L' f' ⁅x, of L i y⁆ =
             ⁅toModule R ι L' f' x, toModule R ι L' f' (of L i y)⁆ by
         simp only [← LieAlgebra.ad_apply R]
-        rw [← LinearMap.comp_apply, ← LinearMap.comp_apply]
+        rw [← LinearMap.comp_apply]; rw [← LinearMap.comp_apply]
         congr; clear y; ext i y; exact this i y
       -- Similarly, we can reduce to the case that `x` has only one non-zero component.
       suffices ∀ (i j) (y : L i) (x : L j),
           toModule R ι L' f' ⁅of L j x, of L i y⁆ =
             ⁅toModule R ι L' f' (of L j x), toModule R ι L' f' (of L i y)⁆ by
         intro i y
-        rw [← lie_skew x, ← lie_skew (toModule R ι L' f' x)]
+        rw [← lie_skew x]; rw [← lie_skew (toModule R ι L' f' x)]
         simp only [LinearMap.map_neg, neg_inj, ← LieAlgebra.ad_apply R]
-        rw [← LinearMap.comp_apply, ← LinearMap.comp_apply]
+        rw [← LinearMap.comp_apply]; rw [← LinearMap.comp_apply]
         congr; clear x; ext j x; exact this j i x y
       -- Tidy up and use `lie_of`.
       intro i j y x

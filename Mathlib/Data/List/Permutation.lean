@@ -92,7 +92,7 @@ theorem map_permutationsAux2' {α β α' β'} (g : α → α') (g' : β → β')
   induction' ys with ys_hd _ ys_ih generalizing f f'
   · simp
   · simp only [map, permutationsAux2_snd_cons, cons_append, cons.injEq]
-    rw [ys_ih, permutationsAux2_fst]
+    rw [ys_ih]; rw [permutationsAux2_fst]
     refine' ⟨_, rfl⟩
     · simp only [← map_cons, ← map_append]; apply H
     · intro a; apply H
@@ -101,7 +101,7 @@ theorem map_permutationsAux2' {α β α' β'} (g : α → α') (g' : β → β')
 /-- The `f` argument to `permutationsAux2` when `r = []` can be eliminated. -/
 theorem map_permutationsAux2 (t : α) (ts : List α) (ys : List α) (f : List α → β) :
     (permutationsAux2 t ts [] ys id).2.map f = (permutationsAux2 t ts [] ys f).2 := by
-  rw [map_permutationsAux2' id, map_id, map_id]; rfl
+  rw [map_permutationsAux2' id]; rw [map_id]; rw [map_id]; rfl
   simp
 #align list.map_permutations_aux2 List.map_permutationsAux2
 
@@ -145,8 +145,7 @@ theorem mem_permutationsAux2 {t : α} {ts : List α} {ys : List α} {l l' : List
       ∃ l₁ l₂, l₂ ≠ [] ∧ ys = l₁ ++ l₂ ∧ l' = l ++ l₁ ++ t :: l₂ ++ ts := by
   induction' ys with y ys ih generalizing l
   · simp (config := { contextual := true })
-  rw [permutationsAux2_snd_cons,
-    show (fun x : List α => l ++ y :: x) = (l ++ [y] ++ ·) by funext _; simp, mem_cons, ih]
+  rw [permutationsAux2_snd_cons]; rw [show (fun x : List α => l ++ y :: x) = (l ++ [y] ++ ·) by funext _; simp, mem_cons, ih]
   constructor
   · rintro (rfl | ⟨l₁, l₂, l0, rfl, rfl⟩)
     · exact ⟨[], y :: ys, by simp⟩
@@ -201,7 +200,7 @@ theorem length_foldr_permutationsAux2 (t : α) (ts : List α) (r L : List (List 
 theorem length_foldr_permutationsAux2' (t : α) (ts : List α) (r L : List (List α)) (n)
     (H : ∀ l ∈ L, length l = n) :
     length (foldr (fun y r => (permutationsAux2 t ts r y id).2) r L) = n * length L + length r := by
-  rw [length_foldr_permutationsAux2, (_ : List.sum (map length L) = n * length L)]
+  rw [length_foldr_permutationsAux2]; rw [(_ : List.sum (map length L) = n * length L)]
   induction' L with l L ih
   · simp
   have sum_map : sum (map length L) = n * length L := ih fun l m => H l (mem_cons_of_mem _ m)
@@ -211,7 +210,7 @@ theorem length_foldr_permutationsAux2' (t : α) (ts : List α) (r L : List (List
 
 @[simp]
 theorem permutationsAux_nil (is : List α) : permutationsAux [] is = [] := by
-  rw [permutationsAux, permutationsAux.rec]
+  rw [permutationsAux]; rw [permutationsAux.rec]
 #align list.permutations_aux_nil List.permutationsAux_nil
 
 @[simp]
@@ -224,7 +223,7 @@ theorem permutationsAux_cons (t : α) (ts is : List α) :
 
 @[simp]
 theorem permutations_nil : permutations ([] : List α) = [[]] := by
-  rw [permutations, permutationsAux_nil]
+  rw [permutations]; rw [permutationsAux_nil]
 #align list.permutations_nil List.permutations_nil
 
 theorem map_permutationsAux (f : α → β) :
@@ -238,7 +237,7 @@ theorem map_permutationsAux (f : α → β) :
 
 theorem map_permutations (f : α → β) (ts : List α) :
     map (map f) (permutations ts) = permutations (map f ts) := by
-  rw [permutations, permutations, map, map_permutationsAux, map]
+  rw [permutations]; rw [permutations]; rw [map]; rw [map_permutationsAux]; rw [map]
 #align list.map_permutations List.map_permutations
 
 theorem map_permutations' (f : α → β) (ts : List α) :

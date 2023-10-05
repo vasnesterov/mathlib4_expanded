@@ -190,7 +190,7 @@ lemma gc_exterior_interior : GaloisConnection (exterior : Set α → Set α) int
   ext t; simp_rw [←exterior_subset_iff_mem_nhdsSet, exterior_exterior]
 
 @[simp] lemma principal_exterior (s : Set α) : 𝓟 (exterior s) = 𝓝ˢ s := by
-  rw [←nhdsSet_exterior, isOpen_exterior.nhdsSet_eq]
+  rw [←nhdsSet_exterior]; rw [isOpen_exterior.nhdsSet_eq]
 
 @[simp] lemma exterior_subset_exterior : exterior s ⊆ exterior t ↔ 𝓝ˢ s ≤ 𝓝ˢ t := by
   refine ⟨?_, λ h ↦ ker_mono h⟩
@@ -229,7 +229,7 @@ lemma Inducing.alexandrovDiscrete {f : β → α} (h : Inducing f) : AlexandrovD
 lemma alexandrovDiscrete_coinduced {β : Type*} {f : α → β} :
     @AlexandrovDiscrete β (coinduced f ‹_›) :=
 @AlexandrovDiscrete.mk β (coinduced f ‹_›) λ S hS ↦ by
-  rw [isOpen_coinduced, preimage_sInter]; exact isOpen_iInter₂ hS
+  rw [isOpen_coinduced]; rw [preimage_sInter]; exact isOpen_iInter₂ hS
 
 lemma AlexandrovDiscrete.sup {t₁ t₂ : TopologicalSpace α} (_ : @AlexandrovDiscrete α t₁)
     (_ : @AlexandrovDiscrete α t₂) :

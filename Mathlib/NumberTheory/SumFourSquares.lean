@@ -58,7 +58,7 @@ theorem sq_add_sq_of_two_mul_sq_add_sq {m x y : ℤ} (h : 2 * m = x ^ 2 + y ^ 2)
       2 * 2 * m = (x - y) ^ 2 + (x + y) ^ 2 := by rw [mul_assoc, h]; ring
       _ = (2 * ((x - y) / 2)) ^ 2 + (2 * ((x + y) / 2)) ^ 2 := by
         rw [even_iff_two_dvd] at hxsuby hxaddy
-        rw [Int.mul_ediv_cancel' hxsuby, Int.mul_ediv_cancel' hxaddy]
+        rw [Int.mul_ediv_cancel' hxsuby]; rw [Int.mul_ediv_cancel' hxaddy]
       _ = 2 * 2 * (((x - y) / 2) ^ 2 + ((x + y) / 2) ^ 2) := by
         simp [mul_add, pow_succ, mul_comm, mul_assoc, mul_left_comm]
 #align int.sq_add_sq_of_two_mul_sq_add_sq Int.sq_add_sq_of_two_mul_sq_add_sq
@@ -84,7 +84,7 @@ theorem exists_sq_add_sq_add_one_eq_mul (p : ℕ) [hp : Fact p.Prime] :
   · use 1, 0, 1; simp
   rcases Nat.sq_add_sq_zmodEq p (-1) with ⟨a, b, ha, hb, hab⟩
   rcases Int.modEq_iff_dvd.1 hab.symm with ⟨k, hk⟩
-  rw [sub_neg_eq_add, mul_comm] at hk
+  rw [sub_neg_eq_add] at hk; rw [mul_comm] at hk
   have hk₀ : 0 < k
   · refine pos_of_mul_pos_left ?_ (Nat.cast_nonneg p)
     rw [← hk]
@@ -122,7 +122,7 @@ private theorem sum_four_squares_of_two_mul_sum_four_squares {m a b c d : ℤ}
     decide
   set f : Fin 4 → ℤ := ![a, b, c, d]
   obtain ⟨i, hσ⟩ := this (fun x => ↑(f x)) <| by
-    rw [← @zero_mul (ZMod 2) _ m, ← show ((2 : ℤ) : ZMod 2) = 0 from rfl, ← Int.cast_mul, ← h]
+    rw [← @zero_mul (ZMod 2) _ m]; rw [← show ((2 : ℤ) : ZMod 2) = 0 from rfl]; rw [← Int.cast_mul]; rw [← h]
     simp only [Int.cast_add, Int.cast_pow]
     rfl
   set σ := swap i 0
@@ -134,8 +134,7 @@ private theorem sum_four_squares_of_two_mul_sum_four_squares {m a b c d : ℤ}
       simpa only [Int.cast_pow, Int.cast_add, ZMod.pow_card] using hσ.2
   refine ⟨(f (σ 0) - f (σ 1)) / 2, (f (σ 0) + f (σ 1)) / 2, (f (σ 2) - f (σ 3)) / 2,
     (f (σ 2) + f (σ 3)) / 2, ?_⟩
-  rw [← Int.sq_add_sq_of_two_mul_sq_add_sq hx.symm, add_assoc,
-    ← Int.sq_add_sq_of_two_mul_sq_add_sq hy.symm, ← mul_right_inj' two_ne_zero, ← h, mul_add]
+  rw [← Int.sq_add_sq_of_two_mul_sq_add_sq hx.symm]; rw [add_assoc]; rw [← Int.sq_add_sq_of_two_mul_sq_add_sq hy.symm]; rw [← mul_right_inj' two_ne_zero]; rw [← h]; rw [mul_add]
   have : (∑ x, f (σ x) ^ 2) = ∑ x, f x ^ 2 := Equiv.sum_comp σ (f · ^ 2)
   simpa only [← hx, ← hy, Fin.sum_univ_four, add_assoc] using this
 

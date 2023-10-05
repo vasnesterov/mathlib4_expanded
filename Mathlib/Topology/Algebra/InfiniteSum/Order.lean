@@ -208,11 +208,11 @@ theorem hasSum_zero_iff : HasSum f 0 ↔ ∀ x, f x = 0 :=
 #align has_sum_zero_iff hasSum_zero_iff
 
 theorem tsum_eq_zero_iff (hf : Summable f) : ∑' i, f i = 0 ↔ ∀ x, f x = 0 := by
-  rw [← hasSum_zero_iff, hf.hasSum_iff]
+  rw [← hasSum_zero_iff]; rw [hf.hasSum_iff]
 #align tsum_eq_zero_iff tsum_eq_zero_iff
 
 theorem tsum_ne_zero_iff (hf : Summable f) : ∑' i, f i ≠ 0 ↔ ∃ x, f x ≠ 0 := by
-  rw [Ne.def, tsum_eq_zero_iff hf, not_forall]
+  rw [Ne.def]; rw [tsum_eq_zero_iff hf]; rw [not_forall]
 #align tsum_ne_zero_iff tsum_ne_zero_iff
 
 theorem isLUB_hasSum' (hf : HasSum f a) : IsLUB (Set.range fun s => ∑ i in s, f i) a :=

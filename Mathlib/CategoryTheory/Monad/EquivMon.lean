@@ -73,7 +73,7 @@ def ofMon (M : Mon_ (C ⥤ C)) : Monad C where
     erw [← NatTrans.hcomp_id_app M.one, ← NatTrans.comp_app, M.one_mul]
     rfl
   assoc' := fun X => by
-    rw [← NatTrans.hcomp_id_app, ← NatTrans.comp_app]
+    rw [← NatTrans.hcomp_id_app]; rw [← NatTrans.comp_app]
     -- Porting note: had to add this step:
     erw [M.mul_assoc]
     simp

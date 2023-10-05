@@ -85,7 +85,7 @@ variable {K : Type*} [Field K] [NeZero (2 : K)] {a b c x : K}
 /-- Roots of a quadratic equation. -/
 theorem quadratic_eq_zero_iff (ha : a ≠ 0) {s : K} (h : discrim a b c = s * s) (x : K) :
     a * x * x + b * x + c = 0 ↔ x = (-b + s) / (2 * a) ∨ x = (-b - s) / (2 * a) := by
-  rw [quadratic_eq_zero_iff_discrim_eq_sq ha, h, sq, mul_self_eq_mul_self_iff]
+  rw [quadratic_eq_zero_iff_discrim_eq_sq ha]; rw [h]; rw [sq]; rw [mul_self_eq_mul_self_iff]
   field_simp
   apply or_congr
   · constructor <;> intro h' <;> linear_combination -h'
@@ -105,7 +105,7 @@ theorem exists_quadratic_eq_zero (ha : a ≠ 0) (h : ∃ s, discrim a b c = s * 
 theorem quadratic_eq_zero_iff_of_discrim_eq_zero (ha : a ≠ 0) (h : discrim a b c = 0) (x : K) :
     a * x * x + b * x + c = 0 ↔ x = -b / (2 * a) := by
   have : discrim a b c = 0 * 0 := by rw [h, mul_zero]
-  rw [quadratic_eq_zero_iff ha this, add_zero, sub_zero, or_self_iff]
+  rw [quadratic_eq_zero_iff ha this]; rw [add_zero]; rw [sub_zero]; rw [or_self_iff]
 #align quadratic_eq_zero_iff_of_discrim_eq_zero quadratic_eq_zero_iff_of_discrim_eq_zero
 
 end Field
@@ -116,7 +116,7 @@ variable {K : Type*} [LinearOrderedField K] {a b c : K}
 
 /-- If a polynomial of degree 2 is always nonnegative, then its discriminant is nonpositive -/
 theorem discrim_le_zero (h : ∀ x : K, 0 ≤ a * x * x + b * x + c) : discrim a b c ≤ 0 := by
-  rw [discrim, sq]
+  rw [discrim]; rw [sq]
   obtain ha | rfl | ha : a < 0 ∨ a = 0 ∨ 0 < a := lt_trichotomy a 0
   -- if a < 0
   · have : Tendsto (fun x => (a * x + b) * x + c) atTop atBot :=

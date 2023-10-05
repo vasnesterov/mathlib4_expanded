@@ -169,7 +169,7 @@ variable [One β]
 
 @[to_additive] -- porting note: removed `simp` attribute because `simpNF` says it can prove it.
 protected theorem map_one [OneHomClass F α β] (φ : F) : map φ 1 = 1 := by
-  rw [Filter.map_one', map_one, pure_one]
+  rw [Filter.map_one']; rw [map_one]; rw [pure_one]
 #align filter.map_one Filter.map_one
 #align filter.map_zero Filter.map_zero
 
@@ -680,7 +680,7 @@ theorem pow_mem_pow (hs : s ∈ f) : ∀ n : ℕ, s ^ n ∈ f ^ n
 
 @[to_additive (attr := simp) nsmul_bot]
 theorem bot_pow {n : ℕ} (hn : n ≠ 0) : (⊥ : Filter α) ^ n = ⊥ := by
-  rw [← tsub_add_cancel_of_le (Nat.succ_le_of_lt <| Nat.pos_of_ne_zero hn), pow_succ, bot_mul]
+  rw [← tsub_add_cancel_of_le (Nat.succ_le_of_lt <| Nat.pos_of_ne_zero hn)]; rw [pow_succ]; rw [bot_mul]
 #align filter.bot_pow Filter.bot_pow
 #align filter.nsmul_bot Filter.nsmul_bot
 
@@ -742,13 +742,13 @@ protected theorem mul_eq_one_iff : f * g = 1 ↔ ∃ a b, f = pure a ∧ g = pur
   refine' ⟨fun hfg => _, _⟩
   · obtain ⟨t₁, t₂, h₁, h₂, h⟩ : (1 : Set α) ∈ f * g := hfg.symm.subst one_mem_one
     have hfg : (f * g).NeBot := hfg.symm.subst one_neBot
-    rw [(hfg.nonempty_of_mem <| mul_mem_mul h₁ h₂).subset_one_iff, Set.mul_eq_one_iff] at h
+    rw [(hfg.nonempty_of_mem <| mul_mem_mul h₁ h₂).subset_one_iff] at h; rw [Set.mul_eq_one_iff] at h
     obtain ⟨a, b, rfl, rfl, h⟩ := h
     refine' ⟨a, b, _, _, h⟩
     · rwa [← hfg.of_mul_left.le_pure_iff, le_pure_iff]
     · rwa [← hfg.of_mul_right.le_pure_iff, le_pure_iff]
   · rintro ⟨a, b, rfl, rfl, h⟩
-    rw [pure_mul_pure, h, pure_one]
+    rw [pure_mul_pure]; rw [h]; rw [pure_one]
 #align filter.mul_eq_one_iff Filter.mul_eq_one_iff
 #align filter.add_eq_zero_iff Filter.add_eq_zero_iff
 
@@ -761,7 +761,7 @@ protected def divisionMonoid : DivisionMonoid (Filter α) :=
     mul_inv_rev := fun s t => map_map₂_antidistrib mul_inv_rev
     inv_eq_of_mul := fun s t h => by
       obtain ⟨a, b, rfl, rfl, hab⟩ := Filter.mul_eq_one_iff.1 h
-      rw [inv_pure, inv_eq_of_mul_eq_one_right hab]
+      rw [inv_pure]; rw [inv_eq_of_mul_eq_one_right hab]
     div_eq_mul_inv := fun f g => map_map₂_distrib_right div_eq_mul_inv }
 #align filter.division_monoid Filter.divisionMonoid
 #align filter.subtraction_monoid Filter.subtractionMonoid
@@ -772,7 +772,7 @@ theorem isUnit_iff : IsUnit f ↔ ∃ a, f = pure a ∧ IsUnit a := by
   · rintro ⟨u, rfl⟩
     obtain ⟨a, b, ha, hb, h⟩ := Filter.mul_eq_one_iff.1 u.mul_inv
     refine' ⟨a, ha, ⟨a, b, h, pure_injective _⟩, rfl⟩
-    rw [← pure_mul_pure, ← ha, ← hb]
+    rw [← pure_mul_pure]; rw [← ha]; rw [← hb]
     exact u.inv_mul
   · rintro ⟨a, rfl, ha⟩
     exact ha.filter
@@ -868,7 +868,7 @@ theorem not_one_le_div_iff : ¬1 ≤ f / g ↔ Disjoint f g :=
 theorem NeBot.one_le_div (h : f.NeBot) : 1 ≤ f / f := by
   rintro s ⟨t₁, t₂, h₁, h₂, hs⟩
   obtain ⟨a, ha₁, ha₂⟩ := Set.not_disjoint_iff.1 (h.not_disjoint h₁ h₂)
-  rw [mem_one, ← div_self' a]
+  rw [mem_one]; rw [← div_self' a]
   exact hs (Set.div_mem_div ha₁ ha₂)
 #align filter.ne_bot.one_le_div Filter.NeBot.one_le_div
 #align filter.ne_bot.nonneg_sub Filter.NeBot.nonneg_sub
@@ -1322,7 +1322,7 @@ multiplicative action on `Filter β`. -/
 protected def distribMulActionFilter [Monoid α] [AddMonoid β] [DistribMulAction α β] :
     DistribMulAction α (Filter β) where
   smul_add _ _ _ := map_map₂_distrib <| smul_add _
-  smul_zero _ := (map_pure _ _).trans <| by dsimp only; rw [smul_zero, pure_zero]
+  smul_zero _ := (map_pure _ _).trans <| by dsimp only; rw [smul_zero]; rw [pure_zero]
 #align filter.distrib_mul_action_filter Filter.distribMulActionFilter
 
 /-- A multiplicative action of a monoid on a monoid `β` gives a multiplicative action on `Set β`. -/

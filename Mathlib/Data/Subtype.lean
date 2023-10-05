@@ -80,7 +80,7 @@ lemma heq_iff_coe_heq {α β : Sort _} {p : α → Prop} {q : β → Prop} {a : 
     {b : {y // q y}} (h : α = β) (h' : HEq p q) : HEq a b ↔ HEq (a : α) (b : β) := by
   subst h
   subst h'
-  rw [heq_iff_eq, heq_iff_eq, ext_iff]
+  rw [heq_iff_eq]; rw [heq_iff_eq]; rw [ext_iff]
 #align subtype.heq_iff_coe_heq Subtype.heq_iff_coe_heq
 
 theorem ext_val {a1 a2 : { x // p x }} : a1.1 = a2.1 → a1 = a2 :=

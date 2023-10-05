@@ -53,7 +53,7 @@ variable {M N}
 theorem mem_localizationLocalizationSubmodule {x : R} :
     x ∈ localizationLocalizationSubmodule M N ↔
       ∃ (y : N) (z : M), algebraMap R S x = y * algebraMap R S z := by
-  rw [localizationLocalizationSubmodule, Submonoid.mem_comap, Submonoid.mem_sup]
+  rw [localizationLocalizationSubmodule]; rw [Submonoid.mem_comap]; rw [Submonoid.mem_sup]
   constructor
   · rintro ⟨y, hy, _, ⟨z, hz, rfl⟩, e⟩
     exact ⟨⟨y, hy⟩, ⟨z, hz⟩, e.symm⟩
@@ -66,7 +66,7 @@ variable (M N) [IsLocalization M S]
 theorem localization_localization_map_units [IsLocalization N T]
     (y : localizationLocalizationSubmodule M N) : IsUnit (algebraMap R T y) := by
   obtain ⟨y', z, eq⟩ := mem_localizationLocalizationSubmodule.mp y.prop
-  rw [IsScalarTower.algebraMap_apply R S T, eq, RingHom.map_mul, IsUnit.mul_iff]
+  rw [IsScalarTower.algebraMap_apply R S T]; rw [eq]; rw [RingHom.map_mul]; rw [IsUnit.mul_iff]
   exact ⟨IsLocalization.map_units T y', (IsLocalization.map_units _ z).map (algebraMap S T)⟩
 #align is_localization.localization_localization_map_units IsLocalization.localization_localization_map_units
 
@@ -83,7 +83,7 @@ theorem localization_localization_surj [IsLocalization N T] (x : T) :
   refine ⟨⟨z * t', z' * t, ?_⟩, ?_⟩ -- x = y / s = (z * t') / (z' * t)
   · rw [mem_localizationLocalizationSubmodule]
     refine' ⟨s, t * t', _⟩
-    rw [RingHom.map_mul, ← eq₃, mul_assoc, ← RingHom.map_mul, mul_comm t, Submonoid.coe_mul]
+    rw [RingHom.map_mul]; rw [← eq₃]; rw [mul_assoc]; rw [← RingHom.map_mul]; rw [mul_comm t]; rw [Submonoid.coe_mul]
   · simp only [Subtype.coe_mk, RingHom.map_mul, IsScalarTower.algebraMap_apply R S T, ← eq₃, ← eq₂,
       ← eq₁]
     ring
@@ -92,8 +92,7 @@ theorem localization_localization_surj [IsLocalization N T] (x : T) :
 theorem localization_localization_eq_iff_exists [IsLocalization N T] (x y : R) :
     algebraMap R T x = algebraMap R T y ↔
       ∃ c : localizationLocalizationSubmodule M N, ↑c * x = ↑c * y := by
-  rw [IsScalarTower.algebraMap_apply R S T, IsScalarTower.algebraMap_apply R S T,
-    IsLocalization.eq_iff_exists N T]
+  rw [IsScalarTower.algebraMap_apply R S T]; rw [IsScalarTower.algebraMap_apply R S T]; rw [IsLocalization.eq_iff_exists N T]
   constructor
   · rintro ⟨z, eq₁⟩
     rcases IsLocalization.surj M (z : S) with ⟨⟨z', s⟩, eq₂⟩
@@ -103,7 +102,7 @@ theorem localization_localization_eq_iff_exists [IsLocalization N T] (x y : R) :
       refine ⟨⟨c * z', ?_⟩, ?_⟩
       · rw [mem_localizationLocalizationSubmodule]
         refine ⟨z, c * s, ?_⟩
-        rw [map_mul, ← eq₂, Submonoid.coe_mul, map_mul, mul_left_comm]
+        rw [map_mul]; rw [← eq₂]; rw [Submonoid.coe_mul]; rw [map_mul]; rw [mul_left_comm]
       · rwa [mul_comm _ z', mul_comm _ z', ← mul_assoc, ← mul_assoc] at eq₃
     · rw [map_mul, map_mul, ← eq₂, ← mul_assoc, ← mul_assoc, mul_comm _ (z : S), eq₁,
       mul_comm _ (z : S)]
@@ -112,8 +111,7 @@ theorem localization_localization_eq_iff_exists [IsLocalization N T] (x y : R) :
     rcases hc with ⟨z₁, z, eq₂⟩
     use z₁
     refine (IsLocalization.map_units S z).mul_right_inj.mp ?_
-    rw [← mul_assoc, mul_comm _ (z₁ : S), ← eq₂, ← map_mul, eq₁, map_mul, eq₂, ← mul_assoc,
-      mul_comm _ (z₁ : S)]
+    rw [← mul_assoc]; rw [mul_comm _ (z₁ : S)]; rw [← eq₂]; rw [← map_mul]; rw [eq₁]; rw [map_mul]; rw [eq₂]; rw [← mul_assoc]; rw [mul_comm _ (z₁ : S)]
 #align is_localization.localization_localization_eq_iff_exists IsLocalization.localization_localization_eq_iff_exists
 
 /-- Given submodules `M ⊆ R` and `N ⊆ S = M⁻¹R`, with `f : R →+* S` the localization map, we have
@@ -232,7 +230,7 @@ theorem isLocalization_of_submonoid_le (M N : Submonoid R) (h : M ≤ N) [IsLoca
           mul_right_comm _ (algebraMap S T (algebraMap R S s₂)),
           (IsLocalization.map_units S s₁).mul_left_inj,
           (IsLocalization.map_units S s₂).mul_left_inj] at this
-        rw [h₂, h₁] at this
+        rw [h₂] at this; rw [h₁] at this
         simpa only [mul_comm] using this
       · simp_rw [IsLocalization.eq_iff_exists N T, IsLocalization.eq_iff_exists M S]
         constructor
@@ -280,14 +278,13 @@ theorem isFractionRing_of_isLocalization (S T : Type*) [CommRing S] [CommRing T]
   · rintro ⟨x, hx⟩
     obtain ⟨⟨y, s⟩, e⟩ := IsLocalization.surj M x
     use algebraMap R S s
-    rw [mul_comm, Subtype.coe_mk, e]
+    rw [mul_comm]; rw [Subtype.coe_mk]; rw [e]
     refine' Set.mem_image_of_mem (algebraMap R S) _
     intro z hz
     apply IsLocalization.injective S hM
     rw [map_zero]
     apply hx
-    rw [← (map_units S s).mul_left_inj, mul_assoc, e, ← map_mul, hz, map_zero,
-      zero_mul]
+    rw [← (map_units S s).mul_left_inj]; rw [mul_assoc]; rw [e]; rw [← map_mul]; rw [hz]; rw [map_zero]; rw [zero_mul]
 #align is_fraction_ring.is_fraction_ring_of_is_localization IsFractionRing.isFractionRing_of_isLocalization
 
 theorem isFractionRing_of_isDomain_of_isLocalization [IsDomain R] (S T : Type*) [CommRing S]
@@ -300,7 +297,7 @@ theorem isFractionRing_of_isDomain_of_isLocalization [IsDomain R] (S T : Type*) 
   rw [mem_nonZeroDivisors_iff_ne_zero]
   intro hx'
   apply @zero_ne_one S
-  rw [← (algebraMap R S).map_one, ← @mk'_one R _ M, @comm _ Eq, mk'_eq_zero_iff]
+  rw [← (algebraMap R S).map_one]; rw [← @mk'_one R _ M]; rw [@comm _ Eq]; rw [mk'_eq_zero_iff]
   exact ⟨⟨x, hx⟩, by simp [hx']⟩
 #align is_fraction_ring.is_fraction_ring_of_is_domain_of_is_localization IsFractionRing.isFractionRing_of_isDomain_of_isLocalization
 

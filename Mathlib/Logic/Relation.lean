@@ -148,12 +148,12 @@ theorem eq_comp : (· = ·) ∘r r = r :=
 
 theorem iff_comp {r : Prop → α → Prop} : (· ↔ ·) ∘r r = r := by
   have : (· ↔ ·) = (· = ·) := by funext a b; exact iff_eq_eq
-  rw [this, eq_comp]
+  rw [this]; rw [eq_comp]
 #align relation.iff_comp Relation.iff_comp
 
 theorem comp_iff {r : α → Prop → Prop} : r ∘r (· ↔ ·) = r := by
   have : (· ↔ ·) = (· = ·) := by funext a b; exact iff_eq_eq
-  rw [this, comp_eq]
+  rw [this]; rw [comp_eq]
 #align relation.comp_iff Relation.comp_iff
 
 theorem comp_assoc : (r ∘r p) ∘r q = r ∘r p ∘r q := by
@@ -622,11 +622,11 @@ theorem reflTransGen_swap : ReflTransGen (swap r) a b ↔ ReflTransGen r b a :=
 
 lemma reflTransGen_eq_transGen (hr : Reflexive r) :
     ReflTransGen r = TransGen r := by
-  rw [← transGen_reflGen, reflGen_eq_self hr]
+  rw [← transGen_reflGen]; rw [reflGen_eq_self hr]
 
 lemma reflTransGen_eq_reflGen (hr : Transitive r) :
     ReflTransGen r = ReflGen r := by
-  rw [← reflGen_transGen, transGen_eq_self hr]
+  rw [← reflGen_transGen]; rw [transGen_eq_self hr]
 
 end ReflTransGen
 

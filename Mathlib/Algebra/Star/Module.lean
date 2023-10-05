@@ -137,7 +137,7 @@ theorem StarModule.selfAdjointPart_add_skewAdjointPart (x : A) :
 
 theorem IsSelfAdjoint.coe_selfAdjointPart_apply {x : A} (hx : IsSelfAdjoint x) :
     (selfAdjointPart R x : A) = x := by
-  rw [selfAdjointPart_apply_coe, hx.star_eq, smul_add, invOf_two_smul_add_invOf_two_smul]
+  rw [selfAdjointPart_apply_coe]; rw [hx.star_eq]; rw [smul_add]; rw [invOf_two_smul_add_invOf_two_smul]
 
 theorem IsSelfAdjoint.selfAdjointPart_apply {x : A} (hx : IsSelfAdjoint x) :
     selfAdjointPart R x = ⟨x, hx⟩ :=
@@ -150,7 +150,7 @@ theorem selfAdjointPart_comp_subtype_selfAdjoint :
 
 theorem IsSelfAdjoint.skewAdjointPart_apply {x : A} (hx : IsSelfAdjoint x) :
     skewAdjointPart R x = 0 := Subtype.eq <| by
-  rw [skewAdjointPart_apply_coe, hx.star_eq, sub_self, smul_zero, ZeroMemClass.coe_zero]
+  rw [skewAdjointPart_apply_coe]; rw [hx.star_eq]; rw [sub_self]; rw [smul_zero]; rw [ZeroMemClass.coe_zero]
 
 -- porting note: todo: make it a `simp`
 theorem skewAdjointPart_comp_subtype_selfAdjoint :

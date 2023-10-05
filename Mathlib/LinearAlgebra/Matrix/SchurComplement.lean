@@ -120,14 +120,14 @@ def invertibleOfFromBlocksZero₂₁Invertible (A : Matrix m m α) (B : Matrix m
   fst :=
     invertibleOfLeftInverse _ (⅟ (fromBlocks A B 0 D)).toBlocks₁₁ <| by
       have := invOf_mul_self (fromBlocks A B 0 D)
-      rw [← fromBlocks_toBlocks (⅟ (fromBlocks A B 0 D)), fromBlocks_multiply] at this
+      rw [← fromBlocks_toBlocks (⅟ (fromBlocks A B 0 D))] at this; rw [fromBlocks_multiply] at this
       replace := congr_arg Matrix.toBlocks₁₁ this
       simpa only [Matrix.toBlocks_fromBlocks₁₁, Matrix.mul_zero, add_zero, ← fromBlocks_one] using
         this
   snd :=
     invertibleOfRightInverse _ (⅟ (fromBlocks A B 0 D)).toBlocks₂₂ <| by
       have := mul_invOf_self (fromBlocks A B 0 D)
-      rw [← fromBlocks_toBlocks (⅟ (fromBlocks A B 0 D)), fromBlocks_multiply] at this
+      rw [← fromBlocks_toBlocks (⅟ (fromBlocks A B 0 D))] at this; rw [fromBlocks_multiply] at this
       replace := congr_arg Matrix.toBlocks₂₂ this
       simpa only [Matrix.toBlocks_fromBlocks₂₂, Matrix.zero_mul, zero_add, ← fromBlocks_one] using
         this
@@ -140,14 +140,14 @@ def invertibleOfFromBlocksZero₁₂Invertible (A : Matrix m m α) (C : Matrix n
   fst :=
     invertibleOfRightInverse _ (⅟ (fromBlocks A 0 C D)).toBlocks₁₁ <| by
       have := mul_invOf_self (fromBlocks A 0 C D)
-      rw [← fromBlocks_toBlocks (⅟ (fromBlocks A 0 C D)), fromBlocks_multiply] at this
+      rw [← fromBlocks_toBlocks (⅟ (fromBlocks A 0 C D))] at this; rw [fromBlocks_multiply] at this
       replace := congr_arg Matrix.toBlocks₁₁ this
       simpa only [Matrix.toBlocks_fromBlocks₁₁, Matrix.zero_mul, add_zero, ← fromBlocks_one] using
         this
   snd :=
     invertibleOfLeftInverse _ (⅟ (fromBlocks A 0 C D)).toBlocks₂₂ <| by
       have := invOf_mul_self (fromBlocks A 0 C D)
-      rw [← fromBlocks_toBlocks (⅟ (fromBlocks A 0 C D)), fromBlocks_multiply] at this
+      rw [← fromBlocks_toBlocks (⅟ (fromBlocks A 0 C D))] at this; rw [fromBlocks_multiply] at this
       replace := congr_arg Matrix.toBlocks₂₂ this
       simpa only [Matrix.toBlocks_fromBlocks₂₂, Matrix.mul_zero, zero_add, ← fromBlocks_one] using
         this
@@ -394,15 +394,14 @@ the Schur complement. -/
 theorem det_fromBlocks₁₁ (A : Matrix m m α) (B : Matrix m n α) (C : Matrix n m α)
     (D : Matrix n n α) [Invertible A] :
     (Matrix.fromBlocks A B C D).det = det A * det (D - C * ⅟ A * B) := by
-  rw [fromBlocks_eq_of_invertible₁₁ (A := A), det_mul, det_mul, det_fromBlocks_zero₂₁,
-    det_fromBlocks_zero₂₁, det_fromBlocks_zero₁₂, det_one, det_one, one_mul, one_mul, mul_one]
+  rw [fromBlocks_eq_of_invertible₁₁ (A := A)]; rw [det_mul]; rw [det_mul]; rw [det_fromBlocks_zero₂₁]; rw [det_fromBlocks_zero₂₁]; rw [det_fromBlocks_zero₁₂]; rw [det_one]; rw [det_one]; rw [one_mul]; rw [one_mul]; rw [mul_one]
 #align matrix.det_from_blocks₁₁ Matrix.det_fromBlocks₁₁
 
 @[simp]
 theorem det_fromBlocks_one₁₁ (B : Matrix m n α) (C : Matrix n m α) (D : Matrix n n α) :
     (Matrix.fromBlocks 1 B C D).det = det (D - C * B) := by
   haveI : Invertible (1 : Matrix m m α) := invertibleOne
-  rw [det_fromBlocks₁₁, invOf_one, Matrix.mul_one, det_one, one_mul]
+  rw [det_fromBlocks₁₁]; rw [invOf_one]; rw [Matrix.mul_one]; rw [det_one]; rw [one_mul]
 #align matrix.det_from_blocks_one₁₁ Matrix.det_fromBlocks_one₁₁
 
 /-- Determinant of a 2×2 block matrix, expanded around an invertible bottom right element in terms
@@ -414,14 +413,14 @@ theorem det_fromBlocks₂₂ (A : Matrix m m α) (B : Matrix m n α) (C : Matrix
       (fromBlocks D C B A).submatrix (Equiv.sumComm _ _) (Equiv.sumComm _ _) := by
     ext (i j)
     cases i <;> cases j <;> rfl
-  rw [this, det_submatrix_equiv_self, det_fromBlocks₁₁]
+  rw [this]; rw [det_submatrix_equiv_self]; rw [det_fromBlocks₁₁]
 #align matrix.det_from_blocks₂₂ Matrix.det_fromBlocks₂₂
 
 @[simp]
 theorem det_fromBlocks_one₂₂ (A : Matrix m m α) (B : Matrix m n α) (C : Matrix n m α) :
     (Matrix.fromBlocks A B C 1).det = det (A - B * C) := by
   haveI : Invertible (1 : Matrix n n α) := invertibleOne
-  rw [det_fromBlocks₂₂, invOf_one, Matrix.mul_one, det_one, one_mul]
+  rw [det_fromBlocks₂₂]; rw [invOf_one]; rw [Matrix.mul_one]; rw [det_one]; rw [one_mul]
 #align matrix.det_from_blocks_one₂₂ Matrix.det_fromBlocks_one₂₂
 
 /-- The **Weinstein–Aronszajn identity**. Note the `1` on the LHS is of shape m×m, while the `1` on
@@ -430,7 +429,7 @@ theorem det_one_add_mul_comm (A : Matrix m n α) (B : Matrix n m α) :
     det (1 + A * B) = det (1 + B * A) :=
   calc
     det (1 + A * B) = det (fromBlocks 1 (-A) B 1) := by
-      rw [det_fromBlocks_one₂₂, Matrix.neg_mul, sub_neg_eq_add]
+      rw [det_fromBlocks_one₂₂]; rw [Matrix.neg_mul]; rw [sub_neg_eq_add]
     _ = det (1 + B * A) := by rw [det_fromBlocks_one₁₁, Matrix.mul_neg, sub_neg_eq_add]
 #align matrix.det_one_add_mul_comm Matrix.det_one_add_mul_comm
 
@@ -441,15 +440,14 @@ theorem det_mul_add_one_comm (A : Matrix m n α) (B : Matrix n m α) :
 
 theorem det_one_sub_mul_comm (A : Matrix m n α) (B : Matrix n m α) :
     det (1 - A * B) = det (1 - B * A) := by
-  rw [sub_eq_add_neg, ← Matrix.neg_mul, det_one_add_mul_comm, Matrix.mul_neg, ← sub_eq_add_neg]
+  rw [sub_eq_add_neg]; rw [← Matrix.neg_mul]; rw [det_one_add_mul_comm]; rw [Matrix.mul_neg]; rw [← sub_eq_add_neg]
 #align matrix.det_one_sub_mul_comm Matrix.det_one_sub_mul_comm
 
 /-- A special case of the **Matrix determinant lemma** for when `A = I`.
 
 TODO: show this more generally. -/
 theorem det_one_add_col_mul_row (u v : m → α) : det (1 + col u * row v) = 1 + v ⬝ᵥ u := by
-  rw [det_one_add_mul_comm, det_unique, Pi.add_apply, Pi.add_apply, Matrix.one_apply_eq,
-    Matrix.row_mul_col_apply]
+  rw [det_one_add_mul_comm]; rw [det_unique]; rw [Pi.add_apply]; rw [Pi.add_apply]; rw [Matrix.one_apply_eq]; rw [Matrix.row_mul_col_apply]
 #align matrix.det_one_add_col_mul_row Matrix.det_one_add_col_mul_row
 
 end Det
@@ -508,23 +506,21 @@ theorem IsHermitian.fromBlocks₁₁ [Fintype m] [DecidableEq m] {A : Matrix m m
 theorem IsHermitian.fromBlocks₂₂ [Fintype n] [DecidableEq n] (A : Matrix m m 𝕜) (B : Matrix m n 𝕜)
     {D : Matrix n n 𝕜} (hD : D.IsHermitian) :
     (Matrix.fromBlocks A B Bᴴ D).IsHermitian ↔ (A - B * D⁻¹ * Bᴴ).IsHermitian := by
-  rw [← isHermitian_submatrix_equiv (Equiv.sumComm n m), Equiv.sumComm_apply,
-    fromBlocks_submatrix_sum_swap_sum_swap]
+  rw [← isHermitian_submatrix_equiv (Equiv.sumComm n m)]; rw [Equiv.sumComm_apply]; rw [fromBlocks_submatrix_sum_swap_sum_swap]
   convert IsHermitian.fromBlocks₁₁ _ _ hD <;> simp
 #align matrix.is_hermitian.from_blocks₂₂ Matrix.IsHermitian.fromBlocks₂₂
 
 theorem PosSemidef.fromBlocks₁₁ [Fintype m] [DecidableEq m] [Fintype n] {A : Matrix m m 𝕜}
     (B : Matrix m n 𝕜) (D : Matrix n n 𝕜) (hA : A.PosDef) [Invertible A] :
     (fromBlocks A B Bᴴ D).PosSemidef ↔ (D - Bᴴ * A⁻¹ * B).PosSemidef := by
-  rw [PosSemidef, IsHermitian.fromBlocks₁₁ _ _ hA.1]
+  rw [PosSemidef]; rw [IsHermitian.fromBlocks₁₁ _ _ hA.1]
   constructor
   · refine' fun h => ⟨h.1, fun x => _⟩
     have := h.2 (-(A⁻¹ * B).mulVec x ⊕ᵥ x)
-    rw [dotProduct_mulVec, schur_complement_eq₁₁ B D _ _ hA.1, neg_add_self, dotProduct_zero,
-      zero_add] at this
+    rw [dotProduct_mulVec] at this; rw [schur_complement_eq₁₁ B D _ _ hA.1] at this; rw [neg_add_self] at this; rw [dotProduct_zero] at this; rw [zero_add] at this
     rw [dotProduct_mulVec]; exact this
   · refine' fun h => ⟨h.1, fun x => _⟩
-    rw [dotProduct_mulVec, ← Sum.elim_comp_inl_inr x, schur_complement_eq₁₁ B D _ _ hA.1]
+    rw [dotProduct_mulVec]; rw [← Sum.elim_comp_inl_inr x]; rw [schur_complement_eq₁₁ B D _ _ hA.1]
     apply le_add_of_nonneg_of_le
     · rw [← dotProduct_mulVec]
       apply hA.posSemidef.2
@@ -535,8 +531,7 @@ theorem PosSemidef.fromBlocks₁₁ [Fintype m] [DecidableEq m] [Fintype n] {A :
 theorem PosSemidef.fromBlocks₂₂ [Fintype m] [Fintype n] [DecidableEq n] (A : Matrix m m 𝕜)
     (B : Matrix m n 𝕜) {D : Matrix n n 𝕜} (hD : D.PosDef) [Invertible D] :
     (fromBlocks A B Bᴴ D).PosSemidef ↔ (A - B * D⁻¹ * Bᴴ).PosSemidef := by
-  rw [← posSemidef_submatrix_equiv (Equiv.sumComm n m), Equiv.sumComm_apply,
-    fromBlocks_submatrix_sum_swap_sum_swap]
+  rw [← posSemidef_submatrix_equiv (Equiv.sumComm n m)]; rw [Equiv.sumComm_apply]; rw [fromBlocks_submatrix_sum_swap_sum_swap]
   convert PosSemidef.fromBlocks₁₁ Bᴴ A hD <;>
     first
     | infer_instance

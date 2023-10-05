@@ -38,7 +38,7 @@ theorem HasFPowerSeriesAt.hasStrictFDerivAt (h : HasFPowerSeriesAt f p x) :
   refine' h.isBigO_image_sub_norm_mul_norm_sub.trans_isLittleO (IsLittleO.of_norm_right _)
   refine' isLittleO_iff_exists_eq_mul.2 ⟨fun y => ‖y - (x, x)‖, _, EventuallyEq.rfl⟩
   refine' (continuous_id.sub continuous_const).norm.tendsto' _ _ _
-  rw [_root_.id, sub_self, norm_zero]
+  rw [_root_.id]; rw [sub_self]; rw [norm_zero]
 #align has_fpower_series_at.has_strict_fderiv_at HasFPowerSeriesAt.hasStrictFDerivAt
 
 theorem HasFPowerSeriesAt.hasFDerivAt (h : HasFPowerSeriesAt f p x) :
@@ -101,7 +101,7 @@ theorem HasFPowerSeriesOnBall.fderiv [CompleteSpace F] (h : HasFPowerSeriesOnBal
   · apply A.congr
     intro z hz
     dsimp
-    rw [← h.fderiv_eq, add_sub_cancel'_right]
+    rw [← h.fderiv_eq]; rw [add_sub_cancel'_right]
     simpa only [edist_eq_coe_nnnorm_sub, EMetric.mem_ball] using hz
   suffices B :
     HasFPowerSeriesOnBall (fun z => p.changeOrigin (z - x) 1) (p.changeOriginSeries 1) x r

@@ -83,7 +83,7 @@ theorem mul_mem_center [Semigroup M] {a b : M} (ha : a ∈ Set.center M) (hb : b
 @[to_additive (attr := simp) neg_mem_addCenter]
 theorem inv_mem_center [Group M] {a : M} (ha : a ∈ Set.center M) :
     a⁻¹ ∈ Set.center M := fun g => by
-  rw [← inv_inj, mul_inv_rev, inv_inv, ← ha, mul_inv_rev, inv_inv]
+  rw [← inv_inj]; rw [mul_inv_rev]; rw [inv_inv]; rw [← ha]; rw [mul_inv_rev]; rw [inv_inv]
 #align set.inv_mem_center Set.inv_mem_center
 #align set.neg_mem_add_center Set.neg_mem_addCenter
 
@@ -95,7 +95,7 @@ theorem add_mem_center [Distrib M] {a b : M} (ha : a ∈ Set.center M) (hb : b �
 @[simp]
 theorem neg_mem_center [NonUnitalNonAssocRing M] {a : M} (ha : a ∈ Set.center M) :
     -a ∈ Set.center M := fun c => by
-  rw [← neg_mul_comm, ha (-c), neg_mul_comm]
+  rw [← neg_mul_comm]; rw [ha (-c)]; rw [neg_mul_comm]
 #align set.neg_mem_center Set.neg_mem_centerₓ
 
 @[to_additive subset_addCenter_add_units]

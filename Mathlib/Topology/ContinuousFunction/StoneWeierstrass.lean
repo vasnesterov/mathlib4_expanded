@@ -308,7 +308,7 @@ theorem exists_mem_subalgebra_near_continuousMap_of_separatesPoints (A : Subalge
     mem_closure_iff_frequently.mp (continuousMap_mem_subalgebra_closure_of_separatesPoints A w f)
   rw [Metric.nhds_basis_ball.frequently_iff] at w
   obtain ⟨g, H, m⟩ := w ε pos
-  rw [Metric.mem_ball, dist_eq_norm] at H
+  rw [Metric.mem_ball] at H; rw [dist_eq_norm] at H
   exact ⟨⟨g, m⟩, H⟩
 #align continuous_map.exists_mem_subalgebra_near_continuous_map_of_separates_points ContinuousMap.exists_mem_subalgebra_near_continuousMap_of_separatesPoints
 
@@ -364,7 +364,7 @@ theorem Subalgebra.SeparatesPoints.isROrC_to_real {A : StarSubalgebra 𝕜 C(X, 
   -- Consider now the function `fun x ↦ |f x - f x₂| ^ 2`
   refine' ⟨_, ⟨(⟨IsROrC.normSq, continuous_normSq⟩ : C(𝕜, ℝ)).comp F, _, rfl⟩, _⟩
   · -- This is also an element of the subalgebra, and takes only real values
-    rw [SetLike.mem_coe, Subalgebra.mem_comap]
+    rw [SetLike.mem_coe]; rw [Subalgebra.mem_comap]
     convert (A.restrictScalars ℝ).mul_mem hFA (star_mem hFA : star F ∈ A)
     ext1
     exact (IsROrC.mul_conj (K := 𝕜) _).symm
@@ -395,7 +395,7 @@ theorem ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoint
     have SW : A₀.topologicalClosure = ⊤ :=
       haveI := subalgebra_topologicalClosure_eq_top_of_separatesPoints _ hA.isROrC_to_real
       congr_arg Subalgebra.toSubmodule this
-    rw [← Submodule.map_top, ← SW]
+    rw [← Submodule.map_top]; rw [← SW]
     -- So it suffices to prove that the image under `I` of the closure of `A₀` is contained in the
     -- closure of `A`, which follows by abstract nonsense
     have h₁ := A₀.topologicalClosure_map ((@ofRealClm 𝕜 _).compLeftContinuousCompact X)

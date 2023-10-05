@@ -112,7 +112,7 @@ theorem norm_volume_sub_integral_face_upper_sub_lower_smul_le {f : (Fin (n + 1) 
         refine' (hε y hy).trans (mul_le_mul_of_nonneg_left _ h0.le)
         rw [← dist_eq_norm]
         exact dist_le_diam_of_mem I.isCompact_Icc.isBounded hy hxI
-      rw [two_mul, add_mul]
+      rw [two_mul]; rw [add_mul]
       exact norm_sub_le_of_le (hε _ (this _ Hl)) (hε _ (this _ Hu))
   calc
     ‖(∏ j, (I.upper j - I.lower j)) • f' (Pi.single i 1) -
@@ -123,9 +123,7 @@ theorem norm_volume_sub_integral_face_upper_sub_lower_smul_le {f : (Fin (n + 1) 
               f' (Pi.single i (I.upper i - I.lower i)) -
                 (f (e (I.upper i) x) - f (e (I.lower i) x)))
             BoxAdditiveMap.volume‖ := by
-      rw [← integral_sub (Hi _ Hu) (Hi _ Hl), ← Box.volume_face_mul i, mul_smul, ← Box.volume_apply,
-        ← BoxAdditiveMap.toSMul_apply, ← integral_const, ← BoxAdditiveMap.volume,
-        ← integral_sub (integrable_const _) ((Hi _ Hu).sub (Hi _ Hl))]
+      rw [← integral_sub (Hi _ Hu) (Hi _ Hl)]; rw [← Box.volume_face_mul i]; rw [mul_smul]; rw [← Box.volume_apply]; rw [← BoxAdditiveMap.toSMul_apply]; rw [← integral_const]; rw [← BoxAdditiveMap.volume]; rw [← integral_sub (integrable_const _) ((Hi _ Hu).sub (Hi _ Hl))]
       simp only [(· ∘ ·), Pi.sub_def, ← f'.map_smul, ← Pi.single_smul', smul_eq_mul, mul_one]
     _ ≤ (volume (I.face i : Set (Fin n → ℝ))).toReal * (2 * ε * c * (I.upper i - I.lower i)) := by
       -- The hard part of the estimate was done above, here we just replace `diam I.Icc`
@@ -135,7 +133,7 @@ theorem norm_volume_sub_integral_face_upper_sub_lower_smul_le {f : (Fin (n + 1) 
       exact mul_le_mul_of_nonneg_left (I.diam_Icc_le_of_distortion_le i hc)
         (mul_nonneg zero_le_two h0.le)
     _ = 2 * ε * c * ∏ j, (I.upper j - I.lower j) := by
-      rw [← Measure.toBoxAdditive_apply, Box.volume_apply, ← I.volume_face_mul i]
+      rw [← Measure.toBoxAdditive_apply]; rw [Box.volume_apply]; rw [← I.volume_face_mul i]
       ac_rfl
 #align box_integral.norm_volume_sub_integral_face_upper_sub_lower_smul_le BoxIntegral.norm_volume_sub_integral_face_upper_sub_lower_smul_le
 
@@ -232,7 +230,7 @@ theorem hasIntegral_GP_pderiv (f : (Fin (n + 1) → ℝ) → E)
     · refine' (norm_integral_le_of_le_const (fun y hy => hdfδ _ (Hmaps _ Hu hy) _
         (Hmaps _ Hl hy)) volume).trans _
       refine' (mul_le_mul_of_nonneg_right _ (half_pos ε0).le).trans_eq (one_mul _)
-      rw [Box.coe_eq_pi, Real.volume_pi_Ioc_toReal (Box.lower_le_upper _)]
+      rw [Box.coe_eq_pi]; rw [Real.volume_pi_Ioc_toReal (Box.lower_le_upper _)]
       refine' prod_le_one (fun _ _ => sub_nonneg.2 <| Box.lower_le_upper _ _) fun j _ => _
       calc
         J.upper (i.succAbove j) - J.lower (i.succAbove j) ≤

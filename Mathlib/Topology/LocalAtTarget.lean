@@ -32,7 +32,7 @@ theorem Set.restrictPreimage_inducing (s : Set β) (h : Inducing f) :
   simp_rw [inducing_subtype_val.inducing_iff, inducing_iff_nhds, restrictPreimage,
     MapsTo.coe_restrict, restrict_eq, ← @Filter.comap_comap _ _ _ _ _ f, Function.comp_apply] at h ⊢
   intro a
-  rw [← h, ← inducing_subtype_val.nhds_eq_comap]
+  rw [← h]; rw [← inducing_subtype_val.nhds_eq_comap]
 #align set.restrict_preimage_inducing Set.restrictPreimage_inducing
 
 alias Inducing.restrictPreimage := Set.restrictPreimage_inducing
@@ -83,7 +83,7 @@ theorem isOpen_iff_inter_of_iSup_eq_top (s : Set β) : IsOpen s ↔ ∀ i, IsOpe
     have : ⋃ i, (U i : Set β) = Set.univ := by
       convert congr_arg (SetLike.coe) hU
       simp
-    rw [← s.inter_univ, ← this, Set.inter_iUnion]
+    rw [← s.inter_univ]; rw [← this]; rw [Set.inter_iUnion]
     exact isOpen_iUnion H
 #align is_open_iff_inter_of_supr_eq_top isOpen_iff_inter_of_iSup_eq_top
 
@@ -94,7 +94,7 @@ theorem isOpen_iff_coe_preimage_of_iSup_eq_top (s : Set β) :
   refine forall_congr' fun i => ?_
   rw [(U _).2.openEmbedding_subtype_val.open_iff_image_open]
   erw [Set.image_preimage_eq_inter_range]
-  rw [Subtype.range_coe, Opens.carrier_eq_coe]
+  rw [Subtype.range_coe]; rw [Opens.carrier_eq_coe]
 #align is_open_iff_coe_preimage_of_supr_eq_top isOpen_iff_coe_preimage_of_iSup_eq_top
 
 theorem isClosed_iff_coe_preimage_of_iSup_eq_top (s : Set β) :
@@ -121,7 +121,7 @@ theorem inducing_iff_inducing_of_iSup_eq_top (h : Continuous f) :
     MapsTo.coe_restrict, restrict_eq, ← @Filter.comap_comap _ _ _ _ _ f]
   constructor
   · intro H i x
-    rw [Function.comp_apply, ← H, ← inducing_subtype_val.nhds_eq_comap]
+    rw [Function.comp_apply]; rw [← H]; rw [← inducing_subtype_val.nhds_eq_comap]
   · intro H x
     obtain ⟨i, hi⟩ :=
       Opens.mem_iSup.mp
@@ -129,8 +129,7 @@ theorem inducing_iff_inducing_of_iSup_eq_top (h : Continuous f) :
           rw [hU]
           triv)
     erw [← OpenEmbedding.map_nhds_eq (h.1 _ (U i).2).openEmbedding_subtype_val ⟨x, hi⟩]
-    rw [(H i) ⟨x, hi⟩, Filter.subtype_coe_map_comap, Function.comp_apply, Subtype.coe_mk,
-      inf_eq_left, Filter.le_principal_iff]
+    rw [(H i) ⟨x, hi⟩]; rw [Filter.subtype_coe_map_comap]; rw [Function.comp_apply]; rw [Subtype.coe_mk]; rw [inf_eq_left]; rw [Filter.le_principal_iff]
     exact Filter.preimage_mem_comap ((U i).2.mem_nhds hi)
 #align inducing_iff_inducing_of_supr_eq_top inducing_iff_inducing_of_iSup_eq_top
 

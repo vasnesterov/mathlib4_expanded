@@ -261,7 +261,7 @@ theorem pentagon_inv (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d) (i : d ⟶ e) :
 theorem pentagon_inv_inv_hom_hom_inv (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d) (i : d ⟶ e) :
     (α_ f (g ≫ h) i).inv ≫ (α_ f g h).inv ▷ i ≫ (α_ (f ≫ g) h i).hom =
     f ◁ (α_ g h i).hom ≫ (α_ f g (h ≫ i)).inv := by
-  rw [← cancel_epi (f ◁ (α_ g h i).inv), ← cancel_mono (α_ (f ≫ g) h i).inv]
+  rw [← cancel_epi (f ◁ (α_ g h i).inv)]; rw [← cancel_mono (α_ (f ≫ g) h i).inv]
   simp
 #align category_theory.bicategory.pentagon_inv_inv_hom_hom_inv CategoryTheory.Bicategory.pentagon_inv_inv_hom_hom_inv
 
@@ -290,7 +290,7 @@ theorem pentagon_hom_hom_inv_hom_hom (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d) (
 theorem pentagon_hom_inv_inv_inv_hom (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d) (i : d ⟶ e) :
     (α_ f g (h ≫ i)).hom ≫ f ◁ (α_ g h i).inv ≫ (α_ f (g ≫ h) i).inv =
     (α_ (f ≫ g) h i).inv ≫ (α_ f g h).hom ▷ i := by
-  rw [← cancel_epi (α_ f g (h ≫ i)).inv, ← cancel_mono ((α_ f g h).inv ▷ i)]
+  rw [← cancel_epi (α_ f g (h ≫ i)).inv]; rw [← cancel_mono ((α_ f g h).inv ▷ i)]
   simp
 #align category_theory.bicategory.pentagon_hom_inv_inv_inv_hom CategoryTheory.Bicategory.pentagon_hom_inv_inv_inv_hom
 
@@ -423,9 +423,9 @@ theorem whiskerRight_iff {f g : a ⟶ b} (η θ : f ⟶ g) : η ▷ 𝟙 b = θ 
 @[reassoc, simp]
 theorem leftUnitor_whiskerRight (f : a ⟶ b) (g : b ⟶ c) :
     (λ_ f).hom ▷ g = (α_ (𝟙 a) f g).hom ≫ (λ_ (f ≫ g)).hom := by
-  rw [← whiskerLeft_iff, whiskerLeft_comp, ← cancel_epi (α_ _ _ _).hom, ←
-      cancel_epi ((α_ _ _ _).hom ▷ _), pentagon_assoc, triangle, ← associator_naturality_middle, ←
-      comp_whiskerRight_assoc, triangle, associator_naturality_left]
+  rw [← whiskerLeft_iff]; rw [whiskerLeft_comp]; rw [← cancel_epi (α_ _ _ _).hom]; rw [←
+      cancel_epi ((α_ _ _ _).hom ▷ _)]; rw [pentagon_assoc]; rw [triangle]; rw [← associator_naturality_middle]; rw [←
+      comp_whiskerRight_assoc]; rw [triangle]; rw [associator_naturality_left]
 #align category_theory.bicategory.left_unitor_whisker_right CategoryTheory.Bicategory.leftUnitor_whiskerRight
 
 @[reassoc, simp]
@@ -437,10 +437,9 @@ theorem leftUnitor_inv_whiskerRight (f : a ⟶ b) (g : b ⟶ c) :
 @[reassoc, simp]
 theorem whiskerLeft_rightUnitor (f : a ⟶ b) (g : b ⟶ c) :
     f ◁ (ρ_ g).hom = (α_ f g (𝟙 c)).inv ≫ (ρ_ (f ≫ g)).hom := by
-  rw [← whiskerRight_iff, comp_whiskerRight, ← cancel_epi (α_ _ _ _).inv, ←
-      cancel_epi (f ◁ (α_ _ _ _).inv), pentagon_inv_assoc, triangle_assoc_comp_right, ←
-      associator_inv_naturality_middle, ← whiskerLeft_comp_assoc, triangle_assoc_comp_right,
-      associator_inv_naturality_right]
+  rw [← whiskerRight_iff]; rw [comp_whiskerRight]; rw [← cancel_epi (α_ _ _ _).inv]; rw [←
+      cancel_epi (f ◁ (α_ _ _ _).inv)]; rw [pentagon_inv_assoc]; rw [triangle_assoc_comp_right]; rw [←
+      associator_inv_naturality_middle]; rw [← whiskerLeft_comp_assoc]; rw [triangle_assoc_comp_right]; rw [associator_inv_naturality_right]
 #align category_theory.bicategory.whisker_left_right_unitor CategoryTheory.Bicategory.whiskerLeft_rightUnitor
 
 @[reassoc, simp]
@@ -479,8 +478,8 @@ theorem rightUnitor_comp_inv (f : a ⟶ b) (g : b ⟶ c) :
 
 @[simp]
 theorem unitors_equal : (λ_ (𝟙 a)).hom = (ρ_ (𝟙 a)).hom := by
-  rw [← whiskerLeft_iff, ← cancel_epi (α_ _ _ _).hom, ← cancel_mono (ρ_ _).hom, triangle, ←
-      rightUnitor_comp, rightUnitor_naturality]
+  rw [← whiskerLeft_iff]; rw [← cancel_epi (α_ _ _ _).hom]; rw [← cancel_mono (ρ_ _).hom]; rw [triangle]; rw [←
+      rightUnitor_comp]; rw [rightUnitor_naturality]
 #align category_theory.bicategory.unitors_equal CategoryTheory.Bicategory.unitors_equal
 
 @[simp]

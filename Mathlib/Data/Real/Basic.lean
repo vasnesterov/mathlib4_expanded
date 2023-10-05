@@ -126,7 +126,7 @@ theorem ofCauchy_neg (a) : (⟨-a⟩ : ℝ) = -⟨a⟩ :=
 #align real.of_cauchy_neg Real.ofCauchy_neg
 
 theorem ofCauchy_sub (a b) : (⟨a - b⟩ : ℝ) = ⟨a⟩ - ⟨b⟩ := by
-  rw [sub_eq_add_neg, ofCauchy_add, ofCauchy_neg]
+  rw [sub_eq_add_neg]; rw [ofCauchy_add]; rw [ofCauchy_neg]
   rfl
 #align real.of_cauchy_sub Real.ofCauchy_sub
 
@@ -160,7 +160,7 @@ theorem cauchy_mul : ∀ a b, (a * b : ℝ).cauchy = a.cauchy * b.cauchy
 
 theorem cauchy_sub : ∀ a b, (a - b : ℝ).cauchy = a.cauchy - b.cauchy
   | ⟨a⟩, ⟨b⟩ => by
-    rw [sub_eq_add_neg, ← cauchy_neg, ← cauchy_add]
+    rw [sub_eq_add_neg]; rw [← cauchy_neg]; rw [← cauchy_add]
     rfl
 #align real.cauchy_sub Real.cauchy_sub
 
@@ -339,7 +339,7 @@ theorem mk_neg {f : CauSeq ℚ abs} : mk (-f) = -mk f := by simp [mk, ← ofCauc
 
 @[simp]
 theorem mk_pos {f : CauSeq ℚ abs} : 0 < mk f ↔ Pos f := by
-  rw [← mk_zero, mk_lt]
+  rw [← mk_zero]; rw [mk_lt]
   exact iff_of_eq (congr_arg Pos (sub_zero f))
 #align real.mk_pos Real.mk_pos
 
@@ -493,13 +493,13 @@ instance : DistribLattice ℝ :=
       intros a b
       induction' a using Real.ind_mk with a
       induction' b using Real.ind_mk with b
-      rw [← mk_sup, mk_le]
+      rw [← mk_sup]; rw [mk_le]
       exact CauSeq.le_sup_left
     le_sup_right := by
       intros a b
       induction' a using Real.ind_mk with a
       induction' b using Real.ind_mk with b
-      rw [← mk_sup, mk_le]
+      rw [← mk_sup]; rw [mk_le]
       exact CauSeq.le_sup_right
     sup_le := by
       intros a b c
@@ -513,13 +513,13 @@ instance : DistribLattice ℝ :=
       intros a b
       induction' a using Real.ind_mk with a
       induction' b using Real.ind_mk with b
-      rw [← mk_inf, mk_le]
+      rw [← mk_inf]; rw [mk_le]
       exact CauSeq.inf_le_left
     inf_le_right := by
       intros a b
       induction' a using Real.ind_mk with a
       induction' b using Real.ind_mk with b
-      rw [← mk_inf, mk_le]
+      rw [← mk_inf]; rw [mk_le]
       exact CauSeq.inf_le_right
     le_inf := by
       intros a b c
@@ -582,8 +582,7 @@ noncomputable instance : LinearOrderedField ℝ :=
     inv_zero := by simp [← ofCauchy_zero, ← ofCauchy_inv]
     ratCast := (↑)
     ratCast_mk := fun n d hd h2 => by
-      rw [← ofCauchy_ratCast, Rat.cast_mk', ofCauchy_mul, ofCauchy_inv, ofCauchy_natCast,
-        ofCauchy_intCast] }
+      rw [← ofCauchy_ratCast]; rw [Rat.cast_mk']; rw [ofCauchy_mul]; rw [ofCauchy_inv]; rw [ofCauchy_natCast]; rw [ofCauchy_intCast] }
 
 -- Extra instances to short-circuit type class resolution
 noncomputable instance : LinearOrderedAddCommGroup ℝ := by infer_instance
@@ -626,7 +625,7 @@ theorem le_mk_of_forall_le {f : CauSeq ℚ abs} : (∃ i, ∀ j ≥ i, x ≤ f j
 theorem mk_le_of_forall_le {f : CauSeq ℚ abs} {x : ℝ} (h : ∃ i, ∀ j ≥ i, (f j : ℝ) ≤ x) :
     mk f ≤ x := by
   cases' h with i H
-  rw [← neg_le_neg_iff, ← mk_neg]
+  rw [← neg_le_neg_iff]; rw [← mk_neg]
   exact le_mk_of_forall_le ⟨i, fun j ij => by simp [H _ ij]⟩
 #align real.mk_le_of_forall_le Real.mk_le_of_forall_le
 
@@ -700,7 +699,7 @@ theorem exists_isLUB (S : Set ℝ) (hne : S.Nonempty) (hbdd : BddAbove S) : ∃ 
     intro ε ε0
     suffices ∀ j ≥ ⌈ε⁻¹⌉₊, ∀ k ≥ ⌈ε⁻¹⌉₊, (f j / j - f k / k : ℚ) < ε by
       refine' ⟨_, fun j ij => abs_lt.2 ⟨_, this _ ij _ le_rfl⟩⟩
-      rw [neg_lt, neg_sub]
+      rw [neg_lt]; rw [neg_sub]
       exact this _ le_rfl _ ij
     intro j ij k ik
     replace ij := le_trans (Nat.le_ceil _) (Nat.cast_le.2 ij)
@@ -750,7 +749,7 @@ theorem sInf_def (S : Set ℝ) : sInf S = -sSup (-S) :=
 
 protected theorem is_glb_sInf (S : Set ℝ) (h₁ : S.Nonempty) (h₂ : BddBelow S) :
     IsGLB S (sInf S) := by
-  rw [sInf_def, ← isLUB_neg', neg_neg]
+  rw [sInf_def]; rw [← isLUB_neg']; rw [neg_neg]
   exact Real.isLUB_sSup _ h₁.neg h₂.neg
 #align real.is_glb_Inf Real.is_glb_sInf
 
@@ -830,7 +829,7 @@ theorem sInf_empty : sInf (∅ : Set ℝ) = 0 := by simp [sInf_def, sSup_empty]
 #align real.Inf_empty Real.sInf_empty
 
 theorem ciInf_empty {α : Sort*} [IsEmpty α] (f : α → ℝ) : ⨅ i, f i = 0 := by
-  rw [iInf_of_empty', sInf_empty]
+  rw [iInf_of_empty']; rw [sInf_empty]
 #align real.cinfi_empty Real.ciInf_empty
 
 @[simp]
@@ -929,12 +928,12 @@ theorem cauSeq_converges (f : CauSeq ℝ abs) : ∃ x, f ≈ const abs x := by
   · rcases h with ⟨ε, ε0, i, ih⟩
     refine' (csSup_le lb (ub' _ _)).not_lt (sub_lt_self _ (half_pos ε0))
     refine' ⟨_, half_pos ε0, i, fun j ij => _⟩
-    rw [sub_apply, const_apply, sub_right_comm, le_sub_iff_add_le, add_halves]
+    rw [sub_apply]; rw [const_apply]; rw [sub_right_comm]; rw [le_sub_iff_add_le]; rw [add_halves]
     exact ih _ ij
   · rcases h with ⟨ε, ε0, i, ih⟩
     refine' (le_csSup ub _).not_lt ((lt_add_iff_pos_left _).2 (half_pos ε0))
     refine' ⟨_, half_pos ε0, i, fun j ij => _⟩
-    rw [sub_apply, const_apply, add_comm, ← sub_sub, le_sub_iff_add_le, add_halves]
+    rw [sub_apply]; rw [const_apply]; rw [add_comm]; rw [← sub_sub]; rw [le_sub_iff_add_le]; rw [add_halves]
     exact ih _ ij
 #align real.cau_seq_converges Real.cauSeq_converges
 

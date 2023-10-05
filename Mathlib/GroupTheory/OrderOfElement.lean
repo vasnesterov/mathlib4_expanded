@@ -45,7 +45,7 @@ section IsOfFinOrder
 -- porting note: we need a `dsimp` in the middle of the rewrite to do beta reduction
 @[to_additive]
 theorem isPeriodicPt_mul_iff_pow_eq_one (x : G) : IsPeriodicPt ((· * ·) x) n 1 ↔ x ^ n = 1 := by
-  rw [IsPeriodicPt, IsFixedPt, mul_left_iterate]; dsimp; rw [mul_one]
+  rw [IsPeriodicPt]; rw [IsFixedPt]; rw [mul_left_iterate]; dsimp; rw [mul_one]
 #align is_periodic_pt_mul_iff_pow_eq_one isPeriodicPt_mul_iff_pow_eq_one
 #align is_periodic_pt_add_iff_nsmul_eq_zero isPeriodicPt_add_iff_nsmul_eq_zero
 
@@ -87,7 +87,7 @@ theorem not_isOfFinOrder_of_injective_pow {x : G} (h : Injective fun n : ℕ => 
 /-- Elements of finite order are of finite order in submonoids.-/
 @[to_additive "Elements of finite order are of finite order in submonoids."]
 theorem isOfFinOrder_iff_coe (H : Submonoid G) (x : H) : IsOfFinOrder x ↔ IsOfFinOrder (x : G) := by
-  rw [isOfFinOrder_iff_pow_eq_one, isOfFinOrder_iff_pow_eq_one]
+  rw [isOfFinOrder_iff_pow_eq_one]; rw [isOfFinOrder_iff_pow_eq_one]
   norm_cast
 #align is_of_fin_order_iff_coe isOfFinOrder_iff_coe
 #align is_of_fin_add_order_iff_coe isOfFinAddOrder_iff_coe
@@ -159,7 +159,7 @@ theorem pow_orderOf_eq_one (x : G) : x ^ orderOf x = 1 := by
   -- porting note: was `convert`, but the `1` in the lemma is equal only after unfolding
   refine Eq.trans ?_ (isPeriodicPt_minimalPeriod (x * ·) 1)
   -- porting note: we need a `dsimp` in the middle of the rewrite to do beta reduction
-  rw [orderOf, mul_left_iterate]; dsimp; rw [mul_one]
+  rw [orderOf]; rw [mul_left_iterate]; dsimp; rw [mul_one]
 #align pow_order_of_eq_one pow_orderOf_eq_one
 #align add_order_of_nsmul_eq_zero addOrderOf_nsmul_eq_zero
 
@@ -201,7 +201,7 @@ theorem orderOf_eq_iff {n} (h : 0 < n) :
 @[to_additive
       "A group element has finite additive order iff its order is positive."]
 theorem orderOf_pos_iff : 0 < orderOf x ↔ IsOfFinOrder x := by
-  rw [iff_not_comm.mp orderOf_eq_zero_iff, pos_iff_ne_zero]
+  rw [iff_not_comm.mp orderOf_eq_zero_iff]; rw [pos_iff_ne_zero]
 #align order_of_pos_iff orderOf_pos_iff
 #align add_order_of_pos_iff addOrderOf_pos_iff
 
@@ -225,13 +225,13 @@ theorem orderOf_le_of_pow_eq_one (hn : 0 < n) (h : x ^ n = 1) : orderOf x ≤ n 
 
 @[to_additive (attr := simp)]
 theorem orderOf_one : orderOf (1 : G) = 1 := by
-  rw [orderOf, ← minimalPeriod_id (x := (1:G)), ← one_mul_eq_id]
+  rw [orderOf]; rw [← minimalPeriod_id (x := (1:G))]; rw [← one_mul_eq_id]
 #align order_of_one orderOf_one
 #align order_of_zero addOrderOf_zero
 
 @[to_additive (attr := simp) AddMonoid.addOrderOf_eq_one_iff]
 theorem orderOf_eq_one_iff : orderOf x = 1 ↔ x = 1 := by
-  rw [orderOf, minimalPeriod_eq_one_iff_isFixedPt, IsFixedPt, mul_one]
+  rw [orderOf]; rw [minimalPeriod_eq_one_iff_isFixedPt]; rw [IsFixedPt]; rw [mul_one]
 #align order_of_eq_one_iff orderOf_eq_one_iff
 #align add_monoid.order_of_eq_one_iff AddMonoid.addOrderOf_eq_one_iff
 
@@ -258,7 +258,7 @@ theorem orderOf_dvd_iff_pow_eq_one {n : ℕ} : orderOf x ∣ n ↔ x ^ n = 1 :=
 
 @[to_additive addOrderOf_smul_dvd]
 theorem orderOf_pow_dvd (n : ℕ) : orderOf (x ^ n) ∣ orderOf x := by
-  rw [orderOf_dvd_iff_pow_eq_one, pow_right_comm, pow_orderOf_eq_one, one_pow]
+  rw [orderOf_dvd_iff_pow_eq_one]; rw [pow_right_comm]; rw [pow_orderOf_eq_one]; rw [one_pow]
 #align order_of_pow_dvd orderOf_pow_dvd
 #align add_order_of_smul_dvd addOrderOf_smul_dvd
 
@@ -279,7 +279,7 @@ theorem mem_powers_iff_mem_range_order_of' [DecidableEq G] (hx : 0 < orderOf x) 
 
 @[to_additive]
 theorem pow_eq_one_iff_modEq : x ^ n = 1 ↔ n ≡ 0 [MOD orderOf x] := by
-  rw [modEq_zero_iff_dvd, orderOf_dvd_iff_pow_eq_one]
+  rw [modEq_zero_iff_dvd]; rw [orderOf_dvd_iff_pow_eq_one]
 #align pow_eq_one_iff_modeq pow_eq_one_iff_modEq
 #align nsmul_eq_zero_iff_modeq nsmul_eq_zero_iff_modEq
 
@@ -287,7 +287,7 @@ theorem pow_eq_one_iff_modEq : x ^ n = 1 ↔ n ≡ 0 [MOD orderOf x] := by
 theorem orderOf_map_dvd {H : Type*} [Monoid H] (ψ : G →* H) (x : G) :
     orderOf (ψ x) ∣ orderOf x := by
   apply orderOf_dvd_of_pow_eq_one
-  rw [← map_pow, pow_orderOf_eq_one]
+  rw [← map_pow]; rw [pow_orderOf_eq_one]
   apply map_one
 #align order_of_map_dvd orderOf_map_dvd
 #align add_order_of_map_dvd addOrderOf_map_dvd
@@ -317,12 +317,11 @@ theorem orderOf_eq_of_pow_and_pow_div_prime (hn : 0 < n) (hx : x ^ n = 1)
   by_contra h
   have a_min_fac_dvd_p_sub_one : a.minFac ∣ n := by
     obtain ⟨b, hb⟩ : ∃ b : ℕ, a = b * a.minFac := exists_eq_mul_left_of_dvd a.minFac_dvd
-    rw [hb, ← mul_assoc] at ha
+    rw [hb] at ha; rw [← mul_assoc] at ha
     exact Dvd.intro_left (orderOf x * b) ha.symm
   -- Use the minimum prime factor of `a` as `p`.
   refine' hd a.minFac (Nat.minFac_prime h) a_min_fac_dvd_p_sub_one _
-  rw [← orderOf_dvd_iff_pow_eq_one, Nat.dvd_div_iff a_min_fac_dvd_p_sub_one, ha, mul_comm,
-    Nat.mul_dvd_mul_iff_left (orderOf_pos' _)]
+  rw [← orderOf_dvd_iff_pow_eq_one]; rw [Nat.dvd_div_iff a_min_fac_dvd_p_sub_one]; rw [ha]; rw [mul_comm]; rw [Nat.mul_dvd_mul_iff_left (orderOf_pos' _)]
   · exact Nat.minFac_dvd a
   · rw [isOfFinOrder_iff_pow_eq_one]
     exact Exists.intro n (id ⟨hn, hx⟩)
@@ -360,7 +359,7 @@ variable (x)
 @[to_additive]
 theorem orderOf_pow' (h : n ≠ 0) : orderOf (x ^ n) = orderOf x / gcd (orderOf x) n := by
   unfold orderOf
-  rw [← minimalPeriod_iterate_eq_div_gcd h, mul_left_iterate]
+  rw [← minimalPeriod_iterate_eq_div_gcd h]; rw [mul_left_iterate]
 #align order_of_pow' orderOf_pow'
 #align add_order_of_nsmul' addOrderOf_nsmul'
 
@@ -369,7 +368,7 @@ variable (a) (n)
 @[to_additive]
 theorem orderOf_pow'' (h : IsOfFinOrder x) : orderOf (x ^ n) = orderOf x / gcd (orderOf x) n := by
   unfold orderOf
-  rw [← minimalPeriod_iterate_eq_div_gcd' h, mul_left_iterate]
+  rw [← minimalPeriod_iterate_eq_div_gcd' h]; rw [mul_left_iterate]
 #align order_of_pow'' orderOf_pow''
 #align add_order_of_nsmul'' addOrderOf_nsmul''
 
@@ -387,7 +386,7 @@ variable {x} (h : Commute x y)
 
 @[to_additive]
 theorem orderOf_mul_dvd_lcm : orderOf (x * y) ∣ Nat.lcm (orderOf x) (orderOf y) := by
-  rw [orderOf, ← comp_mul_left]
+  rw [orderOf]; rw [← comp_mul_left]
   exact Function.Commute.minimalPeriod_of_comp_dvd_lcm h.function_commute_mul_left
 #align commute.order_of_mul_dvd_lcm Commute.orderOf_mul_dvd_lcm
 #align add_commute.order_of_add_dvd_lcm AddCommute.addOrderOf_add_dvd_lcm
@@ -398,8 +397,7 @@ theorem orderOf_dvd_lcm_mul : orderOf y ∣ Nat.lcm (orderOf x) (orderOf (x * y)
   · rw [h0, lcm_zero_left]
     apply dvd_zero
   conv_lhs =>
-    rw [← one_mul y, ← pow_orderOf_eq_one x, ← succ_pred_eq_of_pos (Nat.pos_of_ne_zero h0),
-      _root_.pow_succ', mul_assoc]
+    rw [← one_mul y]; rw [← pow_orderOf_eq_one x]; rw [← succ_pred_eq_of_pos (Nat.pos_of_ne_zero h0)]; rw [_root_.pow_succ']; rw [mul_assoc]
   exact
     (((Commute.refl x).mul_right h).pow_left _).orderOf_mul_dvd_lcm.trans
       (lcm_dvd_iff.2 ⟨(orderOf_pow_dvd _).trans (dvd_lcm_left _ _), dvd_lcm_right _ _⟩)
@@ -415,7 +413,7 @@ theorem orderOf_mul_dvd_mul_orderOf : orderOf (x * y) ∣ orderOf x * orderOf y 
 @[to_additive addOrderOf_add_eq_mul_addOrderOf_of_coprime]
 theorem orderOf_mul_eq_mul_orderOf_of_coprime (hco : (orderOf x).Coprime (orderOf y)) :
     orderOf (x * y) = orderOf x * orderOf y := by
-  rw [orderOf, ← comp_mul_left]
+  rw [orderOf]; rw [← comp_mul_left]
   exact h.function_commute_mul_left.minimalPeriod_of_comp_eq_mul_of_coprime hco
 #align commute.order_of_mul_eq_mul_order_of_of_coprime Commute.orderOf_mul_eq_mul_orderOf_of_coprime
 #align add_commute.add_order_of_add_eq_mul_add_order_of_of_coprime AddCommute.addOrderOf_add_eq_mul_addOrderOf_of_coprime
@@ -442,7 +440,7 @@ theorem orderOf_mul_eq_right_of_forall_prime_mul_dvd (hy : IsOfFinOrder y)
   apply orderOf_eq_of_pow_and_pow_div_prime hoy <;> simp only [Ne, ← orderOf_dvd_iff_pow_eq_one]
   · exact h.orderOf_mul_dvd_lcm.trans (lcm_dvd hxy dvd_rfl)
   refine' fun p hp hpy hd => hp.ne_one _
-  rw [← Nat.dvd_one, ← mul_dvd_mul_iff_right hoy.ne', one_mul, ← dvd_div_iff hpy]
+  rw [← Nat.dvd_one]; rw [← mul_dvd_mul_iff_right hoy.ne']; rw [one_mul]; rw [← dvd_div_iff hpy]
   refine' (orderOf_dvd_lcm_mul h).trans (lcm_dvd ((dvd_div_iff hpy).2 _) hd)
   by_cases h : p ∣ orderOf x
   exacts [hdvd p hp h, (hp.coprime_iff_not_dvd.2 h).mul_dvd_of_dvd_of_dvd hpy hxy]
@@ -512,7 +510,7 @@ theorem pow_inj_mod {n m : ℕ} : x ^ n = x ^ m ↔ n % orderOf x = m % orderOf 
 
 @[to_additive]
 theorem pow_inj_iff_of_orderOf_eq_zero (h : orderOf x = 0) {n m : ℕ} : x ^ n = x ^ m ↔ n = m := by
-  rw [pow_eq_pow_iff_modEq, h, modEq_zero_iff]
+  rw [pow_eq_pow_iff_modEq]; rw [h]; rw [modEq_zero_iff]
 #align pow_inj_iff_of_order_of_eq_zero pow_inj_iff_of_orderOf_eq_zero
 #align nsmul_inj_iff_of_add_order_of_eq_zero nsmul_inj_iff_of_addOrderOf_eq_zero
 
@@ -619,8 +617,7 @@ theorem orderOf_dvd_of_mem_zpowers (h : y ∈ Subgroup.zpowers x) : orderOf y �
 theorem smul_eq_self_of_mem_zpowers {α : Type*} [MulAction G α] (hx : x ∈ Subgroup.zpowers y)
     {a : α} (hs : y • a = a) : x • a = a := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
-  rw [← MulAction.toPerm_apply, ← MulAction.toPermHom_apply, MonoidHom.map_zpow _ y k,
-    MulAction.toPermHom_apply]
+  rw [← MulAction.toPerm_apply]; rw [← MulAction.toPermHom_apply]; rw [MonoidHom.map_zpow _ y k]; rw [MulAction.toPermHom_apply]
   exact Function.IsFixedPt.perm_zpow (by exact hs) k -- Porting note: help elab'n with `by exact`
 #align smul_eq_self_of_mem_zpowers smul_eq_self_of_mem_zpowers
 
@@ -674,7 +671,7 @@ theorem sum_card_orderOf_eq_card_pow_eq_one [Fintype G] [DecidableEq G] (hn : n 
             exact
               ⟨fun h => by
                 let ⟨m, hm⟩ := h.2
-                rw [hm, pow_mul, pow_orderOf_eq_one, one_pow], fun h =>
+                rw [hm]; rw [pow_mul]; rw [pow_orderOf_eq_one]; rw [one_pow], fun h =>
                 ⟨orderOf_le_of_pow_eq_one hn.bot_lt h, orderOf_dvd_of_pow_eq_one h⟩⟩))
 #align sum_card_order_of_eq_card_pow_eq_one sum_card_orderOf_eq_card_pow_eq_one
 #align sum_card_add_order_of_eq_card_nsmul_eq_zero sum_card_addOrderOf_eq_card_nsmul_eq_zero
@@ -759,7 +756,7 @@ theorem finEquivPowers_apply [Finite G] {x : G} {n : Fin (orderOf x)} :
 @[to_additive (attr := simp) finEquivMultiples_symm_apply]
 theorem finEquivPowers_symm_apply [Finite G] (x : G) (n : ℕ) {hn : ∃ m : ℕ, x ^ m = x ^ n} :
     (finEquivPowers x).symm ⟨x ^ n, hn⟩ = ⟨n % orderOf x, Nat.mod_lt _ (orderOf_pos x)⟩ := by
-  rw [Equiv.symm_apply_eq, finEquivPowers_apply, Subtype.mk_eq_mk, pow_eq_mod_orderOf]
+  rw [Equiv.symm_apply_eq]; rw [finEquivPowers_apply]; rw [Subtype.mk_eq_mk]; rw [pow_eq_mod_orderOf]
 #align fin_equiv_powers_symm_apply finEquivPowers_symm_apply
 #align fin_equiv_multiples_symm_apply finEquivMultiples_symm_apply
 
@@ -779,8 +776,8 @@ noncomputable def powersEquivPowers [Finite G] (h : orderOf x = orderOf y) :
 @[to_additive (attr := simp, nolint simpNF) multiplesEquivMultiples_apply]
 theorem powersEquivPowers_apply [Finite G] (h : orderOf x = orderOf y) (n : ℕ) :
     powersEquivPowers h ⟨x ^ n, n, rfl⟩ = ⟨y ^ n, n, rfl⟩ := by
-  rw [powersEquivPowers, Equiv.trans_apply, Equiv.trans_apply, finEquivPowers_symm_apply, ←
-    Equiv.eq_symm_apply, finEquivPowers_symm_apply]
+  rw [powersEquivPowers]; rw [Equiv.trans_apply]; rw [Equiv.trans_apply]; rw [finEquivPowers_symm_apply]; rw [←
+    Equiv.eq_symm_apply]; rw [finEquivPowers_symm_apply]
   simp [h]
 #align powers_equiv_powers_apply powersEquivPowers_apply
 #align multiples_equiv_multiples_apply multiplesEquivMultiples_apply
@@ -835,20 +832,19 @@ theorem powers_eq_zpowers [Finite G] (x : G) : (Submonoid.powers x : Set G) = zp
 @[to_additive mem_zmultiples_iff_mem_range_addOrderOf]
 theorem mem_zpowers_iff_mem_range_orderOf [Finite G] [DecidableEq G] :
     y ∈ Subgroup.zpowers x ↔ y ∈ (Finset.range (orderOf x)).image ((· ^ ·) x : ℕ → G) := by
-  rw [← mem_powers_iff_mem_zpowers, mem_powers_iff_mem_range_orderOf]
+  rw [← mem_powers_iff_mem_zpowers]; rw [mem_powers_iff_mem_range_orderOf]
 #align mem_zpowers_iff_mem_range_order_of mem_zpowers_iff_mem_range_orderOf
 #align mem_zmultiples_iff_mem_range_add_order_of mem_zmultiples_iff_mem_range_addOrderOf
 
 @[to_additive]
 theorem zpow_eq_one_iff_modEq {n : ℤ} : x ^ n = 1 ↔ n ≡ 0 [ZMOD orderOf x] := by
-  rw [Int.modEq_zero_iff_dvd, orderOf_dvd_iff_zpow_eq_one]
+  rw [Int.modEq_zero_iff_dvd]; rw [orderOf_dvd_iff_zpow_eq_one]
 #align zpow_eq_one_iff_modeq zpow_eq_one_iff_modEq
 #align zsmul_eq_zero_iff_modeq zsmul_eq_zero_iff_modEq
 
 @[to_additive]
 theorem zpow_eq_zpow_iff_modEq {m n : ℤ} : x ^ m = x ^ n ↔ m ≡ n [ZMOD orderOf x] := by
-  rw [← mul_inv_eq_one, ← zpow_sub, zpow_eq_one_iff_modEq, Int.modEq_iff_dvd, Int.modEq_iff_dvd,
-    zero_sub, neg_sub]
+  rw [← mul_inv_eq_one]; rw [← zpow_sub]; rw [zpow_eq_one_iff_modEq]; rw [Int.modEq_iff_dvd]; rw [Int.modEq_iff_dvd]; rw [zero_sub]; rw [neg_sub]
 #align zpow_eq_zpow_iff_modeq zpow_eq_zpow_iff_modEq
 #align zsmul_eq_zsmul_iff_modeq zsmul_eq_zsmul_iff_modEq
 
@@ -887,7 +883,7 @@ theorem finEquivZpowers_apply [Finite G] {n : Fin (orderOf x)} :
 @[to_additive (attr := simp) finEquivZmultiples_symm_apply]
 theorem finEquivZpowers_symm_apply [Finite G] (x : G) (n : ℕ) {hn : ∃ m : ℤ, x ^ m = x ^ n} :
     (finEquivZpowers x).symm ⟨x ^ n, hn⟩ = ⟨n % orderOf x, Nat.mod_lt _ (orderOf_pos x)⟩ := by
-  rw [finEquivZpowers, Equiv.symm_trans_apply]
+  rw [finEquivZpowers]; rw [Equiv.symm_trans_apply]
   exact finEquivPowers_symm_apply x n
 #align fin_equiv_zpowers_symm_apply finEquivZpowers_symm_apply
 #align fin_equiv_zmultiples_symm_apply finEquivZmultiples_symm_apply
@@ -908,8 +904,8 @@ noncomputable def zpowersEquivZpowers [Finite G] (h : orderOf x = orderOf y) :
 @[to_additive (attr := simp, nolint simpNF) zmultiples_equiv_zmultiples_apply]
 theorem zpowersEquivZpowers_apply [Finite G] (h : orderOf x = orderOf y) (n : ℕ) :
     zpowersEquivZpowers h ⟨x ^ n, n, zpow_ofNat x n⟩ = ⟨y ^ n, n, zpow_ofNat y n⟩ := by
-  rw [zpowersEquivZpowers, Equiv.trans_apply, Equiv.trans_apply, finEquivZpowers_symm_apply, ←
-    Equiv.eq_symm_apply, finEquivZpowers_symm_apply]
+  rw [zpowersEquivZpowers]; rw [Equiv.trans_apply]; rw [Equiv.trans_apply]; rw [finEquivZpowers_symm_apply]; rw [←
+    Equiv.eq_symm_apply]; rw [finEquivZpowers_symm_apply]
   simp [h]
 #align zpowers_equiv_zpowers_apply zpowersEquivZpowers_apply
 #align zmultiples_equiv_zmultiples_apply zmultiples_equiv_zmultiples_apply
@@ -974,7 +970,7 @@ theorem pow_card_eq_one' {G : Type*} [Group G] {x : G} : x ^ Nat.card G = 1 :=
 
 @[to_additive (attr := simp) card_nsmul_eq_zero]
 theorem pow_card_eq_one : x ^ Fintype.card G = 1 := by
-  rw [← Nat.card_eq_fintype_card, pow_card_eq_one']
+  rw [← Nat.card_eq_fintype_card]; rw [pow_card_eq_one']
 #align pow_card_eq_one pow_card_eq_one
 #align card_nsmul_eq_zero card_nsmul_eq_zero
 
@@ -986,13 +982,13 @@ theorem Subgroup.pow_index_mem {G : Type*} [Group G] (H : Subgroup G) [Normal H]
 
 @[to_additive]
 theorem pow_eq_mod_card (n : ℕ) : x ^ n = x ^ (n % Fintype.card G) := by
-  rw [pow_eq_mod_orderOf, ← Nat.mod_mod_of_dvd n orderOf_dvd_card_univ, ← pow_eq_mod_orderOf]
+  rw [pow_eq_mod_orderOf]; rw [← Nat.mod_mod_of_dvd n orderOf_dvd_card_univ]; rw [← pow_eq_mod_orderOf]
 #align pow_eq_mod_card pow_eq_mod_card
 #align nsmul_eq_mod_card nsmul_eq_mod_card
 
 @[to_additive]
 theorem zpow_eq_mod_card (n : ℤ) : x ^ n = x ^ (n % Fintype.card G : ℤ) := by
-  rw [zpow_eq_mod_orderOf, ← Int.emod_emod_of_dvd n (Int.coe_nat_dvd.2 orderOf_dvd_card_univ), ←
+  rw [zpow_eq_mod_orderOf]; rw [← Int.emod_emod_of_dvd n (Int.coe_nat_dvd.2 orderOf_dvd_card_univ)]; rw [←
     zpow_eq_mod_orderOf]
 #align zpow_eq_mod_card zpow_eq_mod_card
 #align zsmul_eq_mod_card zsmul_eq_mod_card
@@ -1033,7 +1029,7 @@ theorem powCoprime_inv {G : Type*} [Group G] (h : (Nat.card G).Coprime n) {g : G
 theorem inf_eq_bot_of_coprime {G : Type*} [Group G] {H K : Subgroup G} [Fintype H] [Fintype K]
     (h : Nat.Coprime (Fintype.card H) (Fintype.card K)) : H ⊓ K = ⊥ := by
   refine' (H ⊓ K).eq_bot_iff_forall.mpr fun x hx => _
-  rw [← orderOf_eq_one_iff, ← Nat.dvd_one, ← h.gcd_eq_one, Nat.dvd_gcd_iff]
+  rw [← orderOf_eq_one_iff]; rw [← Nat.dvd_one]; rw [← h.gcd_eq_one]; rw [Nat.dvd_gcd_iff]
   exact
     ⟨(congr_arg (· ∣ Fintype.card H) (orderOf_subgroup ⟨x, hx.1⟩)).mpr orderOf_dvd_card_univ,
       (congr_arg (· ∣ Fintype.card K) (orderOf_subgroup ⟨x, hx.2⟩)).mpr orderOf_dvd_card_univ⟩
@@ -1045,7 +1041,7 @@ theorem inf_eq_bot_of_coprime {G : Type*} [Group G] {H K : Subgroup G} [Fintype 
 theorem image_range_orderOf [DecidableEq G] :
     Finset.image (fun i => x ^ i) (Finset.range (orderOf x)) = (zpowers x : Set G).toFinset := by
   ext x
-  rw [Set.mem_toFinset, SetLike.mem_coe, mem_zpowers_iff_mem_range_orderOf]
+  rw [Set.mem_toFinset]; rw [SetLike.mem_coe]; rw [mem_zpowers_iff_mem_range_orderOf]
 #align image_range_order_of image_range_orderOf
 #align image_range_add_order_of image_range_addOrderOf
 
@@ -1054,7 +1050,7 @@ theorem image_range_orderOf [DecidableEq G] :
 theorem pow_gcd_card_eq_one_iff : x ^ n = 1 ↔ x ^ gcd n (Fintype.card G) = 1 :=
   ⟨fun h => pow_gcd_eq_one _ h <| pow_card_eq_one, fun h => by
     let ⟨m, hm⟩ := gcd_dvd_left n (Fintype.card G)
-    rw [hm, pow_mul, h, one_pow]⟩
+    rw [hm]; rw [pow_mul]; rw [h]; rw [one_pow]⟩
 #align pow_gcd_card_eq_one_iff pow_gcd_card_eq_one_iff
 #align gcd_nsmul_card_eq_zero_iff gcd_nsmul_card_eq_zero_iff
 
@@ -1072,7 +1068,7 @@ def submonoidOfIdempotent {M : Type*} [LeftCancelMonoid M] [Fintype M] (S : Set 
   { carrier := S
     one_mem' := by
       obtain ⟨a, ha⟩ := hS1
-      rw [← pow_orderOf_eq_one a, ← tsub_add_cancel_of_le (succ_le_of_lt (orderOf_pos a))]
+      rw [← pow_orderOf_eq_one a]; rw [← tsub_add_cancel_of_le (succ_le_of_lt (orderOf_pos a))]
       exact pow_mem a ha (orderOf a - 1)
     mul_mem' := fun ha hb => (congr_arg₂ (· ∈ ·) rfl hS2).mp (Set.mul_mem_mul ha hb) }
 #align submonoid_of_idempotent submonoidOfIdempotent
@@ -1085,7 +1081,7 @@ def subgroupOfIdempotent {G : Type*} [Group G] [Fintype G] (S : Set G) (hS1 : S.
   { submonoidOfIdempotent S hS1 hS2 with
     carrier := S
     inv_mem' := fun {a} ha => show a⁻¹ ∈ submonoidOfIdempotent S hS1 hS2 by
-      rw [← one_mul a⁻¹, ← pow_one a, ← pow_orderOf_eq_one a, ← pow_sub a (orderOf_pos a)]
+      rw [← one_mul a⁻¹]; rw [← pow_one a]; rw [← pow_orderOf_eq_one a]; rw [← pow_sub a (orderOf_pos a)]
       exact pow_mem ha (orderOf a - 1) }
 #align subgroup_of_idempotent subgroupOfIdempotent
 #align add_subgroup_of_idempotent addSubgroupOfIdempotent

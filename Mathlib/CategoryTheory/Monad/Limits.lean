@@ -64,15 +64,13 @@ def conePoint : Algebra T where
   a := t.lift (newCone D c)
   unit :=
     t.hom_ext fun j => by
-      rw [Category.assoc, t.fac, newCone_π_app, ← T.η.naturality_assoc, Functor.id_map,
-        (D.obj j).unit]
+      rw [Category.assoc]; rw [t.fac]; rw [newCone_π_app]; rw [← T.η.naturality_assoc]; rw [Functor.id_map]; rw [(D.obj j).unit]
       dsimp; simp
   -- See library note [dsimp, simp]
   assoc :=
     t.hom_ext fun j => by
-      rw [Category.assoc, Category.assoc, t.fac (newCone D c), newCone_π_app, ←
-        Functor.map_comp_assoc, t.fac (newCone D c), newCone_π_app, ← T.μ.naturality_assoc,
-        (D.obj j).assoc, Functor.map_comp, Category.assoc]
+      rw [Category.assoc]; rw [Category.assoc]; rw [t.fac (newCone D c)]; rw [newCone_π_app]; rw [←
+        Functor.map_comp_assoc]; rw [t.fac (newCone D c)]; rw [newCone_π_app]; rw [← T.μ.naturality_assoc]; rw [(D.obj j).assoc]; rw [Functor.map_comp]; rw [Category.assoc]
       rfl
 #align category_theory.monad.forget_creates_limits.cone_point CategoryTheory.Monad.ForgetCreatesLimits.conePoint
 
@@ -97,8 +95,7 @@ def liftedConeIsLimit : IsLimit (liftedCone D c t) where
       h :=
         t.hom_ext fun j => by
           dsimp
-          rw [Category.assoc, Category.assoc, t.fac, newCone_π_app, ← Functor.map_comp_assoc,
-            t.fac, Functor.mapCone_π_app]
+          rw [Category.assoc]; rw [Category.assoc]; rw [t.fac]; rw [newCone_π_app]; rw [← Functor.map_comp_assoc]; rw [t.fac]; rw [Functor.mapCone_π_app]
           apply (s.π.app j).h }
   uniq s m J := by
     ext1
@@ -190,15 +187,13 @@ def coconePoint : Algebra T where
     apply t.hom_ext
     intro j
     rw [show c.ι.app j ≫ T.η.app c.pt ≫ _ = T.η.app (D.obj j).A ≫ _ ≫ _ from
-        T.η.naturality_assoc _ _,
-      commuting, Algebra.unit_assoc (D.obj j)]
+        T.η.naturality_assoc _ _]; rw [commuting]; rw [Algebra.unit_assoc (D.obj j)]
     dsimp; simp
   -- See library note [dsimp, simp]
   assoc := by
     refine' (isColimitOfPreserves _ (isColimitOfPreserves _ t)).hom_ext fun j => _
-    rw [Functor.mapCocone_ι_app, Functor.mapCocone_ι_app,
-      show (T : C ⥤ C).map ((T : C ⥤ C).map _) ≫ _ ≫ _ = _ from T.μ.naturality_assoc _ _, ←
-      Functor.map_comp_assoc, commuting, Functor.map_comp, Category.assoc, commuting]
+    rw [Functor.mapCocone_ι_app]; rw [Functor.mapCocone_ι_app]; rw [show (T : C ⥤ C).map ((T : C ⥤ C).map _) ≫ _ ≫ _ = _ from T.μ.naturality_assoc _ _]; rw [←
+      Functor.map_comp_assoc]; rw [commuting]; rw [Functor.map_comp]; rw [Category.assoc]; rw [commuting]
     apply (D.obj j).assoc_assoc _
 #align category_theory.monad.forget_creates_colimits.cocone_point CategoryTheory.Monad.ForgetCreatesColimits.coconePoint
 
@@ -225,7 +220,7 @@ def liftedCoconeIsColimit : IsColimit (liftedCocone c t) where
       h :=
         (isColimitOfPreserves (T : C ⥤ C) t).hom_ext fun j => by
           dsimp
-          rw [← Functor.map_comp_assoc, ← Category.assoc, t.fac, commuting, Category.assoc, t.fac]
+          rw [← Functor.map_comp_assoc]; rw [← Category.assoc]; rw [t.fac]; rw [commuting]; rw [Category.assoc]; rw [t.fac]
           apply Algebra.Hom.h }
   uniq s m J := by
     ext1

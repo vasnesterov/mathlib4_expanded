@@ -61,7 +61,7 @@ protected theorem dist_self (x : Completion α) : dist x x = 0 := by
   · refine' isClosed_eq _ continuous_const
     exact Completion.continuous_dist continuous_id continuous_id
   · intro a
-    rw [Completion.dist_eq, dist_self]
+    rw [Completion.dist_eq]; rw [dist_self]
 #align uniform_space.completion.dist_self UniformSpace.Completion.dist_self
 
 protected theorem dist_comm (x y : Completion α) : dist x y = dist y x := by
@@ -69,7 +69,7 @@ protected theorem dist_comm (x y : Completion α) : dist x y = dist y x := by
   · exact isClosed_eq (Completion.continuous_dist continuous_fst continuous_snd)
         (Completion.continuous_dist continuous_snd continuous_fst)
   · intro a b
-    rw [Completion.dist_eq, Completion.dist_eq, dist_comm]
+    rw [Completion.dist_eq]; rw [Completion.dist_eq]; rw [dist_comm]
 #align uniform_space.completion.dist_comm UniformSpace.Completion.dist_comm
 
 protected theorem dist_triangle (x y z : Completion α) : dist x z ≤ dist x y + dist y z := by
@@ -77,7 +77,7 @@ protected theorem dist_triangle (x y z : Completion α) : dist x z ≤ dist x y 
   · refine' isClosed_le _ (Continuous.add _ _) <;>
       apply_rules [Completion.continuous_dist, Continuous.fst, Continuous.snd, continuous_id]
   · intro a b c
-    rw [Completion.dist_eq, Completion.dist_eq, Completion.dist_eq]
+    rw [Completion.dist_eq]; rw [Completion.dist_eq]; rw [Completion.dist_eq]
     exact dist_triangle a b c
 #align uniform_space.completion.dist_triangle UniformSpace.Completion.dist_triangle
 

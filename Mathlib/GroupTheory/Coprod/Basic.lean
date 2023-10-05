@@ -247,13 +247,11 @@ theorem clift_comp_mk (f : FreeMonoid (M ⊕ N) →* P) (hM₁ hN₁ hM hN) :
 @[to_additive (attr := simp)]
 theorem mclosure_range_inl_union_inr :
     Submonoid.closure (range (inl : M →* M ∗ N) ∪ range (inr : N →* M ∗ N)) = ⊤ := by
-  rw [← mrange_mk, MonoidHom.mrange_eq_map, ← closure_range_of, MonoidHom.map_mclosure,
-    ← range_comp, Sum.range_eq]; rfl
+  rw [← mrange_mk]; rw [MonoidHom.mrange_eq_map]; rw [← closure_range_of]; rw [MonoidHom.map_mclosure]; rw [← range_comp]; rw [Sum.range_eq]; rfl
 
 @[to_additive (attr := simp)] theorem mrange_inl_sup_mrange_inr :
     MonoidHom.mrange (inl : M →* M ∗ N) ⊔ MonoidHom.mrange (inr : N →* M ∗ N) = ⊤ := by
-  rw [← mclosure_range_inl_union_inr, Submonoid.closure_union, ← MonoidHom.coe_mrange,
-    ← MonoidHom.coe_mrange, Submonoid.closure_eq, Submonoid.closure_eq]
+  rw [← mclosure_range_inl_union_inr]; rw [Submonoid.closure_union]; rw [← MonoidHom.coe_mrange]; rw [← MonoidHom.coe_mrange]; rw [Submonoid.closure_eq]; rw [Submonoid.closure_eq]
 
 @[to_additive]
 theorem codisjoint_mrange_inl_mrange_inr :
@@ -262,8 +260,7 @@ theorem codisjoint_mrange_inl_mrange_inr :
 
 @[to_additive] theorem mrange_eq (f : M ∗ N →* P) :
     MonoidHom.mrange f = MonoidHom.mrange (f.comp inl) ⊔ MonoidHom.mrange (f.comp inr) := by
-  rw [MonoidHom.mrange_eq_map, ← mrange_inl_sup_mrange_inr, Submonoid.map_sup, MonoidHom.map_mrange,
-    MonoidHom.map_mrange]
+  rw [MonoidHom.mrange_eq_map]; rw [← mrange_inl_sup_mrange_inr]; rw [Submonoid.map_sup]; rw [MonoidHom.map_mrange]; rw [MonoidHom.map_mrange]
 
 /-- Extensionality lemma for monoid homomorphisms `M ∗ N →* P`.
 If two homomorphisms agree on the ranges of `Monoid.Coprod.inl` and `Monoid.Coprod.inr`,
@@ -442,7 +439,7 @@ theorem lift_swap (f : M →* P) (g : N →* P) (x : N ∗ M) : lift f g (swap N
 theorem comp_lift {P' : Type*} [Monoid P'] (f : P →* P') (g₁ : M →* P) (g₂ : N →* P) :
     f.comp (lift g₁ g₂) = lift (f.comp g₁) (f.comp g₂) :=
   hom_ext (by rw [MonoidHom.comp_assoc, lift_comp_inl, lift_comp_inl]) <| by
-    rw [MonoidHom.comp_assoc, lift_comp_inr, lift_comp_inr]
+    rw [MonoidHom.comp_assoc]; rw [lift_comp_inr]; rw [lift_comp_inr]
 
 /-- `Coprod.lift` as an equivalence. -/
 @[to_additive "`AddMonoid.Coprod.lift` as an equivalence."]
@@ -503,11 +500,11 @@ theorem fst_prod_snd : (fst : M ∗ N →* M).prod snd = toProd := by ext1 <;> r
 
 @[to_additive (attr := simp)]
 theorem prod_mk_fst_snd (x : M ∗ N) : (fst x, snd x) = toProd x := by
-  rw [← fst_prod_snd, MonoidHom.prod_apply]
+  rw [← fst_prod_snd]; rw [MonoidHom.prod_apply]
 
 @[to_additive (attr := simp)]
 theorem fst_comp_toProd : (MonoidHom.fst M N).comp toProd = fst := by
-  rw [← fst_prod_snd, MonoidHom.fst_comp_prod]
+  rw [← fst_prod_snd]; rw [MonoidHom.fst_comp_prod]
 
 @[to_additive (attr := simp)]
 theorem fst_toProd (x : M ∗ N) : (toProd x).1 = fst x := by
@@ -515,7 +512,7 @@ theorem fst_toProd (x : M ∗ N) : (toProd x).1 = fst x := by
 
 @[to_additive (attr := simp)]
 theorem snd_comp_toProd : (MonoidHom.snd M N).comp toProd = snd := by
-  rw [← fst_prod_snd, MonoidHom.snd_comp_prod]
+  rw [← fst_prod_snd]; rw [MonoidHom.snd_comp_prod]
 
 @[to_additive (attr := simp)]
 theorem snd_toProd (x : M ∗ N) : (toProd x).2 = snd x := by
@@ -569,7 +566,7 @@ theorem mk_of_inv_mul : ∀ x : G ⊕ H, mk (of (x.map Inv.inv Inv.inv)) * mk (o
 @[to_additive]
 theorem con_mul_left_inv (x : FreeMonoid (G ⊕ H)) :
     coprodCon G H (ofList (x.toList.map (Sum.map Inv.inv Inv.inv)).reverse * x) 1 := by
-  rw [← mk_eq_mk, map_mul, map_one]
+  rw [← mk_eq_mk]; rw [map_mul]; rw [map_one]
   induction x using FreeMonoid.recOn
   case h0 => simp [map_one mk] -- TODO: fails without `[map_one mk]`
   case ih x xs ihx =>
@@ -597,8 +594,7 @@ theorem closure_range_inl_union_inr :
 
 @[to_additive (attr := simp)] theorem range_inl_sup_range_inr :
     MonoidHom.range (inl : G →* G ∗ H) ⊔ MonoidHom.range inr = ⊤ := by
-  rw [← closure_range_inl_union_inr, Subgroup.closure_union, ← MonoidHom.coe_range,
-    ← MonoidHom.coe_range, Subgroup.closure_eq, Subgroup.closure_eq]
+  rw [← closure_range_inl_union_inr]; rw [Subgroup.closure_union]; rw [← MonoidHom.coe_range]; rw [← MonoidHom.coe_range]; rw [Subgroup.closure_eq]; rw [Subgroup.closure_eq]
 
 @[to_additive]
 theorem codisjoint_range_inl_range_inr :
@@ -612,8 +608,7 @@ variable {K : Type*} [Group K]
 
 @[to_additive] theorem range_eq (f : G ∗ H →* K) :
     MonoidHom.range f = MonoidHom.range (f.comp inl) ⊔ MonoidHom.range (f.comp inr) := by
-  rw [MonoidHom.range_eq_map, ← range_inl_sup_range_inr, Subgroup.map_sup, MonoidHom.map_range,
-    MonoidHom.map_range]
+  rw [MonoidHom.range_eq_map]; rw [← range_inl_sup_range_inr]; rw [Subgroup.map_sup]; rw [MonoidHom.map_range]; rw [MonoidHom.map_range]
 
 @[to_additive (attr := simp)] theorem range_lift (f : G →* K) (g : H →* K) :
     MonoidHom.range (lift f g) = MonoidHom.range f ⊔ MonoidHom.range g := by

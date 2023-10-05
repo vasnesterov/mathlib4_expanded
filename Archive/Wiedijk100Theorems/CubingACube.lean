@@ -180,7 +180,7 @@ theorem zero_le_b {i j} : 0 ≤ (cs i).b j :=
 
 theorem b_add_w_le_one {j} : (cs i).b j + (cs i).w ≤ 1 := by
   have : side (cs i) j ⊆ Ico 0 1 := side_subset h
-  rw [side, Ico_subset_Ico_iff] at this
+  rw [side] at this; rw [Ico_subset_Ico_iff] at this
   convert this.2
   simp [hw]
 #align theorems_100.«82».correct.b_add_w_le_one Theorems100.«82».Correct.b_add_w_le_one
@@ -215,11 +215,11 @@ theorem shiftUp_bottom_subset_bottoms (hc : (cs i).xm ≠ 1) :
     · rw [← zero_add (0 : ℝ)]; apply add_le_add; apply zero_le_b h; apply (cs i).hw'
     · exact lt_of_le_of_ne (b_add_w_le_one h) hc
     intro j; exact side_subset h (hps j)
-  rw [← h.2, mem_iUnion] at this; rcases this with ⟨i', hi'⟩
+  rw [← h.2] at this; rw [mem_iUnion] at this; rcases this with ⟨i', hi'⟩
   rw [mem_iUnion]; use i'; refine' ⟨_, fun j => hi' j.succ⟩
   have : i ≠ i' := by rintro rfl; apply not_le_of_lt (hi' 0).2; rw [hp0]; rfl
   have := h.1 this
-  rw [onFun, comp, comp, toSet_disjoint, exists_fin_succ] at this
+  rw [onFun] at this; rw [comp] at this; rw [comp] at this; rw [toSet_disjoint] at this; rw [exists_fin_succ] at this
   rcases this with (h0 | ⟨j, hj⟩)
   rw [hp0]; symm; apply eq_of_Ico_disjoint h0 (by simp [hw]) _
   convert hi' 0; rw [hp0]; rfl
@@ -254,8 +254,8 @@ theorem valley_unitCube [Nontrivial ι] (h : Correct cs) : Valley cs unitCube :=
     intro h0 hv
     have : v ∈ (unitCube : Cube (n + 1)).toSet := by
       dsimp only [toSet, unitCube, mem_setOf_eq]
-      rw [forall_fin_succ, h0]; constructor; norm_num [side, unitCube]; exact hv
-    rw [← h.2, mem_iUnion] at this; rcases this with ⟨i, hi⟩
+      rw [forall_fin_succ]; rw [h0]; constructor; norm_num [side, unitCube]; exact hv
+    rw [← h.2] at this; rw [mem_iUnion] at this; rcases this with ⟨i, hi⟩
     use i
     constructor
     · apply le_antisymm; rw [h0]; exact h.zero_le_b; exact (hi 0).1
@@ -321,7 +321,7 @@ theorem nontrivial_bcubes : (bcubes cs c).Nontrivial := by
   rintro rfl
   apply not_le_of_lt (hi'.2 ⟨1, Nat.le_of_succ_le_succ h.three_le⟩).2
   simp only [tail, Cube.tail]
-  rw [if_pos, add_le_add_iff_right]
+  rw [if_pos]; rw [add_le_add_iff_right]
   · exact (hi.2 _).1
   rfl
 #align theorems_100.«82».nontrivial_bcubes Theorems100.«82».nontrivial_bcubes
@@ -362,7 +362,7 @@ theorem mi_strict_minimal (hii' : mi h v ≠ i) (hi : i ∈ bcubes cs c) :
 theorem mi_xm_ne_one : (cs <| mi h v).xm ≠ 1 := by
   apply ne_of_lt; rcases (nontrivial_bcubes h v).exists_ne (mi h v) with ⟨i, hi, h2i⟩
   apply lt_of_lt_of_le _ h.b_add_w_le_one; exact i; exact 0
-  rw [xm, mi_mem_bcubes.1, hi.1, _root_.add_lt_add_iff_left]
+  rw [xm]; rw [mi_mem_bcubes.1]; rw [hi.1]; rw [_root_.add_lt_add_iff_left]
   exact mi_strict_minimal h2i.symm hi
 #align theorems_100.«82».mi_xm_ne_one Theorems100.«82».mi_xm_ne_one
 
@@ -393,11 +393,11 @@ theorem smallest_onBoundary {j} (bi : OnBoundary (mi_mem_bcubes : mi h v ∈ _) 
   rw [mem_singleton_iff] at h2i'
   let x := c.b j.succ + c.w - (cs i').w
   have hx : x < (cs i).b j.succ := by
-    dsimp only; rw [← bi, add_sub_assoc, add_lt_iff_neg_left, sub_lt_zero]
+    dsimp only; rw [← bi]; rw [add_sub_assoc]; rw [add_lt_iff_neg_left]; rw [sub_lt_zero]
     apply mi_strict_minimal (Ne.symm h2i') hi'
   refine' ⟨x, ⟨_, _⟩, _⟩
   · simp only [side, neg_lt_zero, hw, add_lt_iff_neg_left, and_true_iff, mem_Ico, sub_eq_add_neg]
-    rw [add_assoc, le_add_iff_nonneg_right, ← sub_eq_add_neg, sub_nonneg]
+    rw [add_assoc]; rw [le_add_iff_nonneg_right]; rw [← sub_eq_add_neg]; rw [sub_nonneg]
     apply le_of_lt (w_lt_w h v hi')
   · simp only [side, not_and_or, not_lt, not_le, mem_Ico]; left; exact hx
   intro i'' hi'' h2i'' h3i''; constructor; swap; apply lt_trans hx h3i''.2
@@ -525,7 +525,7 @@ theorem valley_mi : Valley cs (cs (mi h v)).shiftUp := by
     apply h.1
     rintro rfl
     apply (cs i).b_ne_xm
-    rw [← hi', ← hi''.1, hi.1]
+    rw [← hi']; rw [← hi''.1]; rw [hi.1]
     rfl
   · intro i' hi' h2i'
     dsimp only [shiftUp] at h2i'

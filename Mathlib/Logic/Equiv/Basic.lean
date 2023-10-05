@@ -1662,7 +1662,7 @@ theorem symm_swap (a b : α) : (swap a b).symm = swap a b :=
 @[simp]
 theorem swap_eq_refl_iff {x y : α} : swap x y = Equiv.refl _ ↔ x = y := by
   refine' ⟨fun h => (Equiv.refl _).injective _, fun h => h ▸ swap_self _⟩
-  rw [← h, swap_apply_left, h, refl_apply]
+  rw [← h]; rw [swap_apply_left]; rw [h]; rw [refl_apply]
 #align equiv.swap_eq_refl_iff Equiv.swap_eq_refl_iff
 
 theorem swap_comp_apply {a b x : α} (π : Perm α) :
@@ -1677,7 +1677,7 @@ theorem swap_eq_update (i j : α) : (Equiv.swap i j : α → α) = update (updat
 
 theorem comp_swap_eq_update (i j : α) (f : α → β) :
     f ∘ Equiv.swap i j = update (update f j (f i)) i (f j) := by
-  rw [swap_eq_update, comp_update, comp_update, comp.right_id]
+  rw [swap_eq_update]; rw [comp_update]; rw [comp_update]; rw [comp.right_id]
 #align equiv.comp_swap_eq_update Equiv.comp_swap_eq_update
 
 @[simp]
@@ -1699,7 +1699,7 @@ theorem trans_swap_trans_symm [DecidableEq β] (a b : β) (e : α ≃ β) :
 
 @[simp]
 theorem swap_apply_self (i j a : α) : swap i j (swap i j a) = a := by
-  rw [← Equiv.trans_apply, Equiv.swap_swap, Equiv.refl_apply]
+  rw [← Equiv.trans_apply]; rw [Equiv.swap_swap]; rw [Equiv.refl_apply]
 #align equiv.swap_apply_self Equiv.swap_apply_self
 
 /-- A function is invariant to a swap if it is equal at both elements -/
@@ -1715,7 +1715,7 @@ theorem apply_swap_eq_self {v : α → β} {i j : α} (hv : v i = v j) (k : α) 
 #align equiv.apply_swap_eq_self Equiv.apply_swap_eq_self
 
 theorem swap_apply_eq_iff {x y z w : α} : swap x y z = w ↔ z = swap x y w := by
-  rw [apply_eq_iff_eq_symm_apply, symm_swap]
+  rw [apply_eq_iff_eq_symm_apply]; rw [symm_swap]
 #align equiv.swap_apply_eq_iff Equiv.swap_apply_eq_iff
 
 theorem swap_apply_ne_self_iff {a b x : α} : swap a b x ≠ x ↔ a ≠ b ∧ (x = a ∨ x = b) := by
@@ -1997,7 +1997,7 @@ theorem Function.Injective.swap_apply
   by_cases hy:z = y
   · simp [hy]
 
-  rw [Equiv.swap_apply_of_ne_of_ne hx hy, Equiv.swap_apply_of_ne_of_ne (hf.ne hx) (hf.ne hy)]
+  rw [Equiv.swap_apply_of_ne_of_ne hx hy]; rw [Equiv.swap_apply_of_ne_of_ne (hf.ne hx) (hf.ne hy)]
 #align function.injective.swap_apply Function.Injective.swap_apply
 
 theorem Function.Injective.swap_comp
@@ -2045,7 +2045,7 @@ namespace Function
 theorem update_comp_equiv [DecidableEq α'] [DecidableEq α] (f : α → β)
     (g : α' ≃ α) (a : α) (v : β) :
     update f a v ∘ g = update (f ∘ g) (g.symm a) v := by
-  rw [← update_comp_eq_of_injective _ g.injective, g.apply_symm_apply]
+  rw [← update_comp_eq_of_injective _ g.injective]; rw [g.apply_symm_apply]
 #align function.update_comp_equiv Function.update_comp_equiv
 
 theorem update_apply_equiv_apply [DecidableEq α'] [DecidableEq α] (f : α → β)

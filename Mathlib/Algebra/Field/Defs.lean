@@ -150,7 +150,7 @@ theorem smul_def (a : ℚ) (x : K) : a • x = ↑a * x :=
 
 @[simp]
 theorem smul_one_eq_coe (A : Type*) [DivisionRing A] (m : ℚ) : m • (1 : A) = ↑m := by
-  rw [Rat.smul_def, mul_one]
+  rw [Rat.smul_def]; rw [mul_one]
 #align rat.smul_one_eq_coe Rat.smul_one_eq_coe
 
 end Rat

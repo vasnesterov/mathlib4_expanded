@@ -219,24 +219,24 @@ instance hasFiniteBiproducts : HasFiniteBiproducts (Mat_ C) where
               · substs h h'
                 simp only [CategoryTheory.eqToHom_refl, CategoryTheory.Mat_.id_apply_self]
               · subst h
-                rw [eqToHom_refl, id_apply_of_ne _ _ _ h']
+                rw [eqToHom_refl]; rw [id_apply_of_ne _ _ _ h']
               · rfl }
           (by
             dsimp
             ext1 ⟨i, j⟩
             rintro ⟨i', j'⟩
-            rw [Finset.sum_apply, Finset.sum_apply]
+            rw [Finset.sum_apply]; rw [Finset.sum_apply]
             dsimp
             rw [Finset.sum_eq_single i]; rotate_left
             · intro b _ hb
               apply Finset.sum_eq_zero
               intro x _
-              rw [dif_neg hb.symm, zero_comp]
+              rw [dif_neg hb.symm]; rw [zero_comp]
             · intro hi
               simp at hi
             rw [Finset.sum_eq_single j]; rotate_left
             · intro b _ hb
-              rw [dif_pos rfl, dif_neg, zero_comp]
+              rw [dif_pos rfl]; rw [dif_neg]; rw [zero_comp]
               simp only
               tauto
             · intro hj
@@ -339,11 +339,11 @@ def isoBiproductEmbedding (M : Mat_ C) : M ≅ ⨁ fun i => (embedding C).obj (M
     simp only [biproduct.lift_desc]
     funext i j
     dsimp [id_def]
-    rw [Finset.sum_apply, Finset.sum_apply, Finset.sum_eq_single i]; rotate_left
+    rw [Finset.sum_apply]; rw [Finset.sum_apply]; rw [Finset.sum_eq_single i]; rotate_left
     · intro b _ hb
       dsimp
       simp only [Finset.sum_const, Finset.card_singleton, one_smul]
-      rw [dif_neg hb.symm, zero_comp]
+      rw [dif_neg hb.symm]; rw [zero_comp]
     · intro h
       simp at h
     simp
@@ -386,7 +386,7 @@ lemma additiveObjIsoBiproduct_hom_π (F : Mat_ C ⥤ D) [Functor.Additive F] (M 
     (additiveObjIsoBiproduct F M).hom ≫ biproduct.π _ i =
       F.map (M.isoBiproductEmbedding.hom ≫ biproduct.π _ i) := by
   dsimp [additiveObjIsoBiproduct]
-  rw [biproduct.lift_π, Category.assoc]
+  rw [biproduct.lift_π]; rw [Category.assoc]
   erw [biproduct.lift_π, ← F.map_comp]
   simp
 

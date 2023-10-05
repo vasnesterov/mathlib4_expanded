@@ -119,7 +119,7 @@ theorem monoidHom_ext ⦃f g : G ⧸ N →* M⦄ (h : f.comp (mk' N) = g.comp (m
 @[to_additive (attr := simp)]
 theorem eq_one_iff {N : Subgroup G} [nN : N.Normal] (x : G) : (x : G ⧸ N) = 1 ↔ x ∈ N := by
   refine' QuotientGroup.eq.trans _
-  rw [mul_one, Subgroup.inv_mem_iff]
+  rw [mul_one]; rw [Subgroup.inv_mem_iff]
 #align quotient_group.eq_one_iff QuotientGroup.eq_one_iff
 #align quotient_add_group.eq_zero_iff QuotientAddGroup.eq_zero_iff
 
@@ -140,7 +140,7 @@ theorem ker_mk' : MonoidHom.ker (QuotientGroup.mk' N : G →* G ⧸ N) = N :=
 theorem eq_iff_div_mem {N : Subgroup G} [nN : N.Normal] {x y : G} :
     (x : G ⧸ N) = y ↔ x / y ∈ N := by
   refine' eq_comm.trans (QuotientGroup.eq.trans _)
-  rw [nN.mem_comm_iff, div_eq_mul_inv]
+  rw [nN.mem_comm_iff]; rw [div_eq_mul_inv]
 #align quotient_group.eq_iff_div_mem QuotientGroup.eq_iff_div_mem
 #align quotient_add_group.eq_iff_sub_mem QuotientAddGroup.eq_iff_sub_mem
 
@@ -237,7 +237,7 @@ def map (M : Subgroup H) [M.Normal] (f : G →* H) (h : N ≤ M.comap f) : G ⧸
   refine' QuotientGroup.lift N ((mk' M).comp f) _
   intro x hx
   refine' QuotientGroup.eq.2 _
-  rw [mul_one, Subgroup.inv_mem_iff]
+  rw [mul_one]; rw [Subgroup.inv_mem_iff]
   exact h hx
 #align quotient_group.map QuotientGroup.map
 #align quotient_add_group.map QuotientAddGroup.map
@@ -310,7 +310,7 @@ def congr (e : G ≃* H) (he : G'.map e = H') : G ⧸ G' ≃* H ⧸ H' :=
         MulEquiv.coe_monoidHom_refl, map_id_apply]
     right_inv := fun x => by
       rw [map_map H' G' H' e.symm e (he ▸ (G'.map_equiv_eq_comap_symm e).le)
-        (he ▸ G'.le_comap_map (e : G →* H)) ]
+        (he ▸ G'.le_comap_map (e : G →* H))]
       simp only [← MulEquiv.coe_monoidHom_trans, MulEquiv.symm_trans_self,
         MulEquiv.coe_monoidHom_refl, map_id_apply] }
 #align quotient_group.congr QuotientGroup.congr
@@ -390,8 +390,7 @@ def rangeKerLift : G ⧸ ker φ →* φ.range :=
 theorem rangeKerLift_injective : Injective (rangeKerLift φ) := fun a b =>
   Quotient.inductionOn₂' a b fun a b (h : φ.rangeRestrict a = φ.rangeRestrict b) =>
     Quotient.sound' <| by
-      rw [leftRel_apply, ← ker_rangeRestrict, mem_ker, φ.rangeRestrict.map_mul, ← h,
-        φ.rangeRestrict.map_inv, inv_mul_self]
+      rw [leftRel_apply]; rw [← ker_rangeRestrict]; rw [mem_ker]; rw [φ.rangeRestrict.map_mul]; rw [← h]; rw [φ.rangeRestrict.map_inv]; rw [inv_mul_self]
 #align quotient_group.range_ker_lift_injective QuotientGroup.rangeKerLift_injective
 #align quotient_add_group.range_ker_lift_injective QuotientAddGroup.rangeKerLift_injective
 
@@ -631,7 +630,7 @@ def quotientQuotientEquivQuotientAux : (G ⧸ N) ⧸ M.map (mk' N) →* G ⧸ M 
   lift (M.map (mk' N)) (map N M (MonoidHom.id G) h)
     (by
       rintro _ ⟨x, hx, rfl⟩
-      rw [mem_ker, map_mk' N M _ _ x]
+      rw [mem_ker]; rw [map_mk' N M _ _ x]
       exact (QuotientGroup.eq_one_iff _).mpr hx)
 #align quotient_group.quotient_quotient_equiv_quotient_aux QuotientGroup.quotientQuotientEquivQuotientAux
 #align quotient_add_group.quotient_quotient_equiv_quotient_aux QuotientAddGroup.quotientQuotientEquivQuotientAux

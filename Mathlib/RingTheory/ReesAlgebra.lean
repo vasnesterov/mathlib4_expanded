@@ -41,7 +41,7 @@ def reesAlgebra : Subalgebra R R[X] where
     rw [coeff_mul]
     apply Ideal.sum_mem
     rintro ⟨j, k⟩ e
-    rw [← Finset.Nat.mem_antidiagonal.mp e, pow_add]
+    rw [← Finset.Nat.mem_antidiagonal.mp e]; rw [pow_add]
     exact Ideal.mul_mem_mul (hf j) (hg k)
   one_mem' i := by
     rw [coeff_one]
@@ -54,7 +54,7 @@ def reesAlgebra : Subalgebra R R[X] where
     exact Ideal.add_mem _ (hf i) (hg i)
   zero_mem' i := Ideal.zero_mem _
   algebraMap_mem' r i := by
-    rw [algebraMap_apply, coeff_C]
+    rw [algebraMap_apply]; rw [coeff_C]
     split_ifs with h
     · subst h
       simp
@@ -69,7 +69,7 @@ theorem mem_reesAlgebra_iff_support (f : R[X]) :
     f ∈ reesAlgebra I ↔ ∀ i ∈ f.support, f.coeff i ∈ I ^ i := by
   apply forall_congr'
   intro a
-  rw [mem_support_iff, Iff.comm, imp_iff_right_iff, Ne.def, ← imp_iff_not_or]
+  rw [mem_support_iff]; rw [Iff.comm]; rw [imp_iff_right_iff]; rw [Ne.def]; rw [← imp_iff_not_or]
   exact fun e => e.symm ▸ (I ^ a).zero_mem
 #align mem_rees_algebra_iff_support mem_reesAlgebra_iff_support
 
@@ -88,7 +88,7 @@ theorem monomial_mem_adjoin_monomial {I : Ideal R} {n : ℕ} {r : R} (hr : r ∈
       -- Porting note: did not need help with motive previously
       (p := fun r => (monomial (Nat.succ n)) r ∈ Algebra.adjoin R (Submodule.map (monomial 1) I)) hr
     · intro r hr s hs
-      rw [Nat.succ_eq_one_add, smul_eq_mul, ← monomial_mul_monomial]
+      rw [Nat.succ_eq_one_add]; rw [smul_eq_mul]; rw [← monomial_mul_monomial]
       exact Subalgebra.mul_mem _ (Algebra.subset_adjoin (Set.mem_image_of_mem _ hr)) (hn hs)
     · intro x y hx hy
       rw [monomial_add]
@@ -113,14 +113,14 @@ variable {I}
 theorem reesAlgebra.fg (hI : I.FG) : (reesAlgebra I).FG := by
   classical
     obtain ⟨s, hs⟩ := hI
-    rw [← adjoin_monomial_eq_reesAlgebra, ← hs]
+    rw [← adjoin_monomial_eq_reesAlgebra]; rw [← hs]
     use s.image (monomial 1)
     rw [Finset.coe_image]
     change
       _ =
         Algebra.adjoin R
           (Submodule.map (monomial 1 : R →ₗ[R] R[X]) (Submodule.span R ↑s) : Set R[X])
-    rw [Submodule.map_span, Algebra.adjoin_span]
+    rw [Submodule.map_span]; rw [Algebra.adjoin_span]
 #align rees_algebra.fg reesAlgebra.fg
 
 instance [IsNoetherianRing R] : Algebra.FiniteType R (reesAlgebra I) :=

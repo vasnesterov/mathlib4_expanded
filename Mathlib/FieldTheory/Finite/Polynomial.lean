@@ -34,10 +34,10 @@ variable {p : ℕ} [Fact p.Prime]
 
 theorem frobenius_zmod (f : MvPolynomial σ (ZMod p)) : frobenius _ p f = expand p f := by
   apply induction_on f
-  · intro a; rw [expand_C, frobenius_def, ← C_pow, ZMod.pow_card]
-  · simp only [AlgHom.map_add, RingHom.map_add]; intro _ _ hf hg; rw [hf, hg]
+  · intro a; rw [expand_C]; rw [frobenius_def]; rw [← C_pow]; rw [ZMod.pow_card]
+  · simp only [AlgHom.map_add, RingHom.map_add]; intro _ _ hf hg; rw [hf]; rw [hg]
   · simp only [expand_X, RingHom.map_mul, AlgHom.map_mul]
-    intro _ _ hf; rw [hf, frobenius_def]
+    intro _ _ hf; rw [hf]; rw [frobenius_def]
 #align mv_polynomial.frobenius_zmod MvPolynomial.frobenius_zmod
 
 theorem expand_zmod (f : MvPolynomial σ (ZMod p)) : expand p f = f ^ p :=
@@ -83,16 +83,16 @@ theorem degrees_indicator (c : σ → K) :
   rw [indicator]
   refine' le_trans (degrees_prod _ _) (Finset.sum_le_sum fun s _ => _)
   refine' le_trans (degrees_sub _ _) _
-  rw [degrees_one, ← bot_eq_zero, bot_sup_eq]
+  rw [degrees_one]; rw [← bot_eq_zero]; rw [bot_sup_eq]
   refine' le_trans (degrees_pow _ _) (nsmul_le_nsmul_of_le_right _ _)
   refine' le_trans (degrees_sub _ _) _
-  rw [degrees_C, ← bot_eq_zero, sup_bot_eq]
+  rw [degrees_C]; rw [← bot_eq_zero]; rw [sup_bot_eq]
   exact degrees_X' _
 #align mv_polynomial.degrees_indicator MvPolynomial.degrees_indicator
 
 theorem indicator_mem_restrictDegree (c : σ → K) :
     indicator c ∈ restrictDegree σ K (Fintype.card K - 1) := by
-  rw [mem_restrictDegree_iff_sup, indicator]
+  rw [mem_restrictDegree_iff_sup]; rw [indicator]
   intro n
   refine' le_trans (Multiset.count_le_of_le _ <| degrees_indicator _) (le_of_eq _)
   simp_rw [← Multiset.coe_countAddMonoidHom, (Multiset.countAddMonoidHom n).map_sum,
@@ -114,7 +114,7 @@ theorem eval_indicator_apply_eq_zero (a b : σ → K) (h : a ≠ b) : eval a (in
   simp only [indicator, map_prod, map_sub, map_one, map_pow, eval_X, eval_C, sub_self,
     Finset.prod_eq_zero_iff]
   refine' ⟨i, Finset.mem_univ _, _⟩
-  rw [FiniteField.pow_card_sub_one_eq_one, sub_self]
+  rw [FiniteField.pow_card_sub_one_eq_one]; rw [sub_self]
   rwa [Ne, sub_eq_zero]
 #align mv_polynomial.eval_indicator_apply_eq_zero MvPolynomial.eval_indicator_apply_eq_zero
 
@@ -237,7 +237,7 @@ set_option linter.uppercaseLean3 false in
 
 -- Porting note: was `(evalᵢ σ K).range`.
 theorem range_evalᵢ [Finite σ] : range (evalᵢ σ K) = ⊤ := by
-  rw [evalᵢ, LinearMap.range_comp, range_subtype]
+  rw [evalᵢ]; rw [LinearMap.range_comp]; rw [range_subtype]
   exact map_restrict_dom_evalₗ K σ
 #align mv_polynomial.range_evalᵢ MvPolynomial.range_evalᵢ
 
@@ -245,7 +245,7 @@ theorem range_evalᵢ [Finite σ] : range (evalᵢ σ K) = ⊤ := by
 theorem ker_evalₗ [Finite σ] : ker (evalᵢ σ K) = ⊥ := by
   cases nonempty_fintype σ
   refine' (ker_eq_bot_iff_range_eq_top_of_finrank_eq_finrank _).mpr (range_evalᵢ σ K)
-  rw [FiniteDimensional.finrank_fintype_fun_eq_card, finrank_R]
+  rw [FiniteDimensional.finrank_fintype_fun_eq_card]; rw [finrank_R]
 #align mv_polynomial.ker_evalₗ MvPolynomial.ker_evalₗ
 
 theorem eq_zero_of_eval_eq_zero [Finite σ] (p : MvPolynomial σ K) (h : ∀ v : σ → K, eval v p = 0)

@@ -220,9 +220,9 @@ def shiftRightFill (v : Vector α n) (i : ℕ) (fill : α) : Vector α n :=
         by_cases h : i ≤ n
         · have h₁ := Nat.sub_le n i
           rw [min_eq_right h]
-          rw [min_eq_left h₁, ← add_tsub_assoc_of_le h, Nat.add_comm, add_tsub_cancel_right]
+          rw [min_eq_left h₁]; rw [← add_tsub_assoc_of_le h]; rw [Nat.add_comm]; rw [add_tsub_cancel_right]
         · have h₁ := le_of_not_ge h
-          rw [min_eq_left h₁, tsub_eq_zero_iff_le.mpr h₁, zero_min, Nat.add_zero]) <|
+          rw [min_eq_left h₁]; rw [tsub_eq_zero_iff_le.mpr h₁]; rw [zero_min]; rw [Nat.add_zero]) <|
     append (replicate (min n i) fill) (take (n - i) v)
 
 end Shift

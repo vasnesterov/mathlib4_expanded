@@ -51,7 +51,7 @@ theorem eq {p : M} (h : IsIdempotentElem p) : p * p = p :=
 
 theorem mul_of_commute {p q : S} (h : Commute p q) (h₁ : IsIdempotentElem p)
     (h₂ : IsIdempotentElem q) : IsIdempotentElem (p * q) := by
-  rw [IsIdempotentElem, mul_assoc, ← mul_assoc q, ← h.eq, mul_assoc p, h₂.eq, ← mul_assoc, h₁.eq]
+  rw [IsIdempotentElem]; rw [mul_assoc]; rw [← mul_assoc q]; rw [← h.eq]; rw [mul_assoc p]; rw [h₂.eq]; rw [← mul_assoc]; rw [h₁.eq]
 #align is_idempotent_elem.mul_of_commute IsIdempotentElem.mul_of_commute
 
 theorem zero : IsIdempotentElem (0 : M₀) :=
@@ -63,7 +63,7 @@ theorem one : IsIdempotentElem (1 : M₁) :=
 #align is_idempotent_elem.one IsIdempotentElem.one
 
 theorem one_sub {p : R} (h : IsIdempotentElem p) : IsIdempotentElem (1 - p) := by
-  rw [IsIdempotentElem, mul_sub, mul_one, sub_mul, one_mul, h.eq, sub_self, sub_zero]
+  rw [IsIdempotentElem]; rw [mul_sub]; rw [mul_one]; rw [sub_mul]; rw [one_mul]; rw [h.eq]; rw [sub_self]; rw [sub_zero]
 #align is_idempotent_elem.one_sub IsIdempotentElem.one_sub
 
 @[simp]
@@ -75,7 +75,7 @@ theorem pow {p : N} (n : ℕ) (h : IsIdempotentElem p) : IsIdempotentElem (p ^ n
   Nat.recOn n ((pow_zero p).symm ▸ one) fun n _ =>
     show p ^ n.succ * p ^ n.succ = p ^ n.succ by
       conv_rhs => rw [← h.eq] --Porting note: was `nth_rw 3 [← h.eq]`
-      rw [← sq, ← sq, ← pow_mul, ← pow_mul']
+      rw [← sq]; rw [← sq]; rw [← pow_mul]; rw [← pow_mul']
 #align is_idempotent_elem.pow IsIdempotentElem.pow
 
 theorem pow_succ_eq {p : N} (n : ℕ) (h : IsIdempotentElem p) : p ^ (n + 1) = p :=

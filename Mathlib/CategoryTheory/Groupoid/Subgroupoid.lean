@@ -193,7 +193,7 @@ theorem mem_iff (S : Subgroupoid C) (F : Σ c d, c ⟶ d) : F ∈ S ↔ F.2.2 �
 #align category_theory.subgroupoid.mem_iff CategoryTheory.Subgroupoid.mem_iff
 
 theorem le_iff (S T : Subgroupoid C) : S ≤ T ↔ ∀ {c d}, S.arrows c d ⊆ T.arrows c d := by
-  rw [SetLike.le_def, Sigma.forall]; exact forall_congr' fun c => Sigma.forall
+  rw [SetLike.le_def]; rw [Sigma.forall]; exact forall_congr' fun c => Sigma.forall
 #align category_theory.subgroupoid.le_iff CategoryTheory.Subgroupoid.le_iff
 
 instance : Top (Subgroupoid C) :=
@@ -274,7 +274,7 @@ theorem inclusion_inj_on_objects {S T : Subgroupoid C} (h : S ≤ T) :
 theorem inclusion_faithful {S T : Subgroupoid C} (h : S ≤ T) (s t : S.objs) :
     Function.Injective fun f : s ⟶ t => (inclusion h).map f := fun ⟨f, hf⟩ ⟨g, hg⟩ => by
   -- porting note: was `...; simpa only [Subtype.mk_eq_mk] using id`
-  dsimp only [inclusion]; rw [Subtype.mk_eq_mk, Subtype.mk_eq_mk]; exact id
+  dsimp only [inclusion]; rw [Subtype.mk_eq_mk]; rw [Subtype.mk_eq_mk]; exact id
 #align category_theory.subgroupoid.inclusion_faithful CategoryTheory.Subgroupoid.inclusion_faithful
 
 theorem inclusion_refl {S : Subgroupoid C} : inclusion (le_refl S) = 𝟭 S.objs :=
@@ -487,12 +487,12 @@ def map (hφ : Function.Injective φ.obj) (S : Subgroupoid C) : Subgroupoid D wh
   arrows c d := {x | Map.Arrows φ hφ S c d x}
   inv := by
     rintro _ _ _ ⟨⟩
-    rw [inv_eq_inv, ← Functor.map_inv, ← inv_eq_inv]
+    rw [inv_eq_inv]; rw [← Functor.map_inv]; rw [← inv_eq_inv]
     constructor; apply S.inv; assumption
   mul := by
     rintro _ _ _ _ ⟨f, hf⟩ q hq
     obtain ⟨c₃, c₄, g, he, rfl, hg, gq⟩ := (Map.arrows_iff φ hφ S q).mp hq
-    cases hφ he; rw [gq, ← eq_conj_eqToHom, ← φ.map_comp]
+    cases hφ he; rw [gq]; rw [← eq_conj_eqToHom]; rw [← φ.map_comp]
     constructor; exact S.mul hf hg
 #align category_theory.subgroupoid.map CategoryTheory.Subgroupoid.map
 
@@ -567,7 +567,7 @@ theorem mem_im_objs_iff (hφ : Function.Injective φ.obj) (d : D) :
 theorem obj_surjective_of_im_eq_top (hφ : Function.Injective φ.obj) (hφ' : im φ hφ = ⊤) :
     Function.Surjective φ.obj := by
   rintro d
-  rw [← mem_im_objs_iff, hφ']
+  rw [← mem_im_objs_iff]; rw [hφ']
   apply mem_top_objs
 #align category_theory.subgroupoid.obj_surjective_of_im_eq_top CategoryTheory.Subgroupoid.obj_surjective_of_im_eq_top
 

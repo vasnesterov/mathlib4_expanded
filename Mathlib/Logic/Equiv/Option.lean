@@ -80,7 +80,7 @@ def removeNone_aux (x : α) : β :=
       show (e none).isSome by
         rw [← Option.ne_none_iff_isSome]
         intro hn
-        rw [Option.not_isSome_iff_eq_none, ← hn] at h
+        rw [Option.not_isSome_iff_eq_none] at h; rw [← hn] at h
         exact Option.some_ne_none _ (e.injective h)
 -- Porting note: private
 -- #align equiv.remove_none_aux Equiv.removeNone_aux
@@ -180,7 +180,7 @@ def optionSubtype [DecidableEq β] (x : β) :
             (((EquivLike.injective _).ne_iff'
               ((apply_eq_iff_eq_symm_apply _).1 e.property).symm).2 b.property)),
       left_inv := fun a => by
-        rw [← some_inj, some_get]
+        rw [← some_inj]; rw [some_get]
         exact symm_apply_apply (e : Option α ≃ β) a,
       right_inv := fun b => by
         ext

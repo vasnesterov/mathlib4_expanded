@@ -138,7 +138,7 @@ theorem bit1_add [One M] (a b : M) : bit1 (a + b) = bit0 a + bit1 b :=
 #align bit1_add bit1_add
 
 theorem bit1_add' [One M] (a b : M) : bit1 (a + b) = bit1 a + bit0 b := by
-  rw [add_comm, bit1_add, add_comm]
+  rw [add_comm]; rw [bit1_add]; rw [add_comm]
 #align bit1_add' bit1_add'
 
 end AddCommSemigroup
@@ -781,7 +781,7 @@ theorem div_right_inj : a / b = a / c ↔ b = c :=
 
 @[to_additive (attr := simp)]
 theorem div_left_inj : b / a = c / a ↔ b = c := by
-  rw [div_eq_mul_inv, div_eq_mul_inv]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]
   exact mul_left_inj _
 #align div_left_inj div_left_inj
 #align sub_left_inj sub_left_inj
@@ -794,7 +794,7 @@ theorem div_mul_div_cancel' (a b c : G) : a / b * (b / c) = a / c :=
 
 @[to_additive (attr := simp) sub_sub_sub_cancel_right]
 theorem div_div_div_cancel_right' (a b c : G) : a / c / (b / c) = a / b := by
-  rw [← inv_div c b, div_inv_eq_mul, div_mul_div_cancel']
+  rw [← inv_div c b]; rw [div_inv_eq_mul]; rw [div_mul_div_cancel']
 #align div_div_div_cancel_right' div_div_div_cancel_right'
 #align sub_sub_sub_cancel_right sub_sub_sub_cancel_right
 
@@ -887,14 +887,13 @@ attribute [local simp] mul_assoc mul_comm mul_left_comm div_eq_mul_inv
 
 @[to_additive]
 theorem div_eq_of_eq_mul' {a b c : G} (h : a = b * c) : a / b = c := by
-  rw [h, div_eq_mul_inv, mul_comm, inv_mul_cancel_left]
+  rw [h]; rw [div_eq_mul_inv]; rw [mul_comm]; rw [inv_mul_cancel_left]
 #align div_eq_of_eq_mul' div_eq_of_eq_mul'
 #align sub_eq_of_eq_add' sub_eq_of_eq_add'
 
 @[to_additive (attr := simp)]
 theorem mul_div_mul_left_eq_div (a b c : G) : c * a / (c * b) = a / b := by
-  rw [div_eq_mul_inv, mul_inv_rev, mul_comm b⁻¹ c⁻¹, mul_comm c a, mul_assoc, ←mul_assoc c,
-    mul_right_inv, one_mul, div_eq_mul_inv]
+  rw [div_eq_mul_inv]; rw [mul_inv_rev]; rw [mul_comm b⁻¹ c⁻¹]; rw [mul_comm c a]; rw [mul_assoc]; rw [←mul_assoc c]; rw [mul_right_inv]; rw [one_mul]; rw [div_eq_mul_inv]
 #align mul_div_mul_left_eq_div mul_div_mul_left_eq_div
 #align add_sub_add_left_eq_sub add_sub_add_left_eq_sub
 
@@ -911,7 +910,7 @@ theorem eq_mul_of_div_eq' (h : a / b = c) : a = b * c := by simp [h.symm]
 @[to_additive]
 theorem mul_eq_of_eq_div' (h : b = c / a) : a * b = c := by
   simp [h]
-  rw [mul_comm c, mul_inv_cancel_left]
+  rw [mul_comm c]; rw [mul_inv_cancel_left]
 #align mul_eq_of_eq_div' mul_eq_of_eq_div'
 #align add_eq_of_eq_sub' add_eq_of_eq_sub'
 
@@ -953,7 +952,7 @@ theorem mul_div_cancel''' (a b : G) : a * b / a = b := by rw [div_eq_inv_mul, in
 
 @[to_additive (attr := simp)]
 theorem mul_div_cancel'_right (a b : G) : a * (b / a) = b := by
-  rw [← mul_div_assoc, mul_div_cancel''']
+  rw [← mul_div_assoc]; rw [mul_div_cancel''']
 #align mul_div_cancel'_right mul_div_cancel'_right
 #align add_sub_cancel'_right add_sub_cancel'_right
 
@@ -967,19 +966,19 @@ theorem div_mul_cancel'' (a b : G) : a / (a * b) = b⁻¹ := by rw [← inv_div,
 -- defined in `Algebra.Group.Commute`
 @[to_additive]
 theorem mul_mul_inv_cancel'_right (a b : G) : a * (b * a⁻¹) = b := by
-  rw [← div_eq_mul_inv, mul_div_cancel'_right a b]
+  rw [← div_eq_mul_inv]; rw [mul_div_cancel'_right a b]
 #align mul_mul_inv_cancel'_right mul_mul_inv_cancel'_right
 #align add_add_neg_cancel'_right add_add_neg_cancel'_right
 
 @[to_additive (attr := simp)]
 theorem mul_mul_div_cancel (a b c : G) : a * c * (b / c) = a * b := by
-  rw [mul_assoc, mul_div_cancel'_right]
+  rw [mul_assoc]; rw [mul_div_cancel'_right]
 #align mul_mul_div_cancel mul_mul_div_cancel
 #align add_add_sub_cancel add_add_sub_cancel
 
 @[to_additive (attr := simp)]
 theorem div_mul_mul_cancel (a b c : G) : a / c * (b * c) = a * b := by
-  rw [mul_left_comm, div_mul_cancel', mul_comm]
+  rw [mul_left_comm]; rw [div_mul_cancel']; rw [mul_comm]
 #align div_mul_mul_cancel div_mul_mul_cancel
 #align sub_add_add_cancel sub_add_add_cancel
 
@@ -991,26 +990,26 @@ theorem div_mul_div_cancel'' (a b c : G) : a / b * (c / a) = c / b := by
 
 @[to_additive (attr := simp)]
 theorem mul_div_div_cancel (a b c : G) : a * b / (a / c) = b * c := by
-  rw [← div_mul, mul_div_cancel''']
+  rw [← div_mul]; rw [mul_div_cancel''']
 #align mul_div_div_cancel mul_div_div_cancel
 #align add_sub_sub_cancel add_sub_sub_cancel
 
 @[to_additive (attr := simp)]
 theorem div_div_div_cancel_left (a b c : G) : c / a / (c / b) = b / a := by
-  rw [← inv_div b c, div_inv_eq_mul, mul_comm, div_mul_div_cancel']
+  rw [← inv_div b c]; rw [div_inv_eq_mul]; rw [mul_comm]; rw [div_mul_div_cancel']
 #align div_div_div_cancel_left div_div_div_cancel_left
 #align sub_sub_sub_cancel_left sub_sub_sub_cancel_left
 
 @[to_additive]
 theorem div_eq_div_iff_mul_eq_mul : a / b = c / d ↔ a * d = c * b := by
-  rw [div_eq_iff_eq_mul, div_mul_eq_mul_div, eq_comm, div_eq_iff_eq_mul']
+  rw [div_eq_iff_eq_mul]; rw [div_mul_eq_mul_div]; rw [eq_comm]; rw [div_eq_iff_eq_mul']
   simp only [mul_comm, eq_comm]
 #align div_eq_div_iff_mul_eq_mul div_eq_div_iff_mul_eq_mul
 #align sub_eq_sub_iff_add_eq_add sub_eq_sub_iff_add_eq_add
 
 @[to_additive]
 theorem div_eq_div_iff_div_eq_div : a / b = c / d ↔ a / c = b / d := by
-  rw [div_eq_iff_eq_mul, div_mul_eq_mul_div, div_eq_iff_eq_mul', mul_div_assoc]
+  rw [div_eq_iff_eq_mul]; rw [div_mul_eq_mul_div]; rw [div_eq_iff_eq_mul']; rw [mul_div_assoc]
 #align div_eq_div_iff_div_eq_div div_eq_div_iff_div_eq_div
 #align sub_eq_sub_iff_sub_eq_sub sub_eq_sub_iff_sub_eq_sub
 
@@ -1029,7 +1028,7 @@ lemma multiplicative_of_symmetric_of_isTotal
     intros b c rbc pab pbc pac
     obtain rab | rba := total_of r a b
     · exact hmul rab rbc pab pbc pac
-    rw [← one_mul (f a c), ← hf_swap pab, mul_assoc]
+    rw [← one_mul (f a c)]; rw [← hf_swap pab]; rw [mul_assoc]
     obtain rac | rca := total_of r a c
     · rw [hmul rba rac (hsymm pab) pac pbc]
     · rw [hmul rbc rca pbc (hsymm pac) (hsymm pab), mul_assoc, hf_swap (hsymm pac), mul_one]

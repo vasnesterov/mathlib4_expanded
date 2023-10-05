@@ -366,7 +366,7 @@ def yonedaLemma : yonedaPairing C ≅ yonedaEvaluation C where
         simp only [yoneda]
         ext
         dsimp
-        rw [←FunctorToTypes.naturality X.snd Y.snd f.snd, FunctorToTypes.map_comp_apply] }
+        rw [←FunctorToTypes.naturality X.snd Y.snd f.snd]; rw [FunctorToTypes.map_comp_apply] }
   hom_inv_id := by
     ext
     dsimp
@@ -376,7 +376,7 @@ def yonedaLemma : yonedaPairing C ≅ yonedaEvaluation C where
   inv_hom_id := by
     ext
     dsimp
-    rw [FunctorToTypes.map_id_apply, ULift.up_down]
+    rw [FunctorToTypes.map_id_apply]; rw [ULift.up_down]
 #align category_theory.yoneda_lemma CategoryTheory.yonedaLemma
 
 variable {C}
@@ -437,7 +437,7 @@ lemma yonedaEquiv_yoneda_map {X Y : C} (f : X ⟶ Y) : yonedaEquiv (yoneda.map f
 lemma yonedaEquiv_symm_map {X Y : Cᵒᵖ} (f : X ⟶ Y) {F : Cᵒᵖ ⥤ Type v₁} (t : F.obj X) :
     yonedaEquiv.symm (F.map f t) = yoneda.map f.unop ≫ yonedaEquiv.symm t := by
   obtain ⟨u, rfl⟩ := yonedaEquiv.surjective t
-  rw [yonedaEquiv_naturality', Equiv.symm_apply_apply, Equiv.symm_apply_apply]
+  rw [yonedaEquiv_naturality']; rw [Equiv.symm_apply_apply]; rw [Equiv.symm_apply_apply]
 
 /-- When `C` is a small category, we can restate the isomorphism from `yoneda_sections`
 without having to change universes.

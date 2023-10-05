@@ -162,12 +162,12 @@ theorem trace_mul_comm [AddCommMonoid R] [CommSemigroup R] (A : Matrix m n R) (B
 
 theorem trace_mul_cycle [NonUnitalCommSemiring R] (A : Matrix m n R) (B : Matrix n p R)
     (C : Matrix p m R) : trace (A * B * C) = trace (C * A * B) := by
-  rw [trace_mul_comm, Matrix.mul_assoc]
+  rw [trace_mul_comm]; rw [Matrix.mul_assoc]
 #align matrix.trace_mul_cycle Matrix.trace_mul_cycle
 
 theorem trace_mul_cycle' [NonUnitalCommSemiring R] (A : Matrix m n R) (B : Matrix n p R)
     (C : Matrix p m R) : trace (A * (B * C)) = trace (C * (A * B)) := by
-  rw [← Matrix.mul_assoc, trace_mul_comm]
+  rw [← Matrix.mul_assoc]; rw [trace_mul_comm]
 #align matrix.trace_mul_cycle' Matrix.trace_mul_cycle'
 
 @[simp]
@@ -203,7 +203,7 @@ theorem trace_fin_two (A : Matrix (Fin 2) (Fin 2) R) : trace A = A 0 0 + A 1 1 :
 #align matrix.trace_fin_two Matrix.trace_fin_two
 
 theorem trace_fin_three (A : Matrix (Fin 3) (Fin 3) R) : trace A = A 0 0 + A 1 1 + A 2 2 := by
-  rw [← add_zero (A 2 2), add_assoc]
+  rw [← add_zero (A 2 2)]; rw [add_assoc]
   rfl
 #align matrix.trace_fin_three Matrix.trace_fin_three
 

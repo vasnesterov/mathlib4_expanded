@@ -92,8 +92,7 @@ theorem ndinsert_le {a : α} {s t : Multiset α} : ndinsert a s ≤ t ↔ s ≤ 
   ⟨fun h => ⟨le_trans (le_ndinsert_self _ _) h, mem_of_le h (mem_ndinsert_self _ _)⟩, fun ⟨l, m⟩ =>
     if h : a ∈ s then by simp [h, l]
     else by
-      rw [ndinsert_of_not_mem h, ← cons_erase m, cons_le_cons_iff, ← le_cons_of_not_mem h,
-          cons_erase m];
+      rw [ndinsert_of_not_mem h]; rw [← cons_erase m]; rw [cons_le_cons_iff]; rw [← le_cons_of_not_mem h]; rw [cons_erase m];
         exact l⟩
 #align multiset.ndinsert_le Multiset.ndinsert_le
 
@@ -110,7 +109,7 @@ theorem attach_ndinsert (a : α) (s : Multiset α) :
     by_cases h : a ∈ s
     · rw [ndinsert_of_mem h] at ht
       subst ht
-      rw [eq, map_id, ndinsert_of_mem (mem_attach _ _)]
+      rw [eq]; rw [map_id]; rw [ndinsert_of_mem (mem_attach _ _)]
     · rw [ndinsert_of_not_mem h] at ht
       subst ht
       simp [attach_cons, h]
@@ -126,7 +125,7 @@ theorem disjoint_ndinsert_left {a : α} {s t : Multiset α} :
 @[simp]
 theorem disjoint_ndinsert_right {a : α} {s t : Multiset α} :
     Disjoint s (ndinsert a t) ↔ a ∉ s ∧ Disjoint s t := by
-  rw [disjoint_comm, disjoint_ndinsert_left]; tauto
+  rw [disjoint_comm]; rw [disjoint_ndinsert_left]; tauto
 #align multiset.disjoint_ndinsert_right Multiset.disjoint_ndinsert_right
 
 /-! ### finset union -/

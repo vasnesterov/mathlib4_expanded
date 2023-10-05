@@ -50,8 +50,7 @@ theorem tendsto_div_of_monotone_of_exists_subseq_tendsto_div (u : ℕ → ℝ) (
     intro ε εpos
     rcases hlim (1 + ε) ((lt_add_iff_pos_right _).2 εpos) with ⟨c, cgrowth, ctop, clim⟩
     have L : ∀ᶠ n in atTop, u (c n) - c n * l ≤ ε * c n := by
-      rw [← tendsto_sub_nhds_zero_iff, ← Asymptotics.isLittleO_one_iff ℝ,
-        Asymptotics.isLittleO_iff] at clim
+      rw [← tendsto_sub_nhds_zero_iff] at clim; rw [← Asymptotics.isLittleO_one_iff ℝ] at clim; rw [Asymptotics.isLittleO_iff] at clim
       filter_upwards [clim εpos, ctop (Ioi_mem_atTop 0)] with n hn cnpos'
       have cnpos : 0 < c n := cnpos'
       calc
@@ -112,8 +111,7 @@ theorem tendsto_div_of_monotone_of_exists_subseq_tendsto_div (u : ℕ → ℝ) (
     intro ε εpos
     rcases hlim (1 + ε) ((lt_add_iff_pos_right _).2 εpos) with ⟨c, cgrowth, ctop, clim⟩
     have L : ∀ᶠ n : ℕ in atTop, (c n : ℝ) * l - u (c n) ≤ ε * c n := by
-      rw [← tendsto_sub_nhds_zero_iff, ← Asymptotics.isLittleO_one_iff ℝ,
-        Asymptotics.isLittleO_iff] at clim
+      rw [← tendsto_sub_nhds_zero_iff] at clim; rw [← Asymptotics.isLittleO_one_iff ℝ] at clim; rw [Asymptotics.isLittleO_iff] at clim
       filter_upwards [clim εpos, ctop (Ioi_mem_atTop 0)]with n hn cnpos'
       have cnpos : 0 < c n := cnpos'
       calc
@@ -175,7 +173,7 @@ theorem tendsto_div_of_monotone_of_exists_subseq_tendsto_div (u : ℕ → ℝ) (
     simp_rw [div_eq_inv_mul]
     calc
       d < (n : ℝ)⁻¹ * n * (l - ε * (1 + l)) := by
-        rw [inv_mul_cancel, one_mul]
+        rw [inv_mul_cancel]; rw [one_mul]
         · linarith only [hε]
         · exact Nat.cast_ne_zero.2 (ne_of_gt npos)
       _ = (n : ℝ)⁻¹ * (n * l - ε * (1 + l) * n) := by ring
@@ -246,12 +244,12 @@ theorem sum_div_pow_sq_le_div_sq (N : ℕ) {j : ℝ} (hj : 0 < j) {c : ℝ} (hc 
   have cpos : 0 < c := zero_lt_one.trans hc
   have A : (0 : ℝ) < c⁻¹ ^ 2 := sq_pos_of_pos (inv_pos.2 cpos)
   have B : c ^ 2 * ((1 : ℝ) - c⁻¹ ^ 2)⁻¹ ≤ c ^ 3 * (c - 1)⁻¹ := by
-    rw [← div_eq_mul_inv, ← div_eq_mul_inv, div_le_div_iff _ (sub_pos.2 hc)]
+    rw [← div_eq_mul_inv]; rw [← div_eq_mul_inv]; rw [div_le_div_iff _ (sub_pos.2 hc)]
     swap
     · exact sub_pos.2 (pow_lt_one (inv_nonneg.2 cpos.le) (inv_lt_one hc) two_ne_zero)
     have : c ^ 3 = c ^ 2 * c := by ring
     simp only [mul_sub, this, mul_one, inv_pow, sub_le_sub_iff_left]
-    rw [mul_assoc, mul_comm c, ← mul_assoc, mul_inv_cancel (sq_pos_of_pos cpos).ne', one_mul]
+    rw [mul_assoc]; rw [mul_comm c]; rw [← mul_assoc]; rw [mul_inv_cancel (sq_pos_of_pos cpos).ne']; rw [one_mul]
     simpa using pow_le_pow hc.le one_le_two
   calc
     (∑ i in (range N).filter fun i => j < c ^ i, (1 : ℝ) / (c ^ i) ^ 2) ≤
@@ -263,7 +261,7 @@ theorem sum_div_pow_sq_le_div_sq (N : ℕ) {j : ℝ} (hj : 0 < j) {c : ℝ} (hc 
       simp only [hi.1, mem_Ico, and_true_iff]
       apply Nat.floor_le_of_le
       apply le_of_lt
-      rw [div_lt_iff (Real.log_pos hc), ← Real.log_pow]
+      rw [div_lt_iff (Real.log_pos hc)]; rw [← Real.log_pow]
       exact Real.log_lt_log hj hi.2
     _ = ∑ i in Ico ⌊Real.log j / Real.log c⌋₊ N, (c⁻¹ ^ 2) ^ i := by
       congr 1 with i
@@ -290,7 +288,7 @@ theorem sum_div_pow_sq_le_div_sq (N : ℕ) {j : ℝ} (hj : 0 < j) {c : ℝ} (hc 
           neg_inj]
         field_simp [(Real.log_pos hc).ne']
         ring
-      rw [Real.rpow_sub A, I]
+      rw [Real.rpow_sub A]; rw [I]
       have : c ^ 2 - 1 ≠ 0 := (sub_pos.2 (one_lt_pow hc two_ne_zero)).ne'
       field_simp [hj.ne', (zero_lt_one.trans hc).ne']
       ring
@@ -333,17 +331,17 @@ theorem sum_div_nat_floor_pow_sq_le_div_sq (N : ℕ) {j : ℝ} (hj : 0 < j) {c :
         exact div_nonneg zero_le_one (sq_nonneg _)
     _ ≤ ∑ i in (range N).filter (j < c ^ ·), (1 - c⁻¹)⁻¹ ^ 2 * ((1 : ℝ) / (c ^ i) ^ 2) := by
       refine' sum_le_sum fun i _hi => _
-      rw [mul_div_assoc', mul_one, div_le_div_iff]; rotate_left
+      rw [mul_div_assoc']; rw [mul_one]; rw [div_le_div_iff]; rotate_left
       · apply sq_pos_of_pos
         refine' zero_lt_one.trans_le _
         simp only [Nat.le_floor, one_le_pow_of_one_le, hc.le, Nat.one_le_cast, Nat.cast_one]
       · exact sq_pos_of_pos (pow_pos cpos _)
-      rw [one_mul, ← mul_pow]
+      rw [one_mul]; rw [← mul_pow]
       apply pow_le_pow_of_le_left (pow_nonneg cpos.le _)
-      rw [← div_eq_inv_mul, le_div_iff A, mul_comm]
+      rw [← div_eq_inv_mul]; rw [le_div_iff A]; rw [mul_comm]
       exact mul_pow_le_nat_floor_pow hc i
     _ ≤ (1 - c⁻¹)⁻¹ ^ 2 * (c ^ 3 * (c - 1)⁻¹) / j ^ 2 := by
-      rw [← mul_sum, ← mul_div_assoc']
+      rw [← mul_sum]; rw [← mul_div_assoc']
       refine' mul_le_mul_of_nonneg_left _ (sq_nonneg _)
       exact sum_div_pow_sq_le_div_sq N hj hc
     _ = c ^ 5 * (c - 1)⁻¹ ^ 3 / j ^ 2 := by

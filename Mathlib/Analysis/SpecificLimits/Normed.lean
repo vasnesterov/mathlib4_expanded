@@ -215,7 +215,7 @@ theorem isLittleO_pow_const_mul_const_pow_const_pow_of_norm_lt {R : Type*} [Norm
   by_cases h0 : r₁ = 0
   · refine' (isLittleO_zero _ _).congr' (mem_atTop_sets.2 <| ⟨1, fun n hn ↦ _⟩) EventuallyEq.rfl
     simp [zero_pow (zero_lt_one.trans_le hn), h0]
-  rw [← Ne.def, ← norm_pos_iff] at h0
+  rw [← Ne.def] at h0; rw [← norm_pos_iff] at h0
   have A : (fun n ↦ (n : R) ^ k : ℕ → R) =o[atTop] fun n ↦ (r₂ / ‖r₁‖) ^ n :=
     isLittleO_pow_const_const_pow_of_one_lt k ((one_lt_div h0).2 h)
   suffices (fun n ↦ r₁ ^ n) =O[atTop] fun n ↦ ‖r₁‖ ^ n by
@@ -379,7 +379,7 @@ nonrec theorem SeminormedAddCommGroup.cauchySeq_of_le_geometric {C : ℝ} {r : �
 
 theorem dist_partial_sum_le_of_le_geometric (hf : ∀ n, ‖f n‖ ≤ C * r ^ n) (n : ℕ) :
     dist (∑ i in range n, f i) (∑ i in range (n + 1), f i) ≤ C * r ^ n := by
-  rw [sum_range_succ, dist_eq_norm, ← norm_neg, neg_sub, add_sub_cancel']
+  rw [sum_range_succ]; rw [dist_eq_norm]; rw [← norm_neg]; rw [neg_sub]; rw [add_sub_cancel']
   exact hf n
 #align dist_partial_sum_le_of_le_geometric dist_partial_sum_le_of_le_geometric
 
@@ -482,7 +482,7 @@ theorem geom_series_mul_neg (x : R) (h : ‖x‖ < 1) : (∑' i : ℕ, x ^ i) * 
   have : Tendsto (fun n : ℕ ↦ 1 - x ^ n) atTop (𝓝 1) := by
     simpa using tendsto_const_nhds.sub (tendsto_pow_atTop_nhds_0_of_norm_lt_1 h)
   convert← this
-  rw [← geom_sum_mul_neg, Finset.sum_mul]
+  rw [← geom_sum_mul_neg]; rw [Finset.sum_mul]
 #align geom_series_mul_neg geom_series_mul_neg
 
 theorem mul_neg_geom_series (x : R) (h : ‖x‖ < 1) : ((1 - x) * ∑' i : ℕ, x ^ i) = 1 := by
@@ -491,7 +491,7 @@ theorem mul_neg_geom_series (x : R) (h : ‖x‖ < 1) : ((1 - x) * ∑' i : ℕ,
   have : Tendsto (fun n : ℕ ↦ 1 - x ^ n) atTop (nhds 1) := by
     simpa using tendsto_const_nhds.sub (tendsto_pow_atTop_nhds_0_of_norm_lt_1 h)
   convert← this
-  rw [← mul_neg_geom_sum, Finset.mul_sum]
+  rw [← mul_neg_geom_sum]; rw [Finset.mul_sum]
 #align mul_neg_geom_series mul_neg_geom_series
 
 end NormedRingGeometric
@@ -557,7 +557,7 @@ theorem not_summable_of_ratio_test_tendsto_gt_one {α : Type*} [SeminormedAddCom
     ¬Summable f := by
   have key : ∀ᶠ n in atTop, ‖f n‖ ≠ 0 := by
     filter_upwards [eventually_ge_of_tendsto_gt hl h]with _ hn hc
-    rw [hc, _root_.div_zero] at hn
+    rw [hc] at hn; rw [_root_.div_zero] at hn
     linarith
   rcases exists_between hl with ⟨r, hr₀, hr₁⟩
   refine' not_summable_of_ratio_norm_eventually_ge hr₀ key.frequently _
@@ -661,8 +661,7 @@ theorem Real.summable_pow_div_factorial (x : ℝ) : Summable (fun n ↦ x ^ n / 
   intro n hn
   calc
     ‖x ^ (n + 1) / (n + 1)!‖ = ‖x‖ / (n + 1) * ‖x ^ n / (n !)‖ := by
-      rw [_root_.pow_succ, Nat.factorial_succ, Nat.cast_mul, ← _root_.div_mul_div_comm, norm_mul,
-        norm_div, Real.norm_coe_nat, Nat.cast_succ]
+      rw [_root_.pow_succ]; rw [Nat.factorial_succ]; rw [Nat.cast_mul]; rw [← _root_.div_mul_div_comm]; rw [norm_mul]; rw [norm_div]; rw [Real.norm_coe_nat]; rw [Nat.cast_succ]
     _ ≤ ‖x‖ / (⌊‖x‖⌋₊ + 1) * ‖x ^ n / (n !)‖ :=
       -- Porting note: this was `by mono* with 0 ≤ ‖x ^ n / (n !)‖, 0 ≤ ‖x‖ <;> apply norm_nonneg`
       -- but we can't wait on `mono`.

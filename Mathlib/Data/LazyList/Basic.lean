@@ -164,7 +164,7 @@ theorem append_bind {α β} (xs : LazyList α) (ys : Thunk (LazyList α)) (f : �
     simp only [append, Thunk.get, LazyList.bind]
     have := append_bind xs.get ys f
     simp only [Thunk.get] at this
-    rw [this, append_assoc]
+    rw [this]; rw [append_assoc]
 #align lazy_list.append_bind LazyList.append_bind
 
 instance : LawfulMonad LazyList := LawfulMonad.mk'

@@ -112,7 +112,7 @@ theorem mono_of_epi_of_mono_of_mono (hα : Epi α) (hβ : Mono β) (hδ : Mono �
             suffices β (f a) = β b from pseudo_injective_of_mono _ this
             calc
               β (f a) = f' (α a) := by
-                rw [← Pseudoelement.comp_apply, ← comm₁, Pseudoelement.comp_apply]
+                rw [← Pseudoelement.comp_apply]; rw [← comm₁]; rw [Pseudoelement.comp_apply]
               _ = f' a' := by rw [ha]
               _ = β b := ha'
           calc

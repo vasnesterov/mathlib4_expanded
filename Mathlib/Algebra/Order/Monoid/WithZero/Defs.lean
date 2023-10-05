@@ -85,7 +85,7 @@ instance covariantClass_mul_le [Mul α] [Preorder α]
   -- rw [← coe_mul, ← coe_mul, coe_le_coe]
   -- Porting note: rewriting `coe_mul` here doesn't work because of some difference between
   -- `coe` and `WithBot.some`, even though they're definitionally equal as shown by the `refine'`
-  rw [← coe_mul, coe_le_coe]
+  rw [← coe_mul]; rw [coe_le_coe]
   exact mul_le_mul_left' hbc' _
 #align with_zero.covariant_class_mul_le WithZero.covariantClass_mul_le
 
@@ -122,7 +122,7 @@ protected theorem covariantClass_add_le [AddZeroClass α] [Preorder α]
       exact le_add_of_nonneg_right (h _)
   · rcases WithBot.coe_le_iff.1 hbc with ⟨c, rfl, hbc'⟩
     refine le_trans ?_ (le_of_eq <| coe_add _ _)
-    rw [← coe_add, coe_le_coe]
+    rw [← coe_add]; rw [coe_le_coe]
     exact add_le_add_left hbc' _
 #align with_zero.covariant_class_add_le WithZero.covariantClass_add_le
 

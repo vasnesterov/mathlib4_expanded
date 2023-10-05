@@ -134,7 +134,7 @@ def pushoutCoconeIsColimit : Limits.IsColimit (pushoutCocone f g) :=
       AlgHom.coe_mk, RingHom.coe_mk, MonoidHom.coe_coe, ← eq1, AlgHom.toRingHom_eq_coe,
       PushoutCocone.ι_app_right, ← eq2, Algebra.TensorProduct.productMap_apply_tmul]
     change _ = h (a ⊗ₜ 1) * h (1 ⊗ₜ b)
-    rw [←h.map_mul, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
+    rw [←h.map_mul]; rw [Algebra.TensorProduct.tmul_mul_tmul]; rw [mul_one]; rw [one_mul]
     rfl
 set_option linter.uppercaseLean3 false in
 #align CommRing.pushout_cocone_is_colimit CommRingCat.pushoutCoconeIsColimit
@@ -158,10 +158,10 @@ instance commRingCat_hasStrictTerminalObjects : HasStrictTerminalObjects CommRin
   refine ⟨⟨⟨1, rfl, fun _ _ => rfl⟩, by ext; rfl, ?_⟩⟩
   ext x
   have e : (0 : X) = 1 := by
-    rw [← f.map_one, ← f.map_zero]
+    rw [← f.map_one]; rw [← f.map_zero]
     congr
   replace e : 0 * x = 1 * x := congr_arg (· * x) e
-  rw [one_mul, zero_mul, ← f.map_zero] at e
+  rw [one_mul] at e; rw [zero_mul] at e; rw [← f.map_zero] at e
   exact e
 set_option linter.uppercaseLean3 false in
 #align CommRing.CommRing_has_strict_terminal_objects CommRingCat.commRingCat_hasStrictTerminalObjects
@@ -206,7 +206,7 @@ def prodFanIsLimit : IsLimit (prodFan A B) where
     have eq1 := congr_hom (h ⟨WalkingPair.left⟩) x
     have eq2 := congr_hom (h ⟨WalkingPair.right⟩) x
     dsimp at eq1 eq2
-    rw [←eq1, ←eq2]
+    rw [←eq1]; rw [←eq2]
     rfl
 set_option linter.uppercaseLean3 false in
 #align CommRing.prod_fan_is_limit CommRingCat.prodFanIsLimit
@@ -247,7 +247,7 @@ instance : IsLocalRingHom (equalizerFork f g).ι := by
   have : y ∈ RingHom.eqLocus f g := by
     apply (f.isUnit_map ⟨⟨x, y, h₃, h₄⟩, rfl⟩ : IsUnit (f x)).mul_left_inj.mp
     conv_rhs => rw [h₁]
-    rw [← f.map_mul, ← g.map_mul, h₄, f.map_one, g.map_one]
+    rw [← f.map_mul]; rw [← g.map_mul]; rw [h₄]; rw [f.map_one]; rw [g.map_one]
   rw [isUnit_iff_exists_inv]
   exact ⟨⟨y, this⟩, Subtype.eq h₃⟩
 
@@ -321,7 +321,7 @@ def pullbackConeIsLimit {A B C : CommRingCat.{u}} (f : A ⟶ C) (g : B ⟶ C) :
     change (m x).1 = (_, _)
     have eq1 := (congr_arg (fun f : s.pt →+* A => f x) e₁ : _)
     have eq2 := (congr_arg (fun f : s.pt →+* B => f x) e₂ : _)
-    rw [←eq1, ←eq2]
+    rw [←eq1]; rw [←eq2]
     rfl
 set_option linter.uppercaseLean3 false in
 #align CommRing.pullback_cone_is_limit CommRingCat.pullbackConeIsLimit

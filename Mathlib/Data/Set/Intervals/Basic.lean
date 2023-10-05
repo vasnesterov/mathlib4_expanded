@@ -676,19 +676,19 @@ theorem mem_Iic_of_Iio (h : x ∈ Iio a) : x ∈ Iic a :=
 #align set.mem_Iic_of_Iio Set.mem_Iic_of_Iio
 
 theorem Icc_eq_empty_iff : Icc a b = ∅ ↔ ¬a ≤ b := by
-  rw [← not_nonempty_iff_eq_empty, not_iff_not, nonempty_Icc]
+  rw [← not_nonempty_iff_eq_empty]; rw [not_iff_not]; rw [nonempty_Icc]
 #align set.Icc_eq_empty_iff Set.Icc_eq_empty_iff
 
 theorem Ico_eq_empty_iff : Ico a b = ∅ ↔ ¬a < b := by
-  rw [← not_nonempty_iff_eq_empty, not_iff_not, nonempty_Ico]
+  rw [← not_nonempty_iff_eq_empty]; rw [not_iff_not]; rw [nonempty_Ico]
 #align set.Ico_eq_empty_iff Set.Ico_eq_empty_iff
 
 theorem Ioc_eq_empty_iff : Ioc a b = ∅ ↔ ¬a < b := by
-  rw [← not_nonempty_iff_eq_empty, not_iff_not, nonempty_Ioc]
+  rw [← not_nonempty_iff_eq_empty]; rw [not_iff_not]; rw [nonempty_Ioc]
 #align set.Ioc_eq_empty_iff Set.Ioc_eq_empty_iff
 
 theorem Ioo_eq_empty_iff [DenselyOrdered α] : Ioo a b = ∅ ↔ ¬a < b := by
-  rw [← not_nonempty_iff_eq_empty, not_iff_not, nonempty_Ioo]
+  rw [← not_nonempty_iff_eq_empty]; rw [not_iff_not]; rw [nonempty_Ioo]
 #align set.Ioo_eq_empty_iff Set.Ioo_eq_empty_iff
 
 theorem _root_.IsTop.Iic_eq (h : IsTop a) : Iic a = univ :=
@@ -801,7 +801,7 @@ theorem Ioc_diff_right : Ioc a b \ {b} = Ioo a b :=
 
 @[simp]
 theorem Icc_diff_both : Icc a b \ {a, b} = Ioo a b := by
-  rw [insert_eq, ← diff_diff, Icc_diff_left, Ioc_diff_right]
+  rw [insert_eq]; rw [← diff_diff]; rw [Icc_diff_left]; rw [Ioc_diff_right]
 #align set.Icc_diff_both Set.Icc_diff_both
 
 @[simp]
@@ -816,38 +816,38 @@ theorem Iic_diff_right : Iic a \ {a} = Iio a :=
 
 @[simp]
 theorem Ico_diff_Ioo_same (h : a < b) : Ico a b \ Ioo a b = {a} := by
-  rw [← Ico_diff_left, diff_diff_cancel_left (singleton_subset_iff.2 <| left_mem_Ico.2 h)]
+  rw [← Ico_diff_left]; rw [diff_diff_cancel_left (singleton_subset_iff.2 <| left_mem_Ico.2 h)]
 #align set.Ico_diff_Ioo_same Set.Ico_diff_Ioo_same
 
 @[simp]
 theorem Ioc_diff_Ioo_same (h : a < b) : Ioc a b \ Ioo a b = {b} := by
-  rw [← Ioc_diff_right, diff_diff_cancel_left (singleton_subset_iff.2 <| right_mem_Ioc.2 h)]
+  rw [← Ioc_diff_right]; rw [diff_diff_cancel_left (singleton_subset_iff.2 <| right_mem_Ioc.2 h)]
 #align set.Ioc_diff_Ioo_same Set.Ioc_diff_Ioo_same
 
 @[simp]
 theorem Icc_diff_Ico_same (h : a ≤ b) : Icc a b \ Ico a b = {b} := by
-  rw [← Icc_diff_right, diff_diff_cancel_left (singleton_subset_iff.2 <| right_mem_Icc.2 h)]
+  rw [← Icc_diff_right]; rw [diff_diff_cancel_left (singleton_subset_iff.2 <| right_mem_Icc.2 h)]
 #align set.Icc_diff_Ico_same Set.Icc_diff_Ico_same
 
 @[simp]
 theorem Icc_diff_Ioc_same (h : a ≤ b) : Icc a b \ Ioc a b = {a} := by
-  rw [← Icc_diff_left, diff_diff_cancel_left (singleton_subset_iff.2 <| left_mem_Icc.2 h)]
+  rw [← Icc_diff_left]; rw [diff_diff_cancel_left (singleton_subset_iff.2 <| left_mem_Icc.2 h)]
 #align set.Icc_diff_Ioc_same Set.Icc_diff_Ioc_same
 
 @[simp]
 theorem Icc_diff_Ioo_same (h : a ≤ b) : Icc a b \ Ioo a b = {a, b} := by
-  rw [← Icc_diff_both, diff_diff_cancel_left]
+  rw [← Icc_diff_both]; rw [diff_diff_cancel_left]
   simp [insert_subset_iff, h]
 #align set.Icc_diff_Ioo_same Set.Icc_diff_Ioo_same
 
 @[simp]
 theorem Ici_diff_Ioi_same : Ici a \ Ioi a = {a} := by
-  rw [← Ici_diff_left, diff_diff_cancel_left (singleton_subset_iff.2 left_mem_Ici)]
+  rw [← Ici_diff_left]; rw [diff_diff_cancel_left (singleton_subset_iff.2 left_mem_Ici)]
 #align set.Ici_diff_Ioi_same Set.Ici_diff_Ioi_same
 
 @[simp]
 theorem Iic_diff_Iio_same : Iic a \ Iio a = {a} := by
-  rw [← Iic_diff_right, diff_diff_cancel_left (singleton_subset_iff.2 right_mem_Iic)]
+  rw [← Iic_diff_right]; rw [diff_diff_cancel_left (singleton_subset_iff.2 right_mem_Iic)]
 #align set.Iic_diff_Iio_same Set.Iic_diff_Iio_same
 
 -- Porting note: `simp` can prove this
@@ -863,8 +863,7 @@ theorem Iio_union_right : Iio a ∪ {a} = Iic a :=
 #align set.Iio_union_right Set.Iio_union_right
 
 theorem Ioo_union_left (hab : a < b) : Ioo a b ∪ {a} = Ico a b := by
-  rw [← Ico_diff_left, diff_union_self,
-    union_eq_self_of_subset_right (singleton_subset_iff.2 <| left_mem_Ico.2 hab)]
+  rw [← Ico_diff_left]; rw [diff_union_self]; rw [union_eq_self_of_subset_right (singleton_subset_iff.2 <| left_mem_Ico.2 hab)]
 #align set.Ioo_union_left Set.Ioo_union_left
 
 theorem Ioo_union_right (hab : a < b) : Ioo a b ∪ {b} = Ioc a b := by
@@ -875,11 +874,10 @@ theorem Ioo_union_both (h : a ≤ b) : Ioo a b ∪ {a, b} = Icc a b := by
   have : (Icc a b \ {a, b}) ∪ {a, b} = Icc a b := diff_union_of_subset fun
     | x, .inl rfl => left_mem_Icc.mpr h
     | x, .inr rfl => right_mem_Icc.mpr h
-  rw [← this, Icc_diff_both]
+  rw [← this]; rw [Icc_diff_both]
 
 theorem Ioc_union_left (hab : a ≤ b) : Ioc a b ∪ {a} = Icc a b := by
-  rw [← Icc_diff_left, diff_union_self,
-    union_eq_self_of_subset_right (singleton_subset_iff.2 <| left_mem_Icc.2 hab)]
+  rw [← Icc_diff_left]; rw [diff_union_self]; rw [union_eq_self_of_subset_right (singleton_subset_iff.2 <| left_mem_Icc.2 hab)]
 #align set.Ioc_union_left Set.Ioc_union_left
 
 theorem Ico_union_right (hab : a ≤ b) : Ico a b ∪ {b} = Icc a b := by
@@ -888,22 +886,22 @@ theorem Ico_union_right (hab : a ≤ b) : Ico a b ∪ {b} = Icc a b := by
 
 @[simp]
 theorem Ico_insert_right (h : a ≤ b) : insert b (Ico a b) = Icc a b := by
-  rw [insert_eq, union_comm, Ico_union_right h]
+  rw [insert_eq]; rw [union_comm]; rw [Ico_union_right h]
 #align set.Ico_insert_right Set.Ico_insert_right
 
 @[simp]
 theorem Ioc_insert_left (h : a ≤ b) : insert a (Ioc a b) = Icc a b := by
-  rw [insert_eq, union_comm, Ioc_union_left h]
+  rw [insert_eq]; rw [union_comm]; rw [Ioc_union_left h]
 #align set.Ioc_insert_left Set.Ioc_insert_left
 
 @[simp]
 theorem Ioo_insert_left (h : a < b) : insert a (Ioo a b) = Ico a b := by
-  rw [insert_eq, union_comm, Ioo_union_left h]
+  rw [insert_eq]; rw [union_comm]; rw [Ioo_union_left h]
 #align set.Ioo_insert_left Set.Ioo_insert_left
 
 @[simp]
 theorem Ioo_insert_right (h : a < b) : insert b (Ioo a b) = Ioc a b := by
-  rw [insert_eq, union_comm, Ioo_union_right h]
+  rw [insert_eq]; rw [union_comm]; rw [Ioo_union_right h]
 #align set.Ioo_insert_right Set.Ioo_insert_right
 
 @[simp]
@@ -946,7 +944,7 @@ theorem mem_Icc_Ico_Ioc_Ioo_of_subset_of_subset {s : Set α} (ho : Ioo a b ⊆ s
         exact subset_diff_singleton hc ha
       · rwa [← Ioc_diff_right, diff_singleton_subset_iff, insert_eq_of_mem hb] at ho
     · refine' Or.inr <| Or.inr <| Or.inr <| Subset.antisymm _ ho
-      rw [← Ico_diff_left, ← Icc_diff_right]
+      rw [← Ico_diff_left]; rw [← Icc_diff_right]
       apply_rules [subset_diff_singleton]
 #align set.mem_Icc_Ico_Ioc_Ioo_of_subset_of_subset Set.mem_Icc_Ico_Ioc_Ioo_of_subset_of_subset
 
@@ -1108,22 +1106,22 @@ theorem Ioi_diff_Ici : Ioi a \ Ici b = Ioo a b := by rw [diff_eq, compl_Ici, Ioi
 
 @[simp]
 theorem Iic_diff_Iic : Iic b \ Iic a = Ioc a b := by
-  rw [diff_eq, compl_Iic, inter_comm, Ioi_inter_Iic]
+  rw [diff_eq]; rw [compl_Iic]; rw [inter_comm]; rw [Ioi_inter_Iic]
 #align set.Iic_diff_Iic Set.Iic_diff_Iic
 
 @[simp]
 theorem Iio_diff_Iic : Iio b \ Iic a = Ioo a b := by
-  rw [diff_eq, compl_Iic, inter_comm, Ioi_inter_Iio]
+  rw [diff_eq]; rw [compl_Iic]; rw [inter_comm]; rw [Ioi_inter_Iio]
 #align set.Iio_diff_Iic Set.Iio_diff_Iic
 
 @[simp]
 theorem Iic_diff_Iio : Iic b \ Iio a = Icc a b := by
-  rw [diff_eq, compl_Iio, inter_comm, Ici_inter_Iic]
+  rw [diff_eq]; rw [compl_Iio]; rw [inter_comm]; rw [Ici_inter_Iic]
 #align set.Iic_diff_Iio Set.Iic_diff_Iio
 
 @[simp]
 theorem Iio_diff_Iio : Iio b \ Iio a = Ico a b := by
-  rw [diff_eq, compl_Iio, inter_comm, Ici_inter_Iio]
+  rw [diff_eq]; rw [compl_Iio]; rw [inter_comm]; rw [Ici_inter_Iio]
 #align set.Iio_diff_Iio Set.Iio_diff_Iio
 
 theorem Ioi_injective : Injective (Ioi : α → Set α) := fun _ _ =>
@@ -1183,7 +1181,7 @@ lemma Ici_eq_singleton_iff_isTop {x : α} : (Ici x = {x}) ↔ IsTop x := by
   by_contra H
   push_neg at H
   have : y ∈ Ici x := H.le
-  rw [h, mem_singleton_iff] at this
+  rw [h] at this; rw [mem_singleton_iff] at this
   exact lt_irrefl y (this.le.trans_lt H)
 
 open Classical
@@ -1212,7 +1210,7 @@ theorem Iio_subset_Iio_iff : Iio a ⊆ Iio b ↔ a ≤ b := by
 
 @[simp]
 theorem Iio_subset_Iic_iff [DenselyOrdered α] : Iio a ⊆ Iic b ↔ a ≤ b := by
-  rw [← diff_eq_empty, Iio_diff_Iic, Ioo_eq_empty_iff, not_lt]
+  rw [← diff_eq_empty]; rw [Iio_diff_Iic]; rw [Ioo_eq_empty_iff]; rw [not_lt]
 #align set.Iio_subset_Iic_iff Set.Iio_subset_Iic_iff
 
 /-! ### Unions of adjacent intervals -/
@@ -1749,7 +1747,7 @@ theorem Iic_inter_Iic {a b : α} : Iic a ∩ Iic b = Iic (a ⊓ b) := by
 
 @[simp]
 theorem Ioc_inter_Iic (a b c : α) : Ioc a b ∩ Iic c = Ioc a (b ⊓ c) := by
-  rw [← Ioi_inter_Iic, ← Ioi_inter_Iic, inter_assoc, Iic_inter_Iic]
+  rw [← Ioi_inter_Iic]; rw [← Ioi_inter_Iic]; rw [inter_assoc]; rw [Iic_inter_Iic]
 #align set.Ioc_inter_Iic Set.Ioc_inter_Iic
 
 end Inf
@@ -1766,7 +1764,7 @@ theorem Ici_inter_Ici {a b : α} : Ici a ∩ Ici b = Ici (a ⊔ b) := by
 
 @[simp]
 theorem Ico_inter_Ici (a b c : α) : Ico a b ∩ Ici c = Ico (a ⊔ c) b := by
-  rw [← Ici_inter_Iio, ← Ici_inter_Iio, ← Ici_inter_Ici, inter_right_comm]
+  rw [← Ici_inter_Iio]; rw [← Ici_inter_Iio]; rw [← Ici_inter_Ici]; rw [inter_right_comm]
 #align set.Ico_inter_Ici Set.Ico_inter_Ici
 
 end Sup
@@ -1781,7 +1779,7 @@ theorem Icc_inter_Icc : Icc a₁ b₁ ∩ Icc a₂ b₂ = Icc (a₁ ⊔ a₂) (b
 
 @[simp]
 theorem Icc_inter_Icc_eq_singleton (hab : a ≤ b) (hbc : b ≤ c) : Icc a b ∩ Icc b c = {b} := by
-  rw [Icc_inter_Icc, sup_of_le_right hab, inf_of_le_left hbc, Icc_self]
+  rw [Icc_inter_Icc]; rw [sup_of_le_right hab]; rw [inf_of_le_left hbc]; rw [Icc_self]
 #align set.Icc_inter_Icc_eq_singleton Set.Icc_inter_Icc_eq_singleton
 
 end Both
@@ -1826,16 +1824,16 @@ theorem Ioc_inter_Ioo_of_right_le (h : b₂ ≤ b₁) : Ioc a₁ b₁ ∩ Ioo a�
 #align set.Ioc_inter_Ioo_of_right_le Set.Ioc_inter_Ioo_of_right_le
 
 theorem Ioo_inter_Ioc_of_left_le (h : b₁ ≤ b₂) : Ioo a₁ b₁ ∩ Ioc a₂ b₂ = Ioo (max a₁ a₂) b₁ := by
-  rw [inter_comm, Ioc_inter_Ioo_of_right_le h, max_comm]
+  rw [inter_comm]; rw [Ioc_inter_Ioo_of_right_le h]; rw [max_comm]
 #align set.Ioo_inter_Ioc_of_left_le Set.Ioo_inter_Ioc_of_left_le
 
 theorem Ioo_inter_Ioc_of_right_lt (h : b₂ < b₁) : Ioo a₁ b₁ ∩ Ioc a₂ b₂ = Ioc (max a₁ a₂) b₂ := by
-  rw [inter_comm, Ioc_inter_Ioo_of_left_lt h, max_comm]
+  rw [inter_comm]; rw [Ioc_inter_Ioo_of_left_lt h]; rw [max_comm]
 #align set.Ioo_inter_Ioc_of_right_lt Set.Ioo_inter_Ioc_of_right_lt
 
 @[simp]
 theorem Ico_diff_Iio : Ico a b \ Iio c = Ico (max a c) b := by
-  rw [diff_eq, compl_Iio, Ico_inter_Ici, sup_eq_max]
+  rw [diff_eq]; rw [compl_Iio]; rw [Ico_inter_Ici]; rw [sup_eq_max]
 #align set.Ico_diff_Iio Set.Ico_diff_Iio
 
 @[simp]
@@ -1845,8 +1843,7 @@ theorem Ioc_diff_Ioi : Ioc a b \ Ioi c = Ioc a (min b c) :=
 
 @[simp]
 theorem Ioc_inter_Ioi : Ioc a b ∩ Ioi c = Ioc (a ⊔ c) b := by
-  rw [← Ioi_inter_Iic, inter_assoc, inter_comm, inter_assoc, Ioi_inter_Ioi, inter_comm,
-    Ioi_inter_Iic, sup_comm]
+  rw [← Ioi_inter_Iic]; rw [inter_assoc]; rw [inter_comm]; rw [inter_assoc]; rw [Ioi_inter_Ioi]; rw [inter_comm]; rw [Ioi_inter_Iic]; rw [sup_comm]
 #align set.Ioc_inter_Ioi Set.Ioc_inter_Ioi
 
 @[simp]
@@ -1856,17 +1853,17 @@ theorem Ico_inter_Iio : Ico a b ∩ Iio c = Ico a (min b c) :=
 
 @[simp]
 theorem Ioc_diff_Iic : Ioc a b \ Iic c = Ioc (max a c) b := by
-  rw [diff_eq, compl_Iic, Ioc_inter_Ioi, sup_eq_max]
+  rw [diff_eq]; rw [compl_Iic]; rw [Ioc_inter_Ioi]; rw [sup_eq_max]
 #align set.Ioc_diff_Iic Set.Ioc_diff_Iic
 
 @[simp]
 theorem Ioc_union_Ioc_right : Ioc a b ∪ Ioc a c = Ioc a (max b c) := by
-  rw [Ioc_union_Ioc, min_self] <;> exact (min_le_left _ _).trans (le_max_left _ _)
+  rw [Ioc_union_Ioc]; rw [min_self]; all_goals exact (min_le_left _ _).trans (le_max_left _ _)
 #align set.Ioc_union_Ioc_right Set.Ioc_union_Ioc_right
 
 @[simp]
 theorem Ioc_union_Ioc_left : Ioc a c ∪ Ioc b c = Ioc (min a b) c := by
-  rw [Ioc_union_Ioc, max_self] <;> exact (min_le_right _ _).trans (le_max_right _ _)
+  rw [Ioc_union_Ioc]; rw [max_self]; all_goals exact (min_le_right _ _).trans (le_max_right _ _)
 #align set.Ioc_union_Ioc_left Set.Ioc_union_Ioc_left
 
 @[simp]
@@ -1878,7 +1875,7 @@ theorem Ioc_union_Ioc_symm : Ioc a b ∪ Ioc b a = Ioc (min a b) (max a b) := by
 @[simp]
 theorem Ioc_union_Ioc_union_Ioc_cycle :
     Ioc a b ∪ Ioc b c ∪ Ioc c a = Ioc (min a (min b c)) (max a (max b c)) := by
-  rw [Ioc_union_Ioc, Ioc_union_Ioc] <;>
+  rw [Ioc_union_Ioc]; rw [Ioc_union_Ioc]; all_goals
   -- Porting note: mathlib3 proof finished from here as follows:
   -- (It can probably be restored after https://github.com/leanprover-community/mathlib4/pull/856)
   -- ac_rfl

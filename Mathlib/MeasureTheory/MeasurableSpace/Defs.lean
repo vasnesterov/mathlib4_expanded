@@ -455,13 +455,13 @@ theorem generateFrom_singleton_univ : generateFrom {Set.univ} = (⊥ : Measurabl
 @[simp]
 theorem generateFrom_insert_univ (S : Set (Set α)) :
     generateFrom (insert Set.univ S) = generateFrom S := by
-  rw [insert_eq, ← generateFrom_sup_generateFrom, generateFrom_singleton_univ, bot_sup_eq]
+  rw [insert_eq]; rw [← generateFrom_sup_generateFrom]; rw [generateFrom_singleton_univ]; rw [bot_sup_eq]
 #align measurable_space.generate_from_insert_univ MeasurableSpace.generateFrom_insert_univ
 
 @[simp]
 theorem generateFrom_insert_empty (S : Set (Set α)) :
     generateFrom (insert ∅ S) = generateFrom S := by
-  rw [insert_eq, ← generateFrom_sup_generateFrom, generateFrom_singleton_empty, bot_sup_eq]
+  rw [insert_eq]; rw [← generateFrom_sup_generateFrom]; rw [generateFrom_singleton_empty]; rw [bot_sup_eq]
 #align measurable_space.generate_from_insert_empty MeasurableSpace.generateFrom_insert_empty
 
 theorem measurableSet_bot_iff {s : Set α} : MeasurableSet[⊥] s ↔ s = ∅ ∨ s = univ :=
@@ -494,7 +494,7 @@ theorem measurableSet_sInf {ms : Set (MeasurableSpace α)} {s : Set α} :
 
 theorem measurableSet_iInf {ι} {m : ι → MeasurableSpace α} {s : Set α} :
     MeasurableSet[iInf m] s ↔ ∀ i, MeasurableSet[m i] s := by
-  rw [iInf, measurableSet_sInf, forall_range_iff]
+  rw [iInf]; rw [measurableSet_sInf]; rw [forall_range_iff]
 #align measurable_space.measurable_set_infi MeasurableSpace.measurableSet_iInf
 
 theorem measurableSet_sup {m₁ m₂ : MeasurableSpace α} {s : Set α} :

@@ -61,8 +61,7 @@ def domCoprod.summand (a : AlternatingMap R' Mᵢ N₁ ιa) (b : AlternatingMap 
     replace h := inv_mul_eq_iff_eq_mul.mp h.symm
     have : Equiv.Perm.sign (σ₁ * Perm.sumCongrHom _ _ (sl, sr))
       = Equiv.Perm.sign σ₁ * (Equiv.Perm.sign sl * Equiv.Perm.sign sr) := by simp
-    rw [h, this, mul_smul, mul_smul, smul_left_cancel_iff, ← TensorProduct.tmul_smul,
-      TensorProduct.smul_tmul']
+    rw [h]; rw [this]; rw [mul_smul]; rw [mul_smul]; rw [smul_left_cancel_iff]; rw [← TensorProduct.tmul_smul]; rw [TensorProduct.smul_tmul']
     simp only [Sum.map_inr, Perm.sumCongrHom_apply, Perm.sumCongr_apply, Sum.map_inl,
       Function.comp_apply, Perm.coe_mul]
     -- Porting note: Was `rw`.
@@ -86,7 +85,7 @@ theorem domCoprod.summand_add_swap_smul_eq_zero (a : AlternatingMap R' Mᵢ N₁
   refine Quotient.inductionOn' σ fun σ => ?_
   dsimp only [Quotient.liftOn'_mk'', Quotient.map'_mk'', MulAction.Quotient.smul_mk,
     domCoprod.summand]
-  rw [smul_eq_mul, Perm.sign_mul, Perm.sign_swap hij]
+  rw [smul_eq_mul]; rw [Perm.sign_mul]; rw [Perm.sign_swap hij]
   simp only [one_mul, neg_mul, Function.comp_apply, Units.neg_smul, Perm.coe_mul, Units.val_neg,
     MultilinearMap.smul_apply, MultilinearMap.neg_apply, MultilinearMap.domDomCongr_apply,
     MultilinearMap.domCoprod_apply]
@@ -114,14 +113,14 @@ theorem domCoprod.summand_eq_zero_of_smul_invariant (a : AlternatingMap R' Mᵢ 
     obtain ⟨⟨sl, sr⟩, hσ⟩ := QuotientGroup.leftRel_apply.mp (Quotient.exact' hσ)
     replace hσ := Equiv.congr_fun hσ (Sum.inl i')
     dsimp only at hσ
-    rw [smul_eq_mul, ← mul_swap_eq_swap_mul, mul_inv_rev, swap_inv, inv_mul_cancel_right] at hσ
+    rw [smul_eq_mul] at hσ; rw [← mul_swap_eq_swap_mul] at hσ; rw [mul_inv_rev] at hσ; rw [swap_inv] at hσ; rw [inv_mul_cancel_right] at hσ
     simp at hσ
   case inr.inl =>
     intro i' j' _ _ hσ
     obtain ⟨⟨sl, sr⟩, hσ⟩ := QuotientGroup.leftRel_apply.mp (Quotient.exact' hσ)
     replace hσ := Equiv.congr_fun hσ (Sum.inr i')
     dsimp only at hσ
-    rw [smul_eq_mul, ← mul_swap_eq_swap_mul, mul_inv_rev, swap_inv, inv_mul_cancel_right] at hσ
+    rw [smul_eq_mul] at hσ; rw [← mul_swap_eq_swap_mul] at hσ; rw [mul_inv_rev] at hσ; rw [swap_inv] at hσ; rw [inv_mul_cancel_right] at hσ
     simp at hσ
   -- the term does not pair but is zero
   case inr.inr =>
@@ -236,8 +235,7 @@ theorem MultilinearMap.domCoprod_alternization [DecidableEq ιa] [DecidableEq ι
     MultilinearMap.alternatization (MultilinearMap.domCoprod a b) =
       a.alternatization.domCoprod (MultilinearMap.alternatization b) := by
   apply coe_multilinearMap_injective
-  rw [domCoprod_coe, MultilinearMap.alternatization_coe,
-    Finset.sum_partition (QuotientGroup.leftRel (Perm.sumCongrHom ιa ιb).range)]
+  rw [domCoprod_coe]; rw [MultilinearMap.alternatization_coe]; rw [Finset.sum_partition (QuotientGroup.leftRel (Perm.sumCongrHom ιa ιb).range)]
   congr 1
   ext1 σ
   refine Quotient.inductionOn' σ fun σ => ?_
@@ -250,24 +248,19 @@ theorem MultilinearMap.domCoprod_alternization [DecidableEq ιa] [DecidableEq ι
       (Quotient.mk'' σ)) _ (s := Finset.univ)
     fun x _ => QuotientGroup.eq' (s := MonoidHom.range (Perm.sumCongrHom ιa ιb)) (a := x) (b := σ)]
   -- eliminate a multiplication
-  rw [← Finset.map_univ_equiv (Equiv.mulLeft σ), Finset.filter_map, Finset.sum_map]
+  rw [← Finset.map_univ_equiv (Equiv.mulLeft σ)]; rw [Finset.filter_map]; rw [Finset.sum_map]
   simp_rw [Equiv.coe_toEmbedding, Equiv.coe_mulLeft, (· ∘ ·), mul_inv_rev, inv_mul_cancel_right,
     Subgroup.inv_mem_iff, MonoidHom.mem_range, Finset.univ_filter_exists,
     Finset.sum_image (Perm.sumCongrHom_injective.injOn _)]
   -- now we're ready to clean up the RHS, pulling out the summation
-  rw [domCoprod.summand_mk'', MultilinearMap.domCoprod_alternization_coe, ← Finset.sum_product',
-    Finset.univ_product_univ, ← MultilinearMap.domDomCongrEquiv_apply, _root_.map_sum,
-    Finset.smul_sum]
+  rw [domCoprod.summand_mk'']; rw [MultilinearMap.domCoprod_alternization_coe]; rw [← Finset.sum_product']; rw [Finset.univ_product_univ]; rw [← MultilinearMap.domDomCongrEquiv_apply]; rw [_root_.map_sum]; rw [Finset.smul_sum]
   congr 1
   ext1 ⟨al, ar⟩
   dsimp only
   -- pull out the pair of smuls on the RHS, by rewriting to `_ →ₗ[ℤ] _` and back
-  rw [← AddEquiv.coe_toAddMonoidHom, ← AddMonoidHom.coe_toIntLinearMap, LinearMap.map_smul_of_tower,
-    LinearMap.map_smul_of_tower, AddMonoidHom.coe_toIntLinearMap, AddEquiv.coe_toAddMonoidHom,
-    MultilinearMap.domDomCongrEquiv_apply]
+  rw [← AddEquiv.coe_toAddMonoidHom]; rw [← AddMonoidHom.coe_toIntLinearMap]; rw [LinearMap.map_smul_of_tower]; rw [LinearMap.map_smul_of_tower]; rw [AddMonoidHom.coe_toIntLinearMap]; rw [AddEquiv.coe_toAddMonoidHom]; rw [MultilinearMap.domDomCongrEquiv_apply]
   -- pick up the pieces
-  rw [MultilinearMap.domDomCongr_mul, Perm.sign_mul, Perm.sumCongrHom_apply,
-    MultilinearMap.domCoprod_domDomCongr_sumCongr, Perm.sign_sumCongr, mul_smul, mul_smul]
+  rw [MultilinearMap.domDomCongr_mul]; rw [Perm.sign_mul]; rw [Perm.sumCongrHom_apply]; rw [MultilinearMap.domCoprod_domDomCongr_sumCongr]; rw [Perm.sign_sumCongr]; rw [mul_smul]; rw [mul_smul]
 #align multilinear_map.dom_coprod_alternization MultilinearMap.domCoprod_alternization
 
 /-- Taking the `MultilinearMap.alternatization` of the `MultilinearMap.domCoprod` of two
@@ -278,9 +271,5 @@ theorem MultilinearMap.domCoprod_alternization_eq [DecidableEq ιa] [DecidableEq
     MultilinearMap.alternatization
       (MultilinearMap.domCoprod a b : MultilinearMap R' (fun _ : Sum ιa ιb => Mᵢ) (N₁ ⊗ N₂)) =
       ((Fintype.card ιa).factorial * (Fintype.card ιb).factorial) • a.domCoprod b := by
-  rw [MultilinearMap.domCoprod_alternization, coe_alternatization, coe_alternatization, mul_smul,
-    ← AlternatingMap.domCoprod'_apply, ← AlternatingMap.domCoprod'_apply,
-    ← TensorProduct.smul_tmul', TensorProduct.tmul_smul,
-    LinearMap.map_smul_of_tower AlternatingMap.domCoprod',
-    LinearMap.map_smul_of_tower AlternatingMap.domCoprod']
+  rw [MultilinearMap.domCoprod_alternization]; rw [coe_alternatization]; rw [coe_alternatization]; rw [mul_smul]; rw [← AlternatingMap.domCoprod'_apply]; rw [← AlternatingMap.domCoprod'_apply]; rw [← TensorProduct.smul_tmul']; rw [TensorProduct.tmul_smul]; rw [LinearMap.map_smul_of_tower AlternatingMap.domCoprod']; rw [LinearMap.map_smul_of_tower AlternatingMap.domCoprod']
 #align multilinear_map.dom_coprod_alternization_eq MultilinearMap.domCoprod_alternization_eq

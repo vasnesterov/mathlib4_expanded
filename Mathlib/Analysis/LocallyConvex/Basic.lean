@@ -99,7 +99,7 @@ theorem absorbs_iUnion_finset {ι : Type*} {t : Finset ι} {f : ι → Set E} :
     induction' t using Finset.induction_on with i t _ht hi
     · simp only [Finset.not_mem_empty, Set.iUnion_false, Set.iUnion_empty, absorbs_empty,
         IsEmpty.forall_iff, imp_true_iff]
-    rw [Finset.set_biUnion_insert, absorbs_union, hi]
+    rw [Finset.set_biUnion_insert]; rw [absorbs_union]; rw [hi]
     constructor <;> intro h
     · refine' fun _ hi' => (Finset.mem_insert.mp hi').elim _ (h.2 _)
       exact fun hi'' => by
@@ -268,7 +268,7 @@ theorem Balanced.smul_mono (hs : Balanced 𝕝 s) {a : 𝕝} {b : 𝕜} (h : ‖
   refine' ⟨b⁻¹ • a • x, _, smul_inv_smul₀ hb _⟩
   rw [← smul_assoc]
   refine' hs _ _ (smul_mem_smul_set hx)
-  rw [norm_smul, norm_inv, ← div_eq_inv_mul]
+  rw [norm_smul]; rw [norm_inv]; rw [← div_eq_inv_mul]
   exact div_le_one_of_le h (norm_nonneg _)
 #align balanced.smul_mono Balanced.smul_mono
 
@@ -345,7 +345,7 @@ theorem absorbent_nhds_zero (hA : A ∈ 𝓝 (0 : E)) : Absorbent 𝕜 A := by
   refine' ⟨(r / 2)⁻¹, hr₃, fun a ha₁ => _⟩
   have ha₂ : 0 < ‖a‖ := hr₃.trans_le ha₁
   refine' (mem_smul_set_iff_inv_smul_mem₀ (norm_pos_iff.mp ha₂) _ _).2 (hw₁ <| hr₂ _)
-  rw [Metric.mem_ball, dist_zero_right, norm_inv]
+  rw [Metric.mem_ball]; rw [dist_zero_right]; rw [norm_inv]
   calc
     ‖a‖⁻¹ ≤ r / 2 := (inv_le (half_pos hr₁) ha₂).mp ha₁
     _ < r := half_lt_self hr₁
@@ -418,8 +418,8 @@ variable [AddCommGroup E] [Module ℝ E] {s : Set E}
 
 theorem balanced_iff_neg_mem (hs : Convex ℝ s) : Balanced ℝ s ↔ ∀ ⦃x⦄, x ∈ s → -x ∈ s := by
   refine' ⟨fun h x => h.neg_mem_iff.2, fun h a ha => smul_set_subset_iff.2 fun x hx => _⟩
-  rw [Real.norm_eq_abs, abs_le] at ha
-  rw [show a = -((1 - a) / 2) + (a - -1) / 2 by ring, add_smul, neg_smul, ← smul_neg]
+  rw [Real.norm_eq_abs] at ha; rw [abs_le] at ha
+  rw [show a = -((1 - a) / 2) + (a - -1) / 2 by ring]; rw [add_smul]; rw [neg_smul]; rw [← smul_neg]
   exact
     hs (h hx) hx (div_nonneg (sub_nonneg_of_le ha.2) zero_le_two)
       (div_nonneg (sub_nonneg_of_le ha.1) zero_le_two) (by ring)

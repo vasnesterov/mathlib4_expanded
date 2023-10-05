@@ -115,7 +115,7 @@ variable [Group α] [HasDistribNeg α]
 
 @[simp]
 theorem inv_neg' (a : α) : (-a)⁻¹ = -a⁻¹ := by
-  rw [eq_comm, eq_inv_iff_mul_eq_one, neg_mul, mul_neg, neg_neg, mul_left_inv]
+  rw [eq_comm]; rw [eq_inv_iff_mul_eq_one]; rw [neg_mul]; rw [mul_neg]; rw [neg_neg]; rw [mul_left_inv]
 #align inv_neg' inv_neg'
 
 end Group
@@ -136,7 +136,7 @@ theorem vieta_formula_quadratic {b c x : α} (h : x * x - b * x + c = 0) :
     ∃ y : α, y * y - b * y + c = 0 ∧ x + y = b ∧ x * y = c := by
   have : c = x * (b - x) := (eq_neg_of_add_eq_zero_right h).trans (by simp [mul_sub, mul_comm])
   refine' ⟨b - x, _, by simp, by rw [this]⟩
-  rw [this, sub_add, ← sub_mul, sub_self]
+  rw [this]; rw [sub_add]; rw [← sub_mul]; rw [sub_self]
 set_option linter.uppercaseLean3 false in
 #align Vieta_formula_quadratic vieta_formula_quadratic
 
@@ -161,7 +161,7 @@ lemma IsLeftCancelMulZero.to_noZeroDivisors [Ring α] [IsLeftCancelMulZero α] :
       { left
         exact hx }
       { right
-        rw [← sub_zero (x * y), ← mul_zero x, ← mul_sub] at h
+        rw [← sub_zero (x * y)] at h; rw [← mul_zero x] at h; rw [← mul_sub] at h
         have := (IsLeftCancelMulZero.mul_left_cancel_of_ne_zero) hx h
         rwa [sub_zero] at this } }
 #align is_left_cancel_mul_zero.to_no_zero_divisors IsLeftCancelMulZero.to_noZeroDivisors
@@ -173,7 +173,7 @@ lemma IsRightCancelMulZero.to_noZeroDivisors [Ring α] [IsRightCancelMulZero α]
       { right
         exact hy }
       { left
-        rw [← sub_zero (x * y), ← zero_mul y, ← sub_mul] at h
+        rw [← sub_zero (x * y)] at h; rw [← zero_mul y] at h; rw [← sub_mul] at h
         have := (IsRightCancelMulZero.mul_right_cancel_of_ne_zero) hy h
         rwa [sub_zero] at this } }
 #align is_right_cancel_mul_zero.to_no_zero_divisors IsRightCancelMulZero.to_noZeroDivisors
@@ -181,10 +181,10 @@ lemma IsRightCancelMulZero.to_noZeroDivisors [Ring α] [IsRightCancelMulZero α]
 instance (priority := 100) NoZeroDivisors.to_isCancelMulZero [Ring α] [NoZeroDivisors α] :
     IsCancelMulZero α :=
   { mul_left_cancel_of_ne_zero := fun ha h ↦ by
-      rw [← sub_eq_zero, ← mul_sub] at h
+      rw [← sub_eq_zero] at h; rw [← mul_sub] at h
       exact sub_eq_zero.1 ((eq_zero_or_eq_zero_of_mul_eq_zero h).resolve_left ha)
     mul_right_cancel_of_ne_zero := fun hb h ↦ by
-      rw [← sub_eq_zero, ← sub_mul] at h
+      rw [← sub_eq_zero] at h; rw [← sub_mul] at h
       exact sub_eq_zero.1 ((eq_zero_or_eq_zero_of_mul_eq_zero h).resolve_right hb) }
 #align no_zero_divisors.to_is_cancel_mul_zero NoZeroDivisors.to_isCancelMulZero
 

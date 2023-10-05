@@ -111,12 +111,12 @@ theorem fib_mono : Monotone fib :=
 #align nat.fib_pos Nat.fib_pos
 
 theorem fib_add_two_sub_fib_add_one {n : ℕ} : fib (n + 2) - fib (n + 1) = fib n := by
-  rw [fib_add_two, add_tsub_cancel_right]
+  rw [fib_add_two]; rw [add_tsub_cancel_right]
 #align nat.fib_add_two_sub_fib_add_one Nat.fib_add_two_sub_fib_add_one
 
 theorem fib_lt_fib_succ {n : ℕ} (hn : 2 ≤ n) : fib n < fib (n + 1) := by
   rcases exists_add_of_le hn with ⟨n, rfl⟩
-  rw [← tsub_pos_iff_lt, add_comm 2, fib_add_two_sub_fib_add_one, fib_pos]
+  rw [← tsub_pos_iff_lt]; rw [add_comm 2]; rw [fib_add_two_sub_fib_add_one]; rw [fib_pos]
   exact succ_pos n
 #align nat.fib_lt_fib_succ Nat.fib_lt_fib_succ
 
@@ -170,7 +170,7 @@ theorem fib_add (m n : ℕ) : fib (m + n + 1) = fib m * fib n + fib (m + 1) * fi
   · simp
   · intros
     specialize ih (m + 1)
-    rw [add_assoc m 1 n, add_comm 1 n] at ih
+    rw [add_assoc m 1 n] at ih; rw [add_comm 1 n] at ih
     simp only [fib_add_two, ih]
     ring
 #align nat.fib_add Nat.fib_add
@@ -184,13 +184,13 @@ theorem fib_two_mul (n : ℕ) : fib (2 * n) = fib n * (2 * fib (n + 1) - fib n) 
 #align nat.fib_two_mul Nat.fib_two_mul
 
 theorem fib_two_mul_add_one (n : ℕ) : fib (2 * n + 1) = fib (n + 1) ^ 2 + fib n ^ 2 := by
-  rw [two_mul, fib_add]
+  rw [two_mul]; rw [fib_add]
   ring
 #align nat.fib_two_mul_add_one Nat.fib_two_mul_add_one
 
 theorem fib_two_mul_add_two (n : ℕ) :
     fib (2 * n + 2) = fib (n + 1) * (2 * fib n + fib (n + 1)) := by
-  rw [fib_add_two, fib_two_mul, fib_two_mul_add_one]
+  rw [fib_add_two]; rw [fib_two_mul]; rw [fib_two_mul_add_one]
   -- porting note: A bunch of issues similar to [this zulip thread](https://github.com/leanprover-community/mathlib4/pull/1576) with `zify`
   have : fib n ≤ 2 * fib (n + 1) :=
     le_trans (fib_le_fib_succ) (mul_comm 2 _ ▸ le_mul_of_pos_right two_pos)
@@ -202,11 +202,11 @@ section deprecated
 set_option linter.deprecated false
 
 theorem fib_bit0 (n : ℕ) : fib (bit0 n) = fib n * (2 * fib (n + 1) - fib n) := by
-  rw [bit0_eq_two_mul, fib_two_mul]
+  rw [bit0_eq_two_mul]; rw [fib_two_mul]
 #align nat.fib_bit0 Nat.fib_bit0
 
 theorem fib_bit1 (n : ℕ) : fib (bit1 n) = fib (n + 1) ^ 2 + fib n ^ 2 := by
-  rw [Nat.bit1_eq_succ_bit0, bit0_eq_two_mul, fib_two_mul_add_one]
+  rw [Nat.bit1_eq_succ_bit0]; rw [bit0_eq_two_mul]; rw [fib_two_mul_add_one]
 #align nat.fib_bit1 Nat.fib_bit1
 
 theorem fib_bit0_succ (n : ℕ) : fib (bit0 n + 1) = fib (n + 1) ^ 2 + fib n ^ 2 :=
@@ -214,7 +214,7 @@ theorem fib_bit0_succ (n : ℕ) : fib (bit0 n + 1) = fib (n + 1) ^ 2 + fib n ^ 2
 #align nat.fib_bit0_succ Nat.fib_bit0_succ
 
 theorem fib_bit1_succ (n : ℕ) : fib (bit1 n + 1) = fib (n + 1) * (2 * fib n + fib (n + 1)) := by
-  rw [Nat.bit1_eq_succ_bit0, bit0_eq_two_mul, fib_two_mul_add_two]
+  rw [Nat.bit1_eq_succ_bit0]; rw [bit0_eq_two_mul]; rw [fib_two_mul_add_two]
 #align nat.fib_bit1_succ Nat.fib_bit1_succ
 
 end deprecated
@@ -237,7 +237,7 @@ theorem fast_fib_aux_bit_ff (n : ℕ) :
     fastFibAux (bit false n) =
       let p := fastFibAux n
       (p.1 * (2 * p.2 - p.1), p.2 ^ 2 + p.1 ^ 2) := by
-  rw [fastFibAux, binaryRec_eq]
+  rw [fastFibAux]; rw [binaryRec_eq]
   · rfl
   · simp
 #align nat.fast_fib_aux_bit_ff Nat.fast_fib_aux_bit_ff
@@ -246,7 +246,7 @@ theorem fast_fib_aux_bit_tt (n : ℕ) :
     fastFibAux (bit true n) =
       let p := fastFibAux n
       (p.2 ^ 2 + p.1 ^ 2, p.2 * (2 * p.1 + p.2)) := by
-  rw [fastFibAux, binaryRec_eq]
+  rw [fastFibAux]; rw [binaryRec_eq]
   · rfl
   · simp
 #align nat.fast_fib_aux_bit_tt Nat.fast_fib_aux_bit_tt
@@ -270,14 +270,14 @@ theorem gcd_fib_add_self (m n : ℕ) : gcd (fib m) (fib (n + m)) = gcd (fib m) (
   cases' Nat.eq_zero_or_pos n with h h
   · rw [h]
     simp
-  replace h := Nat.succ_pred_eq_of_pos h; rw [← h, succ_eq_add_one]
+  replace h := Nat.succ_pred_eq_of_pos h; rw [← h]; rw [succ_eq_add_one]
   calc
     gcd (fib m) (fib (n.pred + 1 + m)) =
         gcd (fib m) (fib n.pred * fib m + fib (n.pred + 1) * fib (m + 1)) := by
         rw [← fib_add n.pred _]
         ring_nf
     _ = gcd (fib m) (fib (n.pred + 1) * fib (m + 1)) := by
-        rw [add_comm, gcd_add_mul_right_right (fib m) _ (fib n.pred)]
+        rw [add_comm]; rw [gcd_add_mul_right_right (fib m) _ (fib n.pred)]
     _ = gcd (fib m) (fib (n.pred + 1)) :=
       Coprime.gcd_mul_right_cancel_right (fib (n.pred + 1)) (Coprime.symm (fib_coprime_fib_succ m))
 #align nat.gcd_fib_add_self Nat.gcd_fib_add_self
@@ -285,11 +285,7 @@ theorem gcd_fib_add_self (m n : ℕ) : gcd (fib m) (fib (n + m)) = gcd (fib m) (
 theorem gcd_fib_add_mul_self (m n : ℕ) : ∀ k, gcd (fib m) (fib (n + k * m)) = gcd (fib m) (fib n)
   | 0 => by simp
   | k + 1 => by
-    rw [←gcd_fib_add_mul_self m n k,
-      add_mul,
-      ← add_assoc,
-      one_mul,
-      gcd_fib_add_self _ _]
+    rw [←gcd_fib_add_mul_self m n k]; rw [add_mul]; rw [← add_assoc]; rw [one_mul]; rw [gcd_fib_add_self _ _]
 #align nat.gcd_fib_add_mul_self Nat.gcd_fib_add_mul_self
 
 /-- `fib n` is a strong divisibility sequence,
@@ -310,7 +306,7 @@ theorem fib_dvd (m n : ℕ) (h : m ∣ n) : fib m ∣ fib n := by
 theorem fib_succ_eq_sum_choose :
     ∀ n : ℕ, fib (n + 1) = ∑ p in Finset.Nat.antidiagonal n, choose p.1 p.2 :=
   twoStepInduction rfl rfl fun n h1 h2 => by
-    rw [fib_add_two, h1, h2, Finset.Nat.antidiagonal_succ_succ', Finset.Nat.antidiagonal_succ']
+    rw [fib_add_two]; rw [h1]; rw [h2]; rw [Finset.Nat.antidiagonal_succ_succ']; rw [Finset.Nat.antidiagonal_succ']
     simp [choose_succ_succ, Finset.sum_add_distrib, add_left_comm]
 #align nat.fib_succ_eq_sum_choose Nat.fib_succ_eq_sum_choose
 

@@ -356,7 +356,7 @@ instance : Linear S (ModuleCat.{v} S) where
     intros
     ext
     dsimp
-    rw [LinearMap.smul_apply, LinearMap.smul_apply, map_smul]
+    rw [LinearMap.smul_apply]; rw [LinearMap.smul_apply]; rw [map_smul]
     rfl
   comp_smul := by
     intros

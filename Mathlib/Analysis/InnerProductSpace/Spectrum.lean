@@ -135,7 +135,7 @@ theorem orthogonalComplement_iSup_eigenspaces_eq_bot : (⨆ μ, eigenspace T μ)
 theorem orthogonalComplement_iSup_eigenspaces_eq_bot' :
     (⨆ μ : Eigenvalues T, eigenspace T μ)ᗮ = ⊥ :=
   show (⨆ μ : { μ // eigenspace T μ ≠ ⊥ }, eigenspace T μ)ᗮ = ⊥ by
-    rw [iSup_ne_bot_subtype, hT.orthogonalComplement_iSup_eigenspaces_eq_bot]
+    rw [iSup_ne_bot_subtype]; rw [hT.orthogonalComplement_iSup_eigenspaces_eq_bot]
 #align linear_map.is_symmetric.orthogonal_supr_eigenspaces_eq_bot' LinearMap.IsSymmetric.orthogonalComplement_iSup_eigenspaces_eq_bot'
 
 /-- The eigenspaces of a self-adjoint operator on a finite-dimensional inner product space `E` gives
@@ -265,7 +265,7 @@ theorem eigenvectorBasis_apply_self_apply (v : E) (i : Fin n) :
   simp_rw [← OrthonormalBasis.sum_repr_symm, map_sum, map_smul, apply_eigenvectorBasis]
   apply Fintype.sum_congr
   intro a
-  rw [smul_smul, mul_comm]
+  rw [smul_smul]; rw [mul_comm]
 #align linear_map.is_symmetric.diagonalization_basis_apply_self_apply LinearMap.IsSymmetric.eigenvectorBasis_apply_self_apply
 
 end Version2
@@ -291,7 +291,7 @@ theorem eigenvalue_nonneg_of_nonneg {μ : ℝ} {T : E →ₗ[𝕜] E} (hμ : Has
   have : IsROrC.re ⟪v, T v⟫ = μ * ‖v‖ ^ 2 := by
     have := congr_arg IsROrC.re (inner_product_apply_eigenvector hv.1)
     -- porting note: why can't `exact_mod_cast` do this? These lemmas are marked `norm_cast`
-    rw [←IsROrC.ofReal_pow, ←IsROrC.ofReal_mul] at this
+    rw [←IsROrC.ofReal_pow] at this; rw [←IsROrC.ofReal_mul] at this
     exact_mod_cast this
   exact (zero_le_mul_right hpos).mp (this ▸ hnn v)
 #align eigenvalue_nonneg_of_nonneg eigenvalue_nonneg_of_nonneg
@@ -303,7 +303,7 @@ theorem eigenvalue_pos_of_pos {μ : ℝ} {T : E →ₗ[𝕜] E} (hμ : HasEigenv
   have : IsROrC.re ⟪v, T v⟫ = μ * ‖v‖ ^ 2 := by
     have := congr_arg IsROrC.re (inner_product_apply_eigenvector hv.1)
     -- porting note: why can't `exact_mod_cast` do this? These lemmas are marked `norm_cast`
-    rw [←IsROrC.ofReal_pow, ←IsROrC.ofReal_mul] at this
+    rw [←IsROrC.ofReal_pow] at this; rw [←IsROrC.ofReal_mul] at this
     exact_mod_cast this
   exact (zero_lt_mul_right hpos).mp (this ▸ hnn v)
 #align eigenvalue_pos_of_pos eigenvalue_pos_of_pos

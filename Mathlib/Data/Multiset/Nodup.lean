@@ -177,7 +177,7 @@ theorem Nodup.erase [DecidableEq α] (a : α) {l} : Nodup l → Nodup (l.erase a
 
 theorem Nodup.mem_erase_iff [DecidableEq α] {a b : α} {l} (d : Nodup l) :
     a ∈ l.erase b ↔ a ≠ b ∧ a ∈ l := by
-  rw [d.erase_eq_filter b, mem_filter, and_comm]
+  rw [d.erase_eq_filter b]; rw [mem_filter]; rw [and_comm]
 #align multiset.nodup.mem_erase_iff Multiset.Nodup.mem_erase_iff
 
 theorem Nodup.not_mem_erase [DecidableEq α] {a : α} {s} (h : Nodup s) : a ∉ s.erase a := fun ha =>
@@ -247,7 +247,7 @@ theorem mem_sub_of_nodup [DecidableEq α] {a : α} {s t : Multiset α} (d : Nodu
   ⟨fun h =>
     ⟨mem_of_le tsub_le_self h, fun h' => by
       refine' count_eq_zero.1 _ h
-      rw [count_sub a s t, tsub_eq_zero_iff_le]
+      rw [count_sub a s t]; rw [tsub_eq_zero_iff_le]
       exact le_trans (nodup_iff_count_le_one.1 d _) (count_pos.2 h')⟩,
     fun ⟨h₁, h₂⟩ => Or.resolve_right (mem_add.1 <| mem_of_le le_tsub_add h₁) h₂⟩
 #align multiset.mem_sub_of_nodup Multiset.mem_sub_of_nodup

@@ -33,7 +33,7 @@ def Function.Injective.orderedCommMonoid [OrderedCommMonoid α] {β : Type*} [On
     hf.commMonoid f one mul npow with
     mul_le_mul_left := fun a b ab c =>
       show f (c * a) ≤ f (c * b) by
-        rw [mul, mul]
+        rw [mul]; rw [mul]
         apply mul_le_mul_left'
         exact ab }
 #align function.injective.ordered_comm_monoid Function.Injective.orderedCommMonoid

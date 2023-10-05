@@ -117,8 +117,7 @@ theorem QuotientAddGroup.norm_eq_infDist {S : AddSubgroup M} (x : M ⧸ S) :
 equal to the distance from `x` to `S`. -/
 theorem QuotientAddGroup.norm_mk {S : AddSubgroup M} (x : M) :
     ‖(x : M ⧸ S)‖ = infDist x S := by
-  rw [norm_eq_infDist, ← infDist_image (IsometryEquiv.subLeft x).isometry,
-    IsometryEquiv.subLeft_apply, sub_zero, ← IsometryEquiv.preimage_symm]
+  rw [norm_eq_infDist]; rw [← infDist_image (IsometryEquiv.subLeft x).isometry]; rw [IsometryEquiv.subLeft_apply]; rw [sub_zero]; rw [← IsometryEquiv.preimage_symm]
   congr 1 with y
   simp only [mem_preimage, IsometryEquiv.subLeft_symm_apply, mem_setOf_eq, QuotientAddGroup.eq,
     neg_add, neg_neg, neg_add_cancel_right, SetLike.mem_coe]
@@ -144,7 +143,7 @@ theorem quotient_norm_neg {S : AddSubgroup M} (x : M ⧸ S) : ‖-x‖ = ‖x‖
 #align quotient_norm_neg quotient_norm_neg
 
 theorem quotient_norm_sub_rev {S : AddSubgroup M} (x y : M ⧸ S) : ‖x - y‖ = ‖y - x‖ := by
-  rw [← neg_sub, quotient_norm_neg]
+  rw [← neg_sub]; rw [quotient_norm_neg]
 #align quotient_norm_sub_rev quotient_norm_sub_rev
 
 /-- The norm of the projection is smaller or equal to the norm of the original element. -/
@@ -160,8 +159,7 @@ theorem quotient_norm_mk_le' (S : AddSubgroup M) (m : M) : ‖(m : M ⧸ S)‖ �
 /-- The norm of the image under the natural morphism to the quotient. -/
 theorem quotient_norm_mk_eq (S : AddSubgroup M) (m : M) :
     ‖mk' S m‖ = sInf ((‖m + ·‖) '' S) := by
-  rw [mk'_apply, norm_mk, sInf_image', ← infDist_image isometry_neg, image_neg,
-    neg_coe_set (H := S), infDist_eq_iInf]
+  rw [mk'_apply]; rw [norm_mk]; rw [sInf_image']; rw [← infDist_image isometry_neg]; rw [image_neg]; rw [neg_coe_set (H := S)]; rw [infDist_eq_iInf]
   simp only [dist_eq_norm', sub_neg_eq_add, add_comm]
 #align quotient_norm_mk_eq quotient_norm_mk_eq
 
@@ -179,13 +177,13 @@ theorem norm_mk_nonneg (S : AddSubgroup M) (m : M) : 0 ≤ ‖mk' S m‖ :=
 to the closure of `S`. -/
 theorem quotient_norm_eq_zero_iff (S : AddSubgroup M) (m : M) :
     ‖mk' S m‖ = 0 ↔ m ∈ closure (S : Set M) := by
-  rw [mk'_apply, norm_mk, ← mem_closure_iff_infDist_zero]
+  rw [mk'_apply]; rw [norm_mk]; rw [← mem_closure_iff_infDist_zero]
   exact ⟨0, S.zero_mem⟩
 #align quotient_norm_eq_zero_iff quotient_norm_eq_zero_iff
 
 theorem QuotientAddGroup.norm_lt_iff {S : AddSubgroup M} {x : M ⧸ S} {r : ℝ} :
     ‖x‖ < r ↔ ∃ m : M, ↑m = x ∧ ‖m‖ < r := by
-  rw [isGLB_lt_iff (isGLB_quotient_norm _), bex_image_iff]
+  rw [isGLB_lt_iff (isGLB_quotient_norm _)]; rw [bex_image_iff]
   rfl
 
 /-- For any `x : M ⧸ S` and any `0 < ε`, there is `m : M` such that `mk' S m = x`
@@ -230,9 +228,9 @@ theorem quotient_nhd_basis (S : AddSubgroup M) :
     (𝓝 (0 : M ⧸ S)).HasBasis (fun ε ↦ 0 < ε) fun ε ↦ { x | ‖x‖ < ε } := by
   have : ∀ ε : ℝ, mk '' ball (0 : M) ε = { x : M ⧸ S | ‖x‖ < ε }
   · refine fun ε ↦ Set.ext <| forall_mk.2 fun x ↦ ?_
-    rw [ball_zero_eq, mem_setOf_eq, norm_lt_iff, mem_image]
+    rw [ball_zero_eq]; rw [mem_setOf_eq]; rw [norm_lt_iff]; rw [mem_image]
     exact exists_congr fun _ ↦ and_comm
-  rw [← mk_zero, nhds_eq, ← funext this]
+  rw [← mk_zero]; rw [nhds_eq]; rw [← funext this]
   exact .map _ Metric.nhds_basis_ball
 #align quotient_nhd_basis quotient_nhd_basis
 
@@ -248,7 +246,7 @@ noncomputable instance AddSubgroup.seminormedAddCommGroupQuotient (S : AddSubgro
   edist_dist x y := by exact ENNReal.coe_nnreal_eq _
   toUniformSpace := TopologicalAddGroup.toUniformSpace (M ⧸ S)
   uniformity_dist := by
-    rw [uniformity_eq_comap_nhds_zero', ((quotient_nhd_basis S).comap _).eq_biInf]
+    rw [uniformity_eq_comap_nhds_zero']; rw [((quotient_nhd_basis S).comap _).eq_biInf]
     simp only [dist, quotient_norm_sub_rev (Prod.fst _), preimage_setOf_eq]
 #align add_subgroup.seminormed_add_comm_group_quotient AddSubgroup.seminormedAddCommGroupQuotient
 
@@ -309,7 +307,7 @@ theorem _root_.QuotientAddGroup.norm_lift_apply_le {S : AddSubgroup M} (f : Norm
     rcases mk_surjective x with ⟨x, rfl⟩
     simpa [h] using le_opNorm f x
   | inr h =>
-    rw [← not_lt, ← _root_.lt_div_iff' h, norm_lt_iff]
+    rw [← not_lt]; rw [← _root_.lt_div_iff' h]; rw [norm_lt_iff]
     rintro ⟨x, rfl, hx⟩
     exact ((lt_div_iff' h).1 hx).not_le (le_opNorm f x)
 
@@ -329,7 +327,7 @@ theorem norm_trivial_quotient_mk (S : AddSubgroup M)
     (h : (S.topologicalClosure : Set M) = Set.univ) : ‖S.normedMk‖ = 0 := by
   refine' le_antisymm (opNorm_le_bound _ le_rfl fun x => _) (norm_nonneg _)
   have hker : x ∈ S.normedMk.ker.topologicalClosure := by
-    rw [S.ker_normedMk, ← SetLike.mem_coe, h]
+    rw [S.ker_normedMk]; rw [← SetLike.mem_coe]; rw [h]
     trivial
   rw [ker_normedMk] at hker
   simp only [(quotient_norm_eq_zero_iff S x).mpr hker, normedMk.apply, zero_mul, le_rfl]

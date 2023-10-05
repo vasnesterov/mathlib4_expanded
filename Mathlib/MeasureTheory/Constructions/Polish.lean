@@ -253,12 +253,12 @@ theorem AnalyticSet.iInter [hι : Nonempty ι] [Countable ι] [T2Space α] {s : 
     · rintro y ⟨x, rfl⟩
       refine mem_iInter.2 fun n => ?_
       have : f n ((x : γ) n) = F x := (mem_iInter.1 x.2 n : _)
-      rw [← this, ← f_range n]
+      rw [← this]; rw [← f_range n]
       exact mem_range_self _
     · intro y hy
       have A : ∀ n, ∃ x : β n, f n x = y := by
         intro n
-        rw [← mem_range, f_range n]
+        rw [← mem_range]; rw [f_range n]
         exact mem_iInter.1 hy n
       choose x hx using A
       have xt : x ∈ t := by
@@ -407,7 +407,7 @@ theorem measurablySeparable_range_of_disjoint [T2Space α] [MeasurableSpace α]
     intro n x y
     contrapose!
     intro H
-    rw [← iUnion_cylinder_update x n, ← iUnion_cylinder_update y n, image_iUnion, image_iUnion]
+    rw [← iUnion_cylinder_update x n]; rw [← iUnion_cylinder_update y n]; rw [image_iUnion]; rw [image_iUnion]
     refine' MeasurablySeparable.iUnion fun i j => _
     exact H _ _ (update_mem_cylinder _ _ _) (update_mem_cylinder _ _ _)
   -- consider the set of pairs of cylinders of some length whose images are not Borel-separated
@@ -442,7 +442,7 @@ theorem measurablySeparable_range_of_disjoint [T2Space α] [MeasurableSpace α]
       apply hFx (p n) m
       rw [pn_fst]
       exact hmn
-    rw [prec, I, IH]
+    rw [prec]; rw [I]; rw [IH]
   have Iy : ∀ m n, m + 1 ≤ n → (p n).1.2.2 m = (p (m + 1)).1.2.2 m := by
     intro m
     apply Nat.le_induction
@@ -452,7 +452,7 @@ theorem measurablySeparable_range_of_disjoint [T2Space α] [MeasurableSpace α]
       apply hFy (p n) m
       rw [pn_fst]
       exact hmn
-    rw [prec, I, IH]
+    rw [prec]; rw [I]; rw [IH]
   -- denote by `x` and `y` the limit points of these two sequences of cylinders.
   set x : ℕ → ℕ := fun n => (p (n + 1)).1.2.1 n with hx
   set y : ℕ → ℕ := fun n => (p (n + 1)).1.2.2 n with hy
@@ -584,8 +584,7 @@ if and only if the intesection with `Set.range f` is measurable. -/
 theorem measurableSet_preimage_iff_inter_range {f : X → Y} [SecondCountableTopology (range f)]
     (hf : Measurable f) (hr : MeasurableSet (range f)) {s : Set Y} :
     MeasurableSet (f ⁻¹' s) ↔ MeasurableSet (s ∩ range f) := by
-  rw [hf.measurableSet_preimage_iff_preimage_val,
-    ← (MeasurableEmbedding.subtype_coe hr).measurableSet_image, Subtype.image_preimage_coe]
+  rw [hf.measurableSet_preimage_iff_preimage_val]; rw [← (MeasurableEmbedding.subtype_coe hr).measurableSet_image]; rw [Subtype.image_preimage_coe]
 #align measurable.measurable_set_preimage_iff_inter_range Measurable.measurableSet_preimage_iff_inter_range
 
 /-- If `f : X → Y` is a Borel measurable map from a standard Borel space
@@ -960,7 +959,7 @@ theorem _root_.MeasurableSet.isClopenable' {s : Set α} (hs : MeasurableSet s) :
   obtain ⟨t, hle, ht, s_clopen⟩ := hs.isClopenable
   refine' ⟨t, _, ht, s_clopen⟩
   constructor
-  rw [eq_borel_upgradeStandardBorel α, borel_eq_borel_of_le ht _ hle]
+  rw [eq_borel_upgradeStandardBorel α]; rw [borel_eq_borel_of_le ht _ hle]
   infer_instance
 
 /-- A measurable subspace of a standard Borel space is standard Borel. -/

@@ -233,19 +233,17 @@ theorem nhds_subtype (s : Set α) (a : { x // x ∈ s }) : 𝓝 a = comap (↑) 
 
 theorem nhdsWithin_subtype_eq_bot_iff {s t : Set α} {x : s} :
     𝓝[((↑) : s → α) ⁻¹' t] x = ⊥ ↔ 𝓝[t] (x : α) ⊓ 𝓟 s = ⊥ := by
-  rw [inf_principal_eq_bot_iff_comap, nhdsWithin, nhdsWithin, comap_inf, comap_principal,
-    nhds_induced]
+  rw [inf_principal_eq_bot_iff_comap]; rw [nhdsWithin]; rw [nhdsWithin]; rw [comap_inf]; rw [comap_principal]; rw [nhds_induced]
 #align nhds_within_subtype_eq_bot_iff nhdsWithin_subtype_eq_bot_iff
 
 theorem nhds_ne_subtype_eq_bot_iff {S : Set α} {x : S} :
     𝓝[≠] x = ⊥ ↔ 𝓝[≠] (x : α) ⊓ 𝓟 S = ⊥ := by
-  rw [← nhdsWithin_subtype_eq_bot_iff, preimage_compl, ← image_singleton,
-    Subtype.coe_injective.preimage_image]
+  rw [← nhdsWithin_subtype_eq_bot_iff]; rw [preimage_compl]; rw [← image_singleton]; rw [Subtype.coe_injective.preimage_image]
 #align nhds_ne_subtype_eq_bot_iff nhds_ne_subtype_eq_bot_iff
 
 theorem nhds_ne_subtype_neBot_iff {S : Set α} {x : S} :
     (𝓝[≠] x).NeBot ↔ (𝓝[≠] (x : α) ⊓ 𝓟 S).NeBot := by
-  rw [neBot_iff, neBot_iff, not_iff_not, nhds_ne_subtype_eq_bot_iff]
+  rw [neBot_iff]; rw [neBot_iff]; rw [not_iff_not]; rw [nhds_ne_subtype_eq_bot_iff]
 #align nhds_ne_subtype_ne_bot_iff nhds_ne_subtype_neBot_iff
 
 theorem discreteTopology_subtype_iff {S : Set α} : DiscreteTopology S ↔ ∀ x ∈ S, 𝓝[≠] x ⊓ 𝓟 S = ⊥ :=
@@ -512,8 +510,8 @@ theorem IsOpen.prod {s : Set α} {t : Set β} (hs : IsOpen s) (ht : IsOpen t) : 
 -- porting note: todo: Lean fails to find `t₁` and `t₂` by unification
 theorem nhds_prod_eq {a : α} {b : β} : 𝓝 (a, b) = 𝓝 a ×ˢ 𝓝 b := by
   dsimp only [SProd.sprod]
-  rw [Filter.prod, instTopologicalSpaceProd, nhds_inf (t₁ := TopologicalSpace.induced Prod.fst _)
-    (t₂ := TopologicalSpace.induced Prod.snd _), nhds_induced, nhds_induced]
+  rw [Filter.prod]; rw [instTopologicalSpaceProd]; rw [nhds_inf (t₁ := TopologicalSpace.induced Prod.fst _)
+    (t₂ := TopologicalSpace.induced Prod.snd _)]; rw [nhds_induced]; rw [nhds_induced]
 #align nhds_prod_eq nhds_prod_eq
 
 -- porting note: moved from `topology.continuous_on`
@@ -529,7 +527,7 @@ theorem continuous_uncurry_of_discreteTopology [DiscreteTopology α] {f : α →
   apply continuous_iff_continuousAt.2
   rintro ⟨a, x⟩
   change map _ _ ≤ _
-  rw [nhds_prod_eq, nhds_discrete, Filter.map_pure_prod]
+  rw [nhds_prod_eq]; rw [nhds_discrete]; rw [Filter.map_pure_prod]
   exact (hf a).continuousAt
 #align continuous_uncurry_of_discrete_topology continuous_uncurry_of_discreteTopology
 
@@ -563,12 +561,12 @@ theorem mem_nhds_prod_iff' {a : α} {b : β} {s : Set (α × β)} :
 theorem Prod.tendsto_iff {α} (seq : α → β × γ) {f : Filter α} (x : β × γ) :
     Tendsto seq f (𝓝 x) ↔
       Tendsto (fun n => (seq n).fst) f (𝓝 x.fst) ∧ Tendsto (fun n => (seq n).snd) f (𝓝 x.snd) := by
-  rw [nhds_prod_eq, Filter.tendsto_prod_iff']
+  rw [nhds_prod_eq]; rw [Filter.tendsto_prod_iff']
 #align prod.tendsto_iff Prod.tendsto_iff
 
 instance [DiscreteTopology α] [DiscreteTopology β] : DiscreteTopology (α × β) :=
   discreteTopology_iff_nhds.2 fun (a, b) => by
-    rw [nhds_prod_eq, nhds_discrete α, nhds_discrete β, prod_pure_pure]
+    rw [nhds_prod_eq]; rw [nhds_discrete α]; rw [nhds_discrete β]; rw [prod_pure_pure]
 
 theorem prod_mem_nhds_iff {s : Set α} {t : Set β} {a : α} {b : β} :
     s ×ˢ t ∈ 𝓝 (a, b) ↔ s ∈ 𝓝 a ∧ t ∈ 𝓝 b := by rw [nhds_prod_eq, prod_mem_prod_iff]
@@ -585,7 +583,7 @@ theorem Filter.Eventually.prod_nhds {p : α → Prop} {q : β → Prop} {a : α}
 #align filter.eventually.prod_nhds Filter.Eventually.prod_nhds
 
 theorem nhds_swap (a : α) (b : β) : 𝓝 (a, b) = (𝓝 (b, a)).map Prod.swap := by
-  rw [nhds_prod_eq, Filter.prod_comm, nhds_prod_eq]; rfl
+  rw [nhds_prod_eq]; rw [Filter.prod_comm]; rw [nhds_prod_eq]; rfl
 #align nhds_swap nhds_swap
 
 theorem Filter.Tendsto.prod_mk_nhds {γ} {a : α} {b : β} {f : Filter γ} {ma : γ → α} {mb : γ → β}
@@ -695,7 +693,7 @@ to `𝓝 x.1`. -/
 theorem map_fst_nhdsWithin (x : α × β) : map Prod.fst (𝓝[Prod.snd ⁻¹' {x.2}] x) = 𝓝 x.1 := by
   refine' le_antisymm (continuousAt_fst.mono_left inf_le_left) fun s hs => _
   rcases x with ⟨x, y⟩
-  rw [mem_map, nhdsWithin, mem_inf_principal, mem_nhds_prod_iff] at hs
+  rw [mem_map] at hs; rw [nhdsWithin] at hs; rw [mem_inf_principal] at hs; rw [mem_nhds_prod_iff] at hs
   rcases hs with ⟨u, hu, v, hv, H⟩
   simp only [prod_subset_iff, mem_singleton_iff, mem_setOf_eq, mem_preimage] at H
   exact mem_of_superset hu fun z hz => H _ hz _ (mem_of_mem_nhds hv) rfl
@@ -716,7 +714,7 @@ to `𝓝 x.2`. -/
 theorem map_snd_nhdsWithin (x : α × β) : map Prod.snd (𝓝[Prod.fst ⁻¹' {x.1}] x) = 𝓝 x.2 := by
   refine' le_antisymm (continuousAt_snd.mono_left inf_le_left) fun s hs => _
   rcases x with ⟨x, y⟩
-  rw [mem_map, nhdsWithin, mem_inf_principal, mem_nhds_prod_iff] at hs
+  rw [mem_map] at hs; rw [nhdsWithin] at hs; rw [mem_inf_principal] at hs; rw [mem_nhds_prod_iff] at hs
   rcases hs with ⟨u, hu, v, hv, H⟩
   simp only [prod_subset_iff, mem_singleton_iff, mem_setOf_eq, mem_preimage] at H
   exact mem_of_superset hv fun z hz => H _ (mem_of_mem_nhds hu) _ hz rfl
@@ -831,7 +829,7 @@ protected theorem IsOpenMap.prod {f : α → β} {g : γ → δ} (hf : IsOpenMap
     IsOpenMap fun p : α × γ => (f p.1, g p.2) := by
   rw [isOpenMap_iff_nhds_le]
   rintro ⟨a, b⟩
-  rw [nhds_prod_eq, nhds_prod_eq, ← Filter.prod_map_map_eq]
+  rw [nhds_prod_eq]; rw [nhds_prod_eq]; rw [← Filter.prod_map_map_eq]
   exact Filter.prod_mono (hf.nhds_le a) (hg.nhds_le b)
 #align is_open_map.prod IsOpenMap.prod
 
@@ -933,12 +931,12 @@ theorem isOpen_range_inr : IsOpen (range (inr : β → Sum α β)) :=
 #align is_open_range_inr isOpen_range_inr
 
 theorem isClosed_range_inl : IsClosed (range (inl : α → Sum α β)) := by
-  rw [← isOpen_compl_iff, compl_range_inl]
+  rw [← isOpen_compl_iff]; rw [compl_range_inl]
   exact isOpen_range_inr
 #align is_closed_range_inl isClosed_range_inl
 
 theorem isClosed_range_inr : IsClosed (range (inr : β → Sum α β)) := by
-  rw [← isOpen_compl_iff, compl_range_inr]
+  rw [← isOpen_compl_iff]; rw [compl_range_inr]
   exact isOpen_range_inl
 #align is_closed_range_inr isClosed_range_inr
 
@@ -1039,8 +1037,7 @@ lemma IsClosedMap.restrictPreimage {f : α → β} (hcl : IsClosedMap f) (T : Se
     IsClosedMap (T.restrictPreimage f) := by
   rw [isClosedMap_iff_clusterPt] at hcl ⊢
   intro A ⟨y, hyT⟩ hy
-  rw [restrictPreimage, MapClusterPt, ← inducing_subtype_val.mapClusterPt_iff, MapClusterPt,
-      map_map, MapsTo.restrict_commutes, ← map_map, ← MapClusterPt, map_principal] at hy
+  rw [restrictPreimage] at hy; rw [MapClusterPt] at hy; rw [← inducing_subtype_val.mapClusterPt_iff] at hy; rw [MapClusterPt] at hy; rw [map_map] at hy; rw [MapsTo.restrict_commutes] at hy; rw [← map_map] at hy; rw [← MapClusterPt] at hy; rw [map_principal] at hy
   rcases hcl _ y hy with ⟨x, hxy, hx⟩
   have hxT : f x ∈ T := hxy ▸ hyT
   refine ⟨⟨x, hxT⟩, Subtype.ext hxy, ?_⟩
@@ -1072,13 +1069,13 @@ theorem continuousAt_subtype_val {p : α → Prop} {a : Subtype p} :
 #align continuous_at_subtype_coe continuousAt_subtype_val
 
 theorem Subtype.dense_iff {s : Set α} {t : Set s} : Dense t ↔ s ⊆ closure ((↑) '' t) := by
-  rw [inducing_subtype_val.dense_iff, SetCoe.forall]
+  rw [inducing_subtype_val.dense_iff]; rw [SetCoe.forall]
   rfl
 #align subtype.dense_iff Subtype.dense_iff
 
 -- porting note: new lemma
 theorem map_nhds_subtype_val {s : Set α} (a : s) : map ((↑) : s → α) (𝓝 a) = 𝓝[s] ↑a := by
-  rw [inducing_subtype_val.map_nhds_eq, Subtype.range_val]
+  rw [inducing_subtype_val.map_nhds_eq]; rw [Subtype.range_val]
 
 theorem map_nhds_subtype_coe_eq_nhds {a : α} (ha : p a) (h : ∀ᶠ x in 𝓝 a, p x) :
     map ((↑) : Subtype p → α) (𝓝 ⟨a, ha⟩) = 𝓝 a :=
@@ -1244,7 +1241,7 @@ theorem nhds_pi {a : ∀ i, π i} : 𝓝 a = pi fun i => 𝓝 (a i) := by
 
 theorem tendsto_pi_nhds {f : β → ∀ i, π i} {g : ∀ i, π i} {u : Filter β} :
     Tendsto f u (𝓝 g) ↔ ∀ x, Tendsto (fun i => f i x) u (𝓝 (g x)) := by
-  rw [nhds_pi, Filter.tendsto_pi]
+  rw [nhds_pi]; rw [Filter.tendsto_pi]
 #align tendsto_pi_nhds tendsto_pi_nhds
 
 theorem continuousAt_pi {f : α → ∀ i, π i} {x : α} :
@@ -1402,13 +1399,13 @@ theorem mem_nhds_of_pi_mem_nhds {I : Set ι} {s : ∀ i, Set (π i)} (a : ∀ i,
 
 theorem set_pi_mem_nhds {i : Set ι} {s : ∀ a, Set (π a)} {x : ∀ a, π a} (hi : i.Finite)
     (hs : ∀ a ∈ i, s a ∈ 𝓝 (x a)) : pi i s ∈ 𝓝 x := by
-  rw [pi_def, biInter_mem hi]
+  rw [pi_def]; rw [biInter_mem hi]
   exact fun a ha => (continuous_apply a).continuousAt (hs a ha)
 #align set_pi_mem_nhds set_pi_mem_nhds
 
 theorem set_pi_mem_nhds_iff {I : Set ι} (hI : I.Finite) {s : ∀ i, Set (π i)} (a : ∀ i, π i) :
     I.pi s ∈ 𝓝 a ↔ ∀ i : ι, i ∈ I → s i ∈ 𝓝 (a i) := by
-  rw [nhds_pi, pi_mem_pi_iff hI]
+  rw [nhds_pi]; rw [pi_mem_pi_iff hI]
 #align set_pi_mem_nhds_iff set_pi_mem_nhds_iff
 
 theorem interior_pi_set {I : Set ι} (hI : I.Finite) {s : ∀ i, Set (π i)} :
@@ -1572,7 +1569,7 @@ theorem comap_sigmaMk_nhds (i : ι) (x : σ i) : comap (Sigma.mk i) (𝓝 ⟨i, 
 #align comap_sigma_mk_nhds comap_sigmaMk_nhds
 
 theorem isOpen_sigma_fst_preimage (s : Set ι) : IsOpen (Sigma.fst ⁻¹' s : Set (Σ a, σ a)) := by
-  rw [← biUnion_of_singleton s, preimage_iUnion₂]
+  rw [← biUnion_of_singleton s]; rw [preimage_iUnion₂]
   simp only [← range_sigmaMk]
   exact isOpen_biUnion fun _ _ => isOpen_range_sigmaMk
 #align is_open_sigma_fst_preimage isOpen_sigma_fst_preimage
@@ -1604,7 +1601,7 @@ theorem inducing_sigma {f : Sigma σ → α} :
     refine ⟨U, hUo, ?_⟩
     simpa [Set.ext_iff] using hU
   · refine fun ⟨h₁, h₂⟩ ↦ inducing_iff_nhds.2 fun ⟨i, x⟩ ↦ ?_
-    rw [Sigma.nhds_mk, (h₁ i).nhds_eq_comap, comp_apply, ← comap_comap, map_comap_of_mem]
+    rw [Sigma.nhds_mk]; rw [(h₁ i).nhds_eq_comap]; rw [comp_apply]; rw [← comap_comap]; rw [map_comap_of_mem]
     rcases h₂ i with ⟨U, hUo, hU⟩
     filter_upwards [preimage_mem_comap <| hUo.mem_nhds <| (hU _).2 rfl] with y hy
     simpa [hU] using hy

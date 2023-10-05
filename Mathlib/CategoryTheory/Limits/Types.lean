@@ -422,14 +422,14 @@ theorem Colimit.ι_map_apply' {F G : J ⥤ Type v} (α : F ⟶ G) (j : J) (x) :
 
 theorem colimit_sound {F : J ⥤ TypeMax.{v, u}} {j j' : J} {x : F.obj j} {x' : F.obj j'} (f : j ⟶ j')
     (w : F.map f x = x') : colimit.ι F j x = colimit.ι F j' x' := by
-  rw [← w, Colimit.w_apply.{v, u}]
+  rw [← w]; rw [Colimit.w_apply.{v, u}]
 #align category_theory.limits.types.colimit_sound CategoryTheory.Limits.Types.colimit_sound
 
 theorem colimit_sound' {F : J ⥤ TypeMax.{v, u}} {j j' : J} {x : F.obj j} {x' : F.obj j'} {j'' : J}
     (f : j ⟶ j'') (f' : j' ⟶ j'') (w : F.map f x = F.map f' x') :
     colimit.ι F j x = colimit.ι F j' x' := by
-  rw [← colimit.w _ f, ← colimit.w _ f']
-  rw [types_comp_apply, types_comp_apply, w]
+  rw [← colimit.w _ f]; rw [← colimit.w _ f']
+  rw [types_comp_apply]; rw [types_comp_apply]; rw [w]
 #align category_theory.limits.types.colimit_sound' CategoryTheory.Limits.Types.colimit_sound'
 
 theorem colimit_eq {F : J ⥤ TypeMax.{v, u}} {j j' : J} {x : F.obj j} {x' : F.obj j'}
@@ -506,10 +506,10 @@ noncomputable def isColimitOf (t : Cocone F) (hsurj : ∀ x : t.pt, ∃ i xi, x 
       rcases jointly_surjective.{v, u} F (colimit.isColimit F) a with ⟨i, xi, rfl⟩
       rcases jointly_surjective.{v, u} F (colimit.isColimit F) b with ⟨j, xj, rfl⟩
       replace h : (colimit.ι F i ≫ colimit.desc F t) xi = (colimit.ι F j ≫ colimit.desc F t) xj := h
-      rw [colimit.ι_desc, colimit.ι_desc] at h
+      rw [colimit.ι_desc] at h; rw [colimit.ι_desc] at h
       rcases hinj i j xi xj h with ⟨k, f, g, h'⟩
       change colimit.ι F i xi = colimit.ι F j xj
-      rw [← colimit.w F f, ← colimit.w F g]
+      rw [← colimit.w F f]; rw [← colimit.w F g]
       change colimit.ι F k (F.map f xi) = colimit.ι F k (F.map g xj)
       rw [h']
     · show Function.Surjective _
@@ -553,7 +553,7 @@ theorem colimit_eq_iff_aux {i j : J} {xi : F.obj i} {xj : F.obj j} :
     (colimitCocone.{v, u} F).ι.app i xi = (colimitCocone.{v, u} F).ι.app j xj ↔
       FilteredColimit.Rel.{v, u} F ⟨i, xi⟩ ⟨j, xj⟩ := by
   change Quot.mk _ _ = Quot.mk _ _ ↔ _
-  rw [Quot.eq, FilteredColimit.rel_eq_eqvGen_quot_rel]
+  rw [Quot.eq]; rw [FilteredColimit.rel_eq_eqvGen_quot_rel]
 #align category_theory.limits.types.filtered_colimit.colimit_eq_iff_aux CategoryTheory.Limits.Types.FilteredColimit.colimit_eq_iff_aux
 
 theorem isColimit_eq_iff {t : Cocone F} (ht : IsColimit t) {i j : J} {xi : F.obj i} {xj : F.obj j} :
@@ -604,7 +604,7 @@ noncomputable def Image.lift (F' : MonoFactorisation f) : Image f ⟶ F'.I :=
 theorem Image.lift_fac (F' : MonoFactorisation f) : Image.lift F' ≫ F'.m = Image.ι f := by
   funext x
   change (F'.e ≫ F'.m) _ = _
-  rw [F'.fac, (Classical.indefiniteDescription _ x.2).2]
+  rw [F'.fac]; rw [(Classical.indefiniteDescription _ x.2).2]
   rfl
 #align category_theory.limits.types.image.lift_fac CategoryTheory.Limits.Types.Image.lift_fac
 

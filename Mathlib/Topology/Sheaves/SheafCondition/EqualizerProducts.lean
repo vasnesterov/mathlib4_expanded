@@ -79,7 +79,7 @@ set_option linter.uppercaseLean3 false in
 
 @[simp, elementwise]
 theorem res_π (i : ι) : res F U ≫ limit.π _ ⟨i⟩ = F.map (Opens.leSupr U i).op := by
-  rw [res, limit.lift_π, Fan.mk_π_app]
+  rw [res]; rw [limit.lift_π]; rw [Fan.mk_π_app]
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.sheaf_condition_equalizer_products.res_π TopCat.Presheaf.SheafConditionEqualizerProducts.res_π
 
@@ -353,9 +353,9 @@ def coneEquivInverse :
         rcases x with (⟨i⟩ | ⟨i, j⟩)
         · dsimp
           dsimp only [Fork.ι]
-          rw [← f.w WalkingParallelPair.zero, Category.assoc]
+          rw [← f.w WalkingParallelPair.zero]; rw [Category.assoc]
         · dsimp
-          rw [← f.w WalkingParallelPair.one, Category.assoc] }
+          rw [← f.w WalkingParallelPair.one]; rw [Category.assoc] }
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.sheaf_condition_pairwise_intersections.cone_equiv_inverse TopCat.Presheaf.SheafConditionPairwiseIntersections.coneEquivInverse
 

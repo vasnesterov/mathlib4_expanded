@@ -50,7 +50,7 @@ instance Kleisli.category : Category (Kleisli T) where
   comp {X} {Y} {Z} f g := f ≫ (T : C ⥤ C).map g ≫ T.μ.app Z
   id_comp {X} {Y} f := by
     dsimp -- Porting note: unfold comp
-    rw [← T.η.naturality_assoc f, T.left_unit]
+    rw [← T.η.naturality_assoc f]; rw [T.left_unit]
     apply Category.comp_id
   assoc f g h := by
     simp only [Functor.map_comp, Category.assoc, Monad.assoc]
@@ -92,7 +92,7 @@ def adj : toKleisli T ⊣ fromKleisli T :=
       homEquiv_naturality_left_symm := fun {X} {Y} {Z} f g => by
         -- Porting note: used to be unfold_projs; dsimp
         change f ≫ g = (f ≫ T.η.app Y) ≫ T.map g ≫ T.μ.app Z
-        rw [Category.assoc, ← T.η.naturality_assoc g, Functor.id_map]
+        rw [Category.assoc]; rw [← T.η.naturality_assoc g]; rw [Functor.id_map]
         dsimp
         simp [Monad.left_unit] }
 #align category_theory.kleisli.adjunction.adj CategoryTheory.Kleisli.Adjunction.adj

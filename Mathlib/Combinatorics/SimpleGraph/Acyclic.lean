@@ -123,7 +123,7 @@ theorem isAcyclic_of_path_unique (h : ∀ (v w : V) (p q : G.Path v w), p = q) :
   | cons ha c' =>
     simp only [Walk.cons_isTrail_iff, Walk.support_cons, List.tail_cons, true_and_iff] at hc
     specialize h _ _ ⟨c', by simp only [Walk.isPath_def, hc.2]⟩ (Path.singleton ha.symm)
-    rw [Path.singleton, Subtype.mk.injEq] at h
+    rw [Path.singleton] at h; rw [Subtype.mk.injEq] at h
     simp [h] at hc
 #align simple_graph.is_acyclic_of_path_unique SimpleGraph.isAcyclic_of_path_unique
 
@@ -134,7 +134,7 @@ theorem isAcyclic_iff_path_unique : G.IsAcyclic ↔ ∀ ⦃v w : V⦄ (p q : G.P
 theorem isTree_iff_existsUnique_path :
     G.IsTree ↔ Nonempty V ∧ ∀ v w : V, ∃! p : G.Walk v w, p.IsPath := by
   classical
-  rw [IsTree_iff, isAcyclic_iff_path_unique]
+  rw [IsTree_iff]; rw [isAcyclic_iff_path_unique]
   constructor
   · rintro ⟨hc, hu⟩
     refine ⟨hc.nonempty, ?_⟩
@@ -163,8 +163,8 @@ lemma IsTree.card_edgeFinset [Fintype V] [Fintype G.edgeSet] (hG : G.IsTree) :
   inhabit V
   classical
   have : Finset.card ({default} : Finset V)ᶜ + 1 = Fintype.card V := by
-    rw [Finset.card_compl, Finset.card_singleton, Nat.sub_add_cancel Fintype.card_pos]
-  rw [← this, add_left_inj]
+    rw [Finset.card_compl]; rw [Finset.card_singleton]; rw [Nat.sub_add_cancel Fintype.card_pos]
+  rw [← this]; rw [add_left_inj]
   choose f hf hf' using (hG.existsUnique_path · default)
   refine Eq.symm <| Finset.card_congr
           (fun w hw => ((f w).firstDart <| ?notNil).edge)
@@ -181,7 +181,7 @@ lemma IsTree.card_edgeFinset [Fintype V] [Fintype G.edgeSet] (hG : G.IsTree) :
     · have h1 : ((f a).firstDart <| not_nil_of_ne (by simpa using ha)).snd = b :=
         congrArg (·.snd) h
       have h3 := congrArg length (hf' _ (((f _).tail _).copy h1 rfl) ?_)
-      rw [length_copy, ← add_left_inj 1, length_tail_add_one] at h3
+      rw [length_copy] at h3; rw [← add_left_inj 1] at h3; rw [length_tail_add_one] at h3
       · exfalso
         linarith
       · simp only [ne_eq, eq_mp_eq_cast, id_eq, isPath_copy]
@@ -194,9 +194,7 @@ lemma IsTree.card_edgeFinset [Fintype V] [Fintype G.edgeSet] (hG : G.IsTree) :
       exact this y x h.symm (le_of_not_le h')
     refine ⟨y, ?_, dart_edge_eq_mk'_iff.2 <| Or.inr ?_⟩
     · rintro rfl
-      rw [← hf' _ nil IsPath.nil, length_nil,
-          ← hf' _ (.cons h .nil) (IsPath.nil.cons <| by simpa using h.ne),
-          length_cons, length_nil] at h'
+      rw [← hf' _ nil IsPath.nil] at h'; rw [length_nil] at h'; rw [← hf' _ (.cons h .nil) (IsPath.nil.cons <| by simpa using h.ne)] at h'; rw [length_cons] at h'; rw [length_nil] at h'
       simp [le_zero_iff, Nat.one_ne_zero] at h'
     rw [← hf' _ (.cons h.symm (f x)) ((cons_isPath_iff _ _).2 ⟨hf _, fun hy => ?contra⟩)]
     rfl

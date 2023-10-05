@@ -117,7 +117,7 @@ theorem inv_eq_iff_eq {f : Perm α} {x y : α} : f⁻¹ x = y ↔ x = f y :=
 
 theorem zpow_apply_comm {α : Type*} (σ : Perm α) (m n : ℤ) {x : α} :
     (σ ^ m) ((σ ^ n) x) = (σ ^ n) ((σ ^ m) x) := by
-  rw [← Equiv.Perm.mul_apply, ← Equiv.Perm.mul_apply, zpow_mul_comm]
+  rw [← Equiv.Perm.mul_apply]; rw [← Equiv.Perm.mul_apply]; rw [zpow_mul_comm]
 #align equiv.perm.zpow_apply_comm Equiv.Perm.zpow_apply_comm
 
 @[simp] lemma image_inv (f : Perm α) (s : Set α) : ↑f⁻¹ '' s = f ⁻¹' s := f⁻¹.image_eq_preimage _
@@ -528,11 +528,11 @@ theorem swap_mul_eq_mul_swap (f : Perm α) (x y : α) : swap x y * f = f * swap 
 #align equiv.swap_mul_eq_mul_swap Equiv.swap_mul_eq_mul_swap
 
 theorem mul_swap_eq_swap_mul (f : Perm α) (x y : α) : f * swap x y = swap (f x) (f y) * f := by
-  rw [swap_mul_eq_mul_swap, Perm.inv_apply_self, Perm.inv_apply_self]
+  rw [swap_mul_eq_mul_swap]; rw [Perm.inv_apply_self]; rw [Perm.inv_apply_self]
 #align equiv.mul_swap_eq_swap_mul Equiv.mul_swap_eq_swap_mul
 
 theorem swap_apply_apply (f : Perm α) (x y : α) : swap (f x) (f y) = f * swap x y * f⁻¹ := by
-  rw [mul_swap_eq_swap_mul, mul_inv_cancel_right]
+  rw [mul_swap_eq_swap_mul]; rw [mul_inv_cancel_right]
 #align equiv.swap_apply_apply Equiv.swap_apply_apply
 
 /-- Left-multiplying a permutation with `swap i j` twice gives the original permutation.
@@ -541,7 +541,7 @@ theorem swap_apply_apply (f : Perm α) (x y : α) : swap (f x) (f y) = f * swap 
 -/
 @[simp]
 theorem swap_mul_self_mul (i j : α) (σ : Perm α) : Equiv.swap i j * (Equiv.swap i j * σ) = σ := by
-  rw [← mul_assoc, swap_mul_self, one_mul]
+  rw [← mul_assoc]; rw [swap_mul_self]; rw [one_mul]
 #align equiv.swap_mul_self_mul Equiv.swap_mul_self_mul
 
 /-- Right-multiplying a permutation with `swap i j` twice gives the original permutation.
@@ -550,7 +550,7 @@ theorem swap_mul_self_mul (i j : α) (σ : Perm α) : Equiv.swap i j * (Equiv.sw
 -/
 @[simp]
 theorem mul_swap_mul_self (i j : α) (σ : Perm α) : σ * Equiv.swap i j * Equiv.swap i j = σ := by
-  rw [mul_assoc, swap_mul_self, mul_one]
+  rw [mul_assoc]; rw [swap_mul_self]; rw [mul_one]
 #align equiv.mul_swap_mul_self Equiv.mul_swap_mul_self
 
 /-- A stronger version of `mul_right_injective` -/
@@ -574,7 +574,7 @@ theorem swap_mul_eq_iff {i j : α} {σ : Perm α} : swap i j * σ = σ ↔ i = j
   ⟨fun h => by
     -- Porting note: added `_root_.`
     have swap_id : swap i j = 1 := mul_right_cancel (_root_.trans h (one_mul σ).symm)
-    rw [← swap_apply_right i j, swap_id]
+    rw [← swap_apply_right i j]; rw [swap_id]
     rfl,
    fun h => by erw [h, swap_self, one_mul]⟩
 #align equiv.swap_mul_eq_iff Equiv.swap_mul_eq_iff
@@ -583,7 +583,7 @@ theorem mul_swap_eq_iff {i j : α} {σ : Perm α} : σ * swap i j = σ ↔ i = j
   ⟨fun h => by
     -- Porting note: added `_root_.`
     have swap_id : swap i j = 1 := mul_left_cancel (_root_.trans h (one_mul σ).symm)
-    rw [← swap_apply_right i j, swap_id]
+    rw [← swap_apply_right i j]; rw [swap_id]
     rfl,
    fun h => by erw [h, swap_self, mul_one]⟩
 #align equiv.mul_swap_eq_iff Equiv.mul_swap_eq_iff

@@ -111,7 +111,7 @@ open Classical BigOperators
 open Asymptotics Filter Metric Finset Ring
 
 theorem inverse_one_sub (t : R) (h : ‖t‖ < 1) : inverse (1 - t) = ↑(Units.oneSub t h)⁻¹ := by
-  rw [← inverse_unit (Units.oneSub t h), Units.val_oneSub]
+  rw [← inverse_unit (Units.oneSub t h)]; rw [Units.val_oneSub]
 #align normed_ring.inverse_one_sub NormedRing.inverse_one_sub
 
 /-- The formula `Ring.inverse (x + t) = Ring.inverse (1 + x⁻¹ * t) * x⁻¹` holds for `t` sufficiently
@@ -122,8 +122,7 @@ theorem inverse_add (x : Rˣ) :
   rw [Metric.eventually_nhds_iff]
   refine ⟨‖(↑x⁻¹ : R)‖⁻¹, by cancel_denoms, fun t ht ↦ ?_⟩
   rw [dist_zero_right] at ht
-  rw [← x.val_add t ht, inverse_unit, Units.add, Units.copy_eq, mul_inv_rev, Units.val_mul,
-    ← inverse_unit, Units.val_oneSub, sub_neg_eq_add]
+  rw [← x.val_add t ht]; rw [inverse_unit]; rw [Units.add]; rw [Units.copy_eq]; rw [mul_inv_rev]; rw [Units.val_mul]; rw [← inverse_unit]; rw [Units.val_oneSub]; rw [sub_neg_eq_add]
 #align normed_ring.inverse_add NormedRing.inverse_add
 
 theorem inverse_one_sub_nth_order' (n : ℕ) {t : R} (ht : ‖t‖ < 1) :
@@ -151,7 +150,7 @@ theorem inverse_add_nth_order (x : Rˣ) (n : ℕ) :
   have hzero : Tendsto (-(↑x⁻¹ : R) * ·) (𝓝 0) (𝓝 0) :=
     (mulLeft_continuous _).tendsto' _ _ <| mul_zero _
   filter_upwards [inverse_add x, hzero.eventually (inverse_one_sub_nth_order n)] with t ht ht'
-  rw [neg_mul, sub_neg_eq_add] at ht'
+  rw [neg_mul] at ht'; rw [sub_neg_eq_add] at ht'
   conv_lhs => rw [ht, ht', add_mul, ← neg_mul, mul_assoc]
   rw [ht]
 #align normed_ring.inverse_add_nth_order NormedRing.inverse_add_nth_order
@@ -217,7 +216,7 @@ theorem inverse_continuousAt (x : Rˣ) : ContinuousAt inverse (x : R) := by
   have h_lim : Tendsto (fun y : R => y - x) (𝓝 x) (𝓝 0) := by
     refine' tendsto_zero_iff_norm_tendsto_zero.mpr _
     exact tendsto_iff_norm_sub_tendsto_zero.mp tendsto_id
-  rw [ContinuousAt, tendsto_iff_norm_sub_tendsto_zero, inverse_unit]
+  rw [ContinuousAt]; rw [tendsto_iff_norm_sub_tendsto_zero]; rw [inverse_unit]
   simpa [(· ∘ ·)] using h_is_o.norm_left.tendsto_div_nhds_zero.comp h_lim
 #align normed_ring.inverse_continuous_at NormedRing.inverse_continuousAt
 

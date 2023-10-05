@@ -39,8 +39,8 @@ private def map_ideal (I : Ideal R) : Ideal S where
       I.add_mem (I.mul_mem_left _ b'.1.2) (I.mul_mem_left _ a'.1.2)⟩
     use ⟨Z, a'.2 * b'.2⟩
     simp only [RingHom.map_add, Submodule.coe_mk, Submonoid.coe_mul, RingHom.map_mul]
-    rw [add_mul, ← mul_assoc a, ha, mul_comm (algebraMap R S a'.2) (algebraMap R S b'.2), ←
-      mul_assoc b, hb]
+    rw [add_mul]; rw [← mul_assoc a]; rw [ha]; rw [mul_comm (algebraMap R S a'.2) (algebraMap R S b'.2)]; rw [←
+      mul_assoc b]; rw [hb]
     ring
   smul_mem' := by
     rintro c x ⟨x', hx⟩
@@ -61,7 +61,7 @@ theorem mem_map_algebraMap_iff {I : Ideal R} {z} : z ∈ Ideal.map (algebraMap R
     use ⟨Z, 1⟩
     simp [hy.right]
   · rintro ⟨⟨a, s⟩, h⟩
-    rw [← Ideal.unit_mul_mem_iff_mem _ (map_units S s), mul_comm]
+    rw [← Ideal.unit_mul_mem_iff_mem _ (map_units S s)]; rw [mul_comm]
     exact h.symm ▸ Ideal.mem_map_of_mem _ a.2
 #align is_localization.mem_map_algebra_map_iff IsLocalization.mem_map_algebraMap_iff
 
@@ -85,7 +85,7 @@ theorem comap_map_of_isPrime_disjoint (I : Ideal R) (hI : I.IsPrime) (hM : Disjo
     simpa only [← map_mul, mul_comm] using h
   obtain ⟨c, hc⟩ := (eq_iff_exists M S).1 h
   have : ↑c * ↑s * a ∈ I := by
-    rw [mul_assoc, hc]
+    rw [mul_assoc]; rw [hc]
     exact I.mul_mem_left c b.2
   exact (hI.mem_or_mem this).resolve_left fun hsc => hM.le_bot ⟨(c * s).2, hsc⟩
 #align is_localization.comap_map_of_is_prime_disjoint IsLocalization.comap_map_of_isPrime_disjoint
@@ -116,10 +116,10 @@ theorem isPrime_iff_isPrime_disjoint (J : Ideal S) :
         Set.disjoint_left.mpr fun m hm1 hm2 =>
           h.ne_top (Ideal.eq_top_of_isUnit_mem _ hm2 (map_units S ⟨m, hm1⟩))⟩
     · refine' fun hJ => h.ne_top _
-      rw [eq_top_iff, ← (orderEmbedding M S).le_iff_le]
+      rw [eq_top_iff]; rw [← (orderEmbedding M S).le_iff_le]
       exact le_of_eq hJ.symm
     · intro x y hxy
-      rw [Ideal.mem_comap, RingHom.map_mul] at hxy
+      rw [Ideal.mem_comap] at hxy; rw [RingHom.map_mul] at hxy
       exact h.mem_or_mem hxy
   · refine' fun h => ⟨fun hJ => h.left.ne_top (eq_top_iff.2 _), _⟩
     · rwa [eq_top_iff, ← (orderEmbedding M S).le_iff_le] at hJ
@@ -127,9 +127,9 @@ theorem isPrime_iff_isPrime_disjoint (J : Ideal S) :
       obtain ⟨a, s, ha⟩ := mk'_surjective M x
       obtain ⟨b, t, hb⟩ := mk'_surjective M y
       have : mk' S (a * b) (s * t) ∈ J := by rwa [mk'_mul, ha, hb]
-      rw [mk'_mem_iff, ← Ideal.mem_comap] at this
+      rw [mk'_mem_iff] at this; rw [← Ideal.mem_comap] at this
       have this₂ := (h.1).mul_mem_iff_mem_or_mem.1 this
-      rw [Ideal.mem_comap, Ideal.mem_comap] at this₂
+      rw [Ideal.mem_comap] at this₂; rw [Ideal.mem_comap] at this₂
       rwa [← ha, ← hb, mk'_mem_iff, mk'_mem_iff]
 #align is_localization.is_prime_iff_is_prime_disjoint IsLocalization.isPrime_iff_isPrime_disjoint
 
@@ -139,7 +139,7 @@ This lemma gives the particular case for an ideal and its map,
 see `le_rel_iso_of_prime` for the more general relation isomorphism, and the reverse implication -/
 theorem isPrime_of_isPrime_disjoint (I : Ideal R) (hp : I.IsPrime) (hd : Disjoint (M : Set R) ↑I) :
     (Ideal.map (algebraMap R S) I).IsPrime := by
-  rw [isPrime_iff_isPrime_disjoint M S, comap_map_of_isPrime_disjoint M S I hp hd]
+  rw [isPrime_iff_isPrime_disjoint M S]; rw [comap_map_of_isPrime_disjoint M S I hp hd]
   exact ⟨hp, hd⟩
 #align is_localization.is_prime_of_is_prime_disjoint IsLocalization.isPrime_of_isPrime_disjoint
 
@@ -179,9 +179,9 @@ theorem surjective_quotientMap_of_maximal_of_localization {I : Ideal S} [I.IsPri
   by_cases hM : (Ideal.Quotient.mk (I.comap (algebraMap R S))) m = 0
   · have : I = ⊤ := by
       rw [Ideal.eq_top_iff_one]
-      rw [Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_comap] at hM
+      rw [Ideal.Quotient.eq_zero_iff_mem] at hM; rw [Ideal.mem_comap] at hM
       convert I.mul_mem_right (mk' S (1 : R) ⟨m, hm⟩) hM
-      rw [← mk'_eq_mul_mk'_one, mk'_self]
+      rw [← mk'_eq_mul_mk'_one]; rw [mk'_self]
     exact ⟨0, eq_comm.1 (by simp [Ideal.Quotient.eq_zero_iff_mem, this])⟩
   · rw [Ideal.Quotient.maximal_ideal_iff_isField_quotient] at hI
     obtain ⟨n, hn⟩ := hI.3 hM
@@ -189,9 +189,9 @@ theorem surjective_quotientMap_of_maximal_of_localization {I : Ideal S} [I.IsPri
     refine' ⟨(Ideal.Quotient.mk J) (r * rn), _⟩
     -- The rest of the proof is essentially just algebraic manipulations to prove the equality
     replace hn := congr_arg (Ideal.quotientMap I (algebraMap R S) le_rfl) hn
-    rw [RingHom.map_one, RingHom.map_mul] at hn
-    rw [Ideal.quotientMap_mk, ← sub_eq_zero, ← RingHom.map_sub, Ideal.Quotient.eq_zero_iff_mem, ←
-      Ideal.Quotient.eq_zero_iff_mem, RingHom.map_sub, sub_eq_zero, mk'_eq_mul_mk'_one]
+    rw [RingHom.map_one] at hn; rw [RingHom.map_mul] at hn
+    rw [Ideal.quotientMap_mk]; rw [← sub_eq_zero]; rw [← RingHom.map_sub]; rw [Ideal.Quotient.eq_zero_iff_mem]; rw [←
+      Ideal.Quotient.eq_zero_iff_mem]; rw [RingHom.map_sub]; rw [sub_eq_zero]; rw [mk'_eq_mul_mk'_one]
     simp only [mul_eq_mul_left_iff, RingHom.map_mul]
     refine
       Or.inl
@@ -203,7 +203,7 @@ theorem surjective_quotientMap_of_maximal_of_localization {I : Ideal S} [I.IsPri
           (_root_.trans hn ?_))
     -- Porting note: was `rw`, but this took extremely long.
     refine Eq.trans ?_ (RingHom.map_mul (Ideal.Quotient.mk I) (algebraMap R S m) (mk' S 1 ⟨m, hm⟩))
-    rw [← mk'_eq_mul_mk'_one, mk'_self, RingHom.map_one]
+    rw [← mk'_eq_mul_mk'_one]; rw [mk'_self]; rw [RingHom.map_one]
 #align is_localization.surjective_quotient_map_of_maximal_of_localization IsLocalization.surjective_quotientMap_of_maximal_of_localization
 
 open nonZeroDivisors

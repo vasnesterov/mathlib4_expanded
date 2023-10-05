@@ -108,7 +108,7 @@ def ofMeasurable (m : ∀ s : Set α, MeasurableSet s → ℝ≥0∞) (m0 : m �
   { inducedOuterMeasure m _ m0 with
     m_iUnion := fun f hf hd =>
       show inducedOuterMeasure m _ m0 (iUnion f) = ∑' i, inducedOuterMeasure m _ m0 (f i) by
-        rw [inducedOuterMeasure_eq m0 mU, mU hf hd]
+        rw [inducedOuterMeasure_eq m0 mU]; rw [mU hf hd]
         congr; funext n; rw [inducedOuterMeasure_eq m0 mU]
     trimmed :=
       show (inducedOuterMeasure m _ m0).trim = inducedOuterMeasure m _ m0 by
@@ -134,7 +134,7 @@ theorem toOuterMeasure_injective : Injective (toOuterMeasure : Measure α → Ou
 @[ext]
 theorem ext (h : ∀ s, MeasurableSet s → μ₁ s = μ₂ s) : μ₁ = μ₂ :=
   toOuterMeasure_injective <| by
-  rw [← trimmed, OuterMeasure.trim_congr (h _), trimmed]
+  rw [← trimmed]; rw [OuterMeasure.trim_congr (h _)]; rw [trimmed]
 #align measure_theory.measure.ext MeasureTheory.Measure.ext
 
 theorem ext_iff : μ₁ = μ₂ ↔ ∀ s, MeasurableSet s → μ₁ s = μ₂ s :=
@@ -153,7 +153,7 @@ theorem measure_eq_trim (s : Set α) : μ s = μ.toOuterMeasure.trim s := by rw 
 #align measure_theory.measure_eq_trim MeasureTheory.measure_eq_trim
 
 theorem measure_eq_iInf (s : Set α) : μ s = ⨅ (t) (_ : s ⊆ t) (_ : MeasurableSet t), μ t := by
-  rw [measure_eq_trim, OuterMeasure.trim_eq_iInf]
+  rw [measure_eq_trim]; rw [OuterMeasure.trim_eq_iInf]
 #align measure_theory.measure_eq_infi MeasureTheory.measure_eq_iInf
 
 /-- A variant of `measure_eq_iInf` which has a single `iInf`. This is useful when applying a
@@ -249,7 +249,7 @@ theorem measure_biUnion_le {s : Set β} (hs : s.Countable) (f : β → Set α) :
 
 theorem measure_biUnion_finset_le (s : Finset β) (f : β → Set α) :
     μ (⋃ b ∈ s, f b) ≤ ∑ p in s, μ (f p) := by
-  rw [← Finset.sum_attach, Finset.attach_eq_univ, ← tsum_fintype]
+  rw [← Finset.sum_attach]; rw [Finset.attach_eq_univ]; rw [← tsum_fintype]
   exact measure_biUnion_le s.countable_toSet f
 #align measure_theory.measure_bUnion_finset_le MeasureTheory.measure_biUnion_finset_le
 
@@ -414,7 +414,7 @@ theorem ae_of_all {p : α → Prop} (μ : Measure α) : (∀ a, p a) → ∀ᵐ 
 instance instCountableInterFilter : CountableInterFilter μ.ae :=
   ⟨by
     intro S hSc hS
-    rw [mem_ae_iff, compl_sInter, sUnion_image]
+    rw [mem_ae_iff]; rw [compl_sInter]; rw [sUnion_image]
     exact (measure_biUnion_null_iff hSc).2 hS⟩
 #align measure_theory.measure.ae.countable_Inter_filter MeasureTheory.instCountableInterFilter
 
@@ -445,7 +445,7 @@ theorem ae_eq_trans {f g h : α → δ} (h₁ : f =ᵐ[μ] g) (h₂ : g =ᵐ[μ]
 #align measure_theory.ae_eq_trans MeasureTheory.ae_eq_trans
 
 theorem ae_le_of_ae_lt {f g : α → ℝ≥0∞} (h : ∀ᵐ x ∂μ, f x < g x) : f ≤ᵐ[μ] g := by
-  rw [Filter.EventuallyLE, ae_iff]
+  rw [Filter.EventuallyLE]; rw [ae_iff]
   rw [ae_iff] at h
   refine' measure_mono_null (fun x hx => _) h
   exact not_lt.2 (le_of_lt (not_le.1 hx))
@@ -508,7 +508,7 @@ theorem ae_eq_set_compl_compl {s t : Set α} : sᶜ =ᵐ[μ] tᶜ ↔ s =ᵐ[μ]
 #align measure_theory.ae_eq_set_compl_compl MeasureTheory.ae_eq_set_compl_compl
 
 theorem ae_eq_set_compl {s t : Set α} : sᶜ =ᵐ[μ] t ↔ s =ᵐ[μ] tᶜ := by
-  rw [← ae_eq_set_compl_compl, compl_compl]
+  rw [← ae_eq_set_compl_compl]; rw [compl_compl]
 #align measure_theory.ae_eq_set_compl MeasureTheory.ae_eq_set_compl
 
 theorem ae_eq_set_inter {s' t' : Set α} (h : s =ᵐ[μ] t) (h' : s' =ᵐ[μ] t') :

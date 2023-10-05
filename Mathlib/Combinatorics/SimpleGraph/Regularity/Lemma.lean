@@ -80,7 +80,7 @@ theorem szemeredi_regularity (hε : 0 < ε) (hl : l ≤ card α) :
   obtain hα | hα := le_total (card α) (bound ε l)
   -- If `card α ≤ bound ε l`, then the partition into singletons is acceptable.
   · refine' ⟨⊥, bot_isEquipartition _, _⟩
-    rw [card_bot, card_univ]
+    rw [card_bot]; rw [card_univ]
     exact ⟨hl, hα, botIsUniform _ hε⟩
   -- Else, let's start from a dummy equipartition of size `initialBound ε l`.
   let t := initialBound ε l
@@ -109,7 +109,7 @@ theorem szemeredi_regularity (hε : 0 < ε) (hl : l ≤ card α) :
       exact mul_le_mul_left' (pow_le_pow_of_le_left (by norm_num) (by norm_num) _) _
     calc
       (1 : ℝ) = ε ^ 5 / ↑4 * (↑4 / ε ^ 5) := by
-        rw [mul_comm, div_mul_div_cancel 4 (pow_pos hε 5).ne']; norm_num
+        rw [mul_comm]; rw [div_mul_div_cancel 4 (pow_pos hε 5).ne']; norm_num
       _ < ε ^ 5 / 4 * (⌊4 / ε ^ 5⌋₊ + 1) :=
         ((mul_lt_mul_left <| by positivity).2 (Nat.lt_floor_add_one _))
       _ ≤ (P.energy G : ℝ) := by rwa [← Nat.cast_add_one]
@@ -119,7 +119,7 @@ theorem szemeredi_regularity (hε : 0 < ε) (hl : l ≤ card α) :
   induction' i with i ih
   -- For `i = 0`, the dummy equipartition is enough.
   · refine' ⟨dum, hdum₁, hdum₂.ge, hdum₂.le, Or.inr _⟩
-    rw [Nat.cast_zero, mul_zero]
+    rw [Nat.cast_zero]; rw [mul_zero]
     exact_mod_cast dum.energy_nonneg G
   -- For the induction step at `i + 1`, find `P` the equipartition at `i`.
   obtain ⟨P, hP₁, hP₂, hP₃, hP₄⟩ := ih
@@ -136,7 +136,7 @@ theorem szemeredi_regularity (hε : 0 < ε) (hl : l ≤ card α) :
       (mul_le_mul_of_nonneg_right (pow_le_pow (by norm_num) hP₂) <| by positivity)
   have hi : (i : ℝ) ≤ 4 / ε ^ 5 := by
     have hi : ε ^ 5 / 4 * ↑i ≤ 1 := hP₄.trans (by exact_mod_cast P.energy_le_one G)
-    rw [div_mul_eq_mul_div, div_le_iff (show (0 : ℝ) < 4 by norm_num)] at hi
+    rw [div_mul_eq_mul_div] at hi; rw [div_le_iff (show (0 : ℝ) < 4 by norm_num)] at hi
     norm_num at hi
     rwa [le_div_iff' (pow_pos hε _)]
   have hsize : P.parts.card ≤ stepBound^[⌊4 / ε ^ 5⌋₊] t :=

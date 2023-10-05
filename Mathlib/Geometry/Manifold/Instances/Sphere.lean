@@ -231,7 +231,7 @@ theorem stereo_left_inv (hv : ‖v‖ = 1) {x : sphere (0 : E) 1} (hx : (x : E) 
     · exact sq _
   -- Porting note : added to work around cancel_denoms and nlinarith failures
   have duh : ‖y.val‖ ^ 2 = 1 - a ^ 2 := by
-    rw [←Submodule.coe_norm, pythag]; ring
+    rw [←Submodule.coe_norm]; rw [pythag]; ring
   -- two facts which will be helpful for clearing denominators in the main calculation
   have ha : 1 - a ≠ 0 := by
     have : a < 1 := (inner_lt_one_iff_real_of_norm_one hv (by simp)).mpr hx.symm
@@ -574,7 +574,7 @@ theorem mfderiv_coe_sphere_injective {n : ℕ} [Fact (finrank ℝ E = n + 1)] (v
     simp
   have := congr_arg FunLike.coe <| (this.comp 0 U.symm.toContinuousLinearEquiv.hasFDerivAt).fderiv
   refine Eq.subst this.symm ?_
-  rw [ContinuousLinearMap.coe_comp', ContinuousLinearEquiv.coe_coe]
+  rw [ContinuousLinearMap.coe_comp']; rw [ContinuousLinearEquiv.coe_coe]
   simpa using Subtype.coe_injective
 #align mfderiv_coe_sphere_injective mfderiv_coe_sphere_injective
 

@@ -460,7 +460,7 @@ theorem uncurry {f : α → β → σ} : Primrec (Function.uncurry f) ↔ Primre
 #align primrec₂.uncurry Primrec₂.uncurry
 
 theorem curry {f : α × β → σ} : Primrec₂ (Function.curry f) ↔ Primrec f := by
-  rw [← uncurry, Function.uncurry_curry]
+  rw [← uncurry]; rw [Function.uncurry_curry]
 #align primrec₂.curry Primrec₂.curry
 
 end Primrec₂
@@ -783,7 +783,7 @@ theorem dom_fintype [Fintype α] (f : α → σ) : Primrec f :=
   option_some_iff.1 <| by
     haveI := decidableEqOfEncodable α
     refine ((list_get?₁ (l.map f)).comp (list_indexOf₁ l)).of_eq fun a => ?_
-    rw [List.get?_map, List.indexOf_get? (m a), Option.map_some']
+    rw [List.get?_map]; rw [List.indexOf_get? (m a)]; rw [Option.map_some']
 #align primrec.dom_fintype Primrec.dom_fintype
 
 -- porting note: These are new lemmas
@@ -823,8 +823,7 @@ theorem nat_div : Primrec₂ ((· / ·) : ℕ → ℕ → ℕ) := by
   if H : k = 0 then simp [H, eq_comm]
   else
     have : q * k ≤ a ∧ a < (q + 1) * k ↔ q = a / k := by
-      rw [le_antisymm_iff, ← (@Nat.lt_succ _ q), Nat.le_div_iff_mul_le' (Nat.pos_of_ne_zero H),
-          Nat.div_lt_iff_lt_mul' (Nat.pos_of_ne_zero H)]
+      rw [le_antisymm_iff]; rw [← (@Nat.lt_succ _ q)]; rw [Nat.le_div_iff_mul_le' (Nat.pos_of_ne_zero H)]; rw [Nat.div_lt_iff_lt_mul' (Nat.pos_of_ne_zero H)]
     simpa [H, zero_lt_iff, eq_comm (b := q)]
 #align primrec.nat_div Primrec.nat_div
 
@@ -904,7 +903,7 @@ private theorem list_foldl' {f : α → List β} {g : α → σ} {h : α → σ 
       hG)
   suffices ∀ a n, F a n = (((f a).take n).foldl (fun s b => h a (s, b)) (g a), (f a).drop n) by
     refine hF.of_eq fun a => ?_
-    rw [this, List.take_all_of_le (length_le_encode _)]
+    rw [this]; rw [List.take_all_of_le (length_le_encode _)]
   introv
   dsimp only
   generalize f a = l
@@ -1305,7 +1304,7 @@ theorem vector_tail {n} : Primrec (@Vector.tail α n) :=
 theorem vector_get {n} : Primrec₂ (@Vector.get α n) :=
   option_some_iff.1 <|
     (list_get?.comp (vector_toList.comp fst) (fin_val.comp snd)).of_eq fun a => by
-      rw [Vector.get_eq_get, ← List.get?_eq_get]
+      rw [Vector.get_eq_get]; rw [← List.get?_eq_get]
       rfl
 
 #align primrec.vector_nth Primrec.vector_get

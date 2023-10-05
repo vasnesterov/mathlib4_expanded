@@ -160,13 +160,13 @@ private def fFold : M →ₗ[R] A × S f →ₗ[R] A × S f :=
         (Subtype.ext <|
           LinearMap.ext fun m₃ =>
             show f.bilin m₃ (m₁ + m₂) * a.1 = f.bilin m₃ m₁ * a.1 + f.bilin m₃ m₂ * a.1 by
-              rw [map_add, add_mul]))
+              rw [map_add]; rw [add_mul]))
     (fun c m a =>
       Prod.ext (LinearMap.map_smul _ c m)
         (Subtype.ext <|
           LinearMap.ext fun m₃ =>
             show f.bilin m₃ (c • m) * a.1 = c • (f.bilin m₃ m * a.1) by
-              rw [LinearMap.map_smul, smul_mul_assoc]))
+              rw [LinearMap.map_smul]; rw [smul_mul_assoc]))
     (fun m a₁ a₂ => Prod.ext rfl (Subtype.ext <| LinearMap.ext fun m₃ => mul_add _ _ _))
     fun c m a => Prod.ext rfl (Subtype.ext <| LinearMap.ext fun m₃ => mul_smul_comm _ _ _)
 
@@ -184,19 +184,19 @@ private theorem fFold_fFold (m : M) (x : A × S f) : fFold f m (fFold f m x) = Q
   obtain ⟨a, ⟨g, hg⟩⟩ := x
   ext : 2
   · change f.bilin m m * a = Q m • a
-    rw [Algebra.smul_def, f.contract]
+    rw [Algebra.smul_def]; rw [f.contract]
   · ext m₁
     change f.bilin _ _ * g m = Q m • g m₁
     apply Submodule.span_induction' _ _ _ _ hg
     · rintro _ ⟨b, m₃, rfl⟩
       change f.bilin _ _ * (f.bilin _ _ * b) = Q m • (f.bilin _ _ * b)
-      rw [← smul_mul_assoc, ← mul_assoc, f.contract_mid]
+      rw [← smul_mul_assoc]; rw [← mul_assoc]; rw [f.contract_mid]
     · change f.bilin m₁ m * 0 = Q m • (0 : A)  -- porting note: `•` now needs the type of `0`
-      rw [mul_zero, smul_zero]
+      rw [mul_zero]; rw [smul_zero]
     · rintro x hx y hy ihx ihy
-      rw [LinearMap.add_apply, LinearMap.add_apply, mul_add, smul_add, ihx, ihy]
+      rw [LinearMap.add_apply]; rw [LinearMap.add_apply]; rw [mul_add]; rw [smul_add]; rw [ihx]; rw [ihy]
     · rintro x hx c ihx
-      rw [LinearMap.smul_apply, LinearMap.smul_apply, mul_smul_comm, ihx, smul_comm]
+      rw [LinearMap.smul_apply]; rw [LinearMap.smul_apply]; rw [mul_smul_comm]; rw [ihx]; rw [smul_comm]
 
 -- Porting note: In Lean 3, `aux_apply` isn't a simp lemma. I changed `{ attrs := [] }` to
 -- `{ isSimp := false }`, so that `aux_apply` isn't a simp lemma.
@@ -219,7 +219,7 @@ theorem aux_one : aux f 1 = 1 :=
 theorem aux_ι (m₁ m₂ : M) : aux f ((even.ι Q).bilin m₁ m₂) = f.bilin m₁ m₂ :=
   (congr_arg Prod.fst (foldr_mul _ _ _ _ _ _)).trans
     (by
-      rw [foldr_ι, foldr_ι]
+      rw [foldr_ι]; rw [foldr_ι]
       exact mul_one _)
 #align clifford_algebra.even.lift.aux_ι CliffordAlgebra.even.lift.aux_ι
 
@@ -236,14 +236,13 @@ theorem aux_mul (x y : even Q) : aux f (x * y) = aux f x * aux f y := by
   dsimp only
   refine' even_induction Q _ _ _ _ x_property
   · intro r
-    rw [foldr_algebraMap, aux_algebraMap]
+    rw [foldr_algebraMap]; rw [aux_algebraMap]
     exact Algebra.smul_def r _
   · intro x y hx hy ihx ihy
-    rw [LinearMap.map_add, Prod.fst_add, ihx, ihy, ← add_mul, ← LinearMap.map_add]
+    rw [LinearMap.map_add]; rw [Prod.fst_add]; rw [ihx]; rw [ihy]; rw [← add_mul]; rw [← LinearMap.map_add]
     rfl
   · rintro m₁ m₂ x (hx : x ∈ even Q) ih
-    rw [aux_apply, foldr_mul, foldr_mul, foldr_ι, foldr_ι, fst_fFold_fFold, ih, ← mul_assoc,
-      Subtype.coe_mk, foldr_mul, foldr_mul, foldr_ι, foldr_ι, fst_fFold_fFold]
+    rw [aux_apply]; rw [foldr_mul]; rw [foldr_mul]; rw [foldr_ι]; rw [foldr_ι]; rw [fst_fFold_fFold]; rw [ih]; rw [← mul_assoc]; rw [Subtype.coe_mk]; rw [foldr_mul]; rw [foldr_mul]; rw [foldr_ι]; rw [foldr_ι]; rw [fst_fFold_fFold]
     rfl
 #align clifford_algebra.even.lift.aux_mul CliffordAlgebra.even.lift.aux_mul
 

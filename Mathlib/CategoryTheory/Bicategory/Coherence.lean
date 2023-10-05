@@ -173,11 +173,11 @@ theorem normalize_naturality {a b c : B} (p : Path a b) {f g : Hom b c} (η : f 
   -- p ≠ nil required! See the docstring of `normalizeAux`.
   | whisker_left _ _ ih =>
     dsimp
-    rw [associator_inv_naturality_right_assoc, whisker_exchange_assoc, ih]
+    rw [associator_inv_naturality_right_assoc]; rw [whisker_exchange_assoc]; rw [ih]
     simp
   | whisker_right h η' ih =>
     dsimp
-    rw [associator_inv_naturality_middle_assoc, ← comp_whiskerRight_assoc, ih, comp_whiskerRight]
+    rw [associator_inv_naturality_middle_assoc]; rw [← comp_whiskerRight_assoc]; rw [ih]; rw [comp_whiskerRight]
     have := dcongr_arg (fun x => (normalizeIso x h).hom) (normalizeAux_congr p (Quot.mk _ η'))
     dsimp at this; simp [this]
   | _ => simp

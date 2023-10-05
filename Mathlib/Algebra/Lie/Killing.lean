@@ -145,7 +145,7 @@ noncomputable def killingCompl : LieIdeal R L :=
       intro x y hy
       ext ⟨z, hz⟩
       suffices killingForm R L ⁅x, y⁆ z = 0 by simpa
-      rw [LieModule.traceForm_comm, ← LieModule.traceForm_apply_lie_apply, LieModule.traceForm_comm]
+      rw [LieModule.traceForm_comm]; rw [← LieModule.traceForm_apply_lie_apply]; rw [LieModule.traceForm_comm]
       simp only [AddSubsemigroup.mem_carrier, AddSubmonoid.mem_toSubsemigroup,
         Submodule.mem_toAddSubmonoid, LinearMap.mem_ker] at hy
       replace hy := LinearMap.congr_fun hy ⟨⁅z, x⁆, lie_mem_left R L I z x hz⟩
@@ -168,7 +168,7 @@ lemma killingForm_eq :
   intro x (hx : x ∈ I)
   simp only [mem_killingCompl, LieSubmodule.mem_top, forall_true_left]
   intro y
-  rw [LieModule.traceForm_comm, LieModule.traceForm_apply_apply]
+  rw [LieModule.traceForm_comm]; rw [LieModule.traceForm_apply_apply]
   exact LieSubmodule.traceForm_eq_zero_of_isTrivial I I (by simp) _ hx
 
 end LieIdeal
@@ -187,7 +187,7 @@ class IsKilling : Prop :=
 over fields with positive characteristic. -/
 instance IsKilling.isSemisimple [IsKilling R L] : IsSemisimple R L := by
   refine' (isSemisimple_iff_no_abelian_ideals R L).mpr fun I hI ↦ _
-  rw [eq_bot_iff, ← IsKilling.killingCompl_top_eq_bot]
+  rw [eq_bot_iff]; rw [← IsKilling.killingCompl_top_eq_bot]
   exact I.le_killingCompl_top_of_isLieAbelian
 
 -- TODO: formalize a positive-characteristic counterexample to the above instance

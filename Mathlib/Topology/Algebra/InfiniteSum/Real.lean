@@ -32,8 +32,7 @@ theorem cauchySeq_of_edist_le_of_summable [PseudoEMetricSpace α] {f : ℕ → �
   refine (Metric.cauchySeq_iff'.1 hd ε (NNReal.coe_pos.2 εpos)).imp fun N hN n hn => ?_
   specialize hN n hn
   -- We simplify the known inequality
-  rw [dist_nndist, NNReal.nndist_eq, ← sum_range_add_sum_Ico _ hn, add_tsub_cancel_left,
-    NNReal.coe_lt_coe, max_lt_iff] at hN
+  rw [dist_nndist] at hN; rw [NNReal.nndist_eq] at hN; rw [← sum_range_add_sum_Ico _ hn] at hN; rw [add_tsub_cancel_left] at hN; rw [NNReal.coe_lt_coe] at hN; rw [max_lt_iff] at hN
   rw [edist_comm]
   -- Then use `hf` to simplify the goal to the same form
   refine lt_of_le_of_lt (edist_le_Ico_sum_of_edist_le hn fun _ _ => hf _) ?_
@@ -57,7 +56,7 @@ theorem cauchySeq_of_dist_le_of_summable (d : ℕ → ℝ) (hf : ∀ n, dist (f 
     H.tendsto_sum_nat.cauchySeq
   refine' (Metric.cauchySeq_iff'.1 hd ε εpos).imp fun N hN n hn => _
   have hsum := hN n hn
-  rw [Real.dist_eq, ← sum_Ico_eq_sub _ hn] at hsum
+  rw [Real.dist_eq] at hsum; rw [← sum_Ico_eq_sub _ hn] at hsum
   calc
     dist (f n) (f N) = dist (f N) (f n) := dist_comm _ _
     _ ≤ ∑ x in Ico N n, d x := dist_le_Ico_sum_of_dist_le hn fun _ _ => hf _

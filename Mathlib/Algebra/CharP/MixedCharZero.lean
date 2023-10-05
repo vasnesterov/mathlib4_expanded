@@ -186,7 +186,7 @@ theorem PNat.isUnit_natCast [h : Fact (∀ I : Ideal R, I ≠ ⊤ → CharZero (
   -- In particular, the image of `n` in the quotient should be nonzero.
   apply h_char_zero.cast_injective.ne n.ne_zero
   -- But `n` generates the ideal, so its image is clearly zero.
-  rw [← map_natCast (Ideal.Quotient.mk _), Nat.cast_zero, Ideal.Quotient.eq_zero_iff_mem]
+  rw [← map_natCast (Ideal.Quotient.mk _)]; rw [Nat.cast_zero]; rw [Ideal.Quotient.eq_zero_iff_mem]
   exact Ideal.subset_span (Set.mem_singleton _)
 #align equal_char_zero.pnat_coe_is_unit EqualCharZero.PNat.isUnit_natCast
 
@@ -207,7 +207,7 @@ theorem pnatCast_one [Fact (∀ I : Ideal R, I ≠ ⊤ → CharZero (R ⧸ I))] 
   rw [Units.val_one]
   change ((PNat.isUnit_natCast (R := R) 1).unit : R) = 1
   rw [IsUnit.unit_spec (PNat.isUnit_natCast 1)]
-  rw [PNat.one_coe, Nat.cast_one]
+  rw [PNat.one_coe]; rw [Nat.cast_one]
 #align equal_char_zero.pnat_coe_units_eq_one EqualCharZero.pnatCast_one
 
 /-- Internal: Not intended to be used outside this local construction. -/
@@ -303,7 +303,7 @@ theorem isEmpty_algebraRat_iff_mixedCharZero [CharZero R] :
     IsEmpty (Algebra ℚ R) ↔ ∃ p > 0, MixedCharZero R p := by
   rw [← not_iff_not]
   push_neg
-  rw [not_isEmpty_iff, ← EqualCharZero.iff_not_mixedCharZero]
+  rw [not_isEmpty_iff]; rw [← EqualCharZero.iff_not_mixedCharZero]
   apply EqualCharZero.nonempty_algebraRat_iff
 set_option linter.uppercaseLean3 false in
 #align not_Q_algebra_iff_not_equal_char_zero isEmpty_algebraRat_iff_mixedCharZero
@@ -330,7 +330,7 @@ theorem split_equalCharZero_mixedCharZero [CharZero R] (h_equal : Algebra ℚ R 
     rw [← MixedCharZero.reduce_to_p_prime] at h_mixed
     exact h_mixed p H hp
   · apply h_equal
-    rw [← isEmpty_algebraRat_iff_mixedCharZero, not_isEmpty_iff] at h
+    rw [← isEmpty_algebraRat_iff_mixedCharZero] at h; rw [not_isEmpty_iff] at h
     exact h.some
 #align split_equal_mixed_char split_equalCharZero_mixedCharZero
 

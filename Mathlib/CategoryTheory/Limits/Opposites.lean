@@ -430,7 +430,7 @@ lemma opCoproductIsoProduct_inv_comp_ι (b : α) :
   have := IsLimit.conePointUniqueUpToIso_inv_comp
     (isLimitCoconeOp _ (coproductIsCoproduct fun b ↦ Z b)) (limit.isLimit _) (op ⟨b⟩)
   dsimp at this
-  rw [Category.assoc, this]
+  rw [Category.assoc]; rw [this]
   simp only [limit.cone_x, Fan.mk_pt, Equivalence.symm_functor, Discrete.natIsoFunctor,
     Functor.comp_obj, Functor.op_obj, Iso.symm_inv, IsLimit.conePointsIsoOfEquivalence_hom,
     Equivalence.symm_inverse, Cones.equivalenceOfReindexing_functor, Iso.trans_hom, Iso.symm_hom,
@@ -448,8 +448,7 @@ lemma desc_op_comp_opCoproductIsoProduct_hom {X : C} (π : (a : α) → Z a ⟶ 
   rw [← Iso.eq_comp_inv (opCoproductIsoProduct Z)]
   congr
   refine' Sigma.hom_ext (f := Z) _ _ (fun a => _)
-  rw [← Category.assoc, colimit.ι_desc, ← Quiver.Hom.unop_op (Sigma.ι Z a), ← unop_comp,
-    opCoproductIsoProduct_inv_comp_ι, ← unop_comp]
+  rw [← Category.assoc]; rw [colimit.ι_desc]; rw [← Quiver.Hom.unop_op (Sigma.ι Z a)]; rw [← unop_comp]; rw [opCoproductIsoProduct_inv_comp_ι]; rw [← unop_comp]
   simp only [Cofan.mk_pt, Cofan.mk_ι_app, Pi.lift, Pi.π, limit.lift_π, Fan.mk_pt, Fan.mk_π_app,
     Quiver.Hom.unop_op]
 
@@ -485,7 +484,7 @@ lemma π_comp_opProductIsoCoproduct (b : α) : (Pi.π Z b).op ≫ (opProductIsoC
   have := IsColimit.comp_coconePointUniqueUpToIso_hom
     (isColimitConeOp _ (productIsProduct Z)) (colimit.isColimit _) (op ⟨b⟩)
   dsimp at this
-  rw [← Category.assoc, this]
+  rw [← Category.assoc]; rw [this]
   simp only [colimit.cocone_x, Cofan.mk_pt, Equivalence.symm_functor, Discrete.natIsoFunctor,
     comp_obj, op_obj, Iso.symm_hom, IsColimit.coconePointsIsoOfEquivalence_inv,
     Equivalence.symm_inverse, Cocones.equivalenceOfReindexing_functor_obj, Iso.trans_inv,
@@ -503,8 +502,7 @@ lemma opProductIsoCoproduct_inv_comp_π_op {X : C} (π : (a : α) → X ⟶ Z a)
   rw [Iso.inv_comp_eq (opProductIsoCoproduct Z)]
   congr
   refine' Pi.hom_ext (f := Z) _ _ (fun a => _)
-  rw [Category.assoc, limit.lift_π, ← Quiver.Hom.unop_op (Pi.π Z a), ← unop_comp,
-    π_comp_opProductIsoCoproduct, ← unop_comp]
+  rw [Category.assoc]; rw [limit.lift_π]; rw [← Quiver.Hom.unop_op (Pi.π Z a)]; rw [← unop_comp]; rw [π_comp_opProductIsoCoproduct]; rw [← unop_comp]
   simp only [Fan.mk_pt, Fan.mk_π_app, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app,
     Quiver.Hom.unop_op]
 
@@ -769,7 +767,7 @@ theorem pullbackIsoUnopPushout_hom_inl {X Y Z : C} (f : X ⟶ Z) (g : Y ⟶ Z) [
     pushout.inl ≫ (pullbackIsoUnopPushout f g).hom.op = pullback.fst.op := by
   apply Quiver.Hom.unop_inj
   dsimp
-  rw [← pullbackIsoUnopPushout_inv_fst, Iso.hom_inv_id_assoc]
+  rw [← pullbackIsoUnopPushout_inv_fst]; rw [Iso.hom_inv_id_assoc]
 #align category_theory.limits.pullback_iso_unop_pushout_hom_inl CategoryTheory.Limits.pullbackIsoUnopPushout_hom_inl
 
 @[reassoc (attr := simp)]
@@ -778,7 +776,7 @@ theorem pullbackIsoUnopPushout_hom_inr {X Y Z : C} (f : X ⟶ Z) (g : Y ⟶ Z) [
     pullback.snd.op := by
   apply Quiver.Hom.unop_inj
   dsimp
-  rw [← pullbackIsoUnopPushout_inv_snd, Iso.hom_inv_id_assoc]
+  rw [← pullbackIsoUnopPushout_inv_snd]; rw [Iso.hom_inv_id_assoc]
 #align category_theory.limits.pullback_iso_unop_pushout_hom_inr CategoryTheory.Limits.pullbackIsoUnopPushout_hom_inr
 
 end Pullback
@@ -815,7 +813,7 @@ theorem pushoutIsoUnopPullback_inv_fst {X Y Z : C} (f : X ⟶ Z) (g : X ⟶ Y) [
     (pushoutIsoUnopPullback f g).inv.op ≫ pullback.fst = pushout.inl.op := by
   apply Quiver.Hom.unop_inj
   dsimp
-  rw [← pushoutIsoUnopPullback_inl_hom, Category.assoc, Iso.hom_inv_id, Category.comp_id]
+  rw [← pushoutIsoUnopPullback_inl_hom]; rw [Category.assoc]; rw [Iso.hom_inv_id]; rw [Category.comp_id]
 #align category_theory.limits.pushout_iso_unop_pullback_inv_fst CategoryTheory.Limits.pushoutIsoUnopPullback_inv_fst
 
 @[simp]
@@ -824,7 +822,7 @@ theorem pushoutIsoUnopPullback_inv_snd {X Y Z : C} (f : X ⟶ Z) (g : X ⟶ Y) [
     (pushoutIsoUnopPullback f g).inv.op ≫ pullback.snd = pushout.inr.op := by
   apply Quiver.Hom.unop_inj
   dsimp
-  rw [← pushoutIsoUnopPullback_inr_hom, Category.assoc, Iso.hom_inv_id, Category.comp_id]
+  rw [← pushoutIsoUnopPullback_inr_hom]; rw [Category.assoc]; rw [Iso.hom_inv_id]; rw [Category.comp_id]
 #align category_theory.limits.pushout_iso_unop_pullback_inv_snd CategoryTheory.Limits.pushoutIsoUnopPullback_inv_snd
 
 end Pushout

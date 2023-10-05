@@ -117,7 +117,7 @@ private theorem glueDist_triangle_inl_inr_inr (Φ : Z → X) (Ψ : Z → Y) (ε 
     glueDist Φ Ψ ε (.inl x) (.inr z) ≤
       glueDist Φ Ψ ε (.inl x) (.inr y) + glueDist Φ Ψ ε (.inr y) (.inr z) := by
   simp only [glueDist]
-  rw [add_right_comm, add_le_add_iff_right]
+  rw [add_right_comm]; rw [add_le_add_iff_right]
   refine le_ciInf_add fun p => ciInf_le_of_le ⟨0, ?_⟩ p ?_
   · exact forall_range_iff.2 fun _ => add_nonneg dist_nonneg dist_nonneg
   · linarith [dist_triangle_left z (Ψ p) y]
@@ -128,7 +128,7 @@ private theorem glueDist_triangle_inl_inr_inl (Φ : Z → X) (Ψ : Z → Y) (ε 
       glueDist Φ Ψ ε (.inl x) (.inr y) + glueDist Φ Ψ ε (.inr y) (.inl z) := by
   simp_rw [glueDist, add_add_add_comm _ ε, add_assoc]
   refine le_ciInf_add fun p => ?_
-  rw [add_left_comm, add_assoc, ← two_mul]
+  rw [add_left_comm]; rw [add_assoc]; rw [← two_mul]
   refine le_ciInf_add fun q => ?_
   rw [dist_comm z]
   linarith [dist_triangle4 x (Φ p) (Φ q) z, dist_triangle_left (Ψ p) (Ψ q) y, (abs_le.1 (H p q)).2]
@@ -590,7 +590,7 @@ theorem inductiveLimitDist_eq_dist (I : ∀ n, Isometry (f n)) (x y : Σn, X n) 
       have : max x.1 y.1 ≤ m := by simpa [h] using of_le_succ this
       have xm : x.1 ≤ m := le_trans (le_max_left _ _) this
       have ym : y.1 ≤ m := le_trans (le_max_right _ _) this
-      rw [leRecOn_succ xm, leRecOn_succ ym, (I m).dist_eq]
+      rw [leRecOn_succ xm]; rw [leRecOn_succ ym]; rw [(I m).dist_eq]
       exact inductiveLimitDist_eq_dist I x y m xm ym
 #align metric.inductive_limit_dist_eq_dist Metric.inductiveLimitDist_eq_dist
 
@@ -603,8 +603,7 @@ def inductivePremetric (I : ∀ n, Isometry (f n)) : PseudoMetricSpace (Σn, X n
     have hx : x.1 ≤ m := le_max_left _ _
     have hy : y.1 ≤ m := le_max_right _ _
     unfold dist; simp only
-    rw [inductiveLimitDist_eq_dist I x y m hx hy, inductiveLimitDist_eq_dist I y x m hy hx,
-      dist_comm]
+    rw [inductiveLimitDist_eq_dist I x y m hx hy]; rw [inductiveLimitDist_eq_dist I y x m hy hx]; rw [dist_comm]
   dist_triangle x y z := by
     let m := max (max x.1 y.1) z.1
     have hx : x.1 ≤ m := le_trans (le_max_left _ _) (le_max_left _ _)
@@ -617,7 +616,7 @@ def inductivePremetric (I : ∀ n, Isometry (f n)) : PseudoMetricSpace (Σn, X n
             dist (leRecOn hy (f _) y.2 : X m) (leRecOn hz (f _) z.2 : X m) :=
         (dist_triangle _ _ _)
       _ = inductiveLimitDist f x y + inductiveLimitDist f y z := by
-        rw [inductiveLimitDist_eq_dist I x y m hx hy, inductiveLimitDist_eq_dist I y z m hy hz]
+        rw [inductiveLimitDist_eq_dist I x y m hx hy]; rw [inductiveLimitDist_eq_dist I y z m hy hz]
   edist_dist _ _ := by exact ENNReal.coe_nnreal_eq _
 #align metric.inductive_premetric Metric.inductivePremetric
 
@@ -645,8 +644,7 @@ theorem toInductiveLimit_isometry (I : ∀ n, Isometry (f n)) (n : ℕ) :
     Isometry (toInductiveLimit I n) :=
   Isometry.of_dist_eq fun x y => by
     change inductiveLimitDist f ⟨n, x⟩ ⟨n, y⟩ = dist x y
-    rw [inductiveLimitDist_eq_dist I ⟨n, x⟩ ⟨n, y⟩ n (le_refl n) (le_refl n), leRecOn_self,
-      leRecOn_self]
+    rw [inductiveLimitDist_eq_dist I ⟨n, x⟩ ⟨n, y⟩ n (le_refl n) (le_refl n)]; rw [leRecOn_self]; rw [leRecOn_self]
 #align metric.to_inductive_limit_isometry Metric.toInductiveLimit_isometry
 
 /-- The maps `toInductiveLimit n` are compatible with the maps `f n`. -/
@@ -657,8 +655,7 @@ theorem toInductiveLimit_commute (I : ∀ n, Isometry (f n)) (n : ℕ) :
   simp only [comp, toInductiveLimit]
   refine' UniformSpace.SeparationQuotient.mk_eq_mk.2 (Metric.inseparable_iff.2 _)
   show inductiveLimitDist f ⟨n.succ, f n x⟩ ⟨n, x⟩ = 0
-  rw [inductiveLimitDist_eq_dist I ⟨n.succ, f n x⟩ ⟨n, x⟩ n.succ, leRecOn_self,
-    leRecOn_succ, leRecOn_self, dist_self]
+  rw [inductiveLimitDist_eq_dist I ⟨n.succ, f n x⟩ ⟨n, x⟩ n.succ]; rw [leRecOn_self]; rw [leRecOn_succ]; rw [leRecOn_self]; rw [dist_self]
   exacts [le_rfl, le_succ _, le_rfl]
 #align metric.to_inductive_limit_commute Metric.toInductiveLimit_commute
 

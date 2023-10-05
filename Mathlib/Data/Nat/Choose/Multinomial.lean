@@ -69,7 +69,7 @@ theorem multinomial_singleton : multinomial {a} f = 1 := by
 theorem multinomial_insert_one [DecidableEq α] (h : a ∉ s) (h₁ : f a = 1) :
     multinomial (insert a s) f = (s.sum f).succ * multinomial s f := by
   simp only [multinomial, one_mul, factorial]
-  rw [Finset.sum_insert h, Finset.prod_insert h, h₁, add_comm, ← succ_eq_add_one, factorial_succ]
+  rw [Finset.sum_insert h]; rw [Finset.prod_insert h]; rw [h₁]; rw [add_comm]; rw [← succ_eq_add_one]; rw [factorial_succ]
   simp only [factorial_one, one_mul, Function.comp_apply, factorial, mul_one, ← one_eq_succ_zero]
   rw [Nat.mul_div_assoc _ (prod_factorial_dvd_factorial_sum _ _)]
 #align nat.multinomial_insert_one Nat.multinomial_insert_one
@@ -80,9 +80,7 @@ theorem multinomial_insert [DecidableEq α] (h : a ∉ s) :
   simp only [multinomial, Nat.add_sub_cancel_left, Finset.sum_insert h, Finset.prod_insert h,
     Function.comp_apply]
   rw [div_mul_div_comm ((f a).factorial_mul_factorial_dvd_factorial_add (s.sum f))
-      (prod_factorial_dvd_factorial_sum _ _),
-    mul_comm (f a)! (s.sum f)!, mul_assoc, mul_comm _ (s.sum f)!,
-    Nat.mul_div_mul_left _ _ (factorial_pos _)]
+      (prod_factorial_dvd_factorial_sum _ _)]; rw [mul_comm (f a)! (s.sum f)!]; rw [mul_assoc]; rw [mul_comm _ (s.sum f)!]; rw [Nat.mul_div_mul_left _ _ (factorial_pos _)]
 #align nat.multinomial_insert Nat.multinomial_insert
 
 theorem multinomial_congr {f g : α → ℕ} (h : ∀ a ∈ s, f a = g a) :
@@ -128,16 +126,15 @@ theorem binomial_succ_succ [DecidableEq α] (h : a ≠ b) :
   simp only [binomial_eq_choose, Function.update_apply,
     h, Ne.def, ite_true, ite_false]
   rw [if_neg h.symm]
-  rw [add_succ, choose_succ_succ, succ_add_eq_succ_add]
+  rw [add_succ]; rw [choose_succ_succ]; rw [succ_add_eq_succ_add]
   ring
 #align nat.binomial_succ_succ Nat.binomial_succ_succ
 
 theorem succ_mul_binomial [DecidableEq α] (h : a ≠ b) :
     (f a + f b).succ * multinomial {a, b} f =
       (f a).succ * multinomial {a, b} (Function.update f a (f a).succ) := by
-  rw [binomial_eq_choose _ h, binomial_eq_choose _ h, mul_comm (f a).succ, Function.update_same,
-    Function.update_noteq (ne_comm.mp h)]
-  rw [succ_mul_choose_eq (f a + f b) (f a), succ_add (f a) (f b)]
+  rw [binomial_eq_choose _ h]; rw [binomial_eq_choose _ h]; rw [mul_comm (f a).succ]; rw [Function.update_same]; rw [Function.update_noteq (ne_comm.mp h)]
+  rw [succ_mul_choose_eq (f a + f b) (f a)]; rw [succ_add (f a) (f b)]
 #align nat.succ_mul_binomial Nat.succ_mul_binomial
 
 /-! ### Simple cases -/
@@ -145,13 +142,12 @@ theorem succ_mul_binomial [DecidableEq α] (h : a ≠ b) :
 
 theorem multinomial_univ_two (a b : ℕ) :
     multinomial Finset.univ ![a, b] = (a + b)! / (a ! * b !) := by
-  rw [multinomial, Fin.sum_univ_two, Fin.prod_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons]
+  rw [multinomial]; rw [Fin.sum_univ_two]; rw [Fin.prod_univ_two]; rw [Matrix.cons_val_zero]; rw [Matrix.cons_val_one]; rw [Matrix.head_cons]
 #align nat.multinomial_univ_two Nat.multinomial_univ_two
 
 theorem multinomial_univ_three (a b c : ℕ) :
     multinomial Finset.univ ![a, b, c] = (a + b + c)! / (a ! * b ! * c !) := by
-  rw [multinomial, Fin.sum_univ_three, Fin.prod_univ_three]
+  rw [multinomial]; rw [Fin.sum_univ_three]; rw [Fin.prod_univ_three]
   rfl
 #align nat.multinomial_univ_three Nat.multinomial_univ_three
 
@@ -186,7 +182,7 @@ theorem multinomial_update (a : α) (f : α →₀ ℕ) :
       exact
         Nat.multinomial_congr _ fun _ h => (Function.update_noteq (Finset.mem_erase.1 h).1 0 f).symm
     rw [not_mem_support_iff] at h
-    rw [h, Nat.choose_zero_right, one_mul, ← h, update_self]
+    rw [h]; rw [Nat.choose_zero_right]; rw [one_mul]; rw [← h]; rw [update_self]
 #align finsupp.multinomial_update Finsupp.multinomial_update
 
 end Finsupp
@@ -208,7 +204,7 @@ theorem multinomial_filter_ne [DecidableEq α] (a : α) (m : Multiset α) :
   convert Finsupp.multinomial_update a _
   · rw [← Finsupp.card_toMultiset, m.toFinsupp_toMultiset]
   · ext1 a
-    rw [toFinsupp_apply, count_filter, Finsupp.coe_update]
+    rw [toFinsupp_apply]; rw [count_filter]; rw [Finsupp.coe_update]
     split_ifs with h
     · rw [Function.update_noteq h.symm, toFinsupp_apply]
     · rw [not_ne_iff.1 h, Function.update_same]
@@ -239,7 +235,7 @@ theorem sum_pow_of_commute [Semiring R] (x : α → R)
     rintro (_ | n)
       -- Porting note : Lean cannot infer this instance by itself
     · haveI : Subsingleton (Sym α 0) := Unique.instSubsingleton
-      rw [_root_.pow_zero, Fintype.sum_subsingleton]
+      rw [_root_.pow_zero]; rw [Fintype.sum_subsingleton]
       swap
         -- Porting note : Lean cannot infer this instance by itself
       · have : Zero (Sym α 0) := Sym.instZeroSym
@@ -252,7 +248,7 @@ theorem sum_pow_of_commute [Semiring R] (x : α → R)
       haveI : IsEmpty (Finset.sym (∅ : Finset α) (succ n)) := Finset.instIsEmpty
       apply (Fintype.sum_empty _).symm
   intro n; specialize ih (hc.mono <| s.subset_insert a)
-  rw [sum_insert ha, (Commute.sum_right s _ _ _).add_pow, sum_range]; swap
+  rw [sum_insert ha]; rw [(Commute.sum_right s _ _ _).add_pow]; rw [sum_range]; swap
   · exact fun _ hb => hc (mem_insert_self a s) (mem_insert_of_mem hb)
       (ne_of_mem_of_not_mem hb ha).symm
   · simp_rw [ih, mul_sum, sum_mul, sum_sigma', univ_sigma_univ]
@@ -261,7 +257,7 @@ theorem sum_pow_of_commute [Semiring R] (x : α → R)
     conv in m.1.1.map _ => rw [← m.1.1.filter_add_not ((· = ·) a), Multiset.map_add]
     simp_rw [Multiset.noncommProd_add, m.1.1.filter_eq, Multiset.map_replicate, m.1.2]
     rw [Multiset.noncommProd_eq_pow_card _ _ _ fun _ => Multiset.eq_of_mem_replicate]
-    rw [Multiset.card_replicate, Nat.cast_mul, mul_assoc, Nat.cast_comm]
+    rw [Multiset.card_replicate]; rw [Nat.cast_mul]; rw [mul_assoc]; rw [Nat.cast_comm]
     congr 1; simp_rw [← mul_assoc, Nat.cast_comm]; rfl
 #align finset.sum_pow_of_commute Finset.sum_pow_of_commute
 

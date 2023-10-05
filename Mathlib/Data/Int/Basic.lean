@@ -171,7 +171,7 @@ theorem succ_neg_succ (a : ℤ) : succ (-succ a) = -a := by rw [neg_succ, succ_p
 #align int.succ_neg_succ Int.succ_neg_succ
 
 theorem neg_pred (a : ℤ) : -pred a = succ (-a) := by
-  rw [neg_eq_iff_eq_neg.mp (neg_succ (-a)), neg_neg]
+  rw [neg_eq_iff_eq_neg.mp (neg_succ (-a))]; rw [neg_neg]
 #align int.neg_pred Int.neg_pred
 
 theorem pred_neg_pred (a : ℤ) : pred (-pred a) = -a := by rw [neg_pred, pred_succ]

@@ -81,11 +81,11 @@ theorem zero_lt_real {x : ℝ} : (0 : ℂ) < (x : ℂ) ↔ 0 < x :=
 #align complex.zero_lt_real Complex.zero_lt_real
 
 theorem not_le_iff {z w : ℂ} : ¬z ≤ w ↔ w.re < z.re ∨ z.im ≠ w.im := by
-  rw [le_def, not_and_or, not_le]
+  rw [le_def]; rw [not_and_or]; rw [not_le]
 #align complex.not_le_iff Complex.not_le_iff
 
 theorem not_lt_iff {z w : ℂ} : ¬z < w ↔ w.re ≤ z.re ∨ z.im ≠ w.im := by
-  rw [lt_def, not_and_or, not_lt]
+  rw [lt_def]; rw [not_and_or]; rw [not_lt]
 #align complex.not_lt_iff Complex.not_lt_iff
 
 theorem not_le_zero_iff {z : ℂ} : ¬z ≤ 0 ↔ 0 < z.re ∨ z.im ≠ 0 :=

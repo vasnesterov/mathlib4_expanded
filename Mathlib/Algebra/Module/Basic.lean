@@ -93,7 +93,7 @@ theorem add_smul : (r + s) • x = r • x + s • x :=
 #align add_smul add_smul
 
 theorem Convex.combo_self {a b : R} (h : a + b = 1) (x : M) : a • x + b • x = x := by
-  rw [← add_smul, h, one_smul]
+  rw [← add_smul]; rw [h]; rw [one_smul]
 #align convex.combo_self Convex.combo_self
 
 variable (R)
@@ -132,7 +132,7 @@ protected def Function.Surjective.module [AddCommMonoid M₂] [SMul R M₂] (f :
       simp only [add_smul, ← smul, ← f.map_add]
     zero_smul := fun x => by
       rcases hf x with ⟨x, rfl⟩
-      rw [← f.map_zero, ← smul, zero_smul] }
+      rw [← f.map_zero]; rw [← smul]; rw [zero_smul] }
 #align function.surjective.module Function.Surjective.module
 
 /-- Push forward the action of `R` on `M` along a compatible surjective map `f : R →+* S`.
@@ -195,7 +195,7 @@ theorem smulAddHom_apply (r : R) (x : M) : smulAddHom R M r x = r • x :=
 #align smul_add_hom_apply smulAddHom_apply
 
 theorem Module.eq_zero_of_zero_eq_one (zero_eq_one : (0 : R) = 1) : x = 0 := by
-  rw [← one_smul R x, ← zero_eq_one, zero_smul]
+  rw [← one_smul R x]; rw [← zero_eq_one]; rw [zero_smul]
 #align module.eq_zero_of_zero_eq_one Module.eq_zero_of_zero_eq_one
 
 @[simp]
@@ -286,7 +286,7 @@ theorem neg_smul_neg : -r • -x = r • x := by rw [neg_smul, smul_neg, neg_neg
 
 @[simp]
 theorem Units.neg_smul (u : Rˣ) (x : M) : -u • x = -(u • x) := by
-  rw [Units.smul_def, Units.val_neg, _root_.neg_smul, Units.smul_def]
+  rw [Units.smul_def]; rw [Units.val_neg]; rw [_root_.neg_smul]; rw [Units.smul_def]
 #align units.neg_smul Units.neg_smul
 
 variable (R)
@@ -314,7 +314,7 @@ def Module.addCommMonoidToAddCommGroup [Ring R] [AddCommMonoid M] [Module R M] :
     add_left_neg := fun a =>
       show (-1 : R) • a + a = 0 by
         nth_rw 2 [← one_smul R a]
-        rw [← add_smul, add_left_neg, zero_smul]
+        rw [← add_smul]; rw [add_left_neg]; rw [zero_smul]
     zsmul := fun z a => (z : R) • a
     zsmul_zero' := fun a => by simpa only [Int.cast_zero] using zero_smul R a
     zsmul_succ' := fun z a => by simp [add_comm, add_smul]
@@ -470,12 +470,12 @@ theorem map_inv_nat_cast_smul [AddCommMonoid M] [AddCommMonoid M₂] {F : Type*}
   · suffices ∀ y, f y = 0 by rw [this, this, smul_zero]
     clear x
     intro x
-    rw [← inv_smul_smul₀ hS (f x), ← map_nat_cast_smul f R S]
+    rw [← inv_smul_smul₀ hS (f x)]; rw [← map_nat_cast_smul f R S]
     simp [hR, map_zero f]
   · suffices ∀ y, f y = 0 by simp [this]
     clear x
     intro x
-    rw [← smul_inv_smul₀ hR x, map_nat_cast_smul f R S, hS, zero_smul]
+    rw [← smul_inv_smul₀ hR x]; rw [map_nat_cast_smul f R S]; rw [hS]; rw [zero_smul]
   · rw [← inv_smul_smul₀ hS (f _), ← map_nat_cast_smul f R S, smul_inv_smul₀ hR]
 #align map_inv_nat_cast_smul map_inv_nat_cast_smul
 
@@ -491,8 +491,7 @@ theorem map_inv_int_cast_smul [AddCommGroup M] [AddCommGroup M₂] {F : Type*}
 theorem map_rat_cast_smul [AddCommGroup M] [AddCommGroup M₂] {F : Type*} [AddMonoidHomClass F M M₂]
     (f : F) (R S : Type*) [DivisionRing R] [DivisionRing S] [Module R M] [Module S M₂] (c : ℚ)
     (x : M) : f ((c : R) • x) = (c : S) • f x := by
-  rw [Rat.cast_def, Rat.cast_def, div_eq_mul_inv, div_eq_mul_inv, mul_smul, mul_smul,
-    map_int_cast_smul f R S, map_inv_nat_cast_smul f R S]
+  rw [Rat.cast_def]; rw [Rat.cast_def]; rw [div_eq_mul_inv]; rw [div_eq_mul_inv]; rw [mul_smul]; rw [mul_smul]; rw [map_int_cast_smul f R S]; rw [map_inv_nat_cast_smul f R S]
 #align map_rat_cast_smul map_rat_cast_smul
 
 theorem map_rat_smul [AddCommGroup M] [AddCommGroup M₂] [Module ℚ M] [Module ℚ M₂] {F : Type*}
@@ -635,7 +634,7 @@ variable (R) (M)
 theorem Nat.noZeroSMulDivisors : NoZeroSMulDivisors ℕ M :=
   ⟨by
     intro c x
-    rw [nsmul_eq_smul_cast R, smul_eq_zero]
+    rw [nsmul_eq_smul_cast R]; rw [smul_eq_zero]
     simp⟩
 #align nat.no_zero_smul_divisors Nat.noZeroSMulDivisors
 
@@ -654,7 +653,7 @@ variable (R M)
 zero as well. Usually `M` is an `R`-algebra. -/
 theorem CharZero.of_module (M) [AddCommMonoidWithOne M] [CharZero M] [Module R M] : CharZero R := by
   refine' ⟨fun m n h => @Nat.cast_injective M _ _ _ _ _⟩
-  rw [← nsmul_one, ← nsmul_one, nsmul_eq_smul_cast R m (1 : M), nsmul_eq_smul_cast R n (1 : M), h]
+  rw [← nsmul_one]; rw [← nsmul_one]; rw [nsmul_eq_smul_cast R m (1 : M)]; rw [nsmul_eq_smul_cast R n (1 : M)]; rw [h]
 #align char_zero.of_module CharZero.of_module
 
 end Module
@@ -689,7 +688,7 @@ variable (R M)
 --include R
 
 theorem self_eq_neg {v : M} : v = -v ↔ v = 0 := by
-  rw [← two_nsmul_eq_zero R M, two_smul, add_eq_zero_iff_eq_neg]
+  rw [← two_nsmul_eq_zero R M]; rw [two_smul]; rw [add_eq_zero_iff_eq_neg]
 #align self_eq_neg self_eq_neg
 
 theorem neg_eq_self {v : M} : -v = v ↔ v = 0 := by rw [eq_comm, self_eq_neg R M]
@@ -756,13 +755,13 @@ end NoZeroSMulDivisors
 -- Porting note: simp can prove this
 --@[simp]
 theorem Nat.smul_one_eq_coe {R : Type*} [Semiring R] (m : ℕ) : m • (1 : R) = ↑m := by
-  rw [nsmul_eq_mul, mul_one]
+  rw [nsmul_eq_mul]; rw [mul_one]
 #align nat.smul_one_eq_coe Nat.smul_one_eq_coe
 
 -- Porting note: simp can prove this
 --@[simp]
 theorem Int.smul_one_eq_coe {R : Type*} [Ring R] (m : ℤ) : m • (1 : R) = ↑m := by
-  rw [zsmul_eq_mul, mul_one]
+  rw [zsmul_eq_mul]; rw [mul_one]
 #align int.smul_one_eq_coe Int.smul_one_eq_coe
 
 assert_not_exists Multiset

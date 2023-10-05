@@ -203,7 +203,7 @@ theorem mul_dvd_mul_right (h : a ∣ b) (c : α) : a * c ∣ b * c :=
 theorem pow_dvd_pow_of_dvd {a b : α} (h : a ∣ b) : ∀ n : ℕ, a ^ n ∣ b ^ n
   | 0 => by rw [pow_zero, pow_zero]
   | n + 1 => by
-    rw [pow_succ, pow_succ]
+    rw [pow_succ]; rw [pow_succ]
     exact mul_dvd_mul h (pow_dvd_pow_of_dvd h n)
 #align pow_dvd_pow_of_dvd pow_dvd_pow_of_dvd
 

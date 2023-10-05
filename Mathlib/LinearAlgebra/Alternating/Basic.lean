@@ -715,7 +715,7 @@ theorem map_perm [DecidableEq ι] [Fintype ι] (v : ι → M) (σ : Equiv.Perm �
 
 theorem map_congr_perm [DecidableEq ι] [Fintype ι] (σ : Equiv.Perm ι) :
     g v = Equiv.Perm.sign σ • g (v ∘ σ) := by
-  rw [g.map_perm, smul_smul]
+  rw [g.map_perm]; rw [smul_smul]
   simp
 #align alternating_map.map_congr_perm AlternatingMap.map_congr_perm
 
@@ -843,16 +843,15 @@ theorem map_linearDependent {K : Type*} [Ring K] {M : Type*} [AddCommGroup M] [M
   obtain ⟨s, g, h, i, hi, hz⟩ := not_linearIndependent_iff.mp h
   letI := Classical.decEq ι
   suffices f (update v i (g i • v i)) = 0 by
-    rw [f.map_smul, Function.update_eq_self, smul_eq_zero] at this
+    rw [f.map_smul] at this; rw [Function.update_eq_self] at this; rw [smul_eq_zero] at this
     exact Or.resolve_left this hz
   -- Porting note: Was `conv at h in .. => ..`.
   rw [← (funext fun x => ite_self (c := i = x) (d := Classical.decEq ι i x) (g x • v x))] at h
-  rw [Finset.sum_ite, Finset.filter_eq, Finset.filter_ne, if_pos hi, Finset.sum_singleton,
-    add_eq_zero_iff_eq_neg] at h
-  rw [h, f.map_neg, f.map_update_sum, neg_eq_zero]; apply Finset.sum_eq_zero
+  rw [Finset.sum_ite] at h; rw [Finset.filter_eq] at h; rw [Finset.filter_ne] at h; rw [if_pos hi] at h; rw [Finset.sum_singleton] at h; rw [add_eq_zero_iff_eq_neg] at h
+  rw [h]; rw [f.map_neg]; rw [f.map_update_sum]; rw [neg_eq_zero]; apply Finset.sum_eq_zero
   intro j hj
   obtain ⟨hij, _⟩ := Finset.mem_erase.mp hj
-  rw [f.map_smul, f.map_update_self _ hij.symm, smul_zero]
+  rw [f.map_smul]; rw [f.map_update_self _ hij.symm]; rw [smul_zero]
 #align alternating_map.map_linear_dependent AlternatingMap.map_linearDependent
 
 section Fin
@@ -979,8 +978,7 @@ theorem Basis.ext_alternating {f g : AlternatingMap R' N₁ N₂ ι} (e : Basis 
     by_cases hi : Function.Injective v
     · exact h v hi
     · have : ¬Function.Injective fun i => e (v i) := hi.imp Function.Injective.of_comp
-      rw [coe_multilinearMap, coe_multilinearMap, f.map_eq_zero_of_not_injective _ this,
-        g.map_eq_zero_of_not_injective _ this]
+      rw [coe_multilinearMap]; rw [coe_multilinearMap]; rw [f.map_eq_zero_of_not_injective _ this]; rw [g.map_eq_zero_of_not_injective _ this]
 #align basis.ext_alternating Basis.ext_alternating
 
 end Basis

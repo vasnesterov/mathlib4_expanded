@@ -46,15 +46,13 @@ theorem doubleFactorial_add_one (n : ℕ) : (n + 1)‼ = (n + 1) * (n - 1)‼ :=
 theorem factorial_eq_mul_doubleFactorial : ∀ n : ℕ, (n + 1)! = (n + 1)‼ * n‼
   | 0 => rfl
   | k + 1 => by
-    rw [doubleFactorial_add_two, factorial, factorial_eq_mul_doubleFactorial _, mul_comm _ k‼,
-      mul_assoc]
+    rw [doubleFactorial_add_two]; rw [factorial]; rw [factorial_eq_mul_doubleFactorial _]; rw [mul_comm _ k‼]; rw [mul_assoc]
 #align nat.factorial_eq_mul_double_factorial Nat.factorial_eq_mul_doubleFactorial
 
 theorem doubleFactorial_two_mul : ∀ n : ℕ, (2 * n)‼ = 2 ^ n * n !
   | 0 => rfl
   | n + 1 => by
-    rw [mul_add, mul_one, doubleFactorial_add_two, factorial, pow_succ, doubleFactorial_two_mul _,
-      succ_eq_add_one]
+    rw [mul_add]; rw [mul_one]; rw [doubleFactorial_add_two]; rw [factorial]; rw [pow_succ]; rw [doubleFactorial_two_mul _]; rw [succ_eq_add_one]
     ring
 #align nat.double_factorial_two_mul Nat.doubleFactorial_two_mul
 
@@ -63,8 +61,7 @@ open BigOperators
 theorem doubleFactorial_eq_prod_even : ∀ n : ℕ, (2 * n)‼ = ∏ i in Finset.range n, 2 * (i + 1)
   | 0 => rfl
   | n + 1 => by
-    rw [Finset.prod_range_succ, ← doubleFactorial_eq_prod_even _, mul_comm (2 * n)‼,
-      (by ring : 2 * (n + 1) = 2 * n + 2)]
+    rw [Finset.prod_range_succ]; rw [← doubleFactorial_eq_prod_even _]; rw [mul_comm (2 * n)‼]; rw [(by ring : 2 * (n + 1) = 2 * n + 2)]
     rfl
 #align nat.double_factorial_eq_prod_even Nat.doubleFactorial_eq_prod_even
 
@@ -72,8 +69,7 @@ theorem doubleFactorial_eq_prod_odd :
     ∀ n : ℕ, (2 * n + 1)‼ = ∏ i in Finset.range n, (2 * (i + 1) + 1)
   | 0 => rfl
   | n + 1 => by
-    rw [Finset.prod_range_succ, ← doubleFactorial_eq_prod_odd _, mul_comm (2 * n + 1)‼,
-      (by ring : 2 * (n + 1) + 1 = 2 * n + 1 + 2)]
+    rw [Finset.prod_range_succ]; rw [← doubleFactorial_eq_prod_odd _]; rw [mul_comm (2 * n + 1)‼]; rw [(by ring : 2 * (n + 1) + 1 = 2 * n + 1 + 2)]
     rfl
 #align nat.double_factorial_eq_prod_odd Nat.doubleFactorial_eq_prod_odd
 

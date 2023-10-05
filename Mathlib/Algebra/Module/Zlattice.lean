@@ -69,8 +69,7 @@ theorem mem_fundamentalDomain {m : E} :
 theorem map_fundamentalDomain {F : Type*} [NormedAddCommGroup F] [NormedSpace K F] (f : E ≃ₗ[K] F) :
     f '' (fundamentalDomain b) = fundamentalDomain (b.map f) := by
   ext x
-  rw [mem_fundamentalDomain, Basis.map_repr, LinearEquiv.trans_apply, ← mem_fundamentalDomain,
-    show f.symm x = f.toEquiv.symm x by rfl, ← Set.mem_image_equiv]
+  rw [mem_fundamentalDomain]; rw [Basis.map_repr]; rw [LinearEquiv.trans_apply]; rw [← mem_fundamentalDomain]; rw [show f.symm x = f.toEquiv.symm x by rfl]; rw [← Set.mem_image_equiv]
   rfl
 
 @[simp]
@@ -146,7 +145,7 @@ theorem fract_apply (m : E) : fract b m = m - floor b m := rfl
 
 @[simp]
 theorem repr_fract_apply (m : E) (i : ι) : b.repr (fract b m) i = Int.fract (b.repr m i) := by
-  rw [fract, LinearEquiv.map_sub, Finsupp.coe_sub, Pi.sub_apply, repr_floor_apply, Int.fract]
+  rw [fract]; rw [LinearEquiv.map_sub]; rw [Finsupp.coe_sub]; rw [Pi.sub_apply]; rw [repr_floor_apply]; rw [Int.fract]
 #align zspan.repr_fract_apply Zspan.repr_fract_apply
 
 @[simp]
@@ -161,8 +160,7 @@ theorem fract_zspan_add (m : E) {v : E} (h : v ∈ span ℤ (Set.range b)) :
   refine (Basis.ext_elem_iff b).mpr fun i => ?_
   simp_rw [repr_fract_apply, Int.fract_eq_fract]
   use (b.restrictScalars ℤ).repr ⟨v, h⟩ i
-  rw [map_add, Finsupp.coe_add, Pi.add_apply, add_tsub_cancel_right,
-    ← eq_intCast (algebraMap ℤ K) _, Basis.restrictScalars_repr_apply]
+  rw [map_add]; rw [Finsupp.coe_add]; rw [Pi.add_apply]; rw [add_tsub_cancel_right]; rw [← eq_intCast (algebraMap ℤ K) _]; rw [Basis.restrictScalars_repr_apply]
 #align zspan.fract_zspan_add Zspan.fract_zspan_add
 
 @[simp]
@@ -194,7 +192,7 @@ theorem fractRestrict_apply (x : E) : (fractRestrict b x : E) = fract b x := rfl
 
 theorem fract_eq_fract (m n : E) : fract b m = fract b n ↔ -m + n ∈ span ℤ (Set.range b) := by
   classical
-  rw [eq_comm, Basis.ext_elem_iff b]
+  rw [eq_comm]; rw [Basis.ext_elem_iff b]
   simp_rw [repr_fract_apply, Int.fract_eq_fract, eq_comm, Basis.mem_span_iff_repr_mem,
     sub_eq_neg_add, map_add, LinearEquiv.map_neg, Finsupp.coe_add, Finsupp.coe_neg, Pi.add_apply,
     Pi.neg_apply, ← eq_intCast (algebraMap ℤ K) _, Set.mem_range]
@@ -213,7 +211,7 @@ theorem norm_fract_le [HasSolidNorm K] (m : E) : ‖fract b m‖ ≤ ∑ i, ‖b
     exact (one_mul _).symm
   rw [(norm_one.symm : 1 = ‖(1 : K)‖)]
   apply norm_le_norm_of_abs_le_abs
-  rw [abs_one, Int.abs_fract]
+  rw [abs_one]; rw [Int.abs_fract]
   exact le_of_lt (Int.fract_lt_one _)
 #align zspan.norm_fract_le Zspan.norm_fract_le
 
@@ -245,8 +243,7 @@ theorem fundamentalDomain_isBounded [Finite ι] [HasSolidNorm K] :
 
 theorem vadd_mem_fundamentalDomain [Fintype ι] (y : span ℤ (Set.range b)) (x : E) :
     y +ᵥ x ∈ fundamentalDomain b ↔ y = -floor b x := by
-  rw [Subtype.ext_iff, ← add_right_inj x, AddSubgroupClass.coe_neg, ← sub_eq_add_neg, ← fract_apply,
-    ← fract_zspan_add b _ (Subtype.mem y), add_comm, ← vadd_eq_add, ← vadd_def, eq_comm, ←
+  rw [Subtype.ext_iff]; rw [← add_right_inj x]; rw [AddSubgroupClass.coe_neg]; rw [← sub_eq_add_neg]; rw [← fract_apply]; rw [← fract_zspan_add b _ (Subtype.mem y)]; rw [add_comm]; rw [← vadd_eq_add]; rw [← vadd_def]; rw [eq_comm]; rw [←
     fract_eq_self]
 #align zspan.vadd_mem_fundamental_domain Zspan.vadd_mem_fundamentalDomain
 
@@ -264,12 +261,10 @@ def quotientEquiv [Fintype ι] :
     E ⧸ span ℤ (Set.range b) ≃ (fundamentalDomain b) := by
   refine Equiv.ofBijective ?_ ⟨fun x y => ?_, fun x => ?_⟩
   · refine fun q => Quotient.liftOn q (fractRestrict b) (fun _ _ h => ?_)
-    rw [Subtype.mk.injEq, fractRestrict_apply, fractRestrict_apply, fract_eq_fract]
+    rw [Subtype.mk.injEq]; rw [fractRestrict_apply]; rw [fractRestrict_apply]; rw [fract_eq_fract]
     exact QuotientAddGroup.leftRel_apply.mp h
   · refine Quotient.inductionOn₂ x y (fun _ _ hxy => ?_)
-    rw [Quotient.liftOn_mk (s := quotientRel (span ℤ (Set.range b))), fractRestrict,
-      Quotient.liftOn_mk (s := quotientRel (span ℤ (Set.range b))),  fractRestrict,
-      Subtype.mk.injEq] at hxy
+    rw [Quotient.liftOn_mk (s := quotientRel (span ℤ (Set.range b)))] at hxy; rw [fractRestrict] at hxy; rw [Quotient.liftOn_mk (s := quotientRel (span ℤ (Set.range b)))] at hxy; rw [fractRestrict] at hxy; rw [Subtype.mk.injEq] at hxy
     apply Quotient.sound'
     rwa [QuotientAddGroup.leftRel_apply, mem_toAddSubgroup, ← fract_eq_fract]
   · obtain ⟨a, rfl⟩ := fractRestrict_surjective b x
@@ -282,7 +277,7 @@ theorem quotientEquiv_apply_mk [Fintype ι] (x : E) :
 @[simp]
 theorem quotientEquiv.symm_apply [Fintype ι] (x : fundamentalDomain b) :
     (quotientEquiv b).symm x = Submodule.Quotient.mk ↑x := by
-  rw [Equiv.symm_apply_eq, quotientEquiv_apply_mk b ↑x, Subtype.ext_iff, fractRestrict_apply]
+  rw [Equiv.symm_apply_eq]; rw [quotientEquiv_apply_mk b ↑x]; rw [Subtype.ext_iff]; rw [fractRestrict_apply]
   exact (fract_eq_self.mpr x.prop).symm
 
 end NormedLatticeField
@@ -332,9 +327,7 @@ theorem measure_fundamentalDomain [Fintype ι] [DecidableEq ι] [MeasurableSpace
 @[simp]
 theorem volume_fundamentalDomain [Fintype ι] [DecidableEq ι] (b : Basis ι ℝ (ι → ℝ)) :
     volume (fundamentalDomain b) = ENNReal.ofReal |(Matrix.of b).det| := by
-  rw [measure_fundamentalDomain b volume (b₀ := Pi.basisFun ℝ ι), fundamentalDomain_pi_basisFun,
-    volume_pi, Measure.pi_pi, Real.volume_Ico, sub_zero, ENNReal.ofReal_one, Finset.prod_const_one,
-    mul_one, ← Matrix.det_transpose]
+  rw [measure_fundamentalDomain b volume (b₀ := Pi.basisFun ℝ ι)]; rw [fundamentalDomain_pi_basisFun]; rw [volume_pi]; rw [Measure.pi_pi]; rw [Real.volume_Ico]; rw [sub_zero]; rw [ENNReal.ofReal_one]; rw [Finset.prod_const_one]; rw [mul_one]; rw [← Matrix.det_transpose]
   rfl
 
 end Real
@@ -362,7 +355,7 @@ theorem Zlattice.FG : AddSubgroup.FG L := by
     -- so there are finitely many since `fundamentalDomain b` is bounded.
     refine fg_def.mpr ⟨map (span ℤ s).mkQ (AddSubgroup.toIntSubmodule L), ?_, span_eq _⟩
     let b := Basis.mk h_lind (by
-      rw [← hs, ← h_span]
+      rw [← hs]; rw [← h_span]
       exact span_mono (by simp only [Subtype.range_coe_subtype, Set.setOf_mem_eq, subset_rfl]))
     rw [show span ℤ s = span ℤ (Set.range b) by simp [Basis.coe_mk, Subtype.range_coe_subtype]]
     have : Fintype s := Set.Finite.fintype h_lind.finite
@@ -372,17 +365,17 @@ theorem Zlattice.FG : AddSubgroup.FG L := by
       Metric.finite_isBounded_inter_isClosed (Zspan.fundamentalDomain_isBounded b) inferInstance
     refine Set.Finite.subset this ?_
     rintro _ ⟨_, ⟨⟨x, ⟨h_mem, rfl⟩⟩, rfl⟩⟩
-    rw [Function.comp_apply, mkQ_apply, Zspan.quotientEquiv_apply_mk, Zspan.fractRestrict_apply]
+    rw [Function.comp_apply]; rw [mkQ_apply]; rw [Zspan.quotientEquiv_apply_mk]; rw [Zspan.fractRestrict_apply]
     refine ⟨?_, ?_⟩
     · exact Zspan.fract_mem_fundamentalDomain b x
     · rw [Zspan.fract, SetLike.mem_coe, sub_eq_add_neg]
       refine AddSubgroup.add_mem _ h_mem
         (neg_mem (Set.mem_of_subset_of_mem ?_ (Subtype.mem (Zspan.floor b x))))
       rw [show (L : Set E) = AddSubgroup.toIntSubmodule L by rfl]
-      rw [SetLike.coe_subset_coe, Basis.coe_mk, Subtype.range_coe_subtype, Set.setOf_mem_eq]
+      rw [SetLike.coe_subset_coe]; rw [Basis.coe_mk]; rw [Subtype.range_coe_subtype]; rw [Set.setOf_mem_eq]
       exact span_le.mpr h_incl
   · -- `span ℤ s` is finitely generated because `s` is finite
-    rw [ker_mkQ, inf_of_le_right (span_le.mpr h_incl)]
+    rw [ker_mkQ]; rw [inf_of_le_right (span_le.mpr h_incl)]
     exact fg_span (LinearIndependent.finite h_lind)
 
 theorem Zlattice.module_finite : Module.Finite ℤ L :=
@@ -418,7 +411,7 @@ theorem Zlattice.rank : finrank ℤ L = finrank K E := by
   have h_spanE : span K (Set.range b) = ⊤ := by rwa [← span_span_of_tower (R := ℤ), h_spanL]
   have h_card : Fintype.card (Module.Free.ChooseBasisIndex ℤ L) =
       (Set.range b).toFinset.card := by
-    rw [Set.toFinset_range, Finset.univ.card_image_of_injective]
+    rw [Set.toFinset_range]; rw [Finset.univ.card_image_of_injective]
     rfl
     exact Subtype.coe_injective.comp (Basis.injective _)
   rw [finrank_eq_card_chooseBasisIndex]
@@ -435,10 +428,9 @@ theorem Zlattice.rank : finrank ℤ L = finrank K E := by
     contrapose! h
     -- Since `finrank ℤ L > finrank K E`, there exists a vector `v ∈ b` with `v ∉ e`
     obtain ⟨v, hv⟩ : (Set.range b \ Set.range e).Nonempty := by
-      rw [Basis.coe_mk, Subtype.range_coe_subtype, Set.setOf_mem_eq, ← Set.toFinset_nonempty]
+      rw [Basis.coe_mk]; rw [Subtype.range_coe_subtype]; rw [Set.setOf_mem_eq]; rw [← Set.toFinset_nonempty]
       contrapose h
-      rw [Finset.not_nonempty_iff_eq_empty, Set.toFinset_diff,
-        Finset.sdiff_eq_empty_iff_subset] at h
+      rw [Finset.not_nonempty_iff_eq_empty] at h; rw [Set.toFinset_diff] at h; rw [Finset.sdiff_eq_empty_iff_subset] at h
       replace h := Finset.card_le_of_subset h
       rwa [not_lt, h_card, ← topEquiv.finrank_eq, ← h_spanE, ← ht_span,
         finrank_span_set_eq_card _ ht_lin]
@@ -449,15 +441,14 @@ theorem Zlattice.rank : finrank ℤ L = finrank K E := by
       exact Set.insert_subset (Set.mem_of_mem_diff hv) (by simp [ht_inc])
     -- We prove finally that `e ∪ {v}` is not ℤ-linear independent or, equivalently,
     -- not ℚ-linear independent by showing that `v ∈ span ℚ e`.
-    rw [LinearIndependent.iff_fractionRing ℤ ℚ,
-      (linearIndependent_insert (Set.not_mem_of_mem_diff hv)),  not_and, not_not]
+    rw [LinearIndependent.iff_fractionRing ℤ ℚ]; rw [(linearIndependent_insert (Set.not_mem_of_mem_diff hv))]; rw [not_and]; rw [not_not]
     intro _
     -- But that follows from the fact that there exist `n, m : ℕ`, `n ≠ m`
     -- such that `(n - m) • v ∈ span ℤ e` which is true since `n ↦ Zspan.fract e (n • v)`
     -- takes value into the finite set `fundamentalDomain e ∩ L`
     have h_mapsto : Set.MapsTo (fun n : ℤ => Zspan.fract e (n • v)) Set.univ
         (Metric.closedBall 0 (∑ i, ‖e i‖) ∩ (L : Set E)) := by
-      rw [Set.mapsTo_inter, Set.maps_univ_to, Set.maps_univ_to]
+      rw [Set.mapsTo_inter]; rw [Set.maps_univ_to]; rw [Set.maps_univ_to]
       refine ⟨fun _ =>  mem_closedBall_zero_iff.mpr (Zspan.norm_fract_le e _), fun _ => ?_⟩
       · change _ ∈ AddSubgroup.toIntSubmodule L
         rw [← h_spanL]
@@ -476,7 +467,7 @@ theorem Zlattice.rank : finrank ℤ L = finrank K E := by
       ← zsmul_eq_smul_cast ℚ]
   · -- To prove that `finrank K E ≤ finrank ℤ L`, we use the fact `b` generates `E` over `K`
     -- and thus `finrank K E ≤ card b = finrank ℤ L`
-    rw [← topEquiv.finrank_eq, ← h_spanE]
+    rw [← topEquiv.finrank_eq]; rw [← h_spanE]
     convert finrank_span_le_card (K := K) (Set.range b)
 
 end Zlattice

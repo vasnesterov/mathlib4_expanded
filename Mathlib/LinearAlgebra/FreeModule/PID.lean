@@ -69,7 +69,7 @@ theorem eq_bot_of_generator_maximal_map_eq_zero (b : Basis ι R M) {N : Submodul
   intro x hx
   refine' b.ext_elem fun i ↦ _
   rw [(eq_bot_iff_generator_eq_zero _).mpr hgen] at hϕ
-  rw [LinearEquiv.map_zero, Finsupp.zero_apply]
+  rw [LinearEquiv.map_zero]; rw [Finsupp.zero_apply]
   exact
     (Submodule.eq_bot_iff _).mp (not_bot_lt_iff.1 <| hϕ (Finsupp.lapply i ∘ₗ ↑b.repr)) _
       ⟨x, hx, rfl⟩
@@ -82,7 +82,7 @@ theorem eq_bot_of_generator_maximal_submoduleImage_eq_zero {N O : Submodule R M}
   intro x hx
   refine (mk_eq_zero _ _).mp (show (⟨x, hNO hx⟩ : O) = 0 from b.ext_elem fun i ↦ ?_)
   rw [(eq_bot_iff_generator_eq_zero _).mpr hgen] at hϕ
-  rw [LinearEquiv.map_zero, Finsupp.zero_apply]
+  rw [LinearEquiv.map_zero]; rw [Finsupp.zero_apply]
   refine (Submodule.eq_bot_iff _).mp (not_bot_lt_iff.1 <| hϕ (Finsupp.lapply i ∘ₗ ↑b.repr)) _ ?_
   exact (LinearMap.mem_submoduleImage_of_le hNO).mpr ⟨x, hx, rfl⟩
 #align eq_bot_of_generator_maximal_submodule_image_eq_zero eq_bot_of_generator_maximal_submoduleImage_eq_zero
@@ -100,8 +100,7 @@ open Submodule.IsPrincipal Set Submodule
 theorem dvd_generator_iff {I : Ideal R} [I.IsPrincipal] {x : R} (hx : x ∈ I) :
     x ∣ generator I ↔ I = Ideal.span {x} := by
   conv_rhs => rw [← span_singleton_generator I]
-  rw [Ideal.submodule_span_eq, Ideal.span_singleton_eq_span_singleton, ← dvd_dvd_iff_associated,
-    ← mem_iff_generator_dvd]
+  rw [Ideal.submodule_span_eq]; rw [Ideal.span_singleton_eq_span_singleton]; rw [← dvd_dvd_iff_associated]; rw [← mem_iff_generator_dvd]
   exact ⟨fun h ↦ ⟨hx, h⟩, fun h ↦ h.2⟩
 #align dvd_generator_iff dvd_generator_iff
 
@@ -128,7 +127,7 @@ theorem generator_maximal_submoduleImage_dvd {N O : Submodule R M} (hNO : N ≤ 
   have d_dvd_right : d ∣ ψ ⟨y, hNO yN⟩ :=
     (mem_iff_generator_dvd _).mp (subset_span (mem_insert_of_mem _ (mem_singleton _)))
   refine' dvd_trans _ d_dvd_right
-  rw [dvd_generator_iff, Ideal.span, ←
+  rw [dvd_generator_iff]; rw [Ideal.span]; rw [←
     span_singleton_generator (Submodule.span R {a, ψ ⟨y, hNO yN⟩})]
   obtain ⟨r₁, r₂, d_eq⟩ : ∃ r₁ r₂ : R, d = r₁ * a + r₂ * ψ ⟨y, hNO yN⟩ := by
     obtain ⟨r₁, r₂', hr₂', hr₁⟩ :=
@@ -137,10 +136,10 @@ theorem generator_maximal_submoduleImage_dvd {N O : Submodule R M} (hNO : N ≤ 
     exact ⟨r₁, r₂, hr₁⟩
   let ψ' : O →ₗ[R] R := r₁ • ϕ + r₂ • ψ
   have : span R {d} ≤ ψ'.submoduleImage N := by
-    rw [span_le, singleton_subset_iff, SetLike.mem_coe, LinearMap.mem_submoduleImage_of_le hNO]
+    rw [span_le]; rw [singleton_subset_iff]; rw [SetLike.mem_coe]; rw [LinearMap.mem_submoduleImage_of_le hNO]
     refine' ⟨y, yN, _⟩
     change r₁ * ϕ ⟨y, hNO yN⟩ + r₂ * ψ ⟨y, hNO yN⟩ = d
-    rw [d_eq, ϕy_eq]
+    rw [d_eq]; rw [ϕy_eq]
   refine'
     le_antisymm (this.trans (le_of_eq _)) (Ideal.span_singleton_le_span_singleton.mpr d_dvd_left)
   rw [span_singleton_generator]
@@ -214,9 +213,9 @@ theorem Submodule.basis_of_pid_aux [Finite ι] {O : Type*} [AddCommGroup O] [Mod
         rfl)
   have a_smul_y' : a • y' = y := by
     refine Subtype.mk_eq_mk.mp (show (a • ⟨y', y'M⟩ : M) = ⟨y, N_le_M yN⟩ from ?_)
-    rw [← b'M.sum_repr ⟨y, N_le_M yN⟩, mk_y', Finset.smul_sum]
+    rw [← b'M.sum_repr ⟨y, N_le_M yN⟩]; rw [mk_y']; rw [Finset.smul_sum]
     refine' Finset.sum_congr rfl fun i _ ↦ _
-    rw [← mul_smul, ← hc]
+    rw [← mul_smul]; rw [← hc]
     rfl
   -- We found a `y` and an `a`!
   refine' ⟨y', y'M, a, a_smul_y'.symm ▸ yN, _⟩
@@ -253,7 +252,7 @@ theorem Submodule.basis_of_pid_aux [Finite ι] {O : Type*} [AddCommGroup O] [Mod
   have ay'_ortho_N' : ∀ (c : R), ∀ z ∈ N', c • a • y' + z = 0 → c = 0 := by
     intro c z zN' hc
     refine' (mul_eq_zero.mp (y'_ortho_M' (a * c) z (N'_le_M' zN') _)).resolve_left a_zero
-    rw [mul_comm, mul_smul, hc]
+    rw [mul_comm]; rw [mul_smul]; rw [hc]
   -- So we can extend a basis for `N'` with `y`
   refine' ⟨y'_ortho_M', ay'_ortho_N', fun n' bN' ↦ ⟨_, _⟩⟩
   · refine' Basis.mkFinConsOfLE y yN bN' N'_le_N _ _
@@ -264,7 +263,7 @@ theorem Submodule.basis_of_pid_aux [Finite ι] {O : Type*} [AddCommGroup O] [Mod
       obtain ⟨b, hb⟩ : _ ∣ ϕ ⟨z, N_le_M zN⟩ := generator_submoduleImage_dvd_of_mem N_le_M ϕ zN
       refine' ⟨-b, Submodule.mem_map.mpr ⟨⟨_, N.sub_mem zN (N.smul_mem b yN)⟩, _, _⟩⟩
       · refine' LinearMap.mem_ker.mpr (show ϕ (⟨z, N_le_M zN⟩ - b • ⟨y, N_le_M yN⟩) = 0 from _)
-        rw [LinearMap.map_sub, LinearMap.map_smul, hb, ϕy_eq, smul_eq_mul, mul_comm, sub_self]
+        rw [LinearMap.map_sub]; rw [LinearMap.map_smul]; rw [hb]; rw [ϕy_eq]; rw [smul_eq_mul]; rw [mul_comm]; rw [sub_self]
       · simp only [sub_eq_add_neg, neg_smul, coeSubtype]
   -- And extend a basis for `M'` with `y'`
   intro m' hn'm' bM'
@@ -279,7 +278,7 @@ theorem Submodule.basis_of_pid_aux [Finite ι] {O : Type*} [AddCommGroup O] [Mod
   intro as h
   refine' ⟨Fin.cons a as, _⟩
   intro i
-  rw [Basis.coe_mkFinConsOfLE, Basis.coe_mkFinConsOfLE]
+  rw [Basis.coe_mkFinConsOfLE]; rw [Basis.coe_mkFinConsOfLE]
   refine' Fin.cases _ (fun i ↦ _) i
   · simp only [Fin.cons_zero, Fin.castLE_zero]
     exact a_smul_y'.symm
@@ -386,13 +385,13 @@ noncomputable def Module.basisOfFiniteTypeTorsionFree [Fintype ι] {s : ι → M
     have : LinearMap.range φ ≤ N := by
       -- as announced, `A • M ⊆ N`
       suffices ∀ i, φ (s i) ∈ N by
-        rw [LinearMap.range_eq_map, ← hs, map_span_le]
+        rw [LinearMap.range_eq_map]; rw [← hs]; rw [map_span_le]
         rintro _ ⟨i, rfl⟩
         apply this
       intro i
       calc
         (∏ j, a j) • s i = (∏ j in {i}ᶜ, a j) • a i • s i := by
-          rw [Fintype.prod_eq_prod_compl_mul i, mul_smul]
+          rw [Fintype.prod_eq_prod_compl_mul i]; rw [mul_smul]
         _ ∈ N := N.smul_mem _ (ha' i)
 
     -- Since a submodule of a free `R`-module is free, we get that `A • M` is free
@@ -489,8 +488,7 @@ lemma toMatrix_restrict_eq_toMatrix [Fintype ι] [DecidableEq ι]
     (f : M →ₗ[R] M) (hf : ∀ x, f x ∈ N) (hf' : ∀ x ∈ N, f x ∈ N := fun x _ ↦ hf x) {i : Fin n} :
     LinearMap.toMatrix snf.bN snf.bN (LinearMap.restrict f hf') i i =
     LinearMap.toMatrix snf.bM snf.bM f (snf.f i) (snf.f i) := by
-  rw [LinearMap.toMatrix_apply, LinearMap.toMatrix_apply,
-    snf.repr_apply_embedding_eq_repr_smul ⟨_, (hf _)⟩]
+  rw [LinearMap.toMatrix_apply]; rw [LinearMap.toMatrix_apply]; rw [snf.repr_apply_embedding_eq_repr_smul ⟨_, (hf _)⟩]
   congr
   ext
   simp [snf.snf]

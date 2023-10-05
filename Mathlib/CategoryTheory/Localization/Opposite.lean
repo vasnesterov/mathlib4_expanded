@@ -38,7 +38,7 @@ def StrictUniversalPropertyFixedTarget.op {E : Type*} [Category E]
     convert congr_arg Functor.leftOp (h.fac F.rightOp hF.rightOp)
   uniq F₁ F₂ eq := by
     suffices F₁.rightOp = F₂.rightOp by
-      rw [← F₁.rightOp_leftOp_eq, ← F₂.rightOp_leftOp_eq, this]
+      rw [← F₁.rightOp_leftOp_eq]; rw [← F₂.rightOp_leftOp_eq]; rw [this]
     have eq' := congr_arg Functor.rightOp eq
     exact h.uniq _ _ eq'
 #align category_theory.localization.strict_universal_property_fixed_target.op CategoryTheory.Localization.StrictUniversalPropertyFixedTarget.op

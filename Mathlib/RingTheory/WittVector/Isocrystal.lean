@@ -237,12 +237,11 @@ theorem isocrystal_classification (k : Type*) [Field k] [IsAlgClosed k] [CharP k
   refine' ⟨⟨E, _⟩⟩
   simp only
   intro c
-  rw [LinearEquiv.trans_apply, LinearEquiv.trans_apply, LinearEquiv.smulOfNeZero_apply,
-    LinearEquiv.smulOfNeZero_apply, LinearEquiv.map_smul, LinearEquiv.map_smul]
+  rw [LinearEquiv.trans_apply]; rw [LinearEquiv.trans_apply]; rw [LinearEquiv.smulOfNeZero_apply]; rw [LinearEquiv.smulOfNeZero_apply]; rw [LinearEquiv.map_smul]; rw [LinearEquiv.map_smul]
   -- Porting note: was
   -- simp only [hax, LinearEquiv.ofBijective_apply, LinearMap.toSpanSingleton_apply,
   --   LinearEquiv.map_smulₛₗ, StandardOneDimIsocrystal.frobenius_apply, Algebra.id.smul_eq_mul]
-  rw [LinearEquiv.ofBijective_apply, LinearEquiv.ofBijective_apply]
+  rw [LinearEquiv.ofBijective_apply]; rw [LinearEquiv.ofBijective_apply]
   erw [LinearMap.toSpanSingleton_apply K(p, k) V x c, LinearMap.toSpanSingleton_apply K(p, k) V x]
   simp only [hax, LinearEquiv.ofBijective_apply, LinearMap.toSpanSingleton_apply,
     LinearEquiv.map_smulₛₗ, StandardOneDimIsocrystal.frobenius_apply, Algebra.id.smul_eq_mul]

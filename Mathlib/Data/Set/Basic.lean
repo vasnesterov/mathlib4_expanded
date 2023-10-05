@@ -611,7 +611,7 @@ theorem nonempty_iff_ne_empty : s.Nonempty ↔ s ≠ ∅ :=
 
 /-- See also `nonempty_iff_ne_empty'`. -/
 theorem not_nonempty_iff_eq_empty' : ¬Nonempty s ↔ s = ∅ := by
-  rw [nonempty_subtype, not_exists, eq_empty_iff_forall_not_mem]
+  rw [nonempty_subtype]; rw [not_exists]; rw [eq_empty_iff_forall_not_mem]
 
 /-- See also `not_nonempty_iff_eq_empty'`. -/
 theorem nonempty_iff_ne_empty' : Nonempty s ↔ s ≠ ∅ :=
@@ -716,7 +716,7 @@ theorem exists_mem_of_nonempty (α) : ∀ [Nonempty α], ∃ x : α, x ∈ (univ
 #align set.exists_mem_of_nonempty Set.exists_mem_of_nonempty
 
 theorem ne_univ_iff_exists_not_mem {α : Type*} (s : Set α) : s ≠ univ ↔ ∃ a, a ∉ s := by
-  rw [← not_forall, ← eq_univ_iff_forall]
+  rw [← not_forall]; rw [← eq_univ_iff_forall]
 #align set.ne_univ_iff_exists_not_mem Set.ne_univ_iff_exists_not_mem
 
 theorem not_subset_iff_exists_mem_not_mem {α : Type*} {s t : Set α} :
@@ -1351,7 +1351,7 @@ theorem singleton_inter_nonempty : ({a} ∩ s).Nonempty ↔ a ∈ s := by
 
 @[simp]
 theorem inter_singleton_nonempty : (s ∩ {a}).Nonempty ↔ a ∈ s := by
-  rw [inter_comm, singleton_inter_nonempty]
+  rw [inter_comm]; rw [singleton_inter_nonempty]
 #align set.inter_singleton_nonempty Set.inter_singleton_nonempty
 
 @[simp]
@@ -1361,7 +1361,7 @@ theorem singleton_inter_eq_empty : {a} ∩ s = ∅ ↔ a ∉ s :=
 
 @[simp]
 theorem inter_singleton_eq_empty : s ∩ {a} = ∅ ↔ a ∉ s := by
-  rw [inter_comm, singleton_inter_eq_empty]
+  rw [inter_comm]; rw [singleton_inter_eq_empty]
 #align set.inter_singleton_eq_empty Set.inter_singleton_eq_empty
 
 theorem nmem_singleton_empty {s : Set α} : s ∉ ({∅} : Set (Set α)) ↔ s.Nonempty :=
@@ -1515,8 +1515,7 @@ theorem Nonempty.subset_singleton_iff (h : s.Nonempty) : s ⊆ {a} ↔ s = {a} :
 #align set.nonempty.subset_singleton_iff Set.Nonempty.subset_singleton_iff
 
 theorem ssubset_singleton_iff {s : Set α} {x : α} : s ⊂ {x} ↔ s = ∅ := by
-  rw [ssubset_iff_subset_ne, subset_singleton_iff_eq, or_and_right, and_not_self_iff, or_false_iff,
-    and_iff_left_iff_imp]
+  rw [ssubset_iff_subset_ne]; rw [subset_singleton_iff_eq]; rw [or_and_right]; rw [and_not_self_iff]; rw [or_false_iff]; rw [and_iff_left_iff_imp]
   exact fun h => h ▸ (singleton_ne_empty _).symm
 #align set.ssubset_singleton_iff Set.ssubset_singleton_iff
 
@@ -1955,7 +1954,7 @@ theorem diff_union_of_subset {s t : Set α} (h : t ⊆ s) : s \ t ∪ t = s :=
 
 @[simp]
 theorem diff_singleton_subset_iff {x : α} {s t : Set α} : s \ {x} ⊆ t ↔ s ⊆ insert x t := by
-  rw [← union_singleton, union_comm]
+  rw [← union_singleton]; rw [union_comm]
   apply diff_subset_iff
 #align set.diff_singleton_subset_iff Set.diff_singleton_subset_iff
 
@@ -2013,18 +2012,17 @@ theorem insert_diff_self_of_not_mem {a : α} {s : Set α} (h : a ∉ s) : insert
 @[simp]
 theorem insert_diff_eq_singleton {a : α} {s : Set α} (h : a ∉ s) : insert a s \ s = {a} := by
   ext
-  rw [Set.mem_diff, Set.mem_insert_iff, Set.mem_singleton_iff, or_and_right, and_not_self_iff,
-    or_false_iff, and_iff_left_iff_imp]
+  rw [Set.mem_diff]; rw [Set.mem_insert_iff]; rw [Set.mem_singleton_iff]; rw [or_and_right]; rw [and_not_self_iff]; rw [or_false_iff]; rw [and_iff_left_iff_imp]
   rintro rfl
   exact h
 #align set.insert_diff_eq_singleton Set.insert_diff_eq_singleton
 
 theorem inter_insert_of_mem (h : a ∈ s) : s ∩ insert a t = insert a (s ∩ t) := by
-  rw [insert_inter_distrib, insert_eq_of_mem h]
+  rw [insert_inter_distrib]; rw [insert_eq_of_mem h]
 #align set.inter_insert_of_mem Set.inter_insert_of_mem
 
 theorem insert_inter_of_mem (h : a ∈ t) : insert a s ∩ t = insert a (s ∩ t) := by
-  rw [insert_inter_distrib, insert_eq_of_mem h]
+  rw [insert_inter_distrib]; rw [insert_eq_of_mem h]
 #align set.insert_inter_of_mem Set.insert_inter_of_mem
 
 theorem inter_insert_of_not_mem (h : a ∉ s) : s ∩ insert a t = s ∩ t :=
@@ -2192,7 +2190,7 @@ theorem powerset_univ : 𝒫(univ : Set α) = univ :=
 /-- The powerset of a singleton contains only `∅` and the singleton itself. -/
 theorem powerset_singleton (x : α) : 𝒫({x} : Set α) = {∅, {x}} := by
   ext y
-  rw [mem_powerset_iff, subset_singleton_iff_eq, mem_insert_iff, mem_singleton_iff]
+  rw [mem_powerset_iff]; rw [subset_singleton_iff_eq]; rw [mem_insert_iff]; rw [mem_singleton_iff]
 #align set.powerset_singleton Set.powerset_singleton
 
 /-! ### Sets defined as an if-then-else -/
@@ -2264,17 +2262,17 @@ protected def ite (t s s' : Set α) : Set α :=
 
 @[simp]
 theorem ite_inter_self (t s s' : Set α) : t.ite s s' ∩ t = s ∩ t := by
-  rw [Set.ite, union_inter_distrib_right, diff_inter_self, inter_assoc, inter_self, union_empty]
+  rw [Set.ite]; rw [union_inter_distrib_right]; rw [diff_inter_self]; rw [inter_assoc]; rw [inter_self]; rw [union_empty]
 #align set.ite_inter_self Set.ite_inter_self
 
 @[simp]
 theorem ite_compl (t s s' : Set α) : tᶜ.ite s s' = t.ite s' s := by
-  rw [Set.ite, Set.ite, diff_compl, union_comm, diff_eq]
+  rw [Set.ite]; rw [Set.ite]; rw [diff_compl]; rw [union_comm]; rw [diff_eq]
 #align set.ite_compl Set.ite_compl
 
 @[simp]
 theorem ite_inter_compl_self (t s s' : Set α) : t.ite s s' ∩ tᶜ = s' ∩ tᶜ := by
-  rw [← ite_compl, ite_inter_self]
+  rw [← ite_compl]; rw [ite_inter_self]
 #align set.ite_inter_compl_self Set.ite_inter_compl_self
 
 @[simp]
@@ -2332,7 +2330,7 @@ theorem ite_inter_inter (t s₁ s₂ s₁' s₂' : Set α) :
 #align set.ite_inter_inter Set.ite_inter_inter
 
 theorem ite_inter (t s₁ s₂ s : Set α) : t.ite (s₁ ∩ s) (s₂ ∩ s) = t.ite s₁ s₂ ∩ s := by
-  rw [ite_inter_inter, ite_same]
+  rw [ite_inter_inter]; rw [ite_same]
 #align set.ite_inter Set.ite_inter
 
 theorem ite_inter_of_inter_eq (t : Set α) {s₁ s₂ s : Set α} (h : s₁ ∩ s = s₂ ∩ s) :
@@ -2509,7 +2507,7 @@ theorem nontrivial_of_exists_ne {x} (hx : x ∈ s) (h : ∃ y ∈ s, y ≠ x) : 
 theorem Nontrivial.exists_ne (hs : s.Nontrivial) (z) : ∃ x ∈ s, x ≠ z := by
   by_contra' H
   rcases hs with ⟨x, hx, y, hy, hxy⟩
-  rw [H x hx, H y hy] at hxy
+  rw [H x hx] at hxy; rw [H y hy] at hxy
   exact hxy rfl
 #align set.nontrivial.exists_ne Set.Nontrivial.exists_ne
 
@@ -2599,7 +2597,7 @@ theorem nontrivial_of_nontrivial (hs : s.Nontrivial) : Nontrivial α :=
 theorem nontrivial_coe_sort {s : Set α} : Nontrivial s ↔ s.Nontrivial := by
   -- simp_rw [← nontrivial_univ_iff, Set.Nontrivial, mem_univ, exists_true_left, SetCoe.exists,
   --   Subtype.mk_eq_mk]
-  rw [← nontrivial_univ_iff, Set.Nontrivial, Set.Nontrivial]
+  rw [← nontrivial_univ_iff]; rw [Set.Nontrivial]; rw [Set.Nontrivial]
   apply Iff.intro
   · rintro ⟨x, _, y, _, hxy⟩
     exact ⟨x, Subtype.prop x, y, Subtype.prop y, fun h => hxy (Subtype.coe_injective h)⟩
@@ -2655,7 +2653,7 @@ lemma Nonempty.exists_eq_singleton_or_nontrivial : s.Nonempty → (∃ a, s = {a
 
 theorem univ_eq_true_false : univ = ({True, False} : Set Prop) :=
   Eq.symm <| eq_univ_of_forall <| fun x => by
-    rw [mem_insert_iff, mem_singleton_iff]
+    rw [mem_insert_iff]; rw [mem_singleton_iff]
     exact Classical.propComplete x
 #align set.univ_eq_true_false Set.univ_eq_true_false
 
@@ -2767,7 +2765,7 @@ variable {ι : Sort*} {α : Type*} {β : Type*} {f : α → β}
 
 theorem Injective.nonempty_apply_iff {f : Set α → Set β} (hf : Injective f) (h2 : f ∅ = ∅)
     {s : Set α} : (f s).Nonempty ↔ s.Nonempty := by
-  rw [nonempty_iff_ne_empty, ← h2, nonempty_iff_ne_empty, hf.ne_iff]
+  rw [nonempty_iff_ne_empty]; rw [← h2]; rw [nonempty_iff_ne_empty]; rw [hf.ne_iff]
 #align function.injective.nonempty_apply_iff Function.Injective.nonempty_apply_iff
 
 end Function

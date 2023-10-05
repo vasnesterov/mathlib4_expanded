@@ -20,7 +20,7 @@ The typeclass that restricts all terms of `α` to have this property is `NoZeroD
 theorem isLeftRegular_of_non_zero_divisor [NonUnitalNonAssocRing α] (k : α)
     (h : ∀ x : α, k * x = 0 → x = 0) : IsLeftRegular k := by
   refine' fun x y (h' : k * x = k * y) => sub_eq_zero.mp (h _ _)
-  rw [mul_sub, sub_eq_zero, h']
+  rw [mul_sub]; rw [sub_eq_zero]; rw [h']
 #align is_left_regular_of_non_zero_divisor isLeftRegular_of_non_zero_divisor
 
 /-- Right `Mul` by a `k : α` over `[Ring α]` is injective, if `k` is not a zero divisor.
@@ -28,7 +28,7 @@ The typeclass that restricts all terms of `α` to have this property is `NoZeroD
 theorem isRightRegular_of_non_zero_divisor [NonUnitalNonAssocRing α] (k : α)
     (h : ∀ x : α, x * k = 0 → x = 0) : IsRightRegular k := by
   refine' fun x y (h' : x * k = y * k) => sub_eq_zero.mp (h _ _)
-  rw [sub_mul, sub_eq_zero, h']
+  rw [sub_mul]; rw [sub_eq_zero]; rw [h']
 #align is_right_regular_of_non_zero_divisor isRightRegular_of_non_zero_divisor
 
 theorem isRegular_of_ne_zero' [NonUnitalNonAssocRing α] [NoZeroDivisors α] {k : α} (hk : k ≠ 0) :

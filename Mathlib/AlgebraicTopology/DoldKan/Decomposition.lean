@@ -64,7 +64,7 @@ theorem decomposition_Q (n q : ℕ) :
       simp only [Nat.succ_eq_add_one, Finset.mem_filter, Finset.mem_univ, true_and]
       constructor <;> intro <;> linarith
     · cases' Nat.le.dest (Nat.succ_le_succ_iff.mp hqn) with a ha
-      rw [Q_succ, HomologicalComplex.sub_f_apply, HomologicalComplex.comp_f, hq]
+      rw [Q_succ]; rw [HomologicalComplex.sub_f_apply]; rw [HomologicalComplex.comp_f]; rw [hq]
       symm
       conv_rhs => rw [sub_eq_add_neg, add_comm]
       let q' : Fin (n + 1) := ⟨q, Nat.succ_le_iff.mp hqn⟩

@@ -212,7 +212,7 @@ def iInfKerProjEquiv {I J : Set ι} [DecidablePred fun i => i ∈ I] (hd : Disjo
     simp only [mem_iInf, mem_ker, funext_iff, proj_apply, pi_apply]
     intro j hjJ
     have : j ∉ I := fun hjI => hd.le_bot ⟨hjI, hjJ⟩
-    rw [dif_neg this, zero_apply]
+    rw [dif_neg this]; rw [zero_apply]
   · simp only [pi_comp, comp_assoc, subtype_comp_codRestrict, proj_pi, Subtype.coe_prop]
     ext b ⟨j, hj⟩
     simp only [dif_pos, Function.comp_apply, Function.eval_apply, LinearMap.codRestrict_apply,
@@ -320,7 +320,7 @@ theorem iSup_map_single [DecidableEq ι] [Finite ι] :
 theorem le_comap_single_pi [DecidableEq ι] (p : (i : ι) → Submodule R (φ i)) {i} :
     p i ≤ Submodule.comap (LinearMap.single i : φ i →ₗ[R] _) (Submodule.pi Set.univ p) := by
   intro x hx
-  rw [Submodule.mem_comap, Submodule.mem_pi]
+  rw [Submodule.mem_comap]; rw [Submodule.mem_pi]
   rintro j -
   by_cases h : j = i
   · rwa [h, LinearMap.coe_single, Pi.single_eq_same]
@@ -567,10 +567,10 @@ def LinearMap.vecCons {n} (f : M →ₗ[R] M₂) (g : M →ₗ[R] Fin n → M₂
   toFun m := Matrix.vecCons (f m) (g m)
   map_add' x y := by
     simp only []
-    rw [f.map_add, g.map_add, Matrix.cons_add_cons (f x)]
+    rw [f.map_add]; rw [g.map_add]; rw [Matrix.cons_add_cons (f x)]
   map_smul' c x := by
     simp only []
-    rw [f.map_smul, g.map_smul, RingHom.id_apply, Matrix.smul_cons c (f x)]
+    rw [f.map_smul]; rw [g.map_smul]; rw [RingHom.id_apply]; rw [Matrix.smul_cons c (f x)]
 #align linear_map.vec_cons LinearMap.vecCons
 
 @[simp]

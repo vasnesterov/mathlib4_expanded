@@ -34,7 +34,7 @@ namespace CommMon_
 -/
 @[simps!]
 def trivial : CommMon_ C :=
-  { Mon_.trivial C with mul_comm := by dsimp; rw [braiding_leftUnitor, unitors_equal] }
+  { Mon_.trivial C with mul_comm := by dsimp; rw [braiding_leftUnitor]; rw [unitors_equal] }
 set_option linter.uppercaseLean3 false in
 #align CommMon_.trivial CommMon_.trivial
 
@@ -183,7 +183,7 @@ def commMonToLaxBraided : CommMon_ C ⥤ LaxBraidedFunctor (Discrete PUnit.{u + 
       map_comp := fun _ _ => (Category.id_comp (𝟙 A.X)).symm }
   map f :=
     { app := fun _ => f.hom
-      naturality := fun _ _ _ => by dsimp; rw [Category.id_comp, Category.comp_id]
+      naturality := fun _ _ _ => by dsimp; rw [Category.id_comp]; rw [Category.comp_id]
       unit := Mon_.Hom.one_hom f
       tensor := fun _ _ => Mon_.Hom.mul_hom f }
 set_option linter.uppercaseLean3 false in

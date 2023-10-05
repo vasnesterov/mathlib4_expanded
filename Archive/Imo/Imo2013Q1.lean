@@ -69,7 +69,7 @@ theorem imo2013_q1 (n : ℕ+) (k : ℕ) :
       have : m pk = ⟨2 * t + 2 ^ pk.succ, _⟩ := if_neg (irrefl pk); simp [this]
     calc
       ((1 : ℚ) + (2 ^ pk.succ - 1) / (n : ℚ) : ℚ)= 1 + (2 * 2 ^ pk - 1) / (2 * (t + 1) : ℕ) := by
-        rw [ht, pow_succ]
+        rw [ht]; rw [pow_succ]
       _ = (1 + 1 / (2 * t + 2 * 2 ^ pk)) * (1 + (2 ^ pk - 1) / (↑t + 1)) := by
         field_simp
         ring
@@ -79,7 +79,7 @@ theorem imo2013_q1 (n : ℕ+) (k : ℕ) :
         left
         rfl
       _ = (∏ i in Finset.range pk, (1 + 1 / (m i : ℚ))) * (1 + 1 / m pk) := by
-        rw [prod_lemma, hpm, ← hmpk, mul_comm]
+        rw [prod_lemma]; rw [hpm]; rw [← hmpk]; rw [mul_comm]
       _ = ∏ i in Finset.range pk.succ, (1 + 1 / (m i : ℚ)) := by rw [← Finset.prod_range_succ _ pk]
   · -- odd case
     let t_succ : ℕ+ := ⟨t + 1, t.succ_pos⟩
@@ -91,12 +91,12 @@ theorem imo2013_q1 (n : ℕ+) (k : ℕ) :
       simp [this]
     calc
       ((1 : ℚ) + (2 ^ pk.succ - 1) / ↑n : ℚ) = 1 + (2 * 2 ^ pk - 1) / (2 * t + 1 : ℕ) := by
-        rw [ht, pow_succ]
+        rw [ht]; rw [pow_succ]
       _ = (1 + 1 / (2 * t + 1)) * (1 + (2 ^ pk - 1) / (t + 1)) := by
         field_simp
         ring
       _ = (1 + 1 / (2 * t + 1)) * (1 + (2 ^ pk - 1) / t_succ) := by norm_cast
       _ = (∏ i in Finset.range pk, (1 + 1 / (m i : ℚ))) * (1 + 1 / ↑(m pk)) := by
-        rw [prod_lemma, hpm, ← hmpk, mul_comm]
+        rw [prod_lemma]; rw [hpm]; rw [← hmpk]; rw [mul_comm]
       _ = ∏ i in Finset.range pk.succ, (1 + 1 / (m i : ℚ)) := by rw [← Finset.prod_range_succ _ pk]
 #align imo2013_q1 imo2013_q1

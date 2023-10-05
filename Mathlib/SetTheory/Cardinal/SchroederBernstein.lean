@@ -66,7 +66,7 @@ theorem schroeder_bernstein {f : α → β} {g : β → α} (hf : Function.Injec
     · intro x hx y hy hxy
       obtain ⟨x', _, rfl⟩ : x ∈ g '' (f '' s)ᶜ := by rwa [hns]
       obtain ⟨y', _, rfl⟩ : y ∈ g '' (f '' s)ᶜ := by rwa [hns]
-      rw [g'g _, g'g _] at hxy
+      rw [g'g _] at hxy; rw [g'g _] at hxy
       rw [hxy]
     · intro x hx y hy hxy
       obtain ⟨y', hy', rfl⟩ : y ∈ g '' (f '' s)ᶜ := by rwa [hns]
@@ -128,7 +128,7 @@ theorem min_injective [I : Nonempty ι] : ∃ i, Nonempty (∀ j, β i ↪ β j)
       ⟨fun a => f a j, fun a b e' => by
         let ⟨sa, ea⟩ := hf a
         let ⟨sb, eb⟩ := hf b
-        rw [← ea, ← eb, hs _ sa _ sb _ e']⟩⟩⟩
+        rw [← ea]; rw [← eb]; rw [hs _ sa _ sb _ e']⟩⟩⟩
 #align function.embedding.min_injective Function.Embedding.min_injective
 
 end Wo

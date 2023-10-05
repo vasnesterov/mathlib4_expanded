@@ -39,7 +39,7 @@ local macro_rules | `($x ^ $y) => `(HPow.hPow $x $y) -- Porting note: See issue 
 /-- `x^n`, `n : ℕ` is strictly convex on `[0, +∞)` for all `n` greater than `2`. -/
 theorem strictConvexOn_pow {n : ℕ} (hn : 2 ≤ n) : StrictConvexOn ℝ (Ici 0) fun x : ℝ => x ^ n := by
   apply StrictMonoOn.strictConvexOn_of_deriv (convex_Ici _) (continuousOn_pow _)
-  rw [deriv_pow', interior_Ici]
+  rw [deriv_pow']; rw [interior_Ici]
   exact fun x (hx : 0 < x) y hy hxy =>
     mul_lt_mul_of_pos_left (pow_lt_pow_of_lt_left hxy hx.le <| Nat.sub_pos_of_lt hn)
       (Nat.cast_pos.2 <| zero_lt_two.trans_le hn)
@@ -66,8 +66,7 @@ theorem Finset.prod_nonneg_of_card_nonpos_even {α β : Type*} [LinearOrderedCom
         simp at hx ⊢
         exact le_of_lt hx
     _ = _ := by
-      rw [Finset.prod_mul_distrib, Finset.prod_ite, Finset.prod_const_one, mul_one,
-        Finset.prod_const, neg_one_pow_eq_pow_mod_two, Nat.even_iff.1 h0, pow_zero, one_mul]
+      rw [Finset.prod_mul_distrib]; rw [Finset.prod_ite]; rw [Finset.prod_const_one]; rw [mul_one]; rw [Finset.prod_const]; rw [neg_one_pow_eq_pow_mod_two]; rw [Nat.even_iff.1 h0]; rw [pow_zero]; rw [one_mul]
 #align finset.prod_nonneg_of_card_nonpos_even Finset.prod_nonneg_of_card_nonpos_even
 
 theorem int_prod_range_nonneg (m : ℤ) (n : ℕ) (hn : Even n) :
@@ -76,8 +75,7 @@ theorem int_prod_range_nonneg (m : ℤ) (n : ℕ) (hn : Even n) :
   induction' n with n ihn
   · simp
   rw [← two_mul] at ihn
-  rw [← two_mul, Nat.succ_eq_add_one, mul_add, mul_one, ← one_add_one_eq_two, ← add_assoc,
-    Finset.prod_range_succ, Finset.prod_range_succ, mul_assoc]
+  rw [← two_mul]; rw [Nat.succ_eq_add_one]; rw [mul_add]; rw [mul_one]; rw [← one_add_one_eq_two]; rw [← add_assoc]; rw [Finset.prod_range_succ]; rw [Finset.prod_range_succ]; rw [mul_assoc]
   refine' mul_nonneg ihn _; generalize (1 + 1) * n = k
   cases' le_or_lt m k with hmk hmk
   · have : m ≤ k + 1 := hmk.trans (lt_add_one (k : ℤ)).le
@@ -89,7 +87,7 @@ theorem int_prod_range_nonneg (m : ℤ) (n : ℕ) (hn : Even n) :
 theorem int_prod_range_pos {m : ℤ} {n : ℕ} (hn : Even n) (hm : m ∉ Ico (0 : ℤ) n) :
     0 < ∏ k in Finset.range n, (m - k) := by
   refine' (int_prod_range_nonneg m n hn).lt_of_ne fun h => hm _
-  rw [eq_comm, Finset.prod_eq_zero_iff] at h
+  rw [eq_comm] at h; rw [Finset.prod_eq_zero_iff] at h
   obtain ⟨a, ha, h⟩ := h
   rw [sub_eq_zero.1 h]
   exact ⟨Int.ofNat_zero_le _, Int.ofNat_lt.2 <| Finset.mem_range.1 ha⟩
@@ -116,8 +114,7 @@ section SqrtMulLog
 theorem hasDerivAt_sqrt_mul_log {x : ℝ} (hx : x ≠ 0) :
     HasDerivAt (fun x => sqrt x * log x) ((2 + log x) / (2 * sqrt x)) x := by
   convert (hasDerivAt_sqrt hx).mul (hasDerivAt_log hx) using 1
-  rw [add_div, div_mul_right (sqrt x) two_ne_zero, ← div_eq_mul_inv, sqrt_div_self', add_comm,
-    div_eq_mul_one_div, mul_comm]
+  rw [add_div]; rw [div_mul_right (sqrt x) two_ne_zero]; rw [← div_eq_mul_inv]; rw [sqrt_div_self']; rw [add_comm]; rw [div_eq_mul_one_div]; rw [mul_comm]
 #align has_deriv_at_sqrt_mul_log hasDerivAt_sqrt_mul_log
 
 theorem deriv_sqrt_mul_log (x : ℝ) :
@@ -127,7 +124,7 @@ theorem deriv_sqrt_mul_log (x : ℝ) :
   · rw [sqrt_eq_zero_of_nonpos hx, mul_zero, div_zero]
     refine' HasDerivWithinAt.deriv_eq_zero _ (uniqueDiffOn_Iic 0 x hx)
     refine' (hasDerivWithinAt_const x _ 0).congr_of_mem (fun x hx => _) hx
-    rw [sqrt_eq_zero_of_nonpos hx, zero_mul]
+    rw [sqrt_eq_zero_of_nonpos hx]; rw [zero_mul]
 #align deriv_sqrt_mul_log deriv_sqrt_mul_log
 
 theorem deriv_sqrt_mul_log' :
@@ -142,7 +139,7 @@ theorem deriv2_sqrt_mul_log (x : ℝ) :
   · rw [sqrt_eq_zero_of_nonpos hx, zero_pow zero_lt_three, mul_zero, div_zero]
     refine' HasDerivWithinAt.deriv_eq_zero _ (uniqueDiffOn_Iic 0 x hx)
     refine' (hasDerivWithinAt_const _ _ 0).congr_of_mem (fun x hx => _) hx
-    rw [sqrt_eq_zero_of_nonpos hx, mul_zero, div_zero]
+    rw [sqrt_eq_zero_of_nonpos hx]; rw [mul_zero]; rw [div_zero]
   · have h₀ : sqrt x ≠ 0 := sqrt_ne_zero'.2 hx
     convert (((hasDerivAt_log hx.ne').const_add 2).div ((hasDerivAt_sqrt hx.ne').const_mul 2) <|
       mul_ne_zero two_ne_zero h₀).deriv using 1

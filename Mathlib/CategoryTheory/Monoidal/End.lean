@@ -187,7 +187,7 @@ theorem μ_naturalityᵣ {m n n' : M} (g : n ⟶ n') (X : C) :
 theorem μ_inv_naturalityₗ {m n m' : M} (f : m ⟶ m') (X : C) :
     (F.μIso m n).inv.app X ≫ (F.obj n).map ((F.map f).app X) =
       (F.map (f ⊗ 𝟙 n)).app X ≫ (F.μIso m' n).inv.app X := by
-  rw [← IsIso.comp_inv_eq, Category.assoc, ← IsIso.eq_inv_comp]
+  rw [← IsIso.comp_inv_eq]; rw [Category.assoc]; rw [← IsIso.eq_inv_comp]
   simp
 #align category_theory.μ_inv_naturalityₗ CategoryTheory.μ_inv_naturalityₗ
 
@@ -195,7 +195,7 @@ theorem μ_inv_naturalityₗ {m n m' : M} (f : m ⟶ m') (X : C) :
 theorem μ_inv_naturalityᵣ {m n n' : M} (g : n ⟶ n') (X : C) :
     (F.μIso m n).inv.app X ≫ (F.map g).app ((F.obj m).obj X) =
       (F.map (𝟙 m ⊗ g)).app X ≫ (F.μIso m n').inv.app X := by
-  rw [← IsIso.comp_inv_eq, Category.assoc, ← IsIso.eq_inv_comp]
+  rw [← IsIso.comp_inv_eq]; rw [Category.assoc]; rw [← IsIso.eq_inv_comp]
   simp
 #align category_theory.μ_inv_naturalityᵣ CategoryTheory.μ_inv_naturalityᵣ
 
@@ -212,7 +212,7 @@ theorem left_unitality_app (n : M) (X : C) :
 theorem obj_ε_app (n : M) (X : C) :
     (F.obj n).map (F.ε.app X) = (F.map (λ_ n).inv).app X ≫ (F.μIso (𝟙_ M) n).inv.app X := by
   refine' Eq.trans _ (Category.id_comp _)
-  rw [← Category.assoc, ← IsIso.comp_inv_eq, ← IsIso.comp_inv_eq, Category.assoc]
+  rw [← Category.assoc]; rw [← IsIso.comp_inv_eq]; rw [← IsIso.comp_inv_eq]; rw [Category.assoc]
   convert left_unitality_app F n X
   · simp
   · simp
@@ -222,7 +222,7 @@ theorem obj_ε_app (n : M) (X : C) :
 @[reassoc (attr := simp, nolint simpNF)]
 theorem obj_ε_inv_app (n : M) (X : C) :
     (F.obj n).map (F.εIso.inv.app X) = (F.μ (𝟙_ M) n).app X ≫ (F.map (λ_ n).hom).app X := by
-  rw [← cancel_mono ((F.obj n).map (F.ε.app X)), ← Functor.map_comp]
+  rw [← cancel_mono ((F.obj n).map (F.ε.app X))]; rw [← Functor.map_comp]
   simp
 #align category_theory.obj_ε_inv_app CategoryTheory.obj_ε_inv_app
 
@@ -238,7 +238,7 @@ theorem right_unitality_app (n : M) (X : C) :
 theorem ε_app_obj (n : M) (X : C) :
     F.ε.app ((F.obj n).obj X) = (F.map (ρ_ n).inv).app X ≫ (F.μIso n (𝟙_ M)).inv.app X := by
   refine' Eq.trans _ (Category.id_comp _)
-  rw [← Category.assoc, ← IsIso.comp_inv_eq, ← IsIso.comp_inv_eq, Category.assoc]
+  rw [← Category.assoc]; rw [← IsIso.comp_inv_eq]; rw [← IsIso.comp_inv_eq]; rw [Category.assoc]
   convert right_unitality_app F n X using 1
   simp
 #align category_theory.ε_app_obj CategoryTheory.ε_app_obj
@@ -246,7 +246,7 @@ theorem ε_app_obj (n : M) (X : C) :
 @[simp]
 theorem ε_inv_app_obj (n : M) (X : C) :
     F.εIso.inv.app ((F.obj n).obj X) = (F.μ n (𝟙_ M)).app X ≫ (F.map (ρ_ n).hom).app X := by
-  rw [← cancel_mono (F.ε.app ((F.obj n).obj X)), ε_inv_hom_app]
+  rw [← cancel_mono (F.ε.app ((F.obj n).obj X))]; rw [ε_inv_hom_app]
   simp
 #align category_theory.ε_inv_app_obj CategoryTheory.ε_inv_app_obj
 
@@ -295,7 +295,7 @@ theorem obj_μ_inv_app (m₁ m₂ m₃ : M) (X : C) :
 theorem obj_zero_map_μ_app {m : M} {X Y : C} (f : X ⟶ (F.obj m).obj Y) :
     (F.obj (𝟙_ M)).map f ≫ (F.μ m (𝟙_ M)).app _ =
     F.εIso.inv.app _ ≫ f ≫ (F.map (ρ_ m).inv).app _ := by
-  rw [← IsIso.inv_comp_eq, ← IsIso.comp_inv_eq]
+  rw [← IsIso.inv_comp_eq]; rw [← IsIso.comp_inv_eq]
   simp
 #align category_theory.obj_zero_map_μ_app CategoryTheory.obj_zero_map_μ_app
 
@@ -305,7 +305,7 @@ theorem obj_μ_zero_app (m₁ m₂ : M) (X : C) :
     (F.map (α_ m₁ (𝟙_ M) m₂).inv).app X ≫ (F.μIso (m₁ ⊗ 𝟙_ M) m₂).inv.app X =
     (F.μ (𝟙_ M) m₂).app ((F.obj m₁).obj X) ≫
     (F.map (λ_ m₂).hom).app ((F.obj m₁).obj X) ≫ (F.obj m₂).map ((F.map (ρ_ m₁).inv).app X) := by
-  rw [← obj_ε_inv_app_assoc, ← Functor.map_comp]
+  rw [← obj_ε_inv_app_assoc]; rw [← Functor.map_comp]
   congr; simp
 #align category_theory.obj_μ_zero_app CategoryTheory.obj_μ_zero_app
 

@@ -72,13 +72,13 @@ theorem PosSemidef.submatrix {M : Matrix n n R} (hM : M.PosSemidef) (e : m ≃ n
   have : (M.submatrix (⇑e) e).mulVec x = (M.mulVec fun i : n => x (e.symm i)) ∘ e := by
     ext i
     dsimp only [(· ∘ ·), mulVec, dotProduct]
-    rw [Finset.sum_bij' (fun i _ => e i) _ _ fun i _ => e.symm i] <;>
+    rw [Finset.sum_bij' (fun i _ => e i) _ _ fun i _ => e.symm i]  <;>
       simp only [eq_self_iff_true, imp_true_iff, Equiv.symm_apply_apply, Finset.mem_univ,
         submatrix_apply, Equiv.apply_symm_apply]
   rw [this]
   convert hM.2 fun i => x (e.symm i) using 3
   unfold dotProduct
-  rw [Finset.sum_bij' (fun i _ => e i) _ _ fun i _ => e.symm i] <;>
+  rw [Finset.sum_bij' (fun i _ => e i) _ _ fun i _ => e.symm i]  <;>
   simp
 #align matrix.pos_semidef.submatrix Matrix.PosSemidef.submatrix
 
@@ -91,7 +91,7 @@ theorem posSemidef_submatrix_equiv {M : Matrix n n R} (e : m ≃ n) :
 theorem PosDef.transpose {M : Matrix n n R} (hM : M.PosDef) : Mᵀ.PosDef := by
   refine ⟨IsHermitian.transpose hM.1, fun x hx => ?_⟩
   convert hM.2 (star x) (star_ne_zero.2 hx) using 1
-  rw [mulVec_transpose, Matrix.dotProduct_mulVec, star_star, dotProduct_comm]
+  rw [mulVec_transpose]; rw [Matrix.dotProduct_mulVec]; rw [star_star]; rw [dotProduct_comm]
 #align matrix.pos_def.transpose Matrix.PosDef.transpose
 
 theorem posDef_of_toQuadraticForm' [DecidableEq n] {M : Matrix n n ℝ} (hM : M.IsSymm)
@@ -112,7 +112,7 @@ theorem posDef_toQuadraticForm' [DecidableEq n] {M : Matrix n n ℝ} (hM : M.Pos
 /-- The conjugate transpose of a matrix mulitplied by the matrix is positive semidefinite -/
 theorem posSemidef_conjTranspose_mul_self (A : Matrix m n R) : Matrix.PosSemidef (Aᴴ * A) := by
   refine ⟨isHermitian_transpose_mul_self _, fun x => ?_⟩
-  rw [← mulVec_mulVec, dotProduct_mulVec, vecMul_conjTranspose, star_star]
+  rw [← mulVec_mulVec]; rw [dotProduct_mulVec]; rw [vecMul_conjTranspose]; rw [star_star]
   exact Finset.sum_nonneg fun i _ => star_mul_self_nonneg _
 
 /-- A matrix multiplied by its conjugate transpose is positive semidefinite -/
@@ -122,7 +122,7 @@ theorem posSemidef_self_mul_conjTranspose (A : Matrix m n R) : Matrix.PosSemidef
 /-- The eigenvalues of a positive definite matrix are positive -/
 lemma PosDef.eigenvalues_pos [DecidableEq n] {A : Matrix n n 𝕜}
     (hA : Matrix.PosDef A) (i : n) : 0 < hA.1.eigenvalues i := by
-  rw [hA.1.eigenvalues_eq, hA.1.transpose_eigenvectorMatrix_apply]
+  rw [hA.1.eigenvalues_eq]; rw [hA.1.transpose_eigenvectorMatrix_apply]
   exact hA.re_dotProduct_pos <| hA.1.eigenvectorBasis.orthonormal.ne_zero i
 
 /-- The eigenvalues of a positive semi-definite matrix are non-negative -/
@@ -164,13 +164,13 @@ variable {n : Type*} [Fintype n]
 
 theorem posDef_of_toMatrix' [DecidableEq n] {Q : QuadraticForm ℝ (n → ℝ)}
     (hQ : Q.toMatrix'.PosDef) : Q.PosDef := by
-  rw [← toQuadraticForm_associated ℝ Q, ← BilinForm.toMatrix'.left_inv ((associatedHom ℝ) Q)]
+  rw [← toQuadraticForm_associated ℝ Q]; rw [← BilinForm.toMatrix'.left_inv ((associatedHom ℝ) Q)]
   apply Matrix.posDef_toQuadraticForm' hQ
 #align quadratic_form.pos_def_of_to_matrix' QuadraticForm.posDef_of_toMatrix'
 
 theorem posDef_toMatrix' [DecidableEq n] {Q : QuadraticForm ℝ (n → ℝ)} (hQ : Q.PosDef) :
     Q.toMatrix'.PosDef := by
-  rw [← toQuadraticForm_associated ℝ Q, ←
+  rw [← toQuadraticForm_associated ℝ Q] at hQ; rw [←
     BilinForm.toMatrix'.left_inv ((associatedHom ℝ) Q)] at hQ
   apply Matrix.posDef_of_toQuadraticForm' (isSymm_toMatrix' Q) hQ
 #align quadratic_form.pos_def_to_matrix' QuadraticForm.posDef_toMatrix'
@@ -189,8 +189,7 @@ noncomputable def NormedAddCommGroup.ofMatrix {M : Matrix n n 𝕜} (hM : M.PosD
     { inner := fun x y => dotProduct (star x) (M.mulVec y)
       conj_symm := fun x y => by
         dsimp only [Inner.inner]
-        rw [star_dotProduct, starRingEnd_apply, star_star, star_mulVec, dotProduct_mulVec,
-          hM.isHermitian.eq]
+        rw [star_dotProduct]; rw [starRingEnd_apply]; rw [star_star]; rw [star_mulVec]; rw [dotProduct_mulVec]; rw [hM.isHermitian.eq]
       nonneg_re := fun x => by
         by_cases h : x = 0
         · simp [h]
@@ -201,7 +200,7 @@ noncomputable def NormedAddCommGroup.ofMatrix {M : Matrix n n 𝕜} (hM : M.PosD
       add_left := by simp only [star_add, add_dotProduct, eq_self_iff_true, forall_const]
       smul_left := fun x y r => by
         simp only
-        rw [← smul_eq_mul, ← smul_dotProduct, starRingEnd_apply, ← star_smul] }
+        rw [← smul_eq_mul]; rw [← smul_dotProduct]; rw [starRingEnd_apply]; rw [← star_smul] }
 #align matrix.normed_add_comm_group.of_matrix Matrix.NormedAddCommGroup.ofMatrix
 
 /-- A positive definite matrix `M` induces an inner product `⟪x, y⟫ = xᴴMy`. -/

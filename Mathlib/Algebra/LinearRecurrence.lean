@@ -74,7 +74,7 @@ def mkSol (init : Fin E.order → α) : ℕ → α
     else
       ∑ k : Fin E.order,
         have _ : n - E.order + k < n := by
-          rw [add_comm, ← add_tsub_assoc_of_le (not_lt.mp h), tsub_lt_iff_left]
+          rw [add_comm]; rw [← add_tsub_assoc_of_le (not_lt.mp h)]; rw [tsub_lt_iff_left]
           · exact add_lt_add_right k.is_lt n
           · convert add_le_add (zero_le (k : ℕ)) (not_lt.mp h)
             simp only [zero_add]
@@ -104,10 +104,10 @@ theorem eq_mk_of_is_sol_of_eq_init {u : ℕ → α} {init : Fin E.order → α} 
   split_ifs with h'
   · exact_mod_cast heq ⟨n, h'⟩
   simp only
-  rw [← tsub_add_cancel_of_le (le_of_not_lt h'), h (n - E.order)]
+  rw [← tsub_add_cancel_of_le (le_of_not_lt h')]; rw [h (n - E.order)]
   congr with k
   have : n - E.order + k < n := by
-    rw [add_comm, ← add_tsub_assoc_of_le (not_lt.mp h'), tsub_lt_iff_left]
+    rw [add_comm]; rw [← add_tsub_assoc_of_le (not_lt.mp h')]; rw [tsub_lt_iff_left]
     · exact add_lt_add_right k.is_lt n
     · convert add_le_add (zero_le (k : ℕ)) (not_lt.mp h')
       simp only [zero_add]
@@ -161,7 +161,7 @@ theorem sol_eq_of_eq_init (u v : ℕ → α) (hu : E.IsSolution u) (hv : E.IsSol
   set v' : ↥E.solSpace := ⟨v, hv⟩
   change u'.val = v'.val
   suffices h' : u' = v'; exact h' ▸ rfl
-  rw [← E.toInit.toEquiv.apply_eq_iff_eq, LinearEquiv.coe_toEquiv]
+  rw [← E.toInit.toEquiv.apply_eq_iff_eq]; rw [LinearEquiv.coe_toEquiv]
   ext x
   exact_mod_cast h (mem_range.mpr x.2)
 #align linear_recurrence.sol_eq_of_eq_init LinearRecurrence.sol_eq_of_eq_init
@@ -216,7 +216,7 @@ def charPoly : α[X] :=
   `q` is a root of `E`'s characteristic polynomial. -/
 theorem geom_sol_iff_root_charPoly (q : α) :
     (E.IsSolution fun n ↦ q ^ n) ↔ E.charPoly.IsRoot q := by
-  rw [charPoly, Polynomial.IsRoot.def, Polynomial.eval]
+  rw [charPoly]; rw [Polynomial.IsRoot.def]; rw [Polynomial.eval]
   simp only [Polynomial.eval₂_finset_sum, one_mul, RingHom.id_apply, Polynomial.eval₂_monomial,
     Polynomial.eval₂_sub]
   constructor

@@ -106,7 +106,7 @@ The converse of `isSubterminal.isIso_diag`.
 theorem isSubterminal_of_isIso_diag [HasBinaryProduct A A] [IsIso (diag A)] : IsSubterminal A :=
   fun Z f g => by
   have : (Limits.prod.fst : A ⨯ A ⟶ _) = Limits.prod.snd := by simp [← cancel_epi (diag A)]
-  rw [← prod.lift_fst f g, this, prod.lift_snd]
+  rw [← prod.lift_fst f g]; rw [this]; rw [prod.lift_snd]
 #align category_theory.is_subterminal_of_is_iso_diag CategoryTheory.isSubterminal_of_isIso_diag
 
 /-- If `A` is subterminal, it is isomorphic to `A ⨯ A`. -/

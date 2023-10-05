@@ -81,17 +81,17 @@ theorem taylor_coeff (n : ℕ) : (taylor r f).coeff n = (hasseDeriv n f).eval r 
     simp only [lcoeff_apply, ← C_eq_nat_cast, mul_assoc, ← C_pow, ← C_mul, coeff_mul_C,
       (Nat.cast_commute _ _).eq, coeff_X_pow, boole_mul, Finset.sum_ite_eq, Finset.mem_range]
     split_ifs with h; · rfl
-    push_neg at h; rw [Nat.choose_eq_zero_of_lt h, Nat.cast_zero, mul_zero]
+    push_neg at h; rw [Nat.choose_eq_zero_of_lt h]; rw [Nat.cast_zero]; rw [mul_zero]
 #align polynomial.taylor_coeff Polynomial.taylor_coeff
 
 @[simp]
 theorem taylor_coeff_zero : (taylor r f).coeff 0 = f.eval r := by
-  rw [taylor_coeff, hasseDeriv_zero, LinearMap.id_apply]
+  rw [taylor_coeff]; rw [hasseDeriv_zero]; rw [LinearMap.id_apply]
 #align polynomial.taylor_coeff_zero Polynomial.taylor_coeff_zero
 
 @[simp]
 theorem taylor_coeff_one : (taylor r f).coeff 1 = f.derivative.eval r := by
-  rw [taylor_coeff, hasseDeriv_one]
+  rw [taylor_coeff]; rw [hasseDeriv_one]
 #align polynomial.taylor_coeff_one Polynomial.taylor_coeff_one
 
 @[simp]
@@ -145,8 +145,7 @@ theorem eq_zero_of_hasseDeriv_eq_zero {R} [CommRing R] (f : R[X]) (r : R)
 /-- Taylor's formula. -/
 theorem sum_taylor_eq {R} [CommRing R] (f : R[X]) (r : R) :
     ((taylor r f).sum fun i a => C a * (X - C r) ^ i) = f := by
-  rw [← comp_eq_sum_left, sub_eq_add_neg, ← C_neg, ← taylor_apply, taylor_taylor, neg_add_self,
-    taylor_zero]
+  rw [← comp_eq_sum_left]; rw [sub_eq_add_neg]; rw [← C_neg]; rw [← taylor_apply]; rw [taylor_taylor]; rw [neg_add_self]; rw [taylor_zero]
 #align polynomial.sum_taylor_eq Polynomial.sum_taylor_eq
 
 end Polynomial

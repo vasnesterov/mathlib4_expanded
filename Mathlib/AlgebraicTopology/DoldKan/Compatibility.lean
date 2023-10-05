@@ -226,7 +226,7 @@ variable {η hF hG}
 theorem equivalenceCounitIso_eq : (equivalence hF hG).counitIso = equivalenceCounitIso η := by
   ext1; apply NatTrans.ext; ext Y
   dsimp [equivalence, Functor.asEquivalence, IsEquivalence.ofEquivalence]
-  rw [equivalenceCounitIso_hom_app, IsEquivalence.ofIso_unitIso_inv_app]
+  rw [equivalenceCounitIso_hom_app]; rw [IsEquivalence.ofIso_unitIso_inv_app]
   dsimp
   simp only [comp_id, id_comp, F.map_comp, assoc,
     equivalence₂CounitIso_eq, equivalence₂CounitIso_hom_app,
@@ -237,7 +237,7 @@ theorem equivalenceCounitIso_eq : (equivalence hF hG).counitIso = equivalenceCou
   simp only [assoc, ← e'.functor.map_comp_assoc, Equivalence.fun_inv_map,
     Iso.inv_hom_id_app_assoc, hG.inv_hom_id_app]
   dsimp
-  rw [comp_id, eA.functor_unitIso_comp, e'.functor.map_id, id_comp, hF.inv_hom_id_app_assoc]
+  rw [comp_id]; rw [eA.functor_unitIso_comp]; rw [e'.functor.map_id]; rw [id_comp]; rw [hF.inv_hom_id_app_assoc]
 #align algebraic_topology.dold_kan.compatibility.equivalence_counit_iso_eq AlgebraicTopology.DoldKan.Compatibility.equivalenceCounitIso_eq
 
 variable (hF)

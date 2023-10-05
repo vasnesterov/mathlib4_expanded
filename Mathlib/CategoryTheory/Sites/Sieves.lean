@@ -484,7 +484,7 @@ theorem pullback_inter {f : Y ⟶ X} (S R : Sieve X) :
 #align category_theory.sieve.pullback_inter CategoryTheory.Sieve.pullback_inter
 
 theorem pullback_eq_top_iff_mem (f : Y ⟶ X) : S f ↔ S.pullback f = ⊤ := by
-  rw [← id_mem_iff_eq_top, pullback_apply, id_comp]
+  rw [← id_mem_iff_eq_top]; rw [pullback_apply]; rw [id_comp]
 #align category_theory.sieve.pullback_eq_top_iff_mem CategoryTheory.Sieve.pullback_eq_top_iff_mem
 
 theorem pullback_eq_top_of_mem (S : Sieve X) {f : Y ⟶ X} : S f → S.pullback f = ⊤ :=
@@ -574,7 +574,7 @@ theorem pullbackArrows_comm [HasPullbacks C] {X Y : C} (f : Y ⟶ X) (R : Presie
   · rintro ⟨_, h, k, hk, rfl⟩
     cases' hk with W g hg
     change (Sieve.generate R).pullback f (h ≫ pullback.snd)
-    rw [Sieve.pullback_apply, assoc, ← pullback.condition, ← assoc]
+    rw [Sieve.pullback_apply]; rw [assoc]; rw [← pullback.condition]; rw [← assoc]
     exact Sieve.downward_closed _ (by exact Sieve.le_generate R W hg) (h ≫ pullback.fst)
   · rintro ⟨W, h, k, hk, comm⟩
     exact ⟨_, _, _, Presieve.pullbackArrows.mk _ _ hk, pullback.lift_snd _ _ comm⟩
@@ -747,7 +747,7 @@ def fullyFaithfulFunctorGaloisCoinsertion [Full F] [Faithful F] (X : C) :
       (Sieve.functorPullback F) := by
   apply (functor_galoisConnection F X).toGaloisCoinsertion
   rintro S Y f ⟨Z, g, h, h₁, h₂⟩
-  rw [← F.image_preimage h, ← F.map_comp] at h₂
+  rw [← F.image_preimage h] at h₂; rw [← F.map_comp] at h₂
   rw [F.map_injective h₂]
   exact S.downward_closed h₁ _
 #align category_theory.sieve.fully_faithful_functor_galois_coinsertion CategoryTheory.Sieve.fullyFaithfulFunctorGaloisCoinsertion

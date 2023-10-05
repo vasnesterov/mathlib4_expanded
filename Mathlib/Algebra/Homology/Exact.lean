@@ -100,7 +100,7 @@ theorem Preadditive.exact_of_iso_of_exact {A₁ B₁ C₁ A₂ B₂ C₂ : V} (f
   rw [Preadditive.exact_iff_homology_zero] at h ⊢
   rcases h with ⟨w₁, ⟨i⟩⟩
   suffices w₂ : f₂ ≫ g₂ = 0; exact ⟨w₂, ⟨(homology.mapIso w₁ w₂ α β p).symm.trans i⟩⟩
-  rw [← cancel_epi α.hom.left, ← cancel_mono β.inv.right, comp_zero, zero_comp, ← w₁]
+  rw [← cancel_epi α.hom.left]; rw [← cancel_mono β.inv.right]; rw [comp_zero]; rw [zero_comp]; rw [← w₁]
   have eq₁ := β.inv.w
   have eq₂ := α.hom.w
   dsimp at eq₁ eq₂
@@ -138,8 +138,8 @@ variable [HasZeroMorphisms V] [HasKernels V]
 theorem comp_eq_zero_of_image_eq_kernel {A B C : V} (f : A ⟶ B) (g : B ⟶ C)
     (p : imageSubobject f = kernelSubobject g) : f ≫ g = 0 := by
   suffices Subobject.arrow (imageSubobject f) ≫ g = 0 by
-    rw [← imageSubobject_arrow_comp f, Category.assoc, this, comp_zero]
-  rw [p, kernelSubobject_arrow_comp]
+    rw [← imageSubobject_arrow_comp f]; rw [Category.assoc]; rw [this]; rw [comp_zero]
+  rw [p]; rw [kernelSubobject_arrow_comp]
 #align category_theory.comp_eq_zero_of_image_eq_kernel CategoryTheory.comp_eq_zero_of_image_eq_kernel
 
 theorem imageToKernel_isIso_of_image_eq_kernel {A B C : V} (f : A ⟶ B) (g : B ⟶ C)
@@ -226,7 +226,7 @@ theorem exact_kernelSubobject_arrow : Exact (kernelSubobject f).arrow f := by
 #align category_theory.exact_kernel_subobject_arrow CategoryTheory.exact_kernelSubobject_arrow
 
 theorem exact_kernel_ι : Exact (kernel.ι f) f := by
-  rw [← kernelSubobject_arrow', exact_iso_comp]
+  rw [← kernelSubobject_arrow']; rw [exact_iso_comp]
   exact exact_kernelSubobject_arrow
 #align category_theory.exact_kernel_ι CategoryTheory.exact_kernel_ι
 
@@ -247,7 +247,7 @@ variable (A)
 theorem kernelSubobject_arrow_eq_zero_of_exact_zero_left (h : Exact (0 : A ⟶ B) g) :
     (kernelSubobject g).arrow = 0 := by
   haveI := h.epi
-  rw [← cancel_epi (imageToKernel (0 : A ⟶ B) g h.w), ←
+  rw [← cancel_epi (imageToKernel (0 : A ⟶ B) g h.w)]; rw [←
     cancel_epi (factorThruImageSubobject (0 : A ⟶ B))]
   simp
 #align category_theory.kernel_subobject_arrow_eq_zero_of_exact_zero_left CategoryTheory.kernelSubobject_arrow_eq_zero_of_exact_zero_left
@@ -270,17 +270,16 @@ variable [HasZeroMorphisms V] [HasEqualizers V] [HasCokernels V] (f g)
 @[reassoc (attr := simp)]
 theorem kernel_comp_cokernel (h : Exact f g) : kernel.ι g ≫ cokernel.π f = 0 := by
   suffices Subobject.arrow (kernelSubobject g) ≫ cokernel.π f = 0 by
-    rw [← kernelSubobject_arrow', Category.assoc, this, comp_zero]
+    rw [← kernelSubobject_arrow']; rw [Category.assoc]; rw [this]; rw [comp_zero]
   haveI := h.epi
   apply zero_of_epi_comp (imageToKernel f g h.w) _
-  rw [imageToKernel_arrow_assoc, ← imageSubobject_arrow, Category.assoc, ← Iso.eq_inv_comp]
+  rw [imageToKernel_arrow_assoc]; rw [← imageSubobject_arrow]; rw [Category.assoc]; rw [← Iso.eq_inv_comp]
   aesop_cat
 #align category_theory.kernel_comp_cokernel CategoryTheory.kernel_comp_cokernel
 
 theorem comp_eq_zero_of_exact (h : Exact f g) {X Y : V} {ι : X ⟶ B} (hι : ι ≫ g = 0) {π : B ⟶ Y}
     (hπ : f ≫ π = 0) : ι ≫ π = 0 := by
-  rw [← kernel.lift_ι _ _ hι, ← cokernel.π_desc _ _ hπ, Category.assoc,
-    kernel_comp_cokernel_assoc _ _ h, zero_comp, comp_zero]
+  rw [← kernel.lift_ι _ _ hι]; rw [← cokernel.π_desc _ _ hπ]; rw [Category.assoc]; rw [kernel_comp_cokernel_assoc _ _ h]; rw [zero_comp]; rw [comp_zero]
 #align category_theory.comp_eq_zero_of_exact CategoryTheory.comp_eq_zero_of_exact
 
 @[reassoc (attr := simp)]
@@ -337,7 +336,7 @@ theorem epi_iff_exact_zero_right [HasEqualizers V] {A B : V} (f : A ⟶ B) :
     rw [imageToKernel_zero_right] at e₁
     have e₂ : Epi (((imageSubobject f).arrow ≫ inv (kernelSubobject 0).arrow) ≫
           (kernelSubobject 0).arrow) := @epi_comp _ _ _ _ _ _ e₁ _ _
-    rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id] at e₂
+    rw [Category.assoc] at e₂; rw [IsIso.inv_hom_id] at e₂; rw [Category.comp_id] at e₂
     rw [← imageSubobject_arrow] at e₂
     haveI : Epi (image.ι f) := epi_of_epi (imageSubobjectIso f).hom (image.ι f)
     apply epi_of_epi_image⟩

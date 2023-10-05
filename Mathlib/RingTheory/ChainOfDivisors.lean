@@ -69,7 +69,7 @@ theorem exists_chain_of_prime_pow {p : Associates M} {n : ℕ} (hn : n ≠ 0) (h
       c 1 = p ∧ StrictMono c ∧ ∀ {r : Associates M}, r ≤ p ^ n ↔ ∃ i, r = c i := by
   refine' ⟨fun i => p ^ (i : ℕ), _, fun n m h => _, @fun y => ⟨fun h => _, _⟩⟩
   · dsimp only
-    rw [Fin.val_one', Nat.mod_eq_of_lt, pow_one]
+    rw [Fin.val_one']; rw [Nat.mod_eq_of_lt]; rw [pow_one]
     exact Nat.lt_succ_of_le (Nat.one_le_iff_ne_zero.mpr hn)
   · exact Associates.dvdNotUnit_iff_lt.mp
         ⟨pow_ne_zero n hp.ne_zero, p ^ (m - n : ℕ),
@@ -92,7 +92,7 @@ theorem element_of_chain_not_isUnit_of_index_ne_zero {n : ℕ} {i : Fin (n + 1)}
 theorem first_of_chain_isUnit {q : Associates M} {n : ℕ} {c : Fin (n + 1) → Associates M}
     (h₁ : StrictMono c) (h₂ : ∀ {r}, r ≤ q ↔ ∃ i, r = c i) : IsUnit (c 0) := by
   obtain ⟨i, hr⟩ := h₂.mp Associates.one_le
-  rw [Associates.isUnit_iff_eq_one, ← Associates.le_one_iff, hr]
+  rw [Associates.isUnit_iff_eq_one]; rw [← Associates.le_one_iff]; rw [hr]
   exact h₁.monotone (Fin.zero_le i)
 #align divisor_chain.first_of_chain_is_unit DivisorChain.first_of_chain_isUnit
 
@@ -160,7 +160,7 @@ theorem element_of_chain_eq_pow_second_of_chain {q r : Associates M} {n : ℕ} (
           (dvd_of_mem_normalizedFactors hb)
     have H : r = c 1 ^ i := by
       have := UniqueFactorizationMonoid.normalizedFactors_prod (ne_zero_of_dvd_ne_zero hq hr)
-      rw [associated_iff_eq, hi, Multiset.prod_replicate] at this
+      rw [associated_iff_eq] at this; rw [hi] at this; rw [Multiset.prod_replicate] at this
       rw [this]
     refine' ⟨⟨i, _⟩, H⟩
     have : (Finset.univ.image fun m : Fin (i + 1) => c 1 ^ (m : ℕ)).card = i + 1 := by
@@ -206,7 +206,7 @@ theorem eq_pow_second_of_chain_of_has_chain {q : Associates M} {n : ℕ} (hn : n
     rcases h with ⟨u, hu, hu'⟩
     refine' Finset.mem_image.mpr ⟨u, Finset.mem_univ _, _⟩
     · rw [associated_iff_eq] at hu'
-      rw [Fin.val_cast_of_lt (Nat.lt_succ_of_le hu), hu']
+      rw [Fin.val_cast_of_lt (Nat.lt_succ_of_le hu)]; rw [hu']
     · rw [← irreducible_iff_prime]
       exact second_of_chain_is_irreducible hn h₁ (@h₂) hq
 #align divisor_chain.eq_pow_second_of_chain_of_has_chain DivisorChain.eq_pow_second_of_chain_of_has_chain
@@ -276,7 +276,7 @@ theorem pow_image_of_prime_by_factor_orderIso_dvd
     rw [d.symm.le_iff_le]
     simpa only [← Subtype.coe_le_coe, Subtype.coe_mk] using hr
   · rintro ⟨i, hr⟩
-    rw [hr, c₂_def, Subtype.coe_le_coe, d.le_iff_le]
+    rw [hr]; rw [c₂_def]; rw [Subtype.coe_le_coe]; rw [d.le_iff_le]
     simpa [Subtype.mk_le_mk] using hc₁''.2 ⟨i, rfl⟩
   exact ne_zero_of_dvd_ne_zero hn (Subtype.prop (d ⟨c₁ 1 ^ s, _⟩))
 #align pow_image_of_prime_by_factor_order_iso_dvd pow_image_of_prime_by_factor_orderIso_dvd
@@ -292,11 +292,11 @@ theorem map_prime_of_factor_orderIso [DecidableEq (Associates M)] {m p : Associa
     exact (prime_of_normalized_factor 1 hp).not_unit isUnit_one
   · obtain ⟨x, hx⟩ :=
       d.surjective ⟨b, le_trans (le_of_lt hb) (d ⟨p, dvd_of_mem_normalizedFactors hp⟩).prop⟩
-    rw [← Subtype.coe_mk b _, ← hx] at hb
+    rw [← Subtype.coe_mk b _] at hb; rw [← hx] at hb
     letI : OrderBot { l : Associates M // l ≤ m } := Subtype.orderBot bot_le
     letI : OrderBot { l : Associates N // l ≤ n } := Subtype.orderBot bot_le
     suffices x = ⊥ by
-      rw [this, OrderIso.map_bot d] at hx
+      rw [this] at hx; rw [OrderIso.map_bot d] at hx
       refine' (Subtype.mk_eq_bot_iff _ _).mp hx.symm
       simp
     obtain ⟨a, ha⟩ := x
@@ -331,8 +331,7 @@ theorem multiplicity_prime_le_multiplicity_image_by_factor_orderIso [DecidableEq
   · simp [hm] at hp
   rw [←
     PartENat.natCast_get
-      (finite_iff_dom.1 <| finite_prime_left (prime_of_normalized_factor p hp) hm),
-    ← pow_dvd_iff_le_multiplicity]
+      (finite_iff_dom.1 <| finite_prime_left (prime_of_normalized_factor p hp) hm)]; rw [← pow_dvd_iff_le_multiplicity]
   exact pow_image_of_prime_by_factor_orderIso_dvd hn hp d (pow_multiplicity_dvd _)
 #align multiplicity_prime_le_multiplicity_image_by_factor_order_iso multiplicity_prime_le_multiplicity_image_by_factor_orderIso
 
@@ -343,7 +342,7 @@ theorem multiplicity_prime_eq_multiplicity_image_by_factor_orderIso [DecidableEq
   refine' le_antisymm (multiplicity_prime_le_multiplicity_image_by_factor_orderIso hp d) _
   suffices multiplicity (↑(d ⟨p, dvd_of_mem_normalizedFactors hp⟩)) n ≤
       multiplicity (↑(d.symm (d ⟨p, dvd_of_mem_normalizedFactors hp⟩))) m by
-    rw [d.symm_apply_apply ⟨p, dvd_of_mem_normalizedFactors hp⟩, Subtype.coe_mk] at this
+    rw [d.symm_apply_apply ⟨p, dvd_of_mem_normalizedFactors hp⟩] at this; rw [Subtype.coe_mk] at this
     exact this
   letI := Classical.decEq (Associates N)
   simpa only [Subtype.coe_eta] using
@@ -367,7 +366,7 @@ def mkFactorOrderIsoOfFactorDvdEquiv {m : M} {n : N} {d : { l : M // l ∣ m } �
         (d
           ⟨associatesEquivOfUniqueUnits ↑l, by
             obtain ⟨x, hx⟩ := l
-            rw [Subtype.coe_mk, associatesEquivOfUniqueUnits_apply, out_dvd_iff]
+            rw [Subtype.coe_mk]; rw [associatesEquivOfUniqueUnits_apply]; rw [out_dvd_iff]
             exact hx⟩),
       mk_le_mk_iff_dvd_iff.mpr (Subtype.prop (d ⟨associatesEquivOfUniqueUnits ↑l, _⟩))⟩
   invFun l :=
@@ -375,7 +374,7 @@ def mkFactorOrderIsoOfFactorDvdEquiv {m : M} {n : N} {d : { l : M // l ∣ m } �
         (d.symm
           ⟨associatesEquivOfUniqueUnits ↑l, by
             obtain ⟨x, hx⟩ := l
-            rw [Subtype.coe_mk, associatesEquivOfUniqueUnits_apply, out_dvd_iff]
+            rw [Subtype.coe_mk]; rw [associatesEquivOfUniqueUnits_apply]; rw [out_dvd_iff]
             exact hx⟩),
       mk_le_mk_iff_dvd_iff.mpr (Subtype.prop (d.symm ⟨associatesEquivOfUniqueUnits ↑l, _⟩))⟩
   left_inv := fun ⟨l, hl⟩ => by
@@ -416,7 +415,7 @@ theorem mem_normalizedFactors_factor_dvd_iso_of_mem_normalizedFactors [Decidable
             simp only [associatesEquivOfUniqueUnits_symm_apply]
             exact mk_dvd_mk.mpr (dvd_of_mem_normalizedFactors hp)⟩) := by
     rw [mkFactorOrderIsoOfFactorDvdEquiv_apply_coe]
-  rw [← Associates.prime_mk, this]
+  rw [← Associates.prime_mk]; rw [this]
   letI := Classical.decEq (Associates M)
   refine' map_prime_of_factor_orderIso (mk_ne_zero.mpr hn) _ _
   obtain ⟨q, hq, hq'⟩ :=

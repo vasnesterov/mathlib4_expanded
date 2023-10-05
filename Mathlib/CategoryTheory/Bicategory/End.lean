@@ -48,7 +48,6 @@ instance (X : C) : MonoidalCategory (EndMonoidal X) where
   tensor_comp := by
     intros
     dsimp
-    rw [Bicategory.whiskerLeft_comp, Bicategory.comp_whiskerRight, Category.assoc, Category.assoc,
-      Bicategory.whisker_exchange_assoc]
+    rw [Bicategory.whiskerLeft_comp]; rw [Bicategory.comp_whiskerRight]; rw [Category.assoc]; rw [Category.assoc]; rw [Bicategory.whisker_exchange_assoc]
 
 end CategoryTheory

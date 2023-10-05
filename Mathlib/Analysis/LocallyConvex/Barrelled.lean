@@ -134,7 +134,7 @@ instance BaireSpace.instBarrelledSpace [TopologicalSpace E] [TopologicalAddGroup
     have hxn' : p x ≤ n := by convert interior_subset hxn
     -- By definition, we have `p x' ≤ n` for `x'` sufficiently close to `x`.
     -- In other words, `p (x + y) ≤ n` for `y` sufficiently close to `0`.
-    rw [mem_interior_iff_mem_nhds, ← map_add_left_nhds_zero] at hxn
+    rw [mem_interior_iff_mem_nhds] at hxn; rw [← map_add_left_nhds_zero] at hxn
     -- Hence, for `y` sufficiently close to `0`, we have
     -- `p y = p (x + y - x) ≤ p (x + y) + p x ≤ 2*n`
     filter_upwards [hxn] with y hy

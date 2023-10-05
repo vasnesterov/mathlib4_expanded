@@ -70,7 +70,7 @@ def extendFanIsLimit {n : ℕ} (f : Fin (n + 1) → C) {c₁ : Fan fun i : Fin n
     · apply (BinaryFan.IsLimit.lift' t₂ _ _).2.1
     · rintro i -
       dsimp only [extendFan_π_app]
-      rw [Fin.cases_succ, ← assoc, (BinaryFan.IsLimit.lift' t₂ _ _).2.2, t₁.fac]
+      rw [Fin.cases_succ]; rw [← assoc]; rw [(BinaryFan.IsLimit.lift' t₂ _ _).2.2]; rw [t₁.fac]
       rfl
   uniq s m w := by
     apply BinaryFan.IsLimit.hom_ext t₂
@@ -211,7 +211,7 @@ def extendCofanIsColimit {n : ℕ} (f : Fin (n + 1) → C) {c₁ : Cofan fun i :
     · apply (BinaryCofan.IsColimit.desc' t₂ _ _).2.1
     · rintro i -
       dsimp only [extendCofan_ι_app]
-      rw [Fin.cases_succ, assoc, (BinaryCofan.IsColimit.desc' t₂ _ _).2.2, t₁.fac]
+      rw [Fin.cases_succ]; rw [assoc]; rw [(BinaryCofan.IsColimit.desc' t₂ _ _).2.2]; rw [t₁.fac]
       rfl
   uniq s m w := by
     apply BinaryCofan.IsColimit.hom_ext t₂
@@ -223,7 +223,7 @@ def extendCofanIsColimit {n : ℕ} (f : Fin (n + 1) → C) {c₁ : Cofan fun i :
       dsimp only [Discrete.natTrans_app]
       rw [← w ⟨j.succ⟩]
       dsimp only [extendCofan_ι_app]
-      rw [Fin.cases_succ, assoc]
+      rw [Fin.cases_succ]; rw [assoc]
 #align category_theory.extend_cofan_is_colimit CategoryTheory.extendCofanIsColimit
 
 section
@@ -294,7 +294,7 @@ noncomputable def preservesFinOfPreservesBinaryAndInitial :
     · apply Category.comp_id
     · rintro i _
       dsimp [extendCofan_ι_app, Iso.refl_hom, Cofan.mk_ι_app]
-      rw [comp_id, ← F.map_comp]
+      rw [comp_id]; rw [← F.map_comp]
 #align category_theory.preserves_fin_of_preserves_binary_and_initial CategoryTheory.preservesFinOfPreservesBinaryAndInitialₓ  -- Porting note: order of universes changed
 
 /-- If `F` preserves the initial object and binary coproducts, then it preserves colimits of shape

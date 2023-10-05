@@ -71,7 +71,7 @@ namespace IsLocalization
 
 theorem AtPrime.Nontrivial [IsLocalization.AtPrime S P] : Nontrivial S :=
   nontrivial_of_ne (0 : S) 1 fun hze => by
-    rw [← (algebraMap R S).map_one, ← (algebraMap R S).map_zero] at hze
+    rw [← (algebraMap R S).map_one] at hze; rw [← (algebraMap R S).map_zero] at hze
     obtain ⟨t, ht⟩ := (eq_iff_exists P.primeCompl S).1 hze
     have htz : (t : R) = 0 := by simpa using ht.symm
     exact t.2 (htz.symm ▸ P.zero_mem : ↑t ∈ P)
@@ -90,7 +90,7 @@ theorem AtPrime.localRing [IsLocalization.AtPrime S P] : LocalRing S :=
       rcases mk'_surjective P.primeCompl x with ⟨rx, sx, hrx⟩
       rcases mk'_surjective P.primeCompl y with ⟨ry, sy, hry⟩
       rcases mk'_surjective P.primeCompl z with ⟨rz, sz, hrz⟩
-      rw [← hrx, ← hry, ← hrz, ← mk'_add, ← mk'_mul, ← mk'_self S P.primeCompl.one_mem] at hxyz
+      rw [← hrx] at hxyz; rw [← hry] at hxyz; rw [← hrz] at hxyz; rw [← mk'_add] at hxyz; rw [← mk'_mul] at hxyz; rw [← mk'_self S P.primeCompl.one_mem] at hxyz
       rw [← hrx] at hx
       rw [← hry] at hy
       obtain ⟨t, ht⟩ := IsLocalization.eq.1 hxyz

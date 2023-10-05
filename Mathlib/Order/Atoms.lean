@@ -456,7 +456,7 @@ theorem sSup_atoms_eq_top : sSup { a : α | IsAtom a } = ⊤ := by
 
 theorem le_iff_atom_le_imp {a b : α} : a ≤ b ↔ ∀ c : α, IsAtom c → c ≤ a → c ≤ b :=
   ⟨fun ab c _ ca => le_trans ca ab, fun h => by
-    rw [← sSup_atoms_le_eq a, ← sSup_atoms_le_eq b]
+    rw [← sSup_atoms_le_eq a]; rw [← sSup_atoms_le_eq b]
     exact sSup_le_sSup fun c hc => ⟨hc.1, h c hc.1 hc.2⟩⟩
 #align le_iff_atom_le_imp le_iff_atom_le_imp
 
@@ -899,8 +899,7 @@ theorem isCoatom_iff [OrderTop α] [OrderTop β] (f : α ≃o β) (a : α) :
 
 theorem isSimpleOrder_iff [BoundedOrder α] [BoundedOrder β] (f : α ≃o β) :
     IsSimpleOrder α ↔ IsSimpleOrder β := by
-  rw [isSimpleOrder_iff_isAtom_top, isSimpleOrder_iff_isAtom_top, ← f.isAtom_iff ⊤,
-    f.map_top]
+  rw [isSimpleOrder_iff_isAtom_top]; rw [isSimpleOrder_iff_isAtom_top]; rw [← f.isAtom_iff ⊤]; rw [f.map_top]
 #align order_iso.is_simple_order_iff OrderIso.isSimpleOrder_iff
 
 theorem isSimpleOrder [BoundedOrder α] [BoundedOrder β] [h : IsSimpleOrder β] (f : α ≃o β) :
@@ -952,7 +951,7 @@ theorem isCoatomic_of_isAtomic_of_complementedLattice_of_isModular [IsAtomic α]
     · rintro ⟨a, ha, ay⟩
       rcases exists_isCompl (xy.symm.IicOrderIsoIci ⟨a, ay⟩) with ⟨⟨b, xb⟩, hb⟩
       refine' ⟨↑(⟨b, xb⟩ : Set.Ici x), IsCoatom.of_isCoatom_coe_Ici _, xb⟩
-      rw [← hb.isAtom_iff_isCoatom, OrderIso.isAtom_iff]
+      rw [← hb.isAtom_iff_isCoatom]; rw [OrderIso.isAtom_iff]
       apply ha.Iic⟩
 #align is_coatomic_of_is_atomic_of_complemented_lattice_of_is_modular isCoatomic_of_isAtomic_of_complementedLattice_of_isModular
 
@@ -1029,7 +1028,7 @@ theorem isAtom_iff_eq_single [DecidableEq ι] [∀ i, PartialOrder (π i)]
     intro h
     have ⟨i, h, hbot⟩ := isAtom_iff.1 h
     refine ⟨_, _, h, funext fun j => if hij : j = i then hij ▸ by simp else ?_⟩
-    rw [Function.update_noteq hij, hbot _ hij, bot_apply]
+    rw [Function.update_noteq hij]; rw [hbot _ hij]; rw [bot_apply]
   case mpr =>
     rintro ⟨i, a, h, rfl⟩
     refine isAtom_single h
@@ -1087,7 +1086,7 @@ theorem isAtom_iff (s : Set α) : IsAtom s ↔ ∃ x, s = {x} := by
     ⟨_, by
       rintro ⟨x, rfl⟩
       exact isAtom_singleton x⟩
-  rw [_root_.isAtom_iff, bot_eq_empty, ← nonempty_iff_ne_empty]
+  rw [_root_.isAtom_iff]; rw [bot_eq_empty]; rw [← nonempty_iff_ne_empty]
   rintro ⟨⟨x, hx⟩, hs⟩
   exact
     ⟨x, eq_singleton_iff_unique_mem.2
@@ -1095,7 +1094,7 @@ theorem isAtom_iff (s : Set α) : IsAtom s ↔ ∃ x, s = {x} := by
 #align set.is_atom_iff Set.isAtom_iff
 
 theorem isCoatom_iff (s : Set α) : IsCoatom s ↔ ∃ x, s = {x}ᶜ := by
-  rw [isCompl_compl.isCoatom_iff_isAtom, isAtom_iff]
+  rw [isCompl_compl.isCoatom_iff_isAtom]; rw [isAtom_iff]
   simp_rw [@eq_comm _ s, compl_eq_comm]
 #align set.is_coatom_iff Set.isCoatom_iff
 

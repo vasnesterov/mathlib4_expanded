@@ -69,7 +69,7 @@ theorem nth_eq_getD_sort (h : (setOf p).Finite) (n : ℕ) :
 
 theorem nth_eq_orderEmbOfFin (hf : (setOf p).Finite) {n : ℕ} (hn : n < hf.toFinset.card) :
     nth p n = hf.toFinset.orderEmbOfFin rfl ⟨n, hn⟩ := by
-  rw [nth_eq_getD_sort hf, Finset.orderEmbOfFin_apply, List.getD_eq_get]; rfl
+  rw [nth_eq_getD_sort hf]; rw [Finset.orderEmbOfFin_apply]; rw [List.getD_eq_get]; rfl
 #align nat.nth_eq_order_emb_of_fin Nat.nth_eq_orderEmbOfFin
 
 theorem nth_strictMonoOn (hf : (setOf p).Finite) :
@@ -297,7 +297,7 @@ variable (p) [DecidablePred p]
 
 @[simp]
 theorem count_nth_zero : count p (nth p 0) = 0 := by
-  rw [count_eq_card_filter_range, card_eq_zero, filter_eq_empty_iff, nth_zero]
+  rw [count_eq_card_filter_range]; rw [card_eq_zero]; rw [filter_eq_empty_iff]; rw [nth_zero]
   exact fun n h₁ h₂ => (mem_range.1 h₁).not_le (Nat.sInf_le h₂)
 #align nat.count_nth_zero Nat.count_nth_zero
 

@@ -607,7 +607,7 @@ theorem map_neg_one : f (-1) = -1 :=
 #align ring_equiv.map_neg_one RingEquiv.map_neg_one
 
 theorem map_eq_neg_one_iff {x : R} : f x = -1 ↔ x = -1 := by
-  rw [← neg_eq_iff_eq_neg, ← neg_eq_iff_eq_neg, ← map_neg, RingEquiv.map_eq_one_iff]
+  rw [← neg_eq_iff_eq_neg]; rw [← neg_eq_iff_eq_neg]; rw [← map_neg]; rw [RingEquiv.map_eq_one_iff]
 #align ring_equiv.map_eq_neg_one_iff RingEquiv.map_eq_neg_one_iff
 
 end Ring

@@ -103,7 +103,7 @@ theorem Nat.sum_two_pow_lt {k : ℕ} {A : Finset ℕ} (h₁ : ∀ {x}, x ∈ A �
     A.sum (Nat.pow 2) < 2 ^ k := by
   apply lt_of_le_of_lt (sum_le_sum_of_subset fun t => mem_range.2 ∘ h₁)
   have z := geom_sum_mul_add 1 k
-  rw [mul_one, one_add_one_eq_two] at z
+  rw [mul_one] at z; rw [one_add_one_eq_two] at z
   rw [← z]
   apply Nat.lt_succ_self
 #align nat.sum_two_pow_lt Nat.sum_two_pow_lt
@@ -182,14 +182,14 @@ theorem lt_trichotomy [LinearOrder α] (A B : Finset.Colex α) : A < B ∨ A = B
       specialize z t
       by_contra h₂
       simp only [mem_union, mem_sdiff, id.def] at z
-      rw [not_iff, iff_iff_and_or_not_and_not, not_not, and_comm] at h₂
+      rw [not_iff] at h₂; rw [iff_iff_and_or_not_and_not] at h₂; rw [not_not] at h₂; rw [and_comm] at h₂
       apply not_le_of_lt th (z h₂)
     · left
       refine' ⟨k, @fun t th => _, hk.2, hk.1⟩
       specialize z t
       by_contra h₃
       simp only [mem_union, mem_sdiff, id.def] at z
-      rw [not_iff, iff_iff_and_or_not_and_not, not_not, and_comm, or_comm] at h₃
+      rw [not_iff] at h₃; rw [iff_iff_and_or_not_and_not] at h₃; rw [not_not] at h₃; rw [and_comm] at h₃; rw [or_comm] at h₃
       apply not_le_of_lt th (z h₃)
 #align colex.lt_trichotomy Colex.lt_trichotomy
 
@@ -241,7 +241,7 @@ example [LinearOrder α] : IsStrictTotalOrder (Finset.Colex α) (· < ·) :=
 /-- Strictly monotone functions preserve the colex ordering. -/
 theorem hom_le_iff {β : Type*} [LinearOrder α] [LinearOrder β] {f : α → β} (h₁ : StrictMono f)
     (A B : Finset α) : (A.image f).toColex ≤ (B.image f).toColex ↔ A.toColex ≤ B.toColex := by
-  rw [le_iff_le_iff_lt_iff_lt, hom_lt_iff h₁]
+  rw [le_iff_le_iff_lt_iff_lt]; rw [hom_lt_iff h₁]
 #align colex.hom_le_iff Colex.hom_le_iff
 
 -- Porting note: fixed the doc
@@ -300,14 +300,14 @@ theorem singleton_lt_iff_lt [LinearOrder α] {r s : α} :
 /-- Colex is an extension of the base ordering on α. -/
 theorem singleton_le_iff_le [LinearOrder α] {r s : α} :
     ({r} : Finset α).toColex ≤ ({s} : Finset α).toColex ↔ r ≤ s := by
-  rw [le_iff_le_iff_lt_iff_lt, singleton_lt_iff_lt]
+  rw [le_iff_le_iff_lt_iff_lt]; rw [singleton_lt_iff_lt]
 #align colex.singleton_le_iff_le Colex.singleton_le_iff_le
 
 /-- Colex doesn't care if you remove the other set -/
 @[simp]
 theorem sdiff_lt_sdiff_iff_lt [LT α] [DecidableEq α] (A B : Finset α) :
     (A \ B).toColex < (B \ A).toColex ↔ A.toColex < B.toColex := by
-  rw [Colex.lt_def, Colex.lt_def]
+  rw [Colex.lt_def]; rw [Colex.lt_def]
   apply exists_congr
   intro k
   simp only [mem_sdiff, not_and, not_not]
@@ -327,7 +327,7 @@ theorem sdiff_lt_sdiff_iff_lt [LT α] [DecidableEq α] (A B : Finset α) :
 @[simp]
 theorem sdiff_le_sdiff_iff_le [LinearOrder α] (A B : Finset α) :
     (A \ B).toColex ≤ (B \ A).toColex ↔ A.toColex ≤ B.toColex := by
-  rw [le_iff_le_iff_lt_iff_lt, sdiff_lt_sdiff_iff_lt]
+  rw [le_iff_le_iff_lt_iff_lt]; rw [sdiff_lt_sdiff_iff_lt]
 #align colex.sdiff_le_sdiff_iff_le Colex.sdiff_le_sdiff_iff_le
 
 theorem empty_toColex_lt [LinearOrder α] {A : Finset α} (hA : A.Nonempty) :
@@ -343,7 +343,7 @@ theorem empty_toColex_lt [LinearOrder α] {A : Finset α} (hA : A.Nonempty) :
 `⊆` is not a linear order. -/
 theorem colex_lt_of_ssubset [LinearOrder α] {A B : Finset α} (h : A ⊂ B) :
     A.toColex < B.toColex := by
-  rw [← sdiff_lt_sdiff_iff_lt, sdiff_eq_empty_iff_subset.2 h.1]
+  rw [← sdiff_lt_sdiff_iff_lt]; rw [sdiff_eq_empty_iff_subset.2 h.1]
   exact empty_toColex_lt (by simpa [Finset.Nonempty] using exists_of_ssubset h)
 #align colex.colex_lt_of_ssubset Colex.colex_lt_of_ssubset
 
@@ -358,7 +358,7 @@ theorem empty_toColex_le [LinearOrder α] {A : Finset α} : (∅ : Finset α).to
 linear order. -/
 theorem colex_le_of_subset [LinearOrder α] {A B : Finset α} (h : A ⊆ B) :
     A.toColex ≤ B.toColex := by
-  rw [← sdiff_le_sdiff_iff_le, sdiff_eq_empty_iff_subset.2 h]
+  rw [← sdiff_le_sdiff_iff_le]; rw [sdiff_eq_empty_iff_subset.2 h]
   apply empty_toColex_le
 #align colex.colex_le_of_subset Colex.colex_le_of_subset
 
@@ -392,12 +392,11 @@ theorem sum_two_pow_lt_iff_lt (A B : Finset ℕ) :
     ((∑ i in A, 2 ^ i) < ∑ i in B, 2 ^ i) ↔ A.toColex < B.toColex := by
   have z : ∀ A B : Finset ℕ, A.toColex < B.toColex → ∑ i in A, 2 ^ i < ∑ i in B, 2 ^ i := by
     intro A B
-    rw [← sdiff_lt_sdiff_iff_lt, Colex.lt_def]
+    rw [← sdiff_lt_sdiff_iff_lt]; rw [Colex.lt_def]
     rintro ⟨k, z, kA, kB⟩
     rw [← sdiff_union_inter A B]
     conv_rhs => rw [← sdiff_union_inter B A]
-    rw [sum_union (disjoint_sdiff_inter _ _), sum_union (disjoint_sdiff_inter _ _), inter_comm,
-      add_lt_add_iff_right]
+    rw [sum_union (disjoint_sdiff_inter _ _)]; rw [sum_union (disjoint_sdiff_inter _ _)]; rw [inter_comm]; rw [add_lt_add_iff_right]
     apply lt_of_lt_of_le (@Nat.sum_two_pow_lt k (A \ B) _)
     · apply single_le_sum (fun _ _ => Nat.zero_le _) kB
     intro x hx
@@ -417,7 +416,7 @@ theorem sum_two_pow_lt_iff_lt (A B : Finset ℕ) :
 /-- For subsets of ℕ, we can show that colex is equivalent to binary. -/
 theorem sum_two_pow_le_iff_lt (A B : Finset ℕ) :
     ((∑ i in A, 2 ^ i) ≤ ∑ i in B, 2 ^ i) ↔ A.toColex ≤ B.toColex := by
-  rw [le_iff_le_iff_lt_iff_lt, sum_two_pow_lt_iff_lt]
+  rw [le_iff_le_iff_lt_iff_lt]; rw [sum_two_pow_lt_iff_lt]
 #align colex.sum_two_pow_le_iff_lt Colex.sum_two_pow_le_iff_lt
 
 end Colex

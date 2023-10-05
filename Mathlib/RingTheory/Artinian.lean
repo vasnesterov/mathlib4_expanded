@@ -170,12 +170,11 @@ theorem IsArtinian.finite_of_linearIndependent [Nontrivial R] [IsArtinian R M] {
   have : ∀ a b : ℕ, a ≤ b ↔
       span R (Subtype.val ∘ f '' { m | b ≤ m }) ≤ span R (Subtype.val ∘ f '' { m | a ≤ m }) := by
     intro a b
-    rw [span_le_span_iff hs (this b) (this a),
-      Set.image_subset_image_iff (Subtype.coe_injective.comp f.injective), Set.subset_def]
+    rw [span_le_span_iff hs (this b) (this a)]; rw [Set.image_subset_image_iff (Subtype.coe_injective.comp f.injective)]; rw [Set.subset_def]
     simp only [Set.mem_setOf_eq]
     exact ⟨fun hab x => le_trans hab, fun h => h _ le_rfl⟩
   exact ⟨⟨fun n => span R (Subtype.val ∘ f '' { m | n ≤ m }), fun x y => by
-    rw [le_antisymm_iff, ← this y x, ← this x y]
+    rw [le_antisymm_iff]; rw [← this y x]; rw [← this x y]
     exact fun ⟨h₁, h₂⟩ => le_antisymm_iff.2 ⟨h₂, h₁⟩⟩, by
     intro a b
     conv_rhs => rw [GT.gt, lt_iff_le_not_le, this, this, ← lt_iff_le_not_le]⟩
@@ -184,7 +183,7 @@ theorem IsArtinian.finite_of_linearIndependent [Nontrivial R] [IsArtinian R M] {
 /-- A module is Artinian iff every nonempty set of submodules has a minimal submodule among them. -/
 theorem set_has_minimal_iff_artinian :
     (∀ a : Set <| Submodule R M, a.Nonempty → ∃ M' ∈ a, ∀ I ∈ a, ¬I < M') ↔ IsArtinian R M := by
-  rw [isArtinian_iff_wellFounded, WellFounded.wellFounded_iff_has_min]
+  rw [isArtinian_iff_wellFounded]; rw [WellFounded.wellFounded_iff_has_min]
 #align set_has_minimal_iff_artinian set_has_minimal_iff_artinian
 
 theorem IsArtinian.set_has_minimal [IsArtinian R M] (a : Set <| Submodule R M) (ha : a.Nonempty) :
@@ -239,8 +238,7 @@ theorem exists_endomorphism_iterate_ker_sup_range_eq_top (f : M →ₗ[R] M) :
 /-- Any injective endomorphism of an Artinian module is surjective. -/
 theorem surjective_of_injective_endomorphism (f : M →ₗ[R] M) (s : Injective f) : Surjective f := by
   obtain ⟨n, ne, w⟩ := exists_endomorphism_iterate_ker_sup_range_eq_top f
-  rw [LinearMap.ker_eq_bot.mpr (LinearMap.iterate_injective s n), bot_sup_eq,
-    LinearMap.range_eq_top] at w
+  rw [LinearMap.ker_eq_bot.mpr (LinearMap.iterate_injective s n)] at w; rw [bot_sup_eq] at w; rw [LinearMap.range_eq_top] at w
   exact LinearMap.surjective_of_iterate_surjective ne w
 #align is_artinian.surjective_of_injective_endomorphism IsArtinian.surjective_of_injective_endomorphism
 
@@ -285,7 +283,7 @@ theorem range_smul_pow_stabilizes (r : R) :
     ⟨fun n => LinearMap.range (r ^ n • LinearMap.id : M →ₗ[R] M), fun n m h x ⟨y, hy⟩ =>
       ⟨r ^ (m - n) • y, by
         dsimp at hy ⊢
-        rw [← smul_assoc, smul_eq_mul, ← pow_add, ← hy, add_tsub_cancel_of_le h]⟩⟩
+        rw [← smul_assoc]; rw [smul_eq_mul]; rw [← pow_add]; rw [← hy]; rw [add_tsub_cancel_of_le h]⟩⟩
 #align is_artinian.range_smul_pow_stabilizes IsArtinian.range_smul_pow_stabilizes
 
 variable {M}
@@ -370,7 +368,7 @@ theorem isArtinian_span_of_finite (R) {M} [Ring R] [AddCommGroup M] [Module R M]
 
 theorem Function.Surjective.isArtinianRing {R} [Ring R] {S} [Ring S] {F} [RingHomClass F R S]
     {f : F} (hf : Function.Surjective f) [H : IsArtinianRing R] : IsArtinianRing S := by
-  rw [isArtinianRing_iff, isArtinian_iff_wellFounded] at H ⊢
+  rw [isArtinianRing_iff] at H ⊢; rw [isArtinian_iff_wellFounded] at H ⊢
   exact (Ideal.orderEmbeddingOfSurjective f hf).wellFounded H
 #align function.surjective.is_artinian_ring Function.Surjective.isArtinianRing
 
@@ -434,7 +432,7 @@ theorem localization_surjective : Function.Surjective (algebraMap R L) := by
   · exact ⟨r₁ * r₂, by rw [IsLocalization.mk'_eq_mul_mk'_one, map_mul, h]⟩
   obtain ⟨n, r, hr⟩ := IsArtinian.exists_pow_succ_smul_dvd (s : R) (1 : R)
   use r
-  rw [smul_eq_mul, smul_eq_mul, pow_succ', mul_assoc] at hr
+  rw [smul_eq_mul] at hr; rw [smul_eq_mul] at hr; rw [pow_succ'] at hr; rw [mul_assoc] at hr
   apply_fun algebraMap R L at hr
   simp only [map_mul] at hr
   rw [← IsLocalization.mk'_one (M := S) L, IsLocalization.mk'_eq_iff_eq, mul_one, Submonoid.coe_one,

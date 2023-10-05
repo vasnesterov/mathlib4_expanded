@@ -59,13 +59,13 @@ open EMetric
 
 @[to_additive (attr := simp)]
 theorem infEdist_inv_inv (x : E) (s : Set E) : infEdist x⁻¹ s⁻¹ = infEdist x s := by
-  rw [← image_inv, infEdist_image isometry_inv]
+  rw [← image_inv]; rw [infEdist_image isometry_inv]
 #align inf_edist_inv_inv infEdist_inv_inv
 #align inf_edist_neg_neg infEdist_neg_neg
 
 @[to_additive]
 theorem infEdist_inv (x : E) (s : Set E) : infEdist x⁻¹ s = infEdist x s⁻¹ := by
-  rw [← infEdist_inv_inv, inv_inv]
+  rw [← infEdist_inv_inv]; rw [inv_inv]
 #align inf_edist_inv infEdist_inv
 #align inf_edist_neg infEdist_neg
 
@@ -112,7 +112,7 @@ theorem singleton_div_ball : {x} / ball y δ = ball (x / y) δ := by
 
 @[to_additive]
 theorem ball_mul_singleton : ball x δ * {y} = ball (x * y) δ := by
-  rw [mul_comm, singleton_mul_ball, mul_comm y]
+  rw [mul_comm]; rw [singleton_mul_ball]; rw [mul_comm y]
 #align ball_mul_singleton ball_mul_singleton
 #align ball_add_singleton ball_add_singleton
 
@@ -129,7 +129,7 @@ theorem singleton_mul_ball_one : {x} * ball 1 δ = ball x δ := by simp
 
 @[to_additive]
 theorem singleton_div_ball_one : {x} / ball 1 δ = ball x δ := by
-  rw [singleton_div_ball, div_one]
+  rw [singleton_div_ball]; rw [div_one]
 #align singleton_div_ball_one singleton_div_ball_one
 #align singleton_sub_ball_zero singleton_sub_ball_zero
 
@@ -140,13 +140,13 @@ theorem ball_one_mul_singleton : ball 1 δ * {x} = ball x δ := by simp [ball_mu
 
 @[to_additive]
 theorem ball_one_div_singleton : ball 1 δ / {x} = ball x⁻¹ δ := by
-  rw [ball_div_singleton, one_div]
+  rw [ball_div_singleton]; rw [one_div]
 #align ball_one_div_singleton ball_one_div_singleton
 #align ball_zero_sub_singleton ball_zero_sub_singleton
 
 @[to_additive]
 theorem smul_ball_one : x • ball (1 : E) δ = ball x δ := by
-  rw [smul_ball, smul_eq_mul, mul_one]
+  rw [smul_ball]; rw [smul_eq_mul]; rw [mul_one]
 #align smul_ball_one smul_ball_one
 #align vadd_ball_zero vadd_ball_zero
 
@@ -181,7 +181,7 @@ theorem singleton_mul_closedBall_one : {x} * closedBall 1 δ = closedBall x δ :
 
 @[to_additive]
 theorem singleton_div_closedBall_one : {x} / closedBall 1 δ = closedBall x δ := by
-  rw [singleton_div_closedBall, div_one]
+  rw [singleton_div_closedBall]; rw [div_one]
 #align singleton_div_closed_ball_one singleton_div_closedBall_one
 #align singleton_sub_closed_ball_zero singleton_sub_closedBall_zero
 
@@ -227,7 +227,7 @@ theorem ball_div_one : ball 1 δ / s = thickening δ s⁻¹ := by simp [div_eq_m
 
 @[to_additive (attr := simp)]
 theorem mul_ball : s * ball x δ = x • thickening δ s := by
-  rw [← smul_ball_one, mul_smul_comm, mul_ball_one]
+  rw [← smul_ball_one]; rw [mul_smul_comm]; rw [mul_ball_one]
 #align mul_ball mul_ball
 #align add_ball add_ball
 
@@ -280,7 +280,7 @@ theorem IsCompact.closedBall_one_div (hs : IsCompact s) (hδ : 0 ≤ δ) :
 @[to_additive]
 theorem IsCompact.mul_closedBall (hs : IsCompact s) (hδ : 0 ≤ δ) (x : E) :
     s * closedBall x δ = x • cthickening δ s := by
-  rw [← smul_closedBall_one, mul_smul_comm, hs.mul_closedBall_one hδ]
+  rw [← smul_closedBall_one]; rw [mul_smul_comm]; rw [hs.mul_closedBall_one hδ]
 #align is_compact.mul_closed_ball IsCompact.mul_closedBall
 #align is_compact.add_closed_ball IsCompact.add_closedBall
 

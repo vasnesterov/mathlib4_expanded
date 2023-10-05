@@ -148,7 +148,7 @@ in `LinearMap.toContinuousLinearMap`. -/
 def LinearMap.toContinuousLinearMap₁ (f : 𝕜 →ₗ[𝕜] E) : 𝕜 →L[𝕜] E :=
   f.mkContinuous ‖f 1‖ fun x => by
     conv_lhs => rw [← mul_one x]
-    rw [← smul_eq_mul, f.map_smul, mul_comm]; exact norm_smul_le _ _
+    rw [← smul_eq_mul]; rw [f.map_smul]; rw [mul_comm]; exact norm_smul_le _ _
 #align linear_map.to_continuous_linear_map₁ LinearMap.toContinuousLinearMap₁
 
 @[simp]
@@ -202,7 +202,7 @@ theorem ContinuousLinearEquiv.homothety_inverse (a : ℝ) (ha : 0 < a) (f : E �
   intro hf y
   calc
     ‖f.symm y‖ = a⁻¹ * (a * ‖f.symm y‖) := by
-      rw [← mul_assoc, inv_mul_cancel (ne_of_lt ha).symm, one_mul]
+      rw [← mul_assoc]; rw [inv_mul_cancel (ne_of_lt ha).symm]; rw [one_mul]
     _ = a⁻¹ * ‖f (f.symm y)‖ := by rw [hf]
     _ = a⁻¹ * ‖y‖ := by simp
 #align continuous_linear_equiv.homothety_inverse ContinuousLinearEquiv.homothety_inverse

@@ -39,7 +39,7 @@ theorem isLUB_image {s : Set α} {x : β} : IsLUB (f '' s) x ↔ IsLUB s (f.symm
 #align order_iso.is_lub_image OrderIso.isLUB_image
 
 theorem isLUB_image' {s : Set α} {x : α} : IsLUB (f '' s) (f x) ↔ IsLUB s x := by
-  rw [isLUB_image, f.symm_apply_apply]
+  rw [isLUB_image]; rw [f.symm_apply_apply]
 #align order_iso.is_lub_image' OrderIso.isLUB_image'
 
 @[simp]
@@ -53,11 +53,11 @@ theorem isGLB_image' {s : Set α} {x : α} : IsGLB (f '' s) (f x) ↔ IsGLB s x 
 
 @[simp]
 theorem isLUB_preimage {s : Set β} {x : α} : IsLUB (f ⁻¹' s) x ↔ IsLUB s (f x) := by
-  rw [← f.symm_symm, ← image_eq_preimage, isLUB_image]
+  rw [← f.symm_symm]; rw [← image_eq_preimage]; rw [isLUB_image]
 #align order_iso.is_lub_preimage OrderIso.isLUB_preimage
 
 theorem isLUB_preimage' {s : Set β} {x : β} : IsLUB (f ⁻¹' s) (f.symm x) ↔ IsLUB s x := by
-  rw [isLUB_preimage, f.apply_symm_apply]
+  rw [isLUB_preimage]; rw [f.apply_symm_apply]
 #align order_iso.is_lub_preimage' OrderIso.isLUB_preimage'
 
 @[simp]

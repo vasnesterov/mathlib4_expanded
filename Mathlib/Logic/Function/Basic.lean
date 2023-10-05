@@ -585,13 +585,13 @@ theorem update_injective (f : ∀ a, β a) (a' : α) : Injective (update f a') :
 
 lemma forall_update_iff (f : ∀a, β a) {a : α} {b : β a} (p : ∀a, β a → Prop) :
     (∀ x, p x (update f a b x)) ↔ p a b ∧ ∀ x, x ≠ a → p x (f x) := by
-  rw [← and_forall_ne a, update_same]
+  rw [← and_forall_ne a]; rw [update_same]
   simp (config := { contextual := true })
 #align function.forall_update_iff Function.forall_update_iff
 
 theorem exists_update_iff (f : ∀ a, β a) {a : α} {b : β a} (p : ∀ a, β a → Prop) :
     (∃ x, p x (update f a b x)) ↔ p a b ∨ ∃ (x : _) (_ : x ≠ a), p x (f x) := by
-  rw [← not_forall_not, forall_update_iff f fun a b ↦ ¬p a b]
+  rw [← not_forall_not]; rw [forall_update_iff f fun a b ↦ ¬p a b]
   simp [-not_and, not_and_or]
 #align function.exists_update_iff Function.exists_update_iff
 
@@ -753,14 +753,14 @@ lemma FactorsThrough.apply_extend {δ} {g : α → γ} (hf : FactorsThrough g f)
   case pos =>
     rcases hb with ⟨a, ha⟩
     subst b
-    rw [hf.extend_apply, FactorsThrough.extend_apply, comp]
+    rw [hf.extend_apply]; rw [FactorsThrough.extend_apply]; rw [comp]
     case intro.hf =>
       intro a b h
       simp only [comp_apply]
       apply congr_arg
       exact hf h
   case neg =>
-    rw [extend_apply' _ _ _ hb, extend_apply' _ _ _ hb, comp]
+    rw [extend_apply' _ _ _ hb]; rw [extend_apply' _ _ _ hb]; rw [comp]
 #align function.factors_through.apply_extend Function.FactorsThrough.apply_extend
 
 lemma Injective.apply_extend {δ} (hf : Injective f) (F : γ → δ) (g : α → γ) (e' : β → γ) (b : β) :
@@ -1047,7 +1047,7 @@ theorem Function.LeftInverse.eq_rec_on_eq {α β : Sort*} {γ : β → Sort v} {
 theorem Function.LeftInverse.cast_eq {α β : Sort*} {γ : β → Sort v} {f : α → β} {g : β → α}
     (h : Function.LeftInverse g f) (C : ∀ a : α, γ (f a)) (a : α) :
     cast (congr_arg (fun a ↦ γ (f a)) (h a)) (C (g (f a))) = C a := by
-  rw [cast_eq_iff_heq, h]
+  rw [cast_eq_iff_heq]; rw [h]
 #align function.left_inverse.cast_eq Function.LeftInverse.cast_eq
 
 /-- A set of functions "separates points"

@@ -405,7 +405,7 @@ variable [AddMonoid M'] [DistribMulAction R M']
 @[ext]
 theorem ext_ring {f g : R →+[R] M'} (h : f 1 = g 1) : f = g := by
   ext x
-  rw [← mul_one x, ← smul_eq_mul R, f.map_smul, g.map_smul, h]
+  rw [← mul_one x]; rw [← smul_eq_mul R]; rw [f.map_smul]; rw [g.map_smul]; rw [h]
 #align distrib_mul_action_hom.ext_ring DistribMulActionHom.ext_ring
 
 theorem ext_ring_iff {f g : R →+[R] M'} : f = g ↔ f 1 = g 1 :=

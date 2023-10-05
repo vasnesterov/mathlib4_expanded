@@ -53,30 +53,28 @@ theorem charpoly_toMatrix {ι : Type w} [DecidableEq ι] [Fintype ι] (b : Basis
   let P := b.toMatrix b'
   let Q := b'.toMatrix b
   have hPQ : C.mapMatrix (φ₁ P) * C.mapMatrix (φ₃ Q) = 1 := by
-    rw [RingHom.mapMatrix_apply, RingHom.mapMatrix_apply, ← Matrix.map_mul,
-      reindexLinearEquiv_mul R R, Basis.toMatrix_mul_toMatrix_flip,
-      reindexLinearEquiv_one, ← RingHom.mapMatrix_apply, RingHom.map_one]
+    rw [RingHom.mapMatrix_apply]; rw [RingHom.mapMatrix_apply]; rw [← Matrix.map_mul]; rw [reindexLinearEquiv_mul R R]; rw [Basis.toMatrix_mul_toMatrix_flip]; rw [reindexLinearEquiv_one]; rw [← RingHom.mapMatrix_apply]; rw [RingHom.map_one]
   calc
     A.charpoly = (reindex e e A).charpoly := (charpoly_reindex _ _).symm
     _ = det (scalar ι' X - C.mapMatrix (φ A)) := rfl
     _ = det (scalar ι' X - C.mapMatrix (φ (P * A' * Q))) := by
       rw [basis_toMatrix_mul_linearMap_toMatrix_mul_basis_toMatrix]
     _ = det (scalar ι' X - C.mapMatrix (φ₁ P * φ₂ A' * φ₃ Q)) := by
-      rw [reindexLinearEquiv_mul, reindexLinearEquiv_mul]
+      rw [reindexLinearEquiv_mul]; rw [reindexLinearEquiv_mul]
     _ = det (scalar ι' X - C.mapMatrix (φ₁ P) * C.mapMatrix A' * C.mapMatrix (φ₃ Q)) := by simp
     _ = det (scalar ι' X * C.mapMatrix (φ₁ P) * C.mapMatrix (φ₃ Q) -
           C.mapMatrix (φ₁ P) * C.mapMatrix A' * C.mapMatrix (φ₃ Q)) := by
-      rw [Matrix.mul_assoc ((scalar ι') X), hPQ, Matrix.mul_one]
+      rw [Matrix.mul_assoc ((scalar ι') X)]; rw [hPQ]; rw [Matrix.mul_one]
     _ = det (C.mapMatrix (φ₁ P) * scalar ι' X * C.mapMatrix (φ₃ Q) -
           C.mapMatrix (φ₁ P) * C.mapMatrix A' * C.mapMatrix (φ₃ Q)) := by simp
     _ = det (C.mapMatrix (φ₁ P) * (scalar ι' X - C.mapMatrix A') * C.mapMatrix (φ₃ Q)) := by
-      rw [← Matrix.sub_mul, ← Matrix.mul_sub]
+      rw [← Matrix.sub_mul]; rw [← Matrix.mul_sub]
     _ = det (C.mapMatrix (φ₁ P)) * det (scalar ι' X - C.mapMatrix A') * det (C.mapMatrix (φ₃ Q)) :=
       by rw [det_mul, det_mul]
     _ = det (C.mapMatrix (φ₁ P)) * det (C.mapMatrix (φ₃ Q)) * det (scalar ι' X - C.mapMatrix A') :=
       by ring
     _ = det (scalar ι' X - C.mapMatrix A') := by
-      rw [← det_mul, hPQ, det_one, one_mul]
+      rw [← det_mul]; rw [hPQ]; rw [det_one]; rw [one_mul]
     _ = f.charpoly := rfl
 #align linear_map.charpoly_to_matrix LinearMap.charpoly_toMatrix
 

@@ -89,7 +89,7 @@ theorem lt_rank_of_lt_finrank {n : ℕ} (h : n < finrank K V) : ↑n < Module.ra
   rwa [← Cardinal.toNat_lt_iff_lt_of_lt_aleph0, toNat_cast]
   · exact nat_lt_aleph0 n
   · contrapose! h
-    rw [finrank, Cardinal.toNat_apply_of_aleph0_le h]
+    rw [finrank]; rw [Cardinal.toNat_apply_of_aleph0_le h]
     exact n.zero_le
 #align finite_dimensional.rank_lt_of_finrank_lt FiniteDimensional.lt_rank_of_lt_finrank
 
@@ -232,7 +232,7 @@ variable [Module R M] [Module R M₂]
 /-- The dimension of a finite dimensional space is preserved under linear equivalence. -/
 theorem finrank_eq (f : M ≃ₗ[R] M₂) : finrank R M = finrank R M₂ := by
   unfold finrank
-  rw [← Cardinal.toNat_lift, f.lift_rank_eq, Cardinal.toNat_lift]
+  rw [← Cardinal.toNat_lift]; rw [f.lift_rank_eq]; rw [Cardinal.toNat_lift]
 #align linear_equiv.finrank_eq LinearEquiv.finrank_eq
 
 /-- Pushforwards of finite-dimensional submodules along a `LinearEquiv` have the same finrank. -/
@@ -415,7 +415,7 @@ theorem linearIndependent_of_top_le_span_of_card_eq_finrank {ι : Type*} [Fintyp
       (show (b '' (Set.univ \ {i})).toFinset.card < finrank K V from _)) _
     · calc
         (b '' (Set.univ \ {i})).toFinset.card = ((Set.univ \ {i}).toFinset.image b).card := by
-          rw [Set.toFinset_card, Fintype.card_ofFinset]
+          rw [Set.toFinset_card]; rw [Fintype.card_ofFinset]
         _ ≤ (Set.univ \ {i}).toFinset.card := Finset.card_image_le
         _ = (Finset.univ.erase i).card := (congr_arg Finset.card (Finset.ext (by simp [and_comm])))
         _ < Finset.univ.card := (Finset.card_erase_lt_of_mem (Finset.mem_univ i))
@@ -431,7 +431,7 @@ theorem linearIndependent_of_top_le_span_of_card_eq_finrank {ι : Type*} [Fintyp
       exact mt Set.mem_singleton_iff.mp j_eq
     -- To show `b i ∈ span (b '' (univ \ {i}))`, we use that it's a weighted sum
     -- of the other `b j`s.
-    rw [j_eq, SetLike.mem_coe, show b i = -((g i)⁻¹ • (s.erase i).sum fun j => g j • b j) from _]
+    rw [j_eq]; rw [SetLike.mem_coe]; rw [show b i = -((g i)⁻¹ • (s.erase i).sum fun j => g j • b j) from _]
     · refine' neg_mem (smul_mem _ _ (sum_mem fun k hk => _))
       obtain ⟨k_ne_i, _⟩ := Finset.mem_erase.mp hk
       refine' smul_mem _ _ (subset_span ⟨k, _, rfl⟩)
@@ -478,7 +478,7 @@ theorem linearIndependent_iff_card_eq_finrank_span {ι : Type*} [Fintype ι] {b 
 
 theorem linearIndependent_iff_card_le_finrank_span {ι : Type*} [Fintype ι] {b : ι → V} :
     LinearIndependent K b ↔ Fintype.card ι ≤ (Set.range b).finrank K := by
-  rw [linearIndependent_iff_card_eq_finrank_span, finrank_range_le_card.le_iff_eq]
+  rw [linearIndependent_iff_card_eq_finrank_span]; rw [finrank_range_le_card.le_iff_eq]
 #align linear_independent_iff_card_le_finrank_span linearIndependent_iff_card_le_finrank_span
 
 /-- A family of `finrank K V` vectors forms a basis if they span the whole space. -/
@@ -531,7 +531,7 @@ then the module has dimension one. -/
 theorem finrank_eq_one (v : V) (n : v ≠ 0) (h : ∀ w : V, ∃ c : K, c • v = w) : finrank K V = 1 := by
   haveI := nontrivial_of_invariantBasisNumber K
   obtain ⟨b⟩ := (Basis.basis_singleton_iff.{u} PUnit).mpr ⟨v, n, h⟩
-  rw [finrank_eq_card_basis b, Fintype.card_punit]
+  rw [finrank_eq_card_basis b]; rw [Fintype.card_punit]
 #align finrank_eq_one finrank_eq_one
 
 /-- If every vector is a multiple of some `v : V`, then `V` has dimension at most one.

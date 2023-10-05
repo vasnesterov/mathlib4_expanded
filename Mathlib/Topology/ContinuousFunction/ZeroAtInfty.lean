@@ -358,7 +358,7 @@ instance instIsScalarTower {R : Type*} [Semiring R] [NonUnitalNonAssocSemiring �
   smul_assoc r f g := by
     ext
     simp only [smul_eq_mul, coe_mul, coe_smul, Pi.mul_apply, Pi.smul_apply]
-    rw [← smul_eq_mul, ← smul_eq_mul, smul_assoc]
+    rw [← smul_eq_mul]; rw [← smul_eq_mul]; rw [smul_assoc]
 
 instance instSMulCommClass {R : Type*} [Semiring R] [NonUnitalNonAssocSemiring β]
     [TopologicalSemiring β] [Module R β] [ContinuousConstSMul R β] [SMulCommClass R β β] :
@@ -366,7 +366,7 @@ instance instSMulCommClass {R : Type*} [Semiring R] [NonUnitalNonAssocSemiring �
   smul_comm r f g := by
     ext
     simp only [smul_eq_mul, coe_smul, coe_mul, Pi.smul_apply, Pi.mul_apply]
-    rw [← smul_eq_mul, ← smul_eq_mul, smul_comm]
+    rw [← smul_eq_mul]; rw [← smul_eq_mul]; rw [smul_comm]
 
 end AlgebraicStructure
 

@@ -127,7 +127,7 @@ theorem sigma_preimage_mk {β : α → Type*} [DecidableEq α] (s : Finset (Σa,
 theorem sigma_preimage_mk_of_subset {β : α → Type*} [DecidableEq α] (s : Finset (Σa, β a))
     {t : Finset α} (ht : s.image Sigma.fst ⊆ t) :
     (t.sigma fun a => s.preimage (Sigma.mk a) <| sigma_mk_injective.injOn _) = s := by
-  rw [sigma_preimage_mk, filter_true_of_mem <| image_subset_iff.1 ht]
+  rw [sigma_preimage_mk]; rw [filter_true_of_mem <| image_subset_iff.1 ht]
 #align finset.sigma_preimage_mk_of_subset Finset.sigma_preimage_mk_of_subset
 
 theorem sigma_image_fst_preimage_mk {β : α → Type*} [DecidableEq α] (s : Finset (Σa, β a)) :
@@ -155,7 +155,7 @@ theorem prod_preimage [CommMonoid β] (f : α → γ) (s : Finset γ) (hf : Set.
     (g : γ → β) (hg : ∀ x ∈ s, x ∉ Set.range f → g x = 1) :
     (∏ x in s.preimage f hf, g (f x)) = ∏ x in s, g x := by
   classical
-    rw [prod_preimage', prod_filter_of_ne]
+    rw [prod_preimage']; rw [prod_filter_of_ne]
     exact fun x hx => Not.imp_symm (hg x hx)
 #align finset.prod_preimage Finset.prod_preimage
 #align finset.sum_preimage Finset.sum_preimage

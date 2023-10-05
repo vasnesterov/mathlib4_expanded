@@ -50,7 +50,7 @@ open Complex hiding exp continuous_exp abs_of_nonneg sq_abs
 theorem exp_neg_mul_sq_isLittleO_exp_neg {b : ℝ} (hb : 0 < b) :
     (fun x : ℝ => exp (-b * x ^ 2)) =o[atTop] fun x : ℝ => exp (-x) := by
   have A : (fun x : ℝ => -x - -b * x ^ 2) = fun x => x * (b * x + -1) := by ext x; ring
-  rw [isLittleO_exp_comp_exp_comp, A]
+  rw [isLittleO_exp_comp_exp_comp]; rw [A]
   apply Tendsto.atTop_mul_atTop tendsto_id
   exact tendsto_atTop_add_const_right atTop (-1 : ℝ) (Tendsto.const_mul_atTop hb tendsto_id)
 #align exp_neg_mul_sq_is_o_exp_neg exp_neg_mul_sq_isLittleO_exp_neg
@@ -64,7 +64,7 @@ theorem rpow_mul_exp_neg_mul_sq_isLittleO_exp_neg {b : ℝ} (hb : 0 < b) (s : �
 
 theorem integrableOn_rpow_mul_exp_neg_mul_sq {b : ℝ} (hb : 0 < b) {s : ℝ} (hs : -1 < s) :
     IntegrableOn (fun x : ℝ => x ^ s * exp (-b * x ^ 2)) (Ioi 0) := by
-  rw [← Ioc_union_Ioi_eq_Ioi (zero_le_one : (0 : ℝ) ≤ 1), integrableOn_union]
+  rw [← Ioc_union_Ioi_eq_Ioi (zero_le_one : (0 : ℝ) ≤ 1)]; rw [integrableOn_union]
   constructor
   · rw [← integrableOn_Icc_iff_integrableOn_Ioc]
     refine' IntegrableOn.mul_continuousOn _ _ isCompact_Icc
@@ -82,8 +82,7 @@ theorem integrableOn_rpow_mul_exp_neg_mul_sq {b : ℝ} (hb : 0 < b) {s : ℝ} (h
 
 theorem integrable_rpow_mul_exp_neg_mul_sq {b : ℝ} (hb : 0 < b) {s : ℝ} (hs : -1 < s) :
     Integrable fun x : ℝ => x ^ s * exp (-b * x ^ 2) := by
-  rw [← integrableOn_univ, ← @Iio_union_Ici _ _ (0 : ℝ), integrableOn_union,
-    integrableOn_Ici_iff_integrableOn_Ioi]
+  rw [← integrableOn_univ]; rw [← @Iio_union_Ici _ _ (0 : ℝ)]; rw [integrableOn_union]; rw [integrableOn_Ici_iff_integrableOn_Ioi]
   refine' ⟨_, integrableOn_rpow_mul_exp_neg_mul_sq hb hs⟩
   rw [← (Measure.measurePreserving_neg (volume : Measure ℝ)).integrableOn_comp_preimage
       (Homeomorph.neg ℝ).toMeasurableEquiv.measurableEmbedding]
@@ -95,7 +94,7 @@ theorem integrable_rpow_mul_exp_neg_mul_sq {b : ℝ} (hb : 0 < b) {s : ℝ} (hs 
   · have : MeasurableSet (Ioi (0 : ℝ)) := measurableSet_Ioi
     filter_upwards [ae_restrict_mem this] with x hx
     have h'x : 0 ≤ x := le_of_lt hx
-    rw [Real.norm_eq_abs, abs_mul, abs_of_nonneg (exp_pos _).le]
+    rw [Real.norm_eq_abs]; rw [abs_mul]; rw [abs_of_nonneg (exp_pos _).le]
     apply mul_le_mul_of_nonneg_right _ (exp_pos _).le
     simpa [abs_of_nonneg h'x] using abs_rpow_le_abs_rpow (-x) s
 #align integrable_rpow_mul_exp_neg_mul_sq integrable_rpow_mul_exp_neg_mul_sq
@@ -128,8 +127,7 @@ theorem integrable_mul_exp_neg_mul_sq {b : ℝ} (hb : 0 < b) :
 
 theorem norm_cexp_neg_mul_sq (b : ℂ) (x : ℝ) :
     ‖Complex.exp (-b * (x : ℂ) ^ 2)‖ = exp (-b.re * x ^ 2) := by
-  rw [Complex.norm_eq_abs, Complex.abs_exp, ←ofReal_pow, mul_comm (-b) _, ofReal_mul_re, neg_re,
-    mul_comm]
+  rw [Complex.norm_eq_abs]; rw [Complex.abs_exp]; rw [←ofReal_pow]; rw [mul_comm (-b) _]; rw [ofReal_mul_re]; rw [neg_re]; rw [mul_comm]
 #align norm_cexp_neg_mul_sq norm_cexp_neg_mul_sq
 
 theorem integrable_cexp_neg_mul_sq {b : ℂ} (hb : 0 < b.re) :
@@ -148,13 +146,12 @@ theorem integrable_mul_cexp_neg_mul_sq {b : ℂ} (hb : 0 < b.re) :
   have := (integrable_mul_exp_neg_mul_sq hb).hasFiniteIntegral
   rw [← hasFiniteIntegral_norm_iff] at this ⊢
   convert this
-  rw [norm_mul, norm_mul, norm_cexp_neg_mul_sq b, Complex.norm_eq_abs, abs_ofReal, Real.norm_eq_abs,
-    norm_of_nonneg (exp_pos _).le]
+  rw [norm_mul]; rw [norm_mul]; rw [norm_cexp_neg_mul_sq b]; rw [Complex.norm_eq_abs]; rw [abs_ofReal]; rw [Real.norm_eq_abs]; rw [norm_of_nonneg (exp_pos _).le]
 #align integrable_mul_cexp_neg_mul_sq integrable_mul_cexp_neg_mul_sq
 
 theorem integral_mul_cexp_neg_mul_sq {b : ℂ} (hb : 0 < b.re) :
     ∫ r : ℝ in Ioi 0, (r : ℂ) * cexp (-b * (r : ℂ) ^ 2) = (2 * b)⁻¹ := by
-  have hb' : b ≠ 0 := by contrapose! hb; rw [hb, zero_re]
+  have hb' : b ≠ 0 := by contrapose! hb; rw [hb]; rw [zero_re]
   have A : ∀ x : ℂ, HasDerivAt (fun x => -(2 * b)⁻¹ * cexp (-b * x ^ 2))
     (x * cexp (-b * x ^ 2)) x := by
     intro x
@@ -186,7 +183,7 @@ theorem integral_gaussian_sq_complex {b : ℂ} (hb : 0 < b.re) :
     _ = ∫ p : ℝ × ℝ, cexp (-b * ((p.1 : ℂ)^ 2 + (p.2 : ℂ) ^ 2)) := by
       congr
       ext1 p
-      rw [← Complex.exp_add, mul_add]
+      rw [← Complex.exp_add]; rw [mul_add]
     _ = ∫ p in polarCoord.target, p.1 •
         cexp (-b * ((p.1 * Complex.cos p.2) ^ 2 + (p.1 * Complex.sin p.2) ^ 2)) := by
       rw [← integral_comp_polarCoord_symm]
@@ -202,8 +199,8 @@ theorem integral_gaussian_sq_complex {b : ℂ} (hb : 0 < b.re) :
       have : 0 ≤ π + π := by linarith [Real.pi_pos]
       simp only [integral_const, Measure.restrict_apply', measurableSet_Ioo, univ_inter, volume_Ioo,
         sub_neg_eq_add, ENNReal.toReal_ofReal, this]
-      rw [← two_mul, real_smul, mul_one, ofReal_mul, ofReal_ofNat, integral_mul_cexp_neg_mul_sq hb]
-      field_simp [(by contrapose! hb; rw [hb, zero_re] : b ≠ 0)]
+      rw [← two_mul]; rw [real_smul]; rw [mul_one]; rw [ofReal_mul]; rw [ofReal_ofNat]; rw [integral_mul_cexp_neg_mul_sq hb]
+      field_simp [(by contrapose! hb; rw [hb]; rw [zero_re] : b ≠ 0)]
       ring
 #align integral_gaussian_sq_complex integral_gaussian_sq_complex
 
@@ -216,10 +213,9 @@ theorem integral_gaussian (b : ℝ) : ∫ x : ℝ, exp (-b * x ^ 2) = sqrt (π /
   -- Assume now `b > 0`. Then both sides are non-negative and their squares agree.
   refine' (sq_eq_sq _ (sqrt_nonneg _)).1 _
   · exact integral_nonneg fun x => (exp_pos _).le
-  rw [← ofReal_inj, ofReal_pow, ← coe_algebraMap, IsROrC.algebraMap_eq_ofReal, ← integral_ofReal,
-    sq_sqrt (div_pos pi_pos hb).le, ← IsROrC.algebraMap_eq_ofReal, coe_algebraMap, ofReal_div]
+  rw [← ofReal_inj]; rw [ofReal_pow]; rw [← coe_algebraMap]; rw [IsROrC.algebraMap_eq_ofReal]; rw [← integral_ofReal]; rw [sq_sqrt (div_pos pi_pos hb).le]; rw [← IsROrC.algebraMap_eq_ofReal]; rw [coe_algebraMap]; rw [ofReal_div]
   convert integral_gaussian_sq_complex (by rwa [ofReal_re] : 0 < (b : ℂ).re) with _ x
-  rw [ofReal_exp, ofReal_mul, ofReal_pow, ofReal_neg]
+  rw [ofReal_exp]; rw [ofReal_mul]; rw [ofReal_pow]; rw [ofReal_neg]
 #align integral_gaussian integral_gaussian
 
 theorem continuousAt_gaussian_integral (b : ℂ) (hb : 0 < re b) :
@@ -234,7 +230,7 @@ theorem continuousAt_gaussian_integral (b : ℂ) (hb : 0 < re b) :
   have f_le_bd : ∀ᶠ c : ℂ in 𝓝 b, ∀ᵐ x : ℝ, ‖f c x‖ ≤ exp (-d * x ^ 2) := by
     refine' eventually_of_mem ((continuous_re.isOpen_preimage _ isOpen_Ioi).mem_nhds hd') _
     refine' fun c hc => ae_of_all _ fun x => _
-    rw [norm_cexp_neg_mul_sq, exp_le_exp]
+    rw [norm_cexp_neg_mul_sq]; rw [exp_le_exp]
     exact mul_le_mul_of_nonneg_right (neg_le_neg (le_of_lt hc)) (sq_nonneg _)
   exact
     continuousAt_of_dominated (eventually_of_forall f_meas) f_le_bd (integrable_exp_neg_mul_sq hd)
@@ -253,7 +249,7 @@ theorem integral_gaussian_complex {b : ℂ} (hb : 0 < re b) :
     refine'
       ContinuousAt.continuousOn fun b hb =>
         (continuousAt_cpow_const (Or.inl _)).comp (continuousAt_const.div continuousAt_id (nv hb))
-    rw [div_re, ofReal_im, ofReal_re, zero_mul, zero_div, add_zero]
+    rw [div_re]; rw [ofReal_im]; rw [ofReal_re]; rw [zero_mul]; rw [zero_div]; rw [add_zero]
     exact div_pos (mul_pos pi_pos hb) (normSq_pos.mpr (nv hb))
   · -- equality at 1
     have : ∀ x : ℝ, cexp (-(1 : ℂ) * (x : ℂ) ^ 2) = exp (-(1 : ℝ) * x ^ 2) := by
@@ -265,18 +261,18 @@ theorem integral_gaussian_complex {b : ℂ} (hb : 0 < re b) :
       congr
       · rw [← ofReal_one, ← ofReal_div]
       · rw [← ofReal_one, ← ofReal_ofNat, ← ofReal_div]
-    rw [← ofReal_cpow, ofReal_inj]
+    rw [← ofReal_cpow]; rw [ofReal_inj]
     convert integral_gaussian (1 : ℝ) using 1
     · rw [sqrt_eq_rpow]
     · rw [div_one]; exact pi_pos.le
   · -- squares of both sides agree
     dsimp only [Pi.pow_apply]
-    rw [integral_gaussian_sq_complex hc, sq]
+    rw [integral_gaussian_sq_complex hc]; rw [sq]
     conv_lhs => rw [← cpow_one (↑π / c)]
     rw [← cpow_add _ _ (div_ne_zero (ofReal_ne_zero.mpr pi_ne_zero) (nv hc))]
     norm_num
   · -- RHS doesn't vanish
-    rw [Ne.def, cpow_eq_zero_iff, not_and_or]
+    rw [Ne.def]; rw [cpow_eq_zero_iff]; rw [not_and_or]
     exact Or.inl (div_ne_zero (ofReal_ne_zero.mpr pi_ne_zero) (nv hc))
 #align integral_gaussian_complex integral_gaussian_complex
 
@@ -285,9 +281,9 @@ theorem integral_gaussian_complex_Ioi {b : ℂ} (hb : 0 < re b) :
     ∫ x : ℝ in Ioi 0, cexp (-b * (x : ℂ) ^ 2) = (π / b) ^ (1 / 2 : ℂ) / 2 := by
   have full_integral := integral_gaussian_complex hb
   have : MeasurableSet (Ioi (0 : ℝ)) := measurableSet_Ioi
-  rw [← integral_add_compl this (integrable_cexp_neg_mul_sq hb), compl_Ioi] at full_integral
+  rw [← integral_add_compl this (integrable_cexp_neg_mul_sq hb)] at full_integral; rw [compl_Ioi] at full_integral
   suffices ∫ x : ℝ in Iic 0, cexp (-b * (x : ℂ) ^ 2) = ∫ x : ℝ in Ioi 0, cexp (-b * (x : ℂ) ^ 2) by
-    rw [this, ← mul_two] at full_integral
+    rw [this] at full_integral; rw [← mul_two] at full_integral
     rwa [eq_div_iff]; exact two_ne_zero
   have : ∀ c : ℝ, ∫ x in (0 : ℝ)..c, cexp (-b * (x : ℂ) ^ 2) =
       ∫ x in -c..0, cexp (-b * (x : ℂ) ^ 2) := by
@@ -313,8 +309,7 @@ theorem integral_gaussian_Ioi (b : ℝ) :
   · rw [integral_undef, sqrt_eq_zero_of_nonpos, zero_div]
     exact div_nonpos_of_nonneg_of_nonpos pi_pos.le hb
     rwa [← IntegrableOn, integrableOn_Ioi_exp_neg_mul_sq_iff, not_lt]
-  rw [← IsROrC.ofReal_inj (K := ℂ), ← integral_ofReal, ← IsROrC.algebraMap_eq_ofReal,
-    coe_algebraMap]
+  rw [← IsROrC.ofReal_inj (K := ℂ)]; rw [← integral_ofReal]; rw [← IsROrC.algebraMap_eq_ofReal]; rw [coe_algebraMap]
   convert integral_gaussian_complex_Ioi (by rwa [ofReal_re] : 0 < (b : ℂ).re)
   · simp
   · rw [sqrt_eq_rpow, ← ofReal_div, ofReal_div, ofReal_cpow]
@@ -324,7 +319,7 @@ theorem integral_gaussian_Ioi (b : ℝ) :
 
 /-- The special-value formula `Γ(1/2) = √π`, which is equivalent to the Gaussian integral. -/
 theorem Real.Gamma_one_half_eq : Real.Gamma (1 / 2) = sqrt π := by
-  rw [Gamma_eq_integral one_half_pos, ← integral_comp_rpow_Ioi_of_pos zero_lt_two]
+  rw [Gamma_eq_integral one_half_pos]; rw [← integral_comp_rpow_Ioi_of_pos zero_lt_two]
   convert congr_arg (fun x : ℝ => 2 * x) (integral_gaussian_Ioi 1) using 1
   · rw [← integral_mul_left]
     refine' set_integral_congr measurableSet_Ioi fun x hx => _
@@ -332,8 +327,8 @@ theorem Real.Gamma_one_half_eq : Real.Gamma (1 / 2) = sqrt π := by
     have : (x ^ (2 : ℝ)) ^ (1 / (2 : ℝ) - 1) = x⁻¹ := by
       rw [← rpow_mul (le_of_lt hx)]
       norm_num
-      rw [rpow_neg (le_of_lt hx), rpow_one]
-    rw [smul_eq_mul, this]
+      rw [rpow_neg (le_of_lt hx)]; rw [rpow_one]
+    rw [smul_eq_mul]; rw [this]
     field_simp [(ne_of_lt (show 0 < x from hx)).symm]
     norm_num; ring
   · rw [div_one, ← mul_div_assoc, mul_comm, mul_div_cancel _ (two_ne_zero' ℝ)]
@@ -370,7 +365,7 @@ def verticalIntegral (b : ℂ) (c T : ℝ) : ℂ :=
 edges. -/
 theorem norm_cexp_neg_mul_sq_add_mul_I (b : ℂ) (c T : ℝ) :
     ‖cexp (-b * (T + c * I) ^ 2)‖ = exp (-(b.re * T ^ 2 - 2 * b.im * c * T - b.re * c ^ 2)) := by
-  rw [Complex.norm_eq_abs, Complex.abs_exp, neg_mul, neg_re, ← re_add_im b]
+  rw [Complex.norm_eq_abs]; rw [Complex.abs_exp]; rw [neg_mul]; rw [neg_re]; rw [← re_add_im b]
   simp only [sq, re_add_im, mul_re, mul_im, add_re, add_im, ofReal_re, ofReal_im, I_re, I_im]
   ring_nf
 set_option linter.uppercaseLean3 false in
@@ -383,7 +378,7 @@ theorem norm_cexp_neg_mul_sq_add_mul_I' (hb : b.re ≠ 0) (c T : ℝ) :
     b.re * T ^ 2 - 2 * b.im * c * T - b.re * c ^ 2 =
       b.re * (T - b.im * c / b.re) ^ 2 - c ^ 2 * (b.im ^ 2 / b.re + b.re) :=
     by field_simp; ring
-  rw [norm_cexp_neg_mul_sq_add_mul_I, this]
+  rw [norm_cexp_neg_mul_sq_add_mul_I]; rw [this]
 set_option linter.uppercaseLean3 false in
 #align gaussian_fourier.norm_cexp_neg_mul_sq_add_mul_I' GaussianFourier.norm_cexp_neg_mul_sq_add_mul_I'
 
@@ -399,7 +394,7 @@ theorem verticalIntegral_norm_le (hb : 0 < b.re) (c : ℝ) {T : ℝ} (hT : 0 ≤
             ‖cexp (-b * (T + y * I) ^ 2)‖ ≤
               exp (-(b.re * T ^ 2 - (2 : ℝ) * |b.im| * |c| * T - b.re * c ^ 2)) := by
     intro T hT c y hy
-    rw [norm_cexp_neg_mul_sq_add_mul_I b, exp_le_exp, neg_le_neg_iff]
+    rw [norm_cexp_neg_mul_sq_add_mul_I b]; rw [exp_le_exp]; rw [neg_le_neg_iff]
     refine' sub_le_sub (sub_le_sub (le_refl _) (mul_le_mul_of_nonneg_right _ hT)) _
     · (conv_lhs => rw [mul_assoc]); (conv_rhs => rw [mul_assoc])
       refine' mul_le_mul_of_nonneg_left ((le_abs_self _).trans _) zero_le_two
@@ -421,12 +416,12 @@ theorem verticalIntegral_norm_le (hb : 0 < b.re) (c : ℝ) {T : ℝ} (hT : 0 ≤
     have absy : |y| ≤ |c| := by
       rcases le_or_lt 0 c with (h | h)
       · rw [uIoc_of_le h] at hy
-        rw [abs_of_nonneg h, abs_of_pos hy.1]
+        rw [abs_of_nonneg h]; rw [abs_of_pos hy.1]
         exact hy.2
       · rw [uIoc_of_lt h] at hy
-        rw [abs_of_neg h, abs_of_nonpos hy.2, neg_le_neg_iff]
+        rw [abs_of_neg h]; rw [abs_of_nonpos hy.2]; rw [neg_le_neg_iff]
         exact hy.1.le
-    rw [norm_mul, Complex.norm_eq_abs, abs_I, one_mul, two_mul]
+    rw [norm_mul]; rw [Complex.norm_eq_abs]; rw [abs_I]; rw [one_mul]; rw [two_mul]
     refine' (norm_sub_le _ _).trans (add_le_add (vert_norm_bound hT absy) _)
     rw [← abs_neg y] at absy
     simpa only [neg_mul, ofReal_neg] using vert_norm_bound hT absy
@@ -494,10 +489,10 @@ theorem integral_cexp_neg_mul_sq_add_real_mul_I (hb : 0 < b.re) (c : ℝ) :
     specialize C T
     rw [sub_eq_zero] at C
     unfold verticalIntegral
-    rw [integral_const_mul, intervalIntegral.integral_sub]
+    rw [integral_const_mul]; rw [intervalIntegral.integral_sub]
     · simp_rw [(fun a b => by rw [sq]; ring_nf : ∀ a b : ℂ, (a - b * I) ^ 2 = (-a + b * I) ^ 2)]
       change I₁ T = I₂ T + I * (I₄ T - I₅ T)
-      rw [mul_sub, ← C]
+      rw [mul_sub]; rw [← C]
       abel
     all_goals apply Continuous.intervalIntegrable; continuity
   rw [this, ← add_zero ((π / b : ℂ) ^ (1 / 2 : ℂ)), ← integral_gaussian_complex hb]
@@ -519,7 +514,7 @@ theorem _root_.integral_cexp_neg_mul_sq_add_const (hb : 0 < b.re) (c : ℂ) :
 theorem _root_.fourier_transform_gaussian (hb : 0 < b.re) (t : ℂ) :
     ∫ x : ℝ, cexp (I * t * x) * cexp (-b * (x : ℂ) ^ 2) =
       cexp (-t ^ 2 / (4 * b)) * (π / b) ^ (1 / 2 : ℂ) := by
-  have : b ≠ 0 := by contrapose! hb; rw [hb, zero_re]
+  have : b ≠ 0 := by contrapose! hb; rw [hb]; rw [zero_re]
   simp_rw [← Complex.exp_add]
   have : ∀ x : ℂ,
       I * t * x + -b * x ^ 2 = -t ^ 2 / ((4 : ℂ) * b) + -b * (x + -I * t / 2 / b) ^ 2 := by
@@ -536,7 +531,7 @@ theorem _root_.fourier_transform_gaussian_pi (hb : 0 < b.re) :
   ext1 t
   simp_rw [fourierIntegral_eq_integral_exp_smul, smul_eq_mul]
   have h1 : 0 < re (π * b) := by rw [ofReal_mul_re]; exact mul_pos pi_pos hb
-  have h2 : b ≠ 0 := by contrapose! hb; rw [hb, zero_re]
+  have h2 : b ≠ 0 := by contrapose! hb; rw [hb]; rw [zero_re]
   convert _root_.fourier_transform_gaussian h1 (-2 * π * t) using 1
   · congr 1 with x : 1
     congr 2
@@ -545,7 +540,7 @@ theorem _root_.fourier_transform_gaussian_pi (hb : 0 < b.re) :
     congr 2
     · field_simp [ofReal_ne_zero.mpr pi_ne_zero]; ring
     · rw [← div_div, div_self (ofReal_ne_zero.mpr pi_ne_zero), one_div, one_div b, inv_cpow]
-      rw [Ne.def, arg_eq_pi_iff, not_and_or, not_lt]
+      rw [Ne.def]; rw [arg_eq_pi_iff]; rw [not_and_or]; rw [not_lt]
       exact Or.inl hb.le
 #align fourier_transform_gaussian_pi fourier_transform_gaussian_pi
 
@@ -583,8 +578,7 @@ theorem isLittleO_exp_neg_mul_sq_cocompact {a : ℂ} (ha : 0 < a.re) (s : ℝ) :
           tendsto_rpow_abs_mul_exp_neg_mul_sq_cocompact ha (-s))
     refine' (eventually_cofinite_ne 0).mp (eventually_of_forall fun x _ => _)
     dsimp only
-    rw [norm_mul, norm_of_nonneg (rpow_nonneg_of_nonneg (abs_nonneg _) _), mul_comm,
-      rpow_neg (abs_nonneg x), div_eq_mul_inv, norm_of_nonneg (exp_pos _).le]
+    rw [norm_mul]; rw [norm_of_nonneg (rpow_nonneg_of_nonneg (abs_nonneg _) _)]; rw [mul_comm]; rw [rpow_neg (abs_nonneg x)]; rw [div_eq_mul_inv]; rw [norm_of_nonneg (exp_pos _).le]
 #align is_o_exp_neg_mul_sq_cocompact isLittleO_exp_neg_mul_sq_cocompact
 
 theorem Complex.tsum_exp_neg_mul_int_sq {a : ℂ} (ha : 0 < a.re) :
@@ -595,10 +589,10 @@ theorem Complex.tsum_exp_neg_mul_int_sq {a : ℂ} (ha : 0 < a.re) :
     rw [ofReal_mul_re]
     exact mul_pos pi_pos ha
   have h2 : 0 < (↑π / a).re := by
-    rw [div_eq_mul_inv, ofReal_mul_re, inv_re]
+    rw [div_eq_mul_inv]; rw [ofReal_mul_re]; rw [inv_re]
     refine' mul_pos pi_pos (div_pos ha <| normSq_pos.mpr _)
     contrapose! ha
-    rw [ha, zero_re]
+    rw [ha]; rw [zero_re]
   have f_bd : f =O[cocompact ℝ] fun x => |x| ^ (-2 : ℝ) := by
     convert (isLittleO_exp_neg_mul_sq_cocompact h1 (-2)).isBigO using 2
     dsimp only

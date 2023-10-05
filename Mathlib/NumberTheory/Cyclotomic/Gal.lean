@@ -72,14 +72,14 @@ theorem autToPow_injective : Function.Injective <| hμ.autToPow K := by
     exact this
   rw [ZMod.eq_iff_modEq_nat] at hfg
   refine' (hf.trans _).trans hg.symm
-  rw [← rootsOfUnity.coe_pow _ hf'.choose, ← rootsOfUnity.coe_pow _ hg'.choose]
+  rw [← rootsOfUnity.coe_pow _ hf'.choose]; rw [← rootsOfUnity.coe_pow _ hg'.choose]
   congr 2
   rw [pow_eq_pow_iff_modEq]
   convert hfg
   rw [hμ.eq_orderOf]
   -- Porting note: was `{occs := occurrences.pos [2]}`
   conv_rhs => rw [← hμ.val_toRootsOfUnity_coe]
-  rw [orderOf_units, orderOf_subgroup]
+  rw [orderOf_units]; rw [orderOf_subgroup]
 #align is_primitive_root.aut_to_pow_injective IsPrimitiveRoot.autToPow_injective
 
 end IsPrimitiveRoot
@@ -127,7 +127,7 @@ noncomputable def autEquivPow : (L ≃ₐ[K] L) ≃* (ZMod n)ˣ :=
       have key := hζ.autToPow_spec K ((hζ.powerBasis K).equivOfMinpoly ((hμ x).powerBasis K) h)
       have := (hζ.powerBasis K).equivOfMinpoly_gen ((hμ x).powerBasis K) h
       rw [hζ.powerBasis_gen K] at this
-      rw [this, IsPrimitiveRoot.powerBasis_gen] at key
+      rw [this] at key; rw [IsPrimitiveRoot.powerBasis_gen] at key
 -- Porting note: was `rw ← hζ.coe_to_roots_of_unity_coe at key {occs := occurrences.pos [1, 5]}`.
       conv at key =>
         congr; congr
@@ -136,8 +136,8 @@ noncomputable def autEquivPow : (L ≃ₐ[K] L) ≃* (ZMod n)ˣ :=
         rw [← hζ.val_toRootsOfUnity_coe]
       simp only [← rootsOfUnity.coe_pow] at key
       replace key := rootsOfUnity.coe_injective key
-      rw [pow_eq_pow_iff_modEq, ← orderOf_subgroup, ← orderOf_units, hζ.val_toRootsOfUnity_coe, ←
-        (zeta_spec n K L).eq_orderOf, ← ZMod.eq_iff_modEq_nat] at key
+      rw [pow_eq_pow_iff_modEq] at key; rw [← orderOf_subgroup] at key; rw [← orderOf_units] at key; rw [hζ.val_toRootsOfUnity_coe] at key; rw [←
+        (zeta_spec n K L).eq_orderOf] at key; rw [← ZMod.eq_iff_modEq_nat] at key
       simp only [ZMod.nat_cast_val, ZMod.cast_id', id.def] at key
       exact Units.ext key }
 #align is_cyclotomic_extension.aut_equiv_pow IsCyclotomicExtension.autEquivPow
@@ -158,8 +158,7 @@ theorem fromZetaAut_spec : fromZetaAut hμ h (zeta n K L) = μ := by
   generalize_proofs h1 h2
   nth_rewrite 4 [← (zeta_spec n K L).powerBasis_gen K]
   have := Exists.choose_spec ((zeta_spec n K L).eq_pow_of_pow_eq_one hμ.pow_eq_one n.pos)
-  rw [PowerBasis.equivOfMinpoly_gen, h1.powerBasis_gen K, ZMod.coe_unitOfCoprime,
-    ZMod.val_cast_of_lt this.1]
+  rw [PowerBasis.equivOfMinpoly_gen]; rw [h1.powerBasis_gen K]; rw [ZMod.coe_unitOfCoprime]; rw [ZMod.val_cast_of_lt this.1]
   exact this.2
 #align is_cyclotomic_extension.from_zeta_aut_spec IsCyclotomicExtension.fromZetaAut_spec
 

@@ -29,8 +29,7 @@ open Real
 namespace Imo2008Q4
 
 theorem abs_eq_one_of_pow_eq_one (x : ℝ) (n : ℕ) (hn : n ≠ 0) (h : x ^ n = 1) : |x| = 1 := by
-  rw [← pow_left_inj (abs_nonneg x) zero_le_one (pos_iff_ne_zero.2 hn), one_pow, pow_abs, h,
-    abs_one]
+  rw [← pow_left_inj (abs_nonneg x) zero_le_one (pos_iff_ne_zero.2 hn)]; rw [one_pow]; rw [pow_abs]; rw [h]; rw [abs_one]
 #align imo2008_q4.abs_eq_one_of_pow_eq_one Imo2008Q4.abs_eq_one_of_pow_eq_one
 
 end Imo2008Q4
@@ -63,7 +62,7 @@ theorem imo2008_q4 (f : ℝ → ℝ) (H₁ : ∀ x > 0, f x > 0) :
     intro x hx
     have h1xss : 1 * x = sqrt x * sqrt x := by rw [one_mul, mul_self_sqrt (le_of_lt hx)]
     specialize H₂ 1 x (sqrt x) (sqrt x) zero_lt_one hx (sqrt_pos.mpr hx) (sqrt_pos.mpr hx) h1xss
-    rw [h₁, one_pow 2, sq_sqrt (le_of_lt hx), ← two_mul (f x), ← two_mul x] at H₂
+    rw [h₁] at H₂; rw [one_pow 2] at H₂; rw [sq_sqrt (le_of_lt hx)] at H₂; rw [← two_mul (f x)] at H₂; rw [← two_mul x] at H₂
     have hfx_ne_0 : f x ≠ 0 := by specialize H₁ x hx; exact ne_of_gt H₁
     field_simp at H₂ ⊢
     linear_combination 1 / 2 * H₂
@@ -77,8 +76,8 @@ theorem imo2008_q4 (f : ℝ → ℝ) (H₁ : ∀ x > 0, f x > 0) :
   have hab : a * b > 0 := mul_pos ha hb
   have habss : a * b = sqrt (a * b) * sqrt (a * b) := (mul_self_sqrt (le_of_lt hab)).symm
   specialize H₂ a b (sqrt (a * b)) (sqrt (a * b)) ha hb (sqrt_pos.mpr hab) (sqrt_pos.mpr hab) habss
-  rw [sq_sqrt (le_of_lt hab), ← two_mul (f (a * b)), ← two_mul (a * b)] at H₂
-  rw [hfa₂, hfb₂] at H₂
+  rw [sq_sqrt (le_of_lt hab)] at H₂; rw [← two_mul (f (a * b))] at H₂; rw [← two_mul (a * b)] at H₂
+  rw [hfa₂] at H₂; rw [hfb₂] at H₂
   have h2ab_ne_0 : 2 * (a * b) ≠ 0 := by positivity
   specialize h₃ (a * b) hab
   cases' h₃ with hab₁ hab₂

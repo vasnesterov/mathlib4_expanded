@@ -94,26 +94,20 @@ lemma assoc_inv_app (h : ShiftMkCore C A) (m₁ m₂ m₃ : A) (X : C) :
     (h.F m₃).map ((h.add m₁ m₂).inv.app X) ≫ (h.add (m₁ + m₂) m₃).inv.app X =
     (h.add m₂ m₃).inv.app ((h.F m₁).obj X) ≫ (h.add m₁ (m₂ + m₃)).inv.app X ≫
       eqToHom (by rw [add_assoc]) := by
-  rw [← cancel_mono ((h.add (m₁ + m₂) m₃).hom.app X ≫ (h.F m₃).map ((h.add m₁ m₂).hom.app X)),
-    Category.assoc, Category.assoc, Category.assoc, Iso.inv_hom_id_app_assoc, ← Functor.map_comp,
-    Iso.inv_hom_id_app, Functor.map_id, h.assoc_hom_app, eqToHom_trans_assoc, eqToHom_refl,
-    Category.id_comp, Iso.inv_hom_id_app_assoc, Iso.inv_hom_id_app]
+  rw [← cancel_mono ((h.add (m₁ + m₂) m₃).hom.app X ≫ (h.F m₃).map ((h.add m₁ m₂).hom.app X))]; rw [Category.assoc]; rw [Category.assoc]; rw [Category.assoc]; rw [Iso.inv_hom_id_app_assoc]; rw [← Functor.map_comp]; rw [Iso.inv_hom_id_app]; rw [Functor.map_id]; rw [h.assoc_hom_app]; rw [eqToHom_trans_assoc]; rw [eqToHom_refl]; rw [Category.id_comp]; rw [Iso.inv_hom_id_app_assoc]; rw [Iso.inv_hom_id_app]
   rfl
 #align category_theory.shift_mk_core.assoc_inv_app CategoryTheory.ShiftMkCore.assoc_inv_app
 
 lemma zero_add_inv_app (h : ShiftMkCore C A) (n : A) (X : C) :
     (h.add 0 n).inv.app X = (h.F n).map (h.zero.hom.app X) ≫
       eqToHom (by dsimp; rw [zero_add]) := by
-  rw [← cancel_epi ((h.add 0 n).hom.app X), Iso.hom_inv_id_app, h.zero_add_hom_app,
-    Category.assoc, ← Functor.map_comp_assoc, Iso.inv_hom_id_app, Functor.map_id,
-    Category.id_comp, eqToHom_trans, eqToHom_refl]
+  rw [← cancel_epi ((h.add 0 n).hom.app X)]; rw [Iso.hom_inv_id_app]; rw [h.zero_add_hom_app]; rw [Category.assoc]; rw [← Functor.map_comp_assoc]; rw [Iso.inv_hom_id_app]; rw [Functor.map_id]; rw [Category.id_comp]; rw [eqToHom_trans]; rw [eqToHom_refl]
 #align category_theory.shift_mk_core.zero_add_inv_app CategoryTheory.ShiftMkCore.zero_add_inv_app
 
 lemma add_zero_inv_app (h : ShiftMkCore C A) (n : A) (X : C) :
     (h.add n 0).inv.app X = h.zero.hom.app ((h.F n).obj X) ≫
       eqToHom (by dsimp; rw [add_zero]) := by
-  rw [← cancel_epi ((h.add n 0).hom.app X), Iso.hom_inv_id_app, h.add_zero_hom_app,
-    Category.assoc, Iso.inv_hom_id_app_assoc, eqToHom_trans, eqToHom_refl]
+  rw [← cancel_epi ((h.add n 0).hom.app X)]; rw [Iso.hom_inv_id_app]; rw [h.add_zero_hom_app]; rw [Category.assoc]; rw [Iso.inv_hom_id_app_assoc]; rw [eqToHom_trans]; rw [eqToHom_refl]
 #align category_theory.shift_mk_core.add_zero_inv_app CategoryTheory.ShiftMkCore.add_zero_inv_app
 
 end ShiftMkCore
@@ -423,7 +417,7 @@ def shiftEquiv' (i j : A) (h : i + j = 0) : C ≌ C where
     (by rw [← add_left_inj j, add_assoc, h, zero_add, add_zero])
   functor_unitIso_comp X := by
     convert (equivOfTensorIsoUnit (shiftMonoidalFunctor C A) ⟨i⟩ ⟨j⟩ (Discrete.eqToIso h)
-      (Discrete.eqToIso (by dsimp; rw [← add_left_inj j, add_assoc, h, zero_add, add_zero]))
+      (Discrete.eqToIso (by dsimp; rw [← add_left_inj j]; rw [add_assoc]; rw [h]; rw [zero_add]; rw [add_zero]))
       (Subsingleton.elim _ _)).functor_unitIso_comp X
     all_goals
       ext X
@@ -506,9 +500,7 @@ theorem shift_shiftFunctorCompIsoId_inv_app (n m : A) (h : n + m = 0) (X : C) :
     ((shiftFunctorCompIsoId C n m h).inv.app X)⟦n⟧' =
     ((shiftFunctorCompIsoId C m n
       (by rw [← neg_eq_of_add_eq_zero_left h, add_right_neg])).inv.app (X⟦n⟧)) := by
-  rw [← cancel_mono (((shiftFunctorCompIsoId C n m h).hom.app X)⟦n⟧'),
-    ← Functor.map_comp, Iso.inv_hom_id_app, Functor.map_id,
-    shift_shiftFunctorCompIsoId_hom_app, Iso.inv_hom_id_app]
+  rw [← cancel_mono (((shiftFunctorCompIsoId C n m h).hom.app X)⟦n⟧')]; rw [← Functor.map_comp]; rw [Iso.inv_hom_id_app]; rw [Functor.map_id]; rw [shift_shiftFunctorCompIsoId_hom_app]; rw [Iso.inv_hom_id_app]
   rfl
 #align category_theory.shift_shift_functor_comp_iso_id_inv_app CategoryTheory.shift_shiftFunctorCompIsoId_inv_app
 
@@ -572,13 +564,13 @@ lemma shiftFunctorComm_eq (i j k : A) (h : i + j = k) :
 @[simp]
 lemma shiftFunctorComm_eq_refl (i : A) :
     shiftFunctorComm C i i = Iso.refl _ := by
-  rw [shiftFunctorComm_eq C i i (i + i) rfl, Iso.symm_self_id]
+  rw [shiftFunctorComm_eq C i i (i + i) rfl]; rw [Iso.symm_self_id]
 
 lemma shiftFunctorComm_symm (i j : A) :
     (shiftFunctorComm C i j).symm = shiftFunctorComm C j i := by
   ext1
   dsimp
-  rw [shiftFunctorComm_eq C i j (i+j) rfl, shiftFunctorComm_eq C j i (i+j) (add_comm j i)]
+  rw [shiftFunctorComm_eq C i j (i+j) rfl]; rw [shiftFunctorComm_eq C j i (i+j) (add_comm j i)]
   rfl
 #align category_theory.shift_functor_comm_symm CategoryTheory.shiftFunctorComm_symm
 
@@ -610,23 +602,21 @@ theorem shiftComm' (i j : A) :
 @[reassoc]
 theorem shiftComm_hom_comp (i j : A) :
     (shiftComm X i j).hom ≫ f⟦j⟧'⟦i⟧' = f⟦i⟧'⟦j⟧' ≫ (shiftComm Y i j).hom := by
-  rw [shiftComm', ← shiftComm_symm, Iso.symm_hom, Iso.inv_hom_id_assoc]
+  rw [shiftComm']; rw [← shiftComm_symm]; rw [Iso.symm_hom]; rw [Iso.inv_hom_id_assoc]
 #align category_theory.shift_comm_hom_comp CategoryTheory.shiftComm_hom_comp
 
 lemma shiftFunctorZero_hom_app_shift (n : A) :
     (shiftFunctorZero C A).hom.app (X⟦n⟧) =
     (shiftFunctorComm C n 0).hom.app X ≫ ((shiftFunctorZero C A).hom.app X)⟦n⟧' := by
-  rw [← shiftFunctorAdd'_zero_add_inv_app n X, shiftFunctorComm_eq C n 0 n (add_zero n)]
+  rw [← shiftFunctorAdd'_zero_add_inv_app n X]; rw [shiftFunctorComm_eq C n 0 n (add_zero n)]
   dsimp
-  rw [Category.assoc, Iso.hom_inv_id_app, Category.comp_id, shiftFunctorAdd'_add_zero_inv_app]
+  rw [Category.assoc]; rw [Iso.hom_inv_id_app]; rw [Category.comp_id]; rw [shiftFunctorAdd'_add_zero_inv_app]
 #align category_theory.shift_functor_zero_hom_app_shift CategoryTheory.shiftFunctorZero_hom_app_shift
 
 lemma shiftFunctorZero_inv_app_shift (n : A) :
     (shiftFunctorZero C A).inv.app (X⟦n⟧) =
   ((shiftFunctorZero C A).inv.app X)⟦n⟧' ≫ (shiftFunctorComm C n 0).inv.app X := by
-  rw [← cancel_mono ((shiftFunctorZero C A).hom.app (X⟦n⟧)), Category.assoc, Iso.inv_hom_id_app,
-    shiftFunctorZero_hom_app_shift, Iso.inv_hom_id_app_assoc, ← Functor.map_comp,
-    Iso.inv_hom_id_app]
+  rw [← cancel_mono ((shiftFunctorZero C A).hom.app (X⟦n⟧))]; rw [Category.assoc]; rw [Iso.inv_hom_id_app]; rw [shiftFunctorZero_hom_app_shift]; rw [Iso.inv_hom_id_app_assoc]; rw [← Functor.map_comp]; rw [Iso.inv_hom_id_app]
   dsimp
   rw [Functor.map_id]
 #align category_theory.shift_functor_zero_inv_app_shift CategoryTheory.shiftFunctorZero_inv_app_shift
@@ -644,8 +634,7 @@ lemma shiftFunctorComm_hom_app_comp_shift_shiftFunctorAdd_hom_app (m₁ m₂ m�
   (shiftFunctorAdd C m₂ m₃).hom.app (X⟦m₁⟧) ≫
     ((shiftFunctorComm C m₁ m₂).hom.app X)⟦m₃⟧' ≫
     (shiftFunctorComm C m₁ m₃).hom.app (X⟦m₂⟧) := by
-  rw [← cancel_mono ((shiftFunctorComm C m₁ m₃).inv.app (X⟦m₂⟧)),
-    ← cancel_mono (((shiftFunctorComm C m₁ m₂).inv.app X)⟦m₃⟧')]
+  rw [← cancel_mono ((shiftFunctorComm C m₁ m₃).inv.app (X⟦m₂⟧))]; rw [← cancel_mono (((shiftFunctorComm C m₁ m₂).inv.app X)⟦m₃⟧')]
   simp only [Category.assoc, Iso.hom_inv_id_app]
   dsimp
   simp only [Category.id_comp, ← Functor.map_comp, Iso.hom_inv_id_app]
@@ -735,15 +724,11 @@ def hasShiftOfFullyFaithful :
           Category.assoc, Iso.inv_hom_id_app_assoc, NatTrans.naturality_assoc, Functor.comp_map,
           Iso.inv_hom_id_app, Category.comp_id]
         erw [(i m₃).hom.naturality]
-        rw [Functor.comp_map, map_hasShiftOfFullyFaithful_add_hom_app,
-          Functor.map_comp, Functor.map_comp, Iso.inv_hom_id_app_assoc,
-          ← Functor.map_comp_assoc _ ((i (m₁ + m₂)).inv.app X), Iso.inv_hom_id_app,
-          Functor.map_id, Category.id_comp, reassoc_of% h,
-          dcongr_arg (fun a => (i a).hom.app X) (add_assoc m₁ m₂ m₃)]
+        rw [Functor.comp_map]; rw [map_hasShiftOfFullyFaithful_add_hom_app]; rw [Functor.map_comp]; rw [Functor.map_comp]; rw [Iso.inv_hom_id_app_assoc]; rw [← Functor.map_comp_assoc _ ((i (m₁ + m₂)).inv.app X)]; rw [Iso.inv_hom_id_app]; rw [Functor.map_id]; rw [Category.id_comp]; rw [reassoc_of% h]; rw [dcongr_arg (fun a => (i a).hom.app X) (add_assoc m₁ m₂ m₃)]
         simp [shiftFunctorAdd', eqToHom_map])
       zero_add_hom_app := fun n X => F.map_injective (by
         have this := dcongr_arg (fun a => (i a).hom.app X) (zero_add n)
-        rw [← cancel_mono ((i n).hom.app ((s 0).obj X)) ]
+        rw [← cancel_mono ((i n).hom.app ((s 0).obj X))]
         simp [this, map_hasShiftOfFullyFaithful_add_hom_app,
           shiftFunctorAdd_zero_add_hom_app, eqToHom_map]
         congr 1

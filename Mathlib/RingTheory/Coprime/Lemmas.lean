@@ -40,7 +40,7 @@ theorem Int.isCoprime_iff_gcd_eq_one {m n : ℤ} : IsCoprime m n ↔ Int.gcd m n
     exact ⟨_, _, h⟩
 
 theorem Nat.isCoprime_iff_coprime {m n : ℕ} : IsCoprime (m : ℤ) n ↔ Nat.Coprime m n := by
-  rw [Int.isCoprime_iff_gcd_eq_one, Int.coe_nat_gcd]
+  rw [Int.isCoprime_iff_gcd_eq_one]; rw [Int.coe_nat_gcd]
 #align nat.is_coprime_iff_coprime Nat.isCoprime_iff_coprime
 
 alias ⟨IsCoprime.nat_coprime, Nat.Coprime.isCoprime⟩ := Nat.isCoprime_iff_coprime
@@ -65,7 +65,7 @@ theorem IsCoprime.prod_right : (∀ i ∈ t, IsCoprime x (s i)) → IsCoprime x 
 
 theorem IsCoprime.prod_left_iff : IsCoprime (∏ i in t, s i) x ↔ ∀ i ∈ t, IsCoprime (s i) x :=
   Finset.induction_on t (iff_of_true isCoprime_one_left fun _ ↦ by simp) fun b t hbt ih ↦ by
-    rw [Finset.prod_insert hbt, IsCoprime.mul_left_iff, ih, Finset.forall_mem_insert]
+    rw [Finset.prod_insert hbt]; rw [IsCoprime.mul_left_iff]; rw [ih]; rw [Finset.forall_mem_insert]
 #align is_coprime.prod_left_iff IsCoprime.prod_left_iff
 
 theorem IsCoprime.prod_right_iff : IsCoprime x (∏ i in t, s i) ↔ ∀ i ∈ t, IsCoprime x (s i) := by
@@ -120,15 +120,15 @@ theorem exists_sum_eq_one_iff_pairwise_coprime [DecidableEq I] (h : t.Nonempty) 
   intro a t hat h ih
   rw [pairwise_cons']
   have mem : ∀ x ∈ t, a ∈ insert a t \ {x} := fun x hx ↦ by
-    rw [mem_sdiff, mem_singleton]
+    rw [mem_sdiff]; rw [mem_singleton]
     refine ⟨mem_insert_self _ _, fun ha ↦ hat (ha ▸ hx)⟩
   constructor
   · rintro ⟨μ, hμ⟩
-    rw [sum_cons, cons_eq_insert, sdiff_singleton_eq_erase, erase_insert hat] at hμ
+    rw [sum_cons] at hμ; rw [cons_eq_insert] at hμ; rw [sdiff_singleton_eq_erase] at hμ; rw [erase_insert hat] at hμ
     refine' ⟨ih.mp ⟨Pi.single h.choose (μ a * s h.choose) + μ * fun _ ↦ s a, ?_⟩, fun b hb ↦ ?_⟩
     · rw [prod_eq_mul_prod_diff_singleton h.choose_spec, ← mul_assoc, ←
         @if_pos _ _ h.choose_spec R (_ * _) 0, ← sum_pi_single', ← sum_add_distrib] at hμ
-      rw [← hμ, sum_congr rfl]
+      rw [← hμ]; rw [sum_congr rfl]
       intro x hx
       dsimp -- porting note: terms were showing as sort of `HAdd.hadd` instead of `+`
       -- this whole proof pretty much breaks and has to be rewritten from scratch
@@ -139,34 +139,33 @@ theorem exists_sum_eq_one_iff_pairwise_coprime [DecidableEq I] (h : t.Nonempty) 
         · rw [Pi.single_eq_of_ne hx, Pi.single_eq_of_ne hx, zero_mul]
       · rw [mul_assoc]
         congr
-        rw [prod_eq_prod_diff_singleton_mul (mem x hx) _, mul_comm]
+        rw [prod_eq_prod_diff_singleton_mul (mem x hx) _]; rw [mul_comm]
         congr 2
-        rw [sdiff_sdiff_comm, sdiff_singleton_eq_erase a, erase_insert hat]
+        rw [sdiff_sdiff_comm]; rw [sdiff_singleton_eq_erase a]; rw [erase_insert hat]
     · have : IsCoprime (s b) (s a) :=
         ⟨μ a * ∏ i in t \ {b}, s i, ∑ i in t, μ i * ∏ j in t \ {i}, s j, ?_⟩
       · exact ⟨this.symm, this⟩
-      rw [mul_assoc, ← prod_eq_prod_diff_singleton_mul hb, sum_mul, ← hμ, sum_congr rfl]
+      rw [mul_assoc]; rw [← prod_eq_prod_diff_singleton_mul hb]; rw [sum_mul]; rw [← hμ]; rw [sum_congr rfl]
       intro x hx
       rw [mul_assoc]
       congr
       rw [prod_eq_prod_diff_singleton_mul (mem x hx) _]
       congr 2
-      rw [sdiff_sdiff_comm, sdiff_singleton_eq_erase a, erase_insert hat]
+      rw [sdiff_sdiff_comm]; rw [sdiff_singleton_eq_erase a]; rw [erase_insert hat]
   · rintro ⟨hs, Hb⟩
     obtain ⟨μ, hμ⟩ := ih.mpr hs
     obtain ⟨u, v, huv⟩ := IsCoprime.prod_left fun b hb ↦ (Hb b hb).right
     use fun i ↦ if i = a then u else v * μ i
     have hμ' : (∑ i in t, v * ((μ i * ∏ j in t \ {i}, s j) * s a)) = v * s a := by
-      rw [← mul_sum, ← sum_mul, hμ, one_mul]
-    rw [sum_cons, cons_eq_insert, sdiff_singleton_eq_erase, erase_insert hat, if_pos rfl,
-      ← huv, ← hμ', sum_congr rfl]
+      rw [← mul_sum]; rw [← sum_mul]; rw [hμ]; rw [one_mul]
+    rw [sum_cons]; rw [cons_eq_insert]; rw [sdiff_singleton_eq_erase]; rw [erase_insert hat]; rw [if_pos rfl]; rw [← huv]; rw [← hμ']; rw [sum_congr rfl]
     intro x hx
-    rw [mul_assoc, if_neg fun ha : x = a ↦ hat (ha.casesOn hx)]
+    rw [mul_assoc]; rw [if_neg fun ha : x = a ↦ hat (ha.casesOn hx)]
     rw [mul_assoc]
     congr
     rw [prod_eq_prod_diff_singleton_mul (mem x hx) _]
     congr 2
-    rw [sdiff_sdiff_comm, sdiff_singleton_eq_erase a, erase_insert hat]
+    rw [sdiff_sdiff_comm]; rw [sdiff_singleton_eq_erase a]; rw [erase_insert hat]
 #align exists_sum_eq_one_iff_pairwise_coprime exists_sum_eq_one_iff_pairwise_coprime
 
 theorem exists_sum_eq_one_iff_pairwise_coprime' [Fintype I] [Nonempty I] [DecidableEq I] :
@@ -191,12 +190,12 @@ theorem pairwise_coprime_iff_coprime_prod [DecidableEq I] :
 variable {m n : ℕ}
 
 theorem IsCoprime.pow_left (H : IsCoprime x y) : IsCoprime (x ^ m) y := by
-  rw [← Finset.card_range m, ← Finset.prod_const]
+  rw [← Finset.card_range m]; rw [← Finset.prod_const]
   exact IsCoprime.prod_left fun _ _ ↦ H
 #align is_coprime.pow_left IsCoprime.pow_left
 
 theorem IsCoprime.pow_right (H : IsCoprime x y) : IsCoprime x (y ^ n) := by
-  rw [← Finset.card_range n, ← Finset.prod_const]
+  rw [← Finset.card_range n]; rw [← Finset.prod_const]
   exact IsCoprime.prod_right fun _ _ ↦ H
 #align is_coprime.pow_right IsCoprime.pow_right
 
@@ -206,7 +205,7 @@ theorem IsCoprime.pow (H : IsCoprime x y) : IsCoprime (x ^ m) (y ^ n) :=
 
 theorem IsCoprime.pow_left_iff (hm : 0 < m) : IsCoprime (x ^ m) y ↔ IsCoprime x y := by
   refine' ⟨fun h ↦ _, IsCoprime.pow_left⟩
-  rw [← Finset.card_range m, ← Finset.prod_const] at h
+  rw [← Finset.card_range m] at h; rw [← Finset.prod_const] at h
   exact h.of_prod_left 0 (Finset.mem_range.mpr hm)
   -- porting note: I'm not sure why `finset` didn't get corrected automatically to `Finset`
   -- by Mathport, nor whether this is an issue

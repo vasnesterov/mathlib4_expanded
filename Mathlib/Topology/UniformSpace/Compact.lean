@@ -71,7 +71,7 @@ theorem unique_uniformity_of_compact [t : TopologicalSpace γ] [CompactSpace γ]
   refine UniformSpace.ext ?_
   have : @CompactSpace γ u.toTopologicalSpace := by rwa [h]
   have : @CompactSpace γ u'.toTopologicalSpace := by rwa [h']
-  rw [@compactSpace_uniformity _ u, compactSpace_uniformity, h, h']
+  rw [@compactSpace_uniformity _ u]; rw [compactSpace_uniformity]; rw [h]; rw [h']
 #align unique_uniformity_of_compact unique_uniformity_of_compact
 
 /-- The unique uniform structure inducing a given compact topological structure. -/
@@ -150,7 +150,7 @@ def uniformSpaceOfCompactT2 [TopologicalSpace γ] [CompactSpace γ] [T2Space γ]
       simp_rw [isOpen_iff_mem_nhds, ← mem_comap_prod_mk, this]
     intro x
     simp_rw [nhdsSet_diagonal, comap_iSup, nhds_prod_eq, comap_prod, (· ∘ ·), comap_id']
-    rw [iSup_split_single _ x, comap_const_of_mem fun V => mem_of_mem_nhds]
+    rw [iSup_split_single _ x]; rw [comap_const_of_mem fun V => mem_of_mem_nhds]
     suffices ∀ (y) (_ : y ≠ x), comap (fun _ : γ => x) (𝓝 y) ⊓ 𝓝 y ≤ 𝓝 x by simpa
     intro y hxy
     simp [comap_const_of_not_mem (compl_singleton_mem_nhds hxy) (Classical.not_not.2 rfl)]
@@ -223,11 +223,11 @@ theorem HasCompactMulSupport.is_one_at_infty {f : α → γ} [TopologicalSpace �
     (h : HasCompactMulSupport f) : Tendsto f (cocompact α) (𝓝 1) := by
   -- porting note: move to src/topology/support.lean once the port is over
   intro N hN
-  rw [mem_map, mem_cocompact']
+  rw [mem_map]; rw [mem_cocompact']
   refine' ⟨mulTSupport f, h.isCompact, _⟩
   rw [compl_subset_comm]
   intro v hv
-  rw [mem_preimage, image_eq_one_of_nmem_mulTSupport hv]
+  rw [mem_preimage]; rw [image_eq_one_of_nmem_mulTSupport hv]
   exact mem_of_mem_nhds hN
 #align has_compact_mul_support.is_one_at_infty HasCompactMulSupport.is_one_at_infty
 #align has_compact_support.is_zero_at_infty HasCompactSupport.is_zero_at_infty

@@ -78,7 +78,7 @@ alias neg_cross := cross_anticomm
 
 @[simp]
 theorem cross_anticomm' (v w : Fin 3 → R) : v ×₃ w + w ×₃ v = 0 := by
-  rw [add_eq_zero_iff_eq_neg, cross_anticomm]
+  rw [add_eq_zero_iff_eq_neg]; rw [cross_anticomm]
 #align cross_anticomm' cross_anticomm'
 
 @[simp]
@@ -91,7 +91,7 @@ theorem cross_self (v : Fin 3 → R) : v ×₃ v = 0 := by
 /-- The cross product of two vectors is perpendicular to the first vector. -/
 @[simp 1100] -- Porting note: increase priority so that the LHS doesn't simplify
 theorem dot_self_cross (v w : Fin 3 → R) : v ⬝ᵥ v ×₃ w = 0 := by
-  rw [cross_apply, vec3_dotProduct]
+  rw [cross_apply]; rw [vec3_dotProduct]
   norm_num
   ring
 #align dot_self_cross dot_self_cross
@@ -99,7 +99,7 @@ theorem dot_self_cross (v w : Fin 3 → R) : v ⬝ᵥ v ×₃ w = 0 := by
 /-- The cross product of two vectors is perpendicular to the second vector. -/
 @[simp 1100] -- Porting note: increase priority so that the LHS doesn't simplify
 theorem dot_cross_self (v w : Fin 3 → R) : w ⬝ᵥ v ×₃ w = 0 := by
-  rw [← cross_anticomm, Matrix.dotProduct_neg, dot_self_cross, neg_zero]
+  rw [← cross_anticomm]; rw [Matrix.dotProduct_neg]; rw [dot_self_cross]; rw [neg_zero]
 #align dot_cross_self dot_cross_self
 
 /-- Cyclic permutations preserve the triple product. See also `triple_product_eq_det`. -/
@@ -112,7 +112,7 @@ theorem triple_product_permutation (u v w : Fin 3 → R) : u ⬝ᵥ v ×₃ w = 
 /-- The triple product of `u`, `v`, and `w` is equal to the determinant of the matrix
     with those vectors as its rows. -/
 theorem triple_product_eq_det (u v w : Fin 3 → R) : u ⬝ᵥ v ×₃ w = Matrix.det ![u, v, w] := by
-  rw [vec3_dotProduct, cross_apply, det_fin_three]
+  rw [vec3_dotProduct]; rw [cross_apply]; rw [det_fin_three]
   norm_num
   ring
 #align triple_product_eq_det triple_product_eq_det

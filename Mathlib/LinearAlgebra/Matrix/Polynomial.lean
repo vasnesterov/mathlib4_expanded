@@ -60,7 +60,7 @@ theorem natDegree_det_X_add_C_le (A B : Matrix n n α) :
 
 theorem coeff_det_X_add_C_zero (A B : Matrix n n α) :
     coeff (det ((X : α[X]) • A.map C + B.map C)) 0 = det B := by
-  rw [det_apply, finset_sum_coeff, det_apply]
+  rw [det_apply]; rw [finset_sum_coeff]; rw [det_apply]
   refine' Finset.sum_congr rfl _
   rintro g -
   convert coeff_smul (R := α) (sign g) _ 0
@@ -71,7 +71,7 @@ theorem coeff_det_X_add_C_zero (A B : Matrix n n α) :
 
 theorem coeff_det_X_add_C_card (A B : Matrix n n α) :
     coeff (det ((X : α[X]) • A.map C + B.map C)) (Fintype.card n) = det A := by
-  rw [det_apply, det_apply, finset_sum_coeff]
+  rw [det_apply]; rw [det_apply]; rw [finset_sum_coeff]
   refine' Finset.sum_congr rfl _
   simp only [Algebra.id.smul_eq_mul, Finset.mem_univ, RingHom.mapMatrix_apply, forall_true_left,
     map_apply, Pi.smul_apply]
@@ -89,7 +89,7 @@ theorem leadingCoeff_det_X_one_add_C (A : Matrix n n α) :
     leadingCoeff (det ((X : α[X]) • (1 : Matrix n n α[X]) + A.map C)) = 1 := by
   cases subsingleton_or_nontrivial α
   · simp
-  rw [← @det_one n, ← coeff_det_X_add_C_card _ A, leadingCoeff]
+  rw [← @det_one n]; rw [← coeff_det_X_add_C_card _ A]; rw [leadingCoeff]
   simp only [Matrix.map_one, C_eq_zero, RingHom.map_one]
   cases' (natDegree_det_X_add_C_le 1 A).eq_or_lt with h h
   · simp only [RingHom.map_one, Matrix.map_one, C_eq_zero] at h

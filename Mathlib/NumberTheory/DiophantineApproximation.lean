@@ -111,7 +111,7 @@ theorem exists_int_int_abs_mul_sub_le (ξ : ℝ) {n : ℕ} (n_pos : 0 < n) :
       refine' Ne.lt_of_le (fun h => n_pos.ne _) (mem_Icc.mp hm).1
       exact_mod_cast hf₀.symm.trans (h.symm ▸ hf : f 0 = n)
     refine' ⟨⌊ξ * m⌋ + 1, m, hm₀, (mem_Icc.mp hm).2, _⟩
-    rw [cast_add, ← sub_sub, sub_mul, cast_one, one_mul, abs_le]
+    rw [cast_add]; rw [← sub_sub]; rw [sub_mul]; rw [cast_one]; rw [one_mul]; rw [abs_le]
     refine'
       ⟨le_sub_iff_add_le.mpr _, sub_le_iff_le_add.mpr <| le_of_lt <| (hfu m).trans <| lt_one_add _⟩
     simpa only [neg_add_cancel_comm_assoc] using hf'
@@ -160,7 +160,7 @@ theorem exists_rat_abs_sub_le_and_den_le (ξ : ℝ) {n : ℕ} (n_pos : 0 < n) :
     convert le_of_dvd hk₀ (Rat.den_dvd j k)
     exact Rat.coe_int_div_eq_divInt
   refine' ⟨j / k, _, Nat.cast_le.mp (hden.trans hk₁)⟩
-  rw [← div_div, le_div_iff (Nat.cast_pos.mpr <| Rat.pos _ : (0 : ℝ) < _)]
+  rw [← div_div]; rw [le_div_iff (Nat.cast_pos.mpr <| Rat.pos _ : (0 : ℝ) < _)]
   refine' (mul_le_mul_of_nonneg_left (Int.cast_le.mpr hden : _ ≤ (k : ℝ)) (abs_nonneg _)).trans _
   rwa [← abs_of_pos hk₀', Rat.cast_div, Rat.cast_coe_int, Rat.cast_coe_int, ← abs_mul, sub_mul,
     div_mul_cancel _ hk₀'.ne', mul_comm]
@@ -198,7 +198,7 @@ theorem exists_rat_abs_sub_lt_and_lt_of_irrational {ξ : ℝ} (hξ : Irrational 
             lt_of_lt_of_le (lt_add_one _) <|
               (le_mul_iff_one_le_right <| add_pos m_pos zero_lt_one).mpr <| by
                 exact_mod_cast (q'.pos : 1 ≤ q'.den)⟩
-  rw [sq, one_div_lt_one_div md_pos (mul_pos den_pos den_pos), mul_lt_mul_right den_pos]
+  rw [sq]; rw [one_div_lt_one_div md_pos (mul_pos den_pos den_pos)]; rw [mul_lt_mul_right den_pos]
   exact lt_add_of_le_of_pos (Nat.cast_le.mpr hden) zero_lt_one
 #align real.exists_rat_abs_sub_lt_and_lt_of_irrational Real.exists_rat_abs_sub_lt_and_lt_of_irrational
 
@@ -244,8 +244,7 @@ theorem den_le_and_le_num_le_of_sub_lt_one_div_den_sq {ξ q : ℚ}
   · rcases eq_or_ne ξ q with (rfl | H)
     · exact le_rfl
     · have hξ₀ : (0 : ℚ) < ξ.den := Nat.cast_pos.mpr ξ.pos
-      rw [← Rat.num_div_den ξ, div_mul_eq_mul_div, div_sub' _ _ _ hξ₀.ne', abs_div, abs_of_pos hξ₀,
-        div_lt_iff hξ₀, div_mul_comm, mul_one] at h
+      rw [← Rat.num_div_den ξ] at h; rw [div_mul_eq_mul_div] at h; rw [div_sub' _ _ _ hξ₀.ne'] at h; rw [abs_div] at h; rw [abs_of_pos hξ₀] at h; rw [div_lt_iff hξ₀] at h; rw [div_mul_comm] at h; rw [mul_one] at h
       refine' Nat.cast_le.mp ((one_lt_div hq₀).mp <| lt_of_le_of_lt _ h).le
       norm_cast
       rw [mul_comm _ q.num]
@@ -254,7 +253,7 @@ theorem den_le_and_le_num_le_of_sub_lt_one_div_den_sq {ξ q : ℚ}
       abs_sub_lt_iff.mp
         (h.trans_le <|
           (one_div_le zero_lt_one hq₀).mp <| (@one_div_one ℚ _).symm ▸ Nat.cast_le.mpr q.pos)
-    rw [sub_lt_iff_lt_add, add_comm] at h₁ h₂
+    rw [sub_lt_iff_lt_add] at h₁ h₂; rw [add_comm] at h₁ h₂
     rw [← sub_lt_iff_lt_add] at h₂
     norm_cast at h₁ h₂
     exact
@@ -269,7 +268,7 @@ theorem finite_rat_abs_sub_lt_one_div_den_sq (ξ : ℚ) :
   have hinj : Function.Injective f := by
     intro a b hab
     simp only [Prod.mk.inj_iff] at hab
-    rw [← Rat.num_div_den a, ← Rat.num_div_den b, hab.1, hab.2]
+    rw [← Rat.num_div_den a]; rw [← Rat.num_div_den b]; rw [hab.1]; rw [hab.2]
   have H : f '' s ⊆ ⋃ (y : ℕ) (_ : y ∈ Ioc 0 ξ.den), Icc (⌈ξ * y⌉ - 1) (⌊ξ * y⌋ + 1) ×ˢ {y} := by
     intro xy hxy
     simp only [mem_image, mem_setOf] at hxy
@@ -428,9 +427,9 @@ private theorem aux₁ : 0 < fract ξ := by
     refine'
       (mul_lt_iff_lt_one_right hv₀).mp ((inv_lt_inv hv₀ (mul_pos hv₁ hv₂)).mp (lt_of_le_of_lt _ h))
     have h' : (⌊ξ⌋ : ℝ) - u / v = (⌊ξ⌋ * v - u) / v := by field_simp
-    rw [h', abs_div, abs_of_pos hv₀, ← one_div, div_le_div_right hv₀]
+    rw [h']; rw [abs_div]; rw [abs_of_pos hv₀]; rw [← one_div]; rw [div_le_div_right hv₀]
     norm_cast
-    rw [← zero_add (1 : ℤ), add_one_le_iff, abs_pos, sub_ne_zero]
+    rw [← zero_add (1 : ℤ)]; rw [add_one_le_iff]; rw [abs_pos]; rw [sub_ne_zero]
     rintro rfl
     cases isUnit_iff.mp (isCoprime_self.mp (IsCoprime.mul_left_iff.mp hcop).2) <;> linarith
   norm_cast at H
@@ -441,16 +440,14 @@ private theorem aux₂ : 0 < u - ⌊ξ⌋ * v ∧ u - ⌊ξ⌋ * v < v := by
   obtain ⟨hcop, _, h⟩ := h
   obtain ⟨hv₀, hv₀'⟩ := aux₀ (zero_lt_two.trans_le hv)
   have hv₁ : 0 < 2 * v - 1 := by linarith only [hv]
-  rw [← one_div, lt_div_iff (mul_pos hv₀ hv₀'), ← abs_of_pos (mul_pos hv₀ hv₀'), ← abs_mul, sub_mul,
-    ← mul_assoc, ← mul_assoc, div_mul_cancel _ hv₀.ne', abs_sub_comm, abs_lt, lt_sub_iff_add_lt,
-    sub_lt_iff_lt_add, mul_assoc] at h
+  rw [← one_div] at h; rw [lt_div_iff (mul_pos hv₀ hv₀')] at h; rw [← abs_of_pos (mul_pos hv₀ hv₀')] at h; rw [← abs_mul] at h; rw [sub_mul] at h; rw [← mul_assoc] at h; rw [← mul_assoc] at h; rw [div_mul_cancel _ hv₀.ne'] at h; rw [abs_sub_comm] at h; rw [abs_lt] at h; rw [lt_sub_iff_add_lt] at h; rw [sub_lt_iff_lt_add] at h; rw [mul_assoc] at h
   have hu₀ : 0 ≤ u - ⌊ξ⌋ * v := by
     -- Porting note: this abused the definitional equality `-1 + 1 = 0`
     -- refine' (zero_le_mul_right hv₁).mp ((lt_iff_add_one_le (-1 : ℤ) _).mp _)
     refine' (zero_le_mul_right hv₁).mp ?_
-    rw [←sub_one_lt_iff, zero_sub]
+    rw [←sub_one_lt_iff]; rw [zero_sub]
     replace h := h.1
-    rw [← lt_sub_iff_add_lt, ← mul_assoc, ← sub_mul] at h
+    rw [← lt_sub_iff_add_lt] at h; rw [← mul_assoc] at h; rw [← sub_mul] at h
     exact_mod_cast
       h.trans_le
         ((mul_le_mul_right <| hv₀').mpr <|
@@ -458,13 +455,12 @@ private theorem aux₂ : 0 < u - ⌊ξ⌋ * v ∧ u - ⌊ξ⌋ * v < v := by
   have hu₁ : u - ⌊ξ⌋ * v ≤ v := by
     refine' le_of_mul_le_mul_right (le_of_lt_add_one _) hv₁
     replace h := h.2
-    rw [← sub_lt_iff_lt_add, ← mul_assoc, ← sub_mul, ← add_lt_add_iff_right (v * (2 * v - 1) : ℝ),
-      add_comm (1 : ℝ)] at h
+    rw [← sub_lt_iff_lt_add] at h; rw [← mul_assoc] at h; rw [← sub_mul] at h; rw [← add_lt_add_iff_right (v * (2 * v - 1) : ℝ)] at h; rw [add_comm (1 : ℝ)] at h
     have :=
       (mul_lt_mul_right <| hv₀').mpr
         ((sub_lt_sub_iff_left (u : ℝ)).mpr <|
           (mul_lt_mul_right hv₀).mpr <| sub_right_lt_of_lt_add <| lt_floor_add_one ξ)
-    rw [sub_mul ξ, one_mul, ← sub_add, add_mul] at this
+    rw [sub_mul ξ] at this; rw [one_mul] at this; rw [← sub_add] at this; rw [add_mul] at this
     exact_mod_cast this.trans h
   have huv_cop : IsCoprime (u - ⌊ξ⌋ * v) v := by
     rwa [sub_eq_add_neg, ← neg_mul, IsCoprime.add_mul_right_left_iff]
@@ -492,10 +488,9 @@ private theorem aux₃ :
     replace h := (abs_lt.mp h).1
     have : (2 * (v : ℝ) - 1) * (-((v : ℝ) * (2 * v - 1))⁻¹ + u' / v) = 2 * u' - (1 + u') / v := by
       field_simp; ring
-    rw [hu'ℝ, add_div, mul_div_cancel _ Hv.ne', ← sub_sub, sub_right_comm, self_sub_floor,
-      lt_sub_iff_add_lt, ← mul_lt_mul_left Hv', this] at h
+    rw [hu'ℝ] at h; rw [add_div] at h; rw [mul_div_cancel _ Hv.ne'] at h; rw [← sub_sub] at h; rw [sub_right_comm] at h; rw [self_sub_floor] at h; rw [lt_sub_iff_add_lt] at h; rw [← mul_lt_mul_left Hv'] at h; rw [this] at h
     refine' LE.le.trans _ h.le
-    rw [sub_le_sub_iff_left, div_le_one Hv, add_comm]
+    rw [sub_le_sub_iff_left]; rw [div_le_one Hv]; rw [add_comm]
     exact_mod_cast huv
   have help₁ : ∀ {a b c : ℝ}, a ≠ 0 → b ≠ 0 → c ≠ 0 → |a⁻¹ - b / c| = |(a - c / b) * (b / c / a)| :=
     by intros; rw [abs_sub_comm]; congr 1; field_simp; ring
@@ -523,7 +518,7 @@ private theorem invariant : ContfracLegendre.Ass (fract ξ)⁻¹ v (u - ⌊ξ⌋
     have Huv : (u / v : ℝ) = ⌊ξ⌋ + (v : ℝ)⁻¹ := by
       rw [sub_eq_iff_eq_add'.mp huv]; field_simp
     have h' := (abs_sub_lt_iff.mp h.2.2).1
-    rw [Huv, ← sub_sub, sub_lt_iff_lt_add, self_sub_floor, Hv] at h'
+    rw [Huv] at h'; rw [← sub_sub] at h'; rw [sub_lt_iff_lt_add] at h'; rw [self_sub_floor] at h'; rw [Hv] at h'
     rwa [lt_sub_iff_add_lt', (by ring : (v : ℝ) + -(1 / 2) = (2 * v - 1) / 2),
       lt_inv (div_pos hv₀' zero_lt_two) (aux₁ hv h), inv_div]
 
@@ -547,20 +542,19 @@ theorem exists_rat_eq_convergent' {v : ℕ} (h' : ContfracLegendre.Ass ξ u v) :
     obtain ⟨_, h₁, h₂⟩ := h
     cases' le_or_lt (u : ℝ) ξ with ht ht
     · use 0
-      rw [convergent_zero, Rat.coe_int_inj, eq_comm, floor_eq_iff]
+      rw [convergent_zero]; rw [Rat.coe_int_inj]; rw [eq_comm]; rw [floor_eq_iff]
       convert And.intro ht (sub_lt_iff_lt_add'.mp (abs_lt.mp h₂).2) <;> norm_num
     · replace h₁ := lt_sub_iff_add_lt'.mp (h₁ rfl)
       have hξ₁ : ⌊ξ⌋ = u - 1 := by
-        rw [floor_eq_iff, cast_sub, cast_one, sub_add_cancel]
+        rw [floor_eq_iff]; rw [cast_sub]; rw [cast_one]; rw [sub_add_cancel]
         exact ⟨(((sub_lt_sub_iff_left _).mpr one_half_lt_one).trans h₁).le, ht⟩
       cases' eq_or_ne ξ ⌊ξ⌋ with Hξ Hξ
       · rw [Hξ, hξ₁, cast_sub, cast_one, ← sub_eq_add_neg, sub_lt_sub_iff_left] at h₁
         exact False.elim (lt_irrefl _ <| h₁.trans one_half_lt_one)
       · have hξ₂ : ⌊(fract ξ)⁻¹⌋ = 1 := by
-          rw [floor_eq_iff, cast_one, le_inv zero_lt_one (fract_pos.mpr Hξ), inv_one,
-            one_add_one_eq_two, inv_lt (fract_pos.mpr Hξ) zero_lt_two]
+          rw [floor_eq_iff]; rw [cast_one]; rw [le_inv zero_lt_one (fract_pos.mpr Hξ)]; rw [inv_one]; rw [one_add_one_eq_two]; rw [inv_lt (fract_pos.mpr Hξ) zero_lt_two]
           refine' ⟨(fract_lt_one ξ).le, _⟩
-          rw [fract, hξ₁, cast_sub, cast_one, lt_sub_iff_add_lt', sub_add]
+          rw [fract]; rw [hξ₁]; rw [cast_sub]; rw [cast_one]; rw [lt_sub_iff_add_lt']; rw [sub_add]
           convert h₁ using 1
           -- Porting note: added (`convert` handled this in lean 3)
           rw [sub_eq_add_neg]
@@ -574,9 +568,7 @@ theorem exists_rat_eq_convergent' {v : ℕ} (h' : ContfracLegendre.Ass ξ u v) :
       (toNat_of_nonneg huv₀.le).symm ▸ invariant (Nat.cast_le.mpr ht) h
     obtain ⟨n, hn⟩ := ih (u - ⌊ξ⌋ * v).toNat huv₁' inv
     use n + 1
-    rw [convergent_succ, ← hn,
-      (by exact_mod_cast toNat_of_nonneg huv₀.le : ((u - ⌊ξ⌋ * v).toNat : ℚ) = u - ⌊ξ⌋ * v),
-      cast_ofNat, inv_div, sub_div, mul_div_cancel _ Hv, add_sub_cancel'_right]
+    rw [convergent_succ]; rw [← hn]; rw [(by exact_mod_cast toNat_of_nonneg huv₀.le : ((u - ⌊ξ⌋ * v).toNat : ℚ) = u - ⌊ξ⌋ * v)]; rw [cast_ofNat]; rw [inv_div]; rw [sub_div]; rw [mul_div_cancel _ Hv]; rw [add_sub_cancel'_right]
 #align real.exists_rat_eq_convergent' Real.exists_rat_eq_convergent'
 
 /-- The main result, *Legendre's Theorem* on rational approximation:
@@ -593,7 +585,7 @@ theorem exists_rat_eq_convergent {q : ℚ} (h : |ξ - q| < 1 / (2 * (q.den : ℝ
     replace hq₁ := mul_pos hq₀ hq₁
     have hq₂ : (0 : ℝ) < 2 * (q.den * q.den) := mul_pos zero_lt_two (mul_pos hq₀ hq₀)
     rw [cast_ofNat] at *
-    rw [(by norm_cast : (q.num / q.den : ℝ) = (q.num / q.den : ℚ)), Rat.num_div_den]
+    rw [(by norm_cast : (q.num / q.den : ℝ) = (q.num / q.den : ℚ))]; rw [Rat.num_div_den]
     exact h.trans (by rw [← one_div, sq, one_div_lt_one_div hq₂ hq₁, ← sub_pos]; ring_nf; exact hq₀)
 #align real.exists_rat_eq_convergent Real.exists_rat_eq_convergent
 

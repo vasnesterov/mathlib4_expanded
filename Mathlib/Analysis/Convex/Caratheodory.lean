@@ -119,7 +119,7 @@ theorem mem_minCardFinsetOfMemConvexHull :
 #align caratheodory.mem_min_card_finset_of_mem_convex_hull Caratheodory.mem_minCardFinsetOfMemConvexHull
 
 theorem minCardFinsetOfMemConvexHull_nonempty : (minCardFinsetOfMemConvexHull hx).Nonempty := by
-  rw [← Finset.coe_nonempty, ← @convexHull_nonempty_iff 𝕜]
+  rw [← Finset.coe_nonempty]; rw [← @convexHull_nonempty_iff 𝕜]
   exact ⟨x, mem_minCardFinsetOfMemConvexHull hx⟩
 #align caratheodory.min_card_finset_of_mem_convex_hull_nonempty Caratheodory.minCardFinsetOfMemConvexHull_nonempty
 
@@ -187,5 +187,5 @@ theorem eq_pos_convex_span_of_mem_convexHull {x : E} (hx : x ∈ convexHull 𝕜
       exact hw₃
     · intro e _ hwe contra
       apply hwe
-      rw [contra, zero_smul]
+      rw [contra]; rw [zero_smul]
 #align eq_pos_convex_span_of_mem_convex_hull eq_pos_convex_span_of_mem_convexHull

@@ -71,7 +71,7 @@ def extSuccOfProjective (X Y : C) [Projective X] (n : ℕ) :
       inv := 0
       hom_inv_id := by
         let Z : (ModuleCat R)ᵒᵖ := 0
-        rw [← (0 : 0 ⟶ Z.unop).unop_op, ← (0 : Z.unop ⟶ 0).unop_op, ← unop_id, ← unop_comp]
+        rw [← (0 : 0 ⟶ Z.unop).unop_op]; rw [← (0 : Z.unop ⟶ 0).unop_op]; rw [← unop_id]; rw [← unop_comp]
         aesop }
 set_option linter.uppercaseLean3 false in
 #align Ext_succ_of_projective extSuccOfProjective

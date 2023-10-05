@@ -40,7 +40,7 @@ square whose left map is `i` and whose right map is `F.map p`. -/
 theorem right_adjoint : CommSq (adj.homEquiv _ _ u) i (F.map p) (adj.homEquiv _ _ v) :=
   ⟨by
     simp only [Adjunction.homEquiv_unit, assoc, ← F.map_comp, sq.w]
-    rw [F.map_comp, Adjunction.unit_naturality_assoc]⟩
+    rw [F.map_comp]; rw [Adjunction.unit_naturality_assoc]⟩
 #align category_theory.comm_sq.right_adjoint CategoryTheory.CommSq.right_adjoint
 
 /-- The liftings of a commutative are in bijection with the liftings of its (right)
@@ -54,10 +54,10 @@ def rightAdjointLiftStructEquiv : sq.LiftStruct ≃ (sq.right_adjoint adj).LiftS
   invFun l :=
     { l := (adj.homEquiv _ _).symm l.l
       fac_left := by
-        rw [← Adjunction.homEquiv_naturality_left_symm, l.fac_left]
+        rw [← Adjunction.homEquiv_naturality_left_symm]; rw [l.fac_left]
         apply (adj.homEquiv _ _).left_inv
       fac_right := by
-        rw [← Adjunction.homEquiv_naturality_right_symm, l.fac_right]
+        rw [← Adjunction.homEquiv_naturality_right_symm]; rw [l.fac_right]
         apply (adj.homEquiv _ _).left_inv }
   left_inv := by aesop_cat
   right_inv := by aesop_cat
@@ -86,7 +86,7 @@ square whose left map is `G.map i` and whose right map is `p`. -/
 theorem left_adjoint : CommSq ((adj.homEquiv _ _).symm u) (G.map i) p ((adj.homEquiv _ _).symm v) :=
   ⟨by
     simp only [Adjunction.homEquiv_counit, assoc, ← G.map_comp_assoc, ← sq.w]
-    rw [G.map_comp, assoc, Adjunction.counit_naturality]⟩
+    rw [G.map_comp]; rw [assoc]; rw [Adjunction.counit_naturality]⟩
 #align category_theory.comm_sq.left_adjoint CategoryTheory.CommSq.left_adjoint
 
 /-- The liftings of a commutative are in bijection with the liftings of its (left)
@@ -100,10 +100,10 @@ def leftAdjointLiftStructEquiv : sq.LiftStruct ≃ (sq.left_adjoint adj).LiftStr
   invFun l :=
     { l := (adj.homEquiv _ _) l.l
       fac_left := by
-        rw [← adj.homEquiv_naturality_left, l.fac_left]
+        rw [← adj.homEquiv_naturality_left]; rw [l.fac_left]
         apply (adj.homEquiv _ _).right_inv
       fac_right := by
-        rw [← adj.homEquiv_naturality_right, l.fac_right]
+        rw [← adj.homEquiv_naturality_right]; rw [l.fac_right]
         apply (adj.homEquiv _ _).right_inv }
   left_inv := by aesop_cat
   right_inv := by aesop_cat

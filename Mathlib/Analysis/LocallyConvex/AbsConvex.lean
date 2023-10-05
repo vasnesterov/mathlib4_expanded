@@ -179,6 +179,6 @@ theorem with_gaugeSeminormFamily : WithSeminorms (gaugeSeminormFamily 𝕜 E) :=
   -- The only nontrivial part is to show that the ball is open
   have hr' : r = ‖(r : 𝕜)‖ * 1 := by simp [abs_of_pos hr]
   have hr'' : (r : 𝕜) ≠ 0 := by simp [hr.ne']
-  rw [hr', ← Seminorm.smul_ball_zero hr'', gaugeSeminormFamily_ball]
+  rw [hr']; rw [← Seminorm.smul_ball_zero hr'']; rw [gaugeSeminormFamily_ball]
   exact S.coe_isOpen.smul₀ hr''
 #align with_gauge_seminorm_family with_gaugeSeminormFamily

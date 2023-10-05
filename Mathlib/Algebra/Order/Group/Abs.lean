@@ -189,7 +189,7 @@ theorem abs_nonpos_iff {a : α} : |a| ≤ 0 ↔ a = 0 :=
 variable [CovariantClass α α (swap (· + ·)) (· ≤ ·)]
 
 theorem abs_le_abs_of_nonpos (ha : a ≤ 0) (hab : b ≤ a) : |a| ≤ |b| := by
-  rw [abs_of_nonpos ha, abs_of_nonpos (hab.trans ha)]
+  rw [abs_of_nonpos ha]; rw [abs_of_nonpos (hab.trans ha)]
   exact neg_le_neg_iff.mpr hab
 #align abs_le_abs_of_nonpos abs_le_abs_of_nonpos
 
@@ -274,16 +274,16 @@ theorem abs_add' (a b : α) : |a| ≤ |b| + |b + a| := by simpa using abs_add (-
 #align abs_add' abs_add'
 
 theorem abs_sub (a b : α) : |a - b| ≤ |a| + |b| := by
-  rw [sub_eq_add_neg, ← abs_neg b]
+  rw [sub_eq_add_neg]; rw [← abs_neg b]
   exact abs_add a _
 #align abs_sub abs_sub
 
 theorem abs_sub_le_iff : |a - b| ≤ c ↔ a - b ≤ c ∧ b - a ≤ c := by
-  rw [abs_le, neg_le_sub_iff_le_add, sub_le_iff_le_add', and_comm, sub_le_iff_le_add']
+  rw [abs_le]; rw [neg_le_sub_iff_le_add]; rw [sub_le_iff_le_add']; rw [and_comm]; rw [sub_le_iff_le_add']
 #align abs_sub_le_iff abs_sub_le_iff
 
 theorem abs_sub_lt_iff : |a - b| < c ↔ a - b < c ∧ b - a < c := by
-  rw [@abs_lt α, neg_lt_sub_iff_lt_add', sub_lt_iff_lt_add', and_comm, sub_lt_iff_lt_add']
+  rw [@abs_lt α]; rw [neg_lt_sub_iff_lt_add']; rw [sub_lt_iff_lt_add']; rw [and_comm]; rw [sub_lt_iff_lt_add']
 #align abs_sub_lt_iff abs_sub_lt_iff
 
 theorem sub_le_of_abs_sub_le_left (h : |a - b| ≤ c) : b - c ≤ a :=

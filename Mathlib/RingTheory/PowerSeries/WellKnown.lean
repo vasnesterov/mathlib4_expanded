@@ -40,7 +40,7 @@ theorem coeff_invUnitsSub (u : Rˣ) (n : ℕ) : coeff R n (invUnitsSub u) = 1 /�
 
 @[simp]
 theorem constantCoeff_invUnitsSub (u : Rˣ) : constantCoeff R (invUnitsSub u) = 1 /ₚ u := by
-  rw [← coeff_zero_eq_constantCoeff_apply, coeff_invUnitsSub, zero_add, pow_one]
+  rw [← coeff_zero_eq_constantCoeff_apply]; rw [coeff_invUnitsSub]; rw [zero_add]; rw [pow_one]
 #align power_series.constant_coeff_inv_units_sub PowerSeries.constantCoeff_invUnitsSub
 
 @[simp]
@@ -96,34 +96,32 @@ theorem coeff_exp : coeff A n (exp A) = algebraMap ℚ A (1 / n !) :=
 
 @[simp]
 theorem constantCoeff_exp : constantCoeff A (exp A) = 1 := by
-  rw [← coeff_zero_eq_constantCoeff_apply, coeff_exp]
+  rw [← coeff_zero_eq_constantCoeff_apply]; rw [coeff_exp]
   simp
 #align power_series.constant_coeff_exp PowerSeries.constantCoeff_exp
 
 set_option linter.deprecated false in
 @[simp]
 theorem coeff_sin_bit0 : coeff A (bit0 n) (sin A) = 0 := by
-  rw [sin, coeff_mk, if_pos (even_bit0 n)]
+  rw [sin]; rw [coeff_mk]; rw [if_pos (even_bit0 n)]
 #align power_series.coeff_sin_bit0 PowerSeries.coeff_sin_bit0
 
 set_option linter.deprecated false in
 @[simp]
 theorem coeff_sin_bit1 : coeff A (bit1 n) (sin A) = (-1) ^ n * coeff A (bit1 n) (exp A) := by
-  rw [sin, coeff_mk, if_neg n.not_even_bit1, Nat.bit1_div_two, ← mul_one_div, map_mul, map_pow,
-    map_neg, map_one, coeff_exp]
+  rw [sin]; rw [coeff_mk]; rw [if_neg n.not_even_bit1]; rw [Nat.bit1_div_two]; rw [← mul_one_div]; rw [map_mul]; rw [map_pow]; rw [map_neg]; rw [map_one]; rw [coeff_exp]
 #align power_series.coeff_sin_bit1 PowerSeries.coeff_sin_bit1
 
 set_option linter.deprecated false in
 @[simp]
 theorem coeff_cos_bit0 : coeff A (bit0 n) (cos A) = (-1) ^ n * coeff A (bit0 n) (exp A) := by
-  rw [cos, coeff_mk, if_pos (even_bit0 n), Nat.bit0_div_two, ← mul_one_div, map_mul, map_pow,
-    map_neg, map_one, coeff_exp]
+  rw [cos]; rw [coeff_mk]; rw [if_pos (even_bit0 n)]; rw [Nat.bit0_div_two]; rw [← mul_one_div]; rw [map_mul]; rw [map_pow]; rw [map_neg]; rw [map_one]; rw [coeff_exp]
 #align power_series.coeff_cos_bit0 PowerSeries.coeff_cos_bit0
 
 set_option linter.deprecated false in
 @[simp]
 theorem coeff_cos_bit1 : coeff A (bit1 n) (cos A) = 0 := by
-  rw [cos, coeff_mk, if_neg n.not_even_bit1]
+  rw [cos]; rw [coeff_mk]; rw [if_neg n.not_even_bit1]
 #align power_series.coeff_cos_bit1 PowerSeries.coeff_cos_bit1
 
 @[simp]
@@ -166,11 +164,11 @@ theorem exp_mul_exp_eq_exp_add [Algebra ℚ A] (a b : A) :
       a ^ x * b ^ (n - x) * (↑(n.choose x) * (algebraMap ℚ A) (1 / ↑n.factorial))
     by convert this using 1 <;> ring
   congr 1
-  rw [← map_natCast (algebraMap ℚ A) (n.choose x), ← map_mul, ← map_mul]
+  rw [← map_natCast (algebraMap ℚ A) (n.choose x)]; rw [← map_mul]; rw [← map_mul]
   refine' RingHom.congr_arg _ _
-  rw [mul_one_div (↑(n.choose x) : ℚ), one_div_mul_one_div]
+  rw [mul_one_div (↑(n.choose x) : ℚ)]; rw [one_div_mul_one_div]
   symm
-  rw [div_eq_iff, div_mul_eq_mul_div, one_mul, choose_eq_factorial_div_factorial]
+  rw [div_eq_iff]; rw [div_mul_eq_mul_div]; rw [one_mul]; rw [choose_eq_factorial_div_factorial]
   norm_cast
   rw [cast_div_charZero]
   · apply factorial_mul_factorial_dvd_factorial (mem_range_succ_iff.1 hx)

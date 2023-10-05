@@ -84,7 +84,7 @@ theorem dvd_map_of_isScalarTower (A K : Type*) {R : Type*} [CommRing A] [Field K
     [Algebra A K] [Algebra A R] [Algebra K R] [IsScalarTower A K R] (x : R) :
     minpoly K x ∣ (minpoly A x).map (algebraMap A K) := by
   refine' minpoly.dvd K x _
-  rw [aeval_map_algebraMap, minpoly.aeval]
+  rw [aeval_map_algebraMap]; rw [minpoly.aeval]
 #align minpoly.dvd_map_of_is_scalar_tower minpoly.dvd_map_of_isScalarTower
 
 theorem dvd_map_of_isScalarTower' (R : Type*) {S : Type*} (K L : Type*) [CommRing R]
@@ -92,8 +92,8 @@ theorem dvd_map_of_isScalarTower' (R : Type*) {S : Type*} (K L : Type*) [CommRin
     [Algebra R L] [IsScalarTower R K L] [IsScalarTower R S L] (s : S) :
     minpoly K (algebraMap S L s) ∣ map (algebraMap R K) (minpoly R s) := by
   apply minpoly.dvd K (algebraMap S L s)
-  rw [← map_aeval_eq_aeval_map, minpoly.aeval, map_zero]
-  rw [← IsScalarTower.algebraMap_eq, ← IsScalarTower.algebraMap_eq]
+  rw [← map_aeval_eq_aeval_map]; rw [minpoly.aeval]; rw [map_zero]
+  rw [← IsScalarTower.algebraMap_eq]; rw [← IsScalarTower.algebraMap_eq]
 #align minpoly.dvd_map_of_is_scalar_tower' minpoly.dvd_map_of_isScalarTower'
 
 /-- If `y` is a conjugate of `x` over a field `K`, then it is a conjugate over a subring `R`. -/
@@ -132,9 +132,7 @@ theorem add_algebraMap {B : Type*} [CommRing B] [Algebra A B] {x : B} (hx : IsIn
   · simp [aeval_comp]
   · have : (Polynomial.aeval x) (q.comp (X + C a)) = 0 := by simpa [aeval_comp] using hq
     have H := minpoly.min A x (qmo.comp_X_add_C _) this
-    rw [degree_eq_natDegree qmo.ne_zero,
-      degree_eq_natDegree ((minpoly.monic hx).comp_X_sub_C _).ne_zero, natDegree_comp,
-      natDegree_X_sub_C, mul_one]
+    rw [degree_eq_natDegree qmo.ne_zero]; rw [degree_eq_natDegree ((minpoly.monic hx).comp_X_sub_C _).ne_zero]; rw [natDegree_comp]; rw [natDegree_X_sub_C]; rw [mul_one]
     rwa [degree_eq_natDegree (minpoly.ne_zero hx),
       degree_eq_natDegree (qmo.comp_X_add_C _).ne_zero, natDegree_comp,
       natDegree_X_add_C, mul_one] at H
@@ -163,8 +161,7 @@ def rootsOfMinPolyPiType (φ : E →ₐ[F] K)
     (x : range (FiniteDimensional.finBasis F E : _ → E)) :
     { l : K // l ∈ (minpoly F x.1).aroots K } :=
   ⟨φ x, by
-    rw [mem_roots_map (minpoly.ne_zero_of_finite F x.val),
-      ← aeval_def, aeval_algHom_apply, minpoly.aeval, map_zero]⟩
+    rw [mem_roots_map (minpoly.ne_zero_of_finite F x.val)]; rw [← aeval_def]; rw [aeval_algHom_apply]; rw [minpoly.aeval]; rw [map_zero]⟩
 #align minpoly.roots_of_min_poly_pi_type minpoly.rootsOfMinPolyPiType
 
 theorem aux_inj_roots_of_min_poly : Injective (rootsOfMinPolyPiType F E K) := by

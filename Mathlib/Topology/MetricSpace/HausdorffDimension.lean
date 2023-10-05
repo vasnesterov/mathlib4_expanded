@@ -115,7 +115,7 @@ set_option linter.uppercaseLean3 false in
 theorem hausdorffMeasure_of_lt_dimH {s : Set X} {d : ℝ≥0} (h : ↑d < dimH s) : μH[d] s = ∞ := by
   simp only [dimH_def, lt_iSup_iff] at h
   rcases h with ⟨d', hsd', hdd'⟩
-  rw [ENNReal.coe_lt_coe, ← NNReal.coe_lt_coe] at hdd'
+  rw [ENNReal.coe_lt_coe] at hdd'; rw [← NNReal.coe_lt_coe] at hdd'
   exact top_unique (hsd' ▸ hausdorffMeasure_mono hdd'.le _)
 set_option linter.uppercaseLean3 false in
 #align hausdorff_measure_of_lt_dimH hausdorffMeasure_of_lt_dimH
@@ -139,7 +139,7 @@ set_option linter.uppercaseLean3 false in
 theorem hausdorffMeasure_of_dimH_lt {s : Set X} {d : ℝ≥0} (h : dimH s < d) : μH[d] s = 0 := by
   rw [dimH_def] at h
   rcases ENNReal.lt_iff_exists_nnreal_btwn.1 h with ⟨d', hsd', hd'd⟩
-  rw [ENNReal.coe_lt_coe, ← NNReal.coe_lt_coe] at hd'd
+  rw [ENNReal.coe_lt_coe] at hd'd; rw [← NNReal.coe_lt_coe] at hd'd
   exact (hausdorffMeasure_zero_or_top hd'd s).resolve_right fun h₂ => hsd'.not_le <|
     le_iSup₂ (α := ℝ≥0∞) d' h₂
 set_option linter.uppercaseLean3 false in
@@ -211,19 +211,19 @@ set_option linter.uppercaseLean3 false in
 theorem dimH_bUnion {s : Set ι} (hs : s.Countable) (t : ι → Set X) :
     dimH (⋃ i ∈ s, t i) = ⨆ i ∈ s, dimH (t i) := by
   haveI := hs.toEncodable
-  rw [biUnion_eq_iUnion, dimH_iUnion, ← iSup_subtype'']
+  rw [biUnion_eq_iUnion]; rw [dimH_iUnion]; rw [← iSup_subtype'']
 set_option linter.uppercaseLean3 false in
 #align dimH_bUnion dimH_bUnion
 
 @[simp]
 theorem dimH_sUnion {S : Set (Set X)} (hS : S.Countable) : dimH (⋃₀ S) = ⨆ s ∈ S, dimH s := by
-  rw [sUnion_eq_biUnion, dimH_bUnion hS]
+  rw [sUnion_eq_biUnion]; rw [dimH_bUnion hS]
 set_option linter.uppercaseLean3 false in
 #align dimH_sUnion dimH_sUnion
 
 @[simp]
 theorem dimH_union (s t : Set X) : dimH (s ∪ t) = max (dimH s) (dimH t) := by
-  rw [union_eq_iUnion, dimH_iUnion, iSup_bool_eq, cond, cond, ENNReal.sup_eq_max]
+  rw [union_eq_iUnion]; rw [dimH_iUnion]; rw [iSup_bool_eq]; rw [cond]; rw [cond]; rw [ENNReal.sup_eq_max]
 set_option linter.uppercaseLean3 false in
 #align dimH_union dimH_union
 
@@ -319,11 +319,11 @@ theorem HolderOnWith.dimH_image_le (h : HolderOnWith C r f s) (hr : 0 < r) :
   borelize X Y
   refine dimH_le fun d hd => ?_
   have := h.hausdorffMeasure_image_le hr d.coe_nonneg
-  rw [hd, ENNReal.coe_rpow_of_nonneg _ d.coe_nonneg, top_le_iff] at this
+  rw [hd] at this; rw [ENNReal.coe_rpow_of_nonneg _ d.coe_nonneg] at this; rw [top_le_iff] at this
   have Hrd : μH[(r * d : ℝ≥0)] s = ⊤ := by
     contrapose this
     exact ENNReal.mul_ne_top ENNReal.coe_ne_top this
-  rw [ENNReal.le_div_iff_mul_le, mul_comm, ← ENNReal.coe_mul]
+  rw [ENNReal.le_div_iff_mul_le]; rw [mul_comm]; rw [← ENNReal.coe_mul]
   exacts [le_dimH_of_hausdorffMeasure_eq_top Hrd, Or.inl (mt ENNReal.coe_eq_zero.1 hr.ne'),
     Or.inl ENNReal.coe_ne_top]
 set_option linter.uppercaseLean3 false in
@@ -359,7 +359,7 @@ theorem dimH_image_le_of_locally_holder_on [SecondCountableTopology X] {r : ℝ�
   choose! C t htn hC using hf
   rcases countable_cover_nhdsWithin htn with ⟨u, hus, huc, huU⟩
   replace huU := inter_eq_self_of_subset_left huU; rw [inter_iUnion₂] at huU
-  rw [← huU, image_iUnion₂, dimH_bUnion huc, dimH_bUnion huc]; simp only [ENNReal.iSup_div]
+  rw [← huU]; rw [image_iUnion₂]; rw [dimH_bUnion huc]; rw [dimH_bUnion huc]; simp only [ENNReal.iSup_div]
   exact iSup₂_mono fun x hx => ((hC x (hus hx)).mono (inter_subset_right _ _)).dimH_image_le hr
 set_option linter.uppercaseLean3 false in
 #align dimH_image_le_of_locally_holder_on dimH_image_le_of_locally_holder_on
@@ -432,7 +432,7 @@ theorem dimH_preimage_le (hf : AntilipschitzWith K f) (s : Set Y) : dimH (f ⁻�
   borelize X Y
   refine dimH_le fun d hd => le_dimH_of_hausdorffMeasure_eq_top ?_
   have := hf.hausdorffMeasure_preimage_le d.coe_nonneg s
-  rw [hd, top_le_iff] at this
+  rw [hd] at this; rw [top_le_iff] at this
   contrapose! this
   exact ENNReal.mul_ne_top (by simp) this
 set_option linter.uppercaseLean3 false in
@@ -467,12 +467,12 @@ set_option linter.uppercaseLean3 false in
 
 @[simp]
 theorem dimH_preimage (e : X ≃ᵢ Y) (s : Set Y) : dimH (e ⁻¹' s) = dimH s := by
-  rw [← e.image_symm, e.symm.dimH_image]
+  rw [← e.image_symm]; rw [e.symm.dimH_image]
 set_option linter.uppercaseLean3 false in
 #align isometry_equiv.dimH_preimage IsometryEquiv.dimH_preimage
 
 theorem dimH_univ (e : X ≃ᵢ Y) : dimH (univ : Set X) = dimH (univ : Set Y) := by
-  rw [← e.dimH_preimage univ, preimage_univ]
+  rw [← e.dimH_preimage univ]; rw [preimage_univ]
 set_option linter.uppercaseLean3 false in
 #align isometry_equiv.dimH_univ IsometryEquiv.dimH_univ
 
@@ -492,12 +492,12 @@ set_option linter.uppercaseLean3 false in
 
 @[simp]
 theorem dimH_preimage (e : E ≃L[𝕜] F) (s : Set F) : dimH (e ⁻¹' s) = dimH s := by
-  rw [← e.image_symm_eq_preimage, e.symm.dimH_image]
+  rw [← e.image_symm_eq_preimage]; rw [e.symm.dimH_image]
 set_option linter.uppercaseLean3 false in
 #align continuous_linear_equiv.dimH_preimage ContinuousLinearEquiv.dimH_preimage
 
 theorem dimH_univ (e : E ≃L[𝕜] F) : dimH (univ : Set E) = dimH (univ : Set F) := by
-  rw [← e.dimH_preimage, preimage_univ]
+  rw [← e.dimH_preimage]; rw [preimage_univ]
 set_option linter.uppercaseLean3 false in
 #align continuous_linear_equiv.dimH_univ ContinuousLinearEquiv.dimH_univ
 
@@ -519,7 +519,7 @@ theorem dimH_ball_pi (x : ι → ℝ) {r : ℝ} (hr : 0 < r) :
     exact fun x _ y _ => Subsingleton.elim x y
   · rw [← ENNReal.coe_nat]
     have : μH[Fintype.card ι] (Metric.ball x r) = ENNReal.ofReal ((2 * r) ^ Fintype.card ι) := by
-      rw [hausdorffMeasure_pi_real, Real.volume_pi_ball _ hr, rpow_nat_cast]
+      rw [hausdorffMeasure_pi_real]; rw [Real.volume_pi_ball _ hr]; rw [rpow_nat_cast]
     refine dimH_of_hausdorffMeasure_ne_zero_ne_top ?_ ?_ <;> rw [NNReal.coe_nat_cast, this]
     · simp [pow_pos (mul_pos (zero_lt_two' ℝ) hr)]
     · exact ENNReal.ofReal_ne_top
@@ -538,7 +538,7 @@ set_option linter.uppercaseLean3 false in
 #align real.dimH_univ_pi Real.dimH_univ_pi
 
 theorem dimH_univ_pi_fin (n : ℕ) : dimH (univ : Set (Fin n → ℝ)) = n := by
-  rw [dimH_univ_pi, Fintype.card_fin]
+  rw [dimH_univ_pi]; rw [Fintype.card_fin]
 set_option linter.uppercaseLean3 false in
 #align real.dimH_univ_pi_fin Real.dimH_univ_pi_fin
 
@@ -568,7 +568,7 @@ set_option linter.uppercaseLean3 false in
 #align real.dimH_univ_eq_finrank Real.dimH_univ_eq_finrank
 
 theorem dimH_univ : dimH (univ : Set ℝ) = 1 := by
-  rw [dimH_univ_eq_finrank ℝ, FiniteDimensional.finrank_self, Nat.cast_one]
+  rw [dimH_univ_eq_finrank ℝ]; rw [FiniteDimensional.finrank_self]; rw [Nat.cast_one]
 set_option linter.uppercaseLean3 false in
 #align real.dimH_univ Real.dimH_univ
 
@@ -579,7 +579,7 @@ variable {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensi
 
 theorem dense_compl_of_dimH_lt_finrank {s : Set E} (hs : dimH s < finrank ℝ E) : Dense sᶜ := by
   refine fun x => mem_closure_iff_nhds.2 fun t ht => nonempty_iff_ne_empty.2 fun he => hs.not_le ?_
-  rw [← diff_eq, diff_eq_empty] at he
+  rw [← diff_eq] at he; rw [diff_eq_empty] at he
   rw [← Real.dimH_of_mem_nhds ht]
   exact dimH_mono he
 set_option linter.uppercaseLean3 false in

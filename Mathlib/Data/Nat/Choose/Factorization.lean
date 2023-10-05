@@ -42,7 +42,7 @@ theorem factorization_choose_le_log : (choose n k).factorization p ≤ log p n :
   have hkn : k ≤ n := by
     refine' le_of_not_lt fun hnk => h _
     simp [choose_eq_zero_of_lt hnk]
-  rw [factorization_def _ hp, @padicValNat_def _ ⟨hp⟩ _ (choose_pos hkn)]
+  rw [factorization_def _ hp]; rw [@padicValNat_def _ ⟨hp⟩ _ (choose_pos hkn)]
   simp only [hp.multiplicity_choose hkn (lt_add_one _), PartENat.get_natCast]
   refine (Finset.card_filter_le _ _).trans (le_of_eq (Nat.card_Ico _ _))
 #align nat.factorization_choose_le_log Nat.factorization_choose_le_log
@@ -66,7 +66,7 @@ theorem factorization_choose_of_lt_three_mul (hp' : p ≠ 2) (hk : p ≤ k) (hk'
   · exact factorization_eq_zero_of_non_prime (choose n k) hp
   cases' lt_or_le n k with hnk hkn
   · simp [choose_eq_zero_of_lt hnk]
-  rw [factorization_def _ hp, @padicValNat_def _ ⟨hp⟩ _ (choose_pos hkn)]
+  rw [factorization_def _ hp]; rw [@padicValNat_def _ ⟨hp⟩ _ (choose_pos hkn)]
   simp only [hp.multiplicity_choose hkn (lt_add_one _), PartENat.get_natCast, Finset.card_eq_zero,
     Finset.filter_eq_empty_iff, not_le]
   intro i hi
@@ -102,15 +102,12 @@ theorem factorization_centralBinom_of_two_mul_self_lt_three_mul (n_big : 2 < n) 
 
 theorem factorization_factorial_eq_zero_of_lt (h : n < p) : (factorial n).factorization p = 0 := by
   induction' n with n hn; · simp
-  rw [factorial_succ, factorization_mul n.succ_ne_zero n.factorial_ne_zero, Finsupp.coe_add,
-    Pi.add_apply, hn (lt_of_succ_lt h), add_zero, factorization_eq_zero_of_lt h]
+  rw [factorial_succ]; rw [factorization_mul n.succ_ne_zero n.factorial_ne_zero]; rw [Finsupp.coe_add]; rw [Pi.add_apply]; rw [hn (lt_of_succ_lt h)]; rw [add_zero]; rw [factorization_eq_zero_of_lt h]
 #align nat.factorization_factorial_eq_zero_of_lt Nat.factorization_factorial_eq_zero_of_lt
 
 theorem factorization_choose_eq_zero_of_lt (h : n < p) : (choose n k).factorization p = 0 := by
   by_cases hnk : n < k; · simp [choose_eq_zero_of_lt hnk]
-  rw [choose_eq_factorial_div_factorial (le_of_not_lt hnk),
-    factorization_div (factorial_mul_factorial_dvd_factorial (le_of_not_lt hnk)), Finsupp.coe_tsub,
-    Pi.sub_apply, factorization_factorial_eq_zero_of_lt h, zero_tsub]
+  rw [choose_eq_factorial_div_factorial (le_of_not_lt hnk)]; rw [factorization_div (factorial_mul_factorial_dvd_factorial (le_of_not_lt hnk))]; rw [Finsupp.coe_tsub]; rw [Pi.sub_apply]; rw [factorization_factorial_eq_zero_of_lt h]; rw [zero_tsub]
 #align nat.factorization_choose_eq_zero_of_lt Nat.factorization_choose_eq_zero_of_lt
 
 /-- If a prime `p` has positive multiplicity in the `n`th central binomial coefficient,
@@ -137,7 +134,7 @@ theorem prod_pow_factorization_choose (n k : ℕ) (hkn : k ≤ n) :
   · intro p hp
     rw [Finset.mem_range]
     contrapose! hp
-    rw [Finsupp.mem_support_iff, Classical.not_not, factorization_choose_eq_zero_of_lt hp]
+    rw [Finsupp.mem_support_iff]; rw [Classical.not_not]; rw [factorization_choose_eq_zero_of_lt hp]
   · intro p _ h2
     simp [Classical.not_not.1 (mt Finsupp.mem_support_iff.2 h2)]
 #align nat.prod_pow_factorization_choose Nat.prod_pow_factorization_choose

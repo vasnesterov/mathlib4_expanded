@@ -64,8 +64,7 @@ instance injective_of_divisible [DivisibleBy A ℤ] :
         let gₘ := g ⟨m, Submodule.subset_span (Set.mem_singleton _)⟩
         refine ⟨LinearMap.toSpanSingleton ℤ A (DivisibleBy.div gₘ m), fun n hn ↦ ?_⟩
         rcases Submodule.mem_span_singleton.mp hn with ⟨n, rfl⟩
-        rw [map_zsmul, LinearMap.toSpanSingleton_apply, DivisibleBy.div_cancel gₘ h0, ← map_zsmul g,
-          SetLike.mk_smul_mk]
+        rw [map_zsmul]; rw [LinearMap.toSpanSingleton_apply]; rw [DivisibleBy.div_cancel gₘ h0]; rw [← map_zsmul g]; rw [SetLike.mk_smul_mk]
 #align AddCommGroup.injective_of_divisible AddCommGroupCat.injective_of_divisible
 
 instance injective_ratCircle : Injective <| of <| ULift.{u} <| AddCircle (1 : ℚ) :=
@@ -95,7 +94,7 @@ variable {A_} (a : A_)
 lemma _root_.LinearMap.toSpanSingleton_ker :
     LinearMap.ker (LinearMap.toSpanSingleton ℤ A_ a) = Ideal.span {(addOrderOf a : ℤ)} := by
   ext1 x
-  rw [Ideal.mem_span_singleton, addOrderOf_dvd_iff_zsmul_eq_zero]
+  rw [Ideal.mem_span_singleton]; rw [addOrderOf_dvd_iff_zsmul_eq_zero]
   rfl
 
 /-- `ℤ ⧸ ⟨ord(a)⟩ ≃ aℤ` -/
@@ -133,12 +132,10 @@ variable {a}
 
 lemma eq_zero_of_toRatCircle_apply_self
     (h : toRatCircle ⟨a, Submodule.mem_span_singleton_self a⟩ = 0) : a = 0 := by
-  rw [toRatCircle, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
-    equivZModSpanAddOrderOf_apply_self, Submodule.liftQSpanSingleton_apply,
-    LinearMap.toSpanSingleton_one, AddCircle.coe_eq_zero_iff] at h
+  rw [toRatCircle] at h; rw [LinearMap.comp_apply] at h; rw [LinearEquiv.coe_toLinearMap] at h; rw [equivZModSpanAddOrderOf_apply_self] at h; rw [Submodule.liftQSpanSingleton_apply] at h; rw [LinearMap.toSpanSingleton_one] at h; rw [AddCircle.coe_eq_zero_iff] at h
   obtain ⟨n, hn⟩ := h
   apply_fun Rat.den at hn
-  rw [zsmul_one, Rat.coe_int_den, Rat.inv_coe_nat_den_of_pos] at hn
+  rw [zsmul_one] at hn; rw [Rat.coe_int_den] at hn; rw [Rat.inv_coe_nat_den_of_pos] at hn
   · split_ifs at hn
     · cases hn
     · rwa [eq_comm, AddMonoid.addOrderOf_eq_one_iff] at hn

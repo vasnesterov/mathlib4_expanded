@@ -156,7 +156,7 @@ end AddSubgroup
 @[to_additive (attr := simp) map_zmultiples]
 theorem MonoidHom.map_zpowers (f : G →* N) (x : G) :
     (Subgroup.zpowers x).map f = Subgroup.zpowers (f x) := by
-  rw [Subgroup.zpowers_eq_closure, Subgroup.zpowers_eq_closure, f.map_closure, Set.image_singleton]
+  rw [Subgroup.zpowers_eq_closure]; rw [Subgroup.zpowers_eq_closure]; rw [f.map_closure]; rw [Set.image_singleton]
 #align monoid_hom.map_zpowers MonoidHom.map_zpowers
 #align add_monoid_hom.map_zmultiples AddMonoidHom.map_zmultiples
 
@@ -192,14 +192,13 @@ variable {s : Set G} {g : G}
 @[to_additive zmultiples_isCommutative]
 instance zpowers_isCommutative (g : G) : (zpowers g).IsCommutative :=
   ⟨⟨fun ⟨_, _, h₁⟩ ⟨_, _, h₂⟩ => by
-      rw [Subtype.ext_iff, coe_mul, coe_mul, Subtype.coe_mk, Subtype.coe_mk, ← h₁, ← h₂,
-        zpow_mul_comm]⟩⟩
+      rw [Subtype.ext_iff]; rw [coe_mul]; rw [coe_mul]; rw [Subtype.coe_mk]; rw [Subtype.coe_mk]; rw [← h₁]; rw [← h₂]; rw [zpow_mul_comm]⟩⟩
 #align subgroup.zpowers_is_commutative Subgroup.zpowers_isCommutative
 #align add_subgroup.zmultiples_is_commutative AddSubgroup.zmultiples_isCommutative
 
 @[to_additive (attr := simp) zmultiples_le]
 theorem zpowers_le {g : G} {H : Subgroup G} : zpowers g ≤ H ↔ g ∈ H := by
-  rw [zpowers_eq_closure, closure_le, Set.singleton_subset_iff, SetLike.mem_coe]
+  rw [zpowers_eq_closure]; rw [closure_le]; rw [Set.singleton_subset_iff]; rw [SetLike.mem_coe]
 #align subgroup.zpowers_le Subgroup.zpowers_le
 #align add_subgroup.zmultiples_le AddSubgroup.zmultiples_le
 
@@ -242,7 +241,7 @@ theorem centralizer_closure (S : Set G) :
 @[to_additive]
 theorem center_eq_iInf (S : Set G) (hS : closure S = ⊤) :
     center G = ⨅ g ∈ S, centralizer (zpowers g) := by
-  rw [← centralizer_univ, ← coe_top, ← hS, centralizer_closure]
+  rw [← centralizer_univ]; rw [← coe_top]; rw [← hS]; rw [centralizer_closure]
 #align subgroup.center_eq_infi Subgroup.center_eq_iInf
 #align add_subgroup.center_eq_infi AddSubgroup.center_eq_iInf
 

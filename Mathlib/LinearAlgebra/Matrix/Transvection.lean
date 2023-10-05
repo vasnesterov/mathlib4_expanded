@@ -140,7 +140,7 @@ theorem mul_transvection_apply_of_ne (a b : n) (hb : b ≠ j) (c : R) (M : Matri
 
 @[simp]
 theorem det_transvection_of_ne (h : i ≠ j) (c : R) : det (transvection i j c) = 1 := by
-  rw [← updateRow_eq_transvection i j, det_updateRow_add_smul_self _ h, det_one]
+  rw [← updateRow_eq_transvection i j]; rw [det_updateRow_add_smul_self _ h]; rw [det_one]
 #align matrix.det_transvection_of_ne Matrix.det_transvection_of_ne
 
 end
@@ -434,7 +434,7 @@ theorem mul_listTransvecRow_last_col_take (i : Sum (Fin r) Unit) {k : ℕ} (hk :
       simp only [listTransvecRow, List.ofFnNthVal, hkr, dif_pos, List.get?_ofFn]
     simp only [List.take_succ, ← Matrix.mul_assoc, this, List.prod_append, Matrix.mul_one,
       List.prod_cons, List.prod_nil, Option.to_list_some]
-    rw [mul_transvection_apply_of_ne, IH hkr.le]
+    rw [mul_transvection_apply_of_ne]; rw [IH hkr.le]
     simp only [Ne.def, not_false_iff]
 #align matrix.pivot.mul_list_transvec_row_last_col_take Matrix.Pivot.mul_listTransvecRow_last_col_take
 
@@ -442,7 +442,7 @@ theorem mul_listTransvecRow_last_col_take (i : Sum (Fin r) Unit) {k : ℕ} (hk :
 theorem mul_listTransvecRow_last_col (i : Sum (Fin r) Unit) :
     (M * (listTransvecRow M).prod) i (inr unit) = M i (inr unit) := by
   have A : (listTransvecRow M).length = r := by simp [listTransvecRow]
-  rw [← List.take_length (listTransvecRow M), A]
+  rw [← List.take_length (listTransvecRow M)]; rw [A]
   simpa using mul_listTransvecRow_last_col_take M i le_rfl
 #align matrix.pivot.mul_list_transvec_row_last_col Matrix.Pivot.mul_listTransvecRow_last_col
 
@@ -456,7 +456,7 @@ theorem mul_listTransvecRow_last_row (hM : M (inr unit) (inr unit) ≠ 0) (i : F
         (M * ((listTransvecRow M).take k).prod) (inr unit) (inl i) =
           if k ≤ i then M (inr unit) (inl i) else 0
   · have A : (listTransvecRow M).length = r := by simp [listTransvecRow]
-    rw [← List.take_length (listTransvecRow M), A]
+    rw [← List.take_length (listTransvecRow M)]; rw [A]
     have : ¬r ≤ i := by simp
     simpa only [this, ite_eq_right_iff] using H r le_rfl
   intro k hk
@@ -511,7 +511,7 @@ theorem listTransvecCol_mul_mul_listTransvecRow_last_row (hM : M (inr unit) (inr
     ((listTransvecCol M).prod * M * (listTransvecRow M).prod) (inl i) (inr unit) = 0 := by
   have : listTransvecCol M = listTransvecCol (M * (listTransvecRow M).prod) := by
     simp [listTransvecCol, mul_listTransvecRow_last_col]
-  rw [this, Matrix.mul_assoc]
+  rw [this]; rw [Matrix.mul_assoc]
   apply listTransvecCol_mul_last_col
   simpa [mul_listTransvecRow_last_col] using hM
 #align matrix.pivot.list_transvec_col_mul_mul_list_transvec_row_last_row Matrix.Pivot.listTransvecCol_mul_mul_listTransvecRow_last_row
@@ -544,7 +544,7 @@ theorem exists_isTwoBlockDiagonal_of_ne_zero (hM : M (inr unit) (inr unit) ≠ 0
   refine' ⟨L, L', _⟩
   have A : L.map toMatrix = listTransvecCol M := by simp [listTransvecCol, (· ∘ ·)]
   have B : L'.map toMatrix = listTransvecRow M := by simp [listTransvecRow, (· ∘ ·)]
-  rw [A, B]
+  rw [A]; rw [B]
   exact isTwoBlockDiagonal_listTransvecCol_mul_mul_listTransvecRow M hM
 #align matrix.pivot.exists_is_two_block_diagonal_of_ne_zero Matrix.Pivot.exists_isTwoBlockDiagonal_of_ne_zero
 
@@ -613,7 +613,7 @@ theorem exists_list_transvec_mul_mul_list_transvec_eq_diagonal_induction
     simpa [Matrix.mul_assoc]
   have : M' = fromBlocks M'' 0 0 (diagonal fun _ => c) := by
     -- porting note: simplified proof, because `congr` didn't work anymore
-    rw [← fromBlocks_toBlocks M', hM.1, hM.2]
+    rw [← fromBlocks_toBlocks M']; rw [hM.1]; rw [hM.2]
     rfl
   rw [this]
   simp [h₀]
@@ -686,7 +686,7 @@ theorem exists_list_transvec_mul_diagonal_mul_list_transvec (M : Matrix n n 𝕜
       (L.reverse.map (toMatrix ∘ TransvectionStruct.inv)).prod * (L.map toMatrix).prod * M *
         ((L'.map toMatrix).prod * (L'.reverse.map (toMatrix ∘ TransvectionStruct.inv)).prod)
     by simpa [← h, Matrix.mul_assoc]
-  rw [reverse_inv_prod_mul_prod, prod_mul_reverse_inv_prod, Matrix.one_mul, Matrix.mul_one]
+  rw [reverse_inv_prod_mul_prod]; rw [prod_mul_reverse_inv_prod]; rw [Matrix.one_mul]; rw [Matrix.mul_one]
 #align matrix.pivot.exists_list_transvec_mul_diagonal_mul_list_transvec Matrix.Pivot.exists_list_transvec_mul_diagonal_mul_list_transvec
 
 end Pivot

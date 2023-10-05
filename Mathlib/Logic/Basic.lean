@@ -385,7 +385,7 @@ theorem not_imp_not : ¬a → ¬b ↔ b → a := Decidable.not_imp_not
 
 @[simp]
 theorem imp_and_neg_imp_iff (p q : Prop) : (p → q) ∧ (¬p → q) ↔ q := by
-  rw [imp_iff_or_not, imp_iff_or_not, not_not, ← or_and_left, not_and_self_iff, or_false_iff]
+  rw [imp_iff_or_not]; rw [imp_iff_or_not]; rw [not_not]; rw [← or_and_left]; rw [not_and_self_iff]; rw [or_false_iff]
 
 /-- Provide the reverse of modus tollens (`mt`) as dot notation for implications. -/
 protected theorem Function.mtr : (¬a → ¬b) → b → a := not_imp_not.mp
@@ -1151,7 +1151,7 @@ theorem dite_eq_iff : dite P A B = c ↔ (∃ h, A h = c) ∨ ∃ h, B h = c := 
 #align dite_eq_iff dite_eq_iff
 
 theorem ite_eq_iff : ite P a b = c ↔ P ∧ a = c ∨ ¬P ∧ b = c :=
-  dite_eq_iff.trans <| by simp only; rw [exists_prop, exists_prop]
+  dite_eq_iff.trans <| by simp only; rw [exists_prop]; rw [exists_prop]
 #align ite_eq_iff ite_eq_iff
 
 theorem eq_ite_iff : a = ite P b c ↔ P ∧ a = b ∨ ¬P ∧ a = c :=
@@ -1180,7 +1180,7 @@ theorem ite_eq_iff' : ite P a b = c ↔ (P → a = c) ∧ (¬P → b = c) := dit
 #align ite_eq_right_iff ite_eq_right_iff
 
 theorem dite_ne_left_iff : dite P (fun _ ↦ a) B ≠ a ↔ ∃ h, a ≠ B h := by
-  rw [Ne.def, dite_eq_left_iff, not_forall]
+  rw [Ne.def]; rw [dite_eq_left_iff]; rw [not_forall]
   exact exists_congr fun h ↦ by rw [ne_comm]
 #align dite_ne_left_iff dite_ne_left_iff
 

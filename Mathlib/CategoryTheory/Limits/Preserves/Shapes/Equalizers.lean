@@ -123,7 +123,7 @@ def isColimitMapCoconeCoforkEquiv :
     IsColimit.equivIsoColimit <|
       Cofork.ext (Iso.refl _) <| by
         dsimp only [Cofork.π, Cofork.ofπ_ι_app]
-        dsimp; rw [Category.comp_id, Category.id_comp]
+        dsimp; rw [Category.comp_id]; rw [Category.id_comp]
 #align category_theory.limits.is_colimit_map_cocone_cofork_equiv CategoryTheory.Limits.isColimitMapCoconeCoforkEquiv
 
 /-- The property of preserving coequalizers expressed in terms of coforks. -/
@@ -202,8 +202,7 @@ instance map_π_epi : Epi (G.map (coequalizer.π f g)) :=
 theorem map_π_preserves_coequalizer_inv :
     G.map (coequalizer.π f g) ≫ (PreservesCoequalizer.iso G f g).inv =
       coequalizer.π (G.map f) (G.map g) := by
-  rw [← ι_comp_coequalizerComparison_assoc, ← PreservesCoequalizer.iso_hom, Iso.hom_inv_id,
-    comp_id]
+  rw [← ι_comp_coequalizerComparison_assoc]; rw [← PreservesCoequalizer.iso_hom]; rw [Iso.hom_inv_id]; rw [comp_id]
 #align category_theory.limits.map_π_preserves_coequalizer_inv CategoryTheory.Limits.map_π_preserves_coequalizer_inv
 
 @[reassoc]

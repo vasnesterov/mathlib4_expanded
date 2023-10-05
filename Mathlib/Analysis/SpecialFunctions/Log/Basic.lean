@@ -55,7 +55,7 @@ theorem log_of_pos (hx : 0 < x) : log x = expOrderIso.symm ⟨x, hx⟩ := by
 #align real.log_of_pos Real.log_of_pos
 
 theorem exp_log_eq_abs (hx : x ≠ 0) : exp (log x) = |x| := by
-  rw [log_of_ne_zero hx, ← coe_expOrderIso_apply, OrderIso.apply_symm_apply]
+  rw [log_of_ne_zero hx]; rw [← coe_expOrderIso_apply]; rw [OrderIso.apply_symm_apply]
 #align real.exp_log_eq_abs Real.exp_log_eq_abs
 
 theorem exp_log (hx : 0 < x) : exp (log x) = x := by
@@ -114,11 +114,11 @@ theorem log_neg_eq_log (x : ℝ) : log (-x) = log x := by rw [← log_abs x, ←
 #align real.log_neg_eq_log Real.log_neg_eq_log
 
 theorem sinh_log {x : ℝ} (hx : 0 < x) : sinh (log x) = (x - x⁻¹) / 2 := by
-  rw [sinh_eq, exp_neg, exp_log hx]
+  rw [sinh_eq]; rw [exp_neg]; rw [exp_log hx]
 #align real.sinh_log Real.sinh_log
 
 theorem cosh_log {x : ℝ} (hx : 0 < x) : cosh (log x) = (x + x⁻¹) / 2 := by
-  rw [cosh_eq, exp_neg, exp_log hx]
+  rw [cosh_eq]; rw [exp_neg]; rw [exp_log hx]
 #align real.cosh_log Real.cosh_log
 
 theorem surjOn_log' : SurjOn log (Iio 0) univ := fun x _ =>
@@ -127,22 +127,22 @@ theorem surjOn_log' : SurjOn log (Iio 0) univ := fun x _ =>
 
 theorem log_mul (hx : x ≠ 0) (hy : y ≠ 0) : log (x * y) = log x + log y :=
   exp_injective <| by
-    rw [exp_log_eq_abs (mul_ne_zero hx hy), exp_add, exp_log_eq_abs hx, exp_log_eq_abs hy, abs_mul]
+    rw [exp_log_eq_abs (mul_ne_zero hx hy)]; rw [exp_add]; rw [exp_log_eq_abs hx]; rw [exp_log_eq_abs hy]; rw [abs_mul]
 #align real.log_mul Real.log_mul
 
 theorem log_div (hx : x ≠ 0) (hy : y ≠ 0) : log (x / y) = log x - log y :=
   exp_injective <| by
-    rw [exp_log_eq_abs (div_ne_zero hx hy), exp_sub, exp_log_eq_abs hx, exp_log_eq_abs hy, abs_div]
+    rw [exp_log_eq_abs (div_ne_zero hx hy)]; rw [exp_sub]; rw [exp_log_eq_abs hx]; rw [exp_log_eq_abs hy]; rw [abs_div]
 #align real.log_div Real.log_div
 
 @[simp]
 theorem log_inv (x : ℝ) : log x⁻¹ = -log x := by
   by_cases hx : x = 0; · simp [hx]
-  rw [← exp_eq_exp, exp_log_eq_abs (inv_ne_zero hx), exp_neg, exp_log_eq_abs hx, abs_inv]
+  rw [← exp_eq_exp]; rw [exp_log_eq_abs (inv_ne_zero hx)]; rw [exp_neg]; rw [exp_log_eq_abs hx]; rw [abs_inv]
 #align real.log_inv Real.log_inv
 
 theorem log_le_log (h : 0 < x) (h₁ : 0 < y) : log x ≤ log y ↔ x ≤ y := by
-  rw [← exp_le_exp, exp_log h, exp_log h₁]
+  rw [← exp_le_exp]; rw [exp_log h]; rw [exp_log h₁]
 #align real.log_le_log Real.log_le_log
 
 @[gcongr]
@@ -159,7 +159,7 @@ theorem log_le_log' (hx : 0 < x) : x ≤ y → log x ≤ log y := by
   | inr hlt => exact le_of_lt <| log_lt_log hx hlt
 
 theorem log_lt_log_iff (hx : 0 < x) (hy : 0 < y) : log x < log y ↔ x < y := by
-  rw [← exp_lt_exp, exp_log hx, exp_log hy]
+  rw [← exp_lt_exp]; rw [exp_log hx]; rw [exp_log hy]
 #align real.log_lt_log_iff Real.log_lt_log_iff
 
 theorem log_le_iff_le_exp (hx : 0 < x) : log x ≤ y ↔ x ≤ exp y := by rw [← exp_le_exp, exp_log hx]
@@ -184,7 +184,7 @@ theorem log_pos (hx : 1 < x) : 0 < log x :=
 #align real.log_pos Real.log_pos
 
 theorem log_pos_of_lt_neg_one (hx : x < -1) : 0 < log x := by
-  rw [←neg_neg x, log_neg_eq_log]
+  rw [←neg_neg x]; rw [log_neg_eq_log]
   have : 1 < -x := by linarith
   exact log_pos this
 
@@ -198,7 +198,7 @@ theorem log_neg (h0 : 0 < x) (h1 : x < 1) : log x < 0 :=
 #align real.log_neg Real.log_neg
 
 theorem log_neg_of_lt_zero (h0 : x < 0) (h1 : -1 < x) : log x < 0 := by
-  rw [←neg_neg x, log_neg_eq_log]
+  rw [←neg_neg x]; rw [log_neg_eq_log]
   have h0' : 0 < -x := by linarith
   have h1' : -x < 1 := by linarith
   exact log_neg h0' h1'
@@ -231,7 +231,7 @@ theorem log_nat_cast_nonneg (n : ℕ) : 0 ≤ log n := by
     exact log_nonneg this
 
 theorem log_neg_nat_cast_nonneg (n : ℕ) : 0 ≤ log (-n) := by
-  rw [←log_neg_eq_log, neg_neg]
+  rw [←log_neg_eq_log]; rw [neg_neg]
   exact log_nat_cast_nonneg _
 
 theorem log_int_cast_nonneg (n : ℤ) : 0 ≤ log n := by
@@ -252,7 +252,7 @@ theorem strictMonoOn_log : StrictMonoOn log (Set.Ioi 0) := fun _ hx _ _ hxy => l
 
 theorem strictAntiOn_log : StrictAntiOn log (Set.Iio 0) := by
   rintro x (hx : x < 0) y (hy : y < 0) hxy
-  rw [← log_abs y, ← log_abs x]
+  rw [← log_abs y]; rw [← log_abs x]
   refine' log_lt_log (abs_pos.2 hy.ne) _
   rwa [abs_of_neg hy, abs_of_neg hx, neg_lt_neg_iff]
 #align real.strict_anti_on_log Real.strictAntiOn_log
@@ -299,18 +299,18 @@ theorem log_pow (x : ℝ) (n : ℕ) : log (x ^ n) = n * log x := by
   · simp
   rcases eq_or_ne x 0 with (rfl | hx)
   · simp
-  rw [pow_succ', log_mul (pow_ne_zero _ hx) hx, ih, Nat.cast_succ, add_mul, one_mul]
+  rw [pow_succ']; rw [log_mul (pow_ne_zero _ hx) hx]; rw [ih]; rw [Nat.cast_succ]; rw [add_mul]; rw [one_mul]
 #align real.log_pow Real.log_pow
 
 @[simp]
 theorem log_zpow (x : ℝ) (n : ℤ) : log (x ^ n) = n * log x := by
   induction n
   · rw [Int.ofNat_eq_coe, zpow_ofNat, log_pow, Int.cast_ofNat]
-  rw [zpow_negSucc, log_inv, log_pow, Int.cast_negSucc, Nat.cast_add_one, neg_mul_eq_neg_mul]
+  rw [zpow_negSucc]; rw [log_inv]; rw [log_pow]; rw [Int.cast_negSucc]; rw [Nat.cast_add_one]; rw [neg_mul_eq_neg_mul]
 #align real.log_zpow Real.log_zpow
 
 theorem log_sqrt {x : ℝ} (hx : 0 ≤ x) : log (sqrt x) = log x / 2 := by
-  rw [eq_div_iff, mul_comm, ← Nat.cast_two, ← log_pow, sq_sqrt hx]
+  rw [eq_div_iff]; rw [mul_comm]; rw [← Nat.cast_two]; rw [← log_pow]; rw [sq_sqrt hx]
   exact two_ne_zero
 #align real.log_sqrt Real.log_sqrt
 
@@ -325,14 +325,14 @@ theorem abs_log_mul_self_lt (x : ℝ) (h1 : 0 < x) (h2 : x ≤ 1) : |log x * x| 
   have : 0 < 1 / x := by simpa only [one_div, inv_pos] using h1
   replace := log_le_sub_one_of_pos this
   replace : log (1 / x) < 1 / x := by linarith
-  rw [log_div one_ne_zero h1.ne', log_one, zero_sub, lt_div_iff h1] at this
+  rw [log_div one_ne_zero h1.ne'] at this; rw [log_one] at this; rw [zero_sub] at this; rw [lt_div_iff h1] at this
   have aux : 0 ≤ -log x * x := by
     refine' mul_nonneg _ h1.le
     rw [← log_inv]
     apply log_nonneg
-    rw [← le_inv h1 zero_lt_one, inv_one]
+    rw [← le_inv h1 zero_lt_one]; rw [inv_one]
     exact h2
-  rw [← abs_of_nonneg aux, neg_mul, abs_neg] at this
+  rw [← abs_of_nonneg aux] at this; rw [neg_mul] at this; rw [abs_neg] at this
   exact this
 #align real.abs_log_mul_self_lt Real.abs_log_mul_self_lt
 
@@ -395,9 +395,9 @@ theorem log_nat_eq_sum_factorization (n : ℕ) :
   rcases eq_or_ne n 0 with (rfl | hn)
   · simp -- relies on junk values of `log` and `Nat.factorization`
   · simp only [← log_pow, ← Nat.cast_pow]
-    rw [← Finsupp.log_prod, ← Nat.cast_finsupp_prod, Nat.factorization_prod_pow_eq_self hn]
+    rw [← Finsupp.log_prod]; rw [← Nat.cast_finsupp_prod]; rw [Nat.factorization_prod_pow_eq_self hn]
     intro p hp
-    rw [pow_eq_zero (Nat.cast_eq_zero.1 hp), Nat.factorization_zero_right]
+    rw [pow_eq_zero (Nat.cast_eq_zero.1 hp)]; rw [Nat.factorization_zero_right]
 #align real.log_nat_eq_sum_factorization Real.log_nat_eq_sum_factorization
 
 theorem tendsto_pow_log_div_mul_add_atTop (a b : ℝ) (n : ℕ) (ha : a ≠ 0) :
@@ -467,10 +467,10 @@ theorem tendsto_log_comp_add_sub_log (y : ℝ) :
     Tendsto (fun x : ℝ => log (x + y) - log x) atTop (𝓝 0) := by
   have : Tendsto (fun x ↦ 1 + y / x) atTop (𝓝 (1 + 0))
   · exact tendsto_const_nhds.add (tendsto_const_nhds.div_atTop tendsto_id)
-  rw [← comap_exp_nhds_exp, exp_zero, tendsto_comap_iff, ← add_zero (1 : ℝ)]
+  rw [← comap_exp_nhds_exp]; rw [exp_zero]; rw [tendsto_comap_iff]; rw [← add_zero (1 : ℝ)]
   refine' this.congr' _
   filter_upwards [eventually_gt_atTop (0 : ℝ), eventually_gt_atTop (-y)] with x hx₀ hxy
-  rw [comp_apply, exp_sub, exp_log, exp_log, one_add_div] <;> linarith
+  rw [comp_apply]; rw [exp_sub]; rw [exp_log]; rw [exp_log]; rw [one_add_div]; all_goals linarith
 #align real.tendsto_log_comp_add_sub_log Real.tendsto_log_comp_add_sub_log
 
 theorem tendsto_log_nat_add_one_sub_log : Tendsto (fun k : ℕ => log (k + 1) - log k) atTop (𝓝 0) :=
@@ -507,21 +507,21 @@ lemma log_pos_of_isNegNat (h : NormNum.IsInt e (.negOfNat n)) (w : Nat.blt 1 n =
 lemma log_pos_of_isRat :
     (NormNum.IsRat e n d) → (decide ((1 : ℚ) < n / d)) → (0 < Real.log (e : ℝ))
   | ⟨inv, eq⟩, h => by
-    rw [eq, invOf_eq_inv, ←div_eq_mul_inv]
+    rw [eq]; rw [invOf_eq_inv]; rw [←div_eq_mul_inv]
     have : 1 < (n : ℝ) / d := by exact_mod_cast of_decide_eq_true h
     exact Real.log_pos this
 
 lemma log_pos_of_isRat_neg :
     (NormNum.IsRat e n d) → (decide (n / d < (-1 : ℚ))) → (0 < Real.log (e : ℝ))
   | ⟨inv, eq⟩, h => by
-    rw [eq, invOf_eq_inv, ←div_eq_mul_inv]
+    rw [eq]; rw [invOf_eq_inv]; rw [←div_eq_mul_inv]
     have : (n : ℝ) / d < -1 := by exact_mod_cast of_decide_eq_true h
     exact Real.log_pos_of_lt_neg_one this
 
 lemma log_nz_of_isRat : (NormNum.IsRat e n d) → (decide ((0 : ℚ) < n / d))
     → (decide (n / d < (1 : ℚ))) → (Real.log (e : ℝ) ≠ 0)
   | ⟨inv, eq⟩, h₁, h₂ => by
-    rw [eq, invOf_eq_inv, ←div_eq_mul_inv]
+    rw [eq]; rw [invOf_eq_inv]; rw [←div_eq_mul_inv]
     have h₁' : 0 < (n : ℝ) / d := by exact_mod_cast of_decide_eq_true h₁
     have h₂' : (n : ℝ) / d < 1 := by exact_mod_cast of_decide_eq_true h₂
     exact ne_of_lt <| Real.log_neg h₁' h₂'
@@ -529,7 +529,7 @@ lemma log_nz_of_isRat : (NormNum.IsRat e n d) → (decide ((0 : ℚ) < n / d))
 lemma log_nz_of_isRat_neg : (NormNum.IsRat e n d) → (decide (n / d < (0 : ℚ)))
     → (decide ((-1 : ℚ) < n / d)) → (Real.log (e : ℝ) ≠ 0)
   | ⟨inv, eq⟩, h₁, h₂ => by
-    rw [eq, invOf_eq_inv, ←div_eq_mul_inv]
+    rw [eq]; rw [invOf_eq_inv]; rw [←div_eq_mul_inv]
     have h₁' : (n : ℝ) / d < 0 := by exact_mod_cast of_decide_eq_true h₁
     have h₂' : -1 < (n : ℝ) / d := by exact_mod_cast of_decide_eq_true h₂
     exact ne_of_lt <| Real.log_neg_of_lt_zero h₁' h₂'

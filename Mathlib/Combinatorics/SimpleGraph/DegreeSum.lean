@@ -92,7 +92,7 @@ theorem dart_edge_fiber_card (e : Sym2 V) (h : e ∈ G.edgeSet) :
   refine' Sym2.ind (fun v w h => _) e h
   let d : G.Dart := ⟨(v, w), h⟩
   convert congr_arg card d.edge_fiber
-  rw [card_insert_of_not_mem, card_singleton]
+  rw [card_insert_of_not_mem]; rw [card_singleton]
   rw [mem_singleton]
   exact d.symm_ne.symm
 #align simple_graph.dart_edge_fiber_card SimpleGraph.dart_edge_fiber_card
@@ -101,7 +101,7 @@ theorem dart_card_eq_twice_card_edges : Fintype.card G.Dart = 2 * G.edgeFinset.c
   rw [← card_univ]
   rw [@card_eq_sum_card_fiberwise _ _ _ Dart.edge _ G.edgeFinset fun d _h =>
       by rw [mem_edgeFinset]; apply Dart.edge_mem]
-  rw [← mul_comm, sum_const_nat]
+  rw [← mul_comm]; rw [sum_const_nat]
   intro e h
   apply G.dart_edge_fiber_card e
   rwa [← mem_edgeFinset]
@@ -121,7 +121,7 @@ theorem even_card_odd_degree_vertices [Fintype V] [DecidableRel G.Adj] :
   classical
     have h := congr_arg (fun n => ↑n : ℕ → ZMod 2) G.sum_degrees_eq_twice_card_edges
     simp only [ZMod.nat_cast_self, zero_mul, Nat.cast_mul] at h
-    rw [Nat.cast_sum, ← sum_filter_ne_zero] at h
+    rw [Nat.cast_sum] at h; rw [← sum_filter_ne_zero] at h
     rw [@sum_congr _ _ _ _ (fun v => (G.degree v : ZMod 2)) (fun _v => (1 : ZMod 2)) _ rfl] at h
     · simp only [filter_congr, mul_one, nsmul_eq_mul, sum_const, Ne.def] at h
       rw [← ZMod.eq_zero_iff_even]
@@ -129,7 +129,7 @@ theorem even_card_odd_degree_vertices [Fintype V] [DecidableRel G.Adj] :
       exact ZMod.ne_zero_iff_odd.symm
     · intro v
       simp only [true_and_iff, mem_filter, mem_univ, Ne.def]
-      rw [ZMod.eq_zero_iff_even, ZMod.eq_one_iff_odd, Nat.odd_iff_not_even, imp_self]
+      rw [ZMod.eq_zero_iff_even]; rw [ZMod.eq_one_iff_odd]; rw [Nat.odd_iff_not_even]; rw [imp_self]
       trivial
 #align simple_graph.even_card_odd_degree_vertices SimpleGraph.even_card_odd_degree_vertices
 
@@ -147,9 +147,9 @@ theorem odd_card_odd_degree_vertices_ne [Fintype V] [DecidableEq V] [DecidableRe
     ext w
     rw [and_comm]
   simp only [hc, filter_congr]
-  rw [← filter_filter, filter_ne', card_erase_of_mem]
+  rw [← filter_filter]; rw [filter_ne']; rw [card_erase_of_mem]
   · refine' ⟨k - 1, tsub_eq_of_eq_add <| hg.trans _⟩
-    rw [add_assoc, one_add_one_eq_two, ← Nat.mul_succ, ← two_mul]
+    rw [add_assoc]; rw [one_add_one_eq_two]; rw [← Nat.mul_succ]; rw [← two_mul]
     congr
     exact (tsub_add_cancel_of_le <| Nat.succ_le_iff.2 hk).symm
   · simpa only [true_and_iff, mem_filter, mem_univ]

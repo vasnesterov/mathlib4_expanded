@@ -56,7 +56,7 @@ set_option linter.uppercaseLean3 false in
 theorem stalkMap_germ {X Y : PresheafedSpace.{_, _, v} C} (α : X ⟶ Y) (U : Opens Y)
     (x : (Opens.map α.base).obj U) :
     Y.presheaf.germ ⟨α.base x.1, x.2⟩ ≫ stalkMap α ↑x = α.c.app (op U) ≫ X.presheaf.germ x := by
-  rw [stalkMap, stalkFunctor_map_germ_assoc, stalkPushforward_germ]
+  rw [stalkMap]; rw [stalkFunctor_map_germ_assoc]; rw [stalkPushforward_germ]
 set_option linter.uppercaseLean3 false in
 #align algebraic_geometry.PresheafedSpace.stalk_map_germ AlgebraicGeometry.PresheafedSpace.stalkMap_germ
 
@@ -203,8 +203,7 @@ instance isIso {X Y : PresheafedSpace.{_, _, v} C} (α : X ⟶ Y) [IsIso α] (x 
         _, _⟩
     · rw [← Category.assoc, congr_point α x ((α ≫ β).base x) h_eq.symm, Category.assoc]
       erw [← stalkMap.comp β α (α.base x)]
-      rw [congr_hom _ _ (IsIso.inv_hom_id α), stalkMap.id, eqToHom_trans_assoc, eqToHom_refl,
-        Category.id_comp]
+      rw [congr_hom _ _ (IsIso.inv_hom_id α)]; rw [stalkMap.id]; rw [eqToHom_trans_assoc]; rw [eqToHom_refl]; rw [Category.id_comp]
     · rw [Category.assoc, ← stalkMap.comp, congr_hom _ _ (IsIso.hom_inv_id α), stalkMap.id,
         eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
 set_option linter.uppercaseLean3 false in

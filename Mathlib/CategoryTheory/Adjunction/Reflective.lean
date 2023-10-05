@@ -45,7 +45,7 @@ variable {i : D ⥤ C}
 theorem unit_obj_eq_map_unit [Reflective i] (X : C) :
     (ofRightAdjoint i).unit.app (i.obj ((leftAdjoint i).obj X)) =
       i.map ((leftAdjoint i).map ((ofRightAdjoint i).unit.app X)) := by
-  rw [← cancel_mono (i.map ((ofRightAdjoint i).counit.app ((leftAdjoint i).obj X))), ←
+  rw [← cancel_mono (i.map ((ofRightAdjoint i).counit.app ((leftAdjoint i).obj X)))]; rw [←
     i.map_comp]
   simp
 #align category_theory.unit_obj_eq_map_unit CategoryTheory.unit_obj_eq_map_unit
@@ -155,7 +155,7 @@ theorem unitCompPartialBijective_symm_natural [Reflective i] (A : C) {B B' : C} 
 theorem unitCompPartialBijective_natural [Reflective i] (A : C) {B B' : C} (h : B ⟶ B')
     (hB : B ∈ i.essImage) (hB' : B' ∈ i.essImage) (f : A ⟶ B) :
     (unitCompPartialBijective A hB') (f ≫ h) = unitCompPartialBijective A hB f ≫ h := by
-  rw [← Equiv.eq_symm_apply, unitCompPartialBijective_symm_natural A h, Equiv.symm_apply_apply]
+  rw [← Equiv.eq_symm_apply]; rw [unitCompPartialBijective_symm_natural A h]; rw [Equiv.symm_apply_apply]
 #align category_theory.unit_comp_partial_bijective_natural CategoryTheory.unitCompPartialBijective_natural
 
 instance [Reflective i] (X : Functor.EssImageSubcategory i) :
@@ -197,7 +197,7 @@ def equivEssImageOfReflective [Reflective i] : D ≌ i.EssImageSubcategory
       (by
         intro X Y f
         dsimp
-        rw [IsIso.comp_inv_eq, Category.assoc, IsIso.eq_inv_comp]
+        rw [IsIso.comp_inv_eq]; rw [Category.assoc]; rw [IsIso.eq_inv_comp]
         exact ((ofRightAdjoint i).counit.naturality f).symm)
   counitIso :=
     NatIso.ofComponents equivEssImageOfReflective_counitIso_app

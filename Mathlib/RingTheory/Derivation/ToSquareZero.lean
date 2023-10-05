@@ -32,7 +32,7 @@ def diffToIdealOfQuotientCompEq (f₁ f₂ : A →ₐ[R] B)
   LinearMap.codRestrict (I.restrictScalars _) (f₁.toLinearMap - f₂.toLinearMap) (by
     intro x
     change f₁ x - f₂ x ∈ I
-    rw [← Ideal.Quotient.eq, ← Ideal.Quotient.mkₐ_eq_mk R, ← AlgHom.comp_apply, e]
+    rw [← Ideal.Quotient.eq]; rw [← Ideal.Quotient.mkₐ_eq_mk R]; rw [← AlgHom.comp_apply]; rw [e]
     rfl)
 #align diff_to_ideal_of_quotient_comp_eq diffToIdealOfQuotientCompEq
 
@@ -55,18 +55,18 @@ def derivationToSquareZeroOfLift (f : A →ₐ[R] B)
       map_one_eq_zero' := _
       leibniz' := _ }
   · rw [e]; ext; rfl
-  · ext; change f 1 - algebraMap A B 1 = 0; rw [map_one, map_one, sub_self]
+  · ext; change f 1 - algebraMap A B 1 = 0; rw [map_one]; rw [map_one]; rw [sub_self]
   · intro x y
     let F := diffToIdealOfQuotientCompEq I f (IsScalarTower.toAlgHom R A B) (by rw [e]; ext; rfl)
     have : (f x - algebraMap A B x) * (f y - algebraMap A B y) = 0 := by
-      rw [← Ideal.mem_bot, ← hI, pow_two]
+      rw [← Ideal.mem_bot]; rw [← hI]; rw [pow_two]
       convert Ideal.mul_mem_mul (F x).2 (F y).2 using 1
     ext
     dsimp only [Submodule.coe_add, Submodule.coe_mk, LinearMap.coe_mk,
       diffToIdealOfQuotientCompEq_apply, Submodule.coe_smul_of_tower, IsScalarTower.coe_toAlgHom',
       LinearMap.toFun_eq_coe]
     simp only [map_mul, sub_mul, mul_sub, Algebra.smul_def] at this ⊢
-    rw [sub_eq_iff_eq_add, sub_eq_iff_eq_add] at this
+    rw [sub_eq_iff_eq_add] at this; rw [sub_eq_iff_eq_add] at this
     simp only [LinearMap.coe_toAddHom, diffToIdealOfQuotientCompEq_apply, map_mul, this,
       IsScalarTower.coe_toAlgHom']
     ring
@@ -85,10 +85,10 @@ def liftOfDerivationToSquareZero (f : Derivation R A I) : A →ₐ[R] B :=
   { ((I.restrictScalars R).subtype.comp f.toLinearMap + (IsScalarTower.toAlgHom R A B).toLinearMap :
       A →ₗ[R] B) with
     toFun := fun x => f x + algebraMap A B x
-    map_one' := by dsimp; rw [map_one, f.map_one_eq_zero, Submodule.coe_zero, zero_add]
+    map_one' := by dsimp; rw [map_one]; rw [f.map_one_eq_zero]; rw [Submodule.coe_zero]; rw [zero_add]
     map_mul' := fun x y => by
       have : (f x : B) * f y = 0 := by
-        rw [← Ideal.mem_bot, ← hI, pow_two]
+        rw [← Ideal.mem_bot]; rw [← hI]; rw [pow_two]
         convert Ideal.mul_mem_mul (f x).2 (f y).2 using 1
       simp only [map_mul, f.leibniz, add_mul, mul_add, Submodule.coe_add,
         Submodule.coe_smul_of_tower, Algebra.smul_def, this]
@@ -103,8 +103,7 @@ def liftOfDerivationToSquareZero (f : Derivation R A I) : A →ₐ[R] B :=
 -- @[simp] -- Porting note: simp normal form is `liftOfDerivationToSquareZero_mk_apply'`
 theorem liftOfDerivationToSquareZero_mk_apply (d : Derivation R A I) (x : A) :
     Ideal.Quotient.mk I (liftOfDerivationToSquareZero I hI d x) = algebraMap A (B ⧸ I) x := by
-  rw [liftOfDerivationToSquareZero_apply, map_add, Ideal.Quotient.eq_zero_iff_mem.mpr (d x).prop,
-    zero_add]
+  rw [liftOfDerivationToSquareZero_apply]; rw [map_add]; rw [Ideal.Quotient.eq_zero_iff_mem.mpr (d x).prop]; rw [zero_add]
   rfl
 #align lift_of_derivation_to_square_zero_mk_apply liftOfDerivationToSquareZero_mk_apply
 

@@ -112,7 +112,7 @@ theorem smul (m : M) (x : FixedPoints.subfield M F) : m • x = x :=
 theorem smul_polynomial (m : M) (p : Polynomial (FixedPoints.subfield M F)) : m • p = p :=
   Polynomial.induction_on p (fun x => by rw [Polynomial.smul_C, smul])
     (fun p q ihp ihq => by rw [smul_add, ihp, ihq]) fun n x _ => by
-    rw [smul_mul', Polynomial.smul_C, smul, smul_pow', Polynomial.smul_X]
+    rw [smul_mul']; rw [Polynomial.smul_C]; rw [smul]; rw [smul_pow']; rw [Polynomial.smul_X]
 #align fixed_points.smul_polynomial FixedPoints.smul_polynomial
 
 instance : Algebra (FixedPoints.subfield M F) F := by infer_instance
@@ -151,20 +151,20 @@ theorem linearIndependent_smul_of_linearIndependent {s : Finset F} :
     congr
     · skip
     · ext
-      rw [Pi.smul_apply, sub_smul, smul_eq_mul]
-  rw [sum_sub_distrib, Pi.zero_apply, sub_eq_zero]
+      rw [Pi.smul_apply]; rw [sub_smul]; rw [smul_eq_mul]
+  rw [sum_sub_distrib]; rw [Pi.zero_apply]; rw [sub_eq_zero]
   conv_lhs =>
     congr
     · skip
     · ext x
-      rw [toFun_apply, ← mul_inv_cancel_left g g', mul_smul, ← smul_mul', ← toFun_apply _ x]
+      rw [toFun_apply]; rw [← mul_inv_cancel_left g g']; rw [mul_smul]; rw [← smul_mul']; rw [← toFun_apply _ x]
   show
     (∑ x in s, g • (fun y => l y • MulAction.toFun G F y) x (g⁻¹ * g')) =
       ∑ x in s, (fun y => l y • MulAction.toFun G F y) x g'
-  rw [← smul_sum, ← sum_apply _ _ fun y => l y • toFun G F y, ←
+  rw [← smul_sum]; rw [← sum_apply _ _ fun y => l y • toFun G F y]; rw [←
     sum_apply _ _ fun y => l y • toFun G F y]
   dsimp only
-  rw [hla, toFun_apply, toFun_apply, smul_smul, mul_inv_cancel_left]
+  rw [hla]; rw [toFun_apply]; rw [toFun_apply]; rw [smul_smul]; rw [mul_inv_cancel_left]
 #align fixed_points.linear_independent_smul_of_linear_independent FixedPoints.linearIndependent_smul_of_linearIndependent
 
 section Fintype
@@ -188,7 +188,7 @@ theorem monic : (minpoly G F x).Monic := by
 theorem eval₂ :
     Polynomial.eval₂ (Subring.subtype <| (FixedPoints.subfield G F).toSubring) x (minpoly G F x) =
       0 := by
-  rw [← prodXSubSmul.eval G F x, Polynomial.eval₂_eq_eval_map]
+  rw [← prodXSubSmul.eval G F x]; rw [Polynomial.eval₂_eq_eval_map]
   simp only [minpoly, Polynomial.map_toSubring]
 #align fixed_points.minpoly.eval₂ FixedPoints.minpoly.eval₂
 
@@ -216,12 +216,8 @@ theorem of_eval₂ (f : Polynomial (FixedPoints.subfield G F))
     Fintype.prod_dvd_of_coprime
       (Polynomial.pairwise_coprime_X_sub_C <| MulAction.injective_ofQuotientStabilizer G x) fun y =>
       QuotientGroup.induction_on y fun g => _
-  rw [Polynomial.dvd_iff_isRoot, Polynomial.IsRoot.def, MulAction.ofQuotientStabilizer_mk,
-    Polynomial.eval_smul', ← this, ← Subfield.toSubring_subtype_eq_subtype, ←
-    IsInvariantSubring.coe_subtypeHom' G (FixedPoints.subfield G F).toSubring, h,
-    ← MulSemiringActionHom.coe_polynomial, ← MulSemiringActionHom.map_smul, smul_polynomial,
-    MulSemiringActionHom.coe_polynomial, ← h, IsInvariantSubring.coe_subtypeHom',
-    Polynomial.eval_map, Subfield.toSubring_subtype_eq_subtype, hf, smul_zero]
+  rw [Polynomial.dvd_iff_isRoot]; rw [Polynomial.IsRoot.def]; rw [MulAction.ofQuotientStabilizer_mk]; rw [Polynomial.eval_smul']; rw [← this]; rw [← Subfield.toSubring_subtype_eq_subtype]; rw [←
+    IsInvariantSubring.coe_subtypeHom' G (FixedPoints.subfield G F).toSubring]; rw [h]; rw [← MulSemiringActionHom.coe_polynomial]; rw [← MulSemiringActionHom.map_smul]; rw [smul_polynomial]; rw [MulSemiringActionHom.coe_polynomial]; rw [← h]; rw [IsInvariantSubring.coe_subtypeHom']; rw [Polynomial.eval_map]; rw [Subfield.toSubring_subtype_eq_subtype]; rw [hf]; rw [smul_zero]
 #align fixed_points.minpoly.of_eval₂ FixedPoints.minpoly.of_eval₂
 
 -- Why is this so slow?
@@ -230,7 +226,7 @@ theorem irreducible_aux (f g : Polynomial (FixedPoints.subfield G F)) (hf : f.Mo
   have hf2 : f ∣ minpoly G F x := by rw [← hfg]; exact dvd_mul_right _ _
   have hg2 : g ∣ minpoly G F x := by rw [← hfg]; exact dvd_mul_left _ _
   have := eval₂ G F x
-  rw [← hfg, Polynomial.eval₂_mul, mul_eq_zero] at this
+  rw [← hfg] at this; rw [Polynomial.eval₂_mul] at this; rw [mul_eq_zero] at this
   cases' this with this this
   · right
     have hf3 : f = minpoly G F x :=
@@ -283,8 +279,7 @@ instance normal : Normal (FixedPoints.subfield G F) F :=
   ⟨fun x => (isIntegral G F x).isAlgebraic _, fun x =>
     (Polynomial.splits_id_iff_splits _).1 <| by
       cases nonempty_fintype G
-      rw [← minpoly_eq_minpoly, minpoly, coe_algebraMap, ← Subfield.toSubring_subtype_eq_subtype,
-        Polynomial.map_toSubring _ (subfield G F).toSubring, prodXSubSmul]
+      rw [← minpoly_eq_minpoly]; rw [minpoly]; rw [coe_algebraMap]; rw [← Subfield.toSubring_subtype_eq_subtype]; rw [Polynomial.map_toSubring _ (subfield G F).toSubring]; rw [prodXSubSmul]
       exact Polynomial.splits_prod _ fun _ _ => Polynomial.splits_X_sub_C _⟩
 #align fixed_points.normal FixedPoints.normal
 
@@ -305,7 +300,7 @@ instance : FiniteDimensional (subfield G F) F := by
 end Finite
 
 theorem finrank_le_card [Fintype G] : finrank (subfield G F) F ≤ Fintype.card G := by
-  rw [← Cardinal.natCast_le, finrank_eq_rank]
+  rw [← Cardinal.natCast_le]; rw [finrank_eq_rank]
   apply rank_le_card
 #align fixed_points.finrank_le_card FixedPoints.finrank_le_card
 

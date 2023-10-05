@@ -39,6 +39,6 @@ instance : LinearOrder Char where
   decidableLE := inferInstance
 
 theorem Char.ofNat_toNat {c : Char} (h : isValidCharNat c.toNat) : Char.ofNat c.toNat = c := by
-  rw [Char.ofNat, dif_pos h]
+  rw [Char.ofNat]; rw [dif_pos h]
   rfl
 #align char.of_nat_to_nat Char.ofNat_toNat

@@ -135,9 +135,9 @@ def setoid [DirectedSystem G fun i j h => f i j h] [IsDirected ι (· ≤ ·)] :
       @fun ⟨i, x⟩ ⟨j, y⟩ ⟨k, z⟩ ⟨ij, hiij, hjij, hij⟩ ⟨jk, hjjk, hkjk, hjk⟩ => by
         obtain ⟨ijk, hijijk, hjkijk⟩ := directed_of (· ≤ ·) ij jk
         refine' ⟨ijk, le_trans hiij hijijk, le_trans hkjk hjkijk, _⟩
-        rw [← DirectedSystem.map_map, hij, DirectedSystem.map_map]
+        rw [← DirectedSystem.map_map]; rw [hij]; rw [DirectedSystem.map_map]
         symm
-        rw [← DirectedSystem.map_map, ← hjk, DirectedSystem.map_map] <;> assumption⟩
+        rw [← DirectedSystem.map_map]; rw [← hjk]; rw [DirectedSystem.map_map]; all_goals assumption⟩
 #align first_order.language.direct_limit.setoid FirstOrder.Language.DirectLimit.setoid
 
 /-- The structure on the `Σ`-type which becomes the structure on the direct limit after quotienting.
@@ -184,7 +184,7 @@ theorem equiv_iff {x y : Σˣ f} {i : ι} (hx : x.1 ≤ i) (hy : y.1 ≤ i) :
   obtain ⟨k, ik, jk⟩ := directed_of (· ≤ ·) i j
   have h := congr_arg (f j k jk) h
   apply (f i k ik).injective
-  rw [DirectedSystem.map_map, DirectedSystem.map_map] at *
+  rw [DirectedSystem.map_map] at *; rw [DirectedSystem.map_map] at *
   exact h
 #align first_order.language.direct_limit.equiv_iff FirstOrder.Language.DirectLimit.equiv_iff
 
@@ -193,14 +193,14 @@ theorem funMap_unify_equiv {n : ℕ} (F : L.Functions n) (x : Fin n → Σˣ f) 
     Structure.Sigma.mk f i (funMap F (unify f x i hi)) ≈ .mk f j (funMap F (unify f x j hj)) := by
   obtain ⟨k, ik, jk⟩ := directed_of (· ≤ ·) i j
   refine' ⟨k, ik, jk, _⟩
-  rw [(f i k ik).map_fun, (f j k jk).map_fun, comp_unify, comp_unify]
+  rw [(f i k ik).map_fun]; rw [(f j k jk).map_fun]; rw [comp_unify]; rw [comp_unify]
 #align first_order.language.direct_limit.fun_map_unify_equiv FirstOrder.Language.DirectLimit.funMap_unify_equiv
 
 theorem relMap_unify_equiv {n : ℕ} (R : L.Relations n) (x : Fin n → Σˣ f) (i j : ι)
     (hi : i ∈ upperBounds (range (Sigma.fst ∘ x))) (hj : j ∈ upperBounds (range (Sigma.fst ∘ x))) :
     RelMap R (unify f x i hi) = RelMap R (unify f x j hj) := by
   obtain ⟨k, ik, jk⟩ := directed_of (· ≤ ·) i j
-  rw [← (f i k ik).map_rel, comp_unify, ← (f j k jk).map_rel, comp_unify]
+  rw [← (f i k ik).map_rel]; rw [comp_unify]; rw [← (f j k jk).map_rel]; rw [comp_unify]
 #align first_order.language.direct_limit.rel_map_unify_equiv FirstOrder.Language.DirectLimit.relMap_unify_equiv
 
 variable [Nonempty ι]
@@ -209,7 +209,7 @@ theorem exists_unify_eq {α : Type*} [Fintype α] {x y : α → Σˣ f} (xy : x 
     ∃ (i : ι)(hx : i ∈ upperBounds (range (Sigma.fst ∘ x)))(hy :
       i ∈ upperBounds (range (Sigma.fst ∘ y))), unify f x i hx = unify f y i hy := by
   obtain ⟨i, hi⟩ := Fintype.bddAbove_range (Sum.elim (fun a => (x a).1) fun a => (y a).1)
-  rw [Sum.elim_range, upperBounds_union] at hi
+  rw [Sum.elim_range] at hi; rw [upperBounds_union] at hi
   simp_rw [← Function.comp_apply (f := Sigma.fst)] at hi
   exact ⟨i, hi.1, hi.2, funext fun a => (equiv_iff G f _ _).1 (xy a)⟩
 #align first_order.language.direct_limit.exists_unify_eq FirstOrder.Language.DirectLimit.exists_unify_eq
@@ -275,7 +275,7 @@ theorem exists_quotient_mk'_sigma_mk'_eq {α : Type*} [Fintype α] (x : α → D
   obtain ⟨i, hi⟩ := Fintype.bddAbove_range fun a => (x a).out.1
   refine' ⟨i, unify f (Quotient.out ∘ x) i hi, _⟩
   ext a
-  rw [Quotient.eq_mk_iff_out, unify]
+  rw [Quotient.eq_mk_iff_out]; rw [unify]
   generalize_proofs r
   change _ ≈ .mk f i (f (Quotient.out (x a)).fst i r (Quotient.out (x a)).snd)
   have : (.mk f i (f (Quotient.out (x a)).fst i r (Quotient.out (x a)).snd) : Σˣ f).fst ≤ i :=
@@ -316,7 +316,7 @@ theorem of_apply {i : ι} {x : G i} : of L ι G f i x = ⟦.mk f i x⟧ :=
 -- Porting note: removed the `@[simp]`, it is not in simp-normal form, but the simp-normal version
 -- of this theorem would not be useful.
 theorem of_f {i j : ι} {hij : i ≤ j} {x : G i} : of L ι G f j (f i j hij x) = of L ι G f i x := by
-  rw [of_apply, of_apply, Quotient.eq]
+  rw [of_apply]; rw [of_apply]; rw [Quotient.eq]
   refine' Setoid.symm ⟨j, hij, refl j, _⟩
   simp only [DirectedSystem.map_self]
 #align first_order.language.direct_limit.of_f FirstOrder.Language.DirectLimit.of_f
@@ -348,25 +348,24 @@ def lift : DirectLimit G f ↪[L] P where
     Quotient.lift (fun x : Σˣ f => (g x.1) x.2) fun x y xy => by
       simp
       obtain ⟨i, hx, hy⟩ := directed_of (· ≤ ·) x.1 y.1
-      rw [← Hg x.1 i hx, ← Hg y.1 i hy]
+      rw [← Hg x.1 i hx]; rw [← Hg y.1 i hy]
       exact congr_arg _ ((equiv_iff ..).1 xy)
   inj' x y xy := by
-    rw [← Quotient.out_eq x, ← Quotient.out_eq y, Quotient.lift_mk, Quotient.lift_mk] at xy
+    rw [← Quotient.out_eq x] at xy; rw [← Quotient.out_eq y] at xy; rw [Quotient.lift_mk] at xy; rw [Quotient.lift_mk] at xy
     obtain ⟨i, hx, hy⟩ := directed_of (· ≤ ·) x.out.1 y.out.1
-    rw [← Hg x.out.1 i hx, ← Hg y.out.1 i hy] at xy
-    rw [← Quotient.out_eq x, ← Quotient.out_eq y, Quotient.eq, equiv_iff G f hx hy]
+    rw [← Hg x.out.1 i hx] at xy; rw [← Hg y.out.1 i hy] at xy
+    rw [← Quotient.out_eq x]; rw [← Quotient.out_eq y]; rw [Quotient.eq]; rw [equiv_iff G f hx hy]
     exact (g i).injective xy
   map_fun' F x := by
     obtain ⟨i, y, rfl⟩ := exists_quotient_mk'_sigma_mk'_eq G f x
     change _ = funMap F (Quotient.lift _ _ ∘ Quotient.mk _ ∘ Structure.Sigma.mk f i ∘ y)
-    rw [funMap_quotient_mk'_sigma_mk', ← Function.comp.assoc, Quotient.lift_comp_mk]
+    rw [funMap_quotient_mk'_sigma_mk']; rw [← Function.comp.assoc]; rw [Quotient.lift_comp_mk]
     simp only [Quotient.lift_mk, Embedding.map_fun]
     rfl
   map_rel' R x := by
     obtain ⟨i, y, rfl⟩ := exists_quotient_mk'_sigma_mk'_eq G f x
     change RelMap R (Quotient.lift _ _ ∘ Quotient.mk _ ∘ Structure.Sigma.mk f i ∘ y) ↔ _
-    rw [relMap_quotient_mk'_sigma_mk' G f, ← (g i).map_rel R y, ← Function.comp.assoc,
-      Quotient.lift_comp_mk]
+    rw [relMap_quotient_mk'_sigma_mk' G f]; rw [← (g i).map_rel R y]; rw [← Function.comp.assoc]; rw [Quotient.lift_comp_mk]
     rfl
 #align first_order.language.direct_limit.lift FirstOrder.Language.DirectLimit.lift
 

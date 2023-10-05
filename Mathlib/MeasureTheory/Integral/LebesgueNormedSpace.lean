@@ -39,10 +39,10 @@ theorem aemeasurable_withDensity_iff {E : Type*} [NormedAddCommGroup E] [NormedS
       simp [hx]
   · rintro ⟨g', g'meas, hg'⟩
     refine' ⟨fun x => (f x : ℝ)⁻¹ • g' x, hf.coe_nnreal_real.inv.smul g'meas, _⟩
-    rw [EventuallyEq, ae_withDensity_iff hf.coe_nnreal_ennreal]
+    rw [EventuallyEq]; rw [ae_withDensity_iff hf.coe_nnreal_ennreal]
     filter_upwards [hg']
     intro x hx h'x
-    rw [← hx, smul_smul, _root_.inv_mul_cancel, one_smul]
+    rw [← hx]; rw [smul_smul]; rw [_root_.inv_mul_cancel]; rw [one_smul]
     simp only [Ne.def, coe_eq_zero] at h'x
     simpa only [NNReal.coe_eq_zero, Ne.def] using h'x
 #align ae_measurable_with_density_iff aemeasurable_withDensity_iff

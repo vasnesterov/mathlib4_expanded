@@ -88,8 +88,7 @@ theorem exists_finset_3_le_card_with_pairs_summing_to_squares (n : ℕ) (hn : 10
   refine' ⟨{a, b, c}, _, _, _⟩
   · suffices ({a, b, c} : Finset ℕ).card = 3 by rw [this]
     suffices a ∉ {b, c} ∧ b ∉ {c} by
-      rw [Finset.card_insert_of_not_mem this.1, Finset.card_insert_of_not_mem this.2,
-        Finset.card_singleton]
+      rw [Finset.card_insert_of_not_mem this.1]; rw [Finset.card_insert_of_not_mem this.2]; rw [Finset.card_singleton]
     · rw [Finset.mem_insert, Finset.mem_singleton, Finset.mem_singleton]
       push_neg
       exact ⟨⟨hab.ne, (hab.trans hbc).ne⟩, hbc.ne⟩
@@ -124,8 +123,7 @@ theorem imo2021_q1 :
   have hBsub : B ⊆ Finset.Icc n (2 * n) := by
     intro c hcB; simpa only [Finset.mem_Icc] using h₂ c hcB
   have hB' : 2 * 1 < (B ∩ (Finset.Icc n (2 * n) \ A) ∪ B ∩ A).card := by
-    rw [←inter_distrib_left, sdiff_union_self_eq_union, union_eq_left.2 hA,
-      inter_eq_left.2 hBsub]
+    rw [←inter_distrib_left]; rw [sdiff_union_self_eq_union]; rw [union_eq_left.2 hA]; rw [inter_eq_left.2 hBsub]
     exact Nat.succ_le_iff.mp hB
   -- Since B has cardinality greater or equal to 3, there must exist a subset C ⊆ B such that
   -- for any A ⊆ [n, 2n], either C ⊆ A or C ⊆ [n, 2n] \ A and C has cardinality greater

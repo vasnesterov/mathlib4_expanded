@@ -45,7 +45,7 @@ def rangeSingleton (f : ι →₀ α) : ι →₀ Finset α where
   toFun i := {f i}
   support := f.support
   mem_support_toFun i := by
-    rw [← not_iff_not, not_mem_support_iff, not_ne_iff]
+    rw [← not_iff_not]; rw [not_mem_support_iff]; rw [not_ne_iff]
     exact singleton_injective.eq_iff.symm
 #align finsupp.range_singleton Finsupp.rangeSingleton
 
@@ -68,7 +68,7 @@ def rangeIcc (f g : ι →₀ α) : ι →₀ Finset α where
     -- haveI := Classical.decEq ι
     f.support ∪ g.support
   mem_support_toFun i := by
-    rw [mem_union, ← not_iff_not, not_or, not_mem_support_iff, not_mem_support_iff, not_ne_iff]
+    rw [mem_union]; rw [← not_iff_not]; rw [not_or]; rw [not_mem_support_iff]; rw [not_mem_support_iff]; rw [not_ne_iff]
     exact Icc_eq_singleton_iff.symm
 #align finsupp.range_Icc Finsupp.rangeIcc
 
@@ -110,17 +110,17 @@ theorem card_Icc : (Icc f g).card = ∏ i in f.support ∪ g.support, (Icc (f i)
 
 -- porting note: removed [DecidableEq ι]
 theorem card_Ico : (Ico f g).card = (∏ i in f.support ∪ g.support, (Icc (f i) (g i)).card) - 1 := by
-  rw [card_Ico_eq_card_Icc_sub_one, card_Icc]
+  rw [card_Ico_eq_card_Icc_sub_one]; rw [card_Icc]
 #align finsupp.card_Ico Finsupp.card_Ico
 
 -- porting note: removed [DecidableEq ι]
 theorem card_Ioc : (Ioc f g).card = (∏ i in f.support ∪ g.support, (Icc (f i) (g i)).card) - 1 := by
-  rw [card_Ioc_eq_card_Icc_sub_one, card_Icc]
+  rw [card_Ioc_eq_card_Icc_sub_one]; rw [card_Icc]
 #align finsupp.card_Ioc Finsupp.card_Ioc
 
 -- porting note: removed [DecidableEq ι]
 theorem card_Ioo : (Ioo f g).card = (∏ i in f.support ∪ g.support, (Icc (f i) (g i)).card) - 2 := by
-  rw [card_Ioo_eq_card_Icc_sub_two, card_Icc]
+  rw [card_Ioo_eq_card_Icc_sub_two]; rw [card_Icc]
 #align finsupp.card_Ioo Finsupp.card_Ioo
 
 end PartialOrder
@@ -148,7 +148,7 @@ theorem card_Iic : (Iic f).card = ∏ i in f.support, (Iic (f i)).card := by
 #align finsupp.card_Iic Finsupp.card_Iic
 
 theorem card_Iio : (Iio f).card = (∏ i in f.support, (Iic (f i)).card) - 1 := by
-  rw [card_Iio_eq_card_Iic_sub_one, card_Iic]
+  rw [card_Iio_eq_card_Iic_sub_one]; rw [card_Iic]
 #align finsupp.card_Iio Finsupp.card_Iio
 
 end CanonicallyOrdered

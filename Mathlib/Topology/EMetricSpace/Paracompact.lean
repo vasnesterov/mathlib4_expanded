@@ -155,7 +155,7 @@ instance (priority := 100) instParacompactSpace [PseudoEMetricSpace α] : Paraco
         _ ≤ 2 * (2⁻¹ ^ m + 2⁻¹ ^ (m + 1)) := by
           gcongr 2 * (_ + ?_); exact hpow_le (add_le_add hm le_rfl)
         _ = 3 * 2⁻¹ ^ m := by
-          rw [mul_add, h2pow, ← two_add_one_eq_three, add_mul, one_mul]
+          rw [mul_add]; rw [h2pow]; rw [← two_add_one_eq_three]; rw [add_mul]; rw [one_mul]
     -- Finally, we glue `Hgt` and `Hle`
     have : (⋃ (m ≤ n + k) (i ∈ { i : ι | (D m i ∩ B).Nonempty }), {(m, i)}).Finite :=
       (finite_le_nat _).biUnion' fun i hi =>

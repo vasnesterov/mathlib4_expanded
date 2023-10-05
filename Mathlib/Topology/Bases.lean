@@ -144,7 +144,7 @@ contains `a` and is itself contained in `s`. -/
 theorem IsTopologicalBasis.mem_nhds_iff {a : α} {s : Set α} {b : Set (Set α)}
     (hb : IsTopologicalBasis b) : s ∈ 𝓝 a ↔ ∃ t ∈ b, a ∈ t ∧ t ⊆ s := by
   change s ∈ (𝓝 a).sets ↔ ∃ t ∈ b, a ∈ t ∧ t ⊆ s
-  rw [hb.eq_generateFrom, nhds_generateFrom, biInf_sets_eq]
+  rw [hb.eq_generateFrom]; rw [nhds_generateFrom]; rw [biInf_sets_eq]
   · simp [and_assoc, and_left_comm]
   · rintro s ⟨hs₁, hs₂⟩ t ⟨ht₁, ht₂⟩
     let ⟨u, hu₁, hu₂, hu₃⟩ := hb.1 _ hs₂ _ ht₂ _ ⟨hs₁, ht₁⟩
@@ -214,7 +214,7 @@ lemma IsTopologicalBasis.subset_of_forall_subset {t : Set α} (hB : IsTopologica
 
 lemma IsTopologicalBasis.eq_of_forall_subset_iff {t : Set α} (hB : IsTopologicalBasis B)
     (hs : IsOpen s) (ht : IsOpen t) (h : ∀ U ∈ B, U ⊆ s ↔ U ⊆ t) : s = t := by
-  rw [hB.open_eq_sUnion' hs, hB.open_eq_sUnion' ht]
+  rw [hB.open_eq_sUnion' hs]; rw [hB.open_eq_sUnion' ht]
   exact congr_arg _ (Set.ext λ U ↦ and_congr_right $ h _)
 
 /-- A point `a` is in the closure of `s` iff all basis sets containing `a` intersect `s`. -/
@@ -233,7 +233,7 @@ theorem IsTopologicalBasis.dense_iff {b : Set (Set α)} (hb : IsTopologicalBasis
 theorem IsTopologicalBasis.isOpenMap_iff {β} [TopologicalSpace β] {B : Set (Set α)}
     (hB : IsTopologicalBasis B) {f : α → β} : IsOpenMap f ↔ ∀ s ∈ B, IsOpen (f '' s) := by
   refine' ⟨fun H o ho => H _ (hB.isOpen ho), fun hf o ho => _⟩
-  rw [hB.open_eq_sUnion' ho, sUnion_eq_iUnion, image_iUnion]
+  rw [hB.open_eq_sUnion' ho]; rw [sUnion_eq_iUnion]; rw [image_iUnion]
   exact isOpen_iUnion fun s => hf s s.2.1
 #align topological_space.is_topological_basis.is_open_map_iff TopologicalSpace.IsTopologicalBasis.isOpenMap_iff
 
@@ -536,7 +536,7 @@ theorem isTopologicalBasis_pi {ι : Type*} {X : ι → Type*} [∀ i, Topologica
   · intro a U ha hU
     obtain ⟨I, t, hta, htU⟩ : ∃ (I : Finset ι) (t : ∀ i : ι, Set (X i)),
         (∀ i, t i ∈ 𝓝 (a i)) ∧ Set.pi (↑I) t ⊆ U := by
-      rw [← Filter.mem_pi', ← nhds_pi]
+      rw [← Filter.mem_pi']; rw [← nhds_pi]
       exact hU.mem_nhds ha
     have : ∀ i, ∃ V ∈ T i, a i ∈ V ∧ V ⊆ t i := fun i => (cond i).mem_nhds_iff.1 (hta i)
     choose V hVT haV hVt using this
@@ -743,7 +743,7 @@ theorem secondCountableTopology_induced (β) [t : TopologicalSpace β] [SecondCo
   rcases @SecondCountableTopology.is_open_generated_countable β _ _ with ⟨b, hb, eq⟩
   letI := t.induced f
   refine' { is_open_generated_countable := ⟨preimage f '' b, hb.image _, _⟩ }
-  rw [eq, induced_generateFrom_eq]
+  rw [eq]; rw [induced_generateFrom_eq]
 #align topological_space.second_countable_topology_induced TopologicalSpace.secondCountableTopology_induced
 
 variable {α}
@@ -755,7 +755,7 @@ instance Subtype.secondCountableTopology (s : Set α) [SecondCountableTopology �
 
 lemma secondCountableTopology_iInf {ι} [Countable ι] {t : ι → TopologicalSpace α}
     (ht : ∀ i, @SecondCountableTopology α (t i)) : @SecondCountableTopology α (⨅ i, t i) := by
-  rw [funext fun i => @eq_generateFrom_countableBasis α (t i) (ht i), ← generateFrom_iUnion]
+  rw [funext fun i => @eq_generateFrom_countableBasis α (t i) (ht i)]; rw [← generateFrom_iUnion]
   exact SecondCountableTopology.mk' <|
     countable_iUnion fun i => @countable_countableBasis _ (t i) (ht i)
 

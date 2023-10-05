@@ -57,7 +57,7 @@ variable [Group H] [SMul G α] [SMul G β] [MulAction H α] [SMul H β] [SMulCom
 @[to_additive]
 theorem Supports.smul (g : H) (h : Supports G s b) : Supports G (g • s) (g • b) := by
   rintro g' hg'
-  rw [smul_comm, h]
+  rw [smul_comm]; rw [h]
   rintro a ha
   have := Set.ball_image_iff.1 hg' a ha
   rwa [smul_comm, smul_left_cancel_iff] at this

@@ -75,7 +75,7 @@ set_option linter.uppercaseLean3 false in
 theorem prod_X_sub_C_eq [CommRing S] {x y z : S} :
     (X - C x) * (X - C y) * (X - C z) =
       toPoly ⟨1, -(x + y + z), x * y + x * z + y * z, -(x * y * z)⟩ := by
-  rw [← one_mul <| X - C x, ← C_1, C_mul_prod_X_sub_C_eq, one_mul, one_mul, one_mul]
+  rw [← one_mul <| X - C x]; rw [← C_1]; rw [C_mul_prod_X_sub_C_eq]; rw [one_mul]; rw [one_mul]; rw [one_mul]
 set_option linter.uppercaseLean3 false in
 #align cubic.prod_X_sub_C_eq Cubic.prod_X_sub_C_eq
 
@@ -135,7 +135,7 @@ theorem toPoly_injective (P Q : Cubic R) : P.toPoly = Q.toPoly ↔ P = Q :=
 #align cubic.to_poly_injective Cubic.toPoly_injective
 
 theorem of_a_eq_zero (ha : P.a = 0) : P.toPoly = C P.b * X ^ 2 + C P.c * X + C P.d := by
-  rw [toPoly, ha, C_0, zero_mul, zero_add]
+  rw [toPoly]; rw [ha]; rw [C_0]; rw [zero_mul]; rw [zero_add]
 #align cubic.of_a_eq_zero Cubic.of_a_eq_zero
 
 theorem of_a_eq_zero' : toPoly ⟨0, b, c, d⟩ = C b * X ^ 2 + C c * X + C d :=
@@ -143,7 +143,7 @@ theorem of_a_eq_zero' : toPoly ⟨0, b, c, d⟩ = C b * X ^ 2 + C c * X + C d :=
 #align cubic.of_a_eq_zero' Cubic.of_a_eq_zero'
 
 theorem of_b_eq_zero (ha : P.a = 0) (hb : P.b = 0) : P.toPoly = C P.c * X + C P.d := by
-  rw [of_a_eq_zero ha, hb, C_0, zero_mul, zero_add]
+  rw [of_a_eq_zero ha]; rw [hb]; rw [C_0]; rw [zero_mul]; rw [zero_add]
 #align cubic.of_b_eq_zero Cubic.of_b_eq_zero
 
 theorem of_b_eq_zero' : toPoly ⟨0, 0, c, d⟩ = C c * X + C d :=
@@ -151,7 +151,7 @@ theorem of_b_eq_zero' : toPoly ⟨0, 0, c, d⟩ = C c * X + C d :=
 #align cubic.of_b_eq_zero' Cubic.of_b_eq_zero'
 
 theorem of_c_eq_zero (ha : P.a = 0) (hb : P.b = 0) (hc : P.c = 0) : P.toPoly = C P.d := by
-  rw [of_b_eq_zero ha hb, hc, C_0, zero_mul, zero_add]
+  rw [of_b_eq_zero ha hb]; rw [hc]; rw [C_0]; rw [zero_mul]; rw [zero_add]
 #align cubic.of_c_eq_zero Cubic.of_c_eq_zero
 
 theorem of_c_eq_zero' : toPoly ⟨0, 0, 0, d⟩ = C d :=
@@ -160,7 +160,7 @@ theorem of_c_eq_zero' : toPoly ⟨0, 0, 0, d⟩ = C d :=
 
 theorem of_d_eq_zero (ha : P.a = 0) (hb : P.b = 0) (hc : P.c = 0) (hd : P.d = 0) :
     P.toPoly = 0 := by
-  rw [of_c_eq_zero ha hb hc, hd, C_0]
+  rw [of_c_eq_zero ha hb hc]; rw [hd]; rw [C_0]
 #align cubic.of_d_eq_zero Cubic.of_d_eq_zero
 
 theorem of_d_eq_zero' : (⟨0, 0, 0, 0⟩ : Cubic R).toPoly = 0 :=
@@ -172,7 +172,7 @@ theorem zero : (0 : Cubic R).toPoly = 0 :=
 #align cubic.zero Cubic.zero
 
 theorem toPoly_eq_zero_iff (P : Cubic R) : P.toPoly = 0 ↔ P = 0 := by
-  rw [← zero, toPoly_injective]
+  rw [← zero]; rw [toPoly_injective]
 #align cubic.to_poly_eq_zero_iff Cubic.toPoly_eq_zero_iff
 
 private theorem ne_zero (h0 : P.a ≠ 0 ∨ P.b ≠ 0 ∨ P.c ≠ 0 ∨ P.d ≠ 0) : P.toPoly ≠ 0 := by
@@ -208,7 +208,7 @@ theorem leadingCoeff_of_a_ne_zero' (ha : a ≠ 0) : (toPoly ⟨a, b, c, d⟩).le
 
 @[simp]
 theorem leadingCoeff_of_b_ne_zero (ha : P.a = 0) (hb : P.b ≠ 0) : P.toPoly.leadingCoeff = P.b := by
-  rw [of_a_eq_zero ha, leadingCoeff_quadratic hb]
+  rw [of_a_eq_zero ha]; rw [leadingCoeff_quadratic hb]
 #align cubic.leading_coeff_of_b_ne_zero Cubic.leadingCoeff_of_b_ne_zero
 
 @[simp]
@@ -219,7 +219,7 @@ theorem leadingCoeff_of_b_ne_zero' (hb : b ≠ 0) : (toPoly ⟨0, b, c, d⟩).le
 @[simp]
 theorem leadingCoeff_of_c_ne_zero (ha : P.a = 0) (hb : P.b = 0) (hc : P.c ≠ 0) :
     P.toPoly.leadingCoeff = P.c := by
-  rw [of_b_eq_zero ha hb, leadingCoeff_linear hc]
+  rw [of_b_eq_zero ha hb]; rw [leadingCoeff_linear hc]
 #align cubic.leading_coeff_of_c_ne_zero Cubic.leadingCoeff_of_c_ne_zero
 
 @[simp]
@@ -230,7 +230,7 @@ theorem leadingCoeff_of_c_ne_zero' (hc : c ≠ 0) : (toPoly ⟨0, 0, c, d⟩).le
 @[simp]
 theorem leadingCoeff_of_c_eq_zero (ha : P.a = 0) (hb : P.b = 0) (hc : P.c = 0) :
     P.toPoly.leadingCoeff = P.d := by
-  rw [of_c_eq_zero ha hb hc, leadingCoeff_C]
+  rw [of_c_eq_zero ha hb hc]; rw [leadingCoeff_C]
 #align cubic.leading_coeff_of_c_eq_zero Cubic.leadingCoeff_of_c_eq_zero
 
 -- @[simp] -- Porting note: simp can prove this
@@ -240,7 +240,7 @@ theorem leadingCoeff_of_c_eq_zero' : (toPoly ⟨0, 0, 0, d⟩).leadingCoeff = d 
 
 theorem monic_of_a_eq_one (ha : P.a = 1) : P.toPoly.Monic := by
   nontriviality R
-  rw [Monic, leadingCoeff_of_a_ne_zero (ha ▸ one_ne_zero), ha]
+  rw [Monic]; rw [leadingCoeff_of_a_ne_zero (ha ▸ one_ne_zero)]; rw [ha]
 #align cubic.monic_of_a_eq_one Cubic.monic_of_a_eq_one
 
 theorem monic_of_a_eq_one' : (toPoly ⟨1, b, c, d⟩).Monic :=
@@ -249,7 +249,7 @@ theorem monic_of_a_eq_one' : (toPoly ⟨1, b, c, d⟩).Monic :=
 
 theorem monic_of_b_eq_one (ha : P.a = 0) (hb : P.b = 1) : P.toPoly.Monic := by
   nontriviality R
-  rw [Monic, leadingCoeff_of_b_ne_zero ha (hb ▸ one_ne_zero), hb]
+  rw [Monic]; rw [leadingCoeff_of_b_ne_zero ha (hb ▸ one_ne_zero)]; rw [hb]
 #align cubic.monic_of_b_eq_one Cubic.monic_of_b_eq_one
 
 theorem monic_of_b_eq_one' : (toPoly ⟨0, 1, c, d⟩).Monic :=
@@ -258,7 +258,7 @@ theorem monic_of_b_eq_one' : (toPoly ⟨0, 1, c, d⟩).Monic :=
 
 theorem monic_of_c_eq_one (ha : P.a = 0) (hb : P.b = 0) (hc : P.c = 1) : P.toPoly.Monic := by
   nontriviality R
-  rw [Monic, leadingCoeff_of_c_ne_zero ha hb (hc ▸ one_ne_zero), hc]
+  rw [Monic]; rw [leadingCoeff_of_c_ne_zero ha hb (hc ▸ one_ne_zero)]; rw [hc]
 #align cubic.monic_of_c_eq_one Cubic.monic_of_c_eq_one
 
 theorem monic_of_c_eq_one' : (toPoly ⟨0, 0, 1, d⟩).Monic :=
@@ -267,7 +267,7 @@ theorem monic_of_c_eq_one' : (toPoly ⟨0, 0, 1, d⟩).Monic :=
 
 theorem monic_of_d_eq_one (ha : P.a = 0) (hb : P.b = 0) (hc : P.c = 0) (hd : P.d = 1) :
     P.toPoly.Monic := by
-  rw [Monic, leadingCoeff_of_c_eq_zero ha hb hc, hd]
+  rw [Monic]; rw [leadingCoeff_of_c_eq_zero ha hb hc]; rw [hd]
 #align cubic.monic_of_d_eq_one Cubic.monic_of_d_eq_one
 
 theorem monic_of_d_eq_one' : (toPoly ⟨0, 0, 0, 1⟩).Monic :=
@@ -293,8 +293,7 @@ def equiv : Cubic R ≃ { p : R[X] // p.degree ≤ 3 } where
     ext (_ | _ | _ | _ | n) <;> simp only [Nat.zero_eq, Nat.succ_eq_add_one] <;> ring_nf
       <;> try simp only [coeffs]
     have h3 : 3 < 4 + n := by linarith only
-    rw [coeff_eq_zero h3,
-      (degree_le_iff_coeff_zero (f : R[X]) 3).mp f.2 _ <| WithBot.coe_lt_coe.mpr (by exact h3)]
+    rw [coeff_eq_zero h3]; rw [(degree_le_iff_coeff_zero (f : R[X]) 3).mp f.2 _ <| WithBot.coe_lt_coe.mpr (by exact h3)]
 #align cubic.equiv Cubic.equiv
 
 @[simp]
@@ -317,7 +316,7 @@ theorem degree_of_a_eq_zero' : (toPoly ⟨0, b, c, d⟩).degree ≤ 2 :=
 
 @[simp]
 theorem degree_of_b_ne_zero (ha : P.a = 0) (hb : P.b ≠ 0) : P.toPoly.degree = 2 := by
-  rw [of_a_eq_zero ha, degree_quadratic hb]
+  rw [of_a_eq_zero ha]; rw [degree_quadratic hb]
 #align cubic.degree_of_b_ne_zero Cubic.degree_of_b_ne_zero
 
 @[simp]
@@ -335,7 +334,7 @@ theorem degree_of_b_eq_zero' : (toPoly ⟨0, 0, c, d⟩).degree ≤ 1 :=
 
 @[simp]
 theorem degree_of_c_ne_zero (ha : P.a = 0) (hb : P.b = 0) (hc : P.c ≠ 0) : P.toPoly.degree = 1 := by
-  rw [of_b_eq_zero ha hb, degree_linear hc]
+  rw [of_b_eq_zero ha hb]; rw [degree_linear hc]
 #align cubic.degree_of_c_ne_zero Cubic.degree_of_c_ne_zero
 
 @[simp]
@@ -354,7 +353,7 @@ theorem degree_of_c_eq_zero' : (toPoly ⟨0, 0, 0, d⟩).degree ≤ 0 :=
 @[simp]
 theorem degree_of_d_ne_zero (ha : P.a = 0) (hb : P.b = 0) (hc : P.c = 0) (hd : P.d ≠ 0) :
     P.toPoly.degree = 0 := by
-  rw [of_c_eq_zero ha hb hc, degree_C hd]
+  rw [of_c_eq_zero ha hb hc]; rw [degree_C hd]
 #align cubic.degree_of_d_ne_zero Cubic.degree_of_d_ne_zero
 
 @[simp]
@@ -365,7 +364,7 @@ theorem degree_of_d_ne_zero' (hd : d ≠ 0) : (toPoly ⟨0, 0, 0, d⟩).degree =
 @[simp]
 theorem degree_of_d_eq_zero (ha : P.a = 0) (hb : P.b = 0) (hc : P.c = 0) (hd : P.d = 0) :
     P.toPoly.degree = ⊥ := by
-  rw [of_d_eq_zero ha hb hc hd, degree_zero]
+  rw [of_d_eq_zero ha hb hc hd]; rw [degree_zero]
 #align cubic.degree_of_d_eq_zero Cubic.degree_of_d_eq_zero
 
 -- @[simp] -- Porting note: simp can prove this
@@ -398,7 +397,7 @@ theorem natDegree_of_a_eq_zero' : (toPoly ⟨0, b, c, d⟩).natDegree ≤ 2 :=
 
 @[simp]
 theorem natDegree_of_b_ne_zero (ha : P.a = 0) (hb : P.b ≠ 0) : P.toPoly.natDegree = 2 := by
-  rw [of_a_eq_zero ha, natDegree_quadratic hb]
+  rw [of_a_eq_zero ha]; rw [natDegree_quadratic hb]
 #align cubic.nat_degree_of_b_ne_zero Cubic.natDegree_of_b_ne_zero
 
 @[simp]
@@ -417,7 +416,7 @@ theorem natDegree_of_b_eq_zero' : (toPoly ⟨0, 0, c, d⟩).natDegree ≤ 1 :=
 @[simp]
 theorem natDegree_of_c_ne_zero (ha : P.a = 0) (hb : P.b = 0) (hc : P.c ≠ 0) :
     P.toPoly.natDegree = 1 := by
-  rw [of_b_eq_zero ha hb, natDegree_linear hc]
+  rw [of_b_eq_zero ha hb]; rw [natDegree_linear hc]
 #align cubic.nat_degree_of_c_ne_zero Cubic.natDegree_of_c_ne_zero
 
 @[simp]
@@ -428,7 +427,7 @@ theorem natDegree_of_c_ne_zero' (hc : c ≠ 0) : (toPoly ⟨0, 0, c, d⟩).natDe
 @[simp]
 theorem natDegree_of_c_eq_zero (ha : P.a = 0) (hb : P.b = 0) (hc : P.c = 0) :
     P.toPoly.natDegree = 0 := by
-  rw [of_c_eq_zero ha hb hc, natDegree_C]
+  rw [of_c_eq_zero ha hb hc]; rw [natDegree_C]
 #align cubic.nat_degree_of_c_eq_zero Cubic.natDegree_of_c_eq_zero
 
 -- @[simp] -- Porting note: simp can prove this
@@ -480,12 +479,12 @@ def roots [IsDomain R] (P : Cubic R) : Multiset R :=
 #align cubic.roots Cubic.roots
 
 theorem map_roots [IsDomain S] : (map φ P).roots = (Polynomial.map φ P.toPoly).roots := by
-  rw [roots, map_toPoly]
+  rw [roots]; rw [map_toPoly]
 #align cubic.map_roots Cubic.map_roots
 
 theorem mem_roots_iff [IsDomain R] (h0 : P.toPoly ≠ 0) (x : R) :
     x ∈ P.roots ↔ P.a * x ^ 3 + P.b * x ^ 2 + P.c * x + P.d = 0 := by
-  rw [roots, mem_roots h0, IsRoot, toPoly]
+  rw [roots]; rw [mem_roots h0]; rw [IsRoot]; rw [toPoly]
   simp only [eval_C, eval_X, eval_add, eval_mul, eval_pow]
 #align cubic.mem_roots_iff Cubic.mem_roots_iff
 
@@ -509,23 +508,20 @@ theorem splits_iff_card_roots (ha : P.a ≠ 0) :
     Splits φ P.toPoly ↔ Multiset.card (map φ P).roots = 3 := by
   replace ha : (map φ P).a ≠ 0 := (_root_.map_ne_zero φ).mpr ha
   nth_rw 1 [← RingHom.id_comp φ]
-  rw [roots, ← splits_map_iff, ← map_toPoly, Polynomial.splits_iff_card_roots,
-    ← ((degree_eq_iff_natDegree_eq <| ne_zero_of_a_ne_zero ha).1 <| degree_of_a_ne_zero ha : _ = 3)]
+  rw [roots]; rw [← splits_map_iff]; rw [← map_toPoly]; rw [Polynomial.splits_iff_card_roots]; rw [← ((degree_eq_iff_natDegree_eq <| ne_zero_of_a_ne_zero ha).1 <| degree_of_a_ne_zero ha : _ = 3)]
 #align cubic.splits_iff_card_roots Cubic.splits_iff_card_roots
 
 theorem splits_iff_roots_eq_three (ha : P.a ≠ 0) :
     Splits φ P.toPoly ↔ ∃ x y z : K, (map φ P).roots = {x, y, z} := by
-  rw [splits_iff_card_roots ha, card_eq_three]
+  rw [splits_iff_card_roots ha]; rw [card_eq_three]
 #align cubic.splits_iff_roots_eq_three Cubic.splits_iff_roots_eq_three
 
 theorem eq_prod_three_roots (ha : P.a ≠ 0) (h3 : (map φ P).roots = {x, y, z}) :
     (map φ P).toPoly = C (φ P.a) * (X - C x) * (X - C y) * (X - C z) := by
-  rw [map_toPoly,
-    eq_prod_roots_of_splits <|
-      (splits_iff_roots_eq_three ha).mpr <| Exists.intro x <| Exists.intro y <| Exists.intro z h3,
-    leadingCoeff_of_a_ne_zero ha, ← map_roots, h3]
+  rw [map_toPoly]; rw [eq_prod_roots_of_splits <|
+      (splits_iff_roots_eq_three ha).mpr <| Exists.intro x <| Exists.intro y <| Exists.intro z h3]; rw [leadingCoeff_of_a_ne_zero ha]; rw [← map_roots]; rw [h3]
   change C (φ P.a) * ((X - C x) ::ₘ (X - C y) ::ₘ {X - C z}).prod = _
-  rw [prod_cons, prod_cons, prod_singleton, mul_assoc, mul_assoc]
+  rw [prod_cons]; rw [prod_cons]; rw [prod_singleton]; rw [mul_assoc]; rw [mul_assoc]
 #align cubic.eq_prod_three_roots Cubic.eq_prod_three_roots
 
 theorem eq_sum_three_roots (ha : P.a ≠ 0) (h3 : (map φ P).roots = {x, y, z}) :
@@ -571,30 +567,29 @@ theorem disc_eq_prod_three_roots (ha : P.a ≠ 0) (h3 : (map φ P).roots = {x, y
   have f4 : φ 4 = 4 := map_natCast φ 4
   have f18 : φ 18 = 18 := map_natCast φ 18
   have f27 : φ 27 = 27 := map_natCast φ 27
-  rw [f4, f18, f27, b_eq_three_roots ha h3, c_eq_three_roots ha h3, d_eq_three_roots ha h3]
+  rw [f4]; rw [f18]; rw [f27]; rw [b_eq_three_roots ha h3]; rw [c_eq_three_roots ha h3]; rw [d_eq_three_roots ha h3]
   ring1
 #align cubic.disc_eq_prod_three_roots Cubic.disc_eq_prod_three_roots
 
 theorem disc_ne_zero_iff_roots_ne (ha : P.a ≠ 0) (h3 : (map φ P).roots = {x, y, z}) :
     P.disc ≠ 0 ↔ x ≠ y ∧ x ≠ z ∧ y ≠ z := by
-  rw [← _root_.map_ne_zero φ, disc_eq_prod_three_roots ha h3, pow_two]
+  rw [← _root_.map_ne_zero φ]; rw [disc_eq_prod_three_roots ha h3]; rw [pow_two]
   simp_rw [mul_ne_zero_iff, sub_ne_zero, _root_.map_ne_zero, and_self_iff, and_iff_right ha,
     and_assoc]
 #align cubic.disc_ne_zero_iff_roots_ne Cubic.disc_ne_zero_iff_roots_ne
 
 theorem disc_ne_zero_iff_roots_nodup (ha : P.a ≠ 0) (h3 : (map φ P).roots = {x, y, z}) :
     P.disc ≠ 0 ↔ (map φ P).roots.Nodup := by
-  rw [disc_ne_zero_iff_roots_ne ha h3, h3]
+  rw [disc_ne_zero_iff_roots_ne ha h3]; rw [h3]
   change _ ↔ (x ::ₘ y ::ₘ {z}).Nodup
-  rw [nodup_cons, nodup_cons, mem_cons, mem_singleton, mem_singleton]
+  rw [nodup_cons]; rw [nodup_cons]; rw [mem_cons]; rw [mem_singleton]; rw [mem_singleton]
   simp only [nodup_singleton]
   tauto
 #align cubic.disc_ne_zero_iff_roots_nodup Cubic.disc_ne_zero_iff_roots_nodup
 
 theorem card_roots_of_disc_ne_zero [DecidableEq K] (ha : P.a ≠ 0) (h3 : (map φ P).roots = {x, y, z})
     (hd : P.disc ≠ 0) : (map φ P).roots.toFinset.card = 3 := by
-  rw [toFinset_card_of_nodup <| (disc_ne_zero_iff_roots_nodup ha h3).mp hd,
-    ← splits_iff_card_roots ha, splits_iff_roots_eq_three ha]
+  rw [toFinset_card_of_nodup <| (disc_ne_zero_iff_roots_nodup ha h3).mp hd]; rw [← splits_iff_card_roots ha]; rw [splits_iff_roots_eq_three ha]
   exact ⟨x, ⟨y, ⟨z, h3⟩⟩⟩
 #align cubic.card_roots_of_disc_ne_zero Cubic.card_roots_of_disc_ne_zero
 

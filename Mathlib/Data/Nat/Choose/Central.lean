@@ -117,8 +117,7 @@ theorem four_pow_le_two_mul_self_mul_centralBinom :
 
 theorem two_dvd_centralBinom_succ (n : ℕ) : 2 ∣ centralBinom (n + 1) := by
   use (n + 1 + n).choose n
-  rw [centralBinom_eq_two_mul_choose, two_mul, ← add_assoc,
-      choose_succ_succ' (n + 1 + n) n, choose_symm_add, ← two_mul]
+  rw [centralBinom_eq_two_mul_choose]; rw [two_mul]; rw [← add_assoc]; rw [choose_succ_succ' (n + 1 + n) n]; rw [choose_symm_add]; rw [← two_mul]
 #align nat.two_dvd_central_binom_succ Nat.two_dvd_centralBinom_succ
 
 theorem two_dvd_centralBinom_of_one_le {n : ℕ} (h : 0 < n) : 2 ∣ centralBinom n := by
@@ -130,11 +129,11 @@ theorem two_dvd_centralBinom_of_one_le {n : ℕ} (h : 0 < n) : 2 ∣ centralBino
   `catalan n = n.centralBinom / (n + 1)`. -/
 theorem succ_dvd_centralBinom (n : ℕ) : n + 1 ∣ n.centralBinom := by
   have h_s : (n + 1).Coprime (2 * n + 1) := by
-    rw [two_mul, add_assoc, coprime_add_self_right, coprime_self_add_left]
+    rw [two_mul]; rw [add_assoc]; rw [coprime_add_self_right]; rw [coprime_self_add_left]
     exact coprime_one_left n
   apply h_s.dvd_of_dvd_mul_left
   apply Nat.dvd_of_mul_dvd_mul_left zero_lt_two
-  rw [← mul_assoc, ← succ_mul_centralBinom_succ, mul_comm]
+  rw [← mul_assoc]; rw [← succ_mul_centralBinom_succ]; rw [mul_comm]
   exact mul_dvd_mul_left _ (two_dvd_centralBinom_succ n)
 #align nat.succ_dvd_central_binom Nat.succ_dvd_centralBinom
 

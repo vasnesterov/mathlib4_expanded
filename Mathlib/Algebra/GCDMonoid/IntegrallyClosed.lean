@@ -25,9 +25,9 @@ theorem IsLocalization.surj_of_gcd_domain (M : Submonoid R) [IsLocalization M A]
   obtain ⟨x, ⟨y, hy⟩, rfl⟩ := IsLocalization.mk'_surjective M z
   obtain ⟨x', y', hx', hy', hu⟩ := extract_gcd x y
   use x', y', hu
-  rw [mul_comm, IsLocalization.mul_mk'_eq_mk'_of_mul]
+  rw [mul_comm]; rw [IsLocalization.mul_mk'_eq_mk'_of_mul]
   convert IsLocalization.mk'_mul_cancel_left (M := M) (S := A) _ _ using 2
-  rw [Subtype.coe_mk, hy', ← mul_comm y', mul_assoc]; conv_lhs => rw [hx']
+  rw [Subtype.coe_mk]; rw [hy']; rw [← mul_comm y']; rw [mul_assoc]; conv_lhs => rw [hx']
 #align is_localization.surj_of_gcd_domain IsLocalization.surj_of_gcd_domain
 
 instance (priority := 100) GCDMonoid.toIsIntegrallyClosed : IsIntegrallyClosed R :=
@@ -37,7 +37,7 @@ instance (priority := 100) GCDMonoid.toIsIntegrallyClosed : IsIntegrallyClosed R
       Polynomial.dvd_pow_natDegree_of_eval₂_eq_zero (IsFractionRing.injective R <| FractionRing R)
         hp₁ y x _ hp₂ (by rw [mul_comm, he])
     have : IsUnit y := by
-      rw [isUnit_iff_dvd_one, ← one_pow]
+      rw [isUnit_iff_dvd_one]; rw [← one_pow]
       exact
         (dvd_gcd this <| dvd_refl y).trans
           (gcd_pow_left_dvd_pow_gcd.trans <| pow_dvd_pow_of_dvd (isUnit_iff_dvd_one.1 hg) _)

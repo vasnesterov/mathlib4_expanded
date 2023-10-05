@@ -233,11 +233,11 @@ theorem uncurry_injective : Function.Injective (uncurry : (Y ⟶ A ⟶[C] X) →
 variable (A X)
 
 theorem uncurry_id_eq_ev : uncurry (𝟙 (A ⟶[C] X)) = (ihom.ev A).app X := by
-  rw [uncurry_eq, tensor_id, id_comp]
+  rw [uncurry_eq]; rw [tensor_id]; rw [id_comp]
 #align category_theory.monoidal_closed.uncurry_id_eq_ev CategoryTheory.MonoidalClosed.uncurry_id_eq_ev
 
 theorem curry_id_eq_coev : curry (𝟙 _) = (ihom.coev A).app X := by
-  rw [curry_eq, (ihom A).map_id (A ⊗ _)]
+  rw [curry_eq]; rw [(ihom A).map_id (A ⊗ _)]
   apply comp_id
 #align category_theory.monoidal_closed.curry_id_eq_coev CategoryTheory.MonoidalClosed.curry_id_eq_coev
 
@@ -259,7 +259,7 @@ theorem id_tensor_pre_app_comp_ev (f : B ⟶ A) (X : C) :
 @[simp]
 theorem uncurry_pre (f : B ⟶ A) (X : C) :
     MonoidalClosed.uncurry ((pre f).app X) = (f ⊗ 𝟙 _) ≫ (ihom.ev A).app X := by
-  rw [uncurry_eq, id_tensor_pre_app_comp_ev]
+  rw [uncurry_eq]; rw [id_tensor_pre_app_comp_ev]
 #align category_theory.monoidal_closed.uncurry_pre CategoryTheory.MonoidalClosed.uncurry_pre
 
 @[reassoc (attr := simp)]
@@ -278,7 +278,7 @@ theorem pre_id (A : C) [Closed A] : pre (𝟙 A) = 𝟙 _ := by
 @[simp]
 theorem pre_map {A₁ A₂ A₃ : C} [Closed A₁] [Closed A₂] [Closed A₃] (f : A₁ ⟶ A₂) (g : A₂ ⟶ A₃) :
     pre (f ≫ g) = pre g ≫ pre f := by
-  rw [pre, pre, pre, transferNatTransSelf_comp, (tensoringLeft C).map_comp]
+  rw [pre]; rw [pre]; rw [pre]; rw [transferNatTransSelf_comp]; rw [(tensoringLeft C).map_comp]
 #align category_theory.monoidal_closed.pre_map CategoryTheory.MonoidalClosed.pre_map
 
 theorem pre_comm_ihom_map {W X Y Z : C} [Closed W] [Closed X] (f : W ⟶ X) (g : Y ⟶ Z) :

@@ -138,7 +138,7 @@ theorem exists_bound_of_continuous (hf : Continuous f) :
   refine' ⟨_, this, _⟩
   refine' f.bound_of_shell (fun _ => ε0) (fun _ => hc) fun m hcm hm => _
   refine' (hε m ((pi_norm_lt_iff ε0).2 hm)).le.trans _
-  rw [← div_le_iff' this, one_div, ← inv_pow, inv_div, Fintype.card, ← prod_const]
+  rw [← div_le_iff' this]; rw [one_div]; rw [← inv_pow]; rw [inv_div]; rw [Fintype.card]; rw [← prod_const]
   exact prod_le_prod (fun _ _ => div_nonneg ε0.le (norm_nonneg _)) fun i _ => hcm i
 #align multilinear_map.exists_bound_of_continuous MultilinearMap.exists_bound_of_continuous
 
@@ -169,7 +169,7 @@ theorem norm_image_sub_le_of_bound' [DecidableEq ι] {C : ℝ} (hC : 0 ≤ C)
         · rw [h]
           simp [his]
         · simp [h]
-      rw [B, A, ← f.map_sub]
+      rw [B]; rw [A]; rw [← f.map_sub]
       apply le_trans (H _)
       gcongr with j
       · exact fun j _ => norm_nonneg _
@@ -181,7 +181,7 @@ theorem norm_image_sub_le_of_bound' [DecidableEq ι] {C : ℝ} (hC : 0 ≤ C)
       ‖f m₁ - f ((insert i s).piecewise m₂ m₁)‖ ≤
           ‖f m₁ - f (s.piecewise m₂ m₁)‖ +
             ‖f (s.piecewise m₂ m₁) - f ((insert i s).piecewise m₂ m₁)‖ := by
-        rw [← dist_eq_norm, ← dist_eq_norm, ← dist_eq_norm]
+        rw [← dist_eq_norm]; rw [← dist_eq_norm]; rw [← dist_eq_norm]
         exact dist_triangle _ _ _
       _ ≤
           (C * ∑ i in s, ∏ j, if j = i then ‖m₁ i - m₂ i‖ else max ‖m₁ j‖ ‖m₂ j‖) +
@@ -226,7 +226,7 @@ theorem norm_image_sub_le_of_bound {C : ℝ} (hC : 0 ≤ C) (H : ∀ m, ‖f m�
       f.norm_image_sub_le_of_bound' hC H m₁ m₂
     _ ≤ C * ∑ i, ‖m₁ - m₂‖ * max ‖m₁‖ ‖m₂‖ ^ (Fintype.card ι - 1) := by gcongr; apply A
     _ = C * Fintype.card ι * max ‖m₁‖ ‖m₂‖ ^ (Fintype.card ι - 1) * ‖m₁ - m₂‖ := by
-      rw [sum_const, card_univ, nsmul_eq_mul]
+      rw [sum_const]; rw [card_univ]; rw [nsmul_eq_mul]
       ring
 #align multilinear_map.norm_image_sub_le_of_bound MultilinearMap.norm_image_sub_le_of_bound
 
@@ -243,7 +243,7 @@ theorem continuous_of_bound (C : ℝ) (H : ∀ m, ‖f m‖ ≤ C * ∏ i, ‖m 
   refine'
     continuousAt_of_locally_lipschitz zero_lt_one
       (D * Fintype.card ι * (‖m‖ + 1) ^ (Fintype.card ι - 1)) fun m' h' => _
-  rw [dist_eq_norm, dist_eq_norm]
+  rw [dist_eq_norm]; rw [dist_eq_norm]
   have : max ‖m'‖ ‖m‖ ≤ ‖m‖ + 1 := by
     simp [zero_le_one, norm_le_of_mem_closedBall (le_of_lt h')]
   calc
@@ -269,7 +269,7 @@ the other coordinates, then the resulting restricted function satisfies an inequ
 theorem restr_norm_le {k n : ℕ} (f : (MultilinearMap 𝕜 (fun _ : Fin n => G) G' : _))
     (s : Finset (Fin n)) (hk : s.card = k) (z : G) {C : ℝ} (H : ∀ m, ‖f m‖ ≤ C * ∏ i, ‖m i‖)
     (v : Fin k → G) : ‖f.restr s hk z v‖ ≤ C * ‖z‖ ^ (n - k) * ∏ i, ‖v i‖ := by
-  rw [mul_right_comm, mul_assoc]
+  rw [mul_right_comm]; rw [mul_assoc]
   convert H _ using 2
   simp only [apply_dite norm, Fintype.prod_dite, prod_const ‖z‖, Finset.card_univ,
     Fintype.card_of_subtype sᶜ fun _ => mem_compl, card_compl, Fintype.card_fin, hk, mk_coe, ←
@@ -417,7 +417,7 @@ variable {𝕜' : Type*} [NormedField 𝕜'] [NormedSpace 𝕜' G] [SMulCommClas
 
 theorem op_norm_smul_le (c : 𝕜') : ‖c • f‖ ≤ ‖c‖ * ‖f‖ :=
   (c • f).op_norm_le_bound (mul_nonneg (norm_nonneg _) (op_norm_nonneg _)) fun m ↦ by
-    rw [smul_apply, norm_smul, mul_assoc]
+    rw [smul_apply]; rw [norm_smul]; rw [mul_assoc]
     exact mul_le_mul_of_nonneg_left (le_op_norm _ _) (norm_nonneg _)
 #align continuous_multilinear_map.op_norm_smul_le ContinuousMultilinearMap.op_norm_smul_le
 
@@ -502,7 +502,7 @@ variable (𝕜 G)
 
 theorem norm_ofSubsingleton_le [Subsingleton ι] (i' : ι) : ‖ofSubsingleton 𝕜 G i'‖ ≤ 1 :=
   op_norm_le_bound _ zero_le_one fun m => by
-    rw [Fintype.prod_subsingleton _ i', one_mul, ofSubsingleton_apply]
+    rw [Fintype.prod_subsingleton _ i']; rw [one_mul]; rw [ofSubsingleton_apply]
 #align continuous_multilinear_map.norm_of_subsingleton_le ContinuousMultilinearMap.norm_ofSubsingleton_le
 
 @[simp]
@@ -531,7 +531,7 @@ variable {G} (E)
 theorem norm_constOfIsEmpty [IsEmpty ι] (x : G) : ‖constOfIsEmpty 𝕜 E x‖ = ‖x‖ := by
   apply le_antisymm
   · refine' op_norm_le_bound _ (norm_nonneg _) fun x => _
-    rw [Fintype.prod_empty, mul_one, constOfIsEmpty_apply]
+    rw [Fintype.prod_empty]; rw [mul_one]; rw [constOfIsEmpty_apply]
   · simpa using (constOfIsEmpty 𝕜 E x).le_op_norm 0
 #align continuous_multilinear_map.norm_const_of_is_empty ContinuousMultilinearMap.norm_constOfIsEmpty
 
@@ -920,11 +920,11 @@ theorem mkPiField_eq_iff {z₁ z₂ : G} :
 #align continuous_multilinear_map.mk_pi_field_eq_iff ContinuousMultilinearMap.mkPiField_eq_iff
 
 theorem mkPiField_zero : ContinuousMultilinearMap.mkPiField 𝕜 ι (0 : G) = 0 := by
-  ext; rw [mkPiField_apply, smul_zero, ContinuousMultilinearMap.zero_apply]
+  ext; rw [mkPiField_apply]; rw [smul_zero]; rw [ContinuousMultilinearMap.zero_apply]
 #align continuous_multilinear_map.mk_pi_field_zero ContinuousMultilinearMap.mkPiField_zero
 
 theorem mkPiField_eq_zero_iff (z : G) : ContinuousMultilinearMap.mkPiField 𝕜 ι z = 0 ↔ z = 0 := by
-  rw [← mkPiField_zero, mkPiField_eq_iff]
+  rw [← mkPiField_zero]; rw [mkPiField_eq_iff]
 #align continuous_multilinear_map.mk_pi_field_eq_zero_iff ContinuousMultilinearMap.mkPiField_eq_zero_iff
 
 variable (𝕜 ι G)
@@ -1082,9 +1082,9 @@ def mkContinuousLinear (f : G →ₗ[𝕜] MultilinearMap 𝕜 E G') (C : ℝ)
         simp only [SMulHomClass.map_smul]
         rfl }
     (max C 0) fun x => by
-      rw [LinearMap.coe_mk, AddHom.coe_mk] -- Porting note: added
+      rw [LinearMap.coe_mk]; rw [AddHom.coe_mk] -- Porting note: added
       exact ((f x).mkContinuous_norm_le' _).trans_eq <| by
-        rw [max_mul_of_nonneg _ _ (norm_nonneg x), zero_mul]
+        rw [max_mul_of_nonneg _ _ (norm_nonneg x)]; rw [zero_mul]
 #align multilinear_map.mk_continuous_linear MultilinearMap.mkContinuousLinear
 
 theorem mkContinuousLinear_norm_le' (f : G →ₗ[𝕜] MultilinearMap 𝕜 E G') (C : ℝ)
@@ -1115,7 +1115,7 @@ def mkContinuousMultilinear (f : MultilinearMap 𝕜 E (MultilinearMap 𝕜 E' G
     (max C 0) fun m => by
       simp only [coe_mk]
       refine ((f m).mkContinuous_norm_le' _).trans_eq ?_
-      rw [max_mul_of_nonneg, zero_mul]
+      rw [max_mul_of_nonneg]; rw [zero_mul]
       exact prod_nonneg fun _ _ => norm_nonneg _
 #align multilinear_map.mk_continuous_multilinear MultilinearMap.mkContinuousMultilinear
 
@@ -1362,7 +1362,7 @@ def ContinuousMultilinearMap.curryLeft (f : ContinuousMultilinearMap 𝕜 Ei G) 
         exact
           f.cons_smul m c x }-- then register its continuity thanks to its boundedness properties.
     ‖f‖ fun x => by
-      rw [LinearMap.coe_mk, AddHom.coe_mk]
+      rw [LinearMap.coe_mk]; rw [AddHom.coe_mk]
       exact MultilinearMap.mkContinuous_norm_le _ (mul_nonneg (norm_nonneg _) (norm_nonneg _)) _
 #align continuous_multilinear_map.curry_left ContinuousMultilinearMap.curryLeft
 

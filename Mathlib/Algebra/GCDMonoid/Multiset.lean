@@ -96,25 +96,25 @@ theorem lcm_dedup (s : Multiset α) : (dedup s).lcm = s.lcm :=
   Multiset.induction_on s (by simp) <| fun a s IH ↦ by
     by_cases h : a ∈ s <;> simp [IH, h]
     unfold lcm
-    rw [← cons_erase h, fold_cons_left, ← lcm_assoc, lcm_same]
+    rw [← cons_erase h]; rw [fold_cons_left]; rw [← lcm_assoc]; rw [lcm_same]
     apply lcm_eq_of_associated_left (associated_normalize _)
 #align multiset.lcm_dedup Multiset.lcm_dedup
 
 @[simp]
 theorem lcm_ndunion (s₁ s₂ : Multiset α) : (ndunion s₁ s₂).lcm = GCDMonoid.lcm s₁.lcm s₂.lcm := by
-  rw [← lcm_dedup, dedup_ext.2, lcm_dedup, lcm_add]
+  rw [← lcm_dedup]; rw [dedup_ext.2]; rw [lcm_dedup]; rw [lcm_add]
   simp
 #align multiset.lcm_ndunion Multiset.lcm_ndunion
 
 @[simp]
 theorem lcm_union (s₁ s₂ : Multiset α) : (s₁ ∪ s₂).lcm = GCDMonoid.lcm s₁.lcm s₂.lcm := by
-  rw [← lcm_dedup, dedup_ext.2, lcm_dedup, lcm_add]
+  rw [← lcm_dedup]; rw [dedup_ext.2]; rw [lcm_dedup]; rw [lcm_add]
   simp
 #align multiset.lcm_union Multiset.lcm_union
 
 @[simp]
 theorem lcm_ndinsert (a : α) (s : Multiset α) : (ndinsert a s).lcm = GCDMonoid.lcm a s.lcm := by
-  rw [← lcm_dedup, dedup_ext.2, lcm_dedup, lcm_cons]
+  rw [← lcm_dedup]; rw [dedup_ext.2]; rw [lcm_dedup]; rw [lcm_cons]
   simp
 #align multiset.lcm_ndinsert Multiset.lcm_ndinsert
 
@@ -199,25 +199,25 @@ theorem gcd_dedup (s : Multiset α) : (dedup s).gcd = s.gcd :=
   Multiset.induction_on s (by simp) <| fun a s IH ↦ by
     by_cases h : a ∈ s <;> simp [IH, h]
     unfold gcd
-    rw [← cons_erase h, fold_cons_left, ← gcd_assoc, gcd_same]
+    rw [← cons_erase h]; rw [fold_cons_left]; rw [← gcd_assoc]; rw [gcd_same]
     apply (associated_normalize _).gcd_eq_left
 #align multiset.gcd_dedup Multiset.gcd_dedup
 
 @[simp]
 theorem gcd_ndunion (s₁ s₂ : Multiset α) : (ndunion s₁ s₂).gcd = GCDMonoid.gcd s₁.gcd s₂.gcd := by
-  rw [← gcd_dedup, dedup_ext.2, gcd_dedup, gcd_add]
+  rw [← gcd_dedup]; rw [dedup_ext.2]; rw [gcd_dedup]; rw [gcd_add]
   simp
 #align multiset.gcd_ndunion Multiset.gcd_ndunion
 
 @[simp]
 theorem gcd_union (s₁ s₂ : Multiset α) : (s₁ ∪ s₂).gcd = GCDMonoid.gcd s₁.gcd s₂.gcd := by
-  rw [← gcd_dedup, dedup_ext.2, gcd_dedup, gcd_add]
+  rw [← gcd_dedup]; rw [dedup_ext.2]; rw [gcd_dedup]; rw [gcd_add]
   simp
 #align multiset.gcd_union Multiset.gcd_union
 
 @[simp]
 theorem gcd_ndinsert (a : α) (s : Multiset α) : (ndinsert a s).gcd = GCDMonoid.gcd a s.gcd := by
-  rw [← gcd_dedup, dedup_ext.2, gcd_dedup, gcd_cons]
+  rw [← gcd_dedup]; rw [dedup_ext.2]; rw [gcd_dedup]; rw [gcd_cons]
   simp
 #align multiset.gcd_ndinsert Multiset.gcd_ndinsert
 
@@ -243,8 +243,7 @@ theorem extract_gcd (s : Multiset α) (hs : s ≠ 0) :
     by_cases h : ∀ x ∈ s, x = (0 : α)
     · use replicate (card s) 1
       simp only
-      rw [map_replicate, eq_replicate, mul_one, s.gcd_eq_zero_iff.2 h, ← nsmul_singleton,
-    ← gcd_dedup, dedup_nsmul (card_pos.2 hs).ne', dedup_singleton, gcd_singleton]
+      rw [map_replicate]; rw [eq_replicate]; rw [mul_one]; rw [s.gcd_eq_zero_iff.2 h]; rw [← nsmul_singleton]; rw [← gcd_dedup]; rw [dedup_nsmul (card_pos.2 hs).ne']; rw [dedup_singleton]; rw [gcd_singleton]
       exact ⟨⟨rfl, h⟩, normalize_one⟩
     · choose f hf using @gcd_dvd _ _ _ s
       push_neg at h

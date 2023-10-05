@@ -61,7 +61,7 @@ theorem fract_mem (x : ℝ) : fract x ∈ I :=
 #align unit_interval.fract_mem unitInterval.fract_mem
 
 theorem mem_iff_one_sub_mem {t : ℝ} : t ∈ I ↔ 1 - t ∈ I := by
-  rw [mem_Icc, mem_Icc]
+  rw [mem_Icc]; rw [mem_Icc]
   constructor <;> intro <;> constructor <;> linarith
 #align unit_interval.mem_iff_one_sub_mem unitInterval.mem_iff_one_sub_mem
 

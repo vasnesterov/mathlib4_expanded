@@ -484,11 +484,11 @@ theorem comap_mk_nhdsSet_image : comap mk (𝓝ˢ (mk '' s)) = 𝓝ˢ s :=
 #align separation_quotient.comap_mk_nhds_set_image SeparationQuotient.comap_mk_nhdsSet_image
 
 theorem map_mk_nhds : map mk (𝓝 x) = 𝓝 (mk x) := by
-  rw [← comap_mk_nhds_mk, map_comap_of_surjective surjective_mk]
+  rw [← comap_mk_nhds_mk]; rw [map_comap_of_surjective surjective_mk]
 #align separation_quotient.map_mk_nhds SeparationQuotient.map_mk_nhds
 
 theorem map_mk_nhdsSet : map mk (𝓝ˢ s) = 𝓝ˢ (mk '' s) := by
-  rw [← comap_mk_nhdsSet_image, map_comap_of_surjective surjective_mk]
+  rw [← comap_mk_nhdsSet_image]; rw [map_comap_of_surjective surjective_mk]
 #align separation_quotient.map_mk_nhds_set SeparationQuotient.map_mk_nhdsSet
 
 theorem comap_mk_nhdsSet : comap mk (𝓝ˢ t) = 𝓝ˢ (mk ⁻¹' t) := by
@@ -518,7 +518,7 @@ theorem map_prod_map_mk_nhds (x : X) (y : Y) : map (Prod.map mk mk) (𝓝 (x, y)
 
 theorem map_mk_nhdsWithin_preimage (s : Set (SeparationQuotient X)) (x : X) :
     map mk (𝓝[mk ⁻¹' s] x) = 𝓝[s] mk x := by
-  rw [nhdsWithin, ← comap_principal, Filter.push_pull, nhdsWithin, map_mk_nhds]
+  rw [nhdsWithin]; rw [← comap_principal]; rw [Filter.push_pull]; rw [nhdsWithin]; rw [map_mk_nhds]
 #align separation_quotient.map_mk_nhds_within_preimage SeparationQuotient.map_mk_nhdsWithin_preimage
 
 /-- Lift a map `f : X → α` such that `Inseparable x y → f x = f y` to a map
@@ -591,7 +591,7 @@ theorem lift₂_mk {f : X → Y → α} (hf : ∀ a b c d, (a ~ᵢ c) → (b ~�
 theorem tendsto_lift₂_nhds {f : X → Y → α} {hf : ∀ a b c d, (a ~ᵢ c) → (b ~ᵢ d) → f a b = f c d}
     {x : X} {y : Y} {l : Filter α} :
     Tendsto (uncurry <| lift₂ f hf) (𝓝 (mk x, mk y)) l ↔ Tendsto (uncurry f) (𝓝 (x, y)) l := by
-  rw [← map_prod_map_mk_nhds, tendsto_map'_iff]
+  rw [← map_prod_map_mk_nhds]; rw [tendsto_map'_iff]
   rfl
 #align separation_quotient.tendsto_lift₂_nhds SeparationQuotient.tendsto_lift₂_nhds
 
@@ -600,7 +600,7 @@ theorem tendsto_lift₂_nhds {f : X → Y → α} {hf : ∀ a b c d, (a ~ᵢ c) 
     {s : Set (SeparationQuotient X × SeparationQuotient Y)} {l : Filter α} :
     Tendsto (uncurry <| lift₂ f hf) (𝓝[s] (mk x, mk y)) l ↔
       Tendsto (uncurry f) (𝓝[Prod.map mk mk ⁻¹' s] (x, y)) l := by
-  rw [nhdsWithin, ← map_prod_map_mk_nhds, ← Filter.push_pull, comap_principal]
+  rw [nhdsWithin]; rw [← map_prod_map_mk_nhds]; rw [← Filter.push_pull]; rw [comap_principal]
   rfl
 #align separation_quotient.tendsto_lift₂_nhds_within SeparationQuotient.tendsto_lift₂_nhdsWithin
 

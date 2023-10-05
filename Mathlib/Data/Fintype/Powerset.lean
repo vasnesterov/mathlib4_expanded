@@ -37,7 +37,7 @@ lemma filter_subset_univ [DecidableEq α] (s : Finset α) :
     filter (fun t ↦ t ⊆ s) univ = powerset s := by ext; simp
 
 @[simp] lemma powerset_eq_univ : s.powerset = univ ↔ s = univ := by
-  rw [← Finset.powerset_univ, powerset_inj]
+  rw [← Finset.powerset_univ]; rw [powerset_inj]
 #align finset.powerset_eq_univ Finset.powerset_eq_univ
 
 @[simp] lemma mem_powersetLen_univ : s ∈ powersetLen k (univ : Finset α) ↔ card s = k :=

@@ -83,9 +83,7 @@ def coneOfPreservesIsLimit [PreservesLimit (F ⋙ snd L R) R] {c₁ : Cone (F �
       right := t₂.lift ((snd L R).mapCone s)
       w :=
         (isLimitOfPreserves R t₂).hom_ext fun j => by
-          rw [coneOfPreserves_pt_hom, assoc, assoc, (isLimitOfPreserves R t₂).fac,
-            limitAuxiliaryCone_π_app, ← L.map_comp_assoc, t₁.fac, R.mapCone_π_app,
-            ← R.map_comp, t₂.fac]
+          rw [coneOfPreserves_pt_hom]; rw [assoc]; rw [assoc]; rw [(isLimitOfPreserves R t₂).fac]; rw [limitAuxiliaryCone_π_app]; rw [← L.map_comp_assoc]; rw [t₁.fac]; rw [R.mapCone_π_app]; rw [← R.map_comp]; rw [t₂.fac]
           exact (s.π.app j).w }
   uniq s m w := by
     apply CommaMorphism.ext
@@ -134,9 +132,8 @@ def coconeOfPreservesIsColimit [PreservesColimit (F ⋙ fst L R) L] {c₁ : Coco
       right := t₂.desc ((snd L R).mapCocone s)
       w :=
         (isColimitOfPreserves L t₁).hom_ext fun j => by
-          rw [coconeOfPreserves_pt_hom, (isColimitOfPreserves L t₁).fac_assoc,
-            colimitAuxiliaryCocone_ι_app, assoc, ← R.map_comp, t₂.fac, L.mapCocone_ι_app, ←
-            L.map_comp_assoc, t₁.fac]
+          rw [coconeOfPreserves_pt_hom]; rw [(isColimitOfPreserves L t₁).fac_assoc]; rw [colimitAuxiliaryCocone_ι_app]; rw [assoc]; rw [← R.map_comp]; rw [t₂.fac]; rw [L.mapCocone_ι_app]; rw [←
+            L.map_comp_assoc]; rw [t₁.fac]
           exact (s.ι.app j).w }
   uniq s m w := by
     apply CommaMorphism.ext

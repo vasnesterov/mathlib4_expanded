@@ -520,7 +520,7 @@ theorem bind_some (a : α) (f : α → Part β) : (some a).bind f = f a :=
 #align part.bind_some Part.bind_some
 
 theorem bind_of_mem {o : Part α} {a : α} (h : a ∈ o) (f : α → Part β) : o.bind f = f a := by
-  rw [eq_some_iff.2 h, bind_some]
+  rw [eq_some_iff.2 h]; rw [bind_some]
 #align part.bind_of_mem Part.bind_of_mem
 
 theorem bind_some_eq_map (f : α → β) (x : Part α) : x.bind (some ∘ f) = map f x :=
@@ -553,7 +553,7 @@ theorem bind_map {γ} (f : α → β) (x) (g : β → Part γ) :
 @[simp]
 theorem map_bind {γ} (f : α → Part β) (x : Part α) (g : β → γ) :
     map g (x.bind f) = x.bind fun y => map g (f y) := by
-  rw [← bind_some_eq_map, bind_assoc]; simp [bind_some_eq_map]
+  rw [← bind_some_eq_map]; rw [bind_assoc]; simp [bind_some_eq_map]
 #align part.map_bind Part.map_bind
 
 theorem map_map (g : β → γ) (f : α → β) (o : Part α) : map g (map f o) = map (g ∘ f) o := by

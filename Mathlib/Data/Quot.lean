@@ -397,7 +397,7 @@ theorem Quotient.eq_mk_iff_out [s : Setoid α] {x : Quotient s} {y : α} :
 
 @[simp]
 theorem Quotient.out_equiv_out {s : Setoid α} {x y : Quotient s} : x.out ≈ y.out ↔ x = y := by
-  rw [← Quotient.eq_mk_iff_out, Quotient.out_eq]
+  rw [← Quotient.eq_mk_iff_out]; rw [Quotient.out_eq]
 #align quotient.out_equiv_out Quotient.out_equiv_out
 
 theorem Quotient.out_injective {s : Setoid α} : Function.Injective (@Quotient.out α s) :=

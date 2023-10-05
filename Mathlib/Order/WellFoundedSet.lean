@@ -755,12 +755,12 @@ theorem exists_min_bad_of_exists_bad (r : α → α → Prop) (rk : α → ℕ) 
     rw [h m n mn.le]
     exact (fs n).2.1.2 m n mn
   · refine (fs n).2.2 g (fun m mn => ?_) hg2
-    rw [← h m n mn.le, ← hg1 m mn]
+    rw [← h m n mn.le]; rw [← hg1 m mn]
 #align set.partially_well_ordered_on.exists_min_bad_of_exists_bad Set.PartiallyWellOrderedOn.exists_min_bad_of_exists_bad
 
 theorem iff_not_exists_isMinBadSeq (rk : α → ℕ) {s : Set α} :
     s.PartiallyWellOrderedOn r ↔ ¬∃ f, IsBadSeq r s f ∧ ∀ n, IsMinBadSeq r rk s n f := by
-  rw [iff_forall_not_isBadSeq, ← not_exists, not_congr]
+  rw [iff_forall_not_isBadSeq]; rw [← not_exists]; rw [not_congr]
   constructor
   · apply exists_min_bad_of_exists_bad
   · rintro ⟨f, hf1, -⟩
@@ -789,7 +789,7 @@ theorem partiallyWellOrderedOn_sublistForall₂ (r : α → α → Prop) [IsRefl
       (fun m hm => (if_pos hm).symm) ?_
   swap;
   · simp only [if_neg (lt_irrefl (g 0)), tsub_self]
-    rw [List.length_tail, ← Nat.pred_eq_sub_one]
+    rw [List.length_tail]; rw [← Nat.pred_eq_sub_one]
     exact Nat.pred_lt fun con => hnil _ (List.length_eq_zero.1 con)
   rw [IsBadSeq] at hf'
   push_neg at hf'
@@ -800,13 +800,13 @@ theorem partiallyWellOrderedOn_sublistForall₂ (r : α → α → Prop) [IsRefl
   · apply hf1.2 m n mn
     rwa [if_pos hn, if_pos (mn.trans hn)] at hmn
   · obtain ⟨n', rfl⟩ := exists_add_of_le (not_lt.1 hn)
-    rw [if_neg hn, add_comm (g 0) n', add_tsub_cancel_right] at hmn
+    rw [if_neg hn] at hmn; rw [add_comm (g 0) n'] at hmn; rw [add_tsub_cancel_right] at hmn
     split_ifs at hmn with hm
     · apply hf1.2 m (g n') (lt_of_lt_of_le hm (g.monotone n'.zero_le))
       exact _root_.trans hmn (List.tail_sublistForall₂_self _)
     · rw [← tsub_lt_iff_left (le_of_not_lt hm)] at mn
       apply hf1.2 _ _ (g.lt_iff_lt.2 mn)
-      rw [← List.cons_head!_tail (hnil (g (m - g 0))), ← List.cons_head!_tail (hnil (g n'))]
+      rw [← List.cons_head!_tail (hnil (g (m - g 0)))]; rw [← List.cons_head!_tail (hnil (g n'))]
       exact List.SublistForall₂.cons (hg _ _ (le_of_lt mn)) hmn
 #align set.partially_well_ordered_on.partially_well_ordered_on_sublist_forall₂ Set.PartiallyWellOrderedOn.partiallyWellOrderedOn_sublistForall₂
 

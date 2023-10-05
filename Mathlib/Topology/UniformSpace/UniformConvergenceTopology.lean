@@ -342,8 +342,7 @@ variable {α}
 theorem uniformContinuous_eval (x : α) :
     UniformContinuous (Function.eval x ∘ toFun : (α →ᵤ β) → β) := by
   change _ ≤ _
-  rw [map_le_iff_le_comap,
-    (UniformFun.hasBasis_uniformity α β).le_basis_iff ((𝓤 _).basis_sets.comap _)]
+  rw [map_le_iff_le_comap]; rw [(UniformFun.hasBasis_uniformity α β).le_basis_iff ((𝓤 _).basis_sets.comap _)]
   exact fun U hU => ⟨U, hU, fun uv huv => huv x⟩
 #align uniform_fun.uniform_continuous_eval UniformFun.uniformContinuous_eval
 
@@ -362,7 +361,7 @@ protected theorem iInf_eq {u : ι → UniformSpace γ} : 𝒰(α, γ, (⨅ i, u 
   -- infimas to infimas.
   ext : 1
   change UniformFun.filter α γ 𝓤[⨅ i, u i] = 𝓤[⨅ i, 𝒰(α, γ, u i)]
-  rw [iInf_uniformity, iInf_uniformity]
+  rw [iInf_uniformity]; rw [iInf_uniformity]
   exact (UniformFun.gc α γ).u_iInf
 #align uniform_fun.infi_eq UniformFun.iInf_eq
 
@@ -372,7 +371,7 @@ protected theorem inf_eq {u₁ u₂ : UniformSpace γ} :
     𝒰(α, γ, u₁ ⊓ u₂) = 𝒰(α, γ, u₁) ⊓ 𝒰(α, γ, u₂) := by
   -- This follows directly from the fact that the upper adjoint in a Galois connection maps
   -- infimas to infimas.
-  rw [inf_eq_iInf, inf_eq_iInf, UniformFun.iInf_eq]
+  rw [inf_eq_iInf]; rw [inf_eq_iInf]; rw [UniformFun.iInf_eq]
   refine' iInf_congr fun i => _
   cases i <;> rfl
 #align uniform_fun.inf_eq UniformFun.inf_eq
@@ -398,7 +397,7 @@ protected theorem comap_eq {f : γ → β} :
   have : Prod.map f f ∘ (UniformFun.phi α γ)
       = (UniformFun.phi α β) ∘ Prod.map (Prod.map fcomp fcomp) (id : α → α) := by
     ext <;> rfl
-  rw [map_comm this, ← prod_map_map_eq']
+  rw [map_comm this]; rw [← prod_map_map_eq']
   rfl
 #align uniform_fun.comap_eq UniformFun.comap_eq
 
@@ -432,7 +431,7 @@ protected theorem postcomp_uniformInducing [UniformSpace γ] {f : γ → β} (hf
   change comap (Prod.map (ofFun ∘ (f ∘ ·) ∘ toFun) (ofFun ∘ (f ∘ ·) ∘ toFun)) _ = _
   rw [← uniformity_comap] at hf ⊢
   congr
-  rw [← UniformSpace.ext hf, UniformFun.comap_eq]
+  rw [← UniformSpace.ext hf]; rw [UniformFun.comap_eq]
   rfl
 #align uniform_fun.postcomp_uniform_inducing UniformFun.postcomp_uniformInducing
 
@@ -493,7 +492,7 @@ protected theorem uniformContinuous_toFun : UniformContinuous (toFun : (α →�
 `TendstoUniformly`. -/
 protected theorem tendsto_iff_tendstoUniformly {F : ι → α →ᵤ β} {f : α →ᵤ β} :
     Tendsto F p (𝓝 f) ↔ TendstoUniformly F f p := by
-  rw [(UniformFun.hasBasis_nhds α β f).tendsto_right_iff, TendstoUniformly]
+  rw [(UniformFun.hasBasis_nhds α β f).tendsto_right_iff]; rw [TendstoUniformly]
   exact Iff.rfl
 #align uniform_fun.tendsto_iff_tendsto_uniformly UniformFun.tendsto_iff_tendstoUniformly
 
@@ -514,7 +513,7 @@ protected def uniformEquivProdArrow [UniformSpace γ] : (α →ᵤ β × γ) ≃
     rw [← uniformity_comap]
     congr
     unfold instUniformSpaceProd
-    rw [UniformSpace.comap_inf, ← UniformSpace.comap_comap, ← UniformSpace.comap_comap]
+    rw [UniformSpace.comap_inf]; rw [← UniformSpace.comap_comap]; rw [← UniformSpace.comap_comap]
     have := (@UniformFun.inf_eq α (β × γ)
       (UniformSpace.comap Prod.fst ‹_›) (UniformSpace.comap Prod.snd ‹_›)).symm
     rwa [UniformFun.comap_eq, UniformFun.comap_eq] at this
@@ -539,10 +538,9 @@ protected def uniformEquivPiComm : UniformEquiv (α →ᵤ ∀ i, δ i) (∀ i, 
       rw [← uniformity_comap]
       congr
       unfold Pi.uniformSpace
-      rw [UniformSpace.ofCoreEq_toCore, UniformSpace.ofCoreEq_toCore,
-        UniformSpace.comap_iInf, UniformFun.iInf_eq]
+      rw [UniformSpace.ofCoreEq_toCore]; rw [UniformSpace.ofCoreEq_toCore]; rw [UniformSpace.comap_iInf]; rw [UniformFun.iInf_eq]
       refine' iInf_congr fun i => _
-      rw [← UniformSpace.comap_comap, UniformFun.comap_eq]
+      rw [← UniformSpace.comap_comap]; rw [UniformFun.comap_eq]
       rfl
 #align uniform_fun.uniform_equiv_Pi_comm UniformFun.uniformEquivPiComm
 
@@ -733,7 +731,7 @@ protected theorem iInf_eq {u : ι → UniformSpace γ} :
 `𝒱(α, γ, 𝔖, u₁ ⊓ u₂) = 𝒱(α, γ, 𝔖, u₁) ⊓ 𝒱(α, γ, 𝔖, u₂)`. -/
 protected theorem inf_eq {u₁ u₂ : UniformSpace γ} :
     𝒱(α, γ, 𝔖, u₁ ⊓ u₂) = 𝒱(α, γ, 𝔖, u₁) ⊓ 𝒱(α, γ, 𝔖, u₂) := by
-  rw [inf_eq_iInf, inf_eq_iInf, UniformOnFun.iInf_eq]
+  rw [inf_eq_iInf]; rw [inf_eq_iInf]; rw [UniformOnFun.iInf_eq]
   refine' iInf_congr fun i => _
   cases i <;> rfl
 #align uniform_on_fun.inf_eq UniformOnFun.inf_eq
@@ -775,7 +773,7 @@ protected theorem postcomp_uniformInducing [UniformSpace γ] {f : γ → β} (hf
   change comap (Prod.map (ofFun 𝔖 ∘ (· ∘ ·) f ∘ toFun 𝔖) (ofFun 𝔖 ∘ (· ∘ ·) f ∘ toFun 𝔖)) _ = _
   rw [← uniformity_comap] at hf ⊢
   congr
-  rw [← UniformSpace.ext hf, UniformOnFun.comap_eq]
+  rw [← UniformSpace.ext hf]; rw [UniformOnFun.comap_eq]
   rfl
 #align uniform_on_fun.postcomp_uniform_inducing UniformOnFun.postcomp_uniformInducing
 
@@ -814,7 +812,7 @@ protected theorem precomp_uniformContinuous {𝔗 : Set (Set γ)} {f : γ → α
     rfl
   -- Thus, we have to show `comap (f '' t).restrict 𝒰(↥(f '' t), β, uβ) ≤`
   -- `comap (f '' t).restrict (comap (— ∘ f') 𝒰(↥t, β, uβ))`.
-  rw [this, @UniformSpace.comap_comap (α →ᵤ[𝔖] β) (f '' t →ᵤ β)]
+  rw [this]; rw [@UniformSpace.comap_comap (α →ᵤ[𝔖] β) (f '' t →ᵤ β)]
   -- But this is exactly monotonicity of `comap` applied to
   -- `UniformFun.precomp_continuous`.
   refine' UniformSpace.comap_mono _
@@ -866,12 +864,11 @@ protected theorem uniformContinuous_toFun (h : ⋃₀ 𝔖 = univ) :
 of `TendstoUniformlyOn`) for all `S ∈ 𝔖`. -/
 protected theorem tendsto_iff_tendstoUniformlyOn {F : ι → α →ᵤ[𝔖] β} {f : α →ᵤ[𝔖] β} :
     Tendsto F p (𝓝 f) ↔ ∀ s ∈ 𝔖, TendstoUniformlyOn F f p s := by
-  rw [UniformOnFun.topologicalSpace_eq, nhds_iInf, tendsto_iInf]
+  rw [UniformOnFun.topologicalSpace_eq]; rw [nhds_iInf]; rw [tendsto_iInf]
   refine' forall_congr' fun s => _
-  rw [nhds_iInf, tendsto_iInf]
+  rw [nhds_iInf]; rw [tendsto_iInf]
   refine' forall_congr' fun hs => _
-  rw [nhds_induced (T := _), tendsto_comap_iff, tendstoUniformlyOn_iff_tendstoUniformly_comp_coe,
-    UniformFun.tendsto_iff_tendstoUniformly]
+  rw [nhds_induced (T := _)]; rw [tendsto_comap_iff]; rw [tendstoUniformlyOn_iff_tendstoUniformly_comp_coe]; rw [UniformFun.tendsto_iff_tendstoUniformly]
   rfl
 #align uniform_on_fun.tendsto_iff_tendsto_uniformly_on UniformOnFun.tendsto_iff_tendstoUniformlyOn
 
@@ -890,14 +887,14 @@ protected def uniformEquivProdArrow [UniformSpace γ] :
     (Equiv.arrowProdEquivProdArrow _ _ _).trans <|
       (UniformOnFun.ofFun 𝔖).prodCongr (UniformOnFun.ofFun 𝔖)).toUniformEquivOfUniformInducing $ by
       constructor
-      rw [uniformity_prod, comap_inf, comap_comap, comap_comap]
+      rw [uniformity_prod]; rw [comap_inf]; rw [comap_comap]; rw [comap_comap]
       have H := @UniformOnFun.inf_eq α (β × γ) 𝔖
         (UniformSpace.comap Prod.fst ‹_›) (UniformSpace.comap Prod.snd ‹_›)
       apply_fun (fun u ↦ @uniformity (α →ᵤ[𝔖] β × γ) u) at H
       convert H.symm using 1
-      rw [UniformOnFun.comap_eq, UniformOnFun.comap_eq]
+      rw [UniformOnFun.comap_eq]; rw [UniformOnFun.comap_eq]
       erw [inf_uniformity]
-      rw [uniformity_comap, uniformity_comap]
+      rw [uniformity_comap]; rw [uniformity_comap]
       rfl
 #align uniform_on_fun.uniform_equiv_prod_arrow UniformOnFun.uniformEquivProdArrow
 
@@ -920,10 +917,9 @@ protected def uniformEquivPiComm : (α →ᵤ[𝔖] ((i:ι) → δ i)) ≃ᵤ ((
     change comap (Prod.map Function.swap Function.swap) _ = _
     erw [← uniformity_comap]
     congr
-    rw [Pi.uniformSpace, UniformSpace.ofCoreEq_toCore, Pi.uniformSpace,
-      UniformSpace.ofCoreEq_toCore, UniformSpace.comap_iInf, UniformOnFun.iInf_eq]
+    rw [Pi.uniformSpace]; rw [UniformSpace.ofCoreEq_toCore]; rw [Pi.uniformSpace]; rw [UniformSpace.ofCoreEq_toCore]; rw [UniformSpace.comap_iInf]; rw [UniformOnFun.iInf_eq]
     refine' iInf_congr fun i => _
-    rw [← UniformSpace.comap_comap, UniformOnFun.comap_eq]
+    rw [← UniformSpace.comap_comap]; rw [UniformOnFun.comap_eq]
     rfl
 #align uniform_on_fun.uniform_equiv_Pi_comm UniformOnFun.uniformEquivPiComm
 

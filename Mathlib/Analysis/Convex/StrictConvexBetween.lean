@@ -24,8 +24,7 @@ variable [NormedAddTorsor V P] [StrictConvexSpace ℝ V]
 theorem Sbtw.dist_lt_max_dist (p : P) {p₁ p₂ p₃ : P} (h : Sbtw ℝ p₁ p₂ p₃) :
     dist p₂ p < max (dist p₁ p) (dist p₃ p) := by
   have hp₁p₃ : p₁ -ᵥ p ≠ p₃ -ᵥ p := by simpa using h.left_ne_right
-  rw [Sbtw, ← wbtw_vsub_const_iff p, Wbtw, affineSegment_eq_segment, ← insert_endpoints_openSegment,
-    Set.mem_insert_iff, Set.mem_insert_iff] at h
+  rw [Sbtw] at h; rw [← wbtw_vsub_const_iff p] at h; rw [Wbtw] at h; rw [affineSegment_eq_segment] at h; rw [← insert_endpoints_openSegment] at h; rw [Set.mem_insert_iff] at h; rw [Set.mem_insert_iff] at h
   rcases h with ⟨h | h | h, hp₂p₁, hp₂p₃⟩
   · rw [vsub_left_cancel_iff] at h
     exact False.elim (hp₂p₁ h)
@@ -57,13 +56,13 @@ theorem Collinear.wbtw_of_dist_eq_of_dist_le {p p₁ p₂ p₃ : P} {r : ℝ}
     · simp [hp₃p₂]
     have hs : Sbtw ℝ p₂ p₃ p₁ := ⟨hw, hp₃p₂, hp₁p₃.symm⟩
     have hs' := hs.dist_lt_max_dist p
-    rw [hp₁, hp₃, lt_max_iff, lt_self_iff_false, or_false_iff] at hs'
+    rw [hp₁] at hs'; rw [hp₃] at hs'; rw [lt_max_iff] at hs'; rw [lt_self_iff_false] at hs'; rw [or_false_iff] at hs'
     exact False.elim (hp₂.not_lt hs')
   · by_cases hp₁p₂ : p₁ = p₂
     · simp [hp₁p₂]
     have hs : Sbtw ℝ p₃ p₁ p₂ := ⟨hw, hp₁p₃, hp₁p₂⟩
     have hs' := hs.dist_lt_max_dist p
-    rw [hp₁, hp₃, lt_max_iff, lt_self_iff_false, false_or_iff] at hs'
+    rw [hp₁] at hs'; rw [hp₃] at hs'; rw [lt_max_iff] at hs'; rw [lt_self_iff_false] at hs'; rw [false_or_iff] at hs'
     exact False.elim (hp₂.not_lt hs')
 #align collinear.wbtw_of_dist_eq_of_dist_le Collinear.wbtw_of_dist_eq_of_dist_le
 

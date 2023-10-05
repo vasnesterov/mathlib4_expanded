@@ -201,7 +201,7 @@ theorem sSup_inf_eq : sSup s ⊓ b = ⨆ a ∈ s, a ⊓ b := by
 #align Sup_inf_eq sSup_inf_eq
 
 theorem iSup_inf_eq (f : ι → α) (a : α) : (⨆ i, f i) ⊓ a = ⨆ i, f i ⊓ a := by
-  rw [iSup, sSup_inf_eq, iSup_range]
+  rw [iSup]; rw [sSup_inf_eq]; rw [iSup_range]
 #align supr_inf_eq iSup_inf_eq
 
 theorem inf_iSup_eq (a : α) (f : ι → α) : (a ⊓ ⨆ i, f i) = ⨆ i, a ⊓ f i := by
@@ -285,7 +285,7 @@ instance Pi.frame {ι : Type*} {π : ι → Type*} [∀ i, Frame (π i)] : Frame
 -- see Note [lower instance priority]
 instance (priority := 100) Frame.toDistribLattice : DistribLattice α :=
   DistribLattice.ofInfSupLe fun a b c => by
-    rw [← sSup_pair, ← sSup_pair, inf_sSup_eq, ← sSup_image, image_pair]
+    rw [← sSup_pair]; rw [← sSup_pair]; rw [inf_sSup_eq]; rw [← sSup_image]; rw [image_pair]
 #align frame.to_distrib_lattice Frame.toDistribLattice
 
 end Frame
@@ -361,7 +361,7 @@ instance Pi.coframe {ι : Type*} {π : ι → Type*} [∀ i, Coframe (π i)] : C
 instance (priority := 100) Coframe.toDistribLattice : DistribLattice α :=
   { ‹Coframe α› with
     le_sup_inf := fun a b c => by
-      rw [← sInf_pair, ← sInf_pair, sup_sInf_eq, ← sInf_image, image_pair] }
+      rw [← sInf_pair]; rw [← sInf_pair]; rw [sup_sInf_eq]; rw [← sInf_image]; rw [image_pair] }
 #align coframe.to_distrib_lattice Coframe.toDistribLattice
 
 end Coframe
@@ -515,7 +515,7 @@ protected def Function.Injective.frame [Sup α] [Inf α] [SupSet α] [InfSet α]
   { hf.completeLattice f map_sup map_inf map_sSup map_sInf map_top map_bot with
     inf_sSup_le_iSup_inf := fun a s => by
       change f (a ⊓ sSup s) ≤ f _
-      rw [← sSup_image, map_inf, map_sSup s, inf_iSup₂_eq]
+      rw [← sSup_image]; rw [map_inf]; rw [map_sSup s]; rw [inf_iSup₂_eq]
       simp_rw [← map_inf]
       exact ((map_sSup _).trans iSup_image).ge }
 #align function.injective.frame Function.Injective.frame
@@ -531,7 +531,7 @@ protected def Function.Injective.coframe [Sup α] [Inf α] [SupSet α] [InfSet �
   { hf.completeLattice f map_sup map_inf map_sSup map_sInf map_top map_bot with
     iInf_sup_le_sup_sInf := fun a s => by
       change f _ ≤ f (a ⊔ sInf s)
-      rw [← sInf_image, map_sup, map_sInf s, sup_iInf₂_eq]
+      rw [← sInf_image]; rw [map_sup]; rw [map_sInf s]; rw [sup_iInf₂_eq]
       simp_rw [← map_sup]
       exact ((map_sInf _).trans iInf_image).le }
 #align function.injective.coframe Function.Injective.coframe

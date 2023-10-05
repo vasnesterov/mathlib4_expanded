@@ -48,7 +48,7 @@ theorem IsLowerSet.memberSubfamily (h : IsLowerSet (𝒜 : Set (Finset α))) :
 
 theorem IsLowerSet.memberSubfamily_subset_nonMemberSubfamily (h : IsLowerSet (𝒜 : Set (Finset α))) :
     𝒜.memberSubfamily a ⊆ 𝒜.nonMemberSubfamily a := fun s => by
-  rw [mem_memberSubfamily, mem_nonMemberSubfamily]
+  rw [mem_memberSubfamily]; rw [mem_nonMemberSubfamily]
   exact And.imp_left (h <| subset_insert _ _)
 #align is_lower_set.member_subfamily_subset_non_member_subfamily IsLowerSet.memberSubfamily_subset_nonMemberSubfamily
 
@@ -63,9 +63,8 @@ theorem IsLowerSet.le_card_inter_finset' (h𝒜 : IsLowerSet (𝒜 : Set (Finset
     obtain rfl | rfl := hℬs
     · simp only [card_empty, inter_empty, mul_zero, zero_mul]
     · simp only [card_empty, pow_zero, inter_singleton_of_mem, mem_singleton, card_singleton]
-  rw [card_insert_of_not_mem hs, ← card_memberSubfamily_add_card_nonMemberSubfamily a 𝒜, ←
-    card_memberSubfamily_add_card_nonMemberSubfamily a ℬ, add_mul, mul_add, mul_add,
-    add_comm (_ * _), add_add_add_comm]
+  rw [card_insert_of_not_mem hs]; rw [← card_memberSubfamily_add_card_nonMemberSubfamily a 𝒜]; rw [←
+    card_memberSubfamily_add_card_nonMemberSubfamily a ℬ]; rw [add_mul]; rw [mul_add]; rw [mul_add]; rw [add_comm (_ * _)]; rw [add_add_add_comm]
   refine'
     (add_le_add_right
           (mul_add_mul_le_mul_add_mul
@@ -73,7 +72,7 @@ theorem IsLowerSet.le_card_inter_finset' (h𝒜 : IsLowerSet (𝒜 : Set (Finset
             card_le_of_subset hℬ.memberSubfamily_subset_nonMemberSubfamily)
           _).trans
       _
-  rw [← two_mul, pow_succ, mul_assoc]
+  rw [← two_mul]; rw [pow_succ]; rw [mul_assoc]
   have h₀ : ∀ 𝒞 : Finset (Finset α), (∀ t ∈ 𝒞, t ⊆ insert a s) →
       ∀ t ∈ 𝒞.nonMemberSubfamily a, t ⊆ s := by
     rintro 𝒞 h𝒞 t ht
@@ -87,8 +86,7 @@ theorem IsLowerSet.le_card_inter_finset' (h𝒜 : IsLowerSet (𝒜 : Set (Finset
   refine' mul_le_mul_left' _ _
   refine' (add_le_add (ih h𝒜.memberSubfamily hℬ.memberSubfamily (h₁ _ h𝒜s) <| h₁ _ hℬs) <|
     ih h𝒜.nonMemberSubfamily hℬ.nonMemberSubfamily (h₀ _ h𝒜s) <| h₀ _ hℬs).trans_eq _
-  rw [← mul_add, ← memberSubfamily_inter, ← nonMemberSubfamily_inter,
-    card_memberSubfamily_add_card_nonMemberSubfamily]
+  rw [← mul_add]; rw [← memberSubfamily_inter]; rw [← nonMemberSubfamily_inter]; rw [card_memberSubfamily_add_card_nonMemberSubfamily]
 #align is_lower_set.le_card_inter_finset' IsLowerSet.le_card_inter_finset'
 
 variable [Fintype α]
@@ -103,7 +101,7 @@ h𝒜.le_card_inter_finset' hℬ (fun _ _ => subset_univ _) fun _ _ => subset_un
 theorem IsUpperSet.card_inter_le_finset (h𝒜 : IsUpperSet (𝒜 : Set (Finset α)))
     (hℬ : IsLowerSet (ℬ : Set (Finset α))) :
     2 ^ Fintype.card α * (𝒜 ∩ ℬ).card ≤ 𝒜.card * ℬ.card := by
-  rw [← isLowerSet_compl, ← coe_compl] at h𝒜
+  rw [← isLowerSet_compl] at h𝒜; rw [← coe_compl] at h𝒜
   have := h𝒜.le_card_inter_finset hℬ
   rwa [card_compl, Fintype.card_finset, tsub_mul, tsub_le_iff_tsub_le, ← mul_tsub, ←
     card_sdiff (inter_subset_right _ _), sdiff_inter_self_right, sdiff_compl,
@@ -114,7 +112,7 @@ theorem IsUpperSet.card_inter_le_finset (h𝒜 : IsUpperSet (𝒜 : Set (Finset 
 theorem IsLowerSet.card_inter_le_finset (h𝒜 : IsLowerSet (𝒜 : Set (Finset α)))
     (hℬ : IsUpperSet (ℬ : Set (Finset α))) :
     2 ^ Fintype.card α * (𝒜 ∩ ℬ).card ≤ 𝒜.card * ℬ.card := by
-  rw [inter_comm, mul_comm 𝒜.card]
+  rw [inter_comm]; rw [mul_comm 𝒜.card]
   exact hℬ.card_inter_le_finset h𝒜
 #align is_lower_set.card_inter_le_finset IsLowerSet.card_inter_le_finset
 
@@ -122,7 +120,7 @@ theorem IsLowerSet.card_inter_le_finset (h𝒜 : IsLowerSet (𝒜 : Set (Finset 
 theorem IsUpperSet.le_card_inter_finset (h𝒜 : IsUpperSet (𝒜 : Set (Finset α)))
     (hℬ : IsUpperSet (ℬ : Set (Finset α))) :
     𝒜.card * ℬ.card ≤ 2 ^ Fintype.card α * (𝒜 ∩ ℬ).card := by
-  rw [← isLowerSet_compl, ← coe_compl] at h𝒜
+  rw [← isLowerSet_compl] at h𝒜; rw [← coe_compl] at h𝒜
   have := h𝒜.card_inter_le_finset hℬ
   rwa [card_compl, Fintype.card_finset, tsub_mul, le_tsub_iff_le_tsub, ← mul_tsub, ←
     card_sdiff (inter_subset_right _ _), sdiff_inter_self_right, sdiff_compl,

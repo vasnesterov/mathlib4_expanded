@@ -94,7 +94,7 @@ theorem padicNorm_p_of_prime [Fact p.Prime] : padicNorm p p = (p : ℚ)⁻¹ :=
 theorem padicNorm_of_prime_of_ne {q : ℕ} [p_prime : Fact p.Prime] [q_prime : Fact q.Prime]
     (neq : p ≠ q) : padicNorm p q = 1 := by
   have p : padicValRat p q = 0 := by exact_mod_cast padicValNat_primes neq
-  rw [padicNorm, p]
+  rw [padicNorm]; rw [p]
   simp [q_prime.1.ne_zero]
 #align padic_norm.padic_norm_of_prime_of_ne padicNorm.padicNorm_of_prime_of_ne
 
@@ -102,7 +102,7 @@ theorem padicNorm_of_prime_of_ne {q : ℕ} [p_prime : Fact p.Prime] [q_prime : F
 
 See also `padicNorm.padicNorm_p_lt_one_of_prime` for a version assuming `p` is prime. -/
 theorem padicNorm_p_lt_one (hp : 1 < p) : padicNorm p p < 1 := by
-  rw [padicNorm_p hp, inv_lt_one_iff]
+  rw [padicNorm_p hp]; rw [inv_lt_one_iff]
   exact_mod_cast Or.inr hp
 #align padic_norm.padic_norm_p_lt_one padicNorm.padicNorm_p_lt_one
 
@@ -216,7 +216,7 @@ theorem triangle_ineq (q r : ℚ) : padicNorm p (q + r) ≤ padicNorm p q + padi
 /-- The `p`-adic norm of a difference is at most the max of each component. Restates the archimedean
 property of the `p`-adic norm. -/
 protected theorem sub {q r : ℚ} : padicNorm p (q - r) ≤ max (padicNorm p q) (padicNorm p r) := by
-  rw [sub_eq_add_neg, ← padicNorm.neg r]
+  rw [sub_eq_add_neg]; rw [← padicNorm.neg r]
   exact padicNorm.nonarchimedean
 #align padic_norm.sub padicNorm.sub
 
@@ -259,8 +259,7 @@ theorem dvd_iff_norm_le {n : ℕ} {z : ℤ} : ↑(p ^ n) ∣ z ↔ padicNorm p z
   · rw [zpow_le_iff_le, neg_le_neg_iff, padicValRat.of_int,
       padicValInt.of_ne_one_ne_zero hp.1.ne_one _]
     · norm_cast
-      rw [← PartENat.coe_le_coe, PartENat.natCast_get, ← multiplicity.pow_dvd_iff_le_multiplicity,
-        Nat.cast_pow]
+      rw [← PartENat.coe_le_coe]; rw [PartENat.natCast_get]; rw [← multiplicity.pow_dvd_iff_le_multiplicity]; rw [Nat.cast_pow]
       exact_mod_cast hz
     · exact_mod_cast hp.1.one_lt
 #align padic_norm.dvd_iff_norm_le padicNorm.dvd_iff_norm_le
@@ -271,7 +270,7 @@ theorem int_eq_one_iff (m : ℤ) : padicNorm p m = 1 ↔ ¬(p : ℤ) ∣ m := by
   simp only [dvd_iff_norm_le, Int.cast_ofNat, Nat.cast_one, zpow_neg, zpow_one, not_le]
   constructor
   · intro h
-    rw [h, inv_lt_one_iff_of_pos] <;> norm_cast
+    rw [h]; rw [inv_lt_one_iff_of_pos]; all_goals norm_cast
     · exact Nat.Prime.one_lt Fact.out
     · exact Nat.Prime.pos Fact.out
   · simp only [padicNorm]
@@ -280,15 +279,15 @@ theorem int_eq_one_iff (m : ℤ) : padicNorm p m = 1 ↔ ¬(p : ℤ) ∣ m := by
       intro h
       exact (Nat.not_lt_zero p h).elim
     · have : 1 < (p : ℚ) := by norm_cast; exact Nat.Prime.one_lt (Fact.out : Nat.Prime p)
-      rw [← zpow_neg_one, zpow_lt_iff_lt this]
+      rw [← zpow_neg_one]; rw [zpow_lt_iff_lt this]
       have : 0 ≤ padicValRat p m
       simp only [of_int, Nat.cast_nonneg]
       intro h
-      rw [← zpow_zero (p : ℚ), zpow_inj] <;> linarith
+      rw [← zpow_zero (p : ℚ)]; rw [zpow_inj]; all_goals linarith
 #align padic_norm.int_eq_one_iff padicNorm.int_eq_one_iff
 
 theorem int_lt_one_iff (m : ℤ) : padicNorm p m < 1 ↔ (p : ℤ) ∣ m := by
-  rw [← not_iff_not, ← int_eq_one_iff, eq_iff_le_not_lt]
+  rw [← not_iff_not]; rw [← int_eq_one_iff]; rw [eq_iff_le_not_lt]
   simp only [padicNorm.of_int, true_and_iff]
 #align padic_norm.int_lt_one_iff padicNorm.int_lt_one_iff
 
@@ -298,11 +297,11 @@ theorem of_nat (m : ℕ) : padicNorm p m ≤ 1 :=
 
 /-- The `p`-adic norm of a natural `m` is one iff `p` doesn't divide `m`. -/
 theorem nat_eq_one_iff (m : ℕ) : padicNorm p m = 1 ↔ ¬p ∣ m := by
-  rw [← Int.coe_nat_dvd, ← int_eq_one_iff, Int.cast_ofNat]
+  rw [← Int.coe_nat_dvd]; rw [← int_eq_one_iff]; rw [Int.cast_ofNat]
 #align padic_norm.nat_eq_one_iff padicNorm.nat_eq_one_iff
 
 theorem nat_lt_one_iff (m : ℕ) : padicNorm p m < 1 ↔ p ∣ m := by
-  rw [← Int.coe_nat_dvd, ← int_lt_one_iff, Int.cast_ofNat]
+  rw [← Int.coe_nat_dvd]; rw [← int_lt_one_iff]; rw [Int.cast_ofNat]
 #align padic_norm.nat_lt_one_iff padicNorm.nat_lt_one_iff
 
 /-- If a rational is not a p-adic integer, it is not an integer. -/

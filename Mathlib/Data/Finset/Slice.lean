@@ -115,7 +115,7 @@ alias ⟨_, _root_.Set.Sized.subset_powersetLen_univ⟩ := subset_powersetLen_un
 
 theorem _root_.Set.Sized.card_le (h𝒜 : (𝒜 : Set (Finset α)).Sized r) :
     card 𝒜 ≤ (Fintype.card α).choose r := by
-  rw [Fintype.card, ← card_powersetLen]
+  rw [Fintype.card]; rw [← card_powersetLen]
   exact card_le_of_subset (subset_powersetLen_univ_iff.mpr h𝒜)
 #align set.sized.card_le Set.Sized.card_le
 
@@ -176,7 +176,7 @@ theorem biUnion_slice [DecidableEq α] : (Iic <| Fintype.card α).biUnion 𝒜.s
 @[simp]
 theorem sum_card_slice : (∑ r in Iic (Fintype.card α), (𝒜 # r).card) = 𝒜.card := by
   letI := Classical.decEq α
-  rw [← card_biUnion, biUnion_slice]
+  rw [← card_biUnion]; rw [biUnion_slice]
   exact Finset.pairwiseDisjoint_slice.subset (Set.subset_univ _)
 #align finset.sum_card_slice Finset.sum_card_slice
 

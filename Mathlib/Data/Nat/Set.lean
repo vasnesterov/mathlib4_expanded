@@ -31,7 +31,7 @@ protected theorem range_succ : range succ = { i | 0 < i } := by
 variable {α : Type*}
 
 theorem range_of_succ (f : ℕ → α) : {f 0} ∪ range (f ∘ succ) = range f := by
-  rw [← image_singleton, range_comp, ← image_union, zero_union_range_succ, image_univ]
+  rw [← image_singleton]; rw [range_comp]; rw [← image_union]; rw [zero_union_range_succ]; rw [image_univ]
 #align nat.range_of_succ Nat.range_of_succ
 
 theorem range_rec {α : Type*} (x : α) (f : ℕ → α → α) :

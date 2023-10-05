@@ -1086,11 +1086,11 @@ instance : LawfulMonad FreeGroup.{u} := LawfulMonad.mk'
       (by intros; iterate 3 rw [one_bind])
       (fun x => by intros; iterate 2 rw [pure_bind])
       (fun x ih => by intros; (iterate 3 rw [inv_bind]); rw [ih])
-      (fun x y ihx ihy => by intros; (iterate 3 rw [mul_bind]); rw [ihx, ihy]))
+      (fun x y ihx ihy => by intros; (iterate 3 rw [mul_bind]); rw [ihx]; rw [ihy]))
   (bind_pure_comp := fun f x =>
     FreeGroup.induction_on x (by rw [one_bind, map_one]) (fun x => by rw [pure_bind, map_pure])
       (fun x ih => by rw [inv_bind, map_inv, ih]) fun x y ihx ihy => by
-      rw [mul_bind, map_mul, ihx, ihy])
+      rw [mul_bind]; rw [map_mul]; rw [ihx]; rw [ihy])
 
 end Category
 
@@ -1160,7 +1160,7 @@ theorem reduce.not {p : Prop} : ∀ {L₁ L₂ L₃ : List (α × Bool)} {x : α
         exfalso
         have := congr_arg List.length h
         simp [List.length] at this
-        rw [add_comm, add_assoc, add_assoc, add_comm, <-add_assoc] at this
+        rw [add_comm] at this; rw [add_assoc] at this; rw [add_assoc] at this; rw [add_comm] at this; rw [<-add_assoc] at this
         simp [Nat.one_eq_succ_zero, Nat.succ_add] at this
         -- Porting note: needed to add this step in #3414.
         -- This is caused by https://github.com/leanprover/lean4/pull/2146.
@@ -1178,7 +1178,7 @@ theorem reduce.not {p : Prop} : ∀ {L₁ L₂ L₃ : List (α × Bool)} {x : α
             simp at h
           · refine' @reduce.not _ L1 L2 L3 x' b' _
             injection H with _ H
-            rw [ r , H ]
+            rw [r]; rw [H]
             rfl
 #align free_group.reduce.not FreeGroup.reduce.not
 #align free_add_group.reduce.not FreeAddGroup.reduce.not
@@ -1328,7 +1328,7 @@ theorem toWord_eq_nil_iff {x : FreeGroup α} : x.toWord = [] ↔ x = 1 :=
 @[to_additive]
 theorem reduce_invRev {w : List (α × Bool)} : reduce (invRev w) = invRev (reduce w) := by
   apply reduce.min
-  rw [← red_invRev_iff, invRev_invRev]
+  rw [← red_invRev_iff]; rw [invRev_invRev]
   apply Red.reduce_left
   have : Red (invRev (invRev w)) (invRev (reduce (invRev w))) := reduce.red.invRev
   rwa [invRev_invRev] at this
@@ -1338,7 +1338,7 @@ theorem reduce_invRev {w : List (α × Bool)} : reduce (invRev w) = invRev (redu
 @[to_additive]
 theorem toWord_inv {x : FreeGroup α} : x⁻¹.toWord = invRev x.toWord := by
   rcases x with ⟨L⟩
-  rw [quot_mk_eq_mk, inv_mk, toWord_mk, toWord_mk, reduce_invRev]
+  rw [quot_mk_eq_mk]; rw [inv_mk]; rw [toWord_mk]; rw [toWord_mk]; rw [reduce_invRev]
 #align free_group.to_word_inv FreeGroup.toWord_inv
 #align free_add_group.to_word_neg FreeAddGroup.toWord_neg
 

@@ -181,7 +181,7 @@ theorem lift_comp_ι {A : Type*} [Semiring A] [Algebra R A] (g : TensorAlgebra R
 @[ext]
 theorem hom_ext {A : Type*} [Semiring A] [Algebra R A] {f g : TensorAlgebra R M →ₐ[R] A}
     (w : f.toLinearMap.comp (ι R) = g.toLinearMap.comp (ι R)) : f = g := by
-  rw [← lift_symm_apply, ← lift_symm_apply] at w
+  rw [← lift_symm_apply] at w; rw [← lift_symm_apply] at w
   exact (lift R).symm.injective w
 #align tensor_algebra.hom_ext TensorAlgebra.hom_ext
 
@@ -209,7 +209,7 @@ theorem induction {C : TensorAlgebra R M → Prop}
     simp
     erw [LinearMap.codRestrict_apply]
   -- finding a proof is finding an element of the subalgebra
-  rw [← AlgHom.id_apply (R := R) a, of_id]
+  rw [← AlgHom.id_apply (R := R) a]; rw [of_id]
   exact Subtype.prop (lift R of a)
 #align tensor_algebra.induction TensorAlgebra.induction
 
@@ -290,16 +290,16 @@ theorem ι_eq_algebraMap_iff (x : M) (r : R) : ι R x = algebraMap R _ r ↔ x =
   · letI : Module Rᵐᵒᵖ M := Module.compHom _ ((RingHom.id R).fromOpposite mul_comm)
     haveI : IsCentralScalar R M := ⟨fun r m => rfl⟩
     have hf0 : toTrivSqZeroExt (ι R x) = (0, x) := lift_ι_apply _ _
-    rw [h, AlgHom.commutes] at hf0
+    rw [h] at hf0; rw [AlgHom.commutes] at hf0
     have : r = 0 ∧ 0 = x := Prod.ext_iff.1 hf0
     exact this.symm.imp_left Eq.symm
   · rintro ⟨rfl, rfl⟩
-    rw [LinearMap.map_zero, RingHom.map_zero]
+    rw [LinearMap.map_zero]; rw [RingHom.map_zero]
 #align tensor_algebra.ι_eq_algebra_map_iff TensorAlgebra.ι_eq_algebraMap_iff
 
 @[simp]
 theorem ι_ne_one [Nontrivial R] (x : M) : ι R x ≠ 1 := by
-  rw [← (algebraMap R (TensorAlgebra R M)).map_one, Ne.def, ι_eq_algebraMap_iff]
+  rw [← (algebraMap R (TensorAlgebra R M)).map_one]; rw [Ne.def]; rw [ι_eq_algebraMap_iff]
   exact one_ne_zero ∘ And.right
 #align tensor_algebra.ι_ne_one TensorAlgebra.ι_ne_one
 
@@ -309,8 +309,8 @@ theorem ι_range_disjoint_one :
       (1 : Submodule R (TensorAlgebra R M)) := by
   rw [Submodule.disjoint_def]
   rintro _ ⟨x, hx⟩ ⟨r, rfl⟩
-  rw [Algebra.linearMap_apply, ι_eq_algebraMap_iff] at hx
-  rw [hx.2, map_zero]
+  rw [Algebra.linearMap_apply] at hx; rw [ι_eq_algebraMap_iff] at hx
+  rw [hx.2]; rw [map_zero]
 #align tensor_algebra.ι_range_disjoint_one TensorAlgebra.ι_range_disjoint_one
 
 variable (R M)

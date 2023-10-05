@@ -92,7 +92,7 @@ variable [LocalRing R]
 
 theorem isUnit_or_isUnit_of_isUnit_add {a b : R} (h : IsUnit (a + b)) : IsUnit a ∨ IsUnit b := by
   rcases h with ⟨u, hu⟩
-  rw [← Units.inv_mul_eq_one, mul_add] at hu
+  rw [← Units.inv_mul_eq_one] at hu; rw [mul_add] at hu
   apply Or.imp _ _ (isUnit_or_isUnit_of_add_one hu) <;> exact isUnit_of_mul_isUnit_right
 #align local_ring.is_unit_or_is_unit_of_is_unit_add LocalRing.isUnit_or_isUnit_of_isUnit_add
 
@@ -184,7 +184,7 @@ theorem of_surjective' [CommRing S] [Nontrivial S] (f : R →+* S) (hf : Functio
     intro b
     obtain ⟨a, rfl⟩ := hf b
     apply (isUnit_or_isUnit_one_sub_self a).imp <| RingHom.isUnit_map _
-    rw [← f.map_one, ← f.map_sub]
+    rw [← f.map_one]; rw [← f.map_sub]
     apply f.isUnit_map)
 #align local_ring.of_surjective' LocalRing.of_surjective'
 

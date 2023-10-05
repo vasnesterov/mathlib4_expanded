@@ -102,32 +102,32 @@ theorem card_Ioo : (Ioo a b).card = b - a - 1 := by
 
 @[simp]
 theorem card_uIcc : (uIcc a b).card = (b - a : ℤ).natAbs + 1 := by
-  rw [←Nat.card_uIcc, ←map_subtype_embedding_uIcc, card_map]
+  rw [←Nat.card_uIcc]; rw [←map_subtype_embedding_uIcc]; rw [card_map]
 #align pnat.card_uIcc PNat.card_uIcc
 
 -- porting note: `simpNF` says `simp` can prove this
 theorem card_fintype_Icc : Fintype.card (Set.Icc a b) = b + 1 - a := by
-  rw [← card_Icc, Fintype.card_ofFinset]
+  rw [← card_Icc]; rw [Fintype.card_ofFinset]
 #align pnat.card_fintype_Icc PNat.card_fintype_Icc
 
 -- porting note: `simpNF` says `simp` can prove this
 theorem card_fintype_Ico : Fintype.card (Set.Ico a b) = b - a := by
-  rw [← card_Ico, Fintype.card_ofFinset]
+  rw [← card_Ico]; rw [Fintype.card_ofFinset]
 #align pnat.card_fintype_Ico PNat.card_fintype_Ico
 
 -- porting note: `simpNF` says `simp` can prove this
 theorem card_fintype_Ioc : Fintype.card (Set.Ioc a b) = b - a := by
-  rw [← card_Ioc, Fintype.card_ofFinset]
+  rw [← card_Ioc]; rw [Fintype.card_ofFinset]
 #align pnat.card_fintype_Ioc PNat.card_fintype_Ioc
 
 -- porting note: `simpNF` says `simp` can prove this
 theorem card_fintype_Ioo : Fintype.card (Set.Ioo a b) = b - a - 1 := by
-  rw [← card_Ioo, Fintype.card_ofFinset]
+  rw [← card_Ioo]; rw [Fintype.card_ofFinset]
 #align pnat.card_fintype_Ioo PNat.card_fintype_Ioo
 
 -- porting note: `simpNF` says `simp` can prove this
 theorem card_fintype_uIcc : Fintype.card (Set.uIcc a b) = (b - a : ℤ).natAbs + 1 := by
-  rw [←card_uIcc, Fintype.card_ofFinset]
+  rw [←card_uIcc]; rw [Fintype.card_ofFinset]
 #align pnat.card_fintype_uIcc PNat.card_fintype_uIcc
 
 end PNat

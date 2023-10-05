@@ -231,7 +231,7 @@ protected theorem hasSum_linearIsometry (f : lp G 2) :
 @[simp]
 protected theorem linearIsometry_apply_single {i : ι} (x : G i) :
     hV.linearIsometry (lp.single 2 i x) = V i x := by
-  rw [hV.linearIsometry_apply, ← tsum_ite_eq i (V i x)]
+  rw [hV.linearIsometry_apply]; rw [← tsum_ite_eq i (V i x)]
   congr
   ext j
   rw [lp.single_apply]
@@ -385,7 +385,7 @@ theorem Submodule.isHilbertSumOrthogonal (K : Submodule 𝕜 E) [hK : CompleteSp
     cases b <;> first | exact instOrthogonalCompleteSpace K | assumption
   refine' IsHilbertSum.mkInternal _ K.orthogonalFamily_self _
   refine' le_trans _ (Submodule.le_topologicalClosure _)
-  rw [iSup_bool_eq, cond, cond]
+  rw [iSup_bool_eq]; rw [cond]; rw [cond]
   refine' Codisjoint.top_le _
   exact Submodule.isCompl_orthogonal_of_completeSpace.codisjoint
 #align submodule.is_hilbert_sum_orthogonal Submodule.isHilbertSumOrthogonal
@@ -431,7 +431,7 @@ protected theorem repr_self (b : HilbertBasis ι 𝕜 E) (i : ι) :
 
 protected theorem repr_apply_apply (b : HilbertBasis ι 𝕜 E) (v : E) (i : ι) :
     b.repr v i = ⟪b i, v⟫ := by
-  rw [← b.repr.inner_map_map (b i) v, b.repr_self, lp.inner_single_left]
+  rw [← b.repr.inner_map_map (b i) v]; rw [b.repr_self]; rw [lp.inner_single_left]
   simp
 #align hilbert_basis.repr_apply_apply HilbertBasis.repr_apply_apply
 
@@ -439,8 +439,7 @@ protected theorem repr_apply_apply (b : HilbertBasis ι 𝕜 E) (v : E) (i : ι)
 protected theorem orthonormal (b : HilbertBasis ι 𝕜 E) : Orthonormal 𝕜 b := by
   rw [orthonormal_iff_ite]
   intro i j
-  rw [← b.repr.inner_map_map (b i) (b j), b.repr_self, b.repr_self, lp.inner_single_left,
-    lp.single_apply]
+  rw [← b.repr.inner_map_map (b i) (b j)]; rw [b.repr_self]; rw [b.repr_self]; rw [lp.inner_single_left]; rw [lp.single_apply]
   simp
 #align hilbert_basis.orthonormal HilbertBasis.orthonormal
 
@@ -457,8 +456,7 @@ protected theorem hasSum_repr_symm (b : HilbertBasis ι 𝕜 E) (f : ℓ²(ι, �
   have : lp.single (E := (fun _ : ι => 𝕜)) 2 i (f i * 1) = f i • lp.single 2 i 1 :=
     lp.single_smul (E := (fun _ : ι => 𝕜)) 2 i (1 : 𝕜) (f i)
   rw [mul_one] at this
-  rw [LinearIsometryEquiv.map_smul, b.repr_self, ← this,
-    LinearIsometryEquiv.coe_toContinuousLinearEquiv]
+  rw [LinearIsometryEquiv.map_smul]; rw [b.repr_self]; rw [← this]; rw [LinearIsometryEquiv.coe_toContinuousLinearEquiv]
   exact (b.repr.apply_symm_apply (lp.single 2 i (f i))).symm
 #align hilbert_basis.has_sum_repr_symm HilbertBasis.hasSum_repr_symm
 
@@ -485,7 +483,7 @@ protected theorem hasSum_inner_mul_inner (b : HilbertBasis ι 𝕜 E) (x y : E) 
     HasSum (fun i => ⟪x, b i⟫ * ⟪b i, y⟫) ⟪x, y⟫ := by
   convert (b.hasSum_repr y).mapL (innerSL _ x) using 1
   ext i
-  rw [innerSL_apply, b.repr_apply_apply, inner_smul_right, mul_comm]
+  rw [innerSL_apply]; rw [b.repr_apply_apply]; rw [inner_smul_right]; rw [mul_comm]
 #align hilbert_basis.has_sum_inner_mul_inner HilbertBasis.hasSum_inner_mul_inner
 
 protected theorem summable_inner_mul_inner (b : HilbertBasis ι 𝕜 E) (x y : E) :
@@ -541,8 +539,7 @@ protected def mk (hsp : ⊤ ≤ (span 𝕜 (Set.range v)).topologicalClosure) : 
 
 theorem _root_.Orthonormal.linearIsometryEquiv_symm_apply_single_one (h i) :
     (hv.isHilbertSum h).linearIsometryEquiv.symm (lp.single 2 i 1) = v i := by
-  rw [IsHilbertSum.linearIsometryEquiv_symm_apply_single, LinearIsometry.toSpanSingleton_apply,
-    one_smul]
+  rw [IsHilbertSum.linearIsometryEquiv_symm_apply_single]; rw [LinearIsometry.toSpanSingleton_apply]; rw [one_smul]
 #align orthonormal.linear_isometry_equiv_symm_apply_single_one Orthonormal.linearIsometryEquiv_symm_apply_single_one
 
 @[simp]

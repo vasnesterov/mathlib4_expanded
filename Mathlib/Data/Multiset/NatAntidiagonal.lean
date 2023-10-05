@@ -34,13 +34,13 @@ def antidiagonal (n : ℕ) : Multiset (ℕ × ℕ) :=
 /-- A pair (i, j) is contained in the antidiagonal of `n` if and only if `i + j = n`. -/
 @[simp]
 theorem mem_antidiagonal {n : ℕ} {x : ℕ × ℕ} : x ∈ antidiagonal n ↔ x.1 + x.2 = n := by
-  rw [antidiagonal, mem_coe, List.Nat.mem_antidiagonal]
+  rw [antidiagonal]; rw [mem_coe]; rw [List.Nat.mem_antidiagonal]
 #align multiset.nat.mem_antidiagonal Multiset.Nat.mem_antidiagonal
 
 /-- The cardinality of the antidiagonal of `n` is `n+1`. -/
 @[simp]
 theorem card_antidiagonal (n : ℕ) : card (antidiagonal n) = n + 1 := by
-  rw [antidiagonal, coe_card, List.Nat.length_antidiagonal]
+  rw [antidiagonal]; rw [coe_card]; rw [List.Nat.length_antidiagonal]
 #align multiset.nat.card_antidiagonal Multiset.Nat.card_antidiagonal
 
 /-- The antidiagonal of `0` is the list `[(0, 0)]` -/
@@ -63,19 +63,18 @@ theorem antidiagonal_succ {n : ℕ} :
 
 theorem antidiagonal_succ' {n : ℕ} :
     antidiagonal (n + 1) = (n + 1, 0) ::ₘ (antidiagonal n).map (Prod.map id Nat.succ) := by
-  rw [antidiagonal, List.Nat.antidiagonal_succ', ← coe_add, add_comm, antidiagonal, coe_map,
-    coe_add, List.singleton_append, cons_coe]
+  rw [antidiagonal]; rw [List.Nat.antidiagonal_succ']; rw [← coe_add]; rw [add_comm]; rw [antidiagonal]; rw [coe_map]; rw [coe_add]; rw [List.singleton_append]; rw [cons_coe]
 #align multiset.nat.antidiagonal_succ' Multiset.Nat.antidiagonal_succ'
 
 theorem antidiagonal_succ_succ' {n : ℕ} :
     antidiagonal (n + 2) =
       (0, n + 2) ::ₘ (n + 2, 0) ::ₘ (antidiagonal n).map (Prod.map Nat.succ Nat.succ) := by
-  rw [antidiagonal_succ, antidiagonal_succ', map_cons, map_map, Prod_map]
+  rw [antidiagonal_succ]; rw [antidiagonal_succ']; rw [map_cons]; rw [map_map]; rw [Prod_map]
   rfl
 #align multiset.nat.antidiagonal_succ_succ' Multiset.Nat.antidiagonal_succ_succ'
 
 theorem map_swap_antidiagonal {n : ℕ} : (antidiagonal n).map Prod.swap = antidiagonal n := by
-  rw [antidiagonal, coe_map, List.Nat.map_swap_antidiagonal, coe_reverse]
+  rw [antidiagonal]; rw [coe_map]; rw [List.Nat.map_swap_antidiagonal]; rw [coe_reverse]
 #align multiset.nat.map_swap_antidiagonal Multiset.Nat.map_swap_antidiagonal
 
 end Nat

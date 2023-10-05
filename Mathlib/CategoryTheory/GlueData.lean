@@ -77,21 +77,21 @@ variable (D : GlueData C)
 theorem t'_iij (i j : D.J) : D.t' i i j = (pullbackSymmetry _ _).hom := by
   have eq₁ := D.t_fac i i j
   have eq₂ := (IsIso.eq_comp_inv (D.f i i)).mpr (@pullback.condition _ _ _ _ _ _ (D.f i j) _)
-  rw [D.t_id, Category.comp_id, eq₂] at eq₁
+  rw [D.t_id] at eq₁; rw [Category.comp_id] at eq₁; rw [eq₂] at eq₁
   have eq₃ := (IsIso.eq_comp_inv (D.f i i)).mp eq₁
-  rw [Category.assoc, ← pullback.condition, ← Category.assoc] at eq₃
+  rw [Category.assoc] at eq₃; rw [← pullback.condition] at eq₃; rw [← Category.assoc] at eq₃
   exact
     Mono.right_cancellation _ _
       ((Mono.right_cancellation _ _ eq₃).trans (pullbackSymmetry_hom_comp_fst _ _).symm)
 #align category_theory.glue_data.t'_iij CategoryTheory.GlueData.t'_iij
 
 theorem t'_jii (i j : D.J) : D.t' j i i = pullback.fst ≫ D.t j i ≫ inv pullback.snd := by
-  rw [← Category.assoc, ← D.t_fac]
+  rw [← Category.assoc]; rw [← D.t_fac]
   simp
 #align category_theory.glue_data.t'_jii CategoryTheory.GlueData.t'_jii
 
 theorem t'_iji (i j : D.J) : D.t' i j i = pullback.fst ≫ D.t i j ≫ inv pullback.snd := by
-  rw [← Category.assoc, ← D.t_fac]
+  rw [← Category.assoc]; rw [← D.t_fac]
   simp
 #align category_theory.glue_data.t'_iji CategoryTheory.GlueData.t'_iji
 
@@ -99,9 +99,9 @@ theorem t'_iji (i j : D.J) : D.t' i j i = pullback.fst ≫ D.t i j ≫ inv pullb
 theorem t_inv (i j : D.J) : D.t i j ≫ D.t j i = 𝟙 _ := by
   have eq : (pullbackSymmetry (D.f i i) (D.f i j)).hom = pullback.snd ≫ inv pullback.fst := by simp
   have := D.cocycle i j i
-  rw [D.t'_iij, D.t'_jii, D.t'_iji, fst_eq_snd_of_mono_eq, eq] at this
+  rw [D.t'_iij] at this; rw [D.t'_jii] at this; rw [D.t'_iji] at this; rw [fst_eq_snd_of_mono_eq] at this; rw [eq] at this
   simp only [Category.assoc, IsIso.inv_hom_id_assoc] at this
-  rw [← IsIso.eq_inv_comp, ← Category.assoc, IsIso.comp_inv_eq] at this
+  rw [← IsIso.eq_inv_comp] at this; rw [← Category.assoc] at this; rw [IsIso.comp_inv_eq] at this
   simpa using this
 #align category_theory.glue_data.t_inv CategoryTheory.GlueData.t_inv
 
@@ -370,7 +370,7 @@ theorem ι_gluedIso_hom (i : D.J) : F.map (D.ι i) ≫ (D.gluedIso F).hom = (D.m
 
 @[reassoc (attr := simp)]
 theorem ι_gluedIso_inv (i : D.J) : (D.mapGlueData F).ι i ≫ (D.gluedIso F).inv = F.map (D.ι i) := by
-  rw [Iso.comp_inv_eq, ι_gluedIso_hom]
+  rw [Iso.comp_inv_eq]; rw [ι_gluedIso_hom]
 #align category_theory.glue_data.ι_glued_iso_inv CategoryTheory.GlueData.ι_gluedIso_inv
 
 /-- If `F` preserves the gluing, and reflects the pullback of `U i ⟶ glued` and `U j ⟶ glued`,
@@ -409,7 +409,7 @@ theorem ι_jointly_surjective (F : C ⥤ Type v) [PreservesColimit D.diagram.mul
   obtain ⟨i, y, eq⟩ := (D.mapGlueData F).types_ι_jointly_surjective (e.hom x)
   replace eq := congr_arg e.inv eq
   change ((D.mapGlueData F).ι i ≫ e.inv) y = (e.hom ≫ e.inv) x at eq
-  rw [e.hom_inv_id, D.ι_gluedIso_inv] at eq
+  rw [e.hom_inv_id] at eq; rw [D.ι_gluedIso_inv] at eq
   exact ⟨i, y, eq⟩
 #align category_theory.glue_data.ι_jointly_surjective CategoryTheory.GlueData.ι_jointly_surjective
 

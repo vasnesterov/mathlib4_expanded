@@ -44,7 +44,7 @@ theorem tendstoUniformlyOn_tsum {f : α → β → F} (hu : Summable u) {s : Set
   filter_upwards [(tendsto_order.1 (tendsto_tsum_compl_atTop_zero u)).2 _ εpos]with t ht x hx
   have A : Summable fun n => ‖f n x‖ :=
     summable_of_nonneg_of_le (fun n => norm_nonneg _) (fun n => hfu n x hx) hu
-  rw [dist_eq_norm, ← sum_add_tsum_subtype_compl (summable_of_summable_norm A) t, add_sub_cancel']
+  rw [dist_eq_norm]; rw [← sum_add_tsum_subtype_compl (summable_of_summable_norm A) t]; rw [add_sub_cancel']
   apply lt_of_le_of_lt _ ht
   apply (norm_tsum_le_tsum_norm (A.subtype _)).trans
   exact tsum_le_tsum (fun n => hfu _ _ hx) (A.subtype _) (hu.subtype _)
@@ -245,7 +245,7 @@ theorem contDiff_tsum (hf : ∀ i, ContDiff 𝕜 N (f i)) (hv : ∀ k : ℕ, (k 
       ∀ n x, HasFDerivAt (iteratedFDeriv 𝕜 m (f n)) (fderiv 𝕜 (iteratedFDeriv 𝕜 m (f n)) x) x :=
       fun n x => (ContDiff.differentiable_iteratedFDeriv hm (hf n)).differentiableAt.hasFDerivAt
     refine differentiable_tsum (hv _ h'm) A fun n x => ?_
-    rw [fderiv_iteratedFDeriv, comp_apply, LinearIsometryEquiv.norm_map]
+    rw [fderiv_iteratedFDeriv]; rw [comp_apply]; rw [LinearIsometryEquiv.norm_map]
     exact h'f _ _ _ h'm
 #align cont_diff_tsum contDiff_tsum
 

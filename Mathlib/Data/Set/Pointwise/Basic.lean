@@ -282,7 +282,7 @@ theorem inv_singleton (a : α) : ({a} : Set α)⁻¹ = {a⁻¹} := by rw [← im
 
 @[to_additive (attr := simp)]
 theorem inv_insert (a : α) (s : Set α) : (insert a s)⁻¹ = insert a⁻¹ s⁻¹ := by
-  rw [insert_eq, union_inv, inv_singleton, insert_eq]
+  rw [insert_eq]; rw [union_inv]; rw [inv_singleton]; rw [insert_eq]
 #align set.inv_insert Set.inv_insert
 #align set.neg_insert Set.neg_insert
 
@@ -975,7 +975,7 @@ theorem pow_subset_pow_of_one_mem (hs : (1 : α) ∈ s) (hn : m ≤ n) : s ^ m �
 
 @[to_additive (attr := simp)]
 theorem empty_pow {n : ℕ} (hn : n ≠ 0) : (∅ : Set α) ^ n = ∅ := by
-  rw [← tsub_add_cancel_of_le (Nat.succ_le_of_lt <| Nat.pos_of_ne_zero hn), pow_succ, empty_mul]
+  rw [← tsub_add_cancel_of_le (Nat.succ_le_of_lt <| Nat.pos_of_ne_zero hn)]; rw [pow_succ]; rw [empty_mul]
 #align set.empty_pow Set.empty_pow
 #align set.empty_nsmul Set.empty_nsmul
 
@@ -1047,7 +1047,7 @@ protected theorem mul_eq_one_iff : s * t = 1 ↔ ∃ a b, s = {a} ∧ t = {b} �
     · exact (eq_inv_of_mul_eq_one_left <| H hx hb).trans (inv_eq_of_mul_eq_one_left <| H ha hb)
     · exact (eq_inv_of_mul_eq_one_right <| H ha hx).trans (inv_eq_of_mul_eq_one_right <| H ha hb)
   · rintro ⟨b, c, rfl, rfl, h⟩
-    rw [singleton_mul_singleton, h, singleton_one]
+    rw [singleton_mul_singleton]; rw [h]; rw [singleton_one]
 #align set.mul_eq_one_iff Set.mul_eq_one_iff
 #align set.add_eq_zero_iff Set.add_eq_zero_iff
 
@@ -1061,9 +1061,9 @@ protected noncomputable def divisionMonoid : DivisionMonoid (Set α) :=
       exact image_image2_antidistrib mul_inv_rev
     inv_eq_of_mul := fun s t h => by
       obtain ⟨a, b, rfl, rfl, hab⟩ := Set.mul_eq_one_iff.1 h
-      rw [inv_singleton, inv_eq_of_mul_eq_one_right hab]
+      rw [inv_singleton]; rw [inv_eq_of_mul_eq_one_right hab]
     div_eq_mul_inv := fun s t => by
-      rw [← image_id (s / t), ← image_inv]
+      rw [← image_id (s / t)]; rw [← image_inv]
       exact image_image2_distrib_right div_eq_mul_inv }
 #align set.division_monoid Set.divisionMonoid
 #align set.subtraction_monoid Set.subtractionMonoid
@@ -1074,7 +1074,7 @@ theorem isUnit_iff : IsUnit s ↔ ∃ a, s = {a} ∧ IsUnit a := by
   · rintro ⟨u, rfl⟩
     obtain ⟨a, b, ha, hb, h⟩ := Set.mul_eq_one_iff.1 u.mul_inv
     refine' ⟨a, ha, ⟨a, b, h, singleton_injective _⟩, rfl⟩
-    rw [← singleton_mul_singleton, ← ha, ← hb]
+    rw [← singleton_mul_singleton]; rw [← ha]; rw [← hb]
     exact u.inv_mul
   · rintro ⟨a, rfl, ha⟩
     exact ha.set
@@ -1197,13 +1197,13 @@ theorem isUnit_iff_singleton : IsUnit s ↔ ∃ a, s = {a} := by
 
 @[to_additive (attr := simp)]
 theorem image_mul_left : (· * ·) a '' t = (· * ·) a⁻¹ ⁻¹' t := by
-  rw [image_eq_preimage_of_inverse] <;> intro c <;> simp
+  rw [image_eq_preimage_of_inverse]  <;> intro c <;> simp
 #align set.image_mul_left Set.image_mul_left
 #align set.image_add_left Set.image_add_left
 
 @[to_additive (attr := simp)]
 theorem image_mul_right : (· * b) '' t = (· * b⁻¹) ⁻¹' t := by
-  rw [image_eq_preimage_of_inverse] <;> intro c <;> simp
+  rw [image_eq_preimage_of_inverse]  <;> intro c <;> simp
 #align set.image_mul_right Set.image_mul_right
 #align set.image_add_right Set.image_add_right
 
@@ -1219,25 +1219,25 @@ theorem image_mul_right' : (· * b⁻¹) '' t = (· * b) ⁻¹' t := by simp
 
 @[to_additive (attr := simp)]
 theorem preimage_mul_left_singleton : (· * ·) a ⁻¹' {b} = {a⁻¹ * b} := by
-  rw [← image_mul_left', image_singleton]
+  rw [← image_mul_left']; rw [image_singleton]
 #align set.preimage_mul_left_singleton Set.preimage_mul_left_singleton
 #align set.preimage_add_left_singleton Set.preimage_add_left_singleton
 
 @[to_additive (attr := simp)]
 theorem preimage_mul_right_singleton : (· * a) ⁻¹' {b} = {b * a⁻¹} := by
-  rw [← image_mul_right', image_singleton]
+  rw [← image_mul_right']; rw [image_singleton]
 #align set.preimage_mul_right_singleton Set.preimage_mul_right_singleton
 #align set.preimage_add_right_singleton Set.preimage_add_right_singleton
 
 @[to_additive (attr := simp)]
 theorem preimage_mul_left_one : (· * ·) a ⁻¹' 1 = {a⁻¹} := by
-  rw [← image_mul_left', image_one, mul_one]
+  rw [← image_mul_left']; rw [image_one]; rw [mul_one]
 #align set.preimage_mul_left_one Set.preimage_mul_left_one
 #align set.preimage_add_left_zero Set.preimage_add_left_zero
 
 @[to_additive (attr := simp)]
 theorem preimage_mul_right_one : (· * b) ⁻¹' 1 = {b⁻¹} := by
-  rw [← image_mul_right', image_one, one_mul]
+  rw [← image_mul_right']; rw [image_one]; rw [one_mul]
 #align set.preimage_mul_right_one Set.preimage_mul_right_one
 #align set.preimage_add_right_zero Set.preimage_add_right_zero
 

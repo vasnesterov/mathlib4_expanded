@@ -48,7 +48,7 @@ instance Ring_of_Mon_ (A : Mon_ (ModuleCat.{u} R)) : Ring A.X :=
     one_mul := fun x => by
       have := LinearMap.congr_fun A.one_mul ((1 : R) ⊗ₜ x)
       convert this
-      rw [MonoidalCategory.leftUnitor_hom_apply, one_smul]
+      rw [MonoidalCategory.leftUnitor_hom_apply]; rw [one_smul]
     mul_one := fun x => by
       have := LinearMap.congr_fun A.mul_one (x ⊗ₜ (1 : R))
       convert this
@@ -67,9 +67,9 @@ instance Ring_of_Mon_ (A : Mon_ (ModuleCat.{u} R)) : Ring A.X :=
       rw [← TensorProduct.add_tmul]
       rfl
     zero_mul := fun x => show A.mul _ = 0 by
-      rw [TensorProduct.zero_tmul, map_zero]
+      rw [TensorProduct.zero_tmul]; rw [map_zero]
     mul_zero := fun x => show A.mul _ = 0 by
-      rw [TensorProduct.tmul_zero, map_zero] }
+      rw [TensorProduct.tmul_zero]; rw [map_zero] }
 
 instance Algebra_of_Mon_ (A : Mon_ (ModuleCat.{u} R)) : Algebra R A.X :=
   { A.one with
@@ -113,7 +113,7 @@ def inverseObj (A : AlgebraCat.{u} R) : Mon_ (ModuleCat.{u} R) where
   one_mul := by
     -- Porting note : `ext` did not pick up `TensorProduct.ext`
     refine TensorProduct.ext <| LinearMap.ext_ring <| LinearMap.ext fun x => ?_
-    rw [compr₂_apply, compr₂_apply, CategoryTheory.comp_apply]
+    rw [compr₂_apply]; rw [compr₂_apply]; rw [CategoryTheory.comp_apply]
     -- Porting note : this `dsimp` does nothing
     -- dsimp [AlgebraCat.id_apply, TensorProduct.mk_apply, Algebra.linearMap_apply,
     --   LinearMap.compr₂_apply, Function.comp_apply, RingHom.map_one,
@@ -144,10 +144,9 @@ def inverseObj (A : AlgebraCat.{u} R) : Mon_ (ModuleCat.{u} R) where
     --   Function.comp_apply, ModuleCat.MonoidalCategory.hom_apply, AlgebraCat.coe_comp,
     --   MonoidalCategory.associator_hom_apply]
     -- Porting note : because `dsimp` is not effective, `rw` needs to be changed to `erw`
-    rw [compr₂_apply, compr₂_apply, compr₂_apply, compr₂_apply, CategoryTheory.comp_apply,
-      CategoryTheory.comp_apply, CategoryTheory.comp_apply]
+    rw [compr₂_apply]; rw [compr₂_apply]; rw [compr₂_apply]; rw [compr₂_apply]; rw [CategoryTheory.comp_apply]; rw [CategoryTheory.comp_apply]; rw [CategoryTheory.comp_apply]
     erw [LinearMap.mul'_apply, LinearMap.mul'_apply]
-    rw [id_apply, TensorProduct.mk_apply]
+    rw [id_apply]; rw [TensorProduct.mk_apply]
     erw [TensorProduct.mk_apply, TensorProduct.mk_apply, id_apply, LinearMap.mul'_apply,
       LinearMap.mul'_apply]
     simp only [LinearMap.mul'_apply, mul_assoc]

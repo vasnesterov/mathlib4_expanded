@@ -137,8 +137,7 @@ theorem quasiconcaveOn_iff_min_le : QuasiconcaveOn 𝕜 s f ↔ Convex 𝕜 s �
 
 theorem quasilinearOn_iff_mem_uIcc : QuasilinearOn 𝕜 s f ↔ Convex 𝕜 s ∧ ∀ ⦃x⦄, x ∈ s → ∀ ⦃y⦄,
     y ∈ s → ∀ ⦃a b : 𝕜⦄, 0 ≤ a → 0 ≤ b → a + b = 1 → f (a • x + b • y) ∈ uIcc (f x) (f y) := by
-  rw [QuasilinearOn, quasiconvexOn_iff_le_max, quasiconcaveOn_iff_min_le, and_and_and_comm,
-    and_self_iff]
+  rw [QuasilinearOn]; rw [quasiconvexOn_iff_le_max]; rw [quasiconcaveOn_iff_min_le]; rw [and_and_and_comm]; rw [and_self_iff]
   apply and_congr_right'
   simp_rw [← forall_and, ← Icc_min_max, mem_Icc, and_comm]
 #align quasilinear_on_iff_mem_uIcc quasilinearOn_iff_mem_uIcc

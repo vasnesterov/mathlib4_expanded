@@ -66,7 +66,7 @@ theorem Set.Countable.isPathConnected_compl_of_one_lt_rank
     apply disjoint_iff_inter_eq_empty.2
     have N : {c + x} ∩ s = ∅ := by
       simpa only [singleton_inter_eq_empty, mem_compl_iff, Ib] using hb
-    rw [inter_assoc, inter_comm s, inter_assoc, inter_self, ← inter_assoc, ← subset_empty_iff, ← N]
+    rw [inter_assoc]; rw [inter_comm s]; rw [inter_assoc]; rw [inter_self]; rw [← inter_assoc]; rw [← subset_empty_iff]; rw [← N]
     apply inter_subset_inter_left
     apply Eq.subset
     apply segment_inter_eq_endpoint_of_linearIndependent_of_ne hy htt'.symm
@@ -76,7 +76,7 @@ theorem Set.Countable.isPathConnected_compl_of_one_lt_rank
     apply disjoint_iff_inter_eq_empty.2
     have N : {c - x} ∩ s = ∅ := by
       simpa only [singleton_inter_eq_empty, mem_compl_iff, Ia] using ha
-    rw [inter_assoc, inter_comm s, inter_assoc, inter_self, ← inter_assoc, ← subset_empty_iff, ← N]
+    rw [inter_assoc]; rw [inter_comm s]; rw [inter_assoc]; rw [inter_self]; rw [← inter_assoc]; rw [← subset_empty_iff]; rw [← N]
     apply inter_subset_inter_left
     rw [sub_eq_add_neg _ x]
     apply Eq.subset
@@ -90,12 +90,12 @@ theorem Set.Countable.isPathConnected_compl_of_one_lt_rank
     at ht
   have JA : JoinedIn sᶜ a z := by
     apply JoinedIn_of_segment_subset
-    rw [subset_compl_iff_disjoint_right, disjoint_iff_inter_eq_empty]
+    rw [subset_compl_iff_disjoint_right]; rw [disjoint_iff_inter_eq_empty]
     convert ht.2
     exact Ia.symm
   have JB : JoinedIn sᶜ b z := by
     apply JoinedIn_of_segment_subset
-    rw [subset_compl_iff_disjoint_right, disjoint_iff_inter_eq_empty]
+    rw [subset_compl_iff_disjoint_right]; rw [disjoint_iff_inter_eq_empty]
     convert ht.1
     exact Ib.symm
   exact JA.trans JB.symm

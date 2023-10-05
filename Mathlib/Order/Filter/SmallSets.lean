@@ -62,7 +62,7 @@ theorem tendsto_smallSets_iff {f : α → Set β} :
 -- but it timeouts in Lean 4
 theorem eventually_smallSets {p : Set α → Prop} :
     (∀ᶠ s in l.smallSets, p s) ↔ ∃ s ∈ l, ∀ t, t ⊆ s → p t := by
-  rw [smallSets, eventually_lift'_iff]; rfl
+  rw [smallSets]; rw [eventually_lift'_iff]; rfl
   exact monotone_powerset
 #align filter.eventually_small_sets Filter.eventually_smallSets
 
@@ -93,13 +93,13 @@ theorem monotone_smallSets : Monotone (@smallSets α) :=
 
 @[simp]
 theorem smallSets_bot : (⊥ : Filter α).smallSets = pure ∅ := by
-  rw [smallSets, lift'_bot, powerset_empty, principal_singleton]
+  rw [smallSets]; rw [lift'_bot]; rw [powerset_empty]; rw [principal_singleton]
   exact monotone_powerset
 #align filter.small_sets_bot Filter.smallSets_bot
 
 @[simp]
 theorem smallSets_top : (⊤ : Filter α).smallSets = ⊤ := by
-  rw [smallSets, lift'_top, powerset_univ, principal_univ]
+  rw [smallSets]; rw [lift'_top]; rw [powerset_univ]; rw [principal_univ]
 #align filter.small_sets_top Filter.smallSets_top
 
 @[simp]

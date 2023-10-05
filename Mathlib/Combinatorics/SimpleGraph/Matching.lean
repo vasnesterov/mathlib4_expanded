@@ -77,7 +77,7 @@ theorem IsMatching.toEdge.surjective {M : Subgraph G} (h : M.IsMatching) :
 theorem IsMatching.toEdge_eq_toEdge_of_adj {M : Subgraph G} {v w : V} (h : M.IsMatching)
     (hv : v ∈ M.verts) (hw : w ∈ M.verts) (ha : M.Adj v w) :
     h.toEdge ⟨v, hv⟩ = h.toEdge ⟨w, hw⟩ := by
-  rw [h.toEdge_eq_of_adj hv ha, h.toEdge_eq_of_adj hw (M.symm ha), Subtype.mk_eq_mk, Sym2.eq_swap]
+  rw [h.toEdge_eq_of_adj hv ha]; rw [h.toEdge_eq_of_adj hw (M.symm ha)]; rw [Subtype.mk_eq_mk]; rw [Sym2.eq_swap]
 #align simple_graph.subgraph.is_matching.to_edge_eq_to_edge_of_adj SimpleGraph.Subgraph.IsMatching.toEdge_eq_toEdge_of_adj
 
 /--
@@ -103,7 +103,7 @@ theorem IsMatching.even_card {M : Subgraph G} [Fintype M.verts] (h : M.IsMatchin
   classical
   rw [isMatching_iff_forall_degree] at h
   use M.coe.edgeFinset.card
-  rw [← two_mul, ← M.coe.sum_degrees_eq_twice_card_edges]
+  rw [← two_mul]; rw [← M.coe.sum_degrees_eq_twice_card_edges]
   -- Porting note: `SimpleGraph.Subgraph.coe_degree` does not trigger because it uses
   -- instance arguments instead of implicit arguments for the first `Fintype` argument.
   -- Using a `convert_to` to swap out the `Fintype` instance to the "right" one.

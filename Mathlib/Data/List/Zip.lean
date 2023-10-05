@@ -66,13 +66,13 @@ theorem all₂_zipWith {f : α → β → γ} {p : γ → Prop} :
 
 theorem lt_length_left_of_zipWith {f : α → β → γ} {i : ℕ} {l : List α} {l' : List β}
     (h : i < (zipWith f l l').length) : i < l.length := by
-  rw [length_zipWith, lt_min_iff] at h
+  rw [length_zipWith] at h; rw [lt_min_iff] at h
   exact h.left
 #align list.lt_length_left_of_zip_with List.lt_length_left_of_zipWith
 
 theorem lt_length_right_of_zipWith {f : α → β → γ} {i : ℕ} {l : List α} {l' : List β}
     (h : i < (zipWith f l l').length) : i < l'.length := by
-  rw [length_zipWith, lt_min_iff] at h
+  rw [length_zipWith] at h; rw [lt_min_iff] at h
   exact h.right
 #align list.lt_length_right_of_zip_with List.lt_length_right_of_zipWith
 
@@ -215,13 +215,12 @@ theorem unzip_zip_right {l₁ : List α} {l₂ : List β} (h : length l₂ ≤ l
 
 theorem unzip_zip {l₁ : List α} {l₂ : List β} (h : length l₁ = length l₂) :
     unzip (zip l₁ l₂) = (l₁, l₂) := by
-  rw [← Prod.mk.eta (p := unzip (zip l₁ l₂)),
-    unzip_zip_left (le_of_eq h), unzip_zip_right (ge_of_eq h)]
+  rw [← Prod.mk.eta (p := unzip (zip l₁ l₂))]; rw [unzip_zip_left (le_of_eq h)]; rw [unzip_zip_right (ge_of_eq h)]
 #align list.unzip_zip List.unzip_zip
 
 theorem zip_of_prod {l : List α} {l' : List β} {lp : List (α × β)} (hl : lp.map Prod.fst = l)
     (hr : lp.map Prod.snd = l') : lp = l.zip l' := by
-  rw [← hl, ← hr, ← zip_unzip lp, ← unzip_left, ← unzip_right, zip_unzip, zip_unzip]
+  rw [← hl]; rw [← hr]; rw [← zip_unzip lp]; rw [← unzip_left]; rw [← unzip_right]; rw [zip_unzip]; rw [zip_unzip]
 #align list.zip_of_prod List.zip_of_prod
 
 theorem map_prod_left_eq_zip {l : List α} (f : α → β) :
@@ -322,12 +321,12 @@ theorem unzip_revzip (l : List α) : (revzip l).unzip = (l, l.reverse) :=
 
 @[simp]
 theorem revzip_map_fst (l : List α) : (revzip l).map Prod.fst = l := by
-  rw [← unzip_left, unzip_revzip]
+  rw [← unzip_left]; rw [unzip_revzip]
 #align list.revzip_map_fst List.revzip_map_fst
 
 @[simp]
 theorem revzip_map_snd (l : List α) : (revzip l).map Prod.snd = l.reverse := by
-  rw [← unzip_right, unzip_revzip]
+  rw [← unzip_right]; rw [unzip_revzip]
 #align list.revzip_map_snd List.revzip_map_snd
 
 theorem reverse_revzip (l : List α) : reverse l.revzip = revzip l.reverse := by
@@ -360,7 +359,7 @@ theorem get?_zip_with_eq_some {α β γ} (f : α → β → γ) (l₁ : List α)
 theorem get?_zip_eq_some (l₁ : List α) (l₂ : List β) (z : α × β) (i : ℕ) :
     (zip l₁ l₂).get? i = some z ↔ l₁.get? i = some z.1 ∧ l₂.get? i = some z.2 := by
   cases z
-  rw [zip, get?_zip_with_eq_some]; constructor
+  rw [zip]; rw [get?_zip_with_eq_some]; constructor
   · rintro ⟨x, y, h₀, h₁, h₂⟩
     simpa [h₀, h₁] using h₂
   · rintro ⟨h₀, h₁⟩
@@ -372,7 +371,7 @@ theorem get_zipWith {f : α → β → γ} {l : List α} {l' : List β} {i : Fin
     (zipWith f l l').get i =
       f (l.get ⟨i, lt_length_left_of_zipWith i.isLt⟩)
         (l'.get ⟨i, lt_length_right_of_zipWith i.isLt⟩) := by
-  rw [← Option.some_inj, ← get?_eq_get, get?_zip_with_eq_some]
+  rw [← Option.some_inj]; rw [← get?_eq_get]; rw [get?_zip_with_eq_some]
   exact
     ⟨l.get ⟨i, lt_length_left_of_zipWith i.isLt⟩, l'.get ⟨i, lt_length_right_of_zipWith i.isLt⟩,
       by rw [get?_eq_get], by rw [get?_eq_get]; exact ⟨rfl, rfl⟩⟩
@@ -505,8 +504,8 @@ theorem prod_mul_prod_eq_prod_zipWith_mul_prod_drop :
   | x :: xs, y :: ys => by
     simp only [drop, length, zipWith_cons_cons, prod_cons]
     conv =>
-      lhs; rw [mul_assoc]; right; rw [mul_comm, mul_assoc]; right
-      rw [mul_comm, prod_mul_prod_eq_prod_zipWith_mul_prod_drop xs ys]
+      lhs; rw [mul_assoc]; right; rw [mul_comm]; rw [mul_assoc]; right
+      rw [mul_comm]; rw [prod_mul_prod_eq_prod_zipWith_mul_prod_drop xs ys]
     simp only [add_eq, add_zero]
     ac_rfl
 #align list.prod_mul_prod_eq_prod_zip_with_mul_prod_drop List.prod_mul_prod_eq_prod_zipWith_mul_prod_drop
@@ -516,7 +515,7 @@ theorem prod_mul_prod_eq_prod_zipWith_mul_prod_drop :
 theorem prod_mul_prod_eq_prod_zipWith_of_length_eq (L L' : List α) (h : L.length = L'.length) :
     L.prod * L'.prod = (zipWith (· * ·) L L').prod := by
   apply (prod_mul_prod_eq_prod_zipWith_mul_prod_drop L L').trans
-  rw [← h, drop_length, h, drop_length, prod_nil, mul_one, mul_one]
+  rw [← h]; rw [drop_length]; rw [h]; rw [drop_length]; rw [prod_nil]; rw [mul_one]; rw [mul_one]
 #align list.prod_mul_prod_eq_prod_zip_with_of_length_eq List.prod_mul_prod_eq_prod_zipWith_of_length_eq
 #align list.sum_add_sum_eq_sum_zip_with_of_length_eq List.sum_add_sum_eq_sum_zipWith_of_length_eq
 

@@ -46,9 +46,7 @@ def LocalHomeomorph.univUnitBall : LocalHomeomorph E E where
   target := ball 0 1
   map_source' x _ := by
     have : 0 < 1 + ‖x‖ ^ 2 := by positivity
-    rw [mem_ball_zero_iff, norm_smul, Real.norm_eq_abs, abs_inv, ← _root_.div_eq_inv_mul,
-      div_lt_one (abs_pos.mpr <| Real.sqrt_ne_zero'.mpr this), ← abs_norm x, ← sq_lt_sq,
-      abs_norm, Real.sq_sqrt this.le]
+    rw [mem_ball_zero_iff]; rw [norm_smul]; rw [Real.norm_eq_abs]; rw [abs_inv]; rw [← _root_.div_eq_inv_mul]; rw [div_lt_one (abs_pos.mpr <| Real.sqrt_ne_zero'.mpr this)]; rw [← abs_norm x]; rw [← sq_lt_sq]; rw [abs_norm]; rw [Real.sq_sqrt this.le]
     exact lt_one_add _
   map_target' _ _ := trivial
   left_inv' x _ := by
@@ -111,7 +109,7 @@ def unitBallBall (c : P) (r : ℝ) (hr : 0 < r) : LocalHomeomorph E P :=
       (IsometryEquiv.vaddConst c).toHomeomorph).toLocalHomeomorphOfImageEq
       (ball 0 1) isOpen_ball (ball c r) <| by
     change (IsometryEquiv.vaddConst c) ∘ (r • ·) '' ball (0 : E) 1 = ball c r
-    rw [image_comp, image_smul, smul_unitBall hr.ne', IsometryEquiv.image_ball]
+    rw [image_comp]; rw [image_smul]; rw [smul_unitBall hr.ne']; rw [IsometryEquiv.image_ball]
     simp [abs_of_pos hr]
 
 /-- If `r > 0`, then `LocalHomeomorph.univBall c r` is a smooth local homeomorphism
@@ -127,7 +125,7 @@ theorem univBall_source (c : P) (r : ℝ) : (univBall c r).source = univ := by
   unfold univBall; split_ifs <;> rfl
 
 theorem univBall_target (c : P) {r : ℝ} (hr : 0 < r) : (univBall c r).target = ball c r := by
-  rw [univBall, dif_pos hr]; rfl
+  rw [univBall]; rw [dif_pos hr]; rfl
 
 theorem ball_subset_univBall_target (c : P) (r : ℝ) : ball c r ⊆ (univBall c r).target := by
   by_cases hr : 0 < r

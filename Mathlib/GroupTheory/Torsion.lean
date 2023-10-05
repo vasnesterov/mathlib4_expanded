@@ -61,7 +61,7 @@ def IsTorsion :=
 @[to_additive (attr := simp) "An additive monoid is not a torsion monoid if it
   has an element of infinite order."]
 theorem not_isTorsion_iff : ¬IsTorsion G ↔ ∃ g : G, ¬IsOfFinOrder g := by
-  rw [IsTorsion, not_forall]
+  rw [IsTorsion]; rw [not_forall]
 #align monoid.not_is_torsion_iff Monoid.not_isTorsion_iff
 #align add_monoid.not_is_torsion_iff AddMonoid.not_isTorsion_iff
 
@@ -113,7 +113,7 @@ theorem IsTorsion.extension_closed {f : G →* H} (hN : N = f.ker) (tH : IsTorsi
     obtain ⟨nn, nnpos, hnn⟩ := (isOfFinOrder_iff_pow_eq_one _).mp (tN gn)
     exact
       ⟨ngn * nn, mul_pos ngnpos nnpos, by
-        rw [pow_mul, ← h, ← Subgroup.coe_pow, hnn, Subgroup.coe_one]⟩
+        rw [pow_mul]; rw [← h]; rw [← Subgroup.coe_pow]; rw [hnn]; rw [Subgroup.coe_one]⟩
 #align is_torsion.extension_closed IsTorsion.extension_closed
 #align add_is_torsion.extension_closed AddIsTorsion.extension_closed
 
@@ -206,8 +206,7 @@ theorem torsion.isTorsion : IsTorsion <| torsion G := fun ⟨x, n, npos, hn⟩ =
       dsimp
       rw [mul_left_iterate]
       change _ * 1 = 1
-      rw [_root_.mul_one, SubmonoidClass.coe_pow, Subtype.coe_mk,
-        (isPeriodicPt_mul_iff_pow_eq_one _).mp hn]⟩
+      rw [_root_.mul_one]; rw [SubmonoidClass.coe_pow]; rw [Subtype.coe_mk]; rw [(isPeriodicPt_mul_iff_pow_eq_one _).mp hn]⟩
 #align comm_monoid.torsion.is_torsion CommMonoid.torsion.isTorsion
 #align add_comm_monoid.add_torsion.is_torsion AddCommMonoid.addTorsion.isTorsion
 
@@ -226,8 +225,7 @@ def primaryComponent : Submonoid G where
       obtain ⟨n, hn⟩ := exists_orderOf_eq_prime_pow_iff.mp hg₂
       exact
         ⟨m + n, by
-          rw [mul_pow, pow_add, pow_mul, hm, one_pow, Monoid.one_mul, mul_comm, pow_mul, hn,
-            one_pow]⟩
+          rw [mul_pow]; rw [pow_add]; rw [pow_mul]; rw [hm]; rw [one_pow]; rw [Monoid.one_mul]; rw [mul_comm]; rw [pow_mul]; rw [hn]; rw [one_pow]⟩
 #align comm_monoid.primary_component CommMonoid.primaryComponent
 #align add_comm_monoid.primary_component AddCommMonoid.primaryComponent
 

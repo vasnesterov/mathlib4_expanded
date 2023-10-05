@@ -136,10 +136,10 @@ theorem one_lt_ack_succ_right : ∀ m n, 1 < ack m (n + 1)
 theorem ack_strictMono_right : ∀ m, StrictMono (ack m)
   | 0, n₁, n₂, h => by simpa using h
   | m + 1, 0, n + 1, _h => by
-    rw [ack_succ_zero, ack_succ_succ]
+    rw [ack_succ_zero]; rw [ack_succ_succ]
     exact ack_strictMono_right _ (one_lt_ack_succ_left m n)
   | m + 1, n₁ + 1, n₂ + 1, h => by
-    rw [ack_succ_succ, ack_succ_succ]
+    rw [ack_succ_succ]; rw [ack_succ_succ]
     apply ack_strictMono_right _ (ack_strictMono_right _ _)
     rwa [add_lt_add_iff_right] at h
   termination_by ack_strictMono_right m x y h => (m, x)
@@ -203,13 +203,13 @@ private theorem ack_strict_mono_left' : ∀ {m₁ m₂} (n), m₁ < m₂ → ack
   | m, 0, n => fun h => (not_lt_zero m h).elim
   | 0, m + 1, 0 => fun _h => by simpa using one_lt_ack_succ_right m 0
   | 0, m + 1, n + 1 => fun h => by
-    rw [ack_zero, ack_succ_succ]
+    rw [ack_zero]; rw [ack_succ_succ]
     apply lt_of_le_of_lt (le_trans _ <| add_le_add_left (add_add_one_le_ack _ _) m) (add_lt_ack _ _)
     linarith
   | m₁ + 1, m₂ + 1, 0 => fun h => by
     simpa using ack_strict_mono_left' 1 ((add_lt_add_iff_right 1).1 h)
   | m₁ + 1, m₂ + 1, n + 1 => fun h => by
-    rw [ack_succ_succ, ack_succ_succ]
+    rw [ack_succ_succ]; rw [ack_succ_succ]
     exact
       (ack_strict_mono_left' _ <| (add_lt_add_iff_right 1).1 h).trans
         (ack_strictMono_right _ <| ack_strict_mono_left' n h)
@@ -269,7 +269,7 @@ private theorem sq_le_two_pow_add_one_minus_three (n : ℕ) : n ^ 2 ≤ 2 ^ (n +
       · apply Nat.add_le_add hk
         norm_num
         apply succ_le_of_lt
-        rw [Nat.pow_succ, mul_comm _ 2, mul_lt_mul_left (zero_lt_two' ℕ)]
+        rw [Nat.pow_succ]; rw [mul_comm _ 2]; rw [mul_lt_mul_left (zero_lt_two' ℕ)]
         apply lt_two_pow
       · rw [Nat.pow_succ, Nat.pow_succ]
         linarith [one_le_pow k 2 zero_lt_two]
@@ -277,10 +277,10 @@ private theorem sq_le_two_pow_add_one_minus_three (n : ℕ) : n ^ 2 ≤ 2 ^ (n +
 theorem ack_add_one_sq_lt_ack_add_three : ∀ m n, (ack m n + 1) ^ 2 ≤ ack (m + 3) n
   | 0, n => by simpa using sq_le_two_pow_add_one_minus_three (n + 2)
   | m + 1, 0 => by
-    rw [ack_succ_zero, ack_succ_zero]
+    rw [ack_succ_zero]; rw [ack_succ_zero]
     apply ack_add_one_sq_lt_ack_add_three
   | m + 1, n + 1 => by
-    rw [ack_succ_succ, ack_succ_succ]
+    rw [ack_succ_succ]; rw [ack_succ_succ]
     apply (ack_add_one_sq_lt_ack_add_three _ _).trans (ack_mono_right _ <| ack_mono_left _ _)
     linarith
 #align ack_add_one_sq_lt_ack_add_three ack_add_one_sq_lt_ack_add_three
@@ -321,11 +321,11 @@ theorem exists_lt_ack_of_nat_primrec {f : ℕ → ℕ} (hf : Nat.Primrec f) :
     apply add_lt_ack
   -- Left projection:
   · refine' ⟨0, fun n => _⟩
-    rw [ack_zero, lt_succ_iff]
+    rw [ack_zero]; rw [lt_succ_iff]
     exact unpair_left_le n
   -- Right projection:
   · refine' ⟨0, fun n => _⟩
-    rw [ack_zero, lt_succ_iff]
+    rw [ack_zero]; rw [lt_succ_iff]
     exact unpair_right_le n
   all_goals cases' IHf with a ha; cases' IHg with b hb
   -- Pairing:
@@ -371,8 +371,7 @@ theorem exists_lt_ack_of_nat_primrec {f : ℕ → ℕ} (hf : Nat.Primrec f) :
         rw [max_eq_right h₂]
         -- We now use the inductive hypothesis, and some simple algebraic manipulation.
         apply (ack_strictMono_right _ IH).le.trans
-        rw [add_succ m, add_succ _ 8, succ_eq_add_one, succ_eq_add_one,
-            ack_succ_succ (_ + 8), add_assoc]
+        rw [add_succ m]; rw [add_succ _ 8]; rw [succ_eq_add_one]; rw [succ_eq_add_one]; rw [ack_succ_succ (_ + 8)]; rw [add_assoc]
         exact ack_mono_left _ (Nat.add_le_add (le_max_right a b) le_rfl)
     -- The proof is now simple.
     exact ⟨max a b + 9, fun n => this.trans_le <| ack_mono_right _ <| unpair_add_le n⟩

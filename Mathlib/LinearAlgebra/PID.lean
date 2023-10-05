@@ -35,7 +35,7 @@ lemma trace_restrict_eq_of_forall_mem [IsDomain R] [IsPrincipalIdealRing R]
     trace R p (f.restrict hf') = trace R M f := by
   let ι := Module.Free.ChooseBasisIndex R M
   obtain ⟨n, snf : Basis.SmithNormalForm p ι n⟩ := p.smithNormalForm (Module.Free.chooseBasis R M)
-  rw [trace_eq_matrix_trace R snf.bM, trace_eq_matrix_trace R snf.bN]
+  rw [trace_eq_matrix_trace R snf.bM]; rw [trace_eq_matrix_trace R snf.bN]
   set A : Matrix (Fin n) (Fin n) R := toMatrix snf.bN snf.bN (f.restrict hf')
   set B : Matrix ι ι R := toMatrix snf.bM snf.bM f
   have aux : ∀ i, B i i ≠ 0 → i ∈ Set.range snf.f := fun i hi ↦ by

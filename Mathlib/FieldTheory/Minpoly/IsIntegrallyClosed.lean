@@ -61,7 +61,7 @@ this version is useful if the element is in a ring that is already a `K`-algebra
 theorem isIntegrallyClosed_eq_field_fractions' [IsDomain S] [Algebra K S] [IsScalarTower R K S]
     {s : S} (hs : IsIntegral R s) : minpoly K s = (minpoly R s).map (algebraMap R K) := by
   let L := FractionRing S
-  rw [← isIntegrallyClosed_eq_field_fractions K L hs, algebraMap_eq (IsFractionRing.injective S L)]
+  rw [← isIntegrallyClosed_eq_field_fractions K L hs]; rw [algebraMap_eq (IsFractionRing.injective S L)]
 #align minpoly.is_integrally_closed_eq_field_fractions' minpoly.isIntegrallyClosed_eq_field_fractions'
 
 end
@@ -80,15 +80,14 @@ theorem isIntegrallyClosed_dvd [Nontrivial R] {s : S} (hs : IsIntegral R s) {p :
   let _ : Algebra K L := FractionRing.liftAlgebra R L
   have := FractionRing.isScalarTower_liftAlgebra R L
   have : minpoly K (algebraMap S L s) ∣ map (algebraMap R K) (p %ₘ minpoly R s) := by
-    rw [map_modByMonic _ (minpoly.monic hs), modByMonic_eq_sub_mul_div]
+    rw [map_modByMonic _ (minpoly.monic hs)]; rw [modByMonic_eq_sub_mul_div]
     refine' dvd_sub (minpoly.dvd K (algebraMap S L s) _) _
-    rw [← map_aeval_eq_aeval_map, hp, map_zero]
-    rw [← IsScalarTower.algebraMap_eq, ← IsScalarTower.algebraMap_eq]
+    rw [← map_aeval_eq_aeval_map]; rw [hp]; rw [map_zero]
+    rw [← IsScalarTower.algebraMap_eq]; rw [← IsScalarTower.algebraMap_eq]
     apply dvd_mul_of_dvd_left
     rw [isIntegrallyClosed_eq_field_fractions K L hs]
     exact Monic.map _ (minpoly.monic hs)
-  rw [isIntegrallyClosed_eq_field_fractions _ _ hs,
-    map_dvd_map (algebraMap R K) (IsFractionRing.injective R K) (minpoly.monic hs)] at this
+  rw [isIntegrallyClosed_eq_field_fractions _ _ hs] at this; rw [map_dvd_map (algebraMap R K) (IsFractionRing.injective R K) (minpoly.monic hs)] at this
   rw [← dvd_iff_modByMonic_eq_zero (minpoly.monic hs)]
   refine' Polynomial.eq_zero_of_dvd_of_degree_lt this (degree_modByMonic_lt p <| minpoly.monic hs)
 #align minpoly.is_integrally_closed_dvd minpoly.isIntegrallyClosed_dvd
@@ -114,7 +113,7 @@ degree of the minimal polynomial of `x`. See also `minpoly.degree_le_of_ne_zero`
 assumptions on `S` in exchange for stronger assumptions on `R`. -/
 theorem IsIntegrallyClosed.degree_le_of_ne_zero {s : S} (hs : IsIntegral R s) {p : R[X]}
     (hp0 : p ≠ 0) (hp : Polynomial.aeval s p = 0) : degree (minpoly R s) ≤ degree p := by
-  rw [degree_eq_natDegree (minpoly.ne_zero hs), degree_eq_natDegree hp0]
+  rw [degree_eq_natDegree (minpoly.ne_zero hs)]; rw [degree_eq_natDegree hp0]
   norm_cast
   exact natDegree_le_of_dvd ((isIntegrallyClosed_dvd_iff hs _).mp hp) hp0
 #align minpoly.is_integrally_closed.degree_le_of_ne_zero minpoly.IsIntegrallyClosed.degree_le_of_ne_zero
@@ -158,10 +157,9 @@ theorem ToAdjoin.injective (hx : IsIntegral R x) : Function.Injective (Minpoly.t
   obtain ⟨P, hP⟩ := mk_surjective (minpoly.monic hx) P₁
   by_cases hPzero : P = 0
   · simpa [hPzero] using hP.symm
-  rw [← hP, Minpoly.toAdjoin_apply', liftHom_mk, ← Subalgebra.coe_eq_zero, aeval_subalgebra_coe,
-    isIntegrallyClosed_dvd_iff hx] at hP₁
+  rw [← hP] at hP₁; rw [Minpoly.toAdjoin_apply'] at hP₁; rw [liftHom_mk] at hP₁; rw [← Subalgebra.coe_eq_zero] at hP₁; rw [aeval_subalgebra_coe] at hP₁; rw [isIntegrallyClosed_dvd_iff hx] at hP₁
   obtain ⟨Q, hQ⟩ := hP₁
-  rw [← hP, hQ, RingHom.map_mul, mk_self, zero_mul]
+  rw [← hP]; rw [hQ]; rw [RingHom.map_mul]; rw [mk_self]; rw [zero_mul]
 #align minpoly.to_adjoin.injective minpoly.ToAdjoin.injective
 
 /-- The algebra isomorphism `AdjoinRoot (minpoly R x) ≃ₐ[R] adjoin R x` -/
@@ -186,8 +184,7 @@ theorem _root_.Algebra.adjoin.powerBasis'_dim (hx : IsIntegral R x) :
 @[simp]
 theorem _root_.Algebra.adjoin.powerBasis'_gen (hx : IsIntegral R x) :
     (adjoin.powerBasis' hx).gen = ⟨x, SetLike.mem_coe.1 <| subset_adjoin <| mem_singleton x⟩ := by
-  rw [Algebra.adjoin.powerBasis', PowerBasis.map_gen, AdjoinRoot.powerBasis'_gen, equivAdjoin,
-    AlgEquiv.ofBijective_apply, Minpoly.toAdjoin, liftHom_root]
+  rw [Algebra.adjoin.powerBasis']; rw [PowerBasis.map_gen]; rw [AdjoinRoot.powerBasis'_gen]; rw [equivAdjoin]; rw [AlgEquiv.ofBijective_apply]; rw [Minpoly.toAdjoin]; rw [liftHom_root]
 #align algebra.adjoin.power_basis'_gen Algebra.adjoin.powerBasis'_gen
 
 /-- The power basis given by `x` if `B.gen ∈ adjoin R {x}`. -/

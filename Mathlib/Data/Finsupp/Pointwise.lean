@@ -100,7 +100,7 @@ instance pointwiseScalar [Semiring β] : SMul (α → β) (α →₀ β) where
         Finsupp.fun_support_eq, Finset.mem_coe]
       intro x hx h
       apply hx
-      rw [h, smul_zero])
+      rw [h]; rw [smul_zero])
 #align finsupp.pointwise_scalar Finsupp.pointwiseScalar
 
 @[simp]

@@ -626,7 +626,7 @@ def functoriality : Cocone F ⥤ Cocone (F ⋙ G) where
           naturality := by intros; erw [← G.map_comp]; aesop_cat } }
   map f :=
     { hom := G.map f.hom
-      w := by intros; rw [← Functor.map_comp, CoconeMorphism.w] }
+      w := by intros; rw [← Functor.map_comp]; rw [CoconeMorphism.w] }
 #align category_theory.limits.cocones.functoriality CategoryTheory.Limits.Cocones.functoriality
 
 instance functorialityFull [Full G] [Faithful G] : Full (functoriality F G) where

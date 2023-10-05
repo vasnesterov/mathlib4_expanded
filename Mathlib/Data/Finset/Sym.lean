@@ -57,7 +57,7 @@ theorem mem_sym2_iff : m ∈ s.sym2 ↔ ∀ a ∈ m, a ∈ s := by
     mem_image.trans
       ⟨?_, fun h ↦ ⟨m.out, mem_product.2 ⟨h _ m.out_fst_mem, h _ m.out_snd_mem⟩, m.out_eq⟩⟩
   rintro ⟨⟨a, b⟩, h, rfl⟩
-  rw [Quotient.mk', @Sym2.ball _ (fun x ↦ x ∈ s)]
+  rw [Quotient.mk']; rw [@Sym2.ball _ (fun x ↦ x ∈ s)]
   rwa [mem_product] at h
 #align finset.mem_sym2_iff Finset.mem_sym2_iff
 
@@ -70,12 +70,12 @@ theorem sym2_empty : (∅ : Finset α).sym2 = ∅ := rfl
 
 @[simp]
 theorem sym2_eq_empty : s.sym2 = ∅ ↔ s = ∅ := by
-  rw [Finset.sym2, image_eq_empty, product_eq_empty, or_self_iff]
+  rw [Finset.sym2]; rw [image_eq_empty]; rw [product_eq_empty]; rw [or_self_iff]
 #align finset.sym2_eq_empty Finset.sym2_eq_empty
 
 @[simp]
 theorem sym2_nonempty : s.sym2.Nonempty ↔ s.Nonempty := by
-  rw [Finset.sym2, Nonempty.image_iff, nonempty_product, and_self_iff]
+  rw [Finset.sym2]; rw [Nonempty.image_iff]; rw [nonempty_product]; rw [and_self_iff]
 #align finset.sym2_nonempty Finset.sym2_nonempty
 
 alias ⟨_, nonempty.sym2⟩ := sym2_nonempty
@@ -92,7 +92,7 @@ theorem sym2_univ [Fintype α] : (univ : Finset α).sym2 = univ := by
 
 @[simp]
 theorem sym2_singleton (a : α) : ({a} : Finset α).sym2 = {Sym2.diag a} := by
-  rw [Finset.sym2, singleton_product_singleton, image_singleton, Sym2.diag, Quotient.mk']
+  rw [Finset.sym2]; rw [singleton_product_singleton]; rw [image_singleton]; rw [Sym2.diag]; rw [Quotient.mk']
 #align finset.sym2_singleton Finset.sym2_singleton
 
 -- Porting note: add this lemma and remove simp in the next lemma since simpNF lint
@@ -112,7 +112,7 @@ theorem sym2_mono (h : s ⊆ t) : s.sym2 ⊆ t.sym2 := fun _m he ↦
 
 theorem image_diag_union_image_offDiag :
     s.diag.image Quotient.mk' ∪ s.offDiag.image Quotient.mk' = s.sym2 := by
-  rw [← image_union, diag_union_offDiag]
+  rw [← image_union]; rw [diag_union_offDiag]
   rfl
 #align finset.image_diag_union_image_off_diag Finset.image_diag_union_image_offDiag
 

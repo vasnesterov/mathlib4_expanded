@@ -140,7 +140,7 @@ variable {𝕜}
 
 theorem mem_iff_annIdealGenerator_dvd {p : 𝕜[X]} {a : A} :
     p ∈ annIdeal 𝕜 a ↔ annIdealGenerator 𝕜 a ∣ p := by
-  rw [← Ideal.mem_span_singleton, span_singleton_annIdealGenerator]
+  rw [← Ideal.mem_span_singleton]; rw [span_singleton_annIdealGenerator]
 #align polynomial.mem_iff_ann_ideal_generator_dvd Polynomial.mem_iff_annIdealGenerator_dvd
 
 /-- The generator of the annihilating ideal has minimal degree among

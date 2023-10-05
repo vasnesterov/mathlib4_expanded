@@ -55,9 +55,9 @@ theorem hasInitial_of_weakly_initial_and_hasWideEqualizers [HasWideEqualizers.{v
     let e : E ⟶ wideEqualizer id := equalizer.ι _ _
     let h : T ⟶ E := Classical.choice (hT E)
     have : ((i ≫ h) ≫ e) ≫ i = i ≫ 𝟙 _ := by
-      rw [Category.assoc, Category.assoc]
+      rw [Category.assoc]; rw [Category.assoc]
       apply wideEqualizer.condition (id : endos → endos) (h ≫ e ≫ i)
-    rw [Category.comp_id, cancel_mono_id i] at this
+    rw [Category.comp_id] at this; rw [cancel_mono_id i] at this
     haveI : IsSplitEpi e := IsSplitEpi.mk' ⟨i ≫ h, this⟩
     rw [← cancel_epi e]
     apply equalizer.condition

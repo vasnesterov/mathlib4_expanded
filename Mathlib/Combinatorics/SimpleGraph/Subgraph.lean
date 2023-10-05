@@ -83,7 +83,7 @@ def subgraphOfAdj (G : SimpleGraph V) {v w : V} (hvw : G.Adj v w) : G.Subgraph w
   verts := {v, w}
   Adj a b := ⟦(v, w)⟧ = ⟦(a, b)⟧
   adj_sub h := by
-    rw [← G.mem_edgeSet, ← h]
+    rw [← G.mem_edgeSet]; rw [← h]
     exact hvw
   edge_vert {a b} h := by
     apply_fun fun e ↦ a ∈ e at h
@@ -412,7 +412,7 @@ theorem sInf_adj_of_nonempty {s : Set G.Subgraph} (hs : s.Nonempty) :
 
 theorem iInf_adj_of_nonempty [Nonempty ι] {f : ι → G.Subgraph} :
     (⨅ i, f i).Adj a b ↔ ∀ i, (f i).Adj a b := by
-  rw [iInf, sInf_adj_of_nonempty (Set.range_nonempty _)]
+  rw [iInf]; rw [sInf_adj_of_nonempty (Set.range_nonempty _)]
   simp
 #align simple_graph.subgraph.infi_adj_of_nonempty SimpleGraph.Subgraph.iInf_adj_of_nonempty
 
@@ -718,7 +718,7 @@ def inclusion {x y : Subgraph G} (h : x ≤ y) : x.coe →g y.coe where
 
 theorem inclusion.injective {x y : Subgraph G} (h : x ≤ y) : Function.Injective (inclusion h) := by
   intro v w h
-  rw [inclusion, FunLike.coe, Subtype.mk_eq_mk] at h
+  rw [inclusion] at h; rw [FunLike.coe] at h; rw [Subtype.mk_eq_mk] at h
   exact Subtype.ext h
 #align simple_graph.subgraph.inclusion.injective SimpleGraph.Subgraph.inclusion.injective
 
@@ -794,7 +794,7 @@ def degree (G' : Subgraph G) (v : V) [Fintype (G'.neighborSet v)] : ℕ :=
 
 theorem finset_card_neighborSet_eq_degree {G' : Subgraph G} {v : V} [Fintype (G'.neighborSet v)] :
     (G'.neighborSet v).toFinset.card = G'.degree v := by
-  rw [degree, Set.toFinset_card]
+  rw [degree]; rw [Set.toFinset_card]
 #align simple_graph.subgraph.finset_card_neighbor_set_eq_degree SimpleGraph.Subgraph.finset_card_neighborSet_eq_degree
 
 theorem degree_le (G' : Subgraph G) (v : V) [Fintype (G'.neighborSet v)]
@@ -818,13 +818,13 @@ theorem coe_degree (G' : Subgraph G) (v : G'.verts) [Fintype (G'.coe.neighborSet
 @[simp]
 theorem degree_spanningCoe {G' : G.Subgraph} (v : V) [Fintype (G'.neighborSet v)]
     [Fintype (G'.spanningCoe.neighborSet v)] : G'.spanningCoe.degree v = G'.degree v := by
-  rw [← card_neighborSet_eq_degree, Subgraph.degree]
+  rw [← card_neighborSet_eq_degree]; rw [Subgraph.degree]
   congr!
 #align simple_graph.subgraph.degree_spanning_coe SimpleGraph.Subgraph.degree_spanningCoe
 
 theorem degree_eq_one_iff_unique_adj {G' : Subgraph G} {v : V} [Fintype (G'.neighborSet v)] :
     G'.degree v = 1 ↔ ∃! w : V, G'.Adj v w := by
-  rw [← finset_card_neighborSet_eq_degree, Finset.card_eq_one, Finset.singleton_iff_unique_mem]
+  rw [← finset_card_neighborSet_eq_degree]; rw [Finset.card_eq_one]; rw [Finset.singleton_iff_unique_mem]
   simp only [Set.mem_toFinset, mem_neighborSet]
 #align simple_graph.subgraph.degree_eq_one_iff_unique_adj SimpleGraph.Subgraph.degree_eq_one_iff_unique_adj
 
@@ -879,7 +879,7 @@ theorem eq_singletonSubgraph_iff_verts_eq (H : G.Subgraph) {v : V} :
     intro ha
     have ha1 := ha.fst_mem
     have ha2 := ha.snd_mem
-    rw [h, Set.mem_singleton_iff] at ha1 ha2
+    rw [h] at ha1 ha2; rw [Set.mem_singleton_iff] at ha1 ha2
     subst_vars
     exact ha.ne rfl
 #align simple_graph.eq_singleton_subgraph_iff_verts_eq SimpleGraph.eq_singletonSubgraph_iff_verts_eq

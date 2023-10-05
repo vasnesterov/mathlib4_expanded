@@ -48,9 +48,9 @@ variable (hv : LinearIndependent R v) {M : ModuleCat R}
 
 theorem disjoint_span_sum : Disjoint (span R (range (u ∘ Sum.inl)))
     (span R (range (u ∘ Sum.inr))) := by
-  rw [huv, disjoint_comm]
+  rw [huv]; rw [disjoint_comm]
   refine' Disjoint.mono_right (span_mono (range_comp_subset_range _ _)) _
-  rw [← LinearMap.range_coe, (span_eq (LinearMap.range f)), (exact_iff _ _).mp he]
+  rw [← LinearMap.range_coe]; rw [(span_eq (LinearMap.range f))]; rw [(exact_iff _ _).mp he]
   exact range_ker_disjoint hw
 
 /-- In the commutative diagram
@@ -111,14 +111,14 @@ theorem span_exact (he : Exact f g) (huv : u ∘ Sum.inl = f ∘ v)
   have hsub : m - m' ∈ LinearMap.range f
   · rw [(exact_iff _ _).mp he]
     simp only [LinearMap.mem_ker, map_sub, sub_eq_zero]
-    rw [← hm, map_finsupp_sum]
+    rw [← hm]; rw [map_finsupp_sum]
     simp only [Function.comp_apply, SMulHomClass.map_smul]
   obtain ⟨n, hnm⟩ := hsub
   have hn : n ∈ span R (range v) := hv mem_top
   rw [Finsupp.mem_span_range_iff_exists_finsupp] at hn
   obtain ⟨cn, hn⟩ := hn
-  rw [← hn, map_finsupp_sum] at hnm
-  rw [← sub_add_cancel m m', ← hnm,]
+  rw [← hn] at hnm; rw [map_finsupp_sum] at hnm
+  rw [← sub_add_cancel m m']; rw [← hnm]
   simp only [SMulHomClass.map_smul]
   have hn' : (Finsupp.sum cn fun a b ↦ b • f (v a)) =
       (Finsupp.sum cn fun a b ↦ b • u (Sum.inl a)) :=
@@ -142,8 +142,7 @@ theorem span_rightExact {w : ι' → P} (hv : ⊤ ≤ span R (range v))
   · convert hw
     simp only [AddHom.toFun_eq_coe, LinearMap.coe_toAddHom, Sum.elim_comp_inr]
     rw [ModuleCat.epi_iff_surjective] at hE
-    rw [← Function.comp.assoc, Function.RightInverse.comp_eq_id (Function.rightInverse_invFun hE),
-      Function.comp.left_id]
+    rw [← Function.comp.assoc]; rw [Function.RightInverse.comp_eq_id (Function.rightInverse_invFun hE)]; rw [Function.comp.left_id]
 
 end Span
 
@@ -166,8 +165,7 @@ theorem free_shortExact_rank_add {M : ModuleCat R} {f : N ⟶ M}
     {g : M ⟶ P} (h : ShortExact f g) [Module.Free R N] [Module.Free R P] [StrongRankCondition R] :
     Module.rank R M = Module.rank R N + Module.rank R P := by
   haveI := free_shortExact h
-  rw [Module.Free.rank_eq_card_chooseBasisIndex, Module.Free.rank_eq_card_chooseBasisIndex R N,
-    Module.Free.rank_eq_card_chooseBasisIndex R P, Cardinal.add_def, Cardinal.eq]
+  rw [Module.Free.rank_eq_card_chooseBasisIndex]; rw [Module.Free.rank_eq_card_chooseBasisIndex R N]; rw [Module.Free.rank_eq_card_chooseBasisIndex R P]; rw [Cardinal.add_def]; rw [Cardinal.eq]
   exact ⟨Basis.indexEquiv (Module.Free.chooseBasis R M) (Basis.ofShortExact h
     (Module.Free.chooseBasis R N) (Module.Free.chooseBasis R P))⟩
 
@@ -179,7 +177,7 @@ theorem free_shortExact_finrank_add {M : ModuleCat R} {f : N ⟶ M}
     [StrongRankCondition R]:
     FiniteDimensional.finrank R M = n + p := by
   apply FiniteDimensional.finrank_eq_of_rank_eq
-  rw [free_shortExact_rank_add h, ← hN, ← hP]
+  rw [free_shortExact_rank_add h]; rw [← hN]; rw [← hP]
   simp only [Nat.cast_add, FiniteDimensional.finrank_eq_rank]
 
 end ModuleCat

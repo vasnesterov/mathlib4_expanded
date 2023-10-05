@@ -133,7 +133,7 @@ protected nonrec theorem sub (hf : TorusIntegrable f c R) (hg : TorusIntegrable 
 #align torus_integrable.sub TorusIntegrable.sub
 
 theorem torusIntegrable_zero_radius {f : ℂⁿ → E} {c : ℂⁿ} : TorusIntegrable f c 0 := by
-  rw [TorusIntegrable, torusMap_zero_radius]
+  rw [TorusIntegrable]; rw [torusMap_zero_radius]
   apply torusIntegrable_const (f c) c 0
 #align torus_integrable.torus_integrable_zero_radius TorusIntegrable.torusIntegrable_zero_radius
 
@@ -224,10 +224,8 @@ theorem torusIntegral_dim1 (f : ℂ¹ → E) (c : ℂ¹) (R : ℝ¹) :
   have H₂ : torusMap c R = fun θ _ ↦ circleMap (c 0) (R 0) (θ 0) := by
     ext θ i : 2
     rw [Subsingleton.elim i 0]; rfl
-  rw [torusIntegral, circleIntegral, intervalIntegral.integral_of_le Real.two_pi_pos.le,
-    Measure.restrict_congr_set Ioc_ae_eq_Icc,
-    ← ((volume_preserving_funUnique (Fin 1) ℝ).symm _).set_integral_preimage_emb
-      (MeasurableEquiv.measurableEmbedding _), H₁, H₂]
+  rw [torusIntegral]; rw [circleIntegral]; rw [intervalIntegral.integral_of_le Real.two_pi_pos.le]; rw [Measure.restrict_congr_set Ioc_ae_eq_Icc]; rw [← ((volume_preserving_funUnique (Fin 1) ℝ).symm _).set_integral_preimage_emb
+      (MeasurableEquiv.measurableEmbedding _)]; rw [H₁]; rw [H₂]
   simp [circleMap_zero]
 #align torus_integral_dim1 torusIntegral_dim1
 
@@ -241,8 +239,7 @@ theorem torusIntegral_succAbove {f : ℂⁿ⁺¹ → E} {c : ℂⁿ⁺¹} {R : �
     (volume_preserving_piFinSuccAboveEquiv (fun _ : Fin (n + 1) => ℝ) i).symm _
   have heπ : (e ⁻¹' Icc 0 fun _ => 2 * π) = Icc 0 (2 * π) ×ˢ Icc (0 : ℝⁿ) fun _ => 2 * π :=
     ((OrderIso.piFinSuccAboveIso (fun _ => ℝ) i).symm.preimage_Icc _ _).trans (Icc_prod_eq _ _)
-  rw [torusIntegral, ← hem.map_eq, set_integral_map_equiv, heπ, Measure.volume_eq_prod,
-    set_integral_prod, circleIntegral_def_Icc]
+  rw [torusIntegral]; rw [← hem.map_eq]; rw [set_integral_map_equiv]; rw [heπ]; rw [Measure.volume_eq_prod]; rw [set_integral_prod]; rw [circleIntegral_def_Icc]
   · refine' set_integral_congr measurableSet_Icc fun θ _ => _
     simp only [torusIntegral, ← integral_smul, deriv_circleMap, i.prod_univ_succAbove _, smul_smul,
       torusMap, circleMap_zero]

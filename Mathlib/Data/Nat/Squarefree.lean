@@ -27,7 +27,7 @@ squarefree, multiplicity
 namespace Nat
 
 theorem squarefree_iff_nodup_factors {n : ℕ} (h0 : n ≠ 0) : Squarefree n ↔ n.factors.Nodup := by
-  rw [UniqueFactorizationMonoid.squarefree_iff_nodup_normalizedFactors h0, Nat.factors_eq]
+  rw [UniqueFactorizationMonoid.squarefree_iff_nodup_normalizedFactors h0]; rw [Nat.factors_eq]
   simp
 #align nat.squarefree_iff_nodup_factors Nat.squarefree_iff_nodup_factors
 
@@ -58,7 +58,7 @@ theorem Squarefree.factorization_le_one {n : ℕ} (p : ℕ) (hn : Squarefree n) 
 
 theorem squarefree_of_factorization_le_one {n : ℕ} (hn : n ≠ 0) (hn' : ∀ p, n.factorization p ≤ 1) :
     Squarefree n := by
-  rw [squarefree_iff_nodup_factors hn, List.nodup_iff_count_le_one]
+  rw [squarefree_iff_nodup_factors hn]; rw [List.nodup_iff_count_le_one]
   intro a
   rw [factors_count_eq]
   apply hn'
@@ -74,17 +74,16 @@ theorem Squarefree.ext_iff {n m : ℕ} (hn : Squarefree n) (hm : Squarefree m) :
   refine' ⟨by rintro rfl; simp, fun h => eq_of_factorization_eq hn.ne_zero hm.ne_zero fun p => _⟩
   by_cases hp : p.Prime
   · have h₁ := h _ hp
-    rw [← not_iff_not, hp.dvd_iff_one_le_factorization hn.ne_zero, not_le, lt_one_iff,
-      hp.dvd_iff_one_le_factorization hm.ne_zero, not_le, lt_one_iff] at h₁
+    rw [← not_iff_not] at h₁; rw [hp.dvd_iff_one_le_factorization hn.ne_zero] at h₁; rw [not_le] at h₁; rw [lt_one_iff] at h₁; rw [hp.dvd_iff_one_le_factorization hm.ne_zero] at h₁; rw [not_le] at h₁; rw [lt_one_iff] at h₁
     have h₂ := Squarefree.factorization_le_one p hn
     have h₃ := Squarefree.factorization_le_one p hm
-    rw [Nat.le_add_one_iff, le_zero_iff] at h₂ h₃
+    rw [Nat.le_add_one_iff] at h₂ h₃; rw [le_zero_iff] at h₂ h₃
     cases' h₂ with h₂ h₂
     · rwa [h₂, eq_comm, ← h₁]
     · rw [h₂, h₃.resolve_left]
-      rw [← h₁, h₂]
+      rw [← h₁]; rw [h₂]
       simp only [Nat.one_ne_zero, not_false_iff]
-  rw [factorization_eq_zero_of_non_prime _ hp, factorization_eq_zero_of_non_prime _ hp]
+  rw [factorization_eq_zero_of_non_prime _ hp]; rw [factorization_eq_zero_of_non_prime _ hp]
 #align nat.squarefree.ext_iff Nat.Squarefree.ext_iff
 
 theorem squarefree_pow_iff {n k : ℕ} (hn : n ≠ 1) (hk : k ≠ 0) :
@@ -183,7 +182,7 @@ theorem minSqFacAux_has_prop {n : ℕ} (k) (n0 : 0 < n) (i) (e : k = 2 * i + 3)
       contradiction
     apply (Nat.eq_or_lt_of_le ml).resolve_left
     intro me
-    rw [← me, e] at d
+    rw [← me] at d; rw [e] at d
     change 2 * (i + 2) ∣ n' at d
     have := ih _ prime_two (dvd_trans (dvd_of_mul_right_dvd d) nd')
     rw [e] at this
@@ -254,7 +253,7 @@ instance : DecidablePred (Squarefree : ℕ → Prop) := fun _ =>
   decidable_of_iff' _ squarefree_iff_minSqFac
 
 theorem squarefree_two : Squarefree 2 := by
-  rw [squarefree_iff_nodup_factors] <;> norm_num
+  rw [squarefree_iff_nodup_factors]  <;> norm_num
 #align nat.squarefree_two Nat.squarefree_two
 
 theorem divisors_filter_squarefree_of_squarefree {n : ℕ} (hn : Squarefree n) :
@@ -279,13 +278,12 @@ theorem divisors_filter_squarefree {n : ℕ} (h0 : n ≠ 0) :
       rcases an with ⟨b, rfl⟩
       rw [mul_ne_zero_iff] at h0
       rw [UniqueFactorizationMonoid.squarefree_iff_nodup_normalizedFactors h0.1] at hsq
-      rw [Multiset.toFinset_subset, Multiset.toFinset_val, hsq.dedup, ← associated_iff_eq,
-        normalizedFactors_mul h0.1 h0.2]
+      rw [Multiset.toFinset_subset]; rw [Multiset.toFinset_val]; rw [hsq.dedup]; rw [← associated_iff_eq]; rw [normalizedFactors_mul h0.1 h0.2]
       exact ⟨Multiset.subset_of_le (Multiset.le_add_right _ _), normalizedFactors_prod h0.1⟩
     · rintro ⟨s, hs, rfl⟩
-      rw [Finset.mem_powerset, ← Finset.val_le_iff, Multiset.toFinset_val] at hs
+      rw [Finset.mem_powerset] at hs; rw [← Finset.val_le_iff] at hs; rw [Multiset.toFinset_val] at hs
       have hs0 : s.val.prod ≠ 0 := by
-        rw [Ne.def, Multiset.prod_eq_zero_iff]
+        rw [Ne.def]; rw [Multiset.prod_eq_zero_iff]
         intro con
         apply
           not_irreducible_zero
@@ -298,12 +296,12 @@ theorem divisors_filter_squarefree {n : ℕ} (h0 : n ≠ 0) :
             irreducible_of_normalized_factor x
               (Multiset.mem_of_le (le_trans hs (Multiset.dedup_le _)) hx))
           (normalizedFactors_prod hs0)
-      rw [associated_eq_eq, Multiset.rel_eq] at h
-      rw [UniqueFactorizationMonoid.squarefree_iff_nodup_normalizedFactors hs0, h]
+      rw [associated_eq_eq] at h; rw [Multiset.rel_eq] at h
+      rw [UniqueFactorizationMonoid.squarefree_iff_nodup_normalizedFactors hs0]; rw [h]
       apply s.nodup
   · intro x hx y hy h
-    rw [← Finset.val_inj, ← Multiset.rel_eq, ← associated_eq_eq]
-    rw [← Finset.mem_def, Finset.mem_powerset] at hx hy
+    rw [← Finset.val_inj]; rw [← Multiset.rel_eq]; rw [← associated_eq_eq]
+    rw [← Finset.mem_def] at hx hy; rw [Finset.mem_powerset] at hx hy
     apply UniqueFactorizationMonoid.factors_unique _ _ (associated_iff_eq.2 h)
     · intro z hz
       apply irreducible_of_normalized_factor z
@@ -321,8 +319,7 @@ theorem sum_divisors_filter_squarefree {n : ℕ} (h0 : n ≠ 0) {α : Type*} [Ad
     {f : ℕ → α} :
     ∑ i in n.divisors.filter Squarefree, f i =
       ∑ i in (UniqueFactorizationMonoid.normalizedFactors n).toFinset.powerset, f i.val.prod := by
-  rw [Finset.sum_eq_multiset_sum, divisors_filter_squarefree h0, Multiset.map_map,
-    Finset.sum_eq_multiset_sum]
+  rw [Finset.sum_eq_multiset_sum]; rw [divisors_filter_squarefree h0]; rw [Multiset.map_map]; rw [Finset.sum_eq_multiset_sum]
   rfl
 #align nat.sum_divisors_filter_squarefree Nat.sum_divisors_filter_squarefree
 
@@ -388,7 +385,7 @@ theorem squarefree_mul_iff {m n : ℕ} :
 
 theorem prod_factors_toFinset_of_squarefree {n : ℕ} (hn : Squarefree n) :
     ∏ p in n.factors.toFinset, p = n := by
-  rw [List.prod_toFinset _ hn.nodup_factors, List.map_id'', Nat.prod_factors hn.ne_zero]
+  rw [List.prod_toFinset _ hn.nodup_factors]; rw [List.map_id'']; rw [Nat.prod_factors hn.ne_zero]
 
 end Nat
 
@@ -429,7 +426,7 @@ theorem squarefree_helper_0 {k} (k0 : 0 < k) {p : ℕ} (pp : Nat.Prime p) (h : b
   rcases lt_or_eq_of_le h with ((hp : _ + 1 ≤ _) | hp)
   · rw [bit1, bit0_eq_two_mul] at hp
     change 2 * (_ + 1) ≤ _ at hp
-    rw [bit1, bit0_eq_two_mul]
+    rw [bit1]; rw [bit0_eq_two_mul]
     refine' Or.inl (lt_of_le_of_ne hp _)
     rintro rfl
     exact Nat.not_prime_mul (by decide) (lt_add_of_pos_left _ k0) pp
@@ -465,7 +462,7 @@ theorem squarefreeHelper_3 (n n' k k' c : ℕ) (e : k + 1 = k') (hn' : bit1 n' *
     refine' Nat.prime_def_minFac.2 ⟨k2, le_antisymm (Nat.minFac_le k0') _⟩
     exact ih _ (Nat.minFac_prime (ne_of_gt k2)) (dvd_trans (Nat.minFac_dvd _) dk)
   have dkk' : ¬bit1 k ∣ bit1 n' := by
-    rw [Nat.dvd_iff_mod_eq_zero, hc]
+    rw [Nat.dvd_iff_mod_eq_zero]; rw [hc]
     exact ne_of_gt c0
   have dkk : ¬bit1 k * bit1 k ∣ bit1 n := by rwa [← Nat.dvd_div_iff dk, this]
   refine' @Nat.minSqFacProp_div _ _ pk dk dkk none _
@@ -494,7 +491,7 @@ theorem squarefreeHelper_4 (n k k' : ℕ) (e : bit1 k * bit1 k = k') (hd : bit1 
 
 theorem not_squarefree_mul (a aa b n : ℕ) (ha : a * a = aa) (hb : aa * b = n) (h₁ : 1 < a) :
     ¬Squarefree n := by
-  rw [← hb, ← ha]
+  rw [← hb]; rw [← ha]
   exact fun H => ne_of_gt h₁ (Nat.isUnit_iff.1 <| H _ ⟨_, rfl⟩)
 #align tactic.norm_num.not_squarefree_mul Tactic.NormNum.not_squarefree_mul
 

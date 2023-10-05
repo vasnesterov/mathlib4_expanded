@@ -65,8 +65,7 @@ private theorem bracket_lie_self (x : A ⊗[R] L) : ⁅x, x⁆ = 0 := by
     simp only [bracket'_tmul, TensorProduct.tmul_zero, eq_self_iff_true, lie_self]
   · intro z₁ z₂ h₁ h₂
     suffices bracket' R A L z₁ z₂ + bracket' R A L z₂ z₁ = 0 by
-      rw [LinearMap.map_add, LinearMap.map_add, LinearMap.add_apply, LinearMap.add_apply, h₁, h₂,
-        zero_add, add_zero, add_comm, this]
+      rw [LinearMap.map_add]; rw [LinearMap.map_add]; rw [LinearMap.add_apply]; rw [LinearMap.add_apply]; rw [h₁]; rw [h₂]; rw [zero_add]; rw [add_zero]; rw [add_comm]; rw [this]
     refine' z₁.induction_on _ _ _
     · simp only [LinearMap.map_zero, add_zero, LinearMap.zero_apply]
     · intro a₁ l₁; refine' z₂.induction_on _ _ _
@@ -93,15 +92,13 @@ private theorem bracket_leibniz_lie (x y z : A ⊗[R] L) :
       · rw [LinearMap.map_zero, LinearMap.map_zero, LinearMap.map_zero, LinearMap.map_zero,
           add_zero]
       · intro a₃ l₃; simp only [bracket'_tmul]
-        rw [mul_left_comm a₂ a₁ a₃, mul_assoc, leibniz_lie, TensorProduct.tmul_add]
+        rw [mul_left_comm a₂ a₁ a₃]; rw [mul_assoc]; rw [leibniz_lie]; rw [TensorProduct.tmul_add]
       · intro u₁ u₂ h₁ h₂
-        rw [map_add, map_add, map_add, map_add, map_add, h₁, h₂, add_add_add_comm]
+        rw [map_add]; rw [map_add]; rw [map_add]; rw [map_add]; rw [map_add]; rw [h₁]; rw [h₂]; rw [add_add_add_comm]
     · intro u₁ u₂ h₁ h₂
-      rw [map_add, LinearMap.add_apply, LinearMap.add_apply, map_add, map_add, map_add,
-        LinearMap.add_apply, h₁, h₂, add_add_add_comm]
+      rw [map_add]; rw [LinearMap.add_apply]; rw [LinearMap.add_apply]; rw [map_add]; rw [map_add]; rw [map_add]; rw [LinearMap.add_apply]; rw [h₁]; rw [h₂]; rw [add_add_add_comm]
   · intro u₁ u₂ h₁ h₂
-    rw [map_add, LinearMap.add_apply, LinearMap.add_apply, LinearMap.add_apply, map_add, map_add,
-      LinearMap.add_apply, h₁, h₂, add_add_add_comm]
+    rw [map_add]; rw [LinearMap.add_apply]; rw [LinearMap.add_apply]; rw [LinearMap.add_apply]; rw [map_add]; rw [map_add]; rw [LinearMap.add_apply]; rw [h₁]; rw [h₂]; rw [add_add_add_comm]
 
 instance : LieRing (A ⊗[R] L) where
   add_lie x y z := by simp only [bracket_def, LinearMap.add_apply, LinearMap.map_add]

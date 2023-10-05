@@ -264,10 +264,10 @@ theorem map_id (S : ConvexCone 𝕜 E) : S.map LinearMap.id = S :=
 def comap (f : E →ₗ[𝕜] F) (S : ConvexCone 𝕜 F) : ConvexCone 𝕜 E where
   carrier := f ⁻¹' S
   smul_mem' c hc x hx := by
-    rw [mem_preimage, f.map_smul c]
+    rw [mem_preimage]; rw [f.map_smul c]
     exact S.smul_mem hc hx
   add_mem' x hx y hy := by
-    rw [mem_preimage, f.map_add]
+    rw [mem_preimage]; rw [f.map_add]
     exact S.add_mem hx hy
 #align convex_cone.comap ConvexCone.comap
 
@@ -322,7 +322,7 @@ theorem to_orderedSMul (S : ConvexCone 𝕜 E) (h : ∀ x y : E, x ≤ y ↔ y -
   OrderedSMul.mk'
     (by
       intro x y z xy hz
-      rw [h (z • x) (z • y), ← smul_sub z y x]
+      rw [h (z • x) (z • y)]; rw [← smul_sub z y x]
       exact smul_mem S hz ((h x y).mp xy.le))
 #align convex_cone.to_ordered_smul ConvexCone.to_orderedSMul
 
@@ -356,7 +356,7 @@ theorem pointed_iff_not_blunt (S : ConvexCone 𝕜 E) : S.Pointed ↔ ¬S.Blunt 
 #align convex_cone.pointed_iff_not_blunt ConvexCone.pointed_iff_not_blunt
 
 theorem blunt_iff_not_pointed (S : ConvexCone 𝕜 E) : S.Blunt ↔ ¬S.Pointed := by
-  rw [pointed_iff_not_blunt, Classical.not_not]
+  rw [pointed_iff_not_blunt]; rw [Classical.not_not]
 #align convex_cone.blunt_iff_not_pointed ConvexCone.blunt_iff_not_pointed
 
 theorem Pointed.mono {S T : ConvexCone 𝕜 E} (h : S ≤ T) : S.Pointed → T.Pointed :=
@@ -398,13 +398,13 @@ theorem Salient.anti {S T : ConvexCone 𝕜 E} (h : T ≤ S) : S.Salient → T.S
 /-- A flat cone is always pointed (contains `0`). -/
 theorem Flat.pointed {S : ConvexCone 𝕜 E} (hS : S.Flat) : S.Pointed := by
   obtain ⟨x, hx, _, hxneg⟩ := hS
-  rw [Pointed, ← add_neg_self x]
+  rw [Pointed]; rw [← add_neg_self x]
   exact add_mem S hx hxneg
 #align convex_cone.flat.pointed ConvexCone.Flat.pointed
 
 /-- A blunt cone (one not containing `0`) is always salient. -/
 theorem Blunt.salient {S : ConvexCone 𝕜 E} : S.Blunt → S.Salient := by
-  rw [salient_iff_not_flat, blunt_iff_not_pointed]
+  rw [salient_iff_not_flat]; rw [blunt_iff_not_pointed]
   exact mt Flat.pointed
 #align convex_cone.blunt.salient ConvexCone.Blunt.salient
 
@@ -743,18 +743,18 @@ theorem step (nonneg : ∀ x : f.domain, (x : E) ∈ s → 0 ≤ f x)
       simpa only [Set.Nonempty, upperBounds, lowerBounds, ball_image_iff] using this
     refine' exists_between_of_forall_le (Nonempty.image f _) (Nonempty.image f (dense y)) _
     · rcases dense (-y) with ⟨x, hx⟩
-      rw [← neg_neg x, AddSubgroupClass.coe_neg, ← sub_eq_add_neg] at hx
+      rw [← neg_neg x] at hx; rw [AddSubgroupClass.coe_neg] at hx; rw [← sub_eq_add_neg] at hx
       exact ⟨_, hx⟩
     rintro a ⟨xn, hxn, rfl⟩ b ⟨xp, hxp, rfl⟩
     have := s.add_mem hxp hxn
-    rw [add_assoc, add_sub_cancel'_right, ← sub_eq_add_neg, ← AddSubgroupClass.coe_sub] at this
+    rw [add_assoc] at this; rw [add_sub_cancel'_right] at this; rw [← sub_eq_add_neg] at this; rw [← AddSubgroupClass.coe_sub] at this
     replace := nonneg _ this
     rwa [f.map_sub, sub_nonneg] at this
   -- Porting note: removed an unused `have`
   refine' ⟨f.supSpanSingleton y (-c) hy, _, _⟩
   · refine' lt_iff_le_not_le.2 ⟨f.left_le_sup _ _, fun H => _⟩
     replace H := LinearPMap.domain_mono.monotone H
-    rw [LinearPMap.domain_supSpanSingleton, sup_le_iff, span_le, singleton_subset_iff] at H
+    rw [LinearPMap.domain_supSpanSingleton] at H; rw [sup_le_iff] at H; rw [span_le] at H; rw [singleton_subset_iff] at H
     exact hy H.2
   · rintro ⟨z, hz⟩ hzs
     rcases mem_sup.1 hz with ⟨x, hx, y', hy', rfl⟩

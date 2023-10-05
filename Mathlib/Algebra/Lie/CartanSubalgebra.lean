@@ -56,8 +56,7 @@ instance [H.IsCartanSubalgebra] : LieAlgebra.IsNilpotent R H :=
 @[simp]
 theorem normalizer_eq_self_of_isCartanSubalgebra (H : LieSubalgebra R L) [H.IsCartanSubalgebra] :
     H.toLieSubmodule.normalizer = H.toLieSubmodule := by
-  rw [← LieSubmodule.coe_toSubmodule_eq_iff, coe_normalizer_eq_normalizer,
-    IsCartanSubalgebra.self_normalizing, coe_toLieSubmodule]
+  rw [← LieSubmodule.coe_toSubmodule_eq_iff]; rw [coe_normalizer_eq_normalizer]; rw [IsCartanSubalgebra.self_normalizing]; rw [coe_toLieSubmodule]
 #align lie_subalgebra.normalizer_eq_self_of_is_cartan_subalgebra LieSubalgebra.normalizer_eq_self_of_isCartanSubalgebra
 
 @[simp]
@@ -77,20 +76,18 @@ theorem isCartanSubalgebra_iff_isUcsLimit : H.IsCartanSubalgebra ↔ H.toLieSubm
       le_antisymm hk
         (LieSubmodule.ucs_le_of_normalizer_eq_self H.normalizer_eq_self_of_isCartanSubalgebra k)
     refine' ⟨k, fun l hl => _⟩
-    rw [← Nat.sub_add_cancel hl, LieSubmodule.ucs_add, ← hk,
-      LieSubalgebra.ucs_eq_self_of_isCartanSubalgebra]
+    rw [← Nat.sub_add_cancel hl]; rw [LieSubmodule.ucs_add]; rw [← hk]; rw [LieSubalgebra.ucs_eq_self_of_isCartanSubalgebra]
   · rintro ⟨k, hk⟩
     exact
       { nilpotent := by
           dsimp only [LieAlgebra.IsNilpotent]
           erw [H.toLieSubmodule.isNilpotent_iff_exists_lcs_eq_bot]
           use k
-          rw [_root_.eq_bot_iff, LieSubmodule.lcs_le_iff, hk k (le_refl k)]
+          rw [_root_.eq_bot_iff]; rw [LieSubmodule.lcs_le_iff]; rw [hk k (le_refl k)]
         self_normalizing := by
           have hk' := hk (k + 1) k.le_succ
-          rw [LieSubmodule.ucs_succ, hk k (le_refl k)] at hk'
-          rw [← LieSubalgebra.coe_to_submodule_eq_iff, ← LieSubalgebra.coe_normalizer_eq_normalizer,
-            hk', LieSubalgebra.coe_toLieSubmodule] }
+          rw [LieSubmodule.ucs_succ] at hk'; rw [hk k (le_refl k)] at hk'
+          rw [← LieSubalgebra.coe_to_submodule_eq_iff]; rw [← LieSubalgebra.coe_normalizer_eq_normalizer]; rw [hk']; rw [LieSubalgebra.coe_toLieSubmodule] }
 #align lie_subalgebra.is_cartan_subalgebra_iff_is_ucs_limit LieSubalgebra.isCartanSubalgebra_iff_isUcsLimit
 
 end LieSubalgebra

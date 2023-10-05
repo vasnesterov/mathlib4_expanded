@@ -150,7 +150,7 @@ theorem projectQuotient_factors [HasColimits C] [PreservesColimits S] {A : Costr
   Subobject.ind _ fun P f hf =>
     ⟨S.map (Subobject.underlyingIso _).unop.inv ≫ P.unop.hom, by
       dsimp
-      rw [← Category.assoc, ← S.map_comp, ← unop_comp]
+      rw [← Category.assoc]; rw [← S.map_comp]; rw [← unop_comp]
       simp⟩
 #align category_theory.costructured_arrow.project_quotient_factors CategoryTheory.CostructuredArrow.projectQuotient_factors
 
@@ -172,7 +172,7 @@ theorem unop_left_comp_underlyingIso_hom_unop {A : CostructuredArrow S T}
   conv_lhs =>
     congr
     rw [← Quiver.Hom.unop_op f.unop.left]
-  rw [← unop_comp, Subobject.underlyingIso_hom_comp_eq_mk]
+  rw [← unop_comp]; rw [Subobject.underlyingIso_hom_comp_eq_mk]
 #align category_theory.costructured_arrow.unop_left_comp_underlying_iso_hom_unop CategoryTheory.CostructuredArrow.unop_left_comp_underlyingIso_hom_unop
 
 /-- Projecting and then lifting a quotient recovers the original quotient, because there is at most

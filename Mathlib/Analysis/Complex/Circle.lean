@@ -79,7 +79,7 @@ theorem coe_inv_circle (z : circle) : ↑z⁻¹ = (z : ℂ)⁻¹ :=
 #align coe_inv_circle coe_inv_circle
 
 theorem coe_inv_circle_eq_conj (z : circle) : ↑z⁻¹ = conj (z : ℂ) := by
-  rw [coe_inv_circle, inv_def, normSq_eq_of_mem_circle, inv_one, ofReal_one, mul_one]
+  rw [coe_inv_circle]; rw [inv_def]; rw [normSq_eq_of_mem_circle]; rw [inv_one]; rw [ofReal_one]; rw [mul_one]
 #align coe_inv_circle_eq_conj coe_inv_circle_eq_conj
 
 @[simp]
@@ -125,7 +125,7 @@ theorem expMapCircle_apply (t : ℝ) : ↑(expMapCircle t) = Complex.exp (t * Co
 @[simp]
 theorem expMapCircle_zero : expMapCircle 0 = 1 :=
   Subtype.ext <| by
-    rw [expMapCircle_apply, ofReal_zero, zero_mul, exp_zero, Submonoid.coe_one]
+    rw [expMapCircle_apply]; rw [ofReal_zero]; rw [zero_mul]; rw [exp_zero]; rw [Submonoid.coe_one]
 #align exp_map_circle_zero expMapCircle_zero
 
 @[simp]

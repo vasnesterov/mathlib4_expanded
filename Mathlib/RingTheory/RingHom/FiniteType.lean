@@ -62,15 +62,15 @@ theorem finiteType_ofLocalizationSpanTarget : OfLocalizationSpanTarget @FiniteTy
   apply Subalgebra.mem_of_span_eq_top_of_smul_pow_mem _ (s : Set S) l hl _ _ x _
   · intro x hx
     apply Algebra.subset_adjoin
-    rw [Finset.coe_union, Finset.coe_union]
+    rw [Finset.coe_union]; rw [Finset.coe_union]
     exact Or.inl (Or.inr hx)
   · intro i
     by_cases h : l i = 0; · rw [h]; exact zero_mem _
     apply Algebra.subset_adjoin
-    rw [Finset.coe_union, Finset.coe_image]
+    rw [Finset.coe_union]; rw [Finset.coe_image]
     exact Or.inr (Set.mem_image_of_mem _ (Finsupp.mem_support_iff.mpr h))
   · intro r
-    rw [Finset.coe_union, Finset.coe_union, Finset.coe_biUnion]
+    rw [Finset.coe_union]; rw [Finset.coe_union]; rw [Finset.coe_biUnion]
     -- Since all `sᵢ` and numerators of `t r` are in the algebra, it suffices to show that the
     -- image of `x` in `Sᵣ` falls in the `R`-adjoin of `t r`, which is of course true.
     -- Porting note: The following `obtain` fails because Lean wants to know right away what the

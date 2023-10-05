@@ -162,7 +162,7 @@ theorem Prod.continuous_to_fun : ContinuousOn (Prod.toFun' e₁ e₂)
   rintro ⟨b, v₁, v₂⟩ ⟨hb₁, _⟩
   simp only [Prod.toFun', Prod.mk.inj_iff, Function.comp_apply, and_true_iff]
   rw [e₁.coe_fst]
-  rw [e₁.source_eq, mem_preimage]
+  rw [e₁.source_eq]; rw [mem_preimage]
   exact hb₁
 #align trivialization.prod.continuous_to_fun Trivialization.Prod.continuous_to_fun
 
@@ -298,12 +298,12 @@ instance Pullback.TotalSpace.topologicalSpace : TopologicalSpace (TotalSpace F (
 #align pullback.total_space.topological_space Pullback.TotalSpace.topologicalSpace
 
 theorem Pullback.continuous_proj (f : B' → B) : Continuous (π F (f *ᵖ E)) := by
-  rw [continuous_iff_le_induced, Pullback.TotalSpace.topologicalSpace, pullbackTopology_def]
+  rw [continuous_iff_le_induced]; rw [Pullback.TotalSpace.topologicalSpace]; rw [pullbackTopology_def]
   exact inf_le_left
 #align pullback.continuous_proj Pullback.continuous_proj
 
 theorem Pullback.continuous_lift (f : B' → B) : Continuous (@Pullback.lift B F E B' f) := by
-  rw [continuous_iff_le_induced, Pullback.TotalSpace.topologicalSpace, pullbackTopology_def]
+  rw [continuous_iff_le_induced]; rw [Pullback.TotalSpace.topologicalSpace]; rw [pullbackTopology_def]
   exact inf_le_right
 #align pullback.continuous_lift Pullback.continuous_lift
 
@@ -341,7 +341,7 @@ noncomputable def Trivialization.pullback (e : Trivialization F (π F E)) (f : K
     simp_rw [e.source_eq, mem_preimage, Pullback.lift_proj] at h
     simp_rw [prod_mk_mem_set_prod_eq, mem_univ, and_true_iff, mem_preimage, h]
   map_target' y h := by
-    rw [mem_prod, mem_preimage] at h
+    rw [mem_prod] at h; rw [mem_preimage] at h
     simp_rw [e.source_eq, mem_preimage, Pullback.lift_proj, h.1]
   left_inv' x h := by
     simp_rw [mem_preimage, e.mem_source, Pullback.lift_proj] at h

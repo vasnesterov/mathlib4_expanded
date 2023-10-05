@@ -68,7 +68,7 @@ variable {S} {a b : M}
 @[to_additive (attr := simp) add_mem_addCentralizer]
 theorem mul_mem_centralizer [Semigroup M] (ha : a ∈ centralizer S) (hb : b ∈ centralizer S) :
     a * b ∈ centralizer S := fun g hg => by
-  rw [mul_assoc, ← hb g hg, ← mul_assoc, ha g hg, mul_assoc]
+  rw [mul_assoc]; rw [← hb g hg]; rw [← mul_assoc]; rw [ha g hg]; rw [mul_assoc]
 #align set.mul_mem_centralizer Set.mul_mem_centralizer
 #align set.add_mem_add_centralizer Set.add_mem_addCentralizer
 
@@ -92,10 +92,10 @@ theorem neg_mem_centralizer [Mul M] [HasDistribNeg M] (ha : a ∈ centralizer S)
 theorem inv_mem_centralizer₀ [GroupWithZero M] (ha : a ∈ centralizer S) : a⁻¹ ∈ centralizer S :=
   (eq_or_ne a 0).elim
     (fun h => by
-      rw [h, inv_zero]
+      rw [h]; rw [inv_zero]
       exact zero_mem_centralizer S)
     fun ha0 c hc => by
-    rw [mul_inv_eq_iff_eq_mul₀ ha0, mul_assoc, eq_inv_mul_iff_mul_eq₀ ha0, ha c hc]
+    rw [mul_inv_eq_iff_eq_mul₀ ha0]; rw [mul_assoc]; rw [eq_inv_mul_iff_mul_eq₀ ha0]; rw [ha c hc]
 #align set.inv_mem_centralizer₀ Set.inv_mem_centralizer₀
 
 @[to_additive (attr := simp) sub_mem_addCentralizer]

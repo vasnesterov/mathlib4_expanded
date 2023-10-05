@@ -455,13 +455,13 @@ def trivChange (i j : ι) : LocalHomeomorph (B × F) (B × F) where
     rintro ⟨x, v⟩ hx
     simp only [prod_mk_mem_set_prod_eq, mem_inter_iff, and_true, mem_univ] at hx
     dsimp only
-    rw [coordChange_comp, Z.coordChange_self]
+    rw [coordChange_comp]; rw [Z.coordChange_self]
     exacts [hx.1, ⟨⟨hx.1, hx.2⟩, hx.1⟩]
   right_inv' := by
     rintro ⟨x, v⟩ hx
     simp only [prod_mk_mem_set_prod_eq, mem_inter_iff, and_true_iff, mem_univ] at hx
     dsimp only
-    rw [Z.coordChange_comp, Z.coordChange_self]
+    rw [Z.coordChange_comp]; rw [Z.coordChange_self]
     · exact hx.2
     · simp [hx]
   open_source := ((Z.isOpen_baseSet i).inter (Z.isOpen_baseSet j)).prod isOpen_univ
@@ -499,12 +499,12 @@ def localTrivAsLocalEquiv (i : ι) : LocalEquiv Z.TotalSpace (B × F) where
     rintro ⟨x, v⟩ hx
     replace hx : x ∈ Z.baseSet i := hx
     dsimp only
-    rw [Z.coordChange_comp, Z.coordChange_self] <;> apply_rules [mem_baseSet_at, mem_inter]
+    rw [Z.coordChange_comp]; rw [Z.coordChange_self]; all_goals apply_rules [mem_baseSet_at, mem_inter]
   right_inv' := by
     rintro ⟨x, v⟩ hx
     simp only [prod_mk_mem_set_prod_eq, and_true_iff, mem_univ] at hx
     dsimp only
-    rw [Z.coordChange_comp, Z.coordChange_self]
+    rw [Z.coordChange_comp]; rw [Z.coordChange_self]
     exacts [hx, ⟨⟨hx, Z.mem_baseSet_at _⟩, hx⟩]
 #align fiber_bundle_core.local_triv_as_local_equiv FiberBundleCore.localTrivAsLocalEquiv
 
@@ -594,7 +594,7 @@ def localTriv (i : ι) : Trivialization F Z.proj where
         (Z.trivChange i j).continuousOn _ s_open
     convert this using 1
     dsimp [LocalEquiv.trans_source]
-    rw [← preimage_comp, inter_assoc]
+    rw [← preimage_comp]; rw [inter_assoc]
   toLocalEquiv := Z.localTrivAsLocalEquiv i
 #align fiber_bundle_core.local_triv FiberBundleCore.localTriv
 
@@ -668,7 +668,7 @@ theorem localTriv_apply (p : Z.TotalSpace) :
 
 @[simp, mfld_simps]
 theorem localTrivAt_apply (p : Z.TotalSpace) : (Z.localTrivAt p.1) p = ⟨p.1, p.2⟩ := by
-  rw [localTrivAt, localTriv_apply, coordChange_self]
+  rw [localTrivAt]; rw [localTriv_apply]; rw [coordChange_self]
   exact Z.mem_baseSet_at p.1
 #align fiber_bundle_core.local_triv_at_apply FiberBundleCore.localTrivAt_apply
 
@@ -709,7 +709,7 @@ theorem localTriv_symm_apply (p : B × F) :
 
 @[simp, mfld_simps]
 theorem mem_localTrivAt_baseSet (b : B) : b ∈ (Z.localTrivAt b).baseSet := by
-  rw [localTrivAt, ← baseSet_at]
+  rw [localTrivAt]; rw [← baseSet_at]
   exact Z.mem_baseSet_at b
 #align fiber_bundle_core.mem_local_triv_at_base_set FiberBundleCore.mem_localTrivAt_baseSet
 
@@ -721,8 +721,7 @@ theorem mk_mem_localTrivAt_source : (⟨b, a⟩ : Z.TotalSpace) ∈ (Z.localTriv
 /-- A fiber bundle constructed from core is indeed a fiber bundle. -/
 instance fiberBundle : FiberBundle F Z.Fiber where
   totalSpaceMk_inducing' b := inducing_iff_nhds.2 fun x ↦ by
-    rw [(Z.localTrivAt b).nhds_eq_comap_inf_principal (mk_mem_localTrivAt_source _ _ _), comap_inf,
-      comap_principal, comap_comap]
+    rw [(Z.localTrivAt b).nhds_eq_comap_inf_principal (mk_mem_localTrivAt_source _ _ _)]; rw [comap_inf]; rw [comap_principal]; rw [comap_comap]
     simp only [(· ∘ ·), localTrivAt_apply_mk, Trivialization.coe_coe,
       ← (embedding_prod_mk b).nhds_eq_comap]
     convert_to 𝓝 x = 𝓝 x ⊓ 𝓟 univ
@@ -806,7 +805,7 @@ theorem isOpen_target_of_mem_pretrivializationAtlas_inter (e e' : Pretrivializat
   letI := a.totalSpaceTopology
   obtain ⟨u, hu1, hu2⟩ := continuousOn_iff'.mp (a.continuous_symm_of_mem_pretrivializationAtlas he')
     e.source (a.isOpen_source e)
-  rw [inter_comm, hu2]
+  rw [inter_comm]; rw [hu2]
   exact hu1.inter e'.open_target
 #align fiber_prebundle.is_open_target_of_mem_pretrivialization_atlas_inter FiberPrebundle.isOpen_target_of_mem_pretrivializationAtlas_inter
 
@@ -820,7 +819,7 @@ def trivializationOfMemPretrivializationAtlas (he : e ∈ a.pretrivializationAtl
       refine continuousOn_iff'.mpr fun s hs => ⟨e ⁻¹' s ∩ e.source,
         isOpen_iSup_iff.mpr fun e' => ?_, by rw [inter_assoc, inter_self]; rfl⟩
       refine isOpen_iSup_iff.mpr fun he' => ?_
-      rw [isOpen_coinduced, isOpen_induced_iff]
+      rw [isOpen_coinduced]; rw [isOpen_induced_iff]
       obtain ⟨u, hu1, hu2⟩ := continuousOn_iff'.mp (a.continuous_trivChange _ he _ he') s hs
       have hu3 := congr_arg (fun s => (fun x : e'.target => (x : B × F)) ⁻¹' s) hu2
       simp only [Subtype.coe_preimage_self, preimage_inter, univ_inter] at hu3

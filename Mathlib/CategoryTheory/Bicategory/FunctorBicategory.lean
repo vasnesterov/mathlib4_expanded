@@ -37,7 +37,7 @@ def whiskerLeft (η : F ⟶ G) {θ ι : G ⟶ H} (Γ : θ ⟶ ι) : η ≫ θ �
   app a := η.app a ◁ Γ.app a
   naturality {a b} f := by
     dsimp
-    rw [associator_inv_naturality_right_assoc, whisker_exchange_assoc]
+    rw [associator_inv_naturality_right_assoc]; rw [whisker_exchange_assoc]
     simp
 #align category_theory.oplax_nat_trans.whisker_left CategoryTheory.OplaxNatTrans.whiskerLeft
 

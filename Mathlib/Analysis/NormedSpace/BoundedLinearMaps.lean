@@ -226,7 +226,7 @@ theorem isBoundedLinearMap_prod_multilinear {E : ι → Type*} [∀ i, NormedAdd
         rw [one_mul]
         apply ContinuousMultilinearMap.op_norm_le_bound _ (norm_nonneg _) _
         intro m
-        rw [ContinuousMultilinearMap.prod_apply, norm_prod_le_iff]
+        rw [ContinuousMultilinearMap.prod_apply]; rw [norm_prod_le_iff]
         constructor
         · exact (p.1.le_op_norm m).trans (mul_le_mul_of_nonneg_right (norm_fst_le p)
             (Finset.prod_nonneg fun i _ => norm_nonneg _))
@@ -295,7 +295,7 @@ theorem map_add₂ (f : M →SL[ρ₁₂] F →SL[σ₁₂] G') (x x' : M) (y : 
 #align continuous_linear_map.map_add₂ ContinuousLinearMap.map_add₂
 
 theorem map_zero₂ (f : M →SL[ρ₁₂] F →SL[σ₁₂] G') (y : F) : f 0 y = 0 := by
-  rw [f.map_zero, zero_apply]
+  rw [f.map_zero]; rw [zero_apply]
 #align continuous_linear_map.map_zero₂ ContinuousLinearMap.map_zero₂
 
 theorem map_smulₛₗ₂ (f : M →SL[ρ₁₂] F →SL[σ₁₂] G') (c : R) (x : M) (y : F) :
@@ -313,13 +313,13 @@ theorem map_sub₂ (f : M →SL[ρ₁₂] F →SL[σ₁₂] G') (x x' : M) (y : 
 #align continuous_linear_map.map_sub₂ ContinuousLinearMap.map_sub₂
 
 theorem map_neg₂ (f : M →SL[ρ₁₂] F →SL[σ₁₂] G') (x : M) (y : F) : f (-x) y = -f x y := by
-  rw [f.map_neg, neg_apply]
+  rw [f.map_neg]; rw [neg_apply]
 #align continuous_linear_map.map_neg₂ ContinuousLinearMap.map_neg₂
 
 end Ring
 
 theorem map_smul₂ (f : E →L[𝕜] F →L[𝕜] G) (c : 𝕜) (x : E) (y : F) : f (c • x) y = c • f x y := by
-  rw [f.map_smul, smul_apply]
+  rw [f.map_smul]; rw [smul_apply]
 #align continuous_linear_map.map_smul₂ ContinuousLinearMap.map_smul₂
 
 end ContinuousLinearMap
@@ -560,7 +560,7 @@ spaces is an open subset of the space of linear maps between them.
 -/
 
 protected theorem isOpen [CompleteSpace E] : IsOpen (range ((↑) : (E ≃L[𝕜] F) → E →L[𝕜] F)) := by
-  rw [isOpen_iff_mem_nhds, forall_range_iff]
+  rw [isOpen_iff_mem_nhds]; rw [forall_range_iff]
   refine' fun e => IsOpen.mem_nhds _ (mem_range_self _)
   let O : (E →L[𝕜] F) → E →L[𝕜] E := fun f => (e.symm : F →L[𝕜] E).comp f
   have h_O : Continuous O := isBoundedBilinearMap_comp.continuous_right

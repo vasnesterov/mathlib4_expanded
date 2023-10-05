@@ -47,9 +47,7 @@ theorem cardinal_mk_le_sigma_polynomial :
       ⟨p.1, x, by
         dsimp
         have h : p.1.map (algebraMap R L) ≠ 0 := by
-          rw [Ne.def, ← Polynomial.degree_eq_bot,
-            Polynomial.degree_map_eq_of_injective (NoZeroSMulDivisors.algebraMap_injective R L),
-            Polynomial.degree_eq_bot]
+          rw [Ne.def]; rw [← Polynomial.degree_eq_bot]; rw [Polynomial.degree_map_eq_of_injective (NoZeroSMulDivisors.algebraMap_injective R L)]; rw [Polynomial.degree_eq_bot]
           exact p.2.1
         erw [Polynomial.mem_roots h, Polynomial.IsRoot, Polynomial.eval_map, ← Polynomial.aeval_def,
           p.2.2]⟩)
@@ -162,7 +160,7 @@ theorem cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt [Nontrivial R]
     (calc
       #K ≤ max (max #R #ι) ℵ₀ := cardinal_le_max_transcendence_basis v hv
       _ = #ι := by
-        rw [max_eq_left, max_eq_right]
+        rw [max_eq_left]; rw [max_eq_right]
         · exact le_trans hR this
         · exact le_max_of_le_right this)
     (mk_le_of_injective (show Function.Injective v from hv.1.injective))
@@ -181,8 +179,8 @@ theorem ringEquivOfCardinalEqOfCharZero [CharZero K] [CharZero L] (hK : ℵ₀ <
   cases' exists_isTranscendenceBasis ℤ
     (show Function.Injective (algebraMap ℤ L) from Int.cast_injective) with t ht
   have : #s = #t := by
-    rw [← cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt _ hs (le_of_eq mk_int) hK, ←
-      cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt _ ht (le_of_eq mk_int), hKL]
+    rw [← cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt _ hs (le_of_eq mk_int) hK]; rw [←
+      cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt _ ht (le_of_eq mk_int)]; rw [hKL]
     rwa [← hKL]
   cases' Cardinal.eq.1 this with e
   exact ⟨equivOfTranscendenceBasis _ _ e hs ht⟩
@@ -198,9 +196,8 @@ private theorem ringEquivOfCardinalEqOfCharP (p : ℕ) [Fact p.Prime] [CharP K p
     (show Function.Injective (algebraMap (ZMod p) L) from RingHom.injective _) with t ht
   have : #s = #t := by
     rw [← cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt _ hs
-      (lt_aleph0_of_finite (ZMod p)).le hK,
-      ← cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt _ ht
-        (lt_aleph0_of_finite (ZMod p)).le, hKL]
+      (lt_aleph0_of_finite (ZMod p)).le hK]; rw [← cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt _ ht
+        (lt_aleph0_of_finite (ZMod p)).le]; rw [hKL]
     rwa [← hKL]
   cases' Cardinal.eq.1 this with e
   exact ⟨equivOfTranscendenceBasis _ _ e hs ht⟩

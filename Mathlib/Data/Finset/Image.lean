@@ -245,7 +245,7 @@ theorem map_eq_empty : s.map f = ∅ ↔ s = ∅ :=
 
 @[simp]
 theorem map_nonempty : (s.map f).Nonempty ↔ s.Nonempty := by
-  rw [nonempty_iff_ne_empty, nonempty_iff_ne_empty, Ne.def, map_eq_empty]
+  rw [nonempty_iff_ne_empty]; rw [nonempty_iff_ne_empty]; rw [Ne.def]; rw [map_eq_empty]
 #align finset.map_nonempty Finset.map_nonempty
 
 alias ⟨_, Nonempty.map⟩ := map_nonempty
@@ -586,13 +586,13 @@ theorem mem_range_iff_mem_finset_range_of_mod_eq [DecidableEq α] {f : ℤ → �
     (fun ⟨i, hi⟩ =>
       have : 0 ≤ i % ↑n := Int.emod_nonneg _ (ne_of_gt hn')
       ⟨Int.toNat (i % n), by
-        rw [← Int.ofNat_lt, Int.toNat_of_nonneg this]; exact ⟨Int.emod_lt_of_pos i hn', hi⟩⟩)
+        rw [← Int.ofNat_lt]; rw [Int.toNat_of_nonneg this]; exact ⟨Int.emod_lt_of_pos i hn', hi⟩⟩)
     fun ⟨i, hi, ha⟩ =>
     ⟨i, by rw [Int.emod_eq_of_lt (Int.ofNat_zero_le _) (Int.ofNat_lt_ofNat_of_lt hi), ha]⟩
 #align finset.mem_range_iff_mem_finset_range_of_mod_eq Finset.mem_range_iff_mem_finset_range_of_mod_eq
 
 theorem range_add (a b : ℕ) : range (a + b) = range a ∪ (range b).map (addLeftEmbedding a) := by
-  rw [← val_inj, union_val]
+  rw [← val_inj]; rw [union_val]
   exact Multiset.range_add_eq_union a b
 #align finset.range_add Finset.range_add
 
@@ -769,7 +769,7 @@ theorem range_sdiff_zero {n : ℕ} : range (n + 1) \ {0} = (range n).image Nat.s
   induction' n with k hk
   · simp
   conv_rhs => rw [range_succ]
-  rw [range_succ, image_insert, ← hk, insert_sdiff_of_not_mem]
+  rw [range_succ]; rw [image_insert]; rw [← hk]; rw [insert_sdiff_of_not_mem]
   simp
 #align finset.range_sdiff_zero Finset.range_sdiff_zero
 

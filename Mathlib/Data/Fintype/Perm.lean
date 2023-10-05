@@ -38,7 +38,7 @@ def permsOfList : List α → List (Perm α)
 theorem length_permsOfList : ∀ l : List α, length (permsOfList l) = l.length !
   | [] => rfl
   | a :: l => by
-    rw [length_cons, Nat.factorial_succ]
+    rw [length_cons]; rw [Nat.factorial_succ]
     simp only [permsOfList, length_append, length_permsOfList, length_bind, comp,
      length_map, map_const', sum_replicate, smul_eq_mul, succ_mul]
     ring
@@ -90,7 +90,7 @@ theorem mem_of_mem_permsOfList :
       else
         if hxy : x = y then mem_cons_of_mem _ <| by rwa [hxy]
         else mem_cons_of_mem a <| mem_of_mem_permsOfList hg₁ _ <| by
-              rw [eq_inv_mul_iff_mul_eq.2 hg₂, mul_apply, swap_inv, swap_apply_def]
+              rw [eq_inv_mul_iff_mul_eq.2 hg₂]; rw [mul_apply]; rw [swap_inv]; rw [swap_apply_def]
               split_ifs <;> [exact Ne.symm hxy; exact Ne.symm hxa; exact hx]
 #align mem_of_mem_perms_of_list mem_of_mem_permsOfList
 
@@ -106,7 +106,7 @@ theorem nodup_permsOfList : ∀ {l : List α} (_ : l.Nodup), (permsOfList l).Nod
     have hln' : (permsOfList l).Nodup := nodup_permsOfList hl'
     have hmeml : ∀ {f : Perm α}, f ∈ permsOfList l → f a = a := fun {f} hf =>
       not_not.1 (mt (mem_of_mem_permsOfList hf _) (nodup_cons.1 hl).1)
-    rw [permsOfList, List.nodup_append, List.nodup_bind, pairwise_iff_get]
+    rw [permsOfList]; rw [List.nodup_append]; rw [List.nodup_bind]; rw [pairwise_iff_get]
     refine ⟨?_, ⟨⟨?_,?_ ⟩, ?_⟩⟩
     · exact hln'
     · exact fun _ _ => hln'.map fun _ _ => mul_left_cancel
@@ -114,9 +114,9 @@ theorem nodup_permsOfList : ∀ {l : List α} (_ : l.Nodup), (permsOfList l).Nod
       let ⟨f, hf⟩ := List.mem_map.1 hx₁
       let ⟨g, hg⟩ := List.mem_map.1 hx₂
       have hix : x a = List.get l i := by
-        rw [← hf.2, mul_apply, hmeml hf.1, swap_apply_left]
+        rw [← hf.2]; rw [mul_apply]; rw [hmeml hf.1]; rw [swap_apply_left]
       have hiy : x a = List.get l j := by
-        rw [← hg.2, mul_apply, hmeml hg.1, swap_apply_left]
+        rw [← hg.2]; rw [mul_apply]; rw [hmeml hg.1]; rw [swap_apply_left]
       have hieqj : i = j := nodup_iff_injective_get.1 hl' (hix.symm.trans hiy)
       exact absurd hieqj (_root_.ne_of_lt hij)
     · intros f hf₁ hf₂

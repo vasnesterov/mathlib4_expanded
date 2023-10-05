@@ -45,7 +45,7 @@ theorem hasStrictDerivAt_zpow (m : ℤ) (x : 𝕜) (h : x ≠ 0 ∨ 0 ≤ m) :
     lift m to ℕ using hm.le
     simp only [zpow_ofNat, Int.cast_ofNat]
     convert hasStrictDerivAt_pow m x using 2
-    rw [← Int.ofNat_one, ← Int.ofNat_sub, zpow_ofNat]
+    rw [← Int.ofNat_one]; rw [← Int.ofNat_sub]; rw [zpow_ofNat]
     norm_cast at hm
   rcases lt_trichotomy m 0 with (hm | hm | hm)
   · have hx : x ≠ 0 := h.resolve_right hm.not_le
@@ -53,7 +53,7 @@ theorem hasStrictDerivAt_zpow (m : ℤ) (x : 𝕜) (h : x ≠ 0 ∨ 0 ≤ m) :
       [skip; exact zpow_ne_zero_of_ne_zero hx _]
     simp only [(· ∘ ·), zpow_neg, one_div, inv_inv, smul_eq_mul] at this
     convert this using 1
-    rw [sq, mul_inv, inv_inv, Int.cast_neg, neg_mul, neg_mul_neg, ← zpow_add₀ hx, mul_assoc, ←
+    rw [sq]; rw [mul_inv]; rw [inv_inv]; rw [Int.cast_neg]; rw [neg_mul]; rw [neg_mul_neg]; rw [← zpow_add₀ hx]; rw [mul_assoc]; rw [←
       zpow_add₀ hx]
     congr
     abel
@@ -92,7 +92,7 @@ theorem deriv_zpow (m : ℤ) (x : 𝕜) : deriv (fun x => x ^ m) x = m * x ^ (m 
   · rw [deriv_zero_of_not_differentiableAt (mt differentiableAt_zpow.1 H)]
     push_neg at H
     rcases H with ⟨rfl, hm⟩
-    rw [zero_zpow _ ((sub_one_lt _).trans hm).ne, mul_zero]
+    rw [zero_zpow _ ((sub_one_lt _).trans hm).ne]; rw [mul_zero]
 #align deriv_zpow deriv_zpow
 
 @[simp]

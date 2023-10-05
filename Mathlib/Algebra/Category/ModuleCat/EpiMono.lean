@@ -43,7 +43,7 @@ set_option linter.uppercaseLean3 false in
 #align Module.mono_iff_ker_eq_bot ModuleCat.mono_iff_ker_eq_bot
 
 theorem mono_iff_injective : Mono f ↔ Function.Injective f := by
-  rw [mono_iff_ker_eq_bot, LinearMap.ker_eq_bot]
+  rw [mono_iff_ker_eq_bot]; rw [LinearMap.ker_eq_bot]
 set_option linter.uppercaseLean3 false in
 #align Module.mono_iff_injective ModuleCat.mono_iff_injective
 
@@ -54,7 +54,7 @@ set_option linter.uppercaseLean3 false in
 #align Module.epi_iff_range_eq_top ModuleCat.epi_iff_range_eq_top
 
 theorem epi_iff_surjective : Epi f ↔ Function.Surjective f := by
-  rw [epi_iff_range_eq_top, LinearMap.range_eq_top]
+  rw [epi_iff_range_eq_top]; rw [LinearMap.range_eq_top]
 set_option linter.uppercaseLean3 false in
 #align Module.epi_iff_surjective ModuleCat.epi_iff_surjective
 

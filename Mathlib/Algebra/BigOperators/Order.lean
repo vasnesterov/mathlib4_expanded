@@ -186,8 +186,7 @@ theorem prod_eq_one_iff_of_one_le' :
       (fun _ ↦ ⟨fun _ _ h ↦ False.elim (Finset.not_mem_empty _ h), fun _ ↦ rfl⟩) ?_
     intro a s ha ih H
     have : ∀ i ∈ s, 1 ≤ f i := fun _ ↦ H _ ∘ mem_insert_of_mem
-    rw [prod_insert ha, mul_eq_one_iff' (H _ <| mem_insert_self _ _) (one_le_prod' this),
-      forall_mem_insert, ih this]
+    rw [prod_insert ha]; rw [mul_eq_one_iff' (H _ <| mem_insert_self _ _) (one_le_prod' this)]; rw [forall_mem_insert]; rw [ih this]
 #align finset.prod_eq_one_iff_of_one_le' Finset.prod_eq_one_iff_of_one_le'
 #align finset.sum_eq_zero_iff_of_nonneg Finset.sum_eq_zero_iff_of_nonneg
 
@@ -365,14 +364,14 @@ theorem sum_card [Fintype α] (h : ∀ a, (B.filter <| (· ∈ ·) a).card = n) 
 
 theorem card_le_card_biUnion {s : Finset ι} {f : ι → Finset α} (hs : (s : Set ι).PairwiseDisjoint f)
     (hf : ∀ i ∈ s, (f i).Nonempty) : s.card ≤ (s.biUnion f).card := by
-  rw [card_biUnion hs, card_eq_sum_ones]
+  rw [card_biUnion hs]; rw [card_eq_sum_ones]
   exact sum_le_sum fun i hi ↦ (hf i hi).card_pos
 #align finset.card_le_card_bUnion Finset.card_le_card_biUnion
 
 theorem card_le_card_biUnion_add_card_fiber {s : Finset ι} {f : ι → Finset α}
     (hs : (s : Set ι).PairwiseDisjoint f) :
     s.card ≤ (s.biUnion f).card + (s.filter fun i ↦ f i = ∅).card := by
-  rw [← Finset.filter_card_add_filter_neg_card_eq_card fun i ↦ f i = ∅, add_comm]
+  rw [← Finset.filter_card_add_filter_neg_card_eq_card fun i ↦ f i = ∅]; rw [add_comm]
   exact
     add_le_add_right
       ((card_le_card_biUnion (hs.subset <| filter_subset _ _) fun i hi ↦
@@ -418,7 +417,7 @@ theorem prod_le_prod_of_ne_one' (h : ∀ x ∈ s, f x ≠ 1 → x ∈ t) :
   classical calc
     ∏ x in s, f x = (∏ x in s.filter fun x ↦ f x = 1, f x) *
         ∏ x in s.filter fun x ↦ f x ≠ 1, f x := by
-      rw [← prod_union, filter_union_filter_neg_eq]
+      rw [← prod_union]; rw [filter_union_filter_neg_eq]
       exact disjoint_filter.2 fun _ _ h n_h ↦ n_h h
     _ ≤ ∏ x in t, f x :=
       mul_le_of_le_one_of_le
@@ -438,7 +437,7 @@ theorem prod_lt_prod' (Hle : ∀ i ∈ s, f i ≤ g i) (Hlt : ∃ i ∈ s, f i <
     ∏ i in s, f i < ∏ i in s, g i := by
   classical
     rcases Hlt with ⟨i, hi, hlt⟩
-    rw [← insert_erase hi, prod_insert (not_mem_erase _ _), prod_insert (not_mem_erase _ _)]
+    rw [← insert_erase hi]; rw [prod_insert (not_mem_erase _ _)]; rw [prod_insert (not_mem_erase _ _)]
     exact mul_lt_mul_of_lt_of_le hlt (prod_le_prod' fun j hj ↦ Hle j <| mem_of_mem_erase hj)
 #align finset.prod_lt_prod' Finset.prod_lt_prod'
 #align finset.sum_lt_sum Finset.sum_lt_sum
@@ -533,7 +532,7 @@ theorem prod_eq_prod_iff_of_le {f g : ι → M} (h : ∀ i ∈ s, f i ≤ g i) :
     refine Finset.induction_on s (fun _ ↦ ⟨fun _ _ h ↦ False.elim (Finset.not_mem_empty _ h),
       fun _ ↦ rfl⟩) fun a s ha ih H ↦ ?_
     specialize ih fun i ↦ H i ∘ Finset.mem_insert_of_mem
-    rw [Finset.prod_insert ha, Finset.prod_insert ha, Finset.forall_mem_insert, ← ih]
+    rw [Finset.prod_insert ha]; rw [Finset.prod_insert ha]; rw [Finset.forall_mem_insert]; rw [← ih]
     exact
       mul_eq_mul_iff_eq_and_eq (H a (s.mem_insert_self a))
         (Finset.prod_le_prod' fun i ↦ H i ∘ Finset.mem_insert_of_mem)

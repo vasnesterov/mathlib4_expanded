@@ -72,8 +72,7 @@ variable {v O} [CommRing O] [Algebra O R] (hv : Integers v O)
 theorem one_of_isUnit {x : O} (hx : IsUnit x) : v (algebraMap O R x) = 1 :=
   let ⟨u, hu⟩ := hx
   le_antisymm (hv.2 _) <| by
-    rw [← v.map_one, ← (algebraMap O R).map_one, ← u.mul_inv, ← mul_one (v (algebraMap O R x)), hu,
-      (algebraMap O R).map_mul, v.map_mul]
+    rw [← v.map_one]; rw [← (algebraMap O R).map_one]; rw [← u.mul_inv]; rw [← mul_one (v (algebraMap O R x))]; rw [hu]; rw [(algebraMap O R).map_mul]; rw [v.map_mul]
     exact mul_le_mul_left' (hv.2 (u⁻¹ : Units O)) _
 #align valuation.integers.one_of_is_unit Valuation.Integers.one_of_isUnit
 
@@ -82,7 +81,7 @@ theorem isUnit_of_one {x : O} (hx : IsUnit (algebraMap O R x)) (hvx : v (algebra
   let ⟨u, hu⟩ := hx
   have h1 : v u ≤ 1 := hu.symm ▸ hv.2 x
   have h2 : v (u⁻¹ : Rˣ) ≤ 1 := by
-    rw [← one_mul (v _), ← hvx, ← v.map_mul, ← hu, u.mul_inv, hu, hvx, v.map_one]
+    rw [← one_mul (v _)]; rw [← hvx]; rw [← v.map_mul]; rw [← hu]; rw [u.mul_inv]; rw [hu]; rw [hvx]; rw [v.map_one]
   let ⟨r1, hr1⟩ := hv.3 h1
   let ⟨r2, hr2⟩ := hv.3 h2
   ⟨⟨r1, r2, hv.1 <| by rw [RingHom.map_mul, RingHom.map_one, hr1, hr2, Units.mul_inv],
@@ -92,7 +91,7 @@ theorem isUnit_of_one {x : O} (hx : IsUnit (algebraMap O R x)) (hvx : v (algebra
 
 theorem le_of_dvd {x y : O} (h : x ∣ y) : v (algebraMap O R y) ≤ v (algebraMap O R x) := by
   let ⟨z, hz⟩ := h
-  rw [← mul_one (v (algebraMap O R x)), hz, RingHom.map_mul, v.map_mul]
+  rw [← mul_one (v (algebraMap O R x))]; rw [hz]; rw [RingHom.map_mul]; rw [v.map_mul]
   exact mul_le_mul_left' (hv.2 z) _
 #align valuation.integers.le_of_dvd Valuation.Integers.le_of_dvd
 
@@ -117,7 +116,7 @@ theorem dvd_of_le {x y : O} (h : v (algebraMap O F x) ≤ v (algebraMap O F y)) 
       hx.symm ▸ dvd_zero y)
     fun hy : algebraMap O F y ≠ 0 =>
     have : v ((algebraMap O F y)⁻¹ * algebraMap O F x) ≤ 1 := by
-      rw [← v.map_one, ← inv_mul_cancel hy, v.map_mul, v.map_mul]
+      rw [← v.map_one]; rw [← inv_mul_cancel hy]; rw [v.map_mul]; rw [v.map_mul]
       exact mul_le_mul_left' h _
     let ⟨z, hz⟩ := hv.3 this
     ⟨z, hv.1 <| ((algebraMap O F).map_mul y z).symm ▸ hz.symm ▸ (mul_inv_cancel_left₀ hy _).symm⟩

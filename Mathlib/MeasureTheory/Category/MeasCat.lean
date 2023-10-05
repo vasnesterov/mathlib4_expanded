@@ -115,7 +115,7 @@ def Integral : Giry.Algebra where
   unit := Subtype.eq <| funext fun r : ℝ≥0∞ => lintegral_dirac' _ measurable_id
   assoc := Subtype.eq <| funext fun μ : MeasureTheory.Measure (MeasureTheory.Measure ℝ≥0∞) =>
     show ∫⁻ x, x ∂μ.join = ∫⁻ x, x ∂Measure.map (fun m => ∫⁻ x, x ∂m) μ by
-      rw [Measure.lintegral_join, lintegral_map] <;>
+      rw [Measure.lintegral_join]; rw [lintegral_map]; all_goals
         apply_rules [measurable_id, Measure.measurable_lintegral]
 #align Meas.Integral MeasCat.Integral
 

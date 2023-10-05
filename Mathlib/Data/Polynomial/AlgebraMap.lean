@@ -43,7 +43,7 @@ instance algebraOfAlgebra : Algebra R A[X]
   smul_def' r p :=
     toFinsupp_injective <| by
       dsimp only [RingHom.toFun_eq_coe, RingHom.comp_apply]
-      rw [toFinsupp_smul, toFinsupp_mul, toFinsupp_C]
+      rw [toFinsupp_smul]; rw [toFinsupp_mul]; rw [toFinsupp_C]
       exact Algebra.smul_def' _ _
   commutes' r p :=
     toFinsupp_injective <| by
@@ -106,12 +106,12 @@ variable {R}
 
 instance subalgebraNontrivial [Nontrivial A] : Nontrivial (Subalgebra R A[X]) :=
   ⟨⟨⊥, ⊤, by
-      rw [Ne.def, SetLike.ext_iff, not_forall]
+      rw [Ne.def]; rw [SetLike.ext_iff]; rw [not_forall]
       refine' ⟨X, _⟩
       simp only [Algebra.mem_bot, not_exists, Set.mem_range, iff_true_iff, Algebra.mem_top,
         algebraMap_apply, not_forall]
       intro x
-      rw [ext_iff, not_forall]
+      rw [ext_iff]; rw [not_forall]
       refine' ⟨1, _⟩
       simp [coeff_C]⟩⟩
 
@@ -273,14 +273,14 @@ set_option linter.uppercaseLean3 false in
 #align polynomial.aeval_X_left_apply Polynomial.aeval_X_left_apply
 
 theorem eval_unique (φ : R[X] →ₐ[R] A) (p) : φ p = eval₂ (algebraMap R A) (φ X) p := by
-  rw [← aeval_def, aeval_algHom, aeval_X_left, AlgHom.comp_id]
+  rw [← aeval_def]; rw [aeval_algHom]; rw [aeval_X_left]; rw [AlgHom.comp_id]
 #align polynomial.eval_unique Polynomial.eval_unique
 
 theorem aeval_algHom_apply {F : Type*} [AlgHomClass F R A B] (f : F) (x : A) (p : R[X]) :
     aeval (f x) p = f (aeval x p) := by
   refine' Polynomial.induction_on p (by simp [AlgHomClass.commutes]) (fun p q hp hq => _)
     (by simp [AlgHomClass.commutes])
-  rw [map_add, hp, hq, ← map_add, ← map_add]
+  rw [map_add]; rw [hp]; rw [hq]; rw [← map_add]; rw [← map_add]
 #align polynomial.aeval_alg_hom_apply Polynomial.aeval_algHom_apply
 
 theorem aeval_algEquiv (f : A ≃ₐ[R] B) (x : A) : aeval (f x) = (f : A →ₐ[R] B).comp (aeval x) :=
@@ -328,12 +328,12 @@ theorem map_aeval_eq_aeval_map {S T U : Type*} [CommSemiring S] [CommSemiring T]
     (h : (algebraMap T U).comp φ = ψ.comp (algebraMap R S)) (p : R[X]) (a : S) :
     ψ (aeval a p) = aeval (ψ a) (p.map φ) := by
   conv_rhs => rw [aeval_def, ← eval_map]
-  rw [map_map, h, ← map_map, eval_map, eval₂_at_apply, aeval_def, eval_map]
+  rw [map_map]; rw [h]; rw [← map_map]; rw [eval_map]; rw [eval₂_at_apply]; rw [aeval_def]; rw [eval_map]
 #align polynomial.map_aeval_eq_aeval_map Polynomial.map_aeval_eq_aeval_map
 
 theorem aeval_eq_zero_of_dvd_aeval_eq_zero [CommSemiring S] [CommSemiring T] [Algebra S T]
     {p q : S[X]} (h₁ : p ∣ q) {a : T} (h₂ : aeval a p = 0) : aeval a q = 0 := by
-  rw [aeval_def, ← eval_map] at h₂ ⊢
+  rw [aeval_def] at h₂ ⊢; rw [← eval_map] at h₂ ⊢
   exact eval_eq_zero_of_dvd_of_eval_eq_zero (Polynomial.map_dvd (algebraMap S T) h₁) h₂
 #align polynomial.aeval_eq_zero_of_dvd_aeval_eq_zero Polynomial.aeval_eq_zero_of_dvd_aeval_eq_zero
 
@@ -341,7 +341,7 @@ variable (R)
 
 theorem _root_.Algebra.adjoin_singleton_eq_range_aeval (x : A) :
     Algebra.adjoin R {x} = (Polynomial.aeval x).range := by
-  rw [← Algebra.map_top, ← adjoin_X, AlgHom.map_adjoin, Set.image_singleton, aeval_X]
+  rw [← Algebra.map_top]; rw [← adjoin_X]; rw [AlgHom.map_adjoin]; rw [Set.image_singleton]; rw [aeval_X]
 #align algebra.adjoin_singleton_eq_range_aeval Algebra.adjoin_singleton_eq_range_aeval
 
 variable {R}
@@ -366,7 +366,7 @@ theorem isRoot_of_eval₂_map_eq_zero (hf : Function.Injective f) {r : R} :
     eval₂ f (f r) p = 0 → p.IsRoot r := by
   intro h
   apply hf
-  rw [← eval₂_hom, h, f.map_zero]
+  rw [← eval₂_hom]; rw [h]; rw [f.map_zero]
 #align polynomial.is_root_of_eval₂_map_eq_zero Polynomial.isRoot_of_eval₂_map_eq_zero
 
 theorem isRoot_of_aeval_algebraMap_eq_zero [Algebra R S] {p : R[X]}
@@ -452,7 +452,7 @@ theorem dvd_term_of_dvd_eval_of_dvd_terms {z p : S} {f : S[X]} (i : ℕ) (dvd_ev
     (dvd_terms : ∀ (j) (_ : j ≠ i), p ∣ f.coeff j * z ^ j) : p ∣ f.coeff i * z ^ i := by
   by_cases hi : i ∈ f.support
   · rw [eval, eval₂_eq_sum, sum_def] at dvd_eval
-    rw [← Finset.insert_erase hi, Finset.sum_insert (Finset.not_mem_erase _ _)] at dvd_eval
+    rw [← Finset.insert_erase hi] at dvd_eval; rw [Finset.sum_insert (Finset.not_mem_erase _ _)] at dvd_eval
     refine' (dvd_add_left _).mp dvd_eval
     apply Finset.dvd_sum
     intro j hj
@@ -510,7 +510,7 @@ end Ring
 
 theorem aeval_endomorphism {M : Type*} [CommRing R] [AddCommGroup M] [Module R M] (f : M →ₗ[R] M)
     (v : M) (p : R[X]) : aeval f p v = p.sum fun n b => b • (f ^ n) v := by
-  rw [aeval_def, eval₂_eq_sum]
+  rw [aeval_def]; rw [eval₂_eq_sum]
   exact map_sum (LinearMap.applyₗ v) _ _
 #align polynomial.aeval_endomorphism Polynomial.aeval_endomorphism
 

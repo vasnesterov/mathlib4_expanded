@@ -39,7 +39,7 @@ theorem coeff_scaleRoots (p : R[X]) (s : R) (i : ℕ) :
 
 theorem coeff_scaleRoots_natDegree (p : R[X]) (s : R) :
     (scaleRoots p s).coeff p.natDegree = p.leadingCoeff := by
-  rw [leadingCoeff, coeff_scaleRoots, tsub_self, pow_zero, mul_one]
+  rw [leadingCoeff]; rw [coeff_scaleRoots]; rw [tsub_self]; rw [pow_zero]; rw [mul_one]
 #align polynomial.coeff_scale_roots_nat_degree Polynomial.coeff_scaleRoots_natDegree
 
 @[simp]
@@ -120,7 +120,7 @@ theorem scaleRoots_eval₂_mul {p : S[X]} (f : S →+* R) (r : R) (s : S) :
         simp_rw [f.map_mul, f.map_pow, pow_add, mul_pow, mul_assoc])
     _ = p.support.sum fun i : ℕ => f s ^ p.natDegree * (f (p.coeff i) * r ^ i) :=
       (Finset.sum_congr rfl fun i hi => by
-        rw [mul_assoc, mul_left_comm, tsub_add_cancel_of_le]
+        rw [mul_assoc]; rw [mul_left_comm]; rw [tsub_add_cancel_of_le]
         exact le_natDegree_of_ne_zero (Polynomial.mem_support_iff.mp hi))
     _ = f s ^ p.natDegree * p.support.sum fun i : ℕ => f (p.coeff i) * r ^ i := Finset.mul_sum.symm
     _ = f s ^ p.natDegree * eval₂ f r p := by simp [eval₂_eq_sum, sum_def]
@@ -141,7 +141,7 @@ theorem scaleRoots_eval₂_eq_zero_of_eval₂_div_eq_zero {p : S[X]} {f : S →+
     (hs : s ∈ nonZeroDivisors S) : eval₂ f (f r) (scaleRoots p s) = 0 := by
   nontriviality S using Subsingleton.eq_zero
   convert @scaleRoots_eval₂_eq_zero _ _ _ _ p f _ s hr
-  rw [← mul_div_assoc, mul_comm, mul_div_cancel]
+  rw [← mul_div_assoc]; rw [mul_comm]; rw [mul_div_cancel]
   exact map_ne_zero_of_mem_nonZeroDivisors _ hf hs
 #align polynomial.scale_roots_eval₂_eq_zero_of_eval₂_div_eq_zero Polynomial.scaleRoots_eval₂_eq_zero_of_eval₂_div_eq_zero
 

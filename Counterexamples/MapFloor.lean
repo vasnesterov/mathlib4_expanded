@@ -132,14 +132,14 @@ theorem forgetEpsilons_floor_lt (n : ℤ) :
   suffices ⌊(n - ↑ε : ℤ[ε])⌋ = n - 1 by simp [this]
   have : (0 : ℤ[ε]) < ε := ⟨1, by simp⟩
   exact (if_neg <| by rw [coeff_sub, int_cast_coeff_zero]; simp [this]).trans (by
-    rw [coeff_sub, int_cast_coeff_zero]; simp)
+    rw [coeff_sub]; rw [int_cast_coeff_zero]; simp)
 #align counterexample.int_with_epsilon.forget_epsilons_floor_lt Counterexample.IntWithEpsilon.forgetEpsilons_floor_lt
 
 /-- The ceil of `n + ε` is `n + 1` but its image under `forgetEpsilons` is `n`, whose ceil is
 itself. -/
 theorem lt_forgetEpsilons_ceil (n : ℤ) :
     ⌈forgetEpsilons (n + ↑ε)⌉ < forgetEpsilons ⌈(n + ↑ε : ℤ[ε])⌉ := by
-  rw [← neg_lt_neg_iff, ← map_neg, ← cast_neg, ← floor_neg, ← floor_neg, ← map_neg, neg_add', ←
+  rw [← neg_lt_neg_iff]; rw [← map_neg]; rw [← cast_neg]; rw [← floor_neg]; rw [← floor_neg]; rw [← map_neg]; rw [neg_add']; rw [←
     cast_neg]
   exact forgetEpsilons_floor_lt _
 #align counterexample.int_with_epsilon.lt_forget_epsilons_ceil Counterexample.IntWithEpsilon.lt_forgetEpsilons_ceil

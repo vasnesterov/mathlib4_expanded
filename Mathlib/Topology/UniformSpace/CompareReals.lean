@@ -60,7 +60,7 @@ of real numbers) agrees with the one coming directly from (abs : ℚ → ℚ). -
 theorem Rat.uniformSpace_eq :
     (AbsoluteValue.abs : AbsoluteValue ℚ ℚ).uniformSpace = PseudoMetricSpace.toUniformSpace := by
   ext s
-  rw [(AbsoluteValue.hasBasis_uniformity _).mem_iff, Metric.uniformity_basis_dist_rat.mem_iff]
+  rw [(AbsoluteValue.hasBasis_uniformity _).mem_iff]; rw [Metric.uniformity_basis_dist_rat.mem_iff]
   simp only [Rat.dist_eq, AbsoluteValue.abs_apply, ← Rat.cast_sub, ← Rat.cast_abs, Rat.cast_lt,
     abs_sub_comm]
 #align rat.uniform_space_eq Rat.uniformSpace_eq

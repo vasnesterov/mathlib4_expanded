@@ -148,7 +148,7 @@ theorem rel_equiv : Equivalence D.Rel :=
     have h₂ : D.t' j i k ≫ pullback.fst ≫ D.t i k ≫ D.f k i = pullback.snd ≫ D.t j k ≫ D.f k j := by
       rw [← 𝖣.t_fac_assoc]
       apply @Epi.left_cancellation _ _ _ _ (D.t' k j i)
-      rw [𝖣.cocycle_assoc, 𝖣.t_fac_assoc, 𝖣.t_inv_assoc]
+      rw [𝖣.cocycle_assoc]; rw [𝖣.t_fac_assoc]; rw [𝖣.t_inv_assoc]
       exact pullback.condition.symm
     exact ⟨ContinuousMap.congr_fun h₁ z, ContinuousMap.congr_fun h₂ z⟩⟩
 set_option linter.uppercaseLean3 false in
@@ -174,7 +174,7 @@ theorem eqvGen_of_π_eq
   let diagram := parallelPair 𝖣.diagram.fstSigmaMap 𝖣.diagram.sndSigmaMap ⋙ forget _
   have : colimit.ι diagram one x = colimit.ι diagram one y := by
     dsimp only [coequalizer.π, ContinuousMap.toFun_eq_coe] at h
-    rw [← ι_preservesColimitsIso_hom, forget_map_eq_coe, types_comp_apply, h]
+    rw [← ι_preservesColimitsIso_hom]; rw [forget_map_eq_coe]; rw [types_comp_apply]; rw [h]
     simp
   have :
     (colimit.ι diagram _ ≫ colim.map _ ≫ (colimit.isoColimitCocone _).hom) _ =
@@ -188,9 +188,7 @@ theorem eqvGen_of_π_eq
   -- simp only [eqToHom_refl, types_comp_apply, colimit.ι_map_assoc,
   --   diagramIsoParallelPair_hom_app, colimit.isoColimitCocone_ι_hom, types_id_apply] at this
   -- See https://github.com/leanprover-community/mathlib4/issues/5026
-  rw [colimit.ι_map_assoc, diagramIsoParallelPair_hom_app, eqToHom_refl,
-    colimit.isoColimitCocone_ι_hom, types_comp_apply, types_id_apply, types_comp_apply,
-    types_id_apply] at this
+  rw [colimit.ι_map_assoc] at this; rw [diagramIsoParallelPair_hom_app] at this; rw [eqToHom_refl] at this; rw [colimit.isoColimitCocone_ι_hom] at this; rw [types_comp_apply] at this; rw [types_id_apply] at this; rw [types_comp_apply] at this; rw [types_id_apply] at this
   exact Quot.eq.1 this
 set_option linter.uppercaseLean3 false in
 #align Top.glue_data.eqv_gen_of_π_eq TopCat.GlueData.eqvGen_of_π_eq
@@ -217,14 +215,14 @@ theorem ι_eq_iff_rel (i j : D.J) (x : D.U i) (y : D.U j) :
     unfold InvImage MultispanIndex.fstSigmaMap MultispanIndex.sndSigmaMap
     simp only [Opens.inclusion_apply, TopCat.comp_app, sigmaIsoSigma_inv_apply,
       Cofan.mk_ι_app]
-    rw [←comp_apply, colimit.ι_desc, ←comp_apply, colimit.ι_desc]
+    rw [←comp_apply]; rw [colimit.ι_desc]; rw [←comp_apply]; rw [colimit.ι_desc]
     erw [sigmaIsoSigma_hom_ι_apply, sigmaIsoSigma_hom_ι_apply]
     exact Or.inr ⟨y, by dsimp [GlueData.diagram]; simp only [true_and]; rfl⟩
   · rintro (⟨⟨⟩⟩ | ⟨z, e₁, e₂⟩)
     rfl
     dsimp only at *
     -- porting note: there were `subst e₁` and `subst e₂`, instead of the `rw`
-    rw [← e₁, ← e₂] at *
+    rw [← e₁] at *; rw [← e₂] at *
     simp
 set_option linter.uppercaseLean3 false in
 #align Top.glue_data.ι_eq_iff_rel TopCat.GlueData.ι_eq_iff_rel
@@ -235,7 +233,7 @@ theorem ι_injective (i : D.J) : Function.Injective (𝖣.ι i) := by
   · rfl
   · dsimp only at *
     -- porting note: there were `cases e₁` and `cases e₂`, instead of the `rw`
-    rw [← e₁, ← e₂]
+    rw [← e₁]; rw [← e₂]
     simp
 set_option linter.uppercaseLean3 false in
 #align Top.glue_data.ι_injective TopCat.GlueData.ι_injective
@@ -268,9 +266,8 @@ set_option linter.uppercaseLean3 false in
 #align Top.glue_data.image_inter TopCat.GlueData.image_inter
 
 theorem preimage_range (i j : D.J) : 𝖣.ι j ⁻¹' Set.range (𝖣.ι i) = Set.range (D.f j i) := by
-  rw [← Set.preimage_image_eq (Set.range (D.f j i)) (D.ι_injective j), ← Set.image_univ, ←
-    Set.image_univ, ← Set.image_comp, ← coe_comp, Set.image_univ, Set.image_univ, ← image_inter,
-    Set.preimage_range_inter]
+  rw [← Set.preimage_image_eq (Set.range (D.f j i)) (D.ι_injective j)]; rw [← Set.image_univ]; rw [←
+    Set.image_univ]; rw [← Set.image_comp]; rw [← coe_comp]; rw [Set.image_univ]; rw [Set.image_univ]; rw [← image_inter]; rw [Set.preimage_range_inter]
 set_option linter.uppercaseLean3 false in
 #align Top.glue_data.preimage_range TopCat.GlueData.preimage_range
 
@@ -281,7 +278,7 @@ theorem preimage_image_eq_image (i j : D.J) (U : Set (𝖣.U i)) :
     conv_rhs => rw [← Set.preimage_image_eq U (D.ι_injective _)]
     generalize 𝖣.ι i '' U = U'
     simp
-  rw [← this, Set.image_preimage_eq_inter_range]
+  rw [← this]; rw [Set.image_preimage_eq_inter_range]
   symm
   apply Set.inter_eq_self_of_subset_left
   rw [← D.preimage_range i j]
@@ -292,13 +289,13 @@ set_option linter.uppercaseLean3 false in
 theorem preimage_image_eq_image' (i j : D.J) (U : Set (𝖣.U i)) :
     𝖣.ι j ⁻¹' (𝖣.ι i '' U) = (D.t i j ≫ D.f _ _) '' (D.f _ _ ⁻¹' U) := by
   convert D.preimage_image_eq_image i j U using 1
-  rw [coe_comp, coe_comp]
+  rw [coe_comp]; rw [coe_comp]
   -- porting note: `show` was not needed, since `rw [← Set.image_image]` worked.
   show (fun x => ((forget TopCat).map _ ((forget TopCat).map _ x))) '' _ = _
   rw [← Set.image_image]
   -- porting note: `congr 1` was here, instead of `congr_arg`, however, it did nothing.
   refine congr_arg ?_ ?_
-  rw [← Set.eq_preimage_iff_image_eq, Set.preimage_preimage]
+  rw [← Set.eq_preimage_iff_image_eq]; rw [Set.preimage_preimage]
   change _ = (D.t i j ≫ D.t j i ≫ _) ⁻¹' _
   rw [𝖣.t_inv_assoc]
   rw [← isIso_iff_bijective]
@@ -399,8 +396,7 @@ def mk' (h : MkCore.{u}) : TopCat.GlueData where
   t' := h.t'
   t_fac i j k := by
     delta MkCore.t'
-    rw [Category.assoc, Category.assoc, pullbackIsoProdSubtype_inv_snd, ← Iso.eq_inv_comp,
-      pullbackIsoProdSubtype_inv_fst_assoc]
+    rw [Category.assoc]; rw [Category.assoc]; rw [pullbackIsoProdSubtype_inv_snd]; rw [← Iso.eq_inv_comp]; rw [pullbackIsoProdSubtype_inv_fst_assoc]
     ext ⟨⟨⟨x, hx⟩, ⟨x', hx'⟩⟩, rfl : x = x'⟩
     rfl
   cocycle i j k := by
@@ -408,10 +404,9 @@ def mk' (h : MkCore.{u}) : TopCat.GlueData where
     simp_rw [← Category.assoc]
     rw [Iso.comp_inv_eq]
     simp only [Iso.inv_hom_id_assoc, Category.assoc, Category.id_comp]
-    rw [← Iso.eq_inv_comp, Iso.inv_hom_id]
+    rw [← Iso.eq_inv_comp]; rw [Iso.inv_hom_id]
     ext1 ⟨⟨⟨x, hx⟩, ⟨x', hx'⟩⟩, rfl : x = x'⟩
-    rw [comp_app, ContinuousMap.coe_mk, comp_app, id_app, ContinuousMap.coe_mk, Subtype.mk_eq_mk,
-      Prod.mk.inj_iff, Subtype.mk_eq_mk, Subtype.ext_iff, and_self_iff]
+    rw [comp_app]; rw [ContinuousMap.coe_mk]; rw [comp_app]; rw [id_app]; rw [ContinuousMap.coe_mk]; rw [Subtype.mk_eq_mk]; rw [Prod.mk.inj_iff]; rw [Subtype.mk_eq_mk]; rw [Subtype.ext_iff]; rw [and_self_iff]
     convert congr_arg Subtype.val (h.t_inv k i ⟨x, hx'⟩) using 3
     refine Subtype.ext ?_
     exact h.cocycle i j k ⟨x, hx⟩ hx'

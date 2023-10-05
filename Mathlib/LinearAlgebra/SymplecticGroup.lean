@@ -41,8 +41,7 @@ set_option linter.uppercaseLean3 false in
 
 @[simp]
 theorem J_transpose : (J l R)ᵀ = -J l R := by
-  rw [J, fromBlocks_transpose, ← neg_one_smul R (fromBlocks _ _ _ _ : Matrix (l ⊕ l) (l ⊕ l) R),
-    fromBlocks_smul, Matrix.transpose_zero, Matrix.transpose_one, transpose_neg]
+  rw [J]; rw [fromBlocks_transpose]; rw [← neg_one_smul R (fromBlocks _ _ _ _ : Matrix (l ⊕ l) (l ⊕ l) R)]; rw [fromBlocks_smul]; rw [Matrix.transpose_zero]; rw [Matrix.transpose_one]; rw [transpose_neg]
   simp [fromBlocks]
 set_option linter.uppercaseLean3 false in
 #align matrix.J_transpose Matrix.J_transpose
@@ -50,22 +49,21 @@ set_option linter.uppercaseLean3 false in
 variable [Fintype l]
 
 theorem J_squared : J l R * J l R = -1 := by
-  rw [J, fromBlocks_multiply]
+  rw [J]; rw [fromBlocks_multiply]
   simp only [Matrix.zero_mul, Matrix.neg_mul, zero_add, neg_zero, Matrix.one_mul, add_zero]
-  rw [← neg_zero, ← Matrix.fromBlocks_neg, ← fromBlocks_one]
+  rw [← neg_zero]; rw [← Matrix.fromBlocks_neg]; rw [← fromBlocks_one]
 set_option linter.uppercaseLean3 false in
 #align matrix.J_squared Matrix.J_squared
 
 theorem J_inv : (J l R)⁻¹ = -J l R := by
   refine' Matrix.inv_eq_right_inv _
-  rw [Matrix.mul_neg, J_squared]
+  rw [Matrix.mul_neg]; rw [J_squared]
   exact neg_neg 1
 set_option linter.uppercaseLean3 false in
 #align matrix.J_inv Matrix.J_inv
 
 theorem J_det_mul_J_det : det (J l R) * det (J l R) = 1 := by
-  rw [← det_mul, J_squared, ← one_smul R (-1 : Matrix _ _ R), smul_neg, ← neg_smul, det_smul,
-    Fintype.card_sum, det_one, mul_one]
+  rw [← det_mul]; rw [J_squared]; rw [← one_smul R (-1 : Matrix _ _ R)]; rw [smul_neg]; rw [← neg_smul]; rw [det_smul]; rw [Fintype.card_sum]; rw [det_one]; rw [mul_one]
   apply Even.neg_one_pow
   exact even_add_self _
 set_option linter.uppercaseLean3 false in
@@ -85,7 +83,7 @@ def symplecticGroup : Submonoid (Matrix (Sum l l) (Sum l l) R) where
   carrier := { A | A * J l R * Aᵀ = J l R }
   mul_mem' {a b} ha hb := by
     simp only [Set.mem_setOf_eq, transpose_mul] at *
-    rw [← Matrix.mul_assoc, a.mul_assoc, a.mul_assoc, hb]
+    rw [← Matrix.mul_assoc]; rw [a.mul_assoc]; rw [a.mul_assoc]; rw [hb]
     exact ha
   one_mem' := by simp
 #align matrix.symplectic_group Matrix.symplecticGroup
@@ -112,7 +110,7 @@ section SymplecticJ
 variable (l) (R)
 
 theorem J_mem : J l R ∈ symplecticGroup l R := by
-  rw [mem_iff, J, fromBlocks_multiply, fromBlocks_transpose, fromBlocks_multiply]
+  rw [mem_iff]; rw [J]; rw [fromBlocks_multiply]; rw [fromBlocks_transpose]; rw [fromBlocks_multiply]
   simp
 set_option linter.uppercaseLean3 false in
 #align symplectic_group.J_mem SymplecticGroup.J_mem
@@ -147,7 +145,7 @@ theorem symplectic_det (hA : A ∈ symplecticGroup l R) : IsUnit <| det A := by
   rw [mem_iff] at hA
   apply_fun det at hA
   simp only [det_mul, det_transpose] at hA
-  rw [mul_comm A.det, mul_assoc] at hA
+  rw [mul_comm A.det] at hA; rw [mul_assoc] at hA
   exact hA
 #align symplectic_group.symplectic_det SymplecticGroup.symplectic_det
 
@@ -166,7 +164,7 @@ theorem transpose_mem (hA : A ∈ symplecticGroup l R) : Aᵀ ∈ symplecticGrou
     _ = -(Aᵀ * (Aᵀ⁻¹ * (J l R)⁻¹)) * A⁻¹ * A := by
       simp only [Matrix.mul_inv_rev, Matrix.mul_assoc, Matrix.neg_mul]
     _ = -(J l R)⁻¹ := by
-      rw [mul_nonsing_inv_cancel_left _ _ huAT, nonsing_inv_mul_cancel_right _ _ huA]
+      rw [mul_nonsing_inv_cancel_left _ _ huAT]; rw [nonsing_inv_mul_cancel_right _ _ huA]
     _ = J l R := by simp [J_inv]
 #align symplectic_group.transpose_mem SymplecticGroup.transpose_mem
 
@@ -176,7 +174,7 @@ theorem transpose_mem_iff : Aᵀ ∈ symplecticGroup l R ↔ A ∈ symplecticGro
 #align symplectic_group.transpose_mem_iff SymplecticGroup.transpose_mem_iff
 
 theorem mem_iff' : A ∈ symplecticGroup l R ↔ Aᵀ * J l R * A = J l R := by
-  rw [← transpose_mem_iff, mem_iff, transpose_transpose]
+  rw [← transpose_mem_iff]; rw [mem_iff]; rw [transpose_transpose]
 #align symplectic_group.mem_iff' SymplecticGroup.mem_iff'
 
 instance hasInv : Inv (symplecticGroup l R) where

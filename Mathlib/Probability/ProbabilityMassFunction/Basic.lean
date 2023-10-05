@@ -104,7 +104,7 @@ theorem support_countable (p : Pmf α) : p.support.Countable :=
   Summable.countable_support_ennreal (tsum_coe_ne_top p)
 
 theorem apply_eq_zero_iff (p : Pmf α) (a : α) : p a = 0 ↔ a ∉ p.support := by
-  rw [mem_support_iff, Classical.not_not]
+  rw [mem_support_iff]; rw [Classical.not_not]
 #align pmf.apply_eq_zero_iff Pmf.apply_eq_zero_iff
 
 theorem apply_pos_iff (p : Pmf α) (a : α) : 0 < p a ↔ a ∈ p.support :=
@@ -194,7 +194,7 @@ theorem toOuterMeasure_inj {p q : Pmf α} : p.toOuterMeasure = q.toOuterMeasure 
 #align pmf.to_outer_measure_inj Pmf.toOuterMeasure_inj
 
 theorem toOuterMeasure_apply_eq_zero_iff : p.toOuterMeasure s = 0 ↔ Disjoint p.support s := by
-  rw [toOuterMeasure_apply, ENNReal.tsum_eq_zero]
+  rw [toOuterMeasure_apply]; rw [ENNReal.tsum_eq_zero]
   exact Function.funext_iff.symm.trans Set.indicator_eq_zero'
 #align pmf.to_outer_measure_apply_eq_zero_iff Pmf.toOuterMeasure_apply_eq_zero_iff
 
@@ -268,7 +268,7 @@ theorem toMeasure_apply_singleton (a : α) (h : MeasurableSet ({a} : Set α)) :
 
 theorem toMeasure_apply_eq_zero_iff (hs : MeasurableSet s) :
     p.toMeasure s = 0 ↔ Disjoint p.support s := by
-  rw [toMeasure_apply_eq_toOuterMeasure_apply p s hs, toOuterMeasure_apply_eq_zero_iff]
+  rw [toMeasure_apply_eq_toOuterMeasure_apply p s hs]; rw [toOuterMeasure_apply_eq_zero_iff]
 #align pmf.to_measure_apply_eq_zero_iff Pmf.toMeasure_apply_eq_zero_iff
 
 theorem toMeasure_apply_eq_one_iff (hs : MeasurableSet s) : p.toMeasure s = 1 ↔ p.support ⊆ s :=
@@ -307,8 +307,7 @@ variable [MeasurableSingletonClass α]
 theorem toMeasure_injective : (toMeasure : Pmf α → Measure α).Injective := by
   intro p q h
   ext x
-  rw [← p.toMeasure_apply_singleton x <| measurableSet_singleton x,
-    ← q.toMeasure_apply_singleton x <| measurableSet_singleton x, h]
+  rw [← p.toMeasure_apply_singleton x <| measurableSet_singleton x]; rw [← q.toMeasure_apply_singleton x <| measurableSet_singleton x]; rw [h]
 #align pmf.to_measure_injective Pmf.toMeasure_injective
 
 @[simp]
@@ -367,7 +366,7 @@ theorem toPmf_apply (x : α) : μ.toPmf x = μ {x} := rfl
 @[simp]
 theorem toPmf_toMeasure : μ.toPmf.toMeasure = μ :=
   Measure.ext fun s hs => by
-    rw [μ.toPmf.toMeasure_apply s hs, ← μ.tsum_indicator_apply_singleton s hs]
+    rw [μ.toPmf.toMeasure_apply s hs]; rw [← μ.tsum_indicator_apply_singleton s hs]
     rfl
 #align measure_theory.measure.to_pmf_to_measure MeasureTheory.Measure.toPmf_toMeasure
 
@@ -393,7 +392,7 @@ variable [Countable α] [MeasurableSpace α] [MeasurableSingletonClass α] (p : 
 @[simp]
 theorem toMeasure_toPmf : p.toMeasure.toPmf = p :=
   Pmf.ext fun x => by
-    rw [← p.toMeasure_apply_singleton x (measurableSet_singleton x), p.toMeasure.toPmf_apply]
+    rw [← p.toMeasure_apply_singleton x (measurableSet_singleton x)]; rw [p.toMeasure.toPmf_apply]
 #align pmf.to_measure_to_pmf Pmf.toMeasure_toPmf
 
 theorem toMeasure_eq_iff_eq_toPmf (μ : Measure α) [IsProbabilityMeasure μ] :

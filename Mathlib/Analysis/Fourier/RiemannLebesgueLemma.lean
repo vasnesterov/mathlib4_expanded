@@ -80,8 +80,7 @@ local notation "i" => fun (w : V) => HDiv.hDiv (1 : ℝ) (HMul.hMul (2 : ℝ) (H
 theorem fourier_integral_half_period_translate {w : V} (hw : w ≠ 0) :
     (∫ v : V, e[-⟪v, w⟫] • f (v + i w)) = -∫ v : V, e[-⟪v, w⟫] • f v := by
   have hiw : ⟪i w, w⟫ = 1 / 2 := by
-    rw [inner_smul_left, inner_self_eq_norm_sq_to_K, IsROrC.ofReal_real_eq_id, id.def,
-      IsROrC.conj_to_real, ← div_div, div_mul_cancel]
+    rw [inner_smul_left]; rw [inner_self_eq_norm_sq_to_K]; rw [IsROrC.ofReal_real_eq_id]; rw [id.def]; rw [IsROrC.conj_to_real]; rw [← div_div]; rw [div_mul_cancel]
     rwa [Ne.def, sq_eq_zero_iff, norm_eq_zero]
   have :
     (fun v : V => e[-⟪v, w⟫] • f (v + i w)) =
@@ -90,7 +89,7 @@ theorem fourier_integral_half_period_translate {w : V} (hw : w ≠ 0) :
     simp_rw [inner_add_left, hiw, Real.fourierChar_apply, neg_add, mul_add, ofReal_add, add_mul,
       exp_add]
     have : 2 * π * -(1 / 2) = -π := by field_simp; ring
-    rw [this, ofReal_neg, neg_mul, exp_neg, exp_pi_mul_I, inv_neg, inv_one, mul_neg_one, neg_neg]
+    rw [this]; rw [ofReal_neg]; rw [neg_mul]; rw [exp_neg]; rw [exp_pi_mul_I]; rw [inv_neg]; rw [inv_one]; rw [mul_neg_one]; rw [neg_neg]
   rw [this]
   -- Porting note:
   -- The next three lines had just been
@@ -108,8 +107,8 @@ theorem fourier_integral_eq_half_sub_half_period_translate {w : V} (hw : w ≠ 0
     (hf : Integrable f) :
     ∫ v : V, e[-⟪v, w⟫] • f v = (1 / (2 : ℂ)) • ∫ v : V, e[-⟪v, w⟫] • (f v - f (v + i w)) := by
   simp_rw [smul_sub]
-  rw [integral_sub, fourier_integral_half_period_translate hw, sub_eq_add_neg, neg_neg, ←
-    two_smul ℂ _, ← @smul_assoc _ _ _ _ _ _ (IsScalarTower.left ℂ), smul_eq_mul]
+  rw [integral_sub]; rw [fourier_integral_half_period_translate hw]; rw [sub_eq_add_neg]; rw [neg_neg]; rw [←
+    two_smul ℂ _]; rw [← @smul_assoc _ _ _ _ _ _ (IsScalarTower.left ℂ)]; rw [smul_eq_mul]
   norm_num
   exacts [(fourier_integrand_integrable w).mp hf,
     (fourier_integrand_integrable w).mp (hf.comp_add_right _)]
@@ -143,7 +142,7 @@ theorem tendsto_integral_exp_inner_smul_cocompact_of_continuous_compact_support 
     let B₀ := volume A
     replace hc : B₀ < ⊤ := hc.measure_lt_top
     refine' ⟨B₀.toNNReal + 1, add_pos_of_nonneg_of_pos B₀.toNNReal.coe_nonneg one_pos, _⟩
-    rw [ENNReal.coe_add, ENNReal.coe_one, ENNReal.coe_toNNReal hc.ne]
+    rw [ENNReal.coe_add]; rw [ENNReal.coe_one]; rw [ENNReal.coe_toNNReal hc.ne]
     exact le_self_add
   --* Use uniform continuity to choose δ such that `‖x - y‖ < δ` implies `‖f x - f y‖ < ε / B`.
   obtain ⟨δ, hδ1, hδ2⟩ :=
@@ -151,21 +150,19 @@ theorem tendsto_integral_exp_inner_smul_cocompact_of_continuous_compact_support 
       (div_pos hε hB_pos)
   refine' ⟨1 / 2 + 1 / (2 * δ), fun w hw_bd => _⟩
   have hw_ne : w ≠ 0 := by
-    contrapose! hw_bd; rw [hw_bd, norm_zero]
+    contrapose! hw_bd; rw [hw_bd]; rw [norm_zero]
     exact add_pos one_half_pos (one_div_pos.mpr <| mul_pos two_pos hδ1)
   have hw'_nm : ‖i w‖ = 1 / (2 * ‖w‖) := by
-    rw [norm_smul, norm_div, Real.norm_of_nonneg (mul_nonneg two_pos.le <| sq_nonneg _), norm_one,
-      sq, ← div_div, ← div_div, ← div_div, div_mul_cancel _ (norm_eq_zero.not.mpr hw_ne)]
+    rw [norm_smul]; rw [norm_div]; rw [Real.norm_of_nonneg (mul_nonneg two_pos.le <| sq_nonneg _)]; rw [norm_one]; rw [sq]; rw [← div_div]; rw [← div_div]; rw [← div_div]; rw [div_mul_cancel _ (norm_eq_zero.not.mpr hw_ne)]
   --* Rewrite integral in terms of `f v - f (v + w')`.
   -- Porting note: this was
   -- rw [norm_eq_abs, ← Complex.ofReal_one, ← ofReal_bit0, ← of_real_div,
   --   Complex.abs_of_nonneg one_half_pos.le]
   have : ‖(1 / 2 : ℂ)‖ = 1 / 2 := by norm_num
   rw [fourier_integral_eq_half_sub_half_period_translate hw_ne
-      (hf1.integrable_of_hasCompactSupport hf2),
-    norm_smul, this]
+      (hf1.integrable_of_hasCompactSupport hf2)]; rw [norm_smul]; rw [this]
   have : ε = 1 / 2 * (2 * ε) := by field_simp; rw [mul_comm]
-  rw [this, mul_lt_mul_left (one_half_pos : (0 : ℝ) < 1 / 2)]
+  rw [this]; rw [mul_lt_mul_left (one_half_pos : (0 : ℝ) < 1 / 2)]
   refine' lt_of_le_of_lt (norm_integral_le_integral_norm _) _
   simp_rw [norm_smul, norm_eq_abs, abs_coe_circle, one_mul]
   --* Show integral can be taken over A only.
@@ -173,12 +170,12 @@ theorem tendsto_integral_exp_inner_smul_cocompact_of_continuous_compact_support 
     refine' (set_integral_eq_integral_of_forall_compl_eq_zero fun v hv => _).symm
     dsimp only at hv
     simp only [mem_setOf, not_le] at hv
-    rw [hR_bd v _, hR_bd (v + i w) _, sub_zero, norm_zero]
+    rw [hR_bd v _]; rw [hR_bd (v + i w) _]; rw [sub_zero]; rw [norm_zero]
     · rw [← sub_neg_eq_add]
       refine' le_trans _ (norm_sub_norm_le _ _)
-      rw [le_sub_iff_add_le, norm_neg]
+      rw [le_sub_iff_add_le]; rw [norm_neg]
       refine' le_trans _ hv.le
-      rw [add_le_add_iff_left, hw'_nm, ← div_div]
+      rw [add_le_add_iff_left]; rw [hw'_nm]; rw [← div_div]
       refine' (div_le_one <| norm_pos_iff.mpr hw_ne).mpr _
       refine' le_trans (le_add_of_nonneg_right <| one_div_nonneg.mpr <| _) hw_bd
       exact (mul_pos (zero_lt_two' ℝ) hδ1).le
@@ -189,8 +186,8 @@ theorem tendsto_integral_exp_inner_smul_cocompact_of_continuous_compact_support 
     simp_rw [norm_norm]
     simp_rw [dist_eq_norm] at hδ2
     refine' fun x _ => (hδ2 _).le
-    rw [sub_add_cancel', norm_neg, hw'_nm, ← div_div, div_lt_iff (norm_pos_iff.mpr hw_ne), ←
-      div_lt_iff' hδ1, div_div]
+    rw [sub_add_cancel']; rw [norm_neg]; rw [hw'_nm]; rw [← div_div]; rw [div_lt_iff (norm_pos_iff.mpr hw_ne)]; rw [←
+      div_lt_iff' hδ1]; rw [div_div]
     refine' (lt_add_of_pos_left _ _).trans_le hw_bd
     exact one_half_pos
   have bdA2 := norm_set_integral_le_of_norm_le_const (hB_vol.trans_lt ENNReal.coe_lt_top) bdA ?_
@@ -203,11 +200,10 @@ theorem tendsto_integral_exp_inner_smul_cocompact_of_continuous_compact_support 
     Real.norm_of_nonneg (set_integral_nonneg mA fun x _ => norm_nonneg _)
   rw [this] at bdA2
   refine' bdA2.trans_lt _
-  rw [div_mul_eq_mul_div, div_lt_iff (NNReal.coe_pos.mpr hB_pos), mul_comm (2 : ℝ), mul_assoc,
-    mul_lt_mul_left hε]
+  rw [div_mul_eq_mul_div]; rw [div_lt_iff (NNReal.coe_pos.mpr hB_pos)]; rw [mul_comm (2 : ℝ)]; rw [mul_assoc]; rw [mul_lt_mul_left hε]
   rw [← ENNReal.toReal_le_toReal] at hB_vol
   · refine' hB_vol.trans_lt _
-    rw [(by rfl : (↑B : ENNReal).toReal = ↑B), two_mul]
+    rw [(by rfl : (↑B : ENNReal).toReal = ↑B)]; rw [two_mul]
     exact lt_add_of_pos_left _ hB_pos
   exacts [(hB_vol.trans_lt ENNReal.coe_lt_top).ne, ENNReal.coe_lt_top.ne]
 #align tendsto_integral_exp_inner_smul_cocompact_of_continuous_compact_support tendsto_integral_exp_inner_smul_cocompact_of_continuous_compact_support
@@ -272,7 +268,7 @@ theorem tendsto_integral_exp_smul_cocompact_of_inner_product (μ : Measure V) [�
   have : (fun w : V →L[ℝ] ℝ => ∫ v, e[-w v] • f v) = (fun w : V => ∫ v, e[-⟪v, w⟫] • f v) ∘ A := by
     ext1 w
     congr 1 with v : 1
-    rw [← inner_conj_symm, IsROrC.conj_to_real, InnerProductSpace.toDual_symm_apply]
+    rw [← inner_conj_symm]; rw [IsROrC.conj_to_real]; rw [InnerProductSpace.toDual_symm_apply]
   rw [this]
   exact
     (tendsto_integral_exp_inner_smul_cocompact f).comp
@@ -334,7 +330,7 @@ theorem tendsto_integral_exp_smul_cocompact (μ : Measure V) [μ.IsAddHaarMeasur
   convert
     (tendsto_integral_exp_smul_cocompact_of_inner_product (f ∘ A.symm) (μ.map Aₘ)).comp
       Adual.toHomeomorph.toCocompactMap.cocompact_tendsto' with w
-  rw [Function.comp_apply, integral_map_equiv]
+  rw [Function.comp_apply]; rw [integral_map_equiv]
   congr 1 with v : 1
   congr
   · -- Porting note: added `congr_arg`

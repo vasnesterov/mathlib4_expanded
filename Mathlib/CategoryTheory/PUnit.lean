@@ -85,7 +85,7 @@ theorem equiv_punit_iff_unique :
       simp [congrArg (· ≫ h.unitInv.app y) (h.unit.naturality z)]
     apply Subsingleton.intro
     intro a b
-    rw [this a, this b]
+    rw [this a]; rw [this b]
     simp only [Functor.comp_map]
     congr 3
     apply ULift.ext

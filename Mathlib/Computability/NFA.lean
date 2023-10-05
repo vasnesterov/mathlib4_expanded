@@ -121,7 +121,7 @@ def toDFA : DFA α (Set σ) where
 @[simp]
 theorem toDFA_correct : M.toDFA.accepts = M.accepts := by
   ext x
-  rw [mem_accepts, DFA.mem_accepts]
+  rw [mem_accepts]; rw [DFA.mem_accepts]
   constructor <;> · exact fun ⟨w, h2, h3⟩ => ⟨w, h3, h2⟩
 #align NFA.to_DFA_correct NFA.toDFA_correct
 
@@ -161,7 +161,7 @@ theorem toNFA_evalFrom_match (M : DFA α σ) (start : σ) (s : List α) :
 @[simp]
 theorem toNFA_correct (M : DFA α σ) : M.toNFA.accepts = M.accepts := by
   ext x
-  rw [NFA.mem_accepts, toNFA_start, toNFA_evalFrom_match]
+  rw [NFA.mem_accepts]; rw [toNFA_start]; rw [toNFA_evalFrom_match]
   constructor
   · rintro ⟨S, hS₁, hS₂⟩
     rwa [Set.mem_singleton_iff.mp hS₂] at hS₁

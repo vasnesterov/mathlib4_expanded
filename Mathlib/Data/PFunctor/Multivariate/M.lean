@@ -153,17 +153,17 @@ def M.corecContents {α : TypeVec.{u} n}
     M.Path P x ⟹ α
   | _, M.Path.root x a f h' i c =>
     have : a = g₀ b := by
-      rw [h, M.corecShape, PFunctor.M.dest_corec] at h'
+      rw [h] at h'; rw [M.corecShape] at h'; rw [PFunctor.M.dest_corec] at h'
       cases h'
       rfl
     g₁ b i (P.castDropB this i c)
   | _, M.Path.child x a f h' j i c =>
     have h₀ : a = g₀ b := by
-      rw [h, M.corecShape, PFunctor.M.dest_corec] at h'
+      rw [h] at h'; rw [M.corecShape] at h'; rw [PFunctor.M.dest_corec] at h'
       cases h'
       rfl
     have h₁ : f j = M.corecShape P g₀ g₂ (g₂ b (castLastB P h₀ j)) := by
-      rw [h, M.corecShape, PFunctor.M.dest_corec] at h'
+      rw [h] at h'; rw [M.corecShape] at h'; rw [PFunctor.M.dest_corec] at h'
       cases h'
       rfl
     M.corecContents g₀ g₁ g₂ (f j) (g₂ b (P.castLastB h₀ j)) h₁ i c
@@ -256,7 +256,7 @@ theorem M.dest_corec {α : TypeVec n} {β : Type u} (g : β → P.Obj (α.append
   rw [MvPFunctor.map_eq]; congr
   conv =>
     rhs
-    rw [← split_dropFun_lastFun f, appendFun_comp_splitFun]
+    rw [← split_dropFun_lastFun f]; rw [appendFun_comp_splitFun]
 
 set_option linter.uppercaseLean3 false in
 #align mvpfunctor.M.dest_corec MvPFunctor.M.dest_corec
@@ -295,7 +295,7 @@ theorem M.bisim {α : TypeVec n} (R : P.M α → P.M α → Prop)
     rcases h _ _ r with ⟨a', f', f₁', f₂', e₁, e₂, h'⟩
     rcases M.bisim_lemma P e₁ with ⟨g₁', e₁', rfl, rfl⟩
     rcases M.bisim_lemma P e₂ with ⟨g₂', e₂', _, rfl⟩
-    rw [e₁', e₂']
+    rw [e₁']; rw [e₂']
     exact ⟨_, _, _, rfl, rfl, fun b => ⟨_, _, h' b, rfl, rfl⟩⟩
   subst this
   congr with (i p)
@@ -326,7 +326,7 @@ theorem M.bisim₀ {α : TypeVec n} (R : P.M α → P.M α → Prop) (h₀ : Equ
   rcases M.dest P y with ⟨ay, fy⟩
   intro h
 
-  rw [map_eq, map_eq] at h
+  rw [map_eq] at h; rw [map_eq] at h
   injection h with h₀ h₁
   subst ay
   simp at h₁
@@ -334,7 +334,7 @@ theorem M.bisim₀ {α : TypeVec n} (R : P.M α → P.M α → Prop) (h₀ : Equ
     replace h₁ := congr_arg dropFun h₁
     simpa using h₁
   exists ax, dropFun fx, lastFun fx, lastFun fy
-  rw [split_dropFun_lastFun, Hdrop, split_dropFun_lastFun]
+  rw [split_dropFun_lastFun]; rw [Hdrop]; rw [split_dropFun_lastFun]
   simp
   intro i
   replace h₁ := congr_fun (congr_fun h₁ Fin2.fz) i
@@ -370,7 +370,7 @@ theorem M.dest_map {α β : TypeVec n} (g : α ⟹ β) (x : P.M α) :
   rw [map_eq]
   conv =>
     rhs
-    rw [M.dest, M.dest', map_eq, appendFun_comp_splitFun]
+    rw [M.dest]; rw [M.dest']; rw [map_eq]; rw [appendFun_comp_splitFun]
 
 set_option linter.uppercaseLean3 false in
 #align mvpfunctor.M.dest_map MvPFunctor.M.dest_map

@@ -152,7 +152,7 @@ theorem span_empty : span (∅ : Set (ℙ K V)) = ⊥ := gi.gc.l_bot
 /-- The span of the entire projective space is the top of the lattice of subspaces. -/
 @[simp]
 theorem span_univ : span (Set.univ : Set (ℙ K V)) = ⊤ := by
-  rw [eq_top_iff, SetLike.le_def]
+  rw [eq_top_iff]; rw [SetLike.le_def]
   intro x _hx
   exact subset_span _ (Set.mem_univ x)
 #align projectivization.subspace.span_univ Projectivization.Subspace.span_univ
@@ -189,11 +189,11 @@ theorem span_iUnion {ι} (s : ι → Set (ℙ K V)) : span (⋃ i, s i) = ⨆ i,
 /-- The supremum of a subspace and the span of a set of points is equal to the span of the union of
 the subspace and the set of points. -/
 theorem sup_span {S : Set (ℙ K V)} {W : Subspace K V} : W ⊔ span S = span (W ∪ S) := by
-  rw [span_union, span_coe]
+  rw [span_union]; rw [span_coe]
 #align projectivization.subspace.sup_span Projectivization.Subspace.sup_span
 
 theorem span_sup {S : Set (ℙ K V)} {W : Subspace K V} : span S ⊔ W = span (S ∪ W) := by
-  rw [span_union, span_coe]
+  rw [span_union]; rw [span_coe]
 #align projectivization.subspace.span_sup Projectivization.Subspace.span_sup
 
 /-- A point in a projective space is contained in the span of a set of points if and only if the

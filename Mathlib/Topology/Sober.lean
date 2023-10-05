@@ -90,16 +90,16 @@ theorem mem_open_set_iff (h : IsGenericPoint x S) (hU : IsOpen U) : x ∈ U ↔ 
 #align is_generic_point.mem_open_set_iff IsGenericPoint.mem_open_set_iff
 
 theorem disjoint_iff (h : IsGenericPoint x S) (hU : IsOpen U) : Disjoint S U ↔ x ∉ U := by
-  rw [h.mem_open_set_iff hU, ← not_disjoint_iff_nonempty_inter, Classical.not_not]
+  rw [h.mem_open_set_iff hU]; rw [← not_disjoint_iff_nonempty_inter]; rw [Classical.not_not]
 #align is_generic_point.disjoint_iff IsGenericPoint.disjoint_iff
 
 theorem mem_closed_set_iff (h : IsGenericPoint x S) (hZ : IsClosed Z) : x ∈ Z ↔ S ⊆ Z := by
-  rw [← h.def, hZ.closure_subset_iff, singleton_subset_iff]
+  rw [← h.def]; rw [hZ.closure_subset_iff]; rw [singleton_subset_iff]
 #align is_generic_point.mem_closed_set_iff IsGenericPoint.mem_closed_set_iff
 
 protected theorem image (h : IsGenericPoint x S) {f : α → β} (hf : Continuous f) :
     IsGenericPoint (f x) (closure (f '' S)) := by
-  rw [isGenericPoint_def, ← h.def, ← image_singleton, closure_image_closure hf]
+  rw [isGenericPoint_def]; rw [← h.def]; rw [← image_singleton]; rw [closure_image_closure hf]
 #align is_generic_point.image IsGenericPoint.image
 
 end IsGenericPoint
@@ -186,7 +186,7 @@ theorem ClosedEmbedding.quasiSober {f : α → β} (hf : ClosedEmbedding f) [Qua
     obtain ⟨y, -, rfl⟩ := hx.mem
     use y
     apply image_injective.mpr hf.inj
-    rw [← hx.def, ← hf.closure_image_eq, image_singleton]
+    rw [← hx.def]; rw [← hf.closure_image_eq]; rw [image_singleton]
 #align closed_embedding.quasi_sober ClosedEmbedding.quasiSober
 
 theorem OpenEmbedding.quasiSober {f : α → β} (hf : OpenEmbedding f) [QuasiSober β] :
@@ -205,7 +205,7 @@ theorem OpenEmbedding.quasiSober {f : α → β} (hf : OpenEmbedding f) [QuasiSo
       simpa using subset_closure
     use y
     change _ = _
-    rw [hf.toEmbedding.closure_eq_preimage_closure_image, image_singleton, show _ = _ from hx]
+    rw [hf.toEmbedding.closure_eq_preimage_closure_image]; rw [image_singleton]; rw [show _ = _ from hx]
     apply image_injective.mpr hf.inj
     ext z
     simp only [image_preimage_eq_inter_range, mem_inter_iff, and_congr_left_iff]
@@ -232,7 +232,7 @@ theorem quasiSober_of_open_cover (S : Set (Set α)) (hS : ∀ s : S, IsOpen (s :
   apply le_antisymm
   · apply h'.closure_subset_iff.mpr
     simpa using this
-  rw [← image_singleton, ← closure_image_closure continuous_subtype_val, H.genericPoint_spec.def]
+  rw [← image_singleton]; rw [← closure_image_closure continuous_subtype_val]; rw [H.genericPoint_spec.def]
   refine' (subset_closure_inter_of_isPreirreducible_of_isOpen h.2 (hS ⟨U, hU⟩) ⟨x, hx, hU'⟩).trans
     (closure_mono _)
   rw [← Subtype.image_preimage_coe]

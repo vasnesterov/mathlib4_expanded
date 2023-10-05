@@ -96,7 +96,7 @@ theorem of_iso {P Q : C} (i : P ≅ Q) (hP : Injective P) : Injective Q :=
     factors := fun g f mono => by
       obtain ⟨h, h_eq⟩ := @Injective.factors C _ P _ _ _ (g ≫ i.inv) f mono
       refine' ⟨h ≫ i.hom, _⟩
-      rw [← Category.assoc, h_eq, Category.assoc, Iso.inv_hom_id, Category.comp_id] }
+      rw [← Category.assoc]; rw [h_eq]; rw [Category.assoc]; rw [Iso.inv_hom_id]; rw [Category.comp_id] }
 #align category_theory.injective.of_iso CategoryTheory.Injective.of_iso
 
 theorem iso_iff {P Q : C} (i : P ≅ Q) : Injective P ↔ Injective Q :=
@@ -188,7 +188,7 @@ theorem projective_iff_injective_op {P : C} : Projective P ↔ Injective (op P) 
 
 theorem injective_iff_preservesEpimorphisms_yoneda_obj (J : C) :
     Injective J ↔ (yoneda.obj J).PreservesEpimorphisms := by
-  rw [injective_iff_projective_op, Projective.projective_iff_preservesEpimorphisms_coyoneda_obj]
+  rw [injective_iff_projective_op]; rw [Projective.projective_iff_preservesEpimorphisms_coyoneda_obj]
   exact Functor.preservesEpimorphisms.iso_iff (Coyoneda.objOpOp _)
 #align category_theory.injective.injective_iff_preserves_epimorphisms_yoneda_obj CategoryTheory.Injective.injective_iff_preservesEpimorphisms_yoneda_obj
 
@@ -317,7 +317,7 @@ theorem map_injective (adj : F ⊣ G) [F.PreservesMonomorphisms] (I : D) (hI : I
     intro
     rcases hI.factors (F.map f ≫ adj.counit.app _) (F.map g) with ⟨w,h⟩
     use adj.unit.app Y ≫ G.map w
-    rw [← unit_naturality_assoc, ← G.map_comp, h]
+    rw [← unit_naturality_assoc]; rw [← G.map_comp]; rw [h]
     simp⟩
 #align category_theory.adjunction.map_injective CategoryTheory.Adjunction.map_injective
 

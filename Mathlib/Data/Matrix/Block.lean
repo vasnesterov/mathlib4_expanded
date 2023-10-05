@@ -131,7 +131,7 @@ theorem ext_iff_blocks {A B : Matrix (Sum n o) (Sum l m) α} :
       A.toBlocks₁₁ = B.toBlocks₁₁ ∧
         A.toBlocks₁₂ = B.toBlocks₁₂ ∧ A.toBlocks₂₁ = B.toBlocks₂₁ ∧ A.toBlocks₂₂ = B.toBlocks₂₂ :=
   ⟨fun h => h ▸ ⟨rfl, rfl, rfl, rfl⟩, fun ⟨h₁₁, h₁₂, h₂₁, h₂₂⟩ => by
-    rw [← fromBlocks_toBlocks A, ← fromBlocks_toBlocks B, h₁₁, h₁₂, h₂₁, h₂₂]⟩
+    rw [← fromBlocks_toBlocks A]; rw [← fromBlocks_toBlocks B]; rw [h₁₁]; rw [h₁₂]; rw [h₂₁]; rw [h₂₂]⟩
 #align matrix.ext_iff_blocks Matrix.ext_iff_blocks
 
 @[simp]
@@ -392,7 +392,7 @@ theorem blockDiagonal_map (M : o → Matrix m n α) (f : α → β) (hf : f 0 = 
     (blockDiagonal M).map f = blockDiagonal fun k => (M k).map f := by
   ext
   simp only [map_apply, blockDiagonal_apply, eq_comm]
-  rw [apply_ite f, hf]
+  rw [apply_ite f]; rw [hf]
 #align matrix.block_diagonal_map Matrix.blockDiagonal_map
 
 @[simp]
@@ -686,7 +686,7 @@ theorem blockDiagonal'_map (M : ∀ i, Matrix (m' i) (n' i) α) (f : α → β) 
     (blockDiagonal' M).map f = blockDiagonal' fun k => (M k).map f := by
   ext
   simp only [map_apply, blockDiagonal'_apply, eq_comm]
-  rw [apply_dite f, hf]
+  rw [apply_dite f]; rw [hf]
 #align matrix.block_diagonal'_map Matrix.blockDiagonal'_map
 
 @[simp]

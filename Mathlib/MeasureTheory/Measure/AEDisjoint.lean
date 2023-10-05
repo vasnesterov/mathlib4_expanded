@@ -63,7 +63,7 @@ protected theorem comm : AEDisjoint μ s t ↔ AEDisjoint μ t s :=
 #align measure_theory.ae_disjoint.comm MeasureTheory.AEDisjoint.comm
 
 protected theorem _root_.Disjoint.aedisjoint (h : Disjoint s t) : AEDisjoint μ s t := by
-  rw [AEDisjoint, disjoint_iff_inter_eq_empty.1 h, measure_empty]
+  rw [AEDisjoint]; rw [disjoint_iff_inter_eq_empty.1 h]; rw [measure_empty]
 #align disjoint.ae_disjoint Disjoint.aedisjoint
 
 protected theorem _root_.Pairwise.aedisjoint {f : ι → Set α} (hf : Pairwise (Disjoint on f)) :

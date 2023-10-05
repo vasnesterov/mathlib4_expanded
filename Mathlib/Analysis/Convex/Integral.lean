@@ -241,10 +241,10 @@ theorem ae_eq_const_or_exists_average_ne_compl [IsFiniteMeasure μ] (hfi : Integ
   · rw [restrict_eq_zero.2 h₀, integral_zero_measure, h₀, ENNReal.zero_toReal, zero_smul]
   by_cases h₀' : μ tᶜ = 0
   · rw [← ae_eq_univ] at h₀'
-    rw [restrict_congr_set h₀', restrict_univ, measure_congr h₀', measure_smul_average]
+    rw [restrict_congr_set h₀']; rw [restrict_univ]; rw [measure_congr h₀']; rw [measure_smul_average]
   have := average_mem_openSegment_compl_self ht.nullMeasurableSet h₀ h₀' hfi
-  rw [← H t ht h₀ h₀', openSegment_same, mem_singleton_iff] at this
-  rw [this, measure_smul_setAverage _ (measure_ne_top μ _)]
+  rw [← H t ht h₀ h₀'] at this; rw [openSegment_same] at this; rw [mem_singleton_iff] at this
+  rw [this]; rw [measure_smul_setAverage _ (measure_ne_top μ _)]
 #align ae_eq_const_or_exists_average_ne_compl ae_eq_const_or_exists_average_ne_compl
 
 /-- If an integrable function `f : α → E` takes values in a convex set `s` and for some set `t` of
@@ -295,11 +295,9 @@ theorem StrictConvexOn.ae_eq_const_or_map_average_lt [IsFiniteMeasure μ] (hg : 
   rintro ⟨t, hm, h₀, h₀', hne⟩
   rcases average_mem_openSegment_compl_self hm.nullMeasurableSet h₀ h₀' (hfi.prod_mk hgi) with
     ⟨a, b, ha, hb, hab, h_avg⟩
-  rw [average_pair hfi hgi, average_pair hfi.integrableOn hgi.integrableOn,
-    average_pair hfi.integrableOn hgi.integrableOn, Prod.smul_mk,
-    Prod.smul_mk, Prod.mk_add_mk, Prod.mk.inj_iff] at h_avg
+  rw [average_pair hfi hgi] at h_avg; rw [average_pair hfi.integrableOn hgi.integrableOn] at h_avg; rw [average_pair hfi.integrableOn hgi.integrableOn] at h_avg; rw [Prod.smul_mk] at h_avg; rw [Prod.smul_mk] at h_avg; rw [Prod.mk_add_mk] at h_avg; rw [Prod.mk.inj_iff] at h_avg
   simp only [Function.comp] at h_avg
-  rw [← h_avg.1, ← h_avg.2]
+  rw [← h_avg.1]; rw [← h_avg.2]
   calc
     g ((a • ⨍ x in t, f x ∂μ) + b • ⨍ x in tᶜ, f x ∂μ) <
         a * g (⨍ x in t, f x ∂μ) + b * g (⨍ x in tᶜ, f x ∂μ) :=

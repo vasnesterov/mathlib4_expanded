@@ -40,31 +40,31 @@ theorem two_power_aleph0 : 2 ^ aleph0.{u} = continuum.{u} :=
 
 @[simp]
 theorem lift_continuum : lift.{v} 𝔠 = 𝔠 := by
-  rw [← two_power_aleph0, lift_two_power, lift_aleph0, two_power_aleph0]
+  rw [← two_power_aleph0]; rw [lift_two_power]; rw [lift_aleph0]; rw [two_power_aleph0]
 #align cardinal.lift_continuum Cardinal.lift_continuum
 
 @[simp]
 theorem continuum_le_lift {c : Cardinal.{u}} : 𝔠 ≤ lift.{v} c ↔ 𝔠 ≤ c := by
   -- porting note: added explicit universes
-  rw [← lift_continuum.{u,v}, lift_le]
+  rw [← lift_continuum.{u,v}]; rw [lift_le]
 #align cardinal.continuum_le_lift Cardinal.continuum_le_lift
 
 @[simp]
 theorem lift_le_continuum {c : Cardinal.{u}} : lift.{v} c ≤ 𝔠 ↔ c ≤ 𝔠 := by
   -- porting note: added explicit universes
-  rw [← lift_continuum.{u,v}, lift_le]
+  rw [← lift_continuum.{u,v}]; rw [lift_le]
 #align cardinal.lift_le_continuum Cardinal.lift_le_continuum
 
 @[simp]
 theorem continuum_lt_lift {c : Cardinal.{u}} : 𝔠 < lift.{v} c ↔ 𝔠 < c := by
   -- porting note: added explicit universes
-  rw [← lift_continuum.{u,v}, lift_lt]
+  rw [← lift_continuum.{u,v}]; rw [lift_lt]
 #align cardinal.continuum_lt_lift Cardinal.continuum_lt_lift
 
 @[simp]
 theorem lift_lt_continuum {c : Cardinal.{u}} : lift.{v} c < 𝔠 ↔ c < 𝔠 := by
   -- porting note: added explicit universes
-  rw [← lift_continuum.{u,v}, lift_lt]
+  rw [← lift_continuum.{u,v}]; rw [lift_lt]
 #align cardinal.lift_lt_continuum Cardinal.lift_lt_continuum
 
 /-!
@@ -191,7 +191,7 @@ theorem nat_power_aleph0 {n : ℕ} (hn : 2 ≤ n) : (n ^ aleph0.{u} : Cardinal.{
 
 @[simp]
 theorem continuum_power_aleph0 : continuum.{u} ^ aleph0.{u} = 𝔠 := by
-  rw [← two_power_aleph0, ← power_mul, mul_eq_left le_rfl le_rfl aleph0_ne_zero]
+  rw [← two_power_aleph0]; rw [← power_mul]; rw [mul_eq_left le_rfl le_rfl aleph0_ne_zero]
 #align cardinal.continuum_power_aleph_0 Cardinal.continuum_power_aleph0
 
 end Cardinal

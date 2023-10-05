@@ -133,13 +133,13 @@ set_option linter.uppercaseLean3 false in
 lemma baseChange_negY_of_baseChange (x₁ y₁ : A) :
     (W.baseChange B).negY (algebraMap A B x₁) (algebraMap A B y₁) =
       algebraMap A B ((W.baseChange A).negY x₁ y₁) := by
-  rw [← baseChange_negY, baseChange_baseChange]
+  rw [← baseChange_negY]; rw [baseChange_baseChange]
 set_option linter.uppercaseLean3 false in
 #align weierstrass_curve.base_change_neg_Y_of_base_change WeierstrassCurve.baseChange_negY_of_baseChange
 
 -- porting note: removed `@[simp]` to avoid a `simpNF` linter error
 lemma eval_negPolynomial : (W.negPolynomial.eval <| C y₁).eval x₁ = W.negY x₁ y₁ := by
-  rw [negY, sub_sub, negPolynomial]
+  rw [negY]; rw [sub_sub]; rw [negPolynomial]
   eval_simp
 #align weierstrass_curve.eval_neg_polynomial WeierstrassCurve.eval_negPolynomial
 
@@ -153,7 +153,7 @@ noncomputable def linePolynomial : R[X] :=
 
 lemma XYIdeal_eq₁ : XYIdeal W x₁ (C y₁) = XYIdeal W x₁ (linePolynomial x₁ y₁ L) := by
   simp only [XYIdeal, XClass, YClass, linePolynomial]
-  rw [← span_pair_add_mul_right <| CoordinateRing.mk W <| C <| C <| -L, ← _root_.map_mul, ← map_add]
+  rw [← span_pair_add_mul_right <| CoordinateRing.mk W <| C <| C <| -L]; rw [← _root_.map_mul]; rw [← map_add]
   apply congr_arg (_ ∘ _ ∘ _ ∘ _)
   C_simp
   ring1
@@ -174,7 +174,7 @@ lemma C_addPolynomial :
     C (W.addPolynomial x₁ y₁ L) =
       (Y - C (linePolynomial x₁ y₁ L)) * (W.negPolynomial - C (linePolynomial x₁ y₁ L)) +
         W.polynomial := by
-  rw [addPolynomial, linePolynomial, WeierstrassCurve.polynomial, negPolynomial]
+  rw [addPolynomial]; rw [linePolynomial]; rw [WeierstrassCurve.polynomial]; rw [negPolynomial]
   eval_simp
   C_simp
   ring1
@@ -195,7 +195,7 @@ lemma addPolynomial_eq :
         ⟨1, -L ^ 2 - W.a₁ * L + W.a₂,
           2 * x₁ * L ^ 2 + (W.a₁ * x₁ - 2 * y₁ - W.a₃) * L + (-W.a₁ * y₁ + W.a₄),
           -x₁ ^ 2 * L ^ 2 + (2 * x₁ * y₁ + W.a₃ * x₁) * L - (y₁ ^ 2 + W.a₃ * y₁ - W.a₆)⟩ := by
-  rw [addPolynomial, linePolynomial, WeierstrassCurve.polynomial, Cubic.toPoly]
+  rw [addPolynomial]; rw [linePolynomial]; rw [WeierstrassCurve.polynomial]; rw [Cubic.toPoly]
   eval_simp
   C_simp
   ring1
@@ -223,7 +223,7 @@ set_option linter.uppercaseLean3 false in
 lemma baseChange_addX_of_baseChange (x₁ x₂ L : A) :
     (W.baseChange B).addX (algebraMap A B x₁) (algebraMap A B x₂) (algebraMap A B L) =
       algebraMap A B ((W.baseChange A).addX x₁ x₂ L) := by
-  rw [← baseChange_addX, baseChange_baseChange]
+  rw [← baseChange_addX]; rw [baseChange_baseChange]
 set_option linter.uppercaseLean3 false in
 #align weierstrass_curve.base_change_add_X_of_base_change WeierstrassCurve.baseChange_addX_of_baseChange
 
@@ -250,7 +250,7 @@ lemma baseChange_addY'_of_baseChange (x₁ x₂ y₁ L : A) :
     (W.baseChange B).addY' (algebraMap A B x₁) (algebraMap A B x₂) (algebraMap A B y₁)
         (algebraMap A B L) =
       algebraMap A B ((W.baseChange A).addY' x₁ x₂ y₁ L) := by
-  rw [← baseChange_addY', baseChange_baseChange]
+  rw [← baseChange_addY']; rw [baseChange_baseChange]
 set_option linter.uppercaseLean3 false in
 #align weierstrass_curve.base_change_add_Y'_of_base_change WeierstrassCurve.baseChange_addY'_of_baseChange
 
@@ -276,7 +276,7 @@ lemma baseChange_addY_of_baseChange (x₁ x₂ y₁ L : A) :
     (W.baseChange B).addY (algebraMap A B x₁) (algebraMap A B x₂) (algebraMap A B y₁)
         (algebraMap A B L) =
       algebraMap A B ((W.baseChange A).addY x₁ x₂ y₁ L) := by
-  rw [← baseChange_addY, baseChange_baseChange]
+  rw [← baseChange_addY]; rw [baseChange_baseChange]
 set_option linter.uppercaseLean3 false in
 #align weierstrass_curve.base_change_add_Y_of_base_change WeierstrassCurve.baseChange_addY_of_baseChange
 
@@ -285,9 +285,7 @@ lemma XYIdeal_add_eq :
       span {CoordinateRing.mk W <| W.negPolynomial - C (linePolynomial x₁ y₁ L)} ⊔
         XIdeal W (W.addX x₁ x₂ L) := by
   simp only [XYIdeal, XIdeal, XClass, YClass, addY, addY', negY, negPolynomial, linePolynomial]
-  rw [sub_sub <| -Y, neg_sub_left Y, map_neg, span_singleton_neg, sup_comm, ← span_insert,
-    ← span_pair_add_mul_right <| CoordinateRing.mk W <| C <| C <| W.a₁ + L, ← _root_.map_mul,
-    ← map_add]
+  rw [sub_sub <| -Y]; rw [neg_sub_left Y]; rw [map_neg]; rw [span_singleton_neg]; rw [sup_comm]; rw [← span_insert]; rw [← span_pair_add_mul_right <| CoordinateRing.mk W <| C <| C <| W.a₁ + L]; rw [← _root_.map_mul]; rw [← map_add]
   apply congr_arg (_ ∘ _ ∘ _ ∘ _)
   C_simp
   ring1
@@ -297,7 +295,7 @@ set_option linter.uppercaseLean3 false in
 lemma equation_add_iff :
     W.equation (W.addX x₁ x₂ L) (W.addY' x₁ x₂ y₁ L) ↔
       (W.addPolynomial x₁ y₁ L).eval (W.addX x₁ x₂ L) = 0 := by
-  rw [WeierstrassCurve.equation, addY', addPolynomial, linePolynomial, WeierstrassCurve.polynomial]
+  rw [WeierstrassCurve.equation]; rw [addY']; rw [addPolynomial]; rw [linePolynomial]; rw [WeierstrassCurve.polynomial]
   eval_simp
 #align weierstrass_curve.equation_add_iff WeierstrassCurve.equation_add_iff
 
@@ -305,11 +303,10 @@ lemma nonsingular_add_of_eval_derivative_ne_zero
     (hx' : W.equation (W.addX x₁ x₂ L) (W.addY' x₁ x₂ y₁ L))
     (hx : (derivative <| W.addPolynomial x₁ y₁ L).eval (W.addX x₁ x₂ L) ≠ 0) :
     W.nonsingular (W.addX x₁ x₂ L) (W.addY' x₁ x₂ y₁ L) := by
-  rw [WeierstrassCurve.nonsingular, and_iff_right hx', addY', WeierstrassCurve.polynomialX,
-    WeierstrassCurve.polynomialY]
+  rw [WeierstrassCurve.nonsingular]; rw [and_iff_right hx']; rw [addY']; rw [WeierstrassCurve.polynomialX]; rw [WeierstrassCurve.polynomialY]
   eval_simp
   contrapose! hx
-  rw [addPolynomial, linePolynomial, WeierstrassCurve.polynomial]
+  rw [addPolynomial]; rw [linePolynomial]; rw [WeierstrassCurve.polynomial]
   eval_simp
   derivative_simp
   simp only [zero_add, add_zero, sub_zero, zero_mul, mul_one]
@@ -348,7 +345,7 @@ end Point
 variable {W x₁ y₁}
 
 lemma equation_neg_iff : W.equation x₁ (W.negY x₁ y₁) ↔ W.equation x₁ y₁ := by
-  rw [equation_iff, equation_iff, negY]
+  rw [equation_iff]; rw [equation_iff]; rw [negY]
   congr! 1
   ring1
 #align weierstrass_curve.equation_neg_iff WeierstrassCurve.equation_neg_iff
@@ -363,7 +360,7 @@ lemma equation_neg (h : W.equation x₁ y₁) : W.equation x₁ <| W.negY x₁ y
 #align weierstrass_curve.equation_neg WeierstrassCurve.equation_neg
 
 lemma nonsingular_neg_iff : W.nonsingular x₁ (W.negY x₁ y₁) ↔ W.nonsingular x₁ y₁ := by
-  rw [nonsingular_iff, equation_neg_iff, ← negY, negY_negY, ← @ne_comm _ y₁, nonsingular_iff]
+  rw [nonsingular_iff]; rw [equation_neg_iff]; rw [← negY]; rw [negY_negY]; rw [← @ne_comm _ y₁]; rw [nonsingular_iff]
   exact and_congr_right' <| (iff_congr not_and_or.symm not_and_or.symm).mpr <|
     not_congr <| and_congr_left fun h => by rw [← h]
 #align weierstrass_curve.nonsingular_neg_iff WeierstrassCurve.nonsingular_neg_iff
@@ -441,7 +438,7 @@ variable {W x₁ x₂ y₁ y₂} (h₁ : W.nonsingular x₁ y₁) (h₂ : W.nons
 
 @[simp]
 lemma slope_of_Y_eq (hx : x₁ = x₂) (hy : y₁ = W.negY x₂ y₂) : W.slope x₁ x₂ y₁ y₂ = 0 := by
-  rw [slope, if_pos hx, if_pos hy]
+  rw [slope]; rw [if_pos hx]; rw [if_pos hy]
 set_option linter.uppercaseLean3 false in
 #align weierstrass_curve.slope_of_Y_eq WeierstrassCurve.slope_of_Y_eq
 
@@ -449,22 +446,22 @@ set_option linter.uppercaseLean3 false in
 lemma slope_of_Y_ne (hx : x₁ = x₂) (hy : y₁ ≠ W.negY x₂ y₂) :
     W.slope x₁ x₂ y₁ y₂ =
       (3 * x₁ ^ 2 + 2 * W.a₂ * x₁ + W.a₄ - W.a₁ * y₁) / (y₁ - W.negY x₁ y₁) := by
-  rw [slope, if_pos hx, if_neg hy]
+  rw [slope]; rw [if_pos hx]; rw [if_neg hy]
 set_option linter.uppercaseLean3 false in
 #align weierstrass_curve.slope_of_Y_ne WeierstrassCurve.slope_of_Y_ne
 
 @[simp]
 lemma slope_of_X_ne (hx : x₁ ≠ x₂) : W.slope x₁ x₂ y₁ y₂ = (y₁ - y₂) / (x₁ - x₂) := by
-  rw [slope, if_neg hx]
+  rw [slope]; rw [if_neg hx]
 set_option linter.uppercaseLean3 false in
 #align weierstrass_curve.slope_of_X_ne WeierstrassCurve.slope_of_X_ne
 
 lemma slope_of_Y_ne_eq_eval (hx : x₁ = x₂) (hy : y₁ ≠ W.negY x₂ y₂) :
     W.slope x₁ x₂ y₁ y₂ =
       -(W.polynomialX.eval <| C y₁).eval x₁ / (W.polynomialY.eval <| C y₁).eval x₁ := by
-  rw [slope_of_Y_ne hx hy, eval_polynomialX, neg_sub]
+  rw [slope_of_Y_ne hx hy]; rw [eval_polynomialX]; rw [neg_sub]
   congr 1
-  rw [negY, eval_polynomialY]
+  rw [negY]; rw [eval_polynomialY]
   ring1
 set_option linter.uppercaseLean3 false in
 #align weierstrass_curve.slope_of_Y_ne_eq_eval WeierstrassCurve.slope_of_Y_ne_eq_eval
@@ -496,12 +493,12 @@ lemma baseChange_slope_of_baseChange {R : Type u} [CommRing R] (W : WeierstrassC
     (W.baseChange K).slope (algebraMap F K x₁) (algebraMap F K x₂) (algebraMap F K y₁)
         (algebraMap F K y₂) =
       algebraMap F K ((W.baseChange F).slope x₁ x₂ y₁ y₂) := by
-  rw [← baseChange_slope, baseChange_baseChange]
+  rw [← baseChange_slope]; rw [baseChange_baseChange]
 #align weierstrass_curve.base_change_slope_of_base_change WeierstrassCurve.baseChange_slope_of_baseChange
 
 lemma Y_eq_of_X_eq (hx : x₁ = x₂) : y₁ = y₂ ∨ y₁ = W.negY x₂ y₂ := by
   rw [equation_iff] at h₁' h₂'
-  rw [← sub_eq_zero, ← @sub_eq_zero _ _ y₁, ← mul_eq_zero, negY]
+  rw [← sub_eq_zero]; rw [← @sub_eq_zero _ _ y₁]; rw [← mul_eq_zero]; rw [negY]
   linear_combination (norm := (rw [hx]; ring1)) h₁' - h₂'
 set_option linter.uppercaseLean3 false in
 #align weierstrass_curve.Y_eq_of_X_eq WeierstrassCurve.Y_eq_of_X_eq
@@ -525,8 +522,7 @@ lemma XYIdeal_eq₂ (hxy : x₁ = x₂ → y₁ ≠ W.negY x₂ y₂) :
       ring1
   nth_rw 1 [hy₂]
   simp only [XYIdeal, XClass, YClass, linePolynomial]
-  rw [← span_pair_add_mul_right <| CoordinateRing.mk W <| C <| C <| -W.slope x₁ x₂ y₁ y₂,
-    ← _root_.map_mul, ← map_add]
+  rw [← span_pair_add_mul_right <| CoordinateRing.mk W <| C <| C <| -W.slope x₁ x₂ y₁ y₂]; rw [← _root_.map_mul]; rw [← map_add]
   apply congr_arg (_ ∘ _ ∘ _ ∘ _)
   eval_simp
   C_simp
@@ -539,12 +535,12 @@ lemma addPolynomial_slope (hxy : x₁ = x₂ → y₁ ≠ W.negY x₂ y₂) :
       -((X - C x₁) * (X - C x₂) * (X - C (W.addX x₁ x₂ <| W.slope x₁ x₂ y₁ y₂))) := by
   -- porting note: removed assumption `h₂` explicitly
   clear h₂
-  rw [addPolynomial_eq, neg_inj, Cubic.prod_X_sub_C_eq, Cubic.toPoly_injective]
+  rw [addPolynomial_eq]; rw [neg_inj]; rw [Cubic.prod_X_sub_C_eq]; rw [Cubic.toPoly_injective]
   by_cases hx : x₁ = x₂
   · rcases hx, Y_eq_of_Y_ne h₁' h₂' hx (hxy hx) with ⟨rfl, rfl⟩
     rw [equation_iff] at h₁' h₂'
     rw [slope_of_Y_ne rfl <| hxy rfl]
-    rw [negY, ← sub_ne_zero] at hxy
+    rw [negY] at hxy; rw [← sub_ne_zero] at hxy
     ext
     · rfl
     · simp only [addX]
@@ -588,9 +584,9 @@ lemma derivative_addPolynomial_slope (hxy : x₁ = x₂ → y₁ ≠ W.negY x₂
 before applying the final negation that maps $Y$ to $-Y - a_1X - a_3$, lies in `W`. -/
 lemma equation_add' (hxy : x₁ = x₂ → y₁ ≠ W.negY x₂ y₂) :
     W.equation (W.addX x₁ x₂ <| W.slope x₁ x₂ y₁ y₂) (W.addY' x₁ x₂ y₁ <| W.slope x₁ x₂ y₁ y₂) := by
-  rw [equation_add_iff, addPolynomial_slope h₁' h₂' hxy]
+  rw [equation_add_iff]; rw [addPolynomial_slope h₁' h₂' hxy]
   eval_simp
-  rw [neg_eq_zero, sub_self, mul_zero]
+  rw [neg_eq_zero]; rw [sub_self]; rw [mul_zero]
 #align weierstrass_curve.equation_add' WeierstrassCurve.equation_add'
 
 /-- The addition of two affine points in `W` on a sloped line lies in `W`. -/
@@ -745,7 +741,7 @@ lemma XYIdeal_neg_mul : XYIdeal W x₁ (C <| W.negY x₁ y₁) * XYIdeal W x₁ 
     ring1
   · let W_Y := 2 * y₁ + W.a₁ * x₁ + W.a₃
     refine ⟨0, C (C W_Y⁻¹), C (C <| W_Y⁻¹ * -1), 0, ?_⟩
-    rw [negY, ← mul_right_inj' <| C_ne_zero.mpr <| C_ne_zero.mpr hy]
+    rw [negY]; rw [← mul_right_inj' <| C_ne_zero.mpr <| C_ne_zero.mpr hy]
     simp only [mul_add, ← mul_assoc, ← C_mul, mul_inv_cancel hy]
     C_simp
     ring1
@@ -757,8 +753,7 @@ private lemma XYIdeal'_mul_inv :
         (XYIdeal W x₁ (C <| W.negY x₁ y₁) *
           (XIdeal W x₁ : FractionalIdeal W.CoordinateRing⁰ W.FunctionField)⁻¹) =
       1 := by
-  rw [← mul_assoc, ← FractionalIdeal.coeIdeal_mul, mul_comm <| XYIdeal W _ _, XYIdeal_neg_mul h₁,
-    XIdeal, FractionalIdeal.coe_ideal_span_singleton_mul_inv W.FunctionField <| XClass_ne_zero W x₁]
+  rw [← mul_assoc]; rw [← FractionalIdeal.coeIdeal_mul]; rw [mul_comm <| XYIdeal W _ _]; rw [XYIdeal_neg_mul h₁]; rw [XIdeal]; rw [FractionalIdeal.coe_ideal_span_singleton_mul_inv W.FunctionField <| XClass_ne_zero W x₁]
 
 -- porting note: increased `maxHeartbeats` for `ring1`
 set_option synthInstance.maxHeartbeats 60000 in
@@ -772,16 +767,11 @@ lemma XYIdeal_mul_XYIdeal (hxy : x₁ = x₂ → y₁ ≠ W.negY x₂ y₂) :
   clear h₂
   have sup_rw : ∀ a b c d : Ideal W.CoordinateRing, a ⊔ (b ⊔ (c ⊔ d)) = a ⊔ d ⊔ b ⊔ c :=
     fun _ _ c _ => by rw [← sup_assoc, @sup_comm _ _ c, sup_sup_sup_comm, ← sup_assoc]
-  rw [XYIdeal_add_eq, XIdeal, mul_comm, W.XYIdeal_eq₁ x₁ y₁ <| W.slope x₁ x₂ y₁ y₂, XYIdeal,
-    XYIdeal_eq₂ h₁' h₂' hxy, XYIdeal, span_pair_mul_span_pair]
+  rw [XYIdeal_add_eq]; rw [XIdeal]; rw [mul_comm]; rw [W.XYIdeal_eq₁ x₁ y₁ <| W.slope x₁ x₂ y₁ y₂]; rw [XYIdeal]; rw [XYIdeal_eq₂ h₁' h₂' hxy]; rw [XYIdeal]; rw [span_pair_mul_span_pair]
   simp_rw [span_insert, sup_rw, sup_mul, span_singleton_mul_span_singleton]
-  rw [← neg_eq_iff_eq_neg.mpr <| CoordinateRing.C_addPolynomial_slope h₁' h₂' hxy,
-    span_singleton_neg, CoordinateRing.C_addPolynomial, _root_.map_mul, YClass]
+  rw [← neg_eq_iff_eq_neg.mpr <| CoordinateRing.C_addPolynomial_slope h₁' h₂' hxy]; rw [span_singleton_neg]; rw [CoordinateRing.C_addPolynomial]; rw [_root_.map_mul]; rw [YClass]
   simp_rw [mul_comm <| XClass W x₁, mul_assoc, ← span_singleton_mul_span_singleton, ← mul_sup]
-  rw [span_singleton_mul_span_singleton, ← span_insert,
-    ← span_pair_add_mul_right <| -(XClass W <| W.addX x₁ x₂ <| W.slope x₁ x₂ y₁ y₂), mul_neg,
-    ← sub_eq_add_neg, ← sub_mul, ← map_sub <| CoordinateRing.mk W, sub_sub_sub_cancel_right,
-    span_insert, ← span_singleton_mul_span_singleton, ← sup_rw, ← sup_mul, ← sup_mul]
+  rw [span_singleton_mul_span_singleton]; rw [← span_insert]; rw [← span_pair_add_mul_right <| -(XClass W <| W.addX x₁ x₂ <| W.slope x₁ x₂ y₁ y₂)]; rw [mul_neg]; rw [← sub_eq_add_neg]; rw [← sub_mul]; rw [← map_sub <| CoordinateRing.mk W]; rw [sub_sub_sub_cancel_right]; rw [span_insert]; rw [← span_singleton_mul_span_singleton]; rw [← sup_rw]; rw [← sup_mul]; rw [← sup_mul]
   apply congr_arg (_ ∘ _)
   convert top_mul (_ : Ideal W.CoordinateRing)
   simp_rw [XClass, ← @Set.image_singleton _ _ <| CoordinateRing.mk W, ← map_span, ← Ideal.map_sup,
@@ -795,10 +785,8 @@ lemma XYIdeal_mul_XYIdeal (hxy : x₁ = x₂ → y₁ ≠ W.negY x₂ y₂) :
       ⟨1 + C (C <| y⁻¹ * 4) * W.polynomial,
         ⟨C <| C y⁻¹ * (C 4 * X ^ 2 + C (4 * x₁ + W.b₂) * X + C (4 * x₁ ^ 2 + W.b₂ * x₁ + 2 * W.b₄)),
           0, C (C y⁻¹) * (Y - W.negPolynomial), ?_⟩, by
-        rw [map_add, map_one, _root_.map_mul <| CoordinateRing.mk W, AdjoinRoot.mk_self, mul_zero,
-          add_zero]⟩
-    rw [WeierstrassCurve.polynomial, negPolynomial,
-      ← mul_right_inj' <| C_ne_zero.mpr <| C_ne_zero.mpr hxy]
+        rw [map_add]; rw [map_one]; rw [_root_.map_mul <| CoordinateRing.mk W]; rw [AdjoinRoot.mk_self]; rw [mul_zero]; rw [add_zero]⟩
+    rw [WeierstrassCurve.polynomial]; rw [negPolynomial]; rw [← mul_right_inj' <| C_ne_zero.mpr <| C_ne_zero.mpr hxy]
     simp only [mul_add, ← mul_assoc, ← C_mul, mul_inv_cancel hxy]
     linear_combination (norm := (rw [b₂, b₄, negY]; C_simp; ring1))
       -4 * congr_arg C (congr_arg C <| (W.equation_iff _ _).mp h₁')
@@ -908,7 +896,7 @@ lemma add_left_neg (P : W.Point) : -P + P = 0 := by
 
 -- porting note: removed `@[simp]` to avoid a `simpNF` linter error
 lemma neg_add_eq_zero (P Q : W.Point) : -P + Q = 0 ↔ P = Q := by
-  rw [add_eq_zero, neg_inj]
+  rw [add_eq_zero]; rw [neg_inj]
 #align weierstrass_curve.point.neg_add_eq_zero WeierstrassCurve.Point.neg_add_eq_zero
 
 lemma toClass_eq_zero (P : W.Point) : toClass P = 0 ↔ P = 0 := by
@@ -918,9 +906,7 @@ lemma toClass_eq_zero (P : W.Point) : toClass P = 0 ↔ P = 0 := by
     · rfl
     · rcases (ClassGroup.mk_eq_one_of_coe_ideal <| by rfl).mp hP with ⟨p, h0, hp⟩
       apply (p.natDegree_norm_ne_one _).elim
-      rw [← finrank_quotient_span_eq_natDegree_norm (CoordinateRing.basis W) h0,
-        ← (quotientEquivAlgOfEq F hp).toLinearEquiv.finrank_eq,
-        (quotientXYIdealEquiv W h).toLinearEquiv.finrank_eq, FiniteDimensional.finrank_self]
+      rw [← finrank_quotient_span_eq_natDegree_norm (CoordinateRing.basis W) h0]; rw [← (quotientEquivAlgOfEq F hp).toLinearEquiv.finrank_eq]; rw [(quotientXYIdealEquiv W h).toLinearEquiv.finrank_eq]; rw [FiniteDimensional.finrank_self]
   · exact congr_arg toClass
 #align weierstrass_curve.point.to_class_eq_zero WeierstrassCurve.Point.toClass_eq_zero
 

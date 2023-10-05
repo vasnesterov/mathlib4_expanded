@@ -248,7 +248,7 @@ theorem strictMonoOn_Iic_of_lt_succ [SuccOrder α] [IsSuccArchimedean α] {n : �
       (ih (le_trans (le_succ _) hy)
         (lt_of_le_of_lt (le_succ_iterate k _) (lt_succ_iff_not_isMax.2 hmax)))
       _
-  rw [← Function.comp_apply (f := succ), ← Function.iterate_succ']
+  rw [← Function.comp_apply (f := succ)]; rw [← Function.iterate_succ']
   refine' hψ _ (lt_of_lt_of_le _ hy)
   rwa [Function.iterate_succ', Function.comp_apply, lt_succ_iff_not_isMax]
 #align strict_mono_on_Iic_of_lt_succ strictMonoOn_Iic_of_lt_succ

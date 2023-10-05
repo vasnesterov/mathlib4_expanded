@@ -130,7 +130,7 @@ theorem card_subset_le : ∀ {as bs : List α}, as ⊆ bs → card as ≤ card b
       simp [h', card_subset_le hsub']
     | inr h' =>
       have : a ∈ bs := hsub (Mem.head ..)
-      rw [card_cons_of_not_mem h', card_remove_of_mem this]
+      rw [card_cons_of_not_mem h']; rw [card_remove_of_mem this]
       apply Nat.add_le_add_right
       apply card_subset_le
       intro x xmem
@@ -143,11 +143,11 @@ theorem card_map_le (f : α → β) (as : List α) : card (as.map f) ≤ card as
   | cons a as ih =>
     cases Decidable.em (f a ∈ map f as) with
     | inl h =>
-      rw [map, card_cons_of_mem h]
+      rw [map]; rw [card_cons_of_mem h]
       apply Nat.le_trans ih (card_le_card_cons ..)
     | inr h =>
       have : a ∉ as := fun h'' ↦ h (mem_map_of_mem _ h'')
-      rw [map, card_cons_of_not_mem h, card_cons_of_not_mem this]
+      rw [map]; rw [card_cons_of_not_mem h]; rw [card_cons_of_not_mem this]
       exact Nat.add_le_add_right ih _
 
 theorem card_map_eq_of_inj_on {f : α → β} {as : List α} :
@@ -163,12 +163,12 @@ theorem card_map_eq_of_inj_on {f : α → β} {as : List α} :
         have : x = a := inj_on' (mem_cons_of_mem _ hx.1) (mem_cons_self ..) hx.2
         have h1 : a ∈ as := this ▸ hx.1
         have h2 : inj_on f as := inj_on_of_subset inj_on' (subset_cons _ _)
-        rw [map, card_cons_of_mem h, ih h2, card_cons_of_mem h1]
+        rw [map]; rw [card_cons_of_mem h]; rw [ih h2]; rw [card_cons_of_mem h1]
     | inr h =>
       intro inj_on'
       have h1 : a ∉ as := fun h'' ↦ h (mem_map_of_mem _ h'')
       have h2 : inj_on f as := inj_on_of_subset inj_on' (subset_cons _ _)
-      rw [map, card_cons_of_not_mem h, card_cons_of_not_mem h1, ih h2]
+      rw [map]; rw [card_cons_of_not_mem h]; rw [card_cons_of_not_mem h1]; rw [ih h2]
 
 theorem card_eq_of_equiv {as bs : List α} (h : as.equiv bs) : card as = card bs :=
   let sub_and_sub := equiv_iff_subset_and_subset.1 h
@@ -189,7 +189,7 @@ theorem card_append_disjoint : ∀ {as bs : List α},
 
 theorem card_union_disjoint {as bs : List α} (h : Disjoint as bs) :
     card (as ∪ bs) = card as + card bs := by
-  rw [card_eq_of_equiv (union_equiv_append as bs), card_append_disjoint h]
+  rw [card_eq_of_equiv (union_equiv_append as bs)]; rw [card_append_disjoint h]
 
 end DecidableEq
 

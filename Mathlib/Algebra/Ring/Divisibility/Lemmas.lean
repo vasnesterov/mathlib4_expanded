@@ -59,11 +59,11 @@ lemma pow_dvd_pow_of_sub_pow_eq_zero (h : (x - y) ^ n = 0) :
     x ^ m ∣ y ^ p := by
   rw [← sub_add_cancel y x]
   apply (h_comm.symm.sub_left rfl).pow_dvd_add_pow_of_pow_eq_zero_left hp _
-  rw [← neg_sub x y, neg_pow, h, mul_zero]
+  rw [← neg_sub x y]; rw [neg_pow]; rw [h]; rw [mul_zero]
 
 lemma pow_dvd_pow_of_add_pow_eq_zero (h : (x + y) ^ n = 0) :
     x ^ m ∣ y ^ p := by
-  rw [← neg_neg y, neg_pow']
+  rw [← neg_neg y]; rw [neg_pow']
   apply dvd_mul_of_dvd_left
   apply h_comm.neg_right.pow_dvd_pow_of_sub_pow_eq_zero hp
   simpa
@@ -74,7 +74,7 @@ lemma pow_dvd_sub_pow_of_pow_eq_zero_right (hy : y ^ n = 0) :
 
 lemma pow_dvd_sub_pow_of_pow_eq_zero_left (hx : x ^ n = 0) :
     y ^ m ∣ (x - y) ^ p := by
-  rw [← neg_sub y x, neg_pow']
+  rw [← neg_sub y x]; rw [neg_pow']
   apply dvd_mul_of_dvd_left
   exact h_comm.symm.pow_dvd_sub_pow_of_pow_eq_zero_right hp hx
 

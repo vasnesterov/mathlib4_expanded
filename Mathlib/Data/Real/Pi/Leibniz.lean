@@ -43,7 +43,7 @@ open scoped Classical BigOperators Topology Real
   and `f u - f 0` from the bounds on `f'` (note that `f 0 = 0`). -/
 theorem tendsto_sum_pi_div_four :
     Tendsto (fun k => ∑ i in Finset.range k, (-(1 : ℝ)) ^ i / (2 * i + 1)) atTop (𝓝 (π / 4)) := by
-  rw [tendsto_iff_norm_sub_tendsto_zero, ← tendsto_zero_iff_norm_tendsto_zero]
+  rw [tendsto_iff_norm_sub_tendsto_zero]; rw [← tendsto_zero_iff_norm_tendsto_zero]
   -- (1) We introduce a useful sequence `u` of values in [0,1], then prove that another sequence
   --     constructed from `u` tends to `0` at `+∞`
   let u := fun k : ℕ => (k : NNReal) ^ (-1 / (2 * (k : ℝ) + 1))
@@ -52,8 +52,7 @@ theorem tendsto_sum_pi_div_four :
         tendsto_inv_atTop_zero).comp tendsto_nat_cast_atTop_atTop using 1
     · ext k
       simp only [NNReal.coe_nat_cast, Function.comp_apply, NNReal.coe_rpow]
-      rw [← rpow_mul (Nat.cast_nonneg k) (-1 / (2 * (k : ℝ) + 1)) (2 * (k : ℝ) + 1),
-        @div_mul_cancel _ _ (2 * (k : ℝ) + 1) _
+      rw [← rpow_mul (Nat.cast_nonneg k) (-1 / (2 * (k : ℝ) + 1)) (2 * (k : ℝ) + 1)]; rw [@div_mul_cancel _ _ (2 * (k : ℝ) + 1) _
           (by norm_cast; simp only [Nat.succ_ne_zero, not_false_iff]),
         rpow_neg_one k, sub_eq_add_neg]
     · simp only [add_zero, add_right_neg]
@@ -115,7 +114,7 @@ theorem tendsto_sum_pi_div_four :
   have hbound1 : ∀ x ∈ Ico (U : ℝ) 1, |f' x| ≤ 1 := by
     rintro x ⟨hx_left, hx_right⟩
     have hincr := pow_le_pow_of_le_left (le_trans hU2 hx_left) (le_of_lt hx_right) (2 * k)
-    rw [one_pow (2 * k), ← abs_of_nonneg (le_trans hU2 hx_left)] at hincr
+    rw [one_pow (2 * k)] at hincr; rw [← abs_of_nonneg (le_trans hU2 hx_left)] at hincr
     rw [← abs_of_nonneg (le_trans hU2 hx_left)] at hx_right
     linarith [f'_bound x (mem_Icc.mpr (abs_le.mp (le_of_lt hx_right)))]
   have hbound2 : ∀ x ∈ Ico 0 (U : ℝ), |f' x| ≤ U ^ (2 * k) := by

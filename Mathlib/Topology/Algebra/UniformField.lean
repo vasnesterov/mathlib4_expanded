@@ -81,7 +81,7 @@ theorem continuous_hatInv [CompletableTopField K] {x : hat K} (h : x ≠ 0) :
       ((fun (y : K) => (↑y: hat K))∘(fun (x : K) => (x⁻¹ : K))) := by
     unfold Function.comp
     simp
-  rw [this, ← Filter.map_map]
+  rw [this]; rw [← Filter.map_map]
   apply Cauchy.map _ (Completion.uniformContinuous_coe K)
   apply CompletableTopField.nice
   · haveI := denseInducing_coe.comap_nhds_neBot y
@@ -136,8 +136,7 @@ theorem mul_hatInv_cancel {x : hat K} (x_ne : x ≠ 0) : x * hatInv x = 1 := by
     exact (_root_.continuous_mul.continuousAt.comp this : _)
   have clo : x ∈ closure (c '' {0}ᶜ) := by
     have := denseInducing_coe.dense x
-    rw [← image_univ, show (univ : Set K) = {0} ∪ {0}ᶜ from (union_compl_self _).symm,
-      image_union] at this
+    rw [← image_univ] at this; rw [show (univ : Set K) = {0} ∪ {0}ᶜ from (union_compl_self _).symm] at this; rw [image_union] at this
     apply mem_closure_of_mem_closure_union this
     rw [image_singleton]
     exact compl_singleton_mem_nhds x_ne
@@ -148,8 +147,8 @@ theorem mul_hatInv_cancel {x : hat K} (x_ne : x ≠ 0) : x * hatInv x = 1 := by
     rw [mem_singleton_iff]
     rw [mem_compl_singleton_iff] at z_ne
     dsimp
-    rw [hatInv_extends z_ne, ← coe_mul]
-    rw [mul_inv_cancel z_ne, coe_one]
+    rw [hatInv_extends z_ne]; rw [← coe_mul]
+    rw [mul_inv_cancel z_ne]; rw [coe_one]
   replace fxclo := closure_mono this fxclo
   rwa [closure_singleton, mem_singleton_iff] at fxclo
 #align uniform_space.completion.mul_hat_inv_cancel UniformSpace.Completion.mul_hatInv_cancel
@@ -190,7 +189,7 @@ instance Subfield.completableTopField (K : Subfield L) : CompletableTopField K :
       rw [← hi.cauchy_map_iff] at F_cau ⊢
       rw [map_comm (show (i ∘ fun x => x⁻¹) = (fun x => x⁻¹) ∘ i by ext; rfl)]
       apply CompletableTopField.nice _ F_cau
-      rw [← Filter.push_pull', ← map_zero i, ← hi.inducing.nhds_eq_comap, inf_F, Filter.map_bot] }
+      rw [← Filter.push_pull']; rw [← map_zero i]; rw [← hi.inducing.nhds_eq_comap]; rw [inf_F]; rw [Filter.map_bot] }
 #align subfield.completable_top_field Subfield.completableTopField
 
 instance (priority := 100) completableTopField_of_complete (L : Type*) [Field L] [UniformSpace L]

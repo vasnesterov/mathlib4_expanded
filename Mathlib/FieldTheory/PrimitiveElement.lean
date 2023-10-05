@@ -61,7 +61,7 @@ theorem exists_primitive_element_of_finite_top [Finite E] : ∃ α : E, F⟮α�
     exact F⟮α.val⟯.zero_mem
   · obtain ⟨n, hn⟩ := Set.mem_range.mp (hα (Units.mk0 x hx))
     simp only at hn
-    rw [show x = α ^ n by norm_cast; rw [hn, Units.val_mk0], Units.val_zpow_eq_zpow_val]
+    rw [show x = α ^ n by norm_cast; rw [hn]; rw [Units.val_mk0], Units.val_zpow_eq_zpow_val]
     exact zpow_mem (mem_adjoin_simple_self F (E := E) ↑α) n
 #align field.exists_primitive_element_of_finite_top Field.exists_primitive_element_of_finite_top
 
@@ -132,7 +132,7 @@ theorem primitive_element_inf_aux [IsSeparable F E] : ∃ γ : E, F⟮α, β⟯ 
     mt EuclideanDomain.gcd_eq_zero_iff.mp (not_and.mpr fun _ => map_g_ne_zero)
   suffices p_linear : p.map (algebraMap F⟮γ⟯ E) = C h.leadingCoeff * (X - C β)
   · have finale : β = algebraMap F⟮γ⟯ E (-p.coeff 0 / p.coeff 1) := by
-      rw [map_div₀, RingHom.map_neg, ← coeff_map, ← coeff_map, p_linear]
+      rw [map_div₀]; rw [RingHom.map_neg]; rw [← coeff_map]; rw [← coeff_map]; rw [p_linear]
       -- Porting note: had to add `-map_add` to avoid going in the wrong direction.
       simp [mul_sub, coeff_C, mul_div_cancel_left β (mt leadingCoeff_eq_zero.mp h_ne_zero),
         -map_add]
@@ -156,10 +156,10 @@ theorem primitive_element_inf_aux [IsSeparable F E] : ∃ γ : E, F⟮α, β⟯ 
     rw [mem_roots_map h_ne_zero] at hx
     specialize hc (ιEE' γ - ιEE' (ιFE c) * x) (by
       have f_root := root_left_of_root_gcd hx
-      rw [eval₂_comp, eval₂_sub, eval₂_mul, eval₂_C, eval₂_C, eval₂_X, eval₂_map] at f_root
+      rw [eval₂_comp] at f_root; rw [eval₂_sub] at f_root; rw [eval₂_mul] at f_root; rw [eval₂_C] at f_root; rw [eval₂_C] at f_root; rw [eval₂_X] at f_root; rw [eval₂_map] at f_root
       exact (mem_roots_map (minpoly.ne_zero hα)).mpr f_root)
     specialize hc x (by
-      rw [mem_roots_map (minpoly.ne_zero hβ), ← eval₂_map]
+      rw [mem_roots_map (minpoly.ne_zero hβ)]; rw [← eval₂_map]
       exact root_right_of_root_gcd hx)
     by_contra a
     apply hc
@@ -193,7 +193,7 @@ theorem exists_primitive_element : ∃ α : E, F⟮α⟯ = ⊤ := by
     have ih : ∀ (K : IntermediateField F E) (x : E), P K → P (K⟮x⟯.restrictScalars F) := by
       intro K β hK
       cases' hK with α hK
-      rw [← hK, adjoin_simple_adjoin_simple]
+      rw [← hK]; rw [adjoin_simple_adjoin_simple]
       haveI : Infinite F := isEmpty_fintype.mp F_inf
       cases' primitive_element_inf_aux F α β with γ hγ
       exact ⟨γ, hγ.symm⟩

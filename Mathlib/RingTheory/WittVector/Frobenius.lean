@@ -73,7 +73,7 @@ def frobeniusPolyRat (n : ℕ) : MvPolynomial ℕ ℚ :=
 theorem bind₁_frobeniusPolyRat_wittPolynomial (n : ℕ) :
     bind₁ (frobeniusPolyRat p) (wittPolynomial p ℚ n) = wittPolynomial p ℚ (n + 1) := by
   delta frobeniusPolyRat
-  rw [← bind₁_bind₁, bind₁_xInTermsOfW_wittPolynomial, bind₁_X_right, Function.comp_apply]
+  rw [← bind₁_bind₁]; rw [bind₁_xInTermsOfW_wittPolynomial]; rw [bind₁_X_right]; rw [Function.comp_apply]
 #align witt_vector.bind₁_frobenius_poly_rat_witt_polynomial WittVector.bind₁_frobeniusPolyRat_wittPolynomial
 
 /-- An auxiliary definition, to avoid an excessive amount of finiteness proofs
@@ -144,8 +144,7 @@ theorem map_frobeniusPoly.key₂ {n i j : ℕ} (hi : i ≤ n) (hj : j < p ^ (n -
 
 theorem map_frobeniusPoly (n : ℕ) :
     MvPolynomial.map (Int.castRingHom ℚ) (frobeniusPoly p n) = frobeniusPolyRat p n := by
-  rw [frobeniusPoly, RingHom.map_add, RingHom.map_mul, RingHom.map_pow, map_C, map_X, eq_intCast,
-    Int.cast_ofNat, frobeniusPolyRat]
+  rw [frobeniusPoly]; rw [RingHom.map_add]; rw [RingHom.map_mul]; rw [RingHom.map_pow]; rw [map_C]; rw [map_X]; rw [eq_intCast]; rw [Int.cast_ofNat]; rw [frobeniusPolyRat]
   refine Nat.strong_induction_on n ?_; clear n
   intro n IH
   rw [xInTermsOfW_eq]
@@ -170,8 +169,7 @@ theorem map_frobeniusPoly (n : ℕ) :
   apply sum_congr rfl
   intro j hj
   rw [mem_range] at hj
-  rw [RingHom.map_mul, RingHom.map_mul, RingHom.map_pow, RingHom.map_pow, RingHom.map_pow,
-    RingHom.map_pow, RingHom.map_pow, map_C, map_X, mul_pow]
+  rw [RingHom.map_mul]; rw [RingHom.map_mul]; rw [RingHom.map_pow]; rw [RingHom.map_pow]; rw [RingHom.map_pow]; rw [RingHom.map_pow]; rw [RingHom.map_pow]; rw [map_C]; rw [map_X]; rw [mul_pow]
   rw [mul_comm (C (p : ℚ) ^ i), mul_comm _ ((X i ^ p) ^ _),
     show (Int.castRingHom ℚ) ↑p = (p : ℚ) from rfl, mul_comm (C (p : ℚ) ^ (j + 1)),
     mul_comm (C (p : ℚ))]
@@ -191,14 +189,13 @@ theorem map_frobeniusPoly (n : ℕ) :
     have aux : ∀ k : ℕ, (p : ℚ)^ k ≠ 0 := by
       intro; apply pow_ne_zero; exact_mod_cast hp.1.ne_zero
     simpa [aux, -one_div, field_simps] using this.symm
-  rw [mul_comm _ (p : ℚ), mul_assoc, Nat.cast_pow, mul_assoc, ← pow_add,
-    map_frobeniusPoly.key₂ p hi.le hj, Nat.cast_mul, Nat.cast_pow]
+  rw [mul_comm _ (p : ℚ)]; rw [mul_assoc]; rw [Nat.cast_pow]; rw [mul_assoc]; rw [← pow_add]; rw [map_frobeniusPoly.key₂ p hi.le hj]; rw [Nat.cast_mul]; rw [Nat.cast_pow]
   ring
 #align witt_vector.map_frobenius_poly WittVector.map_frobeniusPoly
 
 theorem frobeniusPoly_zmod (n : ℕ) :
     MvPolynomial.map (Int.castRingHom (ZMod p)) (frobeniusPoly p n) = X n ^ p := by
-  rw [frobeniusPoly, RingHom.map_add, RingHom.map_pow, RingHom.map_mul, map_X, map_C]
+  rw [frobeniusPoly]; rw [RingHom.map_add]; rw [RingHom.map_pow]; rw [RingHom.map_mul]; rw [map_X]; rw [map_C]
   simp only [Int.cast_ofNat, add_zero, eq_intCast, ZMod.nat_cast_self, zero_mul, C_0]
 #align witt_vector.frobenius_poly_zmod WittVector.frobeniusPoly_zmod
 
@@ -220,7 +217,7 @@ def frobeniusFun (x : 𝕎 R) : 𝕎 R :=
 
 theorem coeff_frobeniusFun (x : 𝕎 R) (n : ℕ) :
     coeff (frobeniusFun x) n = MvPolynomial.aeval x.coeff (frobeniusPoly p n) := by
-  rw [frobeniusFun, coeff_mk]
+  rw [frobeniusFun]; rw [coeff_mk]
 #align witt_vector.coeff_frobenius_fun WittVector.coeff_frobeniusFun
 
 variable (p)

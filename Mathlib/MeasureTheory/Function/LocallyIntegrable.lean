@@ -127,7 +127,7 @@ theorem LocallyIntegrableOn.aestronglyMeasurable [SecondCountableTopology X]
     (hf : LocallyIntegrableOn f s μ) : AEStronglyMeasurable f (μ.restrict s) := by
   rcases hf.exists_nat_integrableOn with ⟨u, -, su, hu⟩
   have : s = ⋃ n, u n ∩ s := by rw [← iUnion_inter]; exact (inter_eq_right.mpr su).symm
-  rw [this, aestronglyMeasurable_iUnion_iff]
+  rw [this]; rw [aestronglyMeasurable_iUnion_iff]
   exact fun i : ℕ => (hu i).aestronglyMeasurable
 #align measure_theory.locally_integrable_on.ae_strongly_measurable MeasureTheory.LocallyIntegrableOn.aestronglyMeasurable
 
@@ -206,11 +206,11 @@ theorem locallyIntegrableOn_iff_locallyIntegrable_restrict [OpensMeasurableSpace
   · obtain ⟨t, ht_nhds, ht_int⟩ := hf x h
     obtain ⟨u, hu_o, hu_x, hu_sub⟩ := mem_nhdsWithin.mp ht_nhds
     refine' ⟨u, hu_o.mem_nhds hu_x, _⟩
-    rw [IntegrableOn, restrict_restrict hu_o.measurableSet]
+    rw [IntegrableOn]; rw [restrict_restrict hu_o.measurableSet]
     exact ht_int.mono_set hu_sub
   · rw [← isOpen_compl_iff] at hs
     refine' ⟨sᶜ, hs.mem_nhds h, _⟩
-    rw [IntegrableOn, restrict_restrict, inter_comm, inter_compl_self, ← IntegrableOn]
+    rw [IntegrableOn]; rw [restrict_restrict]; rw [inter_comm]; rw [inter_compl_self]; rw [← IntegrableOn]
     exacts [integrableOn_empty, hs.measurableSet]
 #align measure_theory.locally_integrable_on_iff_locally_integrable_restrict MeasureTheory.locallyIntegrableOn_iff_locallyIntegrable_restrict
 
@@ -263,7 +263,7 @@ theorem Memℒp.locallyIntegrable [IsLocallyFiniteMeasure μ] {f : X → E} {p :
   rcases μ.finiteAt_nhds x with ⟨U, hU, h'U⟩
   have : Fact (μ U < ⊤) := ⟨h'U⟩
   refine' ⟨U, hU, _⟩
-  rw [IntegrableOn, ← memℒp_one_iff_integrable]
+  rw [IntegrableOn]; rw [← memℒp_one_iff_integrable]
   apply (hf.restrict U).memℒp_of_exponent_le hp
 
 theorem locallyIntegrable_const [IsLocallyFiniteMeasure μ] (c : E) :
@@ -339,7 +339,7 @@ theorem LocallyIntegrable.integrable_smul_left_of_hasCompactSupport
     apply support_subset_iff'.2
     intros x hx
     simp [image_eq_zero_of_nmem_tsupport hx]
-  rw [← this, indicator_smul]
+  rw [← this]; rw [indicator_smul]
   apply Integrable.smul_of_top_right
   · rw [integrable_indicator_iff hK.measurableSet]
     exact hf.integrableOn_isCompact hK
@@ -358,7 +358,7 @@ theorem LocallyIntegrable.integrable_smul_right_of_hasCompactSupport
     apply support_subset_iff'.2
     intros x hx
     simp [image_eq_zero_of_nmem_tsupport hx]
-  rw [← this, indicator_smul_left]
+  rw [← this]; rw [indicator_smul_left]
   apply Integrable.smul_of_top_left
   · rw [integrable_indicator_iff hK.measurableSet]
     exact hf.integrableOn_isCompact hK
@@ -513,7 +513,7 @@ theorem IntegrableOn.mul_continuousOn_of_subset (hg : IntegrableOn g A μ) (hg' 
     (hA : MeasurableSet A) (hK : IsCompact K) (hAK : A ⊆ K) :
     IntegrableOn (fun x => g x * g' x) A μ := by
   rcases IsCompact.exists_bound_of_continuousOn hK hg' with ⟨C, hC⟩
-  rw [IntegrableOn, ← memℒp_one_iff_integrable] at hg ⊢
+  rw [IntegrableOn] at hg ⊢; rw [← memℒp_one_iff_integrable] at hg ⊢
   have : ∀ᵐ x ∂μ.restrict A, ‖g x * g' x‖ ≤ C * ‖g x‖ := by
     filter_upwards [ae_restrict_mem hA]with x hx
     refine' (norm_mul_le _ _).trans _
@@ -532,7 +532,7 @@ theorem IntegrableOn.continuousOn_mul_of_subset (hg : ContinuousOn g K) (hg' : I
     (hK : IsCompact K) (hA : MeasurableSet A) (hAK : A ⊆ K) :
     IntegrableOn (fun x => g x * g' x) A μ := by
   rcases IsCompact.exists_bound_of_continuousOn hK hg with ⟨C, hC⟩
-  rw [IntegrableOn, ← memℒp_one_iff_integrable] at hg' ⊢
+  rw [IntegrableOn] at hg' ⊢; rw [← memℒp_one_iff_integrable] at hg' ⊢
   have : ∀ᵐ x ∂μ.restrict A, ‖g x * g' x‖ ≤ C * ‖g' x‖ := by
     filter_upwards [ae_restrict_mem hA]with x hx
     refine' (norm_mul_le _ _).trans _
@@ -555,7 +555,7 @@ variable {𝕜 : Type*} [NormedField 𝕜] [NormedSpace 𝕜 E]
 theorem IntegrableOn.continuousOn_smul [T2Space X] [SecondCountableTopologyEither X 𝕜] {g : X → E}
     (hg : IntegrableOn g K μ) {f : X → 𝕜} (hf : ContinuousOn f K) (hK : IsCompact K) :
     IntegrableOn (fun x => f x • g x) K μ := by
-  rw [IntegrableOn, ← integrable_norm_iff]
+  rw [IntegrableOn]; rw [← integrable_norm_iff]
   · simp_rw [norm_smul]
     refine' IntegrableOn.continuousOn_mul _ hg.norm hK
     exact continuous_norm.comp_continuousOn hf
@@ -565,7 +565,7 @@ theorem IntegrableOn.continuousOn_smul [T2Space X] [SecondCountableTopologyEithe
 theorem IntegrableOn.smul_continuousOn [T2Space X] [SecondCountableTopologyEither X E] {f : X → 𝕜}
     (hf : IntegrableOn f K μ) {g : X → E} (hg : ContinuousOn g K) (hK : IsCompact K) :
     IntegrableOn (fun x => f x • g x) K μ := by
-  rw [IntegrableOn, ← integrable_norm_iff]
+  rw [IntegrableOn]; rw [← integrable_norm_iff]
   · simp_rw [norm_smul]
     refine' IntegrableOn.mul_continuousOn hf.norm _ hK
     exact continuous_norm.comp_continuousOn hg

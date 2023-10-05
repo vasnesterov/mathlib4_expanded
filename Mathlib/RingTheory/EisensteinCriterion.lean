@@ -41,7 +41,7 @@ theorem map_eq_C_mul_X_pow_of_forall_coeff_mem {f : R[X]} {P : Ideal R}
       rintro rfl
       exact not_lt_of_ge degree_le_natDegree h
     · have : natDegree f = n := natDegree_eq_of_degree_eq_some h.symm
-      rw [coeff_C_mul, coeff_X_pow, if_pos this.symm, mul_one, leadingCoeff, this, coeff_map]
+      rw [coeff_C_mul]; rw [coeff_X_pow]; rw [if_pos this.symm]; rw [mul_one]; rw [leadingCoeff]; rw [this]; rw [coeff_map]
     · rw [coeff_eq_zero_of_degree_lt, coeff_eq_zero_of_degree_lt]
       · refine' lt_of_le_of_lt (degree_C_mul_X_pow_le _ _) _
         rwa [← degree_eq_natDegree hf0]
@@ -55,7 +55,7 @@ theorem le_natDegree_of_map_eq_mul_X_pow {n : ℕ} {P : Ideal R} (hP : P.IsPrime
   Nat.cast_le.1
     (calc
       ↑n = degree (q.map (mk P)) := by
-        rw [hq, degree_mul, hc0, zero_add, degree_pow, degree_X, nsmul_one]
+        rw [hq]; rw [degree_mul]; rw [hc0]; rw [zero_add]; rw [degree_pow]; rw [degree_X]; rw [nsmul_one]
       _ ≤ degree q := (degree_map_le _ _)
       _ ≤ natDegree q := degree_le_natDegree
       )
@@ -64,17 +64,15 @@ set_option linter.uppercaseLean3 false in
 
 theorem eval_zero_mem_ideal_of_eq_mul_X_pow {n : ℕ} {P : Ideal R} {q : R[X]}
     {c : Polynomial (R ⧸ P)} (hq : map (mk P) q = c * X ^ n) (hn0 : 0 < n) : eval 0 q ∈ P := by
-  rw [← coeff_zero_eq_eval_zero, ← eq_zero_iff_mem, ← coeff_map, hq,
-  --Porting note: why is this lemma required twice?
-    coeff_zero_eq_eval_zero, coeff_zero_eq_eval_zero,
-    eval_mul, eval_pow, eval_X, zero_pow hn0, mul_zero]
+  rw [← coeff_zero_eq_eval_zero]; rw [← eq_zero_iff_mem]; rw [← coeff_map]; rw [hq]; rw [--Porting note: why is this lemma required twice?
+    coeff_zero_eq_eval_zero]; rw [coeff_zero_eq_eval_zero]; rw [eval_mul]; rw [eval_pow]; rw [eval_X]; rw [zero_pow hn0]; rw [mul_zero]
 set_option linter.uppercaseLean3 false in
 #align polynomial.eisenstein_criterion_aux.eval_zero_mem_ideal_of_eq_mul_X_pow Polynomial.EisensteinCriterionAux.eval_zero_mem_ideal_of_eq_mul_X_pow
 
 theorem isUnit_of_natDegree_eq_zero_of_isPrimitive {p q : R[X]}
     --Porting note: stated using `IsPrimitive` which is defeq to old statement.
     (hu : IsPrimitive (p * q)) (hpm : p.natDegree = 0) : IsUnit p := by
-  rw [eq_C_of_degree_le_zero (natDegree_eq_zero_iff_degree_le_zero.1 hpm), isUnit_C]
+  rw [eq_C_of_degree_le_zero (natDegree_eq_zero_iff_degree_le_zero.1 hpm)]; rw [isUnit_C]
   refine' hu _ _
   rw [← eq_C_of_degree_le_zero (natDegree_eq_zero_iff_degree_le_zero.1 hpm)]
   exact dvd_mul_right _ _
@@ -106,7 +104,7 @@ theorem irreducible_of_eisenstein_criterion {f : R[X]} {P : Ideal R} (hP : P.IsP
     have hmn : 0 < m → 0 < n → False := by
       intro hm0 hn0
       refine' h0 _
-      rw [coeff_zero_eq_eval_zero, eval_mul, sq]
+      rw [coeff_zero_eq_eval_zero]; rw [eval_mul]; rw [sq]
       exact
         Ideal.mul_mem_mul (eval_zero_mem_ideal_of_eq_mul_X_pow hp hm0)
           (eval_zero_mem_ideal_of_eq_mul_X_pow hq hn0)

@@ -101,7 +101,7 @@ theorem polar_smul [Monoid S] [DistribMulAction S R] (f : M → R) (s : S) (x y 
 #align quadratic_form.polar_smul QuadraticForm.polar_smul
 
 theorem polar_comm (f : M → R) (x y : M) : polar f x y = polar f y x := by
-  rw [polar, polar, add_comm, sub_sub, sub_sub, add_comm (f x) (f y)]
+  rw [polar]; rw [polar]; rw [add_comm]; rw [sub_sub]; rw [sub_sub]; rw [add_comm (f x) (f y)]
 #align quadratic_form.polar_comm QuadraticForm.polar_comm
 
 /-- Auxiliary lemma to express bilinearity of `QuadraticForm.polar` without subtraction. -/
@@ -111,8 +111,7 @@ theorem polar_add_left_iff {f : M → R} {x x' y : M} :
   simp only [← add_assoc]
   simp only [polar, sub_eq_iff_eq_add, eq_sub_iff_add_eq, sub_add_eq_add_sub, add_sub]
   simp only [add_right_comm _ (f y) _, add_right_comm _ (f x') (f x)]
-  rw [add_comm y x, add_right_comm _ _ (f (x + y)), add_comm _ (f (x + y)),
-    add_right_comm (f (x + y)), add_left_inj]
+  rw [add_comm y x]; rw [add_right_comm _ _ (f (x + y))]; rw [add_comm _ (f (x + y))]; rw [add_right_comm (f (x + y))]; rw [add_left_inj]
 #align quadratic_form.polar_add_left_iff QuadraticForm.polar_add_left_iff
 
 theorem polar_comp {F : Type*} [Ring S] [AddMonoidHomClass F R S] (f : M → R) (g : F) (x y : M) :
@@ -219,13 +218,13 @@ theorem map_add_add_add_map (x y z : M) :
 #align quadratic_form.map_add_add_add_map QuadraticForm.map_add_add_add_map
 
 theorem map_add_self (x : M) : Q (x + x) = 4 * Q x := by
-  rw [← one_smul R x, ← add_smul, map_smul]
+  rw [← one_smul R x]; rw [← add_smul]; rw [map_smul]
   norm_num
 #align quadratic_form.map_add_self QuadraticForm.map_add_self
 
 -- porting note: removed @[simp] because it is superseded by `ZeroHomClass.map_zero`
 theorem map_zero : Q 0 = 0 := by
-  rw [← @zero_smul R _ _ _ _ (0 : M), map_smul, zero_mul, zero_mul]
+  rw [← @zero_smul R _ _ _ _ (0 : M)]; rw [map_smul]; rw [zero_mul]; rw [zero_mul]
 #align quadratic_form.map_zero QuadraticForm.map_zero
 
 instance zeroHomClass : ZeroHomClass (QuadraticForm R M) M R :=
@@ -234,7 +233,7 @@ instance zeroHomClass : ZeroHomClass (QuadraticForm R M) M R :=
 
 theorem map_smul_of_tower [CommSemiring S] [Algebra S R] [Module S M] [IsScalarTower S R M] (a : S)
     (x : M) : Q (a • x) = (a * a) • Q x := by
-  rw [← IsScalarTower.algebraMap_smul R a x, map_smul, ← RingHom.map_mul, Algebra.smul_def]
+  rw [← IsScalarTower.algebraMap_smul R a x]; rw [map_smul]; rw [← RingHom.map_mul]; rw [Algebra.smul_def]
 #align quadratic_form.map_smul_of_tower QuadraticForm.map_smul_of_tower
 
 end Semiring
@@ -247,7 +246,7 @@ variable [Module R M] (Q : QuadraticForm R M)
 
 @[simp]
 theorem map_neg (x : M) : Q (-x) = Q x := by
-  rw [← @neg_one_smul R _ _ _ _ x, map_smul, neg_one_mul, neg_neg, one_mul]
+  rw [← @neg_one_smul R _ _ _ _ x]; rw [map_smul]; rw [neg_one_mul]; rw [neg_neg]; rw [one_mul]
 #align quadratic_form.map_neg QuadraticForm.map_neg
 
 theorem map_sub (x y : M) : Q (x - y) = Q (y - x) := by rw [← neg_sub, map_neg]
@@ -271,12 +270,12 @@ theorem polar_smul_left (a : R) (x y : M) : polar Q (a • x) y = a * polar Q x 
 
 @[simp]
 theorem polar_neg_left (x y : M) : polar Q (-x) y = -polar Q x y := by
-  rw [← neg_one_smul R x, polar_smul_left, neg_one_mul]
+  rw [← neg_one_smul R x]; rw [polar_smul_left]; rw [neg_one_mul]
 #align quadratic_form.polar_neg_left QuadraticForm.polar_neg_left
 
 @[simp]
 theorem polar_sub_left (x x' y : M) : polar Q (x - x') y = polar Q x y - polar Q x' y := by
-  rw [sub_eq_add_neg, sub_eq_add_neg, polar_add_left, polar_neg_left]
+  rw [sub_eq_add_neg]; rw [sub_eq_add_neg]; rw [polar_add_left]; rw [polar_neg_left]
 #align quadratic_form.polar_sub_left QuadraticForm.polar_sub_left
 
 @[simp]
@@ -286,27 +285,27 @@ theorem polar_zero_right (y : M) : polar Q y 0 = 0 := by
 
 @[simp]
 theorem polar_add_right (x y y' : M) : polar Q x (y + y') = polar Q x y + polar Q x y' := by
-  rw [polar_comm Q x, polar_comm Q x, polar_comm Q x, polar_add_left]
+  rw [polar_comm Q x]; rw [polar_comm Q x]; rw [polar_comm Q x]; rw [polar_add_left]
 #align quadratic_form.polar_add_right QuadraticForm.polar_add_right
 
 @[simp]
 theorem polar_smul_right (a : R) (x y : M) : polar Q x (a • y) = a * polar Q x y := by
-  rw [polar_comm Q x, polar_comm Q x, polar_smul_left]
+  rw [polar_comm Q x]; rw [polar_comm Q x]; rw [polar_smul_left]
 #align quadratic_form.polar_smul_right QuadraticForm.polar_smul_right
 
 @[simp]
 theorem polar_neg_right (x y : M) : polar Q x (-y) = -polar Q x y := by
-  rw [← neg_one_smul R y, polar_smul_right, neg_one_mul]
+  rw [← neg_one_smul R y]; rw [polar_smul_right]; rw [neg_one_mul]
 #align quadratic_form.polar_neg_right QuadraticForm.polar_neg_right
 
 @[simp]
 theorem polar_sub_right (x y y' : M) : polar Q x (y - y') = polar Q x y - polar Q x y' := by
-  rw [sub_eq_add_neg, sub_eq_add_neg, polar_add_right, polar_neg_right]
+  rw [sub_eq_add_neg]; rw [sub_eq_add_neg]; rw [polar_add_right]; rw [polar_neg_right]
 #align quadratic_form.polar_sub_right QuadraticForm.polar_sub_right
 
 @[simp]
 theorem polar_self (x : M) : polar Q x x = 2 * Q x := by
-  rw [polar, map_add_self, sub_sub, sub_eq_iff_eq_add, ← two_mul, ← two_mul, ← mul_assoc]
+  rw [polar]; rw [map_add_self]; rw [sub_sub]; rw [sub_eq_iff_eq_add]; rw [← two_mul]; rw [← two_mul]; rw [← mul_assoc]
   norm_num
 #align quadratic_form.polar_self QuadraticForm.polar_self
 
@@ -324,12 +323,12 @@ variable [CommSemiring S] [Algebra S R] [Module S M] [IsScalarTower S R M]
 
 @[simp]
 theorem polar_smul_left_of_tower (a : S) (x y : M) : polar Q (a • x) y = a • polar Q x y := by
-  rw [← IsScalarTower.algebraMap_smul R a x, polar_smul_left, Algebra.smul_def]
+  rw [← IsScalarTower.algebraMap_smul R a x]; rw [polar_smul_left]; rw [Algebra.smul_def]
 #align quadratic_form.polar_smul_left_of_tower QuadraticForm.polar_smul_left_of_tower
 
 @[simp]
 theorem polar_smul_right_of_tower (a : S) (x y : M) : polar Q x (a • y) = a • polar Q x y := by
-  rw [← IsScalarTower.algebraMap_smul R a y, polar_smul_right, Algebra.smul_def]
+  rw [← IsScalarTower.algebraMap_smul R a y]; rw [polar_smul_right]; rw [Algebra.smul_def]
 #align quadratic_form.polar_smul_right_of_tower QuadraticForm.polar_smul_right_of_tower
 
 /-- An alternative constructor to `QuadraticForm.mk`, for rings where `polar` can be used. -/
@@ -353,7 +352,7 @@ def ofPolar (toFun : M → R) (toFun_smul : ∀ (a : R) (x : M), toFun (a • x)
 /-- In a ring the companion bilinear form is unique and equal to `QuadraticForm.polar`. -/
 theorem choose_exists_companion : Q.exists_companion.choose = polarBilin Q :=
   BilinForm.ext fun x y => by
-    rw [polarBilin_apply, polar, Q.exists_companion.choose_spec, sub_sub, add_sub_cancel']
+    rw [polarBilin_apply]; rw [polar]; rw [Q.exists_companion.choose_spec]; rw [sub_sub]; rw [add_sub_cancel']
 #align quadratic_form.some_exists_companion QuadraticForm.choose_exists_companion
 
 end Ring
@@ -816,7 +815,7 @@ theorem associated_apply (x y : M) : associatedHom S Q x y = ⅟ 2 * (Q (x + y) 
 @[simp] theorem two_nsmul_associated : 2 • associatedHom S Q = Q.polarBilin := by
   ext
   dsimp
-  rw [←smul_mul_assoc, two_nsmul, invOf_two_add_invOf_two, one_mul, polar]
+  rw [←smul_mul_assoc]; rw [two_nsmul]; rw [invOf_two_add_invOf_two]; rw [one_mul]; rw [polar]
 
 theorem associated_isSymm : (associatedHom S Q).IsSymm := fun x y => by
   simp only [associated_apply, add_comm, add_left_comm, sub_eq_add_neg, add_assoc]
@@ -836,14 +835,12 @@ theorem associated_toQuadraticForm (B : BilinForm R M) (x y : M) :
 
 theorem associated_left_inverse (h : B₁.IsSymm) : associatedHom S B₁.toQuadraticForm = B₁ :=
   BilinForm.ext fun x y => by
-    rw [associated_toQuadraticForm, h.eq x y, ← two_mul, ← mul_assoc, invOf_mul_self,
-      one_mul]
+    rw [associated_toQuadraticForm]; rw [h.eq x y]; rw [← two_mul]; rw [← mul_assoc]; rw [invOf_mul_self]; rw [one_mul]
 #align quadratic_form.associated_left_inverse QuadraticForm.associated_left_inverse
 
 -- porting note: moved from below to golf the next theorem
 theorem associated_eq_self_apply (x : M) : associatedHom S Q x x = Q x := by
-  rw [associated_apply, map_add_self, ← three_add_one_eq_four, ← two_add_one_eq_three,
-    add_mul, add_mul, one_mul, add_sub_cancel, add_sub_cancel, invOf_mul_self_assoc]
+  rw [associated_apply]; rw [map_add_self]; rw [← three_add_one_eq_four]; rw [← two_add_one_eq_three]; rw [add_mul]; rw [add_mul]; rw [one_mul]; rw [add_sub_cancel]; rw [add_sub_cancel]; rw [invOf_mul_self_assoc]
 #align quadratic_form.associated_eq_self_apply QuadraticForm.associated_eq_self_apply
 
 theorem toQuadraticForm_associated : (associatedHom S Q).toQuadraticForm = Q :=
@@ -878,7 +875,7 @@ theorem exists_quadraticForm_ne_zero {Q : QuadraticForm R M}
   rw [← not_forall]
   intro h
   apply hB₁
-  rw [(QuadraticForm.ext h : Q = 0), LinearMap.map_zero]
+  rw [(QuadraticForm.ext h : Q = 0)]; rw [LinearMap.map_zero]
 #align quadratic_form.exists_quadratic_form_ne_zero QuadraticForm.exists_quadraticForm_ne_zero
 
 end AssociatedHom
@@ -1046,8 +1043,7 @@ theorem QuadraticForm.toMatrix'_smul (a : R₁) (Q : QuadraticForm R₁ (n → R
 
 theorem QuadraticForm.isSymm_toMatrix' (Q : QuadraticForm R₁ (n → R₁)) : Q.toMatrix'.IsSymm := by
   ext i j
-  rw [toMatrix', Matrix.transpose_apply, BilinForm.toMatrix'_apply, BilinForm.toMatrix'_apply,
-    associated_isSymm]
+  rw [toMatrix']; rw [Matrix.transpose_apply]; rw [BilinForm.toMatrix'_apply]; rw [BilinForm.toMatrix'_apply]; rw [associated_isSymm]
 #align quadratic_form.is_symm_to_matrix' QuadraticForm.isSymm_toMatrix'
 
 end
@@ -1141,8 +1137,7 @@ theorem exists_orthogonal_basis [hK : Invertible (2 : K)] {B : BilinForm K V} (h
     rw [hd] at b
     refine' ⟨b, fun i j _ => rfl⟩
   obtain ⟨x, hx⟩ := exists_bilinForm_self_ne_zero hB₁ hB₂
-  rw [← Submodule.finrank_add_eq_of_isCompl (isCompl_span_singleton_orthogonal hx).symm,
-    finrank_span_singleton (ne_zero_of_not_isOrtho_self x hx)] at hd
+  rw [← Submodule.finrank_add_eq_of_isCompl (isCompl_span_singleton_orthogonal hx).symm] at hd; rw [finrank_span_singleton (ne_zero_of_not_isOrtho_self x hx)] at hd
   let B' := B.restrict (B.orthogonal <| K ∙ x)
   obtain ⟨v', hv₁⟩ := ih (B.restrictSymm hB₂ _ : B'.IsSymm) (Nat.succ.inj hd)
   -- concatenate `x` with the basis obtained by induction
@@ -1151,7 +1146,7 @@ theorem exists_orthogonal_basis [hK : Invertible (2 : K)] {B : BilinForm K V} (h
       (by
         rintro c y hy hc
         rw [add_eq_zero_iff_neg_eq] at hc
-        rw [← hc, Submodule.neg_mem_iff] at hy
+        rw [← hc] at hy; rw [Submodule.neg_mem_iff] at hy
         have := (isCompl_span_singleton_orthogonal hx).disjoint
         rw [Submodule.disjoint_def] at this
         have := this (c • x) (Submodule.smul_mem _ _ <| Submodule.mem_span_singleton_self _) hy
@@ -1160,8 +1155,7 @@ theorem exists_orthogonal_basis [hK : Invertible (2 : K)] {B : BilinForm K V} (h
         intro y
         refine' ⟨-B x y / B x x, fun z hz => _⟩
         obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.1 hz
-        rw [IsOrtho, smul_left, add_right, smul_right, div_mul_cancel _ hx, add_neg_self,
-          mul_zero])
+        rw [IsOrtho]; rw [smul_left]; rw [add_right]; rw [smul_right]; rw [div_mul_cancel _ hx]; rw [add_neg_self]; rw [mul_zero])
   refine' ⟨b, _⟩
   · rw [Basis.coe_mkFinCons]
     intro j i
@@ -1225,14 +1219,13 @@ theorem basisRepr_eq_of_iIsOrtho {R₁ M} [CommRing R₁] [AddCommGroup M] [Modu
     (hv₂ : (associated (R₁ := R₁) Q).iIsOrtho v) :
     Q.basisRepr v = weightedSumSquares _ fun i => Q (v i) := by
   ext w
-  rw [basisRepr_apply, ← @associated_eq_self_apply R₁, sum_left, weightedSumSquares_apply]
+  rw [basisRepr_apply]; rw [← @associated_eq_self_apply R₁]; rw [sum_left]; rw [weightedSumSquares_apply]
   refine' sum_congr rfl fun j hj => _
-  rw [← @associated_eq_self_apply R₁, sum_right, sum_eq_single_of_mem j hj]
+  rw [← @associated_eq_self_apply R₁]; rw [sum_right]; rw [sum_eq_single_of_mem j hj]
   · rw [smul_left, smul_right, smul_eq_mul]
     ring
   · intro i _ hij
-    rw [smul_left, smul_right, show associatedHom R₁ Q (v j) (v i) = 0 from hv₂ hij.symm,
-      mul_zero, mul_zero]
+    rw [smul_left]; rw [smul_right]; rw [show associatedHom R₁ Q (v j) (v i) = 0 from hv₂ hij.symm]; rw [mul_zero]; rw [mul_zero]
 set_option linter.uppercaseLean3 false in
 #align quadratic_form.basis_repr_eq_of_is_Ortho QuadraticForm.basisRepr_eq_of_iIsOrtho
 

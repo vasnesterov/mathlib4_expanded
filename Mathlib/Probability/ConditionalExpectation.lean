@@ -50,13 +50,10 @@ theorem condexp_indep_eq (hle₁ : m₁ ≤ m) (hle₂ : m₂ ≤ m) [SigmaFinit
   · exact ⟨f, hf, EventuallyEq.rfl⟩
   · intro c t hmt _
     rw [Indep_iff] at hindp
-    rw [integral_indicator (hle₁ _ hmt), set_integral_const, smul_smul, ← ENNReal.toReal_mul,
-      mul_comm, ← hindp _ _ hmt hms, set_integral_indicator (hle₁ _ hmt), set_integral_const,
-      Set.inter_comm]
+    rw [integral_indicator (hle₁ _ hmt)]; rw [set_integral_const]; rw [smul_smul]; rw [← ENNReal.toReal_mul]; rw [mul_comm]; rw [← hindp _ _ hmt hms]; rw [set_integral_indicator (hle₁ _ hmt)]; rw [set_integral_const]; rw [Set.inter_comm]
   · intro u v _ huint hvint hu hv hu_eq hv_eq
     rw [memℒp_one_iff_integrable] at huint hvint
-    rw [integral_add' huint hvint, smul_add, hu_eq, hv_eq,
-      integral_add' huint.integrableOn hvint.integrableOn]
+    rw [integral_add' huint hvint]; rw [smul_add]; rw [hu_eq]; rw [hv_eq]; rw [integral_add' huint.integrableOn hvint.integrableOn]
   · have heq₁ : (fun f : lpMeas E ℝ m₁ 1 μ => ∫ x, (f : Ω → E) x ∂μ) =
         (fun f : Lp E 1 μ => ∫ x, f x ∂μ) ∘ Submodule.subtypeL _ := by
       refine' funext fun f => integral_congr_ae _

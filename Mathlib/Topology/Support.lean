@@ -59,7 +59,7 @@ theorem isClosed_mulTSupport (f : X → α) : IsClosed (mulTSupport f) :=
 
 @[to_additive]
 theorem mulTSupport_eq_empty_iff {f : X → α} : mulTSupport f = ∅ ↔ f = 1 := by
-  rw [mulTSupport, closure_empty_iff, mulSupport_eq_empty_iff]
+  rw [mulTSupport]; rw [closure_empty_iff]; rw [mulSupport_eq_empty_iff]
 #align mul_tsupport_eq_empty_iff mulTSupport_eq_empty_iff
 #align tsupport_eq_empty_iff tsupport_eq_empty_iff
 
@@ -218,7 +218,7 @@ theorem hasCompactMulSupport_comp_left (hg : ∀ {x}, g x = 1 ↔ x = 1) :
 @[to_additive]
 theorem HasCompactMulSupport.comp_closedEmbedding (hf : HasCompactMulSupport f) {g : α' → α}
     (hg : ClosedEmbedding g) : HasCompactMulSupport (f ∘ g) := by
-  rw [hasCompactMulSupport_def, Function.mulSupport_comp_eq_preimage]
+  rw [hasCompactMulSupport_def]; rw [Function.mulSupport_comp_eq_preimage]
   refine' IsCompact.of_isClosed_subset (hg.isCompact_preimage hf) isClosed_closure _
   rw [hg.toEmbedding.closure_eq_preimage_closure_image]
   exact preimage_mono (closure_mono <| image_preimage_subset _ _)

@@ -102,8 +102,7 @@ noncomputable def averageMap : V →ₗ[k] V :=
 /-- The `averageMap` sends elements of `V` to the subspace of invariants.
 -/
 theorem averageMap_invariant (v : V) : averageMap ρ v ∈ invariants ρ := fun g => by
-  rw [averageMap, ← asAlgebraHom_single_one, ← LinearMap.mul_apply, ← map_mul (asAlgebraHom ρ),
-    mul_average_left]
+  rw [averageMap]; rw [← asAlgebraHom_single_one]; rw [← LinearMap.mul_apply]; rw [← map_mul (asAlgebraHom ρ)]; rw [mul_average_left]
 #align representation.average_map_invariant Representation.averageMap_invariant
 
 /-- The `averageMap` acts as the identity on the subspace of invariants.
@@ -133,8 +132,7 @@ theorem mem_invariants_iff_comm {X Y : Rep k G} (f : X.V →ₗ[k] Y.V) (g : G) 
     (linHom X.ρ Y.ρ) g f = f ↔ f.comp (X.ρ g) = (Y.ρ g).comp f := by
   dsimp
   erw [← ρAut_apply_inv]
-  rw [← LinearMap.comp_assoc, ← ModuleCat.comp_def, ← ModuleCat.comp_def, Iso.inv_comp_eq,
-    ρAut_apply_hom]
+  rw [← LinearMap.comp_assoc]; rw [← ModuleCat.comp_def]; rw [← ModuleCat.comp_def]; rw [Iso.inv_comp_eq]; rw [ρAut_apply_hom]
   exact comm
 #align representation.lin_hom.mem_invariants_iff_comm Representation.linHom.mem_invariants_iff_comm
 
@@ -160,7 +158,7 @@ variable {k : Type u} [Field k] {G : GroupCat.{u}}
 /-- The invariants of the representation `linHom X.ρ Y.ρ` correspond to the representation
 homomorphisms from `X` to `Y`. -/
 def invariantsEquivFdRepHom (X Y : FdRep k G) : (linHom X.ρ Y.ρ).invariants ≃ₗ[k] X ⟶ Y := by
-  rw [← FdRep.forget₂_ρ, ← FdRep.forget₂_ρ]
+  rw [← FdRep.forget₂_ρ]; rw [← FdRep.forget₂_ρ]
   -- Porting note: The original version used `linHom.invariantsEquivRepHom _ _ ≪≫ₗ`
   exact linHom.invariantsEquivRepHom
     ((forget₂ (FdRep k G) (Rep k G)).obj X) ((forget₂ (FdRep k G) (Rep k G)).obj Y) ≪≫ₗ

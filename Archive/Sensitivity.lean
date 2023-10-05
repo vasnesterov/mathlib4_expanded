@@ -123,7 +123,7 @@ theorem adj_iff_proj_eq {p q : Q n.succ} (h₀ : p 0 ≠ q 0) : q ∈ p.adjacent
   · rintro ⟨i, _, h_uni⟩
     ext x; by_contra hx
     apply Fin.succ_ne_zero x
-    rw [h_uni _ hx, h_uni _ h₀]
+    rw [h_uni _ hx]; rw [h_uni _ h₀]
   · intro heq
     use 0, h₀
     intro y hy
@@ -146,11 +146,10 @@ theorem adj_iff_proj_adj {p q : Q n.succ} (h₀ : p 0 = q 0) :
   · rintro ⟨i, h_eq, h_uni⟩
     use i.succ, h_eq
     intro y hy
-    rw [← Fin.pred_inj (ha := (?ha : y ≠ 0)) (hb := (?hb : i.succ ≠ 0)),
-      Fin.pred_succ]
+    rw [← Fin.pred_inj (ha := (?ha : y ≠ 0)) (hb := (?hb : i.succ ≠ 0))]; rw [Fin.pred_succ]
     case ha =>
       contrapose! hy
-      rw [hy, h₀]
+      rw [hy]; rw [h₀]
     case hb =>
       apply Fin.succ_ne_zero
     apply h_uni
@@ -256,7 +255,7 @@ since this cardinal is finite, as a natural number in `finrank_V` -/
 
 theorem dim_V : Module.rank ℝ (V n) = 2 ^ n := by
   have : Module.rank ℝ (V n) = (2 ^ n : ℕ) := by
-    rw [rank_eq_card_basis (dualBases_e_ε _).basis, Q.card]
+    rw [rank_eq_card_basis (dualBases_e_ε _).basis]; rw [Q.card]
   assumption_mod_cast
 #align sensitivity.dim_V Sensitivity.dim_V
 
@@ -304,7 +303,7 @@ using only the addition of `V`. -/
 theorem f_squared : ∀ v : V n, (f n) (f n v) = (n : ℝ) • v := by
   induction' n with n IH _ <;> intro v
   · simp only [Nat.zero_eq, Nat.cast_zero, zero_smul]; rfl
-  · cases v; rw [f_succ_apply, f_succ_apply]; simp [IH, add_smul (n : ℝ) 1, add_assoc, V]; abel
+  · cases v; rw [f_succ_apply]; rw [f_succ_apply]; simp [IH, add_smul (n : ℝ) 1, add_assoc, V]; abel
 #align sensitivity.f_squared Sensitivity.f_squared
 
 /-! We now compute the matrix of `f` in the `e` basis (`p` is the line index,
@@ -353,7 +352,7 @@ theorem g_injective : Injective (g m) := by
 theorem f_image_g (w : V m.succ) (hv : ∃ v, g m v = w) : f m.succ w = √ (m + 1) • w := by
   rcases hv with ⟨v, rfl⟩
   have : √ (m + 1) * √ (m + 1) = m + 1 := Real.mul_self_sqrt (by exact_mod_cast zero_le _)
-  rw [f_succ_apply, g_apply]
+  rw [f_succ_apply]; rw [g_apply]
   simp [this, f_squared, smul_add, add_smul, smul_smul, V]
   abel
 #align sensitivity.f_image_g Sensitivity.f_image_g
@@ -416,10 +415,9 @@ theorem exists_eigenvalue (H : Set (Q m.succ)) (hH : Card H ≥ 2 ^ m + 1) :
     have hdW := rank_span li
     rw [Set.range_restrict] at hdW
     convert hdW
-    rw [← (dualBases_e_ε _).coe_basis, Cardinal.mk_image_eq (dualBases_e_ε _).basis.injective,
-      Cardinal.mk_fintype]
+    rw [← (dualBases_e_ε _).coe_basis]; rw [Cardinal.mk_image_eq (dualBases_e_ε _).basis.injective]; rw [Cardinal.mk_fintype]
   rw [← finrank_eq_rank ℝ] at dim_le dim_add dimW ⊢
-  rw [← finrank_eq_rank ℝ, ← finrank_eq_rank ℝ] at dim_add
+  rw [← finrank_eq_rank ℝ] at dim_add; rw [← finrank_eq_rank ℝ] at dim_add
   norm_cast at dim_le dim_add dimW ⊢
   rw [pow_succ'] at dim_le
   rw [Set.toFinset_card] at hH
@@ -447,7 +445,7 @@ theorem huang_degree_theorem (H : Set (Q m.succ)) (hH : Card H ≥ 2 ^ m + 1) :
   let coeffs := (dualBases_e_ε m.succ).coeffs
   calc
     s * |ε q y| = |ε q (s • y)| := by
-      rw [map_smul, smul_eq_mul, abs_mul, abs_of_nonneg (Real.sqrt_nonneg _)]
+      rw [map_smul]; rw [smul_eq_mul]; rw [abs_mul]; rw [abs_of_nonneg (Real.sqrt_nonneg _)]
     _ = |ε q (f m.succ y)| := by rw [← f_image_g y (by simpa using y_mem_g)]
     _ = |ε q (f m.succ (lc _ (coeffs y)))| := by rw [(dualBases_e_ε _).lc_coeffs y]
     _ =
@@ -464,7 +462,7 @@ theorem huang_degree_theorem (H : Set (Q m.succ)) (hH : Card H ≥ 2 ^ m + 1) :
     _ ≤ ∑ _p in (coeffs y).support.filter q.adjacent, |coeffs y q| :=
       (Finset.sum_le_sum fun p _ => H_max p)
     _ = (((coeffs y).support.filter q.adjacent).card : ℝ) * |coeffs y q| := by
-      rw [Finset.sum_const, nsmul_eq_mul]
+      rw [Finset.sum_const]; rw [nsmul_eq_mul]
     _ = (((coeffs y).support ∩ q.adjacent.toFinset).card : ℝ) * |coeffs y q| := by
       congr with x; simp; rfl
     _ ≤ Finset.card (H ∩ q.adjacent).toFinset * |ε q y| := by

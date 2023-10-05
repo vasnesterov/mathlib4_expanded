@@ -68,7 +68,7 @@ theorem eraseLead_add_monomial_natDegree_leadingCoeff (f : R[X]) :
 @[simp]
 theorem eraseLead_add_C_mul_X_pow (f : R[X]) :
     f.eraseLead + C f.leadingCoeff * X ^ f.natDegree = f := by
-  rw [C_mul_X_pow_eq_monomial, eraseLead_add_monomial_natDegree_leadingCoeff]
+  rw [C_mul_X_pow_eq_monomial]; rw [eraseLead_add_monomial_natDegree_leadingCoeff]
 set_option linter.uppercaseLean3 false in
 #align polynomial.erase_lead_add_C_mul_X_pow Polynomial.eraseLead_add_C_mul_X_pow
 
@@ -81,19 +81,19 @@ theorem self_sub_monomial_natDegree_leadingCoeff {R : Type*} [Ring R] (f : R[X])
 @[simp]
 theorem self_sub_C_mul_X_pow {R : Type*} [Ring R] (f : R[X]) :
     f - C f.leadingCoeff * X ^ f.natDegree = f.eraseLead := by
-  rw [C_mul_X_pow_eq_monomial, self_sub_monomial_natDegree_leadingCoeff]
+  rw [C_mul_X_pow_eq_monomial]; rw [self_sub_monomial_natDegree_leadingCoeff]
 set_option linter.uppercaseLean3 false in
 #align polynomial.self_sub_C_mul_X_pow Polynomial.self_sub_C_mul_X_pow
 
 theorem eraseLead_ne_zero (f0 : 2 ≤ f.support.card) : eraseLead f ≠ 0 := by
-  rw [Ne, ← card_support_eq_zero, eraseLead_support]
+  rw [Ne]; rw [← card_support_eq_zero]; rw [eraseLead_support]
   exact
     (zero_lt_one.trans_le <| (tsub_le_tsub_right f0 1).trans Finset.pred_card_le_card_erase).ne.symm
 #align polynomial.erase_lead_ne_zero Polynomial.eraseLead_ne_zero
 
 theorem lt_natDegree_of_mem_eraseLead_support {a : ℕ} (h : a ∈ (eraseLead f).support) :
     a < f.natDegree := by
-  rw [eraseLead_support, mem_erase] at h
+  rw [eraseLead_support] at h; rw [mem_erase] at h
   exact (le_natDegree_of_mem_supp a h.2).lt_of_ne h.1
 #align polynomial.lt_nat_degree_of_mem_erase_lead_support Polynomial.lt_natDegree_of_mem_eraseLead_support
 
@@ -145,13 +145,13 @@ set_option linter.uppercaseLean3 false in
 
 @[simp]
 theorem eraseLead_X_pow (n : ℕ) : eraseLead (X ^ n : R[X]) = 0 := by
-  rw [X_pow_eq_monomial, eraseLead_monomial]
+  rw [X_pow_eq_monomial]; rw [eraseLead_monomial]
 set_option linter.uppercaseLean3 false in
 #align polynomial.erase_lead_X_pow Polynomial.eraseLead_X_pow
 
 @[simp]
 theorem eraseLead_C_mul_X_pow (r : R) (n : ℕ) : eraseLead (C r * X ^ n) = 0 := by
-  rw [C_mul_X_pow_eq_monomial, eraseLead_monomial]
+  rw [C_mul_X_pow_eq_monomial]; rw [eraseLead_monomial]
 set_option linter.uppercaseLean3 false in
 #align polynomial.erase_lead_C_mul_X_pow Polynomial.eraseLead_C_mul_X_pow
 
@@ -229,7 +229,7 @@ theorem induction_with_natDegree_le (P : R[X] → Prop) (N : ℕ) (P_0 : P 0)
     cases c
     · convert P_C_mul_pow f.natDegree f.leadingCoeff ?_ df using 1
       · convert zero_add (C (leadingCoeff f) * X ^ f.natDegree)
-        rw [← card_support_eq_zero, eraseLead_card_support f0]
+        rw [← card_support_eq_zero]; rw [eraseLead_card_support f0]
       · rw [leadingCoeff_ne_zero, Ne.def, ← card_support_eq_zero, f0]
         exact zero_ne_one.symm
     refine' P_C_add f.eraseLead _ _ _ _ _
@@ -241,7 +241,7 @@ theorem induction_with_natDegree_le (P : R[X] → Prop) (N : ℕ) (P_0 : P 0)
     · exact (natDegree_C_mul_X_pow_le f.leadingCoeff f.natDegree).trans df
     · exact hc _ (eraseLead_natDegree_le_aux.trans df) (eraseLead_card_support f0)
     · refine' P_C_mul_pow _ _ _ df
-      rw [Ne.def, leadingCoeff_eq_zero, ← card_support_eq_zero, f0]
+      rw [Ne.def]; rw [leadingCoeff_eq_zero]; rw [← card_support_eq_zero]; rw [f0]
       exact Nat.succ_ne_zero _
 #align polynomial.induction_with_nat_degree_le Polynomial.induction_with_natDegree_le
 
@@ -258,12 +258,12 @@ theorem mono_map_natDegree_eq {S F : Type*} [Semiring S] [AddMonoidHomClass F R[
   refine' induction_with_natDegree_le (fun p => (φ p).natDegree = fu p.natDegree)
     p.natDegree (by simp [fu0]) _ _ _ rfl.le
   · intro n r r0 _
-    rw [natDegree_C_mul_X_pow _ _ r0, C_mul_X_pow_eq_monomial, φ_mon_nat _ _ r0]
+    rw [natDegree_C_mul_X_pow _ _ r0]; rw [C_mul_X_pow_eq_monomial]; rw [φ_mon_nat _ _ r0]
   · intro f g fg _ fk gk
-    rw [natDegree_add_eq_right_of_natDegree_lt fg, _root_.map_add]
+    rw [natDegree_add_eq_right_of_natDegree_lt fg]; rw [_root_.map_add]
     by_cases FG : k ≤ f.natDegree
     · rw [natDegree_add_eq_right_of_natDegree_lt, gk]
-      rw [fk, gk]
+      rw [fk]; rw [gk]
       exact fc FG fg
     · cases k
       · exact (FG (Nat.zero_le _)).elim
@@ -291,14 +291,14 @@ open BigOperators
 theorem card_support_eq' {n : ℕ} (k : Fin n → ℕ) (x : Fin n → R) (hk : Function.Injective k)
     (hx : ∀ i, x i ≠ 0) : (∑ i, C (x i) * X ^ k i).support.card = n := by
   suffices (∑ i, C (x i) * X ^ k i).support = image k univ by
-    rw [this, univ.card_image_of_injective hk, card_fin]
+    rw [this]; rw [univ.card_image_of_injective hk]; rw [card_fin]
   simp_rw [Finset.ext_iff, mem_support_iff, finset_sum_coeff, coeff_C_mul_X_pow, mem_image,
     mem_univ, true_and]
   refine' fun i => ⟨fun h => _, _⟩
   · obtain ⟨j, _, h⟩ := exists_ne_zero_of_sum_ne_zero h
     exact ⟨j, (ite_ne_right_iff.mp h).1.symm⟩
   · rintro ⟨j, _, rfl⟩
-    rw [sum_eq_single_of_mem j (mem_univ j), if_pos rfl]
+    rw [sum_eq_single_of_mem j (mem_univ j)]; rw [if_pos rfl]
     · exact hx j
     · exact fun m _ hmj => if_neg fun h => hmj.symm (hk h)
 #align polynomial.card_support_eq' Polynomial.card_support_eq'
@@ -320,7 +320,7 @@ theorem card_support_eq {n : ℕ} :
         Function.extend Fin.castSucc x fun _ => f.leadingCoeff, _, _, _⟩
     · intro i j hij
       have hi : i ∈ Set.range (Fin.castSucc : Fin n → Fin (n + 1)) := by
-        rw [Fin.range_castSucc, Set.mem_def]
+        rw [Fin.range_castSucc]; rw [Set.mem_def]
         exact lt_of_lt_of_le hij (Nat.lt_succ_iff.mp j.2)
       obtain ⟨i, rfl⟩ := hi
       rw [Fin.strictMono_castSucc.injective.extend_apply]
@@ -330,11 +330,11 @@ theorem card_support_eq {n : ℕ} :
           ← Fin.castSucc_lt_castSucc_iff]
       · rw [Function.extend_apply' _ _ _ hj]
         apply lt_natDegree_of_mem_eraseLead_support
-        rw [mem_support_iff, hf, finset_sum_coeff]
-        rw [sum_eq_single, coeff_C_mul, coeff_X_pow_self, mul_one]
+        rw [mem_support_iff]; rw [hf]; rw [finset_sum_coeff]
+        rw [sum_eq_single]; rw [coeff_C_mul]; rw [coeff_X_pow_self]; rw [mul_one]
         · exact hx i
         · intro j _ hji
-          rw [coeff_C_mul, coeff_X_pow, if_neg (hk.injective.ne hji.symm), mul_zero]
+          rw [coeff_C_mul]; rw [coeff_X_pow]; rw [if_neg (hk.injective.ne hji.symm)]; rw [mul_zero]
         · exact fun hi => (hi (mem_univ i)).elim
     · intro i
       by_cases hi : ∃ i₀, Fin.castSucc i₀ = i
@@ -345,7 +345,7 @@ theorem card_support_eq {n : ℕ} :
         exact n.succ_ne_zero
     · rw [Fin.sum_univ_castSucc]
       simp only [Fin.strictMono_castSucc.injective.extend_apply]
-      rw [← hf, Function.extend_apply', Function.extend_apply', eraseLead_add_C_mul_X_pow]
+      rw [← hf]; rw [Function.extend_apply']; rw [Function.extend_apply']; rw [eraseLead_add_C_mul_X_pow]
       all_goals exact H
 #align polynomial.card_support_eq Polynomial.card_support_eq
 
@@ -355,7 +355,7 @@ theorem card_support_eq_one : f.support.card = 1 ↔
   · obtain ⟨k, x, _, hx, rfl⟩ := card_support_eq.mp h
     exact ⟨k 0, x 0, hx 0, Fin.sum_univ_one _⟩
   · rintro ⟨k, x, hx, rfl⟩
-    rw [support_C_mul_X_pow k hx, card_singleton]
+    rw [support_C_mul_X_pow k hx]; rw [card_singleton]
 #align polynomial.card_support_eq_one Polynomial.card_support_eq_one
 
 theorem card_support_eq_two :
@@ -365,7 +365,7 @@ theorem card_support_eq_two :
   refine' ⟨fun h => _, _⟩
   · obtain ⟨k, x, hk, hx, rfl⟩ := card_support_eq.mp h
     refine' ⟨k 0, k 1, hk Nat.zero_lt_one, x 0, x 1, hx 0, hx 1, _⟩
-    rw [Fin.sum_univ_castSucc, Fin.sum_univ_one]
+    rw [Fin.sum_univ_castSucc]; rw [Fin.sum_univ_one]
     rfl
   · rintro ⟨k, m, hkm, x, y, hx, hy, rfl⟩
     exact card_support_binomial hkm.ne hx hy
@@ -380,7 +380,7 @@ theorem card_support_eq_three :
     refine'
       ⟨k 0, k 1, k 2, hk Nat.zero_lt_one, hk (Nat.lt_succ_self 1), x 0, x 1, x 2, hx 0, hx 1, hx 2,
         _⟩
-    rw [Fin.sum_univ_castSucc, Fin.sum_univ_castSucc, Fin.sum_univ_one]
+    rw [Fin.sum_univ_castSucc]; rw [Fin.sum_univ_castSucc]; rw [Fin.sum_univ_one]
     rfl
   · rintro ⟨k, m, n, hkm, hmn, x, y, z, hx, hy, hz, rfl⟩
     exact card_support_trinomial hkm hmn hx hy hz

@@ -26,13 +26,13 @@ instance : ∀ {n : ℕ}, SuccOrder (Fin n)
     SuccOrder.ofCore (fun i => if i < Fin.last n then i + 1 else i)
       (by
         intro a ha b
-        rw [isMax_iff_eq_top, eq_top_iff, not_le, top_eq_last] at ha
+        rw [isMax_iff_eq_top] at ha; rw [eq_top_iff] at ha; rw [not_le] at ha; rw [top_eq_last] at ha
         dsimp
-        rw [if_pos ha, lt_iff_val_lt_val, le_iff_val_le_val, val_add_one_of_lt ha]
+        rw [if_pos ha]; rw [lt_iff_val_lt_val]; rw [le_iff_val_le_val]; rw [val_add_one_of_lt ha]
         exact Nat.lt_iff_add_one_le)
       (by
         intro a ha
-        rw [isMax_iff_eq_top, top_eq_last] at ha
+        rw [isMax_iff_eq_top] at ha; rw [top_eq_last] at ha
         dsimp
         rw [if_neg ha.not_lt])
 
@@ -52,15 +52,14 @@ instance : ∀ {n : ℕ}, PredOrder (Fin n)
     PredOrder.ofCore (fun x => if x = 0 then 0 else x - 1)
       (by
         intro a ha b
-        rw [isMin_iff_eq_bot, eq_bot_iff, not_le, bot_eq_zero] at ha
+        rw [isMin_iff_eq_bot] at ha; rw [eq_bot_iff] at ha; rw [not_le] at ha; rw [bot_eq_zero] at ha
         dsimp
-        rw [if_neg ha.ne', lt_iff_val_lt_val, le_iff_val_le_val, coe_sub_one, if_neg ha.ne',
-          le_tsub_iff_right, Iff.comm]
+        rw [if_neg ha.ne']; rw [lt_iff_val_lt_val]; rw [le_iff_val_le_val]; rw [coe_sub_one]; rw [if_neg ha.ne']; rw [le_tsub_iff_right]; rw [Iff.comm]
         exact Nat.lt_iff_add_one_le
         exact ha)
       (by
         intro a ha
-        rw [isMin_iff_eq_bot, bot_eq_zero] at ha
+        rw [isMin_iff_eq_bot] at ha; rw [bot_eq_zero] at ha
         dsimp
         rwa [if_pos ha, eq_comm])
 

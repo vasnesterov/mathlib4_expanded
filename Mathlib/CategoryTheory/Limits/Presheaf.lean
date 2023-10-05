@@ -227,9 +227,9 @@ noncomputable def isExtensionAlongYoneda :
       -- didn't work
       change (colimit.desc _ _ ≫ _) = colimit.desc _ _ ≫ _
       ext
-      rw [colimit.ι_desc_assoc, colimit.ι_desc_assoc]
+      rw [colimit.ι_desc_assoc]; rw [colimit.ι_desc_assoc]
       change (colimit.ι _ _ ≫ 𝟙 _) ≫ colimit.desc _ _ = _
-      rw [comp_id, colimit.ι_desc]
+      rw [comp_id]; rw [colimit.ι_desc]
       dsimp
       rw [← A.map_comp]
       congr 1)
@@ -371,7 +371,7 @@ noncomputable def colimitOfRepresentable (P : Cᵒᵖ ⥤ Type u₁) :
     (coconeOfRepresentable P)) by
     apply IsColimit.ofPointIso (colimit.isColimit (functorToRepresentables P))
   change IsIso (colimit.desc _ (Cocone.extend _ _))
-  rw [colimit.desc_extend, colimit.desc_cocone]
+  rw [colimit.desc_extend]; rw [colimit.desc_cocone]
   infer_instance
 #align category_theory.colimit_of_representable CategoryTheory.colimitOfRepresentable
 
@@ -396,11 +396,11 @@ noncomputable def natIsoOfNatIsoOnRepresentables (L₁ L₂ : (Cᵒᵖ ⥤ Type 
         (L₁.mapCocone (coconeOfRepresentable P₂)).ι.app
           ((CategoryOfElements.map f).op.obj j) := by
       dsimp
-      rw [← L₁.map_comp, coconeOfRepresentable_naturality]
+      rw [← L₁.map_comp]; rw [coconeOfRepresentable_naturality]
       rfl
     erw [reassoc_of% this, IsColimit.ι_map_assoc, IsColimit.ι_map]
     dsimp
-    rw [← L₂.map_comp, coconeOfRepresentable_naturality]
+    rw [← L₂.map_comp]; rw [coconeOfRepresentable_naturality]
     rfl
 #align category_theory.nat_iso_of_nat_iso_on_representables CategoryTheory.natIsoOfNatIsoOnRepresentables
 
@@ -459,7 +459,7 @@ def isColimitTautologicalCocone : IsColimit (tautologicalCocone P) where
     intros X Y f
     ext t
     dsimp
-    rw [yonedaEquiv_naturality', yonedaEquiv_symm_map]
+    rw [yonedaEquiv_naturality']; rw [yonedaEquiv_symm_map]
     simpa using (s.ι.naturality
       (CostructuredArrow.homMk' (CostructuredArrow.mk (yonedaEquiv.symm t)) f.unop)).symm
   fac := by
@@ -475,7 +475,7 @@ def isColimitTautologicalCocone : IsColimit (tautologicalCocone P) where
     ext V x
     obtain ⟨t, rfl⟩ := yonedaEquiv.surjective x
     dsimp
-    rw [Equiv.symm_apply_apply, ← yonedaEquiv_comp']
+    rw [Equiv.symm_apply_apply]; rw [← yonedaEquiv_comp']
     exact congr_arg _ (h (CostructuredArrow.mk t))
 
 end ArbitraryUniverses

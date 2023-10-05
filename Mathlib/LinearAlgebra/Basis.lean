@@ -150,7 +150,7 @@ theorem repr_self : b.repr (b i) = Finsupp.single i 1 :=
 #align basis.repr_self Basis.repr_self
 
 theorem repr_self_apply (j) [Decidable (i = j)] : b.repr (b i) j = if i = j then 1 else 0 := by
-  rw [repr_self, Finsupp.single_apply]
+  rw [repr_self]; rw [Finsupp.single_apply]
 #align basis.repr_self_apply Basis.repr_self_apply
 
 @[simp]
@@ -179,7 +179,7 @@ theorem total_repr : Finsupp.total _ _ _ b (b.repr x) = x := by
 #align basis.total_repr Basis.total_repr
 
 theorem repr_range : LinearMap.range (b.repr : M →ₗ[R] ι →₀ R) = Finsupp.supported R R univ := by
-  rw [LinearEquiv.range, Finsupp.supported_univ]
+  rw [LinearEquiv.range]; rw [Finsupp.supported_univ]
 #align basis.repr_range Basis.repr_range
 
 theorem mem_span_repr_support (m : M) : m ∈ span R (b '' (b.repr m).support) :=
@@ -274,14 +274,14 @@ variable {M₁ : Type*} [AddCommMonoid M₁] [Module R₁ M₁]
 /-- Two linear maps are equal if they are equal on basis vectors. -/
 theorem ext {f₁ f₂ : M →ₛₗ[σ] M₁} (h : ∀ i, f₁ (b i) = f₂ (b i)) : f₁ = f₂ := by
   ext x
-  rw [← b.total_repr x, Finsupp.total_apply, Finsupp.sum]
+  rw [← b.total_repr x]; rw [Finsupp.total_apply]; rw [Finsupp.sum]
   simp only [map_sum, LinearMap.map_smulₛₗ, h]
 #align basis.ext Basis.ext
 
 /-- Two linear equivs are equal if they are equal on basis vectors. -/
 theorem ext' {f₁ f₂ : M ≃ₛₗ[σ] M₁} (h : ∀ i, f₁ (b i) = f₂ (b i)) : f₁ = f₂ := by
   ext x
-  rw [← b.total_repr x, Finsupp.total_apply, Finsupp.sum]
+  rw [← b.total_repr x]; rw [Finsupp.total_apply]; rw [Finsupp.sum]
   simp only [map_sum, LinearEquiv.map_smulₛₗ, h]
 #align basis.ext' Basis.ext'
 
@@ -314,12 +314,12 @@ theorem repr_apply_eq (f : M → ι → R) (hadd : ∀ x y, f (x + y) = f x + f 
   let f_i : M →ₗ[R] R :=
     { toFun := fun x => f x i
       -- Porting note: `dsimp only []` is required for beta reduction.
-      map_add' := fun _ _ => by dsimp only []; rw [hadd, Pi.add_apply]
+      map_add' := fun _ _ => by dsimp only []; rw [hadd]; rw [Pi.add_apply]
       map_smul' := fun _ _ => by simp [hsmul, Pi.smul_apply] }
   have : Finsupp.lapply i ∘ₗ ↑b.repr = f_i := by
     refine' b.ext fun j => _
     show b.repr (b j) i = f (b j) i
-    rw [b.repr_self, f_eq]
+    rw [b.repr_self]; rw [f_eq]
   calc
     b.repr x i = f_i x := by
       { rw [← this]
@@ -380,7 +380,7 @@ def mapCoeffs : Basis ι R' M := by
         -- Porting note: `dsimp [(· • ·)]` is unavailable because
         --               `HSMul.hsmul` becomes `SMul.smul`.
         change (f.symm x * y) • z = x • (y • z)
-        rw [mul_smul, ← h, f.apply_symm_apply] }
+        rw [mul_smul]; rw [← h]; rw [f.apply_symm_apply] }
   exact ofRepr <| (b.repr.restrictScalars R').trans <|
     Finsupp.mapRange.linearEquiv (Module.compHom.toLinearEquiv f.symm).symm
 #align basis.map_coeffs Basis.mapCoeffs
@@ -395,7 +395,7 @@ theorem mapCoeffs_apply (i : ι) : b.mapCoeffs f h i = b i :=
         -- Porting note: `dsimp [(· • ·)]` is unavailable because
         --               `HSMul.hsmul` becomes `SMul.smul`.
         change (f.symm x * y) • z = x • (y • z)
-        rw [mul_smul, ← h, f.apply_symm_apply] }
+        rw [mul_smul]; rw [← h]; rw [f.apply_symm_apply] }
     simp
 #align basis.map_coeffs_apply Basis.mapCoeffs_apply
 
@@ -525,7 +525,7 @@ def reindexFinsetRange : Basis (Finset.univ.image b) R M :=
 
 theorem reindexFinsetRange_self (i : ι) (h := Finset.mem_image_of_mem b (Finset.mem_univ i)) :
     b.reindexFinsetRange ⟨b i, h⟩ = b i := by
-  rw [reindexFinsetRange, reindex_apply, reindexRange_apply]
+  rw [reindexFinsetRange]; rw [reindex_apply]; rw [reindexRange_apply]
   rfl
 #align basis.reindex_finset_range_self Basis.reindexFinsetRange_self
 
@@ -540,7 +540,7 @@ theorem reindexFinsetRange_repr_self (i : ι) :
     b.reindexFinsetRange.repr (b i) =
       Finsupp.single ⟨b i, Finset.mem_image_of_mem b (Finset.mem_univ i)⟩ 1 := by
   ext ⟨bi, hbi⟩
-  rw [reindexFinsetRange, repr_reindex, Finsupp.mapDomain_equiv_apply, reindexRange_repr_self]
+  rw [reindexFinsetRange]; rw [repr_reindex]; rw [Finsupp.mapDomain_equiv_apply]; rw [reindexRange_repr_self]
   -- Porting note: replaced a `convert; refl` with `simp`
   simp [Finsupp.single_apply]
 #align basis.reindex_finset_range_repr_self Basis.reindexFinsetRange_repr_self
@@ -585,8 +585,7 @@ theorem index_nonempty (b : Basis ι R M) [Nontrivial M] : Nonempty ι := by
 theorem mem_submodule_iff {P : Submodule R M} (b : Basis ι R P) {x : M} :
     x ∈ P ↔ ∃ c : ι →₀ R, x = Finsupp.sum c fun i x => x • (b i : M) := by
   conv_lhs =>
-    rw [← P.range_subtype, ← Submodule.map_top, ← b.span_eq, Submodule.map_span, ← Set.range_comp,
-        ← Finsupp.range_total]
+    rw [← P.range_subtype]; rw [← Submodule.map_top]; rw [← b.span_eq]; rw [Submodule.map_span]; rw [← Set.range_comp]; rw [← Finsupp.range_total]
   simp [@eq_comm _ x, Function.comp, Finsupp.total_apply]
 #align basis.mem_submodule_iff Basis.mem_submodule_iff
 
@@ -631,7 +630,7 @@ theorem constr_def (f : ι → M') :
 theorem constr_apply (f : ι → M') (x : M) :
     constr (M' := M') b S f x = (b.repr x).sum fun b a => a • f b := by
   simp only [constr_def, LinearMap.comp_apply, Finsupp.lmapDomain_apply, Finsupp.total_apply]
-  rw [Finsupp.sum_mapDomain_index] <;> simp [add_smul]
+  rw [Finsupp.sum_mapDomain_index]  <;> simp [add_smul]
 #align basis.constr_apply Basis.constr_apply
 
 @[simp]
@@ -650,9 +649,9 @@ theorem constr_self (f : M →ₗ[R] M') : (constr (M' := M') b S fun i => f (b 
 
 theorem constr_range {f : ι → M'} :
     LinearMap.range (constr (M' := M') b S f) = span R (range f) := by
-  rw [b.constr_def S f, LinearMap.range_comp, LinearMap.range_comp, LinearEquiv.range, ←
-    Finsupp.supported_univ, Finsupp.lmapDomain_supported, ← Set.image_univ, ←
-    Finsupp.span_image_eq_map_total, Set.image_id]
+  rw [b.constr_def S f]; rw [LinearMap.range_comp]; rw [LinearMap.range_comp]; rw [LinearEquiv.range]; rw [←
+    Finsupp.supported_univ]; rw [Finsupp.lmapDomain_supported]; rw [← Set.image_univ]; rw [←
+    Finsupp.span_image_eq_map_total]; rw [Set.image_id]
 #align basis.constr_range Basis.constr_range
 
 @[simp]
@@ -780,7 +779,7 @@ protected theorem noZeroSMulDivisors [NoZeroDivisors R] (b : Basis ι R M) :
     NoZeroSMulDivisors R M :=
   ⟨fun {c x} hcx => by
     exact or_iff_not_imp_right.mpr fun hx => by
-      rw [← b.total_repr x, ← LinearMap.map_smul] at hcx
+      rw [← b.total_repr x] at hcx; rw [← LinearMap.map_smul] at hcx
       have := linearIndependent_iff.mp b.linearIndependent (c • b.repr x) hcx
       rw [smul_eq_zero] at this
       exact this.resolve_right fun hr => hx (b.repr.map_eq_zero_iff.mp hr)⟩
@@ -944,7 +943,7 @@ theorem Basis.repr_sum_self (c : ι → R) : ⇑(b.repr (∑ i, c i • b i)) = 
   ext j
   simp only [map_sum, LinearEquiv.map_smul, repr_self, Finsupp.smul_single, smul_eq_mul, mul_one,
     Finset.sum_apply']
-  rw [Finset.sum_eq_single j, Finsupp.single_eq_same]
+  rw [Finset.sum_eq_single j]; rw [Finsupp.single_eq_same]
   · rintro i - hi
     exact Finsupp.single_eq_of_ne hi
   · intros
@@ -1037,15 +1036,13 @@ def equiv' (f : M → M') (g : M' → M) (hf : ∀ i, f (b i) ∈ range b') (hg 
       have : (constr (M' := M) b' R (g ∘ b')).comp (constr (M' := M') b R (f ∘ b)) = LinearMap.id :=
         b.ext fun i =>
           Exists.elim (hf i) fun i' hi' => by
-            rw [LinearMap.comp_apply, b.constr_basis, Function.comp_apply, ← hi', b'.constr_basis,
-              Function.comp_apply, hi', hgf, LinearMap.id_apply]
+            rw [LinearMap.comp_apply]; rw [b.constr_basis]; rw [Function.comp_apply]; rw [← hi']; rw [b'.constr_basis]; rw [Function.comp_apply]; rw [hi']; rw [hgf]; rw [LinearMap.id_apply]
       fun x => congr_arg (fun h : M →ₗ[R] M => h x) this
     right_inv :=
       have : (constr (M' := M') b R (f ∘ b)).comp (constr (M' := M) b' R (g ∘ b')) = LinearMap.id :=
         b'.ext fun i =>
           Exists.elim (hg i) fun i' hi' => by
-            rw [LinearMap.comp_apply, b'.constr_basis, Function.comp_apply, ← hi', b.constr_basis,
-              Function.comp_apply, hi', hfg, LinearMap.id_apply]
+            rw [LinearMap.comp_apply]; rw [b'.constr_basis]; rw [Function.comp_apply]; rw [← hi']; rw [b.constr_basis]; rw [Function.comp_apply]; rw [hi']; rw [hfg]; rw [LinearMap.id_apply]
       fun x => congr_arg (fun h : M' →ₗ[R] M' => h x) this }
 #align basis.equiv' Basis.equiv'
 
@@ -1066,7 +1063,7 @@ theorem sum_repr_mul_repr {ι'} [Fintype ι'] (b' : Basis ι' R M) (x : M) (i : 
   conv_rhs => rw [← b'.sum_repr x]
   simp_rw [map_sum, map_smul, Finset.sum_apply']
   refine' Finset.sum_congr rfl fun j _ => _
-  rw [Finsupp.smul_apply, smul_eq_mul, mul_comm]
+  rw [Finsupp.smul_apply]; rw [smul_eq_mul]; rw [mul_comm]
 #align basis.sum_repr_mul_repr Basis.sum_repr_mul_repr
 
 end Basis
@@ -1106,7 +1103,7 @@ theorem maximal [Nontrivial R] (b : Basis ι R M) : b.linearIndependent.Maximal 
       b.injective (by simpa only [Subtype.mk_eq_mk] using r)⟩
   simp_rw [Finsupp.total_apply] at e
   change ((b.repr x).sum fun (i : ι) (a : R) ↦ a • (u i : M)) = ((⟨x, p⟩ : w) : M) at e
-  rw [← Finsupp.sum_embDomain (f := u) (g := fun x r ↦ r • (x : M)), ← Finsupp.total_apply] at e
+  rw [← Finsupp.sum_embDomain (f := u) (g := fun x r ↦ r • (x : M))] at e; rw [← Finsupp.total_apply] at e
   -- Now we can contradict the linear independence of `hi`
   refine' hi.total_ne_of_not_mem_support _ _ e
   simp only [Finset.mem_map, Finsupp.support_embDomain]
@@ -1182,7 +1179,7 @@ protected noncomputable def span : Basis ι R (span R (range v)) :=
       rfl
     have h₂ : map (Submodule.subtype (span R (range v))) (span R (range fun i => ⟨v i, this i⟩)) =
         span R (range v) := by
-      rw [← span_image, Submodule.coeSubtype]
+      rw [← span_image]; rw [Submodule.coeSubtype]
       -- Porting note: why doesn't `rw [h₁]` work here?
       exact congr_arg _ h₁
     have h₃ : (x : M) ∈ map (Submodule.subtype (span R (range v)))
@@ -1191,7 +1188,7 @@ protected noncomputable def span : Basis ι R (span R (range v)) :=
       apply Subtype.mem x
     rcases mem_map.1 h₃ with ⟨y, hy₁, hy₂⟩
     have h_x_eq_y : x = y := by
-      rw [Subtype.ext_iff, ← hy₂]
+      rw [Subtype.ext_iff]; rw [← hy₂]
       simp
     rwa [h_x_eq_y]
 #align basis.span Basis.span
@@ -1285,7 +1282,7 @@ noncomputable def mkFinCons {n : ℕ} {N : Submodule R M} (y : M) (b : Basis (Fi
     (hli : ∀ (c : R), ∀ x ∈ N, c • y + x = 0 → c = 0) (hsp : ∀ z : M, ∃ c : R, z + c • y ∈ N) :
     Basis (Fin (n + 1)) R M :=
   have span_b : Submodule.span R (Set.range (N.subtype ∘ b)) = N := by
-    rw [Set.range_comp, Submodule.span_image, b.span_eq, Submodule.map_subtype_top]
+    rw [Set.range_comp]; rw [Submodule.span_image]; rw [b.span_eq]; rw [Submodule.map_subtype_top]
   Basis.mk (v := Fin.cons y (N.subtype ∘ b))
     ((b.linearIndependent.map' N.subtype (Submodule.ker_subtype _)).fin_cons' _ _
       (by
@@ -1293,7 +1290,7 @@ noncomputable def mkFinCons {n : ℕ} {N : Submodule R M} (y : M) (b : Basis (Fi
         rw [span_b] at hx
         exact hli c x hx hc))
     fun x _ => by
-      rw [Fin.range_cons, Submodule.mem_span_insert', span_b]
+      rw [Fin.range_cons]; rw [Submodule.mem_span_insert']; rw [span_b]
       exact hsp x
 #align basis.mk_fin_cons Basis.mkFinCons
 
@@ -1437,7 +1434,7 @@ theorem Basis.mem_span_iff_repr_mem (m : M) :
   refine
     ⟨fun hm i => ⟨(b.restrictScalars R).repr ⟨m, hm⟩ i, b.restrictScalars_repr_apply R ⟨m, hm⟩ i⟩,
       fun h => ?_⟩
-  rw [← b.total_repr m, Finsupp.total_apply S _]
+  rw [← b.total_repr m]; rw [Finsupp.total_apply S _]
   refine sum_mem fun i _ => ?_
   obtain ⟨_, h⟩ := h i
   simp_rw [← h, algebraMap_smul]

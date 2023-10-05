@@ -62,21 +62,20 @@ protected theorem withDensity_apply (κ : kernel α β) [IsSFiniteKernel κ]
     (hf : Measurable (Function.uncurry f)) (a : α) :
     withDensity κ f a = (κ a).withDensity (f a) := by
   classical
-  rw [withDensity, dif_pos hf]
+  rw [withDensity]; rw [dif_pos hf]
   rfl
 #align probability_theory.kernel.with_density_apply ProbabilityTheory.kernel.withDensity_apply
 
 theorem withDensity_apply' (κ : kernel α β) [IsSFiniteKernel κ]
     (hf : Measurable (Function.uncurry f)) (a : α) {s : Set β} (hs : MeasurableSet s) :
     withDensity κ f a s = ∫⁻ b in s, f a b ∂κ a := by
-  rw [kernel.withDensity_apply κ hf, withDensity_apply _ hs]
+  rw [kernel.withDensity_apply κ hf]; rw [withDensity_apply _ hs]
 #align probability_theory.kernel.with_density_apply' ProbabilityTheory.kernel.withDensity_apply'
 
 theorem lintegral_withDensity (κ : kernel α β) [IsSFiniteKernel κ]
     (hf : Measurable (Function.uncurry f)) (a : α) {g : β → ℝ≥0∞} (hg : Measurable g) :
     ∫⁻ b, g b ∂withDensity κ f a = ∫⁻ b, f a b * g b ∂κ a := by
-  rw [kernel.withDensity_apply _ hf,
-    lintegral_withDensity_eq_lintegral_mul _ (Measurable.of_uncurry_left hf) hg]
+  rw [kernel.withDensity_apply _ hf]; rw [lintegral_withDensity_eq_lintegral_mul _ (Measurable.of_uncurry_left hf) hg]
   simp_rw [Pi.mul_apply]
 #align probability_theory.kernel.lintegral_with_density ProbabilityTheory.kernel.lintegral_withDensity
 
@@ -84,7 +83,7 @@ theorem integral_withDensity {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ
     {f : β → E} [IsSFiniteKernel κ] {a : α} {g : α → β → ℝ≥0}
     (hg : Measurable (Function.uncurry g)) :
     ∫ b, f b ∂withDensity κ (fun a b => g a b) a = ∫ b, g a b • f b ∂κ a := by
-  rw [kernel.withDensity_apply, integral_withDensity_eq_integral_smul]
+  rw [kernel.withDensity_apply]; rw [integral_withDensity_eq_integral_smul]
   · exact Measurable.of_uncurry_left hg
   · exact measurable_coe_nnreal_ennreal.comp hg
 #align probability_theory.kernel.integral_with_density ProbabilityTheory.kernel.integral_withDensity
@@ -117,19 +116,19 @@ theorem withDensity_tsum [Countable ι] (κ : kernel α β) [IsSFiniteKernel κ]
   have h_sum_a : ∀ a, Summable fun n => f n a := fun a => Pi.summable.mpr fun b => ENNReal.summable
   have h_sum : Summable fun n => f n := Pi.summable.mpr h_sum_a
   ext a s hs
-  rw [sum_apply' _ a hs, withDensity_apply' κ _ a hs]
+  rw [sum_apply' _ a hs]; rw [withDensity_apply' κ _ a hs]
   swap
   · have : Function.uncurry (∑' n, f n) = ∑' n, Function.uncurry (f n) := by
       ext1 p
       simp only [Function.uncurry_def]
-      rw [tsum_apply h_sum, tsum_apply (h_sum_a _), tsum_apply]
+      rw [tsum_apply h_sum]; rw [tsum_apply (h_sum_a _)]; rw [tsum_apply]
       exact Pi.summable.mpr fun p => ENNReal.summable
     rw [this]
     exact Measurable.ennreal_tsum' hf
   have : ∫⁻ b in s, (∑' n, f n) a b ∂κ a = ∫⁻ b in s, ∑' n, (fun b => f n a b) b ∂κ a := by
     congr with b
-    rw [tsum_apply h_sum, tsum_apply (h_sum_a a)]
-  rw [this, lintegral_tsum fun n => (Measurable.of_uncurry_left (hf n)).aemeasurable]
+    rw [tsum_apply h_sum]; rw [tsum_apply (h_sum_a a)]
+  rw [this]; rw [lintegral_tsum fun n => (Measurable.of_uncurry_left (hf n)).aemeasurable]
   congr with n
   rw [withDensity_apply' _ (hf n) a hs]
 #align probability_theory.kernel.with_density_tsum ProbabilityTheory.kernel.withDensity_tsum
@@ -182,23 +181,22 @@ theorem isSFiniteKernel_withDensity_of_isFiniteKernel (κ : kernel α β) [IsFin
       suffices : ∀ n, n ∉ Finset.range ⌈(f a b).toReal⌉₊ → fs n a b = 0
       exact summable_of_ne_finset_zero this
       intro n hn_not_mem
-      rw [Finset.mem_range, not_lt] at hn_not_mem
+      rw [Finset.mem_range] at hn_not_mem; rw [not_lt] at hn_not_mem
       exact h_zero a b n hn_not_mem
     ext a b : 2
-    rw [tsum_apply (Pi.summable.mpr h_sum_a), tsum_apply (h_sum_a a),
-      ENNReal.tsum_eq_liminf_sum_nat]
+    rw [tsum_apply (Pi.summable.mpr h_sum_a)]; rw [tsum_apply (h_sum_a a)]; rw [ENNReal.tsum_eq_liminf_sum_nat]
     have h_finset_sum : ∀ n, ∑ i in Finset.range n, fs i a b = min (f a b) n := by
       intro n
       induction' n with n hn
       · simp
-      rw [Finset.sum_range_succ, hn]
+      rw [Finset.sum_range_succ]; rw [hn]
       simp
     simp_rw [h_finset_sum]
     refine' (Filter.Tendsto.liminf_eq _).symm
     refine' Filter.Tendsto.congr' _ tendsto_const_nhds
-    rw [Filter.EventuallyEq, Filter.eventually_atTop]
+    rw [Filter.EventuallyEq]; rw [Filter.eventually_atTop]
     exact ⟨⌈(f a b).toReal⌉₊, fun n hn => (min_eq_left (h_le a b n hn)).symm⟩
-  rw [hf_eq_tsum, withDensity_tsum _ fun n : ℕ => _]
+  rw [hf_eq_tsum]; rw [withDensity_tsum _ fun n : ℕ => _]
   swap; · exact fun _ => (hf.min measurable_const).sub (hf.min measurable_const)
   refine' isSFiniteKernel_sum fun n => _
   suffices IsFiniteKernel (withDensity κ (fs n)) by haveI := this; infer_instance

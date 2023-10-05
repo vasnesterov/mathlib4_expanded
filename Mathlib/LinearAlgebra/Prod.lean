@@ -261,7 +261,7 @@ theorem coprod_map_prod (f : M →ₗ[R] M₃) (g : M₂ →ₗ[R] M₃) (S : Su
     (S' : Submodule R M₂) : (Submodule.prod S S').map (LinearMap.coprod f g) = S.map f ⊔ S'.map g :=
   SetLike.coe_injective <| by
     simp only [LinearMap.coprod_apply, Submodule.coe_sup, Submodule.map_coe]
-    rw [← Set.image2_add, Set.image2_image_left, Set.image2_image_right]
+    rw [← Set.image2_add]; rw [Set.image2_image_left]; rw [Set.image2_image_right]
     exact Set.image_prod fun m m₂ => f m + g m₂
 #align linear_map.coprod_map_prod LinearMap.coprod_map_prod
 
@@ -325,7 +325,7 @@ theorem prodMap_comap_prod (f : M →ₗ[R] M₂) (g : M₃ →ₗ[R] M₄) (S :
 theorem ker_prodMap (f : M →ₗ[R] M₂) (g : M₃ →ₗ[R] M₄) :
     ker (LinearMap.prodMap f g) = Submodule.prod (ker f) (ker g) := by
   dsimp only [ker]
-  rw [← prodMap_comap_prod, Submodule.prod_bot]
+  rw [← prodMap_comap_prod]; rw [Submodule.prod_bot]
 #align linear_map.ker_prod_map LinearMap.ker_prodMap
 
 @[simp]
@@ -484,17 +484,17 @@ theorem prod_eq_inf_comap (p : Submodule R M) (q : Submodule R M₂) :
 
 theorem prod_eq_sup_map (p : Submodule R M) (q : Submodule R M₂) :
     p.prod q = p.map (LinearMap.inl R M M₂) ⊔ q.map (LinearMap.inr R M M₂) := by
-  rw [← map_coprod_prod, coprod_inl_inr, map_id]
+  rw [← map_coprod_prod]; rw [coprod_inl_inr]; rw [map_id]
 #align linear_map.prod_eq_sup_map LinearMap.prod_eq_sup_map
 
 theorem span_inl_union_inr {s : Set M} {t : Set M₂} :
     span R (inl R M M₂ '' s ∪ inr R M M₂ '' t) = (span R s).prod (span R t) := by
-  rw [span_union, prod_eq_sup_map, ← span_image, ← span_image]
+  rw [span_union]; rw [prod_eq_sup_map]; rw [← span_image]; rw [← span_image]
 #align linear_map.span_inl_union_inr LinearMap.span_inl_union_inr
 
 @[simp]
 theorem ker_prod (f : M →ₗ[R] M₂) (g : M →ₗ[R] M₃) : ker (prod f g) = ker f ⊓ ker g := by
-  rw [ker, ← prod_bot, comap_prod_prod]; rfl
+  rw [ker]; rw [← prod_bot]; rw [comap_prod_prod]; rfl
 #align linear_map.ker_prod LinearMap.ker_prod
 
 theorem range_prod_le (f : M →ₗ[R] M₂) (g : M →ₗ[R] M₃) :
@@ -521,7 +521,7 @@ theorem ker_coprod_of_disjoint_range {M₂ : Type*} [AddCommGroup M₂] [Module 
     simp only [true_and_iff, mem_range, mem_inf, exists_apply_eq_apply]
     use -z
     rwa [eq_comm, map_neg, ← sub_eq_zero, sub_neg_eq_add]
-  rw [hd.eq_bot, mem_bot] at this
+  rw [hd.eq_bot] at this; rw [mem_bot] at this
   rw [this] at h
   simpa [this] using h
 #align linear_map.ker_coprod_of_disjoint_range LinearMap.ker_coprod_of_disjoint_range
@@ -943,7 +943,7 @@ def tunnel (f : M × N →ₗ[R] M) (i : Injective f) : ℕ →o (Submodule R M)
   ⟨fun n => OrderDual.toDual (tunnel' f i n).1,
     monotone_nat_of_le_succ fun n => by
       dsimp [tunnel', tunnelAux]
-      rw [Submodule.map_comp, Submodule.map_comp]
+      rw [Submodule.map_comp]; rw [Submodule.map_comp]
       apply Submodule.map_subtype_le⟩
 #align linear_map.tunnel LinearMap.tunnel
 
@@ -963,7 +963,7 @@ def tailingLinearEquiv (f : M × N →ₗ[R] M) (i : Injective f) (n : ℕ) : ta
 theorem tailing_le_tunnel (f : M × N →ₗ[R] M) (i : Injective f) (n : ℕ) :
     tailing f i n ≤ OrderDual.ofDual (tunnel f i n) := by
   dsimp [tailing, tunnelAux]
-  rw [Submodule.map_comp, Submodule.map_comp]
+  rw [Submodule.map_comp]; rw [Submodule.map_comp]
   apply Submodule.map_subtype_le
 #align linear_map.tailing_le_tunnel LinearMap.tailing_le_tunnel
 
@@ -1029,11 +1029,11 @@ def graph : Submodule R (M × M₂)
   carrier := { p | p.2 = f p.1 }
   add_mem' (ha : _ = _) (hb : _ = _) := by
     change _ + _ = f (_ + _)
-    rw [map_add, ha, hb]
+    rw [map_add]; rw [ha]; rw [hb]
   zero_mem' := Eq.symm (map_zero f)
   smul_mem' c x (hx : _ = _) := by
     change _ • _ = f (_ • _)
-    rw [map_smul, hx]
+    rw [map_smul]; rw [hx]
 #align linear_map.graph LinearMap.graph
 
 @[simp]
@@ -1044,7 +1044,7 @@ theorem mem_graph_iff (x : M × M₂) : x ∈ f.graph ↔ x.2 = f x.1 :=
 theorem graph_eq_ker_coprod : g.graph = ker ((-g).coprod LinearMap.id) := by
   ext x
   change _ = _ ↔ -g x.1 + x.2 = _
-  rw [add_comm, add_neg_eq_zero]
+  rw [add_comm]; rw [add_neg_eq_zero]
 #align linear_map.graph_eq_ker_coprod LinearMap.graph_eq_ker_coprod
 
 theorem graph_eq_range_prod : f.graph = range (LinearMap.id.prod f) := by

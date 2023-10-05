@@ -114,11 +114,11 @@ theorem exists_across [DenselyOrdered β] [NoMinOrder β] [NoMaxOrder β] [Nonem
   cases' lt_or_gt_of_ne this with hl hr
   · have : p1 < a ∧ p2 < b :=
       ⟨hl, hb.1 _ (Finset.mem_image.mpr ⟨(p1, p2), Finset.mem_filter.mpr ⟨hp, hl⟩, rfl⟩)⟩
-    rw [← cmp_eq_lt_iff, ← cmp_eq_lt_iff] at this
+    rw [← cmp_eq_lt_iff] at this; rw [← cmp_eq_lt_iff] at this
     exact this.1.trans this.2.symm
   · have : a < p1 ∧ b < p2 :=
       ⟨hr, hb.2 _ (Finset.mem_image.mpr ⟨(p1, p2), Finset.mem_filter.mpr ⟨hp, hr⟩, rfl⟩)⟩
-    rw [← cmp_eq_gt_iff, ← cmp_eq_gt_iff] at this
+    rw [← cmp_eq_gt_iff] at this; rw [← cmp_eq_gt_iff] at this
     exact this.1.trans this.2.symm
 #align order.partial_iso.exists_across Order.PartialIso.exists_across
 
@@ -128,11 +128,11 @@ protected def comm : PartialIso α β → PartialIso β α :=
     Eq.symm <|
       hf ((Equiv.prodComm α β).symm p)
         (by
-          rw [← Finset.mem_coe, Finset.coe_image, Equiv.image_eq_preimage] at hp
+          rw [← Finset.mem_coe] at hp; rw [Finset.coe_image] at hp; rw [Equiv.image_eq_preimage] at hp
           rwa [← Finset.mem_coe])
         ((Equiv.prodComm α β).symm q)
         (by
-          rw [← Finset.mem_coe, Finset.coe_image, Equiv.image_eq_preimage] at hq
+          rw [← Finset.mem_coe] at hq; rw [Finset.coe_image] at hq; rw [Equiv.image_eq_preimage] at hq
           rwa [← Finset.mem_coe])
 #align order.partial_iso.comm Order.PartialIso.comm
 

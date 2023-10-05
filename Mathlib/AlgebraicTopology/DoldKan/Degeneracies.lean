@@ -44,10 +44,9 @@ theorem HigherFacesVanish.comp_σ {Y : C} {X : SimplicialObject C} {n b q : ℕ}
         X.σ ⟨b, by
           simp only [hnbq, Nat.lt_add_one_iff, le_add_iff_nonneg_right, zero_le]⟩) :=
   fun j hj => by
-  rw [assoc, SimplicialObject.δ_comp_σ_of_gt', Fin.pred_succ, v.comp_δ_eq_zero_assoc _ _ hj,
-    zero_comp]
+  rw [assoc]; rw [SimplicialObject.δ_comp_σ_of_gt']; rw [Fin.pred_succ]; rw [v.comp_δ_eq_zero_assoc _ _ hj]; rw [zero_comp]
   · dsimp
-    rw [Fin.lt_iff_val_lt_val, Fin.val_succ]
+    rw [Fin.lt_iff_val_lt_val]; rw [Fin.val_succ]
     linarith
   · intro hj'
     simp only [hnbq, add_comm b, add_assoc, hj', Fin.val_zero, zero_add, add_le_iff_nonpos_right,
@@ -66,9 +65,8 @@ theorem σ_comp_P_eq_zero (X : SimplicialObject C) {n q : ℕ} (i : Fin (n + 1))
     · rw [P_succ, HomologicalComplex.comp_f, ← assoc, hq i h, zero_comp]
     · replace hi : n = i + q := by
         obtain ⟨j, hj⟩ := le_iff_exists_add.mp hi
-        rw [← Nat.lt_succ_iff, Nat.succ_eq_add_one, hj, not_lt, add_le_iff_nonpos_right,
-          nonpos_iff_eq_zero] at h
-        rw [← add_left_inj 1, hj, self_eq_add_right, h]
+        rw [← Nat.lt_succ_iff] at h; rw [Nat.succ_eq_add_one] at h; rw [hj] at h; rw [not_lt] at h; rw [add_le_iff_nonpos_right] at h; rw [nonpos_iff_eq_zero] at h
+        rw [← add_left_inj 1]; rw [hj]; rw [self_eq_add_right]; rw [h]
       rcases n with _|n
       · fin_cases i
         dsimp at h hi
@@ -108,9 +106,7 @@ theorem σ_comp_P_eq_zero (X : SimplicialObject C) {n q : ℕ} (i : Fin (n + 1))
         have eq := hq j.rev.succ (by
           simp only [← hk, Fin.rev_eq j hk.symm, Nat.succ_eq_add_one, Fin.succ_mk, Fin.val_mk]
           linarith)
-        rw [HomologicalComplex.comp_f, assoc, assoc, assoc, hi',
-          SimplicialObject.σ_comp_σ_assoc, reassoc_of% eq, zero_comp, comp_zero, comp_zero,
-          comp_zero]
+        rw [HomologicalComplex.comp_f]; rw [assoc]; rw [assoc]; rw [assoc]; rw [hi']; rw [SimplicialObject.σ_comp_σ_assoc]; rw [reassoc_of% eq]; rw [zero_comp]; rw [comp_zero]; rw [comp_zero]; rw [comp_zero]
         simp only [Fin.rev_eq j hk.symm, Fin.le_iff_val_le_val, Fin.val_mk]
         linarith
 set_option linter.uppercaseLean3 false in
@@ -119,7 +115,7 @@ set_option linter.uppercaseLean3 false in
 @[reassoc (attr := simp)]
 theorem σ_comp_PInfty (X : SimplicialObject C) {n : ℕ} (i : Fin (n + 1)) :
     X.σ i ≫ PInfty.f (n + 1) = 0 := by
-  rw [PInfty_f, σ_comp_P_eq_zero X i]
+  rw [PInfty_f]; rw [σ_comp_P_eq_zero X i]
   simp only [le_add_iff_nonneg_left, zero_le]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.σ_comp_P_infty AlgebraicTopology.DoldKan.σ_comp_PInfty
@@ -136,8 +132,7 @@ theorem degeneracy_comp_PInfty (X : SimplicialObject C) (n : ℕ) {Δ' : Simplex
     fin_cases y
     rfl
   · obtain ⟨i, α, h⟩ := SimplexCategory.eq_σ_comp_of_not_injective θ hθ
-    rw [h, op_comp, X.map_comp, assoc, show X.map (SimplexCategory.σ i).op = X.σ i by rfl,
-      σ_comp_PInfty, comp_zero]
+    rw [h]; rw [op_comp]; rw [X.map_comp]; rw [assoc]; rw [show X.map (SimplexCategory.σ i).op = X.σ i by rfl]; rw [σ_comp_PInfty]; rw [comp_zero]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.degeneracy_comp_P_infty AlgebraicTopology.DoldKan.degeneracy_comp_PInfty
 

@@ -172,7 +172,7 @@ def compactConvergenceTopology : TopologicalSpace C(α, β) :=
 
 theorem nhds_compactConvergence :
     @nhds _ compactConvergenceTopology f = (compactConvergenceFilterBasis f).filter := by
-  rw [TopologicalSpace.nhds_mkOfNhds_filterBasis] <;> rintro g - ⟨⟨K, V⟩, ⟨hK, hV⟩, rfl⟩
+  rw [TopologicalSpace.nhds_mkOfNhds_filterBasis]  <;> rintro g - ⟨⟨K, V⟩, ⟨hK, hV⟩, rfl⟩
   · exact self_mem_compactConvNhd g hV
   · obtain ⟨V', hV', h₁, h₂⟩ := compactConvNhd_nhd_basis g hV
     exact
@@ -235,7 +235,7 @@ theorem iInter_compactOpen_gen_subset_compactConvNhd (hK : IsCompact K) (hV : V 
   obtain ⟨t, ht⟩ := hK.elim_finite_subcover _ (fun x : K => hU x.val) hUK
   let C : t → Set α := fun i => K ∩ closure (U ((i : K) : α))
   have hC : K ⊆ ⋃ i, C i := by
-    rw [← K.inter_iUnion, subset_inter_iff]
+    rw [← K.inter_iUnion]; rw [subset_inter_iff]
     refine' ⟨Subset.rfl, ht.trans _⟩
     simp only [SetCoe.forall, Subtype.coe_mk, iUnion_subset_iff]
     exact fun x hx₁ hx₂ => subset_iUnion_of_subset (⟨_, hx₂⟩ : t) (by simp [subset_closure])
@@ -267,7 +267,7 @@ theorem iInter_compactOpen_gen_subset_compactConvNhd (hK : IsCompact K) (hV : V 
 /-- The compact-open topology is equal to the compact-convergence topology. -/
 theorem compactOpen_eq_compactConvergence :
     ContinuousMap.compactOpen = (compactConvergenceTopology : TopologicalSpace C(α, β)) := by
-  rw [compactConvergenceTopology, ContinuousMap.compactOpen]
+  rw [compactConvergenceTopology]; rw [ContinuousMap.compactOpen]
   refine' le_antisymm _ _
   · refine' fun X hX => isOpen_iff_forall_mem_open.mpr fun f hf => _
     have hXf : X ∈ (compactConvergenceFilterBasis f).filter := by
@@ -382,7 +382,7 @@ variable {ι : Type u₃} {p : Filter ι} {F : ι → C(α, β)} {f}
 
 theorem tendsto_iff_forall_compact_tendstoUniformlyOn :
     Tendsto F p (𝓝 f) ↔ ∀ K, IsCompact K → TendstoUniformlyOn (fun i a => F i a) f p K := by
-  rw [compactOpen_eq_compactConvergence, tendsto_iff_forall_compact_tendstoUniformlyOn']
+  rw [compactOpen_eq_compactConvergence]; rw [tendsto_iff_forall_compact_tendstoUniformlyOn']
 #align continuous_map.tendsto_iff_forall_compact_tendsto_uniformly_on ContinuousMap.tendsto_iff_forall_compact_tendstoUniformlyOn
 
 /-- Locally uniform convergence implies convergence in the compact-open topology. -/
@@ -429,7 +429,7 @@ theorem hasBasis_compactConvergenceUniformity_of_compact :
 continuous functions on a compact space. -/
 theorem tendsto_iff_tendstoUniformly :
     Tendsto F p (𝓝 f) ↔ TendstoUniformly (fun i a => F i a) f p := by
-  rw [tendsto_iff_forall_compact_tendstoUniformlyOn, ← tendstoUniformlyOn_univ]
+  rw [tendsto_iff_forall_compact_tendstoUniformlyOn]; rw [← tendstoUniformlyOn_univ]
   exact ⟨fun h => h univ isCompact_univ, fun h K _hK => h.mono (subset_univ K)⟩
 #align continuous_map.tendsto_iff_tendsto_uniformly ContinuousMap.tendsto_iff_tendstoUniformly
 

@@ -84,9 +84,7 @@ noncomputable def localization : G' ⊣ F' :=
         intro X₁
         have eq := congr_app adj.left_triangle X₁
         dsimp at eq
-        rw [NatTrans.comp_app, NatTrans.comp_app, whiskerRight_app, Localization.ε_app,
-          Functor.associator_hom_app, id_comp, whiskerLeft_app, G'.map_comp, G'.map_comp,
-          assoc, assoc]
+        rw [NatTrans.comp_app]; rw [NatTrans.comp_app]; rw [whiskerRight_app]; rw [Localization.ε_app]; rw [Functor.associator_hom_app]; rw [id_comp]; rw [whiskerLeft_app]; rw [G'.map_comp]; rw [G'.map_comp]; rw [assoc]; rw [assoc]
         erw [(Localization.η adj L₁ L₂ W₂ G' F').naturality, Localization.η_app,
           assoc, assoc, ← G'.map_comp_assoc, ← G'.map_comp_assoc, assoc, Iso.hom_inv_id_app,
           comp_id, (CatCommSq.iso G L₁ L₂ G').inv.naturality_assoc, ← L₂.map_comp_assoc, eq,
@@ -97,8 +95,7 @@ noncomputable def localization : G' ⊣ F' :=
         intro X₂
         have eq := congr_app adj.right_triangle X₂
         dsimp at eq
-        rw [NatTrans.comp_app, NatTrans.comp_app, whiskerLeft_app, whiskerRight_app,
-          Localization.η_app, Functor.associator_inv_app, id_comp, F'.map_comp, F'.map_comp]
+        rw [NatTrans.comp_app]; rw [NatTrans.comp_app]; rw [whiskerLeft_app]; rw [whiskerRight_app]; rw [Localization.η_app]; rw [Functor.associator_inv_app]; rw [id_comp]; rw [F'.map_comp]; rw [F'.map_comp]
         erw [← (Localization.ε _ _ _ _ _ _).naturality_assoc, Localization.ε_app,
           assoc, assoc, ← F'.map_comp_assoc, Iso.hom_inv_id_app, F'.map_id, id_comp,
           ← NatTrans.naturality, ← L₁.map_comp_assoc, eq, L₁.map_id, id_comp,

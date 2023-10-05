@@ -163,8 +163,7 @@ noncomputable def skyscraperPresheafCoconeIsColimitOfSpecializes {y : X} (h : p�
     · exact h.mem_open U.unop.1.2 U.unop.2
   uniq c f h := by
     dsimp -- Porting note : added a `dsimp`
-    rw [← h, skyscraperPresheafCoconeOfSpecializes_ι_app, eqToHom_trans_assoc, eqToHom_refl,
-      Category.id_comp]
+    rw [← h]; rw [skyscraperPresheafCoconeOfSpecializes_ι_app]; rw [eqToHom_trans_assoc]; rw [eqToHom_refl]; rw [Category.id_comp]
 #align skyscraper_presheaf_cocone_is_colimit_of_specializes skyscraperPresheafCoconeIsColimitOfSpecializes
 
 /-- If `y ∈ closure {p₀}`, then the stalk of `skyscraper_presheaf p₀ A` at `y` is `A`.
@@ -204,7 +203,7 @@ noncomputable def skyscraperPresheafCoconeIsColimitOfNotSpecializes {y : X} (h :
       exact fun h => h1.choose_spec h.1
     uniq := fun c f H => by
       dsimp -- Porting note : added a `dsimp`
-      rw [← Category.id_comp f, ← H, ← Category.assoc]
+      rw [← Category.id_comp f]; rw [← H]; rw [← Category.assoc]
       congr 1; apply terminalIsTerminal.hom_ext }
 #align skyscraper_presheaf_cocone_is_colimit_of_not_specializes skyscraperPresheafCoconeIsColimitOfNotSpecializes
 
@@ -313,8 +312,7 @@ theorem fromStalk_to_skyscraper {𝓕 : Presheaf C X} {c : C} (f : 𝓕.stalk p�
     fromStalk p₀ (toSkyscraperPresheaf _ f) = f :=
   colimit.hom_ext fun U => by
     erw [colimit.ι_desc]; dsimp; rw [dif_pos U.unop.2];
-    rw [Category.assoc, Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id,
-      Presheaf.germ]
+    rw [Category.assoc]; rw [Category.assoc]; rw [eqToHom_trans]; rw [eqToHom_refl]; rw [Category.comp_id]; rw [Presheaf.germ]
     congr 3
 #align stalk_skyscraper_presheaf_adjunction_auxs.from_stalk_to_skyscraper StalkSkyscraperPresheafAdjunctionAuxs.fromStalk_to_skyscraper
 
@@ -327,7 +325,7 @@ protected def unit : 𝟭 (Presheaf C X) ⟶ Presheaf.stalkFunctor C p₀ ⋙ sk
   naturality 𝓕 𝓖 f := by
     ext U; dsimp
     -- Porting note : added the following `rw` and `dsimp` to make it compile
-    rw [NatTrans.comp_app, toSkyscraperPresheaf_app, NatTrans.comp_app, toSkyscraperPresheaf_app]
+    rw [NatTrans.comp_app]; rw [toSkyscraperPresheaf_app]; rw [NatTrans.comp_app]; rw [toSkyscraperPresheaf_app]
     dsimp only [skyscraperPresheaf_obj, unop_op, Eq.ndrec, SkyscraperPresheafFunctor.map'_app]
     split_ifs with h
     · simp only [Category.id_comp, ← Category.assoc]; rw [comp_eqToHom_iff]

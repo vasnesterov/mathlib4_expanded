@@ -739,12 +739,9 @@ def mkRingHomOfMulSelfOfTwoNeZero (h : ∀ x, f (x * x) = f x * f x) (h_two : (2
     map_one' := h_one,
     map_mul' := fun x y => by
       have hxy := h (x + y)
-      rw [mul_add, add_mul, add_mul, f.map_add, f.map_add, f.map_add, f.map_add, h x, h y, add_mul,
-        mul_add, mul_add, ← sub_eq_zero, add_comm (f x * f x + f (y * x)), ← sub_sub, ← sub_sub,
-        ← sub_sub, mul_comm y x, mul_comm (f y) (f x)] at hxy
+      rw [mul_add] at hxy; rw [add_mul] at hxy; rw [add_mul] at hxy; rw [f.map_add] at hxy; rw [f.map_add] at hxy; rw [f.map_add] at hxy; rw [f.map_add] at hxy; rw [h x] at hxy; rw [h y] at hxy; rw [add_mul] at hxy; rw [mul_add] at hxy; rw [mul_add] at hxy; rw [← sub_eq_zero] at hxy; rw [add_comm (f x * f x + f (y * x))] at hxy; rw [← sub_sub] at hxy; rw [← sub_sub] at hxy; rw [← sub_sub] at hxy; rw [mul_comm y x] at hxy; rw [mul_comm (f y) (f x)] at hxy
       simp only [add_assoc, add_sub_assoc, add_sub_cancel'_right] at hxy
-      rw [sub_sub, ← two_mul, ← add_sub_assoc, ← two_mul, ← mul_sub, mul_eq_zero (M₀ := α),
-        sub_eq_zero, or_iff_not_imp_left] at hxy
+      rw [sub_sub] at hxy; rw [← two_mul] at hxy; rw [← add_sub_assoc] at hxy; rw [← two_mul] at hxy; rw [← mul_sub] at hxy; rw [mul_eq_zero (M₀ := α)] at hxy; rw [sub_eq_zero] at hxy; rw [or_iff_not_imp_left] at hxy
       exact hxy h_two }
 #align add_monoid_hom.mk_ring_hom_of_mul_self_of_two_ne_zero AddMonoidHom.mkRingHomOfMulSelfOfTwoNeZero
 

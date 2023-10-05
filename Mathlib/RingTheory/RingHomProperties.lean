@@ -162,7 +162,7 @@ theorem StableUnderBaseChange.mk (h₁ : RespectsIso @P)
   · ext x
     change _ = e (x ⊗ₜ[R] 1)
     --Porting note: Had `dsimp only [e]` here, which didn't work anymore
-    rw [h.symm.1.equiv_tmul, Algebra.smul_def, AlgHom.toLinearMap_apply, map_one, mul_one]
+    rw [h.symm.1.equiv_tmul]; rw [Algebra.smul_def]; rw [AlgHom.toLinearMap_apply]; rw [map_one]; rw [mul_one]
 #align ring_hom.stable_under_base_change.mk RingHom.StableUnderBaseChange.mk
 
 attribute [local instance] Algebra.TensorProduct.rightAlgebra
@@ -173,8 +173,7 @@ theorem StableUnderBaseChange.pushout_inl (hP : RingHom.StableUnderBaseChange @P
   rw [←
     show _ = pushout.inl from
       colimit.isoColimitCocone_ι_inv ⟨_, CommRingCat.pushoutCoconeIsColimit f g⟩
-        WalkingSpan.left,
-    hP'.cancel_right_isIso]
+        WalkingSpan.left]; rw [hP'.cancel_right_isIso]
   letI := f.toAlgebra
   letI := g.toAlgebra
   dsimp only [CommRingCat.pushoutCocone_inl, PushoutCocone.ι_app_left]

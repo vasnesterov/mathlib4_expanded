@@ -60,8 +60,7 @@ def toCotangent : I →ₗ[R] I.Cotangent := Submodule.mkQ _
 #align ideal.to_cotangent Ideal.toCotangent
 
 theorem map_toCotangent_ker : I.toCotangent.ker.map I.subtype = I ^ 2 := by
-  rw [Ideal.toCotangent, Submodule.ker_mkQ, pow_two, Submodule.map_smul'' I ⊤ (Submodule.subtype I),
-    Algebra.id.smul_eq_mul, Submodule.map_subtype_top]
+  rw [Ideal.toCotangent]; rw [Submodule.ker_mkQ]; rw [pow_two]; rw [Submodule.map_smul'' I ⊤ (Submodule.subtype I)]; rw [Algebra.id.smul_eq_mul]; rw [Submodule.map_subtype_top]
 
 #align ideal.map_to_cotangent_ker Ideal.map_toCotangent_ker
 
@@ -99,8 +98,7 @@ theorem cotangent_subsingleton_iff : Subsingleton I.Cotangent ↔ IsIdempotentEl
 def cotangentToQuotientSquare : I.Cotangent →ₗ[R] R ⧸ I ^ 2 :=
   Submodule.mapQ (I • ⊤) (I ^ 2) I.subtype
     (by
-      rw [← Submodule.map_le_iff_le_comap, Submodule.map_smul'', Submodule.map_top,
-        Submodule.range_subtype, smul_eq_mul, pow_two] )
+      rw [← Submodule.map_le_iff_le_comap]; rw [Submodule.map_smul'']; rw [Submodule.map_top]; rw [Submodule.range_subtype]; rw [smul_eq_mul]; rw [pow_two] )
 #align ideal.cotangent_to_quotient_square Ideal.cotangentToQuotientSquare
 
 theorem to_quotient_square_comp_toCotangent :
@@ -119,11 +117,11 @@ def cotangentIdeal (I : Ideal R) : Ideal (R ⧸ I ^ 2) :=
 #align ideal.cotangent_ideal Ideal.cotangentIdeal
 
 theorem cotangentIdeal_square (I : Ideal R) : I.cotangentIdeal ^ 2 = ⊥ := by
-  rw [eq_bot_iff, pow_two I.cotangentIdeal, ← smul_eq_mul]
+  rw [eq_bot_iff]; rw [pow_two I.cotangentIdeal]; rw [← smul_eq_mul]
   intro x hx
   refine Submodule.smul_induction_on hx ?_ ?_
   · rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩; apply (Submodule.Quotient.eq _).mpr _
-    rw [sub_zero, pow_two]; exact Ideal.mul_mem_mul hx hy
+    rw [sub_zero]; rw [pow_two]; exact Ideal.mul_mem_mul hx hy
   · intro x y hx hy; exact add_mem hx hy
 #align ideal.cotangent_ideal_square Ideal.cotangentIdeal_square
 
@@ -173,8 +171,7 @@ def _root_.AlgHom.kerSquareLift (f : A →ₐ[R] B) : A ⧸ RingHom.ker f.toRing
   refine { Ideal.Quotient.lift (RingHom.ker f.toRingHom ^ 2) f.toRingHom ?_ with commutes' := ?_ }
   · intro a ha; exact Ideal.pow_le_self two_ne_zero ha
   · intro r
-    rw [IsScalarTower.algebraMap_apply R A, RingHom.toFun_eq_coe, Ideal.Quotient.algebraMap_eq,
-      Ideal.Quotient.lift_mk]
+    rw [IsScalarTower.algebraMap_apply R A]; rw [RingHom.toFun_eq_coe]; rw [Ideal.Quotient.algebraMap_eq]; rw [Ideal.Quotient.lift_mk]
     exact f.map_algebraMap r
 #align alg_hom.ker_square_lift AlgHom.kerSquareLift
 

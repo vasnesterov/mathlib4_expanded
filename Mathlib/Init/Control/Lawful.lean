@@ -241,7 +241,7 @@ instance (m : Type u → Type v) [Monad m] [LawfulMonad m] : LawfulMonad (Option
   LawfulMonad.mk'
     (id_map := by
       intros; apply OptionT.ext; simp only [OptionT.run_map]
-      rw [map_congr, id_map]
+      rw [map_congr]; rw [id_map]
       intro a; cases a <;> rfl)
     (bind_assoc := by
       intros; apply OptionT.ext; simp only [OptionT.run_bind, bind_assoc]

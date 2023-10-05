@@ -222,7 +222,7 @@ theorem edist_efixedPoint_le' {s : Set α} (hsc : IsComplete s) (hsf : MapsTo f 
     (hf : ContractingWith K <| hsf.restrict f s s) {x : α} (hxs : x ∈ s) (hx : edist x (f x) ≠ ∞) :
     edist x (efixedPoint' f hsc hsf hf x hxs hx) ≤ edist x (f x) / (1 - K) := by
   convert hf.apriori_edist_iterate_efixedPoint_le' hsc hsf hxs hx 0
-  rw [pow_zero, mul_one]
+  rw [pow_zero]; rw [mul_one]
 #align contracting_with.edist_efixed_point_le' ContractingWith.edist_efixedPoint_le'
 
 theorem edist_efixedPoint_lt_top' {s : Set α} (hsc : IsComplete s) (hsf : MapsTo f s s)
@@ -353,7 +353,7 @@ theorem isFixedPt_fixedPoint_iterate {n : ℕ} (hf : ContractingWith K f^[n]) :
   set x := hf.fixedPoint f^[n]
   have hx : f^[n] x = x := hf.fixedPoint_isFixedPt
   have := hf.toLipschitzWith.dist_le_mul x (f x)
-  rw [← iterate_succ_apply, iterate_succ_apply', hx] at this
+  rw [← iterate_succ_apply] at this; rw [iterate_succ_apply'] at this; rw [hx] at this
   -- Porting note: Originally `contrapose! this`
   revert this
   contrapose!

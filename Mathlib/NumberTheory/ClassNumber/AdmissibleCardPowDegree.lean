@@ -84,8 +84,8 @@ theorem exists_approx_polynomial_aux [Ring Fq] {d : ℕ} {m : ℕ} (hm : Fintype
   · refine' coeff_eq_zero_of_degree_lt (lt_of_lt_of_le _ hbj)
     exact lt_of_le_of_lt (degree_sub_le _ _) (max_lt (hA _) (hA _))
   -- So we only need to look for the coefficients between `deg b - d` and `deg b`.
-  rw [coeff_sub, sub_eq_zero]
-  rw [not_le, degree_eq_natDegree hb] at hbj
+  rw [coeff_sub]; rw [sub_eq_zero]
+  rw [not_le] at hbj; rw [degree_eq_natDegree hb] at hbj
   have hbj : j < natDegree b := (@WithBot.coe_lt_coe _ _ _).mp hbj
   have hj : natDegree b - j.succ < d := by
     by_cases hd : natDegree b < d
@@ -94,7 +94,7 @@ theorem exists_approx_polynomial_aux [Ring Fq] {d : ℕ} {m : ℕ} (hm : Fintype
       have := lt_of_le_of_lt hj (Nat.lt_succ_self j)
       rwa [tsub_lt_iff_tsub_lt hd hbj] at this
   have : j = b.natDegree - (natDegree b - j.succ).succ := by
-    rw [← Nat.succ_sub hbj, Nat.succ_sub_succ, tsub_tsub_cancel_of_le hbj.le]
+    rw [← Nat.succ_sub hbj]; rw [Nat.succ_sub_succ]; rw [tsub_tsub_cancel_of_le hbj.le]
   convert congr_fun i_eq.symm ⟨natDegree b - j.succ, hj⟩
 #align polynomial.exists_approx_polynomial_aux Polynomial.exists_approx_polynomial_aux
 
@@ -107,7 +107,7 @@ theorem exists_approx_polynomial {b : Fq[X]} (hb : b ≠ 0) {ε : ℝ} (hε : 0 
     (A : Fin (Fintype.card Fq ^ ⌈-log ε / log (Fintype.card Fq)⌉₊).succ → Fq[X]) :
     ∃ i₀ i₁, i₀ ≠ i₁ ∧ (cardPowDegree (A i₁ % b - A i₀ % b) : ℝ) < cardPowDegree b • ε := by
   have hbε : 0 < cardPowDegree b • ε := by
-    rw [Algebra.smul_def, eq_intCast]
+    rw [Algebra.smul_def]; rw [eq_intCast]
     exact mul_pos (Int.cast_pos.mpr (AbsoluteValue.pos _ hb)) hε
   have one_lt_q : 1 < Fintype.card Fq := Fintype.one_lt_card
   have one_lt_q' : (1 : ℝ) < Fintype.card Fq := by assumption_mod_cast
@@ -143,7 +143,7 @@ theorem exists_approx_polynomial {b : Fq[X]} (hb : b ≠ 0) {ε : ℝ} (hε : 0 
   swap
   · convert deg_lt
     rw [degree_eq_natDegree h']; rfl
-  rw [← sub_neg_eq_add, neg_div]
+  rw [← sub_neg_eq_add]; rw [neg_div]
   refine' le_trans _ (sub_le_sub_left (Nat.le_ceil _) (b.natDegree : ℝ))
   rw [← neg_div]
   exact le_of_eq (Nat.cast_sub le_b.le)
@@ -159,15 +159,14 @@ theorem cardPowDegree_anti_archimedean {x y z : Fq[X]} {a : ℤ} (hxy : cardPowD
   · rwa [← hyz']
   by_cases hxz' : x = z
   · rwa [hxz', sub_self, map_zero]
-  rw [← Ne.def, ← sub_ne_zero] at hxy' hyz' hxz'
+  rw [← Ne.def] at hxy' hyz' hxz'; rw [← sub_ne_zero] at hxy' hyz' hxz'
   refine' lt_of_le_of_lt _ (max_lt hxy hyz)
-  rw [cardPowDegree_nonzero _ hxz', cardPowDegree_nonzero _ hxy',
-    cardPowDegree_nonzero _ hyz']
+  rw [cardPowDegree_nonzero _ hxz']; rw [cardPowDegree_nonzero _ hxy']; rw [cardPowDegree_nonzero _ hyz']
   have : (1 : ℤ) ≤ Fintype.card Fq := by exact_mod_cast (@Fintype.one_lt_card Fq _ _).le
   simp only [Int.cast_pow, Int.cast_ofNat, le_max_iff]
   refine' Or.imp (pow_le_pow this) (pow_le_pow this) _
-  rw [natDegree_le_iff_degree_le, natDegree_le_iff_degree_le, ← le_max_iff, ←
-    degree_eq_natDegree hxy', ← degree_eq_natDegree hyz']
+  rw [natDegree_le_iff_degree_le]; rw [natDegree_le_iff_degree_le]; rw [← le_max_iff]; rw [←
+    degree_eq_natDegree hxy']; rw [← degree_eq_natDegree hyz']
   convert degree_add_le (x - y) (y - z) using 2
   exact (sub_add_sub_cancel _ _ _).symm
 #align polynomial.card_pow_degree_anti_archimedean Polynomial.cardPowDegree_anti_archimedean
@@ -180,7 +179,7 @@ theorem exists_partition_polynomial_aux (n : ℕ) {ε : ℝ} (hε : 0 < ε) {b :
       ∀ i₀ i₁ : Fin n, t i₀ = t i₁ ↔
         (cardPowDegree (A i₁ % b - A i₀ % b) : ℝ) < cardPowDegree b • ε := by
   have hbε : 0 < cardPowDegree b • ε := by
-    rw [Algebra.smul_def, eq_intCast]
+    rw [Algebra.smul_def]; rw [eq_intCast]
     exact mul_pos (Int.cast_pos.mpr (AbsoluteValue.pos _ hb)) hε
   -- We go by induction on the size `A`.
   induction' n with n ih
@@ -225,7 +224,7 @@ theorem exists_partition_polynomial_aux (n : ℕ) {ε : ℝ} (hε : 0 < ε) {b :
       have := (Classical.choose_spec (hg j₀)).2
       contradiction
     · rw [Fin.cons_succ, Fin.cons_succ] at approx
-      rw [Ne.def, Fin.succ_inj] at j_ne
+      rw [Ne.def] at j_ne; rw [Fin.succ_inj] at j_ne
       have : j₀ = j₁ := (Classical.choose_spec (hg j₀)).1.symm.trans
         (((ht' (Classical.choose (hg j₀)) (Classical.choose (hg j₁))).mpr approx).trans
           (Classical.choose_spec (hg j₁)).1)

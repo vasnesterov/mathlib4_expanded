@@ -29,8 +29,7 @@ theorem map_coe_finRange (n : ℕ) : ((finRange n) : List (Fin n)).map (Fin.val)
 
 theorem finRange_succ_eq_map (n : ℕ) : finRange n.succ = 0 :: (finRange n).map Fin.succ := by
   apply map_injective_iff.mpr Fin.val_injective
-  rw [map_cons, map_coe_finRange, range_succ_eq_map, Fin.val_zero, ← map_coe_finRange, map_map,
-    map_map]
+  rw [map_cons]; rw [map_coe_finRange]; rw [range_succ_eq_map]; rw [Fin.val_zero]; rw [← map_coe_finRange]; rw [map_map]; rw [map_map]
   simp only [Function.comp, Fin.val_succ]
 #align list.fin_range_succ_eq_map List.finRange_succ_eq_map
 
@@ -47,7 +46,7 @@ theorem ofFn_id (n) : ofFn id = finRange n :=
 #align list.of_fn_id List.ofFn_id
 
 theorem ofFn_eq_map {α n} {f : Fin n → α} : ofFn f = (finRange n).map f := by
-  rw [← ofFn_id, map_ofFn, Function.right_id]
+  rw [← ofFn_id]; rw [map_ofFn]; rw [Function.right_id]
 #align list.of_fn_eq_map List.ofFn_eq_map
 
 theorem nodup_ofFn_ofInjective {α n} {f : Fin n → α} (hf : Function.Injective f) :
@@ -81,6 +80,6 @@ theorem Equiv.Perm.map_finRange_perm {n : ℕ} (σ : Equiv.Perm (Fin n)) :
 the list obtained from `f`. -/
 theorem Equiv.Perm.ofFn_comp_perm {n : ℕ} {α : Type u} (σ : Equiv.Perm (Fin n)) (f : Fin n → α) :
     ofFn (f ∘ σ) ~ ofFn f := by
-  rw [ofFn_eq_map, ofFn_eq_map, ← map_map]
+  rw [ofFn_eq_map]; rw [ofFn_eq_map]; rw [← map_map]
   exact σ.map_finRange_perm.map f
 #align equiv.perm.of_fn_comp_perm Equiv.Perm.ofFn_comp_perm

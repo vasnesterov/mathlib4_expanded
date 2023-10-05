@@ -364,7 +364,7 @@ instance addMonoidWithOne [AddMonoidWithOne α] : AddMonoidWithOne (WithZero α)
       | zero => show (((1 : ℕ) : α) : WithZero α) = 0 + 1; · rw [Nat.cast_one, coe_one, zero_add]
       | succ n =>
           show (((n + 2 : ℕ) : α) : WithZero α) = ((n + 1 : ℕ) : α) + 1
-          rw [Nat.cast_succ, coe_add, coe_one]
+          rw [Nat.cast_succ]; rw [coe_add]; rw [coe_one]
       }
 
 instance semiring [Semiring α] : Semiring (WithZero α) :=

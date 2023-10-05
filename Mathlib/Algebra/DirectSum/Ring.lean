@@ -236,7 +236,7 @@ private nonrec theorem mul_one (x : ⨁ i, A i) : x * 1 = x := by
   suffices (mulHom A).flip One.one = AddMonoidHom.id (⨁ i, A i) from FunLike.congr_fun this x
   apply addHom_ext; intro i xi
   simp only [One.one]
-  rw [flip_apply, mulHom_of_of]
+  rw [flip_apply]; rw [mulHom_of_of]
   exact of_eq_of_gradedMonoid_eq (mul_one <| GradedMonoid.mk i xi)
 #noalign direct_sum.mul_one
 
@@ -298,7 +298,7 @@ theorem ofList_dProd {α} (l : List α) (fι : α → ι) (fA : ∀ a, A (fι a)
 
 theorem list_prod_ofFn_of_eq_dProd (n : ℕ) (fι : Fin n → ι) (fA : ∀ a, A (fι a)) :
     (List.ofFn fun a => of A (fι a) (fA a)).prod = of A _ ((List.finRange n).dProd fι fA) := by
-  rw [List.ofFn_eq_map, ofList_dProd]
+  rw [List.ofFn_eq_map]; rw [ofList_dProd]
 #align direct_sum.list_prod_of_fn_of_eq_dprod DirectSum.list_prod_ofFn_of_eq_dProd
 
 open BigOperators
@@ -310,8 +310,7 @@ theorem mul_eq_dfinsupp_sum [∀ (i : ι) (x : A i), Decidable (x ≠ 0)] (a a' 
   -- Porting note: I have no idea how the proof from ml3 worked it used to be
   -- simpa only [mul_hom, to_add_monoid, dfinsupp.lift_add_hom_apply, dfinsupp.sum_add_hom_apply,
   -- add_monoid_hom.dfinsupp_sum_apply, flip_apply, add_monoid_hom.dfinsupp_sum_add_hom_apply],
-  rw [mulHom,toAddMonoid,DFinsupp.liftAddHom_apply,DFinsupp.sumAddHom_apply,
-    AddMonoidHom.dfinsupp_sum_apply]
+  rw [mulHom]; rw [toAddMonoid]; rw [DFinsupp.liftAddHom_apply]; rw [DFinsupp.sumAddHom_apply]; rw [AddMonoidHom.dfinsupp_sum_apply]
   apply congrArg _
   funext x
   simp_rw [flip_apply]
@@ -336,9 +335,9 @@ variable [∀ i, AddCommMonoid (A i)] [AddCommMonoid ι] [GCommSemiring A]
 
 private theorem mul_comm (a b : ⨁ i, A i) : a * b = b * a := by
   suffices mulHom A = (mulHom A).flip by
-    rw [← mulHom_apply, this, AddMonoidHom.flip_apply, mulHom_apply]
+    rw [← mulHom_apply]; rw [this]; rw [AddMonoidHom.flip_apply]; rw [mulHom_apply]
   apply addHom_ext; intro ai ax; apply addHom_ext; intro bi bx
-  rw [AddMonoidHom.flip_apply, mulHom_of_of, mulHom_of_of]
+  rw [AddMonoidHom.flip_apply]; rw [mulHom_of_of]; rw [mulHom_of_of]
   exact of_eq_of_gradedMonoid_eq (GCommSemiring.mul_comm ⟨ai, ax⟩ ⟨bi, bx⟩)
 #noalign direct_sum.mul_comm
 
@@ -640,7 +639,7 @@ def liftRingHom :
       by
       intros i j ai aj
       simp [AddMonoidHom.comp_apply]
-      rw [← F.map_mul (of A i ai), of_mul_of ai]⟩
+      rw [← F.map_mul (of A i ai)]; rw [of_mul_of ai]⟩
   left_inv f := by
     ext xi xv
     exact toAddMonoid_of (fun _ => f.1) xi xv
@@ -687,7 +686,7 @@ open DirectSum
 -- To check `Mul.gmul_mul` matches
 example {R : Type*} [AddMonoid ι] [Semiring R] (i j : ι) (a b : R) :
     (DirectSum.of _ i a * DirectSum.of _ j b : ⨁ _, R) = DirectSum.of _ (i + j) (a * b) := by
-  rw [DirectSum.of_mul_of, Mul.gMul_mul]
+  rw [DirectSum.of_mul_of]; rw [Mul.gMul_mul]
 
 /-- A direct sum of copies of a `CommSemiring` inherits the commutative multiplication structure.
 -/

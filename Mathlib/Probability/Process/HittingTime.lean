@@ -92,15 +92,15 @@ theorem not_mem_of_lt_hitting {m k : ι} (hk₁ : k < hitting u s n m ω) (hk₂
 
 theorem hitting_eq_end_iff {m : ι} : hitting u s n m ω = m ↔
     (∃ j ∈ Set.Icc n m, u j ω ∈ s) → sInf (Set.Icc n m ∩ {i : ι | u i ω ∈ s}) = m := by
-  rw [hitting, ite_eq_right_iff]
+  rw [hitting]; rw [ite_eq_right_iff]
 #align measure_theory.hitting_eq_end_iff MeasureTheory.hitting_eq_end_iff
 
 theorem hitting_of_le {m : ι} (hmn : m ≤ n) : hitting u s n m ω = m := by
   obtain rfl | h := le_iff_eq_or_lt.1 hmn
   · rw [hitting, ite_eq_right_iff, forall_exists_index]
-    conv => intro; rw [Set.mem_Icc, Set.Icc_self, and_imp, and_imp]
+    conv => intro; rw [Set.mem_Icc]; rw [Set.Icc_self]; rw [and_imp]; rw [and_imp]
     intro i hi₁ hi₂ hi
-    rw [Set.inter_eq_left.2, csInf_singleton]
+    rw [Set.inter_eq_left.2]; rw [csInf_singleton]
     exact Set.singleton_subset_iff.2 (le_antisymm hi₂ hi₁ ▸ hi)
   · exact hitting_of_lt h
 #align measure_theory.hitting_of_le MeasureTheory.hitting_of_le
@@ -234,7 +234,7 @@ theorem hitting_isStoppingTime [ConditionallyCompleteLinearOrder ι] [IsWellOrde
     simp [h_le]
   · have h_set_eq_Union : {ω | hitting u s n n' ω ≤ i} = ⋃ j ∈ Set.Icc n i, u j ⁻¹' s := by
       ext x
-      rw [Set.mem_setOf_eq, hitting_le_iff_of_lt _ hi]
+      rw [Set.mem_setOf_eq]; rw [hitting_le_iff_of_lt _ hi]
       simp only [Set.mem_Icc, exists_prop, Set.mem_iUnion, Set.mem_preimage]
     rw [h_set_eq_Union]
     exact MeasurableSet.iUnion fun j =>
@@ -271,7 +271,7 @@ theorem isStoppingTime_hitting_isStoppingTime [ConditionallyCompleteLinearOrder 
       Set.mem_empty_iff_false, iff_false_iff, not_exists, not_and, not_le]
     rintro m hm rfl
     exact lt_of_lt_of_le hm (le_hitting (hτbdd _) _)
-  rw [h₁, h₂, Set.union_empty]
+  rw [h₁]; rw [h₂]; rw [Set.union_empty]
   exact MeasurableSet.iUnion fun i => MeasurableSet.iUnion fun hi =>
     (f.mono hi _ (hτ.measurableSet_eq i)).inter (hitting_isStoppingTime hf hs n)
 #align measure_theory.is_stopping_time_hitting_is_stopping_time MeasureTheory.isStoppingTime_hitting_isStoppingTime

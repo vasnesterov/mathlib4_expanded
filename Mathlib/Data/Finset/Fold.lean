@@ -45,14 +45,14 @@ theorem fold_empty : (∅ : Finset α).fold op b f = b :=
 @[simp]
 theorem fold_cons (h : a ∉ s) : (cons a s h).fold op b f = f a * s.fold op b f := by
   dsimp only [fold]
-  rw [cons_val, Multiset.map_cons, fold_cons_left]
+  rw [cons_val]; rw [Multiset.map_cons]; rw [fold_cons_left]
 #align finset.fold_cons Finset.fold_cons
 
 @[simp]
 theorem fold_insert [DecidableEq α] (h : a ∉ s) :
     (insert a s).fold op b f = f a * s.fold op b f := by
   unfold fold
-  rw [insert_val, ndinsert_of_not_mem h, Multiset.map_cons, fold_cons_left]
+  rw [insert_val]; rw [ndinsert_of_not_mem h]; rw [Multiset.map_cons]; rw [fold_cons_left]
 #align finset.fold_insert Finset.fold_insert
 
 @[simp]
@@ -73,7 +73,7 @@ theorem fold_image [DecidableEq α] {g : γ → α} {s : Finset γ}
 
 @[congr]
 theorem fold_congr {g : α → β} (H : ∀ x ∈ s, f x = g x) : s.fold op b f = s.fold op b g := by
-  rw [fold, fold, map_congr rfl H]
+  rw [fold]; rw [fold]; rw [map_congr rfl H]
 #align finset.fold_congr Finset.fold_congr
 
 theorem fold_op_distrib {f g : α → β} {b₁ b₂ : β} :
@@ -95,7 +95,7 @@ theorem fold_const [hd : Decidable (s = ∅)] (c : β) (h : op c (op b c) = op b
 theorem fold_hom {op' : γ → γ → γ} [IsCommutative γ op'] [IsAssociative γ op'] {m : β → γ}
     (hm : ∀ x y, m (op x y) = op' (m x) (m y)) :
     (s.fold op' (m b) fun x => m (f x)) = m (s.fold op b f) := by
-  rw [fold, fold, ← Multiset.fold_hom op hm, Multiset.map_map]
+  rw [fold]; rw [fold]; rw [← Multiset.fold_hom op hm]; rw [Multiset.map_map]
   simp only [Function.comp_apply]
 #align finset.fold_hom Finset.fold_hom
 
@@ -112,8 +112,7 @@ theorem fold_disjiUnion {ι : Type*} {s : Finset ι} {t : ι → Finset α} {b :
 theorem fold_union_inter [DecidableEq α] {s₁ s₂ : Finset α} {b₁ b₂ : β} :
     ((s₁ ∪ s₂).fold op b₁ f * (s₁ ∩ s₂).fold op b₂ f) = s₁.fold op b₂ f * s₂.fold op b₁ f := by
   unfold fold
-  rw [← fold_add op, ← Multiset.map_add, union_val, inter_val, union_add_inter, Multiset.map_add,
-    hc.comm, fold_add]
+  rw [← fold_add op]; rw [← Multiset.map_add]; rw [union_val]; rw [inter_val]; rw [union_add_inter]; rw [Multiset.map_add]; rw [hc.comm]; rw [fold_add]
 #align finset.fold_union_inter Finset.fold_union_inter
 
 @[simp]
@@ -130,7 +129,7 @@ theorem fold_image_idem [DecidableEq α] {g : γ → α} {s : Finset γ} [hi : I
   induction' s using Finset.cons_induction with x xs hx ih
   · rw [fold_empty, image_empty, fold_empty]
   · haveI := Classical.decEq γ
-    rw [fold_cons, cons_eq_insert, image_insert, fold_insert_idem, ih]
+    rw [fold_cons]; rw [cons_eq_insert]; rw [image_insert]; rw [fold_insert_idem]; rw [ih]
     simp only [Function.comp_apply]
 #align finset.fold_image_idem Finset.fold_image_idem
 
@@ -166,7 +165,7 @@ theorem fold_op_rel_iff_and {r : β → β → Prop} (hr : ∀ {x y z}, r x (op 
   classical
     induction' s using Finset.induction_on with a s ha IH
     · simp
-    rw [Finset.fold_insert ha, hr, IH, ← and_assoc, @and_comm (r c (f a)), and_assoc]
+    rw [Finset.fold_insert ha]; rw [hr]; rw [IH]; rw [← and_assoc]; rw [@and_comm (r c (f a))]; rw [and_assoc]
     apply and_congr Iff.rfl
     constructor
     · rintro ⟨h₁, h₂⟩
@@ -184,7 +183,7 @@ theorem fold_op_rel_iff_or {r : β → β → Prop} (hr : ∀ {x y z}, r x (op y
   classical
     induction' s using Finset.induction_on with a s ha IH
     · simp
-    rw [Finset.fold_insert ha, hr, IH, ← or_assoc, @or_comm (r c (f a)), or_assoc]
+    rw [Finset.fold_insert ha]; rw [hr]; rw [IH]; rw [← or_assoc]; rw [@or_comm (r c (f a))]; rw [or_assoc]
     apply or_congr Iff.rfl
     constructor
     · rintro (h₁ | ⟨x, hx, h₂⟩)

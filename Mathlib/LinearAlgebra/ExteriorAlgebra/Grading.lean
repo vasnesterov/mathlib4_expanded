@@ -48,7 +48,7 @@ theorem GradedAlgebra.ι_apply (m : M) :
 instance (α : Type*) [MulZeroClass α] : Zero α := MulZeroClass.toZero
 
 theorem GradedAlgebra.ι_sq_zero (m : M) : GradedAlgebra.ι R M m * GradedAlgebra.ι R M m = 0 := by
-  rw [GradedAlgebra.ι_apply, DirectSum.of_mul_of]
+  rw [GradedAlgebra.ι_apply]; rw [DirectSum.of_mul_of]
   refine DFinsupp.single_eq_zero.mpr (Subtype.ext <| ExteriorAlgebra.ι_sq_zero _)
 #align exterior_algebra.graded_algebra.ι_sq_zero ExteriorAlgebra.GradedAlgebra.ι_sq_zero
 
@@ -94,7 +94,7 @@ instance gradedAlgebra :
       ext m
       dsimp only [LinearMap.comp_apply, AlgHom.toLinearMap_apply, AlgHom.comp_apply,
         AlgHom.id_apply, GradedAlgebra.liftι]
-      rw [lift_ι_apply, GradedAlgebra.ι_apply R M, DirectSum.coeAlgHom_of])
+      rw [lift_ι_apply]; rw [GradedAlgebra.ι_apply R M]; rw [DirectSum.coeAlgHom_of])
     (by apply GradedAlgebra.liftι_eq R M)
 #align exterior_algebra.graded_algebra ExteriorAlgebra.gradedAlgebra
 

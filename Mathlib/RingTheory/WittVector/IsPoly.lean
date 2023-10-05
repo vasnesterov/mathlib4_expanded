@@ -177,7 +177,7 @@ theorem ext [Fact p.Prime] {f g} (hf : IsPoly p f) (hg : IsPoly p g)
   obtain ⟨ψ, hg⟩ := hg
   intros
   ext n
-  rw [hf, hg, poly_eq_of_wittPolynomial_bind_eq p φ ψ]
+  rw [hf]; rw [hg]; rw [poly_eq_of_wittPolynomial_bind_eq p φ ψ]
   intro k
   apply MvPolynomial.funext
   intro x
@@ -291,7 +291,7 @@ instance IsPoly₂.diag {f} [hf : IsPoly₂ p f] : IsPoly p fun R _Rcr x => f x 
 instance negIsPoly [Fact p.Prime] : IsPoly p fun R _ => @Neg.neg (𝕎 R) _ :=
   ⟨⟨fun n => rename Prod.snd (wittNeg p n), by
       intros; funext n
-      rw [neg_coeff, aeval_eq_eval₂Hom, eval₂Hom_rename]
+      rw [neg_coeff]; rw [aeval_eq_eval₂Hom]; rw [eval₂Hom_rename]
       apply eval₂Hom_congr rfl _ rfl
       ext ⟨i, k⟩; fin_cases i; rfl⟩⟩
 #align witt_vector.neg_is_poly WittVector.negIsPoly
@@ -308,7 +308,7 @@ instance zeroIsPoly [Fact p.Prime] : IsPoly p fun _ _ _ => 0 :=
 @[simp]
 theorem bind₁_zero_wittPolynomial [Fact p.Prime] (n : ℕ) :
     bind₁ (0 : ℕ → MvPolynomial ℕ R) (wittPolynomial p R n) = 0 := by
-  rw [← aeval_eq_bind₁, aeval_zero, constantCoeff_wittPolynomial, RingHom.map_zero]
+  rw [← aeval_eq_bind₁]; rw [aeval_zero]; rw [constantCoeff_wittPolynomial]; rw [RingHom.map_zero]
 #align witt_vector.bind₁_zero_witt_polynomial WittVector.bind₁_zero_wittPolynomial
 
 /-- The coefficients of `1 : 𝕎 R` as polynomials. -/
@@ -320,7 +320,7 @@ def onePoly (n : ℕ) : MvPolynomial ℕ ℤ :=
 theorem bind₁_onePoly_wittPolynomial [hp : Fact p.Prime] (n : ℕ) :
     bind₁ onePoly (wittPolynomial p ℤ n) = 1 := by
   ext  -- porting note: `ext` was not in the mathport output.
-  rw [wittPolynomial_eq_sum_C_mul_X_pow, AlgHom.map_sum, Finset.sum_eq_single 0]
+  rw [wittPolynomial_eq_sum_C_mul_X_pow]; rw [AlgHom.map_sum]; rw [Finset.sum_eq_single 0]
   · simp only [onePoly, one_pow, one_mul, AlgHom.map_pow, C_1, pow_zero, bind₁_X_right, if_true,
       eq_self_iff_true]
   · intro i _hi hi0
@@ -406,7 +406,7 @@ theorem ext [Fact p.Prime] {f g} (hf : IsPoly₂ p f) (hg : IsPoly₂ p g)
   obtain ⟨ψ, hg⟩ := hg
   intros
   ext n
-  rw [hf, hg, poly_eq_of_wittPolynomial_bind_eq' p φ ψ]
+  rw [hf]; rw [hg]; rw [poly_eq_of_wittPolynomial_bind_eq' p φ ψ]
   --  porting note: `clear x y` does not work, since `x, y` are now hygienic
   intro k
   apply MvPolynomial.funext

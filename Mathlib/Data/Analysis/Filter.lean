@@ -345,7 +345,7 @@ theorem tendsto_iff (f : α → β) {l₁ : Filter α} {l₂ : Filter β} (L₁ 
 #align filter.realizer.tendsto_iff Filter.Realizer.tendsto_iff
 
 theorem ne_bot_iff {f : Filter α} (F : f.Realizer) : f ≠ ⊥ ↔ ∀ a : F.σ, (F.F a).Nonempty := by
-  rw [not_iff_comm, ← le_bot_iff, F.le_iff Realizer.bot, not_forall]
+  rw [not_iff_comm]; rw [← le_bot_iff]; rw [F.le_iff Realizer.bot]; rw [not_forall]
   simp only [Set.not_nonempty_iff_eq_empty]
   exact ⟨fun ⟨x, e⟩ _ ↦ ⟨x, le_of_eq e⟩, fun h ↦
     let ⟨x, h⟩ := h ()

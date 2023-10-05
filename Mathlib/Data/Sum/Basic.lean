@@ -25,7 +25,7 @@ namespace Sum
 
 theorem exists_sum {γ : α ⊕ β → Sort*} (p : (∀ ab, γ ab) → Prop) :
     (∃ fab, p fab) ↔ (∃ fa fb, p (Sum.rec fa fb)) := by
-  rw [← not_forall_not, forall_sum]
+  rw [← not_forall_not]; rw [forall_sum]
   simp
 
 theorem inl_injective : Function.Injective (inl : α → Sum α β) := fun _ _ ↦ inl.inj
@@ -75,10 +75,10 @@ theorem getRight_eq_getRight? (h₁ : x.isRight) (h₂ : x.getRight?.isSome) :
 #align sum.is_right_iff Sum.isRight_iff
 
 @[simp] theorem isSome_getLeft?_iff_isLeft : x.getLeft?.isSome ↔ x.isLeft := by
-  rw [isLeft_iff, Option.isSome_iff_exists]; simp
+  rw [isLeft_iff]; rw [Option.isSome_iff_exists]; simp
 
 @[simp] theorem isSome_getRight?_iff_isRight : x.getRight?.isSome ↔ x.isRight := by
-  rw [isRight_iff, Option.isSome_iff_exists]; simp
+  rw [isRight_iff]; rw [Option.isSome_iff_exists]; simp
 
 end get
 
@@ -130,7 +130,7 @@ theorem update_inl_comp_inl [DecidableEq α] [DecidableEq (Sum α β)] {f : Sum 
 @[simp]
 theorem update_inl_apply_inl [DecidableEq α] [DecidableEq (Sum α β)] {f : Sum α β → γ} {i j : α}
     {x : γ} : update f (inl i) x (inl j) = update (f ∘ inl) i x j := by
-  rw [← update_inl_comp_inl, Function.comp_apply]
+  rw [← update_inl_comp_inl]; rw [Function.comp_apply]
 #align sum.update_inl_apply_inl Sum.update_inl_apply_inl
 
 @[simp]
@@ -164,7 +164,7 @@ theorem update_inr_comp_inr [DecidableEq β] [DecidableEq (Sum α β)] {f : Sum 
 @[simp]
 theorem update_inr_apply_inr [DecidableEq β] [DecidableEq (Sum α β)] {f : Sum α β → γ} {i j : β}
     {x : γ} : update f (inr i) x (inr j) = update (f ∘ inr) i x j := by
-  rw [← update_inr_comp_inr, Function.comp_apply]
+  rw [← update_inr_comp_inr]; rw [Function.comp_apply]
 #align sum.update_inr_apply_inr Sum.update_inr_apply_inr
 
 #align sum.swap Sum.swap

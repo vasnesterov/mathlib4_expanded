@@ -80,7 +80,7 @@ instance (X : Bipointed) : Inhabited (Bipointed.Hom X X) :=
 def comp {X Y Z : Bipointed.{u}} (f : Bipointed.Hom X Y) (g : Bipointed.Hom Y Z) :
     Bipointed.Hom X Z :=
   ⟨g.toFun ∘ f.toFun, by rw [Function.comp_apply, f.map_fst, g.map_fst], by
-    rw [Function.comp_apply, f.map_snd, g.map_snd]⟩
+    rw [Function.comp_apply]; rw [f.map_snd]; rw [g.map_snd]⟩
 #align Bipointed.hom.comp Bipointed.Hom.comp
 
 end Hom

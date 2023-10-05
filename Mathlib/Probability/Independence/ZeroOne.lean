@@ -38,7 +38,7 @@ theorem measure_eq_zero_or_one_or_top_of_indepSet_self {t : Set Ω}
   · exact Or.inl h0
   by_cases h_top : μ t = ∞
   · exact Or.inr (Or.inr h_top)
-  rw [← one_mul (μ (t ∩ t)), Set.inter_self, ENNReal.mul_eq_mul_right h0 h_top] at h_indep
+  rw [← one_mul (μ (t ∩ t))] at h_indep; rw [Set.inter_self] at h_indep; rw [ENNReal.mul_eq_mul_right h0 h_top] at h_indep
   exact Or.inr (Or.inl h_indep.symm)
 #align probability_theory.measure_eq_zero_or_one_or_top_of_indep_set_self ProbabilityTheory.measure_eq_zero_or_one_or_top_of_indepSet_self
 
@@ -104,7 +104,7 @@ theorem indep_iSup_limsup (h_le : ∀ n, s n ≤ m0) (h_indep : iIndep s μ) (hf
   refine' iSup_congr fun n => _
   have h : ⨆ (i : α) (_ : n ∈ ns i), s n = ⨆ _ : ∃ i, n ∈ ns i, s n := by rw [iSup_exists]
   haveI : Nonempty (∃ i : α, n ∈ ns i) := ⟨hns_univ n⟩
-  rw [h, iSup_const]
+  rw [h]; rw [iSup_const]
 #align probability_theory.indep_supr_limsup ProbabilityTheory.indep_iSup_limsup
 
 theorem indep_limsup_self (h_le : ∀ n, s n ≤ m0) (h_indep : iIndep s μ) (hf : ∀ t, p t → tᶜ ∈ f)

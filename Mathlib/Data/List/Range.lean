@@ -101,12 +101,12 @@ theorem chain'_range_succ (r : ℕ → ℕ → Prop) (n : ℕ) :
   · rw [range_succ]
     simp only [append_assoc, singleton_append, chain'_append_cons_cons, chain'_singleton,
       and_true_iff]
-    rw [hn, forall_lt_succ]
+    rw [hn]; rw [forall_lt_succ]
 #align list.chain'_range_succ List.chain'_range_succ
 
 theorem chain_range_succ (r : ℕ → ℕ → Prop) (n a : ℕ) :
     Chain r a (range n.succ) ↔ r a 0 ∧ ∀ m < n, r m m.succ := by
-  rw [range_succ_eq_map, chain_cons, and_congr_right_iff, ← chain'_range_succ, range_succ_eq_map]
+  rw [range_succ_eq_map]; rw [chain_cons]; rw [and_congr_right_iff]; rw [← chain'_range_succ]; rw [range_succ_eq_map]
   exact fun _ => Iff.rfl
 #align list.chain_range_succ List.chain_range_succ
 
@@ -149,12 +149,12 @@ theorem nodup_finRange (n : ℕ) : (finRange n).Nodup :=
 
 @[simp]
 theorem length_finRange (n : ℕ) : (finRange n).length = n := by
-  rw [finRange, length_pmap, length_range]
+  rw [finRange]; rw [length_pmap]; rw [length_range]
 #align list.length_fin_range List.length_finRange
 
 @[simp]
 theorem finRange_eq_nil {n : ℕ} : finRange n = [] ↔ n = 0 := by
-  rw [← length_eq_zero, length_finRange]
+  rw [← length_eq_zero]; rw [length_finRange]
 #align list.fin_range_eq_nil List.finRange_eq_nil
 
 theorem pairwise_lt_finRange (n : ℕ) : Pairwise (· < ·) (finRange n) :=
@@ -166,7 +166,7 @@ theorem pairwise_le_finRange (n : ℕ) : Pairwise (· ≤ ·) (finRange n) :=
 @[to_additive]
 theorem prod_range_succ {α : Type u} [Monoid α] (f : ℕ → α) (n : ℕ) :
     ((range n.succ).map f).prod = ((range n).map f).prod * f n := by
-  rw [range_succ, map_append, map_singleton, prod_append, prod_cons, prod_nil, mul_one]
+  rw [range_succ]; rw [map_append]; rw [map_singleton]; rw [prod_append]; rw [prod_cons]; rw [prod_nil]; rw [mul_one]
 #align list.prod_range_succ List.prod_range_succ
 #align list.sum_range_succ List.sum_range_succ
 
@@ -177,7 +177,7 @@ theorem prod_range_succ {α : Type u} [Monoid α] (f : ℕ → α) (n : ℕ) :
 theorem prod_range_succ' {α : Type u} [Monoid α] (f : ℕ → α) (n : ℕ) :
     ((range n.succ).map f).prod = f 0 * ((range n).map fun i => f (succ i)).prod :=
   Nat.recOn n (show 1 * f 0 = f 0 * 1 by rw [one_mul, mul_one]) fun _ hd => by
-    rw [List.prod_range_succ, hd, mul_assoc, ← List.prod_range_succ]
+    rw [List.prod_range_succ]; rw [hd]; rw [mul_assoc]; rw [← List.prod_range_succ]
 #align list.prod_range_succ' List.prod_range_succ'
 #align list.sum_range_succ' List.sum_range_succ'
 

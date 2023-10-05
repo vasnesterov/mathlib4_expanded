@@ -235,7 +235,7 @@ protected theorem AddTorsor.connectedSpace : ConnectedSpace P :=
       convert
         isPreconnected_univ.image (Equiv.vaddConst (Classical.arbitrary P) : G → P)
           (continuous_id.vadd continuous_const).continuousOn
-      rw [Set.image_univ, Equiv.range_eq_univ]
+      rw [Set.image_univ]; rw [Equiv.range_eq_univ]
     toNonempty := inferInstance }
 #align add_torsor.connected_space AddTorsor.connectedSpace
 

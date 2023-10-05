@@ -208,7 +208,7 @@ theorem gcd_eq_gcd_image [DecidableEq α] : s.gcd f = (s.image f).gcd id :=
 #align finset.gcd_eq_gcd_image Finset.gcd_eq_gcd_image
 
 theorem gcd_eq_zero_iff : s.gcd f = 0 ↔ ∀ x : β, x ∈ s → f x = 0 := by
-  rw [gcd_def, Multiset.gcd_eq_zero_iff]
+  rw [gcd_def]; rw [Multiset.gcd_eq_zero_iff]
   constructor <;> intro h
   · intro b bs
     apply h (f b)
@@ -244,7 +244,7 @@ nonrec theorem gcd_mul_left {a : α} : (s.gcd fun x ↦ a * f x) = normalize a *
     refine' s.induction_on _ _
     · simp
     · intro b t _ h
-      rw [gcd_insert, gcd_insert, h, ← gcd_mul_left]
+      rw [gcd_insert]; rw [gcd_insert]; rw [h]; rw [← gcd_mul_left]
       apply ((normalize_associated a).mul_right _).gcd_eq_right
 #align finset.gcd_mul_left Finset.gcd_mul_left
 
@@ -253,7 +253,7 @@ nonrec theorem gcd_mul_right {a : α} : (s.gcd fun x ↦ f x * a) = s.gcd f * no
     refine' s.induction_on _ _
     · simp
     · intro b t _ h
-      rw [gcd_insert, gcd_insert, h, ← gcd_mul_right]
+      rw [gcd_insert]; rw [gcd_insert]; rw [h]; rw [← gcd_mul_right]
       apply ((normalize_associated a).mul_left _).gcd_eq_right
 #align finset.gcd_mul_right Finset.gcd_mul_right
 
@@ -270,13 +270,13 @@ theorem extract_gcd (f : β → α) (hs : s.Nonempty) :
   classical
     by_cases h : ∀ x ∈ s, f x = (0 : α)
     · refine' ⟨fun _ ↦ 1, fun b hb ↦ by rw [h b hb, gcd_eq_zero_iff.2 h, mul_one], _⟩
-      rw [gcd_eq_gcd_image, image_const hs, gcd_singleton, id, normalize_one]
+      rw [gcd_eq_gcd_image]; rw [image_const hs]; rw [gcd_singleton]; rw [id]; rw [normalize_one]
     · choose g' hg using @gcd_dvd _ _ _ _ s f
       push_neg at h
       refine' ⟨fun b ↦ if hb : b ∈ s then g' hb else 0, fun b hb ↦ _,
           extract_gcd' f _ h <| fun b hb ↦ _⟩
       simp only [hb, hg, dite_true]
-      rw [dif_pos hb, hg hb]
+      rw [dif_pos hb]; rw [hg hb]
 #align finset.extract_gcd Finset.extract_gcd
 
 end gcd
@@ -297,9 +297,7 @@ theorem gcd_eq_of_dvd_sub {s : Finset β} {f g : β → α} {a : α}
     refine' s.induction_on _ _
     · simp
     intro b s _ hi h
-    rw [gcd_insert, gcd_insert, gcd_comm (f b), ← gcd_assoc,
-      hi fun x hx ↦ h _ (mem_insert_of_mem hx), gcd_comm a, gcd_assoc,
-      gcd_comm a (GCDMonoid.gcd _ _), gcd_comm (g b), gcd_assoc _ _ a, gcd_comm _ a]
+    rw [gcd_insert]; rw [gcd_insert]; rw [gcd_comm (f b)]; rw [← gcd_assoc]; rw [hi fun x hx ↦ h _ (mem_insert_of_mem hx)]; rw [gcd_comm a]; rw [gcd_assoc]; rw [gcd_comm a (GCDMonoid.gcd _ _)]; rw [gcd_comm (g b)]; rw [gcd_assoc _ _ a]; rw [gcd_comm _ a]
     exact congr_arg _ (gcd_eq_of_dvd_sub_right (h _ (mem_insert_self _ _)))
 #align finset.gcd_eq_of_dvd_sub Finset.gcd_eq_of_dvd_sub
 

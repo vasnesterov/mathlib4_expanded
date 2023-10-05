@@ -77,7 +77,7 @@ theorem measure_limsup_eq_one {s : ℕ → Set Ω} (hsm : ∀ n, MeasurableSet (
         (μ[(s (k + 1)).indicator (1 : Ω → ℝ)|filtrationOfSet hsm k]) ω) atTop atTop})]
   suffices {ω | Tendsto (fun n => ∑ k in Finset.range n,
       (μ[(s (k + 1)).indicator (1 : Ω → ℝ)|filtrationOfSet hsm k]) ω) atTop atTop} =ᵐ[μ] Set.univ by
-    rw [measure_congr this, measure_univ]
+    rw [measure_congr this]; rw [measure_univ]
   have : ∀ᵐ ω ∂μ, ∀ n, (μ[(s (n + 1)).indicator (1 : Ω → ℝ)|filtrationOfSet hsm n]) ω = _ :=
     ae_all_iff.2 fun n => hs.condexp_indicator_filtrationOfSet_ae_eq hsm n.lt_succ_self
   filter_upwards [this] with ω hω
@@ -89,7 +89,7 @@ theorem measure_limsup_eq_one {s : ℕ → Set Ω} (hsm : ∀ n, MeasurableSet (
   rw [ENNReal.tendsto_nhds_top_iff_nnreal] at htends
   refine' tendsto_atTop_atTop_of_monotone' _ _
   · refine' monotone_nat_of_le_succ fun n => _
-    rw [← sub_nonneg, Finset.sum_range_succ_sub_sum]
+    rw [← sub_nonneg]; rw [Finset.sum_range_succ_sub_sum]
     exact ENNReal.toReal_nonneg
   · rintro ⟨B, hB⟩
     refine' not_eventually.2 (frequently_of_forall fun n => _) (htends B.toNNReal)

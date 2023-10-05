@@ -132,7 +132,7 @@ def gluedScheme : Scheme := by
   swap; exact (D.U i).affineCover.map y
   constructor
   · dsimp [-Set.mem_range]
-    rw [coe_comp, Set.range_comp]
+    rw [coe_comp]; rw [Set.range_comp]
     refine' Set.mem_image_of_mem _ _
     exact (D.U i).affineCover.Covers y
   · infer_instance
@@ -225,10 +225,7 @@ def isoCarrier :
 theorem ι_isoCarrier_inv (i : D.J) :
     (D_).ι i ≫ D.isoCarrier.inv = (D.ι i).1.base := by
   delta isoCarrier
-  rw [Iso.trans_inv, GlueData.ι_gluedIso_inv_assoc, Functor.mapIso_inv, Iso.trans_inv,
-    Functor.mapIso_inv, Iso.trans_inv, SheafedSpace.forgetToPresheafedSpace_map, forget_map,
-    forget_map, ← comp_base, ← Category.assoc,
-    D.toLocallyRingedSpaceGlueData.toSheafedSpaceGlueData.ι_isoPresheafedSpace_inv i]
+  rw [Iso.trans_inv]; rw [GlueData.ι_gluedIso_inv_assoc]; rw [Functor.mapIso_inv]; rw [Iso.trans_inv]; rw [Functor.mapIso_inv]; rw [Iso.trans_inv]; rw [SheafedSpace.forgetToPresheafedSpace_map]; rw [forget_map]; rw [forget_map]; rw [← comp_base]; rw [← Category.assoc]; rw [D.toLocallyRingedSpaceGlueData.toSheafedSpaceGlueData.ι_isoPresheafedSpace_inv i]
   erw [← Category.assoc, D.toLocallyRingedSpaceGlueData.ι_isoSheafedSpace_inv i]
   change (_ ≫ D.isoLocallyRingedSpace.inv).1.base = _
   rw [D.ι_isoLocallyRingedSpace_inv i]
@@ -468,7 +465,7 @@ def glueMorphisms {Y : Scheme} (f : ∀ x, 𝒰.obj x ⟶ Y)
 theorem ι_glueMorphisms {Y : Scheme} (f : ∀ x, 𝒰.obj x ⟶ Y)
     (hf : ∀ x y, (pullback.fst : pullback (𝒰.map x) (𝒰.map y) ⟶ _) ≫ f x = pullback.snd ≫ f y)
     (x : 𝒰.J) : 𝒰.map x ≫ 𝒰.glueMorphisms f hf = f x := by
-  rw [← ι_fromGlued, Category.assoc]
+  rw [← ι_fromGlued]; rw [Category.assoc]
   erw [IsIso.hom_inv_id_assoc, Multicoequalizer.π_desc]
 #align algebraic_geometry.Scheme.open_cover.ι_glue_morphisms AlgebraicGeometry.Scheme.OpenCover.ι_glueMorphisms
 

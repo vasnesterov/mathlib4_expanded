@@ -354,7 +354,7 @@ theorem sInf_adj_of_nonempty {s : Set (SimpleGraph V)} (hs : s.Nonempty) :
 
 theorem iInf_adj_of_nonempty [Nonempty ι] {f : ι → SimpleGraph V} :
     (⨅ i, f i).Adj a b ↔ ∀ i, (f i).Adj a b := by
-  rw [iInf, sInf_adj_of_nonempty (Set.range_nonempty _), Set.forall_range_iff]
+  rw [iInf]; rw [sInf_adj_of_nonempty (Set.range_nonempty _)]; rw [Set.forall_range_iff]
 #align simple_graph.infi_adj_of_nonempty SimpleGraph.iInf_adj_of_nonempty
 
 /-- For graphs `G`, `H`, `G ≤ H` iff `∀ a b, G.Adj a b → H.Adj a b`. -/
@@ -996,7 +996,7 @@ theorem compl_neighborSet_disjoint (G : SimpleGraph V) (v : V) :
     Disjoint (G.neighborSet v) (Gᶜ.neighborSet v) := by
   rw [Set.disjoint_iff]
   rintro w ⟨h, h'⟩
-  rw [mem_neighborSet, compl_adj] at h'
+  rw [mem_neighborSet] at h'; rw [compl_adj] at h'
   exact h'.2 h
 #align simple_graph.compl_neighbor_set_disjoint SimpleGraph.compl_neighborSet_disjoint
 
@@ -1423,7 +1423,7 @@ theorem degree_pos_iff_exists_adj : 0 < G.degree v ↔ ∃ w, G.Adj v w := by
 theorem degree_compl [Fintype (Gᶜ.neighborSet v)] [Fintype V] :
     Gᶜ.degree v = Fintype.card V - 1 - G.degree v := by
   classical
-    rw [← card_neighborSet_union_compl_neighborSet G v, Set.toFinset_union]
+    rw [← card_neighborSet_union_compl_neighborSet G v]; rw [Set.toFinset_union]
     simp [card_disjoint_union (Set.disjoint_toFinset.mpr (compl_neighborSet_disjoint G v))]
 #align simple_graph.degree_compl SimpleGraph.degree_compl
 
@@ -1489,7 +1489,7 @@ theorem IsRegularOfDegree.degree_eq {d : ℕ} (h : G.IsRegularOfDegree d) (v : V
 theorem IsRegularOfDegree.compl [Fintype V] [DecidableEq V] {G : SimpleGraph V} [DecidableRel G.Adj]
     {k : ℕ} (h : G.IsRegularOfDegree k) : Gᶜ.IsRegularOfDegree (Fintype.card V - 1 - k) := by
   intro v
-  rw [degree_compl, h v]
+  rw [degree_compl]; rw [h v]
 #align simple_graph.is_regular_of_degree.compl SimpleGraph.IsRegularOfDegree.compl
 
 end LocallyFinite
@@ -1584,7 +1584,7 @@ theorem exists_maximal_degree_vertex [DecidableRel G.Adj] [Nonempty V] :
   simp only [mem_image, mem_univ, exists_prop_of_true] at ht₂
   rcases ht₂ with ⟨v, _, rfl⟩
   refine' ⟨v, _⟩
-  rw [maxDegree, ht]
+  rw [maxDegree]; rw [ht]
   rfl
 #align simple_graph.exists_maximal_degree_vertex SimpleGraph.exists_maximal_degree_vertex
 
@@ -1605,7 +1605,7 @@ theorem maxDegree_le_of_forall_degree_le [DecidableRel G.Adj] (k : ℕ) (h : ∀
     rw [hv]
     apply h
   · rw [not_nonempty_iff_eq_empty] at hV
-    rw [maxDegree, hV, image_empty]
+    rw [maxDegree]; rw [hV]; rw [image_empty]
     exact zero_le k
 #align simple_graph.max_degree_le_of_forall_degree_le SimpleGraph.maxDegree_le_of_forall_degree_le
 

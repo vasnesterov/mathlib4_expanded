@@ -151,11 +151,10 @@ def ofComponents (app : ∀ X : C, F.obj X ≅ G.obj X)
     app := fun X => (app X).inv
     unit := by
       dsimp
-      rw [← unit', assoc, Iso.hom_inv_id, comp_id]
+      rw [← unit']; rw [assoc]; rw [Iso.hom_inv_id]; rw [comp_id]
     tensor := fun X Y => by
       dsimp
-      rw [Iso.comp_inv_eq, assoc, tensor', ← tensor_comp_assoc,
-        Iso.inv_hom_id, Iso.inv_hom_id, tensor_id, id_comp] }
+      rw [Iso.comp_inv_eq]; rw [assoc]; rw [tensor']; rw [← tensor_comp_assoc]; rw [Iso.inv_hom_id]; rw [Iso.inv_hom_id]; rw [tensor_id]; rw [id_comp] }
 #align category_theory.monoidal_nat_iso.of_components CategoryTheory.MonoidalNatIso.ofComponents
 
 @[simp]
@@ -198,7 +197,7 @@ def monoidalUnit (F : MonoidalFunctor C D) [IsEquivalence F.toFunctor] :
       dsimp
       simp only [CategoryTheory.Category.id_comp]
       slice_rhs 1 2 =>
-        rw [← tensor_comp, Iso.hom_inv_id_app, Iso.hom_inv_id_app]
+        rw [← tensor_comp]; rw [Iso.hom_inv_id_app]; rw [Iso.hom_inv_id_app]
         dsimp
         rw [tensor_id]
       simp }

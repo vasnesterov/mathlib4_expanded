@@ -42,7 +42,7 @@ theorem scaleRoots_aeval_eq_zero_of_aeval_mk'_eq_zero {p : A[X]} {r : A} {s : M}
   convert scaleRoots_eval₂_eq_zero (algebraMap A S) hr
   -- Porting note: added
   funext
-  rw [aeval_def, mk'_spec' _ r s]
+  rw [aeval_def]; rw [mk'_spec' _ r s]
 #align scale_roots_aeval_eq_zero_of_aeval_mk'_eq_zero scaleRoots_aeval_eq_zero_of_aeval_mk'_eq_zero
 
 variable [IsDomain A]
@@ -110,8 +110,7 @@ theorem den_dvd_of_is_root {p : A[X]} {r : K} (hr : aeval r p = 0) :
     · exact (pow_one _).symm
     simpa using h
   rw [← natDegree_scaleRoots p (den A r)] at *
-  rw [coeff_eq_zero_of_natDegree_lt (lt_of_le_of_ne (le_of_not_gt h) hj.symm),
-    zero_mul]
+  rw [coeff_eq_zero_of_natDegree_lt (lt_of_le_of_ne (le_of_not_gt h) hj.symm)]; rw [zero_mul]
   exact dvd_zero _
 #align denom_dvd_of_is_root den_dvd_of_is_root
 

@@ -154,7 +154,7 @@ instance lieQuotientLieRing : LieRing (L ⧸ I) where
     apply congr_arg; apply lie_add
   lie_self := by
     intro x'; refine Quotient.inductionOn' x' ?_; intro x
-    rw [is_quotient_mk, ← mk_bracket]
+    rw [is_quotient_mk]; rw [← mk_bracket]
     apply congr_arg; apply lie_self
   leibniz_lie := by
     intro x' y' z'; refine Quotient.inductionOn₃' x' y' z' ?_; intro x y z
@@ -201,7 +201,7 @@ theorem mk'_ker : (mk' N).ker = N := by ext; simp
 
 @[simp]
 theorem map_mk'_eq_bot_le : map (mk' N) N' = ⊥ ↔ N' ≤ N := by
-  rw [← LieModuleHom.le_ker_iff_map, mk'_ker]
+  rw [← LieModuleHom.le_ker_iff_map]; rw [mk'_ker]
 #align lie_submodule.quotient.map_mk'_eq_bot_le LieSubmodule.Quotient.map_mk'_eq_bot_le
 
 /-- Two `LieModuleHom`s from a quotient lie module are equal if their compositions with
@@ -232,7 +232,7 @@ noncomputable def quotKerEquivRange : (L ⧸ f.ker) ≃ₗ⁅R⁆ f.range :=
     toFun := (f : L →ₗ[R] L').quotKerEquivRange
     map_lie' := by
       rintro ⟨x⟩ ⟨y⟩
-      rw [← SetLike.coe_eq_coe, LieSubalgebra.coe_bracket]
+      rw [← SetLike.coe_eq_coe]; rw [LieSubalgebra.coe_bracket]
       simp only [Submodule.Quotient.quot_mk_eq_mk, LinearMap.quotKerEquivRange_apply_mk, ←
         LieSubmodule.Quotient.mk_bracket, coe_toLinearMap, map_lie] }
 #align lie_hom.quot_ker_equiv_range LieHom.quotKerEquivRange

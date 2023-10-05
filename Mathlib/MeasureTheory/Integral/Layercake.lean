@@ -107,7 +107,7 @@ theorem lintegral_comp_eq_lintegral_meas_le_mul_of_measurable (μ : Measure α) 
   rw [lintegral_congr_ae integrand_eq]
   simp_rw [← lintegral_indicator (fun t => ENNReal.ofReal (g t)) measurableSet_Ioc]
   -- Porting note: was part of `simp_rw` on the previous line, but didn't trigger.
-  rw [← lintegral_indicator _ measurableSet_Ioi, lintegral_lintegral_swap]
+  rw [← lintegral_indicator _ measurableSet_Ioi]; rw [lintegral_lintegral_swap]
   · apply congr_arg
     funext s
     have aux₁ :
@@ -136,9 +136,7 @@ theorem lintegral_comp_eq_lintegral_meas_le_mul_of_measurable (μ : Measure α) 
         by funext a; by_cases s ≤ f a <;> simp [h]]
     rw [lintegral_indicator₀]
     swap; · exact f_mble.nullMeasurable measurableSet_Ici
-    rw [lintegral_one, Measure.restrict_apply MeasurableSet.univ, univ_inter, indicator_mul_left,
-      mul_assoc,
-      show
+    rw [lintegral_one]; rw [Measure.restrict_apply MeasurableSet.univ]; rw [univ_inter]; rw [indicator_mul_left]; rw [mul_assoc]; rw [show
         (Ioi 0).indicator (fun _x : ℝ => (1 : ℝ≥0∞)) s * μ {a : α | s ≤ f a} =
           (Ioi 0).indicator (fun _x : ℝ => 1 * μ {a : α | s ≤ f a}) s
         by by_cases 0 < s <;> simp [h]]
@@ -153,9 +151,9 @@ theorem lintegral_comp_eq_lintegral_meas_le_mul_of_measurable (μ : Measure α) 
     rw [Function.uncurry_apply_pair]
     by_cases p_snd ∈ Ioc 0 (f p_fst)
     · have h' : (p_fst, p_snd) ∈ {p : α × ℝ | p.snd ∈ Ioc 0 (f p.fst)} := h
-      rw [Set.indicator_of_mem h', Set.indicator_of_mem h]
+      rw [Set.indicator_of_mem h']; rw [Set.indicator_of_mem h]
     · have h' : (p_fst, p_snd) ∉ {p : α × ℝ | p.snd ∈ Ioc 0 (f p.fst)} := h
-      rw [Set.indicator_of_not_mem h', Set.indicator_of_not_mem h]
+      rw [Set.indicator_of_not_mem h']; rw [Set.indicator_of_not_mem h]
   rw [aux₂]
   have mble₀ : NullMeasurableSet {p : α × ℝ | p.snd ∈ Ioc 0 (f p.fst)} (μ.prod volume) := by
     simpa only [mem_univ, Pi.zero_apply, gt_iff_lt, not_lt, ge_iff_le, true_and] using
@@ -202,7 +200,7 @@ theorem lintegral_comp_eq_lintegral_meas_le_mul (μ : Measure α) [SigmaFinite �
     congr 1
     refine' intervalIntegral.integral_congr_ae _
     have fω_nn : 0 ≤ f ω := fω_nn
-    rw [uIoc_of_le fω_nn, ←
+    rw [uIoc_of_le fω_nn]; rw [←
       ae_restrict_iff' (measurableSet_Ioc : MeasurableSet (Ioc (0 : ℝ) (f ω)))]
     exact g_eq_G_on (f ω)
   simp_rw [lintegral_congr_ae eq₂, eq₁]
@@ -256,7 +254,7 @@ theorem lintegral_rpow_eq_lintegral_meas_le_mul (μ : Measure α) [SigmaFinite �
   have g_intble : ∀ t > 0, IntervalIntegrable g volume 0 t := fun _ _ =>
     intervalIntegral.intervalIntegrable_rpow' one_lt_p
   have key := lintegral_comp_eq_lintegral_meas_le_mul μ f_nn f_mble g_intble g_nn
-  rw [← key, ← lintegral_const_mul'' (ENNReal.ofReal p)] <;> simp_rw [obs]
+  rw [← key]; rw [← lintegral_const_mul'' (ENNReal.ofReal p)]; all_goals simp_rw [obs]
   · congr with ω
     rw [← ENNReal.ofReal_mul p_pos.le, mul_div_cancel' (f ω ^ p) p_pos.ne.symm]
   · have aux := (@measurable_const ℝ α (by infer_instance) (by infer_instance) p).aemeasurable
@@ -284,7 +282,7 @@ theorem meas_eq_pos_of_meas_le_ne_meas_lt
     {g : α → R} {t : R} (ht : μ {a : α | t ≤ g a} ≠ μ {a : α | t < g a}) :
     0 < μ {a : α | g a = t} := by
   by_contra con
-  rw [not_lt, nonpos_iff_eq_zero] at con
+  rw [not_lt] at con; rw [nonpos_iff_eq_zero] at con
   apply ht
   refine le_antisymm ?_ (measure_mono (fun a ha ↦ le_of_lt ha))
   have uni : {a : α | t ≤ g a} = {a : α | t < g a} ∪ {a : α | t = g a} := by

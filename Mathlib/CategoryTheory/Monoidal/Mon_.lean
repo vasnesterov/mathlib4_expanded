@@ -71,12 +71,12 @@ variable {M : Mon_ C}
 
 @[simp]
 theorem one_mul_hom {Z : C} (f : Z ⟶ M.X) : (M.one ⊗ f) ≫ M.mul = (λ_ Z).hom ≫ f := by
-  rw [← id_tensor_comp_tensor_id, Category.assoc, M.one_mul, leftUnitor_naturality]
+  rw [← id_tensor_comp_tensor_id]; rw [Category.assoc]; rw [M.one_mul]; rw [leftUnitor_naturality]
 #align Mon_.one_mul_hom Mon_.one_mul_hom
 
 @[simp]
 theorem mul_one_hom {Z : C} (f : Z ⟶ M.X) : (f ⊗ M.one) ≫ M.mul = (ρ_ Z).hom ≫ f := by
-  rw [← tensor_id_comp_id_tensor, Category.assoc, M.mul_one, rightUnitor_naturality]
+  rw [← tensor_id_comp_id_tensor]; rw [Category.assoc]; rw [M.mul_one]; rw [rightUnitor_naturality]
 #align Mon_.mul_one_hom Mon_.mul_one_hom
 
 theorem assoc_flip :
@@ -234,11 +234,10 @@ def mapMon (F : LaxMonoidalFunctor C D) : Mon_ C ⥤ Mon_ D where
         simp only [Category.assoc] }
   map f :=
     { hom := F.map f.hom
-      one_hom := by dsimp; rw [Category.assoc, ← F.toFunctor.map_comp, f.one_hom]
+      one_hom := by dsimp; rw [Category.assoc]; rw [← F.toFunctor.map_comp]; rw [f.one_hom]
       mul_hom := by
         dsimp
-        rw [Category.assoc, F.μ_natural_assoc, ← F.toFunctor.map_comp, ← F.toFunctor.map_comp,
-          f.mul_hom] }
+        rw [Category.assoc]; rw [F.μ_natural_assoc]; rw [← F.toFunctor.map_comp]; rw [← F.toFunctor.map_comp]; rw [f.mul_hom] }
   map_id A := by ext; simp
   map_comp f g := by ext; simp
 #align category_theory.lax_monoidal_functor.map_Mon CategoryTheory.LaxMonoidalFunctor.mapMon
@@ -279,7 +278,7 @@ def monToLaxMonoidal : Mon_ C ⥤ LaxMonoidalFunctor (Discrete PUnit.{u + 1}) C 
       map_comp := fun _ _ => (Category.id_comp (𝟙 A.X)).symm }
   map f :=
     { app := fun _ => f.hom
-      naturality := fun _ _ _ => by dsimp; rw [Category.id_comp, Category.comp_id]
+      naturality := fun _ _ _ => by dsimp; rw [Category.id_comp]; rw [Category.comp_id]
       unit := f.one_hom
       tensor := fun _ _ => f.mul_hom }
 #align Mon_.equiv_lax_monoidal_functor_punit.Mon_to_lax_monoidal Mon_.EquivLaxMonoidalFunctorPUnit.monToLaxMonoidal
@@ -408,7 +407,7 @@ theorem Mon_tensor_one_mul (M N : Mon_ C) :
     ((λ_ (𝟙_ C)).inv ≫ (M.one ⊗ N.one) ⊗ 𝟙 (M.X ⊗ N.X)) ≫
         tensor_μ C (M.X, N.X) (M.X, N.X) ≫ (M.mul ⊗ N.mul) =
       (λ_ (M.X ⊗ N.X)).hom := by
-  rw [← Category.id_comp (𝟙 (M.X ⊗ N.X)), tensor_comp]
+  rw [← Category.id_comp (𝟙 (M.X ⊗ N.X))]; rw [tensor_comp]
   slice_lhs 2 3 => rw [← tensor_id, tensor_μ_natural]
   slice_lhs 3 4 => rw [← tensor_comp, one_mul M, one_mul N]
   symm
@@ -419,7 +418,7 @@ theorem Mon_tensor_mul_one (M N : Mon_ C) :
     (𝟙 (M.X ⊗ N.X) ⊗ (λ_ (𝟙_ C)).inv ≫ (M.one ⊗ N.one)) ≫
         tensor_μ C (M.X, N.X) (M.X, N.X) ≫ (M.mul ⊗ N.mul) =
       (ρ_ (M.X ⊗ N.X)).hom := by
-  rw [← Category.id_comp (𝟙 (M.X ⊗ N.X)), tensor_comp]
+  rw [← Category.id_comp (𝟙 (M.X ⊗ N.X))]; rw [tensor_comp]
   slice_lhs 2 3 => rw [← tensor_id, tensor_μ_natural]
   slice_lhs 3 4 => rw [← tensor_comp, mul_one M, mul_one N]
   symm
@@ -432,7 +431,7 @@ theorem Mon_tensor_mul_assoc (M N : Mon_ C) :
       (α_ (M.X ⊗ N.X) (M.X ⊗ N.X) (M.X ⊗ N.X)).hom ≫
         (𝟙 (M.X ⊗ N.X) ⊗ tensor_μ C (M.X, N.X) (M.X, N.X) ≫ (M.mul ⊗ N.mul)) ≫
           tensor_μ C (M.X, N.X) (M.X, N.X) ≫ (M.mul ⊗ N.mul) := by
-  rw [← Category.id_comp (𝟙 (M.X ⊗ N.X)), tensor_comp]
+  rw [← Category.id_comp (𝟙 (M.X ⊗ N.X))]; rw [tensor_comp]
   slice_lhs 2 3 => rw [← tensor_id, tensor_μ_natural]
   slice_lhs 3 4 => rw [← tensor_comp, mul_assoc M, mul_assoc N, tensor_comp, tensor_comp]
   -- Porting note: needed to add `dsimp` here.
@@ -460,7 +459,7 @@ theorem mul_associator {M N P : Mon_ C} :
 theorem mul_leftUnitor {M : Mon_ C} :
     (tensor_μ C (𝟙_ C, M.X) (𝟙_ C, M.X) ≫ ((λ_ (𝟙_ C)).hom ⊗ M.mul)) ≫ (λ_ M.X).hom =
       ((λ_ M.X).hom ⊗ (λ_ M.X).hom) ≫ M.mul := by
-  rw [← Category.comp_id (λ_ (𝟙_ C)).hom, ← Category.id_comp M.mul, tensor_comp]
+  rw [← Category.comp_id (λ_ (𝟙_ C)).hom]; rw [← Category.id_comp M.mul]; rw [tensor_comp]
   slice_lhs 3 4 => rw [leftUnitor_naturality]
   slice_lhs 1 3 => rw [← leftUnitor_monoidal]
   simp only [Category.assoc, Category.id_comp]
@@ -469,7 +468,7 @@ theorem mul_leftUnitor {M : Mon_ C} :
 theorem mul_rightUnitor {M : Mon_ C} :
     (tensor_μ C (M.X, 𝟙_ C) (M.X, 𝟙_ C) ≫ (M.mul ⊗ (λ_ (𝟙_ C)).hom)) ≫ (ρ_ M.X).hom =
       ((ρ_ M.X).hom ⊗ (ρ_ M.X).hom) ≫ M.mul := by
-  rw [← Category.id_comp M.mul, ← Category.comp_id (λ_ (𝟙_ C)).hom, tensor_comp]
+  rw [← Category.id_comp M.mul]; rw [← Category.comp_id (λ_ (𝟙_ C)).hom]; rw [tensor_comp]
   slice_lhs 3 4 => rw [rightUnitor_naturality]
   slice_lhs 1 3 => rw [← rightUnitor_monoidal]
   simp only [Category.assoc, Category.id_comp]

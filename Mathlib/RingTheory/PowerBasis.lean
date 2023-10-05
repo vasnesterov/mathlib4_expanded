@@ -83,7 +83,7 @@ theorem finiteDimensional [Algebra K S] (pb : PowerBasis K S) : FiniteDimensiona
 #align power_basis.finite_dimensional PowerBasis.finiteDimensional
 
 theorem finrank [Algebra K S] (pb : PowerBasis K S) : FiniteDimensional.finrank K S = pb.dim := by
-  rw [FiniteDimensional.finrank_eq_card_basis pb.basis, Fintype.card_fin]
+  rw [FiniteDimensional.finrank_eq_card_basis pb.basis]; rw [Fintype.card_fin]
 #align power_basis.finrank PowerBasis.finrank
 
 theorem mem_span_pow' {x y : S} {d : ℕ} :
@@ -139,7 +139,7 @@ theorem algHom_ext {S' : Type*} [Semiring S'] [Algebra R S'] (pb : PowerBasis R 
     ⦃f g : S →ₐ[R] S'⦄ (h : f pb.gen = g pb.gen) : f = g := by
   ext x
   obtain ⟨f, rfl⟩ := pb.exists_eq_aeval' x
-  rw [← Polynomial.aeval_algHom_apply, ← Polynomial.aeval_algHom_apply, h]
+  rw [← Polynomial.aeval_algHom_apply]; rw [← Polynomial.aeval_algHom_apply]; rw [h]
 #align power_basis.alg_hom_ext PowerBasis.algHom_ext
 
 section minpoly
@@ -157,7 +157,7 @@ theorem aeval_minpolyGen (pb : PowerBasis A S) : aeval pb.gen (minpolyGen pb) = 
   simp_rw [minpolyGen, AlgHom.map_sub, AlgHom.map_sum, AlgHom.map_mul, AlgHom.map_pow, aeval_C, ←
     Algebra.smul_def, aeval_X]
   refine' sub_eq_zero.mpr ((pb.basis.total_repr (pb.gen ^ pb.dim)).symm.trans _)
-  rw [Finsupp.total_apply, Finsupp.sum_fintype] <;>
+  rw [Finsupp.total_apply]; rw [Finsupp.sum_fintype]; all_goals
     simp only [pb.coe_basis, zero_smul, eq_self_iff_true, imp_true_iff]
 #align power_basis.aeval_minpoly_gen PowerBasis.aeval_minpolyGen
 
@@ -171,11 +171,11 @@ theorem minpolyGen_monic (pb : PowerBasis A S) : Monic (minpolyGen pb) := by
 theorem dim_le_natDegree_of_root (pb : PowerBasis A S) {p : A[X]} (ne_zero : p ≠ 0)
     (root : aeval pb.gen p = 0) : pb.dim ≤ p.natDegree := by
   refine' le_of_not_lt fun hlt => ne_zero _
-  rw [p.as_sum_range' _ hlt, Finset.sum_range]
+  rw [p.as_sum_range' _ hlt]; rw [Finset.sum_range]
   refine' Fintype.sum_eq_zero _ fun i => _
   simp_rw [aeval_eq_sum_range' hlt, Finset.sum_range, ← pb.basis_eq_pow] at root
   have := Fintype.linearIndependent_iff.1 pb.basis.linearIndependent _ root
-  rw [this, monomial_zero_right]
+  rw [this]; rw [monomial_zero_right]
 #align power_basis.dim_le_nat_degree_of_root PowerBasis.dim_le_natDegree_of_root
 
 theorem dim_le_degree_of_root (h : PowerBasis A S) {p : A[X]} (ne_zero : p ≠ 0)
@@ -187,7 +187,7 @@ theorem dim_le_degree_of_root (h : PowerBasis A S) {p : A[X]} (ne_zero : p ≠ 0
 theorem degree_minpolyGen [Nontrivial A] (pb : PowerBasis A S) :
     degree (minpolyGen pb) = pb.dim := by
   unfold minpolyGen
-  rw [degree_sub_eq_left_of_degree_lt] <;> rw [degree_X_pow]
+  rw [degree_sub_eq_left_of_degree_lt]  <;> rw [degree_X_pow]
   apply degree_sum_fin_lt
 #align power_basis.degree_minpoly_gen PowerBasis.degree_minpolyGen
 
@@ -222,19 +222,18 @@ protected theorem leftMulMatrix (pb : PowerBasis A S) : Algebra.leftMulMatrix pb
     @Matrix.of (Fin pb.dim) (Fin pb.dim) _ fun i j =>
       if ↑j + 1 = pb.dim then -pb.minpolyGen.coeff ↑i else if (i : ℕ) = j + 1 then 1 else 0 := by
   cases subsingleton_or_nontrivial A; · apply Subsingleton.elim
-  rw [Algebra.leftMulMatrix_apply, ← LinearEquiv.eq_symm_apply, LinearMap.toMatrix_symm]
+  rw [Algebra.leftMulMatrix_apply]; rw [← LinearEquiv.eq_symm_apply]; rw [LinearMap.toMatrix_symm]
   refine' pb.basis.ext fun k => _
   simp_rw [Matrix.toLin_self, Matrix.of_apply, pb.basis_eq_pow]
   apply (pow_succ _ _).symm.trans
   split_ifs with h
   · simp_rw [h, neg_smul, Finset.sum_neg_distrib, eq_neg_iff_add_eq_zero]
     convert pb.aeval_minpolyGen
-    rw [add_comm, aeval_eq_sum_range, Finset.sum_range_succ, ← leadingCoeff,
-      pb.minpolyGen_monic.leadingCoeff, one_smul, natDegree_minpolyGen, Finset.sum_range]
+    rw [add_comm]; rw [aeval_eq_sum_range]; rw [Finset.sum_range_succ]; rw [← leadingCoeff]; rw [pb.minpolyGen_monic.leadingCoeff]; rw [one_smul]; rw [natDegree_minpolyGen]; rw [Finset.sum_range]
   · rw [Fintype.sum_eq_single (⟨(k : ℕ) + 1, lt_of_le_of_ne k.2 h⟩ : Fin pb.dim), if_pos, one_smul]
     · rfl
     intro x hx
-    rw [if_neg, zero_smul]
+    rw [if_neg]; rw [zero_smul]
     apply mt Fin.ext hx
 #align power_basis.left_mul_matrix PowerBasis.leftMulMatrix
 
@@ -248,7 +247,7 @@ theorem constr_pow_aeval (pb : PowerBasis A S) {y : S'} (hy : aeval y (minpoly A
     (f : A[X]) : pb.basis.constr A (fun i => y ^ (i : ℕ)) (aeval pb.gen f) = aeval y f := by
   cases subsingleton_or_nontrivial A
   · rw [(Subsingleton.elim _ _ : f = 0), aeval_zero, map_zero, aeval_zero]
-  rw [← aeval_modByMonic_eq_self_of_root (minpoly.monic pb.isIntegral_gen) (minpoly.aeval _ _), ←
+  rw [← aeval_modByMonic_eq_self_of_root (minpoly.monic pb.isIntegral_gen) (minpoly.aeval _ _)]; rw [←
     @aeval_modByMonic_eq_self_of_root _ _ _ _ _ f _ (minpoly.monic pb.isIntegral_gen) y hy]
   by_cases hf : f %ₘ minpoly A pb.gen = 0
   · simp only [hf, AlgHom.map_zero, LinearMap.map_zero]
@@ -256,12 +255,12 @@ theorem constr_pow_aeval (pb : PowerBasis A S) {y : S'} (hy : aeval y (minpoly A
     rw [← pb.natDegree_minpoly]
     apply natDegree_lt_natDegree hf
     exact degree_modByMonic_lt _ (minpoly.monic pb.isIntegral_gen)
-  rw [aeval_eq_sum_range' this, aeval_eq_sum_range' this, map_sum]
+  rw [aeval_eq_sum_range' this]; rw [aeval_eq_sum_range' this]; rw [map_sum]
   refine' Finset.sum_congr rfl fun i (hi : i ∈ Finset.range pb.dim) => _
   rw [Finset.mem_range] at hi
   rw [LinearMap.map_smul]
   congr
-  rw [← Fin.val_mk hi, ← pb.basis_eq_pow ⟨i, hi⟩, Basis.constr_basis]
+  rw [← Fin.val_mk hi]; rw [← pb.basis_eq_pow ⟨i, hi⟩]; rw [Basis.constr_basis]
 #align power_basis.constr_pow_aeval PowerBasis.constr_pow_aeval
 
 theorem constr_pow_gen (pb : PowerBasis A S) {y : S'} (hy : aeval y (minpoly A pb.gen) = 0) :
@@ -330,7 +329,7 @@ polynomial of `pb.gen` correspond to maps sending `pb.gen` to that root. -/
 noncomputable def liftEquiv' (pb : PowerBasis A S) :
     (S →ₐ[A] B) ≃ { y : B // y ∈ (minpoly A pb.gen).aroots B } :=
   pb.liftEquiv.trans ((Equiv.refl _).subtypeEquiv fun x => by
-    rw [Equiv.refl_apply, mem_roots_iff_aeval_eq_zero]
+    rw [Equiv.refl_apply]; rw [mem_roots_iff_aeval_eq_zero]
     · simp
     · exact map_monic_ne_zero (minpoly.monic pb.isIntegral_gen))
 #align power_basis.lift_equiv' PowerBasis.liftEquiv'
@@ -499,7 +498,7 @@ section Adjoin
 open Algebra
 
 theorem adjoin_gen_eq_top (B : PowerBasis R S) : adjoin R ({B.gen} : Set S) = ⊤ := by
-  rw [← toSubmodule_eq_top, _root_.eq_top_iff, ← B.basis.span_eq, Submodule.span_le]
+  rw [← toSubmodule_eq_top]; rw [_root_.eq_top_iff]; rw [← B.basis.span_eq]; rw [Submodule.span_le]
   rintro x ⟨i, rfl⟩
   rw [B.basis_eq_pow i]
   exact Subalgebra.pow_mem _ (subset_adjoin (Set.mem_singleton _)) _
@@ -507,7 +506,7 @@ theorem adjoin_gen_eq_top (B : PowerBasis R S) : adjoin R ({B.gen} : Set S) = �
 
 theorem adjoin_eq_top_of_gen_mem_adjoin {B : PowerBasis R S} {x : S}
     (hx : B.gen ∈ adjoin R ({x} : Set S)) : adjoin R ({x} : Set S) = ⊤ := by
-  rw [_root_.eq_top_iff, ← B.adjoin_gen_eq_top]
+  rw [_root_.eq_top_iff]; rw [← B.adjoin_gen_eq_top]
   refine' adjoin_le _
   simp [hx]
 #align power_basis.adjoin_eq_top_of_gen_mem_adjoin PowerBasis.adjoin_eq_top_of_gen_mem_adjoin

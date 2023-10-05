@@ -53,21 +53,19 @@ theorem lintegral_mul_indicator_eq_lintegral_mul_lintegral_indicator {Mf mΩ : M
   apply @Measurable.ennreal_induction _ Mf
   · intro c' s' h_meas_s'
     simp_rw [← inter_indicator_mul]
-    rw [lintegral_indicator _ (MeasurableSet.inter (hMf _ h_meas_s') h_meas_T),
-      lintegral_indicator _ (hMf _ h_meas_s'), lintegral_indicator _ h_meas_T]
+    rw [lintegral_indicator _ (MeasurableSet.inter (hMf _ h_meas_s') h_meas_T)]; rw [lintegral_indicator _ (hMf _ h_meas_s')]; rw [lintegral_indicator _ h_meas_T]
     simp only [measurable_const, lintegral_const, univ_inter, lintegral_const_mul,
       MeasurableSet.univ, Measure.restrict_apply]
     rw [IndepSets_iff] at h_ind
-    rw [mul_mul_mul_comm, h_ind s' T h_meas_s' (Set.mem_singleton _)]
+    rw [mul_mul_mul_comm]; rw [h_ind s' T h_meas_s' (Set.mem_singleton _)]
   · intro f' g _ h_meas_f' _ h_ind_f' h_ind_g
     have h_measM_f' : Measurable f' := h_meas_f'.mono hMf le_rfl
     simp_rw [Pi.add_apply, right_distrib]
-    rw [lintegral_add_left (h_mul_indicator _ h_measM_f'), lintegral_add_left h_measM_f',
-      right_distrib, h_ind_f', h_ind_g]
+    rw [lintegral_add_left (h_mul_indicator _ h_measM_f')]; rw [lintegral_add_left h_measM_f']; rw [right_distrib]; rw [h_ind_f']; rw [h_ind_g]
   · intro f h_meas_f h_mono_f h_ind_f
     have h_measM_f : ∀ n, Measurable (f n) := fun n => (h_meas_f n).mono hMf le_rfl
     simp_rw [ENNReal.iSup_mul]
-    rw [lintegral_iSup h_measM_f h_mono_f, lintegral_iSup, ENNReal.iSup_mul]
+    rw [lintegral_iSup h_measM_f h_mono_f]; rw [lintegral_iSup]; rw [ENNReal.iSup_mul]
     · simp_rw [← h_ind_f]
     · exact fun n => h_mul_indicator _ (h_measM_f n)
     · exact fun m n h_le a => mul_le_mul_right' (h_mono_f h_le a) _
@@ -93,12 +91,11 @@ theorem lintegral_mul_eq_lintegral_mul_lintegral_of_independent_measurableSpace
   · intro f' g _ h_measMg_f' _ h_ind_f' h_ind_g'
     have h_measM_f' : Measurable f' := h_measMg_f'.mono hMg le_rfl
     simp_rw [Pi.add_apply, left_distrib]
-    rw [lintegral_add_left h_measM_f', lintegral_add_left (h_measM_f.mul h_measM_f'), left_distrib,
-      h_ind_f', h_ind_g']
+    rw [lintegral_add_left h_measM_f']; rw [lintegral_add_left (h_measM_f.mul h_measM_f')]; rw [left_distrib]; rw [h_ind_f']; rw [h_ind_g']
   · intro f' h_meas_f' h_mono_f' h_ind_f'
     have h_measM_f' : ∀ n, Measurable (f' n) := fun n => (h_meas_f' n).mono hMg le_rfl
     simp_rw [ENNReal.mul_iSup]
-    rw [lintegral_iSup, lintegral_iSup h_measM_f' h_mono_f', ENNReal.mul_iSup]
+    rw [lintegral_iSup]; rw [lintegral_iSup h_measM_f' h_mono_f']; rw [ENNReal.mul_iSup]
     · simp_rw [← h_ind_f']
     · exact fun n => h_measM_f.mul (h_measM_f' n)
     · exact fun n m (h_le : n ≤ m) a => mul_le_mul_left' (h_mono_f' h_le a) _
@@ -121,8 +118,7 @@ theorem lintegral_mul_eq_lintegral_mul_lintegral_of_indepFun' (h_meas_f : AEMeas
     (h_meas_g : AEMeasurable g μ) (h_indep_fun : IndepFun f g μ) :
     (∫⁻ ω, (f * g) ω ∂μ) = (∫⁻ ω, f ω ∂μ) * ∫⁻ ω, g ω ∂μ := by
   have fg_ae : f * g =ᵐ[μ] h_meas_f.mk _ * h_meas_g.mk _ := h_meas_f.ae_eq_mk.mul h_meas_g.ae_eq_mk
-  rw [lintegral_congr_ae h_meas_f.ae_eq_mk, lintegral_congr_ae h_meas_g.ae_eq_mk,
-    lintegral_congr_ae fg_ae]
+  rw [lintegral_congr_ae h_meas_f.ae_eq_mk]; rw [lintegral_congr_ae h_meas_g.ae_eq_mk]; rw [lintegral_congr_ae fg_ae]
   apply lintegral_mul_eq_lintegral_mul_lintegral_of_indepFun h_meas_f.measurable_mk
       h_meas_g.measurable_mk
   exact h_indep_fun.ae_eq h_meas_f.ae_eq_mk h_meas_g.ae_eq_mk
@@ -171,7 +167,7 @@ theorem IndepFun.integrable_left_of_integrable_mul {β : Type*} [MeasurableSpace
     apply IndepFun.comp hXY M M
   have A : (∫⁻ ω, ‖X ω * Y ω‖₊ ∂μ) < ∞ := h'XY.2
   simp only [nnnorm_mul, ENNReal.coe_mul] at A
-  rw [lintegral_mul_eq_lintegral_mul_lintegral_of_indepFun'' hX.ennnorm hY.ennnorm J, H] at A
+  rw [lintegral_mul_eq_lintegral_mul_lintegral_of_indepFun'' hX.ennnorm hY.ennnorm J] at A; rw [H] at A
   simp only [ENNReal.top_mul I] at A
 #align probability_theory.indep_fun.integrable_left_of_integrable_mul ProbabilityTheory.IndepFun.integrable_left_of_integrable_mul
 
@@ -193,7 +189,7 @@ theorem IndepFun.integrable_right_of_integrable_mul {β : Type*} [MeasurableSpac
     apply IndepFun.comp hXY M M
   have A : (∫⁻ ω, ‖X ω * Y ω‖₊ ∂μ) < ∞ := h'XY.2
   simp only [nnnorm_mul, ENNReal.coe_mul] at A
-  rw [lintegral_mul_eq_lintegral_mul_lintegral_of_indepFun'' hX.ennnorm hY.ennnorm J, H] at A
+  rw [lintegral_mul_eq_lintegral_mul_lintegral_of_indepFun'' hX.ennnorm hY.ennnorm J] at A; rw [H] at A
   simp only [ENNReal.mul_top I] at A
 #align probability_theory.indep_fun.integrable_right_of_integrable_mul ProbabilityTheory.IndepFun.integrable_right_of_integrable_mul
 
@@ -209,9 +205,7 @@ theorem IndepFun.integral_mul_of_nonneg (hXY : IndepFun X Y μ) (hXp : 0 ≤ X) 
     ENNReal.measurable_ofReal.comp_aemeasurable hYm
   have h3 : AEMeasurable (X * Y) μ := hXm.mul hYm
   have h4 : 0 ≤ᵐ[μ] X * Y := ae_of_all _ fun ω => mul_nonneg (hXp ω) (hYp ω)
-  rw [integral_eq_lintegral_of_nonneg_ae (ae_of_all _ hXp) hXm.aestronglyMeasurable,
-    integral_eq_lintegral_of_nonneg_ae (ae_of_all _ hYp) hYm.aestronglyMeasurable,
-    integral_eq_lintegral_of_nonneg_ae h4 h3.aestronglyMeasurable]
+  rw [integral_eq_lintegral_of_nonneg_ae (ae_of_all _ hXp) hXm.aestronglyMeasurable]; rw [integral_eq_lintegral_of_nonneg_ae (ae_of_all _ hYp) hYm.aestronglyMeasurable]; rw [integral_eq_lintegral_of_nonneg_ae h4 h3.aestronglyMeasurable]
   simp_rw [← ENNReal.toReal_mul, Pi.mul_apply, ENNReal.ofReal_mul (hXp _)]
   congr
   apply lintegral_mul_eq_lintegral_mul_lintegral_of_indepFun' h1 h2
@@ -257,11 +251,8 @@ theorem IndepFun.integral_mul_of_integrable (hXY : IndepFun X Y μ) (hX : Integr
   have hl4 : Integrable (Xp * Yp) μ := hi4.integrable_mul hv2 hv4
   have hl5 : Integrable (Xp * Yp - Xm * Yp) μ := hl4.sub hl3
   have hl6 : Integrable (Xp * Ym - Xm * Ym) μ := hl2.sub hl1
-  rw [hXpm, hYpm, mul_sub, sub_mul, sub_mul]
-  rw [integral_sub' hl5 hl6, integral_sub' hl4 hl3, integral_sub' hl2 hl1, integral_sub' hv2 hv1,
-    integral_sub' hv4 hv3, hi1.integral_mul_of_nonneg hp1 hp3 hm1 hm3,
-    hi2.integral_mul_of_nonneg hp2 hp3 hm2 hm3, hi3.integral_mul_of_nonneg hp1 hp4 hm1 hm4,
-    hi4.integral_mul_of_nonneg hp2 hp4 hm2 hm4]
+  rw [hXpm]; rw [hYpm]; rw [mul_sub]; rw [sub_mul]; rw [sub_mul]
+  rw [integral_sub' hl5 hl6]; rw [integral_sub' hl4 hl3]; rw [integral_sub' hl2 hl1]; rw [integral_sub' hv2 hv1]; rw [integral_sub' hv4 hv3]; rw [hi1.integral_mul_of_nonneg hp1 hp3 hm1 hm3]; rw [hi2.integral_mul_of_nonneg hp2 hp3 hm2 hm3]; rw [hi3.integral_mul_of_nonneg hp1 hp4 hm1 hm4]; rw [hi4.integral_mul_of_nonneg hp2 hp4 hm2 hm4]
   ring
 #align probability_theory.indep_fun.integral_mul_of_integrable ProbabilityTheory.IndepFun.integral_mul_of_integrable
 

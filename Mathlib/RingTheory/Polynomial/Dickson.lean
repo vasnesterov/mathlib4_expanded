@@ -98,7 +98,7 @@ theorem map_dickson (f : R →+* S) : ∀ n : ℕ, map f (dickson k a n) = dicks
   | 1 => by simp only [dickson_one, map_X]
   | n + 2 => by
     simp only [dickson_add_two, Polynomial.map_sub, Polynomial.map_mul, map_X, map_C]
-    rw [map_dickson f n, map_dickson f (n + 1)]
+    rw [map_dickson f n]; rw [map_dickson f (n + 1)]
 #align polynomial.map_dickson Polynomial.map_dickson
 
 @[simp]
@@ -109,7 +109,7 @@ theorem dickson_two_zero : ∀ n : ℕ, dickson 2 (0 : R) n = X ^ n
   | 1 => by simp only [dickson_one, pow_one]
   | n + 2 => by
     simp only [dickson_add_two, C_0, zero_mul, sub_zero]
-    rw [dickson_two_zero (n + 1), pow_add X (n + 1) 1, mul_comm, pow_one]
+    rw [dickson_two_zero (n + 1)]; rw [pow_add X (n + 1) 1]; rw [mul_comm]; rw [pow_one]
 #align polynomial.dickson_two_zero Polynomial.dickson_two_zero
 
 section Dickson
@@ -145,10 +145,10 @@ variable (R)
 
 -- Porting note: Added 2 new theorems for convenience
 private theorem two_mul_C_half_eq_one [Invertible (2 : R)] : 2 * C (⅟ 2 : R) = 1 := by
-  rw [two_mul, ← C_add, invOf_two_add_invOf_two, C_1]
+  rw [two_mul]; rw [← C_add]; rw [invOf_two_add_invOf_two]; rw [C_1]
 
 private theorem C_half_mul_two_eq_one [Invertible (2 : R)] : C (⅟ 2 : R) * 2 = 1 := by
-  rw [mul_comm, two_mul_C_half_eq_one]
+  rw [mul_comm]; rw [two_mul_C_half_eq_one]
 
 theorem dickson_one_one_eq_chebyshev_T [Invertible (2 : R)] :
     ∀ n, dickson 1 (1 : R) n = 2 * (Chebyshev.T R n).comp (C (⅟ 2) * X)
@@ -156,10 +156,9 @@ theorem dickson_one_one_eq_chebyshev_T [Invertible (2 : R)] :
     simp only [Chebyshev.T_zero, mul_one, one_comp, dickson_zero]
     norm_num
   | 1 => by
-    rw [dickson_one, Chebyshev.T_one, X_comp, ← mul_assoc, two_mul_C_half_eq_one, one_mul]
+    rw [dickson_one]; rw [Chebyshev.T_one]; rw [X_comp]; rw [← mul_assoc]; rw [two_mul_C_half_eq_one]; rw [one_mul]
   | n + 2 => by
-    rw [dickson_add_two, C_1, Chebyshev.T_add_two, dickson_one_one_eq_chebyshev_T (n + 1),
-      dickson_one_one_eq_chebyshev_T n, sub_comp, mul_comp, mul_comp, X_comp, ofNat_comp]
+    rw [dickson_add_two]; rw [C_1]; rw [Chebyshev.T_add_two]; rw [dickson_one_one_eq_chebyshev_T (n + 1)]; rw [dickson_one_one_eq_chebyshev_T n]; rw [sub_comp]; rw [mul_comp]; rw [mul_comp]; rw [X_comp]; rw [ofNat_comp]
     simp_rw [← mul_assoc, Nat.cast_ofNat, two_mul_C_half_eq_one]
     ring
 set_option linter.uppercaseLean3 false in
@@ -167,7 +166,7 @@ set_option linter.uppercaseLean3 false in
 
 theorem chebyshev_T_eq_dickson_one_one [Invertible (2 : R)] (n : ℕ) :
     Chebyshev.T R n = C (⅟ 2) * (dickson 1 1 n).comp (2 * X) := by
-  rw [dickson_one_one_eq_chebyshev_T, mul_comp, ofNat_comp, comp_assoc, mul_comp, C_comp, X_comp]
+  rw [dickson_one_one_eq_chebyshev_T]; rw [mul_comp]; rw [ofNat_comp]; rw [comp_assoc]; rw [mul_comp]; rw [C_comp]; rw [X_comp]
   simp_rw [← mul_assoc, Nat.cast_ofNat, C_half_mul_two_eq_one, one_mul, comp_X]
 set_option linter.uppercaseLean3 false in
 #align polynomial.chebyshev_T_eq_dickson_one_one Polynomial.chebyshev_T_eq_dickson_one_one
@@ -188,12 +187,12 @@ theorem dickson_one_one_mul (m n : ℕ) :
   apply eval₂_congr rfl rfl
   rw [comp_assoc]
   apply eval₂_congr rfl _ rfl
-  rw [mul_comp, C_comp, X_comp, ← mul_assoc, C_half_mul_two_eq_one, one_mul]
+  rw [mul_comp]; rw [C_comp]; rw [X_comp]; rw [← mul_assoc]; rw [C_half_mul_two_eq_one]; rw [one_mul]
 #align polynomial.dickson_one_one_mul Polynomial.dickson_one_one_mul
 
 theorem dickson_one_one_comp_comm (m n : ℕ) :
     (dickson 1 (1 : R) m).comp (dickson 1 1 n) = (dickson 1 1 n).comp (dickson 1 1 m) := by
-  rw [← dickson_one_one_mul, mul_comm, dickson_one_one_mul]
+  rw [← dickson_one_one_mul]; rw [mul_comm]; rw [dickson_one_one_mul]
 #align polynomial.dickson_one_one_comp_comm Polynomial.dickson_one_one_comp_comm
 
 theorem dickson_one_one_zmod_p (p : ℕ) [Fact p.Prime] : dickson 1 (1 : ZMod p) p = X ^ p := by
@@ -213,7 +212,7 @@ theorem dickson_one_one_zmod_p (p : ℕ) [Fact p.Prime] : dickson 1 (1 : ZMod p)
         (IsFractionRing.injective _ _)
     refine' ⟨K, _, _, _⟩ <;> infer_instance
   apply map_injective (ZMod.castHom (dvd_refl p) K) (RingHom.injective _)
-  rw [map_dickson, Polynomial.map_pow, map_X]
+  rw [map_dickson]; rw [Polynomial.map_pow]; rw [map_X]
   apply eq_of_infinite_eval_eq
   -- The two polynomials agree on all `x` of the form `x = y + y⁻¹`.
   apply @Set.Infinite.mono _ { x : K | ∃ y, x = y + y⁻¹ ∧ y ≠ 0 }
@@ -251,7 +250,7 @@ theorem dickson_one_one_zmod_p (p : ℕ) [Fact p.Prime] : dickson 1 (1 : ZMod p)
         by_cases hy : y = 0
         · simp only [hy, eq_self_iff_true, or_true_iff]
         apply or_congr _ Iff.rfl
-        rw [← mul_left_inj' hy, eq_comm, ← sub_eq_zero, add_mul, inv_mul_cancel hy]
+        rw [← mul_left_inj' hy]; rw [eq_comm]; rw [← sub_eq_zero]; rw [add_mul]; rw [inv_mul_cancel hy]
         apply eq_iff_eq_cancel_right.mpr
         ring
     -- Finally, we prove the claim that our finite union of finite sets covers all of `K`.
@@ -268,8 +267,7 @@ theorem dickson_one_one_zmod_p (p : ℕ) [Fact p.Prime] : dickson 1 (1 : ZMod p)
 theorem dickson_one_one_charP (p : ℕ) [Fact p.Prime] [CharP R p] : dickson 1 (1 : R) p = X ^ p := by
   have h : (1 : R) = ZMod.castHom (dvd_refl p) R 1
   simp only [ZMod.castHom_apply, ZMod.cast_one']
-  rw [h, ← map_dickson (ZMod.castHom (dvd_refl p) R), dickson_one_one_zmod_p, Polynomial.map_pow,
-    map_X]
+  rw [h]; rw [← map_dickson (ZMod.castHom (dvd_refl p) R)]; rw [dickson_one_one_zmod_p]; rw [Polynomial.map_pow]; rw [map_X]
 #align polynomial.dickson_one_one_char_p Polynomial.dickson_one_one_charP
 
 end Dickson

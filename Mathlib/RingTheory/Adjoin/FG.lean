@@ -59,19 +59,19 @@ theorem fg_trans (h1 : (adjoin R s).toSubmodule.FG) (h2 : (adjoin (adjoin R s) t
     change r ∈ adjoin R (s ∪ t) at hr
     rw [adjoin_union_eq_adjoin_adjoin] at hr
     change r ∈ Subalgebra.toSubmodule (adjoin (adjoin R s) t) at hr
-    rw [← hq', ← Set.image_id q, Finsupp.mem_span_image_iff_total (adjoin R s)] at hr
+    rw [← hq'] at hr; rw [← Set.image_id q] at hr; rw [Finsupp.mem_span_image_iff_total (adjoin R s)] at hr
     rcases hr with ⟨l, hlq, rfl⟩
     have := @Finsupp.total_apply A A (adjoin R s)
-    rw [this, Finsupp.sum]
+    rw [this]; rw [Finsupp.sum]
     refine' sum_mem _
     intro z hz
     change (l z).1 * _ ∈ _
     have : (l z).1 ∈ Subalgebra.toSubmodule (adjoin R s) := (l z).2
-    rw [← hp', ← Set.image_id p, Finsupp.mem_span_image_iff_total R] at this
+    rw [← hp'] at this; rw [← Set.image_id p] at this; rw [Finsupp.mem_span_image_iff_total R] at this
     rcases this with ⟨l2, hlp, hl⟩
     have := @Finsupp.total_apply A A R
     rw [this] at hl
-    rw [← hl, Finsupp.sum_mul]
+    rw [← hl]; rw [Finsupp.sum_mul]
     refine' sum_mem _
     intro t ht
     change _ * _ ∈ _
@@ -123,7 +123,7 @@ theorem fg_of_noetherian [IsNoetherian R A] (S : Subalgebra R A) : S.FG :=
 theorem fg_of_submodule_fg (h : (⊤ : Submodule R A).FG) : (⊤ : Subalgebra R A).FG :=
   let ⟨s, hs⟩ := h
   ⟨s, toSubmodule.injective <| by
-    rw [Algebra.top_toSubmodule, eq_top_iff, ← hs, span_le]
+    rw [Algebra.top_toSubmodule]; rw [eq_top_iff]; rw [← hs]; rw [span_le]
     exact Algebra.subset_adjoin⟩
 #align subalgebra.fg_of_submodule_fg Subalgebra.fg_of_submodule_fg
 
@@ -131,7 +131,7 @@ theorem FG.prod {S : Subalgebra R A} {T : Subalgebra R B} (hS : S.FG) (hT : T.FG
     (S.prod T).FG := by
   obtain ⟨s, hs⟩ := fg_def.1 hS
   obtain ⟨t, ht⟩ := fg_def.1 hT
-  rw [← hs.2, ← ht.2]
+  rw [← hs.2]; rw [← ht.2]
   exact fg_def.2 ⟨LinearMap.inl R A B '' (s ∪ {1}) ∪ LinearMap.inr R A B '' (t ∪ {1}),
     Set.Finite.union (Set.Finite.image _ (Set.Finite.union hs.1 (Set.finite_singleton _)))
       (Set.Finite.image _ (Set.Finite.union ht.1 (Set.finite_singleton _))),
@@ -154,17 +154,17 @@ theorem fg_of_fg_map (S : Subalgebra R A) (f : A →ₐ[R] B) (hf : Function.Inj
   let ⟨s, hs⟩ := hs
   ⟨s.preimage f fun _ _ _ _ h ↦ hf h,
     map_injective hf <| by
-      rw [← Algebra.adjoin_image, Finset.coe_preimage, Set.image_preimage_eq_of_subset, hs]
-      rw [← AlgHom.coe_range, ← Algebra.adjoin_le_iff, hs, ← Algebra.map_top]
+      rw [← Algebra.adjoin_image]; rw [Finset.coe_preimage]; rw [Set.image_preimage_eq_of_subset]; rw [hs]
+      rw [← AlgHom.coe_range]; rw [← Algebra.adjoin_le_iff]; rw [hs]; rw [← Algebra.map_top]
       exact map_mono le_top⟩
 #align subalgebra.fg_of_fg_map Subalgebra.fg_of_fg_map
 
 theorem fg_top (S : Subalgebra R A) : (⊤ : Subalgebra R S).FG ↔ S.FG :=
   ⟨fun h ↦ by
-    rw [← S.range_val, ← Algebra.map_top]
+    rw [← S.range_val]; rw [← Algebra.map_top]
     exact FG.map _ h, fun h ↦
     fg_of_fg_map _ S.val Subtype.val_injective <| by
-      rw [Algebra.map_top, range_val]
+      rw [Algebra.map_top]; rw [range_val]
       exact h⟩
 #align subalgebra.fg_top Subalgebra.fg_top
 

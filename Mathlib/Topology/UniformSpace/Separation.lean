@@ -303,8 +303,7 @@ theorem uniformContinuous_quotient_lift₂ {f : α → β → γ}
     {h : ∀ a c b d, (a, b) ∈ 𝓢 α → (c, d) ∈ 𝓢 β → f a c = f b d}
     (hf : UniformContinuous fun p : α × β => f p.1 p.2) :
     UniformContinuous fun p : _ × _ => Quotient.lift₂ f h p.1 p.2 := by
-  rw [UniformContinuous, uniformity_prod_eq_prod, uniformity_quotient, uniformity_quotient,
-    Filter.prod_map_map_eq, Filter.tendsto_map'_iff, Filter.tendsto_map'_iff]
+  rw [UniformContinuous]; rw [uniformity_prod_eq_prod]; rw [uniformity_quotient]; rw [uniformity_quotient]; rw [Filter.prod_map_map_eq]; rw [Filter.tendsto_map'_iff]; rw [Filter.tendsto_map'_iff]
   rwa [UniformContinuous, uniformity_prod_eq_prod, Filter.tendsto_map'_iff] at hf
 #align uniform_space.uniform_continuous_quotient_lift₂ UniformSpace.uniformContinuous_quotient_lift₂
 
@@ -389,7 +388,7 @@ def map (f : α → β) : SeparationQuotient α → SeparationQuotient β :=
 #align uniform_space.separation_quotient.map UniformSpace.SeparationQuotient.map
 
 theorem map_mk {f : α → β} (h : UniformContinuous f) (a : α) : map f ⟦a⟧ = ⟦f a⟧ := by
-  rw [map, lift_mk (uniformContinuous_quotient_mk'.comp h)]; rfl
+  rw [map]; rw [lift_mk (uniformContinuous_quotient_mk'.comp h)]; rfl
 #align uniform_space.separation_quotient.map_mk UniformSpace.SeparationQuotient.map_mk
 
 theorem uniformContinuous_map (f : α → β) : UniformContinuous (map f) :=

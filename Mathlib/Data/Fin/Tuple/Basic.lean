@@ -92,12 +92,12 @@ theorem cons_update : cons x (update p i y) = update (cons x p) i.succ y := by
     simp [Ne.symm (succ_ne_zero i)]
   · let j' := pred j h
     have : j'.succ = j := succ_pred j h
-    rw [← this, cons_succ]
+    rw [← this]; rw [cons_succ]
     by_cases h' : j' = i
     · rw [h']
       simp
     · have : j'.succ ≠ i.succ := by rwa [Ne.def, succ_inj]
-      rw [update_noteq h', update_noteq this, cons_succ]
+      rw [update_noteq h']; rw [update_noteq this]; rw [cons_succ]
 #align fin.cons_update Fin.cons_update
 
 /-- As a binary function, `Fin.cons` is injective. -/
@@ -129,7 +129,7 @@ theorem update_cons_zero : update (cons x p) 0 z = cons z p := by
   · simp only [h, update_noteq, Ne.def, not_false_iff]
     let j' := pred j h
     have : j'.succ = j := succ_pred j h
-    rw [← this, cons_succ, cons_succ]
+    rw [← this]; rw [cons_succ]; rw [cons_succ]
 #align fin.update_cons_zero Fin.update_cons_zero
 
 /-- Concatenating the first element of a tuple with its tail gives back the original tuple -/
@@ -157,7 +157,7 @@ def consCases {P : (∀ i : Fin n.succ, α i) → Sort v} (h : ∀ x₀ x, P (Fi
 @[simp]
 theorem consCases_cons {P : (∀ i : Fin n.succ, α i) → Sort v} (h : ∀ x₀ x, P (Fin.cons x₀ x))
     (x₀ : α 0) (x : ∀ i : Fin n, α i.succ) : @consCases _ _ _ h (cons x₀ x) = h x₀ x := by
-  rw [consCases, cast_eq]
+  rw [consCases]; rw [cast_eq]
   congr
 #align fin.cons_cases_cons Fin.consCases_cons
 
@@ -176,15 +176,15 @@ theorem cons_injective_of_injective {α} {x₀ : α} {x : Fin n → α} (hx₀ :
     · intro
       rfl
     · intro j h
-      rw [cons_zero, cons_succ] at h
+      rw [cons_zero] at h; rw [cons_succ] at h
       exact hx₀.elim ⟨_, h.symm⟩
   · intro i
     refine' Fin.cases _ _
     · intro h
-      rw [cons_zero, cons_succ] at h
+      rw [cons_zero] at h; rw [cons_succ] at h
       exact hx₀.elim ⟨_, h⟩
     · intro j h
-      rw [cons_succ, cons_succ] at h
+      rw [cons_succ] at h; rw [cons_succ] at h
       exact congr_arg _ (hx h)
 #align fin.cons_injective_of_injective Fin.cons_injective_of_injective
 
@@ -242,7 +242,7 @@ theorem comp_cons {α : Type*} {β : Type*} (g : α → β) (y : α) (q : Fin n 
     rfl
   · let j' := pred j h
     have : j'.succ = j := succ_pred j h
-    rw [← this, cons_succ, comp, comp, cons_succ]
+    rw [← this]; rw [cons_succ]; rw [comp]; rw [comp]; rw [cons_succ]
 #align fin.comp_cons Fin.comp_cons
 
 theorem comp_tail {α : Type*} {β : Type*} (g : α → β) (q : Fin n.succ → α) :
@@ -282,7 +282,7 @@ theorem range_fin_succ {α} (f : Fin (n + 1) → α) :
 @[simp]
 theorem range_cons {α : Type*} {n : ℕ} (x : α) (b : Fin n → α) :
     Set.range (Fin.cons x b : Fin n.succ → α) = insert x (Set.range b) := by
-  rw [range_fin_succ, cons_zero, tail_cons]
+  rw [range_fin_succ]; rw [cons_zero]; rw [tail_cons]
 #align fin.range_cons Fin.range_cons
 
 section Append
@@ -356,10 +356,10 @@ theorem append_left_eq_cons {α : Type*} {n : ℕ} (x₀ : Fin 1 → α) (x : Fi
   ext i
   refine' Fin.addCases _ _ i <;> clear i
   · intro i
-    rw [Subsingleton.elim i 0, Fin.append_left, Function.comp_apply, eq_comm]
+    rw [Subsingleton.elim i 0]; rw [Fin.append_left]; rw [Function.comp_apply]; rw [eq_comm]
     exact Fin.cons_zero _ _
   · intro i
-    rw [Fin.append_right, Function.comp_apply, Fin.cast_natAdd, eq_comm, Fin.addNat_one]
+    rw [Fin.append_right]; rw [Function.comp_apply]; rw [Fin.cast_natAdd]; rw [eq_comm]; rw [Fin.addNat_one]
     exact Fin.cons_succ _ _ _
 #align fin.append_left_eq_cons Fin.append_left_eq_cons
 
@@ -480,9 +480,9 @@ theorem snoc_comp_nat_add {n m : ℕ} {α : Sort _} (f : Fin (m + n) → α) (a 
   ext i
   refine' Fin.lastCases _ (fun i ↦ _) i
   · simp only [Function.comp_apply]
-    rw [snoc_last, natAdd_last, snoc_last]
+    rw [snoc_last]; rw [natAdd_last]; rw [snoc_last]
   · simp only [comp_apply, snoc_castSucc]
-    rw [natAdd_castSucc, snoc_castSucc]
+    rw [natAdd_castSucc]; rw [snoc_castSucc]
 #align fin.snoc_comp_nat_add Fin.snoc_comp_nat_add
 
 @[simp]
@@ -519,12 +519,12 @@ theorem snoc_update : snoc (update p i y) x = update (snoc p x) (castSucc i) y :
         convert this
         · simp [h, h']
         · exact heq_of_cast_eq C2 rfl
-      rw [E1, E2]
+      rw [E1]; rw [E2]
       exact eq_rec_compose (Eq.trans C2.symm C1) C2 y
     · have : ¬castLT j h = i := by
         intro E
         apply h'
-        rw [← E, castSucc_castLT]
+        rw [← E]; rw [castSucc_castLT]
       simp [h', this, snoc, h]
   · rw [eq_last_of_not_lt h]
     simp [Ne.symm (ne_of_lt (castSucc_lt_last i))]
@@ -590,14 +590,14 @@ theorem cons_snoc_eq_snoc_cons {β : Type*} (a : β) (q : Fin n → β) (b : β)
     simp [snoc, castLT]
   set j := pred i h with ji
   have : i = j.succ := by rw [ji, succ_pred]
-  rw [this, cons_succ]
+  rw [this]; rw [cons_succ]
   by_cases h' : j.val < n
   · set k := castLT j h' with jk
     have : j = castSucc k := by rw [jk, castSucc_castLT]
-    rw [this, ← castSucc_fin_succ, snoc]
+    rw [this]; rw [← castSucc_fin_succ]; rw [snoc]
     simp [pred, snoc, cons]
     rfl
-  rw [eq_last_of_not_lt h', succ_last]
+  rw [eq_last_of_not_lt h']; rw [succ_last]
   simp
 #align fin.cons_snoc_eq_snoc_cons Fin.cons_snoc_eq_snoc_cons
 
@@ -619,7 +619,7 @@ theorem append_right_eq_snoc {α : Type*} {n : ℕ} (x : Fin n → α) (x₀ : F
     rw [Fin.append_left]
     exact (@snoc_castSucc _ (fun _ => α) _ _ i).symm
   · intro i
-    rw [Subsingleton.elim i 0, Fin.append_right]
+    rw [Subsingleton.elim i 0]; rw [Fin.append_right]
     exact (@snoc_last _ (fun _ => α) _ _).symm
 #align fin.append_right_eq_snoc Fin.append_right_eq_snoc
 
@@ -711,7 +711,7 @@ automatic insertion and specifying that motive seems to work. -/
 theorem insertNth_apply_below {i j : Fin (n + 1)} (h : j < i) (x : α i)
     (p : ∀ k, α (i.succAbove k)) :
     i.insertNth x p j = @Eq.recOn _ _ (fun x _ ↦ α x) _ (succAbove_castLT h) (p <| j.castLT _) := by
-  rw [insertNth, succAboveCases, dif_neg h.ne, dif_pos h]
+  rw [insertNth]; rw [succAboveCases]; rw [dif_neg h.ne]; rw [dif_pos h]
 #align fin.insert_nth_apply_below Fin.insertNth_apply_below
 
 /- Porting note: Once again, Lean told me `(fun x x_1 ↦ α x)` was an invalid motive, but disabling
@@ -719,7 +719,7 @@ automatic insertion and specifying that motive seems to work. -/
 theorem insertNth_apply_above {i j : Fin (n + 1)} (h : i < j) (x : α i)
     (p : ∀ k, α (i.succAbove k)) :
     i.insertNth x p j = @Eq.recOn _ _ (fun x _ ↦ α x) _ (succAbove_pred h) (p <| j.pred _) := by
-  rw [insertNth, succAboveCases, dif_neg h.ne', dif_neg h.not_lt]
+  rw [insertNth]; rw [succAboveCases]; rw [dif_neg h.ne']; rw [dif_neg h.not_lt]
 #align fin.insert_nth_apply_above Fin.insertNth_apply_above
 
 theorem insertNth_zero (x : α 0) (p : ∀ j : Fin n, α (succAbove 0 j)) :
@@ -970,12 +970,12 @@ theorem contractNth_apply_of_lt (j : Fin (n + 1)) (op : α → α → α) (g : F
 theorem contractNth_apply_of_eq (j : Fin (n + 1)) (op : α → α → α) (g : Fin (n + 1) → α) (k : Fin n)
     (h : (k : ℕ) = j) : contractNth j op g k = op (g (Fin.castSucc k)) (g k.succ) := by
   have : ¬(k : ℕ) < j := not_lt.2 (le_of_eq h.symm)
-  rw [contractNth, if_neg this, if_pos h]
+  rw [contractNth]; rw [if_neg this]; rw [if_pos h]
 #align fin.contract_nth_apply_of_eq Fin.contractNth_apply_of_eq
 
 theorem contractNth_apply_of_gt (j : Fin (n + 1)) (op : α → α → α) (g : Fin (n + 1) → α) (k : Fin n)
     (h : (j : ℕ) < k) : contractNth j op g k = g k.succ := by
-  rw [contractNth, if_neg (not_lt_of_gt h), if_neg (Ne.symm <| ne_of_lt h)]
+  rw [contractNth]; rw [if_neg (not_lt_of_gt h)]; rw [if_neg (Ne.symm <| ne_of_lt h)]
 #align fin.contract_nth_apply_of_gt Fin.contractNth_apply_of_gt
 
 theorem contractNth_apply_of_ne (j : Fin (n + 1)) (op : α → α → α) (g : Fin (n + 1) → α) (k : Fin n)

@@ -256,7 +256,7 @@ variable {E : Type u₃} [Category.{v₃} E] {F G : C ⥤ D} {X Y Z : C} {f : X 
 theorem map_comp_heq (hx : F.obj X = G.obj X) (hy : F.obj Y = G.obj Y) (hz : F.obj Z = G.obj Z)
     (hf : HEq (F.map f) (G.map f)) (hg : HEq (F.map g) (G.map g)) :
     HEq (F.map (f ≫ g)) (G.map (f ≫ g)) := by
-  rw [F.map_comp, G.map_comp]
+  rw [F.map_comp]; rw [G.map_comp]
   congr
 #align category_theory.functor.map_comp_heq CategoryTheory.Functor.map_comp_heq
 

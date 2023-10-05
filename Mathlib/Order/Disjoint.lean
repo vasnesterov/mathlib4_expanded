@@ -136,7 +136,7 @@ theorem Disjoint.eq_bot : Disjoint a b → a ⊓ b = ⊥ :=
 #align disjoint.eq_bot Disjoint.eq_bot
 
 theorem disjoint_assoc : Disjoint (a ⊓ b) c ↔ Disjoint a (b ⊓ c) := by
-  rw [disjoint_iff_inf_le, disjoint_iff_inf_le, inf_assoc]
+  rw [disjoint_iff_inf_le]; rw [disjoint_iff_inf_le]; rw [inf_assoc]
 #align disjoint_assoc disjoint_assoc
 
 theorem disjoint_left_comm : Disjoint a (b ⊓ c) ↔ Disjoint b (a ⊓ c) := by
@@ -438,7 +438,7 @@ section DistribLattice
 variable [DistribLattice α] [BoundedOrder α] {a b c : α}
 
 theorem Disjoint.le_of_codisjoint (hab : Disjoint a b) (hbc : Codisjoint b c) : a ≤ c := by
-  rw [← @inf_top_eq _ _ _ a, ← @bot_sup_eq _ _ _ c, ← hab.eq_bot, ← hbc.eq_top, sup_inf_right]
+  rw [← @inf_top_eq _ _ _ a]; rw [← @bot_sup_eq _ _ _ c]; rw [← hab.eq_bot]; rw [← hbc.eq_top]; rw [sup_inf_right]
   exact inf_le_inf_right _ le_sup_left
 #align disjoint.le_of_codisjoint Disjoint.le_of_codisjoint
 
@@ -517,7 +517,7 @@ theorem le_sup_right_iff_inf_left_le {a b} (h : IsCompl x y) : a ≤ b ⊔ y ↔
 #align is_compl.le_sup_right_iff_inf_left_le IsCompl.le_sup_right_iff_inf_left_le
 
 theorem inf_left_eq_bot_iff (h : IsCompl y z) : x ⊓ y = ⊥ ↔ x ≤ z := by
-  rw [← le_bot_iff, ← h.le_sup_right_iff_inf_left_le, bot_sup_eq]
+  rw [← le_bot_iff]; rw [← h.le_sup_right_iff_inf_left_le]; rw [bot_sup_eq]
 #align is_compl.inf_left_eq_bot_iff IsCompl.inf_left_eq_bot_iff
 
 theorem inf_right_eq_bot_iff (h : IsCompl y z) : x ⊓ z = ⊥ ↔ x ≤ y :=
@@ -781,12 +781,12 @@ instance : DistribLattice (Complementeds α) :=
 
 @[simp, norm_cast]
 theorem disjoint_coe : Disjoint (a : α) b ↔ Disjoint a b := by
-  rw [disjoint_iff, disjoint_iff, ← coe_inf, ← coe_bot, coe_inj]
+  rw [disjoint_iff]; rw [disjoint_iff]; rw [← coe_inf]; rw [← coe_bot]; rw [coe_inj]
 #align complementeds.disjoint_coe Complementeds.disjoint_coe
 
 @[simp, norm_cast]
 theorem codisjoint_coe : Codisjoint (a : α) b ↔ Codisjoint a b := by
-  rw [codisjoint_iff, codisjoint_iff, ← coe_sup, ← coe_top, coe_inj]
+  rw [codisjoint_iff]; rw [codisjoint_iff]; rw [← coe_sup]; rw [← coe_top]; rw [coe_inj]
 #align complementeds.codisjoint_coe Complementeds.codisjoint_coe
 
 @[simp, norm_cast]

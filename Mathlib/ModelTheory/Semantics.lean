@@ -109,7 +109,7 @@ theorem realize_constants {c : L.Constants} {v : α → M} : c.term.realize v = 
 @[simp]
 theorem realize_functions_apply₁ {f : L.Functions 1} {t : L.Term α} {v : α → M} :
     (f.apply₁ t).realize v = funMap f ![t.realize v] := by
-  rw [Functions.apply₁, Term.realize]
+  rw [Functions.apply₁]; rw [Term.realize]
   refine' congr rfl (funext fun i => _)
   simp only [Matrix.cons_val_fin_one]
 #align first_order.language.term.realize_functions_apply₁ FirstOrder.Language.Term.realize_functions_apply₁
@@ -117,7 +117,7 @@ theorem realize_functions_apply₁ {f : L.Functions 1} {t : L.Term α} {v : α �
 @[simp]
 theorem realize_functions_apply₂ {f : L.Functions 2} {t₁ t₂ : L.Term α} {v : α → M} :
     (f.apply₂ t₁ t₂).realize v = funMap f ![t₁.realize v, t₂.realize v] := by
-  rw [Functions.apply₂, Term.realize]
+  rw [Functions.apply₂]; rw [Term.realize]
   refine' congr rfl (funext (Fin.cases _ _))
   · simp only [Matrix.cons_val_zero]
   · simp only [Matrix.cons_val_succ, Matrix.cons_val_fin_one, forall_const]
@@ -306,7 +306,7 @@ theorem realize_rel {k : ℕ} {R : L.Relations k} {ts : Fin k → L.Term _} :
 @[simp]
 theorem realize_rel₁ {R : L.Relations 1} {t : L.Term _} :
     (R.boundedFormula₁ t).Realize v xs ↔ RelMap R ![t.realize (Sum.elim v xs)] := by
-  rw [Relations.boundedFormula₁, realize_rel, iff_eq_eq]
+  rw [Relations.boundedFormula₁]; rw [realize_rel]; rw [iff_eq_eq]
   refine' congr rfl (funext fun _ => _)
   simp only [Matrix.cons_val_fin_one]
 #align first_order.language.bounded_formula.realize_rel₁ FirstOrder.Language.BoundedFormula.realize_rel₁
@@ -315,7 +315,7 @@ theorem realize_rel₁ {R : L.Relations 1} {t : L.Term _} :
 theorem realize_rel₂ {R : L.Relations 2} {t₁ t₂ : L.Term _} :
     (R.boundedFormula₂ t₁ t₂).Realize v xs ↔
       RelMap R ![t₁.realize (Sum.elim v xs), t₂.realize (Sum.elim v xs)] := by
-  rw [Relations.boundedFormula₂, realize_rel, iff_eq_eq]
+  rw [Relations.boundedFormula₂]; rw [realize_rel]; rw [iff_eq_eq]
   refine' congr rfl (funext (Fin.cases _ _))
   · simp only [Matrix.cons_val_zero]
   · simp only [Matrix.cons_val_succ, Matrix.cons_val_fin_one, forall_const]
@@ -343,7 +343,7 @@ theorem realize_all : (all θ).Realize v xs ↔ ∀ a : M, θ.Realize v (Fin.sno
 
 @[simp]
 theorem realize_ex : θ.ex.Realize v xs ↔ ∃ a : M, θ.Realize v (Fin.snoc xs a) := by
-  rw [BoundedFormula.ex, realize_not, realize_all, not_forall]
+  rw [BoundedFormula.ex]; rw [realize_not]; rw [realize_all]; rw [not_forall]
   simp_rw [realize_not, Classical.not_not]
 #align first_order.language.bounded_formula.realize_ex FirstOrder.Language.BoundedFormula.realize_ex
 
@@ -442,7 +442,7 @@ theorem realize_liftAt_one {n m : ℕ} {φ : L.BoundedFormula α n} {v : α → 
 @[simp]
 theorem realize_liftAt_one_self {n : ℕ} {φ : L.BoundedFormula α n} {v : α → M}
     {xs : Fin (n + 1) → M} : (φ.liftAt 1 n).Realize v xs ↔ φ.Realize v (xs ∘ castSucc) := by
-  rw [realize_liftAt_one (refl n), iff_eq_eq]
+  rw [realize_liftAt_one (refl n)]; rw [iff_eq_eq]
   refine' congr rfl (congr rfl (funext fun i => _))
   rw [if_pos i.is_lt]
 #align first_order.language.bounded_formula.realize_lift_at_one_self FirstOrder.Language.BoundedFormula.realize_liftAt_one_self
@@ -559,10 +559,9 @@ theorem realize_toPrenex (φ : L.BoundedFormula α n) {v : α → M} :
   · exact Iff.rfl
   · exact Iff.rfl
   · intros
-    rw [toPrenex, realize_toPrenexImp f1.toPrenex_isPrenex f2.toPrenex_isPrenex, realize_imp,
-      realize_imp, h1, h2]
+    rw [toPrenex]; rw [realize_toPrenexImp f1.toPrenex_isPrenex f2.toPrenex_isPrenex]; rw [realize_imp]; rw [realize_imp]; rw [h1]; rw [h2]
   · intros
-    rw [realize_all, toPrenex, realize_all]
+    rw [realize_all]; rw [toPrenex]; rw [realize_all]
     exact forall_congr' fun a => h
 #align first_order.language.bounded_formula.realize_to_prenex FirstOrder.Language.BoundedFormula.realize_toPrenex
 
@@ -644,7 +643,7 @@ theorem realize_rel {k : ℕ} {R : L.Relations k} {ts : Fin k → L.Term α} :
 @[simp]
 theorem realize_rel₁ {R : L.Relations 1} {t : L.Term _} :
     (R.formula₁ t).Realize v ↔ RelMap R ![t.realize v] := by
-  rw [Relations.formula₁, realize_rel, iff_eq_eq]
+  rw [Relations.formula₁]; rw [realize_rel]; rw [iff_eq_eq]
   refine' congr rfl (funext fun _ => _)
   simp only [Matrix.cons_val_fin_one]
 #align first_order.language.formula.realize_rel₁ FirstOrder.Language.Formula.realize_rel₁
@@ -652,7 +651,7 @@ theorem realize_rel₁ {R : L.Relations 1} {t : L.Term _} :
 @[simp]
 theorem realize_rel₂ {R : L.Relations 2} {t₁ t₂ : L.Term _} :
     (R.formula₂ t₁ t₂).Realize v ↔ RelMap R ![t₁.realize v, t₂.realize v] := by
-  rw [Relations.formula₂, realize_rel, iff_eq_eq]
+  rw [Relations.formula₂]; rw [realize_rel]; rw [iff_eq_eq]
   refine' congr rfl (funext (Fin.cases _ _))
   · simp only [Matrix.cons_val_zero]
   · simp only [Matrix.cons_val_succ, Matrix.cons_val_fin_one, forall_const]
@@ -671,15 +670,13 @@ theorem realize_iff : (φ.iff ψ).Realize v ↔ (φ.Realize v ↔ ψ.Realize v) 
 @[simp]
 theorem realize_relabel {φ : L.Formula α} {g : α → β} {v : β → M} :
     (φ.relabel g).Realize v ↔ φ.Realize (v ∘ g) := by
-  rw [Realize, Realize, relabel, BoundedFormula.realize_relabel, iff_eq_eq, Fin.castAdd_zero]
+  rw [Realize]; rw [Realize]; rw [relabel]; rw [BoundedFormula.realize_relabel]; rw [iff_eq_eq]; rw [Fin.castAdd_zero]
   exact congr rfl (funext finZeroElim)
 #align first_order.language.formula.realize_relabel FirstOrder.Language.Formula.realize_relabel
 
 theorem realize_relabel_sum_inr (φ : L.Formula (Fin n)) {v : Empty → M} {x : Fin n → M} :
     (BoundedFormula.relabel Sum.inr φ).Realize v x ↔ φ.Realize x := by
-  rw [BoundedFormula.realize_relabel, Formula.Realize, Sum.elim_comp_inr, Fin.castAdd_zero,
-    cast_refl, Function.comp.right_id,
-    Subsingleton.elim (x ∘ (natAdd n : Fin 0 → Fin n)) default]
+  rw [BoundedFormula.realize_relabel]; rw [Formula.Realize]; rw [Sum.elim_comp_inr]; rw [Fin.castAdd_zero]; rw [cast_refl]; rw [Function.comp.right_id]; rw [Subsingleton.elim (x ∘ (natAdd n : Fin 0 → Fin n)) default]
 #align first_order.language.formula.realize_relabel_sum_inr FirstOrder.Language.Formula.realize_relabel_sum_inr
 
 @[simp]
@@ -745,7 +742,7 @@ theorem realize_equivSentence_symm_con [L[[α]].Structure M]
 @[simp]
 theorem realize_equivSentence [L[[α]].Structure M] [(L.lhomWithConstants α).IsExpansionOn M]
     (φ : L.Formula α) : (equivSentence φ).Realize M ↔ φ.Realize fun a => (L.con a : M) := by
-  rw [← realize_equivSentence_symm_con M (equivSentence φ), _root_.Equiv.symm_apply_apply]
+  rw [← realize_equivSentence_symm_con M (equivSentence φ)]; rw [_root_.Equiv.symm_apply_apply]
 #align first_order.language.formula.realize_equiv_sentence FirstOrder.Language.Formula.realize_equivSentence
 
 theorem realize_equivSentence_symm (φ : L[[α]].Sentence) (v : α → M) :
@@ -922,7 +919,7 @@ theorem _root_.FirstOrder.Language.Formula.realize_iAlls
       fun _ => by simp [Function.comp],
       fun _ => by simp [Function.comp]⟩
   · intro x
-    rw [Formula.Realize, iff_iff_eq]
+    rw [Formula.Realize]; rw [iff_iff_eq]
     congr
     · funext i
       exact i.elim0
@@ -932,7 +929,7 @@ theorem realize_iAlls [Finite γ] {f : α → β ⊕ γ}
     {φ : L.Formula α} {v : β → M} {v' : Fin 0 → M} :
     BoundedFormula.Realize (φ.iAlls f) v v' ↔
       ∀ (i : γ → M), φ.Realize (fun a => Sum.elim v i (f a)) := by
-  rw [← Formula.realize_iAlls, iff_iff_eq]; congr; simp
+  rw [← Formula.realize_iAlls]; rw [iff_iff_eq]; congr; simp
 
 @[simp]
 theorem _root_.FirstOrder.Language.Formula.realize_iExs
@@ -943,13 +940,13 @@ theorem _root_.FirstOrder.Language.Formula.realize_iExs
   rw [Formula.iExs]
   simp only [Nat.add_zero, realize_exs, realize_relabel, Function.comp,
     castAdd_zero, castIso_refl, OrderIso.refl_apply, Sum.elim_map, id_eq]
-  rw [← not_iff_not, not_exists, not_exists]
+  rw [← not_iff_not]; rw [not_exists]; rw [not_exists]
   refine Equiv.forall_congr ?_ ?_
   · exact ⟨fun v => v ∘ e, fun v => v ∘ e.symm,
       fun _ => by simp [Function.comp],
       fun _ => by simp [Function.comp]⟩
   · intro x
-    rw [Formula.Realize, iff_iff_eq]
+    rw [Formula.Realize]; rw [iff_iff_eq]
     congr
     · funext i
       exact i.elim0
@@ -959,7 +956,7 @@ theorem realize_iExs [Finite γ] {f : α → β ⊕ γ}
     {φ : L.Formula α} {v : β → M} {v' : Fin 0 → M} :
     BoundedFormula.Realize (φ.iExs f) v v' ↔
       ∃ (i : γ → M), φ.Realize (fun a => Sum.elim v i (f a)) := by
-  rw [← Formula.realize_iExs, iff_iff_eq]; congr; simp
+  rw [← Formula.realize_iExs]; rw [iff_iff_eq]; congr; simp
 
 @[simp]
 theorem realize_toFormula (φ : L.BoundedFormula α n) (v : Sum α (Fin n) → M) :
@@ -974,7 +971,7 @@ theorem realize_toFormula (φ : L.BoundedFormula α n) (v : Sum α (Fin n) → M
     refine' forall_congr' fun a => _
     have h := ih3 (Sum.elim (v ∘ Sum.inl) (snoc (v ∘ Sum.inr) a))
     simp only [Sum.elim_comp_inl, Sum.elim_comp_inr] at h
-    rw [← h, realize_relabel, Formula.Realize, iff_iff_eq]
+    rw [← h]; rw [realize_relabel]; rw [Formula.Realize]; rw [iff_iff_eq]
     simp only [Function.comp]
     congr with x
     · cases' x with _ x
@@ -1021,23 +1018,22 @@ theorem realize_boundedFormula (g : M ≃[L] N) (φ : L.BoundedFormula α n) {v 
     constructor
     · intro h a
       have h' := h (g a)
-      rw [← Fin.comp_snoc, ih3] at h'
+      rw [← Fin.comp_snoc] at h'; rw [ih3] at h'
       exact h'
     · intro h a
       have h' := h (g.symm a)
-      rw [← ih3, Fin.comp_snoc, g.apply_symm_apply] at h'
+      rw [← ih3] at h'; rw [Fin.comp_snoc] at h'; rw [g.apply_symm_apply] at h'
       exact h'
 #align first_order.language.equiv.realize_bounded_formula FirstOrder.Language.Equiv.realize_boundedFormula
 
 @[simp]
 theorem realize_formula (g : M ≃[L] N) (φ : L.Formula α) {v : α → M} :
     φ.Realize (g ∘ v) ↔ φ.Realize v := by
-  rw [Formula.Realize, Formula.Realize, ← g.realize_boundedFormula φ, iff_eq_eq,
-    Unique.eq_default (g ∘ default)]
+  rw [Formula.Realize]; rw [Formula.Realize]; rw [← g.realize_boundedFormula φ]; rw [iff_eq_eq]; rw [Unique.eq_default (g ∘ default)]
 #align first_order.language.equiv.realize_formula FirstOrder.Language.Equiv.realize_formula
 
 theorem realize_sentence (g : M ≃[L] N) (φ : L.Sentence) : M ⊨ φ ↔ N ⊨ φ := by
-  rw [Sentence.Realize, Sentence.Realize, ← g.realize_formula, Unique.eq_default (g ∘ default)]
+  rw [Sentence.Realize]; rw [Sentence.Realize]; rw [← g.realize_formula]; rw [Unique.eq_default (g ∘ default)]
 #align first_order.language.equiv.realize_sentence FirstOrder.Language.Equiv.realize_sentence
 
 theorem theory_model (g : M ≃[L] N) [M ⊨ T] : N ⊨ T :=
@@ -1099,8 +1095,7 @@ section Cardinality
 variable (L)
 @[simp]
 theorem Sentence.realize_cardGe (n) : M ⊨ Sentence.cardGe L n ↔ ↑n ≤ #M := by
-  rw [← lift_mk_fin, ← lift_le.{0}, lift_lift, lift_mk_le, Sentence.cardGe, Sentence.Realize,
-    BoundedFormula.realize_exs]
+  rw [← lift_mk_fin]; rw [← lift_le.{0}]; rw [lift_lift]; rw [lift_mk_le]; rw [Sentence.cardGe]; rw [Sentence.Realize]; rw [BoundedFormula.realize_exs]
   simp_rw [BoundedFormula.realize_foldr_inf]
   simp only [Function.comp_apply, List.mem_map, Prod.exists, Ne.def, List.mem_product,
     List.mem_finRange, forall_exists_index, and_imp, List.mem_filter, true_and_iff]
@@ -1178,8 +1173,7 @@ theorem realize_sentence (h : M ≅[L] N) (φ : L.Sentence) : M ⊨ φ ↔ N ⊨
 #align first_order.language.elementarily_equivalent.realize_sentence FirstOrder.Language.ElementarilyEquivalent.realize_sentence
 
 theorem theory_model_iff (h : M ≅[L] N) : M ⊨ T ↔ N ⊨ T := by
-  rw [Theory.model_iff_subset_completeTheory, Theory.model_iff_subset_completeTheory,
-    h.completeTheory_eq]
+  rw [Theory.model_iff_subset_completeTheory]; rw [Theory.model_iff_subset_completeTheory]; rw [h.completeTheory_eq]
 set_option linter.uppercaseLean3 false in
 #align first_order.language.elementarily_equivalent.Theory_model_iff FirstOrder.Language.ElementarilyEquivalent.theory_model_iff
 

@@ -69,9 +69,9 @@ theorem finite_of_condCount_ne_zero {s t : Set Ω} (h : condCount s t ≠ 0) : s
 
 theorem condCount_univ [Fintype Ω] {s : Set Ω} :
     condCount Set.univ s = Measure.count s / Fintype.card Ω := by
-  rw [condCount, cond_apply _ MeasurableSet.univ, ← ENNReal.div_eq_inv_mul, Set.univ_inter]
+  rw [condCount]; rw [cond_apply _ MeasurableSet.univ]; rw [← ENNReal.div_eq_inv_mul]; rw [Set.univ_inter]
   congr
-  rw [← Finset.coe_univ, Measure.count_apply, Finset.univ.tsum_subtype' fun _ => (1 : ENNReal)]
+  rw [← Finset.coe_univ]; rw [Measure.count_apply]; rw [Finset.univ.tsum_subtype' fun _ => (1 : ENNReal)]
   · simp [Finset.card_univ]
   · exact (@Finset.coe_univ Ω _).symm ▸ MeasurableSet.univ
 #align probability_theory.cond_count_univ ProbabilityTheory.condCount_univ
@@ -81,15 +81,14 @@ variable [MeasurableSingletonClass Ω]
 theorem condCount_isProbabilityMeasure {s : Set Ω} (hs : s.Finite) (hs' : s.Nonempty) :
     IsProbabilityMeasure (condCount s) :=
   { measure_univ := by
-      rw [condCount, cond_apply _ hs.measurableSet, Set.inter_univ, ENNReal.inv_mul_cancel]
+      rw [condCount]; rw [cond_apply _ hs.measurableSet]; rw [Set.inter_univ]; rw [ENNReal.inv_mul_cancel]
       · exact fun h => hs'.ne_empty <| Measure.empty_of_count_eq_zero h
       · exact (Measure.count_apply_lt_top.2 hs).ne }
 #align probability_theory.cond_count_is_probability_measure ProbabilityTheory.condCount_isProbabilityMeasure
 
 theorem condCount_singleton (ω : Ω) (t : Set Ω) [Decidable (ω ∈ t)] :
     condCount {ω} t = if ω ∈ t then 1 else 0 := by
-  rw [condCount, cond_apply _ (measurableSet_singleton ω), Measure.count_singleton, inv_one,
-    one_mul]
+  rw [condCount]; rw [cond_apply _ (measurableSet_singleton ω)]; rw [Measure.count_singleton]; rw [inv_one]; rw [one_mul]
   split_ifs
   · rw [(by simpa : ({ω} : Set Ω) ∩ t = {ω}), Measure.count_singleton]
   · rw [(by simpa : ({ω} : Set Ω) ∩ t = ∅), Measure.count_empty]
@@ -98,11 +97,11 @@ theorem condCount_singleton (ω : Ω) (t : Set Ω) [Decidable (ω ∈ t)] :
 variable {s t u : Set Ω}
 
 theorem condCount_inter_self (hs : s.Finite) : condCount s (s ∩ t) = condCount s t := by
-  rw [condCount, cond_inter_self _ hs.measurableSet]
+  rw [condCount]; rw [cond_inter_self _ hs.measurableSet]
 #align probability_theory.cond_count_inter_self ProbabilityTheory.condCount_inter_self
 
 theorem condCount_self (hs : s.Finite) (hs' : s.Nonempty) : condCount s s = 1 := by
-  rw [condCount, cond_apply _ hs.measurableSet, Set.inter_self, ENNReal.inv_mul_cancel]
+  rw [condCount]; rw [cond_apply _ hs.measurableSet]; rw [Set.inter_self]; rw [ENNReal.inv_mul_cancel]
   · exact fun h => hs'.ne_empty <| Measure.empty_of_count_eq_zero h
   · exact (Measure.count_apply_lt_top.2 hs).ne
 #align probability_theory.cond_count_self ProbabilityTheory.condCount_self
@@ -111,16 +110,15 @@ theorem condCount_eq_one_of (hs : s.Finite) (hs' : s.Nonempty) (ht : s ⊆ t) :
     condCount s t = 1 := by
   haveI := condCount_isProbabilityMeasure hs hs'
   refine' eq_of_le_of_not_lt prob_le_one _
-  rw [not_lt, ← condCount_self hs hs']
+  rw [not_lt]; rw [← condCount_self hs hs']
   exact measure_mono ht
 #align probability_theory.cond_count_eq_one_of ProbabilityTheory.condCount_eq_one_of
 
 theorem pred_true_of_condCount_eq_one (h : condCount s t = 1) : s ⊆ t := by
   have hsf := finite_of_condCount_ne_zero (by rw [h]; exact one_ne_zero)
-  rw [condCount, cond_apply _ hsf.measurableSet, mul_comm] at h
+  rw [condCount] at h; rw [cond_apply _ hsf.measurableSet] at h; rw [mul_comm] at h
   replace h := ENNReal.eq_inv_of_mul_eq_one_left h
-  rw [inv_inv, Measure.count_apply_finite _ hsf, Measure.count_apply_finite _ (hsf.inter_of_left _),
-    Nat.cast_inj] at h
+  rw [inv_inv] at h; rw [Measure.count_apply_finite _ hsf] at h; rw [Measure.count_apply_finite _ (hsf.inter_of_left _)] at h; rw [Nat.cast_inj] at h
   suffices s ∩ t = s by exact this ▸ fun x hx => hx.2
   rw [← @Set.Finite.toFinset_inj _ _ _ (hsf.inter_of_left _) hsf]
   exact Finset.eq_of_subset_of_card_le (Set.Finite.toFinset_mono <| s.inter_subset_left t) h.ge
@@ -140,10 +138,7 @@ theorem condCount_inter (hs : s.Finite) :
   by_cases hst : s ∩ t = ∅
   · rw [hst, condCount_empty_meas, Measure.coe_zero, Pi.zero_apply, zero_mul,
       condCount_eq_zero_iff hs, ← Set.inter_assoc, hst, Set.empty_inter]
-  rw [condCount, condCount, cond_apply _ hs.measurableSet, cond_apply _ hs.measurableSet,
-    cond_apply _ (hs.inter_of_left _).measurableSet, mul_comm _ (Measure.count (s ∩ t)),
-    ← mul_assoc, mul_comm _ (Measure.count (s ∩ t)), ← mul_assoc, ENNReal.mul_inv_cancel, one_mul,
-    mul_comm, Set.inter_assoc]
+  rw [condCount]; rw [condCount]; rw [cond_apply _ hs.measurableSet]; rw [cond_apply _ hs.measurableSet]; rw [cond_apply _ (hs.inter_of_left _).measurableSet]; rw [mul_comm _ (Measure.count (s ∩ t))]; rw [← mul_assoc]; rw [mul_comm _ (Measure.count (s ∩ t))]; rw [← mul_assoc]; rw [ENNReal.mul_inv_cancel]; rw [one_mul]; rw [mul_comm]; rw [Set.inter_assoc]
   · rwa [← Measure.count_eq_zero_iff] at hst
   · exact (Measure.count_apply_lt_top.2 <| hs.inter_of_left _).ne
 #align probability_theory.cond_count_inter ProbabilityTheory.condCount_inter
@@ -156,15 +151,13 @@ theorem condCount_inter' (hs : s.Finite) :
 
 theorem condCount_union (hs : s.Finite) (htu : Disjoint t u) :
     condCount s (t ∪ u) = condCount s t + condCount s u := by
-  rw [condCount, cond_apply _ hs.measurableSet, cond_apply _ hs.measurableSet,
-    cond_apply _ hs.measurableSet, Set.inter_union_distrib_left, measure_union, mul_add]
+  rw [condCount]; rw [cond_apply _ hs.measurableSet]; rw [cond_apply _ hs.measurableSet]; rw [cond_apply _ hs.measurableSet]; rw [Set.inter_union_distrib_left]; rw [measure_union]; rw [mul_add]
   exacts [htu.mono inf_le_right inf_le_right, (hs.inter_of_left _).measurableSet]
 #align probability_theory.cond_count_union ProbabilityTheory.condCount_union
 
 theorem condCount_compl (t : Set Ω) (hs : s.Finite) (hs' : s.Nonempty) :
     condCount s t + condCount s tᶜ = 1 := by
-  rw [← condCount_union hs disjoint_compl_right, Set.union_compl_self,
-    (condCount_isProbabilityMeasure hs hs').measure_univ]
+  rw [← condCount_union hs disjoint_compl_right]; rw [Set.union_compl_self]; rw [(condCount_isProbabilityMeasure hs hs').measure_univ]
 #align probability_theory.cond_count_compl ProbabilityTheory.condCount_compl
 
 theorem condCount_disjoint_union (hs : s.Finite) (ht : t.Finite) (hst : Disjoint s t) :
@@ -174,16 +167,10 @@ theorem condCount_disjoint_union (hs : s.Finite) (ht : t.Finite) (hst : Disjoint
   · simp
   · simp [condCount_self ht ht']
   · simp [condCount_self hs hs']
-  rw [condCount, condCount, condCount, cond_apply _ hs.measurableSet,
-    cond_apply _ ht.measurableSet, cond_apply _ (hs.union ht).measurableSet,
-    cond_apply _ (hs.union ht).measurableSet, cond_apply _ (hs.union ht).measurableSet]
+  rw [condCount]; rw [condCount]; rw [condCount]; rw [cond_apply _ hs.measurableSet]; rw [cond_apply _ ht.measurableSet]; rw [cond_apply _ (hs.union ht).measurableSet]; rw [cond_apply _ (hs.union ht).measurableSet]; rw [cond_apply _ (hs.union ht).measurableSet]
   conv_lhs =>
-    rw [Set.union_inter_cancel_left, Set.union_inter_cancel_right,
-      mul_comm (Measure.count (s ∪ t))⁻¹, mul_comm (Measure.count (s ∪ t))⁻¹, ← mul_assoc,
-      ← mul_assoc, mul_comm _ (Measure.count s), mul_comm _ (Measure.count t), ← mul_assoc,
-      ← mul_assoc]
-  rw [ENNReal.mul_inv_cancel, ENNReal.mul_inv_cancel, one_mul, one_mul, ← add_mul, ← measure_union,
-    Set.union_inter_distrib_right, mul_comm]
+    rw [Set.union_inter_cancel_left]; rw [Set.union_inter_cancel_right]; rw [mul_comm (Measure.count (s ∪ t))⁻¹]; rw [mul_comm (Measure.count (s ∪ t))⁻¹]; rw [← mul_assoc]; rw [← mul_assoc]; rw [mul_comm _ (Measure.count s)]; rw [mul_comm _ (Measure.count t)]; rw [← mul_assoc]; rw [← mul_assoc]
+  rw [ENNReal.mul_inv_cancel]; rw [ENNReal.mul_inv_cancel]; rw [one_mul]; rw [one_mul]; rw [← add_mul]; rw [← measure_union]; rw [Set.union_inter_distrib_right]; rw [mul_comm]
   exacts [hst.mono inf_le_left inf_le_left, (ht.inter_of_left _).measurableSet,
     Measure.count_ne_zero ht', (Measure.count_apply_lt_top.2 ht).ne, Measure.count_ne_zero hs',
     (Measure.count_apply_lt_top.2 hs).ne]
@@ -197,7 +184,7 @@ theorem condCount_add_compl_eq (u t : Set Ω) (hs : s.Finite) :
   have : condCount s t = (condCount (s ∩ u) t * condCount (s ∩ u ∪ s ∩ uᶜ) (s ∩ u) +
       condCount (s ∩ uᶜ) t * condCount (s ∩ u ∪ s ∩ uᶜ) (s ∩ uᶜ)) := by
     rw [condCount_disjoint_union (hs.inter_of_left _) (hs.inter_of_left _)
-      (disjoint_compl_right.mono inf_le_right inf_le_right), Set.inter_union_compl]
+      (disjoint_compl_right.mono inf_le_right inf_le_right)]; rw [Set.inter_union_compl]
   rw [this]
   simp [condCount_inter_self hs]
 #align probability_theory.cond_count_add_compl_eq ProbabilityTheory.condCount_add_compl_eq

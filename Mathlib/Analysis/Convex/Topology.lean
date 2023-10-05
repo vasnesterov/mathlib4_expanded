@@ -44,9 +44,9 @@ variable [Fintype ι]
 
 /-- Every vector in `stdSimplex 𝕜 ι` has `max`-norm at most `1`. -/
 theorem stdSimplex_subset_closedBall : stdSimplex ℝ ι ⊆ Metric.closedBall 0 1 := fun f hf ↦ by
-  rw [Metric.mem_closedBall, dist_pi_le_iff zero_le_one]
+  rw [Metric.mem_closedBall]; rw [dist_pi_le_iff zero_le_one]
   intro x
-  rw [Pi.zero_apply, Real.dist_0_eq_abs, abs_of_nonneg <| hf.1 x]
+  rw [Pi.zero_apply]; rw [Real.dist_0_eq_abs]; rw [abs_of_nonneg <| hf.1 x]
   exact (mem_Icc_of_mem_stdSimplex hf x).2
 #align std_simplex_subset_closed_ball stdSimplex_subset_closedBall
 
@@ -81,7 +81,7 @@ variable [LinearOrderedRing 𝕜] [DenselyOrdered 𝕜] [TopologicalSpace 𝕜] 
   {x y : E}
 
 theorem segment_subset_closure_openSegment : [x -[𝕜] y] ⊆ closure (openSegment 𝕜 x y) := by
-  rw [segment_eq_image, openSegment_eq_image, ← closure_Ioo (zero_ne_one' 𝕜)]
+  rw [segment_eq_image]; rw [openSegment_eq_image]; rw [← closure_Ioo (zero_ne_one' 𝕜)]
   exact image_closure_subset_closure_image (by continuity)
 #align segment_subset_closure_open_segment segment_subset_closure_openSegment
 
@@ -95,7 +95,7 @@ variable [LinearOrderedRing 𝕜] [DenselyOrdered 𝕜] [PseudoMetricSpace 𝕜]
 
 @[simp]
 theorem closure_openSegment (x y : E) : closure (openSegment 𝕜 x y) = [x -[𝕜] y] := by
-  rw [segment_eq_image, openSegment_eq_image, ← closure_Ioo (zero_ne_one' 𝕜)]
+  rw [segment_eq_image]; rw [openSegment_eq_image]; rw [← closure_Ioo (zero_ne_one' 𝕜)]
   exact (image_closure_of_isCompact (isBounded_Ioo _ _).isCompact_closure <|
     Continuous.continuousOn <| by continuity).symm
 #align closure_open_segment closure_openSegment
@@ -308,8 +308,7 @@ theorem Convex.closure_subset_image_homothety_interior_of_one_lt {s : Set E} (hs
   refine'
     ⟨homothety x t⁻¹ y, hs.openSegment_interior_closure_subset_interior hx hy _,
       (AffineEquiv.homothetyUnitsMulHom x (Units.mk0 t hne)).apply_symm_apply y⟩
-  rw [openSegment_eq_image_lineMap, ← inv_one, ← inv_Ioi (zero_lt_one' ℝ), ← image_inv, image_image,
-    homothety_eq_lineMap]
+  rw [openSegment_eq_image_lineMap]; rw [← inv_one]; rw [← inv_Ioi (zero_lt_one' ℝ)]; rw [← image_inv]; rw [image_image]; rw [homothety_eq_lineMap]
   exact mem_image_of_mem _ ht
 #align convex.closure_subset_image_homothety_interior_of_one_lt Convex.closure_subset_image_homothety_interior_of_one_lt
 

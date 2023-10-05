@@ -225,8 +225,8 @@ noncomputable instance : Inv (Cauchy abv) :=
         have If : mk (inv f hf) * mk f = 1 := mk_eq.2 (inv_mul_cancel hf)
         have Ig : mk (inv g hg) * mk g = 1 := mk_eq.2 (inv_mul_cancel hg)
         have Ig' : mk g * mk (inv g hg) = 1 := mk_eq.2 (mul_inv_cancel hg)
-        rw [mk_eq.2 fg, ← Ig] at If
-        rw [← mul_one (mk (inv f hf)), ← Ig', ← mul_assoc, If, mul_assoc, Ig', mul_one]⟩
+        rw [mk_eq.2 fg] at If; rw [← Ig] at If
+        rw [← mul_one (mk (inv f hf))]; rw [← Ig']; rw [← mul_assoc]; rw [If]; rw [mul_assoc]; rw [Ig']; rw [mul_one]⟩
 
 -- porting note: simp can prove this
 -- @[simp]
@@ -364,7 +364,7 @@ theorem lim_const (x : β) : lim (const abv x) = x :=
 theorem lim_add (f g : CauSeq β abv) : lim f + lim g = lim (f + g) :=
   eq_lim_of_const_equiv <|
     show LimZero (const abv (lim f + lim g) - (f + g)) by
-      rw [const_add, add_sub_add_comm]
+      rw [const_add]; rw [add_sub_add_comm]
       exact add_limZero (Setoid.symm (equiv_lim f)) (Setoid.symm (equiv_lim g))
 #align cau_seq.lim_add CauSeq.lim_add
 
@@ -384,13 +384,13 @@ theorem lim_mul_lim (f g : CauSeq β abv) : lim f * lim g = lim (f * g) :=
 #align cau_seq.lim_mul_lim CauSeq.lim_mul_lim
 
 theorem lim_mul (f : CauSeq β abv) (x : β) : lim f * x = lim (f * const abv x) := by
-  rw [← lim_mul_lim, lim_const]
+  rw [← lim_mul_lim]; rw [lim_const]
 #align cau_seq.lim_mul CauSeq.lim_mul
 
 theorem lim_neg (f : CauSeq β abv) : lim (-f) = -lim f :=
   lim_eq_of_equiv_const
     (show LimZero (-f - const abv (-lim f)) by
-      rw [const_neg, sub_neg_eq_add, add_comm, ← sub_eq_add_neg]
+      rw [const_neg]; rw [sub_neg_eq_add]; rw [add_comm]; rw [← sub_eq_add_neg]
       exact Setoid.symm (equiv_lim f))
 #align cau_seq.lim_neg CauSeq.lim_neg
 
@@ -427,7 +427,7 @@ theorem lim_inv {f : CauSeq β abv} (hf : ¬LimZero f) : lim (inv f hf) = (lim f
         LimZero
           (inv f hf - const abv (lim f)⁻¹ -
             (const abv (lim f) - f) * (inv f hf * const abv (lim f)⁻¹)) := by
-              rw [sub_mul, ← sub_add, sub_sub, sub_add_eq_sub_sub, sub_right_comm, sub_add]
+              rw [sub_mul]; rw [← sub_add]; rw [sub_sub]; rw [sub_add_eq_sub_sub]; rw [sub_right_comm]; rw [sub_add]
               show LimZero
                 (inv f hf - const abv (lim f) * (inv f hf * const abv (lim f)⁻¹) -
                   (const abv (lim f)⁻¹ - f * (inv f hf * const abv (lim f)⁻¹)))

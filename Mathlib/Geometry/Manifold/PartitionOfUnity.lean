@@ -655,7 +655,7 @@ theorem IsOpen.exists_msmooth_support_eq (hs : IsOpen s) :
         obtain ⟨c, hc⟩ : ∃ c, 0 < f c x := f.exists_pos_of_mem (mem_univ x)
         refine ⟨c, mul_pos hc ?_⟩
         apply lt_of_le_of_ne (h'g _ _) (Ne.symm _)
-        rw [← mem_support, g_supp, ← mem_preimage, preimage_inter]
+        rw [← mem_support]; rw [g_supp]; rw [← mem_preimage]; rw [preimage_inter]
         have Hx : x ∈ tsupport (f c) := subset_tsupport _ (ne_of_gt hc)
         simp [(chartAt H c).left_inv (hf c Hx), hx, (chartAt H c).map_source (hf c Hx)]
       apply finsum_pos' (fun c ↦ h''g c x) B
@@ -667,7 +667,7 @@ theorem IsOpen.exists_msmooth_support_eq (hs : IsOpen s) :
       intro c
       by_cases Hx : x ∈ tsupport (f c)
       · suffices g c (chartAt H c x) = 0 by simp only [this, mul_zero]
-        rw [← nmem_support, g_supp, ← mem_preimage, preimage_inter]
+        rw [← nmem_support]; rw [g_supp]; rw [← mem_preimage]; rw [preimage_inter]
         contrapose! hx
         simp only [mem_inter_iff, mem_preimage, (chartAt H c).left_inv (hf c Hx)] at hx
         exact hx.2
@@ -700,7 +700,7 @@ theorem exists_msmooth_support_eq_eq_one_iff
       linarith [g_pos x]
     · have : 0 < g x := by
         apply lt_of_le_of_ne (g_pos x) (Ne.symm ?_)
-        rw [← mem_support, g_supp]
+        rw [← mem_support]; rw [g_supp]
         contrapose! xs
         simp at xs
         exact h.trans f_supp.symm.subset xs

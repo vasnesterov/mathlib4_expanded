@@ -84,7 +84,7 @@ set_option linter.uppercaseLean3 false in
 
 theorem opRingEquiv_symm_C_mul_X_pow (r : Rᵐᵒᵖ) (n : ℕ) :
     (opRingEquiv R).symm (C r * X ^ n : Rᵐᵒᵖ[X]) = op (C (unop r) * X ^ n) := by
-  rw [C_mul_X_pow_eq_monomial, opRingEquiv_symm_monomial, C_mul_X_pow_eq_monomial]
+  rw [C_mul_X_pow_eq_monomial]; rw [opRingEquiv_symm_monomial]; rw [C_mul_X_pow_eq_monomial]
 set_option linter.uppercaseLean3 false in
 #align polynomial.op_ring_equiv_symm_C_mul_X_pow Polynomial.opRingEquiv_symm_C_mul_X_pow
 
@@ -117,7 +117,7 @@ theorem natDegree_opRingEquiv (p : R[X]ᵐᵒᵖ) : (opRingEquiv R p).natDegree 
 @[simp]
 theorem leadingCoeff_opRingEquiv (p : R[X]ᵐᵒᵖ) :
     (opRingEquiv R p).leadingCoeff = op (unop p).leadingCoeff := by
-  rw [leadingCoeff, coeff_opRingEquiv, natDegree_opRingEquiv, leadingCoeff]
+  rw [leadingCoeff]; rw [coeff_opRingEquiv]; rw [natDegree_opRingEquiv]; rw [leadingCoeff]
 #align polynomial.leading_coeff_op_ring_equiv Polynomial.leadingCoeff_opRingEquiv
 
 end Polynomial

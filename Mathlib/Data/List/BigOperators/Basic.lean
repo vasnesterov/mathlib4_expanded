@@ -56,7 +56,7 @@ theorem prod_append : (l₁ ++ l₂).prod = l₁.prod * l₂.prod :=
 
 @[to_additive]
 theorem prod_concat : (l.concat a).prod = l.prod * a := by
-  rw [concat_eq_append, prod_append, prod_singleton]
+  rw [concat_eq_append]; rw [prod_append]; rw [prod_singleton]
 #align list.prod_concat List.prod_concat
 #align list.sum_concat List.sum_concat
 
@@ -84,7 +84,7 @@ theorem prod_replicate (n : ℕ) (a : M) : (replicate n a).prod = a ^ n := by
 
 @[to_additive sum_eq_card_nsmul]
 theorem prod_eq_pow_card (l : List M) (m : M) (h : ∀ x ∈ l, x = m) : l.prod = m ^ l.length := by
-  rw [← prod_replicate, ← List.eq_replicate.mpr ⟨rfl, h⟩]
+  rw [← prod_replicate]; rw [← List.eq_replicate.mpr ⟨rfl, h⟩]
 #align list.prod_eq_pow_card List.prod_eq_pow_card
 #align list.sum_eq_card_nsmul List.sum_eq_card_nsmul
 
@@ -112,7 +112,7 @@ theorem prod_hom₂ (l : List ι) (f : M → N → P) (hf : ∀ a b c d, f (a * 
   -- convert l.foldl_hom₂ (fun a b => f a b) _ _ _ _ _ fun a b i => _
   -- · exact hf'.symm
   -- · exact hf _ _ _ _
-  rw [← l.foldl_hom₂ (fun a b => f a b), hf']
+  rw [← l.foldl_hom₂ (fun a b => f a b)]; rw [hf']
   intros
   exact hf _ _ _ _
 #align list.prod_hom₂ List.prod_hom₂
@@ -153,7 +153,7 @@ theorem prod_isUnit_iff {α : Type*} [CommMonoid α] {L : List α} :
   refine' ⟨fun h => _, prod_isUnit⟩
   induction' L with m L ih
   · exact fun m' h' => False.elim (not_mem_nil m' h')
-  rw [prod_cons, IsUnit.mul_iff] at h
+  rw [prod_cons] at h; rw [IsUnit.mul_iff] at h
   exact fun m' h' => Or.elim (eq_or_mem_of_mem_cons h') (fun H => H.substr h.1) fun H => ih h.2 _ H
 #align list.prod_is_unit_iff List.prod_isUnit_iff
 #align list.sum_is_add_unit_iff List.sum_isAddUnit_iff
@@ -164,7 +164,7 @@ theorem prod_take_mul_prod_drop : ∀ (L : List M) (i : ℕ), (L.take i).prod * 
   | L, 0 => by simp
   | h :: t, n + 1 => by
     dsimp
-    rw [prod_cons, prod_cons, mul_assoc, prod_take_mul_prod_drop t]
+    rw [prod_cons]; rw [prod_cons]; rw [mul_assoc]; rw [prod_take_mul_prod_drop t]
 #align list.prod_take_mul_prod_drop List.prod_take_mul_prod_drop
 #align list.sum_take_add_sum_drop List.sum_take_add_sum_drop
 
@@ -175,8 +175,7 @@ theorem prod_take_succ :
   | h :: t, 0, _ => rfl
   | h :: t, n + 1, p => by
     dsimp
-    rw [prod_cons, prod_cons, prod_take_succ t n (Nat.lt_of_succ_lt_succ p), mul_assoc,
-      nthLe_cons, dif_neg (Nat.add_one_ne_zero _)]
+    rw [prod_cons]; rw [prod_cons]; rw [prod_take_succ t n (Nat.lt_of_succ_lt_succ p)]; rw [mul_assoc]; rw [nthLe_cons]; rw [dif_neg (Nat.add_one_ne_zero _)]
     simp
 #align list.prod_take_succ List.prod_take_succ
 #align list.sum_take_succ List.sum_take_succ
@@ -468,7 +467,7 @@ theorem eq_of_prod_take_eq [LeftCancelMonoid M] {L L' : List M} (h : L.length = 
     (h' : ∀ i ≤ L.length, (L.take i).prod = (L'.take i).prod) : L = L' := by
   refine ext_get h fun i h₁ h₂ => ?_
   have : (L.take (i + 1)).prod = (L'.take (i + 1)).prod := h' _ (Nat.succ_le_of_lt h₁)
-  rw [prod_take_succ L i h₁, prod_take_succ L' i h₂, h' i (le_of_lt h₁)] at this
+  rw [prod_take_succ L i h₁] at this; rw [prod_take_succ L' i h₂] at this; rw [h' i (le_of_lt h₁)] at this
   convert mul_left_cancel this
 #align list.eq_of_prod_take_eq List.eq_of_prod_take_eq
 #align list.eq_of_sum_take_eq List.eq_of_sum_take_eq
@@ -525,8 +524,7 @@ theorem all_one_of_le_one_le_of_prod_eq_one [OrderedCommMonoid M] {l : List M}
 theorem prod_eq_one [Monoid M] {l : List M} (hl : ∀ x ∈ l, x = (1 : M)) : l.prod = 1 := by
   induction' l with i l hil
   · rfl
-  rw [List.prod_cons, hil fun x hx => hl _ (mem_cons_of_mem i hx), hl _ (mem_cons_self i l),
-    one_mul]
+  rw [List.prod_cons]; rw [hil fun x hx => hl _ (mem_cons_of_mem i hx)]; rw [hl _ (mem_cons_self i l)]; rw [one_mul]
 #align list.prod_eq_one List.prod_eq_one
 #align list.sum_eq_zero List.sum_eq_zero
 
@@ -607,7 +605,7 @@ theorem headI_le_sum (L : List ℕ) : L.headI ≤ L.sum :=
 
 /-- This relies on `default ℕ = 0`. -/
 theorem tail_sum (L : List ℕ) : L.tail.sum = L.sum - L.headI := by
-  rw [← headI_add_tail_sum L, add_comm, @add_tsub_cancel_right]
+  rw [← headI_add_tail_sum L]; rw [add_comm]; rw [@add_tsub_cancel_right]
 #align list.tail_sum List.tail_sum
 
 section Alternating
@@ -640,7 +638,7 @@ end
 @[to_additive]
 theorem alternatingProd_cons_cons [DivInvMonoid α] (a b : α) (l : List α) :
     alternatingProd (a :: b :: l) = a / b * alternatingProd l := by
-  rw [div_eq_mul_inv, alternatingProd_cons_cons']
+  rw [div_eq_mul_inv]; rw [alternatingProd_cons_cons']
 #align list.alternating_prod_cons_cons List.alternatingProd_cons_cons
 #align list.alternating_sum_cons_cons List.alternatingSum_cons_cons
 
@@ -651,14 +649,14 @@ theorem alternatingProd_cons' :
     ∀ (a : α) (l : List α), alternatingProd (a :: l) = a * (alternatingProd l)⁻¹
   | a, [] => by rw [alternatingProd_nil, inv_one, mul_one, alternatingProd_singleton]
   | a, b :: l => by
-    rw [alternatingProd_cons_cons', alternatingProd_cons' b l, mul_inv, inv_inv, mul_assoc]
+    rw [alternatingProd_cons_cons']; rw [alternatingProd_cons' b l]; rw [mul_inv]; rw [inv_inv]; rw [mul_assoc]
 #align list.alternating_prod_cons' List.alternatingProd_cons'
 #align list.alternating_sum_cons' List.alternatingSum_cons'
 
 @[to_additive (attr := simp)]
 theorem alternatingProd_cons (a : α) (l : List α) :
     alternatingProd (a :: l) = a / alternatingProd l := by
-  rw [div_eq_mul_inv, alternatingProd_cons']
+  rw [div_eq_mul_inv]; rw [alternatingProd_cons']
 #align list.alternating_prod_cons List.alternatingProd_cons
 #align list.alternating_sum_cons List.alternatingSum_cons
 

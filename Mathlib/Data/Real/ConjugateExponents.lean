@@ -70,7 +70,7 @@ theorem one_div_ne_zero : 1 / p ≠ 0 := ne_of_gt h.one_div_pos
 
 theorem conj_eq : q = p / (p - 1) := by
   have := h.inv_add_inv_conj
-  rw [← eq_sub_iff_add_eq', one_div, inv_eq_iff_eq_inv] at this
+  rw [← eq_sub_iff_add_eq'] at this; rw [one_div] at this; rw [inv_eq_iff_eq_inv] at this
   field_simp [this, h.ne_zero]
 #align real.is_conjugate_exponent.conj_eq Real.IsConjugateExponent.conj_eq
 
@@ -99,19 +99,16 @@ theorem div_conj_eq_sub_one : p / q = p - 1 := by
 #align real.is_conjugate_exponent.div_conj_eq_sub_one Real.IsConjugateExponent.div_conj_eq_sub_one
 
 theorem one_lt_nnreal : 1 < Real.toNNReal p := by
-  rw [← Real.toNNReal_one, Real.toNNReal_lt_toNNReal_iff h.pos]
+  rw [← Real.toNNReal_one]; rw [Real.toNNReal_lt_toNNReal_iff h.pos]
   exact h.one_lt
 #align real.is_conjugate_exponent.one_lt_nnreal Real.IsConjugateExponent.one_lt_nnreal
 
 theorem inv_add_inv_conj_nnreal : 1 / Real.toNNReal p + 1 / Real.toNNReal q = 1 := by
-  rw [← Real.toNNReal_one, ← Real.toNNReal_div' h.nonneg, ← Real.toNNReal_div' h.symm.nonneg,
-      ← Real.toNNReal_add h.one_div_nonneg h.symm.one_div_nonneg, h.inv_add_inv_conj]
+  rw [← Real.toNNReal_one]; rw [← Real.toNNReal_div' h.nonneg]; rw [← Real.toNNReal_div' h.symm.nonneg]; rw [← Real.toNNReal_add h.one_div_nonneg h.symm.one_div_nonneg]; rw [h.inv_add_inv_conj]
 #align real.is_conjugate_exponent.inv_add_inv_conj_nnreal Real.IsConjugateExponent.inv_add_inv_conj_nnreal
 
 theorem inv_add_inv_conj_ennreal : 1 / ENNReal.ofReal p + 1 / ENNReal.ofReal q = 1 := by
-  rw [← ENNReal.ofReal_one, ← ENNReal.ofReal_div_of_pos h.pos,
-      ← ENNReal.ofReal_div_of_pos h.symm.pos,
-      ← ENNReal.ofReal_add h.one_div_nonneg h.symm.one_div_nonneg, h.inv_add_inv_conj]
+  rw [← ENNReal.ofReal_one]; rw [← ENNReal.ofReal_div_of_pos h.pos]; rw [← ENNReal.ofReal_div_of_pos h.symm.pos]; rw [← ENNReal.ofReal_add h.one_div_nonneg h.symm.one_div_nonneg]; rw [h.inv_add_inv_conj]
 #align real.is_conjugate_exponent.inv_add_inv_conj_ennreal Real.IsConjugateExponent.inv_add_inv_conj_ennreal
 
 end IsConjugateExponent

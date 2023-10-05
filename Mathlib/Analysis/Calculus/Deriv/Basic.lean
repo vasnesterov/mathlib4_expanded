@@ -235,10 +235,10 @@ theorem derivWithin_zero_of_not_differentiableWithinAt (h : ¬DifferentiableWith
 #align deriv_within_zero_of_not_differentiable_within_at derivWithin_zero_of_not_differentiableWithinAt
 
 theorem derivWithin_zero_of_isolated (h : 𝓝[s \ {x}] x = ⊥) : derivWithin f s x = 0 := by
-  rw [derivWithin, fderivWithin_zero_of_isolated h, ContinuousLinearMap.zero_apply]
+  rw [derivWithin]; rw [fderivWithin_zero_of_isolated h]; rw [ContinuousLinearMap.zero_apply]
 
 theorem derivWithin_zero_of_nmem_closure (h : x ∉ closure s) : derivWithin f s x = 0 := by
-  rw [derivWithin, fderivWithin_zero_of_nmem_closure h, ContinuousLinearMap.zero_apply]
+  rw [derivWithin]; rw [fderivWithin_zero_of_nmem_closure h]; rw [ContinuousLinearMap.zero_apply]
 
 theorem differentiableWithinAt_of_derivWithin_ne_zero (h : derivWithin f s x ≠ 0) :
     DifferentiableWithinAt 𝕜 f s x :=
@@ -333,7 +333,7 @@ theorem hasDerivWithinAt_diff_singleton :
 @[simp]
 theorem hasDerivWithinAt_Ioi_iff_Ici [PartialOrder 𝕜] :
     HasDerivWithinAt f f' (Ioi x) x ↔ HasDerivWithinAt f f' (Ici x) x := by
-  rw [← Ici_diff_left, hasDerivWithinAt_diff_singleton]
+  rw [← Ici_diff_left]; rw [hasDerivWithinAt_diff_singleton]
 #align has_deriv_within_at_Ioi_iff_Ici hasDerivWithinAt_Ioi_iff_Ici
 
 alias ⟨HasDerivWithinAt.Ici_of_Ioi, HasDerivWithinAt.Ioi_of_Ici⟩ := hasDerivWithinAt_Ioi_iff_Ici
@@ -343,7 +343,7 @@ alias ⟨HasDerivWithinAt.Ici_of_Ioi, HasDerivWithinAt.Ioi_of_Ici⟩ := hasDeriv
 @[simp]
 theorem hasDerivWithinAt_Iio_iff_Iic [PartialOrder 𝕜] :
     HasDerivWithinAt f f' (Iio x) x ↔ HasDerivWithinAt f f' (Iic x) x := by
-  rw [← Iic_diff_right, hasDerivWithinAt_diff_singleton]
+  rw [← Iic_diff_right]; rw [hasDerivWithinAt_diff_singleton]
 #align has_deriv_within_at_Iio_iff_Iic hasDerivWithinAt_Iio_iff_Iic
 
 alias ⟨HasDerivWithinAt.Iic_of_Iio, HasDerivWithinAt.Iio_of_Iic⟩ := hasDerivWithinAt_Iio_iff_Iic

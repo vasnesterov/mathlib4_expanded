@@ -71,9 +71,7 @@ def leftDerivedZeroToSelfApp [EnoughProjectives C] {X : C} (P : ProjectiveResolu
   (leftDerivedObjIso F 0 P).hom ≫
     homology.desc' _ _ _ (kernel.ι _ ≫ F.map (P.π.f 0))
       (by
-        rw [kernel.lift_ι_assoc,
-          HomologicalComplex.dTo_eq _ (by simp : (ComplexShape.down ℕ).Rel 1 0),
-          mapHomologicalComplex_obj_d, Category.assoc, ← Functor.map_comp]
+        rw [kernel.lift_ι_assoc]; rw [HomologicalComplex.dTo_eq _ (by simp : (ComplexShape.down ℕ).Rel 1 0)]; rw [mapHomologicalComplex_obj_d]; rw [Category.assoc]; rw [← Functor.map_comp]
         simp)
 #align category_theory.abelian.functor.left_derived_zero_to_self_app CategoryTheory.Abelian.Functor.leftDerivedZeroToSelfApp
 
@@ -96,12 +94,12 @@ theorem leftDerivedZeroToSelfApp_comp_inv [EnoughProjectives C] [PreservesFinite
     (P : ProjectiveResolution X) :
     leftDerivedZeroToSelfApp F P ≫ leftDerivedZeroToSelfAppInv F P = 𝟙 _ := by
   dsimp [leftDerivedZeroToSelfApp, leftDerivedZeroToSelfAppInv]
-  rw [← Category.assoc, ← Category.assoc, ← Category.assoc, Iso.comp_inv_eq]
+  rw [← Category.assoc]; rw [← Category.assoc]; rw [← Category.assoc]; rw [Iso.comp_inv_eq]
   -- Porting note: working around 'motive is not type correct'
   simp only [Category.id_comp]
-  rw [Category.assoc, Category.assoc, Category.assoc]
+  rw [Category.assoc]; rw [Category.assoc]; rw [Category.assoc]
   convert Category.comp_id (leftDerivedObjIso F 0 P).hom
-  rw [← Category.assoc, ← Category.assoc, Iso.comp_inv_eq]
+  rw [← Category.assoc]; rw [← Category.assoc]; rw [Iso.comp_inv_eq]
   -- Porting note: broken ext
   apply homology.hom_from_ext
   simp only [← Category.assoc]
@@ -115,7 +113,7 @@ theorem leftDerivedZeroToSelfApp_comp_inv [EnoughProjectives C] [PreservesFinite
   ext
   -- Porting note: working around 'motive is not type correct'
   simp only [Category.id_comp]
-  rw [Category.assoc, equalizer_as_kernel, kernel.lift_ι]
+  rw [Category.assoc]; rw [equalizer_as_kernel]; rw [kernel.lift_ι]
   simp only [Category.comp_id]
 #align category_theory.abelian.functor.left_derived_zero_to_self_app_comp_inv CategoryTheory.Abelian.Functor.leftDerivedZeroToSelfApp_comp_inv
 
@@ -126,10 +124,10 @@ theorem leftDerivedZeroToSelfAppInv_comp [EnoughProjectives C] [PreservesFiniteC
     (P : ProjectiveResolution X) :
     leftDerivedZeroToSelfAppInv F P ≫ leftDerivedZeroToSelfApp F P = 𝟙 _ := by
   dsimp [leftDerivedZeroToSelfApp, leftDerivedZeroToSelfAppInv]
-  rw [Category.assoc, Category.assoc]
+  rw [Category.assoc]; rw [Category.assoc]
   -- Porting note: working around 'motive is not type correct'
   simp only [Category.assoc]
-  rw [← Category.assoc (F.leftDerivedObjIso 0 P).inv, Iso.inv_hom_id]
+  rw [← Category.assoc (F.leftDerivedObjIso 0 P).inv]; rw [Iso.inv_hom_id]
   -- Porting note: working around 'motive is not type correct'
   simp only [Category.id_comp]
   -- Porting note: instance not found even though it is present in the goal
@@ -142,7 +140,7 @@ theorem leftDerivedZeroToSelfAppInv_comp [EnoughProjectives C] [PreservesFiniteC
   simp only [Category.comp_id]
   ext
   simp only [cokernel.π_desc_assoc, Category.assoc, cokernel.π_desc, homology.desc']
-  rw [← Category.assoc, ← Category.assoc (homologyIsoCokernelLift _ _ _).inv, Iso.inv_hom_id]
+  rw [← Category.assoc]; rw [← Category.assoc (homologyIsoCokernelLift _ _ _).inv]; rw [Iso.inv_hom_id]
   simp only [Category.assoc, cokernel.π_desc, kernel.lift_ι_assoc, Category.id_comp]
 #align category_theory.abelian.functor.left_derived_zero_to_self_app_inv_comp CategoryTheory.Abelian.Functor.leftDerivedZeroToSelfAppInv_comp
 
@@ -163,9 +161,7 @@ theorem leftDerived_zero_to_self_natural [EnoughProjectives C] {X : C} {Y : C} (
     (F.leftDerived 0).map f ≫ leftDerivedZeroToSelfApp F Q =
       leftDerivedZeroToSelfApp F P ≫ F.map f := by
   dsimp only [leftDerivedZeroToSelfApp]
-  rw [Functor.leftDerived_map_eq F 0 f (ProjectiveResolution.lift f P Q) (by simp), Category.assoc,
-    Category.assoc, ← Category.assoc _ (F.leftDerivedObjIso 0 Q).hom, Iso.inv_hom_id,
-    Category.id_comp, Category.assoc, whisker_eq]
+  rw [Functor.leftDerived_map_eq F 0 f (ProjectiveResolution.lift f P Q) (by simp)]; rw [Category.assoc]; rw [Category.assoc]; rw [← Category.assoc _ (F.leftDerivedObjIso 0 Q).hom]; rw [Iso.inv_hom_id]; rw [Category.id_comp]; rw [Category.assoc]; rw [whisker_eq]
   dsimp only [homologyFunctor_map]
   -- Porting note: broken ext
   apply homology.hom_from_ext

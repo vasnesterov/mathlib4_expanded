@@ -98,12 +98,12 @@ theorem image₂_def {α β γ : Type _} (f : α → β → γ) (s : Finset α) 
 instance lawfulApplicative : LawfulApplicative Finset :=
   { Finset.lawfulFunctor with
     seqLeft_eq := fun s t => by
-      rw [seq_def, fmap_def, seqLeft_def]
+      rw [seq_def]; rw [fmap_def]; rw [seqLeft_def]
       obtain rfl | ht := t.eq_empty_or_nonempty
       · simp_rw [image_empty, if_true]
         exact (sup_bot _).symm
       · ext a
-        rw [if_neg ht.ne_empty, mem_sup]
+        rw [if_neg ht.ne_empty]; rw [mem_sup]
         refine' ⟨fun ha => ⟨const _ a, mem_image_of_mem _ ha, mem_image_const_self.2 ht⟩, _⟩
         rintro ⟨f, hf, ha⟩
         rw [mem_image] at hf ha
@@ -111,11 +111,11 @@ instance lawfulApplicative : LawfulApplicative Finset :=
         obtain ⟨_, _, rfl⟩ := ha
         exact hb
     seqRight_eq := fun s t => by
-      rw [seq_def, fmap_def, seqRight_def]
+      rw [seq_def]; rw [fmap_def]; rw [seqRight_def]
       obtain rfl | hs := s.eq_empty_or_nonempty
       · rw [if_pos rfl, image_empty, sup_empty, bot_eq_empty]
       · ext a
-        rw [if_neg hs.ne_empty, mem_sup]
+        rw [if_neg hs.ne_empty]; rw [mem_sup]
         refine' ⟨fun ha => ⟨id, mem_image_const_self.2 hs, by rwa [image_id]⟩, _⟩
         rintro ⟨f, hf, ha⟩
         rw [mem_image] at hf ha
@@ -198,7 +198,7 @@ def traverse [DecidableEq β] (f : α → F β) (s : Finset α) : F (Finset β) 
 
 @[simp]
 theorem id_traverse [DecidableEq α] (s : Finset α) : traverse (pure : α → Id α) s = s := by
-  rw [traverse, Multiset.id_traverse]
+  rw [traverse]; rw [Multiset.id_traverse]
   exact s.val_toFinset
 #align finset.id_traverse Finset.id_traverse
 
@@ -214,7 +214,7 @@ theorem map_traverse (g : α → G β) (h : β → γ) (s : Finset α) :
     Functor.map h <$> traverse g s = traverse (Functor.map h ∘ g) s := by
   unfold traverse
   simp only [map_comp_coe, functor_norm]
-  rw [LawfulFunctor.comp_map, Multiset.map_traverse]
+  rw [LawfulFunctor.comp_map]; rw [Multiset.map_traverse]
 #align finset.map_traverse Finset.map_traverse
 
 end Traversable

@@ -104,7 +104,7 @@ theorem pow_smul_mem_closure_smul {N : Type*} [CommMonoid N] [MulAction M N] [Is
   · exact ⟨0, by simpa using one_mem _⟩
   · rintro x y ⟨nx, hx⟩ ⟨ny, hy⟩
     use ny + nx
-    rw [pow_add, mul_smul, ← smul_mul_assoc, mul_comm, ← smul_mul_assoc]
+    rw [pow_add]; rw [mul_smul]; rw [← smul_mul_assoc]; rw [mul_comm]; rw [← smul_mul_assoc]
     exact mul_mem hy hx
 #align submonoid.pow_smul_mem_closure_smul Submonoid.pow_smul_mem_closure_smul
 #align add_submonoid.nsmul_vadd_mem_closure_vadd AddSubmonoid.nsmul_vadd_mem_closure_vadd
@@ -508,7 +508,7 @@ theorem mem_one {x : R} : x ∈ (1 : AddSubmonoid R) ↔ ∃ n : ℕ, ↑n = x :
 #align add_submonoid.mem_one AddSubmonoid.mem_one
 
 theorem one_eq_closure : (1 : AddSubmonoid R) = closure {1} := by
-  rw [closure_singleton_eq, one_eq_mrange]
+  rw [closure_singleton_eq]; rw [one_eq_mrange]
   congr 1
   ext
   simp
@@ -551,7 +551,7 @@ protected theorem mul_induction_on {M N : AddSubmonoid R} {C : R → Prop} {r : 
 theorem closure_mul_closure (S T : Set R) : closure S * closure T = closure (S * T) := by
   apply le_antisymm
   · refine mul_le.2 fun a ha b hb => ?_
-    rw [← AddMonoidHom.mulRight_apply, ← AddSubmonoid.mem_comap]
+    rw [← AddMonoidHom.mulRight_apply]; rw [← AddSubmonoid.mem_comap]
     refine (closure_le.2 fun a' ha' => ?_) ha
     change b ∈ (closure (S * T)).comap (AddMonoidHom.mulLeft a')
     refine (closure_le.2 fun b' hb' => ?_) hb
@@ -564,19 +564,19 @@ theorem closure_mul_closure (S T : Set R) : closure S * closure T = closure (S *
 
 theorem mul_eq_closure_mul_set (M N : AddSubmonoid R) :
     M * N = closure ((M : Set R) * (N : Set R)) := by
-  rw [← closure_mul_closure, closure_eq, closure_eq]
+  rw [← closure_mul_closure]; rw [closure_eq]; rw [closure_eq]
 #align add_submonoid.mul_eq_closure_mul_set AddSubmonoid.mul_eq_closure_mul_set
 
 @[simp]
 theorem mul_bot (S : AddSubmonoid R) : S * ⊥ = ⊥ :=
   eq_bot_iff.2 <| mul_le.2 fun m _ n hn => by
-    rw [AddSubmonoid.mem_bot] at hn ⊢; rw [hn, mul_zero]
+    rw [AddSubmonoid.mem_bot] at hn ⊢; rw [hn]; rw [mul_zero]
 #align add_submonoid.mul_bot AddSubmonoid.mul_bot
 
 @[simp]
 theorem bot_mul (S : AddSubmonoid R) : ⊥ * S = ⊥ :=
   eq_bot_iff.2 <| mul_le.2 fun m hm n hn => by
-    rw [AddSubmonoid.mem_bot] at hm ⊢; rw [hm, zero_mul]
+    rw [AddSubmonoid.mem_bot] at hm ⊢; rw [hm]; rw [zero_mul]
 #align add_submonoid.bot_mul AddSubmonoid.bot_mul
 
 @[mono]

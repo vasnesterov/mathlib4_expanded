@@ -80,16 +80,16 @@ theorem succNthDefiningPoly_degree [IsDomain k] (n : ℕ) (a₁ a₂ : 𝕎 k) (
     (ha₁ : a₁.coeff 0 ≠ 0) (ha₂ : a₂.coeff 0 ≠ 0) :
     (succNthDefiningPoly p n a₁ a₂ bs).degree = p := by
   have : (X ^ p * C (a₁.coeff 0 ^ p ^ (n + 1))).degree = (p : WithBot ℕ) := by
-    rw [degree_mul, degree_C]
+    rw [degree_mul]; rw [degree_C]
     · simp only [Nat.cast_withBot, add_zero, degree_X, degree_pow, Nat.smul_one_eq_coe]
     · exact pow_ne_zero _ ha₁
   have : (X ^ p * C (a₁.coeff 0 ^ p ^ (n + 1)) - X * C (a₂.coeff 0 ^ p ^ (n + 1))).degree =
       (p : WithBot ℕ) := by
-    rw [degree_sub_eq_left_of_degree_lt, this]
-    rw [this, degree_mul, degree_C, degree_X, add_zero]
+    rw [degree_sub_eq_left_of_degree_lt]; rw [this]
+    rw [this]; rw [degree_mul]; rw [degree_C]; rw [degree_X]; rw [add_zero]
     · exact_mod_cast hp.out.one_lt
     · exact pow_ne_zero _ ha₂
-  rw [succNthDefiningPoly, degree_add_eq_left_of_degree_lt, this]
+  rw [succNthDefiningPoly]; rw [degree_add_eq_left_of_degree_lt]; rw [this]
   apply lt_of_le_of_lt degree_C_le
   rw [this]
   exact_mod_cast hp.out.pos
@@ -165,7 +165,7 @@ theorem solution_nonzero {a₁ a₂ : 𝕎 k} (ha₁ : a₁.coeff 0 ≠ 0) (ha�
     solution p a₁ a₂ ≠ 0 := by
   intro h
   have := solution_spec p a₁ a₂
-  rw [h, zero_pow] at this
+  rw [h] at this; rw [zero_pow] at this
   · simpa [ha₁, ha₂] using _root_.div_eq_zero_iff.mp this.symm
   · -- Porting note: was
     -- linarith [hp.out.one_lt, le_of_lt hp.out.one_lt]
@@ -182,7 +182,7 @@ theorem solution_spec' {a₁ : 𝕎 k} (ha₁ : a₁.coeff 0 ≠ 0) (a₂ : 𝕎
     congr
     · skip
     · rw [hq]
-  rw [pow_succ', hq', this]
+  rw [pow_succ']; rw [hq']; rw [this]
   field_simp [ha₁, mul_comm]
 #align witt_vector.recursion_base.solution_spec' WittVector.RecursionBase.solution_spec'
 

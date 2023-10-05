@@ -39,7 +39,7 @@ theorem zero_cpow_eq_nhds {b : ℂ} (hb : b ≠ 0) : (fun x : ℂ => (0 : ℂ) ^
   exact
     this.mono fun x hx => by
       dsimp only
-      rw [zero_cpow hx, Pi.zero_apply]
+      rw [zero_cpow hx]; rw [Pi.zero_apply]
   exact IsOpen.eventually_mem isOpen_ne hb
 #align zero_cpow_eq_nhds zero_cpow_eq_nhds
 
@@ -179,7 +179,7 @@ namespace Real
 theorem continuousAt_const_rpow {a b : ℝ} (h : a ≠ 0) : ContinuousAt (rpow a) b := by
   have : rpow a = fun x : ℝ => ((a : ℂ) ^ (x : ℂ)).re := by
     ext1 x
-    rw [rpow_eq_pow, rpow_def]
+    rw [rpow_eq_pow]; rw [rpow_def]
   rw [this]
   refine' Complex.continuous_re.continuousAt.comp _
   refine' (continuousAt_const_cpow _).comp Complex.continuous_ofReal.continuousAt
@@ -189,7 +189,7 @@ theorem continuousAt_const_rpow {a b : ℝ} (h : a ≠ 0) : ContinuousAt (rpow a
 theorem continuousAt_const_rpow' {a b : ℝ} (h : b ≠ 0) : ContinuousAt (rpow a) b := by
   have : rpow a = fun x : ℝ => ((a : ℂ) ^ (x : ℂ)).re := by
     ext1 x
-    rw [rpow_eq_pow, rpow_def]
+    rw [rpow_eq_pow]; rw [rpow_def]
   rw [this]
   refine' Complex.continuous_re.continuousAt.comp _
   refine' (continuousAt_const_cpow' _).comp Complex.continuous_ofReal.continuousAt
@@ -246,7 +246,7 @@ theorem continuousAt_rpow_of_pos (p : ℝ × ℝ) (hp : 0 < p.2) :
   have B : Tendsto (fun p : ℝ × ℝ => p.1 ^ p.2) (𝓝[≠] 0 ×ˢ 𝓝 y) (𝓝 0) :=
     squeeze_zero_norm (fun p => abs_rpow_le_exp_log_mul p.1 p.2) A
   have C : Tendsto (fun p : ℝ × ℝ => p.1 ^ p.2) (𝓝[{0}] 0 ×ˢ 𝓝 y) (pure 0) := by
-    rw [nhdsWithin_singleton, tendsto_pure, pure_prod, eventually_map]
+    rw [nhdsWithin_singleton]; rw [tendsto_pure]; rw [pure_prod]; rw [eventually_map]
     exact (lt_mem_nhds hp).mono fun y hy => zero_rpow hy.ne'
   simpa only [← sup_prod, ← nhdsWithin_union, compl_union_self, nhdsWithin_univ, nhds_prod_eq,
     ContinuousAt, zero_rpow hp.ne'] using B.sup (C.mono_right (pure_le_nhds _))
@@ -342,7 +342,7 @@ namespace Complex
 theorem continuousAt_cpow_zero_of_re_pos {z : ℂ} (hz : 0 < z.re) :
     ContinuousAt (fun x : ℂ × ℂ => x.1 ^ x.2) (0, z) := by
   have hz₀ : z ≠ 0 := ne_of_apply_ne re hz.ne'
-  rw [ContinuousAt, zero_cpow hz₀, tendsto_zero_iff_norm_tendsto_zero]
+  rw [ContinuousAt]; rw [zero_cpow hz₀]; rw [tendsto_zero_iff_norm_tendsto_zero]
   refine' squeeze_zero (fun _ => norm_nonneg _) (fun _ => abs_cpow_le _ _) _
   simp only [div_eq_mul_inv, ← Real.exp_neg]
   refine' Tendsto.zero_mul_isBoundedUnder_le _ _
@@ -368,8 +368,7 @@ assumptions about `p.2`. -/
 theorem continuousAt_cpow_of_re_pos {p : ℂ × ℂ} (h₁ : 0 ≤ p.1.re ∨ p.1.im ≠ 0) (h₂ : 0 < p.2.re) :
     ContinuousAt (fun x : ℂ × ℂ => x.1 ^ x.2) p := by
   cases' p with z w
-  rw [← not_lt_zero_iff, lt_iff_le_and_ne, not_and_or, Ne.def, Classical.not_not,
-    not_le_zero_iff] at h₁
+  rw [← not_lt_zero_iff] at h₁; rw [lt_iff_le_and_ne] at h₁; rw [not_and_or] at h₁; rw [Ne.def] at h₁; rw [Classical.not_not] at h₁; rw [not_le_zero_iff] at h₁
   rcases h₁ with (h₁ | (rfl : z = 0))
   exacts [continuousAt_cpow h₁, continuousAt_cpow_zero_of_re_pos h₂]
 #align complex.continuous_at_cpow_of_re_pos Complex.continuousAt_cpow_of_re_pos
@@ -494,7 +493,7 @@ theorem eventually_pow_one_div_le {x : ℝ≥0∞} (hx : x ≠ ∞) {y : ℝ≥0
   · lift y to ℝ≥0 using h
     have := NNReal.eventually_pow_one_div_le x (by exact_mod_cast hy : 1 < y)
     refine' this.congr (eventually_of_forall fun n => _)
-    rw [coe_rpow_of_nonneg x (by positivity : 0 ≤ (1 / n : ℝ)), coe_le_coe]
+    rw [coe_rpow_of_nonneg x (by positivity : 0 ≤ (1 / n : ℝ))]; rw [coe_le_coe]
 #align ennreal.eventually_pow_one_div_le ENNReal.eventually_pow_one_div_le
 
 private theorem continuousAt_rpow_const_of_pos {x : ℝ≥0∞} {y : ℝ} (h : 0 < y) :

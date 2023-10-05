@@ -148,7 +148,7 @@ instance coequalizer_π_app_isLocalRingHom
   have := ι_comp_coequalizerComparison f.1 g.1 SheafedSpace.forgetToPresheafedSpace
   rw [← PreservesCoequalizer.iso_hom] at this
   erw [SheafedSpace.congr_app this.symm (op U)]
-  rw [PresheafedSpace.comp_c_app, ←PresheafedSpace.colimitPresheafObjIsoComponentwiseLimit_hom_π]
+  rw [PresheafedSpace.comp_c_app]; rw [←PresheafedSpace.colimitPresheafObjIsoComponentwiseLimit_hom_π]
   -- Porting note : this instance has to be manually added
   haveI : IsIso (PreservesCoequalizer.iso SheafedSpace.forgetToPresheafedSpace f.val g.val).hom.c :=
     PresheafedSpace.c_isIso_of_iso _
@@ -202,7 +202,7 @@ theorem imageBasicOpen_image_preimage :
         (TopologicalSpace.Opens.map g.1.base).obj (imageBasicOpen f g U s)
       by injection this
     delta imageBasicOpen
-    rw [preimage_basicOpen f, preimage_basicOpen g]
+    rw [preimage_basicOpen f]; rw [preimage_basicOpen g]
     dsimp only [Functor.op, unop_op]
     -- Porting note : change `rw` to `erw`
     erw [← comp_apply, ← SheafedSpace.comp_c_app', ← comp_apply, ← SheafedSpace.comp_c_app',
@@ -216,9 +216,9 @@ theorem imageBasicOpen_image_preimage :
 theorem imageBasicOpen_image_open :
     IsOpen ((coequalizer.π f.1 g.1).base '' (imageBasicOpen f g U s).1) := by
   rw [←(TopCat.homeoOfIso (PreservesCoequalizer.iso (SheafedSpace.forget _) f.1
-    g.1)).isOpen_preimage, TopCat.coequalizer_isOpen_iff, ← Set.preimage_comp]
+    g.1)).isOpen_preimage]; rw [TopCat.coequalizer_isOpen_iff]; rw [← Set.preimage_comp]
   erw [← coe_comp]
-  rw [PreservesCoequalizer.iso_hom, ι_comp_coequalizerComparison]
+  rw [PreservesCoequalizer.iso_hom]; rw [ι_comp_coequalizerComparison]
   dsimp only [SheafedSpace.forget]
   -- Porting note : change `rw` to `erw`
   erw [imageBasicOpen_image_preimage]
@@ -246,8 +246,7 @@ instance coequalizer_π_stalk_isLocalRingHom (x : Y) :
     (coequalizer f.val g.val).presheaf.germ_res_apply (homOfLE VleU)
       ⟨_, @Set.mem_image_of_mem _ _ (coequalizer.π f.val g.val).base x V.1 hxV⟩ s]
   apply RingHom.isUnit_map
-  rw [← isUnit_map_iff ((coequalizer.π f.val g.val : _).c.app _), ← comp_apply,
-    NatTrans.naturality, comp_apply, TopCat.Presheaf.pushforwardObj_map, ←
+  rw [← isUnit_map_iff ((coequalizer.π f.val g.val : _).c.app _)]; rw [← comp_apply]; rw [NatTrans.naturality]; rw [comp_apply]; rw [TopCat.Presheaf.pushforwardObj_map]; rw [←
     isUnit_map_iff (Y.presheaf.map (eqToHom hV').op)]
   -- Porting note : change `rw` to `erw`
   erw [← comp_apply, ← comp_apply, Category.assoc, ← Y.presheaf.map_comp]

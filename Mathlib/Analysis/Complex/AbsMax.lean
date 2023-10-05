@@ -130,7 +130,7 @@ theorem norm_max_aux₁ [CompleteSpace F] {f : ℂ → F} {z w : ℂ}
     exact fun ζ hζ => sub_ne_zero.2 (ne_of_mem_sphere hζ hr.ne')
   show ∀ ζ ∈ sphere z r, ‖(ζ - z)⁻¹ • f ζ‖ ≤ ‖f z‖ / r
   · rintro ζ (hζ : abs (ζ - z) = r)
-    rw [le_div_iff hr, norm_smul, norm_inv, norm_eq_abs, hζ, mul_comm, mul_inv_cancel_left₀ hr.ne']
+    rw [le_div_iff hr]; rw [norm_smul]; rw [norm_inv]; rw [norm_eq_abs]; rw [hζ]; rw [mul_comm]; rw [mul_inv_cancel_left₀ hr.ne']
     exact hz (hsub hζ)
   show ‖(w - z)⁻¹ • f w‖ < ‖f z‖ / r
   · rw [norm_smul, norm_inv, norm_eq_abs, ← div_eq_inv_mul]
@@ -182,7 +182,7 @@ theorem norm_eqOn_closedBall_of_isMaxOn {f : E → F} {z : E} {r : ℝ}
     (hd : DiffContOnCl ℂ f (ball z r)) (hz : IsMaxOn (norm ∘ f) (ball z r) z) :
     EqOn (norm ∘ f) (const E ‖f z‖) (closedBall z r) := by
   intro w hw
-  rw [mem_closedBall, dist_comm] at hw
+  rw [mem_closedBall] at hw; rw [dist_comm] at hw
   rcases eq_or_ne z w with (rfl | hne); · rfl
   set e := (lineMap z w : ℂ → E)
   have hde : Differentiable ℂ e := (differentiable_id.smul_const (w - z)).add_const z
@@ -372,13 +372,13 @@ theorem exists_mem_frontier_isMaxOn_norm [FiniteDimensional ℂ E] {f : E → F}
   have hc : IsCompact (closure U) := hb.isCompact_closure
   obtain ⟨w, hwU, hle⟩ : ∃ w ∈ closure U, IsMaxOn (norm ∘ f) (closure U) w
   exact hc.exists_forall_ge hne.closure hd.continuousOn.norm
-  rw [closure_eq_interior_union_frontier, mem_union] at hwU
+  rw [closure_eq_interior_union_frontier] at hwU; rw [mem_union] at hwU
   cases' hwU with hwU hwU; rotate_left; · exact ⟨w, hwU, hle⟩
   have : interior U ≠ univ := ne_top_of_le_ne_top hc.ne_univ interior_subset_closure
   rcases exists_mem_frontier_infDist_compl_eq_dist hwU this with ⟨z, hzU, hzw⟩
   refine' ⟨z, frontier_interior_subset hzU, fun x hx => (hle hx).out.trans_eq _⟩
   refine' (norm_eq_norm_of_isMaxOn_of_ball_subset hd (hle.on_subset subset_closure) _).symm
-  rw [dist_comm, ← hzw]
+  rw [dist_comm]; rw [← hzw]
   exact ball_infDist_compl_subset.trans interior_subset
 #align complex.exists_mem_frontier_is_max_on_norm Complex.exists_mem_frontier_isMaxOn_norm
 
@@ -387,7 +387,7 @@ theorem exists_mem_frontier_isMaxOn_norm [FiniteDimensional ℂ E] {f : E → F}
 theorem norm_le_of_forall_mem_frontier_norm_le {f : E → F} {U : Set E} (hU : IsBounded U)
     (hd : DiffContOnCl ℂ f U) {C : ℝ} (hC : ∀ z ∈ frontier U, ‖f z‖ ≤ C) {z : E}
     (hz : z ∈ closure U) : ‖f z‖ ≤ C := by
-  rw [closure_eq_self_union_frontier, union_comm, mem_union] at hz
+  rw [closure_eq_self_union_frontier] at hz; rw [union_comm] at hz; rw [mem_union] at hz
   cases' hz with hz hz; · exact hC z hz
   /- In case of a finite dimensional domain, one can just apply
     `Complex.exists_mem_frontier_isMaxOn_norm`. To make it work in any Banach space, we restrict

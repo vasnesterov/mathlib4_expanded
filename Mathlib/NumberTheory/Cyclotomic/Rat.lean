@@ -90,8 +90,7 @@ theorem isIntegralClosure_adjoin_singleton_of_prime_pow [hcycl : IsCyclotomicExt
   rw [hun] at H
   replace H := Subalgebra.smul_mem _ H u.inv
 -- Porting note: the proof is slightly different because of coercions.
-  rw [← smul_assoc, ← smul_mul_assoc, Units.inv_eq_val_inv, zsmul_eq_mul, ← Int.cast_mul,
-    Units.inv_mul, Int.cast_one, one_mul, PNat.pow_coe, Nat.cast_pow, smul_def, map_pow] at H
+  rw [← smul_assoc] at H; rw [← smul_mul_assoc] at H; rw [Units.inv_eq_val_inv] at H; rw [zsmul_eq_mul] at H; rw [← Int.cast_mul] at H; rw [Units.inv_mul] at H; rw [Int.cast_one] at H; rw [one_mul] at H; rw [PNat.pow_coe] at H; rw [Nat.cast_pow] at H; rw [smul_def] at H; rw [map_pow] at H
   cases k
   · haveI : IsCyclotomicExtension {1} ℚ K := by simpa using hcycl
     have : x ∈ (⊥ : Subalgebra ℚ K) := by
@@ -100,17 +99,15 @@ theorem isIntegralClosure_adjoin_singleton_of_prime_pow [hcycl : IsCyclotomicExt
     obtain ⟨y, rfl⟩ := mem_bot.1 this
     replace h := (isIntegral_algebraMap_iff (algebraMap ℚ K).injective).1 h
     obtain ⟨z, hz⟩ := IsIntegrallyClosed.isIntegral_iff.1 h
-    rw [← hz, ← IsScalarTower.algebraMap_apply]
+    rw [← hz]; rw [← IsScalarTower.algebraMap_apply]
     exact Subalgebra.algebraMap_mem _ _
   · have hmin : (minpoly ℤ B.gen).IsEisensteinAt (Submodule.span ℤ {((p : ℕ) : ℤ)}) := by
       have h₁ := minpoly.isIntegrallyClosed_eq_field_fractions' ℚ hint
       have h₂ := hζ.minpoly_sub_one_eq_cyclotomic_comp (cyclotomic.irreducible_rat (p ^ _).pos)
       rw [IsPrimitiveRoot.subOnePowerBasis_gen] at h₁
-      rw [h₁, ← map_cyclotomic_int, show Int.castRingHom ℚ = algebraMap ℤ ℚ by rfl,
-        show X + 1 = map (algebraMap ℤ ℚ) (X + 1) by simp, ← map_comp] at h₂
+      rw [h₁] at h₂; rw [← map_cyclotomic_int] at h₂; rw [show Int.castRingHom ℚ = algebraMap ℤ ℚ by rfl] at h₂; rw [show X + 1 = map (algebraMap ℤ ℚ) (X + 1) by simp] at h₂; rw [← map_comp] at h₂
       haveI : CharZero ℚ := StrictOrderedSemiring.to_charZero
-      rw [IsPrimitiveRoot.subOnePowerBasis_gen,
-        map_injective (algebraMap ℤ ℚ) (algebraMap ℤ ℚ).injective_int h₂]
+      rw [IsPrimitiveRoot.subOnePowerBasis_gen]; rw [map_injective (algebraMap ℤ ℚ) (algebraMap ℤ ℚ).injective_int h₂]
       exact cyclotomic_prime_pow_comp_X_add_one_isEisensteinAt p _
     refine'
       adjoin_le _
@@ -187,7 +184,7 @@ theorem integralPowerBasis_gen [hcycl : IsCyclotomicExtension {p ^ k} ℚ K]
     (hζ : IsPrimitiveRoot ζ ↑(p ^ k)) :
     hζ.integralPowerBasis.gen = ⟨ζ, hζ.isIntegral (p ^ k).pos⟩ :=
   Subtype.ext <| show algebraMap _ K hζ.integralPowerBasis.gen = _ by
-    rw [integralPowerBasis, PowerBasis.map_gen, adjoin.powerBasis'_gen]
+    rw [integralPowerBasis]; rw [PowerBasis.map_gen]; rw [adjoin.powerBasis'_gen]
     simp only [adjoinEquivRingOfIntegers_apply, IsIntegralClosure.algebraMap_lift]
     rfl
 #align is_primitive_root.integral_power_basis_gen IsPrimitiveRoot.integralPowerBasis_gen

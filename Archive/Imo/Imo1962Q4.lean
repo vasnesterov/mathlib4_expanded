@@ -50,7 +50,7 @@ theorem cos_sum_equiv {x : ℝ} :
 #align imo1962_q4.cos_sum_equiv Imo1962Q4.cos_sum_equiv
 
 theorem alt_equiv {x : ℝ} : ProblemEquation x ↔ altFormula x = 0 := by
-  rw [ProblemEquation, ← cos_sum_equiv, div_eq_zero_iff, sub_eq_zero]
+  rw [ProblemEquation]; rw [← cos_sum_equiv]; rw [div_eq_zero_iff]; rw [sub_eq_zero]
   norm_num
 #align imo1962_q4.alt_equiv Imo1962Q4.alt_equiv
 
@@ -59,7 +59,7 @@ theorem finding_zeros {x : ℝ} : altFormula x = 0 ↔ cos x ^ 2 = 1 / 2 ∨ cos
   constructor
   · rintro (h1 | h2)
     · right
-      rw [cos_three_mul, h1]
+      rw [cos_three_mul]; rw [h1]
       ring
     · exact h2
   · exact Or.inr
@@ -95,7 +95,7 @@ open Imo1962Q4
 The final theorem is now just gluing together our lemmas.
 -/
 theorem imo1962_q4 {x : ℝ} : ProblemEquation x ↔ x ∈ solutionSet := by
-  rw [alt_equiv, finding_zeros, solve_cos3x_0, solve_cos2_half]
+  rw [alt_equiv]; rw [finding_zeros]; rw [solve_cos3x_0]; rw [solve_cos2_half]
   exact exists_or.symm
 #align imo1962_q4 imo1962_q4
 

@@ -72,7 +72,7 @@ irreducible_def firstDiff (x y : ∀ n, E n) : ℕ :=
 
 theorem apply_firstDiff_ne {x y : ∀ n, E n} (h : x ≠ y) :
     x (firstDiff x y) ≠ y (firstDiff x y) := by
-  rw [firstDiff_def, dif_pos h]
+  rw [firstDiff_def]; rw [dif_pos h]
   exact Nat.find_spec (ne_iff.1 h)
 #align pi_nat.apply_first_diff_ne PiNat.apply_firstDiff_ne
 
@@ -445,7 +445,7 @@ protected def metricSpaceOfDiscreteUniformity {E : ℕ → Type*} [∀ n, Unifor
           simp only [Finset.mem_coe, Finset.mem_range, iInter_coe_set, mem_iInter, mem_setOf_eq]
             at hxy
           apply lt_of_le_of_lt _ hn
-          rw [← mem_cylinder_iff_dist_le, mem_cylinder_iff]
+          rw [← mem_cylinder_iff_dist_le]; rw [mem_cylinder_iff]
           exact hxy
       · simp only [le_iInf_iff, le_principal_iff]
         intro n
@@ -510,7 +510,7 @@ def shortestPrefixDiff {E : ℕ → Type*} (x : ∀ n, E n) (s : Set (∀ n, E n
 theorem firstDiff_lt_shortestPrefixDiff {s : Set (∀ n, E n)} (hs : IsClosed s) {x y : ∀ n, E n}
     (hx : x ∉ s) (hy : y ∈ s) : firstDiff x y < shortestPrefixDiff x s := by
   have A := exists_disjoint_cylinder hs hx
-  rw [shortestPrefixDiff, dif_pos A]
+  rw [shortestPrefixDiff]; rw [dif_pos A]
   have B := Nat.find_spec A
   contrapose! B
   rw [not_disjoint_iff_nonempty_inter]
@@ -534,7 +534,7 @@ def longestPrefix {E : ℕ → Type*} (x : ∀ n, E n) (s : Set (∀ n, E n)) : 
 
 theorem firstDiff_le_longestPrefix {s : Set (∀ n, E n)} (hs : IsClosed s) {x y : ∀ n, E n}
     (hx : x ∉ s) (hy : y ∈ s) : firstDiff x y ≤ longestPrefix x s := by
-  rw [longestPrefix, le_tsub_iff_right]
+  rw [longestPrefix]; rw [le_tsub_iff_right]
   · exact firstDiff_lt_shortestPrefixDiff hs hx hy
   · exact shortestPrefixDiff_pos hs ⟨y, hy⟩ hx
 #align pi_nat.first_diff_le_longest_prefix PiNat.firstDiff_le_longestPrefix
@@ -546,7 +546,7 @@ theorem inter_cylinder_longestPrefix_nonempty {s : Set (∀ n, E n)} (hs : IsClo
   have A := exists_disjoint_cylinder hs hx
   have B : longestPrefix x s < shortestPrefixDiff x s :=
     Nat.pred_lt (shortestPrefixDiff_pos hs hne hx).ne'
-  rw [longestPrefix, shortestPrefixDiff, dif_pos A] at B ⊢
+  rw [longestPrefix] at B ⊢; rw [shortestPrefixDiff] at B ⊢; rw [dif_pos A] at B ⊢
   obtain ⟨y, ys, hy⟩ : ∃ y : ∀ n : ℕ, E n, y ∈ s ∧ x ∈ cylinder y (Nat.find A - 1) := by
     simpa only [not_disjoint_iff, mem_cylinder_comm] using Nat.find_min A B
   refine' ⟨y, ys, _⟩
@@ -586,7 +586,7 @@ theorem cylinder_longestPrefix_eq_of_longestPrefix_lt_firstDiff {x y : ∀ n, E 
       have Z := disjoint_cylinder_of_longestPrefix_lt hs xs (Nat.lt_succ_self _)
       rw [cylinder_eq_cylinder_of_le_firstDiff _ _ H] at Z
       exact (A'y.not_disjoint Z).elim
-  rw [l_eq, ← mem_cylinder_iff_eq]
+  rw [l_eq]; rw [← mem_cylinder_iff_eq]
   exact cylinder_anti y H.le (mem_cylinder_firstDiff x y)
 #align pi_nat.cylinder_longest_prefix_eq_of_longest_prefix_lt_first_diff PiNat.cylinder_longestPrefix_eq_of_longestPrefix_lt_firstDiff
 
@@ -643,7 +643,7 @@ theorem exists_lipschitz_retraction_of_isClosed {s : Set (∀ n, E n)} (hs : IsC
         inter_cylinder_longestPrefix_nonempty hs hne y
       have fy : f y = A.some := by simp_rw [if_neg ys]
       have I : cylinder A.some (firstDiff x y) = cylinder y (firstDiff x y) := by
-        rw [← mem_cylinder_iff_eq, firstDiff_comm]
+        rw [← mem_cylinder_iff_eq]; rw [firstDiff_comm]
         apply cylinder_anti y _ A.some_mem.2
         exact firstDiff_le_longestPrefix hs ys xs
       rwa [← fy, ← I2, ← mem_cylinder_iff_eq, mem_cylinder_iff_le_firstDiff hfxfy.symm,
@@ -676,7 +676,7 @@ theorem exists_lipschitz_retraction_of_isClosed {s : Set (∀ n, E n)} (hs : IsC
             · symm
               rw [firstDiff_comm] at H
               exact cylinder_longestPrefix_eq_of_longestPrefix_lt_firstDiff hs hne H ys xs
-          rw [fx, fy] at hfxfy
+          rw [fx] at hfxfy; rw [fy] at hfxfy
           apply (hfxfy _).elim
           congr
         -- case where the common prefix to `x` and `s` is long, as well as the common prefix to
@@ -686,11 +686,11 @@ theorem exists_lipschitz_retraction_of_isClosed {s : Set (∀ n, E n)} (hs : IsC
             rw [← mem_cylinder_iff_eq]
             exact cylinder_anti x H.1 Ax.some_mem.2
           have I3 : cylinder y (firstDiff x y) = cylinder Ay.some (firstDiff x y) := by
-            rw [eq_comm, ← mem_cylinder_iff_eq]
+            rw [eq_comm]; rw [← mem_cylinder_iff_eq]
             exact cylinder_anti y H.2 Ay.some_mem.2
           have : cylinder Ax.some (firstDiff x y) = cylinder Ay.some (firstDiff x y) := by
-            rw [I1, I2, I3]
-          rw [← fx, ← fy, ← mem_cylinder_iff_eq, mem_cylinder_iff_le_firstDiff hfxfy] at this
+            rw [I1]; rw [I2]; rw [I3]
+          rw [← fx] at this; rw [← fy] at this; rw [← mem_cylinder_iff_eq] at this; rw [mem_cylinder_iff_le_firstDiff hfxfy] at this
           exact this
 #align pi_nat.exists_lipschitz_retraction_of_is_closed PiNat.exists_lipschitz_retraction_of_isClosed
 
@@ -752,7 +752,7 @@ theorem exists_nat_nat_continuous_surjective_of_completeSpace (α : Type*) [Metr
       rw [pow_zero]
       exact hxy
     have hn : firstDiff x.1 y.1 = n + 1 := (Nat.succ_pred_eq_of_pos diff_pos).symm
-    rw [dist', dist_eq_of_ne hne', hn]
+    rw [dist']; rw [dist_eq_of_ne hne']; rw [hn]
     have B : x.1 n = y.1 n := mem_cylinder_firstDiff x.1 y.1 n (Nat.pred_lt diff_pos.ne')
     calc
       dist (g x) (g y) ≤ dist (g x) (u (x.1 n)) + dist (g y) (u (x.1 n)) :=
@@ -881,7 +881,7 @@ protected def metricSpace : MetricSpace (∀ i, F i) where
   edist_dist _ _ := by exact ENNReal.coe_nnreal_eq _
   eq_of_dist_eq_zero hxy := by
     ext1 n
-    rw [← dist_le_zero, ← hxy]
+    rw [← dist_le_zero]; rw [← hxy]
     apply dist_le_dist_pi_of_dist_lt
     rw [hxy]
     simp

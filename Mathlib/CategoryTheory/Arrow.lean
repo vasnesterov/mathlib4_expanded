@@ -170,7 +170,7 @@ theorem hom.congr_right {f g : Arrow T} {φ₁ φ₂ : f ⟶ g} (h : φ₁ = φ�
 
 theorem iso_w {f g : Arrow T} (e : f ≅ g) : g.hom = e.inv.left ≫ f.hom ≫ e.hom.right := by
   have eq := Arrow.hom.congr_right e.inv_hom_id
-  rw [Arrow.comp_right, Arrow.id_right] at eq
+  rw [Arrow.comp_right] at eq; rw [Arrow.id_right] at eq
   erw [Arrow.w_assoc, eq, Category.comp_id]
 #align category_theory.arrow.iso_w CategoryTheory.Arrow.iso_w
 

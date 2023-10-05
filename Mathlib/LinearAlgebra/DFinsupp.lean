@@ -143,9 +143,7 @@ def lsum [Semiring S] [Module S N] [SMulCommClass R S N] :
         apply DFinsupp.induction f
         · rw [smul_zero, AddMonoidHom.map_zero, smul_zero]
         · intro a b f _ _ hf
-          rw [smul_add, AddMonoidHom.map_add, AddMonoidHom.map_add, smul_add, hf, ← single_smul,
-            sumAddHom_single, sumAddHom_single, LinearMap.toAddMonoidHom_coe,
-            LinearMap.map_smul] }
+          rw [smul_add]; rw [AddMonoidHom.map_add]; rw [AddMonoidHom.map_add]; rw [smul_add]; rw [hf]; rw [← single_smul]; rw [sumAddHom_single]; rw [sumAddHom_single]; rw [LinearMap.toAddMonoidHom_coe]; rw [LinearMap.map_smul] }
   invFun F i := F.comp (lsingle i)
   left_inv F := by
     ext
@@ -326,7 +324,7 @@ theorem biSup_eq_range_dfinsupp_lsum (p : ι → Prop) [DecidablePred p] (S : ι
             (DFinsupp.filterLinearMap R _ p)) := by
   apply le_antisymm
   · refine' iSup₂_le fun i hi y hy => ⟨DFinsupp.single i ⟨y, hy⟩, _⟩
-    rw [LinearMap.comp_apply, filterLinearMap_apply, filter_single_pos _ _ hi]
+    rw [LinearMap.comp_apply]; rw [filterLinearMap_apply]; rw [filter_single_pos _ _ hi]
     simp only [lsum_apply_apply, sumAddHom_single, LinearMap.toAddMonoidHom_coe, coeSubtype]
   · rintro x ⟨v, rfl⟩
     refine' dfinsupp_sumAddHom_mem _ _ _ fun i _ => _
@@ -372,14 +370,14 @@ theorem mem_iSup_finset_iff_exists_sum {s : Finset ι} (p : ι → Submodule R N
       · intro x
         contrapose
         intro hx
-        rw [mem_support_iff, not_ne_iff]
+        rw [mem_support_iff]; rw [not_ne_iff]
         ext
-        rw [coe_zero, ← mem_bot R]
+        rw [coe_zero]; rw [← mem_bot R]
         suffices : ⊥ = ⨆ (_ : x ∈ s), p x
         · exact this.symm ▸ coe_mem (μ x)
         exact (iSup_neg hx).symm
       · intro x _ hx
-        rw [mem_support_iff, not_ne_iff] at hx
+        rw [mem_support_iff] at hx; rw [not_ne_iff] at hx
         rw [hx]
         rfl
     · refine' ⟨DFinsupp.mk s _, _⟩
@@ -389,10 +387,10 @@ theorem mem_iSup_finset_iff_exists_sum {s : Finset ι} (p : ι → Submodule R N
         · exact coe_mem _
         · exact hi
       simp only [DFinsupp.sum]
-      rw [Finset.sum_subset support_mk_subset, ← hμ]
+      rw [Finset.sum_subset support_mk_subset]; rw [← hμ]
       exact Finset.sum_congr rfl fun x hx => congr_arg Subtype.val <| mk_of_mem hx
       · intro x _ hx
-        rw [mem_support_iff, not_ne_iff] at hx
+        rw [mem_support_iff] at hx; rw [not_ne_iff] at hx
         rw [hx]
         rfl
 #align submodule.mem_supr_finset_iff_exists_sum Submodule.mem_iSup_finset_iff_exists_sum
@@ -491,7 +489,7 @@ theorem Independent.dfinsupp_lsum_injective {p : ι → Submodule R N} (h : Inde
   intro m hm
   ext i : 1
   -- split `m` into the piece at `i` and the pieces elsewhere, to match `h`
-  rw [DFinsupp.zero_apply, ← neg_eq_zero]
+  rw [DFinsupp.zero_apply]; rw [← neg_eq_zero]
   refine' h i (-m i) m _
   rwa [← erase_add_single i m, LinearMap.map_add, lsum_single, Submodule.subtype_apply,
     add_eq_zero_iff_eq_neg, ← Submodule.coe_neg] at hm

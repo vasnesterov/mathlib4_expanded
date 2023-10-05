@@ -69,7 +69,7 @@ theorem pow_smul_le (i j : ℕ) : I ^ i • F.N j ≤ F.N (i + j) := by
 #align ideal.filtration.pow_smul_le Ideal.Filtration.pow_smul_le
 
 theorem pow_smul_le_pow_smul (i j k : ℕ) : I ^ (i + k) • F.N j ≤ I ^ k • F.N (i + j) := by
-  rw [add_comm, pow_add, mul_smul]
+  rw [add_comm]; rw [pow_add]; rw [mul_smul]
   exact Submodule.smul_mono_right (F.pow_smul_le i j)
 #align ideal.filtration.pow_smul_le_pow_smul Ideal.Filtration.pow_smul_le_pow_smul
 
@@ -100,7 +100,7 @@ instance : SupSet (I.Filtration M) :=
         rintro _ ⟨⟨_, F, hF, rfl⟩, rfl⟩
         exact ⟨_, ⟨⟨_, F, hF, rfl⟩, rfl⟩, F.mono i⟩
       smul_le := fun i => by
-        rw [sSup_eq_iSup', iSup_apply, Submodule.smul_iSup, iSup_apply]
+        rw [sSup_eq_iSup']; rw [iSup_apply]; rw [Submodule.smul_iSup]; rw [iSup_apply]
         apply iSup_mono _
         rintro ⟨_, F, hF, rfl⟩
         exact F.smul_le i }⟩
@@ -120,7 +120,7 @@ instance : InfSet (I.Filtration M) :=
         rintro _ ⟨⟨_, F, hF, rfl⟩, rfl⟩
         exact ⟨_, ⟨⟨_, F, hF, rfl⟩, rfl⟩, F.mono i⟩
       smul_le := fun i => by
-        rw [sInf_eq_iInf', iInf_apply, iInf_apply]
+        rw [sInf_eq_iInf']; rw [iInf_apply]; rw [iInf_apply]
         refine' Submodule.smul_iInf_le.trans _
         apply iInf_mono _
         rintro ⟨_, F, hF, rfl⟩
@@ -196,8 +196,8 @@ def Stable : Prop :=
 @[simps]
 def _root_.Ideal.stableFiltration (I : Ideal R) (N : Submodule R M) : I.Filtration M where
   N i := I ^ i • N
-  mono i := by dsimp only; rw [add_comm, pow_add, mul_smul]; exact Submodule.smul_le_right
-  smul_le i := by dsimp only; rw [add_comm, pow_add, mul_smul, pow_one]
+  mono i := by dsimp only; rw [add_comm]; rw [pow_add]; rw [mul_smul]; exact Submodule.smul_le_right
+  smul_le i := by dsimp only; rw [add_comm]; rw [pow_add]; rw [mul_smul]; rw [pow_one]
 #align ideal.stable_filtration Ideal.stableFiltration
 
 theorem _root_.Ideal.stableFiltration_stable (I : Ideal R) (N : Submodule R M) :
@@ -205,7 +205,7 @@ theorem _root_.Ideal.stableFiltration_stable (I : Ideal R) (N : Submodule R M) :
   use 0
   intro n _
   dsimp
-  rw [add_comm, pow_add, mul_smul, pow_one]
+  rw [add_comm]; rw [pow_add]; rw [mul_smul]; rw [pow_one]
 #align ideal.stable_filtration_stable Ideal.stableFiltration_stable
 
 variable {F F'} (h : F.Stable)
@@ -225,14 +225,13 @@ theorem Stable.exists_pow_smul_eq_of_ge : ∃ n₀, ∀ n ≥ n₀, F.N n = I ^ 
   use n₀
   intro n hn
   convert hn₀ (n - n₀)
-  rw [add_comm, tsub_add_cancel_of_le hn]
+  rw [add_comm]; rw [tsub_add_cancel_of_le hn]
 #align ideal.filtration.stable.exists_pow_smul_eq_of_ge Ideal.Filtration.Stable.exists_pow_smul_eq_of_ge
 
 theorem stable_iff_exists_pow_smul_eq_of_ge :
     F.Stable ↔ ∃ n₀, ∀ n ≥ n₀, F.N n = I ^ (n - n₀) • F.N n₀ := by
   refine' ⟨Stable.exists_pow_smul_eq_of_ge, fun h => ⟨h.choose, fun n hn => _⟩⟩
-  rw [h.choose_spec n hn, h.choose_spec (n + 1) (by linarith), smul_smul, ← pow_succ,
-    tsub_add_eq_add_tsub hn]
+  rw [h.choose_spec n hn]; rw [h.choose_spec (n + 1) (by linarith)]; rw [smul_smul]; rw [← pow_succ]; rw [tsub_add_eq_add_tsub hn]
 #align ideal.filtration.stable_iff_exists_pow_smul_eq_of_ge Ideal.Filtration.stable_iff_exists_pow_smul_eq_of_ge
 
 theorem Stable.exists_forall_le (h : F.Stable) (e : F.N 0 ≤ F'.N 0) :
@@ -266,7 +265,7 @@ protected def submodule : Submodule (reesAlgebra I) (PolynomialModule R M) where
   add_mem' hf hg i := Submodule.add_mem _ (hf i) (hg i)
   zero_mem' i := Submodule.zero_mem _
   smul_mem' r f hf i := by
-    rw [Subalgebra.smul_def, PolynomialModule.smul_apply]
+    rw [Subalgebra.smul_def]; rw [PolynomialModule.smul_apply]
     apply Submodule.sum_mem
     rintro ⟨j, k⟩ e
     rw [Finset.Nat.mem_antidiagonal] at e
@@ -313,14 +312,14 @@ theorem submodule_closure_single :
 
 theorem submodule_span_single :
     Submodule.span (reesAlgebra I) (⋃ i, single R i '' (F.N i : Set M)) = F.submodule := by
-  rw [← Submodule.span_closure, submodule_closure_single, Submodule.coe_toAddSubmonoid]
+  rw [← Submodule.span_closure]; rw [submodule_closure_single]; rw [Submodule.coe_toAddSubmonoid]
   exact Submodule.span_eq (Filtration.submodule F)
 #align ideal.filtration.submodule_span_single Ideal.Filtration.submodule_span_single
 
 theorem submodule_eq_span_le_iff_stable_ge (n₀ : ℕ) :
     F.submodule = Submodule.span _ (⋃ i ≤ n₀, single R i '' (F.N i : Set M)) ↔
       ∀ n ≥ n₀, I • F.N n = F.N (n + 1) := by
-  rw [← submodule_span_single, ← LE.le.le_iff_eq, Submodule.span_le, Set.iUnion_subset_iff]
+  rw [← submodule_span_single]; rw [← LE.le.le_iff_eq]; rw [Submodule.span_le]; rw [Set.iUnion_subset_iff]
   swap; · exact Submodule.span_mono (Set.iUnion₂_subset_iUnion _ _)
   constructor
   · intro H n hn
@@ -330,14 +329,14 @@ theorem submodule_eq_span_le_iff_stable_ge (n₀ : ℕ) :
     replace hl := congr_arg (fun f : ℕ →₀ M => f (n + 1)) hl
     dsimp only at hl
     erw [Finsupp.single_eq_same] at hl
-    rw [← hl, Finsupp.total_apply, Finsupp.sum_apply]
+    rw [← hl]; rw [Finsupp.total_apply]; rw [Finsupp.sum_apply]
     apply Submodule.sum_mem _ _
     rintro ⟨_, _, ⟨n', rfl⟩, _, ⟨hn', rfl⟩, m, hm, rfl⟩ -
     dsimp only [Subtype.coe_mk]
-    rw [Subalgebra.smul_def, smul_single_apply, if_pos (show n' ≤ n + 1 by linarith)]
+    rw [Subalgebra.smul_def]; rw [smul_single_apply]; rw [if_pos (show n' ≤ n + 1 by linarith)]
     have e : n' ≤ n := by linarith
     have := F.pow_smul_le_pow_smul (n - n') n' 1
-    rw [tsub_add_cancel_of_le e, pow_one, add_comm _ 1, ← add_tsub_assoc_of_le e, add_comm] at this
+    rw [tsub_add_cancel_of_le e] at this; rw [pow_one] at this; rw [add_comm _ 1] at this; rw [← add_tsub_assoc_of_le e] at this; rw [add_comm] at this
     exact this (Submodule.smul_mem_smul ((l _).2 <| n + 1 - n') hm)
   · let F' := Submodule.span (reesAlgebra I) (⋃ i ≤ n₀, single R i '' (F.N i : Set M))
     intro hF i
@@ -353,7 +352,7 @@ theorem submodule_eq_span_le_iff_stable_ge (n₀ : ℕ) :
     by_cases hj' : j.succ ≤ n₀
     · exact this _ hj'
     simp only [not_le, Nat.lt_succ_iff] at hj'
-    rw [Nat.succ_eq_add_one, ← hF _ hj']
+    rw [Nat.succ_eq_add_one]; rw [← hF _ hj']
     rintro _ ⟨m, hm, rfl⟩
     refine' Submodule.smul_induction_on hm (fun r hr m' hm' => _) (fun x y hx hy => _)
     · rw [add_comm, ← monomial_smul_single]
@@ -374,13 +373,13 @@ theorem submodule_fg_iff_stable (hF' : ∀ i, (F.N i).FG) : F.submodule.FG ↔ F
     refine H.stablizes_of_iSup_eq
         ⟨fun n₀ => Submodule.span _ (⋃ (i : ℕ) (_ : i ≤ n₀), single R i '' ↑(F.N i)), ?_⟩ ?_
     · intro n m e
-      rw [Submodule.span_le, Set.iUnion₂_subset_iff]
+      rw [Submodule.span_le]; rw [Set.iUnion₂_subset_iff]
       intro i hi
       refine Set.Subset.trans ?_ Submodule.subset_span
       refine @Set.subset_iUnion₂ _ _ _ (fun i => fun _ => ↑((single R i) '' ((N F i) : Set M))) i ?_
       exact hi.trans e
     · dsimp
-      rw [← Submodule.span_iUnion, ← submodule_span_single]
+      rw [← Submodule.span_iUnion]; rw [← submodule_span_single]
       congr 1
       ext
       simp only [Set.mem_iUnion, Set.mem_image, SetLike.mem_coe, exists_prop]
@@ -395,8 +394,8 @@ theorem submodule_fg_iff_stable (hF' : ∀ i, (F.N i).FG) : F.submodule.FG ↔ F
     obtain ⟨s, hs⟩ := hF' i
     have : Submodule.span (reesAlgebra I) (s.image (lsingle R i) : Set (PolynomialModule R M)) =
         Submodule.span _ (single R i '' (F.N i : Set M)) := by
-      rw [Finset.coe_image, ← Submodule.span_span_of_tower R, ← Submodule.map_span, hs]; rfl
-    rw [Subtype.coe_mk, ← this]
+      rw [Finset.coe_image]; rw [← Submodule.span_span_of_tower R]; rw [← Submodule.map_span]; rw [hs]; rfl
+    rw [Subtype.coe_mk]; rw [← this]
     exact ⟨_, rfl⟩
 #align ideal.filtration.submodule_fg_iff_stable Ideal.Filtration.submodule_fg_iff_stable
 
@@ -443,7 +442,7 @@ theorem Ideal.mem_iInf_smul_pow_eq_bot_iff [IsNoetherianRing R] [Module.Finite R
       Submodule.exists_mem_and_smul_eq_self_of_fg_of_le_smul I N (IsNoetherian.noetherian N) (by
         obtain ⟨k, hk⟩ := (I.stableFiltration_stable ⊤).inter_right (I.trivialFiltration N)
         have := hk k (le_refl _)
-        rw [hN, hN] at this
+        rw [hN] at this; rw [hN] at this
         exact le_of_eq this.symm)
     intro H
     exact ⟨⟨r, hr₁⟩, hr₂ _ H⟩
@@ -471,7 +470,7 @@ theorem Ideal.iInf_pow_eq_bot_of_localRing [IsNoetherianRing R] [LocalRing R] (h
     ⨅ i : ℕ, I ^ i = ⊥ := by
   convert I.iInf_pow_smul_eq_bot_of_localRing (M := R) h
   ext i
-  rw [smul_eq_mul, ← Ideal.one_eq_top, mul_one]
+  rw [smul_eq_mul]; rw [← Ideal.one_eq_top]; rw [mul_one]
 #align ideal.infi_pow_eq_bot_of_local_ring Ideal.iInf_pow_eq_bot_of_localRing
 
 /-- **Krull's intersection theorem** for noetherian domains. -/

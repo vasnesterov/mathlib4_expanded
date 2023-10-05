@@ -49,8 +49,7 @@ noncomputable def ofBaseChangeAux (Q : QuadraticForm R V) :
   CliffordAlgebra.lift Q <| by
     refine ⟨(ι (Q.baseChange A)).restrictScalars R ∘ₗ TensorProduct.mk R A V 1, fun v => ?_⟩
     refine (CliffordAlgebra.ι_sq_scalar (Q.baseChange A) (1 ⊗ₜ v)).trans ?_
-    rw [QuadraticForm.baseChange_tmul, one_mul, ←Algebra.algebraMap_eq_smul_one,
-      ←IsScalarTower.algebraMap_apply]
+    rw [QuadraticForm.baseChange_tmul]; rw [one_mul]; rw [←Algebra.algebraMap_eq_smul_one]; rw [←IsScalarTower.algebraMap_apply]
 
 @[simp] theorem ofBaseChangeAux_ι (Q : QuadraticForm R V) (v : V) :
     ofBaseChangeAux A Q (ι Q v) = ι (Q.baseChange A) (1 ⊗ₜ v) :=
@@ -67,13 +66,12 @@ noncomputable def ofBaseChange (Q : QuadraticForm R V) :
 @[simp] theorem ofBaseChange_tmul_ι (Q : QuadraticForm R V) (z : A) (v : V) :
     ofBaseChange A Q (z ⊗ₜ ι Q v) = ι (Q.baseChange A) (z ⊗ₜ v) := by
   show algebraMap _ _ z * ofBaseChangeAux A Q (ι Q v) = ι (Q.baseChange A) (z ⊗ₜ[R] v)
-  rw [ofBaseChangeAux_ι, ←Algebra.smul_def, ←map_smul, TensorProduct.smul_tmul', smul_eq_mul,
-    mul_one]
+  rw [ofBaseChangeAux_ι]; rw [←Algebra.smul_def]; rw [←map_smul]; rw [TensorProduct.smul_tmul']; rw [smul_eq_mul]; rw [mul_one]
 
 @[simp] theorem ofBaseChange_tmul_one (Q : QuadraticForm R V) (z : A) :
     ofBaseChange A Q (z ⊗ₜ 1) = algebraMap _ _ z := by
   show algebraMap _ _ z * ofBaseChangeAux A Q 1 = _
-  rw [map_one, mul_one]
+  rw [map_one]; rw [mul_one]
 
 /-- Convert from the clifford algebra over a base-changed module to the base-changed clifford
 algebra. -/
@@ -94,9 +92,7 @@ noncomputable def toBaseChange (Q : QuadraticForm R V) :
       ext v w
       exact hpure_tensor v w
     intros v w
-    rw [← TensorProduct.tmul_add, CliffordAlgebra.ι_mul_ι_add_swap,
-      QuadraticForm.polarBilin_baseChange, BilinForm.baseChange_tmul, one_mul,
-      TensorProduct.smul_tmul, Algebra.algebraMap_eq_smul_one, QuadraticForm.polarBilin_apply]
+    rw [← TensorProduct.tmul_add]; rw [CliffordAlgebra.ι_mul_ι_add_swap]; rw [QuadraticForm.polarBilin_baseChange]; rw [BilinForm.baseChange_tmul]; rw [one_mul]; rw [TensorProduct.smul_tmul]; rw [Algebra.algebraMap_eq_smul_one]; rw [QuadraticForm.polarBilin_apply]
 
 @[simp] theorem toBaseChange_ι (Q : QuadraticForm R V) (z : A) (v : V) :
     toBaseChange A Q (ι (Q.baseChange A) (z ⊗ₜ v)) = z ⊗ₜ ι Q v :=
@@ -110,8 +106,7 @@ theorem toBaseChange_comp_involute (Q : QuadraticForm R V) :
     = (Algebra.TensorProduct.map (AlgHom.id _ _) involute :
         A ⊗[R] CliffordAlgebra Q →ₐ[A] _)
       (toBaseChange A Q (ι (Q.baseChange A) (1 ⊗ₜ[R] v)))
-  rw [toBaseChange_ι, involute_ι, map_neg (toBaseChange A Q), toBaseChange_ι,
-    Algebra.TensorProduct.map_tmul, AlgHom.id_apply, involute_ι, TensorProduct.tmul_neg]
+  rw [toBaseChange_ι]; rw [involute_ι]; rw [map_neg (toBaseChange A Q)]; rw [toBaseChange_ι]; rw [Algebra.TensorProduct.map_tmul]; rw [AlgHom.id_apply]; rw [involute_ι]; rw [TensorProduct.tmul_neg]
 
 /-- The involution acts only on the right of the tensor product. -/
 theorem toBaseChange_involute (Q : QuadraticForm R V) (x : CliffordAlgebra (Q.baseChange A)) :
@@ -133,8 +128,7 @@ theorem toBaseChange_comp_reverseOp (Q : QuadraticForm R V) :
     Algebra.TensorProduct.opAlgEquiv R A A (CliffordAlgebra Q)
       (Algebra.TensorProduct.map (AlgEquiv.toOpposite A A).toAlgHom (reverseOp (Q := Q))
         (toBaseChange A Q (ι (Q.baseChange A) (1 ⊗ₜ[R] v))))
-  rw [toBaseChange_ι, reverse_ι, toBaseChange_ι, Algebra.TensorProduct.map_tmul,
-    Algebra.TensorProduct.opAlgEquiv_tmul, reverseOp_ι]
+  rw [toBaseChange_ι]; rw [reverse_ι]; rw [toBaseChange_ι]; rw [Algebra.TensorProduct.map_tmul]; rw [Algebra.TensorProduct.opAlgEquiv_tmul]; rw [reverseOp_ι]
   rfl
 
 /-- `reverse` acts only on the right of the tensor product. -/
@@ -144,8 +138,7 @@ theorem toBaseChange_reverse (Q : QuadraticForm R V) (x : CliffordAlgebra (Q.bas
   have := FunLike.congr_fun (toBaseChange_comp_reverseOp A Q) x
   refine (congr_arg unop this).trans ?_; clear this
   refine (LinearMap.congr_fun (TensorProduct.AlgebraTensorModule.map_comp _ _ _ _).symm _).trans ?_
-  rw [reverse, ←AlgEquiv.toLinearMap, ←AlgEquiv.toLinearEquiv_toLinearMap,
-    AlgEquiv.toLinearEquiv_toOpposite]
+  rw [reverse]; rw [←AlgEquiv.toLinearMap]; rw [←AlgEquiv.toLinearEquiv_toLinearMap]; rw [AlgEquiv.toLinearEquiv_toOpposite]
   dsimp
   -- `simp` fails here due to a timeout looking for a `Subsingleton` instance!?
   rw [LinearEquiv.self_trans_symm]
@@ -157,11 +150,10 @@ theorem toBaseChange_comp_ofBaseChange (Q : QuadraticForm R V) :
     (toBaseChange A Q).comp (ofBaseChange A Q) = AlgHom.id _ _ := by
   ext z : 2
   · change toBaseChange A Q (ofBaseChange A Q (z ⊗ₜ[R] 1)) = z ⊗ₜ[R] 1
-    rw [ofBaseChange_tmul_one, AlgHom.commutes, Algebra.TensorProduct.algebraMap_apply,
-      Algebra.id.map_eq_self]
+    rw [ofBaseChange_tmul_one]; rw [AlgHom.commutes]; rw [Algebra.TensorProduct.algebraMap_apply]; rw [Algebra.id.map_eq_self]
   · ext v : 1
     change toBaseChange A Q (ofBaseChange A Q (1 ⊗ₜ[R] ι Q v)) = 1 ⊗ₜ[R] ι Q v
-    rw [ofBaseChange_tmul_ι, toBaseChange_ι]
+    rw [ofBaseChange_tmul_ι]; rw [toBaseChange_ι]
 
 @[simp] theorem toBaseChange_ofBaseChange (Q : QuadraticForm R V) (x : A ⊗[R] CliffordAlgebra Q) :
     toBaseChange A Q (ofBaseChange A Q x) = x :=
@@ -172,7 +164,7 @@ theorem ofBaseChange_comp_toBaseChange (Q : QuadraticForm R V) :
   ext x
   show ofBaseChange A Q (toBaseChange A Q (ι (Q.baseChange A) (1 ⊗ₜ[R] x)))
     = ι (Q.baseChange A) (1 ⊗ₜ[R] x)
-  rw [toBaseChange_ι, ofBaseChange_tmul_ι]
+  rw [toBaseChange_ι]; rw [ofBaseChange_tmul_ι]
 
 @[simp] theorem ofBaseChange_toBaseChange
     (Q : QuadraticForm R V) (x : CliffordAlgebra (Q.baseChange A)) :

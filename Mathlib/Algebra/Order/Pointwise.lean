@@ -59,14 +59,14 @@ variable [Group α] [CovariantClass α α (· * ·) (· ≤ ·)] [CovariantClass
 
 @[to_additive]
 theorem sSup_inv (s : Set α) : sSup s⁻¹ = (sInf s)⁻¹ := by
-  rw [← image_inv, sSup_image]
+  rw [← image_inv]; rw [sSup_image]
   exact ((OrderIso.inv α).map_sInf _).symm
 #align Sup_inv sSup_inv
 #align Sup_neg sSup_neg
 
 @[to_additive]
 theorem sInf_inv (s : Set α) : sInf s⁻¹ = (sSup s)⁻¹ := by
-  rw [← image_inv, sInf_image]
+  rw [← image_inv]; rw [sInf_image]
   exact ((OrderIso.inv α).map_sSup _).symm
 #align Inf_inv sInf_inv
 #align Inf_neg sInf_neg
@@ -159,14 +159,14 @@ theorem csInf_mul (hs₀ : s.Nonempty) (hs₁ : BddBelow s) (ht₀ : t.Nonempty)
 @[to_additive]
 theorem csSup_div (hs₀ : s.Nonempty) (hs₁ : BddAbove s) (ht₀ : t.Nonempty) (ht₁ : BddBelow t) :
     sSup (s / t) = sSup s / sInf t := by
-  rw [div_eq_mul_inv, csSup_mul hs₀ hs₁ ht₀.inv ht₁.inv, csSup_inv ht₀ ht₁, div_eq_mul_inv]
+  rw [div_eq_mul_inv]; rw [csSup_mul hs₀ hs₁ ht₀.inv ht₁.inv]; rw [csSup_inv ht₀ ht₁]; rw [div_eq_mul_inv]
 #align cSup_div csSup_div
 #align cSup_sub csSup_sub
 
 @[to_additive]
 theorem csInf_div (hs₀ : s.Nonempty) (hs₁ : BddBelow s) (ht₀ : t.Nonempty) (ht₁ : BddAbove t) :
     sInf (s / t) = sInf s / sSup t := by
-  rw [div_eq_mul_inv, csInf_mul hs₀ hs₁ ht₀.inv ht₁.inv, csInf_inv ht₀ ht₁, div_eq_mul_inv]
+  rw [div_eq_mul_inv]; rw [csInf_mul hs₀ hs₁ ht₀.inv ht₁.inv]; rw [csInf_inv ht₀ ht₁]; rw [div_eq_mul_inv]
 #align cInf_div csInf_div
 #align cInf_sub csInf_sub
 

@@ -146,7 +146,7 @@ theorem exists_idempotent_ultrafilter_le_FP {M} [Semigroup M] (a : Stream' M) :
   · apply IsCompact.nonempty_iInter_of_sequence_nonempty_compact_closed
     · intro n U hU
       apply Eventually.mono hU
-      rw [add_comm, ← Stream'.drop_drop, ← Stream'.tail_eq_drop]
+      rw [add_comm]; rw [← Stream'.drop_drop]; rw [← Stream'.tail_eq_drop]
       exact FP.tail _
     · intro n
       exact ⟨pure _, mem_pure.mpr <| FP.head _⟩
@@ -157,7 +157,7 @@ theorem exists_idempotent_ultrafilter_le_FP {M} [Semigroup M] (a : Stream' M) :
   · intro U hU V hV
     rw [Set.mem_iInter] at *
     intro n
-    rw [Set.mem_setOf_eq, Ultrafilter.eventually_mul]
+    rw [Set.mem_setOf_eq]; rw [Ultrafilter.eventually_mul]
     apply Eventually.mono (hU n)
     intro m hm
     obtain ⟨n', hn⟩ := FP.mul hm
@@ -195,15 +195,15 @@ theorem exists_FP_of_large {M} [Semigroup M] (U : Ultrafilter M) (U_idem : U * U
   intro a m h
   induction' h with b b n h ih b n h ih
   · rintro p rfl
-    rw [Stream'.corec_eq, Stream'.head_cons]
+    rw [Stream'.corec_eq]; rw [Stream'.head_cons]
     exact Set.inter_subset_left _ _ (Set.Nonempty.some_mem _)
   · rintro p rfl
     refine' Set.inter_subset_left _ _ (ih (succ p) _)
-    rw [Stream'.corec_eq, Stream'.tail_cons]
+    rw [Stream'.corec_eq]; rw [Stream'.tail_cons]
   · rintro p rfl
     have := Set.inter_subset_right _ _ (ih (succ p) ?_)
     · simpa only using this
-    rw [Stream'.corec_eq, Stream'.tail_cons]
+    rw [Stream'.corec_eq]; rw [Stream'.tail_cons]
 set_option linter.uppercaseLean3 false in
 #align hindman.exists_FP_of_large Hindman.exists_FP_of_large
 set_option linter.uppercaseLean3 false in
@@ -244,7 +244,7 @@ set_option linter.uppercaseLean3 false in
 theorem FP_drop_subset_FP {M} [Semigroup M] (a : Stream' M) (n : ℕ) : FP (a.drop n) ⊆ FP a := by
   induction' n with n ih
   · rfl
-  rw [Nat.succ_eq_one_add, ← Stream'.drop_drop]
+  rw [Nat.succ_eq_one_add]; rw [← Stream'.drop_drop]
   exact _root_.trans (FP.tail _) ih
 set_option linter.uppercaseLean3 false in
 #align hindman.FP_drop_subset_FP Hindman.FP_drop_subset_FP
@@ -272,9 +272,9 @@ theorem FP.mul_two {M} [Semigroup M] (a : Stream' M) (i j : ℕ) (ij : i < j) :
   -- Porting note: need to fix breakage of Set notation
   change _ ∈ FP _
   have := FP.singleton (a.drop i).tail d
-  rw [Stream'.tail_eq_drop, Stream'.nth_drop, Stream'.nth_drop] at this
+  rw [Stream'.tail_eq_drop] at this; rw [Stream'.nth_drop] at this; rw [Stream'.nth_drop] at this
   convert this
-  rw [hd, add_comm, Nat.succ_add, Nat.add_succ]
+  rw [hd]; rw [add_comm]; rw [Nat.succ_add]; rw [Nat.add_succ]
 set_option linter.uppercaseLean3 false in
 #align hindman.FP.mul_two Hindman.FP.mul_two
 set_option linter.uppercaseLean3 false in
@@ -285,17 +285,17 @@ theorem FP.finset_prod {M} [CommMonoid M] (a : Stream' M) (s : Finset ℕ) (hs :
     (s.prod fun i => a.nth i) ∈ FP a := by
   refine' FP_drop_subset_FP _ (s.min' hs) _
   induction' s using Finset.strongInduction with s ih
-  rw [← Finset.mul_prod_erase _ _ (s.min'_mem hs), ← Stream'.head_drop]
+  rw [← Finset.mul_prod_erase _ _ (s.min'_mem hs)]; rw [← Stream'.head_drop]
   cases' (s.erase (s.min' hs)).eq_empty_or_nonempty with h h
   · rw [h, Finset.prod_empty, mul_one]
     exact FP.head _
   · apply FP.cons
-    rw [Stream'.tail_eq_drop, Stream'.drop_drop, add_comm]
+    rw [Stream'.tail_eq_drop]; rw [Stream'.drop_drop]; rw [add_comm]
     refine' Set.mem_of_subset_of_mem _ (ih _ (Finset.erase_ssubset <| s.min'_mem hs) h)
     have : s.min' hs + 1 ≤ (s.erase (s.min' hs)).min' h :=
       Nat.succ_le_of_lt (Finset.min'_lt_of_mem_erase_min' _ _ <| Finset.min'_mem _ _)
     cases' le_iff_exists_add.mp this with d hd
-    rw [hd, add_comm, ← Stream'.drop_drop]
+    rw [hd]; rw [add_comm]; rw [← Stream'.drop_drop]
     apply FP_drop_subset_FP
 set_option linter.uppercaseLean3 false in
 #align hindman.FP.finset_prod Hindman.FP.finset_prod

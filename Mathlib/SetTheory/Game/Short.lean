@@ -156,7 +156,7 @@ theorem short_birthday (x : PGame.{u}) : [Short x] → x.birthday < Ordinal.omeg
   | mk xl xr xL xR ihl ihr =>
     intro hs
     rcases hs with ⟨sL, sR⟩
-    rw [birthday, max_lt_iff]
+    rw [birthday]; rw [max_lt_iff]
     constructor
     all_goals
       rw [← Cardinal.ord_aleph0]

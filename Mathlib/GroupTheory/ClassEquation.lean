@@ -43,7 +43,7 @@ theorem Group.sum_card_conj_classes_eq_card [Finite G] :
     ∑ᶠ x : ConjClasses G, x.carrier.ncard = Nat.card G := by
   classical
   cases nonempty_fintype G
-  rw [Nat.card_eq_fintype_card, ←sum_conjClasses_card_eq_card, finsum_eq_sum_of_fintype]
+  rw [Nat.card_eq_fintype_card]; rw [←sum_conjClasses_card_eq_card]; rw [finsum_eq_sum_of_fintype]
   simp [Set.ncard_eq_toFinset_card']
 
 /-- The **class equation** for finite groups. The cardinality of a group is equal to the size
@@ -52,7 +52,7 @@ theorem Group.nat_card_center_add_sum_card_noncenter_eq_card [Finite G] :
     Nat.card (Subgroup.center G) + ∑ᶠ x ∈ noncenter G, Nat.card x.carrier = Nat.card G := by
   classical
   cases nonempty_fintype G
-  rw [@Nat.card_eq_fintype_card G, ← sum_conjClasses_card_eq_card, ←
+  rw [@Nat.card_eq_fintype_card G]; rw [← sum_conjClasses_card_eq_card]; rw [←
     Finset.sum_sdiff (ConjClasses.noncenter G).toFinset.subset_univ]
   simp only [Nat.card_eq_fintype_card, Set.toFinset_card]
   congr 1
@@ -70,7 +70,7 @@ theorem Group.nat_card_center_add_sum_card_noncenter_eq_card [Finite G] :
   rintro ⟨g⟩ hg
   simp only [noncenter, Set.not_subsingleton_iff, Set.toFinset_setOf, Finset.mem_univ, true_and,
              forall_true_left, Finset.mem_sdiff, Finset.mem_filter, Set.not_nontrivial_iff] at hg
-  rw [eq_comm, ← Set.toFinset_card, Finset.card_eq_one]
+  rw [eq_comm]; rw [← Set.toFinset_card]; rw [Finset.card_eq_one]
   exact ⟨g, Finset.coe_injective <| by simpa using hg.eq_singleton_of_mem mem_carrier_mk⟩
 
 theorem Group.card_center_add_sum_card_noncenter_eq_card (G) [Group G]

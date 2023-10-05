@@ -101,7 +101,7 @@ theorem lift_mk {i : ℕ} :
 
 @[simp]
 theorem sum_card : Cardinal.sum (fun i => #(Sequence₂ a₀ a₁ a₂ i)) = #a₀ + #a₁ + #a₂ := by
-  rw [sum_nat_eq_add_sum_succ, sum_nat_eq_add_sum_succ, sum_nat_eq_add_sum_succ]
+  rw [sum_nat_eq_add_sum_succ]; rw [sum_nat_eq_add_sum_succ]; rw [sum_nat_eq_add_sum_succ]
   simp [add_assoc, Sequence₂]
 #align first_order.sequence₂.sum_card FirstOrder.Sequence₂.sum_card
 
@@ -709,7 +709,7 @@ def comp (hnp : N ↪[L] P) (hmn : M ↪[L] N) : M ↪[L] P where
   -- Porting note: should be done by autoparam?
   map_fun' := by intros; simp only [Function.comp_apply, map_fun]; trivial
   -- Porting note: should be done by autoparam?
-  map_rel' := by intros; rw [Function.comp.assoc, map_rel, map_rel]
+  map_rel' := by intros; rw [Function.comp.assoc]; rw [map_rel]; rw [map_rel]
 #align first_order.language.embedding.comp FirstOrder.Language.Embedding.comp
 
 @[simp]
@@ -764,11 +764,11 @@ def symm (f : M ≃[L] N) : N ≃[L] M :=
       simp only [Equiv.toFun_as_coe]
       rw [Equiv.symm_apply_eq]
       refine' Eq.trans _ (f.map_fun' f' (f.toEquiv.symm ∘ x)).symm
-      rw [← Function.comp.assoc, Equiv.toFun_as_coe, Equiv.self_comp_symm, Function.comp.left_id]
+      rw [← Function.comp.assoc]; rw [Equiv.toFun_as_coe]; rw [Equiv.self_comp_symm]; rw [Function.comp.left_id]
     map_rel' := fun n r {x} => by
       simp only [Equiv.toFun_as_coe]
       refine' (f.map_rel' r (f.toEquiv.symm ∘ x)).symm.trans _
-      rw [← Function.comp.assoc, Equiv.toFun_as_coe, Equiv.self_comp_symm, Function.comp.left_id] }
+      rw [← Function.comp.assoc]; rw [Equiv.toFun_as_coe]; rw [Equiv.self_comp_symm]; rw [Function.comp.left_id] }
 #align first_order.language.equiv.symm FirstOrder.Language.Equiv.symm
 
 instance hasCoeToFun : CoeFun (M ≃[L] N) fun _ => M → N :=
@@ -876,7 +876,7 @@ def comp (hnp : N ≃[L] P) (hmn : M ≃[L] N) : M ≃[L] P :=
     -- Porting note: should be done by autoparam?
     map_fun' := by intros; simp only [Function.comp_apply, map_fun]; trivial
     -- Porting note: should be done by autoparam?
-    map_rel' := by intros; rw [Function.comp.assoc, map_rel, map_rel] }
+    map_rel' := by intros; rw [Function.comp.assoc]; rw [map_rel]; rw [map_rel] }
 #align first_order.language.equiv.comp FirstOrder.Language.Equiv.comp
 
 @[simp]

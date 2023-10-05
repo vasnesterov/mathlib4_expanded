@@ -138,7 +138,7 @@ instance hasShift {β : Type*} [AddCommGroup β] (s : β) : HasShift (GradedObje
   hasShiftMk _ _
     { F := fun n => comap C fun b : β => b + n • s
       zero := comapEq C (by aesop_cat) ≪≫ Pi.comapId β fun _ => C
-      add := fun m n => comapEq C (by ext; dsimp; rw [add_comm m n, add_zsmul, add_assoc]) ≪≫
+      add := fun m n => comapEq C (by ext; dsimp; rw [add_comm m n]; rw [add_zsmul]; rw [add_assoc]) ≪≫
           (Pi.comapComp _ _ _).symm }
 #align category_theory.graded_object.has_shift CategoryTheory.GradedObject.hasShift
 

@@ -104,12 +104,12 @@ def Monad.comparison (h : L ⊣ R) : D ⥤ h.toMonad.Algebra where
       a := R.map (h.counit.app X)
       assoc := by
         dsimp
-        rw [← R.map_comp, ← Adjunction.counit_naturality, R.map_comp] }
+        rw [← R.map_comp]; rw [← Adjunction.counit_naturality]; rw [R.map_comp] }
   map f :=
     { f := R.map f
       h := by
         dsimp
-        rw [← R.map_comp, Adjunction.counit_naturality, R.map_comp] }
+        rw [← R.map_comp]; rw [Adjunction.counit_naturality]; rw [R.map_comp] }
 #align category_theory.monad.comparison CategoryTheory.Monad.comparison
 
 /-- The underlying object of `(Monad.comparison R).obj X` is just `R.obj X`.
@@ -150,7 +150,7 @@ def Comonad.comparison (h : L ⊣ R) : C ⥤ h.toComonad.Coalgebra where
       a := L.map (h.unit.app X)
       coassoc := by
         dsimp
-        rw [← L.map_comp, ← Adjunction.unit_naturality, L.map_comp] }
+        rw [← L.map_comp]; rw [← Adjunction.unit_naturality]; rw [L.map_comp] }
   map f :=
     { f := L.map f
       h := by
@@ -227,7 +227,7 @@ instance [Reflective R] (X : (Adjunction.ofRightAdjoint R).toMonad.Algebra) :
         dsimp only [Functor.id_obj]
         rw [← (Adjunction.ofRightAdjoint R).unit_naturality]
         dsimp only [Functor.comp_obj, Adjunction.toMonad_coe]
-        rw [unit_obj_eq_map_unit, ← Functor.map_comp, ← Functor.map_comp]
+        rw [unit_obj_eq_map_unit]; rw [← Functor.map_comp]; rw [← Functor.map_comp]
         erw [X.unit]
         simp⟩⟩⟩
 
@@ -241,8 +241,7 @@ instance comparison_essSurj [Reflective R] :
     Monad.comparison_obj_A, Adjunction.toMonad_coe]
   rw [← cancel_epi ((Adjunction.ofRightAdjoint R).unit.app X.A)]
   dsimp only [Functor.id_obj, Functor.comp_obj]
-  rw [Adjunction.unit_naturality_assoc,
-    Adjunction.right_triangle_components, comp_id]
+  rw [Adjunction.unit_naturality_assoc]; rw [Adjunction.right_triangle_components]; rw [comp_id]
   apply (X.unit_assoc _).symm
 #align category_theory.reflective.comparison_ess_surj CategoryTheory.Reflective.comparison_essSurj
 

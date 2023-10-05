@@ -89,12 +89,12 @@ theorem sum_lt_half_of_not_tendsto
     intro n; split_ifs
     · simp only [one_div, inv_nonneg, Nat.cast_nonneg]
     · exact le_rfl
-  rw [h0, ← summable_iff_not_tendsto_nat_atTop_of_nonneg hf, summable_iff_vanishing] at h
+  rw [h0] at h; rw [← summable_iff_not_tendsto_nat_atTop_of_nonneg hf] at h; rw [summable_iff_vanishing] at h
   obtain ⟨s, h⟩ := h (Set.Ioo (-1) (1 / 2)) (isOpen_Ioo.mem_nhds (by norm_num))
   obtain ⟨k, hk⟩ := exists_nat_subset_range s
   use k
   intro x
-  rw [P, ← filter_filter, sum_filter]
+  rw [P]; rw [← filter_filter]; rw [sum_filter]
   refine' (h _ _).2
   rw [disjoint_iff_ne]
   simp only [mem_filter]
@@ -228,7 +228,7 @@ theorem Real.tendsto_sum_one_div_prime_atTop :
   set U' := U x k with hU'
   -- This is indeed a partition, so `|U| + |M| = |range x| = x`.
   have h2 : x = card U' + card M' := by
-    rw [← card_range x, hU', hM', ← range_sdiff_eq_biUnion]
+    rw [← card_range x]; rw [hU']; rw [hM']; rw [← range_sdiff_eq_biUnion]
     exact (card_sdiff_add_card_eq_card (Finset.filter_subset _ _)).symm
   -- But for the `x` we have chosen above, both `|U|` and `|M|` are less than or equal to `x / 2`,
   -- and for U, the inequality is strict.

@@ -43,10 +43,10 @@ variable {C D E : Type*} [Category C] [Category D] [Category E]
 by its value on objects coming from `C`. -/
 theorem natTrans_eq {F G : Karoubi C ⥤ D} (φ : F ⟶ G) (P : Karoubi C) :
     φ.app P = F.map (decompId_i P) ≫ φ.app P.X ≫ G.map (decompId_p P) := by
-  rw [← φ.naturality, ← assoc, ← F.map_comp]
+  rw [← φ.naturality]; rw [← assoc]; rw [← F.map_comp]
   conv =>
     lhs
-    rw [← id_comp (φ.app P), ← F.map_id]
+    rw [← id_comp (φ.app P)]; rw [← F.map_id]
   congr
   apply decompId
 #align category_theory.idempotents.nat_trans_eq CategoryTheory.Idempotents.natTrans_eq
@@ -167,7 +167,7 @@ def KaroubiUniversal₁.counitIso :
     (fun {X Y} φ => by
       ext P
       dsimp
-      rw [natTrans_eq φ P, P.decomp_p]
+      rw [natTrans_eq φ P]; rw [P.decomp_p]
       simp only [Functor.map_comp, comp_f, assoc]
       rfl)
 #align category_theory.idempotents.karoubi_universal₁.counit_iso CategoryTheory.Idempotents.KaroubiUniversal₁.counitIso

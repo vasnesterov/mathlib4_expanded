@@ -138,7 +138,7 @@ theorem ae_convolution_tendsto_right_of_locally_integrable
     simp only [mem_preimage, mem_ball, dist_zero_right] at hx
     simpa [dist_eq_norm_sub'] using hx.le
   · filter_upwards [h'φ] with i hi x
-    rw [abs_of_nonneg (nonneg_normed _ _), addHaar_closedBall_center]
+    rw [abs_of_nonneg (nonneg_normed _ _)]; rw [addHaar_closedBall_center]
     exact (φ i).normed_le_div_measure_closedBall_rOut _ _ hi _
 
 end ContDiffBump

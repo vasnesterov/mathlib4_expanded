@@ -146,12 +146,12 @@ theorem finSuccEquiv'_succAbove (i : Fin (n + 1)) (j : Fin n) :
 
 theorem finSuccEquiv'_below {i : Fin (n + 1)} {m : Fin n} (h : Fin.castSucc m < i) :
     (finSuccEquiv' i) (Fin.castSucc m) = m := by
-  rw [← Fin.succAbove_below _ _ h, finSuccEquiv'_succAbove]
+  rw [← Fin.succAbove_below _ _ h]; rw [finSuccEquiv'_succAbove]
 #align fin_succ_equiv'_below finSuccEquiv'_below
 
 theorem finSuccEquiv'_above {i : Fin (n + 1)} {m : Fin n} (h : i ≤ Fin.castSucc m) :
     (finSuccEquiv' i) m.succ = some m := by
-  rw [← Fin.succAbove_above _ _ h, finSuccEquiv'_succAbove]
+  rw [← Fin.succAbove_above _ _ h]; rw [finSuccEquiv'_succAbove]
 #align fin_succ_equiv'_above finSuccEquiv'_above
 
 @[simp]
@@ -220,7 +220,7 @@ theorem finSuccEquiv'_zero : finSuccEquiv' (0 : Fin (n + 1)) = finSuccEquiv n :=
 
 theorem finSuccEquiv'_last_apply_castSucc (i : Fin n) :
     finSuccEquiv' (Fin.last n) (Fin.castSucc i) = i := by
-  rw [← Fin.succAbove_last, finSuccEquiv'_succAbove]
+  rw [← Fin.succAbove_last]; rw [finSuccEquiv'_succAbove]
 
 theorem finSuccEquiv'_last_apply {i : Fin (n + 1)} (h : i ≠ Fin.last n) :
     finSuccEquiv' (Fin.last n) i = Fin.castLT i (Fin.val_lt_last h) := by
@@ -420,7 +420,7 @@ theorem Fin.snoc_eq_cons_rotate {α : Type*} (v : Fin n → α) (a : α) :
       simp only [not_lt] at h'
       exact (Nat.eq_of_le_of_lt_succ h' h).symm
     subst h''
-    rw [finRotate_last', Fin.snoc, Fin.cons, dif_neg (lt_irrefl _)]
+    rw [finRotate_last']; rw [Fin.snoc]; rw [Fin.cons]; rw [dif_neg (lt_irrefl _)]
     rfl
 #align fin.snoc_eq_cons_rotate Fin.snoc_eq_cons_rotate
 
@@ -441,7 +441,7 @@ theorem finRotate_one : finRotate 1 = Equiv.refl _ :=
 
 -- porting note: was a @[simp]
 theorem finRotate_apply_zero : finRotate n.succ 0 = 1 := by
-  rw [finRotate_succ_apply, zero_add]
+  rw [finRotate_succ_apply]; rw [zero_add]
 #align fin_rotate_apply_zero finRotate_apply_zero
 
 theorem coe_finRotate_of_ne_last {i : Fin n.succ} (h : i ≠ Fin.last n) :
@@ -453,7 +453,7 @@ theorem coe_finRotate_of_ne_last {i : Fin n.succ} (h : i ≠ Fin.last n) :
 
 theorem coe_finRotate (i : Fin n.succ) :
     (finRotate n.succ i : ℕ) = if i = Fin.last n then (0 : ℕ) else i + 1 := by
-  rw [finRotate_succ_apply, Fin.val_add_one i]
+  rw [finRotate_succ_apply]; rw [Fin.val_add_one i]
 #align coe_fin_rotate coe_finRotate
 
 /-- Equivalence between `Fin m × Fin n` and `Fin (m * n)` -/
@@ -500,7 +500,7 @@ def Nat.divModEquiv (n : ℕ) [NeZero n] : ℕ ≃ ℕ × Fin n where
   right_inv p := by
     refine' Prod.ext _ (Fin.ext <| Nat.mul_add_mod_of_lt p.2.is_lt)
     dsimp only
-    rw [add_comm, Nat.add_mul_div_right _ _ (NeZero.pos n), Nat.div_eq_of_lt p.2.is_lt, zero_add]
+    rw [add_comm]; rw [Nat.add_mul_div_right _ _ (NeZero.pos n)]; rw [Nat.div_eq_of_lt p.2.is_lt]; rw [zero_add]
 #align nat.div_mod_equiv Nat.divModEquiv
 
 /-- The equivalence induced by `a ↦ (a / n, a % n)` for nonzero `n`.
@@ -518,8 +518,7 @@ def Int.divModEquiv (n : ℕ) [NeZero n] : ℤ ≃ ℤ × Fin n where
   right_inv := fun ⟨q, r, hrn⟩ => by
     simp only [Fin.val_mk, Prod.mk.inj_iff, Fin.ext_iff]
     obtain ⟨h1, h2⟩ := Int.coe_nat_nonneg r, Int.ofNat_lt.2 hrn
-    rw [add_comm, Int.add_mul_ediv_right _ _ (NeZero.ne ↑n), Int.ediv_eq_zero_of_lt h1 h2,
-      Int.natMod, Int.add_mul_emod_self, Int.emod_eq_of_lt h1 h2, Int.toNat_coe_nat]
+    rw [add_comm]; rw [Int.add_mul_ediv_right _ _ (NeZero.ne ↑n)]; rw [Int.ediv_eq_zero_of_lt h1 h2]; rw [Int.natMod]; rw [Int.add_mul_emod_self]; rw [Int.emod_eq_of_lt h1 h2]; rw [Int.toNat_coe_nat]
     exact ⟨zero_add q, Fin.val_cast_of_lt hrn⟩
 #align int.div_mod_equiv Int.divModEquiv
 

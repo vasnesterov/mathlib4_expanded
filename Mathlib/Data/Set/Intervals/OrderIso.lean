@@ -68,7 +68,7 @@ theorem preimage_Ioo (e : α ≃o β) (a b : β) : e ⁻¹' Ioo a b = Ioo (e.sym
 
 @[simp]
 theorem image_Iic (e : α ≃o β) (a : α) : e '' Iic a = Iic (e a) := by
-  rw [e.image_eq_preimage, e.symm.preimage_Iic, e.symm_symm]
+  rw [e.image_eq_preimage]; rw [e.symm.preimage_Iic]; rw [e.symm_symm]
 #align order_iso.image_Iic OrderIso.image_Iic
 
 @[simp]
@@ -78,7 +78,7 @@ theorem image_Ici (e : α ≃o β) (a : α) : e '' Ici a = Ici (e a) :=
 
 @[simp]
 theorem image_Iio (e : α ≃o β) (a : α) : e '' Iio a = Iio (e a) := by
-  rw [e.image_eq_preimage, e.symm.preimage_Iio, e.symm_symm]
+  rw [e.image_eq_preimage]; rw [e.symm.preimage_Iio]; rw [e.symm_symm]
 #align order_iso.image_Iio OrderIso.image_Iio
 
 @[simp]
@@ -88,22 +88,22 @@ theorem image_Ioi (e : α ≃o β) (a : α) : e '' Ioi a = Ioi (e a) :=
 
 @[simp]
 theorem image_Ioo (e : α ≃o β) (a b : α) : e '' Ioo a b = Ioo (e a) (e b) := by
-  rw [e.image_eq_preimage, e.symm.preimage_Ioo, e.symm_symm]
+  rw [e.image_eq_preimage]; rw [e.symm.preimage_Ioo]; rw [e.symm_symm]
 #align order_iso.image_Ioo OrderIso.image_Ioo
 
 @[simp]
 theorem image_Ioc (e : α ≃o β) (a b : α) : e '' Ioc a b = Ioc (e a) (e b) := by
-  rw [e.image_eq_preimage, e.symm.preimage_Ioc, e.symm_symm]
+  rw [e.image_eq_preimage]; rw [e.symm.preimage_Ioc]; rw [e.symm_symm]
 #align order_iso.image_Ioc OrderIso.image_Ioc
 
 @[simp]
 theorem image_Ico (e : α ≃o β) (a b : α) : e '' Ico a b = Ico (e a) (e b) := by
-  rw [e.image_eq_preimage, e.symm.preimage_Ico, e.symm_symm]
+  rw [e.image_eq_preimage]; rw [e.symm.preimage_Ico]; rw [e.symm_symm]
 #align order_iso.image_Ico OrderIso.image_Ico
 
 @[simp]
 theorem image_Icc (e : α ≃o β) (a b : α) : e '' Icc a b = Icc (e a) (e b) := by
-  rw [e.image_eq_preimage, e.symm.preimage_Icc, e.symm_symm]
+  rw [e.image_eq_preimage]; rw [e.symm.preimage_Icc]; rw [e.symm_symm]
 #align order_iso.image_Icc OrderIso.image_Icc
 
 end Preorder

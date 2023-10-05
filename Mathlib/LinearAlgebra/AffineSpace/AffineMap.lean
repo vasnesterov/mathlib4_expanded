@@ -191,8 +191,7 @@ theorem linear_eq_zero_iff_exists_const (f : P1 →ᵃ[k] P2) :
   refine' ⟨fun h => _, fun h => _⟩
   · use f (Classical.arbitrary P1)
     ext
-    rw [coe_const, Function.const_apply, ← @vsub_eq_zero_iff_eq V2, ← f.linearMap_vsub, h,
-      LinearMap.zero_apply]
+    rw [coe_const]; rw [Function.const_apply]; rw [← @vsub_eq_zero_iff_eq V2]; rw [← f.linearMap_vsub]; rw [h]; rw [LinearMap.zero_apply]
   · rcases h with ⟨q, rfl⟩
     exact const_linear k P1 q
 #align affine_map.linear_eq_zero_iff_exists_const AffineMap.linear_eq_zero_iff_exists_const
@@ -406,7 +405,7 @@ def comp (f : P2 →ᵃ[k] P3) (g : P1 →ᵃ[k] P2) : P1 →ᵃ[k] P3 where
   linear := f.linear.comp g.linear
   map_vadd' := by
     intro p v
-    rw [Function.comp_apply, g.map_vadd, f.map_vadd]
+    rw [Function.comp_apply]; rw [g.map_vadd]; rw [f.map_vadd]
     rfl
 #align affine_map.comp AffineMap.comp
 
@@ -468,7 +467,7 @@ theorem linear_injective_iff (f : P1 →ᵃ[k] P2) :
   have h : ⇑f.linear = (Equiv.vaddConst (f p)).symm ∘ f ∘ Equiv.vaddConst p := by
     ext v
     simp [f.map_vadd, vadd_vsub_assoc]
-  rw [h, Equiv.comp_injective, Equiv.injective_comp]
+  rw [h]; rw [Equiv.comp_injective]; rw [Equiv.injective_comp]
 #align affine_map.linear_injective_iff AffineMap.linear_injective_iff
 
 @[simp]
@@ -478,7 +477,7 @@ theorem linear_surjective_iff (f : P1 →ᵃ[k] P2) :
   have h : ⇑f.linear = (Equiv.vaddConst (f p)).symm ∘ f ∘ Equiv.vaddConst p := by
     ext v
     simp [f.map_vadd, vadd_vsub_assoc]
-  rw [h, Equiv.comp_surjective, Equiv.surjective_comp]
+  rw [h]; rw [Equiv.comp_surjective]; rw [Equiv.surjective_comp]
 #align affine_map.linear_surjective_iff AffineMap.linear_surjective_iff
 
 @[simp]
@@ -532,7 +531,7 @@ theorem lineMap_apply_ring (a b c : k) : lineMap a b c = (1 - c) * a + c * b :=
 #align affine_map.line_map_apply_ring AffineMap.lineMap_apply_ring
 
 theorem lineMap_vadd_apply (p : P1) (v : V1) (c : k) : lineMap p (v +ᵥ p) c = c • v +ᵥ p := by
-  rw [lineMap_apply, vadd_vsub]
+  rw [lineMap_apply]; rw [vadd_vsub]
 #align affine_map.line_map_vadd_apply AffineMap.lineMap_vadd_apply
 
 @[simp]
@@ -568,20 +567,20 @@ theorem lineMap_apply_one (p₀ p₁ : P1) : lineMap p₀ p₁ (1 : k) = p₁ :=
 @[simp]
 theorem lineMap_eq_lineMap_iff [NoZeroSMulDivisors k V1] {p₀ p₁ : P1} {c₁ c₂ : k} :
     lineMap p₀ p₁ c₁ = lineMap p₀ p₁ c₂ ↔ p₀ = p₁ ∨ c₁ = c₂ := by
-  rw [lineMap_apply, lineMap_apply, ← @vsub_eq_zero_iff_eq V1, vadd_vsub_vadd_cancel_right, ←
-    sub_smul, smul_eq_zero, sub_eq_zero, vsub_eq_zero_iff_eq, or_comm, eq_comm]
+  rw [lineMap_apply]; rw [lineMap_apply]; rw [← @vsub_eq_zero_iff_eq V1]; rw [vadd_vsub_vadd_cancel_right]; rw [←
+    sub_smul]; rw [smul_eq_zero]; rw [sub_eq_zero]; rw [vsub_eq_zero_iff_eq]; rw [or_comm]; rw [eq_comm]
 #align affine_map.line_map_eq_line_map_iff AffineMap.lineMap_eq_lineMap_iff
 
 @[simp]
 theorem lineMap_eq_left_iff [NoZeroSMulDivisors k V1] {p₀ p₁ : P1} {c : k} :
     lineMap p₀ p₁ c = p₀ ↔ p₀ = p₁ ∨ c = 0 := by
-  rw [← @lineMap_eq_lineMap_iff k V1, lineMap_apply_zero]
+  rw [← @lineMap_eq_lineMap_iff k V1]; rw [lineMap_apply_zero]
 #align affine_map.line_map_eq_left_iff AffineMap.lineMap_eq_left_iff
 
 @[simp]
 theorem lineMap_eq_right_iff [NoZeroSMulDivisors k V1] {p₀ p₁ : P1} {c : k} :
     lineMap p₀ p₁ c = p₁ ↔ p₀ = p₁ ∨ c = 1 := by
-  rw [← @lineMap_eq_lineMap_iff k V1, lineMap_apply_one]
+  rw [← @lineMap_eq_lineMap_iff k V1]; rw [lineMap_apply_one]
 #align affine_map.line_map_eq_right_iff AffineMap.lineMap_eq_right_iff
 
 variable (k)
@@ -623,7 +622,7 @@ theorem lineMap_symm (p₀ p₁ : P1) :
 #align affine_map.line_map_symm AffineMap.lineMap_symm
 
 theorem lineMap_apply_one_sub (p₀ p₁ : P1) (c : k) : lineMap p₀ p₁ (1 - c) = lineMap p₁ p₀ c := by
-  rw [lineMap_symm p₀, comp_apply]
+  rw [lineMap_symm p₀]; rw [comp_apply]
   congr
   simp [lineMap_apply]
 #align affine_map.line_map_apply_one_sub AffineMap.lineMap_apply_one_sub
@@ -635,17 +634,17 @@ theorem lineMap_vsub_left (p₀ p₁ : P1) (c : k) : lineMap p₀ p₁ c -ᵥ p�
 
 @[simp]
 theorem left_vsub_lineMap (p₀ p₁ : P1) (c : k) : p₀ -ᵥ lineMap p₀ p₁ c = c • (p₀ -ᵥ p₁) := by
-  rw [← neg_vsub_eq_vsub_rev, lineMap_vsub_left, ← smul_neg, neg_vsub_eq_vsub_rev]
+  rw [← neg_vsub_eq_vsub_rev]; rw [lineMap_vsub_left]; rw [← smul_neg]; rw [neg_vsub_eq_vsub_rev]
 #align affine_map.left_vsub_line_map AffineMap.left_vsub_lineMap
 
 @[simp]
 theorem lineMap_vsub_right (p₀ p₁ : P1) (c : k) : lineMap p₀ p₁ c -ᵥ p₁ = (1 - c) • (p₀ -ᵥ p₁) := by
-  rw [← lineMap_apply_one_sub, lineMap_vsub_left]
+  rw [← lineMap_apply_one_sub]; rw [lineMap_vsub_left]
 #align affine_map.line_map_vsub_right AffineMap.lineMap_vsub_right
 
 @[simp]
 theorem right_vsub_lineMap (p₀ p₁ : P1) (c : k) : p₁ -ᵥ lineMap p₀ p₁ c = (1 - c) • (p₁ -ᵥ p₀) := by
-  rw [← lineMap_apply_one_sub, left_vsub_lineMap]
+  rw [← lineMap_apply_one_sub]; rw [left_vsub_lineMap]
 #align affine_map.right_vsub_line_map AffineMap.right_vsub_lineMap
 
 theorem lineMap_vadd_lineMap (v₁ v₂ : V1) (p₁ p₂ : P1) (c : k) :
@@ -679,9 +678,9 @@ theorem image_uIcc {k : Type*} [LinearOrderedField k] (f : k →ᵃ[k] k) (a b :
   have : ⇑f = (fun x => x + f 0) ∘ fun x => x * (f 1 - f 0) := by
     ext x
     change f x = x • (f 1 -ᵥ f 0) +ᵥ f 0
-    rw [← f.linearMap_vsub, ← f.linear.map_smul, ← f.map_vadd]
+    rw [← f.linearMap_vsub]; rw [← f.linear.map_smul]; rw [← f.map_vadd]
     simp only [vsub_eq_sub, add_zero, mul_one, vadd_eq_add, sub_zero, smul_eq_mul]
-  rw [this, Set.image_comp]
+  rw [this]; rw [Set.image_comp]
   simp only [Set.image_add_const_uIcc, Set.image_mul_const_uIcc, Function.comp_apply]
 #align affine_map.image_uIcc AffineMap.image_uIcc
 

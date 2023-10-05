@@ -48,8 +48,7 @@ theorem coe_norm_algebraMap [IsSeparable K L] (x : 𝓞 K) :
 
 theorem norm_algebraMap [IsSeparable K L] (x : 𝓞 K) :
     norm K (algebraMap (𝓞 K) (𝓞 L) x) = x ^ finrank K L := by
-  rw [← Subtype.coe_inj, RingOfIntegers.coe_norm_algebraMap, Algebra.norm_algebraMap,
-    SubsemiringClass.coe_pow]
+  rw [← Subtype.coe_inj]; rw [RingOfIntegers.coe_norm_algebraMap]; rw [Algebra.norm_algebraMap]; rw [SubsemiringClass.coe_pow]
 #align ring_of_integers.norm_algebra_map RingOfIntegers.norm_algebraMap
 
 theorem isUnit_norm_of_isGalois [IsGalois K L] {x : 𝓞 L} : IsUnit (norm K x) ↔ IsUnit x := by
@@ -76,7 +75,7 @@ theorem dvd_norm [IsGalois K L] (x : 𝓞 L) : x ∣ algebraMap (𝓞 K) (𝓞 L
     Subalgebra.prod_mem _ fun σ _ =>
       (mem_ringOfIntegers _ _).2 (map_isIntegral σ (RingOfIntegers.isIntegral_coe x))
   refine' ⟨⟨_, hint⟩, Subtype.ext _⟩
-  rw [coe_algebraMap_norm K x, norm_eq_prod_automorphisms]
+  rw [coe_algebraMap_norm K x]; rw [norm_eq_prod_automorphisms]
   simp [← Finset.mul_prod_erase _ _ (mem_univ AlgEquiv.refl)]
 #align ring_of_integers.dvd_norm RingOfIntegers.dvd_norm
 
@@ -84,7 +83,7 @@ variable (F : Type*) [Field F] [Algebra K F] [IsSeparable K F] [FiniteDimensiona
 
 theorem norm_norm [IsSeparable K L] [Algebra F L] [IsSeparable F L] [FiniteDimensional F L]
     [IsScalarTower K F L] (x : 𝓞 L) : norm K (norm F x) = norm K x := by
-  rw [← Subtype.coe_inj, norm_apply_coe, norm_apply_coe, norm_apply_coe, Algebra.norm_norm]
+  rw [← Subtype.coe_inj]; rw [norm_apply_coe]; rw [norm_apply_coe]; rw [norm_apply_coe]; rw [Algebra.norm_norm]
 #align ring_of_integers.norm_norm RingOfIntegers.norm_norm
 
 variable {F}
@@ -100,7 +99,7 @@ theorem isUnit_norm [CharZero K] {x : 𝓞 F} : IsUnit (norm K x) ↔ IsUnit x :
     IsUnit (norm K x) ↔ IsUnit ((norm K) x ^ finrank F L) :=
       (isUnit_pow_iff (pos_iff_ne_zero.mp finrank_pos)).symm
     _ ↔ IsUnit (norm K (algebraMap (𝓞 F) (𝓞 L) x)) := by
-      rw [← norm_norm K F (algebraMap (𝓞 F) (𝓞 L) x), norm_algebraMap F _, map_pow]
+      rw [← norm_norm K F (algebraMap (𝓞 F) (𝓞 L) x)]; rw [norm_algebraMap F _]; rw [map_pow]
     _ ↔ IsUnit (algebraMap (𝓞 F) (𝓞 L) x) := (isUnit_norm_of_isGalois K)
     _ ↔ IsUnit (norm F (algebraMap (𝓞 F) (𝓞 L) x)) := (isUnit_norm_of_isGalois F).symm
     _ ↔ IsUnit (x ^ finrank F L) := (congr_arg IsUnit (norm_algebraMap F _)).to_iff

@@ -187,7 +187,7 @@ theorem pushforwardFamily_compatible {X} (x : ℱ.obj (op X)) :
   -- porting note: these next 3 tactics (simp, rw, simp) were just one big `simp only` in Lean 3
   -- but I can't get `simp` to do the `rw` line.
   simp only [Functor.comp_map, ← Category.assoc, Functor.op_map, Quiver.Hom.unop_op]
-  rw [← ℱ.map_comp, ← ℱ.map_comp] -- `simp only [← ℱ.map_comp]` does nothing, even if I add
+  rw [← ℱ.map_comp]; rw [← ℱ.map_comp] -- `simp only [← ℱ.map_comp]` does nothing, even if I add
   -- the relevant explicit inputs
   simp only [← op_comp, G.image_preimage]
   congr 3
@@ -492,7 +492,7 @@ instance Sites.Pullback.faithful [Faithful G] (Hp : CoverPreserving J K G) :
     ext1
     apply_fun fun e => e.val at e
     dsimp at e
-    rw [← H.sheafHom_eq α.val, ← H.sheafHom_eq β.val, e]
+    rw [← H.sheafHom_eq α.val]; rw [← H.sheafHom_eq β.val]; rw [e]
 #align category_theory.cover_dense.sites.pullback.faithful CategoryTheory.CoverDense.Sites.Pullback.faithful
 
 end CoverDense

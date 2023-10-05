@@ -87,7 +87,7 @@ theorem _root_.IsOpen.measure_zero_iff_eq_empty (hU : IsOpen U) :
 
 theorem _root_.IsOpen.ae_eq_empty_iff_eq (hU : IsOpen U) :
     U =ᵐ[μ] (∅ : Set X) ↔ U = ∅ := by
-  rw [ae_eq_empty, hU.measure_zero_iff_eq_empty]
+  rw [ae_eq_empty]; rw [hU.measure_zero_iff_eq_empty]
 
 theorem _root_.IsOpen.eq_empty_of_measure_zero (hU : IsOpen U) (h₀ : μ U = 0) : U = ∅ :=
   (hU.measure_eq_zero_iff μ).mp h₀
@@ -101,12 +101,12 @@ theorem _root_.IsClosed.ae_eq_univ_iff_eq (hF : IsClosed F) :
 theorem _root_.IsClosed.measure_eq_univ_iff_eq [OpensMeasurableSpace X] [IsFiniteMeasure μ]
     (hF : IsClosed F) :
     μ F = μ univ ↔ F = univ := by
-  rw [← ae_eq_univ_iff_measure_eq hF.measurableSet.nullMeasurableSet, hF.ae_eq_univ_iff_eq]
+  rw [← ae_eq_univ_iff_measure_eq hF.measurableSet.nullMeasurableSet]; rw [hF.ae_eq_univ_iff_eq]
 
 theorem _root_.IsClosed.measure_eq_one_iff_eq_univ [OpensMeasurableSpace X] [IsProbabilityMeasure μ]
     (hF : IsClosed F) :
     μ F = 1 ↔ F = univ := by
-  rw [← measure_univ (μ := μ), hF.measure_eq_univ_iff_eq]
+  rw [← measure_univ (μ := μ)]; rw [hF.measure_eq_univ_iff_eq]
 
 theorem interior_eq_empty_of_null (hs : μ s = 0) : interior s = ∅ :=
   isOpen_interior.eq_empty_of_measure_zero <| measure_mono_null interior_subset hs

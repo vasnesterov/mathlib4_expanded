@@ -66,7 +66,7 @@ theorem Associated.prod {M : Type*} [CommMonoid M] {ι : Type*} (s : Finset ι) 
   | @insert j s hjs IH =>
     classical
     convert_to (∏ i in insert j s, f i) ~ᵤ (∏ i in insert j s, g i)
-    rw [Finset.prod_insert hjs, Finset.prod_insert hjs]
+    rw [Finset.prod_insert hjs]; rw [Finset.prod_insert hjs]
     exact Associated.mul_mul (h j (Finset.mem_insert_self j s))
       (IH (fun i hi ↦ h i (Finset.mem_insert_of_mem hi)))
 
@@ -97,8 +97,7 @@ theorem Multiset.prod_primes_dvd [CancelCommMonoidWithZero α]
       refine' (b_prime.dvd_or_dvd b_div_n).resolve_left fun b_div_a => _
       have assoc := b_prime.associated_of_dvd a_prime b_div_a
       have := uniq a
-      rw [Multiset.countP_cons_of_pos _ (Associated.refl _), Nat.succ_le_succ_iff, ← not_lt,
-        Multiset.countP_pos] at this
+      rw [Multiset.countP_cons_of_pos _ (Associated.refl _)] at this; rw [Nat.succ_le_succ_iff] at this; rw [← not_lt] at this; rw [Multiset.countP_pos] at this
       exact this ⟨b, b_in_s, assoc.symm⟩
 #align multiset.prod_primes_dvd Multiset.prod_primes_dvd
 
@@ -135,12 +134,12 @@ theorem finset_prod_mk {p : Finset β} {f : β → α} :
   -- Porting note: added
   have : (fun i => Associates.mk (f i)) = Associates.mk ∘ f :=
     funext <| fun x => Function.comp_apply
-  rw [Finset.prod_eq_multiset_prod, this, ←Multiset.map_map, prod_mk, ←Finset.prod_eq_multiset_prod]
+  rw [Finset.prod_eq_multiset_prod]; rw [this]; rw [←Multiset.map_map]; rw [prod_mk]; rw [←Finset.prod_eq_multiset_prod]
 #align associates.finset_prod_mk Associates.finset_prod_mk
 
 theorem rel_associated_iff_map_eq_map {p q : Multiset α} :
     Multiset.Rel Associated p q ↔ p.map Associates.mk = q.map Associates.mk := by
-  rw [← Multiset.rel_eq, Multiset.rel_map]
+  rw [← Multiset.rel_eq]; rw [Multiset.rel_map]
   simp only [mk_eq_mk_iff_associated]
 #align associates.rel_associated_iff_map_eq_map Associates.rel_associated_iff_map_eq_map
 

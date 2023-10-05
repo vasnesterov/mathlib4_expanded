@@ -251,7 +251,7 @@ theorem essSup_map_measure_of_measurable (hg : Measurable g) (hf : AEMeasurable 
 
 theorem essSup_map_measure (hg : AEMeasurable g (Measure.map f μ)) (hf : AEMeasurable f μ) :
     essSup g (Measure.map f μ) = essSup (g ∘ f) μ := by
-  rw [essSup_congr_ae hg.ae_eq_mk, essSup_map_measure_of_measurable hg.measurable_mk hf]
+  rw [essSup_congr_ae hg.ae_eq_mk]; rw [essSup_map_measure_of_measurable hg.measurable_mk hf]
   refine' essSup_congr_ae _
   have h_eq := ae_of_ae_map hf hg.ae_eq_mk
   rw [← EventuallyEq] at h_eq
@@ -280,10 +280,10 @@ theorem essSup_indicator_eq_essSup_restrict [Zero β] {s : Set α} {f : α → �
     exact hx.1.trans hx.2
     refine' Frequently.exists _
     · exact μ.ae
-    rw [EventuallyLE, ae_restrict_iff' hs] at hf
+    rw [EventuallyLE] at hf; rw [ae_restrict_iff' hs] at hf
     have hs' : ∃ᵐ x ∂μ, x ∈ s := by
       contrapose! hs_not_null
-      rw [not_frequently, ae_iff] at hs_not_null
+      rw [not_frequently] at hs_not_null; rw [ae_iff] at hs_not_null
       suffices { a : α | ¬a ∉ s } = s by rwa [← this]
       simp
     refine' hs'.mp (hf.mp (h_restrict_le.mono fun x hxs_imp_c hxf_nonneg hxs => _))

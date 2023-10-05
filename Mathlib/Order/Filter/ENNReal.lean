@@ -58,7 +58,7 @@ theorem limsup_const_mul [CountableInterFilter f] {u : α → ℝ≥0∞} {a : �
       limsup_const_bot]
     simp
   · have hu_mul : ∃ᶠ x : α in f, ⊤ ≤ ite (u x = 0) (0 : ℝ≥0∞) ⊤ := by
-      rw [EventuallyEq, not_eventually] at hu
+      rw [EventuallyEq] at hu; rw [not_eventually] at hu
       refine' hu.mono fun x hx => _
       rw [Pi.zero_apply] at hx
       simp [hx]

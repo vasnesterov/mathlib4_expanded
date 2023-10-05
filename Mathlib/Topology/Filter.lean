@@ -131,7 +131,7 @@ theorem nhds_principal (s : Set α) : 𝓝 (𝓟 s) = 𝓟 (Iic (𝓟 s)) :=
 
 @[simp]
 theorem nhds_pure (x : α) : 𝓝 (pure x : Filter α) = 𝓟 {⊥, pure x} := by
-  rw [← principal_singleton, nhds_principal, principal_singleton, Iic_pure]
+  rw [← principal_singleton]; rw [nhds_principal]; rw [principal_singleton]; rw [Iic_pure]
 #align filter.nhds_pure Filter.nhds_pure
 
 @[simp]
@@ -157,7 +157,7 @@ theorem sInter_nhds (l : Filter α) : ⋂₀ { s | s ∈ 𝓝 l } = Iic l := by
 @[simp]
 theorem nhds_mono {l₁ l₂ : Filter α} : 𝓝 l₁ ≤ 𝓝 l₂ ↔ l₁ ≤ l₂ := by
   refine' ⟨fun h => _, fun h => monotone_nhds h⟩
-  rw [← Iic_subset_Iic, ← sInter_nhds, ← sInter_nhds]
+  rw [← Iic_subset_Iic]; rw [← sInter_nhds]; rw [← sInter_nhds]
   exact sInter_subset_sInter h
 #align filter.nhds_mono Filter.nhds_mono
 

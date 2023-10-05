@@ -151,7 +151,7 @@ theorem sum_hadamard_eq : (∑ i : m, ∑ j : n, (A ⊙ B) i j) = trace (A * B�
 
 theorem dotProduct_vecMul_hadamard [DecidableEq m] [DecidableEq n] (v : m → α) (w : n → α) :
     dotProduct (vecMul v (A ⊙ B)) w = trace (diagonal v * A * (B * diagonal w)ᵀ) := by
-  rw [← sum_hadamard_eq, Finset.sum_comm]
+  rw [← sum_hadamard_eq]; rw [Finset.sum_comm]
   simp [dotProduct, vecMul, Finset.sum_mul, mul_assoc]
 #align matrix.dot_product_vec_mul_hadamard Matrix.dotProduct_vecMul_hadamard
 

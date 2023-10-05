@@ -888,7 +888,7 @@ theorem TopologicalGroup.ext {G : Type*} [Group G] {t t' : TopologicalSpace G}
     (tg : @TopologicalGroup G t _) (tg' : @TopologicalGroup G t' _)
     (h : @nhds G t 1 = @nhds G t' 1) : t = t' :=
   eq_of_nhds_eq_nhds fun x => by
-    rw [← @nhds_translation_mul_inv G t _ _ x, ← @nhds_translation_mul_inv G t' _ _ x, ← h]
+    rw [← @nhds_translation_mul_inv G t _ _ x]; rw [← @nhds_translation_mul_inv G t' _ _ x]; rw [← h]
 #align topological_group.ext TopologicalGroup.ext
 #align topological_add_group.ext TopologicalAddGroup.ext
 
@@ -924,8 +924,8 @@ theorem TopologicalGroup.of_nhds_one' {G : Type u} [Group G] [TopologicalSpace G
       ContinuousInv.of_nhds_one hinv hleft fun x₀ =>
         le_of_eq
           (by
-            rw [show (fun x => x₀ * x * x₀⁻¹) = (fun x => x * x₀⁻¹) ∘ fun x => x₀ * x from rfl, ←
-              map_map, ← hleft, hright, map_map]
+            rw [show (fun x => x₀ * x * x₀⁻¹) = (fun x => x * x₀⁻¹) ∘ fun x => x₀ * x from rfl]; rw [←
+              map_map]; rw [← hleft]; rw [hright]; rw [map_map]
             simp [(· ∘ ·)]) }
 #align topological_group.of_nhds_one' TopologicalGroup.of_nhds_one'
 #align topological_add_group.of_nhds_zero' TopologicalAddGroup.of_nhds_zero'
@@ -1294,9 +1294,9 @@ theorem MulAction.isClosedMap_quotient [CompactSpace α] :
     letI := orbitRel α β
     IsClosedMap (Quotient.mk' : β → Quotient (orbitRel α β)) := by
   intro t ht
-  rw [← quotientMap_quotient_mk'.isClosed_preimage, MulAction.quotient_preimage_image_eq_union_mul]
+  rw [← quotientMap_quotient_mk'.isClosed_preimage]; rw [MulAction.quotient_preimage_image_eq_union_mul]
   convert ht.smul_left_of_isCompact (isCompact_univ (α := α))
-  rw [← biUnion_univ, ← iUnion_smul_left_image]
+  rw [← biUnion_univ]; rw [← iUnion_smul_left_image]
   rfl
 
 end ContinuousSMul
@@ -1424,8 +1424,7 @@ theorem IsOpen.mul_closure (hs : IsOpen s) (t : Set α) : s * closure t = s * t 
 
 @[to_additive]
 theorem IsOpen.closure_mul (ht : IsOpen t) (s : Set α) : closure s * t = s * t := by
-  rw [← inv_inv (closure s * t), mul_inv_rev, inv_closure, ht.inv.mul_closure, mul_inv_rev, inv_inv,
-    inv_inv]
+  rw [← inv_inv (closure s * t)]; rw [mul_inv_rev]; rw [inv_closure]; rw [ht.inv.mul_closure]; rw [mul_inv_rev]; rw [inv_inv]; rw [inv_inv]
 #align is_open.closure_mul IsOpen.closure_mul
 #align is_open.closure_add IsOpen.closure_add
 
@@ -1458,7 +1457,7 @@ theorem QuotientGroup.isClosedMap_coe {H : Subgroup α} (hH : IsCompact (H : Set
   rw [← quotientMap_quotient_mk'.isClosed_preimage]
   convert ht.mul_right_of_isCompact hH
   refine (QuotientGroup.preimage_image_mk_eq_iUnion_image _ _).trans ?_
-  rw [iUnion_subtype, ← iUnion_mul_right_image]
+  rw [iUnion_subtype]; rw [← iUnion_mul_right_image]
   rfl
 
 end TopologicalGroup
@@ -1487,7 +1486,7 @@ instance (priority := 100) TopologicalGroup.regularSpace : RegularSpace G := by
   have : Tendsto (fun p : G × G => p.1 * p.2) (𝓝 (a, 1)) (𝓝 a) :=
     continuous_mul.tendsto' _ _ (mul_one a)
   rcases mem_nhds_prod_iff.mp (this hs) with ⟨U, hU, V, hV, hUV⟩
-  rw [← image_subset_iff, image_prod] at hUV
+  rw [← image_subset_iff] at hUV; rw [image_prod] at hUV
   refine' ⟨closure U, mem_of_superset hU subset_closure, isClosed_closure, _⟩
   calc
     closure U ⊆ closure U * interior V := subset_mul_left _ (mem_interior_iff_mem_nhds.2 hV)
@@ -1545,7 +1544,7 @@ theorem Subgroup.properlyDiscontinuousSMul_of_tendsto_cofinite (S : Subgroup G)
   { finite_disjoint_inter_image := by
       intro K L hK hL
       have H : Set.Finite _ := hS ((hL.prod hK).image continuous_div').compl_mem_cocompact
-      rw [preimage_compl, compl_compl] at H
+      rw [preimage_compl] at H; rw [compl_compl] at H
       convert H
       ext x
       simp only [image_smul, mem_setOf_eq, coeSubtype, mem_preimage, mem_image, Prod.exists]
@@ -1612,9 +1611,9 @@ theorem compact_open_separated_mul_right {K U : Set G} (hK : IsCompact K) (hU : 
         ((mul_subset_mul_left (V.inter_subset_right W)).trans hW')
   · intro x hx
     have := tendsto_mul (show U ∈ 𝓝 (x * 1) by simpa using hU.mem_nhds (hKU hx))
-    rw [nhds_prod_eq, mem_map, mem_prod_iff] at this
+    rw [nhds_prod_eq] at this; rw [mem_map] at this; rw [mem_prod_iff] at this
     rcases this with ⟨t, ht, s, hs, h⟩
-    rw [← image_subset_iff, image_mul_prod] at h
+    rw [← image_subset_iff] at h; rw [image_mul_prod] at h
     exact ⟨t, mem_nhdsWithin_of_mem_nhds ht, s, hs, h⟩
 #align compact_open_separated_mul_right compact_open_separated_mul_right
 #align compact_open_separated_add_right compact_open_separated_add_right

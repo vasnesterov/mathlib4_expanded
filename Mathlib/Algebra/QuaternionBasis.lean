@@ -54,7 +54,7 @@ protected theorem ext ⦃q₁ q₂ : Basis A c₁ c₂⦄ (hi : q₁.i = q₂.i)
   cases q₁; rename_i q₁_i_mul_j _
   cases q₂; rename_i q₂_i_mul_j _
   congr
-  rw [← q₁_i_mul_j, ← q₂_i_mul_j]
+  rw [← q₁_i_mul_j]; rw [← q₂_i_mul_j]
   congr
 #align quaternion_algebra.basis.ext QuaternionAlgebra.Basis.ext
 
@@ -83,28 +83,28 @@ attribute [simp] i_mul_i j_mul_j i_mul_j j_mul_i
 
 @[simp]
 theorem i_mul_k : q.i * q.k = c₁ • q.j := by
-  rw [← i_mul_j, ← mul_assoc, i_mul_i, smul_mul_assoc, one_mul]
+  rw [← i_mul_j]; rw [← mul_assoc]; rw [i_mul_i]; rw [smul_mul_assoc]; rw [one_mul]
 #align quaternion_algebra.basis.i_mul_k QuaternionAlgebra.Basis.i_mul_k
 
 @[simp]
 theorem k_mul_i : q.k * q.i = -c₁ • q.j := by
-  rw [← i_mul_j, mul_assoc, j_mul_i, mul_neg, i_mul_k, neg_smul]
+  rw [← i_mul_j]; rw [mul_assoc]; rw [j_mul_i]; rw [mul_neg]; rw [i_mul_k]; rw [neg_smul]
 #align quaternion_algebra.basis.k_mul_i QuaternionAlgebra.Basis.k_mul_i
 
 @[simp]
 theorem k_mul_j : q.k * q.j = c₂ • q.i := by
-  rw [← i_mul_j, mul_assoc, j_mul_j, mul_smul_comm, mul_one]
+  rw [← i_mul_j]; rw [mul_assoc]; rw [j_mul_j]; rw [mul_smul_comm]; rw [mul_one]
 #align quaternion_algebra.basis.k_mul_j QuaternionAlgebra.Basis.k_mul_j
 
 @[simp]
 theorem j_mul_k : q.j * q.k = -c₂ • q.i := by
-  rw [← i_mul_j, ← mul_assoc, j_mul_i, neg_mul, k_mul_j, neg_smul]
+  rw [← i_mul_j]; rw [← mul_assoc]; rw [j_mul_i]; rw [neg_mul]; rw [k_mul_j]; rw [neg_smul]
 #align quaternion_algebra.basis.j_mul_k QuaternionAlgebra.Basis.j_mul_k
 
 @[simp]
 theorem k_mul_k : q.k * q.k = -((c₁ * c₂) • (1 : A)) := by
-  rw [← i_mul_j, mul_assoc, ← mul_assoc q.j _ _, j_mul_i, ← i_mul_j, ← mul_assoc, mul_neg, ←
-    mul_assoc, i_mul_i, smul_mul_assoc, one_mul, neg_mul, smul_mul_assoc, j_mul_j, smul_smul]
+  rw [← i_mul_j]; rw [mul_assoc]; rw [← mul_assoc q.j _ _]; rw [j_mul_i]; rw [← i_mul_j]; rw [← mul_assoc]; rw [mul_neg]; rw [←
+    mul_assoc]; rw [i_mul_i]; rw [smul_mul_assoc]; rw [one_mul]; rw [neg_mul]; rw [smul_mul_assoc]; rw [j_mul_j]; rw [smul_smul]
 #align quaternion_algebra.basis.k_mul_k QuaternionAlgebra.Basis.k_mul_k
 
 /-- Intermediate result used to define `QuaternionAlgebra.Basis.liftHom`. -/

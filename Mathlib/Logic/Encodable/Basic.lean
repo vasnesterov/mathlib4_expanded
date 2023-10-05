@@ -241,15 +241,15 @@ def equivRangeEncode (α : Type*) [Encodable α] : α ≃ Set.range (@encode α 
   toFun := fun a : α => ⟨encode a, Set.mem_range_self _⟩
   invFun n :=
     Option.get _
-      (show isSome (decode₂ α n.1) by cases' n.2 with x hx; rw [← hx, encodek₂]; exact rfl)
-  left_inv a := by dsimp; rw [← Option.some_inj, Option.some_get, encodek₂]
+      (show isSome (decode₂ α n.1) by cases' n.2 with x hx; rw [← hx]; rw [encodek₂]; exact rfl)
+  left_inv a := by dsimp; rw [← Option.some_inj]; rw [Option.some_get]; rw [encodek₂]
   right_inv := fun ⟨n, x, hx⟩ => by
     apply Subtype.eq
     dsimp
     conv =>
       rhs
       rw [← hx]
-    rw [encode_injective.eq_iff, ← Option.some_inj, Option.some_get, ← hx, encodek₂]
+    rw [encode_injective.eq_iff]; rw [← Option.some_inj]; rw [Option.some_get]; rw [← hx]; rw [encodek₂]
 #align encodable.equiv_range_encode Encodable.equivRangeEncode
 
 /-- A type with unique element is encodable. This is not an instance to avoid diamonds. -/

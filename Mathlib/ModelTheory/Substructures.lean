@@ -308,17 +308,17 @@ theorem coe_closure_eq_range_term_realize :
 #align first_order.language.substructure.coe_closure_eq_range_term_realize FirstOrder.Language.Substructure.coe_closure_eq_range_term_realize
 
 instance small_closure [Small.{u} s] : Small.{u} (closure L s) := by
-  rw [← SetLike.coe_sort_coe, Substructure.coe_closure_eq_range_term_realize]
+  rw [← SetLike.coe_sort_coe]; rw [Substructure.coe_closure_eq_range_term_realize]
   exact small_range _
 #align first_order.language.substructure.small_closure FirstOrder.Language.Substructure.small_closure
 
 theorem mem_closure_iff_exists_term {x : M} :
     x ∈ closure L s ↔ ∃ t : L.Term s, t.realize ((↑) : s → M) = x := by
-  rw [← SetLike.mem_coe, coe_closure_eq_range_term_realize, mem_range]
+  rw [← SetLike.mem_coe]; rw [coe_closure_eq_range_term_realize]; rw [mem_range]
 #align first_order.language.substructure.mem_closure_iff_exists_term FirstOrder.Language.Substructure.mem_closure_iff_exists_term
 
 theorem lift_card_closure_le_card_term : Cardinal.lift.{max u w} #(closure L s) ≤ #(L.Term s) := by
-  rw [← SetLike.coe_sort_coe, coe_closure_eq_range_term_realize]
+  rw [← SetLike.coe_sort_coe]; rw [coe_closure_eq_range_term_realize]
   rw [← Cardinal.lift_id'.{w, max u w} #(L.Term s)]
   exact Cardinal.mk_range_le_lift
 #align first_order.language.substructure.lift_card_closure_le_card_term FirstOrder.Language.Substructure.lift_card_closure_le_card_term
@@ -328,7 +328,7 @@ theorem lift_card_closure_le :
       max ℵ₀ (Cardinal.lift.{u, w} #s + Cardinal.lift.{w, u} #(Σi, L.Functions i)) := by
   rw [← lift_umax]
   refine' lift_card_closure_le_card_term.trans (Term.card_le.trans _)
-  rw [mk_sum, lift_umax.{w, u}]
+  rw [mk_sum]; rw [lift_umax.{w, u}]
 #align first_order.language.substructure.lift_card_closure_le FirstOrder.Language.Substructure.lift_card_closure_le
 
 variable (L)
@@ -336,7 +336,7 @@ variable (L)
 theorem _root_.Set.Countable.substructure_closure
     [Countable (Σl, L.Functions l)] (h : s.Countable) : Countable.{w + 1} (closure L s) := by
   haveI : Countable s := h.to_subtype
-  rw [← mk_le_aleph0_iff, ← lift_le_aleph0]
+  rw [← mk_le_aleph0_iff]; rw [← lift_le_aleph0]
   exact lift_card_closure_le_card_term.trans mk_le_aleph0
 #align set.countable.substructure_closure Set.Countable.substructure_closure
 
@@ -412,7 +412,7 @@ instance small_bot : Small.{u} (⊥ : L.Substructure M) := by
 def comap (φ : M →[L] N) (S : L.Substructure N) : L.Substructure M where
   carrier := φ ⁻¹' S
   fun_mem {n} f x hx := by
-    rw [mem_preimage, φ.map_fun]
+    rw [mem_preimage]; rw [φ.map_fun]
     exact S.fun_mem f (φ ∘ x) hx
 #align first_order.language.substructure.comap FirstOrder.Language.Substructure.comap
 #align first_order.language.substructure.comap_coe FirstOrder.Language.Substructure.comap_coe
@@ -854,11 +854,11 @@ theorem range_comp_le_range (f : M →[L] N) (g : N →[L] P) : range (g.comp f 
 #align first_order.language.hom.range_comp_le_range FirstOrder.Language.Hom.range_comp_le_range
 
 theorem range_eq_top {f : M →[L] N} : range f = ⊤ ↔ Function.Surjective f := by
-  rw [SetLike.ext'_iff, range_coe, coe_top, Set.range_iff_surjective]
+  rw [SetLike.ext'_iff]; rw [range_coe]; rw [coe_top]; rw [Set.range_iff_surjective]
 #align first_order.language.hom.range_eq_top FirstOrder.Language.Hom.range_eq_top
 
 theorem range_le_iff_comap {f : M →[L] N} {p : L.Substructure N} : range f ≤ p ↔ comap f p = ⊤ := by
-  rw [range_eq_map, map_le_iff_le_comap, eq_top_iff]
+  rw [range_eq_map]; rw [map_le_iff_le_comap]; rw [eq_top_iff]
 #align first_order.language.hom.range_le_iff_comap FirstOrder.Language.Hom.range_le_iff_comap
 
 theorem map_le_range {f : M →[L] N} {p : L.Substructure M} : map f p ≤ range f :=
@@ -919,7 +919,7 @@ def codRestrict (p : L.Substructure N) (f : M ↪[L] N) (h : ∀ c, f c ∈ p) :
     simp only
     rw [← p.subtype.map_rel]
     change RelMap r (Hom.comp p.subtype.toHom (f.toHom.codRestrict p h) ∘ x) ↔ _
-    rw [Hom.subtype_comp_codRestrict, ← f.map_rel]
+    rw [Hom.subtype_comp_codRestrict]; rw [← f.map_rel]
     rfl
 #align first_order.language.embedding.cod_restrict FirstOrder.Language.Embedding.codRestrict
 

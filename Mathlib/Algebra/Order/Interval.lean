@@ -534,7 +534,7 @@ protected theorem mul_eq_one_iff : s * t = 1 ↔ ∃ a b, s = pure a ∧ t = pur
     · nth_rw 2 [this.1]
     · nth_rw 2 [this.2]
   · rintro ⟨b, c, rfl, rfl, h⟩
-    rw [pure_mul_pure, h, pure_one]
+    rw [pure_mul_pure]; rw [h]; rw [pure_one]
 #align nonempty_interval.mul_eq_one_iff NonemptyInterval.mul_eq_one_iff
 #align nonempty_interval.add_eq_zero_iff NonemptyInterval.add_eq_zero_iff
 
@@ -552,7 +552,7 @@ instance subtractionCommMonoid {α : Type u} [OrderedAddCommGroup α] :
       exact neg_add_rev _ _
     neg_eq_of_add := fun s t h => by
       obtain ⟨a, b, rfl, rfl, hab⟩ := NonemptyInterval.add_eq_zero_iff.1 h
-      rw [neg_pure, neg_eq_of_add_eq_zero_right hab] }
+      rw [neg_pure]; rw [neg_eq_of_add_eq_zero_right hab] }
 
 @[to_additive existing NonemptyInterval.subtractionCommMonoid]
 instance divisionCommMonoid : DivisionCommMonoid (NonemptyInterval α) :=
@@ -568,7 +568,7 @@ instance divisionCommMonoid : DivisionCommMonoid (NonemptyInterval α) :=
       exact mul_inv_rev _ _
     inv_eq_of_mul := fun s t h => by
       obtain ⟨a, b, rfl, rfl, hab⟩ := NonemptyInterval.mul_eq_one_iff.1 h
-      rw [inv_pure, inv_eq_of_mul_eq_one_right hab] }
+      rw [inv_pure]; rw [inv_eq_of_mul_eq_one_right hab] }
 
 end NonemptyInterval
 

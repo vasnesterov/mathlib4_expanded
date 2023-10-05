@@ -139,12 +139,12 @@ variable [HasZeroMorphisms C]
 #align category_theory.unop_zero CategoryTheory.Limits.unop_zero
 
 theorem zero_of_comp_mono {X Y Z : C} {f : X ⟶ Y} (g : Y ⟶ Z) [Mono g] (h : f ≫ g = 0) : f = 0 := by
-  rw [← zero_comp, cancel_mono] at h
+  rw [← zero_comp] at h; rw [cancel_mono] at h
   exact h
 #align category_theory.limits.zero_of_comp_mono CategoryTheory.Limits.zero_of_comp_mono
 
 theorem zero_of_epi_comp {X Y Z : C} (f : X ⟶ Y) {g : Y ⟶ Z} [Epi f] (h : f ≫ g = 0) : g = 0 := by
-  rw [← comp_zero, cancel_epi] at h
+  rw [← comp_zero] at h; rw [cancel_epi] at h
   exact h
 #align category_theory.limits.zero_of_epi_comp CategoryTheory.Limits.zero_of_epi_comp
 
@@ -190,9 +190,9 @@ theorem eq_zero_of_tgt {X Y : C} (o : IsZero Y) (f : X ⟶ Y) : f = 0 :=
 theorem iff_id_eq_zero (X : C) : IsZero X ↔ 𝟙 X = 0 :=
   ⟨fun h => h.eq_of_src _ _, fun h =>
     ⟨fun Y => ⟨⟨⟨0⟩, fun f => by
-        rw [← id_comp f, ← id_comp (0: X ⟶ Y), h, zero_comp, zero_comp]; simp only⟩⟩,
+        rw [← id_comp f]; rw [← id_comp (0: X ⟶ Y)]; rw [h]; rw [zero_comp]; rw [zero_comp]; simp only⟩⟩,
     fun Y => ⟨⟨⟨0⟩, fun f => by
-        rw [← comp_id f, ← comp_id (0 : Y ⟶ X), h, comp_zero, comp_zero]; simp only ⟩⟩⟩⟩
+        rw [← comp_id f]; rw [← comp_id (0 : Y ⟶ X)]; rw [h]; rw [comp_zero]; rw [comp_zero]; simp only ⟩⟩⟩⟩
 #align category_theory.limits.is_zero.iff_id_eq_zero CategoryTheory.Limits.IsZero.iff_id_eq_zero
 
 theorem of_mono_zero (X Y : C) [Mono (0 : X ⟶ Y)] : IsZero X :=
@@ -217,7 +217,7 @@ theorem iff_isSplitMono_eq_zero {X Y : C} (f : X ⟶ Y) [IsSplitMono f] : IsZero
   rw [iff_id_eq_zero]
   constructor
   · intro h
-    rw [← Category.id_comp f, h, zero_comp]
+    rw [← Category.id_comp f]; rw [h]; rw [zero_comp]
   · intro h
     rw [← IsSplitMono.id f]
     simp [h]
@@ -227,7 +227,7 @@ theorem iff_isSplitEpi_eq_zero {X Y : C} (f : X ⟶ Y) [IsSplitEpi f] : IsZero Y
   rw [iff_id_eq_zero]
   constructor
   · intro h
-    rw [← Category.comp_id f, h, comp_zero]
+    rw [← Category.comp_id f]; rw [h]; rw [comp_zero]
   · intro h
     rw [← IsSplitEpi.id f]
     simp [h]
@@ -467,7 +467,7 @@ def isoOfIsIsomorphicZero {X : C} (P : IsIsomorphic X 0) : X ≅ 0 where
   inv := 0
   hom_inv_id := by
     cases' P with P
-    rw [←P.hom_inv_id,←Category.id_comp P.inv]
+    rw [←P.hom_inv_id]; rw [←Category.id_comp P.inv]
     apply Eq.symm
     simp only [id_comp, Iso.hom_inv_id, comp_zero]
     apply (idZeroEquivIsoZero X).invFun P

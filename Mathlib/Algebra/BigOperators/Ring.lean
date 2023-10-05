@@ -39,7 +39,7 @@ theorem prod_pow_eq_pow_sum {x : β} {f : α → ℕ} :
   apply Finset.induction
   · simp
   · intro a s has H
-    rw [Finset.prod_insert has, Finset.sum_insert has, pow_add, H]
+    rw [Finset.prod_insert has]; rw [Finset.sum_insert has]; rw [pow_add]; rw [H]
 #align finset.prod_pow_eq_pow_sum Finset.prod_pow_eq_pow_sum
 
 end CommMonoid
@@ -59,7 +59,7 @@ theorem mul_sum : (b * ∑ x in s, f x) = ∑ x in s, b * f x :=
 theorem sum_mul_sum {ι₁ : Type*} {ι₂ : Type*} (s₁ : Finset ι₁) (s₂ : Finset ι₂) (f₁ : ι₁ → β)
     (f₂ : ι₂ → β) :
     ((∑ x₁ in s₁, f₁ x₁) * ∑ x₂ in s₂, f₂ x₂) = ∑ p in s₁ ×ˢ s₂, f₁ p.1 * f₂ p.2 := by
-  rw [sum_product, sum_mul, sum_congr rfl]
+  rw [sum_product]; rw [sum_mul]; rw [sum_congr rfl]
   intros
   rw [mul_sum]
 #align finset.sum_mul_sum Finset.sum_mul_sum
@@ -108,15 +108,15 @@ theorem prod_sum {δ : α → Type*} [DecidableEq α] [∀ a, DecidableEq (δ a)
       rintro _ ⟨p₂, _, eq₂⟩ _ ⟨p₃, _, eq₃⟩ eq
       have : Pi.cons s a x p₂ a (mem_insert_self _ _) = Pi.cons s a y p₃ a (mem_insert_self _ _) :=
         by rw [eq₂, eq₃, eq]
-      rw [Pi.cons_same, Pi.cons_same] at this
+      rw [Pi.cons_same] at this; rw [Pi.cons_same] at this
       exact h this
-    rw [prod_insert ha, pi_insert ha, ih, sum_mul, sum_biUnion h₁]
+    rw [prod_insert ha]; rw [pi_insert ha]; rw [ih]; rw [sum_mul]; rw [sum_biUnion h₁]
     refine' sum_congr rfl fun b _ => _
     have h₂ : ∀ p₁ ∈ pi s t, ∀ p₂ ∈ pi s t, Pi.cons s a b p₁ = Pi.cons s a b p₂ → p₁ = p₂ :=
       fun p₁ _ p₂ _ eq => Pi.cons_injective ha eq
-    rw [sum_image h₂, mul_sum]
+    rw [sum_image h₂]; rw [mul_sum]
     refine' sum_congr rfl fun g _ => _
-    rw [attach_insert, prod_insert, prod_image]
+    rw [attach_insert]; rw [prod_insert]; rw [prod_image]
     · simp only [Pi.cons_same]
       congr with ⟨v, hv⟩
       congr
@@ -171,8 +171,7 @@ theorem prod_add_ordered {ι R : Type*} [CommSemiring R] [LinearOrder ι] (s : F
   clear s
   intro a s ha ihs
   have ha' : a ∉ s := fun ha' => lt_irrefl a (ha a ha')
-  rw [prod_insert ha', prod_insert ha', sum_insert ha', filter_insert, if_neg (lt_irrefl a),
-    filter_true_of_mem ha, ihs, add_mul, mul_add, mul_add, add_assoc]
+  rw [prod_insert ha']; rw [prod_insert ha']; rw [sum_insert ha']; rw [filter_insert]; rw [if_neg (lt_irrefl a)]; rw [filter_true_of_mem ha]; rw [ihs]; rw [add_mul]; rw [mul_add]; rw [mul_add]; rw [add_assoc]
   congr 1
   rw [add_comm]
   congr 1
@@ -180,8 +179,7 @@ theorem prod_add_ordered {ι R : Type*} [CommSemiring R] [LinearOrder ι] (s : F
     exact (forall_mem_insert _ _ _).2 ⟨lt_irrefl a, fun i hi => (ha i hi).not_lt⟩
   · rw [mul_sum]
     refine' sum_congr rfl fun i hi => _
-    rw [filter_insert, if_neg (ha i hi).not_lt, filter_insert, if_pos (ha i hi), prod_insert,
-      mul_left_comm]
+    rw [filter_insert]; rw [if_neg (ha i hi).not_lt]; rw [filter_insert]; rw [if_pos (ha i hi)]; rw [prod_insert]; rw [mul_left_comm]
     exact mt (fun ha => (mem_filter.1 ha).1) ha'
 #align finset.prod_add_ordered Finset.prod_add_ordered
 
@@ -209,9 +207,9 @@ gives `(a + b)^s.card`.-/
 theorem sum_pow_mul_eq_add_pow {α R : Type*} [CommSemiring R] (a b : R) (s : Finset α) :
     (∑ t in s.powerset, a ^ t.card * b ^ (s.card - t.card)) = (a + b) ^ s.card := by
   classical
-  rw [← prod_const, prod_add]
+  rw [← prod_const]; rw [prod_add]
   refine' Finset.sum_congr rfl fun t ht => _
-  rw [prod_const, prod_const, ← card_sdiff (mem_powerset.1 ht)]
+  rw [prod_const]; rw [prod_const]; rw [← card_sdiff (mem_powerset.1 ht)]
 #align finset.sum_pow_mul_eq_add_pow Finset.sum_pow_mul_eq_add_pow
 
 @[norm_cast]
@@ -231,7 +229,7 @@ theorem prod_range_cast_nat_sub (n k : ℕ) :
   cases' le_or_lt k n with hkn hnk
   · exact prod_congr rfl fun i hi => (Nat.cast_sub <| (mem_range.1 hi).le.trans hkn).symm
   · rw [← mem_range] at hnk
-    rw [prod_eq_zero hnk, prod_eq_zero hnk] <;> simp
+    rw [prod_eq_zero hnk]; rw [prod_eq_zero hnk]; all_goals simp
 #align finset.prod_range_cast_nat_sub Finset.prod_range_cast_nat_sub
 
 end CommRing
@@ -245,10 +243,10 @@ theorem prod_powerset_insert [DecidableEq α] [CommMonoid β] {s : Finset α} {x
     (f : Finset α → β) :
     (∏ a in (insert x s).powerset, f a) =
       (∏ a in s.powerset, f a) * ∏ t in s.powerset, f (insert x t) := by
-  rw [powerset_insert, Finset.prod_union, Finset.prod_image]
+  rw [powerset_insert]; rw [Finset.prod_union]; rw [Finset.prod_image]
   · intro t₁ h₁ t₂ h₂ heq
-    rw [← Finset.erase_insert (not_mem_of_mem_powerset_of_not_mem h₁ h), ←
-      Finset.erase_insert (not_mem_of_mem_powerset_of_not_mem h₂ h), heq]
+    rw [← Finset.erase_insert (not_mem_of_mem_powerset_of_not_mem h₁ h)]; rw [←
+      Finset.erase_insert (not_mem_of_mem_powerset_of_not_mem h₂ h)]; rw [heq]
   · rw [Finset.disjoint_iff_ne]
     intro t₁ h₁ t₂ h₂
     rcases Finset.mem_image.1 h₂ with ⟨t₃, _h₃, H₃₂⟩
@@ -264,7 +262,7 @@ theorem prod_powerset_insert [DecidableEq α] [CommMonoid β] {s : Finset α} {x
       `card s = k`, for `k = 1, ..., card s`"]
 theorem prod_powerset [CommMonoid β] (s : Finset α) (f : Finset α → β) :
     ∏ t in powerset s, f t = ∏ j in range (card s + 1), ∏ t in powersetLen j s, f t := by
-  rw [powerset_card_disjiUnion, prod_disjiUnion]
+  rw [powerset_card_disjiUnion]; rw [prod_disjiUnion]
 #align finset.prod_powerset Finset.prod_powerset
 #align finset.sum_powerset Finset.sum_powerset
 

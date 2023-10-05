@@ -75,7 +75,7 @@ alias ⟨Finite.nonempty_fintype, _⟩ := finite_def
 #align set.finite.nonempty_fintype Set.Finite.nonempty_fintype
 
 theorem finite_coe_iff {s : Set α} : Finite s ↔ s.Finite := by
-  rw [finite_iff_nonempty_fintype, finite_def]
+  rw [finite_iff_nonempty_fintype]; rw [finite_def]
 #align set.finite_coe_iff Set.finite_coe_iff
 
 /-- Constructor for `Set.Finite` using a `Finite` instance. -/
@@ -114,7 +114,7 @@ theorem Finite.toFinset_eq_toFinset {s : Set α} [Fintype s] (h : s.Finite) :
   -- porting note: was `rw [Finite.toFinset]; congr`
   -- in Lean 4, a goal is left after `congr`
   have : h.fintype = ‹_› := Subsingleton.elim _ _
-  rw [Finite.toFinset, this]
+  rw [Finite.toFinset]; rw [this]
 #align set.finite.to_finset_eq_to_finset Set.Finite.toFinset_eq_toFinset
 
 @[simp]
@@ -181,12 +181,12 @@ protected theorem coe_toFinset (h : s.Finite) : (h.toFinset : Set α) = s :=
 
 @[simp]
 protected theorem toFinset_nonempty (h : s.Finite) : h.toFinset.Nonempty ↔ s.Nonempty := by
-  rw [← Finset.coe_nonempty, Finite.coe_toFinset]
+  rw [← Finset.coe_nonempty]; rw [Finite.coe_toFinset]
 #align set.finite.to_finset_nonempty Set.Finite.toFinset_nonempty
 
 /-- Note that this is an equality of types not holding definitionally. Use wisely. -/
 theorem coeSort_toFinset (h : s.Finite) : ↥h.toFinset = ↥s := by
-  rw [← Finset.coe_sort_coe _, h.coe_toFinset]
+  rw [← Finset.coe_sort_coe _]; rw [h.coe_toFinset]
 #align set.finite.coe_sort_to_finset Set.Finite.coeSort_toFinset
 
 @[simp]
@@ -196,22 +196,22 @@ protected theorem toFinset_inj : hs.toFinset = ht.toFinset ↔ s = t :=
 
 @[simp]
 theorem toFinset_subset {t : Finset α} : hs.toFinset ⊆ t ↔ s ⊆ t := by
-  rw [← Finset.coe_subset, Finite.coe_toFinset]
+  rw [← Finset.coe_subset]; rw [Finite.coe_toFinset]
 #align set.finite.to_finset_subset Set.Finite.toFinset_subset
 
 @[simp]
 theorem toFinset_ssubset {t : Finset α} : hs.toFinset ⊂ t ↔ s ⊂ t := by
-  rw [← Finset.coe_ssubset, Finite.coe_toFinset]
+  rw [← Finset.coe_ssubset]; rw [Finite.coe_toFinset]
 #align set.finite.to_finset_ssubset Set.Finite.toFinset_ssubset
 
 @[simp]
 theorem subset_toFinset {s : Finset α} : s ⊆ ht.toFinset ↔ ↑s ⊆ t := by
-  rw [← Finset.coe_subset, Finite.coe_toFinset]
+  rw [← Finset.coe_subset]; rw [Finite.coe_toFinset]
 #align set.finite.subset_to_finset Set.Finite.subset_toFinset
 
 @[simp]
 theorem ssubset_toFinset {s : Finset α} : s ⊂ ht.toFinset ↔ ↑s ⊂ t := by
-  rw [← Finset.coe_ssubset, Finite.coe_toFinset]
+  rw [← Finset.coe_ssubset]; rw [Finite.coe_toFinset]
 #align set.finite.ssubset_to_finset Set.Finite.ssubset_toFinset
 
 @[mono]
@@ -548,7 +548,7 @@ theorem finite_toSet (s : Finset α) : (s : Set α).Finite :=
 
 -- porting note: was @[simp], now `simp` can prove it
 theorem finite_toSet_toFinset (s : Finset α) : s.finite_toSet.toFinset = s := by
-  rw [toFinite_toFinset, toFinset_coe]
+  rw [toFinite_toFinset]; rw [toFinset_coe]
 #align finset.finite_to_set_to_finset Finset.finite_toSet_toFinset
 
 end Finset
@@ -737,7 +737,7 @@ theorem Finite.union {s t : Set α} (hs : s.Finite) (ht : t.Finite) : (s ∪ t).
 #align set.finite.union Set.Finite.union
 
 theorem Finite.finite_of_compl {s : Set α} (hs : s.Finite) (hsc : sᶜ.Finite) : Finite α := by
-  rw [← finite_univ_iff, ← union_compl_self s]
+  rw [← finite_univ_iff]; rw [← union_compl_self s]
   exact hs.union hsc
 #align set.finite.finite_of_compl Set.Finite.finite_of_compl
 
@@ -1120,7 +1120,7 @@ theorem finite_subset_iUnion {s : Set α} (hs : s.Finite) {ι} {t : ι → Set �
   cases hs
   choose f hf using show ∀ x : s, ∃ i, x.1 ∈ t i by simpa [subset_def] using h
   refine' ⟨range f, finite_range f, fun x hx => _⟩
-  rw [biUnion_range, mem_iUnion]
+  rw [biUnion_range]; rw [mem_iUnion]
   exact ⟨⟨x, hx⟩, hf _⟩
 #align set.finite_subset_Union Set.finite_subset_iUnion
 
@@ -1208,7 +1208,7 @@ theorem empty_card' {h : Fintype.{u} (∅ : Set α)} : @Fintype.card (∅ : Set 
 
 theorem card_fintypeInsertOfNotMem {a : α} (s : Set α) [Fintype s] (h : a ∉ s) :
     @Fintype.card _ (fintypeInsertOfNotMem s h) = Fintype.card s + 1 := by
-  rw [fintypeInsertOfNotMem, Fintype.card_ofFinset]
+  rw [fintypeInsertOfNotMem]; rw [Fintype.card_ofFinset]
   simp only [Finset.card, toFinset, Finset.map_val, Embedding.coe_subtype,
              Multiset.card_cons, Multiset.card_map, add_left_inj]
   rfl
@@ -1270,14 +1270,13 @@ theorem Finite.card_toFinset {s : Set α} [Fintype s] (h : s.Finite) :
 theorem card_ne_eq [Fintype α] (a : α) [Fintype { x : α | x ≠ a }] :
     Fintype.card { x : α | x ≠ a } = Fintype.card α - 1 := by
   haveI := Classical.decEq α
-  rw [← toFinset_card, toFinset_setOf, Finset.filter_ne',
-    Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ]
+  rw [← toFinset_card]; rw [toFinset_setOf]; rw [Finset.filter_ne']; rw [Finset.card_erase_of_mem (Finset.mem_univ _)]; rw [Finset.card_univ]
 #align set.card_ne_eq Set.card_ne_eq
 
 /-! ### Infinite sets -/
 
 theorem infinite_univ_iff : (@univ α).Infinite ↔ Infinite α := by
-  rw [Set.Infinite, finite_univ_iff, not_finite_iff_infinite]
+  rw [Set.Infinite]; rw [finite_univ_iff]; rw [not_finite_iff_infinite]
 #align set.infinite_univ_iff Set.infinite_univ_iff
 
 theorem infinite_univ [h : Infinite α] : (@univ α).Infinite :=
@@ -1377,7 +1376,7 @@ theorem Infinite.exists_ne_map_eq_of_mapsTo {s : Set α} {t : Set β} {f : α �
 
 theorem infinite_range_of_injective [Infinite α] {f : α → β} (hi : Injective f) :
     (range f).Infinite := by
-  rw [← image_univ, infinite_image_iff (injOn_of_injective hi _)]
+  rw [← image_univ]; rw [infinite_image_iff (injOn_of_injective hi _)]
   exact infinite_univ
 #align set.infinite_range_of_injective Set.infinite_range_of_injective
 

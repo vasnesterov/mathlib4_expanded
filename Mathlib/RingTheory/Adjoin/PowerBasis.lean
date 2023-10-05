@@ -107,20 +107,19 @@ theorem repr_gen_pow_isIntegral [IsDomain S]
   by_cases hQ : Q = 0
   · simp [this, hQ, isIntegral_zero]
   have hlt : Q.natDegree < B.dim := by
-    rw [← B.natDegree_minpoly, hmin, (minpoly.monic hB).natDegree_map,
-      natDegree_lt_natDegree_iff hQ]
+    rw [← B.natDegree_minpoly]; rw [hmin]; rw [(minpoly.monic hB).natDegree_map]; rw [natDegree_lt_natDegree_iff hQ]
     letI : Nontrivial R := Nontrivial.of_polynomial_ne hQ
     exact degree_modByMonic_lt _ (minpoly.monic hB)
-  rw [this, aeval_eq_sum_range' hlt]
+  rw [this]; rw [aeval_eq_sum_range' hlt]
   simp only [map_sum, LinearEquiv.map_smulₛₗ, RingHom.id_apply, Finset.sum_apply']
   refine' IsIntegral.sum _ fun j hj => _
   replace hj := Finset.mem_range.1 hj
-  rw [← Fin.val_mk hj, ← B.basis_eq_pow, Algebra.smul_def, IsScalarTower.algebraMap_apply R S A, ←
-    Algebra.smul_def, LinearEquiv.map_smul]
+  rw [← Fin.val_mk hj]; rw [← B.basis_eq_pow]; rw [Algebra.smul_def]; rw [IsScalarTower.algebraMap_apply R S A]; rw [←
+    Algebra.smul_def]; rw [LinearEquiv.map_smul]
   simp only [algebraMap_smul, Finsupp.coe_smul, Pi.smul_apply, B.basis.repr_self_apply]
   by_cases hij : (⟨j, hj⟩ : Fin _) = i
   · simp only [hij, eq_self_iff_true, if_true]
-    rw [Algebra.smul_def, mul_one]
+    rw [Algebra.smul_def]; rw [mul_one]
     exact isIntegral_algebraMap
   · simp [hij, isIntegral_zero]
 #align power_basis.repr_gen_pow_is_integral PowerBasis.repr_gen_pow_isIntegral
@@ -134,7 +133,7 @@ theorem repr_mul_isIntegral [IsDomain S] {x y : A} (hx : ∀ i, IsIntegral R (B.
     (hmin : minpoly S B.gen = (minpoly R B.gen).map (algebraMap R S)) :
     ∀ i, IsIntegral R (B.basis.repr (x * y) i) := by
   intro i
-  rw [← B.basis.sum_repr x, ← B.basis.sum_repr y, Finset.sum_mul_sum, map_sum, Finset.sum_apply']
+  rw [← B.basis.sum_repr x]; rw [← B.basis.sum_repr y]; rw [Finset.sum_mul_sum]; rw [map_sum]; rw [Finset.sum_apply']
   refine' IsIntegral.sum _ fun I _ => _
   simp only [Algebra.smul_mul_assoc, Algebra.mul_smul_comm, LinearEquiv.map_smulₛₗ,
     RingHom.id_apply, Finsupp.coe_smul, Pi.smul_apply, id.smul_eq_mul]
@@ -157,8 +156,7 @@ theorem repr_pow_isIntegral [IsDomain S] {x : A} (hx : ∀ i, IsIntegral R (B.ba
     (p := fun n ↦ _ → ∀ (i : Fin B.dim), IsIntegral R (B.basis.repr (x ^ n) i))
     n _ fun n hn => _
   · intro _ i
-    rw [pow_zero, ← pow_zero B.gen, ← Fin.val_mk B.dim_pos, ← B.basis_eq_pow,
-      B.basis.repr_self_apply]
+    rw [pow_zero]; rw [← pow_zero B.gen]; rw [← Fin.val_mk B.dim_pos]; rw [← B.basis_eq_pow]; rw [B.basis.repr_self_apply]
     split_ifs
     · exact isIntegral_one
     · exact isIntegral_zero
@@ -175,12 +173,11 @@ theorem toMatrix_isIntegral {B B' : PowerBasis K S} {P : R[X]} (h : aeval B.gen 
     (hB : IsIntegral R B.gen) (hmin : minpoly K B.gen = (minpoly R B.gen).map (algebraMap R K)) :
     ∀ i j, IsIntegral R (B.basis.toMatrix B'.basis i j) := by
   intro i j
-  rw [B.basis.toMatrix_apply, B'.coe_basis]
+  rw [B.basis.toMatrix_apply]; rw [B'.coe_basis]
   refine' repr_pow_isIntegral hB (fun i => _) hmin _ _
-  rw [← h, aeval_eq_sum_range, map_sum, Finset.sum_apply']
+  rw [← h]; rw [aeval_eq_sum_range]; rw [map_sum]; rw [Finset.sum_apply']
   refine' IsIntegral.sum _ fun n _ => _
-  rw [Algebra.smul_def, IsScalarTower.algebraMap_apply R K S, ← Algebra.smul_def,
-    LinearEquiv.map_smul, algebraMap_smul]
+  rw [Algebra.smul_def]; rw [IsScalarTower.algebraMap_apply R K S]; rw [← Algebra.smul_def]; rw [LinearEquiv.map_smul]; rw [algebraMap_smul]
   exact isIntegral_smul _ (repr_gen_pow_isIntegral hB hmin _ _)
 #align power_basis.to_matrix_is_integral PowerBasis.toMatrix_isIntegral
 

@@ -55,7 +55,7 @@ theorem reverse_eq {l : List α} (p : Palindrome l) : reverse l = l := by
 theorem of_reverse_eq {l : List α} : reverse l = l → Palindrome l := by
   refine' bidirectionalRecOn l (fun _ => Palindrome.nil) (fun a _ => Palindrome.singleton a) _
   intro x l y hp hr
-  rw [reverse_cons, reverse_append] at hr
+  rw [reverse_cons] at hr; rw [reverse_append] at hr
   rw [head_eq_of_cons_eq hr]
   have : Palindrome l := hp (append_inj_left' (tail_eq_of_cons_eq hr) rfl)
   exact Palindrome.cons_concat x this
@@ -67,7 +67,7 @@ theorem iff_reverse_eq {l : List α} : Palindrome l ↔ reverse l = l :=
 
 theorem append_reverse (l : List α) : Palindrome (l ++ reverse l) := by
   apply of_reverse_eq
-  rw [reverse_append, reverse_reverse]
+  rw [reverse_append]; rw [reverse_reverse]
 #align list.palindrome.append_reverse List.Palindrome.append_reverse
 
 protected theorem map (f : α → β) (p : Palindrome l) : Palindrome (map f l) :=

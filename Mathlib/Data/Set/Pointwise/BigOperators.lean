@@ -64,7 +64,7 @@ theorem mem_finset_prod (t : Finset ι) (f : ι → Set α) (a : α) :
     · simp_rw [Finset.prod_empty, Set.mem_one]
       exact ⟨fun h ↦ ⟨fun _ ↦ a, fun hi ↦ False.elim (Finset.not_mem_empty _ hi), h.symm⟩,
         fun ⟨_, _, hf⟩ ↦ hf.symm⟩
-    rw [Finset.prod_insert hi, Set.mem_mul]
+    rw [Finset.prod_insert hi]; rw [Set.mem_mul]
     simp_rw [Finset.prod_insert hi]
     simp_rw [ih]
     constructor

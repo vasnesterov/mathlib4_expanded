@@ -112,7 +112,7 @@ theorem ext {F F' : MonoFactorisation f} (hI : F.I = F'.I)
   simp at hm
   congr
   · apply (cancel_mono Fm).1
-    rw [Ffac, hm, Ffac']
+    rw [Ffac]; rw [hm]; rw [Ffac']
 #align category_theory.limits.mono_factorisation.ext CategoryTheory.Limits.MonoFactorisation.ext
 
 /-- Any mono factorisation of `f` gives a mono factorisation of `f ≫ g` when `g` is a mono. -/
@@ -425,7 +425,7 @@ theorem imageMonoIsoSource_inv_ι [Mono f] : (imageMonoIsoSource f).inv ≫ imag
 @[reassoc (attr := simp)]
 theorem imageMonoIsoSource_hom_self [Mono f] : (imageMonoIsoSource f).hom ≫ f = image.ι f := by
   simp only [← imageMonoIsoSource_inv_ι f]
-  rw [← Category.assoc, Iso.hom_inv_id, Category.id_comp]
+  rw [← Category.assoc]; rw [Iso.hom_inv_id]; rw [Category.id_comp]
 #align category_theory.limits.image_mono_iso_source_hom_self CategoryTheory.Limits.imageMonoIsoSource_hom_self
 
 -- This is the proof that `factorThruImage f` is an epimorphism
@@ -499,7 +499,7 @@ instance (h : f = f') : IsIso (image.eqToHom h) :=
           let F : MonoFactorisation f' :=
             ⟨image f, image.ι f, factorThruImage f, (by aesop_cat)⟩
           dsimp [image.eqToHom]
-          rw [Category.id_comp,Category.assoc,image.lift_fac F]
+          rw [Category.id_comp]; rw [Category.assoc]; rw [image.lift_fac F]
           let F' : MonoFactorisation f :=
             ⟨image f', image.ι f', factorThruImage f', (by aesop_cat)⟩
           rw [image.lift_fac F'] ),
@@ -508,7 +508,7 @@ instance (h : f = f') : IsIso (image.eqToHom h) :=
           let F' : MonoFactorisation f :=
             ⟨image f', image.ι f', factorThruImage f', (by aesop_cat)⟩
           dsimp [image.eqToHom]
-          rw [Category.id_comp,Category.assoc,image.lift_fac F']
+          rw [Category.id_comp]; rw [Category.assoc]; rw [image.lift_fac F']
           let F : MonoFactorisation f' :=
             ⟨image f, image.ι f, factorThruImage f, (by aesop_cat)⟩
           rw [image.lift_fac F])⟩⟩⟩
@@ -574,7 +574,7 @@ theorem image.preComp_comp {W : C} (h : Z ⟶ W) [HasImage (g ≫ h)] [HasImage 
   apply (cancel_mono (image.ι h)).1
   dsimp [image.preComp, image.eqToHom]
   repeat (rw [Category.assoc,image.lift_fac])
-  rw [image.lift_fac,image.lift_fac]
+  rw [image.lift_fac]; rw [image.lift_fac]
 #align category_theory.limits.image.pre_comp_comp CategoryTheory.Limits.image.preComp_comp
 
 variable [HasEqualizers C]
@@ -595,7 +595,7 @@ instance hasImage_iso_comp [IsIso f] [HasImage g] : HasImage (f ≫ g) :=
                    lift_fac := fun F' => by
                     dsimp
                     have : (MonoFactorisation.ofIsoComp f F').m = F'.m := rfl
-                    rw [←this,image.lift_fac (MonoFactorisation.ofIsoComp f F')] } }
+                    rw [←this]; rw [image.lift_fac (MonoFactorisation.ofIsoComp f F')] } }
 #align category_theory.limits.has_image_iso_comp CategoryTheory.Limits.hasImage_iso_comp
 
 /-- `image.preComp f g` is an isomorphism when `f` is an isomorphism
@@ -621,15 +621,14 @@ instance hasImage_comp_iso [HasImage f] [IsIso g] : HasImage (f ≫ g) :=
       isImage :=
       { lift := fun F' => image.lift F'.ofCompIso
         lift_fac := fun F' => by
-          rw [← Category.comp_id (image.lift (MonoFactorisation.ofCompIso F') ≫ F'.m),
-            ←IsIso.inv_hom_id g,← Category.assoc]
+          rw [← Category.comp_id (image.lift (MonoFactorisation.ofCompIso F') ≫ F'.m)]; rw [←IsIso.inv_hom_id g]; rw [← Category.assoc]
           refine congrArg (· ≫ g) ?_
           have : (image.lift (MonoFactorisation.ofCompIso F') ≫ F'.m) ≫ inv g =
             image.lift (MonoFactorisation.ofCompIso F') ≫
             ((MonoFactorisation.ofCompIso F').m) := by
               simp only [MonoFactorisation.ofCompIso_I, Category.assoc,
                 MonoFactorisation.ofCompIso_m]
-          rw [this, image.lift_fac (MonoFactorisation.ofCompIso F'),image.as_ι] }}
+          rw [this]; rw [image.lift_fac (MonoFactorisation.ofCompIso F')]; rw [image.as_ι] }}
 #align category_theory.limits.has_image_comp_iso CategoryTheory.Limits.hasImage_comp_iso
 
 /-- Postcomposing by an isomorphism induces an isomorphism on the image. -/
@@ -746,7 +745,7 @@ instance HasImageMap.comp {f g h : Arrow C} [HasImage f.hom] [HasImage g.hom] [H
   HasImageMap.mk
     { map := (HasImageMap.imageMap sq1).map ≫ (HasImageMap.imageMap sq2).map
       map_ι := by
-        rw [Category.assoc,ImageMap.map_ι, ImageMap.map_ι_assoc, Comma.comp_right] }
+        rw [Category.assoc]; rw [ImageMap.map_ι]; rw [ImageMap.map_ι_assoc]; rw [Comma.comp_right] }
 #align category_theory.limits.has_image_map.comp CategoryTheory.Limits.HasImageMap.comp
 
 variable {f g : Arrow C} [HasImage f.hom] [HasImage g.hom] (sq : f ⟶ g)

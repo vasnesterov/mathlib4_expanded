@@ -196,7 +196,7 @@ theorem mul_assoc0 [Semigroup α] (x : Holor α ds₁) (y : Holor α ds₂) (z :
   funext fun t : HolorIndex (ds₁ ++ ds₂ ++ ds₃) => by
     rw [assocLeft]
     unfold mul
-    rw [mul_assoc, ←HolorIndex.take_take, ←HolorIndex.drop_take, ←HolorIndex.drop_drop, cast_type]
+    rw [mul_assoc]; rw [←HolorIndex.take_take]; rw [←HolorIndex.drop_take]; rw [←HolorIndex.drop_drop]; rw [cast_type]
     rfl
     rw [append_assoc]
 #align holor.mul_assoc0 Holor.mul_assoc0
@@ -281,7 +281,7 @@ theorem slice_sum [AddCommMonoid α] {β : Type} (i : ℕ) (hid : i < d) (s : Fi
   refine' Finset.induction_on s _ _
   · simp [slice_zero]
   · intro _ _ h_not_in ih
-    rw [Finset.sum_insert h_not_in, ih, slice_add, Finset.sum_insert h_not_in]
+    rw [Finset.sum_insert h_not_in]; rw [ih]; rw [slice_add]; rw [Finset.sum_insert h_not_in]
 #align holor.slice_sum Holor.slice_sum
 
 /-- The original holor can be recovered from its slices by multiplying with unit vectors and

@@ -55,13 +55,12 @@ noncomputable def stirlingSeq (n : ℕ) : ℝ :=
 
 @[simp]
 theorem stirlingSeq_zero : stirlingSeq 0 = 0 := by
-  rw [stirlingSeq, cast_zero, mul_zero, Real.sqrt_zero, zero_mul,
-    div_zero]
+  rw [stirlingSeq]; rw [cast_zero]; rw [mul_zero]; rw [Real.sqrt_zero]; rw [zero_mul]; rw [div_zero]
 #align stirling.stirling_seq_zero Stirling.stirlingSeq_zero
 
 @[simp]
 theorem stirlingSeq_one : stirlingSeq 1 = exp 1 / Real.sqrt 2 := by
-  rw [stirlingSeq, pow_one, factorial_one, cast_one, mul_one, mul_one_div, one_div_div]
+  rw [stirlingSeq]; rw [pow_one]; rw [factorial_one]; rw [cast_one]; rw [mul_one]; rw [mul_one_div]; rw [one_div_div]
 #align stirling.stirling_seq_one Stirling.stirlingSeq_one
 
 theorem log_stirlingSeq_formula (n : ℕ) :
@@ -86,12 +85,12 @@ theorem log_stirlingSeq_diff_hasSum (m : ℕ) :
   convert (hasSum_log_one_add_inv <|
     cast_pos.mpr (succ_pos m)).mul_left ((↑(m + 1) : ℝ) + 1 / 2) using 1
   · ext k
-    rw [← pow_mul, pow_add]
+    rw [← pow_mul]; rw [pow_add]
     push_cast
     field_simp
     ring
   · have h : ∀ (x : ℝ) (_ : x ≠ 0), 1 + x⁻¹ = (x + 1) / x := by
-      intro x hx; rw [_root_.add_div, div_self hx, inv_eq_one_div]
+      intro x hx; rw [_root_.add_div]; rw [div_self hx]; rw [inv_eq_one_div]
     simp (disch := norm_cast <;> apply_rules [mul_ne_zero, succ_ne_zero, factorial_ne_zero,
       exp_ne_zero]) only [log_stirlingSeq_formula, log_div, log_mul, log_exp, factorial_succ,
       cast_mul, cast_succ, cast_zero, range_one, sum_singleton, h]
@@ -115,7 +114,7 @@ theorem log_stirlingSeq_diff_le_geo_sum (n : ℕ) :
     have := (hasSum_geometric_of_lt_1 h_nonneg ?_).mul_left (((1:ℝ) / (2 * ↑(n + 1) + 1)) ^ 2)
     · simp_rw [← _root_.pow_succ] at this
       exact this
-    rw [one_div, inv_pow]
+    rw [one_div]; rw [inv_pow]
     exact inv_lt_one (one_lt_pow ((lt_add_iff_pos_left 1).mpr <| by positivity) two_ne_zero)
   have hab : ∀ k : ℕ, (1:ℝ) / (↑2 * ↑(k + 1) + ↑1) * (((1:ℝ) / (2 * ↑(n + 1) + 1)) ^ 2) ^ ↑(k + 1) ≤
       (((1:ℝ) / (2 * ↑(n + 1) + 1)) ^ 2) ^ ↑(k + 1) := by
@@ -215,10 +214,10 @@ theorem tendsto_self_div_two_mul_self_add_one :
     congr
     · skip
     · skip
-    rw [one_div, ← add_zero (2 : ℝ)]
+    rw [one_div]; rw [← add_zero (2 : ℝ)]
   refine' (((tendsto_const_div_atTop_nhds_0_nat 1).const_add (2 : ℝ)).inv₀
     ((add_zero (2 : ℝ)).symm ▸ two_ne_zero)).congr' (eventually_atTop.mpr ⟨1, fun n hn => _⟩)
-  rw [add_div' (1 : ℝ) 2 n (cast_ne_zero.mpr (one_le_iff_ne_zero.mp hn)), inv_div]
+  rw [add_div' (1 : ℝ) 2 n (cast_ne_zero.mpr (one_le_iff_ne_zero.mp hn))]; rw [inv_div]
 #align stirling.tendsto_self_div_two_mul_self_add_one Stirling.tendsto_self_div_two_mul_self_add_one
 
 /-- For any `n ≠ 0`, we have the identity
@@ -227,9 +226,9 @@ theorem tendsto_self_div_two_mul_self_add_one :
 theorem stirlingSeq_pow_four_div_stirlingSeq_pow_two_eq (n : ℕ) (hn : n ≠ 0) :
     stirlingSeq n ^ 4 / stirlingSeq (2 * n) ^ 2 * (n / (2 * n + 1)) = Wallis.W n := by
   have : 4 = 2 * 2 := by rfl
-  rw [stirlingSeq, this, pow_mul, stirlingSeq, Wallis.W_eq_factorial_ratio]
+  rw [stirlingSeq]; rw [this]; rw [pow_mul]; rw [stirlingSeq]; rw [Wallis.W_eq_factorial_ratio]
   simp_rw [div_pow, mul_pow]
-  rw [sq_sqrt, sq_sqrt]
+  rw [sq_sqrt]; rw [sq_sqrt]
   any_goals positivity
   field_simp; ring
 #align stirling.stirling_seq_pow_four_div_stirling_seq_pow_two_eq Stirling.stirlingSeq_pow_four_div_stirlingSeq_pow_two_eq

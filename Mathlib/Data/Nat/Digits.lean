@@ -132,7 +132,7 @@ theorem digits_def' :
 theorem digits_of_lt (b x : ℕ) (hx : x ≠ 0) (hxb : x < b) : digits b x = [x] := by
   rcases exists_eq_succ_of_ne_zero hx with ⟨x, rfl⟩
   rcases exists_eq_add_of_le' ((Nat.le_add_left 1 x).trans_lt hxb) with ⟨b, rfl⟩
-  rw [digits_add_two_add_one, div_eq_of_lt hxb, digits_zero, mod_eq_of_lt hxb]
+  rw [digits_add_two_add_one]; rw [div_eq_of_lt hxb]; rw [digits_zero]; rw [mod_eq_of_lt hxb]
 #align nat.digits_of_lt Nat.digits_of_lt
 
 theorem digits_add (b : ℕ) (h : 1 < b) (x y : ℕ) (hxb : x < b) (hxy : x ≠ 0 ∨ y ≠ 0) :
@@ -179,8 +179,7 @@ theorem ofDigits_eq_sum_map_with_index_aux (b : ℕ) (l : List ℕ) :
 
 theorem ofDigits_eq_sum_mapIdx (b : ℕ) (L : List ℕ) :
     ofDigits b L = (L.mapIdx fun i a => a * b ^ i).sum := by
-  rw [List.mapIdx_eq_enum_map, List.enum_eq_zip_range, List.map_uncurry_zip_eq_zipWith,
-    ofDigits_eq_foldr]
+  rw [List.mapIdx_eq_enum_map]; rw [List.enum_eq_zip_range]; rw [List.map_uncurry_zip_eq_zipWith]; rw [ofDigits_eq_foldr]
   induction' L with hd tl hl
   · simp
   · simpa [List.range_succ_eq_map, List.zipWith_map_left, ofDigits_eq_sum_map_with_index_aux] using
@@ -332,12 +331,12 @@ theorem digits_inj_iff {b n m : ℕ} : b.digits n = b.digits m ↔ n = m :=
 
 theorem digits_len (b n : ℕ) (hb : 1 < b) (hn : n ≠ 0) : (b.digits n).length = b.log n + 1 := by
   induction' n using Nat.strong_induction_on with n IH
-  rw [digits_eq_cons_digits_div hb hn, List.length]
+  rw [digits_eq_cons_digits_div hb hn]; rw [List.length]
   by_cases h : n / b = 0
   · have hb0 : b ≠ 0 := (Nat.succ_le_iff.1 hb).ne_bot
     simp [h, log_eq_zero_iff, ← Nat.div_eq_zero_iff hb0.bot_lt]
   · have : n / b < n := div_lt_self (Nat.pos_of_ne_zero hn) hb
-    rw [IH _ this h, log_div_base, tsub_add_cancel_of_le]
+    rw [IH _ this h]; rw [log_div_base]; rw [tsub_add_cancel_of_le]
     refine' Nat.succ_le_of_lt (log_pos hb _)
     contrapose! h
     exact div_eq_of_lt h
@@ -423,7 +422,7 @@ theorem lt_base_pow_length_digits {b m : ℕ} (hb : 1 < b) : m < b ^ (digits b m
 
 theorem ofDigits_digits_append_digits {b m n : ℕ} :
     ofDigits b (digits b n ++ digits b m) = n + b ^ (digits b n).length * m := by
-  rw [ofDigits_append, ofDigits_digits, ofDigits_digits]
+  rw [ofDigits_append]; rw [ofDigits_digits]; rw [ofDigits_digits]
 #align nat.of_digits_digits_append_digits Nat.ofDigits_digits_append_digits
 
 theorem digits_append_digits {b m n : ℕ} (hb : 0 < b) :
@@ -510,7 +509,7 @@ lemma ofDigits_div_eq_ofDigits_tail (hpos : 0 < p) (digits : List ℕ)
   induction' digits with hd tl
   · simp [ofDigits]
   · refine' Eq.trans (add_mul_div_left hd _ hpos) _
-    rw [Nat.div_eq_zero <| w₁ _ <| List.mem_cons_self _ _, zero_add]
+    rw [Nat.div_eq_zero <| w₁ _ <| List.mem_cons_self _ _]; rw [zero_add]
     rfl
 
 /-- Interpreting as a base `p` number and dividing by `p^i` is the same as dropping `i`.
@@ -543,7 +542,7 @@ theorem sub_one_mul_sum_div_pow_eq_sub_sum_digits
     · simp only [List.length_cons, List.sum_cons, self_div_pow_eq_ofDigits_drop _ _ h,
           digits_ofDigits p h (hd :: tl) h_lt (fun _ => h_ne_zero)]
       simp only [ofDigits]
-      rw [sum_range_succ, Nat.cast_id]
+      rw [sum_range_succ]; rw [Nat.cast_id]
       simp only [List.drop, List.drop_length]
       obtain rfl | h' := em <| tl = []
       · simp [ofDigits]
@@ -553,15 +552,11 @@ theorem sub_one_mul_sum_div_pow_eq_sub_sum_digits
         simp only [self_div_pow_eq_ofDigits_drop _ _ h, digits_ofDigits p h tl w₁' w₂',
           succ_eq_one_add] at ih
         have := sum_singleton (fun x ↦ ofDigits p <| tl.drop x) tl.length
-        rw [← Ico_succ_singleton, List.drop_length, ofDigits] at this
+        rw [← Ico_succ_singleton] at this; rw [List.drop_length] at this; rw [ofDigits] at this
         have h₁ : 1 ≤ tl.length :=  List.length_pos.mpr h'
-        rw [← sum_range_add_sum_Ico _ <| h₁, ← add_zero (∑ x in Ico _ _, ofDigits p (tl.drop x)),
-            ← this, sum_Ico_consecutive _  h₁ <| le_succ tl.length, ← sum_Ico_add _ 0 tl.length 1,
-            Ico_zero_eq_range, mul_add, mul_add, ih, range_one, sum_singleton, List.drop, ofDigits,
-            mul_zero, add_zero, ← Nat.add_sub_assoc <| sum_le_ofDigits _ <| Nat.le_of_lt h]
+        rw [← sum_range_add_sum_Ico _ <| h₁]; rw [← add_zero (∑ x in Ico _ _, ofDigits p (tl.drop x))]; rw [← this]; rw [sum_Ico_consecutive _  h₁ <| le_succ tl.length]; rw [← sum_Ico_add _ 0 tl.length 1]; rw [Ico_zero_eq_range]; rw [mul_add]; rw [mul_add]; rw [ih]; rw [range_one]; rw [sum_singleton]; rw [List.drop]; rw [ofDigits]; rw [mul_zero]; rw [add_zero]; rw [← Nat.add_sub_assoc <| sum_le_ofDigits _ <| Nat.le_of_lt h]
         nth_rw 2 [← one_mul <| ofDigits p tl]
-        rw [← add_mul, one_eq_succ_zero, Nat.sub_add_cancel <| zero_lt_of_lt h,
-           Nat.add_sub_add_left]
+        rw [← add_mul]; rw [one_eq_succ_zero]; rw [Nat.sub_add_cancel <| zero_lt_of_lt h]; rw [Nat.add_sub_add_left]
   · simp [ofDigits_one]
   · simp [lt_one_iff.mp h]
     cases L
@@ -696,7 +691,7 @@ theorem dvd_iff_dvd_digits_sum (b b' : ℕ) (h : b' % b = 1) (n : ℕ) :
     b ∣ n ↔ b ∣ (digits b' n).sum := by
   rw [← ofDigits_one]
   conv_lhs => rw [← ofDigits_digits b' n]
-  rw [Nat.dvd_iff_mod_eq_zero, Nat.dvd_iff_mod_eq_zero, ofDigits_mod, h]
+  rw [Nat.dvd_iff_mod_eq_zero]; rw [Nat.dvd_iff_mod_eq_zero]; rw [ofDigits_mod]; rw [h]
 #align nat.dvd_iff_dvd_digits_sum Nat.dvd_iff_dvd_digits_sum
 
 /-- **Divisibility by 3 Rule** -/
@@ -728,7 +723,7 @@ theorem eleven_dvd_of_palindrome (p : (digits 10 n).Palindrome) (h : Even (digit
   replace h : Even dig.length := by rwa [List.length_map]
   refine' eleven_dvd_iff.2 ⟨0, (_ : dig.alternatingSum = 0)⟩
   have := dig.alternatingSum_reverse
-  rw [(p.map _).reverse_eq, _root_.pow_succ, h.neg_one_pow, mul_one, neg_one_zsmul] at this
+  rw [(p.map _).reverse_eq] at this; rw [_root_.pow_succ] at this; rw [h.neg_one_pow] at this; rw [mul_one] at this; rw [neg_one_zsmul] at this
   exact eq_zero_of_neg_eq this.symm
 #align nat.eleven_dvd_of_palindrome Nat.eleven_dvd_of_palindrome
 
@@ -751,8 +746,7 @@ theorem digits_one (b n) (n0 : 0 < n) (nb : n < b) : Nat.digits b n = [n] ∧ 1 
   have b2 : 1 < b :=
     lt_iff_add_one_le.mpr (le_trans (add_le_add_right (lt_iff_add_one_le.mp n0) 1) nb)
   refine' ⟨_, b2, n0⟩
-  rw [Nat.digits_def' b2 n0, Nat.mod_eq_of_lt nb,
-    (Nat.div_eq_zero_iff ((zero_le n).trans_lt nb)).2 nb, Nat.digits_zero]
+  rw [Nat.digits_def' b2 n0]; rw [Nat.mod_eq_of_lt nb]; rw [(Nat.div_eq_zero_iff ((zero_le n).trans_lt nb)).2 nb]; rw [Nat.digits_zero]
 #align nat.norm_digits.digits_one Nat.NormDigits.digits_one
 
 /-

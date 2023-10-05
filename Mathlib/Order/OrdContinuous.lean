@@ -129,7 +129,7 @@ theorem map_sSup' (hf : LeftOrdContinuous f) (s : Set α) : f (sSup s) = sSup (f
 #align left_ord_continuous.map_Sup' LeftOrdContinuous.map_sSup'
 
 theorem map_sSup (hf : LeftOrdContinuous f) (s : Set α) : f (sSup s) = ⨆ x ∈ s, f x := by
-  rw [hf.map_sSup', sSup_image]
+  rw [hf.map_sSup']; rw [sSup_image]
 #align left_ord_continuous.map_Sup LeftOrdContinuous.map_sSup
 
 theorem map_iSup (hf : LeftOrdContinuous f) (g : ι → α) : f (⨆ i, g i) = ⨆ i, f (g i) := by

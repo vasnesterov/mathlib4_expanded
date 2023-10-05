@@ -104,7 +104,7 @@ theorem eval₂_bit0 : (bit0 p).eval₂ f x = bit0 (p.eval₂ f x) := by rw [bit
 set_option linter.deprecated false in
 @[simp]
 theorem eval₂_bit1 : (bit1 p).eval₂ f x = bit1 (p.eval₂ f x) := by
-  rw [bit1, eval₂_add, eval₂_bit0, eval₂_one, bit1]
+  rw [bit1]; rw [eval₂_add]; rw [eval₂_bit0]; rw [eval₂_one]; rw [bit1]
 #align polynomial.eval₂_bit1 Polynomial.eval₂_bit1
 
 @[simp]
@@ -112,14 +112,14 @@ theorem eval₂_smul (g : R →+* S) (p : R[X]) (x : S) {s : R} :
     eval₂ g x (s • p) = g s * eval₂ g x p := by
   have A : p.natDegree < p.natDegree.succ := Nat.lt_succ_self _
   have B : (s • p).natDegree < p.natDegree.succ := (natDegree_smul_le _ _).trans_lt A
-  rw [eval₂_eq_sum, eval₂_eq_sum, sum_over_range' _ _ _ A, sum_over_range' _ _ _ B] <;>
+  rw [eval₂_eq_sum]; rw [eval₂_eq_sum]; rw [sum_over_range' _ _ _ A]; rw [sum_over_range' _ _ _ B]; all_goals
     simp [mul_sum, mul_assoc]
 #align polynomial.eval₂_smul Polynomial.eval₂_smul
 
 @[simp]
 theorem eval₂_C_X : eval₂ C X p = p :=
   Polynomial.induction_on' p (fun p q hp hq => by simp [hp, hq]) fun n x => by
-    rw [eval₂_monomial, ← smul_X_eq_monomial, C_mul']
+    rw [eval₂_monomial]; rw [← smul_X_eq_monomial]; rw [C_mul']
 #align polynomial.eval₂_C_X Polynomial.eval₂_C_X
 
 /-- `eval₂AddMonoidHom (f : R →+* S) (x : S)` is the `AddMonoidHom` from
@@ -155,7 +155,7 @@ theorem eval₂_sum (p : T[X]) (g : ℕ → T → R[X]) (x : S) :
       map_add' := fun p q => eval₂_add _ _ }
   have A : ∀ y, eval₂ f x y = T y := fun y => rfl
   simp only [A]
-  rw [sum, T.map_sum, sum]
+  rw [sum]; rw [T.map_sum]; rw [sum]
 #align polynomial.eval₂_sum Polynomial.eval₂_sum
 
 theorem eval₂_list_sum (l : List R[X]) (x : S) : eval₂ f x l.sum = (l.map (eval₂ f x)).sum :=
@@ -199,7 +199,7 @@ theorem eval₂_X_mul : eval₂ f x (X * p) = eval₂ f x p * x := by rw [X_mul,
 #align polynomial.eval₂_X_mul Polynomial.eval₂_X_mul
 
 theorem eval₂_mul_C' (h : Commute (f a) x) : eval₂ f x (p * C a) = eval₂ f x p * f a := by
-  rw [eval₂_mul_noncomm, eval₂_C]
+  rw [eval₂_mul_noncomm]; rw [eval₂_C]
   intro k
   by_cases hk : k = 0
   · simp only [hk, h, coeff_C_zero, coeff_C_ne_zero]
@@ -247,9 +247,9 @@ theorem eval₂_eq_sum_range :
 
 theorem eval₂_eq_sum_range' (f : R →+* S) {p : R[X]} {n : ℕ} (hn : p.natDegree < n) (x : S) :
     eval₂ f x p = ∑ i in Finset.range n, f (p.coeff i) * x ^ i := by
-  rw [eval₂_eq_sum, p.sum_over_range' _ _ hn]
+  rw [eval₂_eq_sum]; rw [p.sum_over_range' _ _ hn]
   intro i
-  rw [f.map_zero, zero_mul]
+  rw [f.map_zero]; rw [zero_mul]
 #align polynomial.eval₂_eq_sum_range' Polynomial.eval₂_eq_sum_range'
 
 end
@@ -316,24 +316,24 @@ def eval : R → R[X] → R :=
 #align polynomial.eval Polynomial.eval
 
 theorem eval_eq_sum : p.eval x = p.sum fun e a => a * x ^ e := by
-  rw [eval, eval₂_eq_sum]
+  rw [eval]; rw [eval₂_eq_sum]
   rfl
 #align polynomial.eval_eq_sum Polynomial.eval_eq_sum
 
 theorem eval_eq_sum_range {p : R[X]} (x : R) :
     p.eval x = ∑ i in Finset.range (p.natDegree + 1), p.coeff i * x ^ i := by
-  rw [eval_eq_sum, sum_over_range]; simp
+  rw [eval_eq_sum]; rw [sum_over_range]; simp
 #align polynomial.eval_eq_sum_range Polynomial.eval_eq_sum_range
 
 theorem eval_eq_sum_range' {p : R[X]} {n : ℕ} (hn : p.natDegree < n) (x : R) :
     p.eval x = ∑ i in Finset.range n, p.coeff i * x ^ i := by
-  rw [eval_eq_sum, p.sum_over_range' _ _ hn]; simp
+  rw [eval_eq_sum]; rw [p.sum_over_range' _ _ hn]; simp
 #align polynomial.eval_eq_sum_range' Polynomial.eval_eq_sum_range'
 
 @[simp]
 theorem eval₂_at_apply {S : Type*} [Semiring S] (f : R →+* S) (r : R) :
     p.eval₂ f (f r) = f (p.eval r) := by
-  rw [eval₂_eq_sum, eval_eq_sum, sum, sum, f.map_sum]
+  rw [eval₂_eq_sum]; rw [eval_eq_sum]; rw [sum]; rw [sum]; rw [f.map_sum]
   simp only [f.map_mul, f.map_pow]
 #align polynomial.eval₂_at_apply Polynomial.eval₂_at_apply
 
@@ -409,7 +409,7 @@ theorem eval_bit1 : (bit1 p).eval x = bit1 (p.eval x) :=
 @[simp]
 theorem eval_smul [Monoid S] [DistribMulAction S R] [IsScalarTower S R R] (s : S) (p : R[X])
     (x : R) : (s • p).eval x = s • p.eval x := by
-  rw [← smul_one_smul R s p, eval, eval₂_smul, RingHom.id_apply, smul_one_mul]
+  rw [← smul_one_smul R s p]; rw [eval]; rw [eval₂_smul]; rw [RingHom.id_apply]; rw [smul_one_mul]
 #align polynomial.eval_smul Polynomial.eval_smul
 
 @[simp]
@@ -429,7 +429,7 @@ theorem eval_monomial_one_add_sub [CommRing S] (d : ℕ) (y : S) :
     eval (1 + y) (monomial d (d + 1 : S)) - eval y (monomial d (d + 1 : S)) =
       ∑ x_1 : ℕ in range (d + 1), ↑((d + 1).choose x_1) * (↑x_1 * y ^ (x_1 - 1)) := by
   have cast_succ : (d + 1 : S) = ((d.succ : ℕ) : S) := by simp only [Nat.cast_succ]
-  rw [cast_succ, eval_monomial, eval_monomial, add_comm, add_pow]
+  rw [cast_succ]; rw [eval_monomial]; rw [eval_monomial]; rw [add_comm]; rw [add_pow]
   -- Porting note: `apply_congr` hadn't been ported yet, so `congr` & `ext` is used.
   conv_lhs =>
     congr
@@ -438,12 +438,10 @@ theorem eval_monomial_one_add_sub [CommRing S] (d : ℕ) (y : S) :
       · congr
         · skip
         · ext
-          rw [one_pow, mul_one, mul_comm]
-  rw [sum_range_succ, mul_add, Nat.choose_self, Nat.cast_one, one_mul, add_sub_cancel, mul_sum,
-    sum_range_succ', Nat.cast_zero, zero_mul, mul_zero, add_zero]
+          rw [one_pow]; rw [mul_one]; rw [mul_comm]
+  rw [sum_range_succ]; rw [mul_add]; rw [Nat.choose_self]; rw [Nat.cast_one]; rw [one_mul]; rw [add_sub_cancel]; rw [mul_sum]; rw [sum_range_succ']; rw [Nat.cast_zero]; rw [zero_mul]; rw [mul_zero]; rw [add_zero]
   refine sum_congr rfl fun y _hy => ?_
-  rw [← mul_assoc, ← mul_assoc, ← Nat.cast_mul, Nat.succ_mul_choose_eq, Nat.cast_mul,
-    Nat.add_sub_cancel]
+  rw [← mul_assoc]; rw [← mul_assoc]; rw [← Nat.cast_mul]; rw [Nat.succ_mul_choose_eq]; rw [Nat.cast_mul]; rw [Nat.add_sub_cancel]
 #align polynomial.eval_monomial_one_add_sub Polynomial.eval_monomial_one_add_sub
 
 /-- `Polynomial.eval` as linear map -/
@@ -457,7 +455,7 @@ def leval {R : Type*} [Semiring R] (r : R) : R[X] →ₗ[R] R where
 
 @[simp]
 theorem eval_nat_cast_mul {n : ℕ} : ((n : R[X]) * p).eval x = n * p.eval x := by
-  rw [← C_eq_nat_cast, eval_C_mul]
+  rw [← C_eq_nat_cast]; rw [eval_C_mul]
 #align polynomial.eval_nat_cast_mul Polynomial.eval_nat_cast_mul
 
 @[simp]
@@ -634,12 +632,12 @@ theorem C_mul_comp : (C a * p).comp r = C a * p.comp r := by
 
 @[simp]
 theorem nat_cast_mul_comp {n : ℕ} : ((n : R[X]) * p).comp r = n * p.comp r := by
-  rw [← C_eq_nat_cast, C_mul_comp]
+  rw [← C_eq_nat_cast]; rw [C_mul_comp]
 #align polynomial.nat_cast_mul_comp Polynomial.nat_cast_mul_comp
 
 theorem mul_X_add_nat_cast_comp {n : ℕ} :
     (p * (X + (n : R[X]))).comp q = p.comp q * (q + n) := by
-  rw [mul_add, add_comp, mul_X_comp, ← Nat.cast_comm, nat_cast_mul_comp, Nat.cast_comm, mul_add]
+  rw [mul_add]; rw [add_comp]; rw [mul_X_comp]; rw [← Nat.cast_comm]; rw [nat_cast_mul_comp]; rw [Nat.cast_comm]; rw [mul_add]
 set_option linter.uppercaseLean3 false in
 #align polynomial.mul_X_add_nat_cast_comp Polynomial.mul_X_add_nat_cast_comp
 
@@ -670,7 +668,7 @@ theorem bit1_comp : comp (bit1 p : R[X]) q = bit1 (p.comp q) := by
 @[simp]
 theorem smul_comp [Monoid S] [DistribMulAction S R] [IsScalarTower S R R] (s : S) (p q : R[X]) :
     (s • p).comp q = s • p.comp q := by
-  rw [← smul_one_smul R s p, comp, comp, eval₂_smul, ← smul_eq_C_mul, smul_assoc, one_smul]
+  rw [← smul_one_smul R s p]; rw [comp]; rw [comp]; rw [eval₂_smul]; rw [← smul_eq_C_mul]; rw [smul_assoc]; rw [one_smul]
 #align polynomial.smul_comp Polynomial.smul_comp
 
 theorem comp_assoc {R : Type*} [CommSemiring R] (φ ψ χ : R[X]) :
@@ -683,7 +681,7 @@ theorem comp_assoc {R : Type*} [CommSemiring R] (φ ψ χ : R[X]) :
 theorem coeff_comp_degree_mul_degree (hqd0 : natDegree q ≠ 0) :
     coeff (p.comp q) (natDegree p * natDegree q) =
     leadingCoeff p * leadingCoeff q ^ natDegree p := by
-  rw [comp, eval₂_def, coeff_sum]
+  rw [comp]; rw [eval₂_def]; rw [coeff_sum]
   -- Porting note: `convert` → `refine`
   refine Eq.trans (Finset.sum_eq_single p.natDegree ?h₀ ?h₁) ?h₂
   case h₂ =>
@@ -691,7 +689,7 @@ theorem coeff_comp_degree_mul_degree (hqd0 : natDegree q ≠ 0) :
   case h₀ =>
     intro b hbs hbp
     refine' coeff_eq_zero_of_natDegree_lt (natDegree_mul_le.trans_lt _)
-    rw [natDegree_C, zero_add]
+    rw [natDegree_C]; rw [zero_add]
     refine' natDegree_pow_le.trans_lt ((mul_lt_mul_right (pos_iff_ne_zero.mpr hqd0)).mpr _)
     exact lt_of_le_of_ne (le_natDegree_of_mem_supp _ hbs) hbp
   case h₁ =>
@@ -724,7 +722,7 @@ theorem map_X : X.map f = X :=
 @[simp]
 theorem map_monomial {n a} : (monomial n a).map f = monomial n (f a) := by
   dsimp only [map]
-  rw [eval₂_monomial, ← C_mul_X_pow_eq_monomial]; rfl
+  rw [eval₂_monomial]; rw [← C_mul_X_pow_eq_monomial]; rfl
 #align polynomial.map_monomial Polynomial.map_monomial
 
 @[simp]
@@ -744,13 +742,13 @@ protected theorem map_one : (1 : R[X]).map f = 1 :=
 
 @[simp]
 protected theorem map_mul : (p * q).map f = p.map f * q.map f := by
-  rw [map, eval₂_mul_noncomm]
+  rw [map]; rw [eval₂_mul_noncomm]
   exact fun k => (commute_X _).symm
 #align polynomial.map_mul Polynomial.map_mul
 
 @[simp]
 protected theorem map_smul (r : R) : (r • p).map f = f r • p.map f := by
-  rw [map, eval₂_smul, RingHom.comp_apply, C_mul']
+  rw [map]; rw [eval₂_smul]; rw [RingHom.comp_apply]; rw [C_mul']
 #align polynomial.map_smul Polynomial.map_smul
 
 -- `map` is a ring-hom unconditionally, and theoretically the definition could be replaced,
@@ -804,7 +802,7 @@ theorem map_dvd (f : R →+* S) {x y : R[X]} : x ∣ y → x.map f ∣ y.map f :
 
 @[simp]
 theorem coeff_map (n : ℕ) : coeff (p.map f) n = f (coeff p n) := by
-  rw [map, eval₂_def, coeff_sum, sum]
+  rw [map]; rw [eval₂_def]; rw [coeff_sum]; rw [sum]
   conv_rhs => rw [← sum_C_mul_X_pow_eq p, coeff_sum, sum, map_sum]
   refine' Finset.sum_congr rfl fun x _hx => _
   -- Porting note: Was `simp [Function.comp, coeff_C_mul_X_pow, f.map_mul]`.
@@ -906,7 +904,7 @@ theorem natDegree_map_of_leadingCoeff_ne_zero (f : R →+* S) (hf : f (leadingCo
 theorem leadingCoeff_map_of_leadingCoeff_ne_zero (f : R →+* S) (hf : f (leadingCoeff p) ≠ 0) :
     leadingCoeff (p.map f) = f (leadingCoeff p) := by
   unfold leadingCoeff
-  rw [coeff_map, natDegree_map_of_leadingCoeff_ne_zero f hf]
+  rw [coeff_map]; rw [natDegree_map_of_leadingCoeff_ne_zero f hf]
 #align polynomial.leading_coeff_map_of_leading_coeff_ne_zero Polynomial.leadingCoeff_map_of_leadingCoeff_ne_zero
 
 variable (f)
@@ -934,7 +932,7 @@ protected theorem map_pow (n : ℕ) : (p ^ n).map f = p.map f ^ n :=
 theorem mem_map_rangeS {p : S[X]} : p ∈ (mapRingHom f).rangeS ↔ ∀ n, p.coeff n ∈ f.rangeS := by
   constructor
   · rintro ⟨p, rfl⟩ n
-    rw [coe_mapRingHom, coeff_map]
+    rw [coe_mapRingHom]; rw [coeff_map]
     exact Set.mem_range_self _
   · intro h
     rw [p.as_sum_range_C_mul_X_pow]
@@ -942,7 +940,7 @@ theorem mem_map_rangeS {p : S[X]} : p ∈ (mapRingHom f).rangeS ↔ ∀ n, p.coe
     intro i _hi
     rcases h i with ⟨c, hc⟩
     use C c * X ^ i
-    rw [coe_mapRingHom, Polynomial.map_mul, map_C, hc, Polynomial.map_pow, map_X]
+    rw [coe_mapRingHom]; rw [Polynomial.map_mul]; rw [map_C]; rw [hc]; rw [Polynomial.map_pow]; rw [map_X]
 #align polynomial.mem_map_srange Polynomial.mem_map_rangeS
 
 theorem mem_map_range {R S : Type*} [Ring R] [Ring S] (f : R →+* S) {p : S[X]} :
@@ -1024,7 +1022,7 @@ section HomEval₂
 variable [Semiring S] [Semiring T] (f : R →+* S) (g : S →+* T) (p)
 
 theorem hom_eval₂ (x : S) : g (p.eval₂ f x) = p.eval₂ (g.comp f) (g x) := by
-  rw [← eval₂_map, eval₂_at_apply, eval_map]
+  rw [← eval₂_map]; rw [eval₂_at_apply]; rw [eval_map]
 #align polynomial.hom_eval₂ Polynomial.hom_eval₂
 
 end HomEval₂
@@ -1050,7 +1048,7 @@ section
 variable [Semiring R] {p q : R[X]} {x : R} [CommSemiring S] (f : R →+* S)
 
 theorem eval₂_comp {x : S} : eval₂ f x (p.comp q) = eval₂ f (eval₂ f x q) p := by
-  rw [comp, p.as_sum_range]; simp [eval₂_finset_sum, eval₂_pow]
+  rw [comp]; rw [p.as_sum_range]; simp [eval₂_finset_sum, eval₂_pow]
 #align polynomial.eval₂_comp Polynomial.eval₂_comp
 
 @[simp]
@@ -1122,7 +1120,7 @@ theorem coe_compRingHom_apply (p q : R[X]) : (compRingHom q : R[X] → R[X]) p =
 #align polynomial.coe_comp_ring_hom_apply Polynomial.coe_compRingHom_apply
 
 theorem root_mul_left_of_isRoot (p : R[X]) {q : R[X]} : IsRoot q a → IsRoot (p * q) a := fun H => by
-  rw [IsRoot, eval_mul, IsRoot.def.1 H, mul_zero]
+  rw [IsRoot]; rw [eval_mul]; rw [IsRoot.def.1 H]; rw [mul_zero]
 #align polynomial.root_mul_left_of_is_root Polynomial.root_mul_left_of_isRoot
 
 theorem root_mul_right_of_isRoot {p : R[X]} (q : R[X]) : IsRoot p a → IsRoot (p * q) a := fun H =>
@@ -1222,7 +1220,7 @@ protected theorem map_prod {ι : Type*} (g : ι → R[X]) (s : Finset ι) :
 #align polynomial.map_prod Polynomial.map_prod
 
 theorem IsRoot.map {f : R →+* S} {x : R} {p : R[X]} (h : IsRoot p x) : IsRoot (p.map f) (f x) := by
-  rw [IsRoot, eval_map, eval₂_hom, h.eq_zero, f.map_zero]
+  rw [IsRoot]; rw [eval_map]; rw [eval₂_hom]; rw [h.eq_zero]; rw [f.map_zero]
 #align polynomial.is_root.map Polynomial.IsRoot.map
 
 theorem IsRoot.of_map {R} [CommRing R] {f : R →+* S} {x : R} {p : R[X]} (h : IsRoot (p.map f) (f x))
@@ -1273,13 +1271,13 @@ theorem eval_int_cast {n : ℤ} {x : R} : (n : R[X]).eval x = n := by
 
 @[simp]
 theorem eval₂_neg {S} [Ring S] (f : R →+* S) {x : S} : (-p).eval₂ f x = -p.eval₂ f x := by
-  rw [eq_neg_iff_add_eq_zero, ← eval₂_add, add_left_neg, eval₂_zero]
+  rw [eq_neg_iff_add_eq_zero]; rw [← eval₂_add]; rw [add_left_neg]; rw [eval₂_zero]
 #align polynomial.eval₂_neg Polynomial.eval₂_neg
 
 @[simp]
 theorem eval₂_sub {S} [Ring S] (f : R →+* S) {x : S} :
     (p - q).eval₂ f x = p.eval₂ f x - q.eval₂ f x := by
-  rw [sub_eq_add_neg, eval₂_add, eval₂_neg, sub_eq_add_neg]
+  rw [sub_eq_add_neg]; rw [eval₂_add]; rw [eval₂_neg]; rw [sub_eq_add_neg]
 #align polynomial.eval₂_sub Polynomial.eval₂_sub
 
 @[simp]
@@ -1293,7 +1291,7 @@ theorem eval_sub (p q : R[X]) (x : R) : (p - q).eval x = p.eval x - q.eval x :=
 #align polynomial.eval_sub Polynomial.eval_sub
 
 theorem root_X_sub_C : IsRoot (X - C a) b ↔ a = b := by
-  rw [IsRoot.def, eval_sub, eval_X, eval_C, sub_eq_zero, eq_comm]
+  rw [IsRoot.def]; rw [eval_sub]; rw [eval_X]; rw [eval_C]; rw [sub_eq_zero]; rw [eq_comm]
 #align polynomial.root_X_sub_C Polynomial.root_X_sub_C
 
 @[simp]
@@ -1318,7 +1316,7 @@ theorem eval₂_at_int_cast {S : Type*} [Ring S] (f : R →+* S) (n : ℤ) :
 
 theorem mul_X_sub_int_cast_comp {n : ℕ} :
     (p * (X - (n : R[X]))).comp q = p.comp q * (q - n) := by
-  rw [mul_sub, sub_comp, mul_X_comp, ← Nat.cast_comm, nat_cast_mul_comp, Nat.cast_comm, mul_sub]
+  rw [mul_sub]; rw [sub_comp]; rw [mul_X_comp]; rw [← Nat.cast_comm]; rw [nat_cast_mul_comp]; rw [Nat.cast_comm]; rw [mul_sub]
 
 end Ring
 

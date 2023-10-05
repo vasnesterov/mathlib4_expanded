@@ -70,18 +70,17 @@ end deprecated
 /-- Representation of a difference of two squares of commuting elements as a product. -/
 theorem mul_self_sub_mul_self_eq [NonUnitalNonAssocRing R] {a b : R} (h : Commute a b) :
     a * a - b * b = (a + b) * (a - b) := by
-  rw [add_mul, mul_sub, mul_sub, h.eq, sub_add_sub_cancel]
+  rw [add_mul]; rw [mul_sub]; rw [mul_sub]; rw [h.eq]; rw [sub_add_sub_cancel]
 #align commute.mul_self_sub_mul_self_eq Commute.mul_self_sub_mul_self_eq
 
 theorem mul_self_sub_mul_self_eq' [NonUnitalNonAssocRing R] {a b : R} (h : Commute a b) :
     a * a - b * b = (a - b) * (a + b) := by
-  rw [mul_add, sub_mul, sub_mul, h.eq, sub_add_sub_cancel]
+  rw [mul_add]; rw [sub_mul]; rw [sub_mul]; rw [h.eq]; rw [sub_add_sub_cancel]
 #align commute.mul_self_sub_mul_self_eq' Commute.mul_self_sub_mul_self_eq'
 
 theorem mul_self_eq_mul_self_iff [NonUnitalNonAssocRing R] [NoZeroDivisors R] {a b : R}
     (h : Commute a b) : a * a = b * b ↔ a = b ∨ a = -b := by
-  rw [← sub_eq_zero, h.mul_self_sub_mul_self_eq, mul_eq_zero, or_comm, sub_eq_zero,
-    add_eq_zero_iff_eq_neg]
+  rw [← sub_eq_zero]; rw [h.mul_self_sub_mul_self_eq]; rw [mul_eq_zero]; rw [or_comm]; rw [sub_eq_zero]; rw [add_eq_zero_iff_eq_neg]
 #align commute.mul_self_eq_mul_self_iff Commute.mul_self_eq_mul_self_iff
 
 section
@@ -150,7 +149,7 @@ theorem mul_self_sub_mul_self [CommRing R] (a b : R) : a * a - b * b = (a + b) *
 #align mul_self_sub_mul_self mul_self_sub_mul_self
 
 theorem mul_self_sub_one [NonAssocRing R] (a : R) : a * a - 1 = (a + 1) * (a - 1) := by
-  rw [← (Commute.one_right a).mul_self_sub_mul_self_eq, mul_one]
+  rw [← (Commute.one_right a).mul_self_sub_mul_self_eq]; rw [mul_one]
 #align mul_self_sub_one mul_self_sub_one
 
 theorem mul_self_eq_mul_self_iff [CommRing R] [NoZeroDivisors R] {a b : R} :
@@ -160,7 +159,7 @@ theorem mul_self_eq_mul_self_iff [CommRing R] [NoZeroDivisors R] {a b : R} :
 
 theorem mul_self_eq_one_iff [NonAssocRing R] [NoZeroDivisors R] {a : R} :
     a * a = 1 ↔ a = 1 ∨ a = -1 := by
-  rw [← (Commute.one_right a).mul_self_eq_mul_self_iff, mul_one]
+  rw [← (Commute.one_right a).mul_self_eq_mul_self_iff]; rw [mul_one]
 #align mul_self_eq_one_iff mul_self_eq_one_iff
 
 namespace Units

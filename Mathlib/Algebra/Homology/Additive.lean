@@ -157,13 +157,13 @@ def Functor.mapHomologicalComplex (F : V ⥤ W) [F.Additive] (c : ComplexShape �
       d := fun i j => F.map (C.d i j)
       shape := fun i j w => by
         dsimp only
-        rw [C.shape _ _ w, F.map_zero]
+        rw [C.shape _ _ w]; rw [F.map_zero]
       d_comp_d' := fun i j k _ _ => by rw [← F.map_comp, C.d_comp_d, F.map_zero] }
   map f :=
     { f := fun i => F.map (f.f i)
       comm' := fun i j _ => by
         dsimp
-        rw [← F.map_comp, ← F.map_comp, f.comm] }
+        rw [← F.map_comp]; rw [← F.map_comp]; rw [f.comm] }
 #align category_theory.functor.map_homological_complex CategoryTheory.Functor.mapHomologicalComplex
 
 variable (V)
@@ -263,7 +263,7 @@ theorem map_chain_complex_of (F : V ⥤ W) [F.Additive] (X : α → V) (d : ∀ 
     (sq : ∀ n, d (n + 1) ≫ d n = 0) :
     (F.mapHomologicalComplex _).obj (ChainComplex.of X d sq) =
       ChainComplex.of (fun n => F.obj (X n)) (fun n => F.map (d n)) fun n => by
-        rw [← F.map_comp, sq n, Functor.map_zero] := by
+        rw [← F.map_comp]; rw [sq n]; rw [Functor.map_zero] := by
   refine' HomologicalComplex.ext rfl _
   rintro i j (rfl : j + 1 = i)
   simp only [CategoryTheory.Functor.mapHomologicalComplex_obj_d, of_d, eqToHom_refl, comp_id,

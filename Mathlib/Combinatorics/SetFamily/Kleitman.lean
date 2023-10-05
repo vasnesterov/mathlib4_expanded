@@ -44,7 +44,7 @@ theorem Finset.card_biUnion_le_of_intersecting (s : Finset ι) (f : ι → Finse
   · rw [tsub_eq_zero_of_le hs, pow_zero]
     refine' (card_le_of_subset <| biUnion_subset.2 fun i hi a ha ↦
       mem_compl.2 <| not_mem_singleton.2 <| (hf _ hi).ne_bot ha).trans_eq _
-    rw [card_compl, Fintype.card_finset, card_singleton]
+    rw [card_compl]; rw [Fintype.card_finset]; rw [card_singleton]
   induction' s using Finset.cons_induction with i s hi ih generalizing f
   · simp
   set f' : ι → Finset (Finset α) :=
@@ -62,9 +62,9 @@ theorem Finset.card_biUnion_le_of_intersecting (s : Finset ι) (f : ι → Finse
   nth_rw 1 [cons_eq_insert i]
   rw [biUnion_insert]
   refine' (card_mono <| @le_sup_sdiff _ _ _ <| f' i).trans ((card_union_le _ _).trans _)
-  rw [union_sdiff_left, sdiff_eq_inter_compl]
+  rw [union_sdiff_left]; rw [sdiff_eq_inter_compl]
   refine' le_of_mul_le_mul_left _ (pow_pos (zero_lt_two' ℕ) <| Fintype.card α + 1)
-  rw [pow_succ', mul_add, mul_assoc, mul_comm _ 2, mul_assoc]
+  rw [pow_succ']; rw [mul_add]; rw [mul_assoc]; rw [mul_comm _ 2]; rw [mul_assoc]
   refine' (add_le_add
       ((mul_le_mul_left <| pow_pos (zero_lt_two' ℕ) _).2
       (hf₁ _ <| mem_cons_self _ _).2.2.card_le) <|
@@ -73,14 +73,10 @@ theorem Finset.card_biUnion_le_of_intersecting (s : Finset ι) (f : ι → Finse
     exact isUpperSet_iUnion₂ fun i hi ↦ hf₂ _ <| subset_cons _ hi
   · rw [coe_compl]
     exact (hf₂ _ <| mem_cons_self _ _).compl
-  rw [mul_tsub, card_compl, Fintype.card_finset, mul_left_comm, mul_tsub,
-    (hf₁ _ <| mem_cons_self _ _).2.1, two_mul, add_tsub_cancel_left, ← mul_tsub, ← mul_two,
-    mul_assoc, ← add_mul, mul_comm]
+  rw [mul_tsub]; rw [card_compl]; rw [Fintype.card_finset]; rw [mul_left_comm]; rw [mul_tsub]; rw [(hf₁ _ <| mem_cons_self _ _).2.1]; rw [two_mul]; rw [add_tsub_cancel_left]; rw [← mul_tsub]; rw [← mul_two]; rw [mul_assoc]; rw [← add_mul]; rw [mul_comm]
   refine' mul_le_mul_left' _ _
   refine' (add_le_add_left
     (ih _ (fun i hi ↦ (hf₁ _ <| subset_cons _ hi).2.2)
     ((card_le_of_subset <| subset_cons _).trans hs)) _).trans _
-  rw [mul_tsub, two_mul, ← pow_succ,
-    ← add_tsub_assoc_of_le (pow_le_pow' (one_le_two : (1 : ℕ) ≤ 2) tsub_le_self),
-    tsub_add_eq_add_tsub hs, card_cons, add_tsub_add_eq_tsub_right]
+  rw [mul_tsub]; rw [two_mul]; rw [← pow_succ]; rw [← add_tsub_assoc_of_le (pow_le_pow' (one_le_two : (1 : ℕ) ≤ 2) tsub_le_self)]; rw [tsub_add_eq_add_tsub hs]; rw [card_cons]; rw [add_tsub_add_eq_tsub_right]
 #align finset.card_bUnion_le_of_intersecting Finset.card_biUnion_le_of_intersecting

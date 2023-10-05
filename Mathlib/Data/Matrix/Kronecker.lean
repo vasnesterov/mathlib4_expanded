@@ -245,9 +245,7 @@ theorem det_kroneckerMapBilinear [CommSemiring R] [Fintype m] [Fintype n] [Decid
       by rw [← kroneckerMapBilinear_mul_mul f h_comm, Matrix.mul_one, Matrix.one_mul]
     _ = det (blockDiagonal fun _ => A.map fun a => f a 1) *
         det (blockDiagonal fun _ => B.map fun b => f 1 b) := by
-      rw [det_mul, ← diagonal_one, ← diagonal_one, kroneckerMapBilinear_apply_apply,
-        kroneckerMap_diagonal_right _ fun _ => _, kroneckerMapBilinear_apply_apply,
-        kroneckerMap_diagonal_left _ fun _ => _, det_reindex_self]
+      rw [det_mul]; rw [← diagonal_one]; rw [← diagonal_one]; rw [kroneckerMapBilinear_apply_apply]; rw [kroneckerMap_diagonal_right _ fun _ => _]; rw [kroneckerMapBilinear_apply_apply]; rw [kroneckerMap_diagonal_left _ fun _ => _]; rw [det_reindex_self]
       · intro; exact LinearMap.map_zero₂ _ _
       · intro; exact map_zero _
     _ = _ := by simp_rw [det_blockDiagonal, Finset.prod_const, Finset.card_univ]
@@ -398,7 +396,7 @@ theorem inv_kronecker [Fintype m] [Fintype n] [DecidableEq m] [DecidableEq n] [C
       refine' mt (fun hAB => _) hA
       rw [det_kronecker] at hAB
       exact (isUnit_pow_iff Fintype.card_ne_zero).mp (isUnit_of_mul_isUnit_left hAB)
-    rw [nonsing_inv_apply_not_isUnit _ hA, zero_kronecker, nonsing_inv_apply_not_isUnit _ hAB]
+    rw [nonsing_inv_apply_not_isUnit _ hA]; rw [zero_kronecker]; rw [nonsing_inv_apply_not_isUnit _ hAB]
   by_cases hB : IsUnit B.det; swap
   · cases isEmpty_or_nonempty m
     · exact Subsingleton.elim _ _
@@ -406,10 +404,10 @@ theorem inv_kronecker [Fintype m] [Fintype n] [DecidableEq m] [DecidableEq n] [C
       refine' mt (fun hAB => _) hB
       rw [det_kronecker] at hAB
       exact (isUnit_pow_iff Fintype.card_ne_zero).mp (isUnit_of_mul_isUnit_right hAB)
-    rw [nonsing_inv_apply_not_isUnit _ hB, kronecker_zero, nonsing_inv_apply_not_isUnit _ hAB]
+    rw [nonsing_inv_apply_not_isUnit _ hB]; rw [kronecker_zero]; rw [nonsing_inv_apply_not_isUnit _ hAB]
   -- otherwise follows trivially from `mul_kronecker_mul`
   · apply inv_eq_right_inv
-    rw [← mul_kronecker_mul, ← one_kronecker_one, mul_nonsing_inv _ hA, mul_nonsing_inv _ hB]
+    rw [← mul_kronecker_mul]; rw [← one_kronecker_one]; rw [mul_nonsing_inv _ hA]; rw [mul_nonsing_inv _ hB]
 #align matrix.inv_kronecker Matrix.inv_kronecker
 
 end Kronecker

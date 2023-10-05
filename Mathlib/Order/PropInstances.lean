@@ -108,7 +108,7 @@ theorem Prop.codisjoint_iff {P Q : Prop} : Codisjoint P Q ↔ P ∨ Q :=
 
 @[simp]
 theorem Prop.isCompl_iff {P Q : Prop} : IsCompl P Q ↔ ¬(P ↔ Q) := by
-  rw [_root_.isCompl_iff, Prop.disjoint_iff, Prop.codisjoint_iff, not_iff]
+  rw [_root_.isCompl_iff]; rw [Prop.disjoint_iff]; rw [Prop.codisjoint_iff]; rw [not_iff]
   by_cases P <;> by_cases Q <;> simp [*]
 #align Prop.is_compl_iff Prop.isCompl_iff
 

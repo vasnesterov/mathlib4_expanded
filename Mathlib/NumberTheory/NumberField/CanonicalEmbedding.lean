@@ -69,7 +69,7 @@ theorem conj_apply {x : ((K →+* ℂ) → ℂ)} (φ : K →+* ℂ)
     conj (x φ) = x (ComplexEmbedding.conjugate φ) := by
   refine Submodule.span_induction hx ?_ ?_ (fun _ _ hx hy => ?_) (fun a _ hx => ?_)
   · rintro _ ⟨x, rfl⟩
-    rw [apply_at, apply_at, ComplexEmbedding.conjugate_coe_eq]
+    rw [apply_at]; rw [apply_at]; rw [ComplexEmbedding.conjugate_coe_eq]
   · rw [Pi.zero_apply, Pi.zero_apply, map_zero]
   · rw [Pi.add_apply, Pi.add_apply, map_add, hx, hy]
   · rw [Pi.smul_apply, Complex.real_smul, map_mul, Complex.conj_ofReal]
@@ -102,7 +102,7 @@ theorem integerLattice.inter_ball_finite [NumberField K] (r : ℝ) :
   · simp [Metric.closedBall_eq_empty.2 hr]
   · have heq : ∀ x, canonicalEmbedding K x ∈ Metric.closedBall 0 r ↔
         ∀ φ : K →+* ℂ, ‖φ x‖ ≤ r := by
-      intro x; rw [← norm_le_iff, mem_closedBall_zero_iff]
+      intro x; rw [← norm_le_iff]; rw [mem_closedBall_zero_iff]
     convert (Embeddings.finite_of_norm_le K ℂ r).image (canonicalEmbedding K)
     ext; constructor
     · rintro ⟨⟨_, ⟨x, rfl⟩, rfl⟩, hx⟩
@@ -124,17 +124,16 @@ noncomputable def latticeBasis [NumberField K] :
       equivOfCardEq ((Embeddings.card K ℂ).trans (finrank_eq_card_basis (integralBasis K)))
     let M := B.toMatrix (fun i => canonicalEmbedding K (integralBasis K (e i)))
     suffices M.det ≠ 0 by
-      rw [← isUnit_iff_ne_zero, ← Basis.det_apply, ← is_basis_iff_det] at this
+      rw [← isUnit_iff_ne_zero] at this; rw [← Basis.det_apply] at this; rw [← is_basis_iff_det] at this
       refine basisOfLinearIndependentOfCardEqFinrank
         ((linearIndependent_equiv e.symm).mpr this.1) ?_
-      rw [← finrank_eq_card_chooseBasisIndex, RingOfIntegers.rank, finrank_fintype_fun_eq_card,
-        Embeddings.card]
+      rw [← finrank_eq_card_chooseBasisIndex]; rw [RingOfIntegers.rank]; rw [finrank_fintype_fun_eq_card]; rw [Embeddings.card]
   -- In order to prove that the determinant is nonzero, we show that it is equal to the
   -- square of the discriminant of the integral basis and thus it is not zero
     let N := Algebra.embeddingsMatrixReindex ℚ ℂ (fun i => integralBasis K (e i))
       RingHom.equivRatAlgHom
     rw [show M = N.transpose by { ext:2; rfl }]
-    rw [Matrix.det_transpose, ← @pow_ne_zero_iff ℂ _ _ _ 2 (by norm_num)]
+    rw [Matrix.det_transpose]; rw [← @pow_ne_zero_iff ℂ _ _ _ 2 (by norm_num)]
     convert (map_ne_zero_iff _ (algebraMap ℚ ℂ).injective).mpr
       (Algebra.discr_not_zero_of_basis ℚ (integralBasis K))
     rw [← Algebra.discr_reindex ℚ (integralBasis K) e.symm]
@@ -152,7 +151,7 @@ theorem mem_span_latticeBasis [NumberField K] (x : (K →+* ℂ) → ℂ) :
   rw [show Set.range (latticeBasis K) =
       (canonicalEmbedding K).toIntAlgHom.toLinearMap '' (Set.range (integralBasis K)) by
     rw [← Set.range_comp]; exact congrArg Set.range (funext (fun i => latticeBasis_apply K i))]
-  rw [← Submodule.map_span, ← SetLike.mem_coe, Submodule.map_coe]
+  rw [← Submodule.map_span]; rw [← SetLike.mem_coe]; rw [Submodule.map_coe]
   rw [show (Submodule.span ℤ (Set.range (integralBasis K)) : Set K) = 𝓞 K by
     ext; exact mem_span_integralBasis K]
   rfl
@@ -182,10 +181,7 @@ instance [NumberField K] :  Nontrivial (E K) := by
 
 protected theorem finrank [NumberField K] : finrank ℝ (E K) = finrank ℚ K := by
   classical
-  rw [finrank_prod, finrank_pi, finrank_pi_fintype, Complex.finrank_real_complex, Finset.sum_const,
-    Finset.card_univ, ← card_real_embeddings, Algebra.id.smul_eq_mul, mul_comm,
-    ← card_complex_embeddings, ← NumberField.Embeddings.card K ℂ, Fintype.card_subtype_compl,
-    Nat.add_sub_of_le (Fintype.card_subtype_le _)]
+  rw [finrank_prod]; rw [finrank_pi]; rw [finrank_pi_fintype]; rw [Complex.finrank_real_complex]; rw [Finset.sum_const]; rw [Finset.card_univ]; rw [← card_real_embeddings]; rw [Algebra.id.smul_eq_mul]; rw [mul_comm]; rw [← card_complex_embeddings]; rw [← NumberField.Embeddings.card K ℂ]; rw [Fintype.card_subtype_compl]; rw [Nat.add_sub_of_le (Fintype.card_subtype_le _)]
 
 theorem _root_.NumberField.mixedEmbedding_injective [NumberField K] :
     Function.Injective (NumberField.mixedEmbedding K) := by
@@ -233,10 +229,9 @@ theorem disjoint_span_commMap_ker [NumberField K]:
   rw [Pi.zero_apply]
   by_cases hφ : IsReal φ
   · rw [show x φ = (x φ).re by
-      rw [eq_comm, ← Complex.conj_eq_iff_re, canonicalEmbedding.conj_apply _ h_mem,
-        ComplexEmbedding.isReal_iff.mp hφ], ← Complex.ofReal_zero]
+      rw [eq_comm]; rw [← Complex.conj_eq_iff_re]; rw [canonicalEmbedding.conj_apply _ h_mem]; rw [ComplexEmbedding.isReal_iff.mp hφ], ← Complex.ofReal_zero]
     congr
-    rw [← embedding_mk_eq_of_isReal hφ, ← commMap_apply_of_isReal K x ⟨φ, hφ, rfl⟩]
+    rw [← embedding_mk_eq_of_isReal hφ]; rw [← commMap_apply_of_isReal K x ⟨φ, hφ, rfl⟩]
     exact congrFun (congrArg (fun x => x.1) h_zero) ⟨InfinitePlace.mk φ, _⟩
   · have := congrFun (congrArg (fun x => x.2) h_zero) ⟨InfinitePlace.mk φ, ⟨φ, hφ, rfl⟩⟩
     cases embedding_mk_eq φ with
@@ -264,11 +259,7 @@ noncomputable def latticeBasis [NumberField K] :
       (disjoint_span_commMap_ker K)
     -- and it's a basis since it has the right cardinality
     refine basisOfLinearIndependentOfCardEqFinrank this ?_
-    rw [← finrank_eq_card_chooseBasisIndex, RingOfIntegers.rank, finrank_prod, finrank_pi,
-      finrank_pi_fintype, Complex.finrank_real_complex, Finset.sum_const, Finset.card_univ,
-      ← card_real_embeddings, Algebra.id.smul_eq_mul, mul_comm, ← card_complex_embeddings,
-      ← NumberField.Embeddings.card K ℂ, Fintype.card_subtype_compl,
-      Nat.add_sub_of_le (Fintype.card_subtype_le _)]
+    rw [← finrank_eq_card_chooseBasisIndex]; rw [RingOfIntegers.rank]; rw [finrank_prod]; rw [finrank_pi]; rw [finrank_pi_fintype]; rw [Complex.finrank_real_complex]; rw [Finset.sum_const]; rw [Finset.card_univ]; rw [← card_real_embeddings]; rw [Algebra.id.smul_eq_mul]; rw [mul_comm]; rw [← card_complex_embeddings]; rw [← NumberField.Embeddings.card K ℂ]; rw [Fintype.card_subtype_compl]; rw [Nat.add_sub_of_le (Fintype.card_subtype_le _)]
 
 @[simp]
 theorem latticeBasis_apply [NumberField K] (i : Free.ChooseBasisIndex ℤ (𝓞 K)) :
@@ -281,7 +272,7 @@ theorem mem_span_latticeBasis [NumberField K] (x : (E K)) :
   rw [show Set.range (latticeBasis K) =
       (mixedEmbedding K).toIntAlgHom.toLinearMap '' (Set.range (integralBasis K)) by
     rw [← Set.range_comp]; exact congrArg Set.range (funext (fun i => latticeBasis_apply K i))]
-  rw [← Submodule.map_span, ← SetLike.mem_coe, Submodule.map_coe]
+  rw [← Submodule.map_span]; rw [← SetLike.mem_coe]; rw [Submodule.map_coe]
   rw [show (Submodule.span ℤ (Set.range (integralBasis K)) : Set K) = 𝓞 K by
     ext; exact mem_span_integralBasis K]
   rfl
@@ -350,8 +341,7 @@ theorem convexBodyLt_volume :
       conv_lhs =>
         congr; next => skip
         congr; next => skip
-        ext i; rw [addHaar_ball _ _ (by exact (f i).prop), Complex.finrank_real_complex, mul_comm,
-          ENNReal.ofReal_pow (by exact (f i).prop)]
+        ext i; rw [addHaar_ball _ _ (by exact (f i).prop)]; rw [Complex.finrank_real_complex]; rw [mul_comm]; rw [ENNReal.ofReal_pow (by exact (f i).prop)]
     _ = (↑2 ^ card {w : InfinitePlace K // InfinitePlace.IsReal w} *
           (∏ x : {w // InfinitePlace.IsReal w}, ENNReal.ofReal (f x.val))) *
           (volume (ball (0 : ℂ) 1) ^ card {w : InfinitePlace K // IsComplex w} *
@@ -421,10 +411,10 @@ theorem exists_ne_zero_mem_ringOfIntegers_lt (h : minkowskiBound K < volume (con
     infer_instance
   obtain ⟨⟨x, hx⟩, h_nzr, h_mem⟩ := exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure
     h_fund h (convexBodyLt_symmetric K f) (convexBodyLt_convex K f)
-  rw [Submodule.mem_toAddSubgroup, mem_span_latticeBasis] at hx
+  rw [Submodule.mem_toAddSubgroup] at hx; rw [mem_span_latticeBasis] at hx
   obtain ⟨a, ha, rfl⟩ := hx
   refine ⟨⟨a, ha⟩, ?_, (convexBodyLt_mem K f).mp h_mem⟩
-  rw [ne_eq, AddSubgroup.mk_eq_zero_iff, map_eq_zero, ← ne_eq] at h_nzr
+  rw [ne_eq] at h_nzr; rw [AddSubgroup.mk_eq_zero_iff] at h_nzr; rw [map_eq_zero] at h_nzr; rw [← ne_eq] at h_nzr
   exact Subtype.ne_of_val_ne h_nzr
 
 end minkowski

@@ -351,7 +351,7 @@ theorem ιSummand_epi_naturality {Δ₁ Δ₂ : SimplexCategoryᵒᵖ} (A : Inde
   dsimp [ιSummand]
   erw [colimit.ι_desc, colimit.ι_desc, Cofan.mk_ι_app, Cofan.mk_ι_app]
   dsimp only [IndexSet.epiComp, IndexSet.e]
-  rw [op_comp, X.map_comp, assoc, Quiver.Hom.op_unop]
+  rw [op_comp]; rw [X.map_comp]; rw [assoc]; rw [Quiver.Hom.op_unop]
 #align simplicial_object.splitting.ι_summand_epi_naturality SimplicialObject.Splitting.ιSummand_epi_naturality
 
 end Splitting
@@ -400,7 +400,7 @@ theorem Hom.ext {S₁ S₂ : Split C} (Φ₁ Φ₂ : Hom S₁ S₂) (h : ∀ n :
   apply S₁.s.hom_ext
   intro n
   dsimp
-  rw [c₁, c₂]
+  rw [c₁]; rw [c₂]
 #align simplicial_object.split.hom.ext SimplicialObject.Split.Hom.ext
 
 attribute [simp, reassoc] Hom.comm

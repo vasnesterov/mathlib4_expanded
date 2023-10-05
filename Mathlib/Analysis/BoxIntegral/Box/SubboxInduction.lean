@@ -71,8 +71,8 @@ theorem disjoint_splitCenterBox (I : Box ι) {s t : Set ι} (h : s ≠ t) :
   rw [disjoint_iff_inf_le]
   rintro y ⟨hs, ht⟩; apply h
   ext i
-  rw [mem_coe, mem_splitCenterBox] at hs ht
-  rw [← hs.2, ← ht.2]
+  rw [mem_coe] at hs ht; rw [mem_splitCenterBox] at hs ht
+  rw [← hs.2]; rw [← ht.2]
 #align box_integral.box.disjoint_split_center_box BoxIntegral.Box.disjoint_splitCenterBox
 
 theorem injective_splitCenterBox (I : Box ι) : Injective I.splitCenterBox := fun _ _ H ↦

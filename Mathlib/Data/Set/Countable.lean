@@ -122,7 +122,7 @@ theorem Countable.exists_eq_range {s : Set α} (hc : s.Countable) (hs : s.Nonemp
     ∃ f : ℕ → α, s = range f := by
   rcases hc.exists_surjective hs with ⟨f, hf⟩
   refine' ⟨(↑) ∘ f, _⟩
-  rw [hf.range_comp, Subtype.range_coe]
+  rw [hf.range_comp]; rw [Subtype.range_coe]
 #align set.countable.exists_eq_range Set.Countable.exists_eq_range
 
 @[simp] theorem countable_empty : (∅ : Set α).Countable := to_countable _
@@ -198,7 +198,7 @@ theorem countable_iUnion_iff [Countable ι] {t : ι → Set α} :
 theorem Countable.biUnion_iff {s : Set α} {t : ∀ a ∈ s, Set β} (hs : s.Countable) :
     (⋃ a ∈ s, t a ‹_›).Countable ↔ ∀ a (ha : a ∈ s), (t a ha).Countable := by
   haveI := hs.to_subtype
-  rw [biUnion_eq_iUnion, countable_iUnion_iff, SetCoe.forall']
+  rw [biUnion_eq_iUnion]; rw [countable_iUnion_iff]; rw [SetCoe.forall']
 #align set.countable.bUnion_iff Set.Countable.biUnion_iff
 
 theorem Countable.sUnion_iff {s : Set (Set α)} (hs : s.Countable) :

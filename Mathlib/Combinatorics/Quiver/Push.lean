@@ -62,7 +62,7 @@ noncomputable def lift : Push σ ⥤q W' where
   map :=
     @PushQuiver.rec V _ W σ (fun X Y _ => τ X ⟶ τ Y) @fun X Y f => by
       dsimp only
-      rw [← h X, ← h Y]
+      rw [← h X]; rw [← h Y]
       exact φ.map f
 #align quiver.push.lift Quiver.Push.lift
 

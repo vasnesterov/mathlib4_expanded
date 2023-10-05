@@ -215,7 +215,7 @@ theorem mk_pow [AddMonoid ι] [GMonoid A] {i} (a : A i) (n : ℕ) :
     rw [pow_zero]
     exact (GMonoid.gnpow_zero' ⟨_, a⟩).symm
   | n+1 =>
-    rw [pow_succ, mk_pow a n, mk_mul_mk]
+    rw [pow_succ]; rw [mk_pow a n]; rw [mk_mul_mk]
     exact (GMonoid.gnpow_succ' n ⟨_, a⟩).symm
 #align graded_monoid.mk_pow GradedMonoid.mk_pow
 
@@ -411,7 +411,7 @@ theorem GradedMonoid.mk_list_dProd (l : List α) (fι : α → ι) (fA : ∀ a, 
 /-- A variant of `GradedMonoid.mk_list_dProd` for rewriting in the other direction. -/
 theorem GradedMonoid.list_prod_map_eq_dProd (l : List α) (f : α → GradedMonoid A) :
     (l.map f).prod = GradedMonoid.mk _ (l.dProd (fun i => (f i).1) fun i => (f i).2) := by
-  rw [GradedMonoid.mk_list_dProd, GradedMonoid.mk]
+  rw [GradedMonoid.mk_list_dProd]; rw [GradedMonoid.mk]
   simp_rw [Sigma.eta]
 #align graded_monoid.list_prod_map_eq_dprod GradedMonoid.list_prod_map_eq_dProd
 
@@ -468,10 +468,10 @@ theorem List.dProd_monoid {α} [AddMonoid ι] [Monoid R] (l : List α) (fι : α
     @List.dProd _ _ (fun _ : ι => R) _ _ l fι fA = (l.map fA).prod := by
   match l with
   | [] =>
-    rw [List.dProd_nil, List.map_nil, List.prod_nil]
+    rw [List.dProd_nil]; rw [List.map_nil]; rw [List.prod_nil]
     rfl
   | head::tail =>
-    rw [List.dProd_cons, List.map_cons, List.prod_cons, List.dProd_monoid tail _ _]
+    rw [List.dProd_cons]; rw [List.map_cons]; rw [List.prod_cons]; rw [List.dProd_monoid tail _ _]
     rfl
 #align list.dprod_monoid List.dProd_monoid
 
@@ -556,10 +556,10 @@ variable {A : ι → S} [SetLike.GradedMonoid A]
 theorem pow_mem_graded (n : ℕ) {r : R} {i : ι} (h : r ∈ A i) : r ^ n ∈ A (n • i) := by
   match n with
   | 0 =>
-    rw [pow_zero, zero_nsmul]
+    rw [pow_zero]; rw [zero_nsmul]
     exact one_mem_graded _
   | n+1 =>
-    rw [pow_succ', succ_nsmul']
+    rw [pow_succ']; rw [succ_nsmul']
     exact mul_mem_graded (pow_mem_graded n h) h
 #align set_like.pow_mem_graded SetLike.pow_mem_graded
 
@@ -567,10 +567,10 @@ theorem list_prod_map_mem_graded {ι'} (l : List ι') (i : ι' → ι) (r : ι' 
     (h : ∀ j ∈ l, r j ∈ A (i j)) : (l.map r).prod ∈ A (l.map i).sum := by
   match l with
   | [] =>
-    rw [List.map_nil, List.map_nil, List.prod_nil, List.sum_nil]
+    rw [List.map_nil]; rw [List.map_nil]; rw [List.prod_nil]; rw [List.sum_nil]
     exact one_mem_graded _
   | head::tail =>
-    rw [List.map_cons, List.map_cons, List.prod_cons, List.sum_cons]
+    rw [List.map_cons]; rw [List.map_cons]; rw [List.prod_cons]; rw [List.sum_cons]
     exact
       mul_mem_graded (h _ <| List.mem_cons_self _ _)
         (list_prod_map_mem_graded tail _ _ <| fun j hj => h _ <| List.mem_cons_of_mem _ hj)
@@ -578,7 +578,7 @@ theorem list_prod_map_mem_graded {ι'} (l : List ι') (i : ι' → ι) (r : ι' 
 
 theorem list_prod_ofFn_mem_graded {n} (i : Fin n → ι) (r : Fin n → R) (h : ∀ j, r j ∈ A (i j)) :
     (List.ofFn r).prod ∈ A (List.ofFn i).sum := by
-  rw [List.ofFn_eq_map, List.ofFn_eq_map]
+  rw [List.ofFn_eq_map]; rw [List.ofFn_eq_map]
   exact list_prod_map_mem_graded _ _ _ fun _ _ => h _
 #align set_like.list_prod_of_fn_mem_graded SetLike.list_prod_ofFn_mem_graded
 
@@ -649,10 +649,9 @@ theorem SetLike.coe_list_dProd (A : ι → S) [SetLike.GradedMonoid A] (fι : α
     = (List.prod (l.map fun a => fA a) : R) := by
   match l with
   | [] =>
-    rw [List.dProd_nil, coe_gOne, List.map_nil, List.prod_nil]
+    rw [List.dProd_nil]; rw [coe_gOne]; rw [List.map_nil]; rw [List.prod_nil]
   | head::tail =>
-    rw [List.dProd_cons, coe_gMul, List.map_cons, List.prod_cons,
-      SetLike.coe_list_dProd _ _ _ tail]
+    rw [List.dProd_cons]; rw [coe_gMul]; rw [List.map_cons]; rw [List.prod_cons]; rw [SetLike.coe_list_dProd _ _ _ tail]
 #align set_like.coe_list_dprod SetLike.coe_list_dProd
 
 /-- A version of `List.coe_dProd_set_like` with `Subtype.mk`. -/

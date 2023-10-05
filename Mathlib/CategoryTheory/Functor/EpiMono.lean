@@ -123,7 +123,7 @@ theorem preservesMonomorphisms.of_iso {F G : C ⥤ D} [PreservesMonomorphisms F]
   { preserves := fun {X} {Y} f h => by
       haveI : Mono (F.map f ≫ (α.app Y).hom) := mono_comp _ _
       convert (mono_comp _ _ : Mono ((α.app X).inv ≫ F.map f ≫ (α.app Y).hom))
-      rw [Iso.eq_inv_comp, Iso.app_hom, Iso.app_hom, NatTrans.naturality] }
+      rw [Iso.eq_inv_comp]; rw [Iso.app_hom]; rw [Iso.app_hom]; rw [NatTrans.naturality] }
 #align category_theory.functor.preserves_monomorphisms.of_iso CategoryTheory.Functor.preservesMonomorphisms.of_iso
 
 theorem preservesMonomorphisms.iso_iff {F G : C ⥤ D} (α : F ≅ G) :
@@ -136,7 +136,7 @@ theorem preservesEpimorphisms.of_iso {F G : C ⥤ D} [PreservesEpimorphisms F] (
   { preserves := fun {X} {Y} f h => by
       haveI : Epi (F.map f ≫ (α.app Y).hom) := epi_comp _ _
       convert (epi_comp _ _ : Epi ((α.app X).inv ≫ F.map f ≫ (α.app Y).hom))
-      rw [Iso.eq_inv_comp, Iso.app_hom, Iso.app_hom, NatTrans.naturality] }
+      rw [Iso.eq_inv_comp]; rw [Iso.app_hom]; rw [Iso.app_hom]; rw [NatTrans.naturality] }
 #align category_theory.functor.preserves_epimorphisms.of_iso CategoryTheory.Functor.preservesEpimorphisms.of_iso
 
 theorem preservesEpimorphisms.iso_iff {F G : C ⥤ D} (α : F ≅ G) :
@@ -150,7 +150,7 @@ theorem reflectsMonomorphisms.of_iso {F G : C ⥤ D} [ReflectsMonomorphisms F] (
       apply F.mono_of_mono_map
       haveI : Mono (G.map f ≫ (α.app Y).inv) := mono_comp _ _
       convert (mono_comp _ _ : Mono ((α.app X).hom ≫ G.map f ≫ (α.app Y).inv))
-      rw [← Category.assoc, Iso.eq_comp_inv, Iso.app_hom, Iso.app_hom, NatTrans.naturality] }
+      rw [← Category.assoc]; rw [Iso.eq_comp_inv]; rw [Iso.app_hom]; rw [Iso.app_hom]; rw [NatTrans.naturality] }
 #align category_theory.functor.reflects_monomorphisms.of_iso CategoryTheory.Functor.reflectsMonomorphisms.of_iso
 
 theorem reflectsMonomorphisms.iso_iff {F G : C ⥤ D} (α : F ≅ G) :
@@ -164,7 +164,7 @@ theorem reflectsEpimorphisms.of_iso {F G : C ⥤ D} [ReflectsEpimorphisms F] (α
       apply F.epi_of_epi_map
       haveI : Epi (G.map f ≫ (α.app Y).inv) := epi_comp _ _
       convert (epi_comp _ _ : Epi ((α.app X).hom ≫ G.map f ≫ (α.app Y).inv))
-      rw [← Category.assoc, Iso.eq_comp_inv, Iso.app_hom, Iso.app_hom, NatTrans.naturality] }
+      rw [← Category.assoc]; rw [Iso.eq_comp_inv]; rw [Iso.app_hom]; rw [Iso.app_hom]; rw [NatTrans.naturality] }
 #align category_theory.functor.reflects_epimorphisms.of_iso CategoryTheory.Functor.reflectsEpimorphisms.of_iso
 
 theorem reflectsEpimorphisms.iso_iff {F G : C ⥤ D} (α : F ≅ G) :

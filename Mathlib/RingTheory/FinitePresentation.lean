@@ -94,9 +94,8 @@ theorem equiv (hfp : FinitePresentation R A) (e : A ≃ₐ[R] B) : FinitePresent
       have h : (AlgHom.comp (e : A →ₐ[R] B) f).toRingHom =
         e.toAlgHom.toRingHom.comp f.toRingHom := rfl
       have h1 : ↑e.toRingEquiv = e.toAlgHom.toRingHom := rfl
-      rw [h, h1]
-    rw [RingHom.ker_eq_comap_bot, hco, ← Ideal.comap_comap, ← RingHom.ker_eq_comap_bot,
-      RingHom.ker_coe_equiv (AlgEquiv.toRingEquiv e), RingHom.ker_eq_comap_bot]
+      rw [h]; rw [h1]
+    rw [RingHom.ker_eq_comap_bot]; rw [hco]; rw [← Ideal.comap_comap]; rw [← RingHom.ker_eq_comap_bot]; rw [RingHom.ker_coe_equiv (AlgEquiv.toRingEquiv e)]; rw [RingHom.ker_eq_comap_bot]
 #align algebra.finite_presentation.equiv Algebra.FinitePresentation.equiv
 
 variable (R)
@@ -235,18 +234,16 @@ theorem of_restrict_scalars_finitePresentation [Algebra A B] [IsScalarTower R A 
     have := fun i : t => hf (algebraMap A B i)
     choose t' ht' using this
     have ht'' : Algebra.adjoin R (algebraMap A AX '' t ∪ Set.range (X : _ → AX)) = ⊤ := by
-      rw [adjoin_union_eq_adjoin_adjoin, ← Subalgebra.restrictScalars_top R (A := AX)
+      rw [adjoin_union_eq_adjoin_adjoin]; rw [← Subalgebra.restrictScalars_top R (A := AX)
         (S := { x // x ∈ adjoin R ((algebraMap A AX) '' t) })]
       refine congrArg (Subalgebra.restrictScalars R) ?_
       congr 1
-      rw [adjoin_algebraMap, ht]
+      rw [adjoin_algebraMap]; rw [ht]
       apply Subalgebra.restrictScalars_injective R
-      rw [← adjoin_restrictScalars, adjoin_range_X, Subalgebra.restrictScalars_top,
-        Subalgebra.restrictScalars_top]
+      rw [← adjoin_restrictScalars]; rw [adjoin_range_X]; rw [Subalgebra.restrictScalars_top]; rw [Subalgebra.restrictScalars_top]
     letI g : t → AX := fun x => MvPolynomial.C (x : A) - map (algebraMap R A) (t' x)
     refine' ⟨s.image (map (algebraMap R A)) ∪ t.attach.image g, _⟩
-    rw [Finset.coe_union, Finset.coe_image, Finset.coe_image, Finset.attach_eq_univ,
-      Finset.coe_univ, Set.image_univ]
+    rw [Finset.coe_union]; rw [Finset.coe_image]; rw [Finset.coe_image]; rw [Finset.attach_eq_univ]; rw [Finset.coe_univ]; rw [Set.image_univ]
     let s₀ := (MvPolynomial.map (algebraMap R A)) '' s ∪ Set.range g
     let I := RingHom.ker (MvPolynomial.aeval (R := A) (f ∘ MvPolynomial.X))
     change Ideal.span s₀ = I
@@ -288,13 +285,13 @@ theorem of_restrict_scalars_finitePresentation [Algebra A B] [IsScalarTower R A 
       · intro x₁ x₂ h₁ h₂
         obtain ⟨_, ⟨p₁, rfl⟩, q₁, hq₁, rfl⟩ := AddSubmonoid.mem_sup.mp h₁
         obtain ⟨_, ⟨p₂, rfl⟩, q₂, hq₂, rfl⟩ := AddSubmonoid.mem_sup.mp h₂
-        rw [add_mul, mul_add, add_assoc, ← map_mul]
+        rw [add_mul]; rw [mul_add]; rw [add_assoc]; rw [← map_mul]
         apply AddSubmonoid.add_mem_sup
         · exact Set.mem_range_self _
         · refine' add_mem (Ideal.mul_mem_left _ _ hq₂) (Ideal.mul_mem_right _ _ hq₁)
     obtain ⟨_, ⟨p, rfl⟩, q, hq, rfl⟩ := AddSubmonoid.mem_sup.mp this
-    rw [map_add, aeval_map_algebraMap, ← aeval_unique, show MvPolynomial.aeval (f ∘ X) q = 0
-      from leI hq, add_zero] at hx
+    rw [map_add] at hx; rw [aeval_map_algebraMap] at hx; rw [← aeval_unique] at hx; rw [show MvPolynomial.aeval (f ∘ X) q = 0
+      from leI hq] at hx; rw [add_zero] at hx
     suffices Ideal.span (s : Set RX) ≤ (Ideal.span s₀).comap (MvPolynomial.map <| algebraMap R A) by
       refine' add_mem _ hq
       rw [hs] at this
@@ -324,18 +321,16 @@ theorem ker_fg_of_mvPolynomial {n : ℕ} (f : MvPolynomial (Fin n) R →ₐ[R] A
     simp only [Finset.coe_image, Finset.coe_union, Finset.coe_univ, Set.image_univ]
     have hh' : ∀ x, f (aeval_h x) = f' x := by
       intro x
-      rw [← f.coe_toRingHom, map_aeval]
+      rw [← f.coe_toRingHom]; rw [map_aeval]
       simp_rw [AlgHom.coe_toRingHom, hh]
-      rw [AlgHom.comp_algebraMap, ← aeval_eq_eval₂Hom,
-        -- Porting note: added line below
-        ← funext fun i => Function.comp_apply (f := ↑f') (g := MvPolynomial.X),
-        ← aeval_unique]
+      rw [AlgHom.comp_algebraMap]; rw [← aeval_eq_eval₂Hom]; rw [-- Porting note: added line below
+        ← funext fun i => Function.comp_apply (f := ↑f') (g := MvPolynomial.X)]; rw [← aeval_unique]
     let s' := Set.range g' ∪ aeval_h '' s
     have leI : Ideal.span s' ≤ RingHom.ker f.toRingHom := by
       rw [Ideal.span_le]
       rintro _ (⟨i, rfl⟩ | ⟨x, hx, rfl⟩)
       · change f (g' i) = 0
-        rw [map_sub, ← hg, hh', sub_self]
+        rw [map_sub]; rw [← hg]; rw [hh']; rw [sub_self]
       · change f (aeval_h x) = 0
         rw [hh']
         change x ∈ RingHom.ker f'.toRingHom
@@ -349,7 +344,7 @@ theorem ker_fg_of_mvPolynomial {n : ℕ} (f : MvPolynomial (Fin n) R →ₐ[R] A
         trivial
       refine adjoin_induction this ?_ ?_ ?_ ?_
       · rintro _ ⟨i, rfl⟩
-        rw [← sub_add_cancel (X i) (aeval h (g i)), add_comm]
+        rw [← sub_add_cancel (X i) (aeval h (g i))]; rw [add_comm]
         apply AddSubmonoid.add_mem_sup
         · exact Set.mem_range_self _
         · apply Submodule.subset_span
@@ -363,7 +358,7 @@ theorem ker_fg_of_mvPolynomial {n : ℕ} (f : MvPolynomial (Fin n) R →ₐ[R] A
       · intro p₁ p₂ h₁ h₂
         obtain ⟨_, ⟨x₁, rfl⟩, y₁, hy₁, rfl⟩ := AddSubmonoid.mem_sup.mp h₁
         obtain ⟨_, ⟨x₂, rfl⟩, y₂, hy₂, rfl⟩ := AddSubmonoid.mem_sup.mp h₂
-        rw [mul_add, add_mul, add_assoc, ← map_mul]
+        rw [mul_add]; rw [add_mul]; rw [add_assoc]; rw [← map_mul]
         apply AddSubmonoid.add_mem_sup
         · exact Set.mem_range_self _
         · exact add_mem (Ideal.mul_mem_right _ _ hy₁) (Ideal.mul_mem_left _ _ hy₂)
@@ -388,7 +383,7 @@ theorem ker_fG_of_surjective (f : A →ₐ[R] B) (hf : Function.Surjective f)
   obtain ⟨n, g, hg, _⟩ := hRA
   convert (ker_fg_of_mvPolynomial (f.comp g) (hf.comp hg) hRB).map g.toRingHom
   simp_rw [RingHom.ker_eq_comap_bot, AlgHom.toRingHom_eq_coe, AlgHom.comp_toRingHom]
-  rw [← Ideal.comap_comap, Ideal.map_comap_of_surjective (g : MvPolynomial (Fin n) R →+* A) hg]
+  rw [← Ideal.comap_comap]; rw [Ideal.map_comap_of_surjective (g : MvPolynomial (Fin n) R →+* A) hg]
 #align algebra.finite_presentation.ker_fg_of_surjective Algebra.FinitePresentation.ker_fG_of_surjective
 
 end FinitePresentation

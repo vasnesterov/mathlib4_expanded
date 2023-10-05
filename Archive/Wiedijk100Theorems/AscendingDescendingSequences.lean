@@ -112,7 +112,7 @@ theorem erdos_szekeres {r s n : ℕ} {f : Fin n → α} (hn : r * s < n) (hf : I
         · rw [mem_powerset]; apply subset_univ
         -- It ends at `j` since `i < j`.
         · convert max_insert (a := j) (s := t)
-          rw [ht₁.2.1, max_eq_left]
+          rw [ht₁.2.1]; rw [max_eq_left]
           apply WithBot.coe_le_coe.mpr (le_of_lt ‹i < j›)
         -- To show it's increasing (i.e., `f` is monotone increasing on `t.insert j`), we do cases
         -- on what the possibilities could be - either in `t` or equals `j`.

@@ -87,17 +87,17 @@ theorem fun_eq_funMulInvSnorm_mul_snorm {p : ℝ} (f : α → ℝ≥0∞) (hf_no
 
 theorem funMulInvSnorm_rpow {p : ℝ} (hp0 : 0 < p) {f : α → ℝ≥0∞} {a : α} :
     funMulInvSnorm f p μ a ^ p = f a ^ p * (∫⁻ c, f c ^ p ∂μ)⁻¹ := by
-  rw [funMulInvSnorm, mul_rpow_of_nonneg _ _ (le_of_lt hp0)]
+  rw [funMulInvSnorm]; rw [mul_rpow_of_nonneg _ _ (le_of_lt hp0)]
   suffices h_inv_rpow : ((∫⁻ c : α, f c ^ p ∂μ) ^ (1 / p))⁻¹ ^ p = (∫⁻ c : α, f c ^ p ∂μ)⁻¹
   · rw [h_inv_rpow]
-  rw [inv_rpow, ← rpow_mul, one_div_mul_cancel hp0.ne', rpow_one]
+  rw [inv_rpow]; rw [← rpow_mul]; rw [one_div_mul_cancel hp0.ne']; rw [rpow_one]
 #align ennreal.fun_mul_inv_snorm_rpow ENNReal.funMulInvSnorm_rpow
 
 theorem lintegral_rpow_funMulInvSnorm_eq_one {p : ℝ} (hp0_lt : 0 < p) {f : α → ℝ≥0∞}
     (hf_nonzero : (∫⁻ a, f a ^ p ∂μ) ≠ 0) (hf_top : (∫⁻ a, f a ^ p ∂μ) ≠ ⊤) :
     ∫⁻ c, funMulInvSnorm f p μ c ^ p ∂μ = 1 := by
   simp_rw [funMulInvSnorm_rpow hp0_lt]
-  rw [lintegral_mul_const', ENNReal.mul_inv_cancel hf_nonzero hf_top]
+  rw [lintegral_mul_const']; rw [ENNReal.mul_inv_cancel hf_nonzero hf_top]
   rwa [inv_ne_top]
 #align ennreal.lintegral_rpow_fun_mul_inv_snorm_eq_one ENNReal.lintegral_rpow_funMulInvSnorm_eq_one
 
@@ -113,8 +113,7 @@ theorem lintegral_mul_le_Lp_mul_Lq_of_ne_zero_of_ne_top {p q : ℝ} (hpq : p.IsC
     (∫⁻ a : α, (f * g) a ∂μ) =
         ∫⁻ a : α, (funMulInvSnorm f p μ * funMulInvSnorm g q μ) a * (npf * nqg) ∂μ := by
       refine' lintegral_congr fun a => _
-      rw [Pi.mul_apply, fun_eq_funMulInvSnorm_mul_snorm f hf_nonzero hf_nontop,
-        fun_eq_funMulInvSnorm_mul_snorm g hg_nonzero hg_nontop, Pi.mul_apply]
+      rw [Pi.mul_apply]; rw [fun_eq_funMulInvSnorm_mul_snorm f hf_nonzero hf_nontop]; rw [fun_eq_funMulInvSnorm_mul_snorm g hg_nonzero hg_nontop]; rw [Pi.mul_apply]
       ring
     _ ≤ npf * nqg := by
       rw [lintegral_mul_const' (npf * nqg) _
@@ -130,7 +129,7 @@ theorem ae_eq_zero_of_lintegral_rpow_eq_zero {p : ℝ} (hp0 : 0 ≤ p) {f : α �
   rw [lintegral_eq_zero_iff' (hf.pow_const p)] at hf_zero
   refine' Filter.Eventually.mp hf_zero (Filter.eventually_of_forall fun x => _)
   dsimp only
-  rw [Pi.zero_apply, ← not_imp_not]
+  rw [Pi.zero_apply]; rw [← not_imp_not]
   exact fun hx => (rpow_pos_of_nonneg (pos_iff_ne_zero.2 hx) hp0).ne'
 #align ennreal.ae_eq_zero_of_lintegral_rpow_eq_zero ENNReal.ae_eq_zero_of_lintegral_rpow_eq_zero
 
@@ -149,7 +148,7 @@ theorem lintegral_mul_le_Lp_mul_Lq_of_ne_zero_of_eq_top {p q : ℝ} (hp0_lt : 0 
     (∫⁻ a, (f * g) a ∂μ) ≤ (∫⁻ a, f a ^ p ∂μ) ^ (1 / p) * (∫⁻ a, g a ^ q ∂μ) ^ (1 / q) := by
   refine' le_trans le_top (le_of_eq _)
   have hp0_inv_lt : 0 < 1 / p := by simp [hp0_lt]
-  rw [hf_top, ENNReal.top_rpow_of_pos hp0_inv_lt]
+  rw [hf_top]; rw [ENNReal.top_rpow_of_pos hp0_inv_lt]
   simp [hq0, hg_nonzero]
 #align ennreal.lintegral_mul_le_Lp_mul_Lq_of_ne_zero_of_eq_top ENNReal.lintegral_mul_le_Lp_mul_Lq_of_ne_zero_of_eq_top
 
@@ -189,26 +188,22 @@ theorem lintegral_rpow_add_lt_top_of_lintegral_rpow_lt_top {p : ℝ} {f g : α �
         rw [← ENNReal.zero_rpow_of_pos hp0_lt]
         exact ENNReal.rpow_lt_rpow (by simp [zero_lt_one]) hp0_lt
       have h_rw : (1 / 2 : ℝ≥0∞) ^ p * (2 : ℝ≥0∞) ^ (p - 1) = 1 / 2 := by
-        rw [sub_eq_add_neg, ENNReal.rpow_add _ _ two_ne_zero ENNReal.coe_ne_top, ← mul_assoc, ←
-          ENNReal.mul_rpow_of_nonneg _ _ hp0, one_div,
-          ENNReal.inv_mul_cancel two_ne_zero ENNReal.coe_ne_top, ENNReal.one_rpow, one_mul,
-          ENNReal.rpow_neg_one]
+        rw [sub_eq_add_neg]; rw [ENNReal.rpow_add _ _ two_ne_zero ENNReal.coe_ne_top]; rw [← mul_assoc]; rw [←
+          ENNReal.mul_rpow_of_nonneg _ _ hp0]; rw [one_div]; rw [ENNReal.inv_mul_cancel two_ne_zero ENNReal.coe_ne_top]; rw [ENNReal.one_rpow]; rw [one_mul]; rw [ENNReal.rpow_neg_one]
       rw [← ENNReal.mul_le_mul_left (ne_of_lt h_zero_lt_half_rpow).symm _]
       · rw [mul_add, ← mul_assoc, ← mul_assoc, h_rw, ← ENNReal.mul_rpow_of_nonneg _ _ hp0, mul_add]
         refine'
           ENNReal.rpow_arith_mean_le_arith_mean2_rpow (1 / 2 : ℝ≥0∞) (1 / 2 : ℝ≥0∞) (f a) (g a) _
             hp1
-        rw [ENNReal.div_add_div_same, one_add_one_eq_two,
-          ENNReal.div_self two_ne_zero ENNReal.coe_ne_top]
+        rw [ENNReal.div_add_div_same]; rw [one_add_one_eq_two]; rw [ENNReal.div_self two_ne_zero ENNReal.coe_ne_top]
       · rw [← lt_top_iff_ne_top]
         refine' ENNReal.rpow_lt_top_of_nonneg hp0 _
-        rw [one_div, ENNReal.inv_ne_top]
+        rw [one_div]; rw [ENNReal.inv_ne_top]
         exact two_ne_zero
     _ < ⊤ := by
       have h_two : (2 : ℝ≥0∞) ^ (p - 1) ≠ ⊤ :=
         ENNReal.rpow_ne_top_of_nonneg (by simp [hp1]) ENNReal.coe_ne_top
-      rw [lintegral_add_left', lintegral_const_mul'' _ (hf.pow_const p),
-        lintegral_const_mul' _ _ h_two, ENNReal.add_lt_top]
+      rw [lintegral_add_left']; rw [lintegral_const_mul'' _ (hf.pow_const p)]; rw [lintegral_const_mul' _ _ h_two]; rw [ENNReal.add_lt_top]
       · exact ⟨ENNReal.mul_lt_top h_two hf_top.ne, ENNReal.mul_lt_top h_two hg_top.ne⟩
       · exact (hf.pow_const p).const_mul _
 #align ennreal.lintegral_rpow_add_lt_top_of_lintegral_rpow_lt_top ENNReal.lintegral_rpow_add_lt_top_of_lintegral_rpow_lt_top
@@ -225,7 +220,7 @@ theorem lintegral_Lp_mul_le_Lq_mul_Lr {α} [MeasurableSpace α] {p q r : ℝ} (h
   have h_one_div_r : 1 / r = 1 / p - 1 / q := by rw [hpqr]; simp
   have _ : r ≠ 0 := by
     have hr_inv_pos : 0 < 1 / r := by rwa [h_one_div_r, sub_pos, one_div_lt_one_div hq0_lt hp0_lt]
-    rw [one_div, _root_.inv_pos] at hr_inv_pos
+    rw [one_div] at hr_inv_pos; rw [_root_.inv_pos] at hr_inv_pos
     exact (ne_of_lt hr_inv_pos).symm
   let p2 := q / p
   let q2 := p2.conjugateExponent
@@ -244,9 +239,9 @@ theorem lintegral_Lp_mul_le_Lq_mul_Lr {α} [MeasurableSpace α] {p q r : ℝ} (h
         ENNReal.rpow_mul]
       have hpp2 : p * p2 = q := by
         symm
-        rw [mul_comm, ← div_eq_iff hp0_ne]
+        rw [mul_comm]; rw [← div_eq_iff hp0_ne]
       have hpq2 : p * q2 = r := by
-        rw [← inv_inv r, ← one_div, ← one_div, h_one_div_r]
+        rw [← inv_inv r]; rw [← one_div]; rw [← one_div]; rw [h_one_div_r]
         field_simp [Real.conjugateExponent, hp0_ne, hq0_ne]
       simp_rw [div_mul_div_comm, mul_one, mul_comm p2, mul_comm q2, hpp2, hpq2]
 #align ennreal.lintegral_Lp_mul_le_Lq_mul_Lr ENNReal.lintegral_Lp_mul_le_Lq_mul_Lr
@@ -268,7 +263,7 @@ theorem lintegral_mul_rpow_le_lintegral_rpow_mul_lintegral_rpow {p q : ℝ}
   refine' (ENNReal.mul_le_mul_left hf_zero_rpow hf_top_rpow).mpr (le_of_eq _)
   congr
   ext1 a
-  rw [← ENNReal.rpow_mul, hpq.sub_one_mul_conj]
+  rw [← ENNReal.rpow_mul]; rw [hpq.sub_one_mul_conj]
 #align ennreal.lintegral_mul_rpow_le_lintegral_rpow_mul_lintegral_rpow ENNReal.lintegral_mul_rpow_le_lintegral_rpow_mul_lintegral_rpow
 
 theorem lintegral_rpow_add_le_add_snorm_mul_lintegral_rpow_add {p q : ℝ}
@@ -289,7 +284,7 @@ theorem lintegral_rpow_add_le_add_snorm_mul_lintegral_rpow_add {p q : ℝ}
         exact le_top
       refine' le_of_eq _
       nth_rw 2 [← ENNReal.rpow_one ((f + g) a)]
-      rw [← ENNReal.rpow_add _ _ h_zero h_top, add_sub_cancel'_right]
+      rw [← ENNReal.rpow_add _ _ h_zero h_top]; rw [add_sub_cancel'_right]
     _ = (∫⁻ a : α, f a * (f + g) a ^ (p - 1) ∂μ) + ∫⁻ a : α, g a * (f + g) a ^ (p - 1) ∂μ := by
       have h_add_m : AEMeasurable (fun a : α => (f + g) a ^ (p - 1 : ℝ)) μ :=
         (hf.add hg).pow_const _
@@ -381,7 +376,7 @@ theorem lintegral_Lp_add_le_of_le_one {p : ℝ} {f g : α → ℝ≥0∞} (hf : 
   rcases eq_or_lt_of_le hp0 with (rfl | hp)
   · simp only [Pi.add_apply, rpow_zero, lintegral_one, _root_.div_zero, zero_sub]
     norm_num
-    rw [rpow_neg, rpow_one, ENNReal.inv_mul_cancel two_ne_zero two_ne_top]
+    rw [rpow_neg]; rw [rpow_one]; rw [ENNReal.inv_mul_cancel two_ne_zero two_ne_top]
   calc
     (∫⁻ a, (f + g) a ^ p ∂μ) ^ (1 / p) ≤ ((∫⁻ a, f a ^ p ∂μ) + ∫⁻ a, g a ^ p ∂μ) ^ (1 / p) := by
       apply rpow_le_rpow _ (div_nonneg zero_le_one hp0)

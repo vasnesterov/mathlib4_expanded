@@ -282,25 +282,25 @@ theorem mul_inv_of_eq {a : α} (h : ↑u = a) : a * ↑u⁻¹ = 1 := by rw [← 
 
 @[to_additive (attr := simp)]
 theorem mul_inv_cancel_left (a : αˣ) (b : α) : (a : α) * (↑a⁻¹ * b) = b := by
-  rw [← mul_assoc, mul_inv, one_mul]
+  rw [← mul_assoc]; rw [mul_inv]; rw [one_mul]
 #align units.mul_inv_cancel_left Units.mul_inv_cancel_left
 #align add_units.add_neg_cancel_left AddUnits.add_neg_cancel_left
 
 @[to_additive (attr := simp)]
 theorem inv_mul_cancel_left (a : αˣ) (b : α) : (↑a⁻¹ : α) * (a * b) = b := by
-  rw [← mul_assoc, inv_mul, one_mul]
+  rw [← mul_assoc]; rw [inv_mul]; rw [one_mul]
 #align units.inv_mul_cancel_left Units.inv_mul_cancel_left
 #align add_units.neg_add_cancel_left AddUnits.neg_add_cancel_left
 
 @[to_additive (attr := simp)]
 theorem mul_inv_cancel_right (a : α) (b : αˣ) : a * b * ↑b⁻¹ = a := by
-  rw [mul_assoc, mul_inv, mul_one]
+  rw [mul_assoc]; rw [mul_inv]; rw [mul_one]
 #align units.mul_inv_cancel_right Units.mul_inv_cancel_right
 #align add_units.add_neg_cancel_right AddUnits.add_neg_cancel_right
 
 @[to_additive (attr := simp)]
 theorem inv_mul_cancel_right (a : α) (b : αˣ) : a * ↑b⁻¹ * b = a := by
-  rw [mul_assoc, inv_mul, mul_one]
+  rw [mul_assoc]; rw [inv_mul]; rw [mul_one]
 #align units.inv_mul_cancel_right Units.inv_mul_cancel_right
 #align add_units.neg_add_cancel_right AddUnits.neg_add_cancel_right
 
@@ -492,7 +492,7 @@ theorem divp_eq_iff_mul_eq {x : α} {u : αˣ} {y : α} : x /ₚ u = y ↔ y * u
 
 @[field_simps]
 theorem eq_divp_iff_mul_eq {x : α} {u : αˣ} {y : α} : x = y /ₚ u ↔ x * u = y := by
-  rw [eq_comm, divp_eq_iff_mul_eq]
+  rw [eq_comm]; rw [divp_eq_iff_mul_eq]
 #align eq_divp_iff_mul_eq eq_divp_iff_mul_eq
 
 theorem divp_eq_one_iff_eq {a : α} {u : αˣ} : a /ₚ u = 1 ↔ a = u :=
@@ -515,7 +515,7 @@ is essential since `field_simp` likes to use `inv_eq_one_div` to rewrite
 -/
 @[field_simps]
 theorem inv_eq_one_divp' (u : αˣ) : ((1 / u : αˣ) : α) = 1 /ₚ u := by
-  rw [one_div, one_divp]
+  rw [one_div]; rw [one_divp]
 #align inv_eq_one_divp' inv_eq_one_divp'
 
 /-- `field_simp` moves division inside `αˣ` to the right, and this lemma
@@ -523,7 +523,7 @@ lifts the calculation to `α`.
 -/
 @[field_simps]
 theorem val_div_eq_divp (u₁ u₂ : αˣ) : ↑(u₁ / u₂) = ↑u₁ /ₚ u₂ := by
-  rw [divp, division_def, Units.val_mul]
+  rw [divp]; rw [division_def]; rw [Units.val_mul]
 #align coe_div_eq_divp val_div_eq_divp
 
 end Monoid
@@ -534,19 +534,19 @@ variable [CommMonoid α]
 
 @[field_simps]
 theorem divp_mul_eq_mul_divp (x y : α) (u : αˣ) : x /ₚ u * y = x * y /ₚ u := by
-  rw [divp, divp, mul_right_comm]
+  rw [divp]; rw [divp]; rw [mul_right_comm]
 #align divp_mul_eq_mul_divp divp_mul_eq_mul_divp
 
 -- Theoretically redundant as `field_simp` lemma.
 @[field_simps]
 theorem divp_eq_divp_iff {x y : α} {ux uy : αˣ} : x /ₚ ux = y /ₚ uy ↔ x * uy = y * ux := by
-  rw [divp_eq_iff_mul_eq, divp_mul_eq_mul_divp, divp_eq_iff_mul_eq]
+  rw [divp_eq_iff_mul_eq]; rw [divp_mul_eq_mul_divp]; rw [divp_eq_iff_mul_eq]
 #align divp_eq_divp_iff divp_eq_divp_iff
 
 -- Theoretically redundant as `field_simp` lemma.
 @[field_simps]
 theorem divp_mul_divp (x y : α) (ux uy : αˣ) : x /ₚ ux * (y /ₚ uy) = x * y /ₚ (ux * uy) := by
-  rw [divp_mul_eq_mul_divp, divp_assoc', divp_divp_eq_divp_mul]
+  rw [divp_mul_eq_mul_divp]; rw [divp_assoc']; rw [divp_divp_eq_divp_mul]
 #align divp_mul_divp divp_mul_divp
 
 variable [Subsingleton αˣ] {a b : α}
@@ -668,7 +668,7 @@ theorem IsUnit.mul [Monoid M] {x y : M} : IsUnit x → IsUnit y → IsUnit (x * 
 theorem Units.isUnit_mul_units [Monoid M] (a : M) (u : Mˣ) : IsUnit (a * u) ↔ IsUnit a :=
   Iff.intro
     (fun ⟨v, hv⟩ => by
-      have : IsUnit (a * ↑u * ↑u⁻¹) := by exists v * u⁻¹; rw [← hv, Units.val_mul]
+      have : IsUnit (a * ↑u * ↑u⁻¹) := by exists v * u⁻¹; rw [← hv]; rw [Units.val_mul]
       rwa [mul_assoc, Units.mul_inv, mul_one] at this)
     fun v => v.mul u.isUnit
 #align units.is_unit_mul_units Units.isUnit_mul_units
@@ -681,7 +681,7 @@ theorem Units.isUnit_units_mul {M : Type*} [Monoid M] (u : Mˣ) (a : M) :
     IsUnit (↑u * a) ↔ IsUnit a :=
   Iff.intro
     (fun ⟨v, hv⟩ => by
-      have : IsUnit (↑u⁻¹ * (↑u * a)) := by exists u⁻¹ * v; rw [← hv, Units.val_mul]
+      have : IsUnit (↑u⁻¹ * (↑u * a)) := by exists u⁻¹ * v; rw [← hv]; rw [Units.val_mul]
       rwa [← mul_assoc, Units.inv_mul, one_mul] at this)
     u.isUnit.mul
 #align units.is_unit_units_mul Units.isUnit_units_mul
@@ -803,14 +803,14 @@ variable [DivisionMonoid M] {a : M}
 @[to_additive (attr := simp)]
 protected theorem inv_mul_cancel : IsUnit a → a⁻¹ * a = 1 := by
   rintro ⟨u, rfl⟩
-  rw [← Units.val_inv_eq_inv_val, Units.inv_mul]
+  rw [← Units.val_inv_eq_inv_val]; rw [Units.inv_mul]
 #align is_unit.inv_mul_cancel IsUnit.inv_mul_cancel
 #align is_add_unit.neg_add_cancel IsAddUnit.neg_add_cancel
 
 @[to_additive (attr := simp)]
 protected theorem mul_inv_cancel : IsUnit a → a * a⁻¹ = 1 := by
   rintro ⟨u, rfl⟩
-  rw [← Units.val_inv_eq_inv_val, Units.mul_inv]
+  rw [← Units.val_inv_eq_inv_val]; rw [Units.mul_inv]
 #align is_unit.mul_inv_cancel IsUnit.mul_inv_cancel
 #align is_add_unit.add_neg_cancel IsAddUnit.add_neg_cancel
 
@@ -830,7 +830,7 @@ noncomputable def groupOfIsUnit [hM : Monoid M] (h : ∀ a : M, IsUnit a) : Grou
     inv := fun a => ↑(h a).unit⁻¹,
     mul_left_inv := fun a => by
       change ↑(h a).unit⁻¹ * a = 1
-      rw [Units.inv_mul_eq_iff_eq_mul, (h a).unit_spec, mul_one] }
+      rw [Units.inv_mul_eq_iff_eq_mul]; rw [(h a).unit_spec]; rw [mul_one] }
 #align group_of_is_unit groupOfIsUnit
 
 /-- Constructs a `CommGroup` structure on a `CommMonoid` consisting only of units. -/
@@ -839,7 +839,7 @@ noncomputable def commGroupOfIsUnit [hM : CommMonoid M] (h : ∀ a : M, IsUnit a
     inv := fun a => ↑(h a).unit⁻¹,
     mul_left_inv := fun a => by
       change ↑(h a).unit⁻¹ * a = 1
-      rw [Units.inv_mul_eq_iff_eq_mul, (h a).unit_spec, mul_one] }
+      rw [Units.inv_mul_eq_iff_eq_mul]; rw [(h a).unit_spec]; rw [mul_one] }
 #align comm_group_of_is_unit commGroupOfIsUnit
 
 end NoncomputableDefs

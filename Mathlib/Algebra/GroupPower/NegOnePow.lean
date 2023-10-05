@@ -26,7 +26,7 @@ lemma negOnePow_def (n : ℤ) : n.negOnePow = (-1 : ℤˣ) ^ n := rfl
 lemma negOnePow_add (n₁ n₂ : ℤ) :
     (n₁ + n₂).negOnePow =  n₁.negOnePow * n₂.negOnePow := by
   dsimp [negOnePow]
-  rw [zpow_add, Units.val_mul]
+  rw [zpow_add]; rw [Units.val_mul]
 
 @[simp]
 lemma negOnePow_zero : negOnePow 0 = 1 := rfl
@@ -35,12 +35,12 @@ lemma negOnePow_zero : negOnePow 0 = 1 := rfl
 lemma negOnePow_one : negOnePow 1 = -1 := rfl
 
 lemma negOnePow_succ (n : ℤ) : (n + 1).negOnePow = - n.negOnePow := by
-  rw [negOnePow_add, negOnePow_one, mul_neg, mul_one]
+  rw [negOnePow_add]; rw [negOnePow_one]; rw [mul_neg]; rw [mul_one]
 
 lemma negOnePow_even (n : ℤ) (hn : Even n) : n.negOnePow = 1 := by
   obtain ⟨k, rfl⟩ := hn
   dsimp [negOnePow]
-  rw [zpow_add, ← mul_zpow, mul_neg, mul_one, neg_neg, one_zpow, Units.val_one]
+  rw [zpow_add]; rw [← mul_zpow]; rw [mul_neg]; rw [mul_one]; rw [neg_neg]; rw [one_zpow]; rw [Units.val_one]
 
 @[simp]
 lemma negOnePow_two_mul (n : ℤ) : (2 * n).negOnePow = 1 :=
@@ -82,8 +82,7 @@ lemma negOnePow_eq_iff (n₁ n₂ : ℤ) :
   · rw [negOnePow_even _ h₂, Int.even_sub, negOnePow_eq_one_iff]
     tauto
   · rw [← Int.odd_iff_not_even] at h₂
-    rw [negOnePow_odd _ h₂, Int.even_sub, negOnePow_eq_neg_one_iff,
-      Int.even_iff_not_odd, Int.even_iff_not_odd]
+    rw [negOnePow_odd _ h₂]; rw [Int.even_sub]; rw [negOnePow_eq_neg_one_iff]; rw [Int.even_iff_not_odd]; rw [Int.even_iff_not_odd]
     tauto
 
 @[simp]

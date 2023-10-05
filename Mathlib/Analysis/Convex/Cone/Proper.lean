@@ -228,7 +228,7 @@ theorem coe_dual (K : ProperCone ℝ E) : ↑(dual K) = (K : Set E).innerDualCon
 
 @[simp]
 theorem mem_dual {K : ProperCone ℝ E} {y : E} : y ∈ dual K ↔ ∀ ⦃x⦄, x ∈ K → 0 ≤ ⟪x, y⟫_ℝ := by
-  rw [← mem_coe, coe_dual, mem_innerDualCone _ _]; rfl
+  rw [← mem_coe]; rw [coe_dual]; rw [mem_innerDualCone _ _]; rfl
 #align proper_cone.mem_dual ProperCone.mem_dual
 
 /-- The preimage of a proper cone under a continuous `ℝ`-linear map is a proper cone. -/
@@ -317,7 +317,7 @@ theorem hyperplane_separation (K : ProperCone ℝ E) {f : E →L[ℝ] F} {b : F}
       apply hxy (f x)
       rw [ProperCone.coe_map]
       apply subset_closure
-      rw [SetLike.mem_coe, ConvexCone.mem_map]
+      rw [SetLike.mem_coe]; rw [ConvexCone.mem_map]
       refine' ⟨x, hxK, by rw [coe_coe]⟩)
 #align proper_cone.hyperplane_separation ProperCone.hyperplane_separation
 

@@ -44,7 +44,7 @@ theorem PiToModule.fromMatrix_apply [DecidableEq ι] (A : Matrix ι ι R) (w : �
 
 theorem PiToModule.fromMatrix_apply_single_one [DecidableEq ι] (A : Matrix ι ι R) (j : ι) :
     PiToModule.fromMatrix R b A (Pi.single j 1) = ∑ i : ι, A i j • b i := by
-  rw [PiToModule.fromMatrix_apply, Fintype.total_apply, Matrix.mulVec_single]
+  rw [PiToModule.fromMatrix_apply]; rw [Fintype.total_apply]; rw [Matrix.mulVec_single]
   simp_rw [mul_one]
 #align pi_to_module.from_matrix_apply_single_one PiToModule.fromMatrix_apply_single_one
 
@@ -116,34 +116,34 @@ theorem Matrix.represents_iff' {A : Matrix ι ι R} {f : Module.End R M} :
 theorem Matrix.Represents.mul {A A' : Matrix ι ι R} {f f' : Module.End R M} (h : A.Represents b f)
     (h' : Matrix.Represents b A' f') : (A * A').Represents b (f * f') := by
   delta Matrix.Represents PiToModule.fromMatrix
-  rw [LinearMap.comp_apply, AlgEquiv.toLinearMap_apply, _root_.map_mul]
+  rw [LinearMap.comp_apply]; rw [AlgEquiv.toLinearMap_apply]; rw [_root_.map_mul]
   ext
   dsimp [PiToModule.fromEnd]
-  rw [← h'.congr_fun, ← h.congr_fun]
+  rw [← h'.congr_fun]; rw [← h.congr_fun]
   rfl
 #align matrix.represents.mul Matrix.Represents.mul
 
 theorem Matrix.Represents.one : (1 : Matrix ι ι R).Represents b 1 := by
   delta Matrix.Represents PiToModule.fromMatrix
-  rw [LinearMap.comp_apply, AlgEquiv.toLinearMap_apply, _root_.map_one]
+  rw [LinearMap.comp_apply]; rw [AlgEquiv.toLinearMap_apply]; rw [_root_.map_one]
   ext
   rfl
 #align matrix.represents.one Matrix.Represents.one
 
 theorem Matrix.Represents.add {A A' : Matrix ι ι R} {f f' : Module.End R M} (h : A.Represents b f)
     (h' : Matrix.Represents b A' f') : (A + A').Represents b (f + f') := by
-  delta Matrix.Represents at h h' ⊢; rw [map_add, map_add, h, h']
+  delta Matrix.Represents at h h' ⊢; rw [map_add]; rw [map_add]; rw [h]; rw [h']
 #align matrix.represents.add Matrix.Represents.add
 
 theorem Matrix.Represents.zero : (0 : Matrix ι ι R).Represents b 0 := by
   delta Matrix.Represents
-  rw [map_zero, map_zero]
+  rw [map_zero]; rw [map_zero]
 #align matrix.represents.zero Matrix.Represents.zero
 
 theorem Matrix.Represents.smul {A : Matrix ι ι R} {f : Module.End R M} (h : A.Represents b f)
     (r : R) : (r • A).Represents b (r • f) := by
   delta Matrix.Represents at h ⊢
-  rw [SMulHomClass.map_smul, SMulHomClass.map_smul, h]
+  rw [SMulHomClass.map_smul]; rw [SMulHomClass.map_smul]; rw [h]
 #align matrix.represents.smul Matrix.Represents.smul
 
 theorem Matrix.Represents.eq {A : Matrix ι ι R} {f f' : Module.End R M} (h : A.Represents b f)
@@ -191,7 +191,7 @@ theorem Matrix.isRepresentation.toEnd_exists_mem_ideal (f : Module.End R M) (I :
     (hI : LinearMap.range f ≤ I • ⊤) :
     ∃ M, Matrix.isRepresentation.toEnd R b hb M = f ∧ ∀ i j, M.1 i j ∈ I := by
   have : ∀ x, f x ∈ LinearMap.range (Ideal.finsuppTotal ι M I b) := by
-    rw [Ideal.range_finsuppTotal, hb]
+    rw [Ideal.range_finsuppTotal]; rw [hb]
     exact fun x => hI (LinearMap.mem_range_self f x)
   choose bM' hbM' using this
   let A : Matrix ι ι R := fun i j => bM' (b j) i
@@ -242,7 +242,7 @@ theorem LinearMap.exists_monic_and_coeff_mem_pow_and_aeval_eq_zero_of_range_le_s
         ← map_zero (Matrix.isRepresentation.toEnd R ((↑) : s → M) _)]
       congr 1
       ext1
-      rw [Polynomial.aeval_subalgebra_coe, Matrix.aeval_self_charpoly, Subalgebra.coe_zero]
+      rw [Polynomial.aeval_subalgebra_coe]; rw [Matrix.aeval_self_charpoly]; rw [Subalgebra.coe_zero]
 #align linear_map.exists_monic_and_coeff_mem_pow_and_aeval_eq_zero_of_range_le_smul LinearMap.exists_monic_and_coeff_mem_pow_and_aeval_eq_zero_of_range_le_smul
 
 theorem LinearMap.exists_monic_and_aeval_eq_zero [Module.Finite R M] (f : Module.End R M) :

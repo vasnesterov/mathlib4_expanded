@@ -261,7 +261,7 @@ private theorem exists_mono_in_high_dimension' :
       refine' ⟨ι, _inst, fun C => (hι C).resolve_left _⟩
       rintro ⟨s, sr⟩
       apply Nat.not_succ_le_self (Fintype.card κ)
-      rw [← Nat.add_one, ← sr, ← Multiset.card_map, ← Finset.card_mk]
+      rw [← Nat.add_one]; rw [← sr]; rw [← Multiset.card_map]; rw [← Finset.card_mk]
       exact Finset.card_le_univ ⟨_, s.distinct_colors⟩
     -- We now prove the key claim, by induction on `r`.
     intro r
@@ -287,7 +287,7 @@ private theorem exists_mono_in_high_dimension' :
     have mono_of_mono : (∃ l, IsMono C' l) → ∃ l, IsMono C l := by
       rintro ⟨l, c, hl⟩
       refine' ⟨l.horizontal (some ∘ l' (Classical.arbitrary α)), c, fun x => _⟩
-      rw [Line.horizontal_apply, ← hl, ← hl']
+      rw [Line.horizontal_apply]; rw [← hl]; rw [← hl']
     -- By choice of `ι`, `C'` either has `r` color-focused lines or a monochromatic line.
     specialize hι C'
     rcases hι with (⟨s, sr⟩ | h)
@@ -299,7 +299,7 @@ private theorem exists_mono_in_high_dimension' :
     · obtain ⟨p, p_mem, hp⟩ := h
       refine' Or.inr (mono_of_mono ⟨p.line, p.color, _⟩)
       rintro (_ | _)
-      rw [hp, s.is_focused p p_mem]
+      rw [hp]; rw [s.is_focused p p_mem]
       apply p.has_color
     -- If not, we get `r+1` color focused lines by taking the product of the `r` lines with `l'`
     -- and adding to this the vertical line obtained by the focus point and `l`.
@@ -308,7 +308,7 @@ private theorem exists_mono_in_high_dimension' :
     -- Porting note: Needed to reorder the following two goals
     -- The product lines are almost monochromatic.
     · refine' fun p => ⟨p.line.prod (l'.map some), p.color, fun x => _⟩
-      rw [Line.prod_apply, Line.map_apply, ← p.has_color, ← congr_fun (hl' x)]
+      rw [Line.prod_apply]; rw [Line.map_apply]; rw [← p.has_color]; rw [← congr_fun (hl' x)]
     -- The vertical line is almost monochromatic.
     · rw [vertical_apply, ← congr_fun (hl' x), Line.map_apply]
     -- Our `r+1` lines have the same endpoint.
@@ -358,11 +358,11 @@ theorem exists_mono_homothetic_copy {M κ : Type*} [AddCommMonoid M] (S : Finset
   · rw [← Finset.sum_const]
     apply Finset.sum_congr rfl
     intro i hi
-    rw [hs, Finset.mem_filter] at hi
+    rw [hs] at hi; rw [Finset.mem_filter] at hi
     rw [l.apply_none _ _ hi.right]
   · apply Finset.sum_congr rfl
     intro i hi
-    rw [hs, Finset.compl_filter, Finset.mem_filter] at hi
+    rw [hs] at hi; rw [Finset.compl_filter] at hi; rw [Finset.mem_filter] at hi
     obtain ⟨y, hy⟩ := Option.ne_none_iff_exists.mp hi.right
     simp_rw [← hy, Option.map_some', Option.getD]
 #align combinatorics.exists_mono_homothetic_copy Combinatorics.exists_mono_homothetic_copy

@@ -113,7 +113,7 @@ def modelWithCornersEuclideanHalfSpace (n : ℕ) [Zero (Fin n)] :
   map_source' x _ := x.property
   map_target' _ _ := mem_univ _
   left_inv' := fun ⟨xval, xprop⟩ _ => by
-    rw [Subtype.mk_eq_mk, update_eq_iff]
+    rw [Subtype.mk_eq_mk]; rw [update_eq_iff]
     exact ⟨max_eq_left xprop, fun i _ => rfl⟩
   right_inv' x hx := update_eq_iff.2 ⟨max_eq_left hx, fun i _ => rfl⟩
   source_eq := rfl
@@ -296,7 +296,7 @@ instance Icc_smooth_manifold (x y : ℝ) [Fact (x < y)] :
     rintro _ ⟨⟨hz₁, hz₂⟩, ⟨⟨z, hz₀⟩, rfl⟩⟩
     simp only [modelWithCornersEuclideanHalfSpace, IccLeftChart, IccRightChart, update_same,
       max_eq_left, hz₀, lt_sub_iff_add_lt, mfld_simps] at hz₁ hz₂
-    rw [min_eq_left hz₁.le, lt_add_iff_pos_left] at hz₂
+    rw [min_eq_left hz₁.le] at hz₂; rw [lt_add_iff_pos_left] at hz₂
     ext i
     rw [Subsingleton.elim i 0]
     simp only [modelWithCornersEuclideanHalfSpace, IccLeftChart, IccRightChart, *, PiLp.add_apply,

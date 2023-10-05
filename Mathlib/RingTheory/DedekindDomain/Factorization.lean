@@ -43,7 +43,7 @@ def IsDedekindDomain.HeightOneSpectrum.maxPowDividing (I : Ideal R) : Ideal R :=
 /-- Only finitely many maximal ideals of `R` divide a given nonzero ideal. -/
 theorem Ideal.finite_factors {I : Ideal R} (hI : I ≠ 0) :
     {v : HeightOneSpectrum R | v.asIdeal ∣ I}.Finite := by
-  rw [← Set.finite_coe_iff, Set.coe_setOf]
+  rw [← Set.finite_coe_iff]; rw [Set.coe_setOf]
   haveI h_fin := fintypeSubtypeDvd I hI
   refine'
     Finite.of_injective (fun v => (⟨(v : HeightOneSpectrum R).asIdeal, v.2⟩ : { x // x ∣ I })) _
@@ -62,7 +62,7 @@ theorem Associates.finite_factors {I : Ideal R} (hI : I ≠ 0) :
     ext v
     simp_rw [Int.coe_nat_eq_zero]
     exact Associates.count_ne_zero_iff_dvd hI v.irreducible
-  rw [Filter.eventually_cofinite, h_supp]
+  rw [Filter.eventually_cofinite]; rw [h_supp]
   exact Ideal.finite_factors hI
 #align associates.finite_factors Associates.finite_factors
 
@@ -77,8 +77,7 @@ theorem finite_mulSupport {I : Ideal R} (hI : I ≠ 0) :
         ((Associates.mk v.asIdeal).count (Associates.mk I).factors : ℤ) ≠ 0} := by
     intro v hv h_zero
     have hv' : v.maxPowDividing I = 1 := by
-      rw [IsDedekindDomain.HeightOneSpectrum.maxPowDividing, Int.coe_nat_eq_zero.mp h_zero,
-        pow_zero _]
+      rw [IsDedekindDomain.HeightOneSpectrum.maxPowDividing]; rw [Int.coe_nat_eq_zero.mp h_zero]; rw [pow_zero _]
     exact hv hv'
   Finite.subset (Filter.eventually_cofinite.mp (Associates.finite_factors hI)) h_subset
 #align ideal.finite_mul_support Ideal.finite_mulSupport
@@ -109,14 +108,14 @@ theorem finprod_not_dvd (I : Ideal R) (hI : I ≠ 0) :
         ∏ᶠ v : HeightOneSpectrum R, v.maxPowDividing I := by
   have hf := finite_mulSupport hI
   have h_ne_zero : v.maxPowDividing I ≠ 0 := pow_ne_zero _ v.ne_bot
-  rw [← mul_finprod_cond_ne v hf, pow_add, pow_one, finprod_cond_ne _ _ hf]
+  rw [← mul_finprod_cond_ne v hf]; rw [pow_add]; rw [pow_one]; rw [finprod_cond_ne _ _ hf]
   intro h_contr
   have hv_prime : Prime v.asIdeal := Ideal.prime_of_isPrime v.ne_bot v.isPrime
   obtain ⟨w, hw, hvw'⟩ :=
     Prime.exists_mem_finset_dvd hv_prime ((mul_dvd_mul_iff_left h_ne_zero).mp h_contr)
   have hw_prime : Prime w.asIdeal := Ideal.prime_of_isPrime w.ne_bot w.isPrime
   have hvw := Prime.dvd_of_dvd_pow hv_prime hvw'
-  rw [Prime.dvd_prime_iff_associated hv_prime hw_prime, associated_iff_eq] at hvw
+  rw [Prime.dvd_prime_iff_associated hv_prime hw_prime] at hvw; rw [associated_iff_eq] at hvw
   exact (Finset.mem_erase.mp hw).1 (HeightOneSpectrum.ext w v (Eq.symm hvw))
 #align ideal.finprod_not_dvd Ideal.finprod_not_dvd
 
@@ -124,7 +123,7 @@ end Ideal
 
 theorem Associates.finprod_ne_zero (I : Ideal R) :
     Associates.mk (∏ᶠ v : HeightOneSpectrum R, v.maxPowDividing I) ≠ 0 := by
-  rw [Associates.mk_ne_zero, finprod_def]
+  rw [Associates.mk_ne_zero]; rw [finprod_def]
   split_ifs
   · rw [Finset.prod_ne_zero_iff]
     intro v _
@@ -145,7 +144,7 @@ theorem finprod_count (I : Ideal R) (hI : I ≠ 0) : (Associates.mk v.asIdeal).c
   simp only [IsDedekindDomain.HeightOneSpectrum.maxPowDividing] at h_dvd h_ne_zero h_not_dvd
   rw [← Associates.mk_dvd_mk] at h_dvd h_not_dvd
   simp only [Associates.dvd_eq_le] at h_dvd h_not_dvd
-  rw [Associates.mk_pow, Associates.prime_pow_dvd_iff_le h_ne_zero hv] at h_dvd h_not_dvd
+  rw [Associates.mk_pow] at h_dvd h_not_dvd; rw [Associates.prime_pow_dvd_iff_le h_ne_zero hv] at h_dvd h_not_dvd
   rw [not_le] at h_not_dvd
   apply Nat.eq_of_le_of_lt_succ h_dvd h_not_dvd
 #align ideal.finprod_count Ideal.finprod_count
@@ -153,13 +152,13 @@ theorem finprod_count (I : Ideal R) (hI : I ≠ 0) : (Associates.mk v.asIdeal).c
 /-- The ideal `I` equals the finprod `∏_v v^(val_v(I))`. -/
 theorem finprod_heightOneSpectrum_factorization (I : Ideal R) (hI : I ≠ 0) :
     ∏ᶠ v : HeightOneSpectrum R, v.maxPowDividing I = I := by
-  rw [← associated_iff_eq, ← Associates.mk_eq_mk_iff_associated]
+  rw [← associated_iff_eq]; rw [← Associates.mk_eq_mk_iff_associated]
   apply Associates.eq_of_eq_counts
   · apply Associates.finprod_ne_zero I
   · apply Associates.mk_ne_zero.mpr hI
   intro v hv
   obtain ⟨J, hJv⟩ := Associates.exists_rep v
-  rw [← hJv, Associates.irreducible_mk] at hv
+  rw [← hJv] at hv; rw [Associates.irreducible_mk] at hv
   rw [← hJv]
   apply Ideal.finprod_count
     ⟨J, Ideal.isPrime_of_prime (irreducible_iff_prime.mp hv), Irreducible.ne_zero hv⟩ I hI

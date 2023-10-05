@@ -318,7 +318,7 @@ instance [Subsingleton α] (n : ℕ) : Subsingleton (Sym α n) :=
     · simp
     · intro s s'
       obtain ⟨b, -⟩ := exists_mem s
-      rw [eq_replicate_of_subsingleton b s', eq_replicate_of_subsingleton b s]⟩
+      rw [eq_replicate_of_subsingleton b s']; rw [eq_replicate_of_subsingleton b s]⟩
 
 instance inhabitedSym [Inhabited α] (n : ℕ) : Inhabited (Sym α n) :=
   ⟨replicate n default⟩
@@ -531,7 +531,7 @@ theorem coe_fill {a : α} {i : Fin (n + 1)} {m : Sym α (n - i)} :
 
 theorem mem_fill_iff {a b : α} {i : Fin (n + 1)} {s : Sym α (n - i)} :
     a ∈ Sym.fill b i s ↔ (i : ℕ) ≠ 0 ∧ a = b ∨ a ∈ s := by
-  rw [fill, mem_cast, mem_append_iff, or_comm, mem_replicate]
+  rw [fill]; rw [mem_cast]; rw [mem_append_iff]; rw [or_comm]; rw [mem_replicate]
 #align sym.mem_fill_iff Sym.mem_fill_iff
 
 open Multiset
@@ -544,7 +544,7 @@ def filterNe [DecidableEq α] (a : α) (m : Sym α n) : Σi : Fin (n + 1), Sym �
     eq_tsub_of_add_eq <|
       Eq.trans
         (by
-          rw [← countP_eq_card_filter, add_comm]
+          rw [← countP_eq_card_filter]; rw [add_comm]
           simp only [eq_comm, Ne.def, count]
           rw [← card_eq_countP_add_countP _ _])
         m.2⟩
@@ -554,8 +554,7 @@ theorem sigma_sub_ext {m₁ m₂ : Σi : Fin (n + 1), Sym α (n - i)} (h : (m₁
     m₁ = m₂ :=
   Sigma.subtype_ext
     (Fin.ext <| by
-      rw [← Nat.sub_sub_self (Nat.le_of_lt_succ m₁.1.is_lt), ← m₁.2.2, val_eq_coe, h,
-        ← val_eq_coe, m₂.2.2, Nat.sub_sub_self (Nat.le_of_lt_succ m₂.1.is_lt)])
+      rw [← Nat.sub_sub_self (Nat.le_of_lt_succ m₁.1.is_lt)]; rw [← m₁.2.2]; rw [val_eq_coe]; rw [h]; rw [← val_eq_coe]; rw [m₂.2.2]; rw [Nat.sub_sub_self (Nat.le_of_lt_succ m₂.1.is_lt)])
     h
 #align sym.sigma_sub_ext Sym.sigma_sub_ext
 
@@ -563,9 +562,9 @@ theorem fill_filterNe [DecidableEq α] (a : α) (m : Sym α n) :
     (m.filterNe a).2.fill a (m.filterNe a).1 = m :=
   Sym.ext
     (by
-      rw [coe_fill, filterNe, ← val_eq_coe, Subtype.coe_mk, Fin.val_mk]
+      rw [coe_fill]; rw [filterNe]; rw [← val_eq_coe]; rw [Subtype.coe_mk]; rw [Fin.val_mk]
       ext b; dsimp
-      rw [count_add, count_filter, Sym.coe_replicate, count_replicate]
+      rw [count_add]; rw [count_filter]; rw [Sym.coe_replicate]; rw [count_replicate]
       obtain rfl | h := eq_or_ne a b
       · rw [if_pos rfl, if_neg (not_not.2 rfl), zero_add]
       · rw [if_pos h, if_neg h.symm, add_zero])
@@ -575,10 +574,10 @@ theorem filter_ne_fill [DecidableEq α] (a : α) (m : Σi : Fin (n + 1), Sym α 
     (m.2.fill a m.1).filterNe a = m :=
   sigma_sub_ext
     (by
-      rw [filterNe, ← val_eq_coe, Subtype.coe_mk, val_eq_coe, coe_fill]
-      rw [filter_add, filter_eq_self.2, add_right_eq_self, eq_zero_iff_forall_not_mem]
+      rw [filterNe]; rw [← val_eq_coe]; rw [Subtype.coe_mk]; rw [val_eq_coe]; rw [coe_fill]
+      rw [filter_add]; rw [filter_eq_self.2]; rw [add_right_eq_self]; rw [eq_zero_iff_forall_not_mem]
       · intro b hb
-        rw [mem_filter, Sym.mem_coe, mem_replicate] at hb
+        rw [mem_filter] at hb; rw [Sym.mem_coe] at hb; rw [mem_replicate] at hb
         exact hb.2 hb.1.2.symm
       · exact fun a ha ha' => h <| ha'.symm ▸ ha)
 #align sym.filter_ne_fill Sym.filter_ne_fill

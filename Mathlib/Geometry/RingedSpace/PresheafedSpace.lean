@@ -214,7 +214,7 @@ set_option linter.uppercaseLean3 false in
 @[simp]
 theorem id_c_app (X : PresheafedSpace C) (U) :
     (𝟙 X : X ⟶ X).c.app U = X.presheaf.map (𝟙 U) := by
-  rw [id_c, map_id]
+  rw [id_c]; rw [map_id]
   rfl
 set_option linter.uppercaseLean3 false in
 #align algebraic_geometry.PresheafedSpace.id_c_app AlgebraicGeometry.PresheafedSpace.id_c_app
@@ -301,8 +301,7 @@ def isoOfComponents (H : X.1 ≅ Y.1) (α : H.hom _* X.2 ≅ Y.2) : X ≅ Y wher
     simp only [Presheaf.pushforwardObj_obj, op_obj, Opens.map_comp_obj, comp_obj,
       comp_c_app, unop_op, Presheaf.toPushforwardOfIso_app, whiskerRight_app, eqToHom_app,
       assoc, id_c_app, map_id]
-    rw [← α.hom.naturality, Presheaf.pushforwardObj_map, eqToHom_map, eqToHom_map,
-      eqToHom_map, eqToHom_trans_assoc, eqToHom_refl, id_comp]
+    rw [← α.hom.naturality]; rw [Presheaf.pushforwardObj_map]; rw [eqToHom_map]; rw [eqToHom_map]; rw [eqToHom_map]; rw [eqToHom_trans_assoc]; rw [eqToHom_refl]; rw [id_comp]
     apply Iso.inv_hom_id_app
 set_option linter.uppercaseLean3 false in
 #align algebraic_geometry.PresheafedSpace.iso_of_components AlgebraicGeometry.PresheafedSpace.isoOfComponents
@@ -319,15 +318,15 @@ def sheafIsoOfIso (H : X ≅ Y) : Y.2 ≅ H.hom.base _* X.2 where
   inv_hom_id := by
     ext U
     dsimp
-    rw [NatTrans.comp_app, NatTrans.id_app]
+    rw [NatTrans.comp_app]; rw [NatTrans.id_app]
     simp only [Presheaf.pushforwardObj_obj, op_obj, Presheaf.pushforwardToOfIso_app,
       Iso.symm_inv, mapIso_hom, forget_map, Iso.symm_hom, mapIso_inv,
       unop_op, eqToHom_map, assoc]
     have eq₁ := congr_app H.hom_inv_id (op ((Opens.map H.hom.base).obj U))
     have eq₂ := H.hom.c.naturality (eqToHom (congr_obj (congr_arg Opens.map
       ((forget C).congr_map H.inv_hom_id.symm)) U)).op
-    rw [id_c, NatTrans.id_app, id_comp, eqToHom_map, comp_c_app] at eq₁
-    rw [eqToHom_op, eqToHom_map] at eq₂
+    rw [id_c] at eq₁; rw [NatTrans.id_app] at eq₁; rw [id_comp] at eq₁; rw [eqToHom_map] at eq₁; rw [comp_c_app] at eq₁
+    rw [eqToHom_op] at eq₂; rw [eqToHom_map] at eq₂
     erw [eq₂, reassoc_of% eq₁]
     simp
 set_option linter.uppercaseLean3 false in
@@ -373,7 +372,7 @@ def ofRestrict {U : TopCat} (X : PresheafedSpace C) {f : U ⟶ (X : TopCat)}
     { app := fun V => X.presheaf.map (h.isOpenMap.adjunction.counit.app V.unop).op
       naturality := fun U V f =>
         show _ = _ ≫ X.presheaf.map _ by
-          rw [← map_comp, ← map_comp]
+          rw [← map_comp]; rw [← map_comp]
           rfl }
 set_option linter.uppercaseLean3 false in
 #align algebraic_geometry.PresheafedSpace.of_restrict AlgebraicGeometry.PresheafedSpace.ofRestrict
@@ -404,7 +403,7 @@ instance ofRestrict_mono {U : TopCat} (X : PresheafedSpace C) (f : U ⟶ X.1) (h
     erw [g₁.c.naturality, g₂.c.naturality_assoc] at h
     simp only [Presheaf.pushforwardObj_map, eqToHom_op, Category.assoc, eqToHom_map,
       eqToHom_trans] at h
-    rw [← IsIso.comp_inv_eq, inv_eqToHom, Category.assoc, eqToHom_trans] at h
+    rw [← IsIso.comp_inv_eq] at h; rw [inv_eqToHom] at h; rw [Category.assoc] at h; rw [eqToHom_trans] at h
     rw [NatTrans.comp_app]
     simpa using h
 
@@ -424,7 +423,7 @@ theorem ofRestrict_top_c (X : PresheafedSpace C) :
     (X.ofRestrict (Opens.openEmbedding ⊤)).c =
       eqToHom
         (by
-          rw [restrict_top_presheaf, ← Presheaf.Pushforward.comp_eq]
+          rw [restrict_top_presheaf]; rw [← Presheaf.Pushforward.comp_eq]
           erw [Iso.inv_hom_id]
           rw [Presheaf.Pushforward.id_eq]) := by
   /- another approach would be to prove the left hand side

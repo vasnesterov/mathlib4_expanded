@@ -201,7 +201,7 @@ theorem Convex.is_linear_image (hs : Convex 𝕜 s) {f : E → F} (hf : IsLinear
 theorem Convex.linear_preimage {s : Set F} (hs : Convex 𝕜 s) (f : E →ₗ[𝕜] F) :
     Convex 𝕜 (f ⁻¹' s) := by
   intro x hx y hy a b ha hb hab
-  rw [mem_preimage, f.map_add, f.map_smul, f.map_smul]
+  rw [mem_preimage]; rw [f.map_add]; rw [f.map_smul]; rw [f.map_smul]
   exact hs hx hy ha hb hab
 #align convex.linear_preimage Convex.linear_preimage
 
@@ -497,7 +497,7 @@ variable [AddCommGroup E] [AddCommGroup F] [Module 𝕜 E] [Module 𝕜 F] {s t 
 theorem Convex.add_smul_mem (hs : Convex 𝕜 s) {x y : E} (hx : x ∈ s) (hy : x + y ∈ s) {t : 𝕜}
     (ht : t ∈ Icc (0 : 𝕜) 1) : x + t • y ∈ s := by
   have h : x + t • y = (1 - t) • x + t • (x + y) := by
-    rw [smul_add, ← add_assoc, ← add_smul, sub_add_cancel, one_smul]
+    rw [smul_add]; rw [← add_assoc]; rw [← add_smul]; rw [sub_add_cancel]; rw [one_smul]
   rw [h]
   exact hs hx hy (sub_nonneg_of_le ht.2) ht.1 (sub_add_cancel _ _)
 #align convex.add_smul_mem Convex.add_smul_mem
@@ -524,7 +524,7 @@ theorem Convex.add_smul_sub_mem (h : Convex 𝕜 s) {x y : E} (hx : x ∈ s) (hy
 /-- Affine subspaces are convex. -/
 theorem AffineSubspace.convex (Q : AffineSubspace 𝕜 E) : Convex 𝕜 (Q : Set E) := by
   intro x hx y hy a b _ _ hab
-  rw [eq_sub_of_add_eq hab, ← AffineMap.lineMap_apply_module]
+  rw [eq_sub_of_add_eq hab]; rw [← AffineMap.lineMap_apply_module]
   exact AffineMap.lineMap_mem b hx hy
 #align affine_subspace.convex AffineSubspace.convex
 
@@ -664,8 +664,7 @@ theorem convex_stdSimplex : Convex 𝕜 (stdSimplex 𝕜 ι) := by
   · apply_rules [add_nonneg, mul_nonneg, hf.1, hg.1]
   · erw [Finset.sum_add_distrib]
     simp only [Pi.smul_apply] -- Porting note: `erw` failed to rewrite with `← Finset.smul_sum`
-    rw [← Finset.smul_sum, ← Finset.smul_sum, hf.2, hg.2, smul_eq_mul,
-      smul_eq_mul, mul_one, mul_one]
+    rw [← Finset.smul_sum]; rw [← Finset.smul_sum]; rw [hf.2]; rw [hg.2]; rw [smul_eq_mul]; rw [smul_eq_mul]; rw [mul_one]; rw [mul_one]
     exact hab
 #align convex_std_simplex convex_stdSimplex
 
@@ -673,7 +672,7 @@ variable {ι}
 
 theorem ite_eq_mem_stdSimplex (i : ι) : (fun j => ite (i = j) (1 : 𝕜) 0) ∈ stdSimplex 𝕜 ι :=
   ⟨fun j => by simp only; split_ifs <;> norm_num, by
-    rw [Finset.sum_ite_eq, if_pos (Finset.mem_univ _)]⟩
+    rw [Finset.sum_ite_eq]; rw [if_pos (Finset.mem_univ _)]⟩
 #align ite_eq_mem_std_simplex ite_eq_mem_stdSimplex
 
 end Simplex

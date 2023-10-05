@@ -49,7 +49,7 @@ noncomputable def coconePointSMul :
   map_one' := colimit.hom_ext (by simp)
   map_add' r s := colimit.hom_ext (fun j => by
     simp only [Functor.comp_obj, forget₂_obj, map_add, ι_colimMap]
-    rw [Preadditive.add_comp, Preadditive.comp_add]
+    rw [Preadditive.add_comp]; rw [Preadditive.comp_add]
     simp only [ι_colimMap, Functor.comp_obj, forget₂_obj])
   map_mul' r s := colimit.hom_ext (fun j => by simp)
 

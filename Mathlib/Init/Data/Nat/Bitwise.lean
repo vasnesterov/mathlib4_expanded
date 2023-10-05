@@ -140,7 +140,7 @@ theorem div2_val (n) : div2 n = n / 2 := by
   refine'
     Nat.eq_of_mul_eq_mul_left (by decide)
       (Nat.add_left_cancel (Eq.trans _ (Nat.mod_add_div n 2).symm))
-  rw [mod_two_of_bodd, bodd_add_div2]
+  rw [mod_two_of_bodd]; rw [bodd_add_div2]
 #align nat.div2_val Nat.div2_val
 
 /-- `bit b` appends the digit `b` to the binary representation of
@@ -193,7 +193,7 @@ theorem shiftLeft'_false : ∀ n, shiftLeft' false m n = m <<< n
   | 0 => rfl
   | n + 1 => by
     have : 2 * (m * 2^n) = 2^(n+1)*m := by
-      rw [Nat.mul_comm, Nat.mul_assoc, ← pow_succ]; simp
+      rw [Nat.mul_comm]; rw [Nat.mul_assoc]; rw [← pow_succ]; simp
     simp [shiftLeft', bit_val, shiftLeft'_false, this]
 
 /-- Std4 takes the unprimed name for `Nat.shiftLeft_eq m n : m <<< n = m * 2 ^ n`. -/
@@ -313,8 +313,8 @@ theorem bodd_bit (b n) : bodd (bit b n) = b := by
 #align nat.bodd_bit Nat.bodd_bit
 
 theorem div2_bit (b n) : div2 (bit b n) = n := by
-  rw [bit_val, div2_val, Nat.add_comm, add_mul_div_left, div_eq_of_lt, Nat.zero_add]
-  <;> cases b
+  rw [bit_val]; rw [div2_val]; rw [Nat.add_comm]; rw [add_mul_div_left]; rw [div_eq_of_lt]; rw [Nat.zero_add]
+  all_goals cases b
   <;> exact by decide
 #align nat.div2_bit Nat.div2_bit
 
@@ -333,7 +333,7 @@ theorem shiftRight_add (m n : Nat) : ∀ k, m >>> (n + k) = (m >>> n) >>> k
 theorem shiftLeft'_sub (b m) : ∀ {n k}, k ≤ n → shiftLeft' b m (n - k) = (shiftLeft' b m n) >>> k
   | n, 0, _ => rfl
   | n + 1, k + 1, h => by
-    rw [succ_sub_succ_eq_sub, shiftLeft', Nat.add_comm, shiftRight_add]
+    rw [succ_sub_succ_eq_sub]; rw [shiftLeft']; rw [Nat.add_comm]; rw [shiftRight_add]
     simp only [shiftLeft'_sub, Nat.le_of_succ_le_succ h, shiftRight_succ, shiftRight_zero]
     simp [← div2_val, div2_bit]
 #align nat.shiftl'_sub Nat.shiftLeft'_sub
@@ -350,7 +350,7 @@ theorem testBit_succ (m b n) : testBit (bit b n) (succ m) = testBit n m := by
   have : bodd (((bit b n) >>> 1) >>> m) = bodd (n >>> m) := by
     dsimp [shiftRight]
     simp [← div2_val, div2_bit]
-  rw [← shiftRight_add, Nat.add_comm] at this
+  rw [← shiftRight_add] at this; rw [Nat.add_comm] at this
   exact this
 #align nat.test_bit_succ Nat.testBit_succ
 
@@ -377,7 +377,7 @@ theorem binaryRec_eq {C : Nat → Sort u} {z : C 0} {f : ∀ b n, C n → C (bit
     generalize @id (C (bit b n) = C (bit (bodd (bit b n)) (div2 (bit b n))))
       (Eq.symm (bit_decomp (bit b n)) ▸ Eq.refl (C (bit b n))) = e
     revert e
-    rw [bodd_bit, div2_bit]
+    rw [bodd_bit]; rw [div2_bit]
     intros; rfl
 #align nat.binary_rec_eq Nat.binaryRec_eq
 
@@ -411,7 +411,7 @@ theorem bitwise'_zero_left (f : Bool → Bool → Bool) (n) :
 @[simp]
 theorem bitwise'_zero_right (f : Bool → Bool → Bool) (h : f false false = false) (m) :
     bitwise' f m 0 = cond (f true false) m 0 := by
-  unfold bitwise'; apply bitCasesOn m; intros; rw [binaryRec_eq, binaryRec_zero]
+  unfold bitwise'; apply bitCasesOn m; intros; rw [binaryRec_eq]; rw [binaryRec_zero]
   exact bitwise'_bit_aux h
 #align nat.bitwise_zero_right Nat.bitwise'_zero_right
 
@@ -425,7 +425,7 @@ theorem bitwise'_zero (f : Bool → Bool → Bool) : bitwise' f 0 0 = 0 := by
 theorem bitwise'_bit {f : Bool → Bool → Bool} (h : f false false = false) (a m b n) :
     bitwise' f (bit a m) (bit b n) = bit (f a b) (bitwise' f m n) := by
   unfold bitwise'
-  rw [binaryRec_eq, binaryRec_eq]
+  rw [binaryRec_eq]; rw [binaryRec_eq]
   · induction' ftf : f true false
     rw [show f a false = false by cases a <;> assumption]
     apply @congr_arg _ _ _ 0 (bit false)
@@ -435,7 +435,7 @@ theorem bitwise'_bit {f : Bool → Bool → Bool} (h : f false false = false) (a
     all_goals
     { apply bitCasesOn m
       intro a m
-      rw [binaryRec_eq, binaryRec_zero]
+      rw [binaryRec_eq]; rw [binaryRec_zero]
       · rfl
       · rw [← bitwise'_bit_aux h, ftf] }
   · exact bitwise'_bit_aux h
@@ -450,7 +450,7 @@ theorem bitwise'_swap {f : Bool → Bool → Bool} (h : f false false = false) :
     exact h
   · intros a ih m'
     apply bitCasesOn m'; intro b n'
-    rw [bitwise'_bit, bitwise'_bit, ih] <;> exact h
+    rw [bitwise'_bit]; rw [bitwise'_bit]; rw [ih]; all_goals exact h
 #align nat.bitwise_swap Nat.bitwise'_swap
 
 -- Porting note:

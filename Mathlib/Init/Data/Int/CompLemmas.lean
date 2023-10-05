@@ -152,7 +152,7 @@ set_option linter.deprecated false in
 @[deprecated]
 protected theorem natAbs_bit1_nonneg {a : Int} (h : 0 ≤ a) : natAbs (bit1 a) = bit1 (natAbs a) :=
   show natAbs (bit0 a + 1) = bit0 (natAbs a) + natAbs 1 by
-    rw [Int.natAbs_add_nonneg (Int.bit0_nonneg h) (le_of_lt Int.zero_lt_one), Int.natAbs_bit0]
+    rw [Int.natAbs_add_nonneg (Int.bit0_nonneg h) (le_of_lt Int.zero_lt_one)]; rw [Int.natAbs_bit0]
 #align int.nat_abs_bit1_nonneg Int.natAbs_bit1_nonneg
 
 set_option linter.deprecated false in

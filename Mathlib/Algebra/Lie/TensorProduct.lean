@@ -62,7 +62,7 @@ instance lieRingModule : LieRingModule L (M ⊗[R] N) where
   leibniz_lie x y t := by
     suffices (hasBracketAux x).comp (hasBracketAux y) =
         hasBracketAux ⁅x, y⁆ + (hasBracketAux y).comp (hasBracketAux x) by
-      simp only [← LinearMap.add_apply]; rw [← LinearMap.comp_apply, this]; rfl
+      simp only [← LinearMap.add_apply]; rw [← LinearMap.comp_apply]; rw [this]; rfl
     ext m n
     simp only [hasBracketAux, LieRing.of_associative_ring_bracket, LinearMap.mul_apply, mk_apply,
       LinearMap.lTensor_sub, LinearMap.compr₂_apply, Function.comp_apply, LinearMap.coe_comp,
@@ -118,7 +118,7 @@ def liftLie : (M →ₗ⁅R,L⁆ N →ₗ[R] P) ≃ₗ[R] M ⊗[R] N →ₗ⁅R,
 theorem coe_liftLie_eq_lift_coe (f : M →ₗ⁅R,L⁆ N →ₗ[R] P) :
     ⇑(liftLie R L M N P f) = lift R L M N P f := by
   suffices (liftLie R L M N P f : M ⊗[R] N →ₗ[R] P) = lift R L M N P f by
-    rw [← this, LieModuleHom.coe_toLinearMap]
+    rw [← this]; rw [LieModuleHom.coe_toLinearMap]
   ext m n
   simp only [liftLie, LinearEquiv.trans_apply, LieModuleEquiv.coe_to_linearEquiv,
     coe_linearMap_maxTrivLinearMapEquivLieModuleHom, coe_maxTrivEquiv_apply,
@@ -219,9 +219,7 @@ applying the action of `L` on `M`, we obtain morphism of Lie modules `f : I ⊗ 
 This lemma states that `⁅I, N⁆ = range f`. -/
 theorem lieIdeal_oper_eq_tensor_map_range :
     ⁅I, N⁆ = ((toModuleHom R L M).comp (mapIncl I N : (↥I) ⊗[R] (↥N) →ₗ⁅R,L⁆ L ⊗[R] M)).range := by
-  rw [← coe_toSubmodule_eq_iff, lieIdeal_oper_eq_linear_span, LieModuleHom.coeSubmodule_range,
-    LieModuleHom.coe_linearMap_comp, LinearMap.range_comp, mapIncl_def, coe_linearMap_map,
-    TensorProduct.map_range_eq_span_tmul, Submodule.map_span]
+  rw [← coe_toSubmodule_eq_iff]; rw [lieIdeal_oper_eq_linear_span]; rw [LieModuleHom.coeSubmodule_range]; rw [LieModuleHom.coe_linearMap_comp]; rw [LinearMap.range_comp]; rw [mapIncl_def]; rw [coe_linearMap_map]; rw [TensorProduct.map_range_eq_span_tmul]; rw [Submodule.map_span]
   congr; ext m; constructor
   · rintro ⟨⟨x, hx⟩, ⟨n, hn⟩, rfl⟩; use x ⊗ₜ n; constructor
     · use ⟨x, hx⟩, ⟨n, hn⟩; simp

@@ -321,7 +321,7 @@ theorem mul_right_cancel'' [ContravariantClass α α (swap (· * ·)) (· ≤ ·
     a * b = c * d ↔ a = c ∧ b = d := by
   haveI := covariantClass_le_of_lt α α (· * ·)
   haveI := covariantClass_le_of_lt α α (swap (· * ·))
-  rw [le_antisymm_iff, eq_true (mul_le_mul' hac hbd), true_and, mul_le_mul_iff_of_ge hac hbd]
+  rw [le_antisymm_iff]; rw [eq_true (mul_le_mul' hac hbd)]; rw [true_and]; rw [mul_le_mul_iff_of_ge hac hbd]
 #align mul_eq_mul_iff_eq_and_eq mul_eq_mul_iff_eq_and_eqₓ
 #align add_eq_add_iff_eq_and_eq add_eq_add_iff_eq_and_eqₓ
 

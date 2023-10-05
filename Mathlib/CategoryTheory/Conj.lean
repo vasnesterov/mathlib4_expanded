@@ -38,10 +38,10 @@ def homCongr {X Y X₁ Y₁ : C} (α : X ≅ X₁) (β : Y ≅ Y₁) : (X ⟶ Y)
   invFun f := α.hom ≫ f ≫ β.inv
   left_inv f :=
     show α.hom ≫ (α.inv ≫ f ≫ β.hom) ≫ β.inv = f by
-      rw [Category.assoc, Category.assoc, β.hom_inv_id, α.hom_inv_id_assoc, Category.comp_id]
+      rw [Category.assoc]; rw [Category.assoc]; rw [β.hom_inv_id]; rw [α.hom_inv_id_assoc]; rw [Category.comp_id]
   right_inv f :=
     show α.inv ≫ (α.hom ≫ f ≫ β.inv) ≫ β.hom = f by
-      rw [Category.assoc, Category.assoc, β.inv_hom_id, α.inv_hom_id_assoc, Category.comp_id]
+      rw [Category.assoc]; rw [Category.assoc]; rw [β.inv_hom_id]; rw [α.inv_hom_id_assoc]; rw [Category.comp_id]
 #align category_theory.iso.hom_congr CategoryTheory.Iso.homCongr
 
 -- @[simp, nolint simpNF] Porting note: dsimp can not prove this
@@ -95,7 +95,7 @@ theorem conj_id : α.conj (𝟙 X) = 𝟙 Y :=
 
 @[simp]
 theorem refl_conj (f : End X) : (Iso.refl X).conj f = f := by
-  rw [conj_apply, Iso.refl_inv, Iso.refl_hom, Category.id_comp, Category.comp_id]
+  rw [conj_apply]; rw [Iso.refl_inv]; rw [Iso.refl_hom]; rw [Category.id_comp]; rw [Category.comp_id]
 #align category_theory.iso.refl_conj CategoryTheory.Iso.refl_conj
 
 @[simp]
@@ -105,7 +105,7 @@ theorem trans_conj {Z : C} (β : Y ≅ Z) (f : End X) : (α ≪≫ β).conj f = 
 
 @[simp]
 theorem symm_self_conj (f : End X) : α.symm.conj (α.conj f) = f := by
-  rw [← trans_conj, α.self_symm_id, refl_conj]
+  rw [← trans_conj]; rw [α.self_symm_id]; rw [refl_conj]
 #align category_theory.iso.symm_self_conj CategoryTheory.Iso.symm_self_conj
 
 @[simp]

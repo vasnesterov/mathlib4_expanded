@@ -255,7 +255,7 @@ def mul {k_1 k_2 : ℤ} {Γ : Subgroup SL(2, ℤ)} (f : ModularForm Γ k_1) (g :
   bdd_at_infty' A := by
     -- porting note: was `by simpa using ...`
     -- `mul_slash_SL2` is no longer a `simp` and `simpa only [mul_slash_SL2] using ...` failed
-    rw [SlashInvariantForm.coe_mul, mul_slash_SL2]
+    rw [SlashInvariantForm.coe_mul]; rw [mul_slash_SL2]
     exact (f.bdd_at_infty' A).mul (g.bdd_at_infty' A)
 #align modular_form.mul ModularForm.mul
 

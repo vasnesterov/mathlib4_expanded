@@ -275,7 +275,7 @@ theorem mem_center {a : G} : a ∈ center G ↔ ∀ g, g * a = a * g :=
 theorem center_normal : IsNormalSubgroup (center G) :=
   { one_mem := by simp [center]
     mul_mem := fun ha hb g => by
-      rw [← mul_assoc, mem_center.2 ha g, mul_assoc, mem_center.2 hb g, ← mul_assoc]
+      rw [← mul_assoc]; rw [mem_center.2 ha g]; rw [mul_assoc]; rw [mem_center.2 hb g]; rw [← mul_assoc]
     inv_mem := fun {a} ha g =>
       calc
         g * a⁻¹ = a⁻¹ * (g * a) * a⁻¹ := by simp [ha g]
@@ -312,8 +312,7 @@ theorem normalizer_isSubgroup (s : Set G) : IsSubgroup (normalizer s) :=
 
 @[to_additive subset_add_normalizer]
 theorem subset_normalizer {s : Set G} (hs : IsSubgroup s) : s ⊆ normalizer s := fun g hg n => by
-  rw [IsSubgroup.mul_mem_cancel_right hs ((IsSubgroup.inv_mem_iff hs).2 hg),
-    IsSubgroup.mul_mem_cancel_left hs hg]
+  rw [IsSubgroup.mul_mem_cancel_right hs ((IsSubgroup.inv_mem_iff hs).2 hg)]; rw [IsSubgroup.mul_mem_cancel_left hs hg]
 #align is_subgroup.subset_normalizer IsSubgroup.subset_normalizer
 #align is_add_subgroup.subset_add_normalizer IsAddSubgroup.subset_add_normalizer
 
@@ -342,15 +341,15 @@ variable [Group G] [Group H]
 @[to_additive]
 theorem one_ker_inv {f : G → H} (hf : IsGroupHom f) {a b : G} (h : f (a * b⁻¹) = 1) :
     f a = f b := by
-  rw [hf.map_mul, hf.map_inv] at h
-  rw [← inv_inv (f b), eq_inv_of_mul_eq_one_left h]
+  rw [hf.map_mul] at h; rw [hf.map_inv] at h
+  rw [← inv_inv (f b)]; rw [eq_inv_of_mul_eq_one_left h]
 #align is_group_hom.one_ker_inv IsGroupHom.one_ker_inv
 #align is_add_group_hom.zero_ker_neg IsAddGroupHom.zero_ker_neg
 
 @[to_additive]
 theorem one_ker_inv' {f : G → H} (hf : IsGroupHom f) {a b : G} (h : f (a⁻¹ * b) = 1) :
     f a = f b := by
-  rw [hf.map_mul, hf.map_inv] at h
+  rw [hf.map_mul] at h; rw [hf.map_inv] at h
   apply inv_injective
   rw [eq_inv_of_mul_eq_one_left h]
 #align is_group_hom.one_ker_inv' IsGroupHom.one_ker_inv'
@@ -449,7 +448,7 @@ theorem injective_of_trivial_ker {f : G → H} (hf : IsGroupHom f) (h : ker f = 
   intro a₁ a₂ hfa
   simp [ext_iff, ker, IsSubgroup.trivial] at h
   have ha : a₁ * a₂⁻¹ = 1 := by rw [← h]; exact hf.inv_ker_one hfa
-  rw [eq_inv_of_mul_eq_one_left ha, inv_inv a₂]
+  rw [eq_inv_of_mul_eq_one_left ha]; rw [inv_inv a₂]
 #align is_group_hom.injective_of_trivial_ker IsGroupHom.injective_of_trivial_ker
 #align is_add_group_hom.injective_of_trivial_ker IsAddGroupHom.injective_of_trivial_ker
 
@@ -577,8 +576,7 @@ theorem exists_list_of_mem_closure {s : Set G} {a : G} (h : a ∈ closure s) :
         hy2 ▸ Or.imp id (by rw [inv_inv]; exact id) (HL1 _ <| List.mem_reverse.1 hy1).symm,
         HL2 ▸
           List.recOn L inv_one.symm fun hd tl ih => by
-            rw [List.reverse_cons, List.map_append, List.prod_append, ih, List.map_singleton,
-              List.prod_cons, List.prod_nil, mul_one, List.prod_cons, mul_inv_rev]⟩)
+            rw [List.reverse_cons]; rw [List.map_append]; rw [List.prod_append]; rw [ih]; rw [List.map_singleton]; rw [List.prod_cons]; rw [List.prod_nil]; rw [mul_one]; rw [List.prod_cons]; rw [mul_inv_rev]⟩)
     fun {x y} _ _ ⟨L1, HL1, HL2⟩ ⟨L2, HL3, HL4⟩ =>
     ⟨L1 ++ L2, List.forall_mem_append.2 ⟨HL1, HL3⟩, by rw [List.prod_append, HL2, HL4]⟩
 #align group.exists_list_of_mem_closure Group.exists_list_of_mem_closure
@@ -651,10 +649,10 @@ theorem mem_closure_union_iff {G : Type*} [CommGroup G] {s t : Set G} {x : G} :
   constructor
   · rintro ⟨_, ⟨ys, hys, yt, hyt, rfl⟩, _, ⟨zs, hzs, zt, hzt, rfl⟩, rfl⟩
     refine' ⟨_, ⟨_, hys, _, hzs, rfl⟩, _, ⟨_, hyt, _, hzt, rfl⟩, _⟩
-    rw [mul_assoc, mul_assoc, mul_left_comm zs]
+    rw [mul_assoc]; rw [mul_assoc]; rw [mul_left_comm zs]
   · rintro ⟨_, ⟨ys, hys, zs, hzs, rfl⟩, _, ⟨yt, hyt, zt, hzt, rfl⟩, rfl⟩
     refine' ⟨_, ⟨ys, hys, yt, hyt, rfl⟩, _, ⟨zs, hzs, zt, hzt, rfl⟩, _⟩
-    rw [mul_assoc, mul_assoc, mul_left_comm yt]
+    rw [mul_assoc]; rw [mul_assoc]; rw [mul_left_comm yt]
 #align group.mem_closure_union_iff Group.mem_closure_union_iff
 #align add_group.mem_closure_union_iff AddGroup.mem_closure_union_iff
 

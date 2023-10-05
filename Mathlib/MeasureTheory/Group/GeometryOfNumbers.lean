@@ -67,9 +67,8 @@ theorem exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure [NormedAddC
     (h : μ F * 2 ^ finrank ℝ E < μ s) (h_symm : ∀ x ∈ s, -x ∈ s) (h_conv : Convex ℝ s) :
     ∃ (x : _) (_ : x ≠ 0), ((x : L) : E) ∈ s := by
   have h_vol : μ F < μ ((2⁻¹ : ℝ) • s) := by
-    rw [addHaar_smul_of_nonneg μ (by norm_num : 0 ≤ (2 : ℝ)⁻¹) s, ←
-      mul_lt_mul_right (pow_ne_zero (finrank ℝ E) (two_ne_zero' _)) (pow_ne_top two_ne_top),
-      mul_right_comm, ofReal_pow (by norm_num : 0 ≤ (2 : ℝ)⁻¹), ← ofReal_inv_of_pos zero_lt_two]
+    rw [addHaar_smul_of_nonneg μ (by norm_num : 0 ≤ (2 : ℝ)⁻¹) s]; rw [←
+      mul_lt_mul_right (pow_ne_zero (finrank ℝ E) (two_ne_zero' _)) (pow_ne_top two_ne_top)]; rw [mul_right_comm]; rw [ofReal_pow (by norm_num : 0 ≤ (2 : ℝ)⁻¹)]; rw [← ofReal_inv_of_pos zero_lt_two]
     norm_num
     rwa [← mul_pow, ENNReal.inv_mul_cancel two_ne_zero two_ne_top, one_pow, one_mul]
   obtain ⟨x, y, hxy, h⟩ :=
@@ -79,7 +78,7 @@ theorem exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure [NormedAddC
   rw [Set.mem_inv_smul_set_iff₀ (two_ne_zero' ℝ)] at hv hw
   simp_rw [AddSubgroup.vadd_def, vadd_eq_add, add_comm _ w, ← sub_eq_sub_iff_add_eq_add, ←
     AddSubgroup.coe_sub] at hvw
-  rw [← hvw, ← inv_smul_smul₀ (two_ne_zero' ℝ) (_ - _), smul_sub, sub_eq_add_neg, smul_add]
+  rw [← hvw]; rw [← inv_smul_smul₀ (two_ne_zero' ℝ) (_ - _)]; rw [smul_sub]; rw [sub_eq_add_neg]; rw [smul_add]
   refine' h_conv hw (h_symm _ hv) _ _ _ <;> norm_num
 #align measure_theory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure
 

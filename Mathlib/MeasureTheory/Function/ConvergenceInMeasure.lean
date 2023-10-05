@@ -78,7 +78,7 @@ protected theorem congr' (h_left : ∀ᶠ i in l, f i =ᵐ[μ] f' i) (h_right : 
   filter_upwards [h_ae_eq, h_right] with x hxf hxg
   rw [eq_iff_iff]
   change ε ≤ dist (f' i x) (g' x) ↔ ε ≤ dist (f i x) (g x)
-  rw [hxg, hxf]
+  rw [hxg]; rw [hxf]
 #align measure_theory.tendsto_in_measure.congr' MeasureTheory.TendstoInMeasure.congr'
 
 protected theorem congr (h_left : ∀ i, f i =ᵐ[μ] f' i) (h_right : g =ᵐ[μ] g')
@@ -112,7 +112,7 @@ theorem tendstoInMeasure_of_tendsto_ae_of_stronglyMeasurable [IsFiniteMeasure μ
   by_cases hδi : δ = ∞
   · simp only [hδi, imp_true_iff, le_top, exists_const]
   lift δ to ℝ≥0 using hδi
-  rw [gt_iff_lt, ENNReal.coe_pos, ← NNReal.coe_pos] at hδ
+  rw [gt_iff_lt] at hδ; rw [ENNReal.coe_pos] at hδ; rw [← NNReal.coe_pos] at hδ
   obtain ⟨t, _, ht, hunif⟩ := tendstoUniformlyOn_of_ae_tendsto' hf hg hfg hδ
   rw [ENNReal.ofReal_coe_nnreal] at ht
   rw [Metric.tendstoUniformlyOn_iff] at hunif
@@ -121,7 +121,7 @@ theorem tendstoInMeasure_of_tendsto_ae_of_stronglyMeasurable [IsFiniteMeasure μ
   suffices : { x : α | ε ≤ dist (f n x) (g x) } ⊆ t; exact (measure_mono this).trans ht
   rw [← Set.compl_subset_compl]
   intro x hx
-  rw [Set.mem_compl_iff, Set.nmem_setOf_iff, dist_comm, not_le]
+  rw [Set.mem_compl_iff]; rw [Set.nmem_setOf_iff]; rw [dist_comm]; rw [not_le]
   exact hN n hn x hx
 #align measure_theory.tendsto_in_measure_of_tendsto_ae_of_strongly_measurable MeasureTheory.tendstoInMeasure_of_tendsto_ae_of_stronglyMeasurable
 
@@ -135,7 +135,7 @@ theorem tendstoInMeasure_of_tendsto_ae [IsFiniteMeasure μ] (hf : ∀ n, AEStron
   have hf_eq_ae : ∀ᵐ x ∂μ, ∀ n, (hf n).mk (f n) x = f n x :=
     ae_all_iff.mpr fun n => (hf n).ae_eq_mk.symm
   filter_upwards [hf_eq_ae, hg.ae_eq_mk, hfg] with x hxf hxg hxfg
-  rw [← hxg, funext fun n => hxf n]
+  rw [← hxg]; rw [funext fun n => hxf n]
   exact hxfg
 #align measure_theory.tendsto_in_measure_of_tendsto_ae MeasureTheory.tendstoInMeasure_of_tendsto_ae
 
@@ -214,7 +214,7 @@ theorem TendstoInMeasure.exists_seq_tendsto_ae (hfg : TendstoInMeasure μ f atTo
     simp only [ENNReal.tsum_geometric, ENNReal.one_sub_inv_two, inv_inv]
   have h_tendsto : ∀ x ∈ sᶜ, Tendsto (fun i => f (ns i) x) atTop (𝓝 (g x)) := by
     refine' fun x hx => Metric.tendsto_atTop.mpr fun ε hε => _
-    rw [hs, limsup_eq_iInf_iSup_of_nat] at hx
+    rw [hs] at hx; rw [limsup_eq_iInf_iSup_of_nat] at hx
     simp only [Set.iSup_eq_iUnion, Set.iInf_eq_iInter, Set.compl_iInter, Set.compl_iUnion,
       Set.mem_iUnion, Set.mem_iInter, Set.mem_compl_iff, Set.mem_setOf_eq, not_le] at hx
     obtain ⟨N, hNx⟩ := hx
@@ -222,18 +222,18 @@ theorem TendstoInMeasure.exists_seq_tendsto_ae (hfg : TendstoInMeasure μ f atTo
     refine' ⟨max N (k - 1), fun n hn_ge => lt_of_le_of_lt _ hk_lt_ε⟩
     specialize hNx n ((le_max_left _ _).trans hn_ge)
     have h_inv_n_le_k : (2 : ℝ)⁻¹ ^ n ≤ 2 * (2 : ℝ)⁻¹ ^ k := by
-      rw [mul_comm, ← inv_mul_le_iff' (zero_lt_two' ℝ)]
+      rw [mul_comm]; rw [← inv_mul_le_iff' (zero_lt_two' ℝ)]
       conv_lhs =>
         congr
         rw [← pow_one (2 : ℝ)⁻¹]
-      rw [← pow_add, add_comm]
+      rw [← pow_add]; rw [add_comm]
       exact pow_le_pow_of_le_one (one_div (2 : ℝ) ▸ one_half_pos.le) (inv_le_one one_le_two)
         ((le_tsub_add.trans (add_le_add_right (le_max_right _ _) 1)).trans
           (add_le_add_right hn_ge 1))
     exact le_trans hNx.le h_inv_n_le_k
   rw [ae_iff]
   refine' ⟨ExistsSeqTendstoAe.seqTendstoAeSeq_strictMono hfg, measure_mono_null (fun x => _) hμs⟩
-  rw [Set.mem_setOf_eq, ← @Classical.not_not (x ∈ s), not_imp_not]
+  rw [Set.mem_setOf_eq]; rw [← @Classical.not_not (x ∈ s)]; rw [not_imp_not]
   exact h_tendsto x
 #align measure_theory.tendsto_in_measure.exists_seq_tendsto_ae MeasureTheory.TendstoInMeasure.exists_seq_tendsto_ae
 
@@ -288,12 +288,11 @@ theorem tendstoInMeasure_of_tendsto_snorm_of_stronglyMeasurable (hp_ne_zero : p 
   intro δ hδ
   refine' (hfg δ hδ).mono fun n hn => _
   refine' le_trans _ hn
-  rw [ENNReal.ofReal_div_of_pos (Real.rpow_pos_of_pos hε _), ENNReal.ofReal_one, mul_comm,
-    mul_one_div, ENNReal.le_div_iff_mul_le _ (Or.inl ENNReal.ofReal_ne_top), mul_comm]
+  rw [ENNReal.ofReal_div_of_pos (Real.rpow_pos_of_pos hε _)]; rw [ENNReal.ofReal_one]; rw [mul_comm]; rw [mul_one_div]; rw [ENNReal.le_div_iff_mul_le _ (Or.inl ENNReal.ofReal_ne_top)]; rw [mul_comm]
   · rw [← ENNReal.ofReal_rpow_of_pos hε]
     convert mul_meas_ge_le_pow_snorm' μ hp_ne_zero hp_ne_top ((hf n).sub hg).aestronglyMeasurable
         (ENNReal.ofReal ε)
-    rw [dist_eq_norm, ← ENNReal.ofReal_le_ofReal_iff (norm_nonneg _), ofReal_norm_eq_coe_nnnorm]
+    rw [dist_eq_norm]; rw [← ENNReal.ofReal_le_ofReal_iff (norm_nonneg _)]; rw [ofReal_norm_eq_coe_nnnorm]
     exact Iff.rfl
   · rw [Ne, ENNReal.ofReal_eq_zero, not_le]
     exact Or.inl (Real.rpow_pos_of_pos hε _)

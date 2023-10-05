@@ -430,14 +430,14 @@ theorem inl_mul_inr [Semiring R] [NonUnitalNonAssocSemiring A] [DistribMulAction
     (a : A) : ((inl r : Unitization R A) * a) = ↑(r • a) :=
   ext (mul_zero r) <|
     show r • a + (0 : R) • (0 : A) + 0 * a = r • a by
-      rw [smul_zero, add_zero, zero_mul, add_zero]
+      rw [smul_zero]; rw [add_zero]; rw [zero_mul]; rw [add_zero]
 #align unitization.inl_mul_coe Unitization.inl_mul_inr
 
 theorem inr_mul_inl [Semiring R] [NonUnitalNonAssocSemiring A] [DistribMulAction R A] (r : R)
     (a : A) : a * (inl r : Unitization R A) = ↑(r • a) :=
   ext (zero_mul r) <|
     show (0 : R) • (0 : A) + r • a + a * 0 = r • a by
-      rw [smul_zero, zero_add, mul_zero, add_zero]
+      rw [smul_zero]; rw [zero_add]; rw [mul_zero]; rw [add_zero]
 #align unitization.coe_mul_inl Unitization.inr_mul_inl
 
 instance instMulOneClass [Monoid R] [NonUnitalNonAssocSemiring A] [DistribMulAction R A] :
@@ -446,11 +446,11 @@ instance instMulOneClass [Monoid R] [NonUnitalNonAssocSemiring A] [DistribMulAct
     one_mul := fun x =>
       ext (one_mul x.1) <|
         show (1 : R) • x.2 + x.1 • (0 : A) + 0 * x.2 = x.2 by
-          rw [one_smul, smul_zero, add_zero, zero_mul, add_zero]
+          rw [one_smul]; rw [smul_zero]; rw [add_zero]; rw [zero_mul]; rw [add_zero]
     mul_one := fun x =>
       ext (mul_one x.1) <|
         show (x.1 • (0 : A)) + (1 : R) • x.2 + x.2 * (0 : A) = x.2 by
-          rw [smul_zero, zero_add, one_smul, mul_zero, add_zero] }
+          rw [smul_zero]; rw [zero_add]; rw [one_smul]; rw [mul_zero]; rw [add_zero] }
 #align unitization.mul_one_class Unitization.instMulOneClass
 
 instance instNonAssocSemiring [Semiring R] [NonUnitalNonAssocSemiring A] [Module R A] :
@@ -460,11 +460,11 @@ instance instNonAssocSemiring [Semiring R] [NonUnitalNonAssocSemiring A] [Module
     zero_mul := fun x =>
       ext (zero_mul x.1) <|
         show (0 : R) • x.2 + x.1 • (0 : A) + 0 * x.2 = 0 by
-          rw [zero_smul, zero_add, smul_zero, zero_mul, add_zero]
+          rw [zero_smul]; rw [zero_add]; rw [smul_zero]; rw [zero_mul]; rw [add_zero]
     mul_zero := fun x =>
       ext (mul_zero x.1) <|
         show x.1 • (0 : A) + (0 : R) • x.2 + x.2 * 0 = 0 by
-          rw [smul_zero, zero_add, zero_smul, mul_zero, add_zero]
+          rw [smul_zero]; rw [zero_add]; rw [zero_smul]; rw [mul_zero]; rw [add_zero]
     left_distrib := fun x₁ x₂ x₃ =>
       ext (mul_add x₁.1 x₂.1 x₃.1) <|
         show x₁.1 • (x₂.2 + x₃.2) + (x₂.1 + x₃.1) • x₁.2 + x₁.2 * (x₂.2 + x₃.2) =
@@ -499,7 +499,7 @@ instance instCommMonoid [CommMonoid R] [NonUnitalCommSemiring A] [DistribMulActi
     mul_comm := fun x₁ x₂ =>
       ext (mul_comm x₁.1 x₂.1) <|
         show x₁.1 • x₂.2 + x₂.1 • x₁.2 + x₁.2 * x₂.2 = x₂.1 • x₁.2 + x₁.1 • x₂.2 + x₂.2 * x₁.2 by
-          rw [add_comm (x₁.1 • x₂.2), mul_comm] }
+          rw [add_comm (x₁.1 • x₂.2)]; rw [mul_comm] }
 
 instance instSemiring [CommSemiring R] [NonUnitalSemiring A] [Module R A] [IsScalarTower R A A]
     [SMulCommClass R A A] : Semiring (Unitization R A) :=
@@ -601,12 +601,11 @@ instance instAlgebra : Algebra S (Unitization R A) :=
     commutes' := fun s x => by
       induction' x using Unitization.ind with r a
       show inl (algebraMap S R s) * _ = _ * inl (algebraMap S R s)
-      rw [mul_add, add_mul, inl_mul_inl, inl_mul_inl, inl_mul_inr, inr_mul_inl, mul_comm]
+      rw [mul_add]; rw [add_mul]; rw [inl_mul_inl]; rw [inl_mul_inl]; rw [inl_mul_inr]; rw [inr_mul_inl]; rw [mul_comm]
     smul_def' := fun s x => by
       induction' x using Unitization.ind with r a
       show _ = inl (algebraMap S R s) * _
-      rw [mul_add, smul_add,Algebra.algebraMap_eq_smul_one, inl_mul_inl, inl_mul_inr, smul_one_mul,
-        inl_smul, inr_smul, smul_one_smul] }
+      rw [mul_add]; rw [smul_add]; rw [Algebra.algebraMap_eq_smul_one]; rw [inl_mul_inl]; rw [inl_mul_inr]; rw [smul_one_mul]; rw [inl_smul]; rw [inr_smul]; rw [smul_one_smul] }
 #align unitization.algebra Unitization.instAlgebra
 
 theorem algebraMap_eq_inl_comp : ⇑(algebraMap S (Unitization R A)) = inl ∘ algebraMap S R :=
@@ -710,7 +709,7 @@ def _root_.NonUnitalAlgHom.toAlgHom (φ :A →ₙₐ[R] C) : Unitization R A →
     induction' y using Unitization.ind with y_r y_a
     simp only [fst_mul, fst_add, fst_inl, fst_inr, snd_mul, snd_add, snd_inl, snd_inr, add_zero,
       map_mul, zero_add, map_add, map_smul φ]
-    rw [add_mul, mul_add, mul_add]
+    rw [add_mul]; rw [mul_add]; rw [mul_add]
     rw [← Algebra.commutes _ (φ x_a)]
     simp only [Algebra.algebraMap_eq_smul_one, smul_one_mul, add_assoc]
   map_zero' := by simp only [fst_zero, map_zero, snd_zero, φ.map_zero, add_zero]

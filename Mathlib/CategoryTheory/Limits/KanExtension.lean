@@ -224,7 +224,7 @@ def cocone {F : S ⥤ D} {G : L ⥤ D} (x : L) (f : F ⟶ ι ⋙ G) : Cocone (di
         rintro ⟨ir, ⟨il⟩, i⟩ ⟨jl, ⟨jr⟩, j⟩ ⟨fl, ⟨⟨fl⟩⟩, ff⟩
         dsimp at *
         simp only [Functor.comp_map, Category.comp_id, NatTrans.naturality_assoc]
-        rw [← G.map_comp, ff]
+        rw [← G.map_comp]; rw [ff]
         aesop_cat }
 set_option linter.uppercaseLean3 false in
 #align category_theory.Lan.cocone CategoryTheory.Lan.cocone
@@ -278,7 +278,7 @@ def equiv (F : S ⥤ D) [I : ∀ x, HasColimit (diagram ι F x)] (G : L ⥤ D) :
         intro x y ff
         dsimp only [whiskeringLeft]
         simp only [Functor.comp_map, Category.assoc]
-        rw [← f.naturality (ι.map ff), ← Category.assoc, ← Category.assoc]
+        rw [← f.naturality (ι.map ff)]; rw [← Category.assoc]; rw [← Category.assoc]
         let fff : CostructuredArrow ι _ ⥤ _ := CostructuredArrow.map (ι.map ff)
         -- same issue :-(
         haveI : HasColimit (fff ⋙ diagram ι F (ι.obj y)) := I _
@@ -311,7 +311,7 @@ def equiv (F : S ⥤ D) [I : ∀ x, HasColimit (diagram ι F x)] (G : L ⥤ D) :
     intros j
     rw [colimit.ι_desc]
     dsimp only [cocone]
-    rw [Category.assoc, ← x.naturality j.hom, ← Category.assoc]
+    rw [Category.assoc]; rw [← x.naturality j.hom]; rw [← Category.assoc]
     congr 1
     dsimp [loc]
     haveI : HasColimit (CostructuredArrow.map j.hom ⋙ diagram ι F k) := I _

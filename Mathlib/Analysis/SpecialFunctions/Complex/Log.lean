@@ -43,10 +43,7 @@ theorem log_im_le_pi (x : ℂ) : (log x).im ≤ π := by simp only [log_im, arg_
 #align complex.log_im_le_pi Complex.log_im_le_pi
 
 theorem exp_log {x : ℂ} (hx : x ≠ 0) : exp (log x) = x := by
-  rw [log, exp_add_mul_I, ← ofReal_sin, sin_arg, ← ofReal_cos, cos_arg hx, ← ofReal_exp,
-    Real.exp_log (abs.pos hx), mul_add, ofReal_div, ofReal_div,
-    mul_div_cancel' _ (ofReal_ne_zero.2 <| abs.ne_zero hx), ← mul_assoc,
-    mul_div_cancel' _ (ofReal_ne_zero.2 <| abs.ne_zero hx), re_add_im]
+  rw [log]; rw [exp_add_mul_I]; rw [← ofReal_sin]; rw [sin_arg]; rw [← ofReal_cos]; rw [cos_arg hx]; rw [← ofReal_exp]; rw [Real.exp_log (abs.pos hx)]; rw [mul_add]; rw [ofReal_div]; rw [ofReal_div]; rw [mul_div_cancel' _ (ofReal_ne_zero.2 <| abs.ne_zero hx)]; rw [← mul_assoc]; rw [mul_div_cancel' _ (ofReal_ne_zero.2 <| abs.ne_zero hx)]; rw [re_add_im]
 #align complex.exp_log Complex.exp_log
 
 @[simp]
@@ -58,13 +55,12 @@ theorem range_exp : Set.range exp = {0}ᶜ :=
 #align complex.range_exp Complex.range_exp
 
 theorem log_exp {x : ℂ} (hx₁ : -π < x.im) (hx₂ : x.im ≤ π) : log (exp x) = x := by
-  rw [log, abs_exp, Real.log_exp, exp_eq_exp_re_mul_sin_add_cos, ← ofReal_exp,
-    arg_mul_cos_add_sin_mul_I (Real.exp_pos _) ⟨hx₁, hx₂⟩, re_add_im]
+  rw [log]; rw [abs_exp]; rw [Real.log_exp]; rw [exp_eq_exp_re_mul_sin_add_cos]; rw [← ofReal_exp]; rw [arg_mul_cos_add_sin_mul_I (Real.exp_pos _) ⟨hx₁, hx₂⟩]; rw [re_add_im]
 #align complex.log_exp Complex.log_exp
 
 theorem exp_inj_of_neg_pi_lt_of_le_pi {x y : ℂ} (hx₁ : -π < x.im) (hx₂ : x.im ≤ π) (hy₁ : -π < y.im)
     (hy₂ : y.im ≤ π) (hxy : exp x = exp y) : x = y := by
-  rw [← log_exp hx₁ hx₂, ← log_exp hy₁ hy₂, hxy]
+  rw [← log_exp hx₁ hx₂]; rw [← log_exp hy₁ hy₂]; rw [hxy]
 #align complex.exp_inj_of_neg_pi_lt_of_le_pi Complex.exp_inj_of_neg_pi_lt_of_le_pi
 
 theorem ofReal_log {x : ℝ} (hx : 0 ≤ x) : (x.log : ℂ) = log x :=
@@ -113,13 +109,13 @@ theorem log_conj_eq_ite (x : ℂ) : log (conj x) = if x.arg = π then log x else
 #align complex.log_conj_eq_ite Complex.log_conj_eq_ite
 
 theorem log_conj (x : ℂ) (h : x.arg ≠ π) : log (conj x) = conj (log x) := by
-  rw [log_conj_eq_ite, if_neg h]
+  rw [log_conj_eq_ite]; rw [if_neg h]
 #align complex.log_conj Complex.log_conj
 
 theorem log_inv_eq_ite (x : ℂ) : log x⁻¹ = if x.arg = π then -conj (log x) else -log x := by
   by_cases hx : x = 0
   · simp [hx]
-  rw [inv_def, log_mul_ofReal, Real.log_inv, ofReal_neg, ← sub_eq_neg_add, log_conj_eq_ite]
+  rw [inv_def]; rw [log_mul_ofReal]; rw [Real.log_inv]; rw [ofReal_neg]; rw [← sub_eq_neg_add]; rw [log_conj_eq_ite]
   · simp_rw [log, map_add, map_mul, conj_ofReal, conj_I, normSq_eq_abs, Real.log_pow,
       Nat.cast_two, ofReal_mul, neg_add, mul_neg, neg_neg]
     norm_num; rw [two_mul] -- Porting note: added to simplify `↑2`
@@ -142,15 +138,15 @@ theorem exp_eq_one_iff {x : ℂ} : exp x = 1 ↔ ∃ n : ℤ, x = n * (2 * π * 
   · intro h
     rcases existsUnique_add_zsmul_mem_Ioc Real.two_pi_pos x.im (-π) with ⟨n, hn, -⟩
     use -n
-    rw [Int.cast_neg, neg_mul, eq_neg_iff_add_eq_zero]
+    rw [Int.cast_neg]; rw [neg_mul]; rw [eq_neg_iff_add_eq_zero]
     have : (x + n * (2 * π * I)).im ∈ Set.Ioc (-π) π := by simpa [two_mul, mul_add] using hn
-    rw [← log_exp this.1 this.2, exp_periodic.int_mul n, h, log_one]
+    rw [← log_exp this.1 this.2]; rw [exp_periodic.int_mul n]; rw [h]; rw [log_one]
   · rintro ⟨n, rfl⟩
     exact (exp_periodic.int_mul n).eq.trans exp_zero
 #align complex.exp_eq_one_iff Complex.exp_eq_one_iff
 
 theorem exp_eq_exp_iff_exp_sub_eq_one {x y : ℂ} : exp x = exp y ↔ exp (x - y) = 1 := by
-  rw [exp_sub, div_eq_one_iff_eq (exp_ne_zero _)]
+  rw [exp_sub]; rw [div_eq_one_iff_eq (exp_ne_zero _)]
 #align complex.exp_eq_exp_iff_exp_sub_eq_one Complex.exp_eq_exp_iff_exp_sub_eq_one
 
 theorem exp_eq_exp_iff_exists_int {x y : ℂ} : exp x = exp y ↔ ∃ n : ℤ, x = y + n * (2 * π * I) := by
@@ -161,8 +157,7 @@ theorem exp_eq_exp_iff_exists_int {x y : ℂ} : exp x = exp y ↔ ∃ n : ℤ, x
 theorem countable_preimage_exp {s : Set ℂ} : (exp ⁻¹' s).Countable ↔ s.Countable := by
   refine' ⟨fun hs => _, fun hs => _⟩
   · refine' ((hs.image exp).insert 0).mono _
-    rw [Set.image_preimage_eq_inter_range, range_exp, ←Set.diff_eq, ←Set.union_singleton,
-        Set.diff_union_self]
+    rw [Set.image_preimage_eq_inter_range]; rw [range_exp]; rw [←Set.diff_eq]; rw [←Set.union_singleton]; rw [Set.diff_union_self]
     exact Set.subset_union_left _ _
   · rw [← Set.biUnion_preimage_singleton]
     refine' hs.biUnion fun z hz => _
@@ -210,12 +205,12 @@ theorem tendsto_log_nhdsWithin_im_nonneg_of_re_neg_of_im_zero {z : ℂ} (hre : z
 
 @[simp]
 theorem map_exp_comap_re_atBot : map exp (comap re atBot) = 𝓝[≠] 0 := by
-  rw [← comap_exp_nhds_zero, map_comap, range_exp, nhdsWithin]
+  rw [← comap_exp_nhds_zero]; rw [map_comap]; rw [range_exp]; rw [nhdsWithin]
 #align complex.map_exp_comap_re_at_bot Complex.map_exp_comap_re_atBot
 
 @[simp]
 theorem map_exp_comap_re_atTop : map exp (comap re atTop) = comap abs atTop := by
-  rw [← comap_exp_comap_abs_atTop, map_comap, range_exp, inf_eq_left, le_principal_iff]
+  rw [← comap_exp_comap_abs_atTop]; rw [map_comap]; rw [range_exp]; rw [inf_eq_left]; rw [le_principal_iff]
   exact eventually_ne_of_tendsto_norm_atTop tendsto_comap 0
 #align complex.map_exp_comap_re_at_top Complex.map_exp_comap_re_atTop
 

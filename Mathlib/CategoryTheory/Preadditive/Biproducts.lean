@@ -310,7 +310,7 @@ def isBinaryBilimitOfTotal {X Y : C} (b : BinaryBicone X Y)
       uniq := fun s m h => by
         have reassoced (j : WalkingPair) {W : C} (h' : _ ⟶ W) :
           m ≫ b.toCone.π.app ⟨j⟩ ≫ h' = s.π.app ⟨j⟩ ≫ h' := by
-            rw [← Category.assoc, eq_whisker (h ⟨j⟩)]
+            rw [← Category.assoc]; rw [eq_whisker (h ⟨j⟩)]
         erw [← Category.comp_id m, ← total, comp_add, reassoced WalkingPair.left,
           reassoced WalkingPair.right]
       fac := fun s j => by rcases j with ⟨⟨⟩⟩ <;> simp }
@@ -494,8 +494,7 @@ def binaryBiconeOfIsSplitMonoOfCokernel {X Y : C} {f : X ⟶ Y} [IsSplitMono f] 
   inl_snd := by simp
   inr_fst := by
     dsimp only
-    rw [splitEpiOfIdempotentOfIsColimitCofork_section_,
-      isColimitCoforkOfCokernelCofork_desc, isCokernelEpiComp_desc]
+    rw [splitEpiOfIdempotentOfIsColimitCofork_section_]; rw [isColimitCoforkOfCokernelCofork_desc]; rw [isCokernelEpiComp_desc]
     dsimp only [cokernelCoforkOfCofork_ofπ]
     letI := epi_of_isColimit_cofork i
     apply zero_of_epi_comp c.π
@@ -517,7 +516,7 @@ def isBilimitBinaryBiconeOfIsSplitMonoOfCokernel {X Y : C} {f : X ⟶ Y} [IsSpli
         binaryBiconeOfIsSplitMonoOfCokernel_snd,
         splitEpiOfIdempotentOfIsColimitCofork_section_]
       dsimp only [binaryBiconeOfIsSplitMonoOfCokernel_pt]
-      rw [isColimitCoforkOfCokernelCofork_desc, isCokernelEpiComp_desc]
+      rw [isColimitCoforkOfCokernelCofork_desc]; rw [isCokernelEpiComp_desc]
       simp only [binaryBiconeOfIsSplitMonoOfCokernel_inl, Cofork.IsColimit.π_desc,
         cokernelCoforkOfCofork_π, Cofork.π_ofπ, add_sub_cancel'_right])
 #align category_theory.limits.is_bilimit_binary_bicone_of_is_split_mono_of_cokernel CategoryTheory.Limits.isBilimitBinaryBiconeOfIsSplitMonoOfCokernel
@@ -535,8 +534,7 @@ def BinaryBicone.isBilimitOfKernelInl {X Y : C} (b : BinaryBicone X Y)
       have h₂' : (m - (f ≫ b.inl + g ≫ b.inr)) ≫ b.snd = 0 := by simpa using sub_eq_zero.2 h₂
       obtain ⟨q : T ⟶ X, hq : q ≫ b.inl = m - (f ≫ b.inl + g ≫ b.inr)⟩ :=
         KernelFork.IsLimit.lift' hb _ h₂'
-      rw [← sub_eq_zero, ← hq, ← Category.comp_id q, ← b.inl_fst, ← Category.assoc, hq, h₁',
-        zero_comp]
+      rw [← sub_eq_zero]; rw [← hq]; rw [← Category.comp_id q]; rw [← b.inl_fst]; rw [← Category.assoc]; rw [hq]; rw [h₁']; rw [zero_comp]
 #align category_theory.limits.binary_bicone.is_bilimit_of_kernel_inl CategoryTheory.Limits.BinaryBicone.isBilimitOfKernelInl
 
 /-- If `b` is a binary bicone such that `b.inr` is a kernel of `b.fst`, then `b` is a bilimit
@@ -551,8 +549,7 @@ def BinaryBicone.isBilimitOfKernelInr {X Y : C} (b : BinaryBicone X Y)
       have h₂' : (m - (f ≫ b.inl + g ≫ b.inr)) ≫ b.snd = 0 := by simpa using sub_eq_zero.2 h₂
       obtain ⟨q : T ⟶ Y, hq : q ≫ b.inr = m - (f ≫ b.inl + g ≫ b.inr)⟩ :=
         KernelFork.IsLimit.lift' hb _ h₁'
-      rw [← sub_eq_zero, ← hq, ← Category.comp_id q, ← b.inr_snd, ← Category.assoc, hq, h₂',
-        zero_comp]
+      rw [← sub_eq_zero]; rw [← hq]; rw [← Category.comp_id q]; rw [← b.inr_snd]; rw [← Category.assoc]; rw [hq]; rw [h₂']; rw [zero_comp]
 #align category_theory.limits.binary_bicone.is_bilimit_of_kernel_inr CategoryTheory.Limits.BinaryBicone.isBilimitOfKernelInr
 
 /-- If `b` is a binary bicone such that `b.fst` is a cokernel of `b.inr`, then `b` is a bilimit
@@ -567,8 +564,7 @@ def BinaryBicone.isBilimitOfCokernelFst {X Y : C} (b : BinaryBicone X Y)
       have h₂' : b.inr ≫ (m - (b.fst ≫ f + b.snd ≫ g)) = 0 := by simpa using sub_eq_zero.2 h₂
       obtain ⟨q : X ⟶ T, hq : b.fst ≫ q = m - (b.fst ≫ f + b.snd ≫ g)⟩ :=
         CokernelCofork.IsColimit.desc' hb _ h₂'
-      rw [← sub_eq_zero, ← hq, ← Category.id_comp q, ← b.inl_fst, Category.assoc, hq, h₁',
-        comp_zero]
+      rw [← sub_eq_zero]; rw [← hq]; rw [← Category.id_comp q]; rw [← b.inl_fst]; rw [Category.assoc]; rw [hq]; rw [h₁']; rw [comp_zero]
 #align category_theory.limits.binary_bicone.is_bilimit_of_cokernel_fst CategoryTheory.Limits.BinaryBicone.isBilimitOfCokernelFst
 
 /-- If `b` is a binary bicone such that `b.snd` is a cokernel of `b.inl`, then `b` is a bilimit
@@ -583,8 +579,7 @@ def BinaryBicone.isBilimitOfCokernelSnd {X Y : C} (b : BinaryBicone X Y)
       have h₂' : b.inr ≫ (m - (b.fst ≫ f + b.snd ≫ g)) = 0 := by simpa using sub_eq_zero.2 h₂
       obtain ⟨q : Y ⟶ T, hq : b.snd ≫ q = m - (b.fst ≫ f + b.snd ≫ g)⟩ :=
         CokernelCofork.IsColimit.desc' hb _ h₁'
-      rw [← sub_eq_zero, ← hq, ← Category.id_comp q, ← b.inr_snd, Category.assoc, hq, h₂',
-        comp_zero]
+      rw [← sub_eq_zero]; rw [← hq]; rw [← Category.id_comp q]; rw [← b.inr_snd]; rw [Category.assoc]; rw [hq]; rw [h₂']; rw [comp_zero]
 #align category_theory.limits.binary_bicone.is_bilimit_of_cokernel_snd CategoryTheory.Limits.BinaryBicone.isBilimitOfCokernelSnd
 
 /-- Every split epi `f` with a kernel induces a binary bicone with `f` as its `snd` and
@@ -607,8 +602,7 @@ def binaryBiconeOfIsSplitEpiOfKernel {X Y : C} {f : X ⟶ Y} [IsSplitEpi f] {c :
     inl_snd := by simp
     inr_fst := by
       dsimp only
-      rw [splitMonoOfIdempotentOfIsLimitFork_retraction, isLimitForkOfKernelFork_lift,
-        isKernelCompMono_lift]
+      rw [splitMonoOfIdempotentOfIsLimitFork_retraction]; rw [isLimitForkOfKernelFork_lift]; rw [isKernelCompMono_lift]
       dsimp only [kernelForkOfFork_ι]
       letI := mono_of_isLimit_fork i
       apply zero_of_comp_mono c.ι
@@ -817,12 +811,12 @@ theorem Biprod.column_nonzero_of_iso {W X Y Z : C} (f : W ⊞ X ⟶ Y ⊞ Z) [Is
   have h₁ : x = 𝟙 W := by simp
   have h₀ : x = 0 := by
     dsimp
-    rw [← Category.id_comp (inv f), Category.assoc, ← biprod.total]
+    rw [← Category.id_comp (inv f)]; rw [Category.assoc]; rw [← biprod.total]
     conv_lhs =>
       slice 2 3
       rw [comp_add]
     simp only [Category.assoc]
-    rw [comp_add_assoc, add_comp]
+    rw [comp_add_assoc]; rw [add_comp]
     conv_lhs =>
       congr
       next => skip
@@ -853,7 +847,7 @@ theorem Biproduct.column_nonzero_of_iso' {σ τ : Type} [Finite τ] {S : σ → 
   have h₁ : x = 𝟙 (S s) := by simp
   have h₀ : x = 0 := by
     dsimp
-    rw [← Category.id_comp (inv f), Category.assoc, ← biproduct.total]
+    rw [← Category.id_comp (inv f)]; rw [Category.assoc]; rw [← biproduct.total]
     simp only [comp_sum_assoc]
     conv_lhs =>
       congr

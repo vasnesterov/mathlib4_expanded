@@ -68,9 +68,9 @@ theorem decomposition_id (Δ : SimplexCategoryᵒᵖ) :
     𝟙 (X.obj Δ) = ∑ A : IndexSet Δ, s.πSummand A ≫ s.ιSummand A := by
   apply s.hom_ext'
   intro A
-  rw [comp_id, comp_sum, Finset.sum_eq_single A, ι_πSummand_eq_id_assoc]
+  rw [comp_id]; rw [comp_sum]; rw [Finset.sum_eq_single A]; rw [ι_πSummand_eq_id_assoc]
   · intro B _ h₂
-    rw [s.ι_πSummand_eq_zero_assoc _ _ h₂, zero_comp]
+    rw [s.ι_πSummand_eq_zero_assoc _ _ h₂]; rw [zero_comp]
   · simp only [Finset.mem_univ, not_true, IsEmpty.forall_iff]
 #align simplicial_object.splitting.decomposition_id SimplicialObject.Splitting.decomposition_id
 
@@ -80,7 +80,7 @@ theorem σ_comp_πSummand_id_eq_zero {n : ℕ} (i : Fin (n + 1)) :
   apply s.hom_ext'
   intro A
   dsimp only [SimplicialObject.σ]
-  rw [comp_zero, s.ιSummand_epi_naturality_assoc A (SimplexCategory.σ i).op, ι_πSummand_eq_zero]
+  rw [comp_zero]; rw [s.ιSummand_epi_naturality_assoc A (SimplexCategory.σ i).op]; rw [ι_πSummand_eq_zero]
   rw [ne_comm]
   change ¬(A.epiComp (SimplexCategory.σ i).op).EqId
   rw [IndexSet.eqId_iff_len_eq]
@@ -96,7 +96,7 @@ theorem ιSummand_comp_PInfty_eq_zero {X : SimplicialObject C} (s : SimplicialOb
     {n : ℕ} (A : SimplicialObject.Splitting.IndexSet (op [n])) (hA : ¬A.EqId) :
     s.ιSummand A ≫ PInfty.f n = 0 := by
   rw [SimplicialObject.Splitting.IndexSet.eqId_iff_mono] at hA
-  rw [SimplicialObject.Splitting.ιSummand_eq, assoc, degeneracy_comp_PInfty X n A.e hA, comp_zero]
+  rw [SimplicialObject.Splitting.ιSummand_eq]; rw [assoc]; rw [degeneracy_comp_PInfty X n A.e hA]; rw [comp_zero]
 set_option linter.uppercaseLean3 false in
 #align simplicial_object.splitting.ι_summand_comp_P_infty_eq_zero SimplicialObject.Splitting.ιSummand_comp_PInfty_eq_zero
 
@@ -107,22 +107,20 @@ theorem comp_PInfty_eq_zero_iff {Z : C} {n : ℕ} (f : Z ⟶ X _[n]) :
     rcases n with _|n
     · dsimp at h
       rw [comp_id] at h
-      rw [h, zero_comp]
+      rw [h]; rw [zero_comp]
     · have h' := f ≫= PInfty_f_add_QInfty_f (n + 1)
       dsimp at h'
-      rw [comp_id, comp_add, h, zero_add] at h'
-      rw [← h', assoc, QInfty_f, decomposition_Q, Preadditive.sum_comp, Preadditive.comp_sum,
-        Finset.sum_eq_zero]
+      rw [comp_id] at h'; rw [comp_add] at h'; rw [h] at h'; rw [zero_add] at h'
+      rw [← h']; rw [assoc]; rw [QInfty_f]; rw [decomposition_Q]; rw [Preadditive.sum_comp]; rw [Preadditive.comp_sum]; rw [Finset.sum_eq_zero]
       intro i _
       simp only [assoc, σ_comp_πSummand_id_eq_zero, comp_zero]
   · intro h
-    rw [← comp_id f, assoc, s.decomposition_id, Preadditive.sum_comp, Preadditive.comp_sum,
-      Fintype.sum_eq_zero]
+    rw [← comp_id f]; rw [assoc]; rw [s.decomposition_id]; rw [Preadditive.sum_comp]; rw [Preadditive.comp_sum]; rw [Fintype.sum_eq_zero]
     intro A
     by_cases hA : A.EqId
     · dsimp at hA
       subst hA
-      rw [assoc, reassoc_of% h, zero_comp]
+      rw [assoc]; rw [reassoc_of% h]; rw [zero_comp]
     · simp only [assoc, s.ιSummand_comp_PInfty_eq_zero A hA, comp_zero]
 set_option linter.uppercaseLean3 false in
 #align simplicial_object.splitting.comp_P_infty_eq_zero_iff SimplicialObject.Splitting.comp_PInfty_eq_zero_iff
@@ -132,8 +130,7 @@ theorem PInfty_comp_πSummand_id (n : ℕ) :
     PInfty.f n ≫ s.πSummand (IndexSet.id (op [n])) = s.πSummand (IndexSet.id (op [n])) := by
   conv_rhs => rw [← id_comp (s.πSummand _)]
   symm
-  rw [← sub_eq_zero, ← sub_comp, ← comp_PInfty_eq_zero_iff, sub_comp, id_comp, PInfty_f_idem,
-    sub_self]
+  rw [← sub_eq_zero]; rw [← sub_comp]; rw [← comp_PInfty_eq_zero_iff]; rw [sub_comp]; rw [id_comp]; rw [PInfty_f_idem]; rw [sub_self]
 set_option linter.uppercaseLean3 false in
 #align simplicial_object.splitting.P_infty_comp_π_summand_id SimplicialObject.Splitting.PInfty_comp_πSummand_id
 
@@ -145,7 +142,7 @@ theorem πSummand_comp_ιSummand_comp_PInfty_eq_PInfty (n : ℕ) :
   erw [s.decomposition_id, Preadditive.sum_comp]
   rw [Fintype.sum_eq_single (IndexSet.id (op [n])), assoc]
   rintro A (hA : ¬A.EqId)
-  rw [assoc, s.ιSummand_comp_PInfty_eq_zero A hA, comp_zero]
+  rw [assoc]; rw [s.ιSummand_comp_PInfty_eq_zero A hA]; rw [comp_zero]
 set_option linter.uppercaseLean3 false in
 #align simplicial_object.splitting.π_summand_comp_ι_summand_comp_P_infty_eq_P_infty SimplicialObject.Splitting.πSummand_comp_ιSummand_comp_PInfty_eq_PInfty
 
@@ -159,8 +156,7 @@ noncomputable def d (i j : ℕ) : s.N i ⟶ s.N j :=
 theorem ιSummand_comp_d_comp_πSummand_eq_zero (j k : ℕ) (A : IndexSet (op [j])) (hA : ¬A.EqId) :
     s.ιSummand A ≫ K[X].d j k ≫ s.πSummand (IndexSet.id (op [k])) = 0 := by
   rw [A.eqId_iff_mono] at hA
-  rw [← assoc, ← s.comp_PInfty_eq_zero_iff, assoc, ← PInfty.comm j k, s.ιSummand_eq, assoc,
-    degeneracy_comp_PInfty_assoc X j A.e hA, zero_comp, comp_zero]
+  rw [← assoc]; rw [← s.comp_PInfty_eq_zero_iff]; rw [assoc]; rw [← PInfty.comm j k]; rw [s.ιSummand_eq]; rw [assoc]; rw [degeneracy_comp_PInfty_assoc X j A.e hA]; rw [zero_comp]; rw [comp_zero]
 #align simplicial_object.splitting.ι_summand_comp_d_comp_π_summand_eq_zero SimplicialObject.Splitting.ιSummand_comp_d_comp_πSummand_eq_zero
 
 /-- If `s` is a splitting of a simplicial object `X` in a preadditive category,
@@ -184,7 +180,7 @@ noncomputable def nondegComplex : ChainComplex C ℕ where
     · intro A hA
       simp only [Finset.mem_compl, Finset.mem_singleton] at hA
       simp only [assoc, ιSummand_comp_d_comp_πSummand_eq_zero _ _ _ _ hA, comp_zero]
-    rw [eq, comp_zero]
+    rw [eq]; rw [comp_zero]
 #align simplicial_object.splitting.nondeg_complex SimplicialObject.Splitting.nondegComplex
 
 /-- The chain complex `s.nondegComplex` attached to a splitting of a simplicial object `X`
@@ -198,12 +194,11 @@ noncomputable def toKaroubiNondegComplexIsoN₁ :
         { f := fun n => s.ιSummand (IndexSet.id (op [n])) ≫ PInfty.f n
           comm' := fun i j _ => by
             dsimp
-            rw [assoc, assoc, assoc, πSummand_comp_ιSummand_comp_PInfty_eq_PInfty,
-              HomologicalComplex.Hom.comm] }
+            rw [assoc]; rw [assoc]; rw [assoc]; rw [πSummand_comp_ιSummand_comp_PInfty_eq_PInfty]; rw [HomologicalComplex.Hom.comm] }
       comm := by
         ext n
         dsimp
-        rw [id_comp, assoc, PInfty_f_idem] }
+        rw [id_comp]; rw [assoc]; rw [PInfty_f_idem] }
   inv :=
     { f :=
         { f := fun n => s.πSummand (IndexSet.id (op [n]))
@@ -211,7 +206,7 @@ noncomputable def toKaroubiNondegComplexIsoN₁ :
             dsimp
             slice_rhs 1 1 => rw [← id_comp (K[X].d i j)]
             erw [s.decomposition_id]
-            rw [sum_comp, sum_comp, Finset.sum_eq_single (IndexSet.id (op [i])), assoc, assoc]
+            rw [sum_comp]; rw [sum_comp]; rw [Finset.sum_eq_single (IndexSet.id (op [i])), assoc, assoc]
             · intro A _ hA
               simp only [assoc, s.ιSummand_comp_d_comp_πSummand_eq_zero _ _ _ hA, comp_zero]
             · simp only [Finset.mem_univ, not_true, IsEmpty.forall_iff] }
@@ -262,8 +257,7 @@ noncomputable def nondegComplexFunctor : Split C ⥤ ChainComplex C ℕ where
         · have h' : Splitting.IndexSet.id (op [j]) ≠ A := by
             rw [ne_comm]
             exact h
-          rw [S₁.s.ι_πSummand_eq_zero_assoc _ _ h', S₂.s.ι_πSummand_eq_zero _ _ h', zero_comp,
-            comp_zero] }
+          rw [S₁.s.ι_πSummand_eq_zero_assoc _ _ h']; rw [S₂.s.ι_πSummand_eq_zero _ _ h']; rw [zero_comp]; rw [comp_zero] }
 #align simplicial_object.split.nondeg_complex_functor SimplicialObject.Split.nondegComplexFunctor
 
 /-- The natural isomorphism (in `Karoubi (ChainComplex C ℕ)`) between the chain complex

@@ -129,8 +129,8 @@ theorem whiskerRight_toSheafify_sheafifyCompIso_hom :
   dsimp [sheafifyCompIso]
   erw [whiskerRight_comp, Category.assoc]
   slice_lhs 2 3 => rw [plusCompIso_whiskerRight]
-  rw [Category.assoc, ← J.plusMap_comp, whiskerRight_toPlus_comp_plusCompIso_hom, ←
-    Category.assoc, whiskerRight_toPlus_comp_plusCompIso_hom]
+  rw [Category.assoc]; rw [← J.plusMap_comp]; rw [whiskerRight_toPlus_comp_plusCompIso_hom]; rw [←
+    Category.assoc]; rw [whiskerRight_toPlus_comp_plusCompIso_hom]
   rfl
 #align category_theory.grothendieck_topology.whisker_right_to_sheafify_sheafify_comp_iso_hom CategoryTheory.GrothendieckTopology.whiskerRight_toSheafify_sheafifyCompIso_hom
 

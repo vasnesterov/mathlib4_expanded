@@ -248,7 +248,7 @@ private theorem cl_cl {X : Compactum} (A : Set X) : cl (cl A) ⊆ cl A := by
     obtain ⟨G, h1⟩ := exists_ultrafilter_of_finite_inter_nonempty _ this
     use X.join G
     have : G.map X.str = F := Ultrafilter.coe_le_coe.1 fun S hS => h1 (Or.inr ⟨S, hS, rfl⟩)
-    rw [join_distrib, this]
+    rw [join_distrib]; rw [this]
     exact ⟨h1 (Or.inl rfl), rfl⟩
   -- C2 is closed under finite intersections (by construction!).
   have claim4 := finiteInterClosure_finiteInter C1
@@ -294,7 +294,7 @@ theorem str_eq_of_le_nhds {X : Compactum} (F : Ultrafilter X) (x : X) : ↑F ≤
     by_contra H
     rw [le_nhds_iff] at cond
     specialize cond Aᶜ H hA.isOpen_compl
-    rw [Ultrafilter.mem_coe, Ultrafilter.compl_mem_iff_not_mem] at cond
+    rw [Ultrafilter.mem_coe] at cond; rw [Ultrafilter.compl_mem_iff_not_mem] at cond
     contradiction
   -- If A ∈ F, then x ∈ cl A.
   have claim2 : ∀ A : Set X, A ∈ F → x ∈ cl A := by
@@ -357,11 +357,11 @@ theorem le_nhds_of_str_eq {X : Compactum} (F : Ultrafilter X) (x : X) : X.str F 
 instance {X : Compactum} : T2Space X := by
   rw [t2_iff_ultrafilter]
   intro _ _ F hx hy
-  rw [← str_eq_of_le_nhds _ _ hx, ← str_eq_of_le_nhds _ _ hy]
+  rw [← str_eq_of_le_nhds _ _ hx]; rw [← str_eq_of_le_nhds _ _ hy]
 
 /-- The structure map of a compactum actually computes limits. -/
 theorem lim_eq_str {X : Compactum} (F : Ultrafilter X) : F.lim = X.str F := by
-  rw [Ultrafilter.lim_eq_iff_le_nhds, le_nhds_iff]
+  rw [Ultrafilter.lim_eq_iff_le_nhds]; rw [le_nhds_iff]
   tauto
 #align Compactum.Lim_eq_str Compactum.lim_eq_str
 
@@ -379,9 +379,9 @@ theorem cl_eq_closure {X : Compactum} (A : Set X) : cl A = closure A := by
 theorem continuous_of_hom {X Y : Compactum} (f : X ⟶ Y) : Continuous f := by
   rw [continuous_iff_ultrafilter]
   intro x g h
-  rw [Tendsto, ← coe_map]
+  rw [Tendsto]; rw [← coe_map]
   apply le_nhds_of_str_eq
-  rw [← str_hom_commute, str_eq_of_le_nhds _ x _]
+  rw [← str_hom_commute]; rw [str_eq_of_le_nhds _ x _]
   apply h
 #align Compactum.continuous_of_hom Compactum.continuous_of_hom
 

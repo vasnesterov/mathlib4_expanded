@@ -159,7 +159,7 @@ lemma IsProperMap.prod_map {g : Z → W} (hf : IsProperMap f) (hg : IsProperMap 
   -- By the properties of the product topology, that means that `𝒰` tends to `(x, z)`,
   -- which completes the proof since `(f × g)(x, z) = (y, w)`.
     refine ⟨⟨x, z⟩, Prod.ext hxy hzw, ?_⟩
-    rw [nhds_prod_eq, le_prod]
+    rw [nhds_prod_eq]; rw [le_prod]
     exact ⟨hx, hz⟩
 
 /-- Any product of proper maps is proper. -/
@@ -193,7 +193,7 @@ lemma IsProperMap.isCompact_preimage (h : IsProperMap f) {K : Set Y} (hK : IsCom
   -- Let `𝒰 ≤ 𝓟 (f ⁻¹' K)` an ultrafilter.
   intro 𝒰 h𝒰
   -- In other words, we have `map f 𝒰 ≤ 𝓟 K`
-  rw [← comap_principal, ← map_le_iff_le_comap, ← Ultrafilter.coe_map] at h𝒰
+  rw [← comap_principal] at h𝒰; rw [← map_le_iff_le_comap] at h𝒰; rw [← Ultrafilter.coe_map] at h𝒰
   -- Thus, by compactness of `K`, the ultrafilter `map f 𝒰` tends to some `y ∈ K`.
   rcases hK.ultrafilter_le_nhds _ h𝒰 with ⟨y, hyK, hy⟩
   -- Then, by properness of `f`, that means that `𝒰` tends to some `x ∈ f ⁻¹' {y} ⊆ f ⁻¹' K`,

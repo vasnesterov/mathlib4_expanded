@@ -80,8 +80,7 @@ variable (i : V →ₗ[MonoidAlgebra k G] W) (h : ∀ v : V, (π : W → V) (i v
 section
 
 theorem conjugate_i (g : G) (v : V) : (conjugate π g : W → V) (i v) = v := by
-  rw [conjugate_apply, ← i.map_smul, h, ← mul_smul, single_mul_single, mul_one, mul_left_inv,
-    ← one_def, one_smul]
+  rw [conjugate_apply]; rw [← i.map_smul]; rw [h]; rw [← mul_smul]; rw [single_mul_single]; rw [mul_one]; rw [mul_left_inv]; rw [← one_def]; rw [one_smul]
 #align linear_map.conjugate_i LinearMap.conjugate_i
 
 end
@@ -130,8 +129,7 @@ theorem equivariantProjection_apply (v : W) :
 theorem equivariantProjection_condition (v : V) : (π.equivariantProjection G) (i v) = v := by
   rw [equivariantProjection_apply]
   simp only [conjugate_i π i h]
-  rw [Finset.sum_const, Finset.card_univ, nsmul_eq_smul_cast k, smul_smul,
-    Invertible.invOf_mul_self, one_smul]
+  rw [Finset.sum_const]; rw [Finset.card_univ]; rw [nsmul_eq_smul_cast k]; rw [smul_smul]; rw [Invertible.invOf_mul_self]; rw [one_smul]
 #align linear_map.equivariant_projection_condition LinearMap.equivariantProjection_condition
 
 end

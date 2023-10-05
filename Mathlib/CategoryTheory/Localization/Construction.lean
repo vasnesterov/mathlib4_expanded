@@ -249,7 +249,7 @@ theorem morphismProperty_is_top (P : MorphismProperty W.Localization)
     induction' p with X₂ X₃ p g hp
     · simpa only [Functor.map_id] using hP₁ (𝟙 X₁.obj)
     · let p' : X₁ ⟶X₂ := p
-      rw [show p'.cons g = p' ≫ Quiver.Hom.toPath g by rfl, G.map_comp]
+      rw [show p'.cons g = p' ≫ Quiver.Hom.toPath g by rfl]; rw [G.map_comp]
       refine' hP₃ _ _ hp _
       rcases g with (g | ⟨g, hg⟩)
       · apply hP₁
@@ -316,7 +316,7 @@ theorem natTrans_hcomp_injective {F G : W.Localization ⥤ D} {τ₁ τ₂ : F �
   ext X
   have eq := (objEquiv W).right_inv X
   simp only [objEquiv] at eq
-  rw [← eq, ← NatTrans.id_hcomp_app, ← NatTrans.id_hcomp_app, h]
+  rw [← eq]; rw [← NatTrans.id_hcomp_app]; rw [← NatTrans.id_hcomp_app]; rw [h]
 #align category_theory.localization.construction.nat_trans_hcomp_injective CategoryTheory.Localization.Construction.natTrans_hcomp_injective
 
 variable (W D)

@@ -90,14 +90,14 @@ protected theorem freeAlgebra (ι : Type*) [Finite ι] : FiniteType R (FreeAlgeb
   cases nonempty_fintype ι
   exact
     ⟨⟨Finset.univ.image (FreeAlgebra.ι R), by
-        rw [Finset.coe_image, Finset.coe_univ, Set.image_univ]
+        rw [Finset.coe_image]; rw [Finset.coe_univ]; rw [Set.image_univ]
         exact FreeAlgebra.adjoin_range_ι R ι⟩⟩
 
 protected theorem mvPolynomial (ι : Type*) [Finite ι] : FiniteType R (MvPolynomial ι R) := by
   cases nonempty_fintype ι
   exact
     ⟨⟨Finset.univ.image MvPolynomial.X, by
-        rw [Finset.coe_image, Finset.coe_univ, Set.image_univ]
+        rw [Finset.coe_image]; rw [Finset.coe_univ]; rw [Set.image_univ]
         exact MvPolynomial.adjoin_range_X⟩⟩
 #align algebra.finite_type.mv_polynomial Algebra.FiniteType.mvPolynomial
 
@@ -139,7 +139,7 @@ theorem iff_quotient_freeAlgebra :
     refine ⟨s, FreeAlgebra.lift _ (↑), ?_⟩
     intro x
     have hrw : (↑s : Set A) = fun x : A => x ∈ s.val := rfl
-    rw [← Set.mem_range, ← AlgHom.coe_range]
+    rw [← Set.mem_range]; rw [← AlgHom.coe_range]
     erw [← adjoin_eq_range_freeAlgebra_lift, ← hrw, hs]
     exact Set.mem_univ x
   · rintro ⟨s, ⟨f, hsur⟩⟩
@@ -155,7 +155,7 @@ theorem iff_quotient_mvPolynomial :
     use s, MvPolynomial.aeval (↑)
     intro x
     have hrw : (↑s : Set S) = fun x : S => x ∈ s.val := rfl
-    rw [← Set.mem_range, ← AlgHom.coe_range, ← adjoin_eq_range, ← hrw, hs]
+    rw [← Set.mem_range]; rw [← AlgHom.coe_range]; rw [← adjoin_eq_range]; rw [← hrw]; rw [hs]
     exact Set.mem_univ x
   · rintro ⟨s, ⟨f, hsur⟩⟩
     exact FiniteType.of_surjective (FiniteType.mvPolynomial R { x // x ∈ s }) f hsur
@@ -384,7 +384,7 @@ elements of `S` generates `R[M]`. -/
 theorem support_gen_of_gen {S : Set R[M]} (hS : Algebra.adjoin R S = ⊤) :
     Algebra.adjoin R (⋃ f ∈ S, of' R M '' (f.support : Set M)) = ⊤ := by
   refine' le_antisymm le_top _
-  rw [← hS, adjoin_le_iff]
+  rw [← hS]; rw [adjoin_le_iff]
   intro f hf
   have hincl :
     of' R M '' f.support ⊆ ⋃ (g : R[M]) (_ : g ∈ S), of' R M '' g.support := by
@@ -466,8 +466,7 @@ theorem mvPolynomial_aeval_of_surjective_of_closure [AddCommMonoid M] [CommSemir
     · rintro m₁ m₂ ⟨P₁, hP₁⟩ ⟨P₂, hP₂⟩
       exact
         ⟨P₁ * P₂, by
-          rw [AlgHom.map_mul, hP₁, hP₂, of_apply, of_apply, of_apply, single_mul_single,
-            one_mul]; rfl⟩
+          rw [AlgHom.map_mul]; rw [hP₁]; rw [hP₂]; rw [of_apply]; rw [of_apply]; rw [of_apply]; rw [single_mul_single]; rw [one_mul]; rfl⟩
   · rcases ihf with ⟨P, rfl⟩
     rcases ihg with ⟨Q, rfl⟩
     exact ⟨P + Q, AlgHom.map_add _ _ _⟩
@@ -492,8 +491,7 @@ theorem freeAlgebra_lift_of_surjective_of_closure [CommSemiring R] {S : Set M}
     · rintro m₁ m₂ ⟨P₁, hP₁⟩ ⟨P₂, hP₂⟩
       exact
         ⟨P₁ * P₂, by
-          rw [AlgHom.map_mul, hP₁, hP₂, of_apply, of_apply, of_apply, single_mul_single,
-            one_mul]; rfl⟩
+          rw [AlgHom.map_mul]; rw [hP₁]; rw [hP₂]; rw [of_apply]; rw [of_apply]; rw [of_apply]; rw [single_mul_single]; rw [one_mul]; rfl⟩
   · rcases ihf with ⟨P, rfl⟩
     rcases ihg with ⟨Q, rfl⟩
     exact ⟨P + Q, AlgHom.map_add _ _ _⟩
@@ -565,7 +563,7 @@ of `S` generates `MonoidAlgebra R M`. -/
 theorem support_gen_of_gen {S : Set (MonoidAlgebra R M)} (hS : Algebra.adjoin R S = ⊤) :
     Algebra.adjoin R (⋃ f ∈ S, of R M '' (f.support : Set M)) = ⊤ := by
   refine' le_antisymm le_top _
-  rw [← hS, adjoin_le_iff]
+  rw [← hS]; rw [adjoin_le_iff]
   intro f hf
   --Porting note: ⋃ notation did not work here. Was
   -- ⋃ (g : MonoidAlgebra R M) (H : g ∈ S), (of R M '' g.support)
@@ -645,7 +643,7 @@ theorem mvPolynomial_aeval_of_surjective_of_closure [CommMonoid M] [CommSemiring
     · rintro m₁ m₂ ⟨P₁, hP₁⟩ ⟨P₂, hP₂⟩
       exact
         ⟨P₁ * P₂, by
-          rw [AlgHom.map_mul, hP₁, hP₂, of_apply, of_apply, of_apply, single_mul_single, one_mul]⟩
+          rw [AlgHom.map_mul]; rw [hP₁]; rw [hP₂]; rw [of_apply]; rw [of_apply]; rw [of_apply]; rw [single_mul_single]; rw [one_mul]⟩
   · rcases ihf with ⟨P, rfl⟩; rcases ihg with ⟨Q, rfl⟩
     exact ⟨P + Q, AlgHom.map_add _ _ _⟩
   · rcases ih with ⟨P, rfl⟩
@@ -670,7 +668,7 @@ theorem freeAlgebra_lift_of_surjective_of_closure [CommSemiring R] {S : Set M}
     · rintro m₁ m₂ ⟨P₁, hP₁⟩ ⟨P₂, hP₂⟩
       exact
         ⟨P₁ * P₂, by
-          rw [AlgHom.map_mul, hP₁, hP₂, of_apply, of_apply, of_apply, single_mul_single, one_mul]⟩
+          rw [AlgHom.map_mul]; rw [hP₁]; rw [hP₂]; rw [of_apply]; rw [of_apply]; rw [of_apply]; rw [single_mul_single]; rw [one_mul]⟩
   · rcases ihf with ⟨P, rfl⟩
     rcases ihg with ⟨Q, rfl⟩
     exact ⟨P + Q, AlgHom.map_add _ _ _⟩
@@ -754,7 +752,7 @@ theorem Module.Finite.injective_of_surjective_endomorphism [hfg : Finite R M]
   have hfgpoly : Finite R[X] M := Finite.of_restrictScalars_finite R _ _
   have X_mul : ∀ o, (X : R[X]) • o = f o := by
     intro
-    rw [modulePolynomialOfEndo_smul_def, aeval_X]
+    rw [modulePolynomialOfEndo_smul_def]; rw [aeval_X]
   have : (⊤ : Submodule R[X] M) ≤ Ideal.span {(X : R[X])} • ⊤ := by
     intro a ha
     obtain ⟨y, rfl⟩ := f_surj a
@@ -763,14 +761,14 @@ theorem Module.Finite.injective_of_surjective_endomorphism [hfg : Finite R M]
   obtain ⟨F, hFa, hFb⟩ :=
     Submodule.exists_sub_one_mem_and_smul_eq_zero_of_fg_of_le_smul _ (⊤ : Submodule R[X] M)
       (finite_def.mp hfgpoly) this
-  rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
+  rw [← LinearMap.ker_eq_bot]; rw [LinearMap.ker_eq_bot']
   intro m hm
   rw [Ideal.mem_span_singleton'] at hFa
   obtain ⟨G, hG⟩ := hFa
   suffices (F - 1) • m = 0 by
     have Fmzero := hFb m (by simp)
     rwa [← sub_add_cancel F 1, add_smul, one_smul, this, zero_add] at Fmzero
-  rw [← hG, mul_smul, X_mul m, hm, smul_zero]
+  rw [← hG]; rw [mul_smul]; rw [X_mul m]; rw [hm]; rw [smul_zero]
 #align module.finite.injective_of_surjective_endomorphism Module.Finite.injective_of_surjective_endomorphism
 
 end

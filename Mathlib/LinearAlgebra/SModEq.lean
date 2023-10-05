@@ -52,7 +52,7 @@ theorem top : x ≡ y [SMOD (⊤ : Submodule R M)] :=
 
 @[simp]
 theorem bot : x ≡ y [SMOD (⊥ : Submodule R M)] ↔ x = y := by
-  rw [SModEq.def, Submodule.Quotient.eq, mem_bot, sub_eq_zero]
+  rw [SModEq.def]; rw [Submodule.Quotient.eq]; rw [mem_bot]; rw [sub_eq_zero]
 #align smodeq.bot SModEq.bot
 
 @[mono]
@@ -109,7 +109,7 @@ theorem eval {R : Type*} [CommRing R] {I : Ideal R} {x y : R} (h : x ≡ y [SMOD
   rw [SModEq.def] at h ⊢
   show Ideal.Quotient.mk I (f.eval x) = Ideal.Quotient.mk I (f.eval y)
   replace h : Ideal.Quotient.mk I x = Ideal.Quotient.mk I y := h
-  rw [← Polynomial.eval₂_at_apply, ← Polynomial.eval₂_at_apply, h]
+  rw [← Polynomial.eval₂_at_apply]; rw [← Polynomial.eval₂_at_apply]; rw [h]
 #align smodeq.eval SModEq.eval
 
 end SModEq

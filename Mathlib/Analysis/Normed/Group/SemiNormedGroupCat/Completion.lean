@@ -101,16 +101,14 @@ instance : Preadditive SemiNormedGroupCat.{u} where
     -- Porting note: failing simps probably due to instance synthesis issues with concrete
     -- cats; see the gymnastics below for what used to be
     -- simp only [add_apply, comp_apply. map_add]
-    rw [NormedAddGroupHom.add_apply, CategoryTheory.comp_apply, CategoryTheory.comp_apply,
-      CategoryTheory.comp_apply, @NormedAddGroupHom.add_apply _ _ (_) (_)]
+    rw [NormedAddGroupHom.add_apply]; rw [CategoryTheory.comp_apply]; rw [CategoryTheory.comp_apply]; rw [CategoryTheory.comp_apply]; rw [@NormedAddGroupHom.add_apply _ _ (_) (_)]
     convert map_add g (f x) (f' x)
   comp_add := by
     intros; ext
     -- Porting note: failing simps probably due to instance synthesis issues with concrete
     -- cats; see the gymnastics below for what used to be
     -- simp only [add_apply, comp_apply. map_add]
-    rw [NormedAddGroupHom.add_apply, CategoryTheory.comp_apply, CategoryTheory.comp_apply,
-      CategoryTheory.comp_apply, @NormedAddGroupHom.add_apply _ _ (_) (_)]
+    rw [NormedAddGroupHom.add_apply]; rw [CategoryTheory.comp_apply]; rw [CategoryTheory.comp_apply]; rw [CategoryTheory.comp_apply]; rw [@NormedAddGroupHom.add_apply _ _ (_) (_)]
 
 instance : Functor.Additive completion where
   map_add := NormedAddGroupHom.completion_add _ _

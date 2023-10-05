@@ -81,7 +81,7 @@ theorem acc_iff_no_decreasing_seq {x} :
 #align rel_embedding.acc_iff_no_decreasing_seq RelEmbedding.acc_iff_no_decreasing_seq
 
 theorem not_acc_of_decreasing_seq (f : ((· > ·) : ℕ → ℕ → Prop) ↪r r) (k : ℕ) : ¬Acc r (f k) := by
-  rw [acc_iff_no_decreasing_seq, not_isEmpty_iff]
+  rw [acc_iff_no_decreasing_seq]; rw [not_isEmpty_iff]
   exact ⟨⟨f, k, rfl⟩⟩
 #align rel_embedding.not_acc_of_decreasing_seq RelEmbedding.not_acc_of_decreasing_seq
 
@@ -96,7 +96,7 @@ theorem wellFounded_iff_no_descending_seq :
 #align rel_embedding.well_founded_iff_no_descending_seq RelEmbedding.wellFounded_iff_no_descending_seq
 
 theorem not_wellFounded_of_decreasing_seq (f : ((· > ·) : ℕ → ℕ → Prop) ↪r r) : ¬WellFounded r := by
-  rw [wellFounded_iff_no_descending_seq, not_isEmpty_iff]
+  rw [wellFounded_iff_no_descending_seq]; rw [not_isEmpty_iff]
   exact ⟨f⟩
 #align rel_embedding.not_well_founded_of_decreasing_seq RelEmbedding.not_wellFounded_of_decreasing_seq
 
@@ -189,7 +189,7 @@ theorem exists_increasing_or_nonincreasing_subseq' (r : α → α → Prop) (f :
         obtain ⟨n', hn1, hn2⟩ := h
         obtain ⟨x, hpos, rfl⟩ := exists_pos_add_of_lt hn1
         refine' ⟨n + x, add_lt_add_left hpos n, _⟩
-        rw [add_assoc, add_comm x m, ← add_assoc]
+        rw [add_assoc]; rw [add_comm x m]; rw [← add_assoc]
         exact hn2
       let g' : ℕ → ℕ := @Nat.rec (fun _ => ℕ) m fun n gn => Nat.find (h gn)
       exact

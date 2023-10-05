@@ -73,7 +73,7 @@ theorem verschiebung_shift (x : 𝕎 R) (k : ℕ) (h : ∀ i < k + 1, x.coeff i 
     apply Nat.lt_succ_self
   · simp only [verschiebung_coeff_succ, shift]
     congr 1
-    rw [Nat.add_succ, add_comm, Nat.add_succ, add_comm]
+    rw [Nat.add_succ]; rw [add_comm]; rw [Nat.add_succ]; rw [add_comm]
 #align witt_vector.verschiebung_shift WittVector.verschiebung_shift
 
 theorem eq_iterate_verschiebung {x : 𝕎 R} {n : ℕ} (h : ∀ i < n, x.coeff i = 0) :
@@ -115,7 +115,7 @@ instance [CharP R p] [NoZeroDivisors R] : NoZeroDivisors (𝕎 R) :=
     rcases verschiebung_nonzero hb with ⟨nb, wb, hwb0, rfl⟩
     refine' ne_of_apply_ne (fun x => x.coeff (na + nb)) _
     dsimp only
-    rw [iterate_verschiebung_mul_coeff, zero_coeff]
+    rw [iterate_verschiebung_mul_coeff]; rw [zero_coeff]
     exact mul_ne_zero (pow_ne_zero _ hwa0) (pow_ne_zero _ hwb0)⟩
 
 instance instIsDomain [CharP R p] [IsDomain R] : IsDomain (𝕎 R) :=

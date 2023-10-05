@@ -841,7 +841,7 @@ instance existsMulOfLE [Mul β] [LE β] [ExistsMulOfLE β] : ExistsMulOfLE (Germ
     choose c hc using fun x (hx : f x ≤ g x) ↦ exists_mul_of_le hx
     refine ⟨ofFun <| fun x ↦ if hx : f x ≤ g x then c x hx else f x, coe_eq.2 ?_⟩
     filter_upwards [h] with x hx
-    rw [dif_pos hx, hc]
+    rw [dif_pos hx]; rw [hc]
 
 @[to_additive]
 instance canonicallyOrderedMonoid [CanonicallyOrderedMonoid β] :

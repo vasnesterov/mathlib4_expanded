@@ -106,9 +106,7 @@ theorem Matrix.isSkewAdjoint_bracket {A B : Matrix n n R} (hA : A ∈ skewAdjoin
   change ⁅A, B⁆ᵀ * J = J * (-⁅A, B⁆)
   change Aᵀ * J = J * (-A) at hA
   change Bᵀ * J = J * (-B) at hB
-  rw [Matrix.lie_transpose, LieRing.of_associative_ring_bracket,
-    LieRing.of_associative_ring_bracket, sub_mul, mul_assoc, mul_assoc, hA, hB, ← mul_assoc,
-    ← mul_assoc, hA, hB]
+  rw [Matrix.lie_transpose]; rw [LieRing.of_associative_ring_bracket]; rw [LieRing.of_associative_ring_bracket]; rw [sub_mul]; rw [mul_assoc]; rw [mul_assoc]; rw [hA]; rw [hB]; rw [← mul_assoc]; rw [← mul_assoc]; rw [hA]; rw [hB]
   noncomm_ring
 #align matrix.is_skew_adjoint_bracket Matrix.isSkewAdjoint_bracket
 

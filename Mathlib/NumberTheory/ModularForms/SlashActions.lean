@@ -61,14 +61,14 @@ open scoped ModularForm
 theorem SlashAction.neg_slash {β G α γ : Type*} [Group G] [AddGroup α] [SMul γ α]
     [SlashAction β G α γ] (k : β) (g : G) (a : α) : (-a) ∣[k;γ] g = -a ∣[k;γ] g :=
   eq_neg_of_add_eq_zero_left <| by
-    rw [← SlashAction.add_slash, add_left_neg, SlashAction.zero_slash]
+    rw [← SlashAction.add_slash]; rw [add_left_neg]; rw [SlashAction.zero_slash]
 #align slash_action.neg_slash SlashAction.neg_slash
 
 @[simp]
 theorem SlashAction.smul_slash_of_tower {R β G α : Type*} (γ : Type*) [Group G] [AddGroup α]
     [Monoid γ] [MulAction γ α] [SMul R γ] [SMul R α] [IsScalarTower R γ α] [SlashAction β G α γ]
     (k : β) (g : G) (a : α) (r : R) : (r • a) ∣[k;γ] g = r • a ∣[k;γ] g := by
-  rw [← smul_one_smul γ r a, SlashAction.smul_slash, smul_one_smul]
+  rw [← smul_one_smul γ r a]; rw [SlashAction.smul_slash]; rw [smul_one_smul]
 #align slash_action.smul_slash_of_tower SlashAction.smul_slash_of_tower
 
 attribute [simp] SlashAction.zero_slash SlashAction.slash_one SlashAction.smul_slash
@@ -183,7 +183,7 @@ set_option linter.uppercaseLean3 false in
 theorem is_invariant_one (A : SL(2, ℤ)) : (1 : ℍ → ℂ) ∣[(0 : ℤ)] A = (1 : ℍ → ℂ) := by
   have : ((↑ₘ(A : GL(2, ℝ)⁺)).det : ℝ) = 1 := det_coe'
   funext
-  rw [SL_slash, slash_def, slash, zero_sub, this]
+  rw [SL_slash]; rw [slash_def]; rw [slash]; rw [zero_sub]; rw [this]
   simp
 #align modular_form.is_invariant_one ModularForm.is_invariant_one
 
@@ -212,12 +212,12 @@ theorem mul_slash (k1 k2 : ℤ) (A : GL(2, ℝ)⁺) (f g : ℍ → ℂ) :
       dsimp
       norm_cast
       exact Matrix.GLPos.det_ne_zero A
-    rw [← zpow_one_add₀ this, ← zpow_add₀ this]
+    rw [← zpow_one_add₀ this]; rw [← zpow_add₀ this]
     congr; ring
   have h22 : denom A x ^ (-(k1 + k2)) = denom A x ^ (-k1) * denom A x ^ (-k2) := by
-    rw [Int.neg_add, zpow_add₀]
+    rw [Int.neg_add]; rw [zpow_add₀]
     exact UpperHalfPlane.denom_ne_zero A x
-  rw [h1, h22]
+  rw [h1]; rw [h22]
   ring
 #align modular_form.mul_slash ModularForm.mul_slash
 

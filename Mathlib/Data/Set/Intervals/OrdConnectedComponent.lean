@@ -36,7 +36,7 @@ theorem mem_ordConnectedComponent : y ∈ ordConnectedComponent s x ↔ [[x, y]]
 theorem dual_ordConnectedComponent :
     ordConnectedComponent (ofDual ⁻¹' s) (toDual x) = ofDual ⁻¹' ordConnectedComponent s x :=
   ext <| (Surjective.forall toDual.surjective).2 fun x => by
-    rw [mem_ordConnectedComponent, dual_uIcc]
+    rw [mem_ordConnectedComponent]; rw [dual_uIcc]
     rfl
 #align set.dual_ord_connected_component Set.dual_ordConnectedComponent
 
@@ -50,7 +50,7 @@ theorem subset_ordConnectedComponent {t} [h : OrdConnected s] (hs : x ∈ s) (ht
 
 @[simp]
 theorem self_mem_ordConnectedComponent : x ∈ ordConnectedComponent s x ↔ x ∈ s := by
-  rw [mem_ordConnectedComponent, uIcc_self, singleton_subset_iff]
+  rw [mem_ordConnectedComponent]; rw [uIcc_self]; rw [singleton_subset_iff]
 #align set.self_mem_ord_connected_component Set.self_mem_ordConnectedComponent
 
 @[simp]
@@ -60,7 +60,7 @@ theorem nonempty_ordConnectedComponent : (ordConnectedComponent s x).Nonempty �
 
 @[simp]
 theorem ordConnectedComponent_eq_empty : ordConnectedComponent s x = ∅ ↔ x ∉ s := by
-  rw [← not_nonempty_iff_eq_empty, nonempty_ordConnectedComponent]
+  rw [← not_nonempty_iff_eq_empty]; rw [nonempty_ordConnectedComponent]
 #align set.ord_connected_component_eq_empty Set.ordConnectedComponent_eq_empty
 
 @[simp]
@@ -80,7 +80,7 @@ theorem ordConnectedComponent_inter (s t : Set α) (x : α) :
 
 theorem mem_ordConnectedComponent_comm :
     y ∈ ordConnectedComponent s x ↔ x ∈ ordConnectedComponent s y := by
-  rw [mem_ordConnectedComponent, mem_ordConnectedComponent, uIcc_comm]
+  rw [mem_ordConnectedComponent]; rw [mem_ordConnectedComponent]; rw [uIcc_comm]
 #align set.mem_ord_connected_component_comm Set.mem_ordConnectedComponent_comm
 
 theorem mem_ordConnectedComponent_trans (hxy : y ∈ ordConnectedComponent s x)
@@ -200,7 +200,7 @@ theorem disjoint_ordT5Nhd : Disjoint (ordT5Nhd s t) (ordT5Nhd t s) := by
   clear hx₁
   rcases mem_iUnion₂.1 hx₂ with ⟨b, hbt, hb⟩
   clear hx₂
-  rw [mem_ordConnectedComponent, subset_inter_iff] at ha hb
+  rw [mem_ordConnectedComponent] at ha hb; rw [subset_inter_iff] at ha hb
   cases' le_total a b with hab hab
   on_goal 2 => swap_var a ↔ b, s ↔ t, ha ↔ hb, has ↔ hbt
   all_goals
@@ -209,7 +209,7 @@ theorem disjoint_ordT5Nhd : Disjoint (ordT5Nhd s t) (ordT5Nhd t s) := by
     cases' ha with ha ha'
     cases' hb with hb hb'
     have hsub : [[a, b]] ⊆ (ordSeparatingSet s t).ordConnectedSectionᶜ := by
-      rw [ordSeparatingSet_comm, uIcc_comm] at hb'
+      rw [ordSeparatingSet_comm] at hb'; rw [uIcc_comm] at hb'
       calc
         [[a, b]] ⊆ [[a, x]] ∪ [[x, b]] := uIcc_subset_uIcc_union_uIcc
         _ ⊆ (ordSeparatingSet s t).ordConnectedSectionᶜ := union_subset ha' hb'
@@ -224,7 +224,7 @@ theorem disjoint_ordT5Nhd : Disjoint (ordT5Nhd s t) (ordT5Nhd t s) := by
     suffices ordConnectedComponent (ordSeparatingSet s t) x ⊆ [[a, b]] from
       hsub (this <| ordConnectedProj_mem_ordConnectedComponent _ ⟨x, h'⟩) (mem_range_self _)
     rintro y (hy : [[x, y]] ⊆ ordSeparatingSet s t)
-    rw [uIcc_of_le hab, mem_Icc, ← not_lt, ← not_lt]
+    rw [uIcc_of_le hab]; rw [mem_Icc]; rw [← not_lt]; rw [← not_lt]
     have sol1 := fun (hya : y < a) =>
         (disjoint_left (t := ordSeparatingSet s t)).1 disjoint_left_ordSeparatingSet has
           (hy <| Icc_subset_uIcc' ⟨hya.le, hax⟩)

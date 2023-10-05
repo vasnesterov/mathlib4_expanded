@@ -96,14 +96,12 @@ class IsCommJordan [Mul A] : Prop where
 instance (priority := 100) IsCommJordan.toIsJordan [Mul A] [IsCommJordan A] : IsJordan A where
   lmul_comm_rmul a b := by rw [IsCommJordan.mul_comm, IsCommJordan.mul_comm a b]
   lmul_lmul_comm_lmul a b := by
-    rw [IsCommJordan.mul_comm (a * a) (a * b), IsCommJordan.lmul_comm_rmul_rmul,
-      IsCommJordan.mul_comm b (a * a)]
+    rw [IsCommJordan.mul_comm (a * a) (a * b)]; rw [IsCommJordan.lmul_comm_rmul_rmul]; rw [IsCommJordan.mul_comm b (a * a)]
   lmul_comm_rmul_rmul := IsCommJordan.lmul_comm_rmul_rmul
   lmul_lmul_comm_rmul a b := by
-    rw [IsCommJordan.mul_comm (a * a) (b * a), IsCommJordan.mul_comm b a,
-      IsCommJordan.lmul_comm_rmul_rmul, IsCommJordan.mul_comm, IsCommJordan.mul_comm b (a * a)]
+    rw [IsCommJordan.mul_comm (a * a) (b * a)]; rw [IsCommJordan.mul_comm b a]; rw [IsCommJordan.lmul_comm_rmul_rmul]; rw [IsCommJordan.mul_comm]; rw [IsCommJordan.mul_comm b (a * a)]
   rmul_comm_rmul_rmul a b := by
-    rw [IsCommJordan.mul_comm b a, IsCommJordan.lmul_comm_rmul_rmul, IsCommJordan.mul_comm]
+    rw [IsCommJordan.mul_comm b a]; rw [IsCommJordan.lmul_comm_rmul_rmul]; rw [IsCommJordan.mul_comm]
 #align is_comm_jordan.to_is_jordan IsCommJordan.toIsJordan
 
 -- see Note [lower instance priority]
@@ -186,10 +184,10 @@ theorem two_nsmul_lie_lmul_lmul_add_eq_lie_lmul_lmul_add (a b : A) :
 private theorem aux0 {a b c : A} : ⁅L (a + b + c), L ((a + b + c) * (a + b + c))⁆ =
     ⁅L a + L b + L c, L (a * a) + L (b * b) + L (c * c) +
     2 • L (a * b) + 2 • L (c * a) + 2 • L (b * c)⁆ := by
-  rw [add_mul, add_mul]
+  rw [add_mul]; rw [add_mul]
   iterate 6 rw [mul_add]
   iterate 10 rw [map_add]
-  rw [IsCommJordan.mul_comm b a, IsCommJordan.mul_comm c a, IsCommJordan.mul_comm c b]
+  rw [IsCommJordan.mul_comm b a]; rw [IsCommJordan.mul_comm c a]; rw [IsCommJordan.mul_comm c b]
   iterate 3 rw [two_smul]
   simp only [lie_add, add_lie, commute_lmul_lmul_sq, zero_add, add_zero]
   abel
@@ -205,7 +203,7 @@ private theorem aux1 {a b c : A} :
     ⁅L b, 2 • L (a * b)⁆ + ⁅L b, 2 • L (c * a)⁆ + ⁅L b, 2 • L (b * c)⁆) +
     (⁅L c, L (a * a)⁆ + ⁅L c, L (b * b)⁆ + ⁅L c, L (c * c)⁆ +
     ⁅L c, 2 • L (a * b)⁆ + ⁅L c, 2 • L (c * a)⁆ + ⁅L c, 2 • L (b * c)⁆) := by
-  rw [add_lie, add_lie]
+  rw [add_lie]; rw [add_lie]
   iterate 15 rw [lie_add]
 
 set_option maxHeartbeats 300000 in
@@ -221,8 +219,7 @@ private theorem aux2 {a b c : A} :
     (⁅L a, L (c * c)⁆ + ⁅L c, L (a * a)⁆ + 2 • (⁅L a, L (c * a)⁆ + ⁅L c, L (c * a)⁆)) +
     (⁅L b, L (c * c)⁆ + ⁅L c, L (b * b)⁆ + 2 • (⁅L b, L (b * c)⁆ + ⁅L c, L (b * c)⁆)) +
     (2 • ⁅L a, L (b * c)⁆ + 2 • ⁅L b, L (c * a)⁆ + 2 • ⁅L c, L (a * b)⁆) := by
-  rw [(commute_lmul_lmul_sq a).lie_eq, (commute_lmul_lmul_sq b).lie_eq,
-    (commute_lmul_lmul_sq c).lie_eq, zero_add, add_zero, add_zero]
+  rw [(commute_lmul_lmul_sq a).lie_eq]; rw [(commute_lmul_lmul_sq b).lie_eq]; rw [(commute_lmul_lmul_sq c).lie_eq]; rw [zero_add]; rw [add_zero]; rw [add_zero]
   simp only [lie_nsmul]
   abel
 

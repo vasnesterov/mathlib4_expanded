@@ -141,7 +141,7 @@ def highestWeight (μ : YoungDiagram) : Ssyt μ where
   entry i j := if (i, j) ∈ μ then i else 0
   row_weak' hj hcell := by
     simp only
-    rw [if_pos hcell, if_pos (μ.up_left_mem (by rfl) (le_of_lt hj) hcell)]
+    rw [if_pos hcell]; rw [if_pos (μ.up_left_mem (by rfl) (le_of_lt hj) hcell)]
   col_strict' hi hcell := by
     simp only
     rwa [if_pos hcell, if_pos (μ.up_left_mem (le_of_lt hi) (by rfl) hcell)]

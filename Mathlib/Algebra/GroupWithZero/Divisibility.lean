@@ -91,7 +91,7 @@ theorem dvd_and_not_dvd_iff [CancelCommMonoidWithZero α] {x y : α} :
         (isUnit_of_dvd_one
           ⟨e, mul_left_cancel₀ hx0 <| by conv =>
             lhs
-            rw [he, hdx]
+            rw [he]; rw [hdx]
             simp [mul_assoc]⟩)⟩⟩
 #align dvd_and_not_dvd_iff dvd_and_not_dvd_iff
 
@@ -112,7 +112,7 @@ variable [CancelCommMonoidWithZero α] [Subsingleton αˣ] {a b : α}
 
 theorem dvd_antisymm : a ∣ b → b ∣ a → a = b := by
   rintro ⟨c, rfl⟩ ⟨d, hcd⟩
-  rw [mul_assoc, eq_comm, mul_right_eq_self₀, mul_eq_one] at hcd
+  rw [mul_assoc] at hcd; rw [eq_comm] at hcd; rw [mul_right_eq_self₀] at hcd; rw [mul_eq_one] at hcd
   obtain ⟨rfl, -⟩ | rfl := hcd <;> simp
 #align dvd_antisymm dvd_antisymm
 

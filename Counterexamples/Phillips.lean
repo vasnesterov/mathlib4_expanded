@@ -233,7 +233,7 @@ def restrict (f : BoundedAdditiveMeasure α) (t : Set α) : BoundedAdditiveMeasu
   toFun s := f (t ∩ s)
   additive' s s' h := by
     dsimp only
-    rw [← f.additive (t ∩ s) (t ∩ s'), inter_union_distrib_left]
+    rw [← f.additive (t ∩ s) (t ∩ s')]; rw [inter_union_distrib_left]
     exact h.mono (inter_subset_right _ _) (inter_subset_right _ _)
   exists_bound := ⟨f.C, fun s => f.abs_le_bound _⟩
 #align counterexample.phillips_1940.bounded_additive_measure.restrict Counterexample.Phillips1940.BoundedAdditiveMeasure.restrict
@@ -302,7 +302,7 @@ theorem exists_discrete_support_nonpos (f : BoundedAdditiveMeasure α) :
   have ε_pos : 0 < ε := ht
   have I1 : ∀ n, ε / 2 ≤ f (↑(s (n + 1)) \ ↑(s n)) := by
     intro n
-    rw [div_le_iff' (show (0 : ℝ) < 2 by norm_num), hε]
+    rw [div_le_iff' (show (0 : ℝ) < 2 by norm_num)]; rw [hε]
     convert hF (s n) u using 2
     · dsimp
       ext x
@@ -319,7 +319,7 @@ theorem exists_discrete_support_nonpos (f : BoundedAdditiveMeasure α) :
     · have : (↑(s (n + 1)) : Set α) = ↑(s (n + 1)) \ ↑(s n) ∪ ↑(s n) := by
         simp only [Function.iterate_succ', union_comm, union_diff_self, Subtype.coe_mk,
           union_diff_left, Function.comp]
-      rw [Nat.succ_eq_add_one, this, f.additive]
+      rw [Nat.succ_eq_add_one]; rw [this]; rw [f.additive]
       swap; · exact disjoint_sdiff_self_left
       calc
         ((n + 1 : ℕ) : ℝ) * (ε / 2) = ε / 2 + n * (ε / 2) := by simp only [Nat.cast_succ]; ring
@@ -336,7 +336,7 @@ theorem exists_discrete_support (f : BoundedAdditiveMeasure α) :
   rcases(-f).exists_discrete_support_nonpos with ⟨s₂, s₂_count, h₂⟩
   refine' ⟨s₁ ∪ s₂, s₁_count.union s₂_count, fun t ht => le_antisymm _ _⟩
   · have : t \ (s₁ ∪ s₂) = (t \ (s₁ ∪ s₂)) \ s₁ := by
-      rw [diff_diff, union_comm, union_assoc, union_self]
+      rw [diff_diff]; rw [union_comm]; rw [union_assoc]; rw [union_self]
     rw [this]
     exact h₁ _ (ht.mono (diff_subset _ _))
   · have : t \ (s₁ ∪ s₂) = (t \ (s₁ ∪ s₂)) \ s₂ := by rw [diff_diff, union_assoc, union_self]
@@ -375,7 +375,7 @@ def continuousPart (f : BoundedAdditiveMeasure α) : BoundedAdditiveMeasure α :
 theorem eq_add_parts (f : BoundedAdditiveMeasure α) (s : Set α) :
     f s = f.discretePart s + f.continuousPart s := by
   simp only [discretePart, continuousPart, restrict_apply]
-  rw [← f.additive, ← inter_distrib_right]
+  rw [← f.additive]; rw [← inter_distrib_right]
   · simp only [union_univ, union_diff_self, univ_inter]
   · have : Disjoint f.discreteSupport (univ \ f.discreteSupport) := disjoint_sdiff_self_right
     exact this.mono (inter_subset_left _ _) (inter_subset_left _ _)
@@ -397,7 +397,7 @@ theorem continuousPart_apply_eq_zero_of_countable (f : BoundedAdditiveMeasure α
 theorem continuousPart_apply_diff (f : BoundedAdditiveMeasure α) (s t : Set α) (hs : s.Countable) :
     f.continuousPart (t \ s) = f.continuousPart t := by
   conv_rhs => rw [← diff_union_inter t s]
-  rw [additive, self_eq_add_right]
+  rw [additive]; rw [self_eq_add_right]
   · exact continuousPart_apply_eq_zero_of_countable _ _ (hs.mono (inter_subset_right _ _))
   · exact Disjoint.mono_right (inter_subset_right _ _) disjoint_sdiff_self_left
 #align counterexample.phillips_1940.bounded_additive_measure.continuous_part_apply_diff Counterexample.Phillips1940.BoundedAdditiveMeasure.continuousPart_apply_diff
@@ -429,7 +429,7 @@ def _root_.ContinuousLinearMap.toBoundedAdditiveMeasure [TopologicalSpace α] [D
         ofNormedAddCommGroupDiscrete (indicator s 1) 1 (norm_indicator_le_one s) +
           ofNormedAddCommGroupDiscrete (indicator t 1) 1 (norm_indicator_le_one t) := by
       ext x; simp [indicator_union_of_disjoint hst]
-    rw [this, f.map_add]
+    rw [this]; rw [f.map_add]
   exists_bound :=
     ⟨‖f‖, fun s => by
       have I :
@@ -479,7 +479,7 @@ theorem toFunctions_toMeasure_continuousPart [MeasurableSpace α] [MeasurableSin
       MeasurableSet.inter
         (MeasurableSet.univ.diff (Countable.measurableSet f.countable_discreteSupport)) hs
   congr 1
-  rw [inter_comm, ← inter_diff_assoc, inter_univ]
+  rw [inter_comm]; rw [← inter_diff_assoc]; rw [inter_univ]
   exact measure_diff_null (f.countable_discreteSupport.measure_zero _)
 #align counterexample.phillips_1940.to_functions_to_measure_continuous_part Counterexample.Phillips1940.toFunctions_toMeasure_continuousPart
 
@@ -512,7 +512,7 @@ theorem sierpinski_pathological_family (Hcont : #ℝ = aleph 1) :
       · simp only [h, iff_true_iff, or_true_iff]; exact asymm h
     rw [this]
     apply Countable.union _ (countable_singleton _)
-    rw [Cardinal.countable_iff_lt_aleph_one, ← Hcont]
+    rw [Cardinal.countable_iff_lt_aleph_one]; rw [← Hcont]
     exact Cardinal.card_typein_lt r x H
   · rw [Cardinal.countable_iff_lt_aleph_one, ← Hcont]
     exact Cardinal.card_typein_lt r y H
@@ -559,9 +559,7 @@ theorem apply_f_eq_continuousPart (Hcont : #ℝ = aleph 1) (φ : (DiscreteCopy �
   set ψ := φ.toBoundedAdditiveMeasure
   have : φ (f Hcont x) = ψ (spf Hcont x) := rfl
   have U : univ = spf Hcont x ∪ univ \ spf Hcont x := by simp only [union_univ, union_diff_self]
-  rw [this, eq_add_parts, discretePart_apply, hx, ψ.empty, zero_add, U,
-    ψ.continuousPart.additive _ _ disjoint_sdiff_self_right,
-    ψ.continuousPart_apply_eq_zero_of_countable _ (countable_compl_spf Hcont x), add_zero]
+  rw [this]; rw [eq_add_parts]; rw [discretePart_apply]; rw [hx]; rw [ψ.empty]; rw [zero_add]; rw [U]; rw [ψ.continuousPart.additive _ _ disjoint_sdiff_self_right]; rw [ψ.continuousPart_apply_eq_zero_of_countable _ (countable_compl_spf Hcont x)]; rw [add_zero]
 #align counterexample.phillips_1940.apply_f_eq_continuous_part Counterexample.Phillips1940.apply_f_eq_continuousPart
 
 theorem countable_ne (Hcont : #ℝ = aleph 1) (φ : (DiscreteCopy ℝ →ᵇ ℝ) →L[ℝ] ℝ) :
@@ -578,7 +576,7 @@ theorem countable_ne (Hcont : #ℝ = aleph 1) (φ : (DiscreteCopy ℝ →ᵇ ℝ
       ⋃ y ∈ φ.toBoundedAdditiveMeasure.discreteSupport, {x | y ∈ spf Hcont x} := by
     intro x hx
     dsimp at hx
-    rw [← Ne.def, ← nonempty_iff_ne_empty] at hx
+    rw [← Ne.def] at hx; rw [← nonempty_iff_ne_empty] at hx
     simp only [exists_prop, mem_iUnion, mem_setOf_eq]
     exact hx
   apply Countable.mono (Subset.trans A B)
@@ -640,7 +638,7 @@ theorem no_pettis_integral (Hcont : #ℝ = aleph 1) :
   have : g = 0 := by
     ext x
     have : g x = evalClm ℝ x g := rfl
-    rw [this, ← h]
+    rw [this]; rw [← h]
     simp
   simp only [this, ContinuousLinearMap.map_zero] at h
   specialize h (volume.restrict (Icc (0 : ℝ) 1)).extensionToBoundedFunctions

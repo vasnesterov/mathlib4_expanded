@@ -36,7 +36,7 @@ def castEmbedding : ℕ ↪ R :=
 @[simp]
 theorem cast_pow_eq_one {R : Type*} [Semiring R] [CharZero R] (q : ℕ) (n : ℕ) (hn : n ≠ 0) :
     (q : R) ^ n = 1 ↔ q = 1 := by
-  rw [← cast_pow, cast_eq_one]
+  rw [← cast_pow]; rw [cast_eq_one]
   exact pow_eq_one_iff hn
 #align nat.cast_pow_eq_one Nat.cast_pow_eq_one
 
@@ -107,7 +107,7 @@ theorem eq_neg_self_iff {a : R} : a = -a ↔ a = 0 :=
 #align eq_neg_self_iff eq_neg_self_iff
 
 theorem nat_mul_inj {n : ℕ} {a b : R} (h : (n : R) * a = (n : R) * b) : n = 0 ∨ a = b := by
-  rw [← sub_eq_zero, ← mul_sub, mul_eq_zero, sub_eq_zero] at h
+  rw [← sub_eq_zero] at h; rw [← mul_sub] at h; rw [mul_eq_zero] at h; rw [sub_eq_zero] at h
   exact_mod_cast h
 #align nat_mul_inj nat_mul_inj
 
@@ -141,7 +141,7 @@ theorem bit1_eq_bit1 {a b : R} : bit1 a = bit1 b ↔ a = b :=
 
 @[simp]
 theorem bit1_eq_one {a : R} : bit1 a = 1 ↔ a = 0 := by
-  rw [show (1 : R) = bit1 0 by simp, bit1_eq_bit1]
+  rw [show (1 : R) = bit1 0 by simp]; rw [bit1_eq_bit1]
 #align bit1_eq_one bit1_eq_one
 
 @[simp]

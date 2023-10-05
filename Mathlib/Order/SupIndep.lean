@@ -78,7 +78,7 @@ theorem supIndep_empty (f : ι → α) : (∅ : Finset ι).SupIndep f := fun _ _
 
 theorem supIndep_singleton (i : ι) (f : ι → α) : ({i} : Finset ι).SupIndep f :=
   fun s hs j hji hj => by
-    rw [eq_empty_of_ssubset_singleton ⟨hs, fun h => hj (h hji)⟩, sup_empty]
+    rw [eq_empty_of_ssubset_singleton ⟨hs, fun h => hj (h hji)⟩]; rw [sup_empty]
     exact disjoint_bot_right
 #align finset.sup_indep_singleton Finset.supIndep_singleton
 
@@ -131,19 +131,18 @@ theorem supIndep_pair [DecidableEq ι] {i j : ι} (hij : i ≠ j) :
    fun h => by
     rw [supIndep_iff_disjoint_erase]
     intro k hk
-    rw [Finset.mem_insert, Finset.mem_singleton] at hk
+    rw [Finset.mem_insert] at hk; rw [Finset.mem_singleton] at hk
     obtain rfl | rfl := hk
     · convert h using 1
-      rw [Finset.erase_insert, Finset.sup_singleton]
+      rw [Finset.erase_insert]; rw [Finset.sup_singleton]
       simpa using hij
     · convert h.symm using 1
       have : ({i, k} : Finset ι).erase k = {i} := by
         ext
-        rw [mem_erase, mem_insert, mem_singleton, mem_singleton, and_or_left, Ne.def,
-          not_and_self_iff, or_false_iff, and_iff_right_of_imp]
+        rw [mem_erase]; rw [mem_insert]; rw [mem_singleton]; rw [mem_singleton]; rw [and_or_left]; rw [Ne.def]; rw [not_and_self_iff]; rw [or_false_iff]; rw [and_iff_right_of_imp]
         rintro rfl
         exact hij
-      rw [this, Finset.sup_singleton]⟩
+      rw [this]; rw [Finset.sup_singleton]⟩
 #align finset.sup_indep_pair Finset.supIndep_pair
 
 theorem supIndep_univ_bool (f : Bool → α) :
@@ -163,7 +162,7 @@ theorem SupIndep.attach (hs : s.SupIndep f) : s.attach.SupIndep fun a => f a := 
   intro t _ i _ hi
   classical
     have : (fun (a : { x // x ∈ s }) => f ↑a) = f ∘ (fun a : { x // x ∈ s } => ↑a) := rfl
-    rw [this, ← Finset.sup_image]
+    rw [this]; rw [← Finset.sup_image]
     refine' hs (image_subset_iff.2 fun (j : { x // x ∈ s }) _ => j.2) i.2 fun hi' => hi _
     rw [mem_image] at hi'
     obtain ⟨j, hj, hji⟩ := hi'
@@ -212,7 +211,7 @@ theorem SupIndep.sup [DecidableEq ι] {s : Finset ι'} {g : ι' → Finset ι} {
     (hs : s.SupIndep fun i => (g i).sup f) (hg : ∀ i' ∈ s, (g i').SupIndep f) :
     (s.sup g).SupIndep f := by
   simp_rw [supIndep_iff_pairwiseDisjoint] at hs hg ⊢
-  rw [sup_eq_biUnion, coe_biUnion]
+  rw [sup_eq_biUnion]; rw [coe_biUnion]
   exact hs.biUnion_finset hg
 #align finset.sup_indep.sup Finset.SupIndep.sup
 
@@ -323,7 +322,7 @@ subset of the rest. -/
 theorem SetIndependent.disjoint_sSup {x : α} {y : Set α} (hx : x ∈ s) (hy : y ⊆ s) (hxy : x ∉ y) :
     Disjoint x (sSup y) := by
   have := (hs.mono <| insert_subset_iff.mpr ⟨hx, hy⟩) (mem_insert x _)
-  rw [insert_diff_of_mem _ (mem_singleton _), diff_singleton_eq_self hxy] at this
+  rw [insert_diff_of_mem _ (mem_singleton _)] at this; rw [diff_singleton_eq_self hxy] at this
   exact this
 #align complete_lattice.set_independent.disjoint_Sup CompleteLattice.SetIndependent.disjoint_sSup
 

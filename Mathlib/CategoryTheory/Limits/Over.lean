@@ -95,7 +95,7 @@ def mapPullbackAdj {A B : C} (f : A ⟶ B) : Over.map f ⊣ pullback f :=
             refine' Over.homMk _ _
             refine' Y.left ≫ pullback.fst
             dsimp
-            rw [← Over.w Y, Category.assoc, pullback.condition, Category.assoc]; rfl
+            rw [← Over.w Y]; rw [Category.assoc]; rw [pullback.condition]; rw [Category.assoc]; rfl
           left_inv := fun X => by
             ext
             dsimp

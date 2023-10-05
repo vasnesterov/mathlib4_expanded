@@ -180,7 +180,7 @@ theorem naturality_1' (α : F ⟶ G) (f : X ⟶ Y) {_ : IsIso (α.app X)} :
 @[reassoc (attr := simp)]
 theorem naturality_2' (α : F ⟶ G) (f : X ⟶ Y) {_ : IsIso (α.app Y)} :
     α.app X ≫ G.map f ≫ inv (α.app Y) = F.map f := by
-  rw [← Category.assoc, ← naturality, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
+  rw [← Category.assoc]; rw [← naturality]; rw [Category.assoc]; rw [IsIso.hom_inv_id]; rw [Category.comp_id]
 #align category_theory.nat_iso.naturality_2' CategoryTheory.NatIso.naturality_2'
 #align category_theory.nat_iso.naturality_2'_assoc CategoryTheory.NatIso.naturality_2'_assoc
 

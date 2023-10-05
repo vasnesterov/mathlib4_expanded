@@ -42,7 +42,7 @@ This is the forward direction of the optional stopping theorem. -/
 theorem Submartingale.expected_stoppedValue_mono [SigmaFiniteFiltration μ 𝒢]
     (hf : Submartingale f 𝒢 μ) (hτ : IsStoppingTime 𝒢 τ) (hπ : IsStoppingTime 𝒢 π) (hle : τ ≤ π)
     {N : ℕ} (hbdd : ∀ ω, π ω ≤ N) : μ[stoppedValue f τ] ≤ μ[stoppedValue f π] := by
-  rw [← sub_nonneg, ← integral_sub', stoppedValue_sub_eq_sum' hle hbdd]
+  rw [← sub_nonneg]; rw [← integral_sub']; rw [stoppedValue_sub_eq_sum' hle hbdd]
   · simp only [Finset.sum_apply]
     have : ∀ i, MeasurableSet[𝒢 i] {ω : Ω | τ ω ≤ i ∧ i < π ω} := by
       intro i
@@ -52,7 +52,7 @@ theorem Submartingale.expected_stoppedValue_mono [SigmaFiniteFiltration μ 𝒢]
       simp; rfl
     rw [integral_finset_sum]
     · refine' Finset.sum_nonneg fun i _ => _
-      rw [integral_indicator (𝒢.le _ _ (this _)), integral_sub', sub_nonneg]
+      rw [integral_indicator (𝒢.le _ _ (this _))]; rw [integral_sub']; rw [sub_nonneg]
       · exact hf.set_integral_le (Nat.le_succ i) (this _)
       · exact (hf.integrable _).integrableOn
       · exact (hf.integrable _).integrableOn
@@ -127,7 +127,7 @@ theorem smul_le_stoppedValue_hitting [IsFiniteMeasure μ] (hsub : Submartingale 
     (Finset.measurable_range_sup'' fun n _ => (hsub.stronglyMeasurable n).measurable.le (𝒢.le n)))
       (measure_ne_top _ _) this (Integrable.integrableOn (hsub.integrable_stoppedValue
         (hitting_isStoppingTime hsub.adapted measurableSet_Ici) hitting_le))
-  rw [ENNReal.le_ofReal_iff_toReal_le, ENNReal.toReal_smul]
+  rw [ENNReal.le_ofReal_iff_toReal_le]; rw [ENNReal.toReal_smul]
   · exact h
   · exact ENNReal.mul_ne_top (by simp) (measure_ne_top _ _)
   · exact le_trans (mul_nonneg ε.coe_nonneg ENNReal.toReal_nonneg) h
@@ -151,7 +151,7 @@ theorem maximal_ineq [IsFiniteMeasure μ] (hsub : Submartingale f 𝒢 μ) (hnon
         (∫ ω in {ω | ↑ε ≤ (range (n+1)).sup' nonempty_range_succ fun k => f k ω}, f n ω ∂μ) +
       ENNReal.ofReal
         (∫ ω in {ω | ((range (n+1)).sup' nonempty_range_succ fun k => f k ω) < ↑ε}, f n ω ∂μ) := by
-      rw [← ENNReal.ofReal_add, ← integral_union]
+      rw [← ENNReal.ofReal_add]; rw [← integral_union]
       · rw [← integral_univ]
         convert rfl
         ext ω
@@ -193,7 +193,7 @@ theorem maximal_ineq [IsFiniteMeasure μ] (hsub : Submartingale f 𝒢 μ) (hnon
           ((not_le.2 hω) ((le_sup'_iff _).2 ⟨m, mem_range.2 (Nat.lt_succ_of_le hm.2), hεm⟩))
       simp_rw [stoppedValue, this, le_rfl]
     _ = ENNReal.ofReal (∫ ω, stoppedValue f (hitting f {y : ℝ | ↑ε ≤ y} 0 n) ω ∂μ) := by
-      rw [← ENNReal.ofReal_add, ← integral_union]
+      rw [← ENNReal.ofReal_add]; rw [← integral_union]
       · rw [← integral_univ (μ := μ)]
         convert rfl
         ext ω

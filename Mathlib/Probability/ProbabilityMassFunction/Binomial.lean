@@ -31,7 +31,7 @@ def binomial (p : ℝ≥0∞) (h : p ≤ 1) (n : ℕ) : Pmf (Fin (n + 1)) :=
       apply Finset.sum_congr rfl
       intro i hi
       rw [Finset.mem_range] at hi
-      rw [dif_pos hi, Fin.last]
+      rw [dif_pos hi]; rw [Fin.last]
     · simp [h])
 
 theorem binomial_apply (p : ℝ≥0∞) (h : p ≤ 1) (n : ℕ) (i : Fin (n + 1)) :

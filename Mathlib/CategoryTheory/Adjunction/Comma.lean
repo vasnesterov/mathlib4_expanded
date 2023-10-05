@@ -147,7 +147,7 @@ def mkInitialOfLeftAdjoint (h : F ⊣ G) (A : C) :
   uniq s m _ := by
     apply StructuredArrow.ext
     dsimp
-    rw [Equiv.eq_symm_apply, Adjunction.homEquiv_unit]
+    rw [Equiv.eq_symm_apply]; rw [Adjunction.homEquiv_unit]
     apply StructuredArrow.w m
 #align category_theory.mk_initial_of_left_adjoint CategoryTheory.mkInitialOfLeftAdjoint
 
@@ -160,7 +160,7 @@ def mkTerminalOfRightAdjoint (h : F ⊣ G) (A : D) :
   uniq s m _ := by
     apply CostructuredArrow.ext
     dsimp
-    rw [h.eq_homEquiv_apply, Adjunction.homEquiv_counit]
+    rw [h.eq_homEquiv_apply]; rw [Adjunction.homEquiv_counit]
     exact CostructuredArrow.w m
 #align category_theory.mk_terminal_of_right_adjoint CategoryTheory.mkTerminalOfRightAdjoint
 

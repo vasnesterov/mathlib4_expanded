@@ -104,7 +104,7 @@ theorem evalFrom_singleton (S : Set σ) (a : α) : M.evalFrom S [a] = M.stepSet 
 @[simp]
 theorem evalFrom_append_singleton (S : Set σ) (x : List α) (a : α) :
     M.evalFrom S (x ++ [a]) = M.stepSet (M.evalFrom S x) a := by
-  rw [evalFrom, List.foldl_append, List.foldl_cons, List.foldl_nil]
+  rw [evalFrom]; rw [List.foldl_append]; rw [List.foldl_cons]; rw [List.foldl_nil]
 #align ε_NFA.eval_from_append_singleton εNFA.evalFrom_append_singleton
 
 @[simp]
@@ -192,7 +192,7 @@ theorem toεNFA_εClosure (M : NFA α σ) (S : Set σ) : M.toεNFA.εClosure S =
 @[simp]
 theorem toεNFA_evalFrom_match (M : NFA α σ) (start : Set σ) :
     M.toεNFA.evalFrom start = M.evalFrom start := by
-  rw [evalFrom, εNFA.evalFrom, toεNFA_εClosure]
+  rw [evalFrom]; rw [εNFA.evalFrom]; rw [toεNFA_εClosure]
   suffices εNFA.stepSet (toεNFA M) = stepSet M by rw [this]
   ext S s
   simp only [stepSet, εNFA.stepSet, exists_prop, Set.mem_iUnion]
@@ -205,7 +205,7 @@ theorem toεNFA_evalFrom_match (M : NFA α σ) (start : Set σ) :
 
 @[simp]
 theorem toεNFA_correct (M : NFA α σ) : M.toεNFA.accepts = M.accepts := by
-  rw [εNFA.accepts, εNFA.eval, toεNFA_evalFrom_match]
+  rw [εNFA.accepts]; rw [εNFA.eval]; rw [toεNFA_evalFrom_match]
   rfl
 #align NFA.to_ε_NFA_correct NFA.toεNFA_correct
 

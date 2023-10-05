@@ -50,7 +50,7 @@ def sectionsSubgroup (F : J ⥤ GroupCat) : Subgroup (∀ j, F.obj j) :=
     inv_mem' := fun {a} ah j j' f => by
       simp only [Functor.comp_map, Pi.inv_apply, MonoidHom.map_inv, inv_inj]
       dsimp [Functor.sections] at ah ⊢
-      rw [(F.map f).map_inv (a j), ah f] }
+      rw [(F.map f).map_inv (a j)]; rw [ah f] }
 set_option linter.uppercaseLean3 false in
 #align Group.sections_subgroup GroupCat.sectionsSubgroup
 set_option linter.uppercaseLean3 false in

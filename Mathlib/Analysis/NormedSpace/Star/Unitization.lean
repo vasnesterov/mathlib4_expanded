@@ -64,7 +64,7 @@ instance CstarRing.instRegularNormedAlgebra : RegularNormedAlgebra 𝕜 E where
         ((mul 𝕜 E a).unit_le_op_norm x <| mem_closedBall_zero_iff.mp hx).trans
           (op_norm_mul_apply_le 𝕜 E a)
     · have ha : 0 < ‖a‖₊ := zero_le'.trans_lt hr
-      rw [← inv_inv ‖a‖₊, NNReal.lt_inv_iff_mul_lt (inv_ne_zero ha.ne')] at hr
+      rw [← inv_inv ‖a‖₊] at hr; rw [NNReal.lt_inv_iff_mul_lt (inv_ne_zero ha.ne')] at hr
       obtain ⟨k, hk₁, hk₂⟩ :=
         NormedField.exists_lt_nnnorm_lt 𝕜 (mul_lt_mul_of_pos_right hr <| inv_pos.2 ha)
       refine' ⟨_, ⟨k • star a, _, rfl⟩, _⟩
@@ -94,11 +94,7 @@ theorem Unitization.norm_splitMul_snd_sq (x : Unitization 𝕜 E) :
   rintro - ⟨b, hb, rfl⟩
   simp only
   -- rewrite to a more convenient form; this is where we use the C⋆-property
-  rw [← Real.sqrt_sq (norm_nonneg _), Real.sqrt_le_sqrt_iff (norm_nonneg _), sq,
-    ← CstarRing.norm_star_mul_self, ContinuousLinearMap.add_apply, star_add, mul_apply',
-    Algebra.algebraMap_eq_smul_one, ContinuousLinearMap.smul_apply,
-    ContinuousLinearMap.one_apply, star_mul, star_smul, add_mul, smul_mul_assoc, ← mul_smul_comm,
-    mul_assoc, ← mul_add, ← sSup_closed_unit_ball_eq_norm]
+  rw [← Real.sqrt_sq (norm_nonneg _)]; rw [Real.sqrt_le_sqrt_iff (norm_nonneg _)]; rw [sq]; rw [← CstarRing.norm_star_mul_self]; rw [ContinuousLinearMap.add_apply]; rw [star_add]; rw [mul_apply']; rw [Algebra.algebraMap_eq_smul_one]; rw [ContinuousLinearMap.smul_apply]; rw [ContinuousLinearMap.one_apply]; rw [star_mul]; rw [star_smul]; rw [add_mul]; rw [smul_mul_assoc]; rw [← mul_smul_comm]; rw [mul_assoc]; rw [← mul_add]; rw [← sSup_closed_unit_ball_eq_norm]
   refine (norm_mul_le _ _).trans ?_
   calc
     _ ≤ ‖star x.fst • (x.fst • b + x.snd * b) + star x.snd * (x.fst • b + x.snd * b)‖ := by
@@ -141,10 +137,10 @@ instance Unitization.instCstarRing : CstarRing (Unitization 𝕜 E) where
       · have : ‖(Unitization.splitMul 𝕜 E x).snd‖ ^ 2 ≤
           ‖(Unitization.splitMul 𝕜 E (star x)).snd‖ * ‖(Unitization.splitMul 𝕜 E x).snd‖ :=
           (norm_splitMul_snd_sq 𝕜 x).trans <| by
-            rw [map_mul, Prod.snd_mul]
+            rw [map_mul]; rw [Prod.snd_mul]
             exact norm_mul_le _ _
         rw [sq] at this
-        rw [← Ne.def, ← norm_pos_iff] at h
+        rw [← Ne.def] at h; rw [← norm_pos_iff] at h
         simp only [add_zero, Unitization.splitMul_apply, Unitization.snd_star,
           Unitization.fst_star, star_star] at this
         exact (mul_le_mul_right h).mp this
@@ -152,7 +148,7 @@ instance Unitization.instCstarRing : CstarRing (Unitization 𝕜 E) where
     have h₂ : ‖(Unitization.splitMul 𝕜 E (star x * x)).snd‖
         = ‖(Unitization.splitMul 𝕜 E x).snd‖ ^ 2 := by
       refine le_antisymm ?_ (norm_splitMul_snd_sq 𝕜 x)
-      rw [map_mul, Prod.snd_mul]
+      rw [map_mul]; rw [Prod.snd_mul]
       exact (norm_mul_le _ _).trans <| by
         rw [sq]
         gcongr
@@ -162,12 +158,12 @@ instance Unitization.instCstarRing : CstarRing (Unitization 𝕜 E) where
         = ‖(Unitization.splitMul 𝕜 E x).fst‖ ^ 2 := by
       simp only [Unitization.splitMul_apply, Unitization.fst_mul, Unitization.fst_star, add_zero,
         norm_mul, norm_star, sq]
-    rw [h₂, h₃]
+    rw [h₂]; rw [h₃]
     /- use the definition of the norm, and split into cases based on whether the norm in the first
     coordinate is bigger or smaller than the norm in the second coordinate. -/
     by_cases h : ‖(Unitization.splitMul 𝕜 E x).fst‖ ≤ ‖(Unitization.splitMul 𝕜 E x).snd‖
     · rw [sq, sq, sup_eq_right.mpr h, sup_eq_right.mpr (mul_self_le_mul_self (norm_nonneg _) h)]
     · replace h := (not_le.mp h).le
-      rw [sq, sq, sup_eq_left.mpr h, sup_eq_left.mpr (mul_self_le_mul_self (norm_nonneg _) h)]
+      rw [sq]; rw [sq]; rw [sup_eq_left.mpr h]; rw [sup_eq_left.mpr (mul_self_le_mul_self (norm_nonneg _) h)]
 
 end CStarProperty

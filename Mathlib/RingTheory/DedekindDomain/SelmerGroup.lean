@@ -97,7 +97,7 @@ theorem valuationOfNeZeroToFun_eq (x : Kˣ) :
   rw [Units.val_inv_eq_inv_val]
   change _ = ite _ _ _ * (ite _ _ _)⁻¹
   rw [IsLocalization.toLocalizationMap_sec]
-  rw [if_neg <| IsLocalization.sec_fst_ne_zero le_rfl x.ne_zero, if_neg ?_]
+  rw [if_neg <| IsLocalization.sec_fst_ne_zero le_rfl x.ne_zero]; rw [if_neg ?_]
   rfl
   exact nonZeroDivisors.coe_ne_zero _
 #align is_dedekind_domain.height_one_spectrum.valuation_of_ne_zero_to_fun_eq IsDedekindDomain.HeightOneSpectrum.valuationOfNeZeroToFun_eq
@@ -107,7 +107,7 @@ def valuationOfNeZero : Kˣ →* Multiplicative ℤ where
   toFun := v.valuationOfNeZeroToFun
   map_one' := by rw [← WithZero.coe_inj, valuationOfNeZeroToFun_eq]; exact map_one _
   map_mul' _ _ := by
-    rw [← WithZero.coe_inj, WithZero.coe_mul]
+    rw [← WithZero.coe_inj]; rw [WithZero.coe_mul]
     simp only [valuationOfNeZeroToFun_eq]; exact map_mul _ _ _
 #align is_dedekind_domain.height_one_spectrum.valuation_of_ne_zero IsDedekindDomain.HeightOneSpectrum.valuationOfNeZero
 
@@ -119,15 +119,14 @@ theorem valuationOfNeZero_eq (x : Kˣ) : (v.valuationOfNeZero x : ℤₘ₀) = v
 @[simp]
 theorem valuation_of_unit_eq (x : Rˣ) :
     v.valuationOfNeZero (Units.map (algebraMap R K : R →* K) x) = 1 := by
-  rw [← WithZero.coe_inj, valuationOfNeZero_eq, Units.coe_map, eq_iff_le_not_lt]
+  rw [← WithZero.coe_inj]; rw [valuationOfNeZero_eq]; rw [Units.coe_map]; rw [eq_iff_le_not_lt]
   constructor
   · exact v.valuation_le_one x
   · cases' x with x _ hx _
     change ¬v.valuation (algebraMap R K x) < 1
     apply_fun v.intValuation at hx
-    rw [map_one, map_mul] at hx
-    rw [not_lt, ← hx, ← mul_one <| v.valuation _, valuation_of_algebraMap,
-      mul_le_mul_left₀ <| left_ne_zero_of_mul_eq_one hx]
+    rw [map_one] at hx; rw [map_mul] at hx
+    rw [not_lt]; rw [← hx]; rw [← mul_one <| v.valuation _]; rw [valuation_of_algebraMap]; rw [mul_le_mul_left₀ <| left_ne_zero_of_mul_eq_one hx]
     exact v.int_valuation_le_one _
 #align is_dedekind_domain.height_one_spectrum.valuation_of_unit_eq IsDedekindDomain.HeightOneSpectrum.valuation_of_unit_eq
 
@@ -149,9 +148,7 @@ def valuationOfNeZeroMod (n : ℕ) : (K/n) →* Multiplicative (ZMod n) :=
 @[simp]
 theorem valuation_of_unit_mod_eq (n : ℕ) (x : Rˣ) :
     v.valuationOfNeZeroMod n (Units.map (algebraMap R K : R →* K) x : K/n) = 1 := by
-  rw [valuationOfNeZeroMod, MonoidHom.comp_apply, ← QuotientGroup.coe_mk',
-    QuotientGroup.map_mk' (G := Kˣ) (N := MonoidHom.range (powMonoidHom n)),
-    valuation_of_unit_eq, QuotientGroup.mk_one, map_one]
+  rw [valuationOfNeZeroMod]; rw [MonoidHom.comp_apply]; rw [← QuotientGroup.coe_mk']; rw [QuotientGroup.map_mk' (G := Kˣ) (N := MonoidHom.range (powMonoidHom n))]; rw [valuation_of_unit_eq]; rw [QuotientGroup.mk_one]; rw [map_one]
 #align is_dedekind_domain.height_one_spectrum.valuation_of_unit_mod_eq IsDedekindDomain.HeightOneSpectrum.valuation_of_unit_mod_eq
 
 end HeightOneSpectrum
@@ -214,16 +211,16 @@ theorem fromUnit_ker [hn : Fact <| 0 < n] :
     have hv : ↑(_ ^ n : Kˣ) = algebraMap R K _ := by exact congr_arg Units.val hx
     have hi : ↑(_ ^ n : Kˣ)⁻¹ = algebraMap R K _ := by exact congr_arg Units.inv hx
     rw [Units.val_pow_eq_pow_val] at hv
-    rw [← inv_pow, Units.inv_mk, Units.val_pow_eq_pow_val] at hi
+    rw [← inv_pow] at hi; rw [Units.inv_mk] at hi; rw [Units.val_pow_eq_pow_val] at hi
     rcases IsIntegrallyClosed.exists_algebraMap_eq_of_isIntegral_pow (R := R) (x := v) hn.out
         (hv.symm ▸ isIntegral_algebraMap) with
       ⟨v', rfl⟩
     rcases IsIntegrallyClosed.exists_algebraMap_eq_of_isIntegral_pow (R := R) (x := i) hn.out
         (hi.symm ▸ isIntegral_algebraMap) with
       ⟨i', rfl⟩
-    rw [← map_mul, map_eq_one_iff _ <| NoZeroSMulDivisors.algebraMap_injective R K] at vi
-    rw [← map_mul, map_eq_one_iff _ <| NoZeroSMulDivisors.algebraMap_injective R K] at iv
-    rw [Units.val_mk, ← map_pow] at hv
+    rw [← map_mul] at vi; rw [map_eq_one_iff _ <| NoZeroSMulDivisors.algebraMap_injective R K] at vi
+    rw [← map_mul] at iv; rw [map_eq_one_iff _ <| NoZeroSMulDivisors.algebraMap_injective R K] at iv
+    rw [Units.val_mk] at hv; rw [← map_pow] at hv
     exact ⟨⟨v', i', vi, iv⟩, by
       simpa only [Units.ext_iff, powMonoidHom_apply, Units.val_pow_eq_pow_val] using
          NoZeroSMulDivisors.algebraMap_injective R K hv⟩

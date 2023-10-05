@@ -108,8 +108,8 @@ theorem fourierIntegral_comp_add_right [MeasurableAdd V] (e : Multiplicative �
   dsimp only
   rw [← integral_smul]
   congr 1 with v
-  rw [← smul_assoc, smul_eq_mul, ← Submonoid.coe_mul, ← e.map_mul, ← ofAdd_add, ←
-    LinearMap.neg_apply, ← sub_eq_add_neg, ← LinearMap.sub_apply, LinearMap.map_sub, neg_sub]
+  rw [← smul_assoc]; rw [smul_eq_mul]; rw [← Submonoid.coe_mul]; rw [← e.map_mul]; rw [← ofAdd_add]; rw [←
+    LinearMap.neg_apply]; rw [← sub_eq_add_neg]; rw [← LinearMap.sub_apply]; rw [LinearMap.map_sub]; rw [neg_sub]
 #align vector_fourier.fourier_integral_comp_add_right VectorFourier.fourierIntegral_comp_add_right
 
 end Defs
@@ -138,13 +138,11 @@ theorem fourier_integral_convergent_iff (he : Continuous e)
       exact hL.comp (continuous_prod_mk.mpr ⟨continuous_id, continuous_const⟩)
     rw [← integrable_norm_iff (c.aestronglyMeasurable.smul hg.1)]
     convert hg.norm using 2
-    rw [norm_smul, Complex.norm_eq_abs, abs_coe_circle, one_mul]
+    rw [norm_smul]; rw [Complex.norm_eq_abs]; rw [abs_coe_circle]; rw [one_mul]
   -- then use it for both directions
   refine' ⟨fun hf => aux hf w, fun hf => _⟩
   convert aux hf (-w)
-  rw [← smul_assoc, smul_eq_mul, ← Submonoid.coe_mul, ← MonoidHom.map_mul, ← ofAdd_add,
-    LinearMap.map_neg, neg_neg, ← sub_eq_add_neg, sub_self, ofAdd_zero, MonoidHom.map_one,
-    Submonoid.coe_one, one_smul]
+  rw [← smul_assoc]; rw [smul_eq_mul]; rw [← Submonoid.coe_mul]; rw [← MonoidHom.map_mul]; rw [← ofAdd_add]; rw [LinearMap.map_neg]; rw [neg_neg]; rw [← sub_eq_add_neg]; rw [sub_self]; rw [ofAdd_zero]; rw [MonoidHom.map_one]; rw [Submonoid.coe_one]; rw [one_smul]
 #align vector_fourier.fourier_integral_convergent_iff VectorFourier.fourier_integral_convergent_iff
 
 variable [CompleteSpace E]
@@ -230,8 +228,8 @@ namespace Real
 /-- The standard additive character of `ℝ`, given by `fun x ↦ exp (2 * π * x * I)`. -/
 def fourierChar : Multiplicative ℝ →* 𝕊 where
   toFun z := expMapCircle (2 * π * Multiplicative.toAdd z)
-  map_one' := by simp only; rw [toAdd_one, mul_zero, expMapCircle_zero]
-  map_mul' x y := by simp only; rw [toAdd_mul, mul_add, expMapCircle_add]
+  map_one' := by simp only; rw [toAdd_one]; rw [mul_zero]; rw [expMapCircle_zero]
+  map_mul' x y := by simp only; rw [toAdd_mul]; rw [mul_add]; rw [expMapCircle_add]
 #align real.fourier_char Real.fourierChar
 
 theorem fourierChar_apply (x : ℝ) : Real.fourierChar[x] = Complex.exp (↑(2 * π * x) * Complex.I) :=

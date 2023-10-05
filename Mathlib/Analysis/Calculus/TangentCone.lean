@@ -114,7 +114,7 @@ theorem tangentConeAt.lim_zero {α : Type*} (l : Filter α) {c : α → 𝕜} {d
   rw [zero_mul] at C
   have : ∀ᶠ n in l, ‖c n‖⁻¹ * ‖c n • d n‖ = ‖d n‖ := by
     refine (eventually_ne_of_tendsto_norm_atTop hc 0).mono fun n hn => ?_
-    rw [norm_smul, ← mul_assoc, inv_mul_cancel, one_mul]
+    rw [norm_smul]; rw [← mul_assoc]; rw [inv_mul_cancel]; rw [one_mul]
     rwa [Ne.def, norm_eq_zero]
   have D : Tendsto (fun n => ‖d n‖) l (𝓝 0) := Tendsto.congr' this C
   rw [tendsto_zero_iff_norm_tendsto_zero]
@@ -241,7 +241,7 @@ theorem UniqueDiffOn.uniqueDiffWithinAt {s : Set E} {x} (hs : UniqueDiffOn 𝕜 
 #align unique_diff_on.unique_diff_within_at UniqueDiffOn.uniqueDiffWithinAt
 
 theorem uniqueDiffWithinAt_univ : UniqueDiffWithinAt 𝕜 univ x := by
-  rw [uniqueDiffWithinAt_iff, tangentCone_univ]
+  rw [uniqueDiffWithinAt_iff]; rw [tangentCone_univ]
   simp
 #align unique_diff_within_at_univ uniqueDiffWithinAt_univ
 
@@ -318,7 +318,7 @@ theorem UniqueDiffWithinAt.prod {t : Set F} {y : F} (hs : UniqueDiffWithinAt �
   refine' ⟨_, hs.2, ht.2⟩
   have : _ ≤ Submodule.span 𝕜 (tangentConeAt 𝕜 (s ×ˢ t) (x, y)) := Submodule.span_mono
     (union_subset (subset_tangentCone_prod_left ht.2) (subset_tangentCone_prod_right hs.2))
-  rw [LinearMap.span_inl_union_inr, SetLike.le_def] at this
+  rw [LinearMap.span_inl_union_inr] at this; rw [SetLike.le_def] at this
   exact (hs.1.prod ht.1).mono this
 #align unique_diff_within_at.prod UniqueDiffWithinAt.prod
 

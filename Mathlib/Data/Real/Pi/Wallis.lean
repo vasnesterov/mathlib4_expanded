@@ -69,7 +69,7 @@ theorem W_eq_factorial_ratio (n : ℕ) :
       one_ne_zero, not_false_iff]
     norm_num
   · unfold W at IH ⊢
-    rw [prod_range_succ, IH, _root_.div_mul_div_comm, _root_.div_mul_div_comm]
+    rw [prod_range_succ]; rw [IH]; rw [_root_.div_mul_div_comm]; rw [_root_.div_mul_div_comm]
     refine' (div_eq_div_iff _ _).mpr _
     any_goals exact ne_of_gt (by positivity)
     simp_rw [Nat.mul_succ, Nat.factorial_succ, pow_succ]
@@ -79,20 +79,20 @@ theorem W_eq_factorial_ratio (n : ℕ) :
 
 theorem W_eq_integral_sin_pow_div_integral_sin_pow (k : ℕ) : (π / 2)⁻¹ * W k =
     (∫ x : ℝ in (0)..π, sin x ^ (2 * k + 1)) / ∫ x : ℝ in (0)..π, sin x ^ (2 * k) := by
-  rw [integral_sin_pow_even, integral_sin_pow_odd, mul_div_mul_comm, ← prod_div_distrib, inv_div]
+  rw [integral_sin_pow_even]; rw [integral_sin_pow_odd]; rw [mul_div_mul_comm]; rw [← prod_div_distrib]; rw [inv_div]
   simp_rw [div_div_div_comm, div_div_eq_mul_div, mul_div_assoc]
   rfl
 #align real.wallis.W_eq_integral_sin_pow_div_integral_sin_pow Real.Wallis.W_eq_integral_sin_pow_div_integral_sin_pow
 
 theorem W_le (k : ℕ) : W k ≤ π / 2 := by
-  rw [← div_le_one pi_div_two_pos, div_eq_inv_mul]
-  rw [W_eq_integral_sin_pow_div_integral_sin_pow, div_le_one (integral_sin_pow_pos _)]
+  rw [← div_le_one pi_div_two_pos]; rw [div_eq_inv_mul]
+  rw [W_eq_integral_sin_pow_div_integral_sin_pow]; rw [div_le_one (integral_sin_pow_pos _)]
   apply integral_sin_pow_succ_le
 #align real.wallis.W_le Real.Wallis.W_le
 
 theorem le_W (k : ℕ) : ((2 : ℝ) * k + 1) / (2 * k + 2) * (π / 2) ≤ W k := by
-  rw [← le_div_iff pi_div_two_pos, div_eq_inv_mul (W k) _]
-  rw [W_eq_integral_sin_pow_div_integral_sin_pow, le_div_iff (integral_sin_pow_pos _)]
+  rw [← le_div_iff pi_div_two_pos]; rw [div_eq_inv_mul (W k) _]
+  rw [W_eq_integral_sin_pow_div_integral_sin_pow]; rw [le_div_iff (integral_sin_pow_pos _)]
   convert integral_sin_pow_succ_le (2 * k + 1)
   rw [integral_sin_pow (2 * k)]
   simp only [sin_zero, zero_pow', Ne.def, Nat.succ_ne_zero, zero_mul, sin_pi, tsub_zero, zero_div,
@@ -108,7 +108,7 @@ theorem tendsto_W_nhds_pi_div_two : Tendsto W atTop (𝓝 <| π / 2) := by
   have h : ∀ n : ℕ, ((2 : ℝ) * n + 1) / (2 * n + 2) = 1 - 1 / (2 * n + 2) := by
     intro n
     rw [sub_div' _ _ _ (ne_of_gt (add_pos_of_nonneg_of_pos (mul_nonneg
-      (two_pos : 0 < (2 : ℝ)).le (Nat.cast_nonneg _)) two_pos)), one_mul]
+      (two_pos : 0 < (2 : ℝ)).le (Nat.cast_nonneg _)) two_pos))]; rw [one_mul]
     congr 1; ring
   simp_rw [h]
   refine' (tendsto_const_nhds.div_atTop _).const_sub _

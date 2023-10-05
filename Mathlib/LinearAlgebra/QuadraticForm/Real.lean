@@ -42,18 +42,14 @@ noncomputable def isometryEquivSignWeightedSumSquares [DecidableEq ι] (w : ι �
     (weightedSumSquares ℝ w).isometryEquivBasisRepr
       ((Pi.basisFun ℝ ι).unitsSMul fun i => (isUnit_iff_ne_zero.2 <| hu' i).unit)
   ext1 v
-  rw [basisRepr_apply, weightedSumSquares_apply, weightedSumSquares_apply]
+  rw [basisRepr_apply]; rw [weightedSumSquares_apply]; rw [weightedSumSquares_apply]
   refine' sum_congr rfl fun j hj => _
   have hsum :
     (∑ i : ι, v i • ((isUnit_iff_ne_zero.2 <| hu' i).unit : ℝ) • (Pi.basisFun ℝ ι) i) j =
       v j • (Real.sign (u j) * u j) ^ (-(1 / 2 : ℝ)) := by
-    rw [Finset.sum_apply, sum_eq_single j, Pi.basisFun_apply, IsUnit.unit_spec,
-      LinearMap.stdBasis_apply, Pi.smul_apply, Pi.smul_apply, Function.update_same, smul_eq_mul,
-      smul_eq_mul, smul_eq_mul, mul_one]
+    rw [Finset.sum_apply]; rw [sum_eq_single j]; rw [Pi.basisFun_apply]; rw [IsUnit.unit_spec]; rw [LinearMap.stdBasis_apply]; rw [Pi.smul_apply]; rw [Pi.smul_apply]; rw [Function.update_same]; rw [smul_eq_mul]; rw [smul_eq_mul]; rw [smul_eq_mul]; rw [mul_one]
     intro i _ hij
-    rw [Pi.basisFun_apply, LinearMap.stdBasis_apply, Pi.smul_apply, Pi.smul_apply,
-      Function.update_noteq hij.symm, Pi.zero_apply, smul_eq_mul, smul_eq_mul,
-      mul_zero, mul_zero]
+    rw [Pi.basisFun_apply]; rw [LinearMap.stdBasis_apply]; rw [Pi.smul_apply]; rw [Pi.smul_apply]; rw [Function.update_noteq hij.symm]; rw [Pi.zero_apply]; rw [smul_eq_mul]; rw [smul_eq_mul]; rw [mul_zero]; rw [mul_zero]
     intro hj'; exact False.elim (hj' hj)
   simp_rw [Basis.unitsSMul_apply]
   erw [hsum]
@@ -70,9 +66,7 @@ noncomputable def isometryEquivSignWeightedSumSquares [DecidableEq ι] (w : ι �
           v j *
         v j
     by erw [← mul_assoc, this]; ring
-  rw [← Real.rpow_add (sign_mul_pos_of_ne_zero _ <| Units.ne_zero _),
-    show -(1 / 2 : ℝ) + -(1 / 2) = -1 by ring, Real.rpow_neg_one, mul_inv, inv_sign,
-    mul_assoc (Real.sign (u j)) (u j)⁻¹, inv_mul_cancel (Units.ne_zero _), mul_one]
+  rw [← Real.rpow_add (sign_mul_pos_of_ne_zero _ <| Units.ne_zero _)]; rw [show -(1 / 2 : ℝ) + -(1 / 2) = -1 by ring]; rw [Real.rpow_neg_one]; rw [mul_inv]; rw [inv_sign]; rw [mul_assoc (Real.sign (u j)) (u j)⁻¹]; rw [inv_mul_cancel (Units.ne_zero _)]; rw [mul_one]
 #align quadratic_form.isometry_sign_weighted_sum_squares QuadraticForm.isometryEquivSignWeightedSumSquares
 
 /-- **Sylvester's law of inertia**: A nondegenerate real quadratic form is equivalent to a weighted

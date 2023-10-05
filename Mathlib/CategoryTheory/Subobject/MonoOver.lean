@@ -275,7 +275,7 @@ theorem map_obj_arrow (f : X ⟶ Y) [Mono f] (g : MonoOver X) : ((map f).obj g).
 instance fullMap (f : X ⟶ Y) [Mono f] : Full (map f) where
   preimage {g h} e := by
     refine' homMk e.left _
-    rw [← cancel_mono f, assoc]
+    rw [← cancel_mono f]; rw [assoc]
     apply w e
 #align category_theory.mono_over.full_map CategoryTheory.MonoOver.fullMap
 
@@ -380,7 +380,7 @@ def imageForgetAdj : image ⊣ forget X :=
         { toFun := fun k => by
             apply Over.homMk (factorThruImage f.hom ≫ k.left) _
             change (factorThruImage f.hom ≫ k.left) ≫ _ = f.hom
-            rw [assoc, Over.w k]
+            rw [assoc]; rw [Over.w k]
             apply image.fac
           invFun := fun k => by
             refine' Over.homMk _ _
@@ -395,7 +395,7 @@ def imageForgetAdj : image ⊣ forget X :=
           right_inv := fun k => by
             ext1
             change factorThruImage _ ≫ image.lift _ = _
-            rw [← cancel_mono g.arrow, assoc, image.lift_fac, image.fac f.hom]
+            rw [← cancel_mono g.arrow]; rw [assoc]; rw [image.lift_fac]; rw [image.fac f.hom]
             exact (Over.w k).symm } }
 #align category_theory.mono_over.image_forget_adj CategoryTheory.MonoOver.imageForgetAdj
 

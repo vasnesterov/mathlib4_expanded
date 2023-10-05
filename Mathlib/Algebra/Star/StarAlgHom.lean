@@ -909,10 +909,10 @@ def trans (e₁ : A ≃⋆ₐ[R] B) (e₂ : B ≃⋆ₐ[R] C) : A ≃⋆ₐ[R] C
       e₂.toRingEquiv with
     map_smul' := fun r a =>
       show e₂.toFun (e₁.toFun (r • a)) = r • e₂.toFun (e₁.toFun a) by
-        rw [e₁.map_smul', e₂.map_smul']
+        rw [e₁.map_smul']; rw [e₂.map_smul']
     map_star' := fun a =>
       show e₂.toFun (e₁.toFun (star a)) = star (e₂.toFun (e₁.toFun a)) by
-        rw [e₁.map_star', e₂.map_star'] }
+        rw [e₁.map_star']; rw [e₂.map_star'] }
 #align star_alg_equiv.trans StarAlgEquiv.trans
 
 @[simp]

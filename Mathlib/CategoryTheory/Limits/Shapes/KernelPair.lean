@@ -194,12 +194,12 @@ protected theorem pullback {X Y Z A : C} {g : Y ⟶ Z} {a₁ a₂ : A ⟶ Y} (h 
 
 theorem mono_of_isIso_fst (h : IsKernelPair f a b) [IsIso a] : Mono f := by
   obtain ⟨l, h₁, h₂⟩ := Limits.PullbackCone.IsLimit.lift' h.isLimit (𝟙 _) (𝟙 _) (by simp [h.w])
-  rw [IsPullback.cone_fst, ← IsIso.eq_comp_inv, Category.id_comp] at h₁
-  rw [h₁, IsIso.inv_comp_eq, Category.comp_id] at h₂
+  rw [IsPullback.cone_fst] at h₁; rw [← IsIso.eq_comp_inv] at h₁; rw [Category.id_comp] at h₁
+  rw [h₁] at h₂; rw [IsIso.inv_comp_eq] at h₂; rw [Category.comp_id] at h₂
   constructor
   intro Z g₁ g₂ e
   obtain ⟨l', rfl, rfl⟩ := Limits.PullbackCone.IsLimit.lift' h.isLimit _ _ e
-  rw [IsPullback.cone_fst, h₂]
+  rw [IsPullback.cone_fst]; rw [h₂]
 #align category_theory.is_kernel_pair.mono_of_is_iso_fst CategoryTheory.IsKernelPair.mono_of_isIso_fst
 
 theorem isIso_of_mono (h : IsKernelPair f a b) [Mono f] : IsIso a := by

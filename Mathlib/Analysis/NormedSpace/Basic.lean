@@ -79,7 +79,7 @@ theorem inv_norm_smul_mem_closed_unit_ball [NormedSpace ℝ β] (x : β) :
 #align inv_norm_smul_mem_closed_unit_ball inv_norm_smul_mem_closed_unit_ball
 
 theorem norm_smul_of_nonneg [NormedSpace ℝ β] {t : ℝ} (ht : 0 ≤ t) (x : β) : ‖t • x‖ = t * ‖x‖ := by
-  rw [norm_smul, Real.norm_eq_abs, abs_of_nonneg ht]
+  rw [norm_smul]; rw [Real.norm_eq_abs]; rw [abs_of_nonneg ht]
 #align norm_smul_of_nonneg norm_smul_of_nonneg
 
 variable {E : Type*} [SeminormedAddCommGroup E] [NormedSpace α E]
@@ -115,16 +115,15 @@ theorem closure_ball [NormedSpace ℝ E] (x : E) {r : ℝ} (hr : r ≠ 0) :
   · rw [one_smul, sub_add_cancel]
   · simp [closure_Ico zero_ne_one, zero_le_one]
   · rintro c ⟨hc0, hc1⟩
-    rw [mem_ball, dist_eq_norm, add_sub_cancel, norm_smul, Real.norm_eq_abs, abs_of_nonneg hc0,
-      mul_comm, ← mul_one r]
-    rw [mem_closedBall, dist_eq_norm] at hy
+    rw [mem_ball]; rw [dist_eq_norm]; rw [add_sub_cancel]; rw [norm_smul]; rw [Real.norm_eq_abs]; rw [abs_of_nonneg hc0]; rw [mul_comm]; rw [← mul_one r]
+    rw [mem_closedBall] at hy; rw [dist_eq_norm] at hy
     replace hr : 0 < r := ((norm_nonneg _).trans hy).lt_of_ne hr.symm
     apply mul_lt_mul' <;> assumption
 #align closure_ball closure_ball
 
 theorem frontier_ball [NormedSpace ℝ E] (x : E) {r : ℝ} (hr : r ≠ 0) :
     frontier (ball x r) = sphere x r := by
-  rw [frontier, closure_ball x hr, isOpen_ball.interior_eq, closedBall_diff_ball]
+  rw [frontier]; rw [closure_ball x hr]; rw [isOpen_ball.interior_eq]; rw [closedBall_diff_ball]
 #align frontier_ball frontier_ball
 
 theorem interior_closedBall [NormedSpace ℝ E] (x : E) {r : ℝ} (hr : r ≠ 0) :
@@ -144,23 +143,23 @@ theorem interior_closedBall [NormedSpace ℝ E] (x : E) {r : ℝ} (hr : r ≠ 0)
     contrapose h1
     simp
   intro c hc
-  rw [mem_Icc, ← abs_le, ← Real.norm_eq_abs, ← mul_le_mul_right hr]
+  rw [mem_Icc]; rw [← abs_le]; rw [← Real.norm_eq_abs]; rw [← mul_le_mul_right hr]
   simpa [dist_eq_norm, norm_smul] using hc
 #align interior_closed_ball interior_closedBall
 
 theorem frontier_closedBall [NormedSpace ℝ E] (x : E) {r : ℝ} (hr : r ≠ 0) :
     frontier (closedBall x r) = sphere x r := by
-  rw [frontier, closure_closedBall, interior_closedBall x hr, closedBall_diff_ball]
+  rw [frontier]; rw [closure_closedBall]; rw [interior_closedBall x hr]; rw [closedBall_diff_ball]
 #align frontier_closed_ball frontier_closedBall
 
 theorem interior_sphere [NormedSpace ℝ E] (x : E) {r : ℝ} (hr : r ≠ 0) :
     interior (sphere x r) = ∅ := by
-  rw [← frontier_closedBall x hr, interior_frontier isClosed_ball]
+  rw [← frontier_closedBall x hr]; rw [interior_frontier isClosed_ball]
 #align interior_sphere interior_sphere
 
 theorem frontier_sphere [NormedSpace ℝ E] (x : E) {r : ℝ} (hr : r ≠ 0) :
     frontier (sphere x r) = sphere x r := by
-  rw [isClosed_sphere.frontier_eq, interior_sphere x hr, diff_empty]
+  rw [isClosed_sphere.frontier_eq]; rw [interior_sphere x hr]; rw [diff_empty]
 #align frontier_sphere frontier_sphere
 
 instance NormedSpace.discreteTopology_zmultiples
@@ -173,10 +172,8 @@ instance NormedSpace.discreteTopology_zmultiples
     refine' ⟨Metric.ball 0 ‖e‖, Metric.isOpen_ball, _⟩
     ext ⟨x, hx⟩
     obtain ⟨k, rfl⟩ := AddSubgroup.mem_zmultiples_iff.mp hx
-    rw [mem_preimage, mem_ball_zero_iff, AddSubgroup.coe_mk, mem_singleton_iff, Subtype.ext_iff,
-      AddSubgroup.coe_mk, AddSubgroup.coe_zero, norm_zsmul ℚ k e, Int.norm_cast_rat,
-      Int.norm_eq_abs, mul_lt_iff_lt_one_left (norm_pos_iff.mpr he), ←
-      @Int.cast_one ℝ _, Int.cast_lt, Int.abs_lt_one_iff, smul_eq_zero, or_iff_left he]
+    rw [mem_preimage]; rw [mem_ball_zero_iff]; rw [AddSubgroup.coe_mk]; rw [mem_singleton_iff]; rw [Subtype.ext_iff]; rw [AddSubgroup.coe_mk]; rw [AddSubgroup.coe_zero]; rw [norm_zsmul ℚ k e]; rw [Int.norm_cast_rat]; rw [Int.norm_eq_abs]; rw [mul_lt_iff_lt_one_left (norm_pos_iff.mpr he)]; rw [←
+      @Int.cast_one ℝ _]; rw [Int.cast_lt]; rw [Int.abs_lt_one_iff]; rw [smul_eq_zero]; rw [or_iff_left he]
 
 open NormedField
 
@@ -304,7 +301,7 @@ theorem interior_closedBall' [NormedSpace ℝ E] [Nontrivial E] (x : E) (r : ℝ
 
 theorem frontier_closedBall' [NormedSpace ℝ E] [Nontrivial E] (x : E) (r : ℝ) :
     frontier (closedBall x r) = sphere x r := by
-  rw [frontier, closure_closedBall, interior_closedBall' x r, closedBall_diff_ball]
+  rw [frontier]; rw [closure_closedBall]; rw [interior_closedBall' x r]; rw [closedBall_diff_ball]
 #align frontier_closed_ball' frontier_closedBall'
 
 @[simp]
@@ -315,7 +312,7 @@ theorem interior_sphere' [NormedSpace ℝ E] [Nontrivial E] (x : E) (r : ℝ) :
 @[simp]
 theorem frontier_sphere' [NormedSpace ℝ E] [Nontrivial E] (x : E) (r : ℝ) :
     frontier (sphere x r) = sphere x r := by
-  rw [isClosed_sphere.frontier_eq, interior_sphere' x, diff_empty]
+  rw [isClosed_sphere.frontier_eq]; rw [interior_sphere' x]; rw [diff_empty]
 #align frontier_sphere' frontier_sphere'
 
 end NormedAddCommGroup
@@ -411,7 +408,7 @@ theorem nnnorm_algebraMap (x : 𝕜) : ‖algebraMap 𝕜 𝕜' x‖₊ = ‖x�
 
 @[simp]
 theorem norm_algebraMap' [NormOneClass 𝕜'] (x : 𝕜) : ‖algebraMap 𝕜 𝕜' x‖ = ‖x‖ := by
-  rw [norm_algebraMap, norm_one, mul_one]
+  rw [norm_algebraMap]; rw [norm_one]; rw [mul_one]
 #align norm_algebra_map' norm_algebraMap'
 
 @[simp]
@@ -440,7 +437,7 @@ variable (𝕜)
 /-- In a normed algebra, the inclusion of the base field in the extended field is an isometry. -/
 theorem algebraMap_isometry [NormOneClass 𝕜'] : Isometry (algebraMap 𝕜 𝕜') := by
   refine' Isometry.of_dist_eq fun x y => _
-  rw [dist_eq_norm, dist_eq_norm, ← RingHom.map_sub, norm_algebraMap']
+  rw [dist_eq_norm]; rw [dist_eq_norm]; rw [← RingHom.map_sub]; rw [norm_algebraMap']
 #align algebra_map_isometry algebraMap_isometry
 
 instance NormedAlgebra.id : NormedAlgebra 𝕜 𝕜 :=
@@ -456,7 +453,7 @@ norm. -/
 instance normedAlgebraRat {𝕜} [NormedDivisionRing 𝕜] [CharZero 𝕜] [NormedAlgebra ℝ 𝕜] :
     NormedAlgebra ℚ 𝕜 where
   norm_smul_le q x := by
-    rw [← smul_one_smul ℝ q x, Rat.smul_one_eq_coe, norm_smul, Rat.norm_cast_real]
+    rw [← smul_one_smul ℝ q x]; rw [Rat.smul_one_eq_coe]; rw [norm_smul]; rw [Rat.norm_cast_real]
 #align normed_algebra_rat normedAlgebraRat
 
 instance PUnit.normedAlgebra : NormedAlgebra 𝕜 PUnit where

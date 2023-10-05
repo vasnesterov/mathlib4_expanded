@@ -48,7 +48,7 @@ theorem Basis.ext_multilinear_fin {f g : MultilinearMap R M M₂} {ι₁ : Fin n
       congr 1 with x
       refine' Fin.cases rfl (fun x => _) x
       dsimp [Fin.tail]
-      rw [Fin.cons_succ, Fin.cons_succ]
+      rw [Fin.cons_succ]; rw [Fin.cons_succ]
 #align basis.ext_multilinear_fin Basis.ext_multilinear_fin
 
 /-- Two multilinear maps indexed by a `Fintype` are equal if they are equal when all arguments

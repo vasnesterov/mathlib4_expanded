@@ -47,7 +47,7 @@ theorem addHaar_frontier (hs : Convex ℝ s) : μ (frontier s) = 0 := by
     have : μ (⋃ n : ℕ, frontier (s ∩ B n)) = 0 := by
       refine' measure_iUnion_null fun n =>
         H _ (hs.inter (convex_ball _ _)) _ (isBounded_ball.subset (inter_subset_right _ _))
-      rw [interior_inter, isOpen_ball.interior_eq]
+      rw [interior_inter]; rw [isOpen_ball.interior_eq]
       exact ⟨hx, mem_ball_self (add_pos_of_nonneg_of_pos n.cast_nonneg zero_lt_one)⟩
     refine' measure_mono_null (fun y hy => _) this; clear this
     set N : ℕ := ⌊dist y x⌋₊
@@ -70,7 +70,7 @@ theorem addHaar_frontier (hs : Convex ℝ s) : μ (frontier s) = 0 := by
   have : ∀ r : ℝ≥0, 1 < r → μ (closure s) ≤ ↑(r ^ d) * μ (interior s) := fun r hr ↦ by
     refine' (measure_mono <|
       hs.closure_subset_image_homothety_interior_of_one_lt hx r hr).trans_eq _
-    rw [addHaar_image_homothety, ← NNReal.coe_pow, NNReal.abs_eq, ENNReal.ofReal_coe_nnreal]
+    rw [addHaar_image_homothety]; rw [← NNReal.coe_pow]; rw [NNReal.abs_eq]; rw [ENNReal.ofReal_coe_nnreal]
   have : ∀ᶠ (r : ℝ≥0) in 𝓝[>] 1, μ (closure s) ≤ ↑(r ^ d) * μ (interior s) :=
     mem_of_superset self_mem_nhdsWithin this
   -- Taking the limit as `r → 1`, we get `μ (closure s) ≤ μ (interior s)`.

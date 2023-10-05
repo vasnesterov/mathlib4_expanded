@@ -155,7 +155,7 @@ theorem tendsto_approxOn {f : β → α} (hf : Measurable f) {s : Set α} {y₀ 
     [SeparableSpace s] {x : β} (hx : f x ∈ closure s) :
     Tendsto (fun n => approxOn f hf s y₀ h₀ n x) atTop (𝓝 <| f x) := by
   haveI : Nonempty s := ⟨⟨y₀, h₀⟩⟩
-  rw [← @Subtype.range_coe _ s, ← image_univ, ← (denseRange_denseSeq s).closure_eq] at hx
+  rw [← @Subtype.range_coe _ s] at hx; rw [← image_univ] at hx; rw [← (denseRange_denseSeq s).closure_eq] at hx
   simp (config := { iota := false }) only [approxOn, coe_comp]
   refine' tendsto_nearestPt (closure_minimal _ isClosed_closure hx)
   simp (config := { iota := false }) only [Nat.range_casesOn, closure_union, range_comp]

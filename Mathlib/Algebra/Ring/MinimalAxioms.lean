@@ -83,9 +83,9 @@ def CommRing.ofMinimalAxioms {R : Type u}
     (one_mul : ∀ a : R, 1 * a = a)
     (left_distrib : ∀ a b c : R, a * (b + c) = a * b + a * c) : CommRing R :=
   haveI mul_one : ∀ a : R, a * 1 = a := fun a => by
-    rw [mul_comm, one_mul]
+    rw [mul_comm]; rw [one_mul]
   haveI right_distrib : ∀ a b c : R, (a + b) * c = a * c + b * c := fun a b c => by
-    rw [mul_comm, left_distrib, mul_comm, mul_comm b c]
+    rw [mul_comm]; rw [left_distrib]; rw [mul_comm]; rw [mul_comm b c]
   letI := Ring.ofMinimalAxioms add_assoc zero_add add_left_neg mul_assoc
     one_mul mul_one left_distrib right_distrib
   { mul_comm := mul_comm }

@@ -144,7 +144,7 @@ theorem perm_nodupKeys {l₁ l₂ : List (Sigma β)} (h : l₁ ~ l₂) : NodupKe
 
 theorem nodupKeys_join {L : List (List (Sigma β))} :
     NodupKeys (join L) ↔ (∀ l ∈ L, NodupKeys l) ∧ Pairwise Disjoint (L.map keys) := by
-  rw [nodupKeys_iff_pairwise, pairwise_join, pairwise_map]
+  rw [nodupKeys_iff_pairwise]; rw [pairwise_join]; rw [pairwise_map]
   refine' and_congr (ball_congr fun l _ => by simp [nodupKeys_iff_pairwise]) _
   apply iff_of_eq; congr with (l₁ l₂)
   simp [keys, disjoint_iff_ne]
@@ -241,7 +241,7 @@ theorem perm_dlookup (a : α) {l₁ l₂ : List (Sigma β)} (nd₁ : l₁.NodupK
 theorem lookup_ext {l₀ l₁ : List (Sigma β)} (nd₀ : l₀.NodupKeys) (nd₁ : l₁.NodupKeys)
     (h : ∀ x y, y ∈ l₀.dlookup x ↔ y ∈ l₁.dlookup x) : l₀ ~ l₁ :=
   mem_ext nd₀.nodup nd₁.nodup fun ⟨a, b⟩ => by
-    rw [← mem_dlookup_iff, ← mem_dlookup_iff, h] <;> assumption
+    rw [← mem_dlookup_iff]; rw [← mem_dlookup_iff]; rw [h]; all_goals assumption
 #align list.lookup_ext List.lookup_ext
 
 /-! ### `lookupAll` -/
@@ -453,7 +453,7 @@ theorem mem_keys_kerase_of_ne {a₁ a₂} {l : List (Sigma β)} (h : a₁ ≠ a�
 #align list.mem_keys_kerase_of_ne List.mem_keys_kerase_of_ne
 
 theorem keys_kerase {a} {l : List (Sigma β)} : (kerase a l).keys = l.keys.erase a := by
-  rw [keys, kerase, erase_eq_eraseP, eraseP_map]; dsimp [Function.comp]
+  rw [keys]; rw [kerase]; rw [erase_eq_eraseP]; rw [eraseP_map]; dsimp [Function.comp]
 #align list.keys_kerase List.keys_kerase
 
 theorem kerase_kerase {a a'} {l : List (Sigma β)} :
@@ -653,7 +653,7 @@ theorem dlookup_dedupKeys (a : α) (l : List (Sigma β)) : dlookup a (dedupKeys 
   cases' l_hd with a' b
   by_cases h : a = a'
   · subst a'
-    rw [dedupKeys_cons, dlookup_kinsert, dlookup_cons_eq]
+    rw [dedupKeys_cons]; rw [dlookup_kinsert]; rw [dlookup_cons_eq]
   · rw [dedupKeys_cons, dlookup_kinsert_ne h, l_ih, dlookup_cons_ne]
     exact h
 #align list.lookup_dedupkeys List.dlookup_dedupKeys

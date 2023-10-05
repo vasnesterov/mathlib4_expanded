@@ -59,7 +59,7 @@ private theorem der_cons_replicate (n : ℕ) : Derivable (M :: replicate (2 ^ n)
   · -- base case
     constructor
   · -- inductive step
-    rw [succ_eq_add_one, pow_add, pow_one 2, mul_two, replicate_add]
+    rw [succ_eq_add_one]; rw [pow_add]; rw [pow_one 2]; rw [mul_two]; rw [replicate_add]
     exact Derivable.r2 hk
 
 /-!
@@ -88,7 +88,7 @@ theorem der_of_der_append_replicate_U_even {z : Miustr} {m : ℕ}
     (h : Derivable (z ++ ↑(replicate (m * 2) U))) : Derivable z := by
   induction' m with k hk
   · revert h
-    rw [replicate, append_nil]; exact id
+    rw [replicate]; rw [append_nil]; exact id
   · apply hk
     simp only [succ_mul, replicate_add] at h
     rw [← append_nil ↑(z ++ ↑(replicate (k * 2) U))]
@@ -119,8 +119,7 @@ theorem der_cons_replicate_I_replicate_U_append_of_der_cons_replicate_I_append (
     specialize ha (U :: xs)
     intro h₂
     -- We massage the goal into a form amenable to the application of `ha`.
-    rw [succ_eq_add_one, replicate_add, ← append_assoc, ← cons_append, replicate_one, append_assoc,
-      singleton_append]
+    rw [succ_eq_add_one]; rw [replicate_add]; rw [← append_assoc]; rw [← cons_append]; rw [replicate_one]; rw [append_assoc]; rw [singleton_append]
     apply ha
     apply Derivable.r3
     change Derivable (↑(M :: replicate (c + 3 * a) I) ++ ↑(replicate 3 I) ++ xs)
@@ -143,7 +142,7 @@ section Arithmetic
 theorem add_mod2 (a : ℕ) : ∃ t, a + a % 2 = t * 2 := by
   simp only [mul_comm _ 2] -- write `t*2` as `2*t`
   apply dvd_of_mod_eq_zero -- it suffices to prove `(a + a % 2) % 2 = 0`
-  rw [add_mod, mod_mod, ← two_mul, mul_mod_right]
+  rw [add_mod]; rw [mod_mod]; rw [← two_mul]; rw [mul_mod_right]
 #align miu.add_mod2 Miu.add_mod2
 
 private theorem le_pow2_and_pow2_eq_mod3' (c : ℕ) (x : ℕ) (h : c = 1 ∨ c = 2) :
@@ -177,7 +176,7 @@ end Arithmetic
 theorem replicate_pow_minus_append {m : ℕ} :
     M :: replicate (2 ^ m - 1) I ++ [I] = M :: replicate (2 ^ m) I := by
   change M :: replicate (2 ^ m - 1) I ++ replicate 1 I = M :: replicate (2 ^ m) I
-  rw [cons_append, ← replicate_add, tsub_add_cancel_of_le (one_le_pow' m 1)]
+  rw [cons_append]; rw [← replicate_add]; rw [tsub_add_cancel_of_le (one_le_pow' m 1)]
 #align miu.replicate_pow_minus_append Miu.replicate_pow_minus_append
 
 /--
@@ -193,7 +192,7 @@ theorem der_replicate_I_of_mod3 (c : ℕ) (h : c % 3 = 1 ∨ c % 3 = 2) :
     · -- `(2^m - c)/3 ≡ 0 [MOD 2]`
       simp only [der_cons_replicate m, append_nil, List.replicate, h_zero]
     · -- case `(2^m - c)/3 ≡ 1 [MOD 2]`
-      rw [h_one, ← replicate_pow_minus_append, append_assoc]
+      rw [h_one]; rw [← replicate_pow_minus_append]; rw [append_assoc]
       apply Derivable.r1
       rw [replicate_pow_minus_append]
       exact der_cons_replicate m
@@ -206,7 +205,7 @@ theorem der_replicate_I_of_mod3 (c : ℕ) (h : c % 3 = 1 ∨ c % 3 = 2) :
     rw [Nat.mul_div_cancel']
     · exact add_tsub_cancel_of_le hm.1
     · exact (modEq_iff_dvd' hm.1).mp hm.2.symm
-  rw [append_assoc, ← replicate_add _ _] at hw₃
+  rw [append_assoc] at hw₃; rw [← replicate_add _ _] at hw₃
   cases' add_mod2 ((2 ^ m - c) / 3) with t ht
   rw [ht] at hw₃
   exact der_of_der_append_replicate_U_even hw₃
@@ -221,7 +220,7 @@ example (c : ℕ) (h : c % 3 = 1 ∨ c % 3 = 2) : Derivable (M :: replicate c I)
     · -- `(2^m - c)/3 ≡ 0 [MOD 2]`
       simp only [der_cons_replicate m, append_nil, List.replicate, h_zero]
     · -- case `(2^m - c)/3 ≡ 1 [MOD 2]`
-      rw [h_one, ← replicate_pow_minus_append, append_assoc]
+      rw [h_one]; rw [← replicate_pow_minus_append]; rw [append_assoc]
       apply Derivable.r1
       rw [replicate_pow_minus_append]
       exact der_cons_replicate m
@@ -234,7 +233,7 @@ example (c : ℕ) (h : c % 3 = 1 ∨ c % 3 = 2) : Derivable (M :: replicate c I)
     rw [Nat.mul_div_cancel']
     · exact add_tsub_cancel_of_le hm.1
     · exact (modEq_iff_dvd' hm.1).mp hm.2.symm
-  rw [append_assoc, ← replicate_add _ _] at hw₃
+  rw [append_assoc] at hw₃; rw [← replicate_add _ _] at hw₃
   cases' add_mod2 ((2 ^ m - c) / 3) with t ht
   rw [ht] at hw₃
   exact der_of_der_append_replicate_U_even hw₃
@@ -262,7 +261,7 @@ theorem count_I_eq_length_of_count_U_zero_and_neg_mem {ys : Miustr} (hu : count 
     · -- case `x = M` gives a contradiction.
       exfalso; exact hm (mem_cons_self M xs)
     · -- case `x = I`
-      rw [count_cons, if_pos rfl, length, succ_inj']
+      rw [count_cons]; rw [if_pos rfl]; rw [length]; rw [succ_inj']
       apply hxs
       · simpa only [count]
       · rw [mem_cons, not_or] at hm; exact hm.2
@@ -328,13 +327,13 @@ theorem ind_hyp_suf (k : ℕ) (ys : Miustr) (hu : count U ys = succ k) (hdec : D
     rw [count_append] at hu; simp_rw [count_cons, if_true, add_succ, succ_inj'] at hu
     rwa [count_append, count_append]
   · apply And.intro rfl
-    rw [cons_append, cons_append]
+    rw [cons_append]; rw [cons_append]
     dsimp [tail] at nmtail ⊢
     rw [mem_append] at nmtail
     simpa only [mem_append, mem_cons, false_or_iff, or_false_iff] using nmtail
-  · rw [count_append, count_append]; rw [← cons_append, count_append] at hic
+  · rw [count_append, count_append]; rw [← cons_append] at hic; rw [count_append] at hic
     simp only [count_cons_self, count_nil, count_cons, if_false] at hic ⊢
-    rw [add_right_comm, add_mod_right]; exact hic
+    rw [add_right_comm]; rw [add_mod_right]; exact hic
 #align miu.ind_hyp_suf Miu.ind_hyp_suf
 
 /-- `der_of_decstr` states that `Derivable en` follows from `Decstr en`.

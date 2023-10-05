@@ -92,9 +92,7 @@ lemma shiftFunctorZero_op_inv_app (X : Cᵒᵖ) :
     (shiftFunctorZero Cᵒᵖ ℤ).inv.app X =
       ((shiftFunctorZero C ℤ).hom.app X.unop).op ≫
       (shiftFunctorOpIso C 0 0 (zero_add 0)).inv.app X := by
-  rw [← cancel_epi ((shiftFunctorZero Cᵒᵖ ℤ).hom.app X), Iso.hom_inv_id_app,
-    shiftFunctorZero_op_hom_app, assoc, ← op_comp_assoc, Iso.hom_inv_id_app, op_id,
-    id_comp, Iso.hom_inv_id_app]
+  rw [← cancel_epi ((shiftFunctorZero Cᵒᵖ ℤ).hom.app X)]; rw [Iso.hom_inv_id_app]; rw [shiftFunctorZero_op_hom_app]; rw [assoc]; rw [← op_comp_assoc]; rw [Iso.hom_inv_id_app]; rw [op_id]; rw [id_comp]; rw [Iso.hom_inv_id_app]
 
 lemma shiftFunctorAdd'_op_hom_app (X : Cᵒᵖ) (a₁ a₂ a₃ : ℤ) (h : a₁ + a₂ = a₃)
     (b₁ b₂ b₃ : ℤ) (h₁ : a₁ + b₁ = 0) (h₂ : a₂ + b₂ = 0) (h₃ : a₃ + b₃ = 0) :
@@ -118,11 +116,9 @@ lemma shiftFunctorAdd'_op_inv_app (X : Cᵒᵖ) (a₁ a₂ a₃ : ℤ) (h : a₁
       (shiftFunctorOpIso C _ _ h₂).hom.app _ ≫
       ((shiftFunctorAdd' C b₁ b₂ b₃ (by linarith)).hom.app X.unop).op ≫
       (shiftFunctorOpIso C _ _ h₃).inv.app X := by
-  rw [← cancel_epi ((shiftFunctorAdd' Cᵒᵖ a₁ a₂ a₃ h).hom.app X), Iso.hom_inv_id_app,
-    shiftFunctorAdd'_op_hom_app X a₁ a₂ a₃ h b₁ b₂ b₃ h₁ h₂ h₃,
-    assoc, assoc, assoc, ← Functor.map_comp_assoc, Iso.inv_hom_id_app]
+  rw [← cancel_epi ((shiftFunctorAdd' Cᵒᵖ a₁ a₂ a₃ h).hom.app X)]; rw [Iso.hom_inv_id_app]; rw [shiftFunctorAdd'_op_hom_app X a₁ a₂ a₃ h b₁ b₂ b₃ h₁ h₂ h₃]; rw [assoc]; rw [assoc]; rw [assoc]; rw [← Functor.map_comp_assoc]; rw [Iso.inv_hom_id_app]
   erw [Functor.map_id, id_comp, Iso.inv_hom_id_app_assoc]
-  rw [← op_comp_assoc, Iso.hom_inv_id_app, op_id, id_comp, Iso.hom_inv_id_app]
+  rw [← op_comp_assoc]; rw [Iso.hom_inv_id_app]; rw [op_id]; rw [id_comp]; rw [Iso.hom_inv_id_app]
 
 lemma shiftFunctor_op_map (n m : ℤ) (hnm : n + m = 0) {K L : Cᵒᵖ} (φ : K ⟶ L) :
     (shiftFunctor Cᵒᵖ n).map φ =
@@ -148,7 +144,7 @@ noncomputable def opShiftFunctorEquivalence (n : ℤ) : Cᵒᵖ ≌ Cᵒᵖ wher
     erw [comp_id, Functor.map_id, comp_id]
     change (shiftFunctorCompIsoId C n (-n) (add_neg_self n)).inv.app (X.unop⟦-n⟧) ≫
       ((shiftFunctorCompIsoId C (-n) n (neg_add_self n)).hom.app X.unop)⟦-n⟧' = 𝟙 _
-    rw [shift_shiftFunctorCompIsoId_neg_add_self_hom_app n X.unop, Iso.inv_hom_id_app])
+    rw [shift_shiftFunctorCompIsoId_neg_add_self_hom_app n X.unop]; rw [Iso.inv_hom_id_app])
 
 variable {C}
 
@@ -191,7 +187,7 @@ noncomputable def functor : (Triangle C)ᵒᵖ ⥤ Triangle Cᵒᵖ where
       comm₂ := Quiver.Hom.unop_inj φ.unop.comm₁.symm
       comm₃ := by
         dsimp
-        rw [assoc, ← Functor.map_comp, ← op_comp, ← φ.unop.comm₃, op_comp, Functor.map_comp]
+        rw [assoc]; rw [← Functor.map_comp]; rw [← op_comp]; rw [← φ.unop.comm₃]; rw [op_comp]; rw [Functor.map_comp]
         erw [(opShiftFunctorEquivalence C 1).counitIso.inv.naturality_assoc φ.unop.hom₁.op]
         rfl }
 
@@ -209,8 +205,7 @@ noncomputable def inverse : Triangle Cᵒᵖ ⥤ (Triangle C)ᵒᵖ where
       comm₂ := Opposite.op_injective φ.comm₁.symm
       comm₃ := by
         dsimp
-        rw [assoc, ← Functor.map_comp, ← unop_comp, ← φ.comm₃, unop_comp, Functor.map_comp,
-          ← unop_comp_assoc]
+        rw [assoc]; rw [← Functor.map_comp]; rw [← unop_comp]; rw [← φ.comm₃]; rw [unop_comp]; rw [Functor.map_comp]; rw [← unop_comp_assoc]
         apply Quiver.Hom.op_inj
         simp only [Opposite.op_unop, op_comp, Quiver.Hom.op_unop, assoc,
           Opposite.unop_op, unop_comp]
@@ -230,7 +225,7 @@ noncomputable def unitIso : 𝟭 _ ≅ functor C ⋙ inverse C :=
       erw [← (NatIso.unop (opShiftFunctorEquivalence C 1).unitIso).inv.naturality_assoc]
       rw [shift_unop_opShiftFunctorEquivalence_counitIso_inv_app (Opposite.op T.unop.obj₁) 1]
       dsimp
-      rw [← unop_comp, Iso.hom_inv_id_app]
+      rw [← unop_comp]; rw [Iso.hom_inv_id_app]
       dsimp
       rw [comp_id]))
     (fun {T₁ T₂} f => Quiver.Hom.unop_inj (by aesop_cat))
@@ -244,7 +239,7 @@ noncomputable def counitIso : inverse C ⋙ functor C ≅ 𝟭 _ :=
     · aesop_cat
     · aesop_cat
     · dsimp
-      rw [Functor.map_id, comp_id, id_comp, Functor.map_comp]
+      rw [Functor.map_id]; rw [comp_id]; rw [id_comp]; rw [Functor.map_comp]
       erw [← (opShiftFunctorEquivalence C 1).counitIso.inv.naturality_assoc T.mor₃]
       simp only [opShiftFunctorEquivalence_counitIso_inv_app_shift, ← Functor.map_comp,
         Iso.hom_inv_id_app, Functor.map_id, Functor.id_obj, comp_id, Functor.id_map])

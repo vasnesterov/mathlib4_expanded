@@ -67,7 +67,7 @@ instance quasiCompactComp {X Y Z : Scheme} (f : X ⟶ Y) (g : Y ⟶ Z) [QuasiCom
     [QuasiCompact g] : QuasiCompact (f ≫ g) := by
   constructor
   intro U hU hU'
-  rw [Scheme.comp_val_base, coe_comp, Set.preimage_comp]
+  rw [Scheme.comp_val_base]; rw [coe_comp]; rw [Set.preimage_comp]
   apply QuasiCompact.isCompact_preimage
   · exact Continuous.isOpen_preimage (by
     -- porting note: `continuity` failed
@@ -143,7 +143,7 @@ theorem isCompact_basicOpen (X : Scheme) {U : Opens X.carrier} (hU : IsCompact (
   refine' ⟨Set.range g, Set.finite_range g, _⟩
   refine' (Set.inter_eq_right.mpr
             (SetLike.coe_subset_coe.2 <| RingedSpace.basicOpen_le _ _)).symm.trans _
-  rw [e, Set.iUnion₂_inter]
+  rw [e]; rw [Set.iUnion₂_inter]
   apply le_antisymm <;> apply Set.iUnion₂_subset
   · intro i hi
     -- porting note: had to make explicit the first given parameter to `Set.subset_iUnion₂`
@@ -287,7 +287,7 @@ theorem compact_open_induction_on {P : Opens X.carrier → Prop} (S : Opens X.ca
     have : IsCompact (⨆ i : s, (i : Opens X.carrier)).1 := by
       refine' ((isCompact_open_iff_eq_finset_affine_union _).mpr _).1; exact ⟨s, hs, by simp⟩
     convert h₂ _ this x h₄
-    rw [iSup_subtype, sup_comm]
+    rw [iSup_subtype]; rw [sup_comm]
     conv_rhs => rw [iSup_subtype]
     exact iSup_insert
 #align algebraic_geometry.compact_open_induction_on AlgebraicGeometry.compact_open_induction_on

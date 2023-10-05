@@ -151,17 +151,17 @@ theorem abs_def [LinearOrderedAddCommGroup β] (x : β*) : |x| = map abs x :=
 
 @[simp]
 theorem const_max [LinearOrder β] (x y : β) : (↑(max x y : β) : β*) = max ↑x ↑y := by
-  rw [max_def, map₂_const]
+  rw [max_def]; rw [map₂_const]
 #align filter.germ.const_max Filter.Germ.const_max
 
 @[simp]
 theorem const_min [LinearOrder β] (x y : β) : (↑(min x y : β) : β*) = min ↑x ↑y := by
-  rw [min_def, map₂_const]
+  rw [min_def]; rw [map₂_const]
 #align filter.germ.const_min Filter.Germ.const_min
 
 @[simp]
 theorem const_abs [LinearOrderedAddCommGroup β] (x : β) : (↑|x| : β*) = |↑x| := by
-  rw [abs_def, map_const]
+  rw [abs_def]; rw [map_const]
 #align filter.germ.const_abs Filter.Germ.const_abs
 
 end Germ

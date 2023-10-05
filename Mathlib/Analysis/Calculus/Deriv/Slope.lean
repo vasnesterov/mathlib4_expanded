@@ -78,7 +78,7 @@ theorem hasDerivWithinAt_iff_tendsto_slope :
 
 theorem hasDerivWithinAt_iff_tendsto_slope' (hs : x ∉ s) :
     HasDerivWithinAt f f' s x ↔ Tendsto (slope f x) (𝓝[s] x) (𝓝 f') := by
-  rw [hasDerivWithinAt_iff_tendsto_slope, diff_singleton_eq_self hs]
+  rw [hasDerivWithinAt_iff_tendsto_slope]; rw [diff_singleton_eq_self hs]
 #align has_deriv_within_at_iff_tendsto_slope' hasDerivWithinAt_iff_tendsto_slope'
 
 theorem hasDerivAt_iff_tendsto_slope : HasDerivAt f f' x ↔ Tendsto (slope f x) (𝓝[≠] x) (𝓝 f') :=
@@ -122,9 +122,9 @@ theorem range_derivWithin_subset_closure_span_image
     simpa using A.trans (closure_mono B) H
   have : Tendsto (slope f x) (𝓝[(s ∩ t) \ {x}] x) (𝓝 (derivWithin f s x)) := by
     apply Tendsto.mono_left (hasDerivWithinAt_iff_tendsto_slope.1 H'.hasDerivWithinAt)
-    rw [inter_comm, inter_diff_assoc]
+    rw [inter_comm]; rw [inter_diff_assoc]
     exact nhdsWithin_mono _ (inter_subset_right _ _)
-  rw [← closure_closure, ← Submodule.topologicalClosure_coe]
+  rw [← closure_closure]; rw [← Submodule.topologicalClosure_coe]
   apply mem_closure_of_tendsto this
   filter_upwards [self_mem_nhdsWithin] with y hy
   simp only [slope, vsub_eq_sub, SetLike.mem_coe]
@@ -206,7 +206,7 @@ theorem HasDerivWithinAt.limsup_norm_slope_le (hf : HasDerivWithinAt f f' s x) (
   have B : ∀ᶠ z in 𝓝[{x}] x, ‖(z - x)⁻¹ • (f z - f x)‖ ∈ Iio r :=
     mem_of_superset self_mem_nhdsWithin (singleton_subset_iff.2 <| by simp [hr₀])
   have C := mem_sup.2 ⟨A, B⟩
-  rw [← nhdsWithin_union, diff_union_self, nhdsWithin_union, mem_sup] at C
+  rw [← nhdsWithin_union] at C; rw [diff_union_self] at C; rw [nhdsWithin_union] at C; rw [mem_sup] at C
   filter_upwards [C.1]
   simp only [norm_smul, mem_Iio, norm_inv]
   exact fun _ => id

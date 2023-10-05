@@ -1225,7 +1225,7 @@ theorem prod_map_comap_prod' {M' : Type*} {N' : Type*} [MulOneClass M'] [MulOneC
 @[to_additive mker_prod_map]
 theorem mker_prod_map {M' : Type*} {N' : Type*} [MulOneClass M'] [MulOneClass N'] (f : M →* N)
     (g : M' →* N') : mker (prodMap f g) = f.mker.prod (mker g) := by
-  rw [← comap_bot', ← comap_bot', ← comap_bot', ← prod_map_comap_prod', bot_prod_bot]
+  rw [← comap_bot']; rw [← comap_bot']; rw [← comap_bot']; rw [← prod_map_comap_prod']; rw [bot_prod_bot]
 #align monoid_hom.mker_prod_map MonoidHom.mker_prod_map
 -- Porting note: to_additive translated the name incorrectly in mathlib 3.
 #align add_monoid_hom.mker_sum_map AddMonoidHom.mker_prod_map

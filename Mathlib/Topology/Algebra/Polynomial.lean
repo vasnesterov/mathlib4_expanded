@@ -102,13 +102,13 @@ theorem tendsto_abv_eval₂_atTop {R S k α : Type*} [Semiring R] [Ring S] [Line
     Tendsto (fun x => abv (p.eval₂ f (z x))) l atTop := by
   revert hf; refine' degree_pos_induction_on p hd _ _ _ <;> clear hd p
   · rintro _ - hc
-    rw [leadingCoeff_mul_X, leadingCoeff_C] at hc
+    rw [leadingCoeff_mul_X] at hc; rw [leadingCoeff_C] at hc
     simpa [abv_mul abv] using hz.const_mul_atTop ((abv_pos abv).2 hc)
   · intro _ _ ihp hf
     rw [leadingCoeff_mul_X] at hf
     simpa [abv_mul abv] using (ihp hf).atTop_mul_atTop hz
   · intro _ a hd ihp hf
-    rw [add_comm, leadingCoeff_add_of_degree_lt (degree_C_le.trans_lt hd)] at hf
+    rw [add_comm] at hf; rw [leadingCoeff_add_of_degree_lt (degree_C_le.trans_lt hd)] at hf
     refine' tendsto_atTop_of_add_const_right (abv (-f a)) _
     refine' tendsto_atTop_mono (fun _ => abv_add abv _ _) _
     simpa using ihp hf
@@ -154,7 +154,7 @@ theorem eq_one_of_roots_le {p : F[X]} {f : F →+* K} {B : ℝ} (hB : B < 0) (h1
     (h2 : Splits f p) (h3 : ∀ z ∈ (map f p).roots, ‖z‖ ≤ B) : p = 1 :=
   h1.natDegree_eq_zero_iff_eq_one.mp (by
     contrapose! hB
-    rw [← h1.natDegree_map f, natDegree_eq_card_roots' h2] at hB
+    rw [← h1.natDegree_map f] at hB; rw [natDegree_eq_card_roots' h2] at hB
     obtain ⟨z, hz⟩ := card_pos_iff_exists_mem.mp (zero_lt_iff.mpr hB)
     exact le_trans (norm_nonneg _) (h3 z hz))
 #align polynomial.eq_one_of_roots_le Polynomial.eq_one_of_roots_le
@@ -170,8 +170,7 @@ theorem coeff_le_of_roots_le {p : F[X]} {f : F →+* K} {B : ℝ} (i : ℕ) (h1 
   obtain hi | hi := lt_or_le (map f p).natDegree i
   · rw [coeff_eq_zero_of_natDegree_lt hi, norm_zero]
     positivity
-  rw [coeff_eq_esymm_roots_of_splits ((splits_id_iff_splits f).2 h2) hi, (h1.map _).leadingCoeff,
-    one_mul, norm_mul, norm_pow, norm_neg, norm_one, one_pow, one_mul]
+  rw [coeff_eq_esymm_roots_of_splits ((splits_id_iff_splits f).2 h2) hi]; rw [(h1.map _).leadingCoeff]; rw [one_mul]; rw [norm_mul]; rw [norm_pow]; rw [norm_neg]; rw [norm_one]; rw [one_pow]; rw [one_mul]
   apply ((norm_multiset_sum_le _).trans <| sum_le_card_nsmul _ _ fun r hr => _).trans
   · rw [Multiset.map_map, card_map, card_powersetLen, ← natDegree_eq_card_roots' h2,
       Nat.choose_symm hi, mul_comm, nsmul_eq_mul]
@@ -180,8 +179,7 @@ theorem coeff_le_of_roots_le {p : F[X]} {f : F →+* K} {B : ℝ} (i : ℕ) (h1 
   obtain ⟨_, ⟨s, hs, rfl⟩, rfl⟩ := hr
   rw [mem_powersetLen] at hs
   lift B to ℝ≥0 using hB
-  rw [← coe_nnnorm, ← NNReal.coe_pow, NNReal.coe_le_coe, ← nnnormHom_apply, ← MonoidHom.coe_coe,
-    MonoidHom.map_multiset_prod]
+  rw [← coe_nnnorm]; rw [← NNReal.coe_pow]; rw [NNReal.coe_le_coe]; rw [← nnnormHom_apply]; rw [← MonoidHom.coe_coe]; rw [MonoidHom.map_multiset_prod]
   refine' (prod_le_pow_card _ B fun x hx => _).trans_eq (by rw [card_map, hs.2])
   obtain ⟨z, hz, rfl⟩ := Multiset.mem_map.1 hx
   exact h3 z (mem_of_le hs.1 hz)

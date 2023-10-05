@@ -67,11 +67,11 @@ theorem contractLeft_assoc_coevaluation :
   letI := Classical.decEq (Basis.ofVectorSpaceIndex K V)
   apply TensorProduct.ext
   apply (Basis.ofVectorSpace K V).dualBasis.ext; intro j; apply LinearMap.ext_ring
-  rw [LinearMap.compr₂_apply, LinearMap.compr₂_apply, TensorProduct.mk_apply]
+  rw [LinearMap.compr₂_apply]; rw [LinearMap.compr₂_apply]; rw [TensorProduct.mk_apply]
   simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_toLinearMap]
-  rw [rid_tmul, one_smul, lid_symm_apply]
+  rw [rid_tmul]; rw [one_smul]; rw [lid_symm_apply]
   simp only [LinearEquiv.coe_toLinearMap, LinearMap.lTensor_tmul, coevaluation_apply_one]
-  rw [TensorProduct.tmul_sum, map_sum]; simp only [assoc_symm_tmul]
+  rw [TensorProduct.tmul_sum]; rw [map_sum]; simp only [assoc_symm_tmul]
   rw [map_sum]; simp only [LinearMap.rTensor_tmul, contractLeft_apply]
   simp only [Basis.coe_dualBasis, Basis.coord_apply, Basis.repr_self_apply, TensorProduct.ite_tmul]
   rw [Finset.sum_ite_eq']; simp only [Finset.mem_univ, if_true]
@@ -86,11 +86,11 @@ theorem contractLeft_assoc_coevaluation' :
   letI := Classical.decEq (Basis.ofVectorSpaceIndex K V)
   apply TensorProduct.ext
   apply LinearMap.ext_ring; apply (Basis.ofVectorSpace K V).ext; intro j
-  rw [LinearMap.compr₂_apply, LinearMap.compr₂_apply, TensorProduct.mk_apply]
+  rw [LinearMap.compr₂_apply]; rw [LinearMap.compr₂_apply]; rw [TensorProduct.mk_apply]
   simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_toLinearMap]
-  rw [lid_tmul, one_smul, rid_symm_apply]
+  rw [lid_tmul]; rw [one_smul]; rw [rid_symm_apply]
   simp only [LinearEquiv.coe_toLinearMap, LinearMap.rTensor_tmul, coevaluation_apply_one]
-  rw [TensorProduct.sum_tmul, map_sum]; simp only [assoc_tmul]
+  rw [TensorProduct.sum_tmul]; rw [map_sum]; simp only [assoc_tmul]
   rw [map_sum]; simp only [LinearMap.lTensor_tmul, contractLeft_apply]
   simp only [Basis.coord_apply, Basis.repr_self_apply, TensorProduct.tmul_ite]
   rw [Finset.sum_ite_eq]; simp only [Finset.mem_univ, if_true]

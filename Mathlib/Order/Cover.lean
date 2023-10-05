@@ -181,11 +181,11 @@ theorem Wcovby.Icc_eq (h : a ⩿ b) : Icc a b = {a, b} := by
 #align wcovby.Icc_eq Wcovby.Icc_eq
 
 theorem Wcovby.Ico_subset (h : a ⩿ b) : Ico a b ⊆ {a} := by
-  rw [← Icc_diff_right, h.Icc_eq, diff_singleton_subset_iff, pair_comm]
+  rw [← Icc_diff_right]; rw [h.Icc_eq]; rw [diff_singleton_subset_iff]; rw [pair_comm]
 #align wcovby.Ico_subset Wcovby.Ico_subset
 
 theorem Wcovby.Ioc_subset (h : a ⩿ b) : Ioc a b ⊆ {b} := by
-  rw [← Icc_diff_left, h.Icc_eq, diff_singleton_subset_iff]
+  rw [← Icc_diff_left]; rw [h.Icc_eq]; rw [diff_singleton_subset_iff]
 #align wcovby.Ioc_subset Wcovby.Ioc_subset
 
 end PartialOrder
@@ -388,7 +388,7 @@ theorem covby_iff_wcovby_and_ne : a ⋖ b ↔ a ⩿ b ∧ a ≠ b :=
 #align covby_iff_wcovby_and_ne covby_iff_wcovby_and_ne
 
 theorem wcovby_iff_covby_or_eq : a ⩿ b ↔ a ⋖ b ∨ a = b := by
-  rw [le_antisymm_iff, wcovby_iff_covby_or_le_and_le]
+  rw [le_antisymm_iff]; rw [wcovby_iff_covby_or_le_and_le]
 #align wcovby_iff_covby_or_eq wcovby_iff_covby_or_eq
 
 theorem wcovby_iff_eq_or_covby : a ⩿ b ↔ a = b ∨ a ⋖ b :=
@@ -411,11 +411,11 @@ theorem covby_iff_lt_and_eq_or_eq : a ⋖ b ↔ a < b ∧ ∀ c, a ≤ c → c �
 #align covby_iff_lt_and_eq_or_eq covby_iff_lt_and_eq_or_eq
 
 theorem Covby.Ico_eq (h : a ⋖ b) : Ico a b = {a} := by
-  rw [← Ioo_union_left h.lt, h.Ioo_eq, empty_union]
+  rw [← Ioo_union_left h.lt]; rw [h.Ioo_eq]; rw [empty_union]
 #align covby.Ico_eq Covby.Ico_eq
 
 theorem Covby.Ioc_eq (h : a ⋖ b) : Ioc a b = {b} := by
-  rw [← Ioo_union_right h.lt, h.Ioo_eq, empty_union]
+  rw [← Ioo_union_right h.lt]; rw [h.Ioo_eq]; rw [empty_union]
 #align covby.Ioc_eq Covby.Ioc_eq
 
 theorem Covby.Icc_eq (h : a ⋖ b) : Icc a b = {a, b} :=
@@ -429,11 +429,11 @@ section LinearOrder
 variable [LinearOrder α] {a b c : α}
 
 theorem Covby.Ioi_eq (h : a ⋖ b) : Ioi a = Ici b := by
-  rw [← Ioo_union_Ici_eq_Ioi h.lt, h.Ioo_eq, empty_union]
+  rw [← Ioo_union_Ici_eq_Ioi h.lt]; rw [h.Ioo_eq]; rw [empty_union]
 #align covby.Ioi_eq Covby.Ioi_eq
 
 theorem Covby.Iio_eq (h : a ⋖ b) : Iio b = Iic a := by
-  rw [← Iic_union_Ioo_eq_Iio h.lt, h.Ioo_eq, union_empty]
+  rw [← Iic_union_Ioo_eq_Iio h.lt]; rw [h.Ioo_eq]; rw [union_empty]
 #align covby.Iio_eq Covby.Iio_eq
 
 theorem Wcovby.le_of_lt (hab : a ⩿ b) (hcb : c < b) : c ≤ a :=
@@ -502,11 +502,11 @@ lemma wcovby_eq_reflGen_covby [PartialOrder α] : ((· : α) ⩿ ·) = ReflGen (
 
 lemma transGen_wcovby_eq_reflTransGen_covby [PartialOrder α] :
     TransGen ((· : α) ⩿ ·) = ReflTransGen (· ⋖ ·) := by
-  rw [wcovby_eq_reflGen_covby, transGen_reflGen]
+  rw [wcovby_eq_reflGen_covby]; rw [transGen_reflGen]
 
 lemma reflTransGen_wcovby_eq_reflTransGen_covby [PartialOrder α] :
     ReflTransGen ((· : α) ⩿ ·) = ReflTransGen (· ⋖ ·) := by
-  rw [wcovby_eq_reflGen_covby, reflTransGen_reflGen]
+  rw [wcovby_eq_reflGen_covby]; rw [reflTransGen_reflGen]
 
 end Relation
 
@@ -543,7 +543,7 @@ theorem _root_.Wcovby.snd (h : x ⩿ y) : x.2 ⩿ y.2 :=
 theorem mk_wcovby_mk_iff_left : (a₁, b) ⩿ (a₂, b) ↔ a₁ ⩿ a₂ := by
   refine' ⟨Wcovby.fst, (And.imp mk_le_mk_iff_left.2) fun h c h₁ h₂ => _⟩
   have : c.2 = b := h₂.le.2.antisymm h₁.le.2
-  rw [← @Prod.mk.eta _ _ c, this, mk_lt_mk_iff_left] at h₁ h₂
+  rw [← @Prod.mk.eta _ _ c] at h₁ h₂; rw [this] at h₁ h₂; rw [mk_lt_mk_iff_left] at h₁ h₂
   exact h h₁ h₂
 #align prod.mk_wcovby_mk_iff_left Prod.mk_wcovby_mk_iff_left
 

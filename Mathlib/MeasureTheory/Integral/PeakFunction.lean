@@ -95,7 +95,7 @@ theorem tendsto_set_integral_peak_smul_of_integrableOn_of_continuousWithinAt_aux
         (𝓝 ((0 * ∫ x in s, ‖g x‖ ∂μ) + 0)) := by
       apply Tendsto.mono_left _ nhdsWithin_le_nhds
       exact (tendsto_id.mul tendsto_const_nhds).add tendsto_id
-    rw [zero_mul, zero_add] at A
+    rw [zero_mul] at A; rw [zero_add] at A
     exact (((tendsto_order.1 A).2 ε εpos).and self_mem_nhdsWithin).exists
   suffices ∀ᶠ i in l, ‖∫ x in s, φ i x • g x ∂μ‖ ≤ (δ * ∫ x in s, ‖g x‖ ∂μ) + δ by
     filter_upwards [this] with i hi
@@ -118,7 +118,7 @@ theorem tendsto_set_integral_peak_smul_of_integrableOn_of_continuousWithinAt_aux
               (inter_subset_left _ _)
         rw [norm_smul]
         apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
-        rw [inter_comm, h'g] at hu
+        rw [inter_comm] at hu; rw [h'g] at hu
         exact (mem_ball_zero_iff.1 (hu x hx)).le
       _ ≤ ∫ x in s, ‖φ i x‖ * δ ∂μ := by
         apply set_integral_mono_set
@@ -179,7 +179,7 @@ theorem tendsto_set_integral_peak_smul_of_integrableOn_of_continuousWithinAt (hs
   filter_upwards [integrableOn_peak_smul_of_integrableOn_of_continuousWithinAt hs hlφ hiφ hmg hcg,
     hiφ] with i hi h'i
   simp only [Pi.sub_apply, smul_sub]
-  rw [integral_sub hi, integral_smul_const, sub_add_cancel]
+  rw [integral_sub hi]; rw [integral_smul_const]; rw [sub_add_cancel]
   exact Integrable.smul_const (integrable_of_integral_eq_one h'i) _
 #align tendsto_set_integral_peak_smul_of_integrable_on_of_continuous_within_at tendsto_set_integral_peak_smul_of_integrableOn_of_continuousWithinAt
 
@@ -226,7 +226,7 @@ theorem tendsto_set_integral_pow_smul_of_unique_maximum_of_isCompact_of_measure_
     apply (hμ u u_open x₀_u).trans_le
     exact measure_mono fun x hx => ⟨ne_of_gt (pow_pos (a := c x) (hu hx) _), hx.2⟩
   have hiφ : ∀ n, ∫ x in s, φ n x ∂μ = 1 := fun n => by
-    rw [integral_mul_left, inv_mul_cancel (P n).ne']
+    rw [integral_mul_left]; rw [inv_mul_cancel (P n).ne']
   have A : ∀ u : Set α, IsOpen u → x₀ ∈ u → TendstoUniformlyOn φ 0 atTop (s \ u) := by
     intro u u_open x₀u
     obtain ⟨t, t_pos, tx₀, ht⟩ : ∃ t, 0 ≤ t ∧ t < c x₀ ∧ ∀ x ∈ s \ u, c x ≤ t := by

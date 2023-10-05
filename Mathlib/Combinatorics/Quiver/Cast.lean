@@ -68,7 +68,7 @@ theorem Hom.cast_eq_iff_heq {u v u' v' : U} (hu : u = u') (hv : v = v') (e : u �
 
 theorem Hom.eq_cast_iff_heq {u v u' v' : U} (hu : u = u') (hv : v = v') (e : u ⟶ v) (e' : u' ⟶ v') :
     e' = e.cast hu hv ↔ HEq e' e := by
-  rw [eq_comm, Hom.cast_eq_iff_heq]
+  rw [eq_comm]; rw [Hom.cast_eq_iff_heq]
   exact ⟨HEq.symm, HEq.symm⟩
 #align quiver.hom.eq_cast_iff_heq Quiver.Hom.eq_cast_iff_heq
 

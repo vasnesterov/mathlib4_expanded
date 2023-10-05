@@ -272,7 +272,7 @@ theorem limit.hom_ext {F : J ⥤ C} [HasLimit F] {X : C} {f f' : X ⟶ limit F}
 theorem limit.lift_map {F G : J ⥤ C} [HasLimit F] [HasLimit G] (c : Cone F) (α : F ⟶ G) :
     limit.lift F c ≫ limMap α = limit.lift G ((Cones.postcompose α).obj c) := by
   ext
-  rw [assoc, limMap_π, limit.lift_π_assoc, limit.lift_π]
+  rw [assoc]; rw [limMap_π]; rw [limit.lift_π_assoc]; rw [limit.lift_π]
   rfl
 #align category_theory.limits.limit.lift_map CategoryTheory.Limits.limit.lift_map
 
@@ -318,13 +318,11 @@ theorem hasLimitOfIso {F G : J ⥤ C} [HasLimit F] (α : F ≅ G) : HasLimit G :
       isLimit :=
         { lift := fun s => limit.lift F ((Cones.postcompose α.inv).obj s)
           fac := fun s j => by
-            rw [Cones.postcompose_obj_π, NatTrans.comp_app, limit.cone_π, ← Category.assoc,
-              limit.lift_π]
+            rw [Cones.postcompose_obj_π]; rw [NatTrans.comp_app]; rw [limit.cone_π]; rw [← Category.assoc]; rw [limit.lift_π]
             simp
           uniq := fun s m w => by
             apply limit.hom_ext; intro j
-            rw [limit.lift_π, Cones.postcompose_obj_π, NatTrans.comp_app, ← NatIso.app_inv,
-              Iso.eq_comp_inv]
+            rw [limit.lift_π]; rw [Cones.postcompose_obj_π]; rw [NatTrans.comp_app]; rw [← NatIso.app_inv]; rw [Iso.eq_comp_inv]
             simpa using w j } }
 #align category_theory.limits.has_limit_of_iso CategoryTheory.Limits.hasLimitOfIso
 
@@ -468,7 +466,7 @@ theorem limit.post_π (j : J) : limit.post F G ≫ limit.π (F ⋙ G) j = G.map 
 theorem limit.lift_post (c : Cone F) :
     G.map (limit.lift F c) ≫ limit.post F G = limit.lift (F ⋙ G) (G.mapCone c) := by
   ext
-  rw [assoc, limit.post_π, ← G.map_comp, limit.lift_π, limit.lift_π]
+  rw [assoc]; rw [limit.post_π]; rw [← G.map_comp]; rw [limit.lift_π]; rw [limit.lift_π]
   rfl
 #align category_theory.limits.limit.lift_post CategoryTheory.Limits.limit.lift_post
 
@@ -883,12 +881,11 @@ theorem hasColimitOfIso {F G : J ⥤ C} [HasColimit F] (α : G ≅ F) : HasColim
       isColimit :=
         { desc := fun s => colimit.desc F ((Cocones.precompose α.inv).obj s)
           fac := fun s j => by
-            rw [Cocones.precompose_obj_ι, NatTrans.comp_app, colimit.cocone_ι]
-            rw [Category.assoc, colimit.ι_desc, ← NatIso.app_hom, ← Iso.eq_inv_comp]; rfl
+            rw [Cocones.precompose_obj_ι]; rw [NatTrans.comp_app]; rw [colimit.cocone_ι]
+            rw [Category.assoc]; rw [colimit.ι_desc]; rw [← NatIso.app_hom]; rw [← Iso.eq_inv_comp]; rfl
           uniq := fun s m w => by
             apply colimit.hom_ext; intro j
-            rw [colimit.ι_desc, Cocones.precompose_obj_ι, NatTrans.comp_app, ← NatIso.app_inv,
-              Iso.eq_inv_comp]
+            rw [colimit.ι_desc]; rw [Cocones.precompose_obj_ι]; rw [NatTrans.comp_app]; rw [← NatIso.app_inv]; rw [Iso.eq_inv_comp]
             simpa using w j } }
 #align category_theory.limits.has_colimit_of_iso CategoryTheory.Limits.hasColimitOfIso
 
@@ -978,7 +975,7 @@ theorem colimit.ι_pre (k : K) : colimit.ι (E ⋙ F) k ≫ colimit.pre F E = co
 @[reassoc (attr := simp)]
 theorem colimit.pre_desc (c : Cocone F) :
     colimit.pre F E ≫ colimit.desc F c = colimit.desc (E ⋙ F) (c.whisker E) := by
-  ext; rw [← assoc, colimit.ι_pre]; simp
+  ext; rw [← assoc]; rw [colimit.ι_pre]; simp
 #align category_theory.limits.colimit.pre_desc CategoryTheory.Limits.colimit.pre_desc
 
 variable {L : Type u₃} [Category.{v₃} L]
@@ -990,7 +987,7 @@ theorem colimit.pre_pre [h : HasColimit (D ⋙ E ⋙ F)] :
     haveI : HasColimit ((D ⋙ E) ⋙ F) := h
     colimit.pre (E ⋙ F) D ≫ colimit.pre F E = colimit.pre F (D ⋙ E) := by
   ext j
-  rw [← assoc, colimit.ι_pre, colimit.ι_pre]
+  rw [← assoc]; rw [colimit.ι_pre]; rw [colimit.ι_pre]
   haveI : HasColimit ((D ⋙ E) ⋙ F) := h
   exact (colimit.ι_pre F (D ⋙ E) j).symm
 #align category_theory.limits.colimit.pre_pre CategoryTheory.Limits.colimit.pre_pre
@@ -1034,7 +1031,7 @@ theorem colimit.ι_post (j : J) :
 theorem colimit.post_desc (c : Cocone F) :
     colimit.post F G ≫ G.map (colimit.desc F c) = colimit.desc (F ⋙ G) (G.mapCocone c) := by
   ext
-  rw [← assoc, colimit.ι_post, ← G.map_comp, colimit.ι_desc, colimit.ι_desc]
+  rw [← assoc]; rw [colimit.ι_post]; rw [← G.map_comp]; rw [colimit.ι_desc]; rw [colimit.ι_desc]
   rfl
 #align category_theory.limits.colimit.post_desc CategoryTheory.Limits.colimit.post_desc
 
@@ -1045,7 +1042,7 @@ theorem colimit.post_post {E : Type u''} [Category.{v''} E] (H : D ⥤ E)
     [h : HasColimit ((F ⋙ G) ⋙ H)] : haveI : HasColimit (F ⋙ G ⋙ H) := h
     colimit.post (F ⋙ G) H ≫ H.map (colimit.post F G) = colimit.post F (G ⋙ H) := by
   ext j
-  rw [← assoc, colimit.ι_post, ← H.map_comp, colimit.ι_post]
+  rw [← assoc]; rw [colimit.ι_post]; rw [← H.map_comp]; rw [colimit.ι_post]
   haveI : HasColimit (F ⋙ G ⋙ H) := h
   exact (colimit.ι_post F (G ⋙ H) j).symm
 #align category_theory.limits.colimit.post_post CategoryTheory.Limits.colimit.post_post
@@ -1060,7 +1057,7 @@ theorem colimit.pre_post {D : Type u'} [Category.{v'} D] (E : K ⥤ J) (F : J �
     colimit.post (E ⋙ F) G ≫ G.map (colimit.pre F E) =
       colimit.pre (F ⋙ G) E ≫ colimit.post F G := by
   ext j
-  rw [← assoc, colimit.ι_post, ← G.map_comp, colimit.ι_pre, ← assoc]
+  rw [← assoc]; rw [colimit.ι_post]; rw [← G.map_comp]; rw [colimit.ι_pre]; rw [← assoc]
   haveI : HasColimit (E ⋙ F ⋙ G) := h
   erw [colimit.ι_pre (F ⋙ G) E j, colimit.ι_post]
 #align category_theory.limits.colimit.pre_post CategoryTheory.Limits.colimit.pre_post
@@ -1114,7 +1111,7 @@ theorem colimit.map_desc (c : Cocone G) :
 theorem colimit.pre_map [HasColimitsOfShape K C] (E : K ⥤ J) :
     colimit.pre F E ≫ colim.map α = colim.map (whiskerLeft E α) ≫ colimit.pre G E := by
   ext
-  rw [← assoc, colimit.ι_pre, colimit.ι_map, ← assoc, colimit.ι_map, assoc, colimit.ι_pre]
+  rw [← assoc]; rw [colimit.ι_pre]; rw [colimit.ι_map]; rw [← assoc]; rw [colimit.ι_map]; rw [assoc]; rw [colimit.ι_pre]
   rfl
 #align category_theory.limits.colimit.pre_map CategoryTheory.Limits.colimit.pre_map
 
@@ -1135,8 +1132,8 @@ theorem colimit.map_post {D : Type u'} [Category.{v'} D] [HasColimitsOfShape J D
         H.map (colim.map α) =
       colim.map (whiskerRight α H) ≫ colimit.post G H := by
   ext
-  rw [← assoc, colimit.ι_post, ← H.map_comp, colimit.ι_map, H.map_comp]
-  rw [← assoc, colimit.ι_map, assoc, colimit.ι_post]
+  rw [← assoc]; rw [colimit.ι_post]; rw [← H.map_comp]; rw [colimit.ι_map]; rw [H.map_comp]
+  rw [← assoc]; rw [colimit.ι_map]; rw [assoc]; rw [colimit.ι_post]
   rfl
 #align category_theory.limits.colimit.map_post CategoryTheory.Limits.colimit.map_post
 

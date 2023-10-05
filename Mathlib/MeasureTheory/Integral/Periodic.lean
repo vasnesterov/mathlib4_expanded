@@ -108,7 +108,7 @@ theorem volume_closedBall {x : AddCircle T} (ε : ℝ) :
   let I := Ioc (-(T / 2)) (T / 2)
   have h₁ : ε < T / 2 → Metric.closedBall (0 : ℝ) ε ∩ I = Metric.closedBall (0 : ℝ) ε := by
     intro hε
-    rw [inter_eq_left, Real.closedBall_eq_Icc, zero_sub, zero_add]
+    rw [inter_eq_left]; rw [Real.closedBall_eq_Icc]; rw [zero_sub]; rw [zero_add]
     rintro y ⟨hy₁, hy₂⟩; constructor <;> linarith
   have h₂ : (↑) ⁻¹' Metric.closedBall (0 : AddCircle T) ε ∩ I =
       if ε < T / 2 then Metric.closedBall (0 : ℝ) ε else I := by
@@ -167,7 +167,7 @@ protected theorem lintegral_preimage (t : ℝ) (f : AddCircle T → ℝ≥0∞) 
     have : ((↑) : Ioc t (t + T) → AddCircle T) = ((↑) : ℝ → AddCircle T) ∘ ((↑) : _ → ℝ) := by
       ext1 x; rfl
     simp_rw [this]
-    rw [← map_map AddCircle.measurable_mk' measurable_subtype_coe, ← map_comap_subtype_coe m]
+    rw [← map_map AddCircle.measurable_mk' measurable_subtype_coe]; rw [← map_comap_subtype_coe m]
     rfl
 #align add_circle.lintegral_preimage AddCircle.lintegral_preimage
 
@@ -181,11 +181,11 @@ protected theorem integral_preimage (t : ℝ) (f : AddCircle T → E) :
   have := integral_map_equiv (μ := volume) (measurableEquivIoc T t).symm f
   simp only [measurableEquivIoc, equivIoc, QuotientAddGroup.equivIocMod, MeasurableEquiv.symm_mk,
     MeasurableEquiv.coe_mk, Equiv.coe_fn_symm_mk] at this
-  rw [← (AddCircle.measurePreserving_mk T t).map_eq, set_integral_eq_subtype m, ← this]
+  rw [← (AddCircle.measurePreserving_mk T t).map_eq]; rw [set_integral_eq_subtype m]; rw [← this]
   have : ((↑) : Ioc t (t + T) → AddCircle T) = ((↑) : ℝ → AddCircle T) ∘ ((↑) : _ → ℝ) := by
     ext1 x; rfl
   simp_rw [this]
-  rw [← map_map AddCircle.measurable_mk' measurable_subtype_coe, ← map_comap_subtype_coe m]
+  rw [← map_map AddCircle.measurable_mk' measurable_subtype_coe]; rw [← map_comap_subtype_coe m]
   rfl
 #align add_circle.integral_preimage AddCircle.integral_preimage
 
@@ -193,7 +193,7 @@ protected theorem integral_preimage (t : ℝ) (f : AddCircle T → E) :
 to the integral over an interval (t, t + T] in `ℝ` of its lift to `ℝ`. -/
 protected theorem intervalIntegral_preimage (t : ℝ) (f : AddCircle T → E) :
     ∫ a in t..t + T, f a = ∫ b : AddCircle T, f b := by
-  rw [integral_of_le, AddCircle.integral_preimage T t f]
+  rw [integral_of_le]; rw [AddCircle.integral_preimage T t f]
   linarith [hT.out]
 #align add_circle.interval_integral_preimage AddCircle.intervalIntegral_preimage
 
@@ -285,7 +285,7 @@ is the sum of its integrals over the intervals `[t, s]` and `[t, t + T]`. -/
 theorem intervalIntegral_add_eq_add (hf : Periodic f T) (t s : ℝ)
     (h_int : ∀ t₁ t₂, IntervalIntegrable f MeasureSpace.volume t₁ t₂) :
     ∫ x in t..s + T, f x = (∫ x in t..s, f x) + ∫ x in t..t + T, f x := by
-  rw [hf.intervalIntegral_add_eq t s, integral_add_adjacent_intervals (h_int t s) (h_int s _)]
+  rw [hf.intervalIntegral_add_eq t s]; rw [integral_add_adjacent_intervals (h_int t s) (h_int s _)]
 #align function.periodic.interval_integral_add_eq_add Function.Periodic.intervalIntegral_add_eq_add
 
 /-- If `f` is an integrable periodic function with period `T`, and `n` is an integer, then its
@@ -307,7 +307,7 @@ theorem intervalIntegral_add_zsmul_eq (hf : Periodic f T) (n : ℤ) (t : ℝ)
   · simp [← this n]
   · conv_rhs => rw [negSucc_zsmul]
     have h₀ : Int.negSucc n • T + (n + 1) • T = 0 := by simp; linarith
-    rw [integral_symm, ← (hf.nsmul (n + 1)).funext, neg_inj]
+    rw [integral_symm]; rw [← (hf.nsmul (n + 1)).funext]; rw [neg_inj]
     simp_rw [integral_comp_add_right, h₀, zero_add, this (n + 1), add_comm T,
       hf.intervalIntegral_add_eq ((n + 1) • T) 0, zero_add]
 #align function.periodic.interval_integral_add_zsmul_eq Function.Periodic.intervalIntegral_add_zsmul_eq
@@ -328,10 +328,9 @@ theorem sInf_add_zsmul_le_integral_of_pos (hT : 0 < T) (t : ℝ) :
       ∫ x in (0)..t, g x := by
   let ε := Int.fract (t / T) * T
   conv_rhs =>
-    rw [← Int.fract_div_mul_self_add_zsmul_eq T t (by linarith), ←
+    rw [← Int.fract_div_mul_self_add_zsmul_eq T t (by linarith)]; rw [←
       integral_add_adjacent_intervals (h_int 0 ε) (h_int _ _)]
-  rw [hg.intervalIntegral_add_zsmul_eq ⌊t / T⌋ ε h_int, hg.intervalIntegral_add_eq ε 0, zero_add,
-    add_le_add_iff_right]
+  rw [hg.intervalIntegral_add_zsmul_eq ⌊t / T⌋ ε h_int]; rw [hg.intervalIntegral_add_eq ε 0]; rw [zero_add]; rw [add_le_add_iff_right]
   exact (continuous_primitive h_int 0).continuousOn.sInf_image_Icc_le <|
     mem_Icc_of_Ico (Int.fract_div_mul_self_mem_Ico T t hT)
 #align function.periodic.Inf_add_zsmul_le_integral_of_pos Function.Periodic.sInf_add_zsmul_le_integral_of_pos
@@ -344,10 +343,9 @@ theorem integral_le_sSup_add_zsmul_of_pos (hT : 0 < T) (t : ℝ) :
       sSup ((fun t => ∫ x in (0)..t, g x) '' Icc 0 T) + ⌊t / T⌋ • ∫ x in (0)..T, g x := by
   let ε := Int.fract (t / T) * T
   conv_lhs =>
-    rw [← Int.fract_div_mul_self_add_zsmul_eq T t (by linarith), ←
+    rw [← Int.fract_div_mul_self_add_zsmul_eq T t (by linarith)]; rw [←
       integral_add_adjacent_intervals (h_int 0 ε) (h_int _ _)]
-  rw [hg.intervalIntegral_add_zsmul_eq ⌊t / T⌋ ε h_int, hg.intervalIntegral_add_eq ε 0, zero_add,
-    add_le_add_iff_right]
+  rw [hg.intervalIntegral_add_zsmul_eq ⌊t / T⌋ ε h_int]; rw [hg.intervalIntegral_add_eq ε 0]; rw [zero_add]; rw [add_le_add_iff_right]
   exact (continuous_primitive h_int 0).continuousOn.le_sSup_image_Icc
     (mem_Icc_of_Ico (Int.fract_div_mul_self_mem_Ico T t hT))
 #align function.periodic.integral_le_Sup_add_zsmul_of_pos Function.Periodic.integral_le_sSup_add_zsmul_of_pos

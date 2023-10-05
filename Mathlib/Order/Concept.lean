@@ -212,8 +212,7 @@ instance instSupConcept : Sup (Concept α β r) :=
     { fst := extentClosure r (c.snd ∩ d.snd)
       snd := c.snd ∩ d.snd
       closure_fst := by
-        rw [← c.closure_fst, ← d.closure_fst, ← intentClosure_union,
-          intentClosure_extentClosure_intentClosure]
+        rw [← c.closure_fst]; rw [← d.closure_fst]; rw [← intentClosure_union]; rw [intentClosure_extentClosure_intentClosure]
       closure_snd := rfl }⟩
 
 instance instInfConcept : Inf (Concept α β r) :=
@@ -222,8 +221,7 @@ instance instInfConcept : Inf (Concept α β r) :=
       snd := intentClosure r (c.fst ∩ d.fst)
       closure_fst := rfl
       closure_snd := by
-        rw [← c.closure_snd, ← d.closure_snd, ← extentClosure_union,
-          extentClosure_intentClosure_extentClosure] }⟩
+        rw [← c.closure_snd]; rw [← d.closure_snd]; rw [← extentClosure_union]; rw [extentClosure_intentClosure_extentClosure] }⟩
 
 instance instSemilatticeInfConcept : SemilatticeInf (Concept α β r) :=
   (fst_injective.semilatticeInf _) fun _ _ => rfl
@@ -249,7 +247,7 @@ theorem snd_subset_snd_iff : c.snd ⊆ d.snd ↔ d ≤ c := by
 
 @[simp]
 theorem snd_ssubset_snd_iff : c.snd ⊂ d.snd ↔ d < c := by
-  rw [ssubset_iff_subset_not_subset, lt_iff_le_not_le, snd_subset_snd_iff, snd_subset_snd_iff]
+  rw [ssubset_iff_subset_not_subset]; rw [lt_iff_le_not_le]; rw [snd_subset_snd_iff]; rw [snd_subset_snd_iff]
 #align concept.snd_ssubset_snd_iff Concept.snd_ssubset_snd_iff
 
 theorem strictMono_fst : StrictMono (Prod.fst ∘ toProd : Concept α β r → Set α) := fun _ _ =>

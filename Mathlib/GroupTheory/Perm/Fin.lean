@@ -57,7 +57,7 @@ theorem Equiv.Perm.decomposeFin_symm_apply_succ {n : ℕ} (e : Perm (Fin n)) (p 
 @[simp]
 theorem Equiv.Perm.decomposeFin_symm_apply_one {n : ℕ} (e : Perm (Fin (n + 1))) (p : Fin (n + 2)) :
     Equiv.Perm.decomposeFin.symm (p, e) 1 = swap 0 p (e 0).succ := by
-  rw [← Fin.succ_zero_eq_one, Equiv.Perm.decomposeFin_symm_apply_succ e p 0]
+  rw [← Fin.succ_zero_eq_one]; rw [Equiv.Perm.decomposeFin_symm_apply_succ e p 0]
 #align equiv.perm.decompose_fin_symm_apply_one Equiv.Perm.decomposeFin_symm_apply_one
 
 @[simp]
@@ -92,7 +92,7 @@ theorem finRotate_succ_eq_decomposeFin {n : ℕ} :
   cases n; · simp
   refine' Fin.cases _ (fun i => _) i
   · simp
-  rw [coe_finRotate, decomposeFin_symm_apply_succ, if_congr i.succ_eq_last_succ rfl rfl]
+  rw [coe_finRotate]; rw [decomposeFin_symm_apply_succ]; rw [if_congr i.succ_eq_last_succ rfl rfl]
   split_ifs with h
   · simp [h]
   · rw [Fin.val_succ, Function.Injective.map_swap Fin.val_injective, Fin.val_succ, coe_finRotate,
@@ -116,17 +116,17 @@ theorem support_finRotate {n : ℕ} : support (finRotate (n + 2)) = Finset.univ 
 
 theorem support_finRotate_of_le {n : ℕ} (h : 2 ≤ n) : support (finRotate n) = Finset.univ := by
   obtain ⟨m, rfl⟩ := exists_add_of_le h
-  rw [add_comm, support_finRotate]
+  rw [add_comm]; rw [support_finRotate]
 #align support_fin_rotate_of_le support_finRotate_of_le
 
 theorem isCycle_finRotate {n : ℕ} : IsCycle (finRotate (n + 2)) := by
   refine' ⟨0, by simp, fun x hx' => ⟨x, _⟩⟩
   clear hx'
   cases' x with x hx
-  rw [zpow_ofNat, Fin.ext_iff, Fin.val_mk]
+  rw [zpow_ofNat]; rw [Fin.ext_iff]; rw [Fin.val_mk]
   induction' x with x ih; · rfl
-  rw [pow_succ, Perm.mul_apply, coe_finRotate_of_ne_last, ih (lt_trans x.lt_succ_self hx)]
-  rw [Ne.def, Fin.ext_iff, ih (lt_trans x.lt_succ_self hx), Fin.val_last]
+  rw [pow_succ]; rw [Perm.mul_apply]; rw [coe_finRotate_of_ne_last]; rw [ih (lt_trans x.lt_succ_self hx)]
+  rw [Ne.def]; rw [Fin.ext_iff]; rw [ih (lt_trans x.lt_succ_self hx)]; rw [Fin.val_last]
   exact ne_of_lt (Nat.lt_of_succ_lt_succ hx)
 #align is_cycle_fin_rotate isCycle_finRotate
 
@@ -138,13 +138,13 @@ theorem isCycle_finRotate_of_le {n : ℕ} (h : 2 ≤ n) : IsCycle (finRotate n) 
 
 @[simp]
 theorem cycleType_finRotate {n : ℕ} : cycleType (finRotate (n + 2)) = {n + 2} := by
-  rw [isCycle_finRotate.cycleType, support_finRotate, ← Fintype.card, Fintype.card_fin]
+  rw [isCycle_finRotate.cycleType]; rw [support_finRotate]; rw [← Fintype.card]; rw [Fintype.card_fin]
   rfl
 #align cycle_type_fin_rotate cycleType_finRotate
 
 theorem cycleType_finRotate_of_le {n : ℕ} (h : 2 ≤ n) : cycleType (finRotate n) = {n} := by
   obtain ⟨m, rfl⟩ := exists_add_of_le h
-  rw [add_comm, cycleType_finRotate]
+  rw [add_comm]; rw [cycleType_finRotate]
 #align cycle_type_fin_rotate_of_le cycleType_finRotate_of_le
 
 namespace Fin
@@ -160,9 +160,7 @@ def cycleRange {n : ℕ} (i : Fin n) : Perm (Fin n) :=
 #align fin.cycle_range Fin.cycleRange
 
 theorem cycleRange_of_gt {n : ℕ} {i j : Fin n.succ} (h : i < j) : cycleRange i j = j := by
-  rw [cycleRange, ofLeftInverse'_eq_ofInjective,
-    ← Function.Embedding.toEquivRange_eq_ofInjective, ← viaFintypeEmbedding,
-    viaFintypeEmbedding_apply_not_mem_range]
+  rw [cycleRange]; rw [ofLeftInverse'_eq_ofInjective]; rw [← Function.Embedding.toEquivRange_eq_ofInjective]; rw [← viaFintypeEmbedding]; rw [viaFintypeEmbedding_apply_not_mem_range]
   simpa
 #align fin.cycle_range_of_gt Fin.cycleRange_of_gt
 
@@ -197,7 +195,7 @@ theorem coe_cycleRange_of_le {n : ℕ} {i j : Fin n.succ} (h : j ≤ i) :
 #align fin.coe_cycle_range_of_le Fin.coe_cycleRange_of_le
 
 theorem cycleRange_of_lt {n : ℕ} {i j : Fin n.succ} (h : j < i) : cycleRange i j = j + 1 := by
-  rw [cycleRange_of_le h.le, if_neg h.ne]
+  rw [cycleRange_of_le h.le]; rw [if_neg h.ne]
 #align fin.cycle_range_of_lt Fin.cycleRange_of_lt
 
 theorem coe_cycleRange_of_lt {n : ℕ} {i j : Fin n.succ} (h : j < i) :
@@ -205,7 +203,7 @@ theorem coe_cycleRange_of_lt {n : ℕ} {i j : Fin n.succ} (h : j < i) :
 #align fin.coe_cycle_range_of_lt Fin.coe_cycleRange_of_lt
 
 theorem cycleRange_of_eq {n : ℕ} {i j : Fin n.succ} (h : j = i) : cycleRange i j = 0 := by
-  rw [cycleRange_of_le h.le, if_pos h]
+  rw [cycleRange_of_le h.le]; rw [if_pos h]
 #align fin.cycle_range_of_eq Fin.cycleRange_of_eq
 
 @[simp]
@@ -232,7 +230,7 @@ theorem cycleRange_zero (n : ℕ) : cycleRange (0 : Fin n.succ) = 1 := by
 @[simp]
 theorem cycleRange_last (n : ℕ) : cycleRange (last n) = finRotate (n + 1) := by
   ext i
-  rw [coe_cycleRange_of_le (le_last _), coe_finRotate]
+  rw [coe_cycleRange_of_le (le_last _)]; rw [coe_finRotate]
 #align fin.cycle_range_last Fin.cycleRange_last
 
 @[simp]
@@ -255,8 +253,8 @@ theorem succAbove_cycleRange {n : ℕ} (i j : Fin n) :
   rcases lt_trichotomy j i with (hlt | heq | hgt)
   · have : castSucc (j + 1) = j.succ := by
       ext
-      rw [coe_castSucc, val_succ, Fin.val_add_one_of_lt (lt_of_lt_of_le hlt i.le_last)]
-    rw [Fin.cycleRange_of_lt hlt, Fin.succAbove_below, this, swap_apply_of_ne_of_ne]
+      rw [coe_castSucc]; rw [val_succ]; rw [Fin.val_add_one_of_lt (lt_of_lt_of_le hlt i.le_last)]
+    rw [Fin.cycleRange_of_lt hlt]; rw [Fin.succAbove_below]; rw [this]; rw [swap_apply_of_ne_of_ne]
     · apply Fin.succ_ne_zero
     · exact (Fin.succ_injective _).ne hlt.ne
     · rw [Fin.lt_iff_val_lt_val]
@@ -302,12 +300,12 @@ theorem cycleType_cycleRange {n : ℕ} {i : Fin (n + 1)} (h0 : i ≠ 0) :
   cases' i with i hi
   cases i
   · exact (h0 rfl).elim
-  rw [cycleRange, cycleType_extendDomain]
+  rw [cycleRange]; rw [cycleType_extendDomain]
   exact cycleType_finRotate
 #align fin.cycle_type_cycle_range Fin.cycleType_cycleRange
 
 theorem isThreeCycle_cycleRange_two {n : ℕ} : IsThreeCycle (cycleRange 2 : Perm (Fin (n + 3))) := by
-  rw [IsThreeCycle, cycleType_cycleRange] <;> simp [Fin.eq_iff_veq]
+  rw [IsThreeCycle]; rw [cycleType_cycleRange]; all_goals simp [Fin.eq_iff_veq]
 #align fin.is_three_cycle_cycle_range_two Fin.isThreeCycle_cycleRange_two
 
 end Fin

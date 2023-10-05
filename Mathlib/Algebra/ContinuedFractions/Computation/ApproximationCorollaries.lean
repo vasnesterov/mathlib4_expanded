@@ -79,7 +79,7 @@ of an element `v` of `K` in terms of the convergents of the inverse of its fract
 -/
 theorem convergents_succ (n : ℕ) :
     (of v).convergents (n + 1) = ⌊v⌋ + 1 / (of (Int.fract v)⁻¹).convergents n := by
-  rw [of_convergents_eq_convergents', convergents'_succ, of_convergents_eq_convergents']
+  rw [of_convergents_eq_convergents']; rw [convergents'_succ]; rw [of_convergents_eq_convergents']
 #align generalized_continued_fraction.convergents_succ GeneralizedContinuedFraction.convergents_succ
 
 section Convergence

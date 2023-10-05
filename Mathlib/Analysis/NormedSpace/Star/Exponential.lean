@@ -52,7 +52,7 @@ theorem Commute.expUnitary {a b : selfAdjoint A} (h : Commute (a : A) (b : A)) :
   calc
     selfAdjoint.expUnitary a * selfAdjoint.expUnitary b =
         selfAdjoint.expUnitary b * selfAdjoint.expUnitary a := by
-      rw [← h.expUnitary_add, ← h.symm.expUnitary_add, add_comm]
+      rw [← h.expUnitary_add]; rw [← h.symm.expUnitary_add]; rw [add_comm]
 #align commute.exp_unitary Commute.expUnitary
 
 end Star

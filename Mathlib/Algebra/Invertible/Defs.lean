@@ -115,18 +115,18 @@ theorem mul_invOf_self [Mul α] [One α] (a : α) [Invertible a] : a * ⅟ a = 1
 
 @[simp]
 theorem invOf_mul_self_assoc' [Monoid α] (a b : α) {_ : Invertible a} : ⅟ a * (a * b) = b := by
-  rw [← mul_assoc, invOf_mul_self, one_mul]
+  rw [← mul_assoc]; rw [invOf_mul_self]; rw [one_mul]
 
 theorem invOf_mul_self_assoc [Monoid α] (a b : α) [Invertible a] : ⅟ a * (a * b) = b := by
-  rw [← mul_assoc, invOf_mul_self, one_mul]
+  rw [← mul_assoc]; rw [invOf_mul_self]; rw [one_mul]
 #align inv_of_mul_self_assoc invOf_mul_self_assoc
 
 @[simp]
 theorem mul_invOf_self_assoc' [Monoid α] (a b : α) {_ : Invertible a} : a * (⅟ a * b) = b := by
-  rw [← mul_assoc, mul_invOf_self, one_mul]
+  rw [← mul_assoc]; rw [mul_invOf_self]; rw [one_mul]
 
 theorem mul_invOf_self_assoc [Monoid α] (a b : α) [Invertible a] : a * (⅟ a * b) = b := by
-  rw [← mul_assoc, mul_invOf_self, one_mul]
+  rw [← mul_assoc]; rw [mul_invOf_self]; rw [one_mul]
 #align mul_inv_of_self_assoc mul_invOf_self_assoc
 
 @[simp]
@@ -156,7 +156,7 @@ theorem invOf_eq_left_inv [Monoid α] {a b : α} [Invertible a] (hac : b * a = 1
 theorem invertible_unique {α : Type u} [Monoid α] (a b : α) [Invertible a] [Invertible b]
     (h : a = b) : ⅟ a = ⅟ b := by
   apply invOf_eq_right_inv
-  rw [h, mul_invOf_self]
+  rw [h]; rw [mul_invOf_self]
 #align invertible_unique invertible_unique
 
 instance Invertible.subsingleton [Monoid α] (a : α) : Subsingleton (Invertible a) :=
@@ -251,16 +251,16 @@ theorem mul_left_inj_of_invertible [Monoid α] (c : α) [Invertible c] :
 
 theorem invOf_mul_eq_iff_eq_mul_left [Monoid α] [Invertible (c : α)] :
     ⅟c * a = b ↔ a = c * b := by
-  rw [← mul_left_inj_of_invertible (c := c), mul_invOf_self_assoc]
+  rw [← mul_left_inj_of_invertible (c := c)]; rw [mul_invOf_self_assoc]
 
 theorem mul_left_eq_iff_eq_invOf_mul [Monoid α] [Invertible (c : α)] :
     c * a = b ↔ a = ⅟c * b := by
-  rw [← mul_left_inj_of_invertible (c := ⅟c), invOf_mul_self_assoc]
+  rw [← mul_left_inj_of_invertible (c := ⅟c)]; rw [invOf_mul_self_assoc]
 
 theorem mul_invOf_eq_iff_eq_mul_right [Monoid α] [Invertible (c : α)] :
     a * ⅟c = b ↔ a = b * c := by
-  rw [← mul_right_inj_of_invertible (c := c), mul_invOf_mul_self_cancel]
+  rw [← mul_right_inj_of_invertible (c := c)]; rw [mul_invOf_mul_self_cancel]
 
 theorem mul_right_eq_iff_eq_mul_invOf [Monoid α] [Invertible (c : α)] :
     a * c = b ↔ a = b * ⅟c := by
-  rw [← mul_right_inj_of_invertible (c := ⅟c), mul_mul_invOf_self_cancel]
+  rw [← mul_right_inj_of_invertible (c := ⅟c)]; rw [mul_mul_invOf_self_cancel]

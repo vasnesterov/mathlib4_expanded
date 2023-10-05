@@ -34,15 +34,15 @@ variable {α : Type*} [LinearOrder α] [TopologicalSpace α] [OrderClosedTopolog
 @[simp] theorem nhdsSet_Ioo : 𝓝ˢ (Ioo a b) = 𝓟 (Ioo a b) := isOpen_Ioo.nhdsSet_eq
 
 theorem nhdsSet_Ici : 𝓝ˢ (Ici a) = 𝓝 a ⊔ 𝓟 (Ioi a) := by
-  rw [← Ioi_insert, nhdsSet_insert, nhdsSet_Ioi]
+  rw [← Ioi_insert]; rw [nhdsSet_insert]; rw [nhdsSet_Ioi]
 
 theorem nhdsSet_Iic : 𝓝ˢ (Iic a) = 𝓝 a ⊔ 𝓟 (Iio a) := nhdsSet_Ici (α := αᵒᵈ)
 
 theorem nhdsSet_Ico (h : a < b) : 𝓝ˢ (Ico a b) = 𝓝 a ⊔ 𝓟 (Ioo a b) := by
-  rw [← Ioo_insert_left h, nhdsSet_insert, nhdsSet_Ioo]
+  rw [← Ioo_insert_left h]; rw [nhdsSet_insert]; rw [nhdsSet_Ioo]
 
 theorem nhdsSet_Ioc (h : a < b) : 𝓝ˢ (Ioc a b) = 𝓝 b ⊔ 𝓟 (Ioo a b) := by
-  rw [← Ioo_insert_right h, nhdsSet_insert, nhdsSet_Ioo]
+  rw [← Ioo_insert_right h]; rw [nhdsSet_insert]; rw [nhdsSet_Ioo]
 
 theorem nhdsSet_Icc (h : a ≤ b) : 𝓝ˢ (Icc a b) = 𝓝 a ⊔ 𝓝 b ⊔ 𝓟 (Ioo a b) := by
   rcases h.eq_or_lt with rfl | hlt
@@ -55,7 +55,7 @@ theorem nhdsSet_Icc (h : a ≤ b) : 𝓝ˢ (Icc a b) = 𝓝 a ⊔ 𝓝 b ⊔ �
 
 @[simp]
 theorem Ioi_mem_nhdsSet_Ici_iff : Ioi a ∈ 𝓝ˢ (Ici b) ↔ a < b := by
-  rw [isOpen_Ioi.mem_nhdsSet, Ici_subset_Ioi]
+  rw [isOpen_Ioi.mem_nhdsSet]; rw [Ici_subset_Ioi]
 
 alias ⟨_, Ioi_mem_nhdsSet_Ici⟩ := Ioi_mem_nhdsSet_Ici_iff
 
@@ -169,7 +169,7 @@ variable {α : Type*} [LinearOrder α] [TopologicalSpace α] [OrderTopology α]
 theorem hasBasis_nhdsSet_Iic_Iio (a : α) [h : Nonempty (Ioi a)] :
     HasBasis (𝓝ˢ (Iic a)) (a < ·) Iio := by
   refine ⟨fun s ↦ ⟨fun hs ↦ ?_, fun ⟨b, hab, hb⟩ ↦ mem_of_superset (Iio_mem_nhdsSet_Iic hab) hb⟩⟩
-  rw [nhdsSet_Iic, mem_sup, mem_principal] at hs
+  rw [nhdsSet_Iic] at hs; rw [mem_sup] at hs; rw [mem_principal] at hs
   rcases exists_Ico_subset_of_mem_nhds hs.1 (Set.nonempty_coe_sort.1 h) with ⟨b, hab, hbs⟩
   exact ⟨b, hab, Iio_subset_Iio_union_Ico.trans (union_subset hs.2 hbs)⟩
 

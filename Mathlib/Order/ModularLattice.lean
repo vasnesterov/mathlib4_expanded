@@ -100,7 +100,7 @@ theorem covby_sup_of_inf_covby_of_inf_covby_left : a ⊓ b ⋖ a → a ⊓ b ⋖
 #align covby_sup_of_inf_covby_of_inf_covby_left covby_sup_of_inf_covby_of_inf_covby_left
 
 theorem covby_sup_of_inf_covby_of_inf_covby_right : a ⊓ b ⋖ a → a ⊓ b ⋖ b → b ⋖ a ⊔ b := by
-  rw [inf_comm, sup_comm]
+  rw [inf_comm]; rw [sup_comm]
   exact fun ha hb => covby_sup_of_inf_covby_of_inf_covby_left hb ha
 #align covby_sup_of_inf_covby_of_inf_covby_right covby_sup_of_inf_covby_of_inf_covby_right
 
@@ -124,7 +124,7 @@ theorem inf_covby_of_covby_sup_of_covby_sup_left : a ⋖ a ⊔ b → b ⋖ a ⊔
 #align inf_covby_of_covby_sup_of_covby_sup_left inf_covby_of_covby_sup_of_covby_sup_left
 
 theorem inf_covby_of_covby_sup_of_covby_sup_right : a ⋖ a ⊔ b → b ⋖ a ⊔ b → a ⊓ b ⋖ b := by
-  rw [sup_comm, inf_comm]
+  rw [sup_comm]; rw [inf_comm]
   exact fun ha hb => inf_covby_of_covby_sup_of_covby_sup_left hb ha
 #align inf_covby_of_covby_sup_of_covby_sup_right inf_covby_of_covby_sup_of_covby_sup_right
 
@@ -148,7 +148,7 @@ theorem covby_sup_of_inf_covby_left : a ⊓ b ⋖ a → b ⋖ a ⊔ b :=
 #align covby_sup_of_inf_covby_left covby_sup_of_inf_covby_left
 
 theorem covby_sup_of_inf_covby_right : a ⊓ b ⋖ b → a ⋖ a ⊔ b := by
-  rw [sup_comm, inf_comm]
+  rw [sup_comm]; rw [inf_comm]
   exact covby_sup_of_inf_covby_left
 #align covby_sup_of_inf_covby_right covby_sup_of_inf_covby_right
 
@@ -178,7 +178,7 @@ theorem inf_covby_of_covby_sup_left : a ⋖ a ⊔ b → a ⊓ b ⋖ b :=
 #align inf_covby_of_covby_sup_left inf_covby_of_covby_sup_left
 
 theorem inf_covby_of_covby_sup_right : b ⋖ a ⊔ b → a ⊓ b ⋖ a := by
-  rw [inf_comm, sup_comm]
+  rw [inf_comm]; rw [sup_comm]
   exact inf_covby_of_covby_sup_left
 #align inf_covby_of_covby_sup_right inf_covby_of_covby_sup_right
 
@@ -213,14 +213,14 @@ theorem IsModularLattice.inf_sup_inf_assoc {x y z : α} : x ⊓ z ⊔ y ⊓ z = 
 #align is_modular_lattice.inf_sup_inf_assoc IsModularLattice.inf_sup_inf_assoc
 
 theorem inf_sup_assoc_of_le {x : α} (y : α) {z : α} (h : z ≤ x) : x ⊓ y ⊔ z = x ⊓ (y ⊔ z) := by
-  rw [inf_comm, sup_comm, ← sup_inf_assoc_of_le y h, inf_comm, sup_comm]
+  rw [inf_comm]; rw [sup_comm]; rw [← sup_inf_assoc_of_le y h]; rw [inf_comm]; rw [sup_comm]
 #align inf_sup_assoc_of_le inf_sup_assoc_of_le
 
 instance : IsModularLattice αᵒᵈ :=
   ⟨fun y z xz =>
     le_of_eq
       (by
-        rw [inf_comm, sup_comm, eq_comm, inf_comm, sup_comm]
+        rw [inf_comm]; rw [sup_comm]; rw [eq_comm]; rw [inf_comm]; rw [sup_comm]
         exact @sup_inf_assoc_of_le α _ _ _ y _ xz)⟩
 
 variable {x y z : α}
@@ -290,18 +290,18 @@ def infIccOrderIsoIccSup (a b : α) : Set.Icc (a ⊓ b) a ≃o Set.Icc b (a ⊔ 
     Subtype.ext
       (by
         change a ⊓ (↑x ⊔ b) = ↑x
-        rw [sup_comm, ← inf_sup_assoc_of_le _ x.prop.2, sup_eq_right.2 x.prop.1])
+        rw [sup_comm]; rw [← inf_sup_assoc_of_le _ x.prop.2]; rw [sup_eq_right.2 x.prop.1])
   right_inv x :=
     Subtype.ext
       (by
         change a ⊓ ↑x ⊔ b = ↑x
-        rw [inf_comm, inf_sup_assoc_of_le _ x.prop.1, inf_eq_left.2 x.prop.2])
+        rw [inf_comm]; rw [inf_sup_assoc_of_le _ x.prop.1]; rw [inf_eq_left.2 x.prop.2])
   map_rel_iff' := @fun x y => by
     simp only [Subtype.mk_le_mk, Equiv.coe_fn_mk, and_true_iff, le_sup_right]
     rw [← Subtype.coe_le_coe]
     refine' ⟨fun h => _, fun h => sup_le_sup_right h _⟩
-    rw [← sup_eq_right.2 x.prop.1, inf_sup_assoc_of_le _ x.prop.2, sup_comm, ←
-      sup_eq_right.2 y.prop.1, inf_sup_assoc_of_le _ y.prop.2, @sup_comm _ _ b]
+    rw [← sup_eq_right.2 x.prop.1]; rw [inf_sup_assoc_of_le _ x.prop.2]; rw [sup_comm]; rw [←
+      sup_eq_right.2 y.prop.1]; rw [inf_sup_assoc_of_le _ y.prop.2]; rw [@sup_comm _ _ b]
     exact inf_le_inf_left _ h
 #align inf_Icc_order_iso_Icc_sup infIccOrderIsoIccSup
 #align inf_Icc_order_iso_Icc_sup_apply_coe infIccOrderIsoIccSup_apply_coe
@@ -331,11 +331,11 @@ def infIooOrderIsoIooSup (a b : α) : Ioo (a ⊓ b) a ≃o Ioo b (a ⊔ b) where
   left_inv c :=
     Subtype.ext <| by
       dsimp
-      rw [sup_comm, ← inf_sup_assoc_of_le _ c.prop.2.le, sup_eq_right.2 c.prop.1.le]
+      rw [sup_comm]; rw [← inf_sup_assoc_of_le _ c.prop.2.le]; rw [sup_eq_right.2 c.prop.1.le]
   right_inv c :=
     Subtype.ext <| by
       dsimp
-      rw [inf_comm, inf_sup_assoc_of_le _ c.prop.1.le, inf_eq_left.2 c.prop.2.le]
+      rw [inf_comm]; rw [inf_sup_assoc_of_le _ c.prop.1.le]; rw [inf_eq_left.2 c.prop.2.le]
   map_rel_iff' := @fun c d =>
     @OrderIso.le_iff_le _ _ _ _ (infIccOrderIsoIccSup _ _) ⟨c.1, Ioo_subset_Icc_self c.2⟩
       ⟨d.1, Ioo_subset_Icc_self d.2⟩
@@ -391,16 +391,16 @@ end DistribLattice
 theorem Disjoint.disjoint_sup_right_of_disjoint_sup_left [Lattice α] [OrderBot α]
     [IsModularLattice α] {a b c : α} (h : Disjoint a b) (hsup : Disjoint (a ⊔ b) c) :
     Disjoint a (b ⊔ c) := by
-  rw [disjoint_iff_inf_le, ← h.eq_bot, sup_comm]
+  rw [disjoint_iff_inf_le]; rw [← h.eq_bot]; rw [sup_comm]
   apply le_inf inf_le_left
   apply (inf_le_inf_right (c ⊔ b) le_sup_right).trans
-  rw [sup_comm, IsModularLattice.sup_inf_sup_assoc, hsup.eq_bot, bot_sup_eq]
+  rw [sup_comm]; rw [IsModularLattice.sup_inf_sup_assoc]; rw [hsup.eq_bot]; rw [bot_sup_eq]
 #align disjoint.disjoint_sup_right_of_disjoint_sup_left Disjoint.disjoint_sup_right_of_disjoint_sup_left
 
 theorem Disjoint.disjoint_sup_left_of_disjoint_sup_right [Lattice α] [OrderBot α]
     [IsModularLattice α] {a b c : α} (h : Disjoint b c) (hsup : Disjoint a (b ⊔ c)) :
     Disjoint (a ⊔ b) c := by
-  rw [disjoint_comm, sup_comm]
+  rw [disjoint_comm]; rw [sup_comm]
   apply Disjoint.disjoint_sup_right_of_disjoint_sup_left h.symm
   rwa [sup_comm, disjoint_comm] at hsup
 #align disjoint.disjoint_sup_left_of_disjoint_sup_right Disjoint.disjoint_sup_left_of_disjoint_sup_right
@@ -434,7 +434,7 @@ instance complementedLattice_Iic : ComplementedLattice (Set.Iic a) :=
       · rw [codisjoint_iff_le_sup]
         change a ≤ x ⊔ y ⊓ a
         -- improve lattice subtype API
-        rw [← sup_inf_assoc_of_le _ (Set.mem_Iic.1 hx), hy.2.eq_top, top_inf_eq]⟩⟩
+        rw [← sup_inf_assoc_of_le _ (Set.mem_Iic.1 hx)]; rw [hy.2.eq_top]; rw [top_inf_eq]⟩⟩
 #align is_modular_lattice.complemented_lattice_Iic IsModularLattice.complementedLattice_Iic
 
 instance complementedLattice_Ici : ComplementedLattice (Set.Ici a) :=
@@ -445,7 +445,7 @@ instance complementedLattice_Ici : ComplementedLattice (Set.Ici a) :=
       · rw [disjoint_iff_inf_le]
         change x ⊓ (y ⊔ a) ≤ a
         -- improve lattice subtype API
-        rw [← inf_sup_assoc_of_le _ (Set.mem_Ici.1 hx), hy.1.eq_bot, bot_sup_eq]
+        rw [← inf_sup_assoc_of_le _ (Set.mem_Ici.1 hx)]; rw [hy.1.eq_bot]; rw [bot_sup_eq]
       · rw [codisjoint_iff_le_sup]
         change ⊤ ≤ x ⊔ (y ⊔ a)
         -- improve lattice subtype API

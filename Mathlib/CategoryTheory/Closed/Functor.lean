@@ -114,10 +114,9 @@ theorem expComparison_whiskerLeft {A A' : C} (f : A' ⟶ A) :
   ext B
   dsimp
   apply uncurry_injective
-  rw [uncurry_natural_left, uncurry_natural_left, uncurry_expComparison, uncurry_pre,
-    prod.map_swap_assoc, ← F.map_id, expComparison_ev, ← F.map_id, ←
-    prodComparison_inv_natural_assoc, ← prodComparison_inv_natural_assoc, ← F.map_comp, ←
-    F.map_comp, prod_map_pre_app_comp_ev]
+  rw [uncurry_natural_left]; rw [uncurry_natural_left]; rw [uncurry_expComparison]; rw [uncurry_pre]; rw [prod.map_swap_assoc]; rw [← F.map_id]; rw [expComparison_ev]; rw [← F.map_id]; rw [←
+    prodComparison_inv_natural_assoc]; rw [← prodComparison_inv_natural_assoc]; rw [← F.map_comp]; rw [←
+    F.map_comp]; rw [prod_map_pre_app_comp_ev]
 #align category_theory.exp_comparison_whisker_left CategoryTheory.expComparison_whiskerLeft
 
 /-- The functor `F` is cartesian closed (ie preserves exponentials) if each natural transformation
@@ -137,15 +136,15 @@ theorem frobeniusMorphism_mate (h : L ⊣ F) (A : C) :
   ext B : 2
   dsimp [frobeniusMorphism, transferNatTransSelf, transferNatTrans, Adjunction.comp]
   simp only [id_comp, comp_id]
-  rw [← L.map_comp_assoc, prod.map_id_comp, assoc]
+  rw [← L.map_comp_assoc]; rw [prod.map_id_comp]; rw [assoc]
   -- Porting note: need to use `erw` here.
   -- https://github.com/leanprover-community/mathlib4/issues/5164
   erw [expComparison_ev]
-  rw [prod.map_id_comp, assoc, ← F.map_id, ← prodComparison_inv_natural_assoc, ← F.map_comp]
+  rw [prod.map_id_comp]; rw [assoc]; rw [← F.map_id]; rw [← prodComparison_inv_natural_assoc]; rw [← F.map_comp]
   -- Porting note: need to use `erw` here.
   -- https://github.com/leanprover-community/mathlib4/issues/5164
   erw [exp.ev_coev]
-  rw [F.map_id (A ⨯ L.obj B), comp_id]
+  rw [F.map_id (A ⨯ L.obj B)]; rw [comp_id]
   ext
   · rw [assoc, assoc, ← h.counit_naturality, ← L.map_comp_assoc, assoc, inv_prodComparison_map_fst]
     simp

@@ -440,14 +440,14 @@ theorem closure_iUnion {ι} (s : ι → Set M) : closure (⋃ i, s i) = ⨆ i, c
 
 @[to_additive]
 theorem closure_singleton_le_iff_mem (m : M) (p : Subsemigroup M) : closure {m} ≤ p ↔ m ∈ p := by
-  rw [closure_le, singleton_subset_iff, SetLike.mem_coe]
+  rw [closure_le]; rw [singleton_subset_iff]; rw [SetLike.mem_coe]
 #align subsemigroup.closure_singleton_le_iff_mem Subsemigroup.closure_singleton_le_iff_mem
 #align add_subsemigroup.closure_singleton_le_iff_mem AddSubsemigroup.closure_singleton_le_iff_mem
 
 @[to_additive]
 theorem mem_iSup {ι : Sort*} (p : ι → Subsemigroup M) {m : M} :
     (m ∈ ⨆ i, p i) ↔ ∀ N, (∀ i, p i ≤ N) → m ∈ N := by
-  rw [← closure_singleton_le_iff_mem, le_iSup_iff]
+  rw [← closure_singleton_le_iff_mem]; rw [le_iSup_iff]
   simp only [closure_singleton_le_iff_mem]
 #align subsemigroup.mem_supr Subsemigroup.mem_iSup
 #align add_subsemigroup.mem_supr AddSubsemigroup.mem_iSup

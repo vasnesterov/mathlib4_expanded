@@ -33,7 +33,7 @@ instance : LocallyFiniteOrder ℤ
       Nat.castEmbedding_apply, addLeftEmbedding_apply]
     constructor
     · rintro ⟨a, h, rfl⟩
-      rw [lt_sub_iff_add_lt, Int.lt_add_one_iff, add_comm] at h
+      rw [lt_sub_iff_add_lt] at h; rw [Int.lt_add_one_iff] at h; rw [add_comm] at h
       exact ⟨Int.le.intro a rfl, h⟩
     · rintro ⟨ha, hb⟩
       use (x - a).toNat
@@ -55,22 +55,22 @@ instance : LocallyFiniteOrder ℤ
       Nat.castEmbedding_apply, addLeftEmbedding_apply]
     constructor
     · rintro ⟨a, h, rfl⟩
-      rw [← add_one_le_iff, le_sub_iff_add_le', add_comm _ (1 : ℤ), ← add_assoc] at h
+      rw [← add_one_le_iff] at h; rw [le_sub_iff_add_le'] at h; rw [add_comm _ (1 : ℤ)] at h; rw [← add_assoc] at h
       exact ⟨Int.le.intro a rfl, h⟩
     · rintro ⟨ha, hb⟩
       use (x - (a + 1)).toNat
-      rw [toNat_sub_of_le ha, ← add_one_le_iff, sub_add, add_sub_cancel]
+      rw [toNat_sub_of_le ha]; rw [← add_one_le_iff]; rw [sub_add]; rw [add_sub_cancel]
       exact ⟨sub_le_sub_right hb _, add_sub_cancel'_right _ _⟩
   finset_mem_Ioo a b x := by
     simp_rw [mem_map, mem_range, Int.lt_toNat, Function.Embedding.trans_apply,
       Nat.castEmbedding_apply, addLeftEmbedding_apply]
     constructor
     · rintro ⟨a, h, rfl⟩
-      rw [sub_sub, lt_sub_iff_add_lt'] at h
+      rw [sub_sub] at h; rw [lt_sub_iff_add_lt'] at h
       exact ⟨Int.le.intro a rfl, h⟩
     · rintro ⟨ha, hb⟩
       use (x - (a + 1)).toNat
-      rw [toNat_sub_of_le ha, sub_sub]
+      rw [toNat_sub_of_le ha]; rw [sub_sub]
       exact ⟨sub_lt_sub_right hb _, add_sub_cancel'_right _ _⟩
 
 namespace Int
@@ -127,65 +127,63 @@ theorem card_uIcc : (uIcc a b).card = (b - a).natAbs + 1 :=
     Int.ofNat.inj <| by
       -- porting note: TODO: Restore `int.coe_nat_inj` and remove the `change`
       change ((↑) : ℕ → ℤ) _ = ((↑) : ℕ → ℤ) _
-      rw [card_range, sup_eq_max, inf_eq_min,
-        Int.toNat_of_nonneg (sub_nonneg_of_le <| le_add_one min_le_max), Int.ofNat_add,
-        Int.coe_natAbs, add_comm, add_sub_assoc, max_sub_min_eq_abs, add_comm, Int.ofNat_one]
+      rw [card_range]; rw [sup_eq_max]; rw [inf_eq_min]; rw [Int.toNat_of_nonneg (sub_nonneg_of_le <| le_add_one min_le_max)]; rw [Int.ofNat_add]; rw [Int.coe_natAbs]; rw [add_comm]; rw [add_sub_assoc]; rw [max_sub_min_eq_abs]; rw [add_comm]; rw [Int.ofNat_one]
 #align int.card_uIcc Int.card_uIcc
 
 theorem card_Icc_of_le (h : a ≤ b + 1) : ((Icc a b).card : ℤ) = b + 1 - a := by
-  rw [card_Icc, toNat_sub_of_le h]
+  rw [card_Icc]; rw [toNat_sub_of_le h]
 #align int.card_Icc_of_le Int.card_Icc_of_le
 
 theorem card_Ico_of_le (h : a ≤ b) : ((Ico a b).card : ℤ) = b - a := by
-  rw [card_Ico, toNat_sub_of_le h]
+  rw [card_Ico]; rw [toNat_sub_of_le h]
 #align int.card_Ico_of_le Int.card_Ico_of_le
 
 theorem card_Ioc_of_le (h : a ≤ b) : ((Ioc a b).card : ℤ) = b - a := by
-  rw [card_Ioc, toNat_sub_of_le h]
+  rw [card_Ioc]; rw [toNat_sub_of_le h]
 #align int.card_Ioc_of_le Int.card_Ioc_of_le
 
 theorem card_Ioo_of_lt (h : a < b) : ((Ioo a b).card : ℤ) = b - a - 1 := by
-  rw [card_Ioo, sub_sub, toNat_sub_of_le h]
+  rw [card_Ioo]; rw [sub_sub]; rw [toNat_sub_of_le h]
 #align int.card_Ioo_of_lt Int.card_Ioo_of_lt
 
 -- porting note: removed `simp` attribute because `simpNF` says it can prove it
 theorem card_fintype_Icc : Fintype.card (Set.Icc a b) = (b + 1 - a).toNat := by
-  rw [← card_Icc, Fintype.card_ofFinset]
+  rw [← card_Icc]; rw [Fintype.card_ofFinset]
 #align int.card_fintype_Icc Int.card_fintype_Icc
 
 -- porting note: removed `simp` attribute because `simpNF` says it can prove it
 theorem card_fintype_Ico : Fintype.card (Set.Ico a b) = (b - a).toNat := by
-  rw [← card_Ico, Fintype.card_ofFinset]
+  rw [← card_Ico]; rw [Fintype.card_ofFinset]
 #align int.card_fintype_Ico Int.card_fintype_Ico
 
 -- porting note: removed `simp` attribute because `simpNF` says it can prove it
 theorem card_fintype_Ioc : Fintype.card (Set.Ioc a b) = (b - a).toNat := by
-  rw [← card_Ioc, Fintype.card_ofFinset]
+  rw [← card_Ioc]; rw [Fintype.card_ofFinset]
 #align int.card_fintype_Ioc Int.card_fintype_Ioc
 
 -- porting note: removed `simp` attribute because `simpNF` says it can prove it
 theorem card_fintype_Ioo : Fintype.card (Set.Ioo a b) = (b - a - 1).toNat := by
-  rw [← card_Ioo, Fintype.card_ofFinset]
+  rw [← card_Ioo]; rw [Fintype.card_ofFinset]
 #align int.card_fintype_Ioo Int.card_fintype_Ioo
 
 theorem card_fintype_uIcc : Fintype.card (Set.uIcc a b) = (b - a).natAbs + 1 := by
-  rw [← card_uIcc, Fintype.card_ofFinset]
+  rw [← card_uIcc]; rw [Fintype.card_ofFinset]
 #align int.card_fintype_uIcc Int.card_fintype_uIcc
 
 theorem card_fintype_Icc_of_le (h : a ≤ b + 1) : (Fintype.card (Set.Icc a b) : ℤ) = b + 1 - a := by
-  rw [card_fintype_Icc, toNat_sub_of_le h]
+  rw [card_fintype_Icc]; rw [toNat_sub_of_le h]
 #align int.card_fintype_Icc_of_le Int.card_fintype_Icc_of_le
 
 theorem card_fintype_Ico_of_le (h : a ≤ b) : (Fintype.card (Set.Ico a b) : ℤ) = b - a := by
-  rw [card_fintype_Ico, toNat_sub_of_le h]
+  rw [card_fintype_Ico]; rw [toNat_sub_of_le h]
 #align int.card_fintype_Ico_of_le Int.card_fintype_Ico_of_le
 
 theorem card_fintype_Ioc_of_le (h : a ≤ b) : (Fintype.card (Set.Ioc a b) : ℤ) = b - a := by
-  rw [card_fintype_Ioc, toNat_sub_of_le h]
+  rw [card_fintype_Ioc]; rw [toNat_sub_of_le h]
 #align int.card_fintype_Ioc_of_le Int.card_fintype_Ioc_of_le
 
 theorem card_fintype_Ioo_of_lt (h : a < b) : (Fintype.card (Set.Ioo a b) : ℤ) = b - a - 1 := by
-  rw [card_fintype_Ioo, sub_sub, toNat_sub_of_le h]
+  rw [card_fintype_Ioo]; rw [sub_sub]; rw [toNat_sub_of_le h]
 #align int.card_fintype_Ioo_of_lt Int.card_fintype_Ioo_of_lt
 
 theorem image_Ico_emod (n a : ℤ) (h : 0 ≤ a) : (Ico n (n + a)).image (· % a) = Ico 0 a := by
@@ -204,7 +202,7 @@ theorem image_Ico_emod (n a : ℤ) (h : 0 ≤ a) : (Ico n (n + a)).image (· % a
       refine' hn.symm.le.trans (add_le_add_right _ _)
       simpa only [zero_add] using add_le_add hia.left (Int.emod_lt_of_pos n ha).le
     · refine' lt_of_lt_of_le (add_lt_add_right hi (a * (n / a + 1))) _
-      rw [mul_add, mul_one, ← add_assoc, hn]
+      rw [mul_add]; rw [mul_one]; rw [← add_assoc]; rw [hn]
     · rw [Int.add_mul_emod_self_left, Int.emod_eq_of_lt hia.left hia.right]
   · refine' ⟨i + a * (n / a), ⟨_, _⟩, _⟩
     · exact hn.symm.le.trans (add_le_add_right hi _)

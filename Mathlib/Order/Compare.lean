@@ -76,7 +76,7 @@ alias ⟨Compares.of_swap, Compares.swap⟩ := compares_swap
 #align ordering.compares.swap Ordering.Compares.swap
 
 theorem swap_eq_iff_eq_swap {o o' : Ordering} : o.swap = o' ↔ o = o'.swap := by
-  rw [← swap_inj, swap_swap]
+  rw [← swap_inj]; rw [swap_swap]
 #align ordering.swap_eq_iff_eq_swap Ordering.swap_eq_iff_eq_swap
 
 theorem Compares.eq_lt [Preorder α] : ∀ {o} {a b : α}, Compares o a b → (o = lt ↔ a < b)
@@ -249,19 +249,18 @@ theorem cmp_eq_cmp_symm : cmp x y = cmp x' y' ↔ cmp y x = cmp y' x' :=
 #align cmp_eq_cmp_symm cmp_eq_cmp_symm
 
 theorem lt_iff_lt_of_cmp_eq_cmp (h : cmp x y = cmp x' y') : x < y ↔ x' < y' := by
-  rw [← cmp_eq_lt_iff, ← cmp_eq_lt_iff, h]
+  rw [← cmp_eq_lt_iff]; rw [← cmp_eq_lt_iff]; rw [h]
 #align lt_iff_lt_of_cmp_eq_cmp lt_iff_lt_of_cmp_eq_cmp
 
 theorem le_iff_le_of_cmp_eq_cmp (h : cmp x y = cmp x' y') : x ≤ y ↔ x' ≤ y' := by
-  rw [← not_lt, ← not_lt]
+  rw [← not_lt]; rw [← not_lt]
   apply not_congr
   apply lt_iff_lt_of_cmp_eq_cmp
   rwa [cmp_eq_cmp_symm]
 #align le_iff_le_of_cmp_eq_cmp le_iff_le_of_cmp_eq_cmp
 
 theorem eq_iff_eq_of_cmp_eq_cmp (h : cmp x y = cmp x' y') : x = y ↔ x' = y' := by
-  rw [le_antisymm_iff, le_antisymm_iff, le_iff_le_of_cmp_eq_cmp h,
-      le_iff_le_of_cmp_eq_cmp (cmp_eq_cmp_symm.1 h)]
+  rw [le_antisymm_iff]; rw [le_antisymm_iff]; rw [le_iff_le_of_cmp_eq_cmp h]; rw [le_iff_le_of_cmp_eq_cmp (cmp_eq_cmp_symm.1 h)]
 #align eq_iff_eq_of_cmp_eq_cmp eq_iff_eq_of_cmp_eq_cmp
 
 theorem LT.lt.cmp_eq_lt (h : x < y) : cmp x y = Ordering.lt :=

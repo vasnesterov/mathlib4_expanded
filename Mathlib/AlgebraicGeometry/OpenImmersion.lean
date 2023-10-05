@@ -113,7 +113,7 @@ def affineCover (X : Scheme) : OpenCover X where
   Covers := by
     intro x
     erw [coe_comp]
-    rw [Set.range_comp, Set.range_iff_surjective.mpr, Set.image_univ]
+    rw [Set.range_comp]; rw [Set.range_iff_surjective.mpr]; rw [Set.image_univ]
     erw [Subtype.range_coe_subtype]
     exact (X.local_affine x).choose.2
     rw [← TopCat.epi_iff_surjective]
@@ -139,7 +139,7 @@ def OpenCover.bind (f : ∀ x : 𝒰.J, OpenCover (𝒰.obj x)) : OpenCover X wh
     change x ∈ Set.range ((f (𝒰.f x)).map ((f (𝒰.f x)).f y) ≫ 𝒰.map (𝒰.f x)).1.base
     use z
     erw [comp_apply]
-    rw [hz, hy]
+    rw [hz]; rw [hy]
   -- Porting note : weirdly, even though no input is needed, `inferInstance` does not work
   -- `PresheafedSpace.IsOpenImmersion.comp` is marked as `instance`
   IsOpen x := PresheafedSpace.IsOpenImmersion.comp _ _
@@ -168,8 +168,7 @@ def OpenCover.copy {X : Scheme} (𝒰 : OpenCover X) (J : Type*) (obj : J → Sc
   { J, obj, map
     f := fun x => e₁.symm (𝒰.f x)
     Covers := fun x => by
-      rw [e₂, Scheme.comp_val_base, coe_comp, Set.range_comp, Set.range_iff_surjective.mpr,
-        Set.image_univ, e₁.rightInverse_symm]
+      rw [e₂]; rw [Scheme.comp_val_base]; rw [coe_comp]; rw [Set.range_comp]; rw [Set.range_iff_surjective.mpr]; rw [Set.image_univ]; rw [e₁.rightInverse_symm]
       · exact 𝒰.Covers x
       · rw [← TopCat.epi_iff_surjective]; infer_instance
     -- Porting note : weirdly, even though no input is needed, `inferInstance` does not work
@@ -291,7 +290,7 @@ def OpenCover.finiteSubcover {X : Scheme} (𝒰 : OpenCover X) [H : CompactSpace
   have h : ∀ x : X, ∃ y : t, x ∈ Set.range (𝒰.map (𝒰.f y)).1.base := by
     intro x
     have h' : x ∈ (⊤ : Set X) := trivial
-    rw [← Classical.choose_spec this, Set.mem_iUnion] at h'
+    rw [← Classical.choose_spec this] at h'; rw [Set.mem_iUnion] at h'
     rcases h' with ⟨y, _, ⟨hy, rfl⟩, hy'⟩
     exact ⟨⟨y, hy⟩, hy'⟩
   exact
@@ -423,7 +422,7 @@ theorem _root_.AlgebraicGeometry.isIso_iff_isOpenImmersion {X Y : Scheme} (f : X
 
 theorem _root_.AlgebraicGeometry.isIso_iff_stalk_iso {X Y : Scheme} (f : X ⟶ Y) :
     IsIso f ↔ IsIso f.1.base ∧ ∀ x, IsIso (PresheafedSpace.stalkMap f.1 x) := by
-  rw [isIso_iff_isOpenImmersion, IsOpenImmersion.iff_stalk_iso, and_comm, ← and_assoc]
+  rw [isIso_iff_isOpenImmersion]; rw [IsOpenImmersion.iff_stalk_iso]; rw [and_comm]; rw [← and_assoc]
   refine' and_congr ⟨_, _⟩ Iff.rfl
   · rintro ⟨h₁, h₂⟩
     convert_to
@@ -553,7 +552,7 @@ theorem range_pullback_snd_of_left :
       PreservesPullback.iso_hom_snd Scheme.forgetToTop f g]
   -- Porting note : was `rw`
   erw [coe_comp]
-  rw [Set.range_comp, Set.range_iff_surjective.mpr, ←
+  rw [Set.range_comp]; rw [Set.range_iff_surjective.mpr]; rw [←
     @Set.preimage_univ _ _ (pullback.fst : pullback f.1.base g.1.base ⟶ _)]
   -- Porting note : was `rw`
   erw [TopCat.pullback_snd_image_fst_preimage]
@@ -571,7 +570,7 @@ theorem range_pullback_fst_of_right :
       PreservesPullback.iso_hom_fst Scheme.forgetToTop g f]
   -- Porting note : was `rw`
   erw [coe_comp]
-  rw [Set.range_comp, Set.range_iff_surjective.mpr, ←
+  rw [Set.range_comp]; rw [Set.range_iff_surjective.mpr]; rw [←
     @Set.preimage_univ _ _ (pullback.snd : pullback g.1.base f.1.base ⟶ _)]
   -- Porting note : was `rw`
   erw [TopCat.pullback_fst_image_snd_preimage]
@@ -584,16 +583,13 @@ theorem range_pullback_fst_of_right :
 theorem range_pullback_to_base_of_left :
     Set.range (pullback.fst ≫ f : pullback f g ⟶ Z).1.base =
       Set.range f.1.base ∩ Set.range g.1.base := by
-  rw [pullback.condition, Scheme.comp_val_base, coe_comp, Set.range_comp,
-    range_pullback_snd_of_left, Opens.carrier_eq_coe,
-    Opens.map_obj, Opens.coe_mk, Set.image_preimage_eq_inter_range]
+  rw [pullback.condition]; rw [Scheme.comp_val_base]; rw [coe_comp]; rw [Set.range_comp]; rw [range_pullback_snd_of_left]; rw [Opens.carrier_eq_coe]; rw [Opens.map_obj]; rw [Opens.coe_mk]; rw [Set.image_preimage_eq_inter_range]
 #align algebraic_geometry.IsOpenImmersion.range_pullback_to_base_of_left AlgebraicGeometry.IsOpenImmersion.range_pullback_to_base_of_left
 
 theorem range_pullback_to_base_of_right :
     Set.range (pullback.fst ≫ g : pullback g f ⟶ Z).1.base =
       Set.range g.1.base ∩ Set.range f.1.base := by
-  rw [Scheme.comp_val_base, coe_comp, Set.range_comp, range_pullback_fst_of_right, Opens.map_obj,
-    Opens.carrier_eq_coe, Opens.coe_mk, Set.image_preimage_eq_inter_range, Set.inter_comm]
+  rw [Scheme.comp_val_base]; rw [coe_comp]; rw [Set.range_comp]; rw [range_pullback_fst_of_right]; rw [Opens.map_obj]; rw [Opens.carrier_eq_coe]; rw [Opens.coe_mk]; rw [Set.image_preimage_eq_inter_range]; rw [Set.inter_comm]
 #align algebraic_geometry.IsOpenImmersion.range_pullback_to_base_of_right AlgebraicGeometry.IsOpenImmersion.range_pullback_to_base_of_right
 
 /-- The universal property of open immersions:
@@ -641,7 +637,7 @@ theorem app_eq_inv_app_app_of_comp_eq_aux {X Y U : Scheme} (f : Y ⟶ U) (g : U 
     (H : fg = f ≫ g) [h : IsOpenImmersion g] (V : Opens U) :
     (Opens.map f.1.base).obj V = (Opens.map fg.1.base).obj (g.opensFunctor.obj V) := by
   subst H
-  rw [Scheme.comp_val_base, Opens.map_comp_obj]
+  rw [Scheme.comp_val_base]; rw [Opens.map_comp_obj]
   congr 1
   ext1
   exact (Set.preimage_image_eq _ h.base_open.inj).symm
@@ -656,9 +652,7 @@ theorem app_eq_invApp_app_of_comp_eq {X Y U : Scheme} (f : Y ⟶ U) (g : U ⟶ X
           Y.presheaf.map
             (eqToHom <| IsOpenImmersion.app_eq_inv_app_app_of_comp_eq_aux f g fg H V).op := by
   subst H
-  rw [Scheme.comp_val_c_app, Category.assoc, Scheme.Hom.invApp,
-    PresheafedSpace.IsOpenImmersion.invApp_app_assoc, f.val.c.naturality_assoc,
-    TopCat.Presheaf.pushforwardObj_map, ← Functor.map_comp]
+  rw [Scheme.comp_val_c_app]; rw [Category.assoc]; rw [Scheme.Hom.invApp]; rw [PresheafedSpace.IsOpenImmersion.invApp_app_assoc]; rw [f.val.c.naturality_assoc]; rw [TopCat.Presheaf.pushforwardObj_map]; rw [← Functor.map_comp]
   convert (Category.comp_id <| f.1.c.app (op V)).symm
   convert Y.presheaf.map_id _
 #align algebraic_geometry.IsOpenImmersion.app_eq_inv_app_app_of_comp_eq AlgebraicGeometry.IsOpenImmersion.app_eq_invApp_app_of_comp_eq
@@ -687,7 +681,7 @@ theorem image_basicOpen {X Y : Scheme} (f : X ⟶ Y) [H : IsOpenImmersion f] {U 
   rw [Scheme.Hom.invApp] at e
   -- Porting note : was `rw`
   erw [PresheafedSpace.IsOpenImmersion.invApp_app_apply] at e
-  rw [Scheme.basicOpen_res, inf_eq_right.mpr _] at e
+  rw [Scheme.basicOpen_res] at e; rw [inf_eq_right.mpr _] at e
   rw [← e]
   ext1
   -- Porting note : this `dsimp` was not necessary
@@ -721,18 +715,17 @@ def Scheme.restrictFunctor : Opens X ⥤ Over X where
     Over.homMk
       (IsOpenImmersion.lift (X.ofRestrict _) (X.ofRestrict _) <| by
           dsimp [ofRestrict, LocallyRingedSpace.ofRestrict, Opens.inclusion]
-          rw [ContinuousMap.coe_mk, ContinuousMap.coe_mk, Subtype.range_val, Subtype.range_val]
+          rw [ContinuousMap.coe_mk]; rw [ContinuousMap.coe_mk]; rw [Subtype.range_val]; rw [Subtype.range_val]
           exact i.le)
       (IsOpenImmersion.lift_fac _ _ _)
   map_id U := by
     ext1
     dsimp only [Over.homMk_left, Over.id_left]
-    rw [← cancel_mono (X.ofRestrict U.openEmbedding), Category.id_comp,
-      IsOpenImmersion.lift_fac]
+    rw [← cancel_mono (X.ofRestrict U.openEmbedding)]; rw [Category.id_comp]; rw [IsOpenImmersion.lift_fac]
   map_comp {U V W} i j := by
     ext1
     dsimp only [Over.homMk_left, Over.comp_left]
-    rw [← cancel_mono (X.ofRestrict W.openEmbedding), Category.assoc]
+    rw [← cancel_mono (X.ofRestrict W.openEmbedding)]; rw [Category.assoc]
     iterate 3 rw [IsOpenImmersion.lift_fac]
 #align algebraic_geometry.Scheme.restrict_functor AlgebraicGeometry.Scheme.restrictFunctor
 
@@ -746,7 +739,7 @@ def Scheme.restrictFunctor : Opens X ⥤ Over X where
   ((X.restrictFunctor.map i).left) =
   IsOpenImmersion.lift (X.ofRestrict V.openEmbedding) (X.ofRestrict U.openEmbedding) (by
     dsimp [ofRestrict, LocallyRingedSpace.ofRestrict, Opens.inclusion]
-    rw [ContinuousMap.coe_mk, ContinuousMap.coe_mk, Subtype.range_val, Subtype.range_val]
+    rw [ContinuousMap.coe_mk]; rw [ContinuousMap.coe_mk]; rw [Subtype.range_val]; rw [Subtype.range_val]
     exact i.le) := rfl
 
 -- Porting note : the `by ...` used to be automatically done by unification magic
@@ -755,7 +748,7 @@ theorem Scheme.restrictFunctor_map_ofRestrict {U V : Opens X} (i : U ⟶ V) :
     (X.restrictFunctor.map i).1 ≫ X.ofRestrict _ = X.ofRestrict _ :=
   IsOpenImmersion.lift_fac _ _ (by
     dsimp [ofRestrict, LocallyRingedSpace.ofRestrict, Opens.inclusion]
-    rw [ContinuousMap.coe_mk, ContinuousMap.coe_mk, Subtype.range_val, Subtype.range_val]
+    rw [ContinuousMap.coe_mk]; rw [ContinuousMap.coe_mk]; rw [Subtype.range_val]; rw [Subtype.range_val]
     exact i.le)
 #align algebraic_geometry.Scheme.restrict_functor_map_ofRestrict AlgebraicGeometry.Scheme.restrictFunctor_map_ofRestrict
 
@@ -786,8 +779,7 @@ theorem Scheme.restrictFunctor_map_app {U V : Opens X} (i : U ⟶ V) (W : Opens 
   have e₂ := (X.restrictFunctor.map i).1.val.c.naturality (eqToHom <| W.map_functor_eq (U := V)).op
   rw [← IsIso.eq_inv_comp] at e₂
   dsimp at e₁ e₂ ⊢
-  rw [e₂, W.adjunction_counit_map_functor (U := V), ← IsIso.eq_inv_comp, IsIso.inv_comp_eq,
-    ← IsIso.eq_comp_inv] at e₁
+  rw [e₂] at e₁; rw [W.adjunction_counit_map_functor (U := V)] at e₁; rw [← IsIso.eq_inv_comp] at e₁; rw [IsIso.inv_comp_eq] at e₁; rw [← IsIso.eq_comp_inv] at e₁
   simp_rw [eqToHom_map (Opens.map _), eqToHom_map (IsOpenMap.functor _), ← Functor.map_inv,
     ← Functor.map_comp] at e₁
   rw [e₁]
@@ -803,7 +795,7 @@ def Scheme.restrictFunctorΓ : X.restrictFunctor.op ⋙ (Over.forget X).op ⋙ S
     (by
       intro U V i
       dsimp [-Scheme.restrictFunctor_map_left]
-      rw [X.restrictFunctor_map_app, ← Functor.map_comp, ← Functor.map_comp]
+      rw [X.restrictFunctor_map_app]; rw [← Functor.map_comp]; rw [← Functor.map_comp]
       congr 1)
 #align algebraic_geometry.Scheme.restrict_functor_Γ AlgebraicGeometry.Scheme.restrictFunctorΓ
 
@@ -817,9 +809,9 @@ noncomputable abbrev Scheme.restrictMapIso {X Y : Scheme} (f : X ⟶ Y) [IsIso f
     (H := PresheafedSpace.IsOpenImmersion.comp (hf := inferInstance) (hg := inferInstance))
     (Y.ofRestrict _) _
   dsimp [Opens.inclusion]
-  rw [coe_comp, Set.range_comp, ContinuousMap.coe_mk, ContinuousMap.coe_mk]
+  rw [coe_comp]; rw [Set.range_comp]; rw [ContinuousMap.coe_mk]; rw [ContinuousMap.coe_mk]
   dsimp
-  rw [Subtype.range_val, Subtype.range_coe]
+  rw [Subtype.range_val]; rw [Subtype.range_coe]
   refine' @Set.image_preimage_eq _ _ f.1.base U.1 _
   rw [← TopCat.epi_iff_surjective]
   infer_instance
@@ -840,8 +832,7 @@ def Scheme.OpenCover.pullbackCover {X : Scheme} (𝒰 : X.OpenCover) {W : Scheme
         PreservesPullback.iso_hom_fst Scheme.forgetToTop f (𝒰.map (𝒰.f (f.1.base x)))]
     -- Porting note : `rw` to `erw` on this single lemma
     erw [coe_comp]
-    rw [Set.range_comp, Set.range_iff_surjective.mpr, Set.image_univ,
-      TopCat.pullback_fst_range]
+    rw [Set.range_comp]; rw [Set.range_iff_surjective.mpr]; rw [Set.image_univ]; rw [TopCat.pullback_fst_range]
     obtain ⟨y, h⟩ := 𝒰.Covers (f.1.base x)
     exact ⟨y, h.symm⟩
     · rw [← TopCat.epi_iff_surjective]; infer_instance
@@ -863,7 +854,7 @@ theorem Scheme.OpenCover.iSup_opensRange {X : Scheme} (𝒰 : X.OpenCover) :
 theorem Scheme.OpenCover.compactSpace {X : Scheme} (𝒰 : X.OpenCover) [Finite 𝒰.J]
     [H : ∀ i, CompactSpace (𝒰.obj i)] : CompactSpace X := by
   cases nonempty_fintype 𝒰.J
-  rw [← isCompact_univ_iff, ← 𝒰.iUnion_range]
+  rw [← isCompact_univ_iff]; rw [← 𝒰.iUnion_range]
   apply isCompact_iUnion
   intro i
   rw [isCompact_iff_compactSpace]
@@ -915,7 +906,7 @@ def pullbackRestrictIsoRestrict {X Y : Scheme} (f : X ⟶ Y) (U : Opens Y) :
   refine' IsOpenImmersion.isoOfRangeEq pullback.fst (X.ofRestrict _) _
   rw [IsOpenImmersion.range_pullback_fst_of_right]
   dsimp [Opens.inclusion]
-  rw [ContinuousMap.coe_mk, ContinuousMap.coe_mk, Subtype.range_val, Subtype.range_coe]
+  rw [ContinuousMap.coe_mk]; rw [ContinuousMap.coe_mk]; rw [Subtype.range_val]; rw [Subtype.range_coe]
   rfl
 #align algebraic_geometry.pullback_restrict_iso_restrict AlgebraicGeometry.pullbackRestrictIsoRestrict
 
@@ -950,7 +941,7 @@ theorem pullbackRestrictIsoRestrict_hom_morphismRestrict {X Y : Scheme} (f : X �
 theorem morphismRestrict_ι {X Y : Scheme} (f : X ⟶ Y) (U : Opens Y) :
     (f ∣_ U) ≫ Y.ofRestrict U.openEmbedding = X.ofRestrict _ ≫ f := by
   delta morphismRestrict
-  rw [Category.assoc, pullback.condition.symm, pullbackRestrictIsoRestrict_inv_fst_assoc]
+  rw [Category.assoc]; rw [pullback.condition.symm]; rw [pullbackRestrictIsoRestrict_inv_fst_assoc]
 #align algebraic_geometry.morphism_restrict_ι AlgebraicGeometry.morphismRestrict_ι
 
 theorem isPullback_morphismRestrict {X Y : Scheme} (f : X ⟶ Y) (U : Opens Y) :
@@ -972,9 +963,8 @@ theorem morphismRestrict_comp {X Y Z : Scheme} (f : X ⟶ Y) (g : Y ⟶ Z) (U : 
   congr 1
   rw [← cancel_mono pullback.fst]
   simp_rw [Category.assoc]
-  rw [pullbackRestrictIsoRestrict_inv_fst, pullbackRightPullbackFstIso_inv_snd_fst, ←
-    pullback.condition, pullbackRestrictIsoRestrict_inv_fst_assoc,
-    pullbackRestrictIsoRestrict_inv_fst_assoc]
+  rw [pullbackRestrictIsoRestrict_inv_fst]; rw [pullbackRightPullbackFstIso_inv_snd_fst]; rw [←
+    pullback.condition]; rw [pullbackRestrictIsoRestrict_inv_fst_assoc]; rw [pullbackRestrictIsoRestrict_inv_fst_assoc]
 #align algebraic_geometry.morphism_restrict_comp AlgebraicGeometry.morphismRestrict_comp
 
 instance {X Y : Scheme} (f : X ⟶ Y) [IsIso f] (U : Opens Y) : IsIso (f ∣_ U) := by
@@ -1021,7 +1011,7 @@ theorem morphismRestrict_c_app {X Y : Scheme} (f : X ⟶ Y) (U : Opens Y) (V : O
         X.presheaf.map (eqToHom (image_morphismRestrict_preimage f U V)).op := by
   have :=
     Scheme.congr_app (morphismRestrict_ι f U) (op (U.openEmbedding.isOpenMap.functor.obj V))
-  rw [Scheme.comp_val_c_app, Scheme.comp_val_c_app_assoc] at this
+  rw [Scheme.comp_val_c_app] at this; rw [Scheme.comp_val_c_app_assoc] at this
   have e : (Opens.map U.inclusion).obj (U.openEmbedding.isOpenMap.functor.obj V) = V := by
     ext1; exact Set.preimage_image_eq _ Subtype.coe_injective
   have : _ ≫ X.presheaf.map _ = _ :=
@@ -1040,7 +1030,7 @@ theorem Γ_map_morphismRestrict {X Y : Scheme} (f : X ⟶ Y) (U : Opens Y) :
       Y.presheaf.map (eqToHom <| U.openEmbedding_obj_top.symm).op ≫
         f.1.c.app (op U) ≫
           X.presheaf.map (eqToHom <| ((Opens.map f.val.base).obj U).openEmbedding_obj_top).op := by
-  rw [Scheme.Γ_map_op, morphismRestrict_c_app f U ⊤, f.val.c.naturality_assoc]
+  rw [Scheme.Γ_map_op]; rw [morphismRestrict_c_app f U ⊤]; rw [f.val.c.naturality_assoc]
   erw [← X.presheaf.map_comp]
   congr
 #align algebraic_geometry.Γ_map_morphism_restrict AlgebraicGeometry.Γ_map_morphismRestrict
@@ -1057,10 +1047,7 @@ def morphismRestrictOpensRange {X Y U : Scheme} (f : X ⟶ Y) (g : U ⟶ Y) [hg 
       (by rw [Category.comp_id, IsOpenImmersion.isoOfRangeEq_hom, IsOpenImmersion.lift_fac])
   symm
   refine' Arrow.isoMk (asIso t ≪≫ pullbackRestrictIsoRestrict f V) e _
-  rw [Iso.trans_hom, asIso_hom, ← Iso.comp_inv_eq, ← cancel_mono g, Arrow.mk_hom, Arrow.mk_hom,
-    IsOpenImmersion.isoOfRangeEq_inv, Category.assoc, Category.assoc, Category.assoc,
-    IsOpenImmersion.lift_fac, ← pullback.condition, morphismRestrict_ι,
-    pullbackRestrictIsoRestrict_hom_restrict_assoc, pullback.lift_fst_assoc, Category.comp_id]
+  rw [Iso.trans_hom]; rw [asIso_hom]; rw [← Iso.comp_inv_eq]; rw [← cancel_mono g]; rw [Arrow.mk_hom]; rw [Arrow.mk_hom]; rw [IsOpenImmersion.isoOfRangeEq_inv]; rw [Category.assoc]; rw [Category.assoc]; rw [Category.assoc]; rw [IsOpenImmersion.lift_fac]; rw [← pullback.condition]; rw [morphismRestrict_ι]; rw [pullbackRestrictIsoRestrict_hom_restrict_assoc]; rw [pullback.lift_fst_assoc]; rw [Category.comp_id]
 #align algebraic_geometry.morphism_restrict_opens_range AlgebraicGeometry.morphismRestrictOpensRange
 
 /-- The restrictions onto two equal open sets are isomorphic. This currently has bad defeqs when
@@ -1100,7 +1087,7 @@ def morphismRestrictRestrict {X Y : Scheme} (f : X ⟶ Y) (U : Opens Y) (V : Ope
       (morphismRestrictOpensRange _ _).symm ≪≫ morphismRestrictEq _ _
   ext1
   dsimp
-  rw [coe_comp, Set.range_comp]
+  rw [coe_comp]; rw [Set.range_comp]
   apply congr_arg (U.inclusion '' ·)
   exact Subtype.range_val
 #align algebraic_geometry.morphism_restrict_restrict AlgebraicGeometry.morphismRestrictRestrict
@@ -1118,11 +1105,10 @@ def morphismRestrictRestrictBasicOpen {X Y : Scheme} (f : X ⟶ Y) (U : Opens Y)
   rw [← (Y.restrict U.openEmbedding).basicOpen_res_eq _ (eqToHom U.inclusion_map_eq_top).op]
   erw [← comp_apply]
   erw [← Y.presheaf.map_comp]
-  rw [eqToHom_op, eqToHom_op, eqToHom_map, eqToHom_trans]
+  rw [eqToHom_op]; rw [eqToHom_op]; rw [eqToHom_map]; rw [eqToHom_trans]
   erw [← e]
   ext1; dsimp [Opens.map, Opens.inclusion]
-  rw [Set.image_preimage_eq_inter_range, Set.inter_eq_left, ContinuousMap.coe_mk,
-    Subtype.range_val]
+  rw [Set.image_preimage_eq_inter_range]; rw [Set.inter_eq_left]; rw [ContinuousMap.coe_mk]; rw [Subtype.range_val]
   exact Y.basicOpen_le r
 #align algebraic_geometry.morphism_restrict_restrict_basic_open AlgebraicGeometry.morphismRestrictRestrictBasicOpen
 
@@ -1151,7 +1137,7 @@ def morphismRestrictStalkMap {X Y : Scheme} (f : X ⟶ Y) (U : Opens Y) (x) :
     · rw [morphismRestrict_val_base] at hxV
       exact hxV
     erw [PresheafedSpace.restrictStalkIso_hom_eq_germ]
-    rw [morphismRestrict_c_app, Category.assoc, TopCat.Presheaf.germ_res]
+    rw [morphismRestrict_c_app]; rw [Category.assoc]; rw [TopCat.Presheaf.germ_res]
     rfl
 #align algebraic_geometry.morphism_restrict_stalk_map AlgebraicGeometry.morphismRestrictStalkMap
 

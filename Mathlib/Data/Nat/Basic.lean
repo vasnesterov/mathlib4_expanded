@@ -65,7 +65,7 @@ instance commSemiring : CommSemiring ℕ where
   natCast_succ n := rfl
   nsmul m n := m * n
   nsmul_zero := Nat.zero_mul
-  nsmul_succ _ _ := by dsimp only; rw [Nat.add_comm, Nat.right_distrib, Nat.one_mul]
+  nsmul_succ _ _ := by dsimp only; rw [Nat.add_comm]; rw [Nat.right_distrib]; rw [Nat.one_mul]
   npow m n := n ^ m
   npow_zero := Nat.pow_zero
   npow_succ _ _ := Nat.pow_succ'
@@ -194,10 +194,10 @@ theorem one_lt_succ_succ (n : ℕ) : 1 < n.succ.succ :=
 
 theorem max_succ_succ {m n : ℕ} : max (succ m) (succ n) = succ (max m n) := by
   by_cases h1 : m ≤ n
-  rw [max_eq_right h1, max_eq_right (succ_le_succ h1)]
+  rw [max_eq_right h1]; rw [max_eq_right (succ_le_succ h1)]
   · rw [not_le] at h1
     have h2 := le_of_lt h1
-    rw [max_eq_left h2, max_eq_left (succ_le_succ h2)]
+    rw [max_eq_left h2]; rw [max_eq_left (succ_le_succ h2)]
 #align nat.max_succ_succ Nat.max_succ_succ
 
 theorem not_succ_lt_self {n : ℕ} : ¬succ n < n :=
@@ -240,7 +240,7 @@ theorem of_le_succ {n m : ℕ} (H : n ≤ m.succ) : n ≤ m ∨ n = m.succ :=
 #align nat.succ_lt_succ_iff Nat.succ_lt_succ_iff
 
 theorem div_le_iff_le_mul_add_pred {m n k : ℕ} (n0 : 0 < n) : m / n ≤ k ↔ m ≤ n * k + (n - 1) := by
-  rw [← lt_succ_iff, div_lt_iff_lt_mul n0, succ_mul, mul_comm]
+  rw [← lt_succ_iff]; rw [div_lt_iff_lt_mul n0]; rw [succ_mul]; rw [mul_comm]
   cases n
   · cases n0
 
@@ -315,7 +315,7 @@ theorem pred_eq_succ_iff {n m : ℕ} : pred n = succ m ↔ n = m + 2 := by
 #align nat.pred_eq_succ_iff Nat.pred_eq_succ_iff
 
 theorem pred_sub (n m : ℕ) : pred n - m = pred (n - m) := by
-  rw [← Nat.sub_one, Nat.sub_sub, one_add, sub_succ]
+  rw [← Nat.sub_one]; rw [Nat.sub_sub]; rw [one_add]; rw [sub_succ]
 #align nat.pred_sub Nat.pred_sub
 
 -- Moved to Std
@@ -369,7 +369,7 @@ theorem mul_right_eq_self_iff {a b : ℕ} (ha : 0 < a) : a * b = a ↔ b = 1 :=
 #align nat.mul_right_eq_self_iff Nat.mul_right_eq_self_iff
 
 theorem mul_left_eq_self_iff {a b : ℕ} (hb : 0 < b) : a * b = b ↔ a = 1 := by
-  rw [mul_comm, Nat.mul_right_eq_self_iff hb]
+  rw [mul_comm]; rw [Nat.mul_right_eq_self_iff hb]
 #align nat.mul_left_eq_self_iff Nat.mul_left_eq_self_iff
 
 theorem lt_succ_iff_lt_or_eq {n i : ℕ} : n < i.succ ↔ n < i ∨ n = i :=
@@ -435,7 +435,7 @@ theorem leRecOn_succ {C : ℕ → Sort u} {n m} (h1 : n ≤ m) {h2 : n ≤ m + 1
     (leRecOn h2 (@next) x : C (m + 1)) = next (leRecOn h1 (@next) x : C m) := by
   conv =>
     lhs
-    rw [leRecOn, Or.by_cases, dif_pos h1]
+    rw [leRecOn]; rw [Or.by_cases]; rw [dif_pos h1]
 #align nat.le_rec_on_succ Nat.leRecOn_succ
 
 theorem leRecOn_succ' {C : ℕ → Sort u} {n} {h : n ≤ n + 1} {next : ∀ {k}, C k → C (k + 1)}
@@ -448,13 +448,13 @@ theorem leRecOn_trans {C : ℕ → Sort u} {n m k} (hnm : n ≤ m) (hmk : m ≤ 
   induction' hmk with k hmk ih
   · rw [leRecOn_self]
 
-  rw [leRecOn_succ (le_trans hnm hmk), ih, leRecOn_succ]
+  rw [leRecOn_succ (le_trans hnm hmk)]; rw [ih]; rw [leRecOn_succ]
 #align nat.le_rec_on_trans Nat.leRecOn_trans
 
 theorem leRecOn_succ_left {C : ℕ → Sort u} {n m} (h1 : n ≤ m) (h2 : n + 1 ≤ m)
     {next : ∀ {k}, C k → C (k + 1)} (x : C n) :
     (leRecOn h2 next (next x) : C m) = (leRecOn h1 next x : C m) := by
-  rw [Subsingleton.elim h1 (le_trans (le_succ n) h2), leRecOn_trans (le_succ n) h2, leRecOn_succ']
+  rw [Subsingleton.elim h1 (le_trans (le_succ n) h2)]; rw [leRecOn_trans (le_succ n) h2]; rw [leRecOn_succ']
 #align nat.le_rec_on_succ_left Nat.leRecOn_succ_left
 
 theorem leRecOn_injective {C : ℕ → Sort u} {n m} (hnm : n ≤ m) (next : ∀ {k}, C k → C (k + 1))
@@ -465,7 +465,7 @@ theorem leRecOn_injective {C : ℕ → Sort u} {n m} (hnm : n ≤ m) (next : ∀
     rwa [leRecOn_self, leRecOn_self] at H
 
   intro x y H
-  rw [leRecOn_succ hnm, leRecOn_succ hnm] at H
+  rw [leRecOn_succ hnm] at H; rw [leRecOn_succ hnm] at H
   exact ih (Hnext _ H)
 #align nat.le_rec_on_injective Nat.leRecOn_injective
 
@@ -558,8 +558,7 @@ theorem decreasingInduction_trans {P : ℕ → Sort*} (h : ∀ n, P (n + 1) → 
 theorem decreasingInduction_succ_left {P : ℕ → Sort*} (h : ∀ n, P (n + 1) → P n) {m n : ℕ}
     (smn : m + 1 ≤ n) (mn : m ≤ n) (hP : P n) :
     (decreasingInduction h mn hP : P m) = h m (decreasingInduction h smn hP) := by
-  rw [Subsingleton.elim mn (le_trans (le_succ m) smn), decreasingInduction_trans,
-    decreasingInduction_succ']
+  rw [Subsingleton.elim mn (le_trans (le_succ m) smn)]; rw [decreasingInduction_trans]; rw [decreasingInduction_succ']
   apply Nat.le_succ
 #align nat.decreasing_induction_succ_left Nat.decreasingInduction_succ_left
 
@@ -640,7 +639,7 @@ theorem div_lt_iff_lt_mul' {x y : ℕ} {k : ℕ} (k0 : 0 < k) : x / k < y ↔ x 
 #align nat.div_lt_iff_lt_mul' Nat.div_lt_iff_lt_mul'
 
 theorem one_le_div_iff {a b : ℕ} (hb : 0 < b) : 1 ≤ a / b ↔ b ≤ a := by
-  rw [le_div_iff_mul_le hb, one_mul]
+  rw [le_div_iff_mul_le hb]; rw [one_mul]
 #align nat.one_le_div_iff Nat.one_le_div_iff
 
 theorem div_lt_one_iff {a b : ℕ} (hb : 0 < b) : a / b < 1 ↔ a < b :=
@@ -678,7 +677,7 @@ theorem mul_div_le_mul_div_assoc (a b c : ℕ) : a * (b / c) ≤ a * b / c :=
 #align nat.mul_div_le_mul_div_assoc Nat.mul_div_le_mul_div_assoc
 
 protected theorem eq_mul_of_div_eq_right {a b c : ℕ} (H1 : b ∣ a) (H2 : a / b = c) : a = b * c := by
-  rw [← H2, Nat.mul_div_cancel' H1]
+  rw [← H2]; rw [Nat.mul_div_cancel' H1]
 #align nat.eq_mul_of_div_eq_right Nat.eq_mul_of_div_eq_right
 
 protected theorem div_eq_iff_eq_mul_right {a b c : ℕ} (H : 0 < b) (H' : b ∣ a) :
@@ -693,25 +692,25 @@ protected theorem div_eq_iff_eq_mul_left {a b c : ℕ} (H : 0 < b) (H' : b ∣ a
 #align nat.div_eq_iff_eq_mul_left Nat.div_eq_iff_eq_mul_left
 
 protected theorem eq_mul_of_div_eq_left {a b c : ℕ} (H1 : b ∣ a) (H2 : a / b = c) : a = c * b := by
-  rw [mul_comm, Nat.eq_mul_of_div_eq_right H1 H2]
+  rw [mul_comm]; rw [Nat.eq_mul_of_div_eq_right H1 H2]
 #align nat.eq_mul_of_div_eq_left Nat.eq_mul_of_div_eq_left
 
 protected theorem mul_div_cancel_left' {a b : ℕ} (Hd : a ∣ b) : a * (b / a) = b := by
-  rw [mul_comm, Nat.div_mul_cancel Hd]
+  rw [mul_comm]; rw [Nat.div_mul_cancel Hd]
 #align nat.mul_div_cancel_left' Nat.mul_div_cancel_left'
 
 #align nat.mul_div_mul_left Nat.mul_div_mul_left
 #align nat.mul_div_mul_right Nat.mul_div_mul_right
 
 theorem lt_div_mul_add {a b : ℕ} (hb : 0 < b) : a < a / b * b + b := by
-  rw [← Nat.succ_mul, ← Nat.div_lt_iff_lt_mul hb]
+  rw [← Nat.succ_mul]; rw [← Nat.div_lt_iff_lt_mul hb]
   exact Nat.lt_succ_self _
 #align nat.lt_div_mul_add Nat.lt_div_mul_add
 
 @[simp]
 protected theorem div_left_inj {a b d : ℕ} (hda : d ∣ a) (hdb : d ∣ b) : a / d = b / d ↔ a = b := by
   refine ⟨fun h => ?_, congr_arg fun n => n / d⟩
-  rw [← Nat.mul_div_cancel' hda, ← Nat.mul_div_cancel' hdb, h]
+  rw [← Nat.mul_div_cancel' hda]; rw [← Nat.mul_div_cancel' hdb]; rw [h]
 #align nat.div_left_inj Nat.div_left_inj
 
 /-! ### `mod`, `dvd` -/
@@ -745,7 +744,7 @@ protected theorem div_mod_unique {n k m d : ℕ} (h : 0 < k) :
     n / k = d ∧ n % k = m ↔ m + k * d = n ∧ m < k :=
   ⟨fun ⟨e₁, e₂⟩ => e₁ ▸ e₂ ▸ ⟨mod_add_div _ _, mod_lt _ h⟩, fun ⟨h₁, h₂⟩ =>
     h₁ ▸ by
-      rw [add_mul_div_left _ _ h, add_mul_mod_self_left]
+      rw [add_mul_div_left _ _ h]; rw [add_mul_mod_self_left]
       simp [div_eq_of_lt, mod_eq_of_lt, h₂]⟩
 #align nat.div_mod_unique Nat.div_mod_unique
 
@@ -771,7 +770,7 @@ theorem mod_mod_of_dvd (n : Nat) {m k : Nat} (h : m ∣ k) : n % k % m = n % m :
   rhs
   rw [← mod_add_div n k]
   rcases h with ⟨t, rfl⟩
-  rw [mul_assoc, add_mul_mod_self_left]
+  rw [mul_assoc]; rw [add_mul_mod_self_left]
 #align nat.mod_mod_of_dvd Nat.mod_mod_of_dvd
 
 -- Moved to Std
@@ -782,12 +781,12 @@ theorem mod_mod_of_dvd (n : Nat) {m k : Nat} (h : m ∣ k) : n % k % m = n % m :
 
 theorem add_mod_eq_add_mod_right {m n k : ℕ} (i : ℕ) (H : m % n = k % n) :
     (m + i) % n = (k + i) % n := by
-  rw [← mod_add_mod, ← mod_add_mod k, H]
+  rw [← mod_add_mod]; rw [← mod_add_mod k]; rw [H]
 #align nat.add_mod_eq_add_mod_right Nat.add_mod_eq_add_mod_right
 
 theorem add_mod_eq_add_mod_left {m n k : ℕ} (i : ℕ) (H : m % n = k % n) :
     (i + m) % n = (i + k) % n := by
-  rw [add_comm, add_mod_eq_add_mod_right _ H, add_comm]
+  rw [add_comm]; rw [add_mod_eq_add_mod_right _ H]; rw [add_comm]
 #align nat.add_mod_eq_add_mod_left Nat.add_mod_eq_add_mod_left
 
 -- Moved to Std
@@ -802,11 +801,11 @@ theorem mul_dvd_of_dvd_div {a b c : ℕ} (hab : c ∣ b) (h : a ∣ b / c) : c *
 #align nat.mul_dvd_of_dvd_div Nat.mul_dvd_of_dvd_div
 
 theorem eq_of_dvd_of_div_eq_one {a b : ℕ} (w : a ∣ b) (h : b / a = 1) : a = b := by
-  rw [← Nat.div_mul_cancel w, h, one_mul]
+  rw [← Nat.div_mul_cancel w]; rw [h]; rw [one_mul]
 #align nat.eq_of_dvd_of_div_eq_one Nat.eq_of_dvd_of_div_eq_one
 
 theorem eq_zero_of_dvd_of_div_eq_zero {a b : ℕ} (w : a ∣ b) (h : b / a = 0) : b = 0 := by
-  rw [← Nat.div_mul_cancel w, h, zero_mul]
+  rw [← Nat.div_mul_cancel w]; rw [h]; rw [zero_mul]
 #align nat.eq_zero_of_dvd_of_div_eq_zero Nat.eq_zero_of_dvd_of_div_eq_zero
 
 theorem div_le_div_left {a b c : ℕ} (h₁ : c ≤ b) (h₂ : 0 < c) : a / b ≤ a / c :=
@@ -821,7 +820,7 @@ theorem lt_iff_le_pred : ∀ {m n : ℕ}, 0 < n → (m < n ↔ m ≤ n - 1)
 #align nat.mul_div_le Nat.mul_div_le
 
 theorem lt_mul_div_succ (m : ℕ) {n : ℕ} (n0 : 0 < n) : m < n * (m / n + 1) := by
-  rw [mul_comm, ← Nat.div_lt_iff_lt_mul' n0]
+  rw [mul_comm]; rw [← Nat.div_lt_iff_lt_mul' n0]
   exact lt_succ_self _
 #align nat.lt_mul_div_succ Nat.lt_mul_div_succ
 
@@ -829,7 +828,7 @@ theorem mul_add_mod (a b c : ℕ) : (a * b + c) % b = c % b := by simp [Nat.add_
 #align nat.mul_add_mod Nat.mul_add_mod
 
 theorem mul_add_mod_of_lt {a b c : ℕ} (h : c < b) : (a * b + c) % b = c := by
-  rw [Nat.mul_add_mod, Nat.mod_eq_of_lt h]
+  rw [Nat.mul_add_mod]; rw [Nat.mod_eq_of_lt h]
 #align nat.mul_add_mod_of_lt Nat.mul_add_mod_of_lt
 
 theorem pred_eq_self_iff {n : ℕ} : n.pred = n ↔ n = 0 := by

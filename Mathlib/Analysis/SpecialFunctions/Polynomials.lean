@@ -66,7 +66,7 @@ theorem tendsto_atTop_iff_leadingCoeff_nonneg :
   refine' ⟨fun h => _, fun h => tendsto_atTop_of_leadingCoeff_nonneg P h.1 h.2⟩
   have : Tendsto (fun x => P.leadingCoeff * x ^ P.natDegree) atTop atTop :=
     (isEquivalent_atTop_lead P).tendsto_atTop h
-  rw [tendsto_const_mul_pow_atTop_iff, ← pos_iff_ne_zero, natDegree_pos_iff_degree_pos] at this
+  rw [tendsto_const_mul_pow_atTop_iff] at this; rw [← pos_iff_ne_zero] at this; rw [natDegree_pos_iff_degree_pos] at this
   exact ⟨this.1, this.2.le⟩
 #align polynomial.tendsto_at_top_iff_leading_coeff_nonneg Polynomial.tendsto_atTop_iff_leadingCoeff_nonneg
 

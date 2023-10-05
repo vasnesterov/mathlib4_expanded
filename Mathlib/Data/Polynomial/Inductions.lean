@@ -105,7 +105,7 @@ theorem natDegree_divX_eq_natDegree_tsub_one : p.divX.natDegree = p.natDegree - 
   · intro f
     simpa [divX_hom, divX_eq_zero_iff] using eq_C_of_natDegree_eq_zero
   · intros n c c0
-    rw [← C_mul_X_pow_eq_monomial, divX_hom_toFun, divX_C_mul, divX_X_pow]
+    rw [← C_mul_X_pow_eq_monomial]; rw [divX_hom_toFun]; rw [divX_C_mul]; rw [divX_X_pow]
     split_ifs with n0
     · simp [n0]
     · exact natDegree_C_mul_X_pow (n - 1) c c0
@@ -122,7 +122,7 @@ theorem degree_divX_lt (hp0 : p ≠ 0) : (divX p).degree < p.degree := by
     degree (divX p) < (divX p * X + C (p.coeff 0)).degree :=
       if h : degree p ≤ 0 then by
         have h' : C (p.coeff 0) ≠ 0 := by rwa [← eq_C_of_degree_le_zero h]
-        rw [eq_C_of_degree_le_zero h, divX_C, degree_zero, zero_mul, zero_add]
+        rw [eq_C_of_degree_le_zero h]; rw [divX_C]; rw [degree_zero]; rw [zero_mul]; rw [zero_add]
         exact lt_of_le_of_ne bot_le (Ne.symm (mt degree_eq_bot.1 <| by simpa using h'))
       else by
         have hXp0 : divX p ≠ 0 := by
@@ -134,7 +134,7 @@ theorem degree_divX_lt (hp0 : p ≠ 0) : (divX p).degree < p.degree := by
             _ < 1 := by decide
             _ = degree (X : R[X]) := degree_X.symm
             _ ≤ degree (divX p * X) := by
-              rw [← zero_add (degree X), degree_mul' this]
+              rw [← zero_add (degree X)]; rw [degree_mul' this]
               exact add_le_add
                 (by rw [zero_le_degree_iff, Ne.def, divX_eq_zero_iff]
                     exact fun h0 => h (h0.symm ▸ degree_C_le))
@@ -155,7 +155,7 @@ noncomputable def recOnHorner {M : R[X] → Sort*} (p : R[X]) (M0 : M 0)
     rw [← divX_mul_X_add p] at *
     exact
       if hcp0 : coeff p 0 = 0 then by
-        rw [hcp0, C_0, add_zero]
+        rw [hcp0]; rw [C_0]; rw [add_zero]
         exact
           MX _ (fun h : divX p = 0 => by simp [h, hcp0] at hp) (recOnHorner (divX p) M0 MC MX)
       else
@@ -211,12 +211,12 @@ theorem natDegree_ne_zero_induction_on {M : R[X] → Prop} {f : R[X]} (f0 : f.na
   · exact fun a => Or.inl (natDegree_C _)
   · rintro p q (hp | hp) (hq | hq)
     · refine' Or.inl _
-      rw [eq_C_of_natDegree_eq_zero hp, eq_C_of_natDegree_eq_zero hq, ← C_add, natDegree_C]
+      rw [eq_C_of_natDegree_eq_zero hp]; rw [eq_C_of_natDegree_eq_zero hq]; rw [← C_add]; rw [natDegree_C]
     · refine' Or.inr _
       rw [eq_C_of_natDegree_eq_zero hp]
       exact h_C_add hq
     · refine' Or.inr _
-      rw [eq_C_of_natDegree_eq_zero hq, add_comm]
+      rw [eq_C_of_natDegree_eq_zero hq]; rw [add_comm]
       exact h_C_add hp
     · exact Or.inr (h_add hp hq)
   · intro n a _

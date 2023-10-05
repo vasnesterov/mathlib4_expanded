@@ -44,14 +44,14 @@ theorem toTensorAlgebra_gMul {i j} (a : (⨂[R]^i) M) (b : (⨂[R]^j) M) :
     TensorPower.toTensorAlgebra (@GradedMonoid.GMul.mul _ (fun n => (⨂[R]^n) M) _ _ _ _ a b) =
       TensorPower.toTensorAlgebra a * TensorPower.toTensorAlgebra b := by
   -- change `a` and `b` to `tprod R a` and `tprod R b`
-  rw [TensorPower.gMul_eq_coe_linearMap, ← LinearMap.compr₂_apply, ← @LinearMap.mul_apply' R, ←
-    LinearMap.compl₂_apply, ← LinearMap.comp_apply]
+  rw [TensorPower.gMul_eq_coe_linearMap]; rw [← LinearMap.compr₂_apply]; rw [← @LinearMap.mul_apply' R]; rw [←
+    LinearMap.compl₂_apply]; rw [← LinearMap.comp_apply]
   refine' LinearMap.congr_fun (LinearMap.congr_fun _ a) b
   clear! a b
   ext (a b)
   -- Porting note: pulled the next two lines out of the long `simp only` below.
   simp only [LinearMap.compMultilinearMap_apply]
-  rw [LinearMap.compr₂_apply, ← gMul_eq_coe_linearMap]
+  rw [LinearMap.compr₂_apply]; rw [← gMul_eq_coe_linearMap]
   simp only [LinearMap.compr₂_apply, LinearMap.mul_apply', LinearMap.compl₂_apply,
     LinearMap.comp_apply, LinearMap.compMultilinearMap_apply, PiTensorProduct.lift.tprod,
     TensorPower.tprod_mul_tprod, TensorPower.toTensorAlgebra_tprod, TensorAlgebra.tprod_apply, ←
@@ -68,8 +68,7 @@ theorem toTensorAlgebra_gMul {i j} (a : (⨂[R]^i) M) (b : (⨂[R]^j) M) :
 theorem toTensorAlgebra_galgebra_toFun (r : R) :
     TensorPower.toTensorAlgebra (DirectSum.GAlgebra.toFun (R := R) (A := fun n => (⨂[R]^n) M) r) =
       algebraMap _ _ r := by
-  rw [TensorPower.galgebra_toFun_def, TensorPower.algebraMap₀_eq_smul_one, LinearMap.map_smul,
-    TensorPower.toTensorAlgebra_gOne, Algebra.algebraMap_eq_smul_one]
+  rw [TensorPower.galgebra_toFun_def]; rw [TensorPower.algebraMap₀_eq_smul_one]; rw [LinearMap.map_smul]; rw [TensorPower.toTensorAlgebra_gOne]; rw [Algebra.algebraMap_eq_smul_one]
 #align tensor_power.to_tensor_algebra_galgebra_to_fun TensorPower.toTensorAlgebra_galgebra_toFun
 
 end TensorPower
@@ -142,9 +141,9 @@ theorem _root_.TensorPower.list_prod_gradedMonoid_mk_single (n : ℕ) (x : Fin n
   · rw [List.finRange_zero, List.map_nil, List.prod_nil]
     rfl
   · intro n x₀ x ih
-    rw [List.finRange_succ_eq_map, List.map_cons, List.prod_cons, List.map_map]
+    rw [List.finRange_succ_eq_map]; rw [List.map_cons]; rw [List.prod_cons]; rw [List.map_map]
     simp_rw [Function.comp, Fin.cons_zero, Fin.cons_succ]
-    rw [ih, GradedMonoid.mk_mul_mk, TensorPower.tprod_mul_tprod]
+    rw [ih]; rw [GradedMonoid.mk_mul_mk]; rw [TensorPower.tprod_mul_tprod]
     refine' TensorPower.gradedMonoid_eq_of_cast (add_comm _ _) _
     dsimp only [GradedMonoid.mk]
     rw [TensorPower.cast_tprod]
@@ -154,7 +153,7 @@ theorem _root_.TensorPower.list_prod_gradedMonoid_mk_single (n : ℕ) (x : Fin n
 
 theorem toDirectSum_tensorPower_tprod {n} (x : Fin n → M) :
     toDirectSum (tprod R M n x) = DirectSum.of _ n (PiTensorProduct.tprod R x) := by
-  rw [tprod_apply, AlgHom.map_list_prod, List.map_ofFn]
+  rw [tprod_apply]; rw [AlgHom.map_list_prod]; rw [List.map_ofFn]
   simp_rw [Function.comp, toDirectSum_ι]
   rw [DirectSum.list_prod_ofFn_of_eq_dProd]
   apply DirectSum.of_eq_of_gradedMonoid_eq

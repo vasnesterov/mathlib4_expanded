@@ -141,9 +141,9 @@ theorem isLittleO_log_abs_re (hl : IsExpCmpFilter l) : (fun z => Real.log (abs z
           have hz' : 1 ≤ abs z := hz.trans (re_le_abs z)
           have _ : 0 < abs z := one_pos.trans_le hz'
           have hm₀ : 0 < max z.re |z.im| := lt_max_iff.2 (Or.inl <| one_pos.trans_le hz)
-          rw [one_mul, Real.norm_eq_abs, _root_.abs_of_nonneg (Real.log_nonneg hz')]
+          rw [one_mul]; rw [Real.norm_eq_abs]; rw [_root_.abs_of_nonneg (Real.log_nonneg hz')]
           refine' le_trans _ (le_abs_self _)
-          rw [← Real.log_mul, Real.log_le_log, ← _root_.abs_of_nonneg (le_trans zero_le_one hz)]
+          rw [← Real.log_mul]; rw [Real.log_le_log]; rw [← _root_.abs_of_nonneg (le_trans zero_le_one hz)]
           exacts [abs_le_sqrt_two_mul_max z, one_pos.trans_le hz', mul_pos h2 hm₀, h2.ne', hm₀.ne']
     _ =o[l] re :=
       IsLittleO.add (isLittleO_const_left.2 <| Or.inr <| hl.tendsto_abs_re) <|
@@ -191,7 +191,7 @@ theorem isLittleO_cpow_mul_exp {b₁ b₂ : ℝ} (hl : IsExpCmpFilter l) (hb : b
     (fun z => z ^ a₁ * exp (b₁ * z)) =ᶠ[l] fun z => z ^ a₂ * exp (b₁ * z) * z ^ (a₁ - a₂) :=
       hl.eventually_ne.mono fun z hz => by
         simp only
-        rw [mul_right_comm, ← cpow_add _ _ hz, add_sub_cancel'_right]
+        rw [mul_right_comm]; rw [← cpow_add _ _ hz]; rw [add_sub_cancel'_right]
     _ =o[l] fun z => z ^ a₂ * exp (b₁ * z) * exp (↑(b₂ - b₁) * z) :=
       ((isBigO_refl (fun z => z ^ a₂ * exp (b₁ * z)) l).mul_isLittleO <|
         hl.isLittleO_cpow_exp _ (sub_pos.2 hb))

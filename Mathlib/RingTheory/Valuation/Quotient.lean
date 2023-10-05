@@ -51,7 +51,7 @@ theorem onQuot_comap_eq {J : Ideal R} (hJ : J ≤ supp v) :
 
 theorem self_le_supp_comap (J : Ideal R) (v : Valuation (R ⧸ J) Γ₀) :
     J ≤ (v.comap (Ideal.Quotient.mk J)).supp := by
-  rw [comap_supp, ← Ideal.map_le_iff_le_comap]
+  rw [comap_supp]; rw [← Ideal.map_le_iff_le_comap]
   simp
 #align valuation.self_le_supp_comap Valuation.self_le_supp_comap
 

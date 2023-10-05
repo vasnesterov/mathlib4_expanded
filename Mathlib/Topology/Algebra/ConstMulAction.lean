@@ -276,7 +276,7 @@ theorem closure_smul (c : G) (s : Set α) : closure (c • s) = c • closure s 
 
 @[to_additive]
 theorem Dense.smul (c : G) {s : Set α} (hs : Dense s) : Dense (c • s) := by
-  rw [dense_iff_closure_eq] at hs ⊢; rw [closure_smul, hs, smul_set_univ]
+  rw [dense_iff_closure_eq] at hs ⊢; rw [closure_smul]; rw [hs]; rw [smul_set_univ]
 #align dense.smul Dense.smul
 #align dense.vadd Dense.vadd
 
@@ -491,7 +491,7 @@ action is an open quotient. "]
 theorem isOpenMap_quotient_mk'_mul [ContinuousConstSMul Γ T] :
     letI := MulAction.orbitRel Γ T
     IsOpenMap (Quotient.mk' : T → Quotient (MulAction.orbitRel Γ T)) := fun U hU => by
-  rw [isOpen_coinduced, MulAction.quotient_preimage_image_eq_union_mul U]
+  rw [isOpen_coinduced]; rw [MulAction.quotient_preimage_image_eq_union_mul U]
   exact isOpen_iUnion fun γ => isOpenMap_smul γ U hU
 #align is_open_map_quotient_mk_mul isOpenMap_quotient_mk'_mul
 #align is_open_map_quotient_mk_add isOpenMap_quotient_mk'_add
@@ -562,7 +562,7 @@ theorem set_smul_mem_nhds_smul {c : G₀} {s : Set α} {x : α} (hs : s ∈ 𝓝
 theorem set_smul_mem_nhds_smul_iff {c : G₀} {s : Set α} {x : α} (hc : c ≠ 0) :
     c • s ∈ 𝓝 (c • x : α) ↔ s ∈ 𝓝 x := by
   refine' ⟨fun h => _, fun h => set_smul_mem_nhds_smul h hc⟩
-  rw [← inv_smul_smul₀ hc x, ← inv_smul_smul₀ hc s]
+  rw [← inv_smul_smul₀ hc x]; rw [← inv_smul_smul₀ hc s]
   exact set_smul_mem_nhds_smul h (inv_ne_zero hc)
 #align set_smul_mem_nhds_smul_iff set_smul_mem_nhds_smul_iff
 

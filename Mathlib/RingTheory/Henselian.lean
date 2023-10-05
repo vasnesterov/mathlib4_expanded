@@ -71,12 +71,11 @@ theorem isLocalRingHom_of_le_jacobson_bot {R : Type*} [CommRing R] (I : Ideal R)
     obtain ⟨b, hb⟩ := h
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
     use Ideal.Quotient.mk _ b
-    rw [← (Ideal.Quotient.mk _).map_one, ← (Ideal.Quotient.mk _).map_mul, Ideal.Quotient.eq] at hb ⊢
+    rw [← (Ideal.Quotient.mk _).map_one] at hb ⊢; rw [← (Ideal.Quotient.mk _).map_mul] at hb ⊢; rw [Ideal.Quotient.eq] at hb ⊢
     exact h hb
   obtain ⟨⟨x, y, h1, h2⟩, rfl : x = _⟩ := this
   obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective y
-  rw [← (Ideal.Quotient.mk _).map_mul, ← (Ideal.Quotient.mk _).map_one, Ideal.Quotient.eq,
-    Ideal.mem_jacobson_bot] at h1 h2
+  rw [← (Ideal.Quotient.mk _).map_mul] at h1 h2; rw [← (Ideal.Quotient.mk _).map_one] at h1 h2; rw [Ideal.Quotient.eq] at h1 h2; rw [Ideal.mem_jacobson_bot] at h1 h2
   specialize h1 1
   simp at h1
   exact h1.1
@@ -159,14 +158,14 @@ theorem HenselianLocalRing.TFAE (R : Type u) [CommRing R] [LocalRing R] :
 instance (R : Type*) [CommRing R] [hR : HenselianLocalRing R] : HenselianRing R (maximalIdeal R)
     where
   jac := by
-    rw [Ideal.jacobson, le_sInf_iff]
+    rw [Ideal.jacobson]; rw [le_sInf_iff]
     rintro I ⟨-, hI⟩
     exact (eq_maximalIdeal hI).ge
   is_henselian := by
     intro f hf a₀ h₁ h₂
     refine' HenselianLocalRing.is_henselian f hf a₀ h₁ _
     contrapose! h₂
-    rw [← mem_nonunits_iff, ← LocalRing.mem_maximalIdeal, ← Ideal.Quotient.eq_zero_iff_mem] at h₂
+    rw [← mem_nonunits_iff] at h₂; rw [← LocalRing.mem_maximalIdeal] at h₂; rw [← Ideal.Quotient.eq_zero_iff_mem] at h₂
     rw [h₂]
     exact not_isUnit_zero
 
@@ -194,9 +193,9 @@ instance (priority := 100) IsAdicComplete.henselianRing (R : Type*) [CommRing R]
         intro n
         induction' n with n ih
         · rfl
-        rw [Nat.succ_eq_add_one, hc, sub_eq_add_neg, ← add_zero a₀]
+        rw [Nat.succ_eq_add_one]; rw [hc]; rw [sub_eq_add_neg]; rw [← add_zero a₀]
         refine' ih.add _
-        rw [SModEq.zero, Ideal.neg_mem_iff]
+        rw [SModEq.zero]; rw [Ideal.neg_mem_iff]
         refine' I.mul_mem_right _ _
         rw [← SModEq.zero] at h₁ ⊢
         exact (ih.eval f).trans h₁
@@ -210,18 +209,15 @@ instance (priority := 100) IsAdicComplete.henselianRing (R : Type*) [CommRing R]
         intro n
         induction' n with n ih
         · simpa only [Nat.zero_eq, Nat.rec_zero, zero_add, pow_one] using h₁
-        rw [Nat.succ_eq_add_one, ← taylor_eval_sub (c n), hc, sub_eq_add_neg, sub_eq_add_neg,
-          add_neg_cancel_comm]
-        rw [eval_eq_sum, sum_over_range' _ _ _ (lt_add_of_pos_right _ zero_lt_two), ←
+        rw [Nat.succ_eq_add_one]; rw [← taylor_eval_sub (c n)]; rw [hc]; rw [sub_eq_add_neg]; rw [sub_eq_add_neg]; rw [add_neg_cancel_comm]
+        rw [eval_eq_sum]; rw [sum_over_range' _ _ _ (lt_add_of_pos_right _ zero_lt_two)]; rw [←
           Finset.sum_range_add_sum_Ico _ (Nat.le_add_left _ _)]
         swap
         · intro i
           rw [zero_mul]
         refine' Ideal.add_mem _ _ _
         · erw [Finset.sum_range_succ]
-          rw [Finset.range_one, Finset.sum_singleton,
-            taylor_coeff_zero, taylor_coeff_one, pow_zero, pow_one, mul_one, mul_neg,
-            mul_left_comm, Ring.mul_inverse_cancel _ (hf'c n), mul_one, add_neg_self]
+          rw [Finset.range_one]; rw [Finset.sum_singleton]; rw [taylor_coeff_zero]; rw [taylor_coeff_one]; rw [pow_zero]; rw [pow_one]; rw [mul_one]; rw [mul_neg]; rw [mul_left_comm]; rw [Ring.mul_inverse_cancel _ (hf'c n)]; rw [mul_one]; rw [add_neg_self]
           exact Ideal.zero_mem _
         · refine' Submodule.sum_mem _ _
           simp only [Finset.mem_Ico]
@@ -233,15 +229,15 @@ instance (priority := 100) IsAdicComplete.henselianRing (R : Type*) [CommRing R]
       -- we are now in the position to show that `c : ℕ → R` is a Cauchy sequence
       have aux : ∀ m n, m ≤ n → c m ≡ c n [SMOD (I ^ m • ⊤ : Ideal R)] := by
         intro m n hmn
-        rw [← Ideal.one_eq_top, Ideal.smul_eq_mul, mul_one]
+        rw [← Ideal.one_eq_top]; rw [Ideal.smul_eq_mul]; rw [mul_one]
         obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le hmn
         clear hmn
         induction' k with k ih
         · rw [Nat.zero_eq, add_zero]
-        rw [Nat.succ_eq_add_one, ← add_assoc, hc, ← add_zero (c m), sub_eq_add_neg]
+        rw [Nat.succ_eq_add_one]; rw [← add_assoc]; rw [hc]; rw [← add_zero (c m)]; rw [sub_eq_add_neg]
         refine' ih.add _
         symm
-        rw [SModEq.zero, Ideal.neg_mem_iff]
+        rw [SModEq.zero]; rw [Ideal.neg_mem_iff]
         refine' Ideal.mul_mem_right _ _ (Ideal.pow_le_pow _ (hfcI _))
         rw [add_assoc]
         exact le_self_add
@@ -252,15 +248,15 @@ instance (priority := 100) IsAdicComplete.henselianRing (R : Type*) [CommRing R]
         suffices ∀ n, f.eval a ≡ 0 [SMOD (I ^ n • ⊤ : Ideal R)] by exact IsHausdorff.haus' _ this
         intro n
         specialize ha n
-        rw [← Ideal.one_eq_top, Ideal.smul_eq_mul, mul_one] at ha ⊢
+        rw [← Ideal.one_eq_top] at ha ⊢; rw [Ideal.smul_eq_mul] at ha ⊢; rw [mul_one] at ha ⊢
         refine' (ha.symm.eval f).trans _
         rw [SModEq.zero]
         exact Ideal.pow_le_pow le_self_add (hfcI _)
       · show a - a₀ ∈ I
         specialize ha 1
-        rw [hc, pow_one, ← Ideal.one_eq_top, Ideal.smul_eq_mul, mul_one, sub_eq_add_neg] at ha
-        rw [← SModEq.sub_mem, ← add_zero a₀]
+        rw [hc] at ha; rw [pow_one] at ha; rw [← Ideal.one_eq_top] at ha; rw [Ideal.smul_eq_mul] at ha; rw [mul_one] at ha; rw [sub_eq_add_neg] at ha
+        rw [← SModEq.sub_mem]; rw [← add_zero a₀]
         refine' ha.symm.trans (SModEq.rfl.add _)
-        rw [SModEq.zero, Ideal.neg_mem_iff]
+        rw [SModEq.zero]; rw [Ideal.neg_mem_iff]
         exact Ideal.mul_mem_right _ _ h₁
 #align is_adic_complete.henselian_ring IsAdicComplete.henselianRing

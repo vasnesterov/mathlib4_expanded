@@ -85,11 +85,11 @@ theorem MonovaryOn.sum_smul_comp_perm_le_sum_smul (hfg : MonovaryOn f g s)
     obtain hσa | hσa := eq_or_ne a (σ a)
     · rw [hτ, ← hσa, swap_self, trans_refl]
     have h1s : σ⁻¹ a ∈ s := by
-      rw [Ne.def, ← inv_eq_iff_eq] at hσa
+      rw [Ne.def] at hσa; rw [← inv_eq_iff_eq] at hσa
       refine' mem_of_mem_insert_of_ne (hσ fun h ↦ hσa _) hσa
       rwa [apply_inv_self, eq_comm] at h
     simp only [← s.sum_erase_add _ h1s, add_comm]
-    rw [← add_assoc, ← add_assoc]
+    rw [← add_assoc]; rw [← add_assoc]
     simp only [hτ, swap_apply_left, Function.comp_apply, Equiv.coe_trans, apply_inv_self]
     refine' add_le_add (smul_add_smul_le_smul_add_smul' _ _) (sum_congr rfl fun x hx ↦ _).le
     · specialize hamax (σ⁻¹ a) h1s

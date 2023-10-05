@@ -98,8 +98,7 @@ theorem toOuterMeasure_map_apply : (p.map f).toOuterMeasure s = p.toOuterMeasure
 @[simp]
 theorem toMeasure_map_apply [MeasurableSpace α] [MeasurableSpace β] (hf : Measurable f)
     (hs : MeasurableSet s) : (p.map f).toMeasure s = p.toMeasure (f ⁻¹' s) := by
-  rw [toMeasure_apply_eq_toOuterMeasure_apply _ s hs,
-    toMeasure_apply_eq_toOuterMeasure_apply _ (f ⁻¹' s) (measurableSet_preimage hf hs)]
+  rw [toMeasure_apply_eq_toOuterMeasure_apply _ s hs]; rw [toMeasure_apply_eq_toOuterMeasure_apply _ (f ⁻¹' s) (measurableSet_preimage hf hs)]
   exact toOuterMeasure_map_apply f p s
 #align pmf.to_measure_map_apply Pmf.toMeasure_map_apply
 
@@ -271,11 +270,11 @@ variable {p : Pmf α} {s : Set α} (h : ∃ a ∈ s, a ∈ p.support)
 @[simp]
 theorem filter_apply (a : α) :
     (p.filter s h) a = s.indicator p a * (∑' a', (s.indicator p) a')⁻¹ := by
-  rw [filter, normalize_apply]
+  rw [filter]; rw [normalize_apply]
 #align pmf.filter_apply Pmf.filter_apply
 
 theorem filter_apply_eq_zero_of_not_mem {a : α} (ha : a ∉ s) : (p.filter s h) a = 0 := by
-  rw [filter_apply, Set.indicator_apply_eq_zero.mpr fun ha' => absurd ha' ha, zero_mul]
+  rw [filter_apply]; rw [Set.indicator_apply_eq_zero.mpr fun ha' => absurd ha' ha]; rw [zero_mul]
 #align pmf.filter_apply_eq_zero_of_not_mem Pmf.filter_apply_eq_zero_of_not_mem
 
 theorem mem_support_filter_iff {a : α} : a ∈ (p.filter s h).support ↔ a ∈ s ∧ a ∈ p.support :=
@@ -292,7 +291,7 @@ theorem filter_apply_eq_zero_iff (a : α) : (p.filter s h) a = 0 ↔ a ∉ s ∨
 #align pmf.filter_apply_eq_zero_iff Pmf.filter_apply_eq_zero_iff
 
 theorem filter_apply_ne_zero_iff (a : α) : (p.filter s h) a ≠ 0 ↔ a ∈ s ∧ a ∈ p.support := by
-  rw [Ne.def, filter_apply_eq_zero_iff, not_or, Classical.not_not, Classical.not_not]
+  rw [Ne.def]; rw [filter_apply_eq_zero_iff]; rw [not_or]; rw [Classical.not_not]; rw [Classical.not_not]
 #align pmf.filter_apply_ne_zero_iff Pmf.filter_apply_ne_zero_iff
 
 end Filter

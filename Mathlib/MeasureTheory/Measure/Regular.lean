@@ -180,7 +180,7 @@ theorem map {α β} [MeasurableSpace α] [MeasurableSpace β] {μ : Measure α} 
 
 theorem smul (H : InnerRegular μ p q) (c : ℝ≥0∞) : InnerRegular (c • μ) p q := by
   intro U hU r hr
-  rw [smul_apply, H.measure_eq_iSup hU, smul_eq_mul] at hr
+  rw [smul_apply] at hr; rw [H.measure_eq_iSup hU] at hr; rw [smul_eq_mul] at hr
   simpa only [ENNReal.mul_iSup, lt_iSup_iff, exists_prop] using hr
 #align measure_theory.measure.inner_regular.smul MeasureTheory.Measure.InnerRegular.smul
 
@@ -281,7 +281,7 @@ protected theorem map [OpensMeasurableSpace α] [MeasurableSpace β] [Topologica
     [BorelSpace β] (f : α ≃ₜ β) (μ : Measure α) [OuterRegular μ] :
     (Measure.map f μ).OuterRegular := by
   refine' ⟨fun A hA r hr => _⟩
-  rw [map_apply f.measurable hA, ← f.image_symm] at hr
+  rw [map_apply f.measurable hA] at hr; rw [← f.image_symm] at hr
   rcases Set.exists_isOpen_lt_of_lt _ r hr with ⟨U, hAU, hUo, hU⟩
   have : IsOpen (f.symm ⁻¹' U) := hUo.preimage f.symm.continuous
   refine' ⟨f.symm ⁻¹' U, image_subset_iff.1 hAU, this, _⟩
@@ -294,7 +294,7 @@ protected theorem smul (μ : Measure α) [OuterRegular μ] {x : ℝ≥0∞} (hx 
   · rw [zero_smul]
     exact OuterRegular.zero
   · refine' ⟨fun A _ r hr => _⟩
-    rw [smul_apply, A.measure_eq_iInf_isOpen, smul_eq_mul] at hr
+    rw [smul_apply] at hr; rw [A.measure_eq_iInf_isOpen] at hr; rw [smul_eq_mul] at hr
     simpa only [ENNReal.mul_iInf_of_ne h0 hx, gt_iff_lt, iInf_lt_iff, exists_prop] using hr
 #align measure_theory.measure.outer_regular.smul MeasureTheory.Measure.OuterRegular.smul
 
@@ -317,9 +317,9 @@ protected theorem FiniteSpanningSetsIn.outerRegular [OpensMeasurableSpace α] {�
       ⟨fun n => A ∩ disjointed s.set n, fun n => hA.inter (MeasurableSet.disjointed hm _), fun n =>
         (inter_subset_right _ _).trans (disjointed_subset _ _),
         (disjoint_disjointed s.set).mono fun k l hkl => hkl.mono inf_le_right inf_le_right, _⟩
-    rw [← inter_iUnion, iUnion_disjointed, s.spanning, inter_univ]
+    rw [← inter_iUnion]; rw [iUnion_disjointed]; rw [s.spanning]; rw [inter_univ]
   rcases ENNReal.exists_pos_sum_of_countable' (tsub_pos_iff_lt.2 hr).ne' ℕ with ⟨δ, δ0, hδε⟩
-  rw [lt_tsub_iff_right, add_comm] at hδε
+  rw [lt_tsub_iff_right] at hδε; rw [add_comm] at hδε
   have : ∀ n, ∃ (U : _) (_ : U ⊇ A n), IsOpen U ∧ μ U < μ (A n) + δ n := by
     intro n
     have H₁ : ∀ t, μ.restrict (s.set n) t = μ (t ∩ s.set n) := fun t => restrict_apply' (hm n)
@@ -327,7 +327,7 @@ protected theorem FiniteSpanningSetsIn.outerRegular [OpensMeasurableSpace α] {�
       rw [H₁]
       exact ((measure_mono <| inter_subset_right _ _).trans_lt (s.finite n)).ne
     rcases(A n).exists_isOpen_lt_add Ht (δ0 n).ne' with ⟨U, hAU, hUo, hU⟩
-    rw [H₁, H₁, inter_eq_self_of_subset_left (hAs _)] at hU
+    rw [H₁] at hU; rw [H₁] at hU; rw [inter_eq_self_of_subset_left (hAs _)] at hU
     exact ⟨U ∩ s.set n, subset_inter hAU (hAs _), hUo.inter (s.set_mem n).1, hU⟩
   choose U hAU hUo hU using this
   refine' ⟨⋃ n, U n, iUnion_mono hAU, isOpen_iUnion hUo, _⟩
@@ -424,7 +424,7 @@ theorem weaklyRegular_of_finite [BorelSpace α] (μ : Measure α) [IsFiniteMeasu
         _ ≤ (∑ k in t, μ (F k)) + ε / 2 + ε / 2 :=
           (add_le_add_right (add_le_add_left ((ENNReal.sum_le_tsum _).trans hδε.le) _) _)
         _ = μ (⋃ k ∈ t, F k) + ε := by
-          rw [measure_biUnion_finset, add_assoc, ENNReal.add_halves]
+          rw [measure_biUnion_finset]; rw [add_assoc]; rw [ENNReal.add_halves]
           exacts [fun k _ n _ hkn => (hsd hkn).mono (hFs k) (hFs n),
             fun k _ => (hFc k).measurableSet]
     · calc
@@ -453,7 +453,7 @@ theorem isCompact_isClosed {X : Type*} [TopologicalSpace X] [SigmaCompactSpace X
   have hBc : ∀ n, IsCompact (F ∩ B n) := fun n => (isCompact_compactCovering X n).inter_left hF
   have hBU : ⋃ n, F ∩ B n = F := by rw [← inter_iUnion, iUnion_compactCovering, Set.inter_univ]
   have : μ F = ⨆ n, μ (F ∩ B n) := by
-    rw [← measure_iUnion_eq_iSup, hBU]
+    rw [← measure_iUnion_eq_iSup]; rw [hBU]
     exact Monotone.directed_le fun m n h => inter_subset_inter_right _ (compactCovering_subset _ h)
   rw [this] at hr
   rcases lt_iSup_iff.1 hr with ⟨n, hn⟩

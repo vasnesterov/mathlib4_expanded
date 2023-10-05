@@ -46,11 +46,11 @@ theorem tan_two_mul {x : ℝ} : tan (2 * x) = 2 * tan x / (1 - tan x ^ 2) := by
 #align real.tan_two_mul Real.tan_two_mul
 
 theorem tan_ne_zero_iff {θ : ℝ} : tan θ ≠ 0 ↔ ∀ k : ℤ, θ ≠ k * π / 2 := by
-  rw [← Complex.ofReal_ne_zero, Complex.ofReal_tan, Complex.tan_ne_zero_iff]; norm_cast
+  rw [← Complex.ofReal_ne_zero]; rw [Complex.ofReal_tan]; rw [Complex.tan_ne_zero_iff]; norm_cast
 #align real.tan_ne_zero_iff Real.tan_ne_zero_iff
 
 theorem tan_eq_zero_iff {θ : ℝ} : tan θ = 0 ↔ ∃ k : ℤ, θ = k * π / 2 := by
-  rw [← not_iff_not, not_exists, ← Ne, tan_ne_zero_iff]
+  rw [← not_iff_not]; rw [not_exists]; rw [← Ne]; rw [tan_ne_zero_iff]
 #align real.tan_eq_zero_iff Real.tan_eq_zero_iff
 
 theorem tan_int_mul_pi_div_two (n : ℤ) : tan (n * π / 2) = 0 :=
@@ -77,15 +77,14 @@ theorem continuousOn_tan_Ioo : ContinuousOn tan (Ioo (-(π / 2)) (π / 2)) := by
   cases' le_or_lt 0 r with h h
   · rw [lt_iff_not_ge] at hx_lt
     refine' hx_lt _
-    rw [hxr_eq, ← one_mul (π / 2), mul_div_assoc, ge_iff_le, mul_le_mul_right (half_pos pi_pos)]
+    rw [hxr_eq]; rw [← one_mul (π / 2)]; rw [mul_div_assoc]; rw [ge_iff_le]; rw [mul_le_mul_right (half_pos pi_pos)]
     simp [h]
   · rw [lt_iff_not_ge] at hx_gt
     refine' hx_gt _
-    rw [hxr_eq, ← one_mul (π / 2), mul_div_assoc, ge_iff_le, neg_mul_eq_neg_mul,
-      mul_le_mul_right (half_pos pi_pos)]
+    rw [hxr_eq]; rw [← one_mul (π / 2)]; rw [mul_div_assoc]; rw [ge_iff_le]; rw [neg_mul_eq_neg_mul]; rw [mul_le_mul_right (half_pos pi_pos)]
     have hr_le : r ≤ -1 := by rwa [Int.lt_iff_add_one_le, ← le_neg_iff_add_nonpos_right] at h
-    rw [← le_sub_iff_add_le, mul_comm, ← le_div_iff]
-    · norm_num; rw [← Int.cast_one, ← Int.cast_neg]; norm_cast
+    rw [← le_sub_iff_add_le]; rw [mul_comm]; rw [← le_div_iff]
+    · norm_num; rw [← Int.cast_one]; rw [← Int.cast_neg]; norm_cast
     · exact zero_lt_two
 #align real.continuous_on_tan_Ioo Real.continuousOn_tan_Ioo
 
@@ -187,7 +186,7 @@ theorem arctan_neg (x : ℝ) : arctan (-x) = -arctan x := by simp [arctan_eq_arc
 #align real.arctan_neg Real.arctan_neg
 
 theorem arctan_eq_arccos {x : ℝ} (h : 0 ≤ x) : arctan x = arccos (sqrt (1 + x ^ 2))⁻¹ := by
-  rw [arctan_eq_arcsin, arccos_eq_arcsin]; swap; · exact inv_nonneg.2 (sqrt_nonneg _)
+  rw [arctan_eq_arcsin]; rw [arccos_eq_arcsin]; swap; · exact inv_nonneg.2 (sqrt_nonneg _)
   congr 1
   rw_mod_cast [← sqrt_inv, sq_sqrt, ← one_div, one_sub_div, add_sub_cancel', sqrt_div, sqrt_sq h]
   all_goals positivity
@@ -195,7 +194,7 @@ theorem arctan_eq_arccos {x : ℝ} (h : 0 ≤ x) : arctan x = arccos (sqrt (1 + 
 
 -- The junk values for `arccos` and `sqrt` make this true even for `1 < x`.
 theorem arccos_eq_arctan {x : ℝ} (h : 0 < x) : arccos x = arctan (sqrt (1 - x ^ 2) / x) := by
-  rw [arccos, eq_comm]
+  rw [arccos]; rw [eq_comm]
   refine' arctan_eq_of_tan_eq _ ⟨_, _⟩
   · rw_mod_cast [tan_pi_div_two_sub, tan_arcsin, inv_div]
   · linarith only [arcsin_le_pi_div_two x, pi_pos]

@@ -358,13 +358,13 @@ variable {R M}
 -/
 theorem set_has_maximal_iff_noetherian :
     (∀ a : Set <| Submodule R M, a.Nonempty → ∃ M' ∈ a, ∀ I ∈ a, ¬M' < I) ↔ IsNoetherian R M := by
-  rw [isNoetherian_iff_wellFounded, WellFounded.wellFounded_iff_has_min]
+  rw [isNoetherian_iff_wellFounded]; rw [WellFounded.wellFounded_iff_has_min]
 #align set_has_maximal_iff_noetherian set_has_maximal_iff_noetherian
 
 /-- A module is Noetherian iff every increasing chain of submodules stabilizes. -/
 theorem monotone_stabilizes_iff_noetherian :
     (∀ f : ℕ →o Submodule R M, ∃ n, ∀ m, n ≤ m → f n = f m) ↔ IsNoetherian R M := by
-  rw [isNoetherian_iff_wellFounded, WellFounded.monotone_chain_condition]
+  rw [isNoetherian_iff_wellFounded]; rw [WellFounded.monotone_chain_condition]
 #align monotone_stabilizes_iff_noetherian monotone_stabilizes_iff_noetherian
 
 /-- If `∀ I > J, P I` implies `P J`, then `P` holds for all submodules. -/
@@ -395,12 +395,11 @@ theorem finite_of_linearIndependent [Nontrivial R] [IsNoetherian R M] {s : Set M
   have : ∀ a b : ℕ, a ≤ b ↔
     span R (coe' ∘ f '' { m | m ≤ a }) ≤ span R ((↑) ∘ f '' { m | m ≤ b }) := by
     intro a b
-    rw [span_le_span_iff hs (this a) (this b),
-      Set.image_subset_image_iff (Subtype.coe_injective.comp f.injective), Set.subset_def]
+    rw [span_le_span_iff hs (this a) (this b)]; rw [Set.image_subset_image_iff (Subtype.coe_injective.comp f.injective)]; rw [Set.subset_def]
     exact ⟨fun hab x (hxa : x ≤ a) => le_trans hxa hab, fun hx => hx a (le_refl a)⟩
   exact
     ⟨⟨fun n => span R (coe' ∘ f '' { m | m ≤ n }), fun x y => by
-        rw [le_antisymm_iff, (this x y).symm, (this y x).symm, ←le_antisymm_iff, imp_self]
+        rw [le_antisymm_iff]; rw [(this x y).symm]; rw [(this y x).symm]; rw [←le_antisymm_iff]; rw [imp_self]
         trivial⟩,
       by dsimp [GT.gt]; simp only [lt_iff_le_not_le, (this _ _).symm]; tauto⟩
 #align finite_of_linear_independent finite_of_linearIndependent
@@ -432,7 +431,7 @@ theorem IsNoetherian.exists_endomorphism_iterate_ker_inf_range_eq_bot [I : IsNoe
   refine' ⟨n + 1, Nat.succ_ne_zero _, _⟩
   rw [eq_bot_iff]
   rintro - ⟨h, ⟨y, rfl⟩⟩
-  rw [mem_bot, ← LinearMap.mem_ker, w]
+  rw [mem_bot]; rw [← LinearMap.mem_ker]; rw [w]
   erw [LinearMap.mem_ker] at h ⊢
   change (f ^ (n + 1) * f ^ (n + 1)) y = 0 at h
   rw [← pow_add] at h
@@ -444,8 +443,7 @@ theorem IsNoetherian.exists_endomorphism_iterate_ker_inf_range_eq_bot [I : IsNoe
 theorem IsNoetherian.injective_of_surjective_endomorphism [IsNoetherian R M] (f : M →ₗ[R] M)
     (s : Surjective f) : Injective f := by
   obtain ⟨n, ne, w⟩ := IsNoetherian.exists_endomorphism_iterate_ker_inf_range_eq_bot f
-  rw [LinearMap.range_eq_top.mpr (LinearMap.iterate_surjective s n), inf_top_eq,
-    LinearMap.ker_eq_bot] at w
+  rw [LinearMap.range_eq_top.mpr (LinearMap.iterate_surjective s n)] at w; rw [inf_top_eq] at w; rw [LinearMap.ker_eq_bot] at w
   exact LinearMap.injective_of_iterate_injective ne w
 #align is_noetherian.injective_of_surjective_endomorphism IsNoetherian.injective_of_surjective_endomorphism
 
@@ -570,14 +568,13 @@ theorem isNoetherian_of_fg_of_noetherian {R M} [Ring R] [AddCommGroup M] [Module
   · rw [LinearMap.range_eq_top]
     rintro ⟨n, hn⟩
     change n ∈ N at hn
-    rw [← hs, ← Set.image_id (s : Set M), Finsupp.mem_span_image_iff_total] at hn
+    rw [← hs] at hn; rw [← Set.image_id (s : Set M)] at hn; rw [Finsupp.mem_span_image_iff_total] at hn
     rcases hn with ⟨l, hl1, hl2⟩
     refine' ⟨fun x => l x, Subtype.ext _⟩
     change (∑ i in s.attach, l i • (i : M)) = n
-    rw [@Finset.sum_attach M M s _ fun i => l i • i, ← hl2,
-      Finsupp.total_apply, Finsupp.sum, eq_comm]
+    rw [@Finset.sum_attach M M s _ fun i => l i • i]; rw [← hl2]; rw [Finsupp.total_apply]; rw [Finsupp.sum]; rw [eq_comm]
     refine' Finset.sum_subset hl1 fun x _ hx => _
-    rw [Finsupp.not_mem_support_iff.1 hx, zero_smul]
+    rw [Finsupp.not_mem_support_iff.1 hx]; rw [zero_smul]
 #align is_noetherian_of_fg_of_noetherian isNoetherian_of_fg_of_noetherian
 
 -- It would be nice to make this an instance but it is empirically problematic, possibly because
@@ -599,7 +596,7 @@ theorem isNoetherian_span_of_finite (R) {M} [Ring R] [AddCommGroup M] [Module R 
 
 theorem isNoetherianRing_of_surjective (R) [Ring R] (S) [Ring S] (f : R →+* S)
     (hf : Function.Surjective f) [H : IsNoetherianRing R] : IsNoetherianRing S := by
-  rw [isNoetherianRing_iff, isNoetherian_iff_wellFounded] at H ⊢
+  rw [isNoetherianRing_iff] at H ⊢; rw [isNoetherian_iff_wellFounded] at H ⊢
   exact OrderEmbedding.wellFounded (Ideal.orderEmbeddingOfSurjective f hf).dual H
 #align is_noetherian_ring_of_surjective isNoetherianRing_of_surjective
 

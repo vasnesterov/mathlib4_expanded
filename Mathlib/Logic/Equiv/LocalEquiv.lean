@@ -334,11 +334,11 @@ theorem image_source_eq_target : e '' e.source = e.target :=
 #align local_equiv.image_source_eq_target LocalEquiv.image_source_eq_target
 
 theorem forall_mem_target {p : β → Prop} : (∀ y ∈ e.target, p y) ↔ ∀ x ∈ e.source, p (e x) := by
-  rw [← image_source_eq_target, ball_image_iff]
+  rw [← image_source_eq_target]; rw [ball_image_iff]
 #align local_equiv.forall_mem_target LocalEquiv.forall_mem_target
 
 theorem exists_mem_target {p : β → Prop} : (∃ y ∈ e.target, p y) ↔ ∃ x ∈ e.source, p (e x) := by
-  rw [← image_source_eq_target, bex_image_iff]
+  rw [← image_source_eq_target]; rw [bex_image_iff]
 #align local_equiv.exists_mem_target LocalEquiv.exists_mem_target
 
 /-- We say that `t : Set β` is an image of `s : Set α` under a local equivalence if
@@ -466,7 +466,7 @@ theorem symm_eq_on_of_inter_eq_of_eqOn {e' : LocalEquiv α β} (h : e.IsImage s 
   rw [← h.image_eq]
   rintro y ⟨x, hx, rfl⟩
   have hx' := hx; rw [hs] at hx'
-  rw [e.left_inv hx.1, heq hx, e'.left_inv hx'.1]
+  rw [e.left_inv hx.1]; rw [heq hx]; rw [e'.left_inv hx'.1]
 #align local_equiv.is_image.symm_eq_on_of_inter_eq_of_eq_on LocalEquiv.IsImage.symm_eq_on_of_inter_eq_of_eqOn
 
 end IsImage
@@ -480,17 +480,17 @@ theorem isImage_source_target_of_disjoint (e' : LocalEquiv α β) (hs : Disjoint
 #align local_equiv.is_image_source_target_of_disjoint LocalEquiv.isImage_source_target_of_disjoint
 
 theorem image_source_inter_eq' (s : Set α) : e '' (e.source ∩ s) = e.target ∩ e.symm ⁻¹' s := by
-  rw [inter_comm, e.leftInvOn.image_inter', image_source_eq_target, inter_comm]
+  rw [inter_comm]; rw [e.leftInvOn.image_inter']; rw [image_source_eq_target]; rw [inter_comm]
 #align local_equiv.image_source_inter_eq' LocalEquiv.image_source_inter_eq'
 
 theorem image_source_inter_eq (s : Set α) :
     e '' (e.source ∩ s) = e.target ∩ e.symm ⁻¹' (e.source ∩ s) := by
-  rw [inter_comm, e.leftInvOn.image_inter, image_source_eq_target, inter_comm]
+  rw [inter_comm]; rw [e.leftInvOn.image_inter]; rw [image_source_eq_target]; rw [inter_comm]
 #align local_equiv.image_source_inter_eq LocalEquiv.image_source_inter_eq
 
 theorem image_eq_target_inter_inv_preimage {s : Set α} (h : s ⊆ e.source) :
     e '' s = e.target ∩ e.symm ⁻¹' s := by
-  rw [← e.image_source_inter_eq', inter_eq_self_of_subset_right h]
+  rw [← e.image_source_inter_eq']; rw [inter_eq_self_of_subset_right h]
 #align local_equiv.image_eq_target_inter_inv_preimage LocalEquiv.image_eq_target_inter_inv_preimage
 
 theorem symm_image_eq_source_inter_preimage {s : Set β} (h : s ⊆ e.target) :
@@ -555,7 +555,7 @@ protected theorem ext {e e' : LocalEquiv α β} (h : ∀ x, e x = e' x)
     exact hsymm x
   have I : e '' e.source = e.target := e.image_source_eq_target
   have I' : e' '' e'.source = e'.target := e'.image_source_eq_target
-  rw [A, hs, I'] at I
+  rw [A] at I; rw [hs] at I; rw [I'] at I
   cases e; cases e'
   simp [*] at *
   simp [*]
@@ -713,7 +713,7 @@ theorem trans_source' : (e.trans e').source = e.source ∩ e ⁻¹' (e.target �
 #align local_equiv.trans_source' LocalEquiv.trans_source'
 
 theorem trans_source'' : (e.trans e').source = e.symm '' (e.target ∩ e'.source) := by
-  rw [e.trans_source', e.symm_image_target_inter_eq]
+  rw [e.trans_source']; rw [e.symm_image_target_inter_eq]
 #align local_equiv.trans_source'' LocalEquiv.trans_source''
 
 theorem image_trans_source : e '' (e.trans e').source = e.target ∩ e'.source :=
@@ -763,7 +763,7 @@ theorem trans_refl_restr' (s : Set β) :
     e.trans ((LocalEquiv.refl β).restr s) = e.restr (e.source ∩ e ⁻¹' s) :=
   LocalEquiv.ext (fun x => rfl) (fun x => rfl) <| by
     simp [trans_source]
-    rw [← inter_assoc, inter_self]
+    rw [← inter_assoc]; rw [inter_self]
 #align local_equiv.trans_refl_restr' LocalEquiv.trans_refl_restr'
 
 theorem restr_trans (s : Set α) : (e.restr s).trans e' = (e.trans e').restr s :=
@@ -907,7 +907,7 @@ theorem eq_of_eq_on_source_univ (e e' : LocalEquiv α β) (h : e ≈ e') (s : e.
     rw [s]
     exact mem_univ _
   · apply h.symm'.2
-    rw [symm_source, t]
+    rw [symm_source]; rw [t]
     exact mem_univ _
 #align local_equiv.eq_of_eq_on_source_univ LocalEquiv.eq_of_eq_on_source_univ
 

@@ -62,7 +62,7 @@ def cyclesIsoKernel {i j : ι} (r : c.Rel i j) : (C.cycles i : V) ≅ kernel (C.
 theorem cycles_eq_top {i} (h : ¬c.Rel i (c.next i)) : C.cycles i = ⊤ := by
   rw [eq_top_iff]
   apply le_kernelSubobject
-  rw [C.dFrom_eq_zero h, comp_zero]
+  rw [C.dFrom_eq_zero h]; rw [comp_zero]
 #align homological_complex.cycles_eq_top HomologicalComplex.cycles_eq_top
 
 end Cycles
@@ -91,7 +91,7 @@ def boundariesIsoImage [HasEqualizers V] {i j : ι} (r : c.Rel i j) :
 theorem boundaries_eq_bot [HasZeroObject V] {j} (h : ¬c.Rel (c.prev j) j) : C.boundaries j = ⊥ := by
   rw [eq_bot_iff]
   refine' imageSubobject_le _ 0 _
-  rw [C.dTo_eq_zero h, zero_comp]
+  rw [C.dTo_eq_zero h]; rw [zero_comp]
 #align homological_complex.boundaries_eq_bot HomologicalComplex.boundaries_eq_bot
 
 end Boundaries
@@ -129,10 +129,10 @@ the image of `d : Cᵢ → Cⱼ` when `Rel i j` and `Rel j k`. -/
 def homologyIso (C : HomologicalComplex V c) {i j k : ι} (hij : c.Rel i j) (hjk : c.Rel j k) :
     C.homology j ≅ _root_.homology (C.d i j) (C.d j k) (C.d_comp_d i j k) :=
   homology.mapIso _ _
-    (Arrow.isoMk (C.xPrevIso hij) (Iso.refl _) <| by dsimp; rw [C.dTo_eq hij, Category.comp_id])
+    (Arrow.isoMk (C.xPrevIso hij) (Iso.refl _) <| by dsimp; rw [C.dTo_eq hij]; rw [Category.comp_id])
     (Arrow.isoMk (Iso.refl _) (C.xNextIso hjk) <| by
       dsimp
-      rw [C.dFrom_comp_xNextIso hjk, Category.id_comp])
+      rw [C.dFrom_comp_xNextIso hjk]; rw [Category.id_comp])
     rfl
 #align homological_complex.homology_iso HomologicalComplex.homologyIso
 

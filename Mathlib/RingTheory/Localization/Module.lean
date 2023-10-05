@@ -49,9 +49,9 @@ theorem LinearIndependent.localization {ι : Type*} {b : ι → M} (hli : Linear
   specialize hli s g' _ i hi
   · rw [← @smul_zero _ M _ _ (a : R), ← hg, Finset.smul_sum]
     refine' Finset.sum_congr rfl fun i hi => _
-    rw [← IsScalarTower.algebraMap_smul Rₛ, hg' i hi, smul_assoc]
+    rw [← IsScalarTower.algebraMap_smul Rₛ]; rw [hg' i hi]; rw [smul_assoc]
   refine' (IsLocalization.map_units Rₛ a).mul_right_eq_zero.mp _
-  rw [← Algebra.smul_def, ← map_zero (algebraMap R Rₛ), ← hli, hg' i hi]
+  rw [← Algebra.smul_def]; rw [← map_zero (algebraMap R Rₛ)]; rw [← hli]; rw [hg' i hi]
 #align linear_independent.localization LinearIndependent.localization
 
 end AddCommMonoid
@@ -77,16 +77,16 @@ theorem LinearIndependent.localization_localization {ι : Type*} {v : ι → A}
   choose! a g' hg' using IsLocalization.exist_integer_multiples S s g
   have h0 : algebraMap A Aₛ (∑ i in s, g' i • v i) = 0 := by
     apply_fun (· • ·) (a : R) at hg
-    rw [smul_zero, Finset.smul_sum] at hg
-    rw [map_sum, ← hg]
+    rw [smul_zero] at hg; rw [Finset.smul_sum] at hg
+    rw [map_sum]; rw [← hg]
     refine' Finset.sum_congr rfl fun i hi => _
-    rw [← smul_assoc, ← hg' i hi, Algebra.smul_def, map_mul, ← IsScalarTower.algebraMap_apply, ←
-      Algebra.smul_def, algebraMap_smul, Function.comp_apply]
+    rw [← smul_assoc]; rw [← hg' i hi]; rw [Algebra.smul_def]; rw [map_mul]; rw [← IsScalarTower.algebraMap_apply]; rw [←
+      Algebra.smul_def]; rw [algebraMap_smul]; rw [Function.comp_apply]
   obtain ⟨⟨_, r, hrS, rfl⟩, hr : algebraMap R A r * _ = 0⟩ :=
     (IsLocalization.map_eq_zero_iff (Algebra.algebraMapSubmonoid A S) _ _).1 h0
   simp_rw [Finset.mul_sum, ← Algebra.smul_def, smul_smul] at hr
   specialize hv s _ hr i hi
-  rw [← (IsLocalization.map_units Rₛ a).mul_right_eq_zero, ← Algebra.smul_def, ← hg' i hi]
+  rw [← (IsLocalization.map_units Rₛ a).mul_right_eq_zero]; rw [← Algebra.smul_def]; rw [← hg' i hi]
   exact (IsLocalization.map_eq_zero_iff S _ _).2 ⟨⟨r, hrS⟩, hv⟩
 #align linear_independent.localization_localization LinearIndependent.localization_localization
 
@@ -96,12 +96,12 @@ theorem SpanEqTop.localization_localization {v : Set A} (hv : span R v = ⊤) :
   rintro a' -
   obtain ⟨a, ⟨_, s, hs, rfl⟩, rfl⟩ :=
     IsLocalization.mk'_surjective (Algebra.algebraMapSubmonoid A S) a'
-  rw [IsLocalization.mk'_eq_mul_mk'_one, mul_comm, ← map_one (algebraMap R A)]
+  rw [IsLocalization.mk'_eq_mul_mk'_one]; rw [mul_comm]; rw [← map_one (algebraMap R A)]
   erw [← IsLocalization.algebraMap_mk' A Rₛ Aₛ (1 : R) ⟨s, hs⟩]
   -- `erw` needed to unify `⟨s, hs⟩`
   rw [← Algebra.smul_def]
   refine' smul_mem _ _ (span_subset_span R Rₛ _ _)
-  rw [← Algebra.coe_linearMap, ← LinearMap.coe_restrictScalars R, ← LinearMap.map_span]
+  rw [← Algebra.coe_linearMap]; rw [← LinearMap.coe_restrictScalars R]; rw [← LinearMap.map_span]
   exact mem_map_of_mem (hv.symm ▸ mem_top)
 #align span_eq_top.localization_localization SpanEqTop.localization_localization
 

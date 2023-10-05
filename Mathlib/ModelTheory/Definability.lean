@@ -58,7 +58,7 @@ theorem Definable.map_expansion {L' : FirstOrder.Language} [L'.Structure M] (h :
 
 theorem definable_iff_exists_formula_sum :
     A.Definable L s ↔ ∃ φ : L.Formula (A ⊕ α), s = {v | φ.Realize (Sum.elim (↑) v)} := by
-  rw [Definable, Equiv.exists_congr_left (BoundedFormula.constantsVarsEquiv)]
+  rw [Definable]; rw [Equiv.exists_congr_left (BoundedFormula.constantsVarsEquiv)]
   refine exists_congr (fun φ => iff_iff_eq.2 (congr_arg (s = .) ?_))
   ext
   simp only [Formula.Realize, BoundedFormula.constantsVarsEquiv, constantsOn, mk₂_Relations,
@@ -73,7 +73,7 @@ theorem definable_iff_exists_formula_sum :
 
 theorem empty_definable_iff :
     (∅ : Set M).Definable L s ↔ ∃ φ : L.Formula α, s = setOf φ.Realize := by
-  rw [Definable, Equiv.exists_congr_left (LEquiv.addEmptyConstants L (∅ : Set M)).onFormula]
+  rw [Definable]; rw [Equiv.exists_congr_left (LEquiv.addEmptyConstants L (∅ : Set M)).onFormula]
   simp [-constantsOn]
 #align set.empty_definable_iff Set.empty_definable_iff
 
@@ -118,7 +118,7 @@ theorem Definable.union {f g : Set (α → M)} (hf : A.Definable L f) (hg : A.De
   rcases hg with ⟨θ, hθ⟩
   refine' ⟨φ ⊔ θ, _⟩
   ext
-  rw [hφ, hθ, mem_setOf_eq, Formula.realize_sup, mem_union, mem_setOf_eq, mem_setOf_eq]
+  rw [hφ]; rw [hθ]; rw [mem_setOf_eq]; rw [Formula.realize_sup]; rw [mem_union]; rw [mem_setOf_eq]; rw [mem_setOf_eq]
 #align set.definable.union Set.Definable.union
 
 theorem definable_finset_inf {ι : Type*} {f : ∀ _ : ι, Set (α → M)} (hf : ∀ i, A.Definable L (f i))
@@ -154,7 +154,7 @@ theorem Definable.compl {s : Set (α → M)} (hf : A.Definable L s) : A.Definabl
   rcases hf with ⟨φ, hφ⟩
   refine' ⟨φ.not, _⟩
   ext v
-  rw [hφ, compl_setOf, mem_setOf, mem_setOf, Formula.realize_not]
+  rw [hφ]; rw [compl_setOf]; rw [mem_setOf]; rw [mem_setOf]; rw [Formula.realize_not]
 #align set.definable.compl Set.Definable.compl
 
 @[simp]
@@ -268,7 +268,7 @@ theorem Definable.image_comp {s : Set (β → M)} (h : A.Definable L s) (f : α 
     · rintro ⟨⟨y, ys, hy⟩, hx⟩
       refine' ⟨y, ys, _⟩
       ext a
-      rw [hx a, ← Function.comp_apply (f := x), ← hy]
+      rw [hx a]; rw [← Function.comp_apply (f := x)]; rw [← hy]
       simp
     · rintro ⟨y, ys, rfl⟩
       refine' ⟨⟨y, ys, _⟩, fun a => _⟩

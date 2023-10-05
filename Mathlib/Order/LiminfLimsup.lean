@@ -164,7 +164,7 @@ theorem IsBoundedUnder.bddAbove_range_of_cofinite [Preorder β] [IsDirected β (
     (hf : IsBoundedUnder (· ≤ ·) cofinite f) : BddAbove (range f) := by
   rcases hf with ⟨b, hb⟩
   haveI : Nonempty β := ⟨b⟩
-  rw [← image_univ, ← union_compl_self { x | f x ≤ b }, image_union, bddAbove_union]
+  rw [← image_univ]; rw [← union_compl_self { x | f x ≤ b }]; rw [image_union]; rw [bddAbove_union]
   exact ⟨⟨b, ball_image_iff.2 fun x => id⟩, (hb.image f).bddAbove⟩
 #align filter.is_bounded_under.bdd_above_range_of_cofinite Filter.IsBoundedUnder.bddAbove_range_of_cofinite
 
@@ -744,7 +744,7 @@ theorem bliminf_false {f : Filter β} {u : β → α} : (bliminf u f fun _ => Fa
 
 /-- Same as limsup_const applied to `⊥` but without the `NeBot f` assumption -/
 theorem limsup_const_bot {f : Filter β} : limsup (fun _ : β => (⊥ : α)) f = (⊥ : α) := by
-  rw [limsup_eq, eq_bot_iff]
+  rw [limsup_eq]; rw [eq_bot_iff]
   exact sInf_le (eventually_of_forall fun _ => le_rfl)
 #align filter.limsup_const_bot Filter.limsup_const_bot
 
@@ -916,7 +916,7 @@ theorem liminf_le_of_frequently_le' {α β} [CompleteLattice β] {f : Filter α}
   refine' sSup_le fun b hb => _
   have hbx : ∃ᶠ _ in f, b ≤ x := by
     revert h
-    rw [← not_imp_not, not_frequently, not_frequently]
+    rw [← not_imp_not]; rw [not_frequently]; rw [not_frequently]
     exact fun h => hb.mp (h.mono fun a hbx hba hax => hbx (hba.trans hax))
   exact hbx.exists.choose_spec
 #align filter.liminf_le_of_frequently_le' Filter.liminf_le_of_frequently_le'
@@ -931,7 +931,7 @@ theorem le_limsup_of_frequently_le' {α β} [CompleteLattice β] {f : Filter α}
 @[simp]
 theorem CompleteLatticeHom.apply_limsup_iterate (f : CompleteLatticeHom α α) (a : α) :
     f (limsup (fun n => f^[n] a) atTop) = limsup (fun n => f^[n] a) atTop := by
-  rw [limsup_eq_iInf_iSup_of_nat', map_iInf]
+  rw [limsup_eq_iInf_iSup_of_nat']; rw [map_iInf]
   simp_rw [_root_.map_iSup, ← Function.comp_apply (f := f), ← Function.iterate_succ' f,
     ← Nat.add_succ]
   conv_rhs => rw [iInf_split _ ((· < ·) (0 : ℕ))]
@@ -1235,7 +1235,7 @@ theorem le_limsup_of_frequently_le {α β} [ConditionallyCompleteLinearOrder β]
     (hu : f.IsBoundedUnder (· ≤ ·) u := by isBoundedDefault) :
     b ≤ limsup u f := by
   revert hu_le
-  rw [← not_imp_not, not_frequently]
+  rw [← not_imp_not]; rw [not_frequently]
   simp_rw [← lt_iff_not_ge]
   exact fun h => eventually_lt_of_limsup_lt h hu
 #align filter.le_limsup_of_frequently_le Filter.le_limsup_of_frequently_le
@@ -1454,7 +1454,7 @@ theorem OrderIso.limsup_apply {γ} [ConditionallyCompleteLattice β] [Conditiona
     (hgu_co : f.IsCoboundedUnder (· ≤ ·) fun x => g (u x) := by isBoundedDefault) :
     g (limsup u f) = limsup (fun x => g (u x)) f := by
   refine' le_antisymm ((OrderIso.to_galoisConnection g).l_limsup_le hgu hu_co) _
-  rw [← g.symm.symm_apply_apply <| limsup (fun x => g (u x)) f, g.symm_symm]
+  rw [← g.symm.symm_apply_apply <| limsup (fun x => g (u x)) f]; rw [g.symm_symm]
   refine' g.monotone _
   have hf : u = fun i => g.symm (g (u i)) := funext fun i => (g.symm_apply_apply (u i)).symm
   -- Porting note: nth_rw 1 to nth_rw 2

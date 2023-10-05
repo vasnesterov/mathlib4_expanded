@@ -85,7 +85,7 @@ theorem StieltjesFunction.ae_hasDerivAt (f : StieltjesFunction) :
     filter_upwards [self_mem_nhdsWithin]
     rintro y (hxy : x < y)
     simp only [comp_apply, StieltjesFunction.measure_Icc, Real.volume_Icc, Classical.not_not.1 h''x]
-    rw [← ENNReal.ofReal_div_of_pos (sub_pos.2 hxy), ENNReal.toReal_ofReal]
+    rw [← ENNReal.ofReal_div_of_pos (sub_pos.2 hxy)]; rw [ENNReal.toReal_ofReal]
     exact div_nonneg (sub_nonneg.2 (f.mono hxy.le)) (sub_pos.2 hxy).le
   -- Limit on the left, following from differentiation of measures. Its form is not exactly the one
   -- we need, due to the appearance of a left limit.
@@ -96,8 +96,7 @@ theorem StieltjesFunction.ae_hasDerivAt (f : StieltjesFunction) :
     filter_upwards [self_mem_nhdsWithin]
     rintro y (hxy : y < x)
     simp only [comp_apply, StieltjesFunction.measure_Icc, Real.volume_Icc]
-    rw [← ENNReal.ofReal_div_of_pos (sub_pos.2 hxy), ENNReal.toReal_ofReal, ← neg_neg (y - x),
-      div_neg, neg_div', neg_sub, neg_sub]
+    rw [← ENNReal.ofReal_div_of_pos (sub_pos.2 hxy)]; rw [ENNReal.toReal_ofReal]; rw [← neg_neg (y - x)]; rw [div_neg]; rw [neg_div']; rw [neg_sub]; rw [neg_sub]
     exact div_nonneg (sub_nonneg.2 (f.mono.leftLim_le hxy.le)) (sub_pos.2 hxy).le
   -- Shifting a little bit the limit on the left, by `(y - x)^2`.
   have L3 : Tendsto (fun y => (leftLim f (y + 1 * (y - x) ^ 2) - f x) / (y - x)) (𝓝[<] x)
@@ -129,7 +128,7 @@ theorem StieltjesFunction.ae_hasDerivAt (f : StieltjesFunction) :
       refine' div_le_div_of_nonpos_of_le (by linarith) _
       simpa only [sub_le_sub_iff_right] using f.mono.leftLim_le (le_refl y)
   -- prove the result by splitting into left and right limits.
-  rw [hasDerivAt_iff_tendsto_slope, slope_fun_def_field, ← nhds_left'_sup_nhds_right', tendsto_sup]
+  rw [hasDerivAt_iff_tendsto_slope]; rw [slope_fun_def_field]; rw [← nhds_left'_sup_nhds_right']; rw [tendsto_sup]
   exact ⟨L4, L1⟩
 #align stieltjes_function.ae_has_deriv_at StieltjesFunction.ae_hasDerivAt
 
@@ -144,12 +143,11 @@ theorem Monotone.ae_hasDerivAt {f : ℝ → ℝ} (hf : Monotone f) :
   filter_upwards [hf.stieltjesFunction.ae_hasDerivAt,
     hf.countable_not_continuousAt.ae_not_mem volume] with x hx h'x
   have A : hf.stieltjesFunction x = f x := by
-    rw [Classical.not_not, hf.continuousAt_iff_leftLim_eq_rightLim] at h'x
+    rw [Classical.not_not] at h'x; rw [hf.continuousAt_iff_leftLim_eq_rightLim] at h'x
     apply le_antisymm _ (hf.le_rightLim (le_refl _))
     rw [← h'x]
     exact hf.leftLim_le (le_refl _)
-  rw [hasDerivAt_iff_tendsto_slope, (nhds_left'_sup_nhds_right' x).symm, tendsto_sup,
-    slope_fun_def_field, A] at hx
+  rw [hasDerivAt_iff_tendsto_slope] at hx; rw [(nhds_left'_sup_nhds_right' x).symm] at hx; rw [tendsto_sup] at hx; rw [slope_fun_def_field] at hx; rw [A] at hx
   -- prove differentiability on the right, by sandwiching with values of `g`
   have L1 : Tendsto (fun y => (f y - f x) / (y - x)) (𝓝[>] x)
       (𝓝 (rnDeriv hf.stieltjesFunction.measure volume x).toReal) := by
@@ -209,8 +207,7 @@ theorem Monotone.ae_hasDerivAt {f : ℝ → ℝ} (hf : Monotone f) :
       apply div_le_div_of_nonpos_of_le (sub_neg.2 hy).le
       exact (sub_le_sub_iff_right _).2 (hf.rightLim_le (by norm_num; linarith))
   -- conclude global differentiability
-  rw [hasDerivAt_iff_tendsto_slope, slope_fun_def_field, (nhds_left'_sup_nhds_right' x).symm,
-    tendsto_sup]
+  rw [hasDerivAt_iff_tendsto_slope]; rw [slope_fun_def_field]; rw [(nhds_left'_sup_nhds_right' x).symm]; rw [tendsto_sup]
   exact ⟨L2, L1⟩
 #align monotone.ae_has_deriv_at Monotone.ae_hasDerivAt
 

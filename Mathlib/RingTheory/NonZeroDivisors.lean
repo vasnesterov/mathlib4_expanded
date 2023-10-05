@@ -54,7 +54,7 @@ theorem mul_right_coe_nonZeroDivisors_eq_zero_iff {x : M} {c : M⁰} : x * c = 0
 #align mul_right_coe_non_zero_divisors_eq_zero_iff mul_right_coe_nonZeroDivisors_eq_zero_iff
 
 theorem mul_left_mem_nonZeroDivisors_eq_zero_iff {r x : M₁} (hr : r ∈ M₁⁰) : r * x = 0 ↔ x = 0 := by
-  rw [mul_comm, mul_right_mem_nonZeroDivisors_eq_zero_iff hr]
+  rw [mul_comm]; rw [mul_right_mem_nonZeroDivisors_eq_zero_iff hr]
 #align mul_left_mem_non_zero_divisors_eq_zero_iff mul_left_mem_nonZeroDivisors_eq_zero_iff
 
 @[simp]
@@ -64,7 +64,7 @@ theorem mul_left_coe_nonZeroDivisors_eq_zero_iff {c : M₁⁰} {x : M₁} : (c :
 
 theorem mul_cancel_right_mem_nonZeroDivisors {x y r : R} (hr : r ∈ R⁰) : x * r = y * r ↔ x = y := by
   refine ⟨fun h ↦ ?_, congrArg (· * r)⟩
-  rw [← sub_eq_zero, ← mul_right_mem_nonZeroDivisors_eq_zero_iff hr, sub_mul, h, sub_self]
+  rw [← sub_eq_zero]; rw [← mul_right_mem_nonZeroDivisors_eq_zero_iff hr]; rw [sub_mul]; rw [h]; rw [sub_self]
 #align mul_cancel_right_mem_non_zero_divisor mul_cancel_right_mem_nonZeroDivisors
 
 theorem mul_cancel_right_coe_nonZeroDivisors {x y : R} {c : R⁰} : x * c = y * c ↔ x = y :=
@@ -97,7 +97,7 @@ theorem mul_mem_nonZeroDivisors {a b : M₁} : a * b ∈ M₁⁰ ↔ a ∈ M₁�
   · rintro ⟨ha, hb⟩ x hx
     apply ha
     apply hb
-    rw [mul_assoc, hx]
+    rw [mul_assoc]; rw [hx]
 #align mul_mem_non_zero_divisors mul_mem_nonZeroDivisors
 
 theorem isUnit_of_mem_nonZeroDivisors {G₀ : Type*} [GroupWithZero G₀] {x : G₀}

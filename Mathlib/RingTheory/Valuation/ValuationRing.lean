@@ -100,8 +100,7 @@ instance : Inv (ValueGroup A K) :=
         apply Quotient.sound'
         use b⁻¹
         dsimp
-        rw [Units.smul_def, Units.smul_def, Algebra.smul_def, Algebra.smul_def, mul_inv,
-          map_units_inv])
+        rw [Units.smul_def]; rw [Units.smul_def]; rw [Algebra.smul_def]; rw [Algebra.smul_def]; rw [mul_inv]; rw [map_units_inv])
 
 variable [IsDomain A] [ValuationRing A] [IsFractionRing A K]
 
@@ -136,7 +135,7 @@ noncomputable instance : LinearOrder (ValueGroup A K) where
       apply isUnit_of_dvd_one
       use f
       rw [mul_comm]
-      rw [← mul_smul, Algebra.smul_def] at hf
+      rw [← mul_smul] at hf; rw [Algebra.smul_def] at hf
       nth_rw 2 [← one_mul b] at hf
       rw [← (algebraMap A K).map_one] at hf
       exact IsFractionRing.injective _ _ (mul_right_cancel₀ hb hf).symm
@@ -206,10 +205,10 @@ theorem mem_integer_iff (x : K) : x ∈ (valuation A K).integer ↔ ∃ a : A, a
   constructor
   · rintro ⟨c, rfl⟩
     use c
-    rw [Algebra.smul_def, mul_one]
+    rw [Algebra.smul_def]; rw [mul_one]
   · rintro ⟨c, rfl⟩
     use c
-    rw [Algebra.smul_def, mul_one]
+    rw [Algebra.smul_def]; rw [mul_one]
 #align valuation_ring.mem_integer_iff ValuationRing.mem_integer_iff
 
 /-- The valuation ring `A` is isomorphic to the ring of integers of its associated valuation. -/
@@ -306,7 +305,7 @@ theorem dvd_total [h : ValuationRing R] (x y : R) : x ∣ y ∨ y ∣ x :=
 theorem unique_irreducible [ValuationRing R] ⦃p q : R⦄ (hp : Irreducible p) (hq : Irreducible q) :
     Associated p q := by
   have := dvd_total p q
-  rw [Irreducible.dvd_comm hp hq, or_self_iff] at this
+  rw [Irreducible.dvd_comm hp hq] at this; rw [or_self_iff] at this
   exact associated_of_dvd_dvd (Irreducible.dvd_symm hq hp this) this
 #align valuation_ring.unique_irreducible ValuationRing.unique_irreducible
 

@@ -89,7 +89,7 @@ theorem isIdempotentComplete_iff_hasEqualizer_of_id_and_idempotent :
     ext
     simp only [assoc, limit.lift_π, Eq.ndrec, id_eq, eq_mpr_eq_cast, Fork.ofι_pt,
       Fork.ofι_π_app, id_comp]
-    rw [← equalizer.condition, comp_id]
+    rw [← equalizer.condition]; rw [comp_id]
 #align category_theory.idempotents.is_idempotent_complete_iff_has_equalizer_of_id_and_idempotent CategoryTheory.Idempotents.isIdempotentComplete_iff_hasEqualizer_of_id_and_idempotent
 
 variable {C}
@@ -135,9 +135,9 @@ theorem split_imp_of_iso {X X' : C} (φ : X ≅ X') (p : X ⟶ X) (p' : X' ⟶ X
   use Y, i ≫ φ.hom, φ.inv ≫ e
   constructor
   · slice_lhs 2 3 => rw [φ.hom_inv_id]
-    rw [id_comp, h₁]
+    rw [id_comp]; rw [h₁]
   · slice_lhs 2 3 => rw [h₂]
-    rw [hpp', ← assoc, φ.inv_hom_id, id_comp]
+    rw [hpp']; rw [← assoc]; rw [φ.inv_hom_id]; rw [id_comp]
 #align category_theory.idempotents.split_imp_of_iso CategoryTheory.Idempotents.split_imp_of_iso
 
 theorem split_iff_of_iso {X X' : C} (φ : X ≅ X') (p : X ⟶ X) (p' : X' ⟶ X')
@@ -147,7 +147,7 @@ theorem split_iff_of_iso {X X' : C} (φ : X ≅ X') (p : X ⟶ X) (p' : X' ⟶ X
   constructor
   · exact split_imp_of_iso φ p p' hpp'
   · apply split_imp_of_iso φ.symm p' p
-    rw [← comp_id p, ← φ.hom_inv_id]
+    rw [← comp_id p]; rw [← φ.hom_inv_id]
     slice_rhs 2 3 => rw [hpp']
     slice_rhs 1 2 => erw [φ.inv_hom_id]
     simp only [id_comp]

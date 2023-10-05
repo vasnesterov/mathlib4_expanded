@@ -199,7 +199,7 @@ theorem deriv_mul (hc : DifferentiableAt 𝕜 c x) (hd : DifferentiableAt 𝕜 d
 theorem HasDerivWithinAt.mul_const (hc : HasDerivWithinAt c c' s x) (d : 𝔸) :
     HasDerivWithinAt (fun y => c y * d) (c' * d) s x := by
   convert hc.mul (hasDerivWithinAt_const x s d) using 1
-  rw [mul_zero, add_zero]
+  rw [mul_zero]; rw [add_zero]
 #align has_deriv_within_at.mul_const HasDerivWithinAt.mul_const
 
 theorem HasDerivAt.mul_const (hc : HasDerivAt c c' x) (d : 𝔸) :
@@ -215,7 +215,7 @@ theorem hasDerivAt_mul_const (c : 𝕜) : HasDerivAt (fun x => x * c) c x := by
 theorem HasStrictDerivAt.mul_const (hc : HasStrictDerivAt c c' x) (d : 𝔸) :
     HasStrictDerivAt (fun y => c y * d) (c' * d) x := by
   convert hc.mul (hasStrictDerivAt_const x d) using 1
-  rw [mul_zero, add_zero]
+  rw [mul_zero]; rw [add_zero]
 #align has_strict_deriv_at.mul_const HasStrictDerivAt.mul_const
 
 theorem derivWithin_mul_const (hxs : UniqueDiffWithinAt 𝕜 s x) (hc : DifferentiableWithinAt 𝕜 c s x)
@@ -246,7 +246,7 @@ theorem deriv_mul_const_field' (v : 𝕜') : (deriv fun x => u x * v) = fun x =>
 theorem HasDerivWithinAt.const_mul (c : 𝔸) (hd : HasDerivWithinAt d d' s x) :
     HasDerivWithinAt (fun y => c * d y) (c * d') s x := by
   convert (hasDerivWithinAt_const x s c).mul hd using 1
-  rw [zero_mul, zero_add]
+  rw [zero_mul]; rw [zero_add]
 #align has_deriv_within_at.const_mul HasDerivWithinAt.const_mul
 
 theorem HasDerivAt.const_mul (c : 𝔸) (hd : HasDerivAt d d' x) :
@@ -258,7 +258,7 @@ theorem HasDerivAt.const_mul (c : 𝔸) (hd : HasDerivAt d d' x) :
 theorem HasStrictDerivAt.const_mul (c : 𝔸) (hd : HasStrictDerivAt d d' x) :
     HasStrictDerivAt (fun y => c * d y) (c * d') x := by
   convert (hasStrictDerivAt_const _ _).mul hd using 1
-  rw [zero_mul, zero_add]
+  rw [zero_mul]; rw [zero_add]
 #align has_strict_deriv_at.const_mul HasStrictDerivAt.const_mul
 
 theorem derivWithin_const_mul (hxs : UniqueDiffWithinAt 𝕜 s x) (c : 𝔸)

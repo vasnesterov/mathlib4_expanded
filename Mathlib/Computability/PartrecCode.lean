@@ -203,7 +203,7 @@ theorem encode_lt_pair (cf cg) :
     encode cf < encode (pair cf cg) ∧ encode cg < encode (pair cf cg) := by
   simp [encodeCode_eq, encodeCode]
   have := Nat.mul_le_mul_right (Nat.pair cf.encodeCode cg.encodeCode) (by decide : 1 ≤ 2 * 2)
-  rw [one_mul, mul_assoc] at this
+  rw [one_mul] at this; rw [mul_assoc] at this
   have := lt_of_le_of_lt this (lt_add_of_pos_right _ (by decide : 0 < 4))
   exact ⟨lt_of_le_of_lt (Nat.left_le_pair _ _) this, lt_of_le_of_lt (Nat.right_le_pair _ _) this⟩
 #align nat.partrec.code.encode_lt_pair Nat.Partrec.Code.encode_lt_pair
@@ -223,7 +223,7 @@ theorem encode_lt_prec (cf cg) :
 theorem encode_lt_rfind' (cf) : encode cf < encode (rfind' cf) := by
   simp [encodeCode_eq, encodeCode]
   have := Nat.mul_le_mul_right cf.encodeCode (by decide : 1 ≤ 2 * 2)
-  rw [one_mul, mul_assoc] at this
+  rw [one_mul] at this; rw [mul_assoc] at this
   refine' lt_of_le_of_lt (le_trans this _) (lt_add_of_pos_right _ (by decide : 0 < 4))
   exact le_of_lt (Nat.lt_succ_of_le <| Nat.mul_le_mul_left _ <| le_of_lt <|
     Nat.lt_succ_of_le <| Nat.mul_le_mul_left _ <| le_rfl)
@@ -364,7 +364,7 @@ theorem rec_prim' {α σ} [Primcodable α] [Primcodable σ] {c : α → Code} (h
   simp (config := { zeta := false })
   iterate 4 cases' n with n; · simp (config := { zeta := false }) [ofNatCode_eq, ofNatCode]; rfl
   simp only []
-  rw [List.length_map, List.length_range]
+  rw [List.length_map]; rw [List.length_range]
   let m := n.div2.div2
   show
     G₁ ((a, (List.range (n + 4)).map fun n => F a (ofNat Code n)), n, m) =
@@ -471,7 +471,7 @@ theorem rec_prim {α σ} [Primcodable α] [Primcodable σ] {c : α → Code} (hc
   simp (config := { zeta := false })
   iterate 4 cases' n with n; · simp (config := { zeta := false }) [ofNatCode_eq, ofNatCode]; rfl
   simp only []
-  rw [List.length_map, List.length_range]
+  rw [List.length_map]; rw [List.length_range]
   let m := n.div2.div2
   show
     G₁ ((a, (List.range (n + 4)).map fun n => F a (ofNat Code n)), n, m) =
@@ -583,7 +583,7 @@ theorem rec_computable {α σ} [Primcodable α] [Primcodable σ] {c : α → Cod
   simp (config := { zeta := false })
   iterate 4 cases' n with n; · simp (config := { zeta := false }) [ofNatCode_eq, ofNatCode]; rfl
   simp only []
-  rw [List.length_map, List.length_range]
+  rw [List.length_map]; rw [List.length_range]
   let m := n.div2.div2
   show
     G₁ ((a, (List.range (n + 4)).map fun n => F a (ofNat Code n)), n, m) =
@@ -637,7 +637,7 @@ def eval : Code → ℕ →. ℕ
 /-- Helper lemma for the evaluation of `prec` in the base case. -/
 @[simp]
 theorem eval_prec_zero (cf cg : Code) (a : ℕ) : eval (prec cf cg) (Nat.pair a 0) = eval cf a := by
-  rw [eval, Nat.unpaired, Nat.unpair_pair]
+  rw [eval]; rw [Nat.unpaired]; rw [Nat.unpair_pair]
   simp (config := { Lean.Meta.Simp.neutralConfig with proj := true }) only []
   rw [Nat.rec_zero]
 #align nat.partrec.code.eval_prec_zero Nat.Partrec.Code.eval_prec_zero
@@ -646,7 +646,7 @@ theorem eval_prec_zero (cf cg : Code) (a : ℕ) : eval (prec cf cg) (Nat.pair a 
 theorem eval_prec_succ (cf cg : Code) (a k : ℕ) :
     eval (prec cf cg) (Nat.pair a (Nat.succ k)) =
       do {let ih ← eval (prec cf cg) (Nat.pair a k); eval cg (Nat.pair a (Nat.pair k ih))} := by
-  rw [eval, Nat.unpaired, Part.bind_eq_bind, Nat.unpair_pair]
+  rw [eval]; rw [Nat.unpaired]; rw [Part.bind_eq_bind]; rw [Nat.unpair_pair]
   simp
 #align nat.partrec.code.eval_prec_succ Nat.Partrec.Code.eval_prec_succ
 
@@ -1112,7 +1112,7 @@ theorem evaln_prim : Primrec fun a : (ℕ × Code) × ℕ => evaln a.1.1 a.1.2 a
       cases' c with cf cg cf cg cf cg cf <;>
         simp [evaln, nk, Bind.bind, Functor.map, Seq.seq, pure]
       · cases' encode_lt_pair cf cg with lf lg
-        rw [hg (Nat.pair_lt_pair_right _ lf), hg (Nat.pair_lt_pair_right _ lg)]
+        rw [hg (Nat.pair_lt_pair_right _ lf)]; rw [hg (Nat.pair_lt_pair_right _ lg)]
         cases evaln k cf n
         · rfl
         cases evaln k cg n <;> rfl

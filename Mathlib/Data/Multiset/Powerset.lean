@@ -67,8 +67,7 @@ theorem powerset_aux'_perm {l₁ l₂ : List α} (p : l₁ ~ l₂) : powersetAux
     exact IH.append (IH.map _)
   · simp only [powersetAux'_cons, map_append, List.map_map, append_assoc]
     apply Perm.append_left
-    rw [← append_assoc, ← append_assoc,
-      (by funext s; simp [cons_swap] : cons b ∘ cons a = cons a ∘ cons b)]
+    rw [← append_assoc]; rw [← append_assoc]; rw [(by funext s; simp [cons_swap] : cons b ∘ cons a = cons a ∘ cons b)]
     exact perm_append_comm.append_right _
   · exact IH₁.trans IH₂
 #align multiset.powerset_aux'_perm Multiset.powerset_aux'_perm
@@ -124,7 +123,7 @@ theorem card_powerset (s : Multiset α) : card (powerset s) = 2 ^ card s :=
 #align multiset.card_powerset Multiset.card_powerset
 
 theorem revzip_powersetAux {l : List α} ⦃x⦄ (h : x ∈ revzip (powersetAux l)) : x.1 + x.2 = ↑l := by
-  rw [revzip, powersetAux_eq_map_coe, ← map_reverse, zip_map, ← revzip, List.mem_map] at h
+  rw [revzip] at h; rw [powersetAux_eq_map_coe] at h; rw [← map_reverse] at h; rw [zip_map] at h; rw [← revzip] at h; rw [List.mem_map] at h
   simp only [Prod_map, Prod.exists] at h
   rcases h with ⟨l₁, l₂, h, rfl, rfl⟩
   exact Quot.sound (revzip_sublists _ _ _ h)
@@ -132,7 +131,7 @@ theorem revzip_powersetAux {l : List α} ⦃x⦄ (h : x ∈ revzip (powersetAux 
 
 theorem revzip_powersetAux' {l : List α} ⦃x⦄ (h : x ∈ revzip (powersetAux' l)) :
     x.1 + x.2 = ↑l := by
-  rw [revzip, powersetAux', ← map_reverse, zip_map, ← revzip, List.mem_map] at h
+  rw [revzip] at h; rw [powersetAux'] at h; rw [← map_reverse] at h; rw [zip_map] at h; rw [← revzip] at h; rw [List.mem_map] at h
   simp only [Prod_map, Prod.exists] at h
   rcases h with ⟨l₁, l₂, h, rfl, rfl⟩
   exact Quot.sound (revzip_sublists' _ _ _ h)
@@ -145,18 +144,18 @@ theorem revzip_powersetAux_lemma {α : Type u} [DecidableEq α] (l : List α) {l
   have :
     Forall₂ (fun (p : Multiset α × Multiset α) (s : Multiset α) => p = (s, ↑l - s)) (revzip l')
       ((revzip l').map Prod.fst) := by
-    rw [forall₂_map_right_iff, forall₂_same]
+    rw [forall₂_map_right_iff]; rw [forall₂_same]
     rintro ⟨s, t⟩ h
     dsimp
-    rw [← H h, add_tsub_cancel_left]
-  rw [← forall₂_eq_eq_eq, forall₂_map_right_iff]
+    rw [← H h]; rw [add_tsub_cancel_left]
+  rw [← forall₂_eq_eq_eq]; rw [forall₂_map_right_iff]
   simpa using this
 #align multiset.revzip_powerset_aux_lemma Multiset.revzip_powersetAux_lemma
 
 theorem revzip_powersetAux_perm_aux' {l : List α} :
     revzip (powersetAux l) ~ revzip (powersetAux' l) := by
   haveI := Classical.decEq α
-  rw [revzip_powersetAux_lemma l revzip_powersetAux, revzip_powersetAux_lemma l revzip_powersetAux']
+  rw [revzip_powersetAux_lemma l revzip_powersetAux]; rw [revzip_powersetAux_lemma l revzip_powersetAux']
   exact powersetAux_perm_powersetAux'.map _
 #align multiset.revzip_powerset_aux_perm_aux' Multiset.revzip_powersetAux_perm_aux'
 
@@ -178,7 +177,7 @@ def powersetLenAux (n : ℕ) (l : List α) : List (Multiset α) :=
 
 theorem powersetLenAux_eq_map_coe {n} {l : List α} :
     powersetLenAux n l = (sublistsLen n l).map (↑) := by
-  rw [powersetLenAux, sublistsLenAux_eq, append_nil]
+  rw [powersetLenAux]; rw [sublistsLenAux_eq]; rw [append_nil]
 #align multiset.powerset_len_aux_eq_map_coe Multiset.powersetLenAux_eq_map_coe
 
 @[simp]
@@ -220,8 +219,7 @@ theorem powersetLenAux_perm {n} {l₁ l₂ : List α} (p : l₁ ~ l₂) :
     cases n
     · simp [Perm.swap]
     simp only [powersetLenAux_cons, map_append, List.map_map]
-    rw [← append_assoc, ← append_assoc,
-      (by funext s; simp [cons_swap] : cons b ∘ cons a = cons a ∘ cons b)]
+    rw [← append_assoc]; rw [← append_assoc]; rw [(by funext s; simp [cons_swap] : cons b ∘ cons a = cons a ∘ cons b)]
     exact perm_append_comm.append_right _
   · exact IH₁.trans IH₂
 #align multiset.powerset_len_aux_perm Multiset.powersetLenAux_perm

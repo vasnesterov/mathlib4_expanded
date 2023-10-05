@@ -60,7 +60,7 @@ theorem measure_inter_notConvergentSeq_eq_zero [SemilatticeSup ι] [Nonempty ι]
     (hfg : ∀ᵐ x ∂μ, x ∈ s → Tendsto (fun n => f n x) atTop (𝓝 (g x))) (n : ℕ) :
     μ (s ∩ ⋂ j, notConvergentSeq f g n j) = 0 := by
   simp_rw [Metric.tendsto_atTop, ae_iff] at hfg
-  rw [← nonpos_iff_eq_zero, ← hfg]
+  rw [← nonpos_iff_eq_zero]; rw [← hfg]
   refine' measure_mono fun x => _
   simp only [Set.mem_inter_iff, Set.mem_iInter, ge_iff_le, mem_notConvergentSeq_iff]
   push_neg
@@ -87,7 +87,7 @@ theorem measure_notConvergentSeq_tendsto_zero [SemilatticeSup ι] [Countable ι]
       simp only [eq_iff_true_of_subsingleton]
     rw [this]
     exact tendsto_const_nhds
-  rw [← measure_inter_notConvergentSeq_eq_zero hfg n, Set.inter_iInter]
+  rw [← measure_inter_notConvergentSeq_eq_zero hfg n]; rw [Set.inter_iInter]
   refine' tendsto_measure_iInter (fun n => hsm.inter <| notConvergentSeq_measurableSet hf hg)
     (fun k l hkl => Set.inter_subset_inter_right _ <| notConvergentSeq_antitone hkl)
     ⟨h.some,
@@ -102,7 +102,7 @@ theorem exists_notConvergentSeq_lt (hε : 0 < ε) (hf : ∀ n, StronglyMeasurabl
     ∃ j : ι, μ (s ∩ notConvergentSeq f g n j) ≤ ENNReal.ofReal (ε * 2⁻¹ ^ n) := by
   have ⟨N, hN⟩ := (ENNReal.tendsto_atTop ENNReal.zero_ne_top).1
     (measure_notConvergentSeq_tendsto_zero hf hg hsm hs hfg n) (ENNReal.ofReal (ε * 2⁻¹ ^ n)) (by
-      rw [gt_iff_lt, ENNReal.ofReal_pos]
+      rw [gt_iff_lt]; rw [ENNReal.ofReal_pos]
       exact mul_pos hε (pow_pos (by norm_num) n))
   rw [zero_add] at hN
   exact ⟨N, (hN N le_rfl).2⟩
@@ -151,8 +151,7 @@ theorem measure_iUnionNotConvergentSeq (hε : 0 < ε) (hf : ∀ n, StronglyMeasu
   refine' le_trans (measure_iUnion_le _) (le_trans
     (ENNReal.tsum_le_tsum <| notConvergentSeqLTIndex_spec (half_pos hε) hf hg hsm hs hfg) _)
   simp_rw [ENNReal.ofReal_mul (half_pos hε).le]
-  rw [ENNReal.tsum_mul_left, ← ENNReal.ofReal_tsum_of_nonneg, inv_eq_one_div, tsum_geometric_two,
-    ← ENNReal.ofReal_mul (half_pos hε).le, div_mul_cancel ε two_ne_zero]
+  rw [ENNReal.tsum_mul_left]; rw [← ENNReal.ofReal_tsum_of_nonneg]; rw [inv_eq_one_div]; rw [tsum_geometric_two]; rw [← ENNReal.ofReal_mul (half_pos hε).le]; rw [div_mul_cancel ε two_ne_zero]
   · exact fun n => pow_nonneg (by norm_num) _
   · rw [inv_eq_one_div]
     exact summable_geometric_two
@@ -162,7 +161,7 @@ theorem iUnionNotConvergentSeq_subset (hε : 0 < ε) (hf : ∀ n, StronglyMeasur
     (hg : StronglyMeasurable g) (hsm : MeasurableSet s) (hs : μ s ≠ ∞)
     (hfg : ∀ᵐ x ∂μ, x ∈ s → Tendsto (fun n => f n x) atTop (𝓝 (g x))) :
     iUnionNotConvergentSeq hε hf hg hsm hs hfg ⊆ s := by
-  rw [iUnionNotConvergentSeq, ← Set.inter_iUnion]
+  rw [iUnionNotConvergentSeq]; rw [← Set.inter_iUnion]
   exact Set.inter_subset_left _ _
 #align measure_theory.egorov.Union_not_convergent_seq_subset MeasureTheory.Egorov.iUnionNotConvergentSeq_subset
 

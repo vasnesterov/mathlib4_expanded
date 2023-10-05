@@ -74,7 +74,7 @@ noncomputable def colimitLimitToLimitColimit :
                         Functor.const_obj_obj, Functor.comp_map, lim_map,
                         curry_obj_obj_obj, Prod.swap_obj, limMap_π_assoc, curry_obj_map_app,
                         Prod.swap_map, Functor.const_obj_map, Category.comp_id]
-                      rw [map_id_left_eq_curry_map, colimit.w] } }
+                      rw [map_id_left_eq_curry_map]; rw [colimit.w] } }
           naturality := by
             intro j j' f
             dsimp
@@ -82,7 +82,7 @@ noncomputable def colimitLimitToLimitColimit :
             simp only [Functor.comp_obj, lim_obj, Category.id_comp, colimit.ι_desc,
               colimit.ι_desc_assoc, Category.assoc, ι_colimMap,
               curry_obj_obj_obj, curry_obj_map_app]
-            rw [map_id_right_eq_curry_swap_map, limit.w_assoc] } }
+            rw [map_id_right_eq_curry_swap_map]; rw [limit.w_assoc] } }
 #align category_theory.limits.colimit_limit_to_limit_colimit CategoryTheory.Limits.colimitLimitToLimitColimit
 
 /-- Since `colimit_limit_to_limit_colimit` is a morphism from a colimit to a limit,

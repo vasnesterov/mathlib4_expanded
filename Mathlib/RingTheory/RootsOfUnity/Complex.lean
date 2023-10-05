@@ -72,18 +72,18 @@ theorem isPrimitiveRoot_iff (ζ : ℂ) (n : ℕ) (hn : n ≠ 0) :
 complex numbers of the form `exp (2 * Real.pi * Complex.I * (i / n))` for some `i < n`. -/
 nonrec theorem mem_rootsOfUnity (n : ℕ+) (x : Units ℂ) :
     x ∈ rootsOfUnity n ℂ ↔ ∃ i < (n : ℕ), exp (2 * π * I * (i / n)) = x := by
-  rw [mem_rootsOfUnity, Units.ext_iff, Units.val_pow_eq_pow_val, Units.val_one]
+  rw [mem_rootsOfUnity]; rw [Units.ext_iff]; rw [Units.val_pow_eq_pow_val]; rw [Units.val_one]
   have hn0 : (n : ℂ) ≠ 0 := by exact_mod_cast n.ne_zero
   constructor
   · intro h
     obtain ⟨i, hi, H⟩ : ∃ i < (n : ℕ), exp (2 * π * I / n) ^ i = x := by
       simpa only using (isPrimitiveRoot_exp n n.ne_zero).eq_pow_of_pow_eq_one h n.pos
     refine' ⟨i, hi, _⟩
-    rw [← H, ← exp_nat_mul]
+    rw [← H]; rw [← exp_nat_mul]
     congr 1
     field_simp [hn0, mul_comm (i : ℂ)]
   · rintro ⟨i, _, H⟩
-    rw [← H, ← exp_nat_mul, exp_eq_one_iff]
+    rw [← H]; rw [← exp_nat_mul]; rw [exp_eq_one_iff]
     use i
     field_simp [hn0, mul_comm ((n : ℕ) : ℂ), mul_comm (i : ℂ)]
 #align complex.mem_roots_of_unity Complex.mem_rootsOfUnity
@@ -133,14 +133,14 @@ theorem IsPrimitiveRoot.arg {n : ℕ} {ζ : ℂ} (h : IsPrimitiveRoot ζ n) (hn 
     ∃ i : ℤ, ζ.arg = i / n * (2 * Real.pi) ∧ IsCoprime i n ∧ i.natAbs < n := by
   rw [Complex.isPrimitiveRoot_iff _ _ hn] at h
   obtain ⟨i, h, hin, rfl⟩ := h
-  rw [mul_comm, ← mul_assoc, Complex.exp_mul_I]
+  rw [mul_comm]; rw [← mul_assoc]; rw [Complex.exp_mul_I]
   refine' ⟨if i * 2 ≤ n then i else i - n, _, _, _⟩
   on_goal 2 =>
     replace hin := Nat.isCoprime_iff_coprime.mpr hin
     split_ifs
     · exact hin
     · convert hin.add_mul_left_left (-1) using 1
-      rw [mul_neg_one, sub_eq_add_neg]
+      rw [mul_neg_one]; rw [sub_eq_add_neg]
   on_goal 2 =>
     split_ifs with h₂
     · exact_mod_cast h
@@ -148,9 +148,9 @@ theorem IsPrimitiveRoot.arg {n : ℕ} {ζ : ℂ} (h : IsPrimitiveRoot ζ n) (hn 
       rw [this]
       apply tsub_lt_self hn.bot_lt
       contrapose! h₂
-      rw [Nat.eq_zero_of_le_zero h₂, zero_mul]
+      rw [Nat.eq_zero_of_le_zero h₂]; rw [zero_mul]
       exact zero_le _
-    rw [← Int.natAbs_neg, neg_sub, Int.natAbs_eq_iff]
+    rw [← Int.natAbs_neg]; rw [neg_sub]; rw [Int.natAbs_eq_iff]
     exact Or.inl (Int.ofNat_sub h.le).symm
   split_ifs with h₂
   · convert Complex.arg_cos_add_sin_mul_I _
@@ -161,17 +161,17 @@ theorem IsPrimitiveRoot.arg {n : ℕ} {ζ : ℂ} (h : IsPrimitiveRoot ζ n) (hn 
     · rw [neg_zero]
       exact mul_nonneg (mul_nonneg i.cast_nonneg <| by simp [Real.pi_pos.le])
         (by rw [inv_nonneg]; simp only [Nat.cast_nonneg])
-    rw [← mul_rotate', mul_div_assoc]
+    rw [← mul_rotate']; rw [mul_div_assoc]
     rw [← mul_one n] at h₂
     exact mul_le_of_le_one_right Real.pi_pos.le
       ((div_le_iff' <| by exact_mod_cast pos_of_gt h).mpr <| by exact_mod_cast h₂)
-  rw [← Complex.cos_sub_two_pi, ← Complex.sin_sub_two_pi]
+  rw [← Complex.cos_sub_two_pi]; rw [← Complex.sin_sub_two_pi]
   convert Complex.arg_cos_add_sin_mul_I _
   · push_cast
-    rw [← sub_one_mul, sub_div, div_self]
+    rw [← sub_one_mul]; rw [sub_div]; rw [div_self]
     exact_mod_cast hn
   · push_cast
-    rw [← sub_one_mul, sub_div, div_self]
+    rw [← sub_one_mul]; rw [sub_div]; rw [div_self]
     exact_mod_cast hn
   field_simp [hn]
   refine' ⟨_, le_trans _ Real.pi_pos.le⟩
@@ -179,8 +179,8 @@ theorem IsPrimitiveRoot.arg {n : ℕ} {ζ : ℂ} (h : IsPrimitiveRoot ζ n) (hn 
     rw [mul_div_assoc]
     exact mul_nonpos_of_nonpos_of_nonneg (sub_nonpos.mpr <| by exact_mod_cast h.le)
       (div_nonneg (by simp [Real.pi_pos.le]) <| by simp)
-  rw [← mul_rotate', mul_div_assoc, neg_lt, ← mul_neg, mul_lt_iff_lt_one_right Real.pi_pos, ←
-    neg_div, ← neg_mul, neg_sub, div_lt_iff, one_mul, sub_mul, sub_lt_comm, ← mul_sub_one]
+  rw [← mul_rotate']; rw [mul_div_assoc]; rw [neg_lt]; rw [← mul_neg]; rw [mul_lt_iff_lt_one_right Real.pi_pos]; rw [←
+    neg_div]; rw [← neg_mul]; rw [neg_sub]; rw [div_lt_iff]; rw [one_mul]; rw [sub_mul]; rw [sub_lt_comm]; rw [← mul_sub_one]
   norm_num
   exact_mod_cast not_le.mp h₂
   · exact Nat.cast_pos.mpr hn.bot_lt

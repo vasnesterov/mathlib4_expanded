@@ -130,7 +130,7 @@ theorem image2_union_left : image2 f (s ∪ s') t = image2 f s t ∪ image2 f s'
 #align set.image2_union_left Set.image2_union_left
 
 theorem image2_union_right : image2 f s (t ∪ t') = image2 f s t ∪ image2 f s t' := by
-  rw [← image2_swap, image2_union_left, image2_swap f, image2_swap f]
+  rw [← image2_swap]; rw [image2_union_left]; rw [image2_swap f]; rw [image2_swap f]
 #align set.image2_union_right Set.image2_union_right
 
 lemma image2_inter_left (hf : Injective2 f) :
@@ -172,7 +172,7 @@ theorem Nonempty.of_image2_right (h : (Set.image2 f s t).Nonempty) : t.Nonempty 
 
 @[simp]
 theorem image2_eq_empty_iff : image2 f s t = ∅ ↔ s = ∅ ∨ t = ∅ := by
-  rw [← not_nonempty_iff_eq_empty, image2_nonempty_iff, not_and_or]
+  rw [← not_nonempty_iff_eq_empty]; rw [image2_nonempty_iff]; rw [not_and_or]
   simp [not_nonempty_iff_eq_empty]
 #align set.image2_eq_empty_iff Set.image2_eq_empty_iff
 
@@ -206,12 +206,12 @@ theorem image2_singleton : image2 f {a} {b} = {f a b} := by simp
 
 @[simp]
 theorem image2_insert_left : image2 f (insert a s) t = (fun b => f a b) '' t ∪ image2 f s t := by
-  rw [insert_eq, image2_union_left, image2_singleton_left]
+  rw [insert_eq]; rw [image2_union_left]; rw [image2_singleton_left]
 #align set.image2_insert_left Set.image2_insert_left
 
 @[simp]
 theorem image2_insert_right : image2 f s (insert b t) = (fun a => f a b) '' s ∪ image2 f s t := by
-  rw [insert_eq, image2_union_right, image2_singleton_right]
+  rw [insert_eq]; rw [image2_union_right]; rw [image2_singleton_right]
 #align set.image2_insert_right Set.image2_insert_right
 
 @[congr]
@@ -324,14 +324,14 @@ theorem image2_comm {g : β → α → γ} (h_comm : ∀ a b, f a b = g b a) : i
 theorem image2_left_comm {f : α → δ → ε} {g : β → γ → δ} {f' : α → γ → δ'} {g' : β → δ' → ε}
     (h_left_comm : ∀ a b c, f a (g b c) = g' b (f' a c)) :
     image2 f s (image2 g t u) = image2 g' t (image2 f' s u) := by
-  rw [image2_swap f', image2_swap f]
+  rw [image2_swap f']; rw [image2_swap f]
   exact image2_assoc fun _ _ _ => h_left_comm _ _ _
 #align set.image2_left_comm Set.image2_left_comm
 
 theorem image2_right_comm {f : δ → γ → ε} {g : α → β → δ} {f' : α → γ → δ'} {g' : δ' → β → ε}
     (h_right_comm : ∀ a b c, f (g a b) c = g' (f' a c) b) :
     image2 f (image2 g s t) u = image2 g' (image2 f' s u) t := by
-  rw [image2_swap g, image2_swap g']
+  rw [image2_swap g]; rw [image2_swap g']
   exact image2_assoc fun _ _ _ => h_right_comm _ _ _
 #align set.image2_right_comm Set.image2_right_comm
 
@@ -437,14 +437,14 @@ theorem image_image2_right_anticomm {f : α → β' → γ} {g : β → β'} {f'
 `Set.image2 f`. -/
 lemma image2_left_identity {f : α → β → β} {a : α} (h : ∀ b, f a b = b) (t : Set β) :
     image2 f {a} t = t := by
-  rw [image2_singleton_left, show f a = id from funext h, image_id]
+  rw [image2_singleton_left]; rw [show f a = id from funext h]; rw [image_id]
 #align set.image2_left_identity Set.image2_left_identity
 
 /-- If `b` is a right identity for `f : α → β → α`, then `{b}` is a right identity for
 `Set.image2 f`. -/
 lemma image2_right_identity {f : α → β → α} {b : β} (h : ∀ a, f a b = a) (s : Set α) :
     image2 f s {b} = s := by
-  rw [image2_singleton_right, funext h, image_id']
+  rw [image2_singleton_right]; rw [funext h]; rw [image_id']
 #align set.image2_right_identity Set.image2_right_identity
 
 theorem image2_inter_union_subset_union :

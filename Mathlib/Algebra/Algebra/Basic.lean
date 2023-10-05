@@ -325,7 +325,7 @@ theorem algebra_ext {R : Type*} [CommSemiring R] {A : Type*} [Semiring A] (P Q :
   replace h : P.toRingHom = Q.toRingHom := FunLike.ext _ _ h
   have h' : (haveI := P; (· • ·) : R → A → A) = (haveI := Q; (· • ·) : R → A → A) := by
     funext r a
-    rw [P.smul_def', Q.smul_def', h]
+    rw [P.smul_def']; rw [Q.smul_def']; rw [h]
   rcases P with @⟨⟨P⟩⟩
   rcases Q with @⟨⟨Q⟩⟩
   congr
@@ -366,7 +366,7 @@ theorem commutes (r : R) (x : A) : algebraMap R A r * x = x * algebraMap R A r :
 /-- `mul_left_comm` for `Algebra`s when one element is from the base ring. -/
 theorem left_comm (x : A) (r : R) (y : A) :
     x * (algebraMap R A r * y) = algebraMap R A r * (x * y) := by
-  rw [← mul_assoc, ← commutes, mul_assoc]
+  rw [← mul_assoc]; rw [← commutes]; rw [mul_assoc]
 #align algebra.left_comm Algebra.left_comm
 
 /-- `mul_right_comm` for `Algebra`s when one element is from the base ring. -/
@@ -385,7 +385,7 @@ instance _root_.IsScalarTower.right : IsScalarTower R A A :=
 search (and was here first). -/
 @[simp]
 protected theorem mul_smul_comm (s : R) (x y : A) : x * s • y = s • (x * y) := by
-  rw [smul_def, smul_def, left_comm]
+  rw [smul_def]; rw [smul_def]; rw [left_comm]
 #align algebra.mul_smul_comm Algebra.mul_smul_comm
 
 /-- This is just a special case of the global `smul_mul_assoc` lemma that requires less typeclass
@@ -398,7 +398,7 @@ protected theorem smul_mul_assoc (r : R) (x y : A) : r • x * y = r • (x * y)
 @[simp]
 theorem _root_.smul_algebraMap {α : Type*} [Monoid α] [MulDistribMulAction α A]
     [SMulCommClass α R A] (a : α) (r : R) : a • algebraMap R A r = algebraMap R A r := by
-  rw [algebraMap_eq_smul_one, smul_comm a r (1 : A), smul_one]
+  rw [algebraMap_eq_smul_one]; rw [smul_comm a r (1 : A)]; rw [smul_one]
 #align smul_algebra_map smul_algebraMap
 
 section
@@ -659,12 +659,12 @@ variable {R : Type*} {A : Type*} {B : Type*} [CommSemiring R] [Semiring A] [Semi
 work with than `•`. -/
 theorem map_algebraMap_mul (f : A →ₗ[R] B) (a : A) (r : R) :
     f (algebraMap R A r * a) = algebraMap R B r * f a := by
-  rw [← Algebra.smul_def, ← Algebra.smul_def, map_smul]
+  rw [← Algebra.smul_def]; rw [← Algebra.smul_def]; rw [map_smul]
 #align linear_map.map_algebra_map_mul LinearMap.map_algebraMap_mul
 
 theorem map_mul_algebraMap (f : A →ₗ[R] B) (a : A) (r : R) :
     f (a * algebraMap R A r) = f a * algebraMap R B r := by
-  rw [← Algebra.commutes, ← Algebra.commutes, map_algebraMap_mul]
+  rw [← Algebra.commutes]; rw [← Algebra.commutes]; rw [map_algebraMap_mul]
 #align linear_map.map_mul_algebra_map LinearMap.map_mul_algebraMap
 
 end LinearMap
@@ -828,7 +828,7 @@ variable {M : Type*} [AddCommMonoid M] [Module A M] [Module R M] [IsScalarTower 
 variable {N : Type*} [AddCommMonoid N] [Module A N] [Module R N] [IsScalarTower R A N]
 
 theorem algebra_compatible_smul (r : R) (m : M) : r • m = (algebraMap R A) r • m := by
-  rw [← one_smul A m, ← smul_assoc, Algebra.smul_def, mul_one, one_smul]
+  rw [← one_smul A m]; rw [← smul_assoc]; rw [Algebra.smul_def]; rw [mul_one]; rw [one_smul]
 #align algebra_compatible_smul algebra_compatible_smul
 
 @[simp]
@@ -860,7 +860,7 @@ variable {A}
 -- see Note [lower instance priority]
 instance (priority := 100) IsScalarTower.to_smulCommClass : SMulCommClass R A M :=
   ⟨fun r a m => by
-    rw [algebra_compatible_smul A r (a • m), smul_smul, Algebra.commutes, mul_smul, ←
+    rw [algebra_compatible_smul A r (a • m)]; rw [smul_smul]; rw [Algebra.commutes]; rw [mul_smul]; rw [←
       algebra_compatible_smul]⟩
 #align is_scalar_tower.to_smul_comm_class IsScalarTower.to_smulCommClass
 

@@ -73,7 +73,7 @@ theorem neLocus_comm : f.neLocus g = g.neLocus f := by
 @[simp]
 theorem neLocus_zero_right : f.neLocus 0 = f.support := by
   ext
-  rw [mem_neLocus, mem_support_iff, coe_zero, Pi.zero_apply]
+  rw [mem_neLocus]; rw [mem_support_iff]; rw [coe_zero]; rw [Pi.zero_apply]
 #align finsupp.ne_locus_zero_right Finsupp.neLocus_zero_right
 
 @[simp]
@@ -142,7 +142,7 @@ theorem neLocus_neg : neLocus (-f) g = f.neLocus (-g) := by rw [← neLocus_neg_
 #align finsupp.ne_locus_neg Finsupp.neLocus_neg
 
 theorem neLocus_eq_support_sub : f.neLocus g = (f - g).support := by
-  rw [← neLocus_add_right _ _ (-g), add_right_neg, neLocus_zero_right, sub_eq_add_neg]
+  rw [← neLocus_add_right _ _ (-g)]; rw [add_right_neg]; rw [neLocus_zero_right]; rw [sub_eq_add_neg]
 #align finsupp.ne_locus_eq_support_sub Finsupp.neLocus_eq_support_sub
 
 @[simp]
@@ -157,22 +157,22 @@ theorem neLocus_sub_right : neLocus (f₁ - g) (f₂ - g) = neLocus f₁ f₂ :=
 
 @[simp]
 theorem neLocus_self_add_right : neLocus f (f + g) = g.support := by
-  rw [← neLocus_zero_left, ← neLocus_add_left f 0 g, add_zero]
+  rw [← neLocus_zero_left]; rw [← neLocus_add_left f 0 g]; rw [add_zero]
 #align finsupp.ne_locus_self_add_right Finsupp.neLocus_self_add_right
 
 @[simp]
 theorem neLocus_self_add_left : neLocus (f + g) f = g.support := by
-  rw [neLocus_comm, neLocus_self_add_right]
+  rw [neLocus_comm]; rw [neLocus_self_add_right]
 #align finsupp.ne_locus_self_add_left Finsupp.neLocus_self_add_left
 
 @[simp]
 theorem neLocus_self_sub_right : neLocus f (f - g) = g.support := by
-  rw [sub_eq_add_neg, neLocus_self_add_right, support_neg]
+  rw [sub_eq_add_neg]; rw [neLocus_self_add_right]; rw [support_neg]
 #align finsupp.ne_locus_self_sub_right Finsupp.neLocus_self_sub_right
 
 @[simp]
 theorem neLocus_self_sub_left : neLocus (f - g) f = g.support := by
-  rw [neLocus_comm, neLocus_self_sub_right]
+  rw [neLocus_comm]; rw [neLocus_self_sub_right]
 #align finsupp.ne_locus_self_sub_left Finsupp.neLocus_self_sub_left
 
 end AddGroup

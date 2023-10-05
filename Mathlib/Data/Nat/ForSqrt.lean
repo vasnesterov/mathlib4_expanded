@@ -69,7 +69,7 @@ lemma sqrt.iter_sq_le (n guess : ℕ) : sqrt.iter n guess * sqrt.iter n guess �
     simp only [dif_neg h]
     apply Nat.mul_le_of_le_div
     apply le_of_add_le_add_left (a := guess)
-    rw [← mul_two, ← le_div_iff_mul_le]
+    rw [← mul_two]; rw [← le_div_iff_mul_le]
     · exact le_of_not_lt h
     · exact zero_lt_two
 
@@ -85,15 +85,14 @@ lemma sqrt.lt_iter_succ_sq (n guess : ℕ) (hn : n < (guess + 1) * (guess + 1)) 
     refine lt_of_mul_lt_mul_left ?_ (4 * (guess * guess)).zero_le
     apply lt_of_le_of_lt AM_GM
     rw [show (4 : ℕ) = 2 * 2 from rfl]
-    rw [mul_mul_mul_comm 2, mul_mul_mul_comm (2 * guess)]
+    rw [mul_mul_mul_comm 2]; rw [mul_mul_mul_comm (2 * guess)]
     refine mul_self_lt_mul_self (?_ : _ < _ * succ (_ / 2))
-    rw [← add_div_right _ (by decide), mul_comm 2, mul_assoc,
-      show guess + n / guess + 2 = (guess + n / guess + 1) + 1 from rfl]
+    rw [← add_div_right _ (by decide)]; rw [mul_comm 2]; rw [mul_assoc]; rw [show guess + n / guess + 2 = (guess + n / guess + 1) + 1 from rfl]
     have aux_lemma {a : ℕ} : a ≤ 2 * ((a + 1) / 2) := by
       rw [mul_comm]
       exact (add_le_add_iff_right 2).1 $ succ_le_of_lt $ @lt_div_mul_add (a + 1) 2 zero_lt_two
     refine lt_of_lt_of_le ?_ (act_rel_act_of_rel _ aux_lemma)
-    rw [add_assoc, mul_add]
+    rw [add_assoc]; rw [mul_add]
     exact add_lt_add_left (lt_mul_div_succ _ (lt_of_le_of_lt (Nat.zero_le m) h)) _
   case neg =>
     simpa only [dif_neg h] using hn

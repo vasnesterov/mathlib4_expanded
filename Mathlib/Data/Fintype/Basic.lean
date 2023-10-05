@@ -99,7 +99,7 @@ theorem Nonempty.eq_univ [Subsingleton α] : s.Nonempty → s = univ := by
 #align finset.nonempty.eq_univ Finset.Nonempty.eq_univ
 
 theorem univ_nonempty_iff : (univ : Finset α).Nonempty ↔ Nonempty α := by
-  rw [← coe_nonempty, coe_univ, Set.nonempty_iff_univ_nonempty]
+  rw [← coe_nonempty]; rw [coe_univ]; rw [Set.nonempty_iff_univ_nonempty]
 #align finset.univ_nonempty_iff Finset.univ_nonempty_iff
 
 theorem univ_nonempty [Nonempty α] : (univ : Finset α).Nonempty :=
@@ -107,7 +107,7 @@ theorem univ_nonempty [Nonempty α] : (univ : Finset α).Nonempty :=
 #align finset.univ_nonempty Finset.univ_nonempty
 
 theorem univ_eq_empty_iff : (univ : Finset α) = ∅ ↔ IsEmpty α := by
-  rw [← not_nonempty_iff, ← univ_nonempty_iff, not_nonempty_iff_eq_empty]
+  rw [← not_nonempty_iff]; rw [← univ_nonempty_iff]; rw [not_nonempty_iff_eq_empty]
 #align finset.univ_eq_empty_iff Finset.univ_eq_empty_iff
 
 @[simp]
@@ -235,7 +235,7 @@ theorem insert_compl_insert (ha : a ∉ s) : insert a (insert a s)ᶜ = sᶜ := 
 
 @[simp]
 theorem insert_compl_self (x : α) : insert x ({x}ᶜ : Finset α) = univ := by
-  rw [← compl_erase, erase_singleton, compl_empty]
+  rw [← compl_erase]; rw [erase_singleton]; rw [compl_empty]
 #align finset.insert_compl_self Finset.insert_compl_self
 
 @[simp]
@@ -249,7 +249,7 @@ theorem compl_ne_univ_iff_nonempty (s : Finset α) : sᶜ ≠ univ ↔ s.Nonempt
 #align finset.compl_ne_univ_iff_nonempty Finset.compl_ne_univ_iff_nonempty
 
 theorem compl_singleton (a : α) : ({a} : Finset α)ᶜ = univ.erase a := by
-  rw [compl_eq_univ_sdiff, sdiff_singleton_eq_erase]
+  rw [compl_eq_univ_sdiff]; rw [sdiff_singleton_eq_erase]
 #align finset.compl_singleton Finset.compl_singleton
 
 theorem insert_inj_on' (s : Finset α) : Set.InjOn (fun a => insert a s) (sᶜ : Finset α) := by
@@ -302,7 +302,7 @@ theorem piecewise_compl [DecidableEq α] (s : Finset α) [∀ i : α, Decidable 
 @[simp]
 theorem piecewise_erase_univ {δ : α → Sort*} [DecidableEq α] (a : α) (f g : ∀ a, δ a) :
     (Finset.univ.erase a).piecewise f g = Function.update f a (g a) := by
-  rw [← compl_singleton, piecewise_compl, piecewise_singleton]
+  rw [← compl_singleton]; rw [piecewise_compl]; rw [piecewise_singleton]
 #align finset.piecewise_erase_univ Finset.piecewise_erase_univ
 
 theorem univ_map_equiv_to_embedding {α β : Type*} [Fintype α] [Fintype β] (e : α ≃ β) :
@@ -652,7 +652,7 @@ theorem coe_toFinset (s : Set α) [Fintype s] : (↑s.toFinset : Set α) = s :=
 
 @[simp]
 theorem toFinset_nonempty {s : Set α} [Fintype s] : s.toFinset.Nonempty ↔ s.Nonempty := by
-  rw [← Finset.coe_nonempty, coe_toFinset]
+  rw [← Finset.coe_nonempty]; rw [coe_toFinset]
 #align set.to_finset_nonempty Set.toFinset_nonempty
 
 @[simp]
@@ -667,17 +667,17 @@ theorem toFinset_subset_toFinset [Fintype s] [Fintype t] : s.toFinset ⊆ t.toFi
 
 @[simp]
 theorem toFinset_ssubset [Fintype s] {t : Finset α} : s.toFinset ⊂ t ↔ s ⊂ t := by
-  rw [← Finset.coe_ssubset, coe_toFinset]
+  rw [← Finset.coe_ssubset]; rw [coe_toFinset]
 #align set.to_finset_ssubset Set.toFinset_ssubset
 
 @[simp]
 theorem subset_toFinset {s : Finset α} [Fintype t] : s ⊆ t.toFinset ↔ ↑s ⊆ t := by
-  rw [← Finset.coe_subset, coe_toFinset]
+  rw [← Finset.coe_subset]; rw [coe_toFinset]
 #align set.subset_to_finset Set.subset_toFinset
 
 @[simp]
 theorem ssubset_toFinset {s : Finset α} [Fintype t] : s ⊂ t.toFinset ↔ ↑s ⊂ t := by
-  rw [← Finset.coe_ssubset, coe_toFinset]
+  rw [← Finset.coe_ssubset]; rw [coe_toFinset]
 #align set.ssubset_to_finset Set.ssubset_toFinset
 
 @[mono]
@@ -687,7 +687,7 @@ theorem toFinset_ssubset_toFinset [Fintype s] [Fintype t] : s.toFinset ⊂ t.toF
 
 @[simp]
 theorem toFinset_subset [Fintype s] {t : Finset α} : s.toFinset ⊆ t ↔ s ⊆ t := by
-  rw [← Finset.coe_subset, coe_toFinset]
+  rw [← Finset.coe_subset]; rw [coe_toFinset]
 #align set.to_finset_subset Set.toFinset_subset
 
 alias ⟨_, toFinset_mono⟩ := toFinset_subset_toFinset
@@ -757,12 +757,12 @@ theorem toFinset_univ [Fintype α] [Fintype (Set.univ : Set α)] :
 
 @[simp]
 theorem toFinset_eq_empty [Fintype s] : s.toFinset = ∅ ↔ s = ∅ := by
-  rw [← toFinset_empty, toFinset_inj]
+  rw [← toFinset_empty]; rw [toFinset_inj]
 #align set.to_finset_eq_empty Set.toFinset_eq_empty
 
 @[simp]
 theorem toFinset_eq_univ [Fintype α] [Fintype s] : s.toFinset = Finset.univ ↔ s = univ := by
-  rw [← coe_inj, coe_toFinset, coe_univ]
+  rw [← coe_inj]; rw [coe_toFinset]; rw [coe_univ]
 #align set.to_finset_eq_univ Set.toFinset_eq_univ
 
 @[simp]
@@ -835,13 +835,13 @@ theorem Fin.image_succAbove_univ {n : ℕ} (i : Fin (n + 1)) : univ.image i.succ
 
 @[simp]
 theorem Fin.image_succ_univ (n : ℕ) : (univ : Finset (Fin n)).image Fin.succ = {0}ᶜ := by
-  rw [← Fin.succAbove_zero, Fin.image_succAbove_univ]
+  rw [← Fin.succAbove_zero]; rw [Fin.image_succAbove_univ]
 #align fin.image_succ_univ Fin.image_succ_univ
 
 @[simp]
 theorem Fin.image_castSucc (n : ℕ) :
     (univ : Finset (Fin n)).image Fin.castSucc = {Fin.last n}ᶜ := by
-  rw [← Fin.succAbove_last, Fin.image_succAbove_univ]
+  rw [← Fin.succAbove_last]; rw [Fin.image_succAbove_univ]
 #align fin.image_cast_succ Fin.image_castSucc
 
 /- The following three lemmas use `Finset.cons` instead of `insert` and `Finset.map` instead of
@@ -1151,7 +1151,7 @@ theorem choose_subtype_eq {α : Type*} (p : α → Prop) [Fintype { a : α // p 
     (h : ∃! a : { a // p a }, (a : α) = x :=
       ⟨x, rfl, fun y hy => by simpa [Subtype.ext_iff] using hy⟩) :
     Fintype.choose (fun y : { a : α // p a } => (y : α) = x) h = x := by
-  rw [Subtype.ext_iff, Fintype.choose_spec (fun y : { a : α // p a } => (y : α) = x) _]
+  rw [Subtype.ext_iff]; rw [Fintype.choose_spec (fun y : { a : α // p a } => (y : α) = x) _]
 #align fintype.choose_subtype_eq Fintype.choose_subtype_eq
 
 end Choose
@@ -1227,7 +1227,7 @@ theorem count_univ (a : α) : count a Finset.univ.val = 1 :=
 @[simp]
 theorem map_univ_val_equiv (e : α ≃ β) :
     map e univ.val = univ.val := by
-  rw [←congr_arg Finset.val (Finset.map_univ_equiv e), Finset.map_val, Equiv.coe_toEmbedding]
+  rw [←congr_arg Finset.val (Finset.map_univ_equiv e)]; rw [Finset.map_val]; rw [Equiv.coe_toEmbedding]
 
 end Multiset
 
@@ -1263,7 +1263,7 @@ theorem exists_seq_of_forall_finset_exists {α : Type*} (P : α → Prop) (r : �
       intro n
       induction' n using Nat.strong_induction_on with n IH
       have IH' : ∀ x : Fin n, P (f x) := fun n => IH n.1 n.2
-      rw [hf, seqOfForallFinsetExistsAux]
+      rw [hf]; rw [seqOfForallFinsetExistsAux]
       exact
         (Classical.choose_spec
             (h' (Finset.image (fun i : Fin n => f i) (Finset.univ : Finset (Fin n))))

@@ -170,8 +170,7 @@ theorem coeFn_comp_toFiniteMeasure_eq_coeFn (ν : ProbabilityMeasure Ω) :
 @[simp]
 theorem ennreal_coeFn_eq_coeFn_toMeasure (ν : ProbabilityMeasure Ω) (s : Set Ω) :
     (ν s : ℝ≥0∞) = (ν : Measure Ω) s := by
-  rw [← coeFn_comp_toFiniteMeasure_eq_coeFn, FiniteMeasure.ennreal_coeFn_eq_coeFn_toMeasure,
-    toMeasure_comp_toFiniteMeasure_eq_toMeasure]
+  rw [← coeFn_comp_toFiniteMeasure_eq_coeFn]; rw [FiniteMeasure.ennreal_coeFn_eq_coeFn_toMeasure]; rw [toMeasure_comp_toFiniteMeasure_eq_toMeasure]
 #align measure_theory.probability_measure.ennreal_coe_fn_eq_coe_fn_to_measure MeasureTheory.ProbabilityMeasure.ennreal_coeFn_eq_coeFn_toMeasure
 
 theorem apply_mono (μ : ProbabilityMeasure Ω) {s₁ s₂ : Set Ω} (h : s₁ ⊆ s₂) : μ s₁ ≤ μ s₂ := by
@@ -185,7 +184,7 @@ theorem apply_mono (μ : ProbabilityMeasure Ω) {s₁ s₂ : Set Ω} (h : s₁ �
 theorem nonempty (μ : ProbabilityMeasure Ω) : Nonempty Ω := by
   by_contra maybe_empty
   have zero : (μ : Measure Ω) univ = 0 := by
-    rw [univ_eq_empty_iff.mpr (not_nonempty_iff.mp maybe_empty), measure_empty]
+    rw [univ_eq_empty_iff.mpr (not_nonempty_iff.mp maybe_empty)]; rw [measure_empty]
   rw [measure_univ] at zero
   exact zero_ne_one zero.symm
 #align measure_theory.probability_measure.nonempty_of_probability_measure MeasureTheory.ProbabilityMeasure.nonempty
@@ -210,7 +209,7 @@ theorem mass_toFiniteMeasure (μ : ProbabilityMeasure Ω) : μ.toFiniteMeasure.m
 #align measure_theory.probability_measure.mass_to_finite_measure MeasureTheory.ProbabilityMeasure.mass_toFiniteMeasure
 
 theorem toFiniteMeasure_nonzero (μ : ProbabilityMeasure Ω) : μ.toFiniteMeasure ≠ 0 := by
-  rw [← FiniteMeasure.mass_nonzero_iff, μ.mass_toFiniteMeasure]
+  rw [← FiniteMeasure.mass_nonzero_iff]; rw [μ.mass_toFiniteMeasure]
   exact one_ne_zero
 #align measure_theory.probability_measure.to_finite_measure_nonzero MeasureTheory.ProbabilityMeasure.toFiniteMeasure_nonzero
 
@@ -333,7 +332,7 @@ def normalize : ProbabilityMeasure Ω :=
         rw [FiniteMeasure.toMeasure_smul]
         simp only [Measure.smul_toOuterMeasure, OuterMeasure.coe_smul, Pi.smul_apply,
           Measure.nnreal_smul_coe_apply, ne_eq, mass_zero_iff, ENNReal.coe_inv zero, ennreal_mass]
-        rw [←Ne.def, ←ENNReal.coe_ne_zero, ennreal_mass] at zero
+        rw [←Ne.def] at zero; rw [←ENNReal.coe_ne_zero] at zero; rw [ennreal_mass] at zero
         exact ENNReal.inv_mul_cancel zero μ.prop.measure_univ_lt_top.ne }
 #align measure_theory.finite_measure.normalize MeasureTheory.FiniteMeasure.normalize
 
@@ -354,8 +353,7 @@ theorem self_eq_mass_mul_normalize (s : Set Ω) : μ s = μ.mass * μ.normalize 
 theorem self_eq_mass_smul_normalize : μ = μ.mass • μ.normalize.toFiniteMeasure := by
   apply eq_of_forall_apply_eq
   intro s _s_mble
-  rw [μ.self_eq_mass_mul_normalize s, coeFn_smul_apply, smul_eq_mul,
-    ProbabilityMeasure.coeFn_comp_toFiniteMeasure_eq_coeFn]
+  rw [μ.self_eq_mass_mul_normalize s]; rw [coeFn_smul_apply]; rw [smul_eq_mul]; rw [ProbabilityMeasure.coeFn_comp_toFiniteMeasure_eq_coeFn]
 #align measure_theory.finite_measure.self_eq_mass_smul_normalize MeasureTheory.FiniteMeasure.self_eq_mass_smul_normalize
 
 theorem normalize_eq_of_nonzero (nonzero : μ ≠ 0) (s : Set Ω) : μ.normalize s = μ.mass⁻¹ * μ s := by
@@ -374,8 +372,7 @@ theorem normalize_eq_inv_mass_smul_of_nonzero (nonzero : μ ≠ 0) :
 theorem toMeasure_normalize_eq_of_nonzero (nonzero : μ ≠ 0) :
     (μ.normalize : Measure Ω) = μ.mass⁻¹ • μ := by
   ext1 s _s_mble
-  rw [← μ.normalize.ennreal_coeFn_eq_coeFn_toMeasure s, μ.normalize_eq_of_nonzero nonzero s,
-    ENNReal.coe_mul, ennreal_coeFn_eq_coeFn_toMeasure]
+  rw [← μ.normalize.ennreal_coeFn_eq_coeFn_toMeasure s]; rw [μ.normalize_eq_of_nonzero nonzero s]; rw [ENNReal.coe_mul]; rw [ennreal_coeFn_eq_coeFn_toMeasure]
   exact Measure.coe_nnreal_smul_apply _ _ _
 #align measure_theory.finite_measure.coe_normalize_eq_of_nonzero MeasureTheory.FiniteMeasure.toMeasure_normalize_eq_of_nonzero
 
@@ -394,7 +391,7 @@ theorem _root_.ProbabilityMeasure.toFiniteMeasure_normalize_eq_self {m0 : Measur
 theorem average_eq_integral_normalize {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     (nonzero : μ ≠ 0) (f : Ω → E) :
     average (μ : Measure Ω) f = ∫ ω, f ω ∂(μ.normalize : Measure Ω) := by
-  rw [μ.toMeasure_normalize_eq_of_nonzero nonzero, average]
+  rw [μ.toMeasure_normalize_eq_of_nonzero nonzero]; rw [average]
   congr
   simp [ENNReal.coe_inv (μ.mass_nonzero_iff.mpr nonzero), ennreal_mass]
 #align measure_theory.finite_measure.average_eq_integral_normalize MeasureTheory.FiniteMeasure.average_eq_integral_normalize
@@ -404,7 +401,7 @@ variable [TopologicalSpace Ω]
 theorem testAgainstNN_eq_mass_mul (f : Ω →ᵇ ℝ≥0) :
     μ.testAgainstNN f = μ.mass * μ.normalize.toFiniteMeasure.testAgainstNN f := by
   nth_rw 1 [μ.self_eq_mass_smul_normalize]
-  rw [μ.normalize.toFiniteMeasure.smul_testAgainstNN_apply μ.mass f, smul_eq_mul]
+  rw [μ.normalize.toFiniteMeasure.smul_testAgainstNN_apply μ.mass f]; rw [smul_eq_mul]
 #align measure_theory.finite_measure.test_against_nn_eq_mass_mul MeasureTheory.FiniteMeasure.testAgainstNN_eq_mass_mul
 
 theorem normalize_testAgainstNN (nonzero : μ ≠ 0) (f : Ω →ᵇ ℝ≥0) :
@@ -476,8 +473,7 @@ normalized versions also converge weakly. -/
 theorem tendsto_normalize_of_tendsto {γ : Type*} {F : Filter γ} {μs : γ → FiniteMeasure Ω}
     (μs_lim : Tendsto μs F (𝓝 μ)) (nonzero : μ ≠ 0) :
     Tendsto (fun i => (μs i).normalize) F (𝓝 μ.normalize) := by
-  rw [ProbabilityMeasure.tendsto_nhds_iff_toFiniteMeasure_tendsto_nhds,
-    tendsto_iff_forall_testAgainstNN_tendsto]
+  rw [ProbabilityMeasure.tendsto_nhds_iff_toFiniteMeasure_tendsto_nhds]; rw [tendsto_iff_forall_testAgainstNN_tendsto]
   exact fun f => tendsto_normalize_testAgainstNN_of_tendsto μs_lim nonzero f
 #align measure_theory.finite_measure.tendsto_normalize_of_tendsto MeasureTheory.FiniteMeasure.tendsto_normalize_of_tendsto
 

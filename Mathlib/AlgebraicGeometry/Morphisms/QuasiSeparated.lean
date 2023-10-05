@@ -125,14 +125,14 @@ theorem quasi_compact_affineProperty_diagonal_eq :
 
 theorem quasiSeparated_eq_affineProperty_diagonal :
     @QuasiSeparated = targetAffineLocally QuasiCompact.affineProperty.diagonal := by
-  rw [quasiSeparated_eq_diagonal_is_quasiCompact, quasiCompact_eq_affineProperty]
+  rw [quasiSeparated_eq_diagonal_is_quasiCompact]; rw [quasiCompact_eq_affineProperty]
   exact
     diagonal_targetAffineLocally_eq_targetAffineLocally _ QuasiCompact.affineProperty_isLocal
 #align algebraic_geometry.quasi_separated_eq_affine_property_diagonal AlgebraicGeometry.quasiSeparated_eq_affineProperty_diagonal
 
 theorem quasiSeparated_eq_affineProperty :
     @QuasiSeparated = targetAffineLocally QuasiSeparated.affineProperty := by
-  rw [quasiSeparated_eq_affineProperty_diagonal, quasi_compact_affineProperty_diagonal_eq]
+  rw [quasiSeparated_eq_affineProperty_diagonal]; rw [quasi_compact_affineProperty_diagonal_eq]
 #align algebraic_geometry.quasi_separated_eq_affine_property AlgebraicGeometry.quasiSeparated_eq_affineProperty
 
 theorem QuasiSeparated.affineProperty_isLocal : QuasiSeparated.affineProperty.IsLocal :=
@@ -210,8 +210,7 @@ theorem QuasiSeparated.openCover_TFAE {X Y : Scheme.{u}} (f : X ⟶ Y) :
 
 theorem quasiSeparated_over_affine_iff {X Y : Scheme} (f : X ⟶ Y) [IsAffine Y] :
     QuasiSeparated f ↔ QuasiSeparatedSpace X.carrier := by
-  rw [quasiSeparated_eq_affineProperty,
-    QuasiSeparated.affineProperty_isLocal.affine_target_iff f, QuasiSeparated.affineProperty]
+  rw [quasiSeparated_eq_affineProperty]; rw [QuasiSeparated.affineProperty_isLocal.affine_target_iff f]; rw [QuasiSeparated.affineProperty]
 #align algebraic_geometry.quasi_separated_over_affine_iff AlgebraicGeometry.quasiSeparated_over_affine_iff
 
 theorem quasiSeparatedSpace_iff_quasiSeparated (X : Scheme) :
@@ -222,8 +221,7 @@ theorem quasiSeparatedSpace_iff_quasiSeparated (X : Scheme) :
 theorem QuasiSeparated.affine_openCover_iff {X Y : Scheme.{u}} (𝒰 : Scheme.OpenCover.{u} Y)
     [∀ i, IsAffine (𝒰.obj i)] (f : X ⟶ Y) :
     QuasiSeparated f ↔ ∀ i, QuasiSeparatedSpace (pullback f (𝒰.map i)).carrier := by
-  rw [quasiSeparated_eq_affineProperty,
-    QuasiSeparated.affineProperty_isLocal.affine_openCover_iff f 𝒰]
+  rw [quasiSeparated_eq_affineProperty]; rw [QuasiSeparated.affineProperty_isLocal.affine_openCover_iff f 𝒰]
   rfl
 #align algebraic_geometry.quasi_separated.affine_open_cover_iff AlgebraicGeometry.QuasiSeparated.affine_openCover_iff
 
@@ -258,7 +256,7 @@ instance quasiSeparatedSpace_of_isAffine (X : Scheme) [IsAffine X] :
   intro U V hU hU' hV hV'
   obtain ⟨s, hs, e⟩ := (isCompact_open_iff_eq_basicOpen_union _).mp ⟨hU', hU⟩
   obtain ⟨s', hs', e'⟩ := (isCompact_open_iff_eq_basicOpen_union _).mp ⟨hV', hV⟩
-  rw [e, e', Set.iUnion₂_inter]
+  rw [e]; rw [e']; rw [Set.iUnion₂_inter]
   simp_rw [Set.inter_iUnion₂]
   apply hs.isCompact_biUnion
   · intro i _
@@ -345,9 +343,9 @@ theorem exists_eq_pow_mul_of_is_compact_of_quasi_separated_space_aux (X : Scheme
           (X.presheaf.map (homOfLE le_sup_right).op f ^ n₁ * y₂))).mp <| by
     -- Porting note: was just a `simp`, but know as some lemmas need `erw`, just a `simp` does not
     -- leave the goal in a desired form
-    rw [RingHom.algebraMap_toAlgebra, map_mul, map_mul, map_pow, map_pow, map_mul, map_pow, map_mul]
+    rw [RingHom.algebraMap_toAlgebra]; rw [map_mul]; rw [map_mul]; rw [map_pow]; rw [map_pow]; rw [map_mul]; rw [map_pow]; rw [map_mul]
     erw [map_pow]
-    rw [←comp_apply, ←comp_apply]
+    rw [←comp_apply]; rw [←comp_apply]
     erw [←comp_apply, ←comp_apply, ←comp_apply, ←comp_apply]
     simp only [← Functor.map_comp, ← op_comp, homOfLE_comp]
     have h₃ : X.basicOpen ((X.presheaf.map (homOfLE (h₁.trans le_sup_left)).op) f) ≤ S.val := by
@@ -460,7 +458,7 @@ theorem exists_eq_pow_mul_of_isCompact_of_isQuasiSeparated (X : Scheme.{u}) (U :
         simp only [← map_pow, map_mul, ← comp_apply, ← Functor.map_comp, ← op_comp, ← mul_assoc]
           at hn ⊢
         erw [← map_mul, ← map_mul] at hn
-        rw [← pow_add, ← pow_add, ← add_assoc, ← add_assoc, tsub_add_cancel_of_le] at hn
+        rw [← pow_add] at hn; rw [← pow_add] at hn; rw [← add_assoc] at hn; rw [← add_assoc] at hn; rw [tsub_add_cancel_of_le] at hn
         convert hn
         exact Finset.le_sup (Finset.mem_univ _)
     use Finset.univ.sup n + n₁ + n₂
@@ -491,8 +489,8 @@ theorem exists_eq_pow_mul_of_isCompact_of_isQuasiSeparated (X : Scheme.{u}) (U :
         simp only [map_pow, map_mul]
         erw [← comp_apply, ← comp_apply]
         simp only [← Functor.map_comp, ← op_comp, mul_assoc, pow_add]
-        erw [hy₁]; congr 1; rw [← mul_assoc, ← mul_assoc]; congr 1
-        rw [mul_comm, ← comp_apply, ← Functor.map_comp]; congr 1
+        erw [hy₁]; congr 1; rw [← mul_assoc]; rw [← mul_assoc]; congr 1
+        rw [mul_comm]; rw [← comp_apply]; rw [← Functor.map_comp]; congr 1
     · convert
         congr_arg (X.presheaf.map (homOfLE _).op)
           (X.sheaf.objSupIsoProdEqLocus_inv_snd S U.1 ⟨⟨_ * _, _ * _⟩, this⟩) using
@@ -510,7 +508,7 @@ theorem exists_eq_pow_mul_of_isCompact_of_isQuasiSeparated (X : Scheme.{u}) (U :
         simp only [map_pow, map_mul]
         erw [← comp_apply, ← comp_apply]
         simp only [← Functor.map_comp, ← op_comp, mul_assoc, pow_add]
-        erw [hy₂]; rw [← comp_apply, ← Functor.map_comp]; congr 1
+        erw [hy₂]; rw [← comp_apply]; rw [← Functor.map_comp]; congr 1
 #align algebraic_geometry.exists_eq_pow_mul_of_is_compact_of_is_quasi_separated AlgebraicGeometry.exists_eq_pow_mul_of_isCompact_of_isQuasiSeparated
 
 /-- If `U` is qcqs, then `Γ(X, D(f)) ≃ Γ(X, U)_f` for every `f : Γ(X, U)`.
@@ -527,7 +525,7 @@ theorem is_localization_basicOpen_of_qcqs {X : Scheme} {U : Opens X.carrier} (hU
     refine' ⟨⟨y, _, n, rfl⟩, _⟩
     simpa only [map_pow, Subtype.coe_mk, RingHom.algebraMap_toAlgebra, mul_comm z] using e.symm
   · intro x y
-    rw [← sub_eq_zero, ← map_sub, RingHom.algebraMap_toAlgebra]
+    rw [← sub_eq_zero]; rw [← map_sub]; rw [RingHom.algebraMap_toAlgebra]
     simp_rw [← @sub_eq_zero _ _ (_ * x) (_ * y), ← mul_sub]
     generalize x - y = z
     constructor
@@ -536,11 +534,11 @@ theorem is_localization_basicOpen_of_qcqs {X : Scheme} {U : Opens X.carrier} (hU
       refine' ⟨⟨_, n, rfl⟩, _⟩
       simpa [mul_comm z] using e
     · rintro ⟨⟨_, n, rfl⟩, e : f ^ n * z = 0⟩
-      rw [← ((RingedSpace.isUnit_res_basicOpen _ f).pow n).mul_right_inj, mul_zero, ←
+      rw [← ((RingedSpace.isUnit_res_basicOpen _ f).pow n).mul_right_inj]; rw [mul_zero]; rw [←
         map_pow]
       -- Porting note: this one lemma needs `erw`
       erw [← map_mul]
-      rw [e, map_zero]
+      rw [e]; rw [map_zero]
 #align algebraic_geometry.is_localization_basic_open_of_qcqs AlgebraicGeometry.is_localization_basicOpen_of_qcqs
 
 end AlgebraicGeometry

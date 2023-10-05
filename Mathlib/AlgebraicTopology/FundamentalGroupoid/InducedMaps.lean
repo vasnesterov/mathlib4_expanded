@@ -196,7 +196,7 @@ theorem evalAt_eq (x : X) : ⟦H.evalAt x⟧ = hcast (H.apply_zero x).symm ≫
 -- Finally, we show `d = f(p) ≫ H₁ = H₀ ≫ g(p)`
 theorem eq_diag_path : (πₘ f).map p ≫ ⟦H.evalAt x₁⟧ = H.diagonalPath' p ∧
     (⟦H.evalAt x₀⟧ ≫ (πₘ g).map p : fromTop (f x₀) ⟶ fromTop (g x₁)) = H.diagonalPath' p := by
-  rw [H.apply_zero_path, H.apply_one_path, H.evalAt_eq]
+  rw [H.apply_zero_path]; rw [H.apply_one_path]; rw [H.evalAt_eq]
   erw [H.evalAt_eq] -- Porting note: `rw` didn't work, so using `erw`
   dsimp only [prodToProdTopI]
   constructor

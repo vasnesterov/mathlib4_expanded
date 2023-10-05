@@ -54,7 +54,7 @@ set_option linter.uppercaseLean3 false in
 @[simp]
 theorem CNFRec_zero {C : Ordinal → Sort*} (b : Ordinal) (H0 : C 0)
     (H : ∀ o, o ≠ 0 → C (o % b ^ log b o) → C o) : @CNFRec b C H0 H 0 = H0 := by
-  rw [CNFRec, dif_pos rfl]
+  rw [CNFRec]; rw [dif_pos rfl]
   rfl
 set_option linter.uppercaseLean3 false in
 #align ordinal.CNF_rec_zero Ordinal.CNFRec_zero

@@ -87,7 +87,7 @@ theorem MonoidHom.functions_ext [Finite I] (G : Type*) [CommMonoid G] (g h : (�
     (H : ∀ i x, g (Pi.mulSingle i x) = h (Pi.mulSingle i x)) : g = h := by
   cases nonempty_fintype I
   ext k
-  rw [← Finset.univ_prod_mulSingle k, g.map_prod, h.map_prod]
+  rw [← Finset.univ_prod_mulSingle k]; rw [g.map_prod]; rw [h.map_prod]
   simp only [H]
 #align monoid_hom.functions_ext MonoidHom.functions_ext
 #align add_monoid_hom.functions_ext AddMonoidHom.functions_ext

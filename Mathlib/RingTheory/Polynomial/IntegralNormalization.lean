@@ -70,7 +70,7 @@ theorem integralNormalization_coeff_natDegree {f : R[X]} (hf : f ≠ 0) :
 
 theorem integralNormalization_coeff_ne_degree {f : R[X]} {i : ℕ} (hi : f.degree ≠ i) :
     coeff (integralNormalization f) i = coeff f i * f.leadingCoeff ^ (f.natDegree - 1 - i) := by
-  rw [integralNormalization_coeff, if_neg hi]
+  rw [integralNormalization_coeff]; rw [if_neg hi]
 #align polynomial.integral_normalization_coeff_ne_degree Polynomial.integralNormalization_coeff_ne_degree
 
 theorem integralNormalization_coeff_ne_natDegree {f : R[X]} {i : ℕ} (hi : i ≠ natDegree f) :
@@ -117,7 +117,7 @@ theorem integralNormalization_eval₂_eq_zero {p : R[X]} (f : R →+* S) {z : S}
     eval₂ f (z * f p.leadingCoeff) (integralNormalization p) =
         p.support.attach.sum fun i =>
           f (coeff (integralNormalization p) i.1 * p.leadingCoeff ^ i.1) * z ^ i.1 := by
-      rw [eval₂_eq_sum, sum_def, support_integralNormalization]
+      rw [eval₂_eq_sum]; rw [sum_def]; rw [support_integralNormalization]
       simp only [mul_comm z, mul_pow, mul_assoc, RingHom.map_pow, RingHom.map_mul]
       exact Finset.sum_attach.symm
     _ =
@@ -134,8 +134,7 @@ theorem integralNormalization_eval₂_eq_zero {p : R[X]} (f : R →+* S) {z : S}
         exact degree_eq_natDegree hp
       · have : i.1 ≤ p.natDegree - 1 :=
           Nat.le_pred_of_lt (lt_of_le_of_ne (le_natDegree_of_ne_zero (mem_support_iff.mp i.2)) hi)
-        rw [integralNormalization_coeff_ne_natDegree hi, mul_assoc, ← pow_add,
-          tsub_add_cancel_of_le this]
+        rw [integralNormalization_coeff_ne_natDegree hi]; rw [mul_assoc]; rw [← pow_add]; rw [tsub_add_cancel_of_le this]
     _ = f p.leadingCoeff ^ (natDegree p - 1) * eval₂ f z p := by
       simp_rw [eval₂_eq_sum, sum_def, fun i => mul_comm (coeff p i), RingHom.map_mul,
                RingHom.map_pow, mul_assoc, ← Finset.mul_sum]

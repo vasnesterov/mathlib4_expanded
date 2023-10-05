@@ -521,7 +521,7 @@ protected def addGroupWithOne {M₂} [Zero M₂] [One M₂] [Add M₂] [Neg M₂
     intCast := Int.cast,
     intCast_ofNat := fun n => by rw [← Int.cast, ← int_cast, Int.cast_ofNat, nat_cast],
     intCast_negSucc := fun n => by
-      rw [← Int.cast, ← int_cast, Int.cast_negSucc, neg, nat_cast] }
+      rw [← Int.cast]; rw [← int_cast]; rw [Int.cast_negSucc]; rw [neg]; rw [nat_cast] }
 #align function.surjective.add_group_with_one Function.Surjective.addGroupWithOne
 
 /-- A type endowed with `1`, `*`, `⁻¹`, and `/` is a commutative group, if it admits a surjective

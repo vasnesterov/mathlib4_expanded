@@ -90,7 +90,7 @@ theorem zero_divisors_of_torsion {R A} [Nontrivial R] [Ring R] [AddMonoid A] (a 
     dsimp only; rw [Finset.sum_apply']
     refine (Finset.sum_eq_single 0 ?_ ?_).trans ?_
     · intro b hb b0
-      rw [single_pow, one_pow, single_eq_of_ne]
+      rw [single_pow]; rw [one_pow]; rw [single_eq_of_ne]
       exact nsmul_ne_zero_of_lt_addOrderOf' b0 (Finset.mem_range.mp hb)
     · simp only [(zero_lt_two.trans_le o2).ne', Finset.mem_range, not_lt, le_zero_iff,
         false_imp_iff]

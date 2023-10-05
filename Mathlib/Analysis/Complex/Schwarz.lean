@@ -81,8 +81,8 @@ theorem schwarz_aux {f : ℂ → ℂ} (hd : DifferentiableOn ℂ f (ball c R₁)
   · rw [frontier_ball c hr₀.ne']
     intro z hz
     have hz' : z ≠ c := ne_of_mem_sphere hz hr₀.ne'
-    rw [dslope_of_ne _ hz', slope_def_module, norm_smul, norm_inv, mem_sphere_iff_norm.1 hz, ←
-      div_eq_inv_mul, div_le_div_right hr₀, ← dist_eq_norm]
+    rw [dslope_of_ne _ hz']; rw [slope_def_module]; rw [norm_smul]; rw [norm_inv]; rw [mem_sphere_iff_norm.1 hz]; rw [←
+      div_eq_inv_mul]; rw [div_le_div_right hr₀]; rw [← dist_eq_norm]
     exact le_of_lt (h_maps (mem_ball.2 (by rw [mem_sphere.1 hz]; exact hr.2)))
   · rw [closure_ball c hr₀.ne', mem_closedBall]
     exact hr.1.le
@@ -101,7 +101,7 @@ theorem norm_dslope_le_div_of_mapsTo_ball (hd : DifferentiableOn ℂ f (ball c R
   have hg₀ : ‖g‖₊ ≠ 0 := by simpa only [hg'] using one_ne_zero
   calc
     ‖dslope f c z‖ = ‖dslope (g ∘ f) c z‖ := by
-      rw [g.dslope_comp, hgf, IsROrC.norm_ofReal, abs_norm]
+      rw [g.dslope_comp]; rw [hgf]; rw [IsROrC.norm_ofReal]; rw [abs_norm]
       exact fun _ => hd.differentiableAt (ball_mem_nhds _ hR₁)
     _ ≤ R₂ / R₁ := by
       refine' schwarz_aux (g.differentiable.comp_differentiableOn hd) (MapsTo.comp _ h_maps) hz

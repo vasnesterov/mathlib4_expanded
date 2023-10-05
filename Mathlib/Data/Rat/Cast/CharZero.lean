@@ -31,8 +31,8 @@ theorem cast_inj [CharZero α] : ∀ {m n : ℚ}, (m : α) = n ↔ m = n
     refine' ⟨fun h => _, congr_arg _⟩
     have d₁a : (d₁ : α) ≠ 0 := Nat.cast_ne_zero.2 d₁0
     have d₂a : (d₂ : α) ≠ 0 := Nat.cast_ne_zero.2 d₂0
-    rw [num_den', num_den'] at h ⊢
-    rw [cast_mk_of_ne_zero, cast_mk_of_ne_zero] at h <;> simp [d₁0, d₂0] at h ⊢
+    rw [num_den'] at h ⊢; rw [num_den'] at h ⊢
+    rw [cast_mk_of_ne_zero] at h; rw [cast_mk_of_ne_zero] at h; all_goals simp [d₁0, d₂0] at h ⊢
     rwa [eq_div_iff_mul_eq d₂a, division_def, mul_assoc, (d₁.cast_commute (d₂ : α)).inv_left₀.eq, ←
       mul_assoc, ← division_def, eq_comm, eq_div_iff_mul_eq d₁a, eq_comm, ← Int.cast_ofNat d₁, ←
       Int.cast_mul, ← Int.cast_ofNat d₂, ← Int.cast_mul, Int.cast_inj, ← mkRat_eq_iff d₁0 d₂0] at h
@@ -76,7 +76,7 @@ theorem cast_bit0 [CharZero α] (n : ℚ) : ((bit0 n : ℚ) : α) = (bit0 n : α
 
 @[simp, norm_cast]
 theorem cast_bit1 [CharZero α] (n : ℚ) : ((bit1 n : ℚ) : α) = (bit1 n : α) := by
-  rw [bit1, cast_add, cast_one, cast_bit0]; rfl
+  rw [bit1]; rw [cast_add]; rw [cast_one]; rw [cast_bit0]; rfl
 #align rat.cast_bit1 Rat.cast_bit1
 
 end

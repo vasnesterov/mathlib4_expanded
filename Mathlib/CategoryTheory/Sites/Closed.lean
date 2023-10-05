@@ -199,16 +199,16 @@ theorem classifier_isSheaf : Presieve.IsSheaf J₁ (Functor.closedSieves J₁) :
     simp only [Functor.closedSieves_obj]
     ext Y f
     dsimp only [Subtype.coe_mk]
-    rw [← J₁.covers_iff_mem_of_isClosed hM, ← J₁.covers_iff_mem_of_isClosed hN]
+    rw [← J₁.covers_iff_mem_of_isClosed hM]; rw [← J₁.covers_iff_mem_of_isClosed hN]
     have q : ∀ ⦃Z : C⦄ (g : Z ⟶ X) (_ : S g), M.pullback g = N.pullback g :=
       fun Z g hg => congr_arg Subtype.val ((hM₂ g hg).trans (hN₂ g hg).symm)
     have MSNS : M ⊓ S = N ⊓ S := by
       ext Z g
-      rw [Sieve.inter_apply, Sieve.inter_apply]
+      rw [Sieve.inter_apply]; rw [Sieve.inter_apply]
       simp only [and_comm]
       apply and_congr_right
       intro hg
-      rw [Sieve.pullback_eq_top_iff_mem, Sieve.pullback_eq_top_iff_mem, q g hg]
+      rw [Sieve.pullback_eq_top_iff_mem]; rw [Sieve.pullback_eq_top_iff_mem]; rw [q g hg]
     constructor
     · intro hf
       rw [J₁.covers_iff]
@@ -227,8 +227,7 @@ theorem classifier_isSheaf : Presieve.IsSheaf J₁ (Functor.closedSieves J₁) :
       intro Y f hf
       apply le_antisymm
       · rintro Z u ⟨W, g, f', hf', hg : (x f' hf').1 _, c⟩
-        rw [Sieve.pullback_eq_top_iff_mem,
-          ← show (x (u ≫ f) _).1 = (x f hf).1.pullback u from congr_arg Subtype.val (hx f u hf)]
+        rw [Sieve.pullback_eq_top_iff_mem]; rw [← show (x (u ≫ f) _).1 = (x f hf).1.pullback u from congr_arg Subtype.val (hx f u hf)]
         conv_lhs => congr; congr; rw [← c] -- Porting note: Originally `simp_rw [← c]`
         rw [show (x (g ≫ f') _).1 = _ from congr_arg Subtype.val (hx f' g hf')]
         apply Sieve.pullback_eq_top_of_mem _ hg
@@ -238,7 +237,7 @@ theorem classifier_isSheaf : Presieve.IsSheaf J₁ (Functor.closedSieves J₁) :
       simp only [Functor.closedSieves_obj]
       ext1
       dsimp
-      rw [← J₁.pullback_close, this _ hf]
+      rw [← J₁.pullback_close]; rw [this _ hf]
       apply le_antisymm (J₁.le_close_of_isClosed le_rfl (x f hf).2) (J₁.le_close _)
 #align category_theory.classifier_is_sheaf CategoryTheory.classifier_isSheaf
 
@@ -260,8 +259,7 @@ theorem le_topology_of_closedSieves_isSheaf {J₁ J₂ : GrothendieckTopology C}
     simp only [Functor.closedSieves_obj]
     ext1
     dsimp
-    rw [Sieve.pullback_top, ← J₂.pullback_close, S.pullback_eq_top_of_mem hf,
-      J₂.close_eq_top_iff_mem]
+    rw [Sieve.pullback_top]; rw [← J₂.pullback_close]; rw [S.pullback_eq_top_of_mem hf]; rw [J₂.close_eq_top_iff_mem]
     apply J₂.top_mem
 #align category_theory.le_topology_of_closed_sieves_is_sheaf CategoryTheory.le_topology_of_closedSieves_isSheaf
 
@@ -295,13 +293,13 @@ def topologyOfClosureOperator (c : ∀ X : C, ClosureOperator (Sieve X))
   top_mem' X := top_unique ((c X).le_closure _)
   pullback_stable' X Y S f hS := by
     rw [Set.mem_setOf_eq] at hS
-    rw [Set.mem_setOf_eq, hc, hS, Sieve.pullback_top]
+    rw [Set.mem_setOf_eq]; rw [hc]; rw [hS]; rw [Sieve.pullback_top]
   transitive' X S hS R hR := by
     rw [Set.mem_setOf_eq] at hS
-    rw [Set.mem_setOf_eq, ← (c X).idempotent, eq_top_iff, ← hS]
+    rw [Set.mem_setOf_eq]; rw [← (c X).idempotent]; rw [eq_top_iff]; rw [← hS]
     apply (c X).monotone fun Y f hf => _
     intros Y f hf
-    rw [Sieve.pullback_eq_top_iff_mem, ← hc]
+    rw [Sieve.pullback_eq_top_iff_mem]; rw [← hc]
     apply hR hf
 #align category_theory.topology_of_closure_operator CategoryTheory.topologyOfClosureOperator
 
@@ -319,7 +317,7 @@ theorem topologyOfClosureOperator_close (c : ∀ X : C, ClosureOperator (Sieve X
     (S : Sieve X) : (topologyOfClosureOperator c pb).close S = c X S := by
   ext Y f
   change c _ (Sieve.pullback f S) = ⊤ ↔ c _ S f
-  rw [pb, Sieve.pullback_eq_top_iff_mem]
+  rw [pb]; rw [Sieve.pullback_eq_top_iff_mem]
 #align category_theory.topology_of_closure_operator_close CategoryTheory.topologyOfClosureOperator_close
 
 end CategoryTheory

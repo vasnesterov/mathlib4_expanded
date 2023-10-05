@@ -144,11 +144,11 @@ def mapRange.equiv (f : M ≃ N) (hf : f 0 = 0) (hf' : f.symm 0 = 0) : (α →�
   toFun := (mapRange f hf : (α →₀ M) → α →₀ N)
   invFun := (mapRange f.symm hf' : (α →₀ N) → α →₀ M)
   left_inv x := by
-    rw [← mapRange_comp _ _ _ _] <;> simp_rw [Equiv.symm_comp_self]
+    rw [← mapRange_comp _ _ _ _]  <;> simp_rw [Equiv.symm_comp_self]
     · exact mapRange_id _
     · rfl
   right_inv x := by
-    rw [← mapRange_comp _ _ _ _] <;> simp_rw [Equiv.self_comp_symm]
+    rw [← mapRange_comp _ _ _ _]  <;> simp_rw [Equiv.self_comp_symm]
     · exact mapRange_id _
     · rfl
 #align finsupp.map_range.equiv Finsupp.mapRange.equiv
@@ -251,11 +251,11 @@ def mapRange.addEquiv (f : M ≃+ N) : (α →₀ M) ≃+ (α →₀ N) :=
     toFun := (mapRange f f.map_zero : (α →₀ M) → α →₀ N)
     invFun := (mapRange f.symm f.symm.map_zero : (α →₀ N) → α →₀ M)
     left_inv := fun x => by
-      rw [← mapRange_comp _ _ _ _] <;> simp_rw [AddEquiv.symm_comp_self]
+      rw [← mapRange_comp _ _ _ _]  <;> simp_rw [AddEquiv.symm_comp_self]
       · exact mapRange_id _
       · rfl
     right_inv := fun x => by
-      rw [← mapRange_comp _ _ _ _] <;> simp_rw [AddEquiv.self_comp_symm]
+      rw [← mapRange_comp _ _ _ _]  <;> simp_rw [AddEquiv.self_comp_symm]
       · exact mapRange_id _
       · rfl }
 #align finsupp.map_range.add_equiv Finsupp.mapRange.addEquiv
@@ -451,16 +451,16 @@ def mapDomain (f : α → β) (v : α →₀ M) : β →₀ M :=
 
 theorem mapDomain_apply {f : α → β} (hf : Function.Injective f) (x : α →₀ M) (a : α) :
     mapDomain f x (f a) = x a := by
-  rw [mapDomain, sum_apply, sum_eq_single a, single_eq_same]
+  rw [mapDomain]; rw [sum_apply]; rw [sum_eq_single a]; rw [single_eq_same]
   · intro b _ hba
     exact single_eq_of_ne (hf.ne hba)
   · intro _
-    rw [single_zero, coe_zero, Pi.zero_apply]
+    rw [single_zero]; rw [coe_zero]; rw [Pi.zero_apply]
 #align finsupp.map_domain_apply Finsupp.mapDomain_apply
 
 theorem mapDomain_notin_range {f : α → β} (x : α →₀ M) (a : β) (h : a ∉ Set.range f) :
     mapDomain f x a = 0 := by
-  rw [mapDomain, sum_apply, sum]
+  rw [mapDomain]; rw [sum_apply]; rw [sum]
   exact Finset.sum_eq_zero fun a' _ => single_eq_of_ne fun eq => h <| eq ▸ Set.mem_range_self _
 #align finsupp.map_domain_notin_range Finsupp.mapDomain_notin_range
 
@@ -546,7 +546,7 @@ theorem mapDomain_support [DecidableEq β] {f : α → β} {s : α →₀ M} :
 theorem mapDomain_apply' (S : Set α) {f : α → β} (x : α →₀ M) (hS : (x.support : Set α) ⊆ S)
     (hf : Set.InjOn f S) {a : α} (ha : a ∈ S) : mapDomain f x (f a) = x a := by
   classical
-    rw [mapDomain, sum_apply, sum]
+    rw [mapDomain]; rw [sum_apply]; rw [sum]
     simp_rw [single_apply]
     by_cases hax : a ∈ x.support
     · rw [← Finset.add_sum_erase _ _ hax, if_pos rfl]
@@ -600,14 +600,14 @@ theorem embDomain_eq_mapDomain (f : α ↪ β) (v : α →₀ M) : embDomain f v
   ext a
   by_cases h : a ∈ Set.range f
   · rcases h with ⟨a, rfl⟩
-    rw [mapDomain_apply f.injective, embDomain_apply]
+    rw [mapDomain_apply f.injective]; rw [embDomain_apply]
   · rw [mapDomain_notin_range, embDomain_notin_range] <;> assumption
 #align finsupp.emb_domain_eq_map_domain Finsupp.embDomain_eq_mapDomain
 
 @[to_additive]
 theorem prod_mapDomain_index_inj [CommMonoid N] {f : α → β} {s : α →₀ M} {h : β → M → N}
     (hf : Function.Injective f) : (s.mapDomain f).prod h = s.prod fun a b => h (f a) b := by
-  rw [← Function.Embedding.coeFn_mk f hf, ← embDomain_eq_mapDomain, prod_embDomain]
+  rw [← Function.Embedding.coeFn_mk f hf]; rw [← embDomain_eq_mapDomain]; rw [prod_embDomain]
 #align finsupp.prod_map_domain_index_inj Finsupp.prod_mapDomain_index_inj
 #align finsupp.sum_map_domain_index_inj Finsupp.sum_mapDomain_index_inj
 
@@ -649,11 +649,11 @@ theorem sum_update_add [AddCommMonoid α] [AddCommMonoid β] (f : ι →₀ α) 
     (g : ι → α → β) (hg : ∀ i, g i 0 = 0)
     (hgg : ∀ (j : ι) (a₁ a₂ : α), g j (a₁ + a₂) = g j a₁ + g j a₂) :
     (f.update i a).sum g + g i (f i) = f.sum g + g i a := by
-  rw [update_eq_erase_add_single, sum_add_index' hg hgg]
+  rw [update_eq_erase_add_single]; rw [sum_add_index' hg hgg]
   conv_rhs => rw [← Finsupp.update_self f i]
-  rw [update_eq_erase_add_single, sum_add_index' hg hgg, add_assoc, add_assoc]
+  rw [update_eq_erase_add_single]; rw [sum_add_index' hg hgg]; rw [add_assoc]; rw [add_assoc]
   congr 1
-  rw [add_comm, sum_single_index (hg _), sum_single_index (hg _)]
+  rw [add_comm]; rw [sum_single_index (hg _)]; rw [sum_single_index (hg _)]
 #align finsupp.sum_update_add Finsupp.sum_update_add
 
 theorem mapDomain_injOn (S : Set α) {f : α → β} (hf : Set.InjOn f S) :
@@ -709,7 +709,7 @@ theorem sum_comapDomain [Zero M] [AddCommMonoid N] (f : α → β) (l : β →�
 
 theorem eq_zero_of_comapDomain_eq_zero [AddCommMonoid M] (f : α → β) (l : β →₀ M)
     (hf : Set.BijOn f (f ⁻¹' ↑l.support) ↑l.support) : comapDomain f l hf.injOn = 0 → l = 0 := by
-  rw [← support_eq_empty, ← support_eq_empty, comapDomain]
+  rw [← support_eq_empty]; rw [← support_eq_empty]; rw [comapDomain]
   simp only [Finset.ext_iff, Finset.not_mem_empty, iff_false_iff, mem_preimage]
   intro h a ha
   cases' hf.2.2 ha with b hb
@@ -739,7 +739,7 @@ theorem comapDomain_single (f : α → β) (a : α) (m : M)
   · simp only [single_zero, comapDomain_zero]
   · rw [eq_single_iff, comapDomain_apply, comapDomain_support, ← Finset.coe_subset, coe_preimage,
       support_single_ne_zero _ hm, coe_singleton, coe_singleton, single_eq_same]
-    rw [support_single_ne_zero _ hm, coe_singleton] at hif
+    rw [support_single_ne_zero _ hm] at hif; rw [coe_singleton] at hif
     exact ⟨fun x hx => hif hx rfl hx, rfl⟩
 #align finsupp.comap_domain_single Finsupp.comapDomain_single
 
@@ -781,7 +781,7 @@ theorem mapDomain_comapDomain (hf : Function.Injective f) (l : β →₀ M)
   ext a
   by_cases h_cases : a ∈ Set.range f
   · rcases Set.mem_range.1 h_cases with ⟨b, hb⟩
-    rw [hb.symm, mapDomain_apply hf, comapDomain_apply]
+    rw [hb.symm]; rw [mapDomain_apply hf]; rw [comapDomain_apply]
   · rw [mapDomain_notin_range _ _ h_cases]
     by_contra h_contr
     apply h_cases (hl <| Finset.mem_coe.2 <| mem_support_iff.2 fun h => h_contr h.symm)
@@ -841,7 +841,7 @@ theorem prod_option_index [AddCommMonoid M] [CommMonoid N] (f : Option α →₀
     apply induction_linear f
     · simp [some_zero, h_zero]
     · intro f₁ f₂ h₁ h₂
-      rw [Finsupp.prod_add_index, h₁, h₂, some_add, Finsupp.prod_add_index]
+      rw [Finsupp.prod_add_index]; rw [h₁]; rw [h₂]; rw [some_add]; rw [Finsupp.prod_add_index]
       simp only [h_add, Pi.add_apply, Finsupp.coe_add]
       rw [mul_mul_mul_comm]
       all_goals simp [h_zero, h_add]
@@ -886,7 +886,7 @@ def filter (p : α → Prop) (f : α →₀ M) : α →₀ M
 #align finsupp.filter Finsupp.filter
 
 theorem filter_apply (a : α) [D : Decidable (p a)] : f.filter p a = if p a then f a else 0 := by
-  rw [Subsingleton.elim D] <;> rfl
+  rw [Subsingleton.elim D]  <;> rfl
 #align finsupp.filter_apply Finsupp.filter_apply
 
 theorem filter_eq_indicator : ⇑(f.filter p) = Set.indicator { x | p x } f :=
@@ -913,7 +913,7 @@ theorem filter_apply_neg {a : α} (h : ¬p a) : f.filter p a = 0 := if_neg h
 
 @[simp]
 theorem support_filter [D : DecidablePred p] : (f.filter p).support = f.support.filter p := by
-  rw [Subsingleton.elim D] <;> rfl
+  rw [Subsingleton.elim D]  <;> rfl
 #align finsupp.support_filter Finsupp.support_filter
 
 theorem filter_zero : (0 : α →₀ M).filter p = 0 := by
@@ -936,7 +936,7 @@ theorem prod_filter_index [CommMonoid N] (g : α → M → N) :
     (f.filter p).prod g = ∏ x in (f.filter p).support, g x (f x) := by
   classical
     refine' Finset.prod_congr rfl fun x hx => _
-    rw [support_filter, Finset.mem_filter] at hx
+    rw [support_filter] at hx; rw [Finset.mem_filter] at hx
     rw [filter_apply_pos _ _ hx.2]
 #align finsupp.prod_filter_index Finsupp.prod_filter_index
 #align finsupp.sum_filter_index Finsupp.sum_filter_index
@@ -979,7 +979,7 @@ def frange (f : α →₀ M) : Finset M :=
 #align finsupp.frange Finsupp.frange
 
 theorem mem_frange {f : α →₀ M} {y : M} : y ∈ f.frange ↔ y ≠ 0 ∧ ∃ x, f x = y := by
-  rw [frange, @Finset.mem_image _ _ (Classical.decEq _) _ f.support]
+  rw [frange]; rw [@Finset.mem_image _ _ (Classical.decEq _) _ f.support]
   exact ⟨fun ⟨x, hx1, hx2⟩ => ⟨hx2 ▸ mem_support_iff.1 hx1, x, hx2⟩, fun ⟨hy, x, hx⟩ =>
     ⟨x, mem_support_iff.2 (hx.symm ▸ hy), hx⟩⟩
   -- porting note: maybe there is a better way to fix this, but (1) it wasn't seeing past `frange`
@@ -1211,11 +1211,11 @@ theorem curry_apply (f : α × β →₀ M) (x : α) (y : β) : f.curry x y = f 
       rintro ⟨b₁, b₂⟩
       simp [single_apply, ite_apply, Prod.ext_iff, ite_and]
       split_ifs <;> simp [single_apply, *]
-    rw [Finsupp.curry, sum_apply, sum_apply, sum_eq_single, this, if_pos rfl]
+    rw [Finsupp.curry]; rw [sum_apply]; rw [sum_apply]; rw [sum_eq_single]; rw [this]; rw [if_pos rfl]
     · intro b _ b_ne
-      rw [this b, if_neg b_ne]
+      rw [this b]; rw [if_neg b_ne]
     · intro _
-      rw [single_zero, single_zero, coe_zero, Pi.zero_apply, coe_zero, Pi.zero_apply]
+      rw [single_zero]; rw [single_zero]; rw [coe_zero]; rw [Pi.zero_apply]; rw [coe_zero]; rw [Pi.zero_apply]
 #align finsupp.curry_apply Finsupp.curry_apply
 
 theorem sum_curry_index (f : α × β →₀ M) (g : α → β → M → N) (hg₀ : ∀ a b, g a b 0 = 0)
@@ -1246,7 +1246,7 @@ def finsuppProdEquiv : (α × β →₀ M) ≃ (α →₀ β →₀ M)
   toFun := Finsupp.curry
   invFun := Finsupp.uncurry
   left_inv f := by
-    rw [Finsupp.uncurry, sum_curry_index]
+    rw [Finsupp.uncurry]; rw [sum_curry_index]
     · simp_rw [Prod.mk.eta, sum_single]
     · intros
       apply single_zero
@@ -1261,8 +1261,7 @@ def finsuppProdEquiv : (α × β →₀ M) ≃ (α →₀ β →₀ M)
 theorem filter_curry (f : α × β →₀ M) (p : α → Prop) :
     (f.filter fun a : α × β => p a.1).curry = f.curry.filter p := by
   classical
-    rw [Finsupp.curry, Finsupp.curry, Finsupp.sum, Finsupp.sum, filter_sum, support_filter,
-      sum_filter]
+    rw [Finsupp.curry]; rw [Finsupp.curry]; rw [Finsupp.sum]; rw [Finsupp.sum]; rw [filter_sum]; rw [support_filter]; rw [sum_filter]
     refine' Finset.sum_congr rfl _
     rintro ⟨a₁, a₂⟩ _
     dsimp only
@@ -1435,7 +1434,7 @@ def comapMulAction : MulAction G (α →₀ M)
     where
   one_smul f := by rw [comapSMul_def, one_smul_eq_id, mapDomain_id]
   mul_smul g g' f := by
-    rw [comapSMul_def, comapSMul_def, comapSMul_def, ← comp_smul_left, mapDomain_comp]
+    rw [comapSMul_def]; rw [comapSMul_def]; rw [comapSMul_def]; rw [← comp_smul_left]; rw [mapDomain_comp]
 #align finsupp.comap_mul_action Finsupp.comapMulAction
 
 attribute [local instance] comapMulAction
@@ -1596,7 +1595,7 @@ theorem mapRange_smul {_ : Monoid R} [AddMonoid M] [DistribMulAction R M] [AddMo
 #align finsupp.map_range_smul Finsupp.mapRange_smul
 
 theorem smul_single_one [Semiring R] (a : α) (b : R) : b • single a (1 : R) = single a b := by
-  rw [smul_single, smul_eq_mul, mul_one]
+  rw [smul_single]; rw [smul_eq_mul]; rw [mul_one]
 #align finsupp.smul_single_one Finsupp.smul_single_one
 
 theorem comapDomain_smul [AddMonoid M] [Monoid R] [DistribMulAction R M] {f : α → β} (r : R)
@@ -1698,7 +1697,7 @@ def restrictSupportEquiv (s : Set α) (M : Type*) [AddCommMonoid M] :
   toFun f := subtypeDomain (fun x => x ∈ s) f.1
   invFun f :=
     ⟨f.embDomain <| Embedding.subtype _, by
-      rw [support_embDomain, Finset.coe_map, Set.image_subset_iff]
+      rw [support_embDomain]; rw [Finset.coe_map]; rw [Set.image_subset_iff]
       exact fun x _ => x.2⟩
   left_inv := by
     rintro ⟨f, hf⟩
@@ -1706,7 +1705,7 @@ def restrictSupportEquiv (s : Set α) (M : Type*) [AddCommMonoid M] :
     by_cases h : a ∈ s
     · lift a to s using h
       exact embDomain_apply _ _ _
-    rw [embDomain_notin_range, eq_comm, ←Finsupp.not_mem_support_iff]
+    rw [embDomain_notin_range]; rw [eq_comm]; rw [←Finsupp.not_mem_support_iff]
     · exact fun hs => h <| hf hs
     · simp [h]
   right_inv f := ext <| embDomain_apply _ f
@@ -1785,8 +1784,8 @@ def splitSupport (l : (Σi, αs i) →₀ M) : Finset ι :=
 #align finsupp.split_support Finsupp.splitSupport
 
 theorem mem_splitSupport_iff_nonzero (i : ι) : i ∈ splitSupport l ↔ split l i ≠ 0 := by
-  rw [splitSupport, @mem_image _ _ (Classical.decEq _), Ne.def, ← support_eq_empty, ← Ne.def, ←
-    Finset.nonempty_iff_ne_empty, split, comapDomain, Finset.Nonempty]
+  rw [splitSupport]; rw [@mem_image _ _ (Classical.decEq _)]; rw [Ne.def]; rw [← support_eq_empty]; rw [← Ne.def]; rw [←
+    Finset.nonempty_iff_ne_empty]; rw [split]; rw [comapDomain]; rw [Finset.Nonempty]
   -- porting note: had to add the `Classical.decEq` instance manually
   simp only [exists_prop, Finset.mem_preimage, exists_and_right, exists_eq_right, mem_support_iff,
     Sigma.exists, Ne.def]
@@ -1802,7 +1801,7 @@ def splitComp [Zero N] (g : ∀ i, (αs i →₀ M) → N) (hg : ∀ i x, x = 0 
   toFun i := g i (split l i)
   mem_support_toFun := by
     intro i
-    rw [mem_splitSupport_iff_nonzero, not_iff_not, hg]
+    rw [mem_splitSupport_iff_nonzero]; rw [not_iff_not]; rw [hg]
 #align finsupp.split_comp Finsupp.splitComp
 
 theorem sigma_support : l.support = l.splitSupport.sigma fun i => (l.split i).support := by

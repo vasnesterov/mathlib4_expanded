@@ -55,7 +55,7 @@ theorem nondegenerate_of_det_ne_zero [DecidableEq m] {M : Matrix m m A} (hM : M.
   refine' (mul_eq_zero.mp _).resolve_right hM
   convert hv
   simp only [mulVec_cramer M (Pi.single i 1), dotProduct, Pi.smul_apply, smul_eq_mul]
-  rw [Finset.sum_eq_single i, Pi.single_eq_same, mul_one]
+  rw [Finset.sum_eq_single i]; rw [Pi.single_eq_same]; rw [mul_one]
   · intro j _ hj
     simp [hj]
   · intros
@@ -66,7 +66,7 @@ theorem nondegenerate_of_det_ne_zero [DecidableEq m] {M : Matrix m m A} (hM : M.
 theorem eq_zero_of_vecMul_eq_zero [DecidableEq m] {M : Matrix m m A} (hM : M.det ≠ 0) {v : m → A}
     (hv : M.vecMul v = 0) : v = 0 :=
   (nondegenerate_of_det_ne_zero hM).eq_zero_of_ortho fun w => by
-    rw [dotProduct_mulVec, hv, zero_dotProduct]
+    rw [dotProduct_mulVec]; rw [hv]; rw [zero_dotProduct]
 #align matrix.eq_zero_of_vec_mul_eq_zero Matrix.eq_zero_of_vecMul_eq_zero
 
 theorem eq_zero_of_mulVec_eq_zero [DecidableEq m] {M : Matrix m m A} (hM : M.det ≠ 0) {v : m → A}

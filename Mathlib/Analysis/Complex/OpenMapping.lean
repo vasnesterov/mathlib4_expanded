@@ -150,7 +150,7 @@ theorem AnalyticAt.eventually_constant_or_nhds_le_map_nhds {z₀ : E} (hg : Anal
     obtain ⟨z, hz, hrz⟩ := h
     specialize h1 z hz 0 (mem_ball_self hr)
     have h7 := h1.eventually_constant_or_nhds_le_map_nhds_aux.resolve_left hrz
-    rw [show gray z 0 = g z₀ by simp, ← map_compose] at h7
+    rw [show gray z 0 = g z₀ by simp] at h7; rw [← map_compose] at h7
     refine h7.trans (map_mono ?_)
     have h10 : Continuous fun t : ℂ => z₀ + t • z :=
       continuous_const.add (continuous_id'.smul continuous_const)

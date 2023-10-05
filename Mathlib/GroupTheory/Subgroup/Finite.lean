@@ -134,8 +134,8 @@ theorem card_top [Fintype G] : Fintype.card (⊤ : Subgroup G) = Fintype.card G 
 theorem eq_top_of_card_eq [Fintype H] [Fintype G] (h : Fintype.card H = Fintype.card G) :
     H = ⊤ := by
   letI : Fintype (H : Set G) := ‹Fintype H›
-  rw [SetLike.ext'_iff, coe_top, ← Finset.coe_univ, ← (H : Set G).coe_toFinset, Finset.coe_inj, ←
-    Finset.card_eq_iff_eq_univ, ← h, Set.toFinset_card]
+  rw [SetLike.ext'_iff]; rw [coe_top]; rw [← Finset.coe_univ]; rw [← (H : Set G).coe_toFinset]; rw [Finset.coe_inj]; rw [←
+    Finset.card_eq_iff_eq_univ]; rw [← h]; rw [Set.toFinset_card]
   congr
 #align subgroup.eq_top_of_card_eq Subgroup.eq_top_of_card_eq
 #align add_subgroup.eq_top_of_card_eq AddSubgroup.eq_top_of_card_eq

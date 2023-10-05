@@ -42,7 +42,7 @@ theorem disjSum_zero : s.disjSum (0 : Multiset β) = s.map inl :=
 
 @[simp]
 theorem card_disjSum : Multiset.card (s.disjSum t) = Multiset.card s + Multiset.card t := by
-  rw [disjSum, card_add, card_map, card_map]
+  rw [disjSum]; rw [card_add]; rw [card_map]; rw [card_map]
 #align multiset.card_disj_sum Multiset.card_disjSum
 
 variable {s t} {s₁ s₂ : Multiset α} {t₁ t₂ : Multiset β} {a : α} {b : β} {x : Sum α β}
@@ -53,7 +53,7 @@ theorem mem_disjSum : x ∈ s.disjSum t ↔ (∃ a, a ∈ s ∧ inl a = x) ∨ �
 
 @[simp]
 theorem inl_mem_disjSum : inl a ∈ s.disjSum t ↔ a ∈ s := by
-  rw [mem_disjSum, or_iff_left]
+  rw [mem_disjSum]; rw [or_iff_left]
   -- Porting note: Previous code for L62 was: simp only [exists_eq_right]
   simp only [inl.injEq, exists_eq_right]
   rintro ⟨b, _, hb⟩
@@ -62,7 +62,7 @@ theorem inl_mem_disjSum : inl a ∈ s.disjSum t ↔ a ∈ s := by
 
 @[simp]
 theorem inr_mem_disjSum : inr b ∈ s.disjSum t ↔ b ∈ t := by
-  rw [mem_disjSum, or_iff_right]
+  rw [mem_disjSum]; rw [or_iff_right]
   -- Porting note: Previous code for L72 was: simp only [exists_eq_right]
   simp only [inr.injEq, exists_eq_right]
   rintro ⟨a, _, ha⟩

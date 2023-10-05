@@ -53,7 +53,7 @@ theorem inv_gold : φ⁻¹ = -ψ := by
 
 /-- The opposite of the golden ratio is the inverse of its conjugate. -/
 theorem inv_goldConj : ψ⁻¹ = -φ := by
-  rw [inv_eq_iff_eq_inv, ← neg_inv, ← neg_eq_iff_eq_neg]
+  rw [inv_eq_iff_eq_inv]; rw [← neg_inv]; rw [← neg_eq_iff_eq_neg]
   exact inv_gold.symm
 #align inv_gold_conj inv_goldConj
 
@@ -72,7 +72,7 @@ theorem goldConj_mul_gold : ψ * φ = -1 := by
 
 @[simp]
 theorem gold_add_goldConj : φ + ψ = 1 := by
-  rw [goldenRatio, goldenConj]
+  rw [goldenRatio]; rw [goldenConj]
   ring
 #align gold_add_gold_conj gold_add_goldConj
 
@@ -86,22 +86,22 @@ theorem one_sub_gold : 1 - ψ = φ := by
 
 @[simp]
 theorem gold_sub_goldConj : φ - ψ = Real.sqrt 5 := by
-  rw [goldenRatio, goldenConj]
+  rw [goldenRatio]; rw [goldenConj]
   ring
 #align gold_sub_gold_conj gold_sub_goldConj
 
 @[simp 1200]
 theorem gold_sq : φ ^ 2 = φ + 1 := by
-  rw [goldenRatio, ← sub_eq_zero]
+  rw [goldenRatio]; rw [← sub_eq_zero]
   ring_nf
-  rw [Real.sq_sqrt] <;> norm_num
+  rw [Real.sq_sqrt]  <;> norm_num
 #align gold_sq gold_sq
 
 @[simp 1200]
 theorem goldConj_sq : ψ ^ 2 = ψ + 1 := by
-  rw [goldenConj, ← sub_eq_zero]
+  rw [goldenConj]; rw [← sub_eq_zero]
   ring_nf
-  rw [Real.sq_sqrt] <;> norm_num
+  rw [Real.sq_sqrt]  <;> norm_num
 #align gold_conj_sq goldConj_sq
 
 theorem gold_pos : 0 < φ :=
@@ -126,7 +126,7 @@ theorem goldConj_ne_zero : ψ ≠ 0 :=
 #align gold_conj_ne_zero goldConj_ne_zero
 
 theorem neg_one_lt_goldConj : -1 < ψ := by
-  rw [neg_lt, ← inv_gold]
+  rw [neg_lt]; rw [← inv_gold]
   exact inv_lt_one one_lt_gold
 #align neg_one_lt_gold_conj neg_one_lt_goldConj
 
@@ -177,7 +177,7 @@ open Polynomial
 /-- The characteristic polynomial of `fibRec` is `X² - (X + 1)`. -/
 theorem fibRec_charPoly_eq {β : Type*} [CommRing β] :
     fibRec.charPoly = X ^ 2 - (X + (1 : β[X])) := by
-  rw [fibRec, LinearRecurrence.charPoly]
+  rw [fibRec]; rw [LinearRecurrence.charPoly]
   simp [Finset.sum_fin_eq_sum_range, Finset.sum_range_succ', ← smul_X_eq_monomial]
 #align fib_rec_char_poly_eq fibRec_charPoly_eq
 
@@ -188,19 +188,19 @@ theorem fib_isSol_fibRec : fibRec.IsSolution (fun x => x.fib : ℕ → α) := by
   rw [fibRec]
   intro n
   simp only
-  rw [Nat.fib_add_two, add_comm]
+  rw [Nat.fib_add_two]; rw [add_comm]
   simp [Finset.sum_fin_eq_sum_range, Finset.sum_range_succ']
 #align fib_is_sol_fib_rec fib_isSol_fibRec
 
 /-- The geometric sequence `fun n ↦ φ^n` is a solution of `fibRec`. -/
 theorem geom_gold_isSol_fibRec : fibRec.IsSolution (φ ^ ·) := by
-  rw [fibRec.geom_sol_iff_root_charPoly, fibRec_charPoly_eq]
+  rw [fibRec.geom_sol_iff_root_charPoly]; rw [fibRec_charPoly_eq]
   simp [sub_eq_zero, - div_pow] -- Porting note: Added `- div_pow`
 #align geom_gold_is_sol_fib_rec geom_gold_isSol_fibRec
 
 /-- The geometric sequence `fun n ↦ ψ^n` is a solution of `fibRec`. -/
 theorem geom_goldConj_isSol_fibRec : fibRec.IsSolution (ψ ^ ·) := by
-  rw [fibRec.geom_sol_iff_root_charPoly, fibRec_charPoly_eq]
+  rw [fibRec.geom_sol_iff_root_charPoly]; rw [fibRec_charPoly_eq]
   simp [sub_eq_zero, - div_pow] -- Porting note: Added `- div_pow`
 #align geom_gold_conj_is_sol_fib_rec geom_goldConj_isSol_fibRec
 
@@ -231,5 +231,5 @@ theorem Real.coe_fib_eq' :
 
 /-- Binet's formula as a dependent equality. -/
 theorem Real.coe_fib_eq : ∀ n, (Nat.fib n : ℝ) = (φ ^ n - ψ ^ n) / Real.sqrt 5 := by
-  rw [← Function.funext_iff, Real.coe_fib_eq']
+  rw [← Function.funext_iff]; rw [Real.coe_fib_eq']
 #align real.coe_fib_eq Real.coe_fib_eq

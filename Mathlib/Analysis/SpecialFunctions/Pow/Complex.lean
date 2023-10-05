@@ -74,7 +74,7 @@ theorem zero_cpow_eq_iff {x : ℂ} {a : ℂ} : (0 : ℂ) ^ x = a ↔ x ≠ 0 ∧
 #align complex.zero_cpow_eq_iff Complex.zero_cpow_eq_iff
 
 theorem eq_zero_cpow_iff {x : ℂ} {a : ℂ} : a = (0 : ℂ) ^ x ↔ x ≠ 0 ∧ a = 0 ∨ x = 0 ∧ a = 1 := by
-  rw [← zero_cpow_eq_iff, eq_comm]
+  rw [← zero_cpow_eq_iff]; rw [eq_comm]
 #align complex.eq_zero_cpow_iff Complex.eq_zero_cpow_iff
 
 @[simp]
@@ -106,7 +106,7 @@ theorem cpow_neg (x y : ℂ) : x ^ (-y) = (x ^ y)⁻¹ := by
 #align complex.cpow_neg Complex.cpow_neg
 
 theorem cpow_sub {x : ℂ} (y z : ℂ) (hx : x ≠ 0) : x ^ (y - z) = x ^ y / x ^ z := by
-  rw [sub_eq_add_neg, cpow_add _ _ hx, cpow_neg, div_eq_mul_inv]
+  rw [sub_eq_add_neg]; rw [cpow_add _ _ hx]; rw [cpow_neg]; rw [div_eq_mul_inv]
 #align complex.cpow_sub Complex.cpow_sub
 
 theorem cpow_neg_one (x : ℂ) : x ^ (-1 : ℂ) = x⁻¹ := by simpa using cpow_neg x 1
@@ -140,9 +140,9 @@ theorem cpow_int_cast (x : ℂ) : ∀ n : ℤ, x ^ (n : ℂ) = x ^ n
 
 theorem cpow_nat_inv_pow (x : ℂ) {n : ℕ} (hn : n ≠ 0) : (x ^ (n⁻¹ : ℂ)) ^ n = x := by
   suffices im (log x * (n⁻¹ : ℂ)) ∈ Ioc (-π) π by
-    rw [← cpow_nat_cast, ← cpow_mul _ this.1 this.2, inv_mul_cancel, cpow_one]
+    rw [← cpow_nat_cast]; rw [← cpow_mul _ this.1 this.2]; rw [inv_mul_cancel]; rw [cpow_one]
     exact_mod_cast hn
-  rw [mul_comm, ← ofReal_nat_cast, ← ofReal_inv, ofReal_mul_im, ← div_eq_inv_mul]
+  rw [mul_comm]; rw [← ofReal_nat_cast]; rw [← ofReal_inv]; rw [ofReal_mul_im]; rw [← div_eq_inv_mul]
   rw [← pos_iff_ne_zero] at hn
   have hn' : 0 < (n : ℝ) := by assumption_mod_cast
   have hn1 : 1 ≤ (n : ℝ) := by exact_mod_cast Nat.succ_le_iff.2 hn
@@ -171,8 +171,7 @@ theorem mul_cpow_ofReal_nonneg {a b : ℝ} (ha : 0 ≤ a) (hb : 0 ≤ b) (r : �
   · rw [ofReal_zero, mul_zero, zero_cpow hr, mul_zero]
   have ha'' : (a : ℂ) ≠ 0 := ofReal_ne_zero.mpr ha'.ne'
   have hb'' : (b : ℂ) ≠ 0 := ofReal_ne_zero.mpr hb'.ne'
-  rw [cpow_def_of_ne_zero (mul_ne_zero ha'' hb''), log_ofReal_mul ha' hb'', ofReal_log ha,
-    add_mul, exp_add, ← cpow_def_of_ne_zero ha'', ← cpow_def_of_ne_zero hb'']
+  rw [cpow_def_of_ne_zero (mul_ne_zero ha'' hb'')]; rw [log_ofReal_mul ha' hb'']; rw [ofReal_log ha]; rw [add_mul]; rw [exp_add]; rw [← cpow_def_of_ne_zero ha'']; rw [← cpow_def_of_ne_zero hb'']
 #align complex.mul_cpow_of_real_nonneg Complex.mul_cpow_ofReal_nonneg
 
 theorem inv_cpow_eq_ite (x : ℂ) (n : ℂ) :
@@ -184,13 +183,13 @@ theorem inv_cpow_eq_ite (x : ℂ) (n : ℂ) :
 #align complex.inv_cpow_eq_ite Complex.inv_cpow_eq_ite
 
 theorem inv_cpow (x : ℂ) (n : ℂ) (hx : x.arg ≠ π) : x⁻¹ ^ n = (x ^ n)⁻¹ := by
-  rw [inv_cpow_eq_ite, if_neg hx]
+  rw [inv_cpow_eq_ite]; rw [if_neg hx]
 #align complex.inv_cpow Complex.inv_cpow
 
 /-- `Complex.inv_cpow_eq_ite` with the `ite` on the other side. -/
 theorem inv_cpow_eq_ite' (x : ℂ) (n : ℂ) :
     (x ^ n)⁻¹ = if x.arg = π then conj (x⁻¹ ^ conj n) else x⁻¹ ^ n := by
-  rw [inv_cpow_eq_ite, apply_ite conj, conj_conj, conj_conj]
+  rw [inv_cpow_eq_ite]; rw [apply_ite conj]; rw [conj_conj]; rw [conj_conj]
   split_ifs with h
   · rfl
   · rw [inv_cpow _ _ h]
@@ -204,11 +203,11 @@ theorem conj_cpow_eq_ite (x : ℂ) (n : ℂ) :
 #align complex.conj_cpow_eq_ite Complex.conj_cpow_eq_ite
 
 theorem conj_cpow (x : ℂ) (n : ℂ) (hx : x.arg ≠ π) : conj x ^ n = conj (x ^ conj n) := by
-  rw [conj_cpow_eq_ite, if_neg hx]
+  rw [conj_cpow_eq_ite]; rw [if_neg hx]
 #align complex.conj_cpow Complex.conj_cpow
 
 theorem cpow_conj (x : ℂ) (n : ℂ) (hx : x.arg ≠ π) : x ^ conj n = conj (conj x ^ n) := by
-  rw [conj_cpow _ _ hx, conj_conj]
+  rw [conj_cpow _ _ hx]; rw [conj_conj]
 #align complex.cpow_conj Complex.cpow_conj
 
 end Complex

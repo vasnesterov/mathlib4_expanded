@@ -80,7 +80,7 @@ theorem irreducible_of_span_eq_maximalIdeal {R : Type*} [CommRing R] [LocalRing 
   intro a b hab
   by_contra' h
   obtain ⟨ha : a ∈ maximalIdeal R, hb : b ∈ maximalIdeal R⟩ := h
-  rw [h, mem_span_singleton'] at ha hb
+  rw [h] at ha hb; rw [mem_span_singleton'] at ha hb
   rcases ha with ⟨a, rfl⟩
   rcases hb with ⟨b, rfl⟩
   rw [show a * ϖ * (b * ϖ) = ϖ * (ϖ * (a * b)) by ring] at hab
@@ -142,14 +142,14 @@ theorem iff_pid_with_one_nonzero_prime (R : Type u) [CommRing R] [IsDomain R] :
     rcases Punique with ⟨P, ⟨hP1, hP2⟩, _⟩
     have hPM : P ≤ maximalIdeal R := le_maximalIdeal hP2.1
     intro h
-    rw [h, le_bot_iff] at hPM
+    rw [h] at hPM; rw [le_bot_iff] at hPM
     exact hP1 hPM
 #align discrete_valuation_ring.iff_pid_with_one_nonzero_prime DiscreteValuationRing.iff_pid_with_one_nonzero_prime
 
 theorem associated_of_irreducible {a b : R} (ha : Irreducible a) (hb : Irreducible b) :
     Associated a b := by
   rw [irreducible_iff_uniformizer] at ha hb
-  rw [← span_singleton_eq_span_singleton, ← ha, hb]
+  rw [← span_singleton_eq_span_singleton]; rw [← ha]; rw [hb]
 #align discrete_valuation_ring.associated_of_irreducible DiscreteValuationRing.associated_of_irreducible
 
 end DiscreteValuationRing
@@ -211,7 +211,7 @@ theorem toUniqueFactorizationMonoid : UniqueFactorizationMonoid R :=
       · rw [ha]
         simp only [true_or_iff, dvd_zero]
       obtain ⟨m, u, rfl⟩ := spec.2 ha
-      rw [mul_assoc, mul_left_comm, IsUnit.dvd_mul_left _ _ _ (Units.isUnit _)] at h
+      rw [mul_assoc] at h; rw [mul_left_comm] at h; rw [IsUnit.dvd_mul_left _ _ _ (Units.isUnit _)] at h
       rw [IsUnit.dvd_mul_right (Units.isUnit _)]
       by_cases hm : m = 0
       · simp only [hm, one_mul, pow_zero] at h ⊢
@@ -235,7 +235,7 @@ theorem of_ufd_of_unique_irreducible [UniqueFactorizationMonoid R] (h₁ : ∃ p
   refine' ⟨Multiset.card fx, _⟩
   have H := hfx.2
   rw [← Associates.mk_eq_mk_iff_associated] at H ⊢
-  rw [← H, ← Associates.prod_mk, Associates.mk_pow, ← Multiset.prod_replicate]
+  rw [← H]; rw [← Associates.prod_mk]; rw [Associates.mk_pow]; rw [← Multiset.prod_replicate]
   congr 1
   symm
   rw [Multiset.eq_replicate]
@@ -329,7 +329,7 @@ theorem associated_pow_irreducible {x : R} (hx : x ≠ 0) {ϖ : R} (hirr : Irred
   use Multiset.card fx
   have H := hfx.2
   rw [← Associates.mk_eq_mk_iff_associated] at H ⊢
-  rw [← H, ← Associates.prod_mk, Associates.mk_pow, ← Multiset.prod_replicate]
+  rw [← H]; rw [← Associates.prod_mk]; rw [Associates.mk_pow]; rw [← Multiset.prod_replicate]
   congr 1
   rw [Multiset.eq_replicate]
   simp only [true_and_iff, and_imp, Multiset.card_map, eq_self_iff_true, Multiset.mem_map,
@@ -354,22 +354,22 @@ open Submodule.IsPrincipal
 theorem ideal_eq_span_pow_irreducible {s : Ideal R} (hs : s ≠ ⊥) {ϖ : R} (hirr : Irreducible ϖ) :
     ∃ n : ℕ, s = Ideal.span {ϖ ^ n} := by
   have gen_ne_zero : generator s ≠ 0 := by
-    rw [Ne.def, ← eq_bot_iff_generator_eq_zero]
+    rw [Ne.def]; rw [← eq_bot_iff_generator_eq_zero]
     assumption
   rcases associated_pow_irreducible gen_ne_zero hirr with ⟨n, u, hnu⟩
   use n
   have : span _ = _ := Ideal.span_singleton_generator s
-  rw [← this, ← hnu, span_singleton_eq_span_singleton]
+  rw [← this]; rw [← hnu]; rw [span_singleton_eq_span_singleton]
   use u
 #align discrete_valuation_ring.ideal_eq_span_pow_irreducible DiscreteValuationRing.ideal_eq_span_pow_irreducible
 
 theorem unit_mul_pow_congr_pow {p q : R} (hp : Irreducible p) (hq : Irreducible q) (u v : Rˣ)
     (m n : ℕ) (h : ↑u * p ^ m = v * q ^ n) : m = n := by
   have key : Associated (Multiset.replicate m p).prod (Multiset.replicate n q).prod := by
-    rw [Multiset.prod_replicate, Multiset.prod_replicate, Associated]
+    rw [Multiset.prod_replicate]; rw [Multiset.prod_replicate]; rw [Associated]
     refine' ⟨u * v⁻¹, _⟩
     simp only [Units.val_mul]
-    rw [mul_left_comm, ← mul_assoc, h, mul_right_comm, Units.mul_inv, one_mul]
+    rw [mul_left_comm]; rw [← mul_assoc]; rw [h]; rw [mul_right_comm]; rw [Units.mul_inv]; rw [one_mul]
   have := by
     refine' Multiset.card_eq_card_of_rel (UniqueFactorizationMonoid.factors_unique _ _ key)
     all_goals
@@ -383,7 +383,7 @@ theorem unit_mul_pow_congr_unit {ϖ : R} (hirr : Irreducible ϖ) (u v : Rˣ) (m 
     (h : ↑u * ϖ ^ m = v * ϖ ^ n) : u = v := by
   obtain rfl : m = n := unit_mul_pow_congr_pow hirr hirr u v m n h
   rw [← sub_eq_zero] at h
-  rw [← sub_mul, mul_eq_zero] at h
+  rw [← sub_mul] at h; rw [mul_eq_zero] at h
   cases' h with h h
   · rw [sub_eq_zero] at h
     exact_mod_cast h
@@ -403,10 +403,8 @@ noncomputable def addVal (R : Type u) [CommRing R] [IsDomain R] [DiscreteValuati
 
 theorem addVal_def (r : R) (u : Rˣ) {ϖ : R} (hϖ : Irreducible ϖ) (n : ℕ) (hr : r = u * ϖ ^ n) :
     addVal R r = n := by
-  rw [addVal, addValuation_apply, hr, eq_of_associated_left
-      (associated_of_irreducible R hϖ (Classical.choose_spec (exists_prime R)).irreducible),
-    eq_of_associated_right (Associated.symm ⟨u, mul_comm _ _⟩),
-    multiplicity_pow_self_of_prime (PrincipalIdealRing.irreducible_iff_prime.1 hϖ)]
+  rw [addVal]; rw [addValuation_apply]; rw [hr]; rw [eq_of_associated_left
+      (associated_of_irreducible R hϖ (Classical.choose_spec (exists_prime R)).irreducible)]; rw [eq_of_associated_right (Associated.symm ⟨u, mul_comm _ _⟩)]; rw [multiplicity_pow_self_of_prime (PrincipalIdealRing.irreducible_iff_prime.1 hϖ)]
 #align discrete_valuation_ring.add_val_def DiscreteValuationRing.addVal_def
 
 theorem addVal_def' (u : Rˣ) {ϖ : R} (hϖ : Irreducible ϖ) (n : ℕ) :
@@ -442,7 +440,7 @@ theorem addVal_pow (a : R) (n : ℕ) : addVal R (a ^ n) = n • addVal R a :=
 
 nonrec theorem _root_.Irreducible.addVal_pow {ϖ : R} (h : Irreducible ϖ) (n : ℕ) :
     addVal R (ϖ ^ n) = n := by
-  rw [addVal_pow, addVal_uniformizer h, nsmul_one]
+  rw [addVal_pow]; rw [addVal_uniformizer h]; rw [nsmul_one]
 #align irreducible.add_val_pow Irreducible.addVal_pow
 
 theorem addVal_eq_top_iff {a : R} : addVal R a = ⊤ ↔ a = 0 := by
@@ -452,7 +450,7 @@ theorem addVal_eq_top_iff {a : R} : addVal R a = ⊤ ↔ a = 0 := by
     intro h
     obtain ⟨n, ha⟩ := associated_pow_irreducible h hi
     obtain ⟨u, rfl⟩ := ha.symm
-    rw [mul_comm, addVal_def' u hi n]
+    rw [mul_comm]; rw [addVal_def' u hi n]
     exact PartENat.natCast_ne_top _
   · rintro rfl
     exact addVal_zero
@@ -466,7 +464,7 @@ theorem addVal_le_iff_dvd {a b : R} : addVal R a ≤ addVal R b ↔ a ∣ b := b
       rw [h]
       apply dvd_zero
     obtain ⟨n, ha⟩ := associated_pow_irreducible ha0 hp.irreducible
-    rw [addVal, addValuation_apply, addValuation_apply, multiplicity_le_multiplicity_iff] at h
+    rw [addVal] at h; rw [addValuation_apply] at h; rw [addValuation_apply] at h; rw [multiplicity_le_multiplicity_iff] at h
     exact ha.dvd.trans (h n ha.symm.dvd)
   · rw [addVal, addValuation_apply, addValuation_apply]
     exact multiplicity_le_multiplicity_of_dvd_right h

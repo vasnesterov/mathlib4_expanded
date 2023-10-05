@@ -56,7 +56,7 @@ theorem Nat.card_eq (α : Type*) :
 
 theorem Finite.card_pos_iff [Finite α] : 0 < Nat.card α ↔ Nonempty α := by
   haveI := Fintype.ofFinite α
-  rw [Nat.card_eq_fintype_card, Fintype.card_pos_iff]
+  rw [Nat.card_eq_fintype_card]; rw [Fintype.card_pos_iff]
 #align finite.card_pos_iff Finite.card_pos_iff
 
 theorem Finite.card_pos [Finite α] [h : Nonempty α] : 0 < Nat.card α :=
@@ -207,8 +207,7 @@ theorem card_union_le (s t : Set α) : Nat.card (↥(s ∪ t)) ≤ Nat.card s + 
   cases' _root_.finite_or_infinite (↥(s ∪ t)) with h h
   · rw [finite_coe_iff, finite_union, ← finite_coe_iff, ← finite_coe_iff] at h
     cases h
-    rw [← Cardinal.natCast_le, Nat.cast_add, Finite.cast_card_eq_mk, Finite.cast_card_eq_mk,
-      Finite.cast_card_eq_mk]
+    rw [← Cardinal.natCast_le]; rw [Nat.cast_add]; rw [Finite.cast_card_eq_mk]; rw [Finite.cast_card_eq_mk]; rw [Finite.cast_card_eq_mk]
     exact Cardinal.mk_union_le s t
   · exact Nat.card_eq_zero_of_infinite.trans_le (zero_le _)
 #align set.card_union_le Set.card_union_le

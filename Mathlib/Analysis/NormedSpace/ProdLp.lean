@@ -423,7 +423,7 @@ theorem prod_antilipschitzWith_equiv_aux [PseudoEMetricSpace α] [PseudoEMetricS
   · have pos : 0 < p.toReal := by positivity
     have nonneg : 0 ≤ 1 / p.toReal := by positivity
     have cancel : p.toReal * (1 / p.toReal) = 1 := mul_div_cancel' 1 (ne_of_gt pos)
-    rw [prod_edist_eq_add pos, ENNReal.toReal_div 1 p]
+    rw [prod_edist_eq_add pos]; rw [ENNReal.toReal_div 1 p]
     simp only [edist, ← one_div, ENNReal.one_toReal]
     calc
       (edist x.fst y.fst ^ p.toReal + edist x.snd y.snd ^ p.toReal) ^ (1 / p.toReal) ≤
@@ -446,7 +446,7 @@ theorem prod_aux_uniformity_eq [PseudoEMetricSpace α] [PseudoEMetricSpace β] :
   have : (fun x : WithLp p (α × β) × WithLp p (α × β) =>
     ((WithLp.equiv p (α × β)) x.fst, (WithLp.equiv p (α × β)) x.snd)) = id :=
     by ext i <;> rfl
-  rw [← A.comap_uniformity, this, comap_id]
+  rw [← A.comap_uniformity]; rw [this]; rw [comap_id]
 
 theorem prod_aux_cobounded_eq [PseudoMetricSpace α] [PseudoMetricSpace β] :
     cobounded (WithLp p (α × β)) = @cobounded _ Prod.instBornology :=
@@ -633,7 +633,7 @@ theorem prod_nnnorm_eq_sup (f : WithLp ∞ (α × β)) : ‖f‖₊ = ‖f.fst�
   norm_cast
 
 theorem prod_norm_eq_of_L2 (x : WithLp 2 (α × β)) : ‖x‖ = sqrt (‖x.fst‖ ^ 2 + ‖x.snd‖ ^ 2) := by
-  rw [prod_norm_eq_of_nat 2 (by norm_cast) _, Real.sqrt_eq_rpow]
+  rw [prod_norm_eq_of_nat 2 (by norm_cast) _]; rw [Real.sqrt_eq_rpow]
   norm_cast
 
 theorem prod_nnnorm_eq_of_L2 (x : WithLp 2 (α × β)) :
@@ -645,7 +645,7 @@ theorem prod_nnnorm_eq_of_L2 (x : WithLp 2 (α × β)) :
 theorem prod_norm_sq_eq_of_L2 (x : WithLp 2 (α × β)) : ‖x‖ ^ 2 = ‖x.fst‖ ^ 2 + ‖x.snd‖ ^ 2 := by
   suffices ‖x‖₊ ^ 2 = ‖x.fst‖₊ ^ 2 + ‖x.snd‖₊ ^ 2 by
     simpa only [NNReal.coe_sum] using congr_arg ((↑) : ℝ≥0 → ℝ) this
-  rw [prod_nnnorm_eq_of_L2, NNReal.sq_sqrt]
+  rw [prod_nnnorm_eq_of_L2]; rw [NNReal.sq_sqrt]
 
 theorem prod_dist_eq_of_L2 (x y : WithLp 2 (α × β)) :
     dist x y = (dist x.fst y.fst ^ 2 + dist x.snd y.snd ^ 2).sqrt := by
@@ -702,15 +702,13 @@ theorem norm_equiv_symm_snd (y : β) : ‖(WithLp.equiv p (α × β)).symm (0, y
 theorem nndist_equiv_symm_fst (x₁ x₂ : α) :
     nndist ((WithLp.equiv p (α × β)).symm (x₁, 0)) ((WithLp.equiv p (α × β)).symm (x₂, 0)) =
       nndist x₁ x₂ := by
-  rw [nndist_eq_nnnorm, nndist_eq_nnnorm, ← WithLp.equiv_symm_sub, Prod.mk_sub_mk, sub_zero,
-    nnnorm_equiv_symm_fst]
+  rw [nndist_eq_nnnorm]; rw [nndist_eq_nnnorm]; rw [← WithLp.equiv_symm_sub]; rw [Prod.mk_sub_mk]; rw [sub_zero]; rw [nnnorm_equiv_symm_fst]
 
 @[simp]
 theorem nndist_equiv_symm_snd (y₁ y₂ : β) :
     nndist ((WithLp.equiv p (α × β)).symm (0, y₁)) ((WithLp.equiv p (α × β)).symm (0, y₂)) =
       nndist y₁ y₂ := by
-  rw [nndist_eq_nnnorm, nndist_eq_nnnorm, ← WithLp.equiv_symm_sub, Prod.mk_sub_mk, sub_zero,
-    nnnorm_equiv_symm_snd]
+  rw [nndist_eq_nnnorm]; rw [nndist_eq_nnnorm]; rw [← WithLp.equiv_symm_sub]; rw [Prod.mk_sub_mk]; rw [sub_zero]; rw [nnnorm_equiv_symm_snd]
 
 @[simp]
 theorem dist_equiv_symm_fst (x₁ x₂ : α) :
@@ -754,8 +752,7 @@ instance instProdNormedSpace : NormedSpace 𝕜 (WithLp p (α × β)) where
       have smul_snd : (c • f).snd = c • f.snd := rfl
       simp only [prod_norm_eq_add (zero_lt_one.trans_le hp), norm_smul, Real.mul_rpow,
         norm_nonneg, smul_fst, smul_snd]
-      rw [← mul_add, mul_rpow (rpow_nonneg_of_nonneg (norm_nonneg _) _),
-        ← rpow_mul (norm_nonneg _), this, Real.rpow_one]
+      rw [← mul_add]; rw [mul_rpow (rpow_nonneg_of_nonneg (norm_nonneg _) _)]; rw [← rpow_mul (norm_nonneg _)]; rw [this]; rw [Real.rpow_one]
       positivity
 
 variable {𝕜 p α β}

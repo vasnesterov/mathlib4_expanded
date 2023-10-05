@@ -43,7 +43,7 @@ theorem Fintype.isPrimePow_card_of_field {α} [Fintype α] [Field α] : IsPrimeP
   haveI hp := Fact.mk (CharP.char_is_prime α p)
   letI : Algebra (ZMod p) α := ZMod.algebra _ _
   let b := IsNoetherian.finsetBasis (ZMod p) α
-  rw [Module.card_fintype b, ZMod.card, isPrimePow_pow_iff]
+  rw [Module.card_fintype b]; rw [ZMod.card]; rw [isPrimePow_pow_iff]
   · exact hp.1.isPrimePow
   rw [← FiniteDimensional.finrank_eq_card_basis b]
   exact FiniteDimensional.finrank_pos.ne'

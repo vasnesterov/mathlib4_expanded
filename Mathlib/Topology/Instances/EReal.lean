@@ -85,7 +85,7 @@ theorem nhds_coe_coe {r p : ℝ} :
 theorem tendsto_toReal {a : EReal} (ha : a ≠ ⊤) (h'a : a ≠ ⊥) :
     Tendsto EReal.toReal (𝓝 a) (𝓝 a.toReal) := by
   lift a to ℝ using ⟨ha, h'a⟩
-  rw [nhds_coe, tendsto_map'_iff]
+  rw [nhds_coe]; rw [tendsto_map'_iff]
   exact tendsto_id
 #align ereal.tendsto_to_real EReal.tendsto_toReal
 

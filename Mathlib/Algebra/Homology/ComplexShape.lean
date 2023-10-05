@@ -156,7 +156,7 @@ theorem next_eq' (c : ComplexShape ι) {i j : ι} (h : c.Rel i j) : c.next i = j
 
 theorem prev_eq' (c : ComplexShape ι) {i j : ι} (h : c.Rel i j) : c.prev j = i := by
   apply c.prev_eq _ h
-  rw [prev, dif_pos]
+  rw [prev]; rw [dif_pos]
   exact Exists.choose_spec (⟨i, h⟩ : ∃ k, c.Rel k j)
 #align complex_shape.prev_eq' ComplexShape.prev_eq'
 

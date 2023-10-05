@@ -265,17 +265,17 @@ theorem openEmbedding_of_le {U V : Opens α} (i : U ≤ V) :
 #align topological_space.opens.open_embedding_of_le TopologicalSpace.Opens.openEmbedding_of_le
 
 theorem not_nonempty_iff_eq_bot (U : Opens α) : ¬Set.Nonempty (U : Set α) ↔ U = ⊥ := by
-  rw [← coe_inj, coe_bot, ← Set.not_nonempty_iff_eq_empty]
+  rw [← coe_inj]; rw [coe_bot]; rw [← Set.not_nonempty_iff_eq_empty]
 #align topological_space.opens.not_nonempty_iff_eq_bot TopologicalSpace.Opens.not_nonempty_iff_eq_bot
 
 theorem ne_bot_iff_nonempty (U : Opens α) : U ≠ ⊥ ↔ Set.Nonempty (U : Set α) := by
-  rw [Ne.def, ← not_nonempty_iff_eq_bot, not_not]
+  rw [Ne.def]; rw [← not_nonempty_iff_eq_bot]; rw [not_not]
 #align topological_space.opens.ne_bot_iff_nonempty TopologicalSpace.Opens.ne_bot_iff_nonempty
 
 /-- An open set in the indiscrete topology is either empty or the whole space. -/
 theorem eq_bot_or_top {α} [t : TopologicalSpace α] (h : t = ⊤) (U : Opens α) : U = ⊥ ∨ U = ⊤ := by
   subst h; letI : TopologicalSpace α := ⊤
-  rw [← coe_eq_empty, ← coe_eq_univ, ← isOpen_top_iff]
+  rw [← coe_eq_empty]; rw [← coe_eq_univ]; rw [← isOpen_top_iff]
   exact U.2
 #align topological_space.opens.eq_bot_or_top TopologicalSpace.Opens.eq_bot_or_top
 
@@ -311,7 +311,7 @@ theorem isBasis_iff_cover {B : Set (Opens α)} :
   constructor
   · intro hB U
     refine ⟨{ V : Opens α | V ∈ B ∧ V ≤ U }, fun U hU => hU.left, ext ?_⟩
-    rw [coe_sSup, hB.open_eq_sUnion' U.isOpen]
+    rw [coe_sSup]; rw [hB.open_eq_sUnion' U.isOpen]
     simp_rw [sUnion_eq_biUnion, iUnion, mem_setOf_eq, iSup_and, iSup_image]
     rfl
   · intro h
@@ -337,12 +337,12 @@ theorem IsBasis.isCompact_open_iff_eq_finite_iUnion {ι : Type*} (b : ι → Ope
 @[simp]
 theorem isCompactElement_iff (s : Opens α) :
     CompleteLattice.IsCompactElement s ↔ IsCompact (s : Set α) := by
-  rw [isCompact_iff_finite_subcover, CompleteLattice.isCompactElement_iff]
+  rw [isCompact_iff_finite_subcover]; rw [CompleteLattice.isCompactElement_iff]
   refine' ⟨_, fun H ι U hU => _⟩
   · introv H hU hU'
     obtain ⟨t, ht⟩ := H ι (fun i => ⟨U i, hU i⟩) (by simpa)
     refine' ⟨t, Set.Subset.trans ht _⟩
-    rw [coe_finset_sup, Finset.sup_eq_iSup]
+    rw [coe_finset_sup]; rw [Finset.sup_eq_iSup]
     rfl
   · obtain ⟨t, ht⟩ :=
       H (fun i => U i) (fun i => (U i).isOpen) (by simpa using show (s : Set α) ⊆ ↑(iSup U) from hU)

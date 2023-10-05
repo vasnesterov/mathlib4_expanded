@@ -97,7 +97,7 @@ theorem hasConstantSpeedOnWith_iff_variationOnFromTo_eq :
       simp_all only [NNReal.val_eq_coe]; ring
   · rw [hasConstantSpeedOnWith_iff_ordered]
     rintro h x xs y ys xy
-    rw [← h.2 xs ys, variationOnFromTo.eq_of_le f s xy, ENNReal.ofReal_toReal (h.1 x y xs ys)]
+    rw [← h.2 xs ys]; rw [variationOnFromTo.eq_of_le f s xy]; rw [ENNReal.ofReal_toReal (h.1 x y xs ys)]
 #align has_constant_speed_on_with_iff_variation_on_from_to_eq hasConstantSpeedOnWith_iff_variationOnFromTo_eq
 
 theorem HasConstantSpeedOnWith.union {t : Set ℝ} (hfs : HasConstantSpeedOnWith f s l)
@@ -111,14 +111,14 @@ theorem HasConstantSpeedOnWith.union {t : Set ℝ} (hfs : HasConstantSpeedOnWith
         · exact ⟨ws, zw, wy⟩
         · exact ⟨(le_antisymm (wy.trans (hs.2 ys)) (ht.2 wt)).symm ▸ hs.1, zw, wy⟩
       · rintro ⟨ws, zwy⟩; exact ⟨Or.inl ws, zwy⟩
-    rw [this, hfs zs ys zy]
+    rw [this]; rw [hfs zs ys zy]
   · have : (s ∪ t) ∩ Icc z y = s ∩ Icc z x ∪ t ∩ Icc x y := by
       ext w; constructor
       · rintro ⟨ws | wt, zw, wy⟩
         exacts [Or.inl ⟨ws, zw, hs.2 ws⟩, Or.inr ⟨wt, ht.2 wt, wy⟩]
       · rintro (⟨ws, zw, wx⟩ | ⟨wt, xw, wy⟩)
         exacts [⟨Or.inl ws, zw, wx.trans (ht.2 yt)⟩, ⟨Or.inr wt, (hs.2 zs).trans xw, wy⟩]
-    rw [this, @eVariationOn.union _ _ _ _ f _ _ x, hfs zs hs.1 (hs.2 zs), hft ht.1 yt (ht.2 yt)]
+    rw [this]; rw [@eVariationOn.union _ _ _ _ f _ _ x]; rw [hfs zs hs.1 (hs.2 zs)]; rw [hft ht.1 yt (ht.2 yt)]
     have q := ENNReal.ofReal_add (mul_nonneg l.prop (sub_nonneg.mpr (hs.2 zs)))
       (mul_nonneg l.prop (sub_nonneg.mpr (ht.2 yt)))
     simp only [NNReal.val_eq_coe] at q
@@ -135,7 +135,7 @@ theorem HasConstantSpeedOnWith.union {t : Set ℝ} (hfs : HasConstantSpeedOnWith
         · exact ⟨le_antisymm ((ht.2 zt).trans zw) (hs.2 ws) ▸ ht.1, zw, wy⟩
         · exact ⟨wt, zw, wy⟩
       · rintro ⟨wt, zwy⟩; exact ⟨Or.inr wt, zwy⟩
-    rw [this, hft zt yt zy]
+    rw [this]; rw [hft zt yt zy]
 #align has_constant_speed_on_with.union HasConstantSpeedOnWith.union
 
 theorem HasConstantSpeedOnWith.Icc_Icc {x y z : ℝ} (hfs : HasConstantSpeedOnWith f (Icc x y) l)
@@ -145,13 +145,11 @@ theorem HasConstantSpeedOnWith.Icc_Icc {x y z : ℝ} (hfs : HasConstantSpeedOnWi
   · rw [← Set.Icc_union_Icc_eq_Icc xy yz]
     exact hfs.union hft (isGreatest_Icc xy) (isLeast_Icc yz)
   · rintro u ⟨xu, uz⟩ v ⟨xv, vz⟩
-    rw [Icc_inter_Icc, sup_of_le_right xu, inf_of_le_right vz, ←
-      hfs ⟨xu, uz.trans zy⟩ ⟨xv, vz.trans zy⟩, Icc_inter_Icc, sup_of_le_right xu,
-      inf_of_le_right (vz.trans zy)]
+    rw [Icc_inter_Icc]; rw [sup_of_le_right xu]; rw [inf_of_le_right vz]; rw [←
+      hfs ⟨xu, uz.trans zy⟩ ⟨xv, vz.trans zy⟩]; rw [Icc_inter_Icc]; rw [sup_of_le_right xu]; rw [inf_of_le_right (vz.trans zy)]
   · rintro u ⟨xu, uz⟩ v ⟨xv, vz⟩
-    rw [Icc_inter_Icc, sup_of_le_right xu, inf_of_le_right vz, ←
-      hft ⟨yx.trans xu, uz⟩ ⟨yx.trans xv, vz⟩, Icc_inter_Icc, sup_of_le_right (yx.trans xu),
-      inf_of_le_right vz]
+    rw [Icc_inter_Icc]; rw [sup_of_le_right xu]; rw [inf_of_le_right vz]; rw [←
+      hft ⟨yx.trans xu, uz⟩ ⟨yx.trans xv, vz⟩]; rw [Icc_inter_Icc]; rw [sup_of_le_right (yx.trans xu)]; rw [inf_of_le_right vz]
 #align has_constant_speed_on_with.Icc_Icc HasConstantSpeedOnWith.Icc_Icc
 
 theorem hasConstantSpeedOnWith_zero_iff :
@@ -178,7 +176,7 @@ theorem HasConstantSpeedOnWith.ratio {l' : ℝ≥0} (hl' : l' ≠ 0) {φ : ℝ �
     (hfφ : HasConstantSpeedOnWith (f ∘ φ) s l) (hf : HasConstantSpeedOnWith f (φ '' s) l') ⦃x : ℝ⦄
     (xs : x ∈ s) : EqOn φ (fun y => l / l' * (y - x) + φ x) s := by
   rintro y ys
-  rw [← sub_eq_iff_eq_add, mul_comm, ← mul_div_assoc, eq_div_iff (NNReal.coe_ne_zero.mpr hl')]
+  rw [← sub_eq_iff_eq_add]; rw [mul_comm]; rw [← mul_div_assoc]; rw [eq_div_iff (NNReal.coe_ne_zero.mpr hl')]
   rw [hasConstantSpeedOnWith_iff_variationOnFromTo_eq] at hf
   rw [hasConstantSpeedOnWith_iff_variationOnFromTo_eq] at hfφ
   symm

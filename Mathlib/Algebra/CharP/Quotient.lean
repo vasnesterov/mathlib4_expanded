@@ -36,7 +36,7 @@ inherits the characteristic of the underlying ring. -/
 theorem quotient' {R : Type*} [CommRing R] (p : ℕ) [CharP R p] (I : Ideal R)
     (h : ∀ x : ℕ, (x : R) ∈ I → (x : R) = 0) : CharP (R ⧸ I) p :=
   ⟨fun x => by
-    rw [← cast_eq_zero_iff R p x, ← map_natCast (Ideal.Quotient.mk I)]
+    rw [← cast_eq_zero_iff R p x]; rw [← map_natCast (Ideal.Quotient.mk I)]
     refine' Ideal.Quotient.eq.trans (_ : ↑x - 0 ∈ I ↔ _)
     rw [sub_zero]
     exact ⟨h x, fun h' => h'.symm ▸ I.zero_mem⟩⟩
@@ -46,7 +46,7 @@ end CharP
 
 theorem Ideal.Quotient.index_eq_zero {R : Type*} [CommRing R] (I : Ideal R) :
     (↑I.toAddSubgroup.index : R ⧸ I) = 0 := by
-  rw [AddSubgroup.index, Nat.card_eq]
+  rw [AddSubgroup.index]; rw [Nat.card_eq]
   split_ifs with hq; swap; simp
   by_contra h
   -- TODO: can we avoid rewriting the `I.to_add_subgroup` here?

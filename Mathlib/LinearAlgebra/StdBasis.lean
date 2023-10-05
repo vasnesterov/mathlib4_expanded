@@ -55,8 +55,8 @@ theorem stdBasis_apply (i : ι) (b : φ i) : stdBasis R φ i b = update (0 : (a 
 
 @[simp]
 theorem stdBasis_apply' (i i' : ι) : (stdBasis R (fun _x : ι => R) i) 1 i' = ite (i = i') 1 0 := by
-  rw [LinearMap.stdBasis_apply, Function.update_apply, Pi.zero_apply]
-  congr 1; rw [eq_iff_iff, eq_comm]
+  rw [LinearMap.stdBasis_apply]; rw [Function.update_apply]; rw [Pi.zero_apply]
+  congr 1; rw [eq_iff_iff]; rw [eq_comm]
 #align linear_map.std_basis_apply' LinearMap.stdBasis_apply'
 
 theorem coe_stdBasis (i : ι) : ⇑(stdBasis R φ i) = Pi.single i :=
@@ -84,7 +84,7 @@ theorem ker_stdBasis (i : ι) : ker (stdBasis R φ i) = ⊥ :=
 #align linear_map.ker_std_basis LinearMap.ker_stdBasis
 
 theorem proj_comp_stdBasis (i j : ι) : (proj i).comp (stdBasis R φ j) = diag j i := by
-  rw [stdBasis_eq_pi_diag, proj_pi]
+  rw [stdBasis_eq_pi_diag]; rw [proj_pi]
 #align linear_map.proj_comp_std_basis LinearMap.proj_comp_stdBasis
 
 theorem proj_stdBasis_same (i : ι) : (proj i).comp (stdBasis R φ i) = id :=
@@ -100,7 +100,7 @@ theorem iSup_range_stdBasis_le_iInf_ker_proj (I J : Set ι) (h : Disjoint I J) :
   refine' iSup_le fun i => iSup_le fun hi => range_le_iff_comap.2 _
   simp only [←ker_comp, eq_top_iff, SetLike.le_def, mem_ker, comap_iInf, mem_iInf]
   rintro b - j hj
-  rw [proj_stdBasis_ne R φ j i, zero_apply]
+  rw [proj_stdBasis_ne R φ j i]; rw [zero_apply]
   rintro rfl
   exact h.le_bot ⟨hi, hj⟩
 #align linear_map.supr_range_std_basis_le_infi_ker_proj LinearMap.iSup_range_stdBasis_le_iInf_ker_proj
@@ -187,7 +187,7 @@ theorem linearIndependent_stdBasis [Ring R] [∀ i, AddCommGroup (Ms i)] [∀ i,
       ∀ j, span R (range fun i : ιs j => stdBasis R Ms j (v j i)) ≤
         LinearMap.range (stdBasis R Ms j) := by
       intro j
-      rw [span_le, LinearMap.range_coe]
+      rw [span_le]; rw [LinearMap.range_coe]
       apply range_comp_subset_range
     have h₁ :
       span R (range fun i : ιs j => stdBasis R Ms j (v j i)) ≤
@@ -247,8 +247,7 @@ theorem basis_repr_stdBasis [DecidableEq η] (s : ∀ j, Basis (ιs j) R (Ms j))
   simp only [Pi.basis, LinearEquiv.trans_apply, Finsupp.sigmaFinsuppLEquivPiFinsupp_symm_apply,
     LinearEquiv.piCongrRight]
   dsimp
-  rw [stdBasis_ne _ _ _ _ (Ne.symm hj), LinearEquiv.map_zero, Finsupp.zero_apply,
-    Finsupp.single_eq_of_ne]
+  rw [stdBasis_ne _ _ _ _ (Ne.symm hj)]; rw [LinearEquiv.map_zero]; rw [Finsupp.zero_apply]; rw [Finsupp.single_eq_of_ne]
   rintro ⟨⟩
   contradiction
 #align pi.basis_repr_std_basis Pi.basis_repr_stdBasis
@@ -316,7 +315,7 @@ lemma piEquiv_apply_apply (v : ι → M) (w : ι → R) :
 
 @[simp] lemma surjective_piEquiv_apply_iff (v : ι → M) :
     Surjective (piEquiv ι R M v) ↔ span R (range v) = ⊤ := by
-  rw [← LinearMap.range_eq_top, range_piEquiv]
+  rw [← LinearMap.range_eq_top]; rw [range_piEquiv]
 
 end Module
 

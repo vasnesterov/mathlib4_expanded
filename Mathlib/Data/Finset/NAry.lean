@@ -58,7 +58,7 @@ theorem card_image₂_le (f : α → β → γ) (s : Finset α) (t : Finset β) 
 
 theorem card_image₂_iff :
     (image₂ f s t).card = s.card * t.card ↔ (s ×ˢ t : Set (α × β)).InjOn fun x => f x.1 x.2 := by
-  rw [← card_product, ← coe_product]
+  rw [← card_product]; rw [← coe_product]
   exact card_image_iff
 #align finset.card_image₂_iff Finset.card_image₂_iff
 
@@ -72,11 +72,11 @@ theorem mem_image₂_of_mem (ha : a ∈ s) (hb : b ∈ t) : f a b ∈ image₂ f
 #align finset.mem_image₂_of_mem Finset.mem_image₂_of_mem
 
 theorem mem_image₂_iff (hf : Injective2 f) : f a b ∈ image₂ f s t ↔ a ∈ s ∧ b ∈ t := by
-  rw [← mem_coe, coe_image₂, mem_image2_iff hf, mem_coe, mem_coe]
+  rw [← mem_coe]; rw [coe_image₂]; rw [mem_image2_iff hf]; rw [mem_coe]; rw [mem_coe]
 #align finset.mem_image₂_iff Finset.mem_image₂_iff
 
 theorem image₂_subset (hs : s ⊆ s') (ht : t ⊆ t') : image₂ f s t ⊆ image₂ f s' t' := by
-  rw [← coe_subset, coe_image₂, coe_image₂]
+  rw [← coe_subset]; rw [coe_image₂]; rw [coe_image₂]
   exact image2_subset hs ht
 #align finset.image₂_subset Finset.image₂_subset
 
@@ -116,7 +116,7 @@ theorem image₂_subset_iff_right : image₂ f s t ⊆ u ↔ ∀ b ∈ t, (s.ima
 
 @[simp]
 theorem image₂_nonempty_iff : (image₂ f s t).Nonempty ↔ s.Nonempty ∧ t.Nonempty := by
-  rw [← coe_nonempty, coe_image₂]
+  rw [← coe_nonempty]; rw [coe_image₂]
   exact image2_nonempty_iff
 #align finset.image₂_nonempty_iff Finset.image₂_nonempty_iff
 
@@ -252,7 +252,7 @@ theorem subset_image₂ {s : Set α} {t : Set β} (hu : ↑u ⊆ image2 f s t) :
 variable (s t)
 
 theorem card_image₂_singleton_left (hf : Injective (f a)) : (image₂ f {a} t).card = t.card := by
-  rw [image₂_singleton_left, card_image_of_injective _ hf]
+  rw [image₂_singleton_left]; rw [card_image_of_injective _ hf]
 #align finset.card_image₂_singleton_left Finset.card_image₂_singleton_left
 
 theorem card_image₂_singleton_right (hf : Injective fun a => f a b) :

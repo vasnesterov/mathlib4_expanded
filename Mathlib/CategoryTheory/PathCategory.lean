@@ -70,7 +70,7 @@ def lift {C} [Category C] (φ : V ⥤q C) : Paths V ⥤ C where
     · have : f ≫ Quiver.Path.cons g' p = (f ≫ g').cons p := by apply Quiver.Path.comp_cons
       rw [this]
       simp only at ih ⊢
-      rw [ih, Category.assoc]
+      rw [ih]; rw [Category.assoc]
 #align category_theory.paths.lift CategoryTheory.Paths.lift
 
 @[simp]
@@ -116,7 +116,7 @@ theorem lift_unique {C} [Category C] (φ : V ⥤q C) (Φ : Paths V ⥤ C)
       -- versions in this `have` clause (elsewhere too).
       have : Φ.map (Quiver.Path.cons p f') = Φ.map p ≫ Φ.map (Quiver.Hom.toPath f') := by
         convert Functor.map_comp Φ p (Quiver.Hom.toPath f')
-      rw [this, ih]
+      rw [this]; rw [ih]
 #align category_theory.paths.lift_unique CategoryTheory.Paths.lift_unique
 
 /-- Two functors out of a path category are equal when they agree on singleton paths. -/

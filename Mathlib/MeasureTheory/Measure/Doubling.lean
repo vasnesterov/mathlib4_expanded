@@ -83,7 +83,7 @@ theorem exists_eventually_forall_measure_closedBall_le_mul (K : ℝ) :
     refine' (ih.and (exists_measure_closedBall_le_mul' μ)).mono fun ε hε x => _
     calc
       μ (closedBall x ((2 : ℝ) ^ (n + 1) * ε)) = μ (closedBall x ((2 : ℝ) ^ n * (2 * ε))) := by
-        rw [pow_succ', mul_assoc]
+        rw [pow_succ']; rw [mul_assoc]
       _ ≤ ↑(C ^ n) * μ (closedBall x (2 * ε)) := (hε.1 x)
       _ ≤ ↑(C ^ n) * (C * μ (closedBall x ε)) := by gcongr; exact hε.2 x
       _ = ↑(C ^ (n + 1)) * μ (closedBall x ε) := by rw [← mul_assoc, pow_succ', ENNReal.coe_mul]

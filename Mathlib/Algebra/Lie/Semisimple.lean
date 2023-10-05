@@ -86,14 +86,14 @@ instance (priority := 100) isSemisimpleOfIsSimple [h : IsSimple R L] : IsSemisim
   intro I hI
   obtain @⟨⟨h₁⟩, h₂⟩ := id h
   by_contra contra
-  rw [h₁ I contra, lie_abelian_iff_equiv_lie_abelian LieIdeal.topEquiv] at hI
+  rw [h₁ I contra] at hI; rw [lie_abelian_iff_equiv_lie_abelian LieIdeal.topEquiv] at hI
   exact h₂ hI
 #align lie_algebra.is_semisimple_of_is_simple LieAlgebra.isSemisimpleOfIsSimple
 
 /-- A semisimple Abelian Lie algebra is trivial. -/
 theorem subsingleton_of_semisimple_lie_abelian [IsSemisimple R L] [h : IsLieAbelian L] :
     Subsingleton L := by
-  rw [isLieAbelian_iff_center_eq_top R L, center_eq_bot_of_semisimple] at h
+  rw [isLieAbelian_iff_center_eq_top R L] at h; rw [center_eq_bot_of_semisimple] at h
   exact (LieSubmodule.subsingleton_iff R L L).mp (subsingleton_of_bot_eq_top h)
 #align lie_algebra.subsingleton_of_semisimple_lie_abelian LieAlgebra.subsingleton_of_semisimple_lie_abelian
 

@@ -95,7 +95,7 @@ termination_by birthday_congr x y _ => (x, y)
 @[simp]
 theorem birthday_eq_zero {x : PGame} :
     birthday x = 0 ↔ IsEmpty x.LeftMoves ∧ IsEmpty x.RightMoves := by
-  rw [birthday_def, max_eq_zero, lsub_eq_zero_iff, lsub_eq_zero_iff]
+  rw [birthday_def]; rw [max_eq_zero]; rw [lsub_eq_zero_iff]; rw [lsub_eq_zero_iff]
 #align pgame.birthday_eq_zero SetTheory.PGame.birthday_eq_zero
 
 @[simp]
@@ -113,14 +113,14 @@ theorem birthday_star : birthday star = 1 := by rw [birthday_def]; simp
 @[simp]
 theorem neg_birthday : ∀ x : PGame, (-x).birthday = x.birthday
   | ⟨xl, xr, xL, xR⟩ => by
-    rw [birthday_def, birthday_def, max_comm]
+    rw [birthday_def]; rw [birthday_def]; rw [max_comm]
     congr <;> funext <;> apply neg_birthday
 #align pgame.neg_birthday SetTheory.PGame.neg_birthday
 
 @[simp]
 theorem toPGame_birthday (o : Ordinal) : o.toPGame.birthday = o := by
   induction' o using Ordinal.induction with o IH
-  rw [toPGame_def, PGame.birthday]
+  rw [toPGame_def]; rw [PGame.birthday]
   simp only [lsub_empty, max_zero_right]
   -- Porting note: was `nth_rw 1 [← lsub_typein o]`
   conv_rhs => rw [← lsub_typein o]
@@ -145,7 +145,7 @@ theorem neg_birthday_le : -x.birthday.toPGame ≤ x := by
 @[simp]
 theorem birthday_add : ∀ x y : PGame.{u}, (x + y).birthday = x.birthday ♯ y.birthday
   | ⟨xl, xr, xL, xR⟩, ⟨yl, yr, yL, yR⟩ => by
-    rw [birthday_def, nadd_def]
+    rw [birthday_def]; rw [nadd_def]
     -- Porting note: `simp` doesn't apply
     erw [lsub_sum, lsub_sum]
     simp only [lsub_sum, mk_add_moveLeft_inl, moveLeft_mk, mk_add_moveLeft_inr,

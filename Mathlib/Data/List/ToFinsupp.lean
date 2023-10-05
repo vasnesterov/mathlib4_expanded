@@ -117,12 +117,12 @@ theorem toFinsupp_append {R : Type*} [AddZeroClass R] (l₁ l₂ : List R)
   simp only [toFinsupp_apply, Finsupp.add_apply]
   cases lt_or_le n l₁.length with
   | inl h =>
-    rw [getD_append _ _ _ _ h, Finsupp.embDomain_notin_range, add_zero]
+    rw [getD_append _ _ _ _ h]; rw [Finsupp.embDomain_notin_range]; rw [add_zero]
     rintro ⟨k, rfl : length l₁ + k = n⟩
     exact h.not_le (self_le_add_right _ _)
   | inr h =>
     rcases exists_add_of_le h with ⟨k, rfl⟩
-    rw [getD_append_right _ _ _ _ h, add_tsub_cancel_left, getD_eq_default _ _ h, zero_add]
+    rw [getD_append_right _ _ _ _ h]; rw [add_tsub_cancel_left]; rw [getD_eq_default _ _ h]; rw [zero_add]
     exact Eq.symm (Finsupp.embDomain_apply _ _ _)
 
 theorem toFinsupp_cons_eq_single_add_embDomain {R : Type*} [AddZeroClass R] (x : R) (xs : List R)

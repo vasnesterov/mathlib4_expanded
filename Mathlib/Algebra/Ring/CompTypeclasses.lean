@@ -99,13 +99,13 @@ variable [RingHomInvPair σ σ']
 
 -- @[simp] Porting note: `simp` can prove it
 theorem comp_apply_eq {x : R₁} : σ' (σ x) = x := by
-  rw [← RingHom.comp_apply, comp_eq]
+  rw [← RingHom.comp_apply]; rw [comp_eq]
   simp
 #align ring_hom_inv_pair.comp_apply_eq RingHomInvPair.comp_apply_eq
 
 -- @[simp] Porting note: `simp` can prove it
 theorem comp_apply_eq₂ {x : R₂} : σ (σ' x) = x := by
-  rw [← RingHom.comp_apply, comp_eq₂]
+  rw [← RingHom.comp_apply]; rw [comp_eq₂]
   simp
 #align ring_hom_inv_pair.comp_apply_eq₂ RingHomInvPair.comp_apply_eq₂
 

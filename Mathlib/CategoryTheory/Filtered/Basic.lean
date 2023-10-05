@@ -210,7 +210,7 @@ theorem of_right_adjoint {L : D ⥤ C} {R : C ⥤ D} (h : L ⊣ R) : IsFilteredO
       ⟨_, h.homEquiv _ _ (leftToMax _ _), h.homEquiv _ _ (rightToMax _ _), ⟨⟩⟩
     cocone_maps := fun X Y f g =>
       ⟨_, h.homEquiv _ _ (coeqHom _ _), by
-        rw [← h.homEquiv_naturality_left, ← h.homEquiv_naturality_left, coeq_condition]⟩ }
+        rw [← h.homEquiv_naturality_left]; rw [← h.homEquiv_naturality_left]; rw [coeq_condition]⟩ }
 
 /-- If `C` is filtered or empty, and we have a right adjoint functor `R : C ⥤ D`, then `D` is
 filtered or empty. -/
@@ -654,7 +654,7 @@ theorem of_left_adjoint {L : C ⥤ D} {R : D ⥤ C} (h : L ⊣ R) : IsCofiltered
         (h.homEquiv _ Y).symm (minToRight _ _), ⟨⟩⟩
     cone_maps := fun X Y f g =>
       ⟨L.obj (eq (R.map f) (R.map g)), (h.homEquiv _ _).symm (eqHom _ _), by
-        rw [← h.homEquiv_naturality_right_symm, ← h.homEquiv_naturality_right_symm, eq_condition]⟩ }
+        rw [← h.homEquiv_naturality_right_symm]; rw [← h.homEquiv_naturality_right_symm]; rw [eq_condition]⟩ }
 
 /-- If `C` is cofiltered or empty, and we have a left adjoint functor `L : C ⥤ D`, then `D` is
 cofiltered or empty. -/
@@ -816,7 +816,7 @@ instance isCofilteredOrEmpty_op_of_isFilteredOrEmpty [IsFilteredOrEmpty C] :
       (IsFiltered.rightToMax _ _).op, trivial⟩
   cone_maps X Y f g :=
     ⟨op (IsFiltered.coeq f.unop g.unop), (IsFiltered.coeqHom _ _).op, by
-      rw [show f = f.unop.op by simp, show g = g.unop.op by simp, ← op_comp, ← op_comp]
+      rw [show f = f.unop.op by simp]; rw [show g = g.unop.op by simp]; rw [← op_comp]; rw [← op_comp]
       congr 1
       exact IsFiltered.coeq_condition f.unop g.unop⟩
 
@@ -831,7 +831,7 @@ instance isFilteredOrEmpty_op_of_isCofilteredOrEmpty [IsCofilteredOrEmpty C] :
       (IsCofiltered.minToRight X.unop Y.unop).op, trivial⟩
   cocone_maps X Y f g :=
     ⟨op (IsCofiltered.eq f.unop g.unop), (IsCofiltered.eqHom f.unop g.unop).op, by
-      rw [show f = f.unop.op by simp, show g = g.unop.op by simp, ← op_comp, ← op_comp]
+      rw [show f = f.unop.op by simp]; rw [show g = g.unop.op by simp]; rw [← op_comp]; rw [← op_comp]
       congr 1
       exact IsCofiltered.eq_condition f.unop g.unop⟩
 

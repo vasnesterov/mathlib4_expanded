@@ -60,7 +60,7 @@ instance (priority := 100) toOrderedAddCommMonoid [NonUnitalSemiring R] [Partial
   add_le_add_left := fun x y hle z ↦ by
     rw [StarOrderedRing.le_iff] at hle ⊢
     refine hle.imp fun s hs ↦ ?_
-    rw [hs.2, add_assoc]
+    rw [hs.2]; rw [add_assoc]
     exact ⟨hs.1, rfl⟩
 #align star_ordered_ring.to_ordered_add_comm_monoid StarOrderedRing.toOrderedAddCommMonoid
 
@@ -162,7 +162,7 @@ theorem conjugate_nonneg {a : R} (ha : 0 ≤ a) (c : R) : 0 ≤ star c * a * c :
     (by rw [mul_zero, zero_mul]) fun x y hx hy => _
   · obtain ⟨x, rfl⟩ := hx
     convert star_mul_self_nonneg (x * c) using 1
-    rw [star_mul, ← mul_assoc, mul_assoc _ _ c]
+    rw [star_mul]; rw [← mul_assoc]; rw [mul_assoc _ _ c]
   · calc
       0 ≤ star c * x * c + 0 := by rw [add_zero]; exact hx
       _ ≤ star c * x * c + star c * y * c := add_le_add_left hy _

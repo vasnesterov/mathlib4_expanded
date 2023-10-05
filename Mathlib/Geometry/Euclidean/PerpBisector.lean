@@ -53,15 +53,12 @@ theorem mem_perpBisector_iff_inner_eq_zero :
 
 theorem mem_perpBisector_iff_inner_pointReflection_vsub_eq_zero :
     c ∈ perpBisector p₁ p₂ ↔ ⟪Equiv.pointReflection c p₁ -ᵥ p₂, p₂ -ᵥ p₁⟫ = 0 := by
-  rw [mem_perpBisector_iff_inner_eq_zero, Equiv.pointReflection_apply,
-    vsub_midpoint, invOf_eq_inv, ← smul_add, real_inner_smul_left, vadd_vsub_assoc]
+  rw [mem_perpBisector_iff_inner_eq_zero]; rw [Equiv.pointReflection_apply]; rw [vsub_midpoint]; rw [invOf_eq_inv]; rw [← smul_add]; rw [real_inner_smul_left]; rw [vadd_vsub_assoc]
   simp
 
 theorem mem_perpBisector_pointReflection_iff_inner_eq_zero :
     c ∈ perpBisector p₁ (Equiv.pointReflection p₂ p₁) ↔ ⟪c -ᵥ p₂, p₁ -ᵥ p₂⟫ = 0 := by
-  rw [mem_perpBisector_iff_inner_eq_zero, midpoint_pointReflection_right,
-    Equiv.pointReflection_apply, vadd_vsub_assoc, inner_add_right, add_self_eq_zero,
-    ← neg_eq_zero, ← inner_neg_right, neg_vsub_eq_vsub_rev]
+  rw [mem_perpBisector_iff_inner_eq_zero]; rw [midpoint_pointReflection_right]; rw [Equiv.pointReflection_apply]; rw [vadd_vsub_assoc]; rw [inner_add_right]; rw [add_self_eq_zero]; rw [← neg_eq_zero]; rw [← inner_neg_right]; rw [neg_vsub_eq_vsub_rev]
 
 theorem midpoint_mem_perpBisector (p₁ p₂ : P) :
     midpoint ℝ p₁ p₂ ∈ perpBisector p₁ p₂ := by
@@ -80,20 +77,14 @@ theorem direction_perpBisector (p₁ p₂ : P) :
 
 theorem mem_perpBisector_iff_inner_eq_inner :
     c ∈ perpBisector p₁ p₂ ↔ ⟪c -ᵥ p₁, p₂ -ᵥ p₁⟫ = ⟪c -ᵥ p₂, p₁ -ᵥ p₂⟫ := by
-  rw [Iff.comm, mem_perpBisector_iff_inner_eq_zero, ← add_neg_eq_zero, ← inner_neg_right,
-    neg_vsub_eq_vsub_rev, ← inner_add_left, vsub_midpoint, invOf_eq_inv, ← smul_add,
-    real_inner_smul_left]; simp
+  rw [Iff.comm]; rw [mem_perpBisector_iff_inner_eq_zero]; rw [← add_neg_eq_zero]; rw [← inner_neg_right]; rw [neg_vsub_eq_vsub_rev]; rw [← inner_add_left]; rw [vsub_midpoint]; rw [invOf_eq_inv]; rw [← smul_add]; rw [real_inner_smul_left]; simp
 
 theorem mem_perpBisector_iff_inner_eq :
     c ∈ perpBisector p₁ p₂ ↔ ⟪c -ᵥ p₁, p₂ -ᵥ p₁⟫ = (dist p₁ p₂) ^ 2 / 2 := by
-  rw [mem_perpBisector_iff_inner_eq_zero, ← vsub_sub_vsub_cancel_right _ _ p₁, inner_sub_left,
-    sub_eq_zero, midpoint_vsub_left, invOf_eq_inv, real_inner_smul_left, real_inner_self_eq_norm_sq,
-    dist_eq_norm_vsub' V, div_eq_inv_mul]
+  rw [mem_perpBisector_iff_inner_eq_zero]; rw [← vsub_sub_vsub_cancel_right _ _ p₁]; rw [inner_sub_left]; rw [sub_eq_zero]; rw [midpoint_vsub_left]; rw [invOf_eq_inv]; rw [real_inner_smul_left]; rw [real_inner_self_eq_norm_sq]; rw [dist_eq_norm_vsub' V]; rw [div_eq_inv_mul]
 
 theorem mem_perpBisector_iff_dist_eq : c ∈ perpBisector p₁ p₂ ↔ dist c p₁ = dist c p₂ := by
-  rw [dist_eq_norm_vsub V, dist_eq_norm_vsub V, ← real_inner_add_sub_eq_zero_iff,
-    vsub_sub_vsub_cancel_left, inner_add_left, add_eq_zero_iff_eq_neg, ← inner_neg_right,
-    neg_vsub_eq_vsub_rev, mem_perpBisector_iff_inner_eq_inner]
+  rw [dist_eq_norm_vsub V]; rw [dist_eq_norm_vsub V]; rw [← real_inner_add_sub_eq_zero_iff]; rw [vsub_sub_vsub_cancel_left]; rw [inner_add_left]; rw [add_eq_zero_iff_eq_neg]; rw [← inner_neg_right]; rw [neg_vsub_eq_vsub_rev]; rw [mem_perpBisector_iff_inner_eq_inner]
 
 theorem mem_perpBisector_iff_dist_eq' : c ∈ perpBisector p₁ p₂ ↔ dist p₁ c = dist p₂ c := by
   simp only [mem_perpBisector_iff_dist_eq, dist_comm]
@@ -105,14 +96,14 @@ theorem perpBisector_comm (p₁ p₂ : P) : perpBisector p₁ p₂ = perpBisecto
   simpa [mem_perpBisector_iff_inner_eq_inner] using eq_comm
 
 @[simp] theorem left_mem_perpBisector : p₁ ∈ perpBisector p₁ p₂ ↔ p₁ = p₂ := by
-  rw [perpBisector_comm, right_mem_perpBisector, eq_comm]
+  rw [perpBisector_comm]; rw [right_mem_perpBisector]; rw [eq_comm]
 
 @[simp] theorem perpBisector_self (p : P) : perpBisector p p = ⊤ :=
   top_unique <| fun _ ↦ by simp [mem_perpBisector_iff_inner_eq_inner]
 
 @[simp] theorem perpBisector_eq_top : perpBisector p₁ p₂ = ⊤ ↔ p₁ = p₂ := by
   refine ⟨fun h ↦ ?_, fun h ↦ h ▸ perpBisector_self _⟩
-  rw [← left_mem_perpBisector, h]
+  rw [← left_mem_perpBisector]; rw [h]
   trivial
 
 @[simp] theorem perpBisector_ne_bot : perpBisector p₁ p₂ ≠ ⊥ := by
@@ -129,7 +120,7 @@ vector between `c₁` and `c₂` is orthogonal to that between `p₁` and `p₂`
 says that the diagonals of a kite are orthogonal.) -/
 theorem inner_vsub_vsub_of_dist_eq_of_dist_eq {c₁ c₂ p₁ p₂ : P} (hc₁ : dist p₁ c₁ = dist p₂ c₁)
     (hc₂ : dist p₁ c₂ = dist p₂ c₂) : ⟪c₂ -ᵥ c₁, p₂ -ᵥ p₁⟫ = 0 := by
-  rw [← Submodule.mem_orthogonal_singleton_iff_inner_left, ← direction_perpBisector]
+  rw [← Submodule.mem_orthogonal_singleton_iff_inner_left]; rw [← direction_perpBisector]
   apply vsub_mem_direction <;> rwa [mem_perpBisector_iff_dist_eq']
 #align euclidean_geometry.inner_vsub_vsub_of_dist_eq_of_dist_eq EuclideanGeometry.inner_vsub_vsub_of_dist_eq_of_dist_eq
 

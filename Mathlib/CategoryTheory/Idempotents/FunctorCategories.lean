@@ -82,7 +82,7 @@ instance functor_category_isIdempotentComplete [IsIdempotentComplete C] :
   · ext j
     apply equalizer.hom_ext
     dsimp
-    rw [assoc, equalizer.lift_ι, ← equalizer.condition, id_comp, comp_id]
+    rw [assoc]; rw [equalizer.lift_ι]; rw [← equalizer.condition]; rw [id_comp]; rw [comp_id]
   · ext j
     simp
 namespace KaroubiFunctorCategoryEmbedding

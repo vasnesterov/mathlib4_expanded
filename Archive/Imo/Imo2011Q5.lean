@@ -41,7 +41,7 @@ theorem imo2011_q5 (f : ℤ → ℤ) (hpos : ∀ n : ℤ, 0 < f n) (hdvd : ∀ m
         _ ≤ f n - f m := (le_of_dvd (sub_pos.mpr h_fm_lt_fn) ?_)
         _ < f n := sub_lt_self _ (hpos m)
       -- ⊢ f (m - n) ∣ f n - f m
-      rw [← dvd_neg, neg_sub]
+      rw [← dvd_neg]; rw [neg_sub]
       exact hdvd m n
     have h_d_eq_zero : d = 0 := by
       obtain hd | hd | hd : d > 0 ∨ d = 0 ∨ d < 0 := trichotomous d 0

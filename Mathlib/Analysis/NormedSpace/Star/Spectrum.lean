@@ -35,7 +35,7 @@ theorem unitary.spectrum_subset_circle (u : unitary E) :
   · simpa only [CstarRing.norm_coe_unitary u] using norm_le_norm_of_mem hk
   · rw [← unitary.val_toUnits_apply u] at hk
     have hnk := ne_zero_of_mem_of_unit hk
-    rw [← inv_inv (unitary.toUnits u), ← spectrum.map_inv, Set.mem_inv] at hk
+    rw [← inv_inv (unitary.toUnits u)] at hk; rw [← spectrum.map_inv] at hk; rw [Set.mem_inv] at hk
     have : ‖k‖⁻¹ ≤ ‖(↑(unitary.toUnits u)⁻¹ : E)‖ :=
       by simpa only [norm_inv] using norm_le_norm_of_mem hk
     simpa using inv_le_of_inv_le (norm_pos_iff.mpr hnk) this
@@ -65,7 +65,7 @@ theorem IsSelfAdjoint.spectralRadius_eq_nnnorm {a : A} (ha : IsSelfAdjoint a) :
     (spectrum.pow_nnnorm_pow_one_div_tendsto_nhds_spectralRadius (a : A)).comp
       (Nat.tendsto_pow_atTop_atTop_of_one_lt one_lt_two) using 1
   refine' funext fun n => _
-  rw [Function.comp_apply, ha.nnnorm_pow_two_pow, ENNReal.coe_pow, ← rpow_nat_cast, ← rpow_mul]
+  rw [Function.comp_apply]; rw [ha.nnnorm_pow_two_pow]; rw [ENNReal.coe_pow]; rw [← rpow_nat_cast]; rw [← rpow_mul]
   simp
 #align is_self_adjoint.spectral_radius_eq_nnnorm IsSelfAdjoint.spectralRadius_eq_nnnorm
 
@@ -76,14 +76,14 @@ theorem IsStarNormal.spectralRadius_eq_nnnorm (a : A) [IsStarNormal a] :
     (fun n : ℕ => (‖(a⋆ * a) ^ n‖₊ : ℝ≥0∞) ^ (1 / n : ℝ)) =
       (fun x => x ^ 2) ∘ fun n : ℕ => (‖a ^ n‖₊ : ℝ≥0∞) ^ (1 / n : ℝ) := by
     funext n
-    rw [Function.comp_apply, ← rpow_nat_cast, ← rpow_mul, mul_comm, rpow_mul, rpow_nat_cast, ←
-      coe_pow, sq, ← nnnorm_star_mul_self, Commute.mul_pow (star_comm_self' a), star_pow]
+    rw [Function.comp_apply]; rw [← rpow_nat_cast]; rw [← rpow_mul]; rw [mul_comm]; rw [rpow_mul]; rw [rpow_nat_cast]; rw [←
+      coe_pow]; rw [sq]; rw [← nnnorm_star_mul_self]; rw [Commute.mul_pow (star_comm_self' a)]; rw [star_pow]
   have h₂ :=
     ((ENNReal.continuous_pow 2).tendsto (spectralRadius ℂ a)).comp
       (spectrum.pow_nnnorm_pow_one_div_tendsto_nhds_spectralRadius a)
   rw [← heq] at h₂
   convert tendsto_nhds_unique h₂ (pow_nnnorm_pow_one_div_tendsto_nhds_spectralRadius (a⋆ * a))
-  rw [(IsSelfAdjoint.star_mul_self a).spectralRadius_eq_nnnorm, sq, nnnorm_star_mul_self, coe_mul]
+  rw [(IsSelfAdjoint.star_mul_self a).spectralRadius_eq_nnnorm]; rw [sq]; rw [nnnorm_star_mul_self]; rw [coe_mul]
 #align is_star_normal.spectral_radius_eq_nnnorm IsStarNormal.spectralRadius_eq_nnnorm
 
 /-- Any element of the spectrum of a selfadjoint is real. -/
@@ -180,7 +180,7 @@ noncomputable instance (priority := 100) Complex.instStarHomClass : StarHomClass
       rw [selfAdjoint.val_re_map_spectrum s] at this
       rcases this with ⟨⟨_, _⟩, _, heq⟩
       simp only [Function.comp_apply] at heq
-      rw [← heq, IsROrC.star_def]
+      rw [← heq]; rw [IsROrC.star_def]
       exact IsROrC.conj_ofReal _
 
 /-- This is not an instance to avoid type class inference loops. See

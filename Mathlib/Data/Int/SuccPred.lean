@@ -50,21 +50,21 @@ theorem pos_iff_one_le {a : ℤ} : 0 < a ↔ 1 ≤ a :=
 theorem succ_iterate (a : ℤ) : ∀ n, succ^[n] a = a + n
   | 0 => (add_zero a).symm
   | n + 1 => by
-    rw [Function.iterate_succ', Int.ofNat_succ, ← add_assoc]
+    rw [Function.iterate_succ']; rw [Int.ofNat_succ]; rw [← add_assoc]
     exact congr_arg _ (succ_iterate a n)
 #align int.succ_iterate Int.succ_iterate
 
 theorem pred_iterate (a : ℤ) : ∀ n, pred^[n] a = a - n
   | 0 => (sub_zero a).symm
   | n + 1 => by
-    rw [Function.iterate_succ', Int.ofNat_succ, ← sub_sub]
+    rw [Function.iterate_succ']; rw [Int.ofNat_succ]; rw [← sub_sub]
     exact congr_arg _ (pred_iterate a n)
 #align int.pred_iterate Int.pred_iterate
 
 instance : IsSuccArchimedean ℤ :=
   ⟨fun {a b} h =>
     ⟨(b - a).toNat, by
-      rw [succ_eq_succ, succ_iterate, toNat_sub_of_le h, ← add_sub_assoc, add_sub_cancel']⟩⟩
+      rw [succ_eq_succ]; rw [succ_iterate]; rw [toNat_sub_of_le h]; rw [← add_sub_assoc]; rw [add_sub_cancel']⟩⟩
 
 instance : IsPredArchimedean ℤ :=
   ⟨fun {a b} h =>
@@ -90,7 +90,7 @@ end Int
 
 @[simp, norm_cast]
 theorem Nat.cast_int_covby_iff {a b : ℕ} : (a : ℤ) ⋖ b ↔ a ⋖ b := by
-  rw [Nat.covby_iff_succ_eq, Int.covby_iff_succ_eq]
+  rw [Nat.covby_iff_succ_eq]; rw [Int.covby_iff_succ_eq]
   exact Int.coe_nat_inj'
 #align nat.cast_int_covby_iff Nat.cast_int_covby_iff
 

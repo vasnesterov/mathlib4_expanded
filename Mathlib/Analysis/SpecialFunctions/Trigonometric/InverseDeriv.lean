@@ -31,7 +31,7 @@ theorem deriv_arcsin_aux {x : ℝ} (h₁ : x ≠ -1) (h₂ : x ≠ 1) :
     HasStrictDerivAt arcsin (1 / sqrt (1 - x ^ 2)) x ∧ ContDiffAt ℝ ⊤ arcsin x := by
   cases' h₁.lt_or_lt with h₁ h₁
   · have : 1 - x ^ 2 < 0 := by nlinarith [h₁]
-    rw [sqrt_eq_zero'.2 this.le, div_zero]
+    rw [sqrt_eq_zero'.2 this.le]; rw [div_zero]
     have : arcsin =ᶠ[𝓝 x] fun _ => -(π / 2) :=
       (gt_mem_nhds h₁).mono fun y hy => arcsin_of_le_neg_one hy.le
     exact ⟨(hasStrictDerivAt_const _ _).congr_of_eventuallyEq this.symm,
@@ -43,7 +43,7 @@ theorem deriv_arcsin_aux {x : ℝ} (h₁ : x ≠ -1) (h₂ : x ≠ 1) :
       sinLocalHomeomorph.contDiffAt_symm_deriv this.ne' ⟨h₁, h₂⟩ (hasDerivAt_sin _)
         contDiff_sin.contDiffAt⟩
   · have : 1 - x ^ 2 < 0 := by nlinarith [h₂]
-    rw [sqrt_eq_zero'.2 this.le, div_zero]
+    rw [sqrt_eq_zero'.2 this.le]; rw [div_zero]
     have : arcsin =ᶠ[𝓝 x] fun _ => π / 2 := (lt_mem_nhds h₂).mono fun y hy => arcsin_of_one_le hy.le
     exact ⟨(hasStrictDerivAt_const _ _).congr_of_eventuallyEq this.symm,
       contDiffAt_const.congr_of_eventuallyEq this⟩
@@ -93,7 +93,7 @@ theorem differentiableWithinAt_arcsin_Ici {x : ℝ} :
 theorem differentiableWithinAt_arcsin_Iic {x : ℝ} :
     DifferentiableWithinAt ℝ arcsin (Iic x) x ↔ x ≠ 1 := by
   refine' ⟨fun h => _, fun h => (hasDerivWithinAt_arcsin_Iic h).differentiableWithinAt⟩
-  rw [← neg_neg x, ← image_neg_Ici] at h
+  rw [← neg_neg x] at h; rw [← image_neg_Ici] at h
   have := (h.comp (-x) differentiableWithinAt_id.neg (mapsTo_image _ _)).neg
   simpa [(· ∘ ·), differentiableWithinAt_arcsin_Ici] using this
 #align real.differentiable_within_at_arcsin_Iic Real.differentiableWithinAt_arcsin_Iic

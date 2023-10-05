@@ -145,7 +145,7 @@ theorem ι_comp_lift : lift R f ∘ ι R = f :=
 
 -- Porting note: moved `@[simp]` to the next theorem (LHS simplifies)
 theorem lift_ι_apply (x : L) : lift R f (ι R x) = f x := by
-  rw [← Function.comp_apply (f := lift R f) (g := ι R) (x := x), ι_comp_lift]
+  rw [← Function.comp_apply (f := lift R f) (g := ι R) (x := x)]; rw [ι_comp_lift]
 #align universal_enveloping_algebra.lift_ι_apply UniversalEnvelopingAlgebra.lift_ι_apply
 
 @[simp]

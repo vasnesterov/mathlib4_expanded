@@ -121,8 +121,7 @@ theorem Quotient.coe_smul_out' [QuotientAction β H] (b : β) (q : α ⧸ H) : �
 
 theorem _root_.QuotientGroup.out'_conj_pow_minimalPeriod_mem (a : α) (q : α ⧸ H) :
     q.out'⁻¹ * a ^ Function.minimalPeriod ((· • ·) a) q * q.out' ∈ H := by
-  rw [mul_assoc, ← QuotientGroup.eq', QuotientGroup.out_eq', ← smul_eq_mul, Quotient.mk_smul_out',
-    eq_comm, pow_smul_eq_iff_minimalPeriod_dvd]
+  rw [mul_assoc]; rw [← QuotientGroup.eq']; rw [QuotientGroup.out_eq']; rw [← smul_eq_mul]; rw [Quotient.mk_smul_out']; rw [eq_comm]; rw [pow_smul_eq_iff_minimalPeriod_dvd]
 #align quotient_group.out'_conj_pow_minimal_period_mem QuotientGroup.out'_conj_pow_minimalPeriod_mem
 
 end QuotientAction
@@ -185,7 +184,7 @@ theorem injective_ofQuotientStabilizer : Function.Injective (ofQuotientStabilize
     Quotient.sound' <| by
       rw [leftRel_apply]
       show (g₁⁻¹ * g₂) • x = x
-      rw [mul_smul, ← H, inv_smul_smul]
+      rw [mul_smul]; rw [← H]; rw [inv_smul_smul]
 #align mul_action.injective_of_quotient_stabilizer MulAction.injective_ofQuotientStabilizer
 #align add_action.injective_of_quotient_stabilizer AddAction.injective_ofQuotientStabilizer
 
@@ -212,7 +211,7 @@ noncomputable def orbitProdStabilizerEquivGroup (b : β) : orbit α b × stabili
 theorem card_orbit_mul_card_stabilizer_eq_card_group (b : β) [Fintype α] [Fintype <| orbit α b]
     [Fintype <| stabilizer α b] :
     Fintype.card (orbit α b) * Fintype.card (stabilizer α b) = Fintype.card α := by
-  rw [← Fintype.card_prod, Fintype.card_congr (orbitProdStabilizerEquivGroup α b)]
+  rw [← Fintype.card_prod]; rw [Fintype.card_congr (orbitProdStabilizerEquivGroup α b)]
 #align mul_action.card_orbit_mul_card_stabilizer_eq_card_group MulAction.card_orbit_mul_card_stabilizer_eq_card_group
 #align add_action.card_orbit_add_card_stabilizer_eq_card_add_group AddAction.card_orbit_add_card_stabilizer_eq_card_addGroup
 
@@ -273,8 +272,7 @@ theorem card_eq_sum_card_group_div_card_stabilizer' [Fintype α] [Fintype β] [F
     have : ∀ ω : Ω, Fintype.card α / Fintype.card (stabilizer α (φ ω)) =
         Fintype.card (α ⧸ stabilizer α (φ ω)) := by
       intro ω
-      rw [Fintype.card_congr (@Subgroup.groupEquivQuotientProdSubgroup α _ (stabilizer α <| φ ω)),
-        Fintype.card_prod, Nat.mul_div_cancel]
+      rw [Fintype.card_congr (@Subgroup.groupEquivQuotientProdSubgroup α _ (stabilizer α <| φ ω))]; rw [Fintype.card_prod]; rw [Nat.mul_div_cancel]
       exact Fintype.card_pos_iff.mpr (by infer_instance)
     simp_rw [this, ← Fintype.card_sigma,
       Fintype.card_congr (selfEquivSigmaOrbitsQuotientStabilizer' α β hφ)]
@@ -335,8 +333,7 @@ elements fixed by each `g ∈ G` is the number of orbits. -/
       the average number of elements fixed by each `g ∈ G` is the number of orbits. "]
 theorem sum_card_fixedBy_eq_card_orbits_mul_card_group [Fintype α] [∀ a, Fintype <| fixedBy α β a]
     [Fintype Ω] : (∑ a : α, Fintype.card (fixedBy α β a)) = Fintype.card Ω * Fintype.card α := by
-  rw [← Fintype.card_prod, ← Fintype.card_sigma,
-    Fintype.card_congr (sigmaFixedByEquivOrbitsProdGroup α β)]
+  rw [← Fintype.card_prod]; rw [← Fintype.card_sigma]; rw [Fintype.card_congr (sigmaFixedByEquivOrbitsProdGroup α β)]
 #align mul_action.sum_card_fixed_by_eq_card_orbits_mul_card_group MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group
 #align add_action.sum_card_fixed_by_eq_card_orbits_add_card_add_group AddAction.sum_card_fixedBy_eq_card_orbits_add_card_addGroup
 
@@ -357,7 +354,7 @@ theorem ConjClasses.card_carrier [Group G] [Fintype G] (g : G) [Fintype (ConjCla
       Fintype.card G / Fintype.card (MulAction.stabilizer (ConjAct G) g) := by
   classical
   rw [Fintype.card_congr <| ConjAct.toConjAct (G := G) |>.toEquiv]
-  rw [←MulAction.card_orbit_mul_card_stabilizer_eq_card_group (ConjAct G) g, Nat.mul_div_cancel]
+  rw [←MulAction.card_orbit_mul_card_stabilizer_eq_card_group (ConjAct G) g]; rw [Nat.mul_div_cancel]
   simp_rw [ConjAct.orbit_eq_carrier_conjClasses]
   exact Fintype.card_pos_iff.mpr inferInstance
 
@@ -371,10 +368,10 @@ theorem normalCore_eq_ker : H.normalCore = (MulAction.toPermHom G (G ⧸ H)).ker
     apply Equiv.Perm.ext
     refine' fun q ↦ QuotientGroup.induction_on q _
     refine' fun g' => (MulAction.Quotient.smul_mk H g g').trans (QuotientGroup.eq.mpr _)
-    rw [smul_eq_mul, mul_inv_rev, ← inv_inv g', inv_inv]
+    rw [smul_eq_mul]; rw [mul_inv_rev]; rw [← inv_inv g']; rw [inv_inv]
     exact H.normalCore.inv_mem hg g'⁻¹
   · refine' (Subgroup.normal_le_normalCore.mpr fun g hg => _)
-    rw [← H.inv_mem_iff, ← mul_one g⁻¹, ← QuotientGroup.eq, ← mul_one g]
+    rw [← H.inv_mem_iff]; rw [← mul_one g⁻¹]; rw [← QuotientGroup.eq]; rw [← mul_one g]
     exact (MulAction.Quotient.smul_mk H g 1).symm.trans (Equiv.Perm.ext_iff.mp hg (1 : G))
 #align subgroup.normal_core_eq_ker Subgroup.normalCore_eq_ker
 
@@ -424,11 +421,9 @@ theorem card_comm_eq_card_conjClasses_mul_card (G : Type*) [Group G] :
   · rw [mul_comm, Nat.card_eq_zero_of_infinite, Nat.card_eq_zero_of_infinite, zero_mul]
   simp only [Nat.card_eq_fintype_card]
   -- Porting note: Changed `calc` proof into a `rw` proof.
-  rw [card_congr (Equiv.subtypeProdEquivSigmaSubtype Commute), card_sigma,
-    sum_equiv ConjAct.toConjAct.toEquiv (fun a ↦ card { b // Commute a b })
+  rw [card_congr (Equiv.subtypeProdEquivSigmaSubtype Commute)]; rw [card_sigma]; rw [sum_equiv ConjAct.toConjAct.toEquiv (fun a ↦ card { b // Commute a b })
       (fun g ↦ card (MulAction.fixedBy (ConjAct G) G g))
-      fun g ↦ card_congr' <| congr_arg _ <| funext fun h ↦ mul_inv_eq_iff_eq_mul.symm.to_eq,
-    MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group]
+      fun g ↦ card_congr' <| congr_arg _ <| funext fun h ↦ mul_inv_eq_iff_eq_mul.symm.to_eq]; rw [MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group]
   congr 1; apply card_congr'; congr; ext;
   exact (Setoid.comm' _).trans isConj_iff.symm
 #align card_comm_eq_card_conj_classes_mul_card card_comm_eq_card_conjClasses_mul_card

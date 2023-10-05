@@ -76,7 +76,7 @@ theorem top_isEquipartition [Decidable (s = ⊥)] : (⊤ : Finpartition s).IsEqu
 #align finpartition.top_is_equipartition Finpartition.top_isEquipartition
 
 theorem indiscrete_isEquipartition {hs : s ≠ ∅} : (indiscrete hs).IsEquipartition := by
-  rw [IsEquipartition, indiscrete_parts, coe_singleton]
+  rw [IsEquipartition]; rw [indiscrete_parts]; rw [coe_singleton]
   exact Set.equitableOn_singleton s _
 #align finpartition.indiscrete_is_equipartition Finpartition.indiscrete_isEquipartition
 

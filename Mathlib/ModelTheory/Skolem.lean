@@ -51,9 +51,9 @@ theorem card_functions_sum_skolem₁ :
     #(Σ n, (L.sum L.skolem₁).Functions n) = #(Σ n, L.BoundedFormula Empty (n + 1)) := by
   simp only [card_functions_sum, skolem₁_Functions, mk_sigma, sum_add_distrib']
   conv_lhs => enter [2, 1, i]; rw [lift_id'.{u, v}]
-  rw [add_comm, add_eq_max, max_eq_left]
+  rw [add_comm]; rw [add_eq_max]; rw [max_eq_left]
   · refine' sum_le_sum _ _ fun n => _
-    rw [← lift_le.{_, max u v}, lift_lift, lift_mk_le.{v}]
+    rw [← lift_le.{_, max u v}]; rw [lift_lift]; rw [lift_mk_le.{v}]
     refine' ⟨⟨fun f => (func f default).bdEqual (func f default), fun f g h => _⟩⟩
     rcases h with ⟨rfl, ⟨rfl⟩⟩
     rfl
@@ -140,12 +140,12 @@ theorem exists_elementarySubstructure_card_eq (s : Set M) (κ : Cardinal.{w'}) (
     ⟨elementarySkolem₁Reduct (closure (L.sum L.skolem₁) (s ∪ Equiv.ulift '' s')),
       (s.subset_union_left _).trans subset_closure, _⟩
   have h := mk_image_eq_lift _ s' Equiv.ulift.injective
-  rw [lift_umax.{w, w'}, lift_id'.{w, w'}] at h
-  rw [coeSort_elementarySkolem₁Reduct, ← h, lift_inj]
+  rw [lift_umax.{w, w'}] at h; rw [lift_id'.{w, w'}] at h
+  rw [coeSort_elementarySkolem₁Reduct]; rw [← h]; rw [lift_inj]
   refine'
     le_antisymm (lift_le.1 (lift_card_closure_le.trans _))
       (mk_le_mk_of_subset ((Set.subset_union_right _ _).trans subset_closure))
-  rw [max_le_iff, aleph0_le_lift, ← aleph0_le_lift.{_, w'}, h, add_eq_max, max_le_iff, lift_le]
+  rw [max_le_iff]; rw [aleph0_le_lift]; rw [← aleph0_le_lift.{_, w'}]; rw [h]; rw [add_eq_max]; rw [max_le_iff]; rw [lift_le]
   refine' ⟨h1, (mk_union_le _ _).trans _, (lift_le.2 card_functions_sum_skolem₁_le).trans _⟩
   · rw [← lift_le, lift_add, h, add_comm, add_eq_max h1]
     exact max_le le_rfl h2
@@ -154,9 +154,9 @@ theorem exists_elementarySubstructure_card_eq (s : Set M) (κ : Cardinal.{w'}) (
     refine' ⟨_, h1⟩
     rw [← lift_lift.{w', w}]
     refine' _root_.trans (lift_le.{w}.2 h3) _
-    rw [lift_lift, ← lift_lift.{w, max u v}, ← hs', ← h, lift_lift]
+    rw [lift_lift]; rw [← lift_lift.{w, max u v}]; rw [← hs']; rw [← h]; rw [lift_lift]
   · refine' _root_.trans _ (lift_le.2 (mk_le_mk_of_subset (Set.subset_union_right _ _)))
-    rw [aleph0_le_lift, ← aleph0_le_lift, h]
+    rw [aleph0_le_lift]; rw [← aleph0_le_lift]; rw [h]
     exact h1
 #align first_order.language.exists_elementary_substructure_card_eq FirstOrder.Language.exists_elementarySubstructure_card_eq
 

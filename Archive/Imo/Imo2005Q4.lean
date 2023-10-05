@@ -29,13 +29,13 @@ def a (n : ℕ) : ℤ :=
 theorem find_specified_factor {p : ℕ} (hp : Nat.Prime p) (hp2 : p ≠ 2) (hp3 : p ≠ 3) :
     ↑p ∣ a (p - 2) := by
   -- Since `p` is neither `2` nor `3`, it is coprime with `2`, `3`, and `6`
-  rw [Ne.def, ← Nat.prime_dvd_prime_iff_eq hp (by norm_num), ← Nat.Prime.coprime_iff_not_dvd hp]
+  rw [Ne.def]; rw [← Nat.prime_dvd_prime_iff_eq hp (by norm_num)]; rw [← Nat.Prime.coprime_iff_not_dvd hp]
     at hp2 hp3
   have : Int.gcd p 6 = 1 := Nat.coprime_mul_iff_right.2 ⟨hp2, hp3⟩
   -- Nat arithmetic needed to deal with powers
   have hp' : p - 1 = p - 2 + 1 := Eq.symm <| Nat.succ_pred <| (tsub_pos_of_lt hp.one_lt).ne'
   -- Thus it suffices to show that `6 * a (p - 2) ≡ 0 [ZMOD p]`
-  rw [← Int.modEq_zero_iff_dvd, ← Int.ediv_one p, ← Nat.cast_one, ← this]
+  rw [← Int.modEq_zero_iff_dvd]; rw [← Int.ediv_one p]; rw [← Nat.cast_one]; rw [← this]
   refine Int.ModEq.cancel_left_div_gcd (Nat.cast_pos.2 hp.pos) ?_
   calc
     6 * a (p - 2) = 3 * 2 ^ (p - 1) + 2 * 3 ^ (p - 1) + (2 * 3) ^ (p - 1) - 6 := by

@@ -111,10 +111,10 @@ theorem card_mul_eq_card_mul [∀ a b, Decidable (r a b)]
 theorem card_le_card_of_forall_subsingleton (hs : ∀ a ∈ s, ∃ b, b ∈ t ∧ r a b)
     (ht : ∀ b ∈ t, ({ a ∈ s | r a b } : Set α).Subsingleton) : s.card ≤ t.card := by
   classical
-    rw [← mul_one s.card, ← mul_one t.card]
+    rw [← mul_one s.card]; rw [← mul_one t.card]
     exact card_mul_le_card_mul r
       (fun a h ↦ card_pos.2 (by
-        rw [← coe_nonempty, coe_bipartiteAbove]
+        rw [← coe_nonempty]; rw [coe_bipartiteAbove]
         exact hs _ h : (t.bipartiteAbove r a).Nonempty))
       (fun b h ↦ card_le_one.2 (by
         simp_rw [mem_bipartiteBelow]

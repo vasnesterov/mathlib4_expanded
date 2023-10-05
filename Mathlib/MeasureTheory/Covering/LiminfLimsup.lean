@@ -95,7 +95,7 @@ theorem blimsup_cthickening_ae_le_of_eventually_mul_le_aux (p : ℕ → Prop) {s
     rw [Pi.zero_apply] at hrp
     rcases eq_or_lt_of_le hrp with (hr0 | hrp')
     · specialize hf₀ j
-      rw [← hr0, cthickening_zero, (hs (f j)).closure_eq] at hf₀
+      rw [← hr0] at hf₀; rw [cthickening_zero] at hf₀; rw [(hs (f j)).closure_eq] at hf₀
       exact ⟨d, hf₀, by simp [← hr0]⟩
     · simpa using mem_iUnion₂.mp (cthickening_subset_iUnion_closedBall_of_lt (s (f j))
         (by positivity) (lt_two_mul_self hrp') (hf₀ j))
@@ -135,7 +135,7 @@ theorem blimsup_cthickening_ae_le_of_eventually_mul_le_aux (p : ℕ → Prop) {s
   change μ (W ∩ B j) / μ (B j) ≤ ↑(1 - C⁻¹)
   rcases eq_or_ne (μ (B j)) ∞ with (hB | hB); · simp [hB]
   apply ENNReal.div_le_of_le_mul
-  rw [ENNReal.coe_sub, ENNReal.coe_one, ENNReal.sub_mul fun _ _ => hB, one_mul]
+  rw [ENNReal.coe_sub]; rw [ENNReal.coe_one]; rw [ENNReal.sub_mul fun _ _ => hB]; rw [one_mul]
   replace hB : ↑C⁻¹ * μ (B j) ≠ ∞
   · refine' ENNReal.mul_ne_top _ hB
     rwa [ENNReal.coe_inv hC, Ne.def, ENNReal.inv_eq_top, ENNReal.coe_eq_zero]
@@ -165,7 +165,7 @@ theorem blimsup_cthickening_ae_le_of_eventually_mul_le (p : ℕ → Prop) {s : �
   have hRp : 0 ≤ R₁ := fun i => le_max_left 0 (r₁ i)
   replace hMr : ∀ᶠ i in atTop, M * R₁ i ≤ R₂ i
   · refine' hMr.mono fun i hi => _
-    rw [mul_max_of_nonneg _ _ hM.le, mul_zero]
+    rw [mul_max_of_nonneg _ _ hM.le]; rw [mul_zero]
     exact max_le_max (le_refl 0) hi
   simp_rw [← cthickening_max_zero (r₁ _), ← cthickening_max_zero (r₂ _)]
   cases' le_or_lt 1 M with hM' hM'
@@ -220,13 +220,12 @@ theorem blimsup_cthickening_mul_ae_eq (p : ℕ → Prop) (s : ℕ → Set α) {M
   have h₂ : ∀ i, p i ∧ r i ≤ 0 → cthickening (M * r i) (s i) = cthickening (r i) (s i) := by
     rintro i ⟨-, hi⟩
     have hi' : M * r i ≤ 0 := mul_nonpos_of_nonneg_of_nonpos hM.le hi
-    rw [cthickening_of_nonpos hi, cthickening_of_nonpos hi']
+    rw [cthickening_of_nonpos hi]; rw [cthickening_of_nonpos hi']
   have hp : p = fun i => p i ∧ 0 < r i ∨ p i ∧ r i ≤ 0 := by
     ext i; simp [← and_or_left, lt_or_le 0 (r i)]
-  rw [hp, blimsup_or_eq_sup, blimsup_or_eq_sup]
+  rw [hp]; rw [blimsup_or_eq_sup]; rw [blimsup_or_eq_sup]
   simp only [sup_eq_union]
-  rw [blimsup_congr (eventually_of_forall h₀), blimsup_congr (eventually_of_forall h₁),
-    blimsup_congr (eventually_of_forall h₂)]
+  rw [blimsup_congr (eventually_of_forall h₀)]; rw [blimsup_congr (eventually_of_forall h₁)]; rw [blimsup_congr (eventually_of_forall h₂)]
   exact ae_eq_set_union (this (fun i => p i ∧ 0 < r i) hr') (ae_eq_refl _)
 #align blimsup_cthickening_mul_ae_eq blimsup_cthickening_mul_ae_eq
 
@@ -284,6 +283,6 @@ theorem blimsup_thickening_mul_ae_eq (p : ℕ → Prop) (s : ℕ → Set α) {M 
     refine' blimsup_congr' (eventually_of_forall fun i h => _)
     replace h : 0 < r i; · rw [← zero_lt_mul_left hM]; contrapose! h; apply thickening_of_nonpos h
     simp only [h, iff_self_and, imp_true_iff]
-  rw [h₁, h₂]
+  rw [h₁]; rw [h₂]
   exact blimsup_thickening_mul_ae_eq_aux μ q s hM r hr (eventually_of_forall fun i hi => hi.2)
 #align blimsup_thickening_mul_ae_eq blimsup_thickening_mul_ae_eq

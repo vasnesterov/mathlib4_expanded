@@ -52,7 +52,7 @@ theorem locally_lipschitz_exp {r : ℝ} (hr_nonneg : 0 ≤ r) (hr_le : r ≤ 1) 
   have h_sq : ∀ z, ‖z‖ ≤ 1 → ‖exp (x + z) - exp x‖ ≤ ‖z‖ * ‖exp x‖ + ‖exp x‖ * ‖z‖ ^ 2 := by
     intro z hz
     have : ‖exp (x + z) - exp x - z • exp x‖ ≤ ‖exp x‖ * ‖z‖ ^ 2 := exp_bound_sq x z hz
-    rw [← sub_le_iff_le_add', ← norm_smul z]
+    rw [← sub_le_iff_le_add']; rw [← norm_smul z]
     exact (norm_sub_norm_le _ _).trans this
   calc
     ‖exp y - exp x‖ = ‖exp (x + (y - x)) - exp x‖ := by nth_rw 1 [hy_eq]
@@ -166,7 +166,7 @@ namespace Real
 variable {α : Type*} {x y z : ℝ} {l : Filter α}
 
 theorem exp_half (x : ℝ) : exp (x / 2) = sqrt (exp x) := by
-  rw [eq_comm, sqrt_eq_iff_sq_eq, sq, ← exp_add, add_halves] <;> exact (exp_pos _).le
+  rw [eq_comm]; rw [sqrt_eq_iff_sq_eq]; rw [sq]; rw [← exp_add]; rw [add_halves]; all_goals exact (exp_pos _).le
 #align real.exp_half Real.exp_half
 
 /-- The real exponential function tends to `+∞` at `+∞`. -/
@@ -223,7 +223,7 @@ theorem tendsto_exp_div_pow_atTop (n : ℕ) : Tendsto (fun x => exp x / x ^ n) a
   refine' ⟨N, trivial, fun x hx => _⟩
   rw [Set.mem_Ioi] at hx
   have hx₀ : 0 < x := (Nat.cast_nonneg N).trans_lt hx
-  rw [Set.mem_Ici, le_div_iff (pow_pos hx₀ _), ← le_div_iff' hC₀]
+  rw [Set.mem_Ici]; rw [le_div_iff (pow_pos hx₀ _)]; rw [← le_div_iff' hC₀]
   calc
     x ^ n ≤ ⌈x⌉₊ ^ n := by exact_mod_cast pow_le_pow_of_le_left hx₀.le (Nat.le_ceil _) _
     _ ≤ exp ⌈x⌉₊ / (exp 1 * C) := by exact_mod_cast (hN _ (Nat.lt_ceil.2 hx).le).le
@@ -237,7 +237,7 @@ theorem tendsto_exp_div_pow_atTop (n : ℕ) : Tendsto (fun x => exp x / x ^ n) a
 theorem tendsto_pow_mul_exp_neg_atTop_nhds_0 (n : ℕ) :
     Tendsto (fun x => x ^ n * exp (-x)) atTop (𝓝 0) :=
   (tendsto_inv_atTop_zero.comp (tendsto_exp_div_pow_atTop n)).congr fun x => by
-    rw [comp_apply, inv_eq_one_div, div_div_eq_mul_div, one_mul, div_eq_mul_inv, exp_neg]
+    rw [comp_apply]; rw [inv_eq_one_div]; rw [div_div_eq_mul_div]; rw [one_mul]; rw [div_eq_mul_inv]; rw [exp_neg]
 #align real.tendsto_pow_mul_exp_neg_at_top_nhds_0 Real.tendsto_pow_mul_exp_neg_atTop_nhds_0
 
 /-- The function `(b * exp x + c) / (x ^ n)` tends to `+∞` at `+∞`, for any natural number
@@ -267,7 +267,7 @@ theorem tendsto_div_pow_mul_exp_add_atTop (b c : ℝ) (n : ℕ) (hb : 0 ≠ b) :
   · convert(H (-b) (-c) (neg_pos.mpr h)).neg using 1
     · ext x
       field_simp
-      rw [← neg_add (b * exp x) c, neg_div_neg_eq]
+      rw [← neg_add (b * exp x) c]; rw [neg_div_neg_eq]
     · rw [neg_zero]
 #align real.tendsto_div_pow_mul_exp_add_at_top Real.tendsto_div_pow_mul_exp_add_atTop
 
@@ -291,17 +291,17 @@ theorem coe_comp_expOrderIso : (↑) ∘ expOrderIso = exp :=
 
 @[simp]
 theorem range_exp : range exp = Set.Ioi 0 := by
-  rw [← coe_comp_expOrderIso, range_comp, expOrderIso.range_eq, image_univ, Subtype.range_coe]
+  rw [← coe_comp_expOrderIso]; rw [range_comp]; rw [expOrderIso.range_eq]; rw [image_univ]; rw [Subtype.range_coe]
 #align real.range_exp Real.range_exp
 
 @[simp]
 theorem map_exp_atTop : map exp atTop = atTop := by
-  rw [← coe_comp_expOrderIso, ← Filter.map_map, OrderIso.map_atTop, map_val_Ioi_atTop]
+  rw [← coe_comp_expOrderIso]; rw [← Filter.map_map]; rw [OrderIso.map_atTop]; rw [map_val_Ioi_atTop]
 #align real.map_exp_at_top Real.map_exp_atTop
 
 @[simp]
 theorem comap_exp_atTop : comap exp atTop = atTop := by
-  rw [← map_exp_atTop, comap_map exp_injective, map_exp_atTop]
+  rw [← map_exp_atTop]; rw [comap_map exp_injective]; rw [map_exp_atTop]
 #align real.comap_exp_at_top Real.comap_exp_atTop
 
 @[simp]
@@ -317,17 +317,17 @@ theorem tendsto_comp_exp_atTop {f : ℝ → α} :
 
 @[simp]
 theorem map_exp_atBot : map exp atBot = 𝓝[>] 0 := by
-  rw [← coe_comp_expOrderIso, ← Filter.map_map, expOrderIso.map_atBot, ← map_coe_Ioi_atBot]
+  rw [← coe_comp_expOrderIso]; rw [← Filter.map_map]; rw [expOrderIso.map_atBot]; rw [← map_coe_Ioi_atBot]
 #align real.map_exp_at_bot Real.map_exp_atBot
 
 @[simp]
 theorem comap_exp_nhdsWithin_Ioi_zero : comap exp (𝓝[>] 0) = atBot := by
-  rw [← map_exp_atBot, comap_map exp_injective]
+  rw [← map_exp_atBot]; rw [comap_map exp_injective]
 #align real.comap_exp_nhds_within_Ioi_zero Real.comap_exp_nhdsWithin_Ioi_zero
 
 theorem tendsto_comp_exp_atBot {f : ℝ → α} :
     Tendsto (fun x => f (exp x)) atBot l ↔ Tendsto f (𝓝[>] 0) l := by
-  rw [← map_exp_atBot, tendsto_map'_iff]
+  rw [← map_exp_atBot]; rw [tendsto_map'_iff]
   rfl
 #align real.tendsto_comp_exp_at_bot Real.tendsto_comp_exp_atBot
 

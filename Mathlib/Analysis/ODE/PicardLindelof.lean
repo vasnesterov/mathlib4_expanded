@@ -127,7 +127,7 @@ theorem tDist_nonneg : 0 ≤ v.tDist :=
 #align picard_lindelof.t_dist_nonneg PicardLindelof.tDist_nonneg
 
 theorem dist_t₀_le (t : Icc v.tMin v.tMax) : dist t v.t₀ ≤ v.tDist := by
-  rw [Subtype.dist_eq, Real.dist_eq]
+  rw [Subtype.dist_eq]; rw [Real.dist_eq]
   cases' le_total t v.t₀ with ht ht
   · rw [abs_of_nonpos (sub_nonpos.2 <| Subtype.coe_le_coe.2 ht), neg_sub]
     exact (sub_le_sub_left t.2.1 _).trans (le_max_right _ _)
@@ -249,7 +249,7 @@ theorem dist_le_of_forall {f₁ f₂ : FunSpace v} {d : ℝ} (h : ∀ t, dist (f
 instance [CompleteSpace E] : CompleteSpace v.FunSpace := by
   refine' (completeSpace_iff_isComplete_range uniformInducing_toContinuousMap).2
       (IsClosed.isComplete _)
-  rw [range_toContinuousMap, setOf_and]
+  rw [range_toContinuousMap]; rw [setOf_and]
   refine' (isClosed_eq (ContinuousMap.continuous_eval_const _) continuous_const).inter _
   have : IsClosed {f : Icc v.tMin v.tMax → E | LipschitzWith v.C f} :=
     isClosed_setOf_lipschitzWith v.C
@@ -269,8 +269,7 @@ def next (f : FunSpace v) : FunSpace v where
   toFun t := v.x₀ + ∫ τ : ℝ in v.t₀..t, f.vComp τ
   map_t₀' := by simp only [integral_same, add_zero]
   lipschitz' := LipschitzWith.of_dist_le_mul fun t₁ t₂ => by
-    rw [dist_add_left, dist_eq_norm,
-      integral_interval_sub_left (f.intervalIntegrable_vComp _ _) (f.intervalIntegrable_vComp _ _)]
+    rw [dist_add_left]; rw [dist_eq_norm]; rw [integral_interval_sub_left (f.intervalIntegrable_vComp _ _) (f.intervalIntegrable_vComp _ _)]
     exact norm_integral_le_of_norm_le_const fun t _ => f.norm_vComp_le _
 #align picard_lindelof.fun_space.next PicardLindelof.FunSpace.next
 
@@ -426,7 +425,7 @@ theorem exists_isPicardLindelof_const_of_contDiffOn_nhds {s : Set E} (hv : ContD
       cont := fun x _ => continuousOn_const
       norm_le := fun t _ x hx => hC ⟨x, hx, rfl⟩
       C_mul_le_R := by
-        rw [add_sub_cancel', sub_sub_cancel, max_self, mul_ite, mul_one]
+        rw [add_sub_cancel']; rw [sub_sub_cancel]; rw [max_self]; rw [mul_ite]; rw [mul_one]
         split_ifs with h
         · rwa [← h] at hr'
         · exact (mul_div_cancel' (r / 2) h).le }

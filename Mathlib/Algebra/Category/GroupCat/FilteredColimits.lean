@@ -87,7 +87,7 @@ theorem colimitInvAux_eq_of_rel (x y : Σ j, F.obj j)
   apply G.mk_eq
   obtain ⟨k, f, g, hfg⟩ := h
   use k, f, g
-  rw [MonoidHom.map_inv, MonoidHom.map_inv, inv_inj]
+  rw [MonoidHom.map_inv]; rw [MonoidHom.map_inv]; rw [inv_inj]
   exact hfg
 #align Group.filtered_colimits.colimit_inv_aux_eq_of_rel GroupCat.FilteredColimits.colimitInvAux_eq_of_rel
 #align AddGroup.filtered_colimits.colimit_neg_aux_eq_of_rel AddGroupCat.FilteredColimits.colimitNegAux_eq_of_rel

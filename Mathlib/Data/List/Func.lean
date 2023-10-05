@@ -177,7 +177,7 @@ theorem get_set_eq_of_ne {a : α} :
       simp only [set, get]
     case nil m =>
       have h3 : get m (nil {k ↦ a}) = default := by
-        rw [get_set_eq_of_ne k m, get_nil]
+        rw [get_set_eq_of_ne k m]; rw [get_nil]
         intro hc
         apply h1
         simp [hc]
@@ -197,7 +197,7 @@ theorem get_map {f : α → β} :
   | 0, a :: as, _ => rfl
   | n + 1, _ :: as, h1 => by
     have h2 : n < length as := by
-      rw [← Nat.succ_le_iff, ← Nat.lt_succ_iff]
+      rw [← Nat.succ_le_iff]; rw [← Nat.lt_succ_iff]
       apply h1
     apply get_map h2
 #align list.func.get_map List.Func.get_map
@@ -207,7 +207,7 @@ theorem get_map' {f : α → β} {n : ℕ} {as : List α} :
   intro h1; by_cases h2 : n < as.length
   · apply get_map h2
   · rw [not_lt] at h2
-    rw [get_eq_default_of_le _ h2, get_eq_default_of_le, h1]
+    rw [get_eq_default_of_le _ h2]; rw [get_eq_default_of_le]; rw [h1]
     rw [length_map]
     apply h2
 #align list.func.get_map' List.Func.get_map'
@@ -331,7 +331,7 @@ theorem length_add {α : Type u} [Zero α] [Add α] {xs ys : List α} :
 
 @[simp]
 theorem nil_add {α : Type u} [AddMonoid α] (as : List α) : add [] as = as := by
-  rw [add, @nil_pointwise α α α ⟨0⟩ ⟨0⟩]
+  rw [add]; rw [@nil_pointwise α α α ⟨0⟩ ⟨0⟩]
   apply Eq.trans _ (map_id as)
   congr with x
   exact zero_add x
@@ -342,7 +342,7 @@ theorem nil_add {α : Type u} [AddMonoid α] (as : List α) : add [] as = as := 
 
 @[simp]
 theorem add_nil {α : Type u} [AddMonoid α] (as : List α) : add as [] = as := by
-  rw [add, @pointwise_nil α α α ⟨0⟩ ⟨0⟩]
+  rw [add]; rw [@pointwise_nil α α α ⟨0⟩ ⟨0⟩]
   apply Eq.trans _ (map_id as)
   congr with x
   exact add_zero x
@@ -353,7 +353,7 @@ theorem map_add_map {α : Type u} [AddMonoid α] (f g : α → α) {as : List α
   apply @eq_of_equiv _ (⟨0⟩ : Inhabited α)
   · rw [length_map, length_add, max_eq_left, length_map]
     apply le_of_eq
-    rw [length_map, length_map]
+    rw [length_map]; rw [length_map]
   intro m
   rw [get_add]
   by_cases h : m < length as
@@ -379,14 +379,14 @@ theorem length_sub [Zero α] [Sub α] {xs ys : List α} :
 
 @[simp]
 theorem nil_sub {α : Type*} [AddGroup α] (as : List α) : sub [] as = neg as := by
-  rw [sub, @nil_pointwise _ _ _ ⟨0⟩ ⟨0⟩]
+  rw [sub]; rw [@nil_pointwise _ _ _ ⟨0⟩ ⟨0⟩]
   congr with x
   exact zero_sub x
 #align list.func.nil_sub List.Func.nil_sub
 
 @[simp]
 theorem sub_nil {α : Type*} [AddGroup α] (as : List α) : sub as [] = as := by
-  rw [sub, @pointwise_nil _ _ _ ⟨0⟩ ⟨0⟩]
+  rw [sub]; rw [@pointwise_nil _ _ _ ⟨0⟩ ⟨0⟩]
   apply Eq.trans _ (map_id as)
   congr with x
   exact sub_zero x

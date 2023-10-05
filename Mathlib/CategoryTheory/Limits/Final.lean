@@ -244,9 +244,9 @@ def extendCocone : Cocone (F ⋙ G) ⥤ Cocone G
               induction F fun Z k =>
                 G.map f ≫ G.map (homToLift F Y) ≫ c.ι.app (lift F Y) = G.map k ≫ c.ι.app Z
             · intro Z₁ Z₂ k₁ k₂ g a z
-              rw [← a, Functor.map_comp, Category.assoc, ← Functor.comp_map, c.w, z]
+              rw [← a]; rw [Functor.map_comp]; rw [Category.assoc]; rw [← Functor.comp_map]; rw [c.w]; rw [z]
             · intro Z₁ Z₂ k₁ k₂ g a z
-              rw [← a, Functor.map_comp, Category.assoc, ← Functor.comp_map, c.w] at z
+              rw [← a] at z; rw [Functor.map_comp] at z; rw [Category.assoc] at z; rw [← Functor.comp_map] at z; rw [c.w] at z
               rw [z]
             · rw [← Functor.map_comp_assoc] } }
   map f := { hom := f.hom }
@@ -532,12 +532,10 @@ def extendCone : Cone (F ⋙ G) ⥤ Cone G
                 (c.π.app Z ≫ G.map k : c.pt ⟶ _) =
                   c.π.app (lift F X) ≫ G.map (homToLift F X) ≫ G.map f
             · intro Z₁ Z₂ k₁ k₂ g a z
-              rw [← a, Functor.map_comp, ← Functor.comp_map, ← Category.assoc, ← Category.assoc,
-                c.w] at z
-              rw [z, Category.assoc]
+              rw [← a] at z; rw [Functor.map_comp] at z; rw [← Functor.comp_map] at z; rw [← Category.assoc] at z; rw [← Category.assoc] at z; rw [c.w] at z
+              rw [z]; rw [Category.assoc]
             · intro Z₁ Z₂ k₁ k₂ g a z
-              rw [← a, Functor.map_comp, ← Functor.comp_map, ← Category.assoc, ← Category.assoc,
-                c.w, z, Category.assoc]
+              rw [← a]; rw [Functor.map_comp]; rw [← Functor.comp_map]; rw [← Category.assoc]; rw [← Category.assoc]; rw [c.w]; rw [z]; rw [Category.assoc]
             · rw [← Functor.map_comp] } }
   map f := { hom := f.hom }
 #align category_theory.functor.initial.extend_cone CategoryTheory.Functor.Initial.extendCone
@@ -749,12 +747,9 @@ theorem final_comp [hF : Final F] [hG : Final G] : Final (F ⋙ G) := by
   let i : s₁.inverse ⋙ (F ⋙ G) ⋙ s₃.functor ≅
       (s₁.inverse ⋙ F ⋙ s₂.functor) ⋙ (s₂.inverse ⋙ G ⋙ s₃.functor) :=
     isoWhiskerLeft (s₁.inverse ⋙ F) (isoWhiskerRight s₂.unitIso (G ⋙ s₃.functor))
-  rw [final_iff_comp_equivalence (F ⋙ G) s₃.functor, final_iff_equivalence_comp s₁.inverse,
-    final_natIso_iff i, final_iff_isIso_colimit_pre]
-  rw [final_iff_comp_equivalence F s₂.functor, final_iff_equivalence_comp s₁.inverse,
-    final_iff_isIso_colimit_pre] at hF
-  rw [final_iff_comp_equivalence G s₃.functor, final_iff_equivalence_comp s₂.inverse,
-    final_iff_isIso_colimit_pre] at hG
+  rw [final_iff_comp_equivalence (F ⋙ G) s₃.functor]; rw [final_iff_equivalence_comp s₁.inverse]; rw [final_natIso_iff i]; rw [final_iff_isIso_colimit_pre]
+  rw [final_iff_comp_equivalence F s₂.functor] at hF; rw [final_iff_equivalence_comp s₁.inverse] at hF; rw [final_iff_isIso_colimit_pre] at hF
+  rw [final_iff_comp_equivalence G s₃.functor] at hG; rw [final_iff_equivalence_comp s₂.inverse] at hG; rw [final_iff_isIso_colimit_pre] at hG
   simp only [← colimit.pre_pre]
   infer_instance
 
@@ -769,12 +764,9 @@ theorem final_of_final_comp [hF : Final F] [hFG : Final (F ⋙ G)] : Final G := 
   let _i : s₁.inverse ⋙ (F ⋙ G) ⋙ s₃.functor ≅
       (s₁.inverse ⋙ F ⋙ s₂.functor) ⋙ (s₂.inverse ⋙ G ⋙ s₃.functor) :=
     isoWhiskerLeft (s₁.inverse ⋙ F) (isoWhiskerRight s₂.unitIso (G ⋙ s₃.functor))
-  rw [final_iff_comp_equivalence G s₃.functor, final_iff_equivalence_comp s₂.inverse,
-    final_iff_isIso_colimit_pre]
-  rw [final_iff_comp_equivalence F s₂.functor, final_iff_equivalence_comp s₁.inverse,
-    final_iff_isIso_colimit_pre] at hF
-  rw [final_iff_comp_equivalence (F ⋙ G) s₃.functor, final_iff_equivalence_comp s₁.inverse,
-    final_natIso_iff _i, final_iff_isIso_colimit_pre] at hFG
+  rw [final_iff_comp_equivalence G s₃.functor]; rw [final_iff_equivalence_comp s₂.inverse]; rw [final_iff_isIso_colimit_pre]
+  rw [final_iff_comp_equivalence F s₂.functor] at hF; rw [final_iff_equivalence_comp s₁.inverse] at hF; rw [final_iff_isIso_colimit_pre] at hF
+  rw [final_iff_comp_equivalence (F ⋙ G) s₃.functor] at hFG; rw [final_iff_equivalence_comp s₁.inverse] at hFG; rw [final_natIso_iff _i] at hFG; rw [final_iff_isIso_colimit_pre] at hFG
   simp only [← colimit.pre_pre] at hFG
   exact fun H => IsIso.of_isIso_comp_left (colimit.pre _ (s₁.inverse ⋙ F ⋙ s₂.functor)) _
 
@@ -841,7 +833,7 @@ theorem IsFilteredOrEmpty.of_final (F : C ⥤ D) [Final F] [IsFilteredOrEmpty C]
     · rintro U V h ⟨Z, q₁, q₂, hq⟩
       obtain ⟨W, q₃, q₄, hq'⟩ := IsFiltered.span q₁ h.right
       refine' ⟨W, q₄, q₂ ≫ q₃, _⟩
-      rw [F.map_comp, ← reassoc_of% hq, ← F.map_comp, hq', F.map_comp, StructuredArrow.w_assoc]
+      rw [F.map_comp]; rw [← reassoc_of% hq]; rw [← F.map_comp]; rw [hq']; rw [F.map_comp]; rw [StructuredArrow.w_assoc]
     · rintro U V h ⟨Z, q₁, q₂, hq⟩
       exact ⟨Z, h.right ≫ q₁, q₂, by simp only [F.map_comp, StructuredArrow.w_assoc, hq]⟩
 

@@ -49,13 +49,13 @@ theorem withDensity_rnDeriv_eq (μ ν : Measure α) [HaveLebesgueDecomposition �
   have : singularPart μ ν = 0 := by
     refine' le_antisymm (fun A (_ : MeasurableSet A) => _) (Measure.zero_le _)
     suffices singularPart μ ν Set.univ = 0 by
-      rw [Measure.coe_zero, Pi.zero_apply, ← this]
+      rw [Measure.coe_zero]; rw [Pi.zero_apply]; rw [← this]
       exact measure_mono (Set.subset_univ _)
-    rw [← measure_add_measure_compl hE₁, hE₂, zero_add]
+    rw [← measure_add_measure_compl hE₁]; rw [hE₂]; rw [zero_add]
     have : (singularPart μ ν + ν.withDensity (rnDeriv μ ν)) Eᶜ = μ Eᶜ := by rw [← hadd]
-    rw [Measure.coe_add, Pi.add_apply, h hE₃] at this
+    rw [Measure.coe_add] at this; rw [Pi.add_apply] at this; rw [h hE₃] at this
     exact (add_eq_zero_iff.1 this).1
-  rw [this, zero_add] at hadd
+  rw [this] at hadd; rw [zero_add] at hadd
   exact hadd.symm
 #align measure_theory.measure.with_density_rn_deriv_eq MeasureTheory.Measure.withDensity_rnDeriv_eq
 
@@ -70,11 +70,11 @@ theorem absolutelyContinuous_iff_withDensity_rnDeriv_eq {μ ν : Measure α}
 theorem withDensity_rnDeriv_toReal_eq {μ ν : Measure α} [IsFiniteMeasure μ]
     [HaveLebesgueDecomposition μ ν] (h : μ ≪ ν) {i : Set α} (hi : MeasurableSet i) :
     (∫ x in i, (μ.rnDeriv ν x).toReal ∂ν) = (μ i).toReal := by
-  rw [integral_toReal, ← withDensity_apply _ hi, withDensity_rnDeriv_eq μ ν h]
+  rw [integral_toReal]; rw [← withDensity_apply _ hi]; rw [withDensity_rnDeriv_eq μ ν h]
   · measurability
   · refine' ae_lt_top (μ.measurable_rnDeriv ν)
       (lt_of_le_of_lt (lintegral_mono_set i.subset_univ) _).ne
-    rw [← withDensity_apply _ MeasurableSet.univ, withDensity_rnDeriv_eq μ ν h]
+    rw [← withDensity_apply _ MeasurableSet.univ]; rw [withDensity_rnDeriv_eq μ ν h]
     exact measure_lt_top _ _
 #align measure_theory.measure.with_density_rn_deriv_to_real_eq MeasureTheory.Measure.withDensity_rnDeriv_toReal_eq
 
@@ -86,14 +86,12 @@ open Measure VectorMeasure
 
 theorem withDensityᵥ_rnDeriv_eq (s : SignedMeasure α) (μ : Measure α) [SigmaFinite μ]
     (h : s ≪ᵥ μ.toENNRealVectorMeasure) : μ.withDensityᵥ (s.rnDeriv μ) = s := by
-  rw [absolutelyContinuous_ennreal_iff, (_ : μ.toENNRealVectorMeasure.ennrealToMeasure = μ),
-    totalVariation_absolutelyContinuous_iff] at h
+  rw [absolutelyContinuous_ennreal_iff] at h; rw [(_ : μ.toENNRealVectorMeasure.ennrealToMeasure = μ)] at h; rw [totalVariation_absolutelyContinuous_iff] at h
   · ext1 i hi
-    rw [withDensityᵥ_apply (integrable_rnDeriv _ _) hi, rnDeriv, integral_sub,
-      withDensity_rnDeriv_toReal_eq h.1 hi, withDensity_rnDeriv_toReal_eq h.2 hi]
+    rw [withDensityᵥ_apply (integrable_rnDeriv _ _) hi]; rw [rnDeriv]; rw [integral_sub]; rw [withDensity_rnDeriv_toReal_eq h.1 hi]; rw [withDensity_rnDeriv_toReal_eq h.2 hi]
     · conv_rhs => rw [← s.toSignedMeasure_toJordanDecomposition]
       erw [VectorMeasure.sub_apply]
-      rw [toSignedMeasure_apply_measurable hi, toSignedMeasure_apply_measurable hi]
+      rw [toSignedMeasure_apply_measurable hi]; rw [toSignedMeasure_apply_measurable hi]
     all_goals
       rw [← integrableOn_univ]
       refine' IntegrableOn.restrict _ MeasurableSet.univ

@@ -73,7 +73,7 @@ theorem toDFinsupp_replicate (a : α) (n : ℕ) :
 
 @[simp]
 theorem toDFinsupp_singleton (a : α) : toDFinsupp {a} = DFinsupp.single a 1 := by
-  rw [← replicate_one, toDFinsupp_replicate]
+  rw [← replicate_one]; rw [toDFinsupp_replicate]
 #align multiset.to_dfinsupp_singleton Multiset.toDFinsupp_singleton
 
 /-- `Multiset.toDFinsupp` as an `AddEquiv`. -/

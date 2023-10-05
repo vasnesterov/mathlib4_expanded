@@ -38,11 +38,11 @@ instance algebra : Algebra R (A × B) :=
     commutes' := by
       rintro r ⟨a, b⟩
       dsimp
-      rw [commutes r a, commutes r b]
+      rw [commutes r a]; rw [commutes r b]
     smul_def' := by
       rintro r ⟨a, b⟩
       dsimp
-      rw [Algebra.smul_def r a, Algebra.smul_def r b] }
+      rw [Algebra.smul_def r a]; rw [Algebra.smul_def r b] }
 #align prod.algebra Prod.algebra
 
 variable {R A B}

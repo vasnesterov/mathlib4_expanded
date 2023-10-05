@@ -102,12 +102,12 @@ private theorem preimage_gen {s : Set α} {u : Set γ} :
     ContinuousMap.comp g ⁻¹' CompactOpen.gen s u = CompactOpen.gen s (g ⁻¹' u) := by
   ext ⟨f, _⟩
   change g ∘ f '' s ⊆ u ↔ f '' s ⊆ g ⁻¹' u
-  rw [image_comp, image_subset_iff]
+  rw [image_comp]; rw [image_subset_iff]
 
 /-- C(α, -) is a functor. -/
 theorem continuous_comp : Continuous (ContinuousMap.comp g : C(α, β) → C(α, γ)) :=
   continuous_generateFrom fun m ⟨s, hs, u, hu, hm⟩ => by
-    rw [hm, preimage_gen g]; exact ContinuousMap.isOpen_gen hs (hu.preimage g.2)
+    rw [hm]; rw [preimage_gen g]; exact ContinuousMap.isOpen_gen hs (hu.preimage g.2)
 #align continuous_map.continuous_comp ContinuousMap.continuous_comp
 
 /-- If `g : C(β, γ)` is a topology inducing map, then the composition
@@ -133,7 +133,7 @@ private theorem image_gen {s : Set α} (_ : IsCompact s) {u : Set γ} (_ : IsOpe
 /-- C(-, γ) is a functor. -/
 theorem continuous_comp_left : Continuous (fun g => g.comp f : C(β, γ) → C(α, γ)) :=
   continuous_generateFrom fun m ⟨s, hs, u, hu, hm⟩ => by
-    rw [hm, image_gen f hs hu]
+    rw [hm]; rw [image_gen f hs hu]
     exact ContinuousMap.isOpen_gen (hs.image f.2) hu
 #align continuous_map.continuous_comp_left ContinuousMap.continuous_comp_left
 
@@ -146,10 +146,10 @@ theorem continuous_comp' [LocallyCompactSpace β] :
       rintro M ⟨K, hK, U, hU, rfl⟩
       conv =>
         congr
-        rw [CompactOpen.gen, preimage_setOf_eq]
+        rw [CompactOpen.gen]; rw [preimage_setOf_eq]
         --congr
         ext; dsimp [setOf]
-        rw [image_comp, image_subset_iff]
+        rw [image_comp]; rw [image_subset_iff]
       rw [isOpen_iff_forall_mem_open]
       rintro ⟨φ₀, ψ₀⟩ H
       obtain ⟨L, hL, hKL, hLU⟩ := exists_compact_between (hK.image φ₀.2) (hU.preimage ψ₀.2) H

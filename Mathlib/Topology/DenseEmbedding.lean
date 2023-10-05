@@ -66,7 +66,7 @@ protected theorem preconnectedSpace [PreconnectedSpace α] (di : DenseInducing i
 
 theorem closure_image_mem_nhds {s : Set α} {a : α} (di : DenseInducing i) (hs : s ∈ 𝓝 a) :
     closure (i '' s) ∈ 𝓝 (i a) := by
-  rw [di.nhds_eq_comap a, ((nhds_basis_opens _).comap _).mem_iff] at hs
+  rw [di.nhds_eq_comap a] at hs; rw [((nhds_basis_opens _).comap _).mem_iff] at hs
   rcases hs with ⟨U, ⟨haU, hUo⟩, sub : i ⁻¹' U ⊆ s⟩
   refine' mem_of_superset (hUo.mem_nhds haU) _
   calc
@@ -76,7 +76,7 @@ theorem closure_image_mem_nhds {s : Set α} {a : α} (di : DenseInducing i) (hs 
 
 theorem dense_image (di : DenseInducing i) {s : Set α} : Dense (i '' s) ↔ Dense s := by
   refine' ⟨fun H x => _, di.dense.dense_image di.continuous⟩
-  rw [di.toInducing.closure_eq_preimage_closure_image, H.closure_eq, preimage_univ]
+  rw [di.toInducing.closure_eq_preimage_closure_image]; rw [H.closure_eq]; rw [preimage_univ]
   trivial
 #align dense_inducing.dense_image DenseInducing.dense_image
 
@@ -119,7 +119,7 @@ theorem tendsto_comap_nhds_nhds {d : δ} {a : α} (di : DenseInducing i)
     (H : Tendsto h (𝓝 d) (𝓝 (i a))) (comm : h ∘ g = i ∘ f) : Tendsto f (comap g (𝓝 d)) (𝓝 a) := by
   have lim1 : map g (comap g (𝓝 d)) ≤ 𝓝 d := map_comap_le
   replace lim1 : map h (map g (comap g (𝓝 d))) ≤ map h (𝓝 d) := map_mono lim1
-  rw [Filter.map_map, comm, ← Filter.map_map, map_le_iff_le_comap] at lim1
+  rw [Filter.map_map] at lim1; rw [comm] at lim1; rw [← Filter.map_map] at lim1; rw [map_le_iff_le_comap] at lim1
   have lim2 : comap i (map h (𝓝 d)) ≤ comap i (𝓝 (i a)) := comap_mono H
   rw [← di.nhds_eq_comap] at lim2
   exact le_trans lim1 lim2

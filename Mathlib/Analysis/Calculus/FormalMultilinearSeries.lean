@@ -280,7 +280,7 @@ theorem apply_eq_prod_smul_coeff : p n y = (∏ i, y i) • p.coeff n := by
 #align formal_multilinear_series.apply_eq_prod_smul_coeff FormalMultilinearSeries.apply_eq_prod_smul_coeff
 
 theorem coeff_eq_zero : p.coeff n = 0 ↔ p n = 0 := by
-  rw [← mkPiField_coeff_eq p, ContinuousMultilinearMap.mkPiField_eq_zero_iff]
+  rw [← mkPiField_coeff_eq p]; rw [ContinuousMultilinearMap.mkPiField_eq_zero_iff]
 #align formal_multilinear_series.coeff_eq_zero FormalMultilinearSeries.coeff_eq_zero
 
 @[simp]
@@ -289,7 +289,7 @@ theorem apply_eq_pow_smul_coeff : (p n fun _ => z) = z ^ n • p.coeff n := by s
 
 @[simp]
 theorem norm_apply_eq_norm_coef : ‖p n‖ = ‖coeff p n‖ := by
-  rw [← mkPiField_coeff_eq p, ContinuousMultilinearMap.norm_mkPiField]
+  rw [← mkPiField_coeff_eq p]; rw [ContinuousMultilinearMap.norm_mkPiField]
 #align formal_multilinear_series.norm_apply_eq_norm_coef FormalMultilinearSeries.norm_apply_eq_norm_coef
 
 end Coef

@@ -118,7 +118,7 @@ theorem le_inv_mul_iff_mul_le : b ≤ a⁻¹ * c ↔ a * b ≤ c := by
 
 @[to_additive (attr := simp)]
 theorem inv_mul_le_iff_le_mul : b⁻¹ * a ≤ c ↔ a ≤ b * c := by
-  rw [← mul_le_mul_iff_left b, mul_inv_cancel_left]
+  rw [← mul_le_mul_iff_left b]; rw [mul_inv_cancel_left]
 #align inv_mul_le_iff_le_mul inv_mul_le_iff_le_mul
 #align neg_add_le_iff_le_add neg_add_le_iff_le_add
 
@@ -136,7 +136,7 @@ theorem le_inv_iff_mul_le_one_left : a ≤ b⁻¹ ↔ b * a ≤ 1 :=
 
 @[to_additive]
 theorem le_inv_mul_iff_le : 1 ≤ b⁻¹ * a ↔ b ≤ a := by
-  rw [← mul_le_mul_iff_left b, mul_one, mul_inv_cancel_left]
+  rw [← mul_le_mul_iff_left b]; rw [mul_one]; rw [mul_inv_cancel_left]
 #align le_inv_mul_iff_le le_inv_mul_iff_le
 #align le_neg_add_iff_le le_neg_add_iff_le
 
@@ -156,14 +156,14 @@ variable [LT α] [CovariantClass α α (· * ·) (· < ·)] {a b c : α}
 /-- Uses `left` co(ntra)variant. -/
 @[to_additive (attr := simp) Left.neg_pos_iff "Uses `left` co(ntra)variant."]
 theorem Left.one_lt_inv_iff : 1 < a⁻¹ ↔ a < 1 := by
-  rw [← mul_lt_mul_iff_left a, mul_inv_self, mul_one]
+  rw [← mul_lt_mul_iff_left a]; rw [mul_inv_self]; rw [mul_one]
 #align left.one_lt_inv_iff Left.one_lt_inv_iff
 #align left.neg_pos_iff Left.neg_pos_iff
 
 /-- Uses `left` co(ntra)variant. -/
 @[to_additive (attr := simp) "Uses `left` co(ntra)variant."]
 theorem Left.inv_lt_one_iff : a⁻¹ < 1 ↔ 1 < a := by
-  rw [← mul_lt_mul_iff_left a, mul_inv_self, mul_one]
+  rw [← mul_lt_mul_iff_left a]; rw [mul_inv_self]; rw [mul_one]
 #align left.inv_lt_one_iff Left.inv_lt_one_iff
 #align left.neg_neg_iff Left.neg_neg_iff
 
@@ -176,7 +176,7 @@ theorem lt_inv_mul_iff_mul_lt : b < a⁻¹ * c ↔ a * b < c := by
 
 @[to_additive (attr := simp)]
 theorem inv_mul_lt_iff_lt_mul : b⁻¹ * a < c ↔ a < b * c := by
-  rw [← mul_lt_mul_iff_left b, mul_inv_cancel_left]
+  rw [← mul_lt_mul_iff_left b]; rw [mul_inv_cancel_left]
 #align inv_mul_lt_iff_lt_mul inv_mul_lt_iff_lt_mul
 #align neg_add_lt_iff_lt_add neg_add_lt_iff_lt_add
 
@@ -194,7 +194,7 @@ theorem lt_inv_iff_mul_lt_one' : a < b⁻¹ ↔ b * a < 1 :=
 
 @[to_additive]
 theorem lt_inv_mul_iff_lt : 1 < b⁻¹ * a ↔ b < a := by
-  rw [← mul_lt_mul_iff_left b, mul_one, mul_inv_cancel_left]
+  rw [← mul_lt_mul_iff_left b]; rw [mul_one]; rw [mul_inv_cancel_left]
 #align lt_inv_mul_iff_lt lt_inv_mul_iff_lt
 #align lt_neg_add_iff_lt lt_neg_add_iff_lt
 
@@ -259,7 +259,7 @@ theorem mul_inv_le_one_iff_le : a * b⁻¹ ≤ 1 ↔ a ≤ b :=
 
 @[to_additive]
 theorem le_mul_inv_iff_le : 1 ≤ a * b⁻¹ ↔ b ≤ a := by
-  rw [← mul_le_mul_iff_right b, one_mul, inv_mul_cancel_right]
+  rw [← mul_le_mul_iff_right b]; rw [one_mul]; rw [inv_mul_cancel_right]
 #align le_mul_inv_iff_le le_mul_inv_iff_le
 #align le_add_neg_iff_le le_add_neg_iff_le
 
@@ -278,14 +278,14 @@ variable [LT α] [CovariantClass α α (swap (· * ·)) (· < ·)] {a b c : α}
 /-- Uses `right` co(ntra)variant. -/
 @[to_additive (attr := simp) "Uses `right` co(ntra)variant."]
 theorem Right.inv_lt_one_iff : a⁻¹ < 1 ↔ 1 < a := by
-  rw [← mul_lt_mul_iff_right a, inv_mul_self, one_mul]
+  rw [← mul_lt_mul_iff_right a]; rw [inv_mul_self]; rw [one_mul]
 #align right.inv_lt_one_iff Right.inv_lt_one_iff
 #align right.neg_neg_iff Right.neg_neg_iff
 
 /-- Uses `right` co(ntra)variant. -/
 @[to_additive (attr := simp) Right.neg_pos_iff "Uses `right` co(ntra)variant."]
 theorem Right.one_lt_inv_iff : 1 < a⁻¹ ↔ a < 1 := by
-  rw [← mul_lt_mul_iff_right a, inv_mul_self, one_mul]
+  rw [← mul_lt_mul_iff_right a]; rw [inv_mul_self]; rw [one_mul]
 #align right.one_lt_inv_iff Right.one_lt_inv_iff
 #align right.neg_pos_iff Right.neg_pos_iff
 
@@ -303,7 +303,7 @@ theorem lt_inv_iff_mul_lt_one : a < b⁻¹ ↔ a * b < 1 :=
 
 @[to_additive (attr := simp)]
 theorem mul_inv_lt_iff_lt_mul : a * b⁻¹ < c ↔ a < c * b := by
-  rw [← mul_lt_mul_iff_right b, inv_mul_cancel_right]
+  rw [← mul_lt_mul_iff_right b]; rw [inv_mul_cancel_right]
 #align mul_inv_lt_iff_lt_mul mul_inv_lt_iff_lt_mul
 #align add_neg_lt_iff_lt_add add_neg_lt_iff_lt_add
 
@@ -316,13 +316,13 @@ theorem lt_mul_inv_iff_mul_lt : c < a * b⁻¹ ↔ c * b < a :=
 -- Porting note: `simp` can prove this
 @[to_additive]
 theorem inv_mul_lt_one_iff_lt : a * b⁻¹ < 1 ↔ a < b := by
-  rw [← mul_lt_mul_iff_right b, inv_mul_cancel_right, one_mul]
+  rw [← mul_lt_mul_iff_right b]; rw [inv_mul_cancel_right]; rw [one_mul]
 #align inv_mul_lt_one_iff_lt inv_mul_lt_one_iff_lt
 #align neg_add_neg_iff_lt neg_add_neg_iff_lt
 
 @[to_additive]
 theorem lt_mul_inv_iff_lt : 1 < a * b⁻¹ ↔ b < a := by
-  rw [← mul_lt_mul_iff_right b, one_mul, inv_mul_cancel_right]
+  rw [← mul_lt_mul_iff_right b]; rw [one_mul]; rw [inv_mul_cancel_right]
 #align lt_mul_inv_iff_lt lt_mul_inv_iff_lt
 #align lt_add_neg_iff_lt lt_add_neg_iff_lt
 
@@ -341,7 +341,7 @@ variable [LE α] [CovariantClass α α (· * ·) (· ≤ ·)] [CovariantClass α
 
 @[to_additive (attr := simp)]
 theorem inv_le_inv_iff : a⁻¹ ≤ b⁻¹ ↔ b ≤ a := by
-  rw [← mul_le_mul_iff_left a, ← mul_le_mul_iff_right b]
+  rw [← mul_le_mul_iff_left a]; rw [← mul_le_mul_iff_right b]
   simp
 #align inv_le_inv_iff inv_le_inv_iff
 #align neg_le_neg_iff neg_le_neg_iff
@@ -351,8 +351,7 @@ alias ⟨le_of_neg_le_neg, _⟩ := neg_le_neg_iff
 
 @[to_additive]
 theorem mul_inv_le_inv_mul_iff : a * b⁻¹ ≤ d⁻¹ * c ↔ d * a ≤ c * b := by
-  rw [← mul_le_mul_iff_left d, ← mul_le_mul_iff_right b, mul_inv_cancel_left, mul_assoc,
-    inv_mul_cancel_right]
+  rw [← mul_le_mul_iff_left d]; rw [← mul_le_mul_iff_right b]; rw [mul_inv_cancel_left]; rw [mul_assoc]; rw [inv_mul_cancel_right]
 #align mul_inv_le_inv_mul_iff mul_inv_le_inv_mul_iff
 #align add_neg_le_neg_add_iff add_neg_le_neg_add_iff
 
@@ -380,7 +379,7 @@ variable [LT α] [CovariantClass α α (· * ·) (· < ·)] [CovariantClass α �
 
 @[to_additive (attr := simp)]
 theorem inv_lt_inv_iff : a⁻¹ < b⁻¹ ↔ b < a := by
-  rw [← mul_lt_mul_iff_left a, ← mul_lt_mul_iff_right b]
+  rw [← mul_lt_mul_iff_left a]; rw [← mul_lt_mul_iff_right b]
   simp
 #align inv_lt_inv_iff inv_lt_inv_iff
 #align neg_lt_neg_iff neg_lt_neg_iff
@@ -409,8 +408,7 @@ attribute [to_additive neg_lt_of_neg_lt] inv_lt_of_inv_lt'
 
 @[to_additive]
 theorem mul_inv_lt_inv_mul_iff : a * b⁻¹ < d⁻¹ * c ↔ d * a < c * b := by
-  rw [← mul_lt_mul_iff_left d, ← mul_lt_mul_iff_right b, mul_inv_cancel_left, mul_assoc,
-    inv_mul_cancel_right]
+  rw [← mul_lt_mul_iff_left d]; rw [← mul_lt_mul_iff_right b]; rw [mul_inv_cancel_left]; rw [mul_assoc]; rw [inv_mul_cancel_right]
 #align mul_inv_lt_inv_mul_iff mul_inv_lt_inv_mul_iff
 #align add_neg_lt_neg_add_iff add_neg_lt_neg_add_iff
 
@@ -527,13 +525,13 @@ theorem inv_mul_le_iff_le_mul' : c⁻¹ * a ≤ b ↔ a ≤ b * c := by rw [inv_
 -- Porting note: `simp` simplifies LHS to `a ≤ c * b`
 @[to_additive]
 theorem mul_inv_le_iff_le_mul' : a * b⁻¹ ≤ c ↔ a ≤ b * c := by
-  rw [← inv_mul_le_iff_le_mul, mul_comm]
+  rw [← inv_mul_le_iff_le_mul]; rw [mul_comm]
 #align mul_inv_le_iff_le_mul' mul_inv_le_iff_le_mul'
 #align add_neg_le_iff_le_add' add_neg_le_iff_le_add'
 
 @[to_additive add_neg_le_add_neg_iff]
 theorem mul_inv_le_mul_inv_iff' : a * b⁻¹ ≤ c * d⁻¹ ↔ a * d ≤ c * b := by
-  rw [mul_comm c, mul_inv_le_inv_mul_iff, mul_comm]
+  rw [mul_comm c]; rw [mul_inv_le_inv_mul_iff]; rw [mul_comm]
 #align mul_inv_le_mul_inv_iff' mul_inv_le_mul_inv_iff'
 #align add_neg_le_add_neg_iff add_neg_le_add_neg_iff
 
@@ -551,13 +549,13 @@ theorem inv_mul_lt_iff_lt_mul' : c⁻¹ * a < b ↔ a < b * c := by rw [inv_mul_
 -- Porting note: `simp` simplifies LHS to `a < c * b`
 @[to_additive]
 theorem mul_inv_lt_iff_le_mul' : a * b⁻¹ < c ↔ a < b * c := by
-  rw [← inv_mul_lt_iff_lt_mul, mul_comm]
+  rw [← inv_mul_lt_iff_lt_mul]; rw [mul_comm]
 #align mul_inv_lt_iff_le_mul' mul_inv_lt_iff_le_mul'
 #align add_neg_lt_iff_le_add' add_neg_lt_iff_le_add'
 
 @[to_additive add_neg_lt_add_neg_iff]
 theorem mul_inv_lt_mul_inv_iff' : a * b⁻¹ < c * d⁻¹ ↔ a * d < c * b := by
-  rw [mul_comm c, mul_inv_lt_inv_mul_iff, mul_comm]
+  rw [mul_comm c]; rw [mul_inv_lt_inv_mul_iff]; rw [mul_comm]
 #align mul_inv_lt_mul_inv_iff' mul_inv_lt_mul_inv_iff'
 #align add_neg_lt_add_neg_iff add_neg_lt_add_neg_iff
 
@@ -719,7 +717,7 @@ theorem div_le_div_right' (h : a ≤ b) (c : α) : a / c ≤ b / c :=
 
 @[to_additive (attr := simp) sub_nonneg]
 theorem one_le_div' : 1 ≤ a / b ↔ b ≤ a := by
-  rw [← mul_le_mul_iff_right b, one_mul, div_eq_mul_inv, inv_mul_cancel_right]
+  rw [← mul_le_mul_iff_right b]; rw [one_mul]; rw [div_eq_mul_inv]; rw [inv_mul_cancel_right]
 #align one_le_div' one_le_div'
 #align sub_nonneg sub_nonneg
 
@@ -729,7 +727,7 @@ alias ⟨le_of_sub_nonneg, sub_nonneg_of_le⟩ := sub_nonneg
 
 @[to_additive (attr := simp) sub_nonpos]
 theorem div_le_one' : a / b ≤ 1 ↔ a ≤ b := by
-  rw [← mul_le_mul_iff_right b, one_mul, div_eq_mul_inv, inv_mul_cancel_right]
+  rw [← mul_le_mul_iff_right b]; rw [one_mul]; rw [div_eq_mul_inv]; rw [inv_mul_cancel_right]
 #align div_le_one' div_le_one'
 #align sub_nonpos sub_nonpos
 
@@ -739,7 +737,7 @@ alias ⟨le_of_sub_nonpos, sub_nonpos_of_le⟩ := sub_nonpos
 
 @[to_additive]
 theorem le_div_iff_mul_le : a ≤ c / b ↔ a * b ≤ c := by
-  rw [← mul_le_mul_iff_right b, div_eq_mul_inv, inv_mul_cancel_right]
+  rw [← mul_le_mul_iff_right b]; rw [div_eq_mul_inv]; rw [inv_mul_cancel_right]
 #align le_div_iff_mul_le le_div_iff_mul_le
 #align le_sub_iff_add_le le_sub_iff_add_le
 
@@ -749,7 +747,7 @@ alias ⟨add_le_of_le_sub_right, le_sub_right_of_add_le⟩ := le_sub_iff_add_le
 
 @[to_additive]
 theorem div_le_iff_le_mul : a / c ≤ b ↔ a ≤ b * c := by
-  rw [← mul_le_mul_iff_right c, div_eq_mul_inv, inv_mul_cancel_right]
+  rw [← mul_le_mul_iff_right c]; rw [div_eq_mul_inv]; rw [inv_mul_cancel_right]
 #align div_le_iff_le_mul div_le_iff_le_mul
 #align sub_le_iff_le_add sub_le_iff_le_add
 
@@ -771,8 +769,7 @@ variable [CovariantClass α α (swap (· * ·)) (· ≤ ·)] {a b c : α}
 
 @[to_additive (attr := simp)]
 theorem div_le_div_iff_left (a : α) : a / b ≤ a / c ↔ c ≤ b := by
-  rw [div_eq_mul_inv, div_eq_mul_inv, ← mul_le_mul_iff_left a⁻¹, inv_mul_cancel_left,
-    inv_mul_cancel_left, inv_le_inv_iff]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]; rw [← mul_le_mul_iff_left a⁻¹]; rw [inv_mul_cancel_left]; rw [inv_mul_cancel_left]; rw [inv_le_inv_iff]
 #align div_le_div_iff_left div_le_div_iff_left
 #align sub_le_sub_iff_left sub_le_sub_iff_left
 
@@ -849,7 +846,7 @@ variable [Preorder α] [CovariantClass α α (· * ·) (· ≤ ·)] {a b c d : �
 
 @[to_additive sub_le_sub]
 theorem div_le_div'' (hab : a ≤ b) (hcd : c ≤ d) : a / d ≤ b / c := by
-  rw [div_eq_mul_inv, div_eq_mul_inv, mul_comm b, mul_inv_le_inv_mul_iff, mul_comm]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]; rw [mul_comm b]; rw [mul_inv_le_inv_mul_iff]; rw [mul_comm]
   exact mul_le_mul' hab hcd
 #align div_le_div'' div_le_div''
 #align sub_le_sub sub_le_sub
@@ -882,7 +879,7 @@ theorem div_lt_div_right' (h : a < b) (c : α) : a / c < b / c :=
 
 @[to_additive (attr := simp) sub_pos]
 theorem one_lt_div' : 1 < a / b ↔ b < a := by
-  rw [← mul_lt_mul_iff_right b, one_mul, div_eq_mul_inv, inv_mul_cancel_right]
+  rw [← mul_lt_mul_iff_right b]; rw [one_mul]; rw [div_eq_mul_inv]; rw [inv_mul_cancel_right]
 #align one_lt_div' one_lt_div'
 #align sub_pos sub_pos
 
@@ -892,7 +889,7 @@ alias ⟨lt_of_sub_pos, sub_pos_of_lt⟩ := sub_pos
 
 @[to_additive (attr := simp) sub_neg "For `a - -b = a + b`, see `sub_neg_eq_add`."]
 theorem div_lt_one' : a / b < 1 ↔ a < b := by
-  rw [← mul_lt_mul_iff_right b, one_mul, div_eq_mul_inv, inv_mul_cancel_right]
+  rw [← mul_lt_mul_iff_right b]; rw [one_mul]; rw [div_eq_mul_inv]; rw [inv_mul_cancel_right]
 #align div_lt_one' div_lt_one'
 #align sub_neg sub_neg
 
@@ -905,7 +902,7 @@ alias sub_lt_zero := sub_neg
 
 @[to_additive]
 theorem lt_div_iff_mul_lt : a < c / b ↔ a * b < c := by
-  rw [← mul_lt_mul_iff_right b, div_eq_mul_inv, inv_mul_cancel_right]
+  rw [← mul_lt_mul_iff_right b]; rw [div_eq_mul_inv]; rw [inv_mul_cancel_right]
 #align lt_div_iff_mul_lt lt_div_iff_mul_lt
 #align lt_sub_iff_add_lt lt_sub_iff_add_lt
 
@@ -915,7 +912,7 @@ alias ⟨add_lt_of_lt_sub_right, lt_sub_right_of_add_lt⟩ := lt_sub_iff_add_lt
 
 @[to_additive]
 theorem div_lt_iff_lt_mul : a / c < b ↔ a < b * c := by
-  rw [← mul_lt_mul_iff_right c, div_eq_mul_inv, inv_mul_cancel_right]
+  rw [← mul_lt_mul_iff_right c]; rw [div_eq_mul_inv]; rw [inv_mul_cancel_right]
 #align div_lt_iff_lt_mul div_lt_iff_lt_mul
 #align sub_lt_iff_lt_add sub_lt_iff_lt_add
 
@@ -932,14 +929,13 @@ variable [CovariantClass α α (· * ·) (· < ·)] [CovariantClass α α (swap 
 
 @[to_additive (attr := simp)]
 theorem div_lt_div_iff_left (a : α) : a / b < a / c ↔ c < b := by
-  rw [div_eq_mul_inv, div_eq_mul_inv, ← mul_lt_mul_iff_left a⁻¹, inv_mul_cancel_left,
-    inv_mul_cancel_left, inv_lt_inv_iff]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]; rw [← mul_lt_mul_iff_left a⁻¹]; rw [inv_mul_cancel_left]; rw [inv_mul_cancel_left]; rw [inv_lt_inv_iff]
 #align div_lt_div_iff_left div_lt_div_iff_left
 #align sub_lt_sub_iff_left sub_lt_sub_iff_left
 
 @[to_additive (attr := simp)]
 theorem inv_lt_div_iff_lt_mul : a⁻¹ < b / c ↔ c < a * b := by
-  rw [div_eq_mul_inv, lt_mul_inv_iff_mul_lt, inv_mul_lt_iff_lt_mul]
+  rw [div_eq_mul_inv]; rw [lt_mul_inv_iff_mul_lt]; rw [inv_mul_lt_iff_lt_mul]
 #align inv_lt_div_iff_lt_mul inv_lt_div_iff_lt_mul
 #align neg_lt_sub_iff_lt_add neg_lt_sub_iff_lt_add
 
@@ -1011,7 +1007,7 @@ variable [Preorder α] [CovariantClass α α (· * ·) (· < ·)] {a b c d : α}
 
 @[to_additive sub_lt_sub]
 theorem div_lt_div'' (hab : a < b) (hcd : c < d) : a / d < b / c := by
-  rw [div_eq_mul_inv, div_eq_mul_inv, mul_comm b, mul_inv_lt_inv_mul_iff, mul_comm]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]; rw [mul_comm b]; rw [mul_inv_lt_inv_mul_iff]; rw [mul_comm]
   exact mul_lt_mul_of_lt_of_lt hab hcd
 #align div_lt_div'' div_lt_div''
 #align sub_lt_sub sub_lt_sub
@@ -1053,7 +1049,7 @@ theorem le_iff_forall_one_lt_lt_mul : a ≤ b ↔ ∀ ε, 1 < ε → a < b * ε 
 @[to_additive]
 theorem div_le_inv_mul_iff [CovariantClass α α (swap (· * ·)) (· ≤ ·)] :
     a / b ≤ a⁻¹ * b ↔ a ≤ b := by
-  rw [div_eq_mul_inv, mul_inv_le_inv_mul_iff]
+  rw [div_eq_mul_inv]; rw [mul_inv_le_inv_mul_iff]
   exact
     ⟨fun h => not_lt.mp fun k => not_lt.mpr h (mul_lt_mul_of_lt_of_lt k k), fun h =>
       mul_le_mul' h h⟩
@@ -1066,7 +1062,7 @@ theorem div_le_inv_mul_iff [CovariantClass α α (swap (· * ·)) (· ≤ ·)] :
 @[to_additive, simp]
 theorem div_le_div_flip {α : Type*} [CommGroup α] [LinearOrder α]
     [CovariantClass α α (· * ·) (· ≤ ·)] {a b : α} : a / b ≤ b / a ↔ a ≤ b := by
-  rw [div_eq_mul_inv b, mul_comm]
+  rw [div_eq_mul_inv b]; rw [mul_comm]
   exact div_le_inv_mul_iff
 #align div_le_div_flip div_le_div_flip
 #align sub_le_sub_flip sub_le_sub_flip

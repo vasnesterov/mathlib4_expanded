@@ -48,8 +48,8 @@ theorem denomsClearable_zero (N : ℕ) (a : R) (bu : bi * i b = 1) : DenomsClear
 theorem denomsClearable_C_mul_X_pow {N : ℕ} (a : R) (bu : bi * i b = 1) {n : ℕ} (r : R)
     (nN : n ≤ N) : DenomsClearable a b N (C r * X ^ n) i := by
   refine' ⟨r * a ^ n * b ^ (N - n), bi, bu, _⟩
-  rw [C_mul_X_pow_eq_monomial, map_monomial, ← C_mul_X_pow_eq_monomial, eval_mul, eval_pow, eval_C]
-  rw [RingHom.map_mul, RingHom.map_mul, RingHom.map_pow, RingHom.map_pow, eval_X, mul_comm]
+  rw [C_mul_X_pow_eq_monomial]; rw [map_monomial]; rw [← C_mul_X_pow_eq_monomial]; rw [eval_mul]; rw [eval_pow]; rw [eval_C]
+  rw [RingHom.map_mul]; rw [RingHom.map_mul]; rw [RingHom.map_pow]; rw [RingHom.map_pow]; rw [eval_X]; rw [mul_comm]
   rw [← tsub_add_cancel_of_le nN]
   conv_lhs => rw [← mul_one (i a), ← bu]
   simp [mul_assoc, mul_comm, mul_left_comm, pow_add, mul_pow]
@@ -60,7 +60,7 @@ theorem DenomsClearable.add {N : ℕ} {f g : R[X]} :
     DenomsClearable a b N f i → DenomsClearable a b N g i → DenomsClearable a b N (f + g) i :=
   fun ⟨Df, bf, bfu, Hf⟩ ⟨Dg, bg, bgu, Hg⟩ =>
   ⟨Df + Dg, bf, bfu, by
-    rw [RingHom.map_add, Polynomial.map_add, eval_add, mul_add, Hf, Hg]
+    rw [RingHom.map_add]; rw [Polynomial.map_add]; rw [eval_add]; rw [mul_add]; rw [Hf]; rw [Hg]
     congr
     refine' @inv_unique K _ (i b) bg bf _ _ <;> rwa [mul_comm]⟩
 #align denoms_clearable.add DenomsClearable.add
@@ -94,15 +94,15 @@ theorem one_le_pow_mul_abs_eval_div {K : Type*} [LinearOrderedField K] {f : ℤ[
   obtain ⟨ev, bi, bu, hF⟩ :=
     denomsClearable_natDegree (b := b) (algebraMap ℤ K) f a
       (by
-        rw [eq_intCast, one_div_mul_cancel]
+        rw [eq_intCast]; rw [one_div_mul_cancel]
         rw [Int.cast_ne_zero]
         exact b0.ne.symm)
   obtain Fa := _root_.congr_arg abs hF
-  rw [eq_one_div_of_mul_eq_one_left bu, eq_intCast, eq_intCast, abs_mul] at Fa
+  rw [eq_one_div_of_mul_eq_one_left bu] at Fa; rw [eq_intCast] at Fa; rw [eq_intCast] at Fa; rw [abs_mul] at Fa
   rw [abs_of_pos (pow_pos (Int.cast_pos.mpr b0) _ : 0 < (b : K) ^ _), one_div, eq_intCast] at Fa
-  rw [div_eq_mul_inv, ←Fa, ← Int.cast_abs, ← Int.cast_one, Int.cast_le]
+  rw [div_eq_mul_inv]; rw [←Fa]; rw [← Int.cast_abs]; rw [← Int.cast_one]; rw [Int.cast_le]
   refine' Int.le_of_lt_add_one ((lt_add_iff_pos_left 1).mpr (abs_pos.mpr fun F0 => fab _))
-  rw [eq_one_div_of_mul_eq_one_left bu, F0, one_div, eq_intCast, Int.cast_zero, zero_eq_mul] at hF
+  rw [eq_one_div_of_mul_eq_one_left bu] at hF; rw [F0] at hF; rw [one_div] at hF; rw [eq_intCast] at hF; rw [Int.cast_zero] at hF; rw [zero_eq_mul] at hF
   cases' hF with hF hF
   · exact (not_le.mpr b0 (le_of_eq (Int.cast_eq_zero.mp (pow_eq_zero hF)))).elim
   · rwa [div_eq_mul_inv]

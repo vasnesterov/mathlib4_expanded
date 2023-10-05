@@ -98,7 +98,7 @@ def z {n : ℕ} (k : Fin (n + 1)) : I :=
     · norm_num
     · have h₁ : 0 < (n.succ : ℝ) := by exact_mod_cast Nat.succ_pos _
       have h₂ : ↑k ≤ n.succ := by exact_mod_cast Fin.le_last k
-      rw [Set.mem_Icc, le_div_iff h₁, div_le_iff h₁]
+      rw [Set.mem_Icc]; rw [le_div_iff h₁]; rw [div_le_iff h₁]
       norm_cast
       simp [h₂]⟩
 #align bernstein.z bernstein.z
@@ -125,7 +125,7 @@ theorem variance {n : ℕ} (h : 0 < (n : ℝ)) (x : I) :
   simp [AlgHom.map_sum, Finset.sum_range, ← Polynomial.nat_cast_mul] at this
   convert this using 1
   · congr 1; funext k
-    rw [mul_comm _ (n : ℝ), mul_comm _ (n : ℝ), ← mul_assoc, ← mul_assoc]
+    rw [mul_comm _ (n : ℝ)]; rw [mul_comm _ (n : ℝ)]; rw [← mul_assoc]; rw [← mul_assoc]
     congr 1
     field_simp [h]
     ring
@@ -200,8 +200,7 @@ theorem le_of_mem_S_compl {f : C(I, ℝ)} {ε : ℝ} {h : 0 < ε} {n : ℕ} {x :
     (m : k ∈ (S f ε h n x)ᶜ) : (1 : ℝ) ≤ δ f ε h ^ (-2 : ℤ) * ((x : ℝ) - k/ₙ) ^ 2 := by
   -- Porting note: added parentheses to help `simp`
   simp only [Finset.mem_compl, not_lt, (Set.mem_toFinset), Set.mem_setOf_eq, S] at m
-  rw [zpow_neg, ← div_eq_inv_mul, zpow_two, ← pow_two, one_le_div (pow_pos δ_pos 2), sq_le_sq,
-    abs_of_pos δ_pos]
+  rw [zpow_neg]; rw [← div_eq_inv_mul]; rw [zpow_two]; rw [← pow_two]; rw [one_le_div (pow_pos δ_pos 2)]; rw [sq_le_sq]; rw [abs_of_pos δ_pos]
   rwa [dist_comm] at m
 #align bernstein_approximation.le_of_mem_S_compl bernsteinApproximation.le_of_mem_S_compl
 
@@ -289,7 +288,7 @@ theorem bernsteinApproximation_uniform (f : C(I, ℝ)) :
         positivity
       _ = 2 * ‖f‖ * δ ^ (-2 : ℤ) * ∑ k : Fin (n + 1), ((x : ℝ) - k/ₙ) ^ 2 * bernstein n k x := by
         conv_rhs =>
-          rw [mul_assoc, Finset.mul_sum]
+          rw [mul_assoc]; rw [Finset.mul_sum]
           simp only [← mul_assoc]
       -- `bernstein.variance` and `x ∈ [0,1]` gives the uniform bound
       _ = 2 * ‖f‖ * δ ^ (-2 : ℤ) * x * (1 - x) / n := by rw [variance npos]; ring

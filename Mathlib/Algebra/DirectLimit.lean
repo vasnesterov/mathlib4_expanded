@@ -127,7 +127,7 @@ theorem exists_of [Nonempty ι] [IsDirected ι (· ≤ ·)] (z : DirectLimit G f
         fun p q ⟨i, x, ihx⟩ ⟨j, y, ihy⟩ =>
         let ⟨k, hik, hjk⟩ := exists_ge_ge i j
         ⟨k, f i k hik x + f j k hjk y, by
-          rw [LinearMap.map_add, of_f, of_f, ihx, ihy]
+          rw [LinearMap.map_add]; rw [of_f]; rw [of_f]; rw [ihx]; rw [ihy]
           -- porting note: was `rfl`
           simp only [Submodule.Quotient.mk''_eq_mk, Quotient.mk_add]⟩
 #align module.direct_limit.exists_of Module.DirectLimit.exists_of
@@ -151,8 +151,7 @@ to a unique map out of the direct limit. -/
 def lift : DirectLimit G f →ₗ[R] P :=
   liftQ _ (DirectSum.toModule R ι P g)
     (span_le.2 fun a ⟨i, j, hij, x, hx⟩ => by
-      rw [← hx, SetLike.mem_coe, LinearMap.sub_mem_ker_iff, DirectSum.toModule_lof,
-        DirectSum.toModule_lof, Hg])
+      rw [← hx]; rw [SetLike.mem_coe]; rw [LinearMap.sub_mem_ker_iff]; rw [DirectSum.toModule_lof]; rw [DirectSum.toModule_lof]; rw [Hg])
 #align module.direct_limit.lift Module.DirectLimit.lift
 
 variable {R ι G f}
@@ -205,8 +204,7 @@ theorem toModule_totalize_of_le {x : DirectSum ι G} {i j : ι} (hij : i ≤ j)
   unfold DFinsupp.sum
   simp only [map_sum]
   refine' Finset.sum_congr rfl fun k hk => _
-  rw [DirectSum.single_eq_lof R k (x k), DirectSum.toModule_lof, DirectSum.toModule_lof,
-    totalize_of_le (hx k hk), totalize_of_le (le_trans (hx k hk) hij), DirectedSystem.map_map]
+  rw [DirectSum.single_eq_lof R k (x k)]; rw [DirectSum.toModule_lof]; rw [DirectSum.toModule_lof]; rw [totalize_of_le (hx k hk)]; rw [totalize_of_le (le_trans (hx k hk) hij)]; rw [DirectedSystem.map_map]
 #align module.direct_limit.to_module_totalize_of_le Module.DirectLimit.toModule_totalize_of_le
 
 theorem of.zero_exact_aux [Nonempty ι] [IsDirected ι (· ≤ ·)] {x : DirectSum ι G}
@@ -222,8 +220,8 @@ theorem of.zero_exact_aux [Nonempty ι] [IsDirected ι (· ≤ ·)] {x : DirectS
           subst hxy
           constructor
           · intro i0 hi0
-            rw [DFinsupp.mem_support_iff, DirectSum.sub_apply, ← DirectSum.single_eq_lof, ←
-              DirectSum.single_eq_lof, DFinsupp.single_apply, DFinsupp.single_apply] at hi0
+            rw [DFinsupp.mem_support_iff] at hi0; rw [DirectSum.sub_apply] at hi0; rw [← DirectSum.single_eq_lof] at hi0; rw [←
+              DirectSum.single_eq_lof] at hi0; rw [DFinsupp.single_apply] at hi0; rw [DFinsupp.single_apply] at hi0
             split_ifs at hi0 with hi hj hj
             · rwa [hi] at hik
             · rwa [hi] at hik
@@ -243,7 +241,7 @@ theorem of.zero_exact_aux [Nonempty ι] [IsDirected ι (· ≤ ·)] {x : DirectS
           -- simp [LinearMap.map_add, hxi, hyj, toModule_totalize_of_le hik hi,
           --   toModule_totalize_of_le hjk hj]
           simp only [map_add]
-          rw [toModule_totalize_of_le hik hi, toModule_totalize_of_le hjk hj]
+          rw [toModule_totalize_of_le hik hi]; rw [toModule_totalize_of_le hjk hj]
           simp [hxi, hyj]⟩)
       fun a x ⟨i, hi, hxi⟩ =>
       ⟨i, fun k hk => hi k (DirectSum.support_smul _ _ hk), by simp [LinearMap.map_smul, hxi]⟩
@@ -420,7 +418,7 @@ theorem exists_of [Nonempty ι] [IsDirected ι (· ≤ ·)] (z : DirectLimit G f
             let ⟨j, y, hs⟩ := ih
             let ⟨k, hik, hjk⟩ := exists_ge_ge i j
             ⟨k, f i k hik x * f j k hjk y, by
-              rw [(of G f k).map_mul, of_f, of_f, hs]
+              rw [(of G f k).map_mul]; rw [of_f]; rw [of_f]; rw [hs]
               /- porting note: In Lean3, from here, this was `by refl`. I have added
               the lemma `FreeCommRing.of_cons` to fix this proof. -/
               apply congr_arg Quotient.mk''
@@ -429,7 +427,7 @@ theorem exists_of [Nonempty ι] [IsDirected ι (· ≤ ·)] (z : DirectLimit G f
         (fun s ⟨i, x, ih⟩ => ⟨i, -x, by
           -- porting note: Lean 3 was `of _ _ _`; Lean 4 is not as good at unification
           -- here as Lean 3 is, for some reason.
-          rw [(of G f i).map_neg, ih]
+          rw [(of G f i).map_neg]; rw [ih]
           rfl⟩)
         fun p q ⟨i, x, ihx⟩ ⟨j, y, ihy⟩ =>
         let ⟨k, hik, hjk⟩ := exists_ge_ge i j
@@ -454,7 +452,7 @@ nonrec theorem Polynomial.exists_of [Nonempty ι] [IsDirected ι (· ≤ ·)]
     (fun q₁ q₂ ⟨i₁, p₁, ih₁⟩ ⟨i₂, p₂, ih₂⟩ =>
       let ⟨i, h1, h2⟩ := exists_ge_ge i₁ i₂
       ⟨i, p₁.map (f' i₁ i h1) + p₂.map (f' i₂ i h2), by
-        rw [Polynomial.map_add, map_map, map_map, ← ih₁, ← ih₂]
+        rw [Polynomial.map_add]; rw [map_map]; rw [map_map]; rw [← ih₁]; rw [← ih₂]
         congr 2 <;> ext x <;> simp_rw [RingHom.comp_apply, of_f]⟩)
     fun n z _ =>
     let ⟨i, x, h⟩ := exists_of z
@@ -490,23 +488,17 @@ theorem of.zero_exact_aux2 {x : FreeCommRing (Σi, G i)} {s t} (hxs : IsSupporte
       (restriction _).map_one, (FreeCommRing.lift _).map_one]
   · -- porting note: Lean 3 had `(FreeCommRing.lift _).map_neg` but I needed to replace it with
   -- `RingHom.map_neg` to get the rewrite to compile
-    rw [(restriction _).map_neg, (restriction _).map_one, RingHom.map_neg,
-      (FreeCommRing.lift _).map_one, (f' j k hjk).map_neg, (f' j k hjk).map_one,
-      -- porting note: similarly here I give strictly less information
-      (restriction _).map_neg, (restriction _).map_one, RingHom.map_neg,
-      (FreeCommRing.lift _).map_one]
+    rw [(restriction _).map_neg]; rw [(restriction _).map_one]; rw [RingHom.map_neg]; rw [(FreeCommRing.lift _).map_one]; rw [(f' j k hjk).map_neg]; rw [(f' j k hjk).map_one]; rw [-- porting note: similarly here I give strictly less information
+      (restriction _).map_neg]; rw [(restriction _).map_one]; rw [RingHom.map_neg]; rw [(FreeCommRing.lift _).map_one]
   · rintro _ ⟨p, hps, rfl⟩ n ih
-    rw [(restriction _).map_mul, (FreeCommRing.lift _).map_mul, (f' j k hjk).map_mul, ih,
-      (restriction _).map_mul, (FreeCommRing.lift _).map_mul, restriction_of, dif_pos hps, lift_of,
-      restriction_of, dif_pos (hst hps), lift_of]
+    rw [(restriction _).map_mul]; rw [(FreeCommRing.lift _).map_mul]; rw [(f' j k hjk).map_mul]; rw [ih]; rw [(restriction _).map_mul]; rw [(FreeCommRing.lift _).map_mul]; rw [restriction_of]; rw [dif_pos hps]; rw [lift_of]; rw [restriction_of]; rw [dif_pos (hst hps)]; rw [lift_of]
     dsimp only
     -- porting note: Lean 3 could get away with far fewer hints for inputs in the line below
     have := DirectedSystem.map_map (fun i j h => f' i j h) (hj p hps) hjk
     dsimp only at this
     rw [this]
   · rintro x y ihx ihy
-    rw [(restriction _).map_add, (FreeCommRing.lift _).map_add, (f' j k hjk).map_add, ihx, ihy,
-      (restriction _).map_add, (FreeCommRing.lift _).map_add]
+    rw [(restriction _).map_add]; rw [(FreeCommRing.lift _).map_add]; rw [(f' j k hjk).map_add]; rw [ihx]; rw [ihy]; rw [(restriction _).map_add]; rw [(FreeCommRing.lift _).map_add]
 #align ring.direct_limit.of.zero_exact_aux2 Ring.DirectLimit.of.zero_exact_aux2
 
 variable {G f f'}
@@ -574,7 +566,7 @@ theorem of.zero_exact_aux [Nonempty ι] [IsDirected ι (· ≤ ·)] {x : FreeCom
   · refine' Nonempty.elim (by infer_instance) fun ind : ι => _
     refine' ⟨ind, ∅, fun _ => False.elim, isSupported_zero, _⟩
     -- porting note: `RingHom.map_zero` was `(restriction _).map_zero`
-    rw [RingHom.map_zero, (FreeCommRing.lift _).map_zero]
+    rw [RingHom.map_zero]; rw [(FreeCommRing.lift _).map_zero]
   · rintro x y ⟨i, s, hi, hxs, ihs⟩ ⟨j, t, hj, hyt, iht⟩
     obtain ⟨k, hik, hjk⟩ := exists_ge_ge i j
     have : ∀ z : Σi, G i, z ∈ s ∪ t → z.1 ≤ k := by
@@ -586,10 +578,9 @@ theorem of.zero_exact_aux [Nonempty ι] [IsDirected ι (· ≤ ·)] {x : FreeCom
         isSupported_add (isSupported_upwards hxs <| Set.subset_union_left s t)
           (isSupported_upwards hyt <| Set.subset_union_right s t), _⟩
     · -- porting note: was `(restriction _).map_add`
-      rw [RingHom.map_add, (FreeCommRing.lift _).map_add, ←
-        of.zero_exact_aux2 G f' hxs hi this hik (Set.subset_union_left s t), ←
-        of.zero_exact_aux2 G f' hyt hj this hjk (Set.subset_union_right s t), ihs,
-        (f' i k hik).map_zero, iht, (f' j k hjk).map_zero, zero_add]
+      rw [RingHom.map_add]; rw [(FreeCommRing.lift _).map_add]; rw [←
+        of.zero_exact_aux2 G f' hxs hi this hik (Set.subset_union_left s t)]; rw [←
+        of.zero_exact_aux2 G f' hyt hj this hjk (Set.subset_union_right s t)]; rw [ihs]; rw [(f' i k hik).map_zero]; rw [iht]; rw [(f' j k hjk).map_zero]; rw [zero_add]
   · rintro x y ⟨j, t, hj, hyt, iht⟩
     rw [smul_eq_mul]
     rcases exists_finset_support x with ⟨s, hxs⟩
@@ -603,9 +594,8 @@ theorem of.zero_exact_aux [Nonempty ι] [IsDirected ι (· ≤ ·)] {x : FreeCom
         isSupported_mul (isSupported_upwards hxs <| Set.subset_union_left (↑s) t)
           (isSupported_upwards hyt <| Set.subset_union_right (↑s) t), _⟩
     -- porting note: RingHom.map_mul was `(restriction _).map_mul`
-    rw [RingHom.map_mul, (FreeCommRing.lift _).map_mul, ←
-      of.zero_exact_aux2 G f' hyt hj this hjk (Set.subset_union_right (↑s) t), iht,
-      (f' j k hjk).map_zero, mul_zero]
+    rw [RingHom.map_mul]; rw [(FreeCommRing.lift _).map_mul]; rw [←
+      of.zero_exact_aux2 G f' hyt hj this hjk (Set.subset_union_right (↑s) t)]; rw [iht]; rw [(f' j k hjk).map_zero]; rw [mul_zero]
 #align ring.direct_limit.of.zero_exact_aux Ring.DirectLimit.of.zero_exact_aux
 
 /-- A component that corresponds to zero in the direct limit is already zero in some
@@ -631,11 +621,11 @@ theorem of_injective [IsDirected ι (· ≤ ·)] [DirectedSystem G fun i j h => 
     intro x y hxy
     rw [← sub_eq_zero]
     apply this
-    rw [(of G _ i).map_sub, hxy, sub_self]
+    rw [(of G _ i).map_sub]; rw [hxy]; rw [sub_self]
   intro x hx
   rcases of.zero_exact hx with ⟨j, hij, hfx⟩
   apply hf i j hij
-  rw [hfx, (f' i j hij).map_zero]
+  rw [hfx]; rw [(f' i j hij).map_zero]
 #align ring.direct_limit.of_injective Ring.DirectLimit.of_injective
 
 variable (P : Type u₁) [CommRing P]
@@ -661,7 +651,7 @@ def lift : DirectLimit G f →+* P :=
         exact (mem_bot P).1 (this hx)
       rw [Ideal.span_le]
       intro x hx
-      rw [SetLike.mem_coe, Ideal.mem_comap, mem_bot]
+      rw [SetLike.mem_coe]; rw [Ideal.mem_comap]; rw [mem_bot]
       rcases hx with (⟨i, j, hij, x, rfl⟩ | ⟨i, rfl⟩ | ⟨i, x, y, rfl⟩ | ⟨i, x, y, rfl⟩) <;>
         simp only [RingHom.map_sub, lift_of, Hg, RingHom.map_one, RingHom.map_add, RingHom.map_mul,
           (g i).map_one, (g i).map_add, (g i).map_mul, sub_self])
@@ -725,11 +715,11 @@ noncomputable def inv (p : Ring.DirectLimit G f) : Ring.DirectLimit G f :=
 #align field.direct_limit.inv Field.DirectLimit.inv
 
 protected theorem mul_inv_cancel {p : Ring.DirectLimit G f} (hp : p ≠ 0) : p * inv G f p = 1 := by
-  rw [inv, dif_neg hp, Classical.choose_spec (DirectLimit.exists_inv G f hp)]
+  rw [inv]; rw [dif_neg hp]; rw [Classical.choose_spec (DirectLimit.exists_inv G f hp)]
 #align field.direct_limit.mul_inv_cancel Field.DirectLimit.mul_inv_cancel
 
 protected theorem inv_mul_cancel {p : Ring.DirectLimit G f} (hp : p ≠ 0) : inv G f p * p = 1 := by
-  rw [_root_.mul_comm, DirectLimit.mul_inv_cancel G f hp]
+  rw [_root_.mul_comm]; rw [DirectLimit.mul_inv_cancel G f hp]
 #align field.direct_limit.inv_mul_cancel Field.DirectLimit.inv_mul_cancel
 
 -- porting note: this takes some time, had to increase heartbeats

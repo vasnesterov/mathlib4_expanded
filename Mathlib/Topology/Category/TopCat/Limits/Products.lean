@@ -50,7 +50,7 @@ def piFanIsLimit {ι : Type v} (α : ι → TopCatMax.{v, u}) : IsLimit (piFan �
     apply ContinuousMap.ext; intro x
     funext i
     dsimp
-    rw [ContinuousMap.coe_mk, ← h ⟨i⟩]
+    rw [ContinuousMap.coe_mk]; rw [← h ⟨i⟩]
     rfl
   fac s j := rfl
 #align Top.pi_fan_is_limit TopCat.piFanIsLimit
@@ -132,8 +132,7 @@ theorem sigmaIsoSigma_hom_ι_apply {ι : Type v} (α : ι → TopCatMax.{v, u}) 
 @[simp]
 theorem sigmaIsoSigma_inv_apply {ι : Type v} (α : ι → TopCatMax.{v, u}) (i : ι) (x : α i) :
     (sigmaIsoSigma α).inv ⟨i, x⟩ = (Sigma.ι α i : _) x := by
-  rw [← sigmaIsoSigma_hom_ι_apply, ← comp_app, ←comp_app, Category.assoc, Iso.hom_inv_id,
-    Category.comp_id]
+  rw [← sigmaIsoSigma_hom_ι_apply]; rw [← comp_app]; rw [←comp_app]; rw [Category.assoc]; rw [Iso.hom_inv_id]; rw [Category.comp_id]
 #align Top.sigma_iso_sigma_inv_apply TopCat.sigmaIsoSigma_inv_apply
 
 -- Porting note: cannot use .topologicalSpace in place .str
@@ -260,11 +259,11 @@ theorem range_prod_map {W X Y Z : TopCat.{u}} (f : W ⟶ Y) (g : X ⟶ Z) :
     rintro ⟨⟨⟩⟩
     · simp only [← comp_apply, Category.assoc]
       erw [Limits.prod.map_fst]
-      rw [TopCat.prodIsoProd_inv_fst_assoc,TopCat.comp_app]
+      rw [TopCat.prodIsoProd_inv_fst_assoc]; rw [TopCat.comp_app]
       exact hx₁
     · simp only [← comp_apply, Category.assoc]
       erw [Limits.prod.map_snd]
-      rw [TopCat.prodIsoProd_inv_snd_assoc,TopCat.comp_app]
+      rw [TopCat.prodIsoProd_inv_snd_assoc]; rw [TopCat.comp_app]
       exact hx₂
 #align Top.range_prod_map TopCat.range_prod_map
 
@@ -274,7 +273,7 @@ theorem inducing_prod_map {W X Y Z : TopCat.{u}} {f : W ⟶ X} {g : Y ⟶ Z} (hf
   simp only [prod_topology, induced_compose, ← coe_comp, Limits.prod.map_fst, Limits.prod.map_snd,
     induced_inf]
   simp only [coe_comp]
-  rw [← @induced_compose _ _ _ _ _ f, ← @induced_compose _ _ _ _ _ g, ← hf.induced, ← hg.induced]
+  rw [← @induced_compose _ _ _ _ _ f]; rw [← @induced_compose _ _ _ _ _ g]; rw [← hf.induced]; rw [← hg.induced]
 #align Top.inducing_prod_map TopCat.inducing_prod_map
 
 theorem embedding_prod_map {W X Y Z : TopCat.{u}} {f : W ⟶ X} {g : Y ⟶ Z} (hf : Embedding f)
@@ -316,8 +315,7 @@ theorem binaryCofan_isColimit_iff {X Y : TopCat} (c : BinaryCofan X Y) :
     constructor
     · rintro ⟨h⟩
       rw [← show _ = c.inl from
-          h.comp_coconePointUniqueUpToIso_inv (binaryCofanIsColimit X Y) ⟨WalkingPair.left⟩,
-        ← show _ = c.inr from
+          h.comp_coconePointUniqueUpToIso_inv (binaryCofanIsColimit X Y) ⟨WalkingPair.left⟩]; rw [← show _ = c.inr from
           h.comp_coconePointUniqueUpToIso_inv (binaryCofanIsColimit X Y) ⟨WalkingPair.right⟩]
       dsimp
       refine' ⟨(homeoOfIso <| h.coconePointUniqueUpToIso

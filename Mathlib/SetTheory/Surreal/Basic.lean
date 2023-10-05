@@ -124,7 +124,7 @@ theorem lf_asymm {x y : PGame} (ox : Numeric x) (oy : Numeric y) : x ⧏ y → �
   refine' numeric_rec (C := fun x => ∀ z (_oz : Numeric z), x ⧏ z → ¬z ⧏ x)
     (fun xl xr xL xR hx _oxl _oxr IHxl IHxr => _) x ox y oy
   refine' numeric_rec fun yl yr yL yR hy oyl oyr _IHyl _IHyr => _
-  rw [mk_lf_mk, mk_lf_mk]; rintro (⟨i, h₁⟩ | ⟨j, h₁⟩) (⟨i, h₂⟩ | ⟨j, h₂⟩)
+  rw [mk_lf_mk]; rw [mk_lf_mk]; rintro (⟨i, h₁⟩ | ⟨j, h₁⟩) (⟨i, h₂⟩ | ⟨j, h₂⟩)
   · exact IHxl _ _ (oyl _) (h₁.moveLeft_lf _) (h₂.moveLeft_lf _)
   · exact (le_trans h₂ h₁).not_gf (lf_of_lt (hy _ _))
   · exact (le_trans h₁ h₂).not_gf (lf_of_lt (hx _ _))
@@ -160,7 +160,7 @@ theorem le_iff_forall_lt {x y : PGame} (ox : x.Numeric) (oy : y.Numeric) :
 /-- Definition of `x < y` on numeric pre-games, in terms of `≤` -/
 theorem lt_iff_exists_le {x y : PGame} (ox : x.Numeric) (oy : y.Numeric) :
     x < y ↔ (∃ i, x ≤ y.moveLeft i) ∨ ∃ j, x.moveRight j ≤ y := by
-  rw [← lf_iff_lt ox oy, lf_iff_exists_le]
+  rw [← lf_iff_lt ox oy]; rw [lf_iff_exists_le]
 #align pgame.lt_iff_exists_le SetTheory.PGame.lt_iff_exists_le
 
 theorem lt_of_exists_le {x y : PGame} (ox : x.Numeric) (oy : y.Numeric) :
@@ -173,7 +173,7 @@ theorem lt_def {x y : PGame} (ox : x.Numeric) (oy : y.Numeric) :
     x < y ↔
       (∃ i, (∀ i', x.moveLeft i' < y.moveLeft i) ∧ ∀ j, x < (y.moveLeft i).moveRight j) ∨
         ∃ j, (∀ i, (x.moveRight j).moveLeft i < y) ∧ ∀ j', x.moveRight j < y.moveRight j' := by
-  rw [← lf_iff_lt ox oy, lf_def]
+  rw [← lf_iff_lt ox oy]; rw [lf_def]
   refine' or_congr _ _ <;> refine' exists_congr fun x_1 => _ <;> refine' and_congr _ _ <;>
       refine' forall_congr' fun i => lf_iff_lt _ _ <;>
     apply_rules [Numeric.moveLeft, Numeric.moveRight]

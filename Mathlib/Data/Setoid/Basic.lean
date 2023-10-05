@@ -192,7 +192,7 @@ theorem bot_def : (⊥ : Setoid α).Rel = (· = ·) :=
 #align setoid.bot_def Setoid.bot_def
 
 theorem eq_top_iff {s : Setoid α} : s = (⊤ : Setoid α) ↔ ∀ x y : α, s.Rel x y := by
-  rw [_root_.eq_top_iff, Setoid.le_def, Setoid.top_def]
+  rw [_root_.eq_top_iff]; rw [Setoid.le_def]; rw [Setoid.top_def]
   simp only [Pi.top_apply, Prop.top_eq_true, forall_true_left]
 #align setoid.eq_top_iff Setoid.eq_top_iff
 
@@ -236,7 +236,7 @@ theorem sSup_eq_eqvGen (S : Set (Setoid α)) :
 /-- The supremum of a set of equivalence relations is the equivalence closure of the
     supremum of the set's image under the map to the underlying binary operation. -/
 theorem sSup_def {s : Set (Setoid α)} : sSup s = EqvGen.Setoid (sSup (Rel '' s)) := by
-  rw [sSup_eq_eqvGen, sSup_image]
+  rw [sSup_eq_eqvGen]; rw [sSup_image]
   congr with (x y)
   simp only [iSup_apply, iSup_Prop_eq, exists_prop]
 #align setoid.Sup_def Setoid.sSup_def

@@ -71,7 +71,7 @@ variable {R A}
 
 theorem FormallyEtale.iff_unramified_and_smooth :
     FormallyEtale R A ↔ FormallyUnramified R A ∧ FormallySmooth R A := by
-  rw [FormallyUnramified_iff, FormallySmooth_iff, FormallyEtale_iff]
+  rw [FormallyUnramified_iff]; rw [FormallySmooth_iff]; rw [FormallyEtale_iff]
   simp_rw [← forall_and]
   rfl
 #align algebra.formally_etale.iff_unramified_and_smooth Algebra.FormallyEtale.iff_unramified_and_smooth
@@ -153,8 +153,7 @@ theorem FormallySmooth.exists_lift {B : Type u} [CommRing B] [_RB : Algebra R B]
     obtain ⟨g', rfl⟩ := h₁ g'
     replace e := congr_arg this.toAlgHom.comp e
     conv_rhs at e =>
-      rw [← AlgHom.comp_assoc, AlgEquiv.toAlgHom_eq_coe, AlgEquiv.toAlgHom_eq_coe,
-        AlgEquiv.comp_symm, AlgHom.id_comp]
+      rw [← AlgHom.comp_assoc]; rw [AlgEquiv.toAlgHom_eq_coe]; rw [AlgEquiv.toAlgHom_eq_coe]; rw [AlgEquiv.comp_symm]; rw [AlgHom.id_comp]
     exact ⟨g', e⟩
 #align algebra.formally_smooth.exists_lift Algebra.FormallySmooth.exists_lift
 
@@ -196,8 +195,7 @@ theorem FormallySmooth.liftOfSurjective_apply [FormallySmooth R A] (f : A →ₐ
   rw [← FormallySmooth.mk_lift _ hg'
     ((Ideal.quotientKerAlgEquivOfSurjective hg).symm.toAlgHom.comp f)]
   apply (Ideal.quotientKerAlgEquivOfSurjective hg).injective
-  rw [AlgEquiv.apply_symm_apply, Ideal.quotientKerAlgEquivOfSurjective,
-    Ideal.quotientKerAlgEquivOfRightInverse.apply]
+  rw [AlgEquiv.apply_symm_apply]; rw [Ideal.quotientKerAlgEquivOfSurjective]; rw [Ideal.quotientKerAlgEquivOfRightInverse.apply]
   exact (Ideal.kerLiftAlg_mk _ _).symm
 #align algebra.formally_smooth.lift_of_surjective_apply Algebra.FormallySmooth.liftOfSurjective_apply
 
@@ -220,18 +218,17 @@ theorem FormallySmooth.of_equiv [FormallySmooth R A] (e : A ≃ₐ[R] B) : Forma
   constructor
   intro C _ _ I hI f
   use (FormallySmooth.lift I ⟨2, hI⟩ (f.comp e : A →ₐ[R] C ⧸ I)).comp e.symm
-  rw [← AlgHom.comp_assoc, FormallySmooth.comp_lift, AlgHom.comp_assoc, AlgEquiv.comp_symm,
-    AlgHom.comp_id]
+  rw [← AlgHom.comp_assoc]; rw [FormallySmooth.comp_lift]; rw [AlgHom.comp_assoc]; rw [AlgEquiv.comp_symm]; rw [AlgHom.comp_id]
 #align algebra.formally_smooth.of_equiv Algebra.FormallySmooth.of_equiv
 
 theorem FormallyUnramified.of_equiv [FormallyUnramified R A] (e : A ≃ₐ[R] B) :
     FormallyUnramified R B := by
   constructor
   intro C _ _ I hI f₁ f₂ e'
-  rw [← f₁.comp_id, ← f₂.comp_id, ← e.comp_symm, ← AlgHom.comp_assoc, ← AlgHom.comp_assoc]
+  rw [← f₁.comp_id]; rw [← f₂.comp_id]; rw [← e.comp_symm]; rw [← AlgHom.comp_assoc]; rw [← AlgHom.comp_assoc]
   congr 1
   refine' FormallyUnramified.comp_injective I hI _
-  rw [← AlgHom.comp_assoc, e', AlgHom.comp_assoc]
+  rw [← AlgHom.comp_assoc]; rw [e']; rw [AlgHom.comp_assoc]
 #align algebra.formally_unramified.of_equiv Algebra.FormallyUnramified.of_equiv
 
 theorem FormallyEtale.of_equiv [FormallyEtale R A] (e : A ≃ₐ[R] B) : FormallyEtale R B :=
@@ -255,7 +252,7 @@ instance FormallySmooth.mvPolynomial (σ : Type u) : FormallySmooth R (MvPolynom
   choose g hg using this
   refine' ⟨MvPolynomial.aeval g, _⟩
   ext s
-  rw [← hg, AlgHom.comp_apply, MvPolynomial.aeval_X]
+  rw [← hg]; rw [AlgHom.comp_apply]; rw [MvPolynomial.aeval_X]
   rfl
 #align algebra.formally_smooth.mv_polynomial Algebra.FormallySmooth.mvPolynomial
 
@@ -361,7 +358,7 @@ theorem FormallySmooth.iff_split_surjection [FormallySmooth R P] :
     have surj : Function.Surjective f.kerSquareLift := fun x =>
       ⟨Submodule.Quotient.mk (hf x).choose, (hf x).choose_spec⟩
     have sqz : RingHom.ker f.kerSquareLift.toRingHom ^ 2 = 0 := by
-      rw [AlgHom.ker_kerSquareLift, Ideal.cotangentIdeal_square, Ideal.zero_eq_bot]
+      rw [AlgHom.ker_kerSquareLift]; rw [Ideal.cotangentIdeal_square]; rw [Ideal.zero_eq_bot]
     refine'
       ⟨FormallySmooth.lift _ ⟨2, sqz⟩ (Ideal.quotientKerAlgEquivOfSurjective surj).symm.toAlgHom,
         _⟩
@@ -403,7 +400,7 @@ instance FormallyUnramified.subsingleton_kaehlerDifferential [FormallyUnramified
   apply e
   ext1
   apply FormallyUnramified.lift_unique' _ _ _ _ (f₁.2.trans f₂.2.symm)
-  rw [← AlgHom.toRingHom_eq_coe, AlgHom.ker_kerSquareLift]
+  rw [← AlgHom.toRingHom_eq_coe]; rw [AlgHom.ker_kerSquareLift]
   exact ⟨_, Ideal.cotangentIdeal_square _⟩
 #align algebra.formally_unramified.subsingleton_kaehler_differential Algebra.FormallyUnramified.subsingleton_kaehlerDifferential
 
@@ -456,7 +453,7 @@ instance FormallySmooth.base_change [FormallySmooth R A] : FormallySmooth B (B �
     apply TensorProduct.ext'
     intro b a
     suffices algebraMap B _ b * f (1 ⊗ₜ[R] a) = f (b ⊗ₜ[R] a) by simpa [Algebra.ofId_apply]
-    rw [← Algebra.smul_def, ← map_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
+    rw [← Algebra.smul_def]; rw [← map_smul]; rw [TensorProduct.smul_tmul']; rw [smul_eq_mul]; rw [mul_one]
 #align algebra.formally_smooth.base_change Algebra.FormallySmooth.base_change
 
 instance FormallyEtale.base_change [FormallyEtale R A] : FormallyEtale B (B ⊗[R] A) :=
@@ -527,8 +524,7 @@ theorem FormallySmooth.localization_base [FormallySmooth R Sₘ] : FormallySmoot
         algebraMap _ _ r
     congr 1
     refine' IsLocalization.ringHom_ext M _
-    rw [RingHom.comp_assoc, ← IsScalarTower.algebraMap_eq, ← IsScalarTower.algebraMap_eq,
-      AlgHom.comp_algebraMap]
+    rw [RingHom.comp_assoc]; rw [← IsScalarTower.algebraMap_eq]; rw [← IsScalarTower.algebraMap_eq]; rw [AlgHom.comp_algebraMap]
   use f
   ext
   simp

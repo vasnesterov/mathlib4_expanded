@@ -96,7 +96,7 @@ theorem hasFiniteIntegral_compProd_iff ⦃f : β × γ → E⦄ (h1f : StronglyM
       (h1f.norm.comp_measurable measurable_prod_mk_left).aestronglyMeasurable,
     ennnorm_eq_ofReal toReal_nonneg, ofReal_norm_eq_coe_nnnorm]
   have : ∀ {p q r : Prop} (_ : r → p), (r ↔ p ∧ q) ↔ p → (r ↔ q) := fun {p q r} h1 => by
-    rw [← and_congr_right_iff, and_iff_right_of_imp h1]
+    rw [← and_congr_right_iff]; rw [and_iff_right_of_imp h1]
   rw [this]
   · intro h2f; rw [lintegral_congr_ae]
     refine' h2f.mp _; apply eventually_of_forall; intro x hx; dsimp only
@@ -109,8 +109,7 @@ theorem hasFiniteIntegral_compProd_iff' ⦃f : β × γ → E⦄
     HasFiniteIntegral f ((κ ⊗ₖ η) a) ↔
       (∀ᵐ x ∂κ a, HasFiniteIntegral (fun y => f (x, y)) (η (a, x))) ∧
         HasFiniteIntegral (fun x => ∫ y, ‖f (x, y)‖ ∂η (a, x)) (κ a) := by
-  rw [hasFiniteIntegral_congr h1f.ae_eq_mk,
-    hasFiniteIntegral_compProd_iff h1f.stronglyMeasurable_mk]
+  rw [hasFiniteIntegral_congr h1f.ae_eq_mk]; rw [hasFiniteIntegral_compProd_iff h1f.stronglyMeasurable_mk]
   apply and_congr
   · apply eventually_congr
     filter_upwards [ae_ae_of_ae_compProd h1f.ae_eq_mk.symm]
@@ -272,7 +271,7 @@ theorem set_integral_compProd {f : β × γ → E} {s : Set β} {t : Set γ} (hs
     (ht : MeasurableSet t) (hf : IntegrableOn f (s ×ˢ t) ((κ ⊗ₖ η) a)) :
     ∫ z in s ×ˢ t, f z ∂(κ ⊗ₖ η) a = ∫ x in s, ∫ y in t, f (x, y) ∂η (a, x) ∂κ a := by
   -- Porting note: `compProd_restrict` needed some explicit argumnts
-  rw [← kernel.restrict_apply (κ ⊗ₖ η) (hs.prod ht), ← compProd_restrict hs ht, integral_compProd]
+  rw [← kernel.restrict_apply (κ ⊗ₖ η) (hs.prod ht)]; rw [← compProd_restrict hs ht]; rw [integral_compProd]
   · simp_rw [kernel.restrict_apply]
   · rw [compProd_restrict, kernel.restrict_apply]; exact hf
 #align probability_theory.set_integral_comp_prod ProbabilityTheory.set_integral_compProd

@@ -54,13 +54,13 @@ theorem subgroups_basis : RingSubgroupsBasis fun γ : Γ₀ˣ => (v.ltAddSubgrou
       · use (1 : Γ₀ˣ)
         rintro y _
         change v (x * y) < _
-        rw [Valuation.map_mul, Hx, zero_mul]
+        rw [Valuation.map_mul]; rw [Hx]; rw [zero_mul]
         exact Units.zero_lt γ
       · use γx⁻¹ * γ
         rintro y (vy_lt : v y < ↑(γx⁻¹ * γ))
         change (v (x * y) : Γ₀) < γ
-        rw [Valuation.map_mul, Hx, mul_comm]
-        rw [Units.val_mul, mul_comm] at vy_lt
+        rw [Valuation.map_mul]; rw [Hx]; rw [mul_comm]
+        rw [Units.val_mul] at vy_lt; rw [mul_comm] at vy_lt
         simpa using mul_inv_lt_of_lt_mul₀ vy_lt
     rightMul := by
       rintro x γ
@@ -68,13 +68,13 @@ theorem subgroups_basis : RingSubgroupsBasis fun γ : Γ₀ˣ => (v.ltAddSubgrou
       · use 1
         rintro y _
         change v (y * x) < _
-        rw [Valuation.map_mul, Hx, mul_zero]
+        rw [Valuation.map_mul]; rw [Hx]; rw [mul_zero]
         exact Units.zero_lt γ
       · use γx⁻¹ * γ
         rintro y (vy_lt : v y < ↑(γx⁻¹ * γ))
         change (v (y * x) : Γ₀) < γ
-        rw [Valuation.map_mul, Hx]
-        rw [Units.val_mul, mul_comm] at vy_lt
+        rw [Valuation.map_mul]; rw [Hx]
+        rw [Units.val_mul] at vy_lt; rw [mul_comm] at vy_lt
         simpa using mul_inv_lt_of_lt_mul₀ vy_lt }
 #align valuation.subgroups_basis Valuation.subgroups_basis
 
@@ -156,7 +156,7 @@ instance (priority := 100) : TopologicalRing R :=
 
 theorem cauchy_iff {F : Filter R} : Cauchy F ↔
     F.NeBot ∧ ∀ γ : Γ₀ˣ, ∃ M ∈ F, ∀ (x) (_ : x ∈ M) (y) (_ : y ∈ M), (v (y - x) : Γ₀) < γ := by
-  rw [toUniformSpace_eq, AddGroupFilterBasis.cauchy_iff]
+  rw [toUniformSpace_eq]; rw [AddGroupFilterBasis.cauchy_iff]
   apply and_congr Iff.rfl
   simp_rw [Valued.v.subgroups_basis.mem_addGroupFilterBasis_iff]
   constructor

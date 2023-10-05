@@ -124,7 +124,7 @@ theorem exists_locallyConstant_fin_two (hC : IsLimit C) (f : LocallyConstant C.p
   apply LocallyConstant.locallyConstant_eq_of_fiber_zero_eq
   rw [LocallyConstant.coe_comap _ _ (C.π.app j).continuous]
   conv_rhs => rw [Set.preimage_comp]
-  rw [LocallyConstant.ofClopen_fiber_zero hV, ← h]
+  rw [LocallyConstant.ofClopen_fiber_zero hV]; rw [← h]
 set_option linter.uppercaseLean3 false in
 #align Profinite.exists_locally_constant_fin_two Profinite.exists_locallyConstant_fin_two
 
@@ -186,7 +186,7 @@ theorem exists_locallyConstant_finite_nonempty {α : Type*} [Finite α] [Nonempt
   dsimp
   have h1 : ι (f x) = gg (C.π.app j x) := by
     change f.map (fun a b => if a = b then (0 : Fin 2) else 1) x = _
-    rw [h, LocallyConstant.coe_comap _ _ (C.π.app j).continuous]
+    rw [h]; rw [LocallyConstant.coe_comap _ _ (C.π.app j).continuous]
     rfl
   have h2 : ∃ a : α, ι a = gg (C.π.app j x) := ⟨f x, h1⟩
   rw [dif_pos h2]

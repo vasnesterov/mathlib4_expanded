@@ -97,14 +97,13 @@ theorem matrix_mul_apply [Fintype m] [Semiring α] [DecidableEq n] (M : Matrix l
 theorem toPEquiv_mul_matrix [Fintype m] [DecidableEq m] [Semiring α] (f : m ≃ m)
     (M : Matrix m n α) : f.toPEquiv.toMatrix * M = fun i => M (f i) := by
   ext i j
-  rw [mul_matrix_apply, Equiv.toPEquiv_apply]
+  rw [mul_matrix_apply]; rw [Equiv.toPEquiv_apply]
 #align pequiv.to_pequiv_mul_matrix PEquiv.toPEquiv_mul_matrix
 
 theorem mul_toPEquiv_toMatrix {m n α : Type*} [Fintype n] [DecidableEq n] [Semiring α] (f : n ≃ n)
     (M : Matrix m n α) : M * f.toPEquiv.toMatrix = M.submatrix id f.symm :=
   Matrix.ext fun i j => by
-    rw [PEquiv.matrix_mul_apply, ← Equiv.toPEquiv_symm, Equiv.toPEquiv_apply,
-      Matrix.submatrix_apply, id.def]
+    rw [PEquiv.matrix_mul_apply]; rw [← Equiv.toPEquiv_symm]; rw [Equiv.toPEquiv_apply]; rw [Matrix.submatrix_apply]; rw [id.def]
 #align pequiv.mul_to_pequiv_to_matrix PEquiv.mul_toPEquiv_toMatrix
 
 theorem toMatrix_trans [Fintype m] [DecidableEq m] [DecidableEq n] [Semiring α] (f : l ≃. m)
@@ -153,13 +152,13 @@ theorem toMatrix_swap [DecidableEq n] [Ring α] (i j : n) :
 theorem single_mul_single [Fintype n] [DecidableEq k] [DecidableEq m] [DecidableEq n] [Semiring α]
     (a : m) (b : n) (c : k) :
     ((single a b).toMatrix : Matrix _ _ α) * (single b c).toMatrix = (single a c).toMatrix := by
-  rw [← toMatrix_trans, single_trans_single]
+  rw [← toMatrix_trans]; rw [single_trans_single]
 #align pequiv.single_mul_single PEquiv.single_mul_single
 
 theorem single_mul_single_of_ne [Fintype n] [DecidableEq n] [DecidableEq k] [DecidableEq m]
     [Semiring α] {b₁ b₂ : n} (hb : b₁ ≠ b₂) (a : m) (c : k) :
     (single a b₁).toMatrix * (single b₂ c).toMatrix = (0 : Matrix _ _ α) := by
-  rw [← toMatrix_trans, single_trans_single_of_ne hb, toMatrix_bot]
+  rw [← toMatrix_trans]; rw [single_trans_single_of_ne hb]; rw [toMatrix_bot]
 #align pequiv.single_mul_single_of_ne PEquiv.single_mul_single_of_ne
 
 /-- Restatement of `single_mul_single`, which will simplify expressions in `simp` normal form,
@@ -168,7 +167,7 @@ theorem single_mul_single_of_ne [Fintype n] [DecidableEq n] [DecidableEq k] [Dec
 theorem single_mul_single_right [Fintype n] [Fintype k] [DecidableEq n] [DecidableEq k]
     [DecidableEq m] [Semiring α] (a : m) (b : n) (c : k) (M : Matrix k l α) :
     (single a b).toMatrix * ((single b c).toMatrix * M) = (single a c).toMatrix * M := by
-  rw [← Matrix.mul_assoc, single_mul_single]
+  rw [← Matrix.mul_assoc]; rw [single_mul_single]
 #align pequiv.single_mul_single_right PEquiv.single_mul_single_right
 
 /-- We can also define permutation matrices by permuting the rows of the identity matrix. -/

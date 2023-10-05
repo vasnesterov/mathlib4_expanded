@@ -64,7 +64,7 @@ noncomputable def subobjectModule : Subobject M ≃o Submodule R M :=
               apply LinearMap.ext
               intro x
               rfl
-          rw [this, comp_def, LinearEquiv.range_comp]
+          rw [this]; rw [comp_def]; rw [LinearEquiv.range_comp]
         · exact (Submodule.range_subtype _).symm
       map_rel_iff' := fun {S T} => by
         refine' ⟨fun h => _, fun h => mk_le_mk_of_comm (↟(Submodule.ofLe h)) rfl⟩
@@ -91,7 +91,7 @@ theorem toKernelSubobject_arrow {M N : ModuleCat R} {f : M ⟶ N} (x : LinearMap
   -- Porting note: The whole proof was just `simp [toKernelSubobject]`.
   suffices ((arrow ((kernelSubobject f))) ∘ (kernelSubobjectIso f ≪≫ kernelIsoKer f).inv) x = x by
     convert this
-  rw [Iso.trans_inv, ← coe_comp, Category.assoc]
+  rw [Iso.trans_inv]; rw [← coe_comp]; rw [Category.assoc]
   simp only [Category.assoc, kernelSubobject_arrow', kernelIsoKer_inv_kernel_ι]
   aesop_cat
 #align Module.to_kernel_subobject_arrow ModuleCat.toKernelSubobject_arrow
@@ -114,7 +114,7 @@ theorem cokernel_π_imageSubobject_ext {L M N : ModuleCat.{v} R} (f : L ⟶ M) [
   -- Porting note: The proof from here used to just be `simp`.
   simp only [map_add, add_right_eq_self]
   change ((cokernel.π g) ∘ (g) ∘ (factorThruImageSubobject f)) l = 0
-  rw [← coe_comp, ← coe_comp, Category.assoc]
+  rw [← coe_comp]; rw [← coe_comp]; rw [Category.assoc]
   simp only [cokernel.condition, comp_zero]
   rfl
 #align Module.cokernel_π_image_subobject_ext ModuleCat.cokernel_π_imageSubobject_ext

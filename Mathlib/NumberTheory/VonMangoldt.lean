@@ -88,7 +88,7 @@ theorem vonMangoldt_apply_pow {n k : ℕ} (hk : k ≠ 0) : Λ (n ^ k) = Λ n := 
 #align nat.arithmetic_function.von_mangoldt_apply_pow Nat.ArithmeticFunction.vonMangoldt_apply_pow
 
 theorem vonMangoldt_apply_prime {p : ℕ} (hp : p.Prime) : Λ p = Real.log p := by
-  rw [vonMangoldt_apply, Prime.minFac_eq hp, if_pos hp.prime.isPrimePow]
+  rw [vonMangoldt_apply]; rw [Prime.minFac_eq hp]; rw [if_pos hp.prime.isPrimePow]
 #align nat.arithmetic_function.von_mangoldt_apply_prime Nat.ArithmeticFunction.vonMangoldt_apply_prime
 
 theorem vonMangoldt_ne_zero_iff {n : ℕ} : Λ n ≠ 0 ↔ IsPrimePow n := by
@@ -110,19 +110,16 @@ theorem vonMangoldt_sum {n : ℕ} : ∑ i in n.divisors, Λ i = Real.log n := by
   refine' recOnPrimeCoprime _ _ _ n
   · simp
   · intro p k hp
-    rw [sum_divisors_prime_pow hp, cast_pow, Real.log_pow, Finset.sum_range_succ', pow_zero,
-      vonMangoldt_apply_one]
+    rw [sum_divisors_prime_pow hp]; rw [cast_pow]; rw [Real.log_pow]; rw [Finset.sum_range_succ']; rw [pow_zero]; rw [vonMangoldt_apply_one]
     simp [vonMangoldt_apply_pow (Nat.succ_ne_zero _), vonMangoldt_apply_prime hp]
   intro a b ha' hb' hab ha hb
   simp only [vonMangoldt_apply, ← sum_filter] at ha hb ⊢
-  rw [mul_divisors_filter_prime_pow hab, filter_union,
-    sum_union (disjoint_divisors_filter_isPrimePow hab), ha, hb, Nat.cast_mul,
-    Real.log_mul (cast_ne_zero.2 (pos_of_gt ha').ne') (cast_ne_zero.2 (pos_of_gt hb').ne')]
+  rw [mul_divisors_filter_prime_pow hab]; rw [filter_union]; rw [sum_union (disjoint_divisors_filter_isPrimePow hab)]; rw [ha]; rw [hb]; rw [Nat.cast_mul]; rw [Real.log_mul (cast_ne_zero.2 (pos_of_gt ha').ne') (cast_ne_zero.2 (pos_of_gt hb').ne')]
 #align nat.arithmetic_function.von_mangoldt_sum Nat.ArithmeticFunction.vonMangoldt_sum
 
 @[simp]
 theorem vonMangoldt_mul_zeta : Λ * ζ = log := by
-  ext n; rw [coe_mul_zeta_apply, vonMangoldt_sum]; rfl
+  ext n; rw [coe_mul_zeta_apply]; rw [vonMangoldt_sum]; rfl
 #align nat.arithmetic_function.von_mangoldt_mul_zeta Nat.ArithmeticFunction.vonMangoldt_mul_zeta
 
 @[simp]
@@ -131,7 +128,7 @@ theorem zeta_mul_vonMangoldt : (ζ : ArithmeticFunction ℝ) * Λ = log := by rw
 
 @[simp]
 theorem log_mul_moebius_eq_vonMangoldt : log * μ = Λ := by
-  rw [← vonMangoldt_mul_zeta, mul_assoc, coe_zeta_mul_coe_moebius, mul_one]
+  rw [← vonMangoldt_mul_zeta]; rw [mul_assoc]; rw [coe_zeta_mul_coe_moebius]; rw [mul_one]
 #align nat.arithmetic_function.log_mul_moebius_eq_von_mangoldt Nat.ArithmeticFunction.log_mul_moebius_eq_vonMangoldt
 
 @[simp]
@@ -152,9 +149,8 @@ theorem sum_moebius_mul_log_eq {n : ℕ} : (∑ d in n.divisors, (μ d : ℝ) * 
       rw [cast_ne_zero]
       rintro rfl
       exact hn (by simpa using mn)
-    rw [Nat.cast_div mn this, Real.log_div (cast_ne_zero.2 hn) this, neg_sub, mul_sub]
-  rw [this, sum_sub_distrib, ← sum_mul, ← Int.cast_sum, ← coe_mul_zeta_apply, eq_comm, sub_eq_self,
-    moebius_mul_coe_zeta]
+    rw [Nat.cast_div mn this]; rw [Real.log_div (cast_ne_zero.2 hn) this]; rw [neg_sub]; rw [mul_sub]
+  rw [this]; rw [sum_sub_distrib]; rw [← sum_mul]; rw [← Int.cast_sum]; rw [← coe_mul_zeta_apply]; rw [eq_comm]; rw [sub_eq_self]; rw [moebius_mul_coe_zeta]
   rcases eq_or_ne n 1 with (hn | hn) <;> simp [hn]
 #align nat.arithmetic_function.sum_moebius_mul_log_eq Nat.ArithmeticFunction.sum_moebius_mul_log_eq
 

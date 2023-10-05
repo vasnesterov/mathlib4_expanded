@@ -45,7 +45,7 @@ theorem slope_fun_def_field (f : k → k) (a : k) : slope f a = fun b => (f b - 
 
 @[simp]
 theorem slope_same (f : k → PE) (a : k) : (slope f a a : E) = 0 := by
-  rw [slope, sub_self, inv_zero, zero_smul]
+  rw [slope]; rw [sub_self]; rw [inv_zero]; rw [zero_smul]
 #align slope_same slope_same
 
 theorem slope_def_module (f : k → E) (a b : k) : slope f a b = (b - a)⁻¹ • (f b - f a) :=
@@ -60,7 +60,7 @@ theorem sub_smul_slope (f : k → PE) (a b : k) : (b - a) • slope f a b = f b 
 #align sub_smul_slope sub_smul_slope
 
 theorem sub_smul_slope_vadd (f : k → PE) (a b : k) : (b - a) • slope f a b +ᵥ f a = f b := by
-  rw [sub_smul_slope, vsub_vadd]
+  rw [sub_smul_slope]; rw [vsub_vadd]
 #align sub_smul_slope_vadd sub_smul_slope_vadd
 
 @[simp]
@@ -76,7 +76,7 @@ theorem slope_sub_smul (f : k → E) {a b : k} (h : a ≠ b) :
 #align slope_sub_smul slope_sub_smul
 
 theorem eq_of_slope_eq_zero {f : k → PE} {a b : k} (h : slope f a b = (0 : E)) : f a = f b := by
-  rw [← sub_smul_slope_vadd f a b, h, smul_zero, zero_vadd]
+  rw [← sub_smul_slope_vadd f a b]; rw [h]; rw [smul_zero]; rw [zero_vadd]
 #align eq_of_slope_eq_zero eq_of_slope_eq_zero
 
 theorem AffineMap.slope_comp {F PF : Type*} [AddCommGroup F] [Module k F] [AddTorsor F PF]
@@ -90,7 +90,7 @@ theorem LinearMap.slope_comp {F : Type*} [AddCommGroup F] [Module k F] (f : E �
 #align linear_map.slope_comp LinearMap.slope_comp
 
 theorem slope_comm (f : k → PE) (a b : k) : slope f a b = slope f b a := by
-  rw [slope, slope, ← neg_vsub_eq_vsub_rev, smul_neg, ← neg_smul, neg_inv, neg_sub]
+  rw [slope]; rw [slope]; rw [← neg_vsub_eq_vsub_rev]; rw [smul_neg]; rw [← neg_smul]; rw [neg_inv]; rw [neg_sub]
 #align slope_comm slope_comm
 
 /-- `slope f a c` is a linear combination of `slope f a b` and `slope f b c`. This version
@@ -100,7 +100,7 @@ theorem sub_div_sub_smul_slope_add_sub_div_sub_smul_slope (f : k → PE) (a b c 
     ((b - a) / (c - a)) • slope f a b + ((c - b) / (c - a)) • slope f b c = slope f a c := by
   by_cases hab : a = b
   · subst hab
-    rw [sub_self, zero_div, zero_smul, zero_add]
+    rw [sub_self]; rw [zero_div]; rw [zero_smul]; rw [zero_add]
     by_cases hac : a = c
     · simp [hac]
     · rw [div_self (sub_ne_zero.2 <| Ne.symm hac), one_smul]
@@ -126,8 +126,7 @@ theorem lineMap_slope_slope_sub_div_sub (f : k → PE) (a b c : k) (h : a ≠ c)
 theorem lineMap_slope_lineMap_slope_lineMap (f : k → PE) (a b r : k) :
     lineMap (slope f (lineMap a b r) b) (slope f a (lineMap a b r)) r = slope f a b := by
   obtain rfl | hab : a = b ∨ a ≠ b := Classical.em _; · simp
-  rw [slope_comm _ a, slope_comm _ a, slope_comm _ _ b]
+  rw [slope_comm _ a]; rw [slope_comm _ a]; rw [slope_comm _ _ b]
   convert lineMap_slope_slope_sub_div_sub f b (lineMap a b r) a hab.symm using 2
-  rw [lineMap_apply_ring, eq_div_iff (sub_ne_zero.2 hab), sub_mul, one_mul, mul_sub, ← sub_sub,
-    sub_sub_cancel]
+  rw [lineMap_apply_ring]; rw [eq_div_iff (sub_ne_zero.2 hab)]; rw [sub_mul]; rw [one_mul]; rw [mul_sub]; rw [← sub_sub]; rw [sub_sub_cancel]
 #align line_map_slope_line_map_slope_line_map lineMap_slope_lineMap_slope_lineMap

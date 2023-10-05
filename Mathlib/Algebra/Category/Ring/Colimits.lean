@@ -245,7 +245,7 @@ theorem cocone_naturality {j j' : J} (f : j ⟶ j') :
 @[simp]
 theorem cocone_naturality_components (j j' : J) (f : j ⟶ j') (x : F.obj j) :
     (coconeMorphism F j') (F.map f x) = (coconeMorphism F j) x := by
-  rw [← cocone_naturality F f, comp_apply]
+  rw [← cocone_naturality F f]; rw [comp_apply]
 #align CommRing.colimits.cocone_naturality_components CommRingCat.Colimits.cocone_naturality_components
 
 /-- The cocone over the proposed colimit commutative ring. -/

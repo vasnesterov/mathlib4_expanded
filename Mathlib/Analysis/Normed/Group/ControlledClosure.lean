@@ -107,7 +107,7 @@ theorem controlled_closure_of_complete {f : NormedAddGroupHom G H} {K : AddSubgr
         gcongr with k; exact (hv _ k.succ_pos).le
       _ = (∑ k in range (n + 1), C * b k) + C * ‖h‖ := by rw [← add_assoc, sum_range_succ']
       _ ≤ (C + ε) * ‖h‖ := by
-        rw [add_comm, add_mul]
+        rw [add_comm]; rw [add_mul]
         apply add_le_add_left this
 #align controlled_closure_of_complete controlled_closure_of_complete
 

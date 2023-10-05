@@ -221,7 +221,7 @@ record more basic properties of multiplication.
 protected theorem mul_comm (x y : EReal) : x * y = y * x := by
   induction' x using EReal.rec with x <;> induction' y using EReal.rec with y <;>
     try { rfl }
-  rw [← coe_mul, ← coe_mul, mul_comm]
+  rw [← coe_mul]; rw [← coe_mul]; rw [mul_comm]
 #align ereal.mul_comm EReal.mul_comm
 
 protected theorem one_mul : ∀ x : EReal, 1 * x = x
@@ -518,12 +518,12 @@ theorem coe_ennreal_ne_coe_ennreal_iff {x y : ℝ≥0∞} : (x : EReal) ≠ (y :
 
 @[simp, norm_cast]
 theorem coe_ennreal_eq_zero {x : ℝ≥0∞} : (x : EReal) = 0 ↔ x = 0 := by
-  rw [← coe_ennreal_eq_coe_ennreal_iff, coe_ennreal_zero]
+  rw [← coe_ennreal_eq_coe_ennreal_iff]; rw [coe_ennreal_zero]
 #align ereal.coe_ennreal_eq_zero EReal.coe_ennreal_eq_zero
 
 @[simp, norm_cast]
 theorem coe_ennreal_eq_one {x : ℝ≥0∞} : (x : EReal) = 1 ↔ x = 1 := by
-  rw [← coe_ennreal_eq_coe_ennreal_iff, coe_ennreal_one]
+  rw [← coe_ennreal_eq_coe_ennreal_iff]; rw [coe_ennreal_one]
 #align ereal.coe_ennreal_eq_one EReal.coe_ennreal_eq_one
 
 @[norm_cast]
@@ -550,7 +550,7 @@ instance : CanLift EReal ℝ≥0∞ (↑) (0 ≤ ·) := ⟨range_coe_ennreal.ge�
 
 @[simp, norm_cast]
 theorem coe_ennreal_pos {x : ℝ≥0∞} : (0 : EReal) < x ↔ 0 < x := by
-  rw [← coe_ennreal_zero, coe_ennreal_lt_coe_ennreal_iff]
+  rw [← coe_ennreal_zero]; rw [coe_ennreal_lt_coe_ennreal_iff]
 #align ereal.coe_ennreal_pos EReal.coe_ennreal_pos
 
 @[simp]
@@ -579,7 +579,7 @@ theorem coe_ennreal_mul : ∀ x y : ℝ≥0∞, ((x * y : ℝ≥0∞) : EReal) =
   | ⊤, ⊤ => rfl
   | ⊤, (y : ℝ≥0) => coe_ennreal_top_mul y
   | (x : ℝ≥0), ⊤ => by
-    rw [mul_comm, coe_ennreal_top_mul, EReal.mul_comm, coe_ennreal_top]
+    rw [mul_comm]; rw [coe_ennreal_top_mul]; rw [EReal.mul_comm]; rw [coe_ennreal_top]
   | (x : ℝ≥0), (y : ℝ≥0) => by
     simp only [← ENNReal.coe_mul, coe_nnreal_eq_coe_real, NNReal.coe_mul, EReal.coe_mul]
 #align ereal.coe_ennreal_mul EReal.coe_ennreal_mul
@@ -730,7 +730,7 @@ instance : LinearOrderedAddCommMonoidWithTop ERealᵒᵈ where
   top_add' := by
     rw [OrderDual.forall]
     intro x
-    rw [← OrderDual.toDual_bot, ← toDual_add, bot_add]
+    rw [← OrderDual.toDual_bot]; rw [← toDual_add]; rw [bot_add]
 
 /-! ### Negation -/
 
@@ -810,7 +810,7 @@ theorem neg_strictAnti : StrictAnti (- · : EReal → EReal) :=
 
 /-- `-a ≤ b ↔ -b ≤ a` on `EReal`. -/
 protected theorem neg_le {a b : EReal} : -a ≤ b ↔ -b ≤ a := by
- rw [← neg_le_neg_iff, neg_neg]
+ rw [← neg_le_neg_iff]; rw [neg_neg]
 #align ereal.neg_le EReal.neg_le
 
 /-- if `-a ≤ b` then `-b ≤ a` on `EReal`. -/
@@ -831,7 +831,7 @@ def negOrderIso : EReal ≃o ERealᵒᵈ :=
 #align ereal.neg_order_iso EReal.negOrderIso
 
 theorem neg_lt_iff_neg_lt {a b : EReal} : -a < b ↔ -b < a := by
-  rw [← neg_lt_neg_iff, neg_neg]
+  rw [← neg_lt_neg_iff]; rw [neg_neg]
 #align ereal.neg_lt_iff_neg_lt EReal.neg_lt_iff_neg_lt
 
 theorem neg_lt_of_neg_lt {a b : EReal} (h : -a < b) : -b < a := neg_lt_iff_neg_lt.1 h
@@ -883,8 +883,7 @@ theorem coe_real_ereal_eq_coe_toNNReal_sub_coe_toNNReal (x : ℝ) :
     (x : EReal) = Real.toNNReal x - Real.toNNReal (-x) := by
   rcases le_total 0 x with (h | h)
   · lift x to ℝ≥0 using h
-    rw [Real.toNNReal_of_nonpos (neg_nonpos.mpr x.coe_nonneg), Real.toNNReal_coe, ENNReal.coe_zero,
-      coe_ennreal_zero, sub_zero]
+    rw [Real.toNNReal_of_nonpos (neg_nonpos.mpr x.coe_nonneg)]; rw [Real.toNNReal_coe]; rw [ENNReal.coe_zero]; rw [coe_ennreal_zero]; rw [sub_zero]
     rfl
   · rw [Real.toNNReal_of_nonpos h, ENNReal.coe_zero, coe_ennreal_zero, coe_nnreal_eq_coe_real,
       Real.coe_toNNReal, zero_sub, coe_neg, neg_neg]
@@ -1048,7 +1047,7 @@ protected theorem neg_mul (x y : EReal) : -x * y = -(x * y) := by
 instance : HasDistribNeg EReal where
   neg_mul := EReal.neg_mul
   mul_neg := fun x y => by
-    rw [x.mul_comm, x.mul_comm]
+    rw [x.mul_comm]; rw [x.mul_comm]
     exact y.neg_mul x
 
 /-! ### Absolute value -/
@@ -1089,7 +1088,7 @@ theorem abs_zero : (0 : EReal).abs = 0 := by rw [abs_eq_zero_iff]
 
 @[simp]
 theorem coe_abs (x : ℝ) : ((x : EReal).abs : EReal) = (|x| : ℝ) := by
-  rw [abs_def, ← Real.coe_nnabs, ENNReal.ofReal_coe_nnreal]; rfl
+  rw [abs_def]; rw [← Real.coe_nnabs]; rw [ENNReal.ofReal_coe_nnreal]; rfl
 #align ereal.coe_abs EReal.coe_abs
 
 @[simp]
@@ -1106,8 +1105,8 @@ theorem abs_mul (x y : EReal) : (x * y).abs = x.abs * y.abs := by
   | symm h => rwa [mul_comm, EReal.mul_comm]
   | coe_coe => simp only [← coe_mul, abs_def, _root_.abs_mul, ENNReal.ofReal_mul (abs_nonneg _)]
   | top_pos _ h =>
-    rw [top_mul_coe_of_pos h, abs_top, ENNReal.top_mul]
-    rw [Ne.def, abs_eq_zero_iff, coe_eq_zero]
+    rw [top_mul_coe_of_pos h]; rw [abs_top]; rw [ENNReal.top_mul]
+    rw [Ne.def]; rw [abs_eq_zero_iff]; rw [coe_eq_zero]
     exact h.ne'
   | neg_left h => rwa [neg_mul, EReal.abs_neg, EReal.abs_neg]
 #align ereal.abs_mul EReal.abs_mul
@@ -1143,7 +1142,7 @@ theorem sign_mul (x y : EReal) : sign (x * y) = sign x * sign y := by
   | symm h => rwa [mul_comm, EReal.mul_comm]
   | coe_coe => simp only [← coe_mul, sign_coe, _root_.sign_mul, ENNReal.ofReal_mul (abs_nonneg _)]
   | top_pos _ h =>
-    rw [top_mul_coe_of_pos h, sign_top, one_mul, sign_pos (EReal.coe_pos.2 h)]
+    rw [top_mul_coe_of_pos h]; rw [sign_top]; rw [one_mul]; rw [sign_pos (EReal.coe_pos.2 h)]
   | neg_left h => rw [neg_mul, sign_neg, sign_neg, h, neg_mul]
 #align ereal.sign_mul EReal.sign_mul
 
@@ -1154,13 +1153,13 @@ theorem sign_mul (x y : EReal) : sign (x * y) = sign x * sign y := by
 #align ereal.sign_mul_abs EReal.sign_mul_abs
 
 @[simp] protected theorem abs_mul_sign (x : EReal) : (x.abs * sign x : EReal) = x := by
-  rw [EReal.mul_comm, EReal.sign_mul_abs]
+  rw [EReal.mul_comm]; rw [EReal.sign_mul_abs]
 
 theorem sign_eq_and_abs_eq_iff_eq {x y : EReal} :
     x.abs = y.abs ∧ sign x = sign y ↔ x = y := by
   constructor
   · rintro ⟨habs, hsign⟩
-    rw [← x.sign_mul_abs, ← y.sign_mul_abs, habs, hsign]
+    rw [← x.sign_mul_abs]; rw [← y.sign_mul_abs]; rw [habs]; rw [hsign]
   · rintro rfl
     exact ⟨rfl, rfl⟩
 #align ereal.sign_eq_and_abs_eq_iff_eq EReal.sign_eq_and_abs_eq_iff_eq
@@ -1173,7 +1172,7 @@ theorem le_iff_sign {x y : EReal} :
   constructor
   · intro h
     refine (sign.monotone h).lt_or_eq.imp_right (fun hs => ?_)
-    rw [← x.sign_mul_abs, ← y.sign_mul_abs] at h
+    rw [← x.sign_mul_abs] at h; rw [← y.sign_mul_abs] at h
     cases hy : sign y <;> rw [hs, hy] at h ⊢
     · simp
     · left; simpa using h

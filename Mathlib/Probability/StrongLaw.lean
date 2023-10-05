@@ -294,8 +294,7 @@ theorem sum_prob_mem_Ioc_le {X : Ω → ℝ} (hint : Integrable X) (hnonneg : 0 
         exact ENNReal.toReal_mono ENNReal.one_ne_top prob_le_one
   have B : ∀ a b, ℙ {ω | X ω ∈ Set.Ioc a b} = ENNReal.ofReal (∫ _ in Set.Ioc a b, (1 : ℝ) ∂ρ) := by
     intro a b
-    rw [ofReal_set_integral_one ρ _,
-      Measure.map_apply_of_aemeasurable hint.aemeasurable measurableSet_Ioc]
+    rw [ofReal_set_integral_one ρ _]; rw [Measure.map_apply_of_aemeasurable hint.aemeasurable measurableSet_Ioc]
     rfl
   calc
     ∑ j in range K, ℙ {ω | X ω ∈ Set.Ioc (j : ℝ) N} =
@@ -374,8 +373,7 @@ theorem sum_variance_truncation_le {X : Ω → ℝ} (hint : Integrable X) (hnonn
     _ ≤ ∑ k in range K, ∫ x in k..(k + 1 : ℕ), 2 * x ∂ρ := by
       apply sum_le_sum fun k _ => ?_
       have Ik : (k : ℝ) ≤ (k + 1 : ℕ) := by simp
-      rw [← intervalIntegral.integral_const_mul, intervalIntegral.integral_of_le Ik,
-        intervalIntegral.integral_of_le Ik]
+      rw [← intervalIntegral.integral_const_mul]; rw [intervalIntegral.integral_of_le Ik]; rw [intervalIntegral.integral_of_le Ik]
       refine' set_integral_mono_on _ _ measurableSet_Ioc fun x hx => _
       · apply Continuous.integrableOn_Ioc
         exact continuous_const.mul (continuous_pow 2)
@@ -452,7 +450,7 @@ theorem strong_law_aux1 {c : ℝ} (c_one : 1 < c) {ε : ℝ} (εpos : 0 < ε) : 
           ∑ i in range N, ((u i : ℝ) ^ 2)⁻¹ * ∑ j in range (u i), Var[Y j] := by
         congr 1 with i
         congr 1
-        rw [hS, IndepFun.variance_sum]
+        rw [hS]; rw [IndepFun.variance_sum]
         · intro j _
           exact (hident j).aestronglyMeasurable_fst.memℒp_truncation
         · intro k _ l _ hkl
@@ -509,7 +507,7 @@ theorem strong_law_aux1 {c : ℝ} (c_one : 1 < c) {ε : ℝ} (εpos : 0 < ε) : 
         -- Porting note: do most of the rewrites under `conv` so as not to expand `variance`
         conv_lhs =>
           enter [2, i]
-          rw [div_eq_inv_mul, ← inv_pow, mul_inv, mul_comm _ ε⁻¹, mul_pow, mul_assoc]
+          rw [div_eq_inv_mul]; rw [← inv_pow]; rw [mul_inv]; rw [mul_comm _ ε⁻¹]; rw [mul_pow]; rw [mul_assoc]
         rw [← mul_sum]
         refine' mul_le_mul_of_nonneg_left _ (sq_nonneg _)
         conv_lhs => enter [2, i]; rw [inv_pow]
@@ -609,7 +607,7 @@ theorem strong_law_aux6 {c : ℝ} (c_one : 1 < c) :
     simp only [Nat.one_le_cast, Nat.one_le_floor_iff, one_le_pow_of_one_le c_one.le n]
   filter_upwards [strong_law_aux4 X hint hindep hident hnonneg c_one,
     strong_law_aux5 X hint hident hnonneg] with ω hω h'ω
-  rw [← tendsto_sub_nhds_zero_iff, ← Asymptotics.isLittleO_one_iff ℝ]
+  rw [← tendsto_sub_nhds_zero_iff]; rw [← Asymptotics.isLittleO_one_iff ℝ]
   have L : (fun n : ℕ => ∑ i in range ⌊c ^ n⌋₊, X i ω - ⌊c ^ n⌋₊ * 𝔼[X 0]) =o[atTop] fun n =>
       (⌊c ^ n⌋₊ : ℝ) := by
     have A : Tendsto (fun n : ℕ => ⌊c ^ n⌋₊) atTop atTop :=
@@ -767,7 +765,7 @@ lemma strong_law_ae_of_measurable
       apply (hident i).comp (G_meas k)
   -- check that, when both convergences above hold, then the strong law is satisfied
   filter_upwards [A, B] with ω hω h'ω
-  rw [tendsto_iff_norm_sub_tendsto_zero, tendsto_order]
+  rw [tendsto_iff_norm_sub_tendsto_zero]; rw [tendsto_order]
   refine ⟨fun c hc ↦ eventually_of_forall (fun n ↦ hc.trans_le (norm_nonneg _)), ?_⟩
   -- start with some positive `ε` (the desired precision), and fix `δ` with `3 δ < ε`.
   intro ε (εpos : 0 < ε)
@@ -779,7 +777,7 @@ lemma strong_law_ae_of_measurable
     exact ((tendsto_order.1 (tendsto_integral_norm_approxOn_sub h'.measurable hint)).2 δ
       δpos).exists
   have : ‖𝔼[Y k 0] - 𝔼[X 0]‖ < δ := by
-    rw [norm_sub_rev, ← integral_sub hint]
+    rw [norm_sub_rev]; rw [← integral_sub hint]
     · exact (norm_integral_le_integral_norm _).trans_lt hk
     · exact ((φ k).comp (X 0) h'.measurable).integrable_of_isFiniteMeasure
   -- consider `n` large enough for which the above convergences have taken place within `δ`.

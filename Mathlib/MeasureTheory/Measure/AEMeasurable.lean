@@ -120,7 +120,7 @@ theorem _root_.aemeasurable_sum_measure_iff [Countable ι] {μ : ι → Measure 
 @[simp]
 theorem _root_.aemeasurable_add_measure_iff :
     AEMeasurable f (μ + ν) ↔ AEMeasurable f μ ∧ AEMeasurable f ν := by
-  rw [← sum_cond, aemeasurable_sum_measure_iff, Bool.forall_bool, and_comm]
+  rw [← sum_cond]; rw [aemeasurable_sum_measure_iff]; rw [Bool.forall_bool]; rw [and_comm]
   rfl
 #align ae_measurable_add_measure_iff aemeasurable_add_measure_iff
 
@@ -208,7 +208,7 @@ theorem exists_ae_eq_range_subset (H : AEMeasurable f μ) {t : Set β} (ht : ∀
       simp (config := { contextual := true }) only [hx, mem_compl_iff, mem_setOf_eq, not_and,
         not_false_iff, imp_true_iff]
   · have A : μ (toMeasurable μ { x | f x = H.mk f x ∧ f x ∈ t }ᶜ) = 0 := by
-      rw [measure_toMeasurable, ← compl_mem_ae_iff, compl_compl]
+      rw [measure_toMeasurable]; rw [← compl_mem_ae_iff]; rw [compl_compl]
       exact H.ae_eq_mk.and ht
     filter_upwards [compl_mem_ae_iff.2 A]with x hx
     rw [mem_compl_iff] at hx
@@ -277,7 +277,7 @@ theorem MeasurableEmbedding.aemeasurable_comp_iff {g : β → γ} (hg : Measurab
 
 theorem aemeasurable_restrict_iff_comap_subtype {s : Set α} (hs : MeasurableSet s) {μ : Measure α}
     {f : α → β} : AEMeasurable f (μ.restrict s) ↔ AEMeasurable (f ∘ (↑) : s → β) (comap (↑) μ) := by
-  rw [← map_comap_subtype_coe hs, (MeasurableEmbedding.subtype_coe hs).aemeasurable_map_iff]
+  rw [← map_comap_subtype_coe hs]; rw [(MeasurableEmbedding.subtype_coe hs).aemeasurable_map_iff]
 #align ae_measurable_restrict_iff_comap_subtype aemeasurable_restrict_iff_comap_subtype
 
 @[to_additive] -- @[to_additive (attr := simp)] -- Porting note: simp can prove this
@@ -323,7 +323,7 @@ theorem aemeasurable_Ioi_of_forall_Ioc {β} {mβ : MeasurableSpace β} [LinearOr
   have Ioi_eq_iUnion : Ioi x = ⋃ n : ℕ, Ioc x (u n) := by
     rw [iUnion_Ioc_eq_Ioi_self_iff.mpr _]
     exact fun y _ => (hu_tendsto.eventually (eventually_ge_atTop y)).exists
-  rw [Ioi_eq_iUnion, aemeasurable_iUnion_iff]
+  rw [Ioi_eq_iUnion]; rw [aemeasurable_iUnion_iff]
   intro n
   cases' lt_or_le x (u n) with h h
   · exact g_meas (u n) h
@@ -350,8 +350,7 @@ theorem aemeasurable_indicator_iff {s} (hs : MeasurableSet s) :
 theorem aemeasurable_indicator_iff₀ {s} (hs : NullMeasurableSet s μ) :
     AEMeasurable (indicator s f) μ ↔ AEMeasurable f (μ.restrict s) := by
   rcases hs with ⟨t, ht, hst⟩
-  rw [← aemeasurable_congr (indicator_ae_eq_of_ae_eq_set hst.symm), aemeasurable_indicator_iff ht,
-      restrict_congr_set hst]
+  rw [← aemeasurable_congr (indicator_ae_eq_of_ae_eq_set hst.symm)]; rw [aemeasurable_indicator_iff ht]; rw [restrict_congr_set hst]
 
 /-- A characterization of the a.e.-measurability of the indicator function which takes a constant
 value `b` on a set `A` and `0` elsewhere. -/

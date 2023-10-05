@@ -111,7 +111,7 @@ theorem zpow_nonneg (ha : 0 ≤ a) : ∀ n : ℤ, 0 ≤ a ^ n
     rw [zpow_ofNat]
     exact pow_nonneg ha _
   | -(n + 1 : ℕ) => by
-    rw [zpow_neg, inv_nonneg, zpow_ofNat]
+    rw [zpow_neg]; rw [inv_nonneg]; rw [zpow_ofNat]
     exact pow_nonneg ha _
 #align zpow_nonneg zpow_nonneg
 
@@ -120,7 +120,7 @@ theorem zpow_pos_of_pos (ha : 0 < a) : ∀ n : ℤ, 0 < a ^ n
     rw [zpow_ofNat]
     exact pow_pos ha _
   | -(n + 1 : ℕ) => by
-    rw [zpow_neg, inv_pos, zpow_ofNat]
+    rw [zpow_neg]; rw [inv_pos]; rw [zpow_ofNat]
     exact pow_pos ha _
 #align zpow_pos_of_pos zpow_pos_of_pos
 
@@ -174,7 +174,7 @@ theorem div_lt_iff' (hc : 0 < c) : b / c < a ↔ b < c * a := by rw [mul_comm, d
 #align div_lt_iff' div_lt_iff'
 
 theorem inv_mul_le_iff (h : 0 < b) : b⁻¹ * a ≤ c ↔ a ≤ b * c := by
-  rw [inv_eq_one_div, mul_comm, ← div_eq_mul_one_div]
+  rw [inv_eq_one_div]; rw [mul_comm]; rw [← div_eq_mul_one_div]
   exact div_le_iff' h
 #align inv_mul_le_iff inv_mul_le_iff
 
@@ -192,7 +192,7 @@ theorem div_self_le_one (a : α) : a / a ≤ 1 :=
 #align div_self_le_one div_self_le_one
 
 theorem inv_mul_lt_iff (h : 0 < b) : b⁻¹ * a < c ↔ a < b * c := by
-  rw [inv_eq_one_div, mul_comm, ← div_eq_mul_one_div]
+  rw [inv_eq_one_div]; rw [mul_comm]; rw [← div_eq_mul_one_div]
   exact div_lt_iff' h
 #align inv_mul_lt_iff inv_mul_lt_iff
 
@@ -254,13 +254,13 @@ theorem inv_le_inv_of_le (ha : 0 < a) (h : a ≤ b) : b⁻¹ ≤ a⁻¹ := by
 
 /-- See `inv_le_inv_of_le` for the implication from right-to-left with one fewer assumption. -/
 theorem inv_le_inv (ha : 0 < a) (hb : 0 < b) : a⁻¹ ≤ b⁻¹ ↔ b ≤ a := by
-  rw [← one_div, div_le_iff ha, ← div_eq_inv_mul, le_div_iff hb, one_mul]
+  rw [← one_div]; rw [div_le_iff ha]; rw [← div_eq_inv_mul]; rw [le_div_iff hb]; rw [one_mul]
 #align inv_le_inv inv_le_inv
 
 /-- In a linear ordered field, for positive `a` and `b` we have `a⁻¹ ≤ b ↔ b⁻¹ ≤ a`.
 See also `inv_le_of_inv_le` for a one-sided implication with one fewer assumption. -/
 theorem inv_le (ha : 0 < a) (hb : 0 < b) : a⁻¹ ≤ b ↔ b⁻¹ ≤ a := by
-  rw [← inv_le_inv hb (inv_pos.2 ha), inv_inv]
+  rw [← inv_le_inv hb (inv_pos.2 ha)]; rw [inv_inv]
 #align inv_le inv_le
 
 theorem inv_le_of_inv_le (ha : 0 < a) (h : a⁻¹ ≤ b) : b⁻¹ ≤ a :=
@@ -268,7 +268,7 @@ theorem inv_le_of_inv_le (ha : 0 < a) (h : a⁻¹ ≤ b) : b⁻¹ ≤ a :=
 #align inv_le_of_inv_le inv_le_of_inv_le
 
 theorem le_inv (ha : 0 < a) (hb : 0 < b) : a ≤ b⁻¹ ↔ b ≤ a⁻¹ := by
-  rw [← inv_le_inv (inv_pos.2 hb) ha, inv_inv]
+  rw [← inv_le_inv (inv_pos.2 hb) ha]; rw [inv_inv]
 #align le_inv le_inv
 
 /-- See `inv_lt_inv_of_lt` for the implication from right-to-left with one fewer assumption. -/
@@ -341,13 +341,13 @@ theorem one_le_inv_iff : 1 ≤ a⁻¹ ↔ 0 < a ∧ a ≤ 1 :=
 
 @[mono]
 theorem div_le_div_of_le (hc : 0 ≤ c) (h : a ≤ b) : a / c ≤ b / c := by
-  rw [div_eq_mul_one_div a c, div_eq_mul_one_div b c]
+  rw [div_eq_mul_one_div a c]; rw [div_eq_mul_one_div b c]
   exact mul_le_mul_of_nonneg_right h (one_div_nonneg.2 hc)
 #align div_le_div_of_le div_le_div_of_le
 
 -- Not a `mono` lemma b/c `div_le_div` is strictly more general
 theorem div_le_div_of_le_left (ha : 0 ≤ a) (hc : 0 < c) (h : c ≤ b) : a / b ≤ a / c := by
-  rw [div_eq_mul_inv, div_eq_mul_inv]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]
   exact mul_le_mul_of_nonneg_left ((inv_le_inv (hc.trans_le h) hc).mpr h) ha
 #align div_le_div_of_le_left div_le_div_of_le_left
 
@@ -356,7 +356,7 @@ theorem div_le_div_of_le_of_nonneg (hab : a ≤ b) (hc : 0 ≤ c) : a / c ≤ b 
 #align div_le_div_of_le_of_nonneg div_le_div_of_le_of_nonneg
 
 theorem div_lt_div_of_lt (hc : 0 < c) (h : a < b) : a / c < b / c := by
-  rw [div_eq_mul_one_div a c, div_eq_mul_one_div b c]
+  rw [div_eq_mul_one_div a c]; rw [div_eq_mul_one_div b c]
   exact mul_lt_mul_of_pos_right h (one_div_pos.2 hc)
 #align div_lt_div_of_lt div_lt_div_of_lt
 
@@ -377,11 +377,11 @@ theorem div_le_div_left (ha : 0 < a) (hb : 0 < b) (hc : 0 < c) : a / b ≤ a / c
 #align div_le_div_left div_le_div_left
 
 theorem div_lt_div_iff (b0 : 0 < b) (d0 : 0 < d) : a / b < c / d ↔ a * d < c * b := by
-  rw [lt_div_iff d0, div_mul_eq_mul_div, div_lt_iff b0]
+  rw [lt_div_iff d0]; rw [div_mul_eq_mul_div]; rw [div_lt_iff b0]
 #align div_lt_div_iff div_lt_div_iff
 
 theorem div_le_div_iff (b0 : 0 < b) (d0 : 0 < d) : a / b ≤ c / d ↔ a * d ≤ c * b := by
-  rw [le_div_iff d0, div_mul_eq_mul_div, div_le_iff b0]
+  rw [le_div_iff d0]; rw [div_mul_eq_mul_div]; rw [div_le_iff b0]
 #align div_le_div_iff div_le_div_iff
 
 @[mono]
@@ -493,12 +493,12 @@ The equalities also hold in semifields of characteristic `0`.
 /- TODO: Unify `add_halves` and `add_halves'` into a single lemma about
 `DivisionSemiring` + `CharZero` -/
 theorem add_halves (a : α) : a / 2 + a / 2 = a := by
-  rw [div_add_div_same, ← two_mul, mul_div_cancel_left a two_ne_zero]
+  rw [div_add_div_same]; rw [← two_mul]; rw [mul_div_cancel_left a two_ne_zero]
 #align add_halves add_halves
 
 -- TODO: Generalize to `DivisionSemiring`
 theorem add_self_div_two (a : α) : (a + a) / 2 = a := by
-  rw [← mul_two, mul_div_cancel a two_ne_zero]
+  rw [← mul_two]; rw [mul_div_cancel a two_ne_zero]
 #align add_self_div_two add_self_div_two
 
 theorem half_pos (h : 0 < a) : 0 < a / 2 :=
@@ -511,12 +511,12 @@ theorem one_half_pos : (0 : α) < 1 / 2 :=
 
 @[simp]
 theorem half_le_self_iff : a / 2 ≤ a ↔ 0 ≤ a := by
-  rw [div_le_iff (zero_lt_two' α), mul_two, le_add_iff_nonneg_left]
+  rw [div_le_iff (zero_lt_two' α)]; rw [mul_two]; rw [le_add_iff_nonneg_left]
 #align half_le_self_iff half_le_self_iff
 
 @[simp]
 theorem half_lt_self_iff : a / 2 < a ↔ 0 < a := by
-  rw [div_lt_iff (zero_lt_two' α), mul_two, lt_add_iff_pos_left]
+  rw [div_lt_iff (zero_lt_two' α)]; rw [mul_two]; rw [lt_add_iff_pos_left]
 #align half_lt_self_iff half_lt_self_iff
 
 alias ⟨_, half_le_self⟩ := half_le_self_iff
@@ -543,8 +543,7 @@ theorem add_div_two_lt_right : (a + b) / 2 < b ↔ a < b := by simp [div_lt_iff,
 #align add_div_two_lt_right add_div_two_lt_right
 
 theorem add_thirds (a : α) : a / 3 + a / 3 + a / 3 = a := by
-  rw [div_add_div_same, div_add_div_same, ← two_mul, ← add_one_mul 2 a, two_add_one_eq_three,
-    mul_div_cancel_left a three_ne_zero]
+  rw [div_add_div_same]; rw [div_add_div_same]; rw [← two_mul]; rw [← add_one_mul 2 a]; rw [two_add_one_eq_three]; rw [mul_div_cancel_left a three_ne_zero]
 
 /-!
 ### Miscellaneous lemmas
@@ -558,14 +557,14 @@ theorem mul_le_mul_of_mul_div_le (h : a * (b / c) ≤ d) (hc : 0 < c) : b * a �
 
 theorem div_mul_le_div_mul_of_div_le_div (h : a / b ≤ c / d) (he : 0 ≤ e) :
     a / (b * e) ≤ c / (d * e) := by
-  rw [div_mul_eq_div_mul_one_div, div_mul_eq_div_mul_one_div]
+  rw [div_mul_eq_div_mul_one_div]; rw [div_mul_eq_div_mul_one_div]
   exact mul_le_mul_of_nonneg_right h (one_div_nonneg.2 he)
 #align div_mul_le_div_mul_of_div_le_div div_mul_le_div_mul_of_div_le_div
 
 theorem exists_pos_mul_lt {a : α} (h : 0 < a) (b : α) : ∃ c : α, 0 < c ∧ b * c < a := by
   have : 0 < a / max (b + 1) 1 := div_pos h (lt_max_iff.2 (Or.inr zero_lt_one))
   refine' ⟨a / max (b + 1) 1, this, _⟩
-  rw [← lt_div_iff this, div_div_cancel' h.ne']
+  rw [← lt_div_iff this]; rw [div_div_cancel' h.ne']
   exact lt_max_iff.2 (Or.inl <| lt_add_one _)
 #align exists_pos_mul_lt exists_pos_mul_lt
 
@@ -720,15 +719,15 @@ theorem div_le_iff_of_neg (hc : c < 0) : b / c ≤ a ↔ a * c ≤ b :=
 #align div_le_iff_of_neg div_le_iff_of_neg
 
 theorem div_le_iff_of_neg' (hc : c < 0) : b / c ≤ a ↔ c * a ≤ b := by
-  rw [mul_comm, div_le_iff_of_neg hc]
+  rw [mul_comm]; rw [div_le_iff_of_neg hc]
 #align div_le_iff_of_neg' div_le_iff_of_neg'
 
 theorem le_div_iff_of_neg (hc : c < 0) : a ≤ b / c ↔ b ≤ a * c := by
-  rw [← neg_neg c, mul_neg, div_neg, le_neg, div_le_iff (neg_pos.2 hc), neg_mul]
+  rw [← neg_neg c]; rw [mul_neg]; rw [div_neg]; rw [le_neg]; rw [div_le_iff (neg_pos.2 hc)]; rw [neg_mul]
 #align le_div_iff_of_neg le_div_iff_of_neg
 
 theorem le_div_iff_of_neg' (hc : c < 0) : a ≤ b / c ↔ b ≤ c * a := by
-  rw [mul_comm, le_div_iff_of_neg hc]
+  rw [mul_comm]; rw [le_div_iff_of_neg hc]
 #align le_div_iff_of_neg' le_div_iff_of_neg'
 
 theorem div_lt_iff_of_neg (hc : c < 0) : b / c < a ↔ a * c < b :=
@@ -736,7 +735,7 @@ theorem div_lt_iff_of_neg (hc : c < 0) : b / c < a ↔ a * c < b :=
 #align div_lt_iff_of_neg div_lt_iff_of_neg
 
 theorem div_lt_iff_of_neg' (hc : c < 0) : b / c < a ↔ c * a < b := by
-  rw [mul_comm, div_lt_iff_of_neg hc]
+  rw [mul_comm]; rw [div_lt_iff_of_neg hc]
 #align div_lt_iff_of_neg' div_lt_iff_of_neg'
 
 theorem lt_div_iff_of_neg (hc : c < 0) : a < b / c ↔ b < a * c :=
@@ -744,7 +743,7 @@ theorem lt_div_iff_of_neg (hc : c < 0) : a < b / c ↔ b < a * c :=
 #align lt_div_iff_of_neg lt_div_iff_of_neg
 
 theorem lt_div_iff_of_neg' (hc : c < 0) : a < b / c ↔ b < c * a := by
-  rw [mul_comm, lt_div_iff_of_neg hc]
+  rw [mul_comm]; rw [lt_div_iff_of_neg hc]
 #align lt_div_iff_of_neg' lt_div_iff_of_neg'
 
 theorem div_le_one_of_ge (h : b ≤ a) (hb : b ≤ 0) : a / b ≤ 1 := by
@@ -755,15 +754,15 @@ theorem div_le_one_of_ge (h : b ≤ a) (hb : b ≤ 0) : a / b ≤ 1 := by
 
 
 theorem inv_le_inv_of_neg (ha : a < 0) (hb : b < 0) : a⁻¹ ≤ b⁻¹ ↔ b ≤ a := by
-  rw [← one_div, div_le_iff_of_neg ha, ← div_eq_inv_mul, div_le_iff_of_neg hb, one_mul]
+  rw [← one_div]; rw [div_le_iff_of_neg ha]; rw [← div_eq_inv_mul]; rw [div_le_iff_of_neg hb]; rw [one_mul]
 #align inv_le_inv_of_neg inv_le_inv_of_neg
 
 theorem inv_le_of_neg (ha : a < 0) (hb : b < 0) : a⁻¹ ≤ b ↔ b⁻¹ ≤ a := by
-  rw [← inv_le_inv_of_neg hb (inv_lt_zero.2 ha), inv_inv]
+  rw [← inv_le_inv_of_neg hb (inv_lt_zero.2 ha)]; rw [inv_inv]
 #align inv_le_of_neg inv_le_of_neg
 
 theorem le_inv_of_neg (ha : a < 0) (hb : b < 0) : a ≤ b⁻¹ ↔ b ≤ a⁻¹ := by
-  rw [← inv_le_inv_of_neg (inv_lt_zero.2 hb) ha, inv_inv]
+  rw [← inv_le_inv_of_neg (inv_lt_zero.2 hb) ha]; rw [inv_inv]
 #align le_inv_of_neg le_inv_of_neg
 
 theorem inv_lt_inv_of_neg (ha : a < 0) (hb : b < 0) : a⁻¹ < b⁻¹ ↔ b < a :=
@@ -782,12 +781,12 @@ theorem lt_inv_of_neg (ha : a < 0) (hb : b < 0) : a < b⁻¹ ↔ b < a⁻¹ :=
 
 
 theorem div_le_div_of_nonpos_of_le (hc : c ≤ 0) (h : b ≤ a) : a / c ≤ b / c := by
-  rw [div_eq_mul_one_div a c, div_eq_mul_one_div b c]
+  rw [div_eq_mul_one_div a c]; rw [div_eq_mul_one_div b c]
   exact mul_le_mul_of_nonpos_right h (one_div_nonpos.2 hc)
 #align div_le_div_of_nonpos_of_le div_le_div_of_nonpos_of_le
 
 theorem div_lt_div_of_neg_of_lt (hc : c < 0) (h : b < a) : a / c < b / c := by
-  rw [div_eq_mul_one_div a c, div_eq_mul_one_div b c]
+  rw [div_eq_mul_one_div a c]; rw [div_eq_mul_one_div b c]
   exact mul_lt_mul_of_neg_right h (one_div_neg.2 hc)
 #align div_lt_div_of_neg_of_lt div_lt_div_of_neg_of_lt
 
@@ -909,7 +908,7 @@ theorem sub_self_div_two (a : α) : a - a / 2 = a / 2 := by
 
 theorem div_two_sub_self (a : α) : a / 2 - a = -(a / 2) := by
   suffices a / 2 - (a / 2 + a / 2) = -(a / 2) by rwa [add_halves] at this
-  rw [sub_add_eq_sub_sub, sub_self, zero_sub]
+  rw [sub_add_eq_sub_sub]; rw [sub_self]; rw [zero_sub]
 #align div_two_sub_self div_two_sub_self
 
 theorem add_sub_div_two_lt (h : a < b) : a + (b - a) / 2 < b := by
@@ -922,11 +921,11 @@ theorem sub_one_div_inv_le_two (a2 : 2 ≤ a) : (1 - 1 / a)⁻¹ ≤ 2 := by
   -- Take inverses on both sides to obtain `2⁻¹ ≤ 1 - 1 / a`
   refine' (inv_le_inv_of_le (inv_pos.2 <| zero_lt_two' α) _).trans_eq (inv_inv (2 : α))
   -- move `1 / a` to the left and `2⁻¹` to the right.
-  rw [le_sub_iff_add_le, add_comm, ←le_sub_iff_add_le]
+  rw [le_sub_iff_add_le]; rw [add_comm]; rw [←le_sub_iff_add_le]
   -- take inverses on both sides and use the assumption `2 ≤ a`.
   convert (one_div a).le.trans (inv_le_inv_of_le zero_lt_two a2) using 1
   -- show `1 - 1 / 2 = 1 / 2`.
-  rw [sub_eq_iff_eq_add, ←two_mul, mul_inv_cancel two_ne_zero]
+  rw [sub_eq_iff_eq_add]; rw [←two_mul]; rw [mul_inv_cancel two_ne_zero]
 #align sub_one_div_inv_le_two sub_one_div_inv_le_two
 
 /-! ### Results about `IsLUB` -/
@@ -952,12 +951,12 @@ theorem IsLUB.mul_right {s : Set α} (ha : 0 ≤ a) (hs : IsLUB s b) :
 
 theorem mul_sub_mul_div_mul_neg_iff (hc : c ≠ 0) (hd : d ≠ 0) :
     (a * d - b * c) / (c * d) < 0 ↔ a / c < b / d := by
-  rw [mul_comm b c, ← div_sub_div _ _ hc hd, sub_lt_zero]
+  rw [mul_comm b c]; rw [← div_sub_div _ _ hc hd]; rw [sub_lt_zero]
 #align mul_sub_mul_div_mul_neg_iff mul_sub_mul_div_mul_neg_iff
 
 theorem mul_sub_mul_div_mul_nonpos_iff (hc : c ≠ 0) (hd : d ≠ 0) :
     (a * d - b * c) / (c * d) ≤ 0 ↔ a / c ≤ b / d := by
-  rw [mul_comm b c, ← div_sub_div _ _ hc hd, sub_nonpos]
+  rw [mul_comm b c]; rw [← div_sub_div _ _ hc hd]; rw [sub_nonpos]
 #align mul_sub_mul_div_mul_nonpos_iff mul_sub_mul_div_mul_nonpos_iff
 
 alias ⟨div_lt_div_of_mul_sub_mul_div_neg, mul_sub_mul_div_mul_neg⟩ := mul_sub_mul_div_mul_neg_iff
@@ -984,7 +983,7 @@ theorem mul_self_inj_of_nonneg (a0 : 0 ≤ a) (b0 : 0 ≤ b) : a * a = b * b ↔
     or_iff_left_of_imp fun h => by
       subst a
       have : b = 0 := le_antisymm (neg_nonneg.1 a0) b0
-      rw [this, neg_zero]
+      rw [this]; rw [neg_zero]
 #align mul_self_inj_of_nonneg mul_self_inj_of_nonneg
 
 theorem min_div_div_right_of_nonpos (hc : c ≤ 0) (a b : α) : min (a / c) (b / c) = max a b / c :=

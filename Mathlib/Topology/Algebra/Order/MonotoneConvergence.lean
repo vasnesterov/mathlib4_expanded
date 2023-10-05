@@ -184,7 +184,7 @@ instance Prod.supConvergenceClass
     [SupConvergenceClass α] [SupConvergenceClass β] : SupConvergenceClass (α × β) := by
   constructor
   rintro ⟨a, b⟩ s h
-  rw [isLUB_prod, ← range_restrict, ← range_restrict] at h
+  rw [isLUB_prod] at h; rw [← range_restrict] at h; rw [← range_restrict] at h
   have A : Tendsto (fun x : s => (x : α × β).1) atTop (𝓝 a) :=
     tendsto_atTop_isLUB (monotone_fst.restrict s) h.1
   have B : Tendsto (fun x : s => (x : α × β).2) atTop (𝓝 b) :=

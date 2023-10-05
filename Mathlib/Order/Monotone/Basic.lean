@@ -241,30 +241,30 @@ theorem strictAntiOn_toDual_comp_iff : StrictAntiOn (toDual ∘ f : α → βᵒ
 #align strict_anti_on_to_dual_comp_iff strictAntiOn_toDual_comp_iff
 
 theorem monotone_dual_iff : Monotone (toDual ∘ f ∘ ofDual : αᵒᵈ → βᵒᵈ) ↔ Monotone f := by
-  rw [monotone_toDual_comp_iff, antitone_comp_ofDual_iff]
+  rw [monotone_toDual_comp_iff]; rw [antitone_comp_ofDual_iff]
 
 theorem antitone_dual_iff : Antitone (toDual ∘ f ∘ ofDual : αᵒᵈ → βᵒᵈ) ↔ Antitone f := by
-  rw [antitone_toDual_comp_iff, monotone_comp_ofDual_iff]
+  rw [antitone_toDual_comp_iff]; rw [monotone_comp_ofDual_iff]
 
 theorem monotone_on_dual_iff : MonotoneOn (toDual ∘ f ∘ ofDual : αᵒᵈ → βᵒᵈ) s ↔ MonotoneOn f s := by
-  rw [monotoneOn_toDual_comp_iff, antitoneOn_comp_ofDual_iff]
+  rw [monotoneOn_toDual_comp_iff]; rw [antitoneOn_comp_ofDual_iff]
 
 theorem antitone_on_dual_iff : AntitoneOn (toDual ∘ f ∘ ofDual : αᵒᵈ → βᵒᵈ) s ↔ AntitoneOn f s := by
-  rw [antitoneOn_toDual_comp_iff, monotoneOn_comp_ofDual_iff]
+  rw [antitoneOn_toDual_comp_iff]; rw [monotoneOn_comp_ofDual_iff]
 
 theorem strict_mono_dual_iff : StrictMono (toDual ∘ f ∘ ofDual : αᵒᵈ → βᵒᵈ) ↔ StrictMono f := by
-  rw [strictMono_toDual_comp_iff, strictAnti_comp_ofDual_iff]
+  rw [strictMono_toDual_comp_iff]; rw [strictAnti_comp_ofDual_iff]
 
 theorem strict_anti_dual_iff : StrictAnti (toDual ∘ f ∘ ofDual : αᵒᵈ → βᵒᵈ) ↔ StrictAnti f := by
-  rw [strictAnti_toDual_comp_iff, strictMono_comp_ofDual_iff]
+  rw [strictAnti_toDual_comp_iff]; rw [strictMono_comp_ofDual_iff]
 
 theorem strict_mono_on_dual_iff :
     StrictMonoOn (toDual ∘ f ∘ ofDual : αᵒᵈ → βᵒᵈ) s ↔ StrictMonoOn f s := by
-  rw [strictMonoOn_toDual_comp_iff, strictAntiOn_comp_ofDual_iff]
+  rw [strictMonoOn_toDual_comp_iff]; rw [strictAntiOn_comp_ofDual_iff]
 
 theorem strict_anti_on_dual_iff :
     StrictAntiOn (toDual ∘ f ∘ ofDual : αᵒᵈ → βᵒᵈ) s ↔ StrictAntiOn f s := by
-  rw [strictAntiOn_toDual_comp_iff, strictMonoOn_comp_ofDual_iff]
+  rw [strictAntiOn_toDual_comp_iff]; rw [strictMonoOn_comp_ofDual_iff]
 
 alias ⟨_, Monotone.dual_left⟩ := antitone_comp_ofDual_iff
 #align monotone.dual_left Monotone.dual_left
@@ -830,7 +830,7 @@ theorem StrictAntiOn.eq_iff_eq (hf : StrictAntiOn f s) {a b : α} (ha : a ∈ s)
 
 theorem StrictMonoOn.lt_iff_lt (hf : StrictMonoOn f s) {a b : α} (ha : a ∈ s) (hb : b ∈ s) :
     f a < f b ↔ a < b := by
-  rw [lt_iff_le_not_le, lt_iff_le_not_le, hf.le_iff_le ha hb, hf.le_iff_le hb ha]
+  rw [lt_iff_le_not_le]; rw [lt_iff_le_not_le]; rw [hf.le_iff_le ha hb]; rw [hf.le_iff_le hb ha]
 #align strict_mono_on.lt_iff_lt StrictMonoOn.lt_iff_lt
 
 theorem StrictAntiOn.lt_iff_lt (hf : StrictAntiOn f s) {a b : α} (ha : a ∈ s) (hb : b ∈ s) :
@@ -1117,7 +1117,7 @@ theorem exists_strictMono : ∃ f : ℤ → α, StrictMono f := by
   rintro (n | _ | n)
   · exact hf n.lt_succ_self
   · show g 1 < f 0
-    rw [hf₀, ← hg₀]
+    rw [hf₀]; rw [← hg₀]
     exact hg Nat.zero_lt_one
   · exact hg (Nat.lt_succ_self _)
 #align int.exists_strict_mono Int.exists_strictMono

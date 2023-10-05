@@ -164,7 +164,7 @@ lemma extensive_regular_generate_coherent [Preregular C] [Extensive C] [Precoher
         rw [Presieve.ofArrows_pUnit] at hZfg
         obtain ⟨W, ψ, σ, ⟨hW, hW'⟩⟩ := hZfg
         induction hW
-        rw [← hW', Sieve.pullback_comp Z]
+        rw [← hW']; rw [Sieve.pullback_comp Z]
         suffices Sieve.pullback ψ ((Sieve.pullback F) Z) ∈ GrothendieckTopology.sieves
           ((extensiveCoverage C) ⊔ (regularCoverage C)).toGrothendieck R by assumption
         apply GrothendieckTopology.pullback_stable'

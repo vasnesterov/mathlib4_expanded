@@ -418,7 +418,7 @@ variable {S φ hφ hS}
 
 @[simp]
 theorem liftCover_coe {i : ι} (x : S i) : liftCover S φ hφ hS x = φ i x := by
-  rw [liftCover, coe_mk, Set.liftCover_coe _]
+  rw [liftCover]; rw [coe_mk]; rw [Set.liftCover_coe _]
 #align continuous_map.lift_cover_coe ContinuousMap.liftCover_coe
 
 -- @[simp] -- Porting note: the simpNF linter complained

@@ -91,7 +91,7 @@ theorem FG.of_map_embedding {N : Type*} [L.Structure N] (f : M ↪[L] N) {s : L.
   refine' ⟨f ⁻¹' t, t.finite_toSet.preimage (f.injective.injOn _), _⟩
   have hf : Function.Injective f.toHom := f.injective
   refine' map_injective_of_injective hf _
-  rw [← h, map_closure, Embedding.coe_toHom, image_preimage_eq_of_subset]
+  rw [← h]; rw [map_closure]; rw [Embedding.coe_toHom]; rw [image_preimage_eq_of_subset]
   intro x hx
   have h' := subset_closure (L := L) hx
   rw [h] at h'
@@ -124,12 +124,12 @@ theorem cg_iff_empty_or_exists_nat_generating_family {N : L.Substructure M} :
       (Scount.union (Set.countable_singleton h.some)).exists_eq_range
         (singleton_nonempty h.some).inr
     refine' Or.intro_right _ ⟨f, _⟩
-    rw [← h', closure_union, hS, sup_eq_left, closure_le]
+    rw [← h']; rw [closure_union]; rw [hS]; rw [sup_eq_left]; rw [closure_le]
     exact singleton_subset_iff.2 h.some_mem
   · intro h
     cases' h with h h
     · refine' ⟨∅, countable_empty, closure_eq_of_le (empty_subset _) _⟩
-      rw [← SetLike.coe_subset_coe, h]
+      rw [← SetLike.coe_subset_coe]; rw [h]
       exact empty_subset _
     · obtain ⟨f, rfl⟩ := h
       exact ⟨range f, countable_range _, rfl⟩
@@ -166,7 +166,7 @@ theorem CG.of_map_embedding {N : Type*} [L.Structure N] (f : M ↪[L] N) {s : L.
   refine' ⟨f ⁻¹' t, h1.preimage f.injective, _⟩
   have hf : Function.Injective f.toHom := f.injective
   refine' map_injective_of_injective hf _
-  rw [← h2, map_closure, Embedding.coe_toHom, image_preimage_eq_of_subset]
+  rw [← h2]; rw [map_closure]; rw [Embedding.coe_toHom]; rw [image_preimage_eq_of_subset]
   intro x hx
   have h' := subset_closure (L := L) hx
   rw [h2] at h'
@@ -208,7 +208,7 @@ theorem fg_def : FG L M ↔ (⊤ : L.Substructure M).FG :=
 
 /-- An equivalent expression of `Structure.FG` in terms of `Set.Finite` instead of `Finset`. -/
 theorem fg_iff : FG L M ↔ ∃ S : Set M, S.Finite ∧ closure L S = (⊤ : L.Substructure M) := by
-  rw [fg_def, Substructure.fg_def]
+  rw [fg_def]; rw [Substructure.fg_def]
 #align first_order.language.Structure.fg_iff FirstOrder.Language.Structure.fg_iff
 
 theorem FG.range {N : Type*} [L.Structure N] (h : FG L M) (f : M →[L] N) : f.range.FG := by
@@ -219,7 +219,7 @@ theorem FG.range {N : Type*} [L.Structure N] (h : FG L M) (f : M →[L] N) : f.r
 theorem FG.map_of_surjective {N : Type*} [L.Structure N] (h : FG L M) (f : M →[L] N)
     (hs : Function.Surjective f) : FG L N := by
   rw [← Hom.range_eq_top] at hs
-  rw [fg_def, ← hs]
+  rw [fg_def]; rw [← hs]
   exact h.range f
 #align first_order.language.Structure.fg.map_of_surjective FirstOrder.Language.Structure.FG.map_of_surjective
 
@@ -229,7 +229,7 @@ theorem cg_def : CG L M ↔ (⊤ : L.Substructure M).CG :=
 
 /-- An equivalent expression of `Structure.cg`. -/
 theorem cg_iff : CG L M ↔ ∃ S : Set M, S.Countable ∧ closure L S = (⊤ : L.Substructure M) := by
-  rw [cg_def, Substructure.cg_def]
+  rw [cg_def]; rw [Substructure.cg_def]
 #align first_order.language.Structure.cg_iff FirstOrder.Language.Structure.cg_iff
 
 theorem CG.range {N : Type*} [L.Structure N] (h : CG L M) (f : M →[L] N) : f.range.CG := by
@@ -240,12 +240,12 @@ theorem CG.range {N : Type*} [L.Structure N] (h : CG L M) (f : M →[L] N) : f.r
 theorem CG.map_of_surjective {N : Type*} [L.Structure N] (h : CG L M) (f : M →[L] N)
     (hs : Function.Surjective f) : CG L N := by
   rw [← Hom.range_eq_top] at hs
-  rw [cg_def, ← hs]
+  rw [cg_def]; rw [← hs]
   exact h.range f
 #align first_order.language.Structure.cg.map_of_surjective FirstOrder.Language.Structure.CG.map_of_surjective
 
 theorem cg_iff_countable [Countable (Σl, L.Functions l)] : CG L M ↔ Countable M := by
-  rw [cg_def, Substructure.cg_iff_countable, topEquiv.toEquiv.countable_iff]
+  rw [cg_def]; rw [Substructure.cg_iff_countable]; rw [topEquiv.toEquiv.countable_iff]
 #align first_order.language.Structure.cg_iff_countable FirstOrder.Language.Structure.cg_iff_countable
 
 theorem FG.cg (h : FG L M) : CG L M :=
@@ -270,7 +270,7 @@ theorem Substructure.fg_iff_structure_fg (S : L.Substructure M) : S.FG ↔ Struc
   · rw [← Hom.range_eq_map, range_subtype]
     exact h
   · have h := h.map S.subtype.toHom
-    rw [← Hom.range_eq_map, range_subtype] at h
+    rw [← Hom.range_eq_map] at h; rw [range_subtype] at h
     exact h
 set_option linter.uppercaseLean3 false in
 #align first_order.language.substructure.fg_iff_Structure_fg FirstOrder.Language.Substructure.fg_iff_structure_fg
@@ -287,7 +287,7 @@ theorem Substructure.cg_iff_structure_cg (S : L.Substructure M) : S.CG ↔ Struc
   · rw [← Hom.range_eq_map, range_subtype]
     exact h
   · have h := h.map S.subtype.toHom
-    rw [← Hom.range_eq_map, range_subtype] at h
+    rw [← Hom.range_eq_map] at h; rw [range_subtype] at h
     exact h
 set_option linter.uppercaseLean3 false in
 #align first_order.language.substructure.cg_iff_Structure_cg FirstOrder.Language.Substructure.cg_iff_structure_cg

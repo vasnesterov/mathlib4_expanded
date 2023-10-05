@@ -264,7 +264,7 @@ variable [SMul S R] [SMul S M] [IsScalarTower S R M]
 variable (p : SubMulAction R M)
 
 theorem smul_of_tower_mem (s : S) {x : M} (h : x ∈ p) : s • x ∈ p := by
-  rw [← one_smul R x, ← smul_assoc]
+  rw [← one_smul R x]; rw [← smul_assoc]
   exact p.smul_mem _ h
 #align sub_mul_action.smul_of_tower_mem SubMulAction.smul_of_tower_mem
 

@@ -72,7 +72,7 @@ instance : Algebra R (⨁ i, A i) where
     apply FunLike.congr_fun _ x
     ext i xi : 2
     dsimp only [AddMonoidHom.comp_apply, AddMonoidHom.mul_apply, AddMonoidHom.flip_apply]
-    rw [of_mul_of, of_mul_of]
+    rw [of_mul_of]; rw [of_mul_of]
     apply DFinsupp.single_eq_of_sigma_eq (GAlgebra.commutes r ⟨i, xi⟩)
   smul_def' r x := by
     change DistribMulAction.toAddMonoidHom _ r x = AddMonoidHom.mul (DirectSum.of _ _ _) x
@@ -80,7 +80,7 @@ instance : Algebra R (⨁ i, A i) where
     ext i xi : 2
     dsimp only [AddMonoidHom.comp_apply, DistribMulAction.toAddMonoidHom_apply,
       AddMonoidHom.mul_apply]
-    rw [DirectSum.of_mul_of, ← of_smul]
+    rw [DirectSum.of_mul_of]; rw [← of_smul]
     apply DFinsupp.single_eq_of_sigma_eq (GAlgebra.smul_def r ⟨i, xi⟩)
 
 theorem algebraMap_apply (r : R) :

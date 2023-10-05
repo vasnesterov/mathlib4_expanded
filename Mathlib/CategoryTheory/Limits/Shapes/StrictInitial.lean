@@ -226,11 +226,11 @@ theorem limit_π_isIso_of_is_strict_terminal (F : J ⥤ C) [HasLimit F] (i : J)
         apply (H _ h).hom_ext
       · apply (H _ h).hom_ext
     · ext
-      rw [assoc, limit.lift_π]
+      rw [assoc]; rw [limit.lift_π]
       dsimp only
       split_ifs with h
       · cases h
-        rw [id_comp, eqToHom_refl]
+        rw [id_comp]; rw [eqToHom_refl]
         exact comp_id _
       · apply (H _ h).hom_ext
     · rw [limit.lift_π]

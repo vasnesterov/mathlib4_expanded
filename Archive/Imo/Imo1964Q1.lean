@@ -50,7 +50,7 @@ theorem imo1964_q1a (n : ℕ) (_ : 0 < n) : ProblemPredicate n ↔ 3 ∣ n := by
   let t := n % 3
   have : t < 3 := Nat.mod_lt _ (by decide)
   calc 7 ∣ 2 ^ n - 1 ↔ 2 ^ n ≡ 1 [MOD 7] := by
-        rw [Nat.ModEq.comm, Nat.modEq_iff_dvd']
+        rw [Nat.ModEq.comm]; rw [Nat.modEq_iff_dvd']
         apply Nat.one_le_pow'
     _ ↔ 2 ^ t ≡ 1 [MOD 7] := ⟨(two_pow_mod_seven n).symm.trans, (two_pow_mod_seven n).trans⟩
     _ ↔ t = 0 := by interval_cases t <;> decide

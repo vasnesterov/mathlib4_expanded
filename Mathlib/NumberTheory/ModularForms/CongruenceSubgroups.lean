@@ -155,7 +155,7 @@ theorem Gamma1_to_Gamma0_mem (N : ℕ) (A : Gamma0 N) : A ∈ Gamma1' N ↔
     rw [Matrix.det_fin_two] at adet
     simp only [Gamma0Map, coe_matrix_coe, Int.coe_castRingHom, map_apply, Gamma1_mem',
       MonoidHom.coe_mk, OneHom.coe_mk, Int.cast_sub, Int.cast_mul] at *
-    rw [hA, ha] at adet
+    rw [hA] at adet; rw [ha] at adet
     simp only [mul_one, mul_zero, sub_zero] at adet
     simp only [adet, hA, ha, eq_self_iff_true, and_self_iff]
   · intro ha
@@ -241,7 +241,7 @@ theorem conj_cong_is_cong (g : ConjAct SL(2, ℤ)) (Γ : Subgroup SL(2, ℤ))
     (h : IsCongruenceSubgroup Γ) : IsCongruenceSubgroup (g • Γ) := by
   obtain ⟨N, HN⟩ := h
   refine' ⟨N, _⟩
-  rw [← Gamma_cong_eq_self N g, Subgroup.pointwise_smul_le_pointwise_smul_iff]
+  rw [← Gamma_cong_eq_self N g]; rw [Subgroup.pointwise_smul_le_pointwise_smul_iff]
   exact HN
 #align conj_cong_is_cong conj_cong_is_cong
 

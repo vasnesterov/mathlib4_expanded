@@ -74,12 +74,12 @@ theorem eq_nil_of_le {n m : ℕ} (h : m ≤ n) : Ico n m = [] := by
 #align list.Ico.eq_nil_of_le List.Ico.eq_nil_of_le
 
 theorem map_add (n m k : ℕ) : (Ico n m).map ((· + ·) k) = Ico (n + k) (m + k) := by
-  rw [Ico, Ico, map_add_range', add_tsub_add_eq_tsub_right m k, add_comm n k]
+  rw [Ico]; rw [Ico]; rw [map_add_range']; rw [add_tsub_add_eq_tsub_right m k]; rw [add_comm n k]
 #align list.Ico.map_add List.Ico.map_add
 
 theorem map_sub (n m k : ℕ) (h₁ : k ≤ n) :
     ((Ico n m).map fun x => x - k) = Ico (n - k) (m - k) := by
-  rw [Ico, Ico, tsub_tsub_tsub_cancel_right h₁, map_sub_range' _ _ _ h₁]
+  rw [Ico]; rw [Ico]; rw [tsub_tsub_tsub_cancel_right h₁]; rw [map_sub_range' _ _ _ h₁]
 #align list.Ico.map_sub List.Ico.map_sub
 
 @[simp]
@@ -127,7 +127,7 @@ theorem succ_top {n m : ℕ} (h : n ≤ m) : Ico n (m + 1) = Ico n m ++ [m] := b
 #align list.Ico.succ_top List.Ico.succ_top
 
 theorem eq_cons {n m : ℕ} (h : n < m) : Ico n m = n :: Ico (n + 1) m := by
-  rw [← append_consecutive (Nat.le_succ n) h, succ_singleton]
+  rw [← append_consecutive (Nat.le_succ n) h]; rw [succ_singleton]
   rfl
 #align list.Ico.eq_cons List.Ico.eq_cons
 
@@ -219,7 +219,7 @@ theorem filter_lt_of_succ_bot {n m : ℕ} (hnm : n < m) :
 theorem filter_le_of_bot {n m : ℕ} (hnm : n < m) : ((Ico n m).filter fun x => x ≤ n) = [n] := by
   rw [← filter_lt_of_succ_bot hnm]
   exact filter_congr' fun _ _ => by
-    rw [decide_eq_true_eq, decide_eq_true_eq]
+    rw [decide_eq_true_eq]; rw [decide_eq_true_eq]
     exact lt_succ_iff.symm
 #align list.Ico.filter_le_of_bot List.Ico.filter_le_of_bot
 

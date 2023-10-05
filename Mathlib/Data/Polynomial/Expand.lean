@@ -82,17 +82,17 @@ theorem expand_zero (f : R[X]) : expand R 0 f = C (eval 1 f) := by simp [expand]
 theorem expand_one (f : R[X]) : expand R 1 f = f :=
   Polynomial.induction_on f (fun r => by rw [expand_C])
     (fun f g ihf ihg => by rw [AlgHom.map_add, ihf, ihg]) fun n r _ => by
-    rw [AlgHom.map_mul, expand_C, AlgHom.map_pow, expand_X, pow_one]
+    rw [AlgHom.map_mul]; rw [expand_C]; rw [AlgHom.map_pow]; rw [expand_X]; rw [pow_one]
 #align polynomial.expand_one Polynomial.expand_one
 
 theorem expand_pow (f : R[X]) : expand R (p ^ q) f = (expand R p)^[q] f :=
   Nat.recOn q (by rw [pow_zero, expand_one, Function.iterate_zero, id]) fun n ih => by
-    rw [Function.iterate_succ_apply', pow_succ, expand_mul, ih]
+    rw [Function.iterate_succ_apply']; rw [pow_succ]; rw [expand_mul]; rw [ih]
 #align polynomial.expand_pow Polynomial.expand_pow
 
 theorem derivative_expand (f : R[X]) : Polynomial.derivative (expand R p f) =
     expand R p (Polynomial.derivative f) * (p * (X ^ (p - 1) : R[X])) := by
-  rw [coe_expand, derivative_eval₂_C, derivative_pow, C_eq_nat_cast, derivative_X, mul_one]
+  rw [coe_expand]; rw [derivative_eval₂_C]; rw [derivative_pow]; rw [C_eq_nat_cast]; rw [derivative_X]; rw [mul_one]
 #align polynomial.derivative_expand Polynomial.derivative_expand
 
 theorem coeff_expand {p : ℕ} (hp : 0 < p) (f : R[X]) (n : ℕ) :
@@ -105,7 +105,7 @@ theorem coeff_expand {p : ℕ} (hp : 0 < p) (f : R[X]) (n : ℕ) :
       rw [if_neg]
       intro hb3
       apply hb2
-      rw [← hb3, Nat.mul_div_cancel_left b hp]
+      rw [← hb3]; rw [Nat.mul_div_cancel_left b hp]
     · intro hn
       rw [not_mem_support_iff.1 hn]
       split_ifs <;> rfl
@@ -118,7 +118,7 @@ theorem coeff_expand {p : ℕ} (hp : 0 < p) (f : R[X]) (n : ℕ) :
 @[simp]
 theorem coeff_expand_mul {p : ℕ} (hp : 0 < p) (f : R[X]) (n : ℕ) :
     (expand R p f).coeff (n * p) = f.coeff n := by
-  rw [coeff_expand hp, if_pos (dvd_mul_left _ _), Nat.mul_div_cancel _ hp]
+  rw [coeff_expand hp]; rw [if_pos (dvd_mul_left _ _)]; rw [Nat.mul_div_cancel _ hp]
 #align polynomial.coeff_expand_mul Polynomial.coeff_expand_mul
 
 @[simp]
@@ -144,7 +144,7 @@ theorem expand_ne_zero {p : ℕ} (hp : 0 < p) {f : R[X]} : expand R p f ≠ 0 �
 #align polynomial.expand_ne_zero Polynomial.expand_ne_zero
 
 theorem expand_eq_C {p : ℕ} (hp : 0 < p) {f : R[X]} {r : R} : expand R p f = C r ↔ f = C r := by
-  rw [← expand_C, expand_inj hp, expand_C]
+  rw [← expand_C]; rw [expand_inj hp]; rw [expand_C]
 set_option linter.uppercaseLean3 false in
 #align polynomial.expand_eq_C Polynomial.expand_eq_C
 
@@ -171,7 +171,7 @@ theorem natDegree_expand (p : ℕ) (f : R[X]) : (expand R p f).natDegree = f.nat
 #align polynomial.nat_degree_expand Polynomial.natDegree_expand
 
 theorem Monic.expand {p : ℕ} {f : R[X]} (hp : 0 < p) (h : f.Monic) : (expand R p f).Monic := by
-  rw [Monic.def, Polynomial.leadingCoeff, natDegree_expand, coeff_expand hp]
+  rw [Monic.def]; rw [Polynomial.leadingCoeff]; rw [natDegree_expand]; rw [coeff_expand hp]
   simp [hp, h]
 #align polynomial.monic.expand Polynomial.Monic.expand
 
@@ -180,21 +180,21 @@ theorem map_expand {p : ℕ} {f : R →+* S} {q : R[X]} :
   by_cases hp : p = 0
   · simp [hp]
   ext
-  rw [coeff_map, coeff_expand (Nat.pos_of_ne_zero hp), coeff_expand (Nat.pos_of_ne_zero hp)]
+  rw [coeff_map]; rw [coeff_expand (Nat.pos_of_ne_zero hp)]; rw [coeff_expand (Nat.pos_of_ne_zero hp)]
   split_ifs <;> simp_all
 #align polynomial.map_expand Polynomial.map_expand
 
 @[simp]
 theorem expand_eval (p : ℕ) (P : R[X]) (r : R) : eval r (expand R p P) = eval (r ^ p) P := by
   refine' Polynomial.induction_on P (fun a => by simp) (fun f g hf hg => _) fun n a _ => by simp
-  rw [AlgHom.map_add, eval_add, eval_add, hf, hg]
+  rw [AlgHom.map_add]; rw [eval_add]; rw [eval_add]; rw [hf]; rw [hg]
 #align polynomial.expand_eval Polynomial.expand_eval
 
 @[simp]
 theorem expand_aeval {A : Type*} [Semiring A] [Algebra R A] (p : ℕ) (P : R[X]) (r : A) :
     aeval r (expand R p P) = aeval (r ^ p) P := by
   refine' Polynomial.induction_on P (fun a => by simp) (fun f g hf hg => _) fun n a _ => by simp
-  rw [AlgHom.map_add, aeval_add, aeval_add, hf, hg]
+  rw [AlgHom.map_add]; rw [aeval_add]; rw [aeval_add]; rw [hf]; rw [hg]
 #align polynomial.expand_aeval Polynomial.expand_aeval
 
 /-- The opposite of `expand`: sends `∑ aₙ xⁿᵖ` to `∑ aₙ xⁿ`. -/
@@ -226,17 +226,17 @@ variable [CharP R p]
 theorem expand_contract [NoZeroDivisors R] {f : R[X]} (hf : Polynomial.derivative f = 0)
     (hp : p ≠ 0) : expand R p (contract p f) = f := by
   ext n
-  rw [coeff_expand hp.bot_lt, coeff_contract hp]
+  rw [coeff_expand hp.bot_lt]; rw [coeff_contract hp]
   split_ifs with h
   · rw [Nat.div_mul_cancel h]
   · cases' n with n
     · exact absurd (dvd_zero p) h
     have := coeff_derivative f n
-    rw [hf, coeff_zero, zero_eq_mul] at this
+    rw [hf] at this; rw [coeff_zero] at this; rw [zero_eq_mul] at this
     cases' this with h'
     · rw [h']
     rename_i _ _ _ _ h'
-    rw [← Nat.cast_succ, CharP.cast_eq_zero_iff R p] at h'
+    rw [← Nat.cast_succ] at h'; rw [CharP.cast_eq_zero_iff R p] at h'
     exact absurd h' h
 #align polynomial.expand_contract Polynomial.expand_contract
 
@@ -255,8 +255,7 @@ theorem map_expand_pow_char (f : R[X]) (n : ℕ) :
   induction' n with _ n_ih
   · simp [RingHom.one_def]
   symm
-  rw [pow_succ', pow_mul, ← n_ih, ← expand_char, pow_succ, RingHom.mul_def, ← map_map, mul_comm,
-    expand_mul, ← map_expand]
+  rw [pow_succ']; rw [pow_mul]; rw [← n_ih]; rw [← expand_char]; rw [pow_succ]; rw [RingHom.mul_def]; rw [← map_map]; rw [mul_comm]; rw [expand_mul]; rw [← map_expand]
 #align polynomial.map_expand_pow_char Polynomial.map_expand_pow_char
 
 end CharP
@@ -271,8 +270,8 @@ theorem isLocalRingHom_expand {p : ℕ} (hp : 0 < p) :
     IsLocalRingHom (↑(expand R p) : R[X] →+* R[X]) := by
   refine' ⟨fun f hf1 => _⟩; norm_cast at hf1
   have hf2 := eq_C_of_degree_eq_zero (degree_eq_zero_of_isUnit hf1)
-  rw [coeff_expand hp, if_pos (dvd_zero _), p.zero_div] at hf2
-  rw [hf2, isUnit_C] at hf1; rw [expand_eq_C hp] at hf2; rwa [hf2, isUnit_C]
+  rw [coeff_expand hp] at hf2; rw [if_pos (dvd_zero _)] at hf2; rw [p.zero_div] at hf2
+  rw [hf2] at hf1; rw [isUnit_C] at hf1; rw [expand_eq_C hp] at hf2; rwa [hf2, isUnit_C]
 #align polynomial.is_local_ring_hom_expand Polynomial.isLocalRingHom_expand
 
 variable {R}

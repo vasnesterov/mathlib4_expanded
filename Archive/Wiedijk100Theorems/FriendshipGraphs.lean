@@ -84,7 +84,7 @@ variable (R)
   the adjacency matrix, so for a friendship graph, those entries are all 1. -/
 theorem adjMatrix_sq_of_ne {v w : V} (hvw : v ≠ w) :
     (G.adjMatrix R ^ 2 : Matrix V V R) v w = 1 := by
-  rw [sq, ← Nat.cast_one, ← hG hvw]
+  rw [sq]; rw [← Nat.cast_one]; rw [← hG hvw]
   simp [commonNeighbors, neighborFinset_eq_filter, Finset.filter_filter, and_comm,
     ← neighborFinset_def]
 #align theorems_100.friendship.adj_matrix_sq_of_ne Theorems100.Friendship.adjMatrix_sq_of_ne
@@ -93,10 +93,10 @@ theorem adjMatrix_sq_of_ne {v w : V} (hvw : v ≠ w) :
   We use it to show that nonadjacent vertices have equal degrees. -/
 theorem adjMatrix_pow_three_of_not_adj {v w : V} (non_adj : ¬G.Adj v w) :
     (G.adjMatrix R ^ 3 : Matrix V V R) v w = degree G v := by
-  rw [pow_succ, adjMatrix_mul_apply, degree, card_eq_sum_ones, Nat.cast_sum]
+  rw [pow_succ]; rw [adjMatrix_mul_apply]; rw [degree]; rw [card_eq_sum_ones]; rw [Nat.cast_sum]
   apply sum_congr rfl
   intro x hx
-  rw [adjMatrix_sq_of_ne _ hG, Nat.cast_one]
+  rw [adjMatrix_sq_of_ne _ hG]; rw [Nat.cast_one]
   rintro ⟨rfl⟩
   rw [mem_neighborFinset] at hx
   exact non_adj hx
@@ -110,9 +110,7 @@ variable {R}
 
   This is true as the adjacency matrix is symmetric. -/
 theorem degree_eq_of_not_adj {v w : V} (hvw : ¬G.Adj v w) : degree G v = degree G w := by
-  rw [← Nat.cast_id (G.degree v), ← Nat.cast_id (G.degree w),
-    ← adjMatrix_pow_three_of_not_adj ℕ hG hvw,
-    ← adjMatrix_pow_three_of_not_adj ℕ hG fun h => hvw (G.symm h)]
+  rw [← Nat.cast_id (G.degree v)]; rw [← Nat.cast_id (G.degree w)]; rw [← adjMatrix_pow_three_of_not_adj ℕ hG hvw]; rw [← adjMatrix_pow_three_of_not_adj ℕ hG fun h => hvw (G.symm h)]
   conv_lhs => rw [← transpose_adjMatrix]
   simp only [pow_succ _ 2, sq, ← transpose_mul, transpose_apply]
   simp only [mul_assoc]
@@ -164,11 +162,10 @@ theorem isRegularOf_not_existsPolitician (hG' : ¬ExistsPolitician G) :
   have key : ∀ {x}, x ∈ G.commonNeighbors v w → x = a := by
     intro x hx
     have h' : ⟨x, hx⟩ ∈ (univ : Finset (G.commonNeighbors v w)) := mem_univ (Subtype.mk x hx)
-    rw [h, mem_singleton] at h'
+    rw [h] at h'; rw [mem_singleton] at h'
     injection h'
   apply hxy'
-  rw [key ((mem_commonNeighbors G).mpr ⟨hvx, G.symm hxw⟩),
-    key ((mem_commonNeighbors G).mpr ⟨hvy, G.symm hcontra⟩)]
+  rw [key ((mem_commonNeighbors G).mpr ⟨hvx, G.symm hxw⟩)]; rw [key ((mem_commonNeighbors G).mpr ⟨hvy, G.symm hcontra⟩)]
 #align theorems_100.friendship.is_regular_of_not_exists_politician Theorems100.Friendship.isRegularOf_not_existsPolitician
 
 /-- Let `A` be the adjacency matrix of a `d`-regular friendship graph, and let `v` be a vector
@@ -182,7 +179,7 @@ theorem card_of_regular (hd : G.IsRegularOfDegree d) : d + (Fintype.card V - 1) 
   · rw [adjMatrix_sq_of_regular hG hd, mulVec, dotProduct, ← insert_erase (mem_univ v)]
     simp only [sum_insert, mul_one, if_true, Nat.cast_id, eq_self_iff_true, mem_erase, not_true,
       Ne.def, not_false_iff, add_right_inj, false_and_iff, of_apply]
-    rw [Finset.sum_const_nat, card_erase_of_mem (mem_univ v), mul_one]; · rfl
+    rw [Finset.sum_const_nat]; rw [card_erase_of_mem (mem_univ v)]; rw [mul_one]; · rfl
     intro x hx; simp [(ne_of_mem_erase hx).symm]
   · rw [sq, ← mulVec_mulVec]
     simp only [adjMatrix_mulVec_const_apply_of_regular hd, neighborFinset,
@@ -195,7 +192,7 @@ theorem card_of_regular (hd : G.IsRegularOfDegree d) : d + (Fintype.card V - 1) 
 theorem card_mod_p_of_regular {p : ℕ} (dmod : (d : ZMod p) = 1) (hd : G.IsRegularOfDegree d) :
     (Fintype.card V : ZMod p) = 1 := by
   have hpos : 0 < Fintype.card V := Fintype.card_pos_iff.mpr inferInstance
-  rw [← Nat.succ_pred_eq_of_pos hpos, Nat.succ_eq_add_one, Nat.pred_eq_sub_one]
+  rw [← Nat.succ_pred_eq_of_pos hpos]; rw [Nat.succ_eq_add_one]; rw [Nat.pred_eq_sub_one]
   simp only [add_left_eq_self, Nat.cast_add, Nat.cast_one]
   have h := congr_arg (fun n : ℕ => (n : ZMod p)) (card_of_regular hG hd)
   revert h; simp [dmod]
@@ -213,7 +210,7 @@ theorem adjMatrix_sq_mul_const_one_of_regular (hd : G.IsRegularOfDegree d) :
 theorem adjMatrix_mul_const_one_mod_p_of_regular {p : ℕ} (dmod : (d : ZMod p) = 1)
     (hd : G.IsRegularOfDegree d) :
     G.adjMatrix (ZMod p) * of (fun _ _ => 1) = of (fun _ _ => 1) := by
-  rw [adjMatrix_sq_mul_const_one_of_regular hd, dmod]
+  rw [adjMatrix_sq_mul_const_one_of_regular hd]; rw [dmod]
 #align theorems_100.friendship.adj_matrix_mul_const_one_mod_p_of_regular Theorems100.Friendship.adjMatrix_mul_const_one_mod_p_of_regular
 
 /-- Modulo a factor of `d-1`, the square and all higher powers of the adjacency matrix
@@ -226,7 +223,7 @@ theorem adjMatrix_pow_mod_p_of_regular {p : ℕ} (dmod : (d : ZMod p) = 1)
   | k + 2 =>
     induction' k with k hind
     · exact adjMatrix_sq_mod_p_of_regular hG dmod hd
-    rw [pow_succ, hind (Nat.le_add_left 2 k)]
+    rw [pow_succ]; rw [hind (Nat.le_add_left 2 k)]
     exact adjMatrix_mul_const_one_mod_p_of_regular dmod hd
 #align theorems_100.friendship.adj_matrix_pow_mod_p_of_regular Theorems100.Friendship.adjMatrix_pow_mod_p_of_regular
 
@@ -246,7 +243,7 @@ theorem false_of_three_le_degree (hd : G.IsRegularOfDegree d) (h : 3 ≤ d) : Fa
   haveI : Fact p.Prime := ⟨Nat.minFac_prime (by linarith)⟩
   have hp2 : 2 ≤ p := (Fact.out (p := p.Prime)).two_le
   have dmod : (d : ZMod p) = 1 := by
-    rw [← Nat.succ_pred_eq_of_pos dpos, Nat.succ_eq_add_one, Nat.pred_eq_sub_one]
+    rw [← Nat.succ_pred_eq_of_pos dpos]; rw [Nat.succ_eq_add_one]; rw [Nat.pred_eq_sub_one]
     simp only [add_left_eq_self, Nat.cast_add, Nat.cast_one]
     exact p_dvd_d_pred
   have Vmod := card_mod_p_of_regular hG dmod hd
@@ -254,14 +251,13 @@ theorem false_of_three_le_degree (hd : G.IsRegularOfDegree d) (h : 3 ≤ d) : Fa
   have := ZMod.trace_pow_card (G.adjMatrix (ZMod p))
   contrapose! this; clear this
   -- the trace is 0 mod p when computed one way
-  rw [trace_adjMatrix, zero_pow (Fact.out (p := p.Prime)).pos]
+  rw [trace_adjMatrix]; rw [zero_pow (Fact.out (p := p.Prime)).pos]
   -- but the trace is 1 mod p when computed the other way
   rw [adjMatrix_pow_mod_p_of_regular hG dmod hd hp2]
   dsimp only [Fintype.card] at Vmod
   simp only [Matrix.trace, Matrix.diag, mul_one, nsmul_eq_mul, LinearMap.coe_mk, sum_const,
     of_apply, Ne.def]
-  rw [Vmod, ← Nat.cast_one (R := ZMod (Nat.minFac (d - 1))), ZMod.nat_cast_zmod_eq_zero_iff_dvd,
-    Nat.dvd_one, Nat.minFac_eq_one_iff]
+  rw [Vmod]; rw [← Nat.cast_one (R := ZMod (Nat.minFac (d - 1)))]; rw [ZMod.nat_cast_zmod_eq_zero_iff_dvd]; rw [Nat.dvd_one]; rw [Nat.minFac_eq_one_iff]
   linarith
 #align theorems_100.friendship.false_of_three_le_degree Theorems100.Friendship.false_of_three_le_degree
 
@@ -277,7 +273,7 @@ theorem existsPolitician_of_degree_le_one (hd : G.IsRegularOfDegree d) (hd1 : d 
     | zero => exact zero_le _
     | succ n =>
       have : n = 0 := by
-        rw [hn, Nat.succ_sub_succ_eq_sub, tsub_zero] at h
+        rw [hn] at h; rw [Nat.succ_sub_succ_eq_sub] at h; rw [tsub_zero] at h
         linarith
       subst n
       rfl
@@ -294,7 +290,7 @@ theorem neighborFinset_eq_of_degree_eq_two (hd : G.IsRegularOfDegree 2) (v : V) 
   apply Finset.eq_of_subset_of_card_le
   · rw [Finset.subset_iff]
     intro x
-    rw [mem_neighborFinset, Finset.mem_erase]
+    rw [mem_neighborFinset]; rw [Finset.mem_erase]
     exact fun h => ⟨(G.ne_of_adj h).symm, Finset.mem_univ _⟩
   convert_to 2 ≤ _
   · convert_to _ = Fintype.card V - 1
@@ -309,7 +305,7 @@ theorem existsPolitician_of_degree_eq_two (hd : G.IsRegularOfDegree 2) : ExistsP
   have v := Classical.arbitrary V
   use v
   intro w hvw
-  rw [← mem_neighborFinset, neighborFinset_eq_of_degree_eq_two hG hd v, Finset.mem_erase]
+  rw [← mem_neighborFinset]; rw [neighborFinset_eq_of_degree_eq_two hG hd v]; rw [Finset.mem_erase]
   exact ⟨hvw.symm, Finset.mem_univ _⟩
 #align theorems_100.friendship.exists_politician_of_degree_eq_two Theorems100.Friendship.existsPolitician_of_degree_eq_two
 

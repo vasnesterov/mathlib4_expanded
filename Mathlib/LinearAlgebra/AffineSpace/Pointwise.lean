@@ -67,7 +67,7 @@ theorem pointwise_vadd_bot (v : V) : v +ᵥ (⊥ : AffineSubspace k P) = ⊥ := 
 
 theorem pointwise_vadd_direction (v : V) (s : AffineSubspace k P) :
     (v +ᵥ s).direction = s.direction := by
-  rw [pointwise_vadd_eq_map, map_direction]
+  rw [pointwise_vadd_eq_map]; rw [map_direction]
   exact Submodule.map_id _
 #align affine_subspace.pointwise_vadd_direction AffineSubspace.pointwise_vadd_direction
 

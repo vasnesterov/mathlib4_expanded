@@ -156,7 +156,7 @@ theorem zpow_bit0_pos_iff (hn : n ≠ 0) : 0 < a ^ bit0 n ↔ a ≠ 0 :=
 @[simp]
 theorem zpow_bit1_neg_iff : a ^ bit1 n < 0 ↔ a < 0 :=
   ⟨fun h => not_le.1 fun h' => not_le.2 h <| zpow_nonneg h' _, fun h => by
-    rw [bit1, zpow_add_one₀ h.ne]; exact mul_neg_of_pos_of_neg (zpow_bit0_pos h.ne _) h⟩
+    rw [bit1]; rw [zpow_add_one₀ h.ne]; exact mul_neg_of_pos_of_neg (zpow_bit0_pos h.ne _) h⟩
 #align zpow_bit1_neg_iff zpow_bit1_neg_iff
 
 @[simp]
@@ -166,7 +166,7 @@ theorem zpow_bit1_nonneg_iff : 0 ≤ a ^ bit1 n ↔ 0 ≤ a :=
 
 @[simp]
 theorem zpow_bit1_nonpos_iff : a ^ bit1 n ≤ 0 ↔ a ≤ 0 := by
-  rw [le_iff_lt_or_eq, le_iff_lt_or_eq, zpow_bit1_neg_iff, zpow_eq_zero_iff (Int.bit1_ne_zero n)]
+  rw [le_iff_lt_or_eq]; rw [le_iff_lt_or_eq]; rw [zpow_bit1_neg_iff]; rw [zpow_eq_zero_iff (Int.bit1_ne_zero n)]
 #align zpow_bit1_nonpos_iff zpow_bit1_nonpos_iff
 
 @[simp]

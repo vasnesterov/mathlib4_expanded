@@ -76,8 +76,7 @@ theorem differentiableOn_update_limUnder_of_isLittleO {f : ℂ → E} {s : Set �
     DifferentiableOn ℂ (update f c (limUnder (𝓝[≠] c) f)) s := by
   set F : ℂ → E := fun z => (z - c) • f z
   suffices DifferentiableOn ℂ F (s \ {c}) ∧ ContinuousAt F c by
-    rw [differentiableOn_compl_singleton_and_continuousAt_iff hc, ← differentiableOn_dslope hc,
-      dslope_sub_smul] at this
+    rw [differentiableOn_compl_singleton_and_continuousAt_iff hc] at this; rw [← differentiableOn_dslope hc] at this; rw [dslope_sub_smul] at this
     have hc : Tendsto f (𝓝[≠] c) (𝓝 (deriv F c)) :=
       continuousAt_update_same.mp (this.continuousOn.continuousAt hc)
     rwa [hc.limUnder_eq]
@@ -143,7 +142,7 @@ theorem two_pi_I_inv_smul_circleIntegral_sub_sq_inv_smul_of_differentiable {U : 
   have hf' : DifferentiableOn ℂ (dslope f w₀) U :=
     (differentiableOn_dslope (hU.mem_nhds ((ball_subset_closedBall.trans hc) hw₀))).mpr hf
   have h0 := (hf'.diffContOnCl_ball hc).two_pi_i_inv_smul_circleIntegral_sub_inv_smul hw₀
-  rw [← dslope_same, ← h0]
+  rw [← dslope_same]; rw [← h0]
   congr 1
   trans ∮ z in C(c, R), ((z - w₀) ^ 2)⁻¹ • (f z - f w₀)
   · have h1 : ContinuousOn (fun z : ℂ => ((z - w₀) ^ 2)⁻¹) (sphere c R) := by

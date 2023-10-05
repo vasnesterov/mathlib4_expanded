@@ -516,8 +516,7 @@ theorem preimage_eq (f : α →. β) (s : Set β) : f.preimage s = f.core s ∩ 
 #align pfun.preimage_eq PFun.preimage_eq
 
 theorem core_eq (f : α →. β) (s : Set β) : f.core s = f.preimage s ∪ f.Domᶜ := by
-  rw [preimage_eq, Set.union_distrib_right, Set.union_comm (Dom f), Set.compl_union_self,
-    Set.inter_univ, Set.union_eq_self_of_subset_right (f.compl_dom_subset_core s)]
+  rw [preimage_eq]; rw [Set.union_distrib_right]; rw [Set.union_comm (Dom f)]; rw [Set.compl_union_self]; rw [Set.inter_univ]; rw [Set.union_eq_self_of_subset_right (f.compl_dom_subset_core s)]
 #align pfun.core_eq PFun.core_eq
 
 theorem preimage_asSubtype (f : α →. β) (s : Set β) :
@@ -553,7 +552,7 @@ theorem dom_toSubtype_apply_iff {p : β → Prop} {f : α → β} {a : α} :
 
 theorem mem_toSubtype_iff {p : β → Prop} {f : α → β} {a : α} {b : Subtype p} :
     b ∈ toSubtype p f a ↔ ↑b = f a := by
-  rw [toSubtype_apply, Part.mem_mk_iff, exists_subtype_mk_eq_iff, eq_comm]
+  rw [toSubtype_apply]; rw [Part.mem_mk_iff]; rw [exists_subtype_mk_eq_iff]; rw [eq_comm]
 #align pfun.mem_to_subtype_iff PFun.mem_toSubtype_iff
 
 /-- The identity as a partial function -/

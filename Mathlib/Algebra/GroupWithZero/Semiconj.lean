@@ -49,7 +49,7 @@ theorem inv_right₀ (h : SemiconjBy a x y) : SemiconjBy a x⁻¹ y⁻¹ := by
     simp only [SemiconjBy, mul_zero, @eq_comm _ _ (y * a), mul_eq_zero] at h
     simp [h.resolve_right ha]
   · have := mul_ne_zero ha hx
-    rw [h.eq, mul_ne_zero_iff] at this
+    rw [h.eq] at this; rw [mul_ne_zero_iff] at this
     exact @units_inv_right _ _ _ (Units.mk0 x hx) (Units.mk0 y this.1) h
 #align semiconj_by.inv_right₀ SemiconjBy.inv_right₀
 
@@ -60,7 +60,7 @@ theorem inv_right_iff₀ : SemiconjBy a x⁻¹ y⁻¹ ↔ SemiconjBy a x y :=
 
 theorem div_right (h : SemiconjBy a x y) (h' : SemiconjBy a x' y') :
     SemiconjBy a (x / x') (y / y') := by
-  rw [div_eq_mul_inv, div_eq_mul_inv]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]
   exact h.mul_right h'.inv_right₀
 #align semiconj_by.div_right SemiconjBy.div_right
 

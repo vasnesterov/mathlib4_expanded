@@ -435,12 +435,12 @@ instance : InfSet (Ideal P) :=
     { toLowerSet := ⨅ s ∈ S, toLowerSet s
       nonempty' :=
         ⟨⊥, by
-          rw [LowerSet.carrier_eq_coe, LowerSet.coe_iInf₂, Set.mem_iInter₂]
+          rw [LowerSet.carrier_eq_coe]; rw [LowerSet.coe_iInf₂]; rw [Set.mem_iInter₂]
           exact fun s _ ↦ s.bot_mem⟩
       directed' := fun a ha b hb ↦
         ⟨a ⊔ b,
           ⟨by
-            rw [LowerSet.carrier_eq_coe, LowerSet.coe_iInf₂, Set.mem_iInter₂] at ha hb ⊢
+            rw [LowerSet.carrier_eq_coe] at ha hb ⊢; rw [LowerSet.coe_iInf₂] at ha hb ⊢; rw [Set.mem_iInter₂] at ha hb ⊢
             exact fun s hs ↦ sup_mem (ha _ hs) (hb _ hs), le_sup_left, le_sup_right⟩⟩ }⟩
 
 variable {S : Set (Ideal P)}
@@ -459,7 +459,7 @@ instance : CompleteLattice (Ideal P) :=
   { (inferInstance : Lattice (Ideal P)),
     completeLatticeOfInf (Ideal P) fun S ↦ by
       refine' ⟨fun s hs ↦ _, fun s hs ↦ by rwa [← coe_subset_coe, coe_sInf, subset_iInter₂_iff]⟩
-      rw [← coe_subset_coe, coe_sInf]
+      rw [← coe_subset_coe]; rw [coe_sInf]
       exact biInter_subset_of_mem hs with }
 
 end SemilatticeSupOrderBot

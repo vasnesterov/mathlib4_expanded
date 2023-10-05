@@ -125,7 +125,7 @@ theorem sigma_singleton {a : ∀ i, α i} :
 
 theorem singleton_sigma_singleton {a : ∀ i, α i} :
     (({i} : Set ι).Sigma fun i ↦ ({a i} : Set (α i))) = {⟨i, a i⟩} := by
-  rw [sigma_singleton, image_singleton]
+  rw [sigma_singleton]; rw [image_singleton]
 #align set.singleton_sigma_singleton Set.singleton_sigma_singleton
 
 @[simp]
@@ -144,7 +144,7 @@ theorem sigma_inter_sigma : s₁.Sigma t₁ ∩ s₂.Sigma t₂ = (s₁ ∩ s₂
 #align set.sigma_inter_sigma Set.sigma_inter_sigma
 
 theorem insert_sigma : (insert i s).Sigma t = Sigma.mk i '' t i ∪ s.Sigma t := by
-  rw [insert_eq, union_sigma, singleton_sigma]
+  rw [insert_eq]; rw [union_sigma]; rw [singleton_sigma]
   exact a
 #align set.insert_sigma Set.insert_sigma
 

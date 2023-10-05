@@ -57,7 +57,7 @@ def Functor.obj (A : Mon_ (C ⥤ D)) : C ⥤ Mon_ D where
   map f :=
     { hom := A.X.map f
       one_hom := by rw [← A.one.naturality, tensorUnit_map]; dsimp; rw [Category.id_comp]
-      mul_hom := by dsimp; rw [← A.mul.naturality, tensorObj_map] }
+      mul_hom := by dsimp; rw [← A.mul.naturality]; rw [tensorObj_map] }
   map_id X := by ext; dsimp; rw [CategoryTheory.Functor.map_id]
   map_comp f g := by ext; dsimp; rw [Functor.map_comp]
 

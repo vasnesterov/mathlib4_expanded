@@ -267,7 +267,7 @@ theorem coe_pure (a : α) : (pure a : Set α) = {a} :=
 
 @[simp]
 theorem mem_pure : b ∈ pure a ↔ b = a := by
-  rw [← SetLike.mem_coe, coe_pure, mem_singleton_iff]
+  rw [← SetLike.mem_coe]; rw [coe_pure]; rw [mem_singleton_iff]
 #align nonempty_interval.mem_pure NonemptyInterval.mem_pure
 
 @[simp, norm_cast]
@@ -569,9 +569,9 @@ instance lattice : Lattice (Interval α) :=
         lift c to NonemptyInterval α using ne_bot_of_le_ne_bot WithBot.coe_ne_bot hc
         change _ ≤ dite _ _ _
         -- Porting note: was `simp only` but that fails to use the second lemma.
-        rw [WithBot.some_eq_coe, WithBot.coe_le_coe] at hb hc
+        rw [WithBot.some_eq_coe] at hb hc; rw [WithBot.coe_le_coe] at hb hc
         simp only [WithBot.some_eq_coe, WithBot.coe_le_coe] -- at hb hc ⊢
-        rw [dif_pos, WithBot.coe_le_coe]
+        rw [dif_pos]; rw [WithBot.coe_le_coe]
         exact ⟨sup_le hb.1 hc.1, le_inf hb.2 hc.2⟩
         -- Porting note: had to add the next 6 lines including the changes because
         -- it seems that lean cannot automatically turn `NonemptyInterval.toDualProd s`
@@ -589,12 +589,12 @@ instance lattice : Lattice (Interval α) :=
 theorem coe_inf (s t : Interval α) : (↑(s ⊓ t) : Set α) = ↑s ∩ ↑t := by
   cases s with
   | none =>
-    rw [WithBot.none_eq_bot, bot_inf_eq]
+    rw [WithBot.none_eq_bot]; rw [bot_inf_eq]
     exact (empty_inter _).symm
   | some s =>
     cases t with
     | none =>
-      rw [WithBot.none_eq_bot, inf_bot_eq]
+      rw [WithBot.none_eq_bot]; rw [inf_bot_eq]
       exact (inter_empty _).symm
     | some t =>
       refine' (_ : setLike.coe (dite
@@ -613,7 +613,7 @@ end Decidable
 @[simp, norm_cast]
 theorem disjoint_coe (s t : Interval α) : Disjoint (s : Set α) t ↔ Disjoint s t := by
   classical
-    rw [disjoint_iff_inf_le, disjoint_iff_inf_le, ← coe_subset_coe, coe_inf]
+    rw [disjoint_iff_inf_le]; rw [disjoint_iff_inf_le]; rw [← coe_subset_coe]; rw [coe_inf]
     rfl
 #align interval.disjoint_coe Interval.disjoint_coe
 
@@ -634,7 +634,7 @@ theorem coe_pure_interval (a : α) : (pure a : Interval α) = Interval.pure a :=
 
 @[simp, norm_cast]
 theorem coe_eq_pure : (s : Interval α) = Interval.pure a ↔ s = pure a := by
-  rw [← Interval.coe_inj, coe_pure_interval]
+  rw [← Interval.coe_inj]; rw [coe_pure_interval]
 #align nonempty_interval.coe_eq_pure NonemptyInterval.coe_eq_pure
 
 @[simp, norm_cast]

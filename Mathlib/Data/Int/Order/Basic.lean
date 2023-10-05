@@ -69,7 +69,7 @@ theorem natAbs_abs (a : ℤ) : natAbs |a| = natAbs a := by rw [abs_eq_natAbs]; r
 #align int.nat_abs_abs Int.natAbs_abs
 
 theorem sign_mul_abs (a : ℤ) : sign a * |a| = a := by
-  rw [abs_eq_natAbs, sign_mul_natAbs a]
+  rw [abs_eq_natAbs]; rw [sign_mul_natAbs a]
 #align int.sign_mul_abs Int.sign_mul_abs
 
 theorem coe_nat_eq_zero {n : ℕ} : (n : ℤ) = 0 ↔ n = 0 :=
@@ -120,14 +120,14 @@ theorem le_sub_one_iff {a b : ℤ} : a ≤ b - 1 ↔ a < b :=
 theorem abs_lt_one_iff {a : ℤ} : |a| < 1 ↔ a = 0 :=
   ⟨fun a0 => by
     let ⟨hn, hp⟩ := abs_lt.mp a0
-    rw [←zero_add 1, lt_add_one_iff] at hp
+    rw [←zero_add 1] at hp; rw [lt_add_one_iff] at hp
     -- Defeq abuse: `hn : -1 < a` but should be `hn : 0 λ a`.
     exact hp.antisymm hn,
     fun a0 => (abs_eq_zero.mpr a0).le.trans_lt zero_lt_one⟩
 #align int.abs_lt_one_iff Int.abs_lt_one_iff
 
 theorem abs_le_one_iff {a : ℤ} : |a| ≤ 1 ↔ a = 0 ∨ a = 1 ∨ a = -1 := by
-  rw [le_iff_lt_or_eq, abs_lt_one_iff, abs_eq (zero_le_one' ℤ)]
+  rw [le_iff_lt_or_eq]; rw [abs_lt_one_iff]; rw [abs_eq (zero_le_one' ℤ)]
 #align int.abs_le_one_iff Int.abs_le_one_iff
 
 theorem one_le_abs {z : ℤ} (h₀ : z ≠ 0) : 1 ≤ |z| :=
@@ -139,7 +139,7 @@ than `b`, and the `pred` of a number less than `b`. -/
 @[elab_as_elim] protected def inductionOn' {C : ℤ → Sort*}
     (z : ℤ) (b : ℤ) (H0 : C b) (Hs : ∀ k, b ≤ k → C k → C (k + 1))
     (Hp : ∀ k ≤ b, C k → C (k - 1)) : C z := by
-  rw [← sub_add_cancel (G := ℤ) z b, add_comm]
+  rw [← sub_add_cancel (G := ℤ) z b]; rw [add_comm]
   exact match z - b with
   | .ofNat n => pos n
   | .negSucc n => neg n
@@ -288,7 +288,7 @@ attribute [local simp] Int.zero_emod
 theorem neg_emod_two (i : ℤ) : -i % 2 = i % 2 := by
   apply Int.emod_eq_emod_iff_emod_sub_eq_zero.mpr
   convert Int.mul_emod_right 2 (-i) using 2
-  rw [two_mul, sub_eq_add_neg]
+  rw [two_mul]; rw [sub_eq_add_neg]
 #align int.neg_mod_two Int.neg_emod_two
 
 /-! ### properties of `/` and `%` -/
@@ -301,7 +301,7 @@ theorem abs_ediv_le_abs : ∀ a b : ℤ, |a / b| ≤ |a| :=
     | _, ⟨n, Or.inl rfl⟩ => this _ _
     | _, ⟨n, Or.inr rfl⟩ => by rw [Int.ediv_neg, abs_neg]; apply this
   fun a n => by
-  rw [abs_eq_natAbs, abs_eq_natAbs];
+  rw [abs_eq_natAbs]; rw [abs_eq_natAbs];
     exact
       ofNat_le_ofNat_of_le
         (match a, n with
@@ -351,7 +351,7 @@ theorem ediv_dvd_ediv : ∀ {a b c : ℤ} (_ : a ∣ b) (_ : b ∣ c), b / a ∣
   | a, _, _, ⟨b, rfl⟩, ⟨c, rfl⟩ =>
     if az : a = 0 then by simp [az]
     else by
-      rw [Int.mul_ediv_cancel_left _ az, mul_assoc, Int.mul_ediv_cancel_left _ az];
+      rw [Int.mul_ediv_cancel_left _ az]; rw [mul_assoc]; rw [Int.mul_ediv_cancel_left _ az];
         apply dvd_mul_right
 #align int.div_dvd_div Int.ediv_dvd_ediv
 
@@ -374,7 +374,7 @@ theorem ediv_dvd_ediv : ∀ {a b c : ℤ} (_ : a ∣ b) (_ : b ∣ c), b / a ∣
 #align int.div_left_inj Int.ediv_left_inj
 
 theorem abs_sign_of_nonzero {z : ℤ} (hz : z ≠ 0) : |z.sign| = 1 := by
-  rw [abs_eq_natAbs, natAbs_sign_of_nonzero hz, Int.ofNat_one]
+  rw [abs_eq_natAbs]; rw [natAbs_sign_of_nonzero hz]; rw [Int.ofNat_one]
 #align int.abs_sign_of_nonzero Int.abs_sign_of_nonzero
 
 /-- If `n > 0` then `m` is not divisible by `n` iff it is between `n * k` and `n * (k + 1)`
@@ -384,14 +384,14 @@ theorem exists_lt_and_lt_iff_not_dvd (m : ℤ) {n : ℤ} (hn : 0 < n) :
   constructor
   · rintro ⟨k, h1k, h2k⟩ ⟨l, rfl⟩
     rw [mul_lt_mul_left hn] at h1k h2k
-    rw [lt_add_one_iff, ← not_lt] at h2k
+    rw [lt_add_one_iff] at h2k; rw [← not_lt] at h2k
     exact h2k h1k
   · intro h
-    rw [dvd_iff_emod_eq_zero, ← Ne.def] at h
+    rw [dvd_iff_emod_eq_zero] at h; rw [← Ne.def] at h
     have := (emod_nonneg m hn.ne.symm).lt_of_ne h.symm
     simp (config := { singlePass := true }) only [← emod_add_ediv m n]
     refine' ⟨m / n, lt_add_of_pos_left _ this, _⟩
-    rw [add_comm _ (1 : ℤ), left_distrib, mul_one]
+    rw [add_comm _ (1 : ℤ)]; rw [left_distrib]; rw [mul_one]
     exact add_lt_add_right (emod_lt_of_pos _ hn) _
 #align int.exists_lt_and_lt_iff_not_dvd Int.exists_lt_and_lt_iff_not_dvd
 
@@ -496,7 +496,7 @@ theorem ediv_dvd_of_dvd {s t : ℤ} (hst : s ∣ t) : t / s ∣ t := by
 
 @[simp]
 theorem toNat_le {a : ℤ} {n : ℕ} : toNat a ≤ n ↔ a ≤ n := by
-  rw [ofNat_le.symm, toNat_eq_max, max_le_iff]; exact and_iff_left (ofNat_zero_le _)
+  rw [ofNat_le.symm]; rw [toNat_eq_max]; rw [max_le_iff]; exact and_iff_left (ofNat_zero_le _)
 #align int.to_nat_le Int.toNat_le
 
 @[simp]

@@ -122,8 +122,7 @@ variable {R : Type u} [CommRing R] [Algebra R A]
 commutator. -/
 instance (priority := 100) LieAlgebra.ofAssociativeAlgebra : LieAlgebra R A where
   lie_smul t x y := by
-    rw [LieRing.of_associative_ring_bracket, LieRing.of_associative_ring_bracket,
-      Algebra.mul_smul_comm, Algebra.smul_mul_assoc, smul_sub]
+    rw [LieRing.of_associative_ring_bracket]; rw [LieRing.of_associative_ring_bracket]; rw [Algebra.mul_smul_comm]; rw [Algebra.smul_mul_assoc]; rw [smul_sub]
 #align lie_algebra.of_associative_algebra LieAlgebra.ofAssociativeAlgebra
 
 attribute [local instance] LieRingModule.ofAssociativeModule

@@ -59,7 +59,7 @@ def whiskerRight {G H : C ⥤ D} (α : G ⟶ H) (F : D ⥤ E) :
     G ⋙ F ⟶ H ⋙ F where
   app X := F.map (α.app X)
   naturality X Y f := by
-    rw [Functor.comp_map, Functor.comp_map, ← F.map_comp, ← F.map_comp, α.naturality]
+    rw [Functor.comp_map]; rw [Functor.comp_map]; rw [← F.map_comp]; rw [← F.map_comp]; rw [α.naturality]
 #align category_theory.whisker_right CategoryTheory.whiskerRight
 #align category_theory.whisker_right_app CategoryTheory.whiskerRight_app
 
@@ -78,7 +78,7 @@ def whiskeringLeft : (C ⥤ D) ⥤ (D ⥤ E) ⥤ C ⥤ E where
   map τ :=
     { app := fun H =>
         { app := fun c => H.map (τ.app c)
-          naturality := fun X Y f => by dsimp; rw [← H.map_comp, ← H.map_comp, ← τ.naturality] }
+          naturality := fun X Y f => by dsimp; rw [← H.map_comp]; rw [← H.map_comp]; rw [← τ.naturality] }
       naturality := fun X Y f => by ext; dsimp; rw [f.naturality] }
 #align category_theory.whiskering_left CategoryTheory.whiskeringLeft
 #align category_theory.whiskering_left_obj_map CategoryTheory.whiskeringLeft_obj_map

@@ -29,7 +29,7 @@ lemma isNilpotent_C_mul_pow_X_of_isNilpotent (n : ℕ) (hnil : IsNilpotent r) :
   refine' Commute.isNilpotent_mul_left (commute_X_pow _ _).symm _
   obtain ⟨m, hm⟩ := hnil
   refine' ⟨m, _⟩
-  rw [← C_pow, hm, C_0]
+  rw [← C_pow]; rw [hm]; rw [C_0]
 
 lemma isNilpotent_pow_X_mul_C_of_isNilpotent (n : ℕ) (hnil : IsNilpotent r) :
     IsNilpotent (X ^ n * (C r)) := by
@@ -104,9 +104,9 @@ theorem isUnit_of_coeff_isUnit_isNilpotent (hunit : IsUnit (P.coeff 0))
     exact hunit.map C }
   set P₁ := P.eraseLead with hP₁
   suffices IsUnit P₁ by
-    rw [← eraseLead_add_monomial_natDegree_leadingCoeff P, ← C_mul_X_pow_eq_monomial]
+    rw [← eraseLead_add_monomial_natDegree_leadingCoeff P]; rw [← C_mul_X_pow_eq_monomial]
     obtain ⟨Q, hQ⟩ := this
-    rw [← hP₁, ← hQ]
+    rw [← hP₁]; rw [← hQ]
     refine' Commute.IsNilpotent.add_isUnit (isNilpotent_C_mul_pow_X_of_isNilpotent _ (hnil _ hdeg))
       ((Commute.all _ _).mul_left (Commute.all _ _))
   have hdeg₂ := lt_of_le_of_lt P.eraseLead_natDegree_le (Nat.sub_lt
@@ -134,12 +134,12 @@ theorem coeff_isUnit_isNilpotent_of_isUnit (hunit : IsUnit P) :
     intros I hI
     let f := mapRingHom (Ideal.Quotient.mk I)
     have hPQ : degree (f P) = 0 ∧ degree (f Q) = 0 := by
-      rw [← Nat.WithBot.add_eq_zero_iff, ← degree_mul, ← _root_.map_mul, hQ, map_one, degree_one]
+      rw [← Nat.WithBot.add_eq_zero_iff]; rw [← degree_mul]; rw [← _root_.map_mul]; rw [hQ]; rw [map_one]; rw [degree_one]
     have hcoeff : (f P).coeff n = 0 := by
       refine' coeff_eq_zero_of_degree_lt _
       rw [hPQ.1]
       exact (@WithBot.coe_pos _ _ _ n).2 (Ne.bot_lt hn)
-    rw [coe_mapRingHom, coeff_map, ← RingHom.mem_ker, Ideal.mk_ker] at hcoeff
+    rw [coe_mapRingHom] at hcoeff; rw [coeff_map] at hcoeff; rw [← RingHom.mem_ker] at hcoeff; rw [Ideal.mk_ker] at hcoeff
     exact hcoeff
 
 /-- Let `P` be a polynomial over `R`. `P` is a unit if and only if all its coefficients are

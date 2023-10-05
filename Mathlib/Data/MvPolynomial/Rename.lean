@@ -97,8 +97,7 @@ theorem rename_id (p : MvPolynomial σ R) : rename id p = p :=
 
 theorem rename_monomial (f : σ → τ) (d : σ →₀ ℕ) (r : R) :
     rename f (monomial d r) = monomial (d.mapDomain f) r := by
-  rw [rename, aeval_monomial, monomial_eq (s := Finsupp.mapDomain f d),
-    Finsupp.prod_mapDomain_index]
+  rw [rename]; rw [aeval_monomial]; rw [monomial_eq (s := Finsupp.mapDomain f d)]; rw [Finsupp.prod_mapDomain_index]
   · rfl
   · exact fun n => pow_zero _
   · exact fun n i₁ i₂ => pow_add _ _ _
@@ -136,7 +135,7 @@ def killCompl : MvPolynomial τ R →ₐ[R] MvPolynomial σ R :=
 theorem killCompl_comp_rename : (killCompl hf).comp (rename f) = AlgHom.id R _ :=
   algHom_ext fun i => by
     dsimp
-    rw [rename, killCompl, aeval_X, comp_apply, aeval_X, dif_pos, Equiv.ofInjective_symm_apply]
+    rw [rename]; rw [killCompl]; rw [aeval_X]; rw [comp_apply]; rw [aeval_X]; rw [dif_pos]; rw [Equiv.ofInjective_symm_apply]
 #align mv_polynomial.kill_compl_comp_rename MvPolynomial.killCompl_comp_rename
 
 @[simp]
@@ -273,7 +272,7 @@ theorem exists_fin_rename (p : MvPolynomial σ R) :
   let n := Fintype.card { x // x ∈ s }
   let e := Fintype.equivFin { x // x ∈ s }
   refine' ⟨n, (↑) ∘ e.symm, Subtype.val_injective.comp e.symm.injective, rename e q, _⟩
-  rw [← rename_rename, rename_rename e]
+  rw [← rename_rename]; rw [rename_rename e]
   simp only [Function.comp, Equiv.symm_apply_apply, rename_rename]
 #align mv_polynomial.exists_fin_rename MvPolynomial.exists_fin_rename
 
@@ -295,7 +294,7 @@ theorem coeff_rename_mapDomain (f : σ → τ) (hf : Injective f) (φ : MvPolyno
   apply φ.induction_on' (P := fun ψ => coeff (Finsupp.mapDomain f d) ((rename f) ψ) = coeff d ψ)
   -- Lean could no longer infer the motive
   · intro u r
-    rw [rename_monomial, coeff_monomial, coeff_monomial]
+    rw [rename_monomial]; rw [coeff_monomial]; rw [coeff_monomial]
     simp only [(Finsupp.mapDomain_injective hf).eq_iff]
   · intros
     simp only [*, AlgHom.map_add, coeff_add]
@@ -304,7 +303,7 @@ theorem coeff_rename_mapDomain (f : σ → τ) (hf : Injective f) (φ : MvPolyno
 theorem coeff_rename_eq_zero (f : σ → τ) (φ : MvPolynomial σ R) (d : τ →₀ ℕ)
     (h : ∀ u : σ →₀ ℕ, u.mapDomain f = d → φ.coeff u = 0) : (rename f φ).coeff d = 0 := by
   classical
-  rw [rename_eq, ← not_mem_support_iff]
+  rw [rename_eq]; rw [← not_mem_support_iff]
   intro H
   replace H := mapDomain_support H
   rw [Finset.mem_image] at H

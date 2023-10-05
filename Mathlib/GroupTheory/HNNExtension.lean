@@ -76,7 +76,7 @@ theorem equiv_eq_conj (a : A) :
 
 theorem equiv_symm_eq_conj (b : B) :
     (of (φ.symm b : G) : HNNExtension G A B φ) = t⁻¹ * of (b : G) * t := by
-  rw [mul_assoc, of_mul_t]; simp
+  rw [mul_assoc]; rw [of_mul_t]; simp
 
 theorem inv_t_mul_of (b : B) :
     t⁻¹ * (of (b : G) : HNNExtension G A B φ) = of (φ.symm b : G) * t⁻¹ := by
@@ -380,7 +380,7 @@ noncomputable def unitsSMul (u : ℤˣ) (w : NormalWord d) : NormalWord d :=
         intro u' x hx hmem
         have : w.head ∈ toSubgroup A B u := by
           have := (d.compl u).rightCosetEquivalence_equiv_snd w.head
-          rw [RightCosetEquivalence, rightCoset_eq_iff, mul_mem_cancel_left hmem] at this
+          rw [RightCosetEquivalence] at this; rw [rightCoset_eq_iff] at this; rw [mul_mem_cancel_left hmem] at this
           simp_all
         have := h this x
         simp_all [Int.units_ne_iff_eq_neg])
@@ -454,7 +454,7 @@ theorem unitsSMul_one_group_smul (g : A) (w : NormalWord d) :
     cases w using consRecOn
     · simp [Cancels] at hcan
     · simp only [smul_cons, consRecOn_cons, mul_smul]
-      rw [← mul_smul, ← Subgroup.coe_mul, ← map_mul φ]
+      rw [← mul_smul]; rw [← Subgroup.coe_mul]; rw [← map_mul φ]
       rfl
   · rw [dif_neg (mt this.1 hcan), dif_neg hcan]
     simp [← mul_smul, mul_assoc, unitsSMulGroup]
@@ -519,7 +519,7 @@ theorem prod_smul (g : HNNExtension G A B φ) (w : NormalWord d) :
   | t => simp [t_smul_eq_unitsSMul, prod_unitsSMul, mul_assoc]
   | mul => simp_all [mul_smul, mul_assoc]
   | inv x ih =>
-    rw [← mul_right_inj x, ← ih]
+    rw [← mul_right_inj x]; rw [← ih]
     simp
 
 @[simp]
@@ -528,8 +528,7 @@ theorem prod_smul_empty (w : NormalWord d) :
   induction w using consRecOn with
   | ofGroup => simp [ofGroup, ReducedWord.prod, of_smul_eq_smul, group_smul_def]
   | cons g u w h1 h2 ih =>
-    rw [prod_cons, ← mul_assoc, mul_smul, ih, mul_smul, t_pow_smul_eq_unitsSMul,
-      of_smul_eq_smul, unitsSMul]
+    rw [prod_cons]; rw [← mul_assoc]; rw [mul_smul]; rw [ih]; rw [mul_smul]; rw [t_pow_smul_eq_unitsSMul]; rw [of_smul_eq_smul]; rw [unitsSMul]
     rw [dif_neg (not_cancels_of_cons_hyp u w h2)]
     simp [unitsSMulGroup, (d.compl u).equiv_snd_eq_inv_mul, mul_assoc,
       (d.compl _).equiv_fst_eq_one_of_mem_of_one_mem (one_mem _) h1]
@@ -602,7 +601,7 @@ theorem exists_normalWord_prod_eq
           Prod.exists, exists_and_right, exists_eq_right, not_and, not_exists]
         intro hS x hx
         have hx' := congr_arg (Option.map Prod.fst) hx
-        rw [← List.head?_map, hw'2, List.head?_map, Option.map_some'] at hx'
+        rw [← List.head?_map] at hx'; rw [hw'2] at hx'; rw [List.head?_map] at hx'; rw [Option.map_some'] at hx'
         have : w'.head ∈ toSubgroup A B a.fst := by
           simpa using hw'3 _ hx'
         rw [mul_mem_cancel_right this] at hS
@@ -629,12 +628,12 @@ theorem map_fst_eq_and_of_prod_eq {w₁ w₂ : ReducedWord G A B}
   rcases exists_normalWord_prod_eq φ d w₁ with ⟨w₁', hw₁'1, hw₁'2, hw₁'3⟩
   rcases exists_normalWord_prod_eq φ d w₂ with ⟨w₂', hw₂'1, hw₂'2, hw₂'3⟩
   have : w₁' = w₂' :=
-    NormalWord.prod_injective φ d (by dsimp only; rw [hw₁'1, hw₂'1, hprod])
+    NormalWord.prod_injective φ d (by dsimp only; rw [hw₁'1]; rw [hw₂'1]; rw [hprod])
   subst this
   refine ⟨by rw [← hw₁'2, hw₂'2], ?_⟩
   simp only [← leftCoset_eq_iff] at *
   intro u hu
-  rw [← hw₁'3 _ hu, ← hw₂'3 _]
+  rw [← hw₁'3 _ hu]; rw [← hw₂'3 _]
   rwa [← List.head?_map, ← hw₂'2, hw₁'2, List.head?_map]
 
 /-- **Britton's Lemma**. Any reduced word whose product is an element of `G`, has no

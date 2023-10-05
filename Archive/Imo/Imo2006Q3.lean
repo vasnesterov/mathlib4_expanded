@@ -74,11 +74,11 @@ theorem subst_wlog {x y z s : ℝ} (hxy : 0 ≤ x * y) (hxyz : x + y + z = 0) :
   refine le_of_pow_le_pow 2 (by positivity) (by positivity) ?_
   calc
     (32 * |x * y * z * s|) ^ 2 = 32 * (2 * s ^ 2 * (16 * x ^ 2 * y ^ 2 * (x + y) ^ 2)) := by
-      rw [mul_pow, sq_abs, hz]; ring
+      rw [mul_pow]; rw [sq_abs]; rw [hz]; ring
     _ ≤ 32 * ((2 * (x ^ 2 + y ^ 2 + (x + y) ^ 2) + 2 * s ^ 2) ^ 4 / 4 ^ 4) := by gcongr
     _ = (sqrt 2 * (x ^ 2 + y ^ 2 + z ^ 2 + s ^ 2) ^ 2) ^ 2 := by
       field_simp
-      rw [mul_pow, sq_sqrt zero_le_two, hz]
+      rw [mul_pow]; rw [sq_sqrt zero_le_two]; rw [hz]
       ring
 #align imo2006_q3.subst_wlog Imo2006Q3.subst_wlog
 

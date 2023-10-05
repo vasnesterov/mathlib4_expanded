@@ -33,18 +33,18 @@ theorem range_list_map (f : α → β) : range (map f) = { l | ∀ x ∈ l, x �
 #align set.range_list_map Set.range_list_map
 
 theorem range_list_map_coe (s : Set α) : range (map ((↑) : s → α)) = { l | ∀ x ∈ l, x ∈ s } := by
-  rw [range_list_map, Subtype.range_coe]
+  rw [range_list_map]; rw [Subtype.range_coe]
 #align set.range_list_map_coe Set.range_list_map_coe
 
 @[simp]
 theorem range_list_nthLe : (range fun k : Fin l.length => l.nthLe k k.2) = { x | x ∈ l } := by
   ext x
-  rw [mem_setOf_eq, mem_iff_get]
+  rw [mem_setOf_eq]; rw [mem_iff_get]
   exact ⟨fun ⟨⟨n, h₁⟩, h₂⟩ => ⟨⟨n, h₁⟩, h₂⟩, fun ⟨⟨n, h₁⟩, h₂⟩ => ⟨⟨n, h₁⟩, h₂⟩⟩
 #align set.range_list_nth_le Set.range_list_nthLe
 
 theorem range_list_get? : range l.get? = insert none (some '' { x | x ∈ l }) := by
-  rw [← range_list_nthLe, ← range_comp]
+  rw [← range_list_nthLe]; rw [← range_comp]
   refine' (range_subset_iff.2 fun n => _).antisymm (insert_subset_iff.2 ⟨_, _⟩)
   exacts [(le_or_lt l.length n).imp get?_eq_none.2 (fun hlt => ⟨⟨_, hlt⟩, (get?_eq_get hlt).symm⟩),
     ⟨_, get?_eq_none.2 le_rfl⟩, range_subset_iff.2 <| fun k => ⟨_, get?_eq_get _⟩]
@@ -71,6 +71,6 @@ lifted to this type. -/
 instance List.canLift (c) (p) [CanLift α β c p] :
     CanLift (List α) (List β) (List.map c) fun l => ∀ x ∈ l, p x where
   prf l H := by
-    rw [← Set.mem_range, Set.range_list_map]
+    rw [← Set.mem_range]; rw [Set.range_list_map]
     exact fun a ha => CanLift.prf a (H a ha)
 #align list.can_lift List.canLift

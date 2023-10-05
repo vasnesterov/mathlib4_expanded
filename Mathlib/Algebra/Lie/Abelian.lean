@@ -71,7 +71,7 @@ theorem Function.Surjective.isLieAbelian {R : Type u} {L₁ : Type v} {L₂ : Ty
   { trivial := fun x y => by
       obtain ⟨u, rfl⟩ := h₁ x
       obtain ⟨v, rfl⟩ := h₁ y
-      rw [← LieHom.map_lie, trivial_lie_zero, LieHom.map_zero] }
+      rw [← LieHom.map_lie]; rw [trivial_lie_zero]; rw [LieHom.map_zero] }
 #align function.surjective.is_lie_abelian Function.Surjective.isLieAbelian
 
 theorem lie_abelian_iff_equiv_lie_abelian {R : Type u} {L₁ : Type v} {L₂ : Type w} [CommRing R]
@@ -134,8 +134,7 @@ instance : IsTrivial L (maxTrivSubmodule R L M) where trivial x m := Subtype.ext
 @[simp]
 theorem ideal_oper_maxTrivSubmodule_eq_bot (I : LieIdeal R L) :
     ⁅I, maxTrivSubmodule R L M⁆ = ⊥ := by
-  rw [← LieSubmodule.coe_toSubmodule_eq_iff, LieSubmodule.lieIdeal_oper_eq_linear_span,
-    LieSubmodule.bot_coeSubmodule, Submodule.span_eq_bot]
+  rw [← LieSubmodule.coe_toSubmodule_eq_iff]; rw [LieSubmodule.lieIdeal_oper_eq_linear_span]; rw [LieSubmodule.bot_coeSubmodule]; rw [Submodule.span_eq_bot]
   rintro m ⟨⟨x, hx⟩, ⟨⟨m, hm⟩, rfl⟩⟩
   exact hm x
 #align lie_module.ideal_oper_max_triv_submodule_eq_bot LieModule.ideal_oper_maxTrivSubmodule_eq_bot
@@ -160,7 +159,7 @@ theorem isTrivial_iff_max_triv_eq_top : IsTrivial L M ↔ maxTrivSubmodule R L M
   constructor
   · rintro ⟨h⟩; ext; simp only [mem_maxTrivSubmodule, h, forall_const, LieSubmodule.mem_top]
   · intro h; constructor; intro x m; revert x
-    rw [← mem_maxTrivSubmodule R L M, h]; exact LieSubmodule.mem_top m
+    rw [← mem_maxTrivSubmodule R L M]; rw [h]; exact LieSubmodule.mem_top m
 #align lie_module.is_trivial_iff_max_triv_eq_top LieModule.isTrivial_iff_max_triv_eq_top
 
 variable {R L M N}
@@ -215,7 +214,7 @@ def maxTrivLinearMapEquivLieModuleHom : maxTrivSubmodule R L (M →ₗ[R] N) ≃
     { toLinearMap := f.val
       map_lie' := fun {x m} => by
         have hf : ⁅x, f.val⁆ m = 0 := by rw [f.property x, LinearMap.zero_apply]
-        rw [LieHom.lie_apply, sub_eq_zero, ← LinearMap.toFun_eq_coe] at hf; exact hf.symm}
+        rw [LieHom.lie_apply] at hf; rw [sub_eq_zero] at hf; rw [← LinearMap.toFun_eq_coe] at hf; exact hf.symm}
   map_add' f g := by ext; simp
   map_smul' F G := by ext; simp
   invFun F := ⟨F, fun x => by ext; simp⟩
@@ -298,7 +297,7 @@ variable (N N' : LieSubmodule R L M) (I J : LieIdeal R L)
 @[simp]
 theorem LieSubmodule.trivial_lie_oper_zero [LieModule.IsTrivial L M] : ⁅I, N⁆ = ⊥ := by
   suffices : ⁅I, N⁆ ≤ ⊥; exact le_bot_iff.mp this
-  rw [lieIdeal_oper_eq_span, LieSubmodule.lieSpan_le]
+  rw [lieIdeal_oper_eq_span]; rw [LieSubmodule.lieSpan_le]
   rintro m ⟨x, n, h⟩; rw [trivial_lie_zero] at h; simp [← h]
 #align lie_submodule.trivial_lie_oper_zero LieSubmodule.trivial_lie_oper_zero
 

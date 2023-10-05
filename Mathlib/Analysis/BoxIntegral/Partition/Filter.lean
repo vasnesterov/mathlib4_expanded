@@ -424,7 +424,7 @@ theorem biUnionTagged_memBaseSet {π : Prepartition I} {πi : ∀ J, TaggedPrepa
   · rw [Prepartition.distortion_biUnionTagged, Finset.sup_le_iff]
     exact fun J hJ => (h J hJ).3 hD
   · refine' ⟨_, _, hc hD⟩
-    rw [π.iUnion_compl, ← π.iUnion_biUnion_partition hp]
+    rw [π.iUnion_compl]; rw [← π.iUnion_biUnion_partition hp]
     rfl
 #align box_integral.integration_params.bUnion_tagged_mem_base_set BoxIntegral.IntegrationParams.biUnionTagged_memBaseSet
 
@@ -509,7 +509,7 @@ theorem tendsto_embedBox_toFilteriUnion_top (l : IntegrationParams) (h : I ≤ J
   refine' ((l.hasBasis_toFilterDistortioniUnion I c ⊤).tendsto_iff
     (l.hasBasis_toFilterDistortioniUnion J _ _)).2 fun r hr => _
   refine' ⟨r, hr, fun π hπ => _⟩
-  rw [mem_setOf_eq, Prepartition.iUnion_top] at hπ
+  rw [mem_setOf_eq] at hπ; rw [Prepartition.iUnion_top] at hπ
   refine' ⟨⟨hπ.1.1, hπ.1.2, fun hD => le_trans (hπ.1.3 hD) (le_max_left _ _), fun _ => _⟩, _⟩
   · refine' ⟨_, π₀.iUnion_compl.trans _, le_max_right _ _⟩
     congr 1

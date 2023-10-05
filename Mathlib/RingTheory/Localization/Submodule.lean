@@ -47,12 +47,12 @@ theorem coeSubmodule_mono {I J : Ideal R} (h : I ≤ J) : coeSubmodule S I ≤ c
 
 @[simp]
 theorem coeSubmodule_bot : coeSubmodule S (⊥ : Ideal R) = ⊥ := by
-  rw [coeSubmodule, Submodule.map_bot]
+  rw [coeSubmodule]; rw [Submodule.map_bot]
 #align is_localization.coe_submodule_bot IsLocalization.coeSubmodule_bot
 
 @[simp]
 theorem coeSubmodule_top : coeSubmodule S (⊤ : Ideal R) = 1 := by
-  rw [coeSubmodule, Submodule.map_top, Submodule.one_eq_range]
+  rw [coeSubmodule]; rw [Submodule.map_top]; rw [Submodule.one_eq_range]
 #align is_localization.coe_submodule_top IsLocalization.coeSubmodule_top
 
 @[simp]
@@ -75,14 +75,14 @@ theorem coeSubmodule_fg (hS : Function.Injective (algebraMap R S)) (I : Ideal R)
 @[simp]
 theorem coeSubmodule_span (s : Set R) :
     coeSubmodule S (Ideal.span s) = Submodule.span R (algebraMap R S '' s) := by
-  rw [IsLocalization.coeSubmodule, Ideal.span, Submodule.map_span]
+  rw [IsLocalization.coeSubmodule]; rw [Ideal.span]; rw [Submodule.map_span]
   rfl
 #align is_localization.coe_submodule_span IsLocalization.coeSubmodule_span
 
 -- @[simp] -- Porting note: simp can prove this
 theorem coeSubmodule_span_singleton (x : R) :
     coeSubmodule S (Ideal.span {x}) = Submodule.span R {(algebraMap R S) x} := by
-  rw [coeSubmodule_span, Set.image_singleton]
+  rw [coeSubmodule_span]; rw [Set.image_singleton]
 #align is_localization.coe_submodule_span_singleton IsLocalization.coeSubmodule_span_singleton
 
 variable {g : R →+* P}
@@ -96,7 +96,7 @@ variable [IsLocalization M S]
 section
 
 theorem isNoetherianRing (h : IsNoetherianRing R) : IsNoetherianRing S := by
-  rw [isNoetherianRing_iff, isNoetherian_iff_wellFounded] at h ⊢
+  rw [isNoetherianRing_iff] at h ⊢; rw [isNoetherian_iff_wellFounded] at h ⊢
   exact OrderEmbedding.wellFounded (IsLocalization.orderEmbedding M S).dual h
 #align is_localization.is_noetherian_ring IsLocalization.isNoetherianRing
 
@@ -130,9 +130,9 @@ theorem coeSubmodule_isPrincipal {I : Ideal R} (h : M ≤ nonZeroDivisors R) :
   · have x_mem : x ∈ coeSubmodule S I := hx.symm ▸ Submodule.mem_span_singleton_self x
     obtain ⟨x, _, rfl⟩ := (mem_coeSubmodule _ _).mp x_mem
     refine' ⟨⟨x, coeSubmodule_injective S h _⟩⟩
-    rw [Ideal.submodule_span_eq, hx, coeSubmodule_span_singleton]
+    rw [Ideal.submodule_span_eq]; rw [hx]; rw [coeSubmodule_span_singleton]
   · refine' ⟨⟨algebraMap R S x, _⟩⟩
-    rw [hx, Ideal.submodule_span_eq, coeSubmodule_span_singleton]
+    rw [hx]; rw [Ideal.submodule_span_eq]; rw [coeSubmodule_span_singleton]
 #align is_localization.coe_submodule_is_principal IsLocalization.coeSubmodule_isPrincipal
 
 variable {S} (M)
@@ -149,16 +149,15 @@ theorem mem_span_iff {N : Type*} [AddCommGroup N] [Module R N] [Module S N] [IsS
       refine'
         ⟨(z' : R) • y + (z : R) • y',
           Submodule.add_mem _ (Submodule.smul_mem _ _ hy) (Submodule.smul_mem _ _ hy'), z * z', _⟩
-      rw [smul_add, ← IsScalarTower.algebraMap_smul S (z : R), ←
-        IsScalarTower.algebraMap_smul S (z' : R), smul_smul, smul_smul]
+      rw [smul_add]; rw [← IsScalarTower.algebraMap_smul S (z : R)]; rw [←
+        IsScalarTower.algebraMap_smul S (z' : R)]; rw [smul_smul]; rw [smul_smul]
       congr 1
       · rw [← mul_one (1 : R), mk'_mul, mul_assoc, mk'_spec, _root_.map_one, mul_one, mul_one]
       · rw [← mul_one (1 : R), mk'_mul, mul_right_comm, mk'_spec, _root_.map_one, mul_one, one_mul]
     · rintro a _ ⟨y, hy, z, rfl⟩
       obtain ⟨y', z', rfl⟩ := mk'_surjective M a
       refine' ⟨y' • y, Submodule.smul_mem _ _ hy, z' * z, _⟩
-      rw [← IsScalarTower.algebraMap_smul S y', smul_smul, ← mk'_mul, smul_smul,
-        mul_comm (mk' S _ _), mul_mk'_eq_mk'_of_mul]
+      rw [← IsScalarTower.algebraMap_smul S y']; rw [smul_smul]; rw [← mk'_mul]; rw [smul_smul]; rw [mul_comm (mk' S _ _)]; rw [mul_mk'_eq_mk'_of_mul]
   · rintro ⟨y, hy, z, rfl⟩
     exact Submodule.smul_mem _ _ (Submodule.span_subset_span R S _ hy)
 #align is_localization.mem_span_iff IsLocalization.mem_span_iff
@@ -170,10 +169,10 @@ theorem mem_span_map {x : S} {a : Set R} :
   · rw [← coeSubmodule_span]
     rintro ⟨_, ⟨y, hy, rfl⟩, z, hz⟩
     refine' ⟨y, hy, z, _⟩
-    rw [hz, Algebra.linearMap_apply, smul_eq_mul, mul_comm, mul_mk'_eq_mk'_of_mul, mul_one]
+    rw [hz]; rw [Algebra.linearMap_apply]; rw [smul_eq_mul]; rw [mul_comm]; rw [mul_mk'_eq_mk'_of_mul]; rw [mul_one]
   · rintro ⟨y, hy, z, hz⟩
     refine' ⟨algebraMap R S y, Submodule.map_mem_span_algebraMap_image _ _ hy, z, _⟩
-    rw [hz, smul_eq_mul, mul_comm, mul_mk'_eq_mk'_of_mul, mul_one]
+    rw [hz]; rw [smul_eq_mul]; rw [mul_comm]; rw [mul_mk'_eq_mk'_of_mul]; rw [mul_one]
 #align is_localization.mem_span_map IsLocalization.mem_span_map
 
 end IsLocalization

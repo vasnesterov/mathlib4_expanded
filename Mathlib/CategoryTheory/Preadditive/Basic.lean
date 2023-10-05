@@ -263,12 +263,12 @@ namespace IsIso
 
 @[simp]
 theorem comp_left_eq_zero [IsIso f] : f ≫ g = 0 ↔ g = 0 := by
-  rw [← IsIso.eq_inv_comp, Limits.comp_zero]
+  rw [← IsIso.eq_inv_comp]; rw [Limits.comp_zero]
 #align category_theory.preadditive.is_iso.comp_left_eq_zero CategoryTheory.Preadditive.IsIso.comp_left_eq_zero
 
 @[simp]
 theorem comp_right_eq_zero [IsIso g] : f ≫ g = 0 ↔ f = 0 := by
-  rw [← IsIso.eq_comp_inv, Limits.zero_comp]
+  rw [← IsIso.eq_comp_inv]; rw [Limits.zero_comp]
 #align category_theory.preadditive.is_iso.comp_right_eq_zero CategoryTheory.Preadditive.IsIso.comp_right_eq_zero
 
 end IsIso

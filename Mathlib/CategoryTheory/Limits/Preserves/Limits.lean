@@ -143,7 +143,7 @@ def preservesColimitNatIso : colim ⋙ G ≅ (whiskeringRight J C D).obj G ⋙ c
   NatIso.ofComponents (fun F => preservesColimitIso G F)
     (by
       intro _ _ f
-      rw [← Iso.inv_comp_eq, ← Category.assoc, ← Iso.eq_comp_inv]
+      rw [← Iso.inv_comp_eq]; rw [← Category.assoc]; rw [← Iso.eq_comp_inv]
       apply colimit.hom_ext; intro j
       dsimp
       erw [ι_colimMap_assoc]

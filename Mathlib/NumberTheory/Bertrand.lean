@@ -60,12 +60,10 @@ theorem real_main_inequality {x : ℝ} (n_large : (512 : ℝ) ≤ x) :
     intro x h5
     have h6 := mul_pos (zero_lt_two' ℝ) h5
     have h7 := rpow_pos_of_pos h6 (sqrt (2 * x))
-    rw [log_div (mul_pos h5 h7).ne' (rpow_pos_of_pos four_pos _).ne', log_mul h5.ne' h7.ne',
-      log_rpow h6, log_rpow zero_lt_four, ← mul_div_right_comm, ← mul_div, mul_comm x]
+    rw [log_div (mul_pos h5 h7).ne' (rpow_pos_of_pos four_pos _).ne']; rw [log_mul h5.ne' h7.ne']; rw [log_rpow h6]; rw [log_rpow zero_lt_four]; rw [← mul_div_right_comm]; rw [← mul_div]; rw [mul_comm x]
   have h5 : 0 < x := lt_of_lt_of_le (by norm_num1) n_large
-  rw [← div_le_one (rpow_pos_of_pos four_pos x), ← div_div_eq_mul_div, ← rpow_sub four_pos, ←
-    mul_div 2 x, mul_div_left_comm, ← mul_one_sub, (by norm_num1 : (1 : ℝ) - 2 / 3 = 1 / 3),
-    mul_one_div, ← log_nonpos_iff (hf' x h5), ← hf x h5]
+  rw [← div_le_one (rpow_pos_of_pos four_pos x)]; rw [← div_div_eq_mul_div]; rw [← rpow_sub four_pos]; rw [←
+    mul_div 2 x]; rw [mul_div_left_comm]; rw [← mul_one_sub]; rw [(by norm_num1 : (1 : ℝ) - 2 / 3 = 1 / 3)]; rw [mul_one_div]; rw [← log_nonpos_iff (hf' x h5)]; rw [← hf x h5]
   -- porting note: the proof was rewritten, because it was too slow
   have h : ConcaveOn ℝ (Set.Ioi 0.5) f := by
     apply ConcaveOn.sub
@@ -88,8 +86,8 @@ theorem real_main_inequality {x : ℝ} (n_large : (512 : ℝ) ≤ x) :
     exact (h.right_le_of_le_left'' h1 ((h1.trans h2).trans_le h0) h2 h0 (h4.trans h3)).trans h4
   refine' ⟨18, 512, by norm_num1, by norm_num1, n_large, _, _⟩
   · have : sqrt (2 * 18) = 6 := (sqrt_eq_iff_mul_self_eq_of_pos (by norm_num1)).mpr (by norm_num1)
-    rw [hf, log_nonneg_iff, this]
-    rw [one_le_div] <;> norm_num1
+    rw [hf]; rw [log_nonneg_iff]; rw [this]
+    rw [one_le_div]  <;> norm_num1
     apply le_trans _ (le_mul_of_one_le_left _ _) <;> norm_num1
     apply Real.rpow_le_rpow <;> norm_num1
     apply rpow_nonneg_of_nonneg; norm_num1
@@ -98,16 +96,16 @@ theorem real_main_inequality {x : ℝ} (n_large : (512 : ℝ) ≤ x) :
     norm_num1
   · have : sqrt (2 * 512) = 32 :=
       (sqrt_eq_iff_mul_self_eq_of_pos (by norm_num1)).mpr (by norm_num1)
-    rw [hf, log_nonpos_iff (hf' _ _), this, div_le_one] <;> norm_num1
+    rw [hf]; rw [log_nonpos_iff (hf' _ _)]; rw [this]; rw [div_le_one]; all_goals norm_num1
     have : (512 : ℝ) = 2 ^ (9 : ℕ)
     · rw [rpow_nat_cast 2 9]; norm_num1
     conv_lhs => rw [this]
     have : (1024 : ℝ) = 2 ^ (10 : ℕ)
     · rw [rpow_nat_cast 2 10]; norm_num1
-    rw [this, ← rpow_mul, ← rpow_add] <;> norm_num1
+    rw [this]; rw [← rpow_mul]; rw [← rpow_add]; all_goals norm_num1
     have : (4 : ℝ) = 2 ^ (2 : ℕ)
     · rw [rpow_nat_cast 2 2]; norm_num1
-    rw [this, ← rpow_mul] <;> norm_num1
+    rw [this]; rw [← rpow_mul]; all_goals norm_num1
     apply rpow_le_rpow_of_exponent_le <;> norm_num1
     apply rpow_pos_of_pos four_pos
  #align bertrand.real_main_inequality Bertrand.real_main_inequality
@@ -149,10 +147,10 @@ theorem centralBinom_factorization_small (n : ℕ) (n_large : 2 < n)
   apply Finset.prod_subset
   · exact Finset.range_subset.2 (add_le_add_right (Nat.div_le_self _ _) _)
   intro x hx h2x
-  rw [Finset.mem_range, lt_succ_iff] at hx h2x
-  rw [not_le, div_lt_iff_lt_mul' three_pos, mul_comm x] at h2x
+  rw [Finset.mem_range] at hx h2x; rw [lt_succ_iff] at hx h2x
+  rw [not_le] at h2x; rw [div_lt_iff_lt_mul' three_pos] at h2x; rw [mul_comm x] at h2x
   replace no_prime := not_exists.mp no_prime x
-  rw [← and_assoc, not_and', not_and_or, not_lt] at no_prime
+  rw [← and_assoc] at no_prime; rw [not_and'] at no_prime; rw [not_and_or] at no_prime; rw [not_lt] at no_prime
   cases' no_prime hx with h h
   · rw [factorization_eq_zero_of_non_prime n.centralBinom h, Nat.pow_zero]
   · rw [factorization_centralBinom_of_two_mul_self_lt_three_mul n_large h h2x, Nat.pow_zero]
@@ -176,8 +174,8 @@ theorem centralBinom_le_of_no_bertrand_prime (n : ℕ) (n_big : 2 < n)
   have : ∏ x : ℕ in S, f x = ∏ x : ℕ in Finset.range (2 * n / 3 + 1), f x := by
     refine' Finset.prod_filter_of_ne fun p _ h => _
     contrapose! h; dsimp only
-    rw [factorization_eq_zero_of_non_prime n.centralBinom h, _root_.pow_zero]
-  rw [centralBinom_factorization_small n n_big no_prime, ← this, ←
+    rw [factorization_eq_zero_of_non_prime n.centralBinom h]; rw [_root_.pow_zero]
+  rw [centralBinom_factorization_small n n_big no_prime]; rw [← this]; rw [←
     Finset.prod_filter_mul_prod_filter_not S (· ≤ sqrt (2 * n))]
   apply mul_le_mul'
   · refine' (Finset.prod_le_prod' fun p _ => (_ : f p ≤ 2 * n)).trans _

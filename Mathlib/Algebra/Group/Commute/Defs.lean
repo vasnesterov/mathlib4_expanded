@@ -239,13 +239,13 @@ variable [Group G] {a b : G}
 
 @[to_additive]
 protected theorem mul_inv_cancel (h : Commute a b) : a * b * a⁻¹ = b := by
-  rw [h.eq, mul_inv_cancel_right]
+  rw [h.eq]; rw [mul_inv_cancel_right]
 #align commute.mul_inv_cancel Commute.mul_inv_cancel
 #align add_commute.add_neg_cancel AddCommute.add_neg_cancel
 
 @[to_additive]
 theorem mul_inv_cancel_assoc (h : Commute a b) : a * (b * a⁻¹) = b := by
-  rw [← mul_assoc, h.mul_inv_cancel]
+  rw [← mul_assoc]; rw [h.mul_inv_cancel]
 #align commute.mul_inv_cancel_assoc Commute.mul_inv_cancel_assoc
 #align add_commute.add_neg_cancel_assoc AddCommute.add_neg_cancel_assoc
 

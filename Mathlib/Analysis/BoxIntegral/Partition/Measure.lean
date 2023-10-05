@@ -120,13 +120,13 @@ namespace Box
 -- @[simp] -- Porting note: simp normal form is `volume_apply'`
 theorem volume_apply (I : Box ι) :
     (volume : Measure (ι → ℝ)).toBoxAdditive I = ∏ i, (I.upper i - I.lower i) := by
-  rw [Measure.toBoxAdditive_apply, coe_eq_pi, Real.volume_pi_Ioc_toReal I.lower_le_upper]
+  rw [Measure.toBoxAdditive_apply]; rw [coe_eq_pi]; rw [Real.volume_pi_Ioc_toReal I.lower_le_upper]
 #align box_integral.box.volume_apply BoxIntegral.Box.volume_apply
 
 @[simp]
 theorem volume_apply' (I : Box ι) :
     ((volume : Measure (ι → ℝ)) I).toReal = ∏ i, (I.upper i - I.lower i) := by
-  rw [coe_eq_pi, Real.volume_pi_Ioc_toReal I.lower_le_upper]
+  rw [coe_eq_pi]; rw [Real.volume_pi_Ioc_toReal I.lower_le_upper]
 
 theorem volume_face_mul {n} (i : Fin (n + 1)) (I : Box (Fin (n + 1))) :
     (∏ j, ((I.face i).upper j - (I.face i).lower j)) * (I.upper i - I.lower i) =
@@ -146,7 +146,7 @@ protected def volume {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] : ι
 
 theorem volume_apply {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] (I : Box ι) (x : E) :
     BoxAdditiveMap.volume I x = (∏ j, (I.upper j - I.lower j)) • x := by
-  rw [BoxAdditiveMap.volume, toSMul_apply]
+  rw [BoxAdditiveMap.volume]; rw [toSMul_apply]
   exact congr_arg₂ (· • ·) I.volume_apply rfl
 #align box_integral.box_additive_map.volume_apply BoxIntegral.BoxAdditiveMap.volume_apply
 

@@ -191,7 +191,7 @@ theorem qRight_one_left (θ : I) : qRight (1, θ) = 1 :=
   Set.projIcc_of_right_le _ <|
     (le_div_iff <| add_pos zero_lt_one).2 <| by
       dsimp only
-      rw [coe_one, one_mul, mul_one, add_comm, ← one_add_one_eq_two]
+      rw [coe_one]; rw [one_mul]; rw [mul_one]; rw [add_comm]; rw [← one_add_one_eq_two]
       simp only [add_le_add_iff_right]
       exact le_one _
 #align unit_interval.Q_right_one_left unitInterval.qRight_one_left
@@ -234,10 +234,10 @@ def delayReflRight (θ : I) (γ : Path x y) : Path x y where
   continuous_toFun := γ.continuous.comp (continuous_qRight.comp <| Continuous.Prod.mk_left θ)
   source' := by
     dsimp only
-    rw [qRight_zero_left, γ.source]
+    rw [qRight_zero_left]; rw [γ.source]
   target' := by
     dsimp only
-    rw [qRight_one_left, γ.target]
+    rw [qRight_one_left]; rw [γ.target]
 #align path.delay_refl_right Path.delayReflRight
 
 theorem continuous_delayReflRight : Continuous fun p : I × Path x y => delayReflRight p.1 p.2 :=

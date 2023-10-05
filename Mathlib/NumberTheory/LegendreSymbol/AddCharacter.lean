@@ -135,13 +135,13 @@ theorem map_zero_one (ψ : AddChar R R') : ψ 0 = 1 := by rw [coe_to_fun_apply, 
 /-- An additive character maps sums to products. -/
 @[simp]
 theorem map_add_mul (ψ : AddChar R R') (x y : R) : ψ (x + y) = ψ x * ψ y := by
-  rw [coe_to_fun_apply, coe_to_fun_apply _ x, coe_to_fun_apply _ y, ofAdd_add, map_mul]
+  rw [coe_to_fun_apply]; rw [coe_to_fun_apply _ x]; rw [coe_to_fun_apply _ y]; rw [ofAdd_add]; rw [map_mul]
 #align add_char.map_add_mul AddChar.map_add_mul
 
 /-- An additive character maps multiples by natural numbers to powers. -/
 @[simp]
 theorem map_nsmul_pow (ψ : AddChar R R') (n : ℕ) (x : R) : ψ (n • x) = ψ x ^ n := by
-  rw [coe_to_fun_apply, coe_to_fun_apply _ x, ofAdd_nsmul, map_pow]
+  rw [coe_to_fun_apply]; rw [coe_to_fun_apply _ x]; rw [ofAdd_nsmul]; rw [map_pow]
 #align add_char.map_nsmul_pow AddChar.map_nsmul_pow
 
 end CoeToFun
@@ -176,8 +176,7 @@ instance commGroup : CommGroup (AddChar R R') :=
     inv := Inv.inv
     mul_left_inv := fun ψ => by
       ext x
-      rw [AddChar.mul_apply, AddChar.one_apply, inv_apply, ← map_add_mul, add_left_neg,
-        map_zero_one] }
+      rw [AddChar.mul_apply]; rw [AddChar.one_apply]; rw [inv_apply]; rw [← map_add_mul]; rw [add_left_neg]; rw [map_zero_one] }
 #align add_char.comm_group AddChar.commGroup
 
 end GroupStructure
@@ -213,12 +212,12 @@ theorem mulShift_apply {ψ : AddChar R R'} {a : R} {x : R} : mulShift ψ a x = �
 /-- `ψ⁻¹ = mulShift ψ (-1))`. -/
 theorem inv_mulShift (ψ : AddChar R R') : ψ⁻¹ = mulShift ψ (-1) := by
   ext
-  rw [inv_apply, mulShift_apply, neg_mul, one_mul]
+  rw [inv_apply]; rw [mulShift_apply]; rw [neg_mul]; rw [one_mul]
 #align add_char.inv_mul_shift AddChar.inv_mulShift
 
 /-- If `n` is a natural number, then `mulShift ψ n x = (ψ x) ^ n`. -/
 theorem mulShift_spec' (ψ : AddChar R R') (n : ℕ) (x : R) : mulShift ψ n x = ψ x ^ n := by
-  rw [mulShift_apply, ← nsmul_eq_mul, map_nsmul_pow]
+  rw [mulShift_apply]; rw [← nsmul_eq_mul]; rw [map_nsmul_pow]
 #align add_char.mul_shift_spec' AddChar.mulShift_spec'
 
 /-- If `n` is a natural number, then `ψ ^ n = mulShift ψ n`. -/
@@ -231,14 +230,14 @@ theorem pow_mulShift (ψ : AddChar R R') (n : ℕ) : ψ ^ n = mulShift ψ n := b
 theorem mulShift_mul (ψ : AddChar R R') (a b : R) :
     mulShift ψ a * mulShift ψ b = mulShift ψ (a + b) := by
   ext
-  rw [mulShift_apply, right_distrib, map_add_mul]; norm_cast
+  rw [mulShift_apply]; rw [right_distrib]; rw [map_add_mul]; norm_cast
 #align add_char.mul_shift_mul AddChar.mulShift_mul
 
 /-- `mulShift ψ 0` is the trivial character. -/
 @[simp]
 theorem mulShift_zero (ψ : AddChar R R') : mulShift ψ 0 = 1 := by
   ext
-  rw [mulShift_apply, zero_mul, map_zero_one]; norm_cast
+  rw [mulShift_apply]; rw [zero_mul]; rw [map_zero_one]; norm_cast
 #align add_char.mul_shift_zero AddChar.mulShift_zero
 
 /-- An additive character is *primitive* iff all its multiplicative shifts by nonzero
@@ -255,7 +254,7 @@ theorem to_mulShift_inj_of_isPrimitive {ψ : AddChar R R'} (hψ : IsPrimitive ψ
   apply_fun fun x => x * mulShift ψ (-b) at h
   simp only [mulShift_mul, mulShift_zero, add_right_neg] at h
   have h₂ := hψ (a + -b)
-  rw [h, isNontrivial_iff_ne_trivial, ← sub_eq_add_neg, sub_ne_zero] at h₂
+  rw [h] at h₂; rw [isNontrivial_iff_ne_trivial] at h₂; rw [← sub_eq_add_neg] at h₂; rw [sub_ne_zero] at h₂
   exact not_not.mp fun h => h₂ h rfl
 #align add_char.to_mul_shift_inj_of_is_primitive AddChar.to_mulShift_inj_of_isPrimitive
 
@@ -318,7 +317,7 @@ def zmodChar (n : ℕ+) {ζ : C} (hζ : ζ ^ (n : ℕ) = 1) : AddChar (ZMod n) C
   map_one' := by simp only [toAdd_one, ZMod.val_zero, pow_zero]
   map_mul' x y := by
     dsimp only
-    rw [toAdd_mul, ← pow_add, ZMod.val_add (toAdd x) (toAdd y), ← pow_eq_pow_mod _ hζ]
+    rw [toAdd_mul]; rw [← pow_add]; rw [ZMod.val_add (toAdd x) (toAdd y)]; rw [← pow_eq_pow_mod _ hζ]
 #align add_char.zmod_char AddChar.zmodChar
 
 /-- The additive character on `ZMod n` defined using `ζ` sends `a` to `ζ^a`. -/
@@ -329,7 +328,7 @@ theorem zmodChar_apply {n : ℕ+} {ζ : C} (hζ : ζ ^ (n : ℕ) = 1) (a : ZMod 
 
 theorem zmodChar_apply' {n : ℕ+} {ζ : C} (hζ : ζ ^ (n : ℕ) = 1) (a : ℕ) :
     zmodChar n hζ a = ζ ^ a := by
-  rw [pow_eq_pow_mod a hζ, zmodChar_apply, ZMod.val_nat_cast a]
+  rw [pow_eq_pow_mod a hζ]; rw [zmodChar_apply]; rw [ZMod.val_nat_cast a]
 #align add_char.zmod_char_apply' AddChar.zmodChar_apply'
 
 end ZModCharDef
@@ -341,8 +340,8 @@ theorem zmod_char_isNontrivial_iff (n : ℕ+) (ψ : AddChar (ZMod n) C) :
   contrapose!
   rintro h₁ ⟨a, ha⟩
   have ha₁ : a = a.val • (1 : ZMod ↑n) := by
-    rw [nsmul_eq_mul, mul_one]; exact (ZMod.nat_cast_zmod_val a).symm
-  rw [ha₁, map_nsmul_pow, h₁, one_pow] at ha
+    rw [nsmul_eq_mul]; rw [mul_one]; exact (ZMod.nat_cast_zmod_val a).symm
+  rw [ha₁] at ha; rw [map_nsmul_pow] at ha; rw [h₁] at ha; rw [one_pow] at ha
   exact ha rfl
 #align add_char.zmod_char_is_nontrivial_iff AddChar.zmod_char_isNontrivial_iff
 
@@ -350,7 +349,7 @@ theorem zmod_char_isNontrivial_iff (n : ℕ+) (ψ : AddChar (ZMod n) C) :
 theorem IsPrimitive.zmod_char_eq_one_iff (n : ℕ+) {ψ : AddChar (ZMod n) C} (hψ : IsPrimitive ψ)
     (a : ZMod n) : ψ a = 1 ↔ a = 0 := by
   refine' ⟨fun h => not_imp_comm.mp (hψ a) _, fun ha => by rw [ha, map_zero_one]⟩
-  rw [zmod_char_isNontrivial_iff n (mulShift ψ a), mulShift_apply, mul_one, h, Classical.not_not]
+  rw [zmod_char_isNontrivial_iff n (mulShift ψ a)]; rw [mulShift_apply]; rw [mul_one]; rw [h]; rw [Classical.not_not]
 #align add_char.is_primitive.zmod_char_eq_one_iff AddChar.IsPrimitive.zmod_char_eq_one_iff
 
 /-- The converse: if the additive character takes the value `1` only at `0`,
@@ -360,7 +359,7 @@ theorem zmod_char_primitive_of_eq_one_only_at_zero (n : ℕ) (ψ : AddChar (ZMod
   refine' fun a ha => (isNontrivial_iff_ne_trivial _).mpr fun hf => _
   have h : mulShift ψ a 1 = (1 : AddChar (ZMod n) C) (1 : ZMod n) :=
     congr_fun (congr_arg (↑) hf) 1
-  rw [mulShift_apply, mul_one] at h; norm_cast at h
+  rw [mulShift_apply] at h; rw [mul_one] at h; norm_cast at h
   exact ha (hψ a h)
 #align add_char.zmod_char_primitive_of_eq_one_only_at_zero AddChar.zmod_char_primitive_of_eq_one_only_at_zero
 
@@ -370,7 +369,7 @@ theorem zmodChar_primitive_of_primitive_root (n : ℕ+) {ζ : C} (h : IsPrimitiv
     IsPrimitive (zmodChar n ((IsPrimitiveRoot.iff_def ζ n).mp h).left) := by
   apply zmod_char_primitive_of_eq_one_only_at_zero
   intro a ha
-  rw [zmodChar_apply, ← pow_zero ζ] at ha
+  rw [zmodChar_apply] at ha; rw [← pow_zero ζ] at ha
   exact (ZMod.val_eq_zero a).mp (IsPrimitiveRoot.pow_inj h (ZMod.val_lt a) n.pos ha)
 #align add_char.zmod_char_primitive_of_primitive_root AddChar.zmodChar_primitive_of_primitive_root
 
@@ -430,7 +429,7 @@ theorem sum_eq_zero_of_isNontrivial [IsDomain R'] {ψ : AddChar R R'} (hψ : IsN
     Fintype.sum_bijective _ (AddGroup.addLeft_bijective b) _ _ fun x => rfl
   simp_rw [map_add_mul] at h₁
   have h₂ : ∑ a : R, ψ a = Finset.univ.sum ↑ψ := rfl
-  rw [← Finset.mul_sum, h₂] at h₁
+  rw [← Finset.mul_sum] at h₁; rw [h₂] at h₁
   exact eq_zero_of_mul_eq_self_left hb h₁
 #align add_char.sum_eq_zero_of_is_nontrivial AddChar.sum_eq_zero_of_isNontrivial
 

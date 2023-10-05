@@ -45,7 +45,7 @@ theorem verschiebungFun_coeff (x : 𝕎 R) (n : ℕ) :
 #align witt_vector.verschiebung_fun_coeff WittVector.verschiebungFun_coeff
 
 theorem verschiebungFun_coeff_zero (x : 𝕎 R) : (verschiebungFun x).coeff 0 = 0 := by
-  rw [verschiebungFun_coeff, if_pos rfl]
+  rw [verschiebungFun_coeff]; rw [if_pos rfl]
 #align witt_vector.verschiebung_fun_coeff_zero WittVector.verschiebungFun_coeff_zero
 
 @[simp]
@@ -57,16 +57,14 @@ theorem verschiebungFun_coeff_succ (x : 𝕎 R) (n : ℕ) :
 @[ghost_simps]
 theorem ghostComponent_zero_verschiebungFun (x : 𝕎 R) :
     ghostComponent 0 (verschiebungFun x) = 0 := by
-  rw [ghostComponent_apply, aeval_wittPolynomial, Finset.range_one, Finset.sum_singleton,
-    verschiebungFun_coeff_zero, pow_zero, pow_zero, pow_one, one_mul]
+  rw [ghostComponent_apply]; rw [aeval_wittPolynomial]; rw [Finset.range_one]; rw [Finset.sum_singleton]; rw [verschiebungFun_coeff_zero]; rw [pow_zero]; rw [pow_zero]; rw [pow_one]; rw [one_mul]
 #align witt_vector.ghost_component_zero_verschiebung_fun WittVector.ghostComponent_zero_verschiebungFun
 
 @[ghost_simps]
 theorem ghostComponent_verschiebungFun (x : 𝕎 R) (n : ℕ) :
     ghostComponent (n + 1) (verschiebungFun x) = p * ghostComponent n x := by
   simp only [ghostComponent_apply, aeval_wittPolynomial]
-  rw [Finset.sum_range_succ', verschiebungFun_coeff, if_pos rfl, zero_pow (pow_pos hp.1.pos _),
-    mul_zero, add_zero, Finset.mul_sum, Finset.sum_congr rfl]
+  rw [Finset.sum_range_succ']; rw [verschiebungFun_coeff]; rw [if_pos rfl]; rw [zero_pow (pow_pos hp.1.pos _)]; rw [mul_zero]; rw [add_zero]; rw [Finset.mul_sum]; rw [Finset.sum_congr rfl]
   rintro i -
   simp only [pow_succ, mul_assoc, verschiebungFun_coeff, if_neg (Nat.succ_ne_zero i),
     Nat.succ_sub_succ, tsub_zero]
@@ -182,9 +180,9 @@ theorem bind₁_verschiebungPoly_wittPolynomial (n : ℕ) :
   split_ifs with hn
   · simp only [hn, wittPolynomial_zero, bind₁_X_right, verschiebungPoly_zero, map_zero, ite_true]
   · obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hn
-    rw [Nat.succ_eq_add_one, add_tsub_cancel_right]
+    rw [Nat.succ_eq_add_one]; rw [add_tsub_cancel_right]
     simp only [add_eq_zero, and_false, ite_false, map_mul]
-    rw [map_natCast, hom_bind₁]
+    rw [map_natCast]; rw [hom_bind₁]
     calc
       _ = ghostComponent (n + 1) (verschiebung <| mk p x) := by
        apply eval₂Hom_congr (RingHom.ext_int _ _) _ rfl

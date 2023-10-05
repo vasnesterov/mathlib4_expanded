@@ -50,7 +50,7 @@ theorem frobenius_verschiebung (x : 𝕎 R) : frobenius (verschiebung x) = x * p
 
 /-- Verschiebung is the same as multiplication by `p` on the ring of Witt vectors of `ZMod p`. -/
 theorem verschiebung_zmod (x : 𝕎 (ZMod p)) : verschiebung x = x * p := by
-  rw [← frobenius_verschiebung, frobenius_zmodp]
+  rw [← frobenius_verschiebung]; rw [frobenius_zmodp]
 #align witt_vector.verschiebung_zmod WittVector.verschiebung_zmod
 
 variable (p R)
@@ -83,7 +83,7 @@ theorem coeff_p [CharP R p] (i : ℕ) : (p : 𝕎 R).coeff i = if i = 1 then 1 e
 
 @[simp]
 theorem coeff_p_zero [CharP R p] : (p : 𝕎 R).coeff 0 = 0 := by
-  rw [coeff_p, if_neg]
+  rw [coeff_p]; rw [if_neg]
   exact zero_ne_one
 #align witt_vector.coeff_p_zero WittVector.coeff_p_zero
 
@@ -117,13 +117,13 @@ theorem verschiebung_mul_frobenius (x y : 𝕎 R) :
 #align witt_vector.verschiebung_mul_frobenius WittVector.verschiebung_mul_frobenius
 
 theorem mul_charP_coeff_zero [CharP R p] (x : 𝕎 R) : (x * p).coeff 0 = 0 := by
-  rw [← frobenius_verschiebung, coeff_frobenius_charP, verschiebung_coeff_zero, zero_pow]
+  rw [← frobenius_verschiebung]; rw [coeff_frobenius_charP]; rw [verschiebung_coeff_zero]; rw [zero_pow]
   exact Nat.Prime.pos hp.out
 #align witt_vector.mul_char_p_coeff_zero WittVector.mul_charP_coeff_zero
 
 theorem mul_charP_coeff_succ [CharP R p] (x : 𝕎 R) (i : ℕ) :
     (x * p).coeff (i + 1) = x.coeff i ^ p := by
-  rw [← frobenius_verschiebung, coeff_frobenius_charP, verschiebung_coeff_succ]
+  rw [← frobenius_verschiebung]; rw [coeff_frobenius_charP]; rw [verschiebung_coeff_succ]
 #align witt_vector.mul_char_p_coeff_succ WittVector.mul_charP_coeff_succ
 
 theorem verschiebung_frobenius [CharP R p] (x : 𝕎 R) : verschiebung (frobenius x) = x * p := by
@@ -134,7 +134,7 @@ theorem verschiebung_frobenius [CharP R p] (x : 𝕎 R) : verschiebung (frobeniu
 
 theorem verschiebung_frobenius_comm [CharP R p] :
     Function.Commute (verschiebung : 𝕎 R → 𝕎 R) frobenius := fun x => by
-  rw [verschiebung_frobenius, frobenius_verschiebung]
+  rw [verschiebung_frobenius]; rw [frobenius_verschiebung]
 #align witt_vector.verschiebung_frobenius_comm WittVector.verschiebung_frobenius_comm
 
 /-!

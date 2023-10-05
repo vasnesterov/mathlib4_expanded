@@ -215,7 +215,7 @@ theorem toStalk_stalkMap_toΓSpec (x : X) :
   rw [PresheafedSpace.stalkMap]
   erw [← toOpen_germ _ (basicOpen (1 : Γ.obj (op X)))
       ⟨X.toΓSpecFun x, by rw [basicOpen_one]; trivial⟩]
-  rw [← Category.assoc, Category.assoc (toOpen _ _)]
+  rw [← Category.assoc]; rw [Category.assoc (toOpen _ _)]
   erw [stalkFunctor_map_germ]
   -- Porting note : was `rw [←assoc, toΓSpecSheafedSpace_app_spec]`, but Lean did not like it.
   rw [toΓSpecSheafedSpace_app_spec_assoc]
@@ -281,7 +281,7 @@ theorem Γ_Spec_left_triangle : toSpecΓ (Γ.obj (op X)) ≫ X.toΓSpec.1.c.app 
   unfold toSpecΓ
   rw [← toOpen_res _ (basicOpen (1 : Γ.obj (op X))) ⊤ (eqToHom basicOpen_one.symm)]
   erw [Category.assoc]
-  rw [NatTrans.naturality, ← Category.assoc]
+  rw [NatTrans.naturality]; rw [← Category.assoc]
   erw [X.toΓSpecSheafedSpace_app_spec 1, ← Functor.map_comp]
   convert eqToHom_map X.presheaf _; rfl
 #align algebraic_geometry.LocallyRingedSpace.Γ_Spec_left_triangle AlgebraicGeometry.LocallyRingedSpace.Γ_Spec_left_triangle
@@ -297,16 +297,16 @@ def identityToΓSpec : 𝟭 LocallyRingedSpace.{u} ⟶ Γ.rightOp ⋙ Spec.toLoc
     · ext1 x
       dsimp [Spec.topMap, LocallyRingedSpace.toΓSpecFun]
       --Porting Note: Had to add the next four lines
-      rw [comp_apply, comp_apply]
+      rw [comp_apply]; rw [comp_apply]
       dsimp [toΓSpecBase]
-      rw [ContinuousMap.coe_mk, ContinuousMap.coe_mk]
+      rw [ContinuousMap.coe_mk]; rw [ContinuousMap.coe_mk]
       dsimp [toΓSpecFun]
-      rw [← LocalRing.comap_closedPoint (PresheafedSpace.stalkMap f.val x), ←
-        PrimeSpectrum.comap_comp_apply, ← PrimeSpectrum.comap_comp_apply]
+      rw [← LocalRing.comap_closedPoint (PresheafedSpace.stalkMap f.val x)]; rw [←
+        PrimeSpectrum.comap_comp_apply]; rw [← PrimeSpectrum.comap_comp_apply]
       congr 2
       exact (PresheafedSpace.stalkMap_germ f.1 ⊤ ⟨x, trivial⟩).symm
     · intro r
-      rw [LocallyRingedSpace.comp_val_c_app, ← Category.assoc]
+      rw [LocallyRingedSpace.comp_val_c_app]; rw [← Category.assoc]
       erw [Y.toΓSpecSheafedSpace_app_spec, f.1.c.naturality]
       rfl
 #align algebraic_geometry.identity_to_Γ_Spec AlgebraicGeometry.identityToΓSpec
@@ -393,15 +393,14 @@ theorem adjunction_homEquiv_symm_apply {X : Scheme} {R : CommRingCatᵒᵖ}
 @[simp]
 theorem adjunction_counit_app {R : CommRingCatᵒᵖ} :
     ΓSpec.adjunction.counit.app R = locallyRingedSpaceAdjunction.counit.app R := by
-  rw [← Adjunction.homEquiv_symm_id, ← Adjunction.homEquiv_symm_id,
-    adjunction_homEquiv_symm_apply]
+  rw [← Adjunction.homEquiv_symm_id]; rw [← Adjunction.homEquiv_symm_id]; rw [adjunction_homEquiv_symm_apply]
   rfl
 #align algebraic_geometry.Γ_Spec.adjunction_counit_app AlgebraicGeometry.ΓSpec.adjunction_counit_app
 
 @[simp]
 theorem adjunction_unit_app {X : Scheme} :
     ΓSpec.adjunction.unit.app X = locallyRingedSpaceAdjunction.unit.app X.1 := by
-  rw [← Adjunction.homEquiv_id, ← Adjunction.homEquiv_id, adjunction_homEquiv_apply]; rfl
+  rw [← Adjunction.homEquiv_id]; rw [← Adjunction.homEquiv_id]; rw [adjunction_homEquiv_apply]; rfl
 #align algebraic_geometry.Γ_Spec.adjunction_unit_app AlgebraicGeometry.ΓSpec.adjunction_unit_app
 
 -- Porting Note: Commented
@@ -437,7 +436,7 @@ theorem adjunction_unit_app_app_top (X : Scheme) :
     Spec.toLocallyRingedSpace_obj, Γ_obj, Spec.locallyRingedSpaceObj_toSheafedSpace,
     Spec.sheafedSpaceObj_carrier, Spec.sheafedSpaceObj_presheaf,
     SpecΓIdentity_inv_app, Category.id_comp] at this
-  rw [← op_inv, Quiver.Hom.op_inj.eq_iff] at this
+  rw [← op_inv] at this; rw [Quiver.Hom.op_inj.eq_iff] at this
   -- Note: changed from `rw` to `simp_rw` to improve performance
   simp_rw [SpecΓIdentity_hom_app]
   convert this using 1

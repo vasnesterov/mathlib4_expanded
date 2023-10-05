@@ -300,7 +300,7 @@ theorem homotopicTo (i : N) {p q : Ω^ N X x} :
     Homotopic p q → (toLoop i p).Homotopic (toLoop i q) := by
   refine' Nonempty.map fun H => ⟨⟨⟨fun t => ⟨homotopyTo i H t, _⟩, _⟩, _, _⟩, _⟩
   · rintro y ⟨i, iH⟩
-    rw [homotopyTo_apply, H.eq_fst, p.2]
+    rw [homotopyTo_apply]; rw [H.eq_fst]; rw [p.2]
     all_goals apply Cube.insertAt_boundary; right; exact ⟨i, iH⟩
   · continuity
   iterate 2 intro; ext; erw [homotopyTo_apply, toLoop_apply]; swap
@@ -309,7 +309,7 @@ theorem homotopicTo (i : N) {p q : Ω^ N X x} :
   intro t y yH
   constructor <;> ext <;> erw [homotopyTo_apply]
   apply H.eq_fst; on_goal 2 => apply H.eq_snd
-  all_goals use i; rw [funSplitAt_symm_apply, dif_pos rfl]; exact yH
+  all_goals use i; rw [funSplitAt_symm_apply]; rw [dif_pos rfl]; exact yH
 #align gen_loop.homotopic_to GenLoop.homotopicTo
 
 /-- The converse to `GenLoop.homotopyTo`: a homotopy between two loops in the space of
@@ -557,7 +557,7 @@ theorem one_def [Nonempty N] : (1 : HomotopyGroup N X x) = ⟦const⟧ :=
 theorem mul_spec [Nonempty N] {i} {p q : Ω^ N X x} :
     -- porting note: TODO: introduce `HomotopyGroup.mk` and remove defeq abuse.
     ((· * ·) : _ → _ → HomotopyGroup N X x) ⟦p⟧ ⟦q⟧ = ⟦transAt i q p⟧ := by
-  rw [transAt_indep _ q, ← fromLoop_trans_toLoop]; apply Quotient.sound; rfl
+  rw [transAt_indep _ q]; rw [← fromLoop_trans_toLoop]; apply Quotient.sound; rfl
 #align homotopy_group.mul_spec HomotopyGroup.mul_spec
 
 /-- Characterization of multiplicative inverse -/

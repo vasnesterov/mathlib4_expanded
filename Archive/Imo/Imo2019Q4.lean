@@ -41,11 +41,11 @@ theorem upper_bound {k n : ℕ} (hk : k > 0)
     (h : (k ! : ℤ) = ∏ i in range n, ((2:ℤ) ^ n - (2:ℤ) ^ i)) : n < 6 := by
   have h2 : ∑ i in range n, i < k
   · suffices multiplicity 2 (k ! : ℤ) = ↑(∑ i in range n, i : ℕ) by
-      rw [← PartENat.coe_lt_coe, ← this]; change multiplicity ((2 : ℕ) : ℤ) _ < _
+      rw [← PartENat.coe_lt_coe]; rw [← this]; change multiplicity ((2 : ℕ) : ℤ) _ < _
       simp_rw [Int.coe_nat_multiplicity, multiplicity_two_factorial_lt hk.lt.ne.symm]
-    rw [h, multiplicity.Finset.prod Int.prime_two, Nat.cast_sum]
+    rw [h]; rw [multiplicity.Finset.prod Int.prime_two]; rw [Nat.cast_sum]
     apply sum_congr rfl; intro i hi
-    rw [multiplicity_sub_of_gt, multiplicity_pow_self_of_prime Int.prime_two]
+    rw [multiplicity_sub_of_gt]; rw [multiplicity_pow_self_of_prime Int.prime_two]
     rwa [multiplicity_pow_self_of_prime Int.prime_two, multiplicity_pow_self_of_prime Int.prime_two,
       PartENat.coe_lt_coe, ← mem_range]
   rw [← not_le]; intro hn

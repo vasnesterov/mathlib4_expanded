@@ -139,7 +139,7 @@ instance (priority := 100) OrderIsoClass.toBoundedOrderHomClass [LE α] [Bounded
 theorem map_eq_top_iff [LE α] [OrderTop α] [PartialOrder β] [OrderTop β] [OrderIsoClass F α β]
     (f : F) {a : α} : f a = ⊤ ↔ a = ⊤ := by
   letI : TopHomClass F α β := OrderIsoClass.toTopHomClass
-  rw [← map_top f, (EquivLike.injective f).eq_iff]
+  rw [← map_top f]; rw [(EquivLike.injective f).eq_iff]
 #align map_eq_top_iff map_eq_top_iff
 
 -- Porting note: the `letI` is needed because we can't make the
@@ -149,7 +149,7 @@ theorem map_eq_top_iff [LE α] [OrderTop α] [PartialOrder β] [OrderTop β] [Or
 theorem map_eq_bot_iff [LE α] [OrderBot α] [PartialOrder β] [OrderBot β] [OrderIsoClass F α β]
     (f : F) {a : α} : f a = ⊥ ↔ a = ⊥ := by
   letI : BotHomClass F α β := OrderIsoClass.toBotHomClass
-  rw [← map_bot f, (EquivLike.injective f).eq_iff]
+  rw [← map_bot f]; rw [(EquivLike.injective f).eq_iff]
 #align map_eq_bot_iff map_eq_bot_iff
 
 /-- Turn an element of a type `F` satisfying `TopHomClass F α β` into an actual

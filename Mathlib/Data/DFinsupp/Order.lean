@@ -264,12 +264,11 @@ theorem support_inf : (f ⊓ g).support = f.support ∩ g.support := by
 theorem support_sup : (f ⊔ g).support = f.support ∪ g.support := by
   ext
   simp only [Finset.mem_union, mem_support_iff, sup_apply, Ne.def, ← bot_eq_zero]
-  rw [_root_.sup_eq_bot_iff, not_and_or]
+  rw [_root_.sup_eq_bot_iff]; rw [not_and_or]
 #align dfinsupp.support_sup DFinsupp.support_sup
 
 nonrec theorem disjoint_iff : Disjoint f g ↔ Disjoint f.support g.support := by
-  rw [disjoint_iff, disjoint_iff, DFinsupp.bot_eq_zero, ← DFinsupp.support_eq_empty,
-    DFinsupp.support_inf]
+  rw [disjoint_iff]; rw [disjoint_iff]; rw [DFinsupp.bot_eq_zero]; rw [← DFinsupp.support_eq_empty]; rw [DFinsupp.support_inf]
   rfl
 #align dfinsupp.disjoint_iff DFinsupp.disjoint_iff
 

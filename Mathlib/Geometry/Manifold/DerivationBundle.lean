@@ -87,7 +87,7 @@ theorem smul_def (x : M) (f : C^∞⟮I, M; 𝕜⟯⟨x⟩) (k : 𝕜) : f • k
 
 instance (x : M) : IsScalarTower 𝕜 C^∞⟮I, M; 𝕜⟯⟨x⟩ 𝕜 where
   smul_assoc k f h := by
-    rw [smul_def, smul_def, SmoothMap.coe_smul, Pi.smul_apply, smul_eq_mul, smul_eq_mul, mul_assoc]
+    rw [smul_def]; rw [smul_def]; rw [SmoothMap.coe_smul]; rw [Pi.smul_apply]; rw [smul_eq_mul]; rw [smul_eq_mul]; rw [mul_assoc]
 
 end PointedSmoothMap
 
@@ -139,14 +139,12 @@ def hfdifferential {f : C^∞⟮I, M; I', M'⟯} {x : M} {y : M'} (h : f x = y) 
   toFun v :=
     Derivation.mk'
       { toFun := fun g => v (g.comp f)
-        map_add' := fun g g' => by dsimp; rw [SmoothMap.add_comp, Derivation.map_add]
+        map_add' := fun g g' => by dsimp; rw [SmoothMap.add_comp]; rw [Derivation.map_add]
         map_smul' := fun k g => by
-          dsimp; rw [SmoothMap.smul_comp, Derivation.map_smul, smul_eq_mul] }
+          dsimp; rw [SmoothMap.smul_comp]; rw [Derivation.map_smul]; rw [smul_eq_mul] }
       fun g g' => by
         dsimp
-        rw [SmoothMap.mul_comp, Derivation.leibniz,
-          PointedSmoothMap.smul_def, ContMDiffMap.comp_apply,
-          PointedSmoothMap.smul_def, ContMDiffMap.comp_apply, h]
+        rw [SmoothMap.mul_comp]; rw [Derivation.leibniz]; rw [PointedSmoothMap.smul_def]; rw [ContMDiffMap.comp_apply]; rw [PointedSmoothMap.smul_def]; rw [ContMDiffMap.comp_apply]; rw [h]
         norm_cast
   map_smul' k v := rfl
   map_add' v w := rfl

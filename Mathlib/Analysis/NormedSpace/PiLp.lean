@@ -393,7 +393,7 @@ theorem antilipschitzWith_equiv_aux :
   · have pos : 0 < p.toReal := zero_lt_one.trans_le h
     have nonneg : 0 ≤ 1 / p.toReal := one_div_nonneg.2 (le_of_lt pos)
     have cancel : p.toReal * (1 / p.toReal) = 1 := mul_div_cancel' 1 (ne_of_gt pos)
-    rw [edist_eq_sum pos, ENNReal.toReal_div 1 p]
+    rw [edist_eq_sum pos]; rw [ENNReal.toReal_div 1 p]
     simp only [edist, ← one_div, ENNReal.one_toReal]
     calc
       (∑ i, edist (x i) (y i) ^ p.toReal) ^ (1 / p.toReal) ≤
@@ -409,7 +409,7 @@ theorem antilipschitzWith_equiv_aux :
           ENNReal.mul_rpow_of_nonneg _ _ nonneg, ← ENNReal.rpow_mul, cancel]
         have : (Fintype.card ι : ℝ≥0∞) = (Fintype.card ι : ℝ≥0) :=
           (ENNReal.coe_nat (Fintype.card ι)).symm
-        rw [this, ENNReal.coe_rpow_of_nonneg _ nonneg]
+        rw [this]; rw [ENNReal.coe_rpow_of_nonneg _ nonneg]
 #align pi_Lp.antilipschitz_with_equiv_aux PiLp.antilipschitzWith_equiv_aux
 
 theorem aux_uniformity_eq : 𝓤 (PiLp p β) = 𝓤[Pi.uniformSpace _] := by
@@ -418,7 +418,7 @@ theorem aux_uniformity_eq : 𝓤 (PiLp p β) = 𝓤[Pi.uniformSpace _] := by
       (lipschitzWith_equiv_aux p β).uniformContinuous
   have : (fun x : PiLp p β × PiLp p β => (WithLp.equiv p _ x.fst, WithLp.equiv p _ x.snd)) = id :=
     by ext i <;> rfl
-  rw [← A.comap_uniformity, this, comap_id]
+  rw [← A.comap_uniformity]; rw [this]; rw [comap_id]
 #align pi_Lp.aux_uniformity_eq PiLp.aux_uniformity_eq
 
 theorem aux_cobounded_eq : cobounded (PiLp p α) = @cobounded _ Pi.instBornology :=
@@ -537,7 +537,7 @@ instance seminormedAddCommGroup [∀ i, SeminormedAddCommGroup (β i)] :
         congr
       · have : p ≠ ∞ := by
           intro hp
-          rw [hp, ENNReal.top_toReal] at h
+          rw [hp] at h; rw [ENNReal.top_toReal] at h
           linarith
         simp only [dist_eq_sum (zero_lt_one.trans_le h), norm_eq_sum (zero_lt_one.trans_le h),
           dist_eq_norm]
@@ -591,7 +591,7 @@ theorem norm_sq_eq_of_L2 (β : ι → Type*) [∀ i, SeminormedAddCommGroup (β 
     ‖x‖ ^ 2 = ∑ i : ι, ‖x i‖ ^ 2 := by
   suffices ‖x‖₊ ^ 2 = ∑ i : ι, ‖x i‖₊ ^ 2 by
     simpa only [NNReal.coe_sum] using congr_arg ((↑) : ℝ≥0 → ℝ) this
-  rw [nnnorm_eq_of_L2, NNReal.sq_sqrt]
+  rw [nnnorm_eq_of_L2]; rw [NNReal.sq_sqrt]
 #align pi_Lp.norm_sq_eq_of_L2 PiLp.norm_sq_eq_of_L2
 
 theorem dist_eq_of_L2 {β : ι → Type*} [∀ i, SeminormedAddCommGroup (β i)] (x y : PiLp 2 β) :
@@ -629,8 +629,7 @@ instance normedSpace [∀ i, SeminormedAddCommGroup (β i)] [∀ i, NormedSpace 
         have smul_apply : ∀ i : ι, (c • f) i = c • (f i) := fun i => rfl
         simp only [norm_eq_sum (zero_lt_one.trans_le hp), norm_smul, Real.mul_rpow, norm_nonneg, ←
           Finset.mul_sum, smul_apply]
-        rw [mul_rpow (rpow_nonneg_of_nonneg (norm_nonneg _) _), ← rpow_mul (norm_nonneg _), this,
-          Real.rpow_one]
+        rw [mul_rpow (rpow_nonneg_of_nonneg (norm_nonneg _) _)]; rw [← rpow_mul (norm_nonneg _)]; rw [this]; rw [Real.rpow_one]
         exact Finset.sum_nonneg fun i _ => rpow_nonneg_of_nonneg (norm_nonneg _) _ }
 #align pi_Lp.normed_space PiLp.normedSpace
 
@@ -761,11 +760,9 @@ theorem nnnorm_equiv_symm_single [hp : Fact (1 ≤ p)] (i : ι) (b : β i) :
   | coe p =>
     have hp0 : (p : ℝ) ≠ 0 := by
       exact_mod_cast (zero_lt_one.trans_le <| Fact.out (p := 1 ≤ (p : ℝ≥0∞))).ne'
-    rw [nnnorm_eq_sum ENNReal.coe_ne_top, ENNReal.coe_toReal, Fintype.sum_eq_single i,
-      WithLp.equiv_symm_pi_apply, Pi.single_eq_same, ← NNReal.rpow_mul, one_div, mul_inv_cancel hp0,
-      NNReal.rpow_one]
+    rw [nnnorm_eq_sum ENNReal.coe_ne_top]; rw [ENNReal.coe_toReal]; rw [Fintype.sum_eq_single i]; rw [WithLp.equiv_symm_pi_apply]; rw [Pi.single_eq_same]; rw [← NNReal.rpow_mul]; rw [one_div]; rw [mul_inv_cancel hp0]; rw [NNReal.rpow_one]
     intro j hij
-    rw [WithLp.equiv_symm_pi_apply, Pi.single_eq_of_ne hij, nnnorm_zero, NNReal.zero_rpow hp0]
+    rw [WithLp.equiv_symm_pi_apply]; rw [Pi.single_eq_of_ne hij]; rw [nnnorm_zero]; rw [NNReal.zero_rpow hp0]
 #align pi_Lp.nnnorm_equiv_symm_single PiLp.nnnorm_equiv_symm_single
 
 @[simp]
@@ -780,8 +777,7 @@ theorem nndist_equiv_symm_single_same (i : ι) (b₁ b₂ : β i) :
         ((WithLp.equiv p (∀ i, β i)).symm (Pi.single i b₁))
         ((WithLp.equiv p (∀ i, β i)).symm (Pi.single i b₂)) =
       nndist b₁ b₂ := by
-  rw [nndist_eq_nnnorm, nndist_eq_nnnorm, ← WithLp.equiv_symm_sub, ← Pi.single_sub,
-    nnnorm_equiv_symm_single]
+  rw [nndist_eq_nnnorm]; rw [nndist_eq_nnnorm]; rw [← WithLp.equiv_symm_sub]; rw [← Pi.single_sub]; rw [nnnorm_equiv_symm_single]
 #align pi_Lp.nndist_equiv_symm_single_same PiLp.nndist_equiv_symm_single_same
 
 @[simp]

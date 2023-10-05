@@ -46,7 +46,7 @@ theorem map_diagram :
   · rintro ⟨i⟩ <;> rfl
   refine Functor.hext obj_eq ?_
   intro i j g; apply Subsingleton.helim
-  rw [obj_eq, obj_eq]
+  rw [obj_eq]; rw [obj_eq]
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.sheaf_condition_pairwise_intersections.map_diagram TopCat.Presheaf.SheafConditionPairwiseIntersections.map_diagram
 
@@ -55,7 +55,7 @@ theorem mapCocone :
       (Pairwise.cocone ((Opens.map f).obj ∘ U)) := by
   unfold Functor.mapCocone Cocones.functoriality; dsimp; congr
   iterate 2 rw [map_diagram]; rw [Opens.map_iSup]
-  apply Subsingleton.helim; rw [map_diagram, Opens.map_iSup]
+  apply Subsingleton.helim; rw [map_diagram]; rw [Opens.map_iSup]
   apply proof_irrel_heq
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.sheaf_condition_pairwise_intersections.map_cocone TopCat.Presheaf.SheafConditionPairwiseIntersections.mapCocone

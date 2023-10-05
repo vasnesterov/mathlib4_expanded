@@ -151,7 +151,7 @@ set_option linter.uppercaseLean3 false in
 theorem stalkPushforward_germ (f : X ⟶ Y) (F : X.Presheaf C) (U : Opens Y)
     (x : (Opens.map f).obj U) :
       (f _* F).germ ⟨(f : X → Y) (x : X), x.2⟩ ≫ F.stalkPushforward C f x = F.germ x := by
-  rw [stalkPushforward, germ, colimit.ι_map_assoc, colimit.ι_pre, whiskerRight_app]
+  rw [stalkPushforward]; rw [germ]; rw [colimit.ι_map_assoc]; rw [colimit.ι_pre]; rw [whiskerRight_app]
   erw [CategoryTheory.Functor.map_id, Category.id_comp]
   rfl
 set_option linter.uppercaseLean3 false in
@@ -219,7 +219,7 @@ theorem stalkPushforward_iso_of_openEmbedding {f : X ⟶ Y} (hf : OpenEmbedding 
     ext U
     rw [← Iso.comp_inv_eq]
     erw [colimit.ι_map_assoc]
-    rw [colimit.ι_pre, Category.assoc]
+    rw [colimit.ι_pre]; rw [Category.assoc]
     erw [colimit.ι_map_assoc, colimit.ι_pre, ← F.map_comp_assoc]
     apply colimit.w ((OpenNhds.inclusion (f x)).op ⋙ f _* F) _
     dsimp only [Functor.op]
@@ -442,7 +442,7 @@ theorem stalkFunctor_map_injective_of_app_injective {F G : Presheaf C X} (f : F 
   erw [stalkFunctor_map_germ_apply _ ⟨x, _⟩] at hst
   erw [stalkFunctor_map_germ_apply _ ⟨x, _⟩] at hst
   obtain ⟨W, hxW, iWU₁, iWU₂, heq⟩ := G.germ_eq x hxU₁ hxU₂ _ _ hst
-  rw [← comp_apply, ← comp_apply, ← f.naturality, ← f.naturality, comp_apply, comp_apply] at heq
+  rw [← comp_apply] at heq; rw [← comp_apply] at heq; rw [← f.naturality] at heq; rw [← f.naturality] at heq; rw [comp_apply] at heq; rw [comp_apply] at heq
   replace heq := h W heq
   convert congr_arg (F.germ ⟨x, hxW⟩) heq using 1
   exacts [(F.germ_res_apply iWU₁ ⟨x, hxW⟩ s).symm, (F.germ_res_apply iWU₂ ⟨x, hxW⟩ t).symm]
@@ -466,7 +466,7 @@ theorem section_ext (F : Sheaf C X) (U : Opens X) (s t : F.1.obj (op U))
     simp only [Opens.coe_iSup, Set.mem_iUnion, SetLike.mem_coe]
     exact ⟨⟨x, hxU⟩, m ⟨x, hxU⟩⟩
   · intro x
-    rw [heq, Subsingleton.elim (i₁ x) (i₂ x)]
+    rw [heq]; rw [Subsingleton.elim (i₁ x) (i₂ x)]
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.section_ext TopCat.Presheaf.section_ext
 
@@ -552,7 +552,7 @@ theorem app_surjective_of_injective_of_locally_surjective {F G : Sheaf C X} (f :
     · use s
       apply G.eq_of_locally_eq' V U iVU V_cover
       intro x
-      rw [← comp_apply, ← f.1.naturality, comp_apply, s_spec, heq]
+      rw [← comp_apply]; rw [← f.1.naturality]; rw [comp_apply]; rw [s_spec]; rw [heq]
   intro x y
   -- What's left to show here is that the sections `sf` are compatible, i.e. they agree on
   -- the intersections `V x ⊓ V y`. We prove this by showing that all germs are equal.
@@ -583,7 +583,7 @@ theorem app_surjective_of_stalkFunctor_map_bijective {F G : Sheaf C X} (f : F �
   obtain ⟨V₂, hxV₂, iV₂V₁, iV₂U, heq⟩ := G.presheaf.germ_eq x.1 hxV₁ x.2 _ _ hs₁
   -- The restriction of `s₁` to that neighborhood is our desired local preimage.
   use V₂, hxV₂, iV₂U, F.1.map iV₂V₁.op s₁
-  rw [← comp_apply, f.1.naturality, comp_apply, heq]
+  rw [← comp_apply]; rw [f.1.naturality]; rw [comp_apply]; rw [heq]
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.app_surjective_of_stalk_functor_map_bijective TopCat.Presheaf.app_surjective_of_stalkFunctor_map_bijective
 

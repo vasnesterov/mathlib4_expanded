@@ -284,7 +284,7 @@ theorem supported_iUnion {δ : Type*} (s : δ → Set α) :
     LinearMap.range ((Submodule.subtype _).comp (restrictDom M R (⋃ i, s i))) ≤
       ⨆ i, supported M R (s i) by
     rwa [LinearMap.range_comp, range_restrictDom, Submodule.map_top, range_subtype] at this
-  rw [range_le_iff_comap, eq_top_iff]
+  rw [range_le_iff_comap]; rw [eq_top_iff]
   rintro l ⟨⟩
   -- Porting note: Was ported as `induction l using Finsupp.induction`
   refine Finsupp.induction l ?_ ?_
@@ -318,7 +318,7 @@ theorem disjoint_supported_supported_iff [Nontrivial M] {s t : Set α} :
   refine' ⟨fun h => Set.disjoint_left.mpr fun x hx1 hx2 => _, disjoint_supported_supported⟩
   rcases exists_ne (0 : M) with ⟨y, hy⟩
   have := h.le_bot ⟨single_mem_supported R y hx1, single_mem_supported R y hx2⟩
-  rw [mem_bot, single_eq_zero] at this
+  rw [mem_bot] at this; rw [single_eq_zero] at this
   exact hy this
 #align finsupp.disjoint_supported_supported_iff Finsupp.disjoint_supported_supported_iff
 
@@ -467,7 +467,7 @@ theorem supported_comap_lmapDomain (f : α → α') (s : Set α') :
   classical
   intro l (hl : (l.support : Set α) ⊆ f ⁻¹' s)
   show ↑(mapDomain f l).support ⊆ s
-  rw [← Set.image_subset_iff, ← Finset.coe_image] at hl
+  rw [← Set.image_subset_iff] at hl; rw [← Finset.coe_image] at hl
   exact Set.Subset.trans mapDomain_support hl
 #align finsupp.supported_comap_lmap_domain Finsupp.supported_comap_lmapDomain
 
@@ -496,14 +496,14 @@ theorem lmapDomain_disjoint_ker (f : α → α') {s : Set α}
     Disjoint (supported M R s) (ker (lmapDomain M R f)) := by
   rw [disjoint_iff_inf_le]
   rintro l ⟨h₁, h₂⟩
-  rw [SetLike.mem_coe, mem_ker, lmapDomain_apply, mapDomain] at h₂
+  rw [SetLike.mem_coe] at h₂; rw [mem_ker] at h₂; rw [lmapDomain_apply] at h₂; rw [mapDomain] at h₂
   simp; ext x
   haveI := Classical.decPred fun x => x ∈ s
   by_cases xs : x ∈ s
   · have : Finsupp.sum l (fun a => Finsupp.single (f a)) (f x) = 0 := by
       rw [h₂]
       rfl
-    rw [Finsupp.sum_apply, Finsupp.sum_eq_single x, single_eq_same] at this
+    rw [Finsupp.sum_apply] at this; rw [Finsupp.sum_eq_single x] at this; rw [single_eq_same] at this
     · simpa
     · intro y hy xy
       simp only [SetLike.mem_coe, mem_supported, subset_def, Finset.mem_coe, mem_support_iff] at h₁
@@ -617,7 +617,7 @@ theorem range_total : LinearMap.range (Finsupp.total α M R v) = span R (range v
   · apply span_le.2
     intro x hx
     rcases hx with ⟨i, hi⟩
-    rw [SetLike.mem_coe, LinearMap.mem_range]
+    rw [SetLike.mem_coe]; rw [LinearMap.mem_range]
     use Finsupp.single i 1
     simp [hi]
 #align finsupp.range_total Finsupp.range_total
@@ -649,12 +649,12 @@ theorem total_mapDomain (f : α → α') (l : α →₀ R) :
 @[simp]
 theorem total_equivMapDomain (f : α ≃ α') (l : α →₀ R) :
     (Finsupp.total α' M' R v') (equivMapDomain f l) = (Finsupp.total α M' R (v' ∘ f)) l := by
-  rw [equivMapDomain_eq_mapDomain, total_mapDomain]
+  rw [equivMapDomain_eq_mapDomain]; rw [total_mapDomain]
 #align finsupp.total_equiv_map_domain Finsupp.total_equivMapDomain
 
 /-- A version of `Finsupp.range_total` which is useful for going in the other direction -/
 theorem span_eq_range_total (s : Set M) : span R s = LinearMap.range (Finsupp.total s M R (↑)) := by
-  rw [range_total, Subtype.range_coe_subtype, Set.setOf_mem_eq]
+  rw [range_total]; rw [Subtype.range_coe_subtype]; rw [Set.setOf_mem_eq]
 #align finsupp.span_eq_range_total Finsupp.span_eq_range_total
 
 theorem mem_span_iff_total (s : Set M) (x : M) :
@@ -687,7 +687,7 @@ theorem span_image_eq_map_total (s : Set α) :
       · exact smul_mem _ _ (subset_span (Set.mem_image_of_mem _ h))
       · simp [(Finsupp.mem_supported' R _).1 hz _ h]
     -- Porting note: `rw` is required to infer metavariables in `sum_mem`.
-    rw [mem_comap, total_apply]
+    rw [mem_comap]; rw [total_apply]
     refine' sum_mem _
     simp [this]
 #align finsupp.span_image_eq_map_total Finsupp.span_image_eq_map_total
@@ -737,9 +737,7 @@ protected def totalOn (s : Set α) : supported R R s →ₗ[R] span R (v '' s) :
 variable {α} {M} {v}
 
 theorem totalOn_range (s : Set α) : LinearMap.range (Finsupp.totalOn α M R v s) = ⊤ := by
-  rw [Finsupp.totalOn, LinearMap.range_eq_map, LinearMap.map_codRestrict,
-    ←LinearMap.range_le_iff_comap, range_subtype, Submodule.map_top, LinearMap.range_comp,
-    range_subtype]
+  rw [Finsupp.totalOn]; rw [LinearMap.range_eq_map]; rw [LinearMap.map_codRestrict]; rw [←LinearMap.range_le_iff_comap]; rw [range_subtype]; rw [Submodule.map_top]; rw [LinearMap.range_comp]; rw [range_subtype]
   exact (span_image_eq_map_total _ _).le
 #align finsupp.total_on_range Finsupp.totalOn_range
 
@@ -1020,14 +1018,14 @@ noncomputable def finsuppProdLEquiv {α β : Type*} (R : Type*) {M : Type*} [Sem
 @[simp]
 theorem finsuppProdLEquiv_apply {α β R M : Type*} [Semiring R] [AddCommMonoid M] [Module R M]
     (f : α × β →₀ M) (x y) : finsuppProdLEquiv R f x y = f (x, y) := by
-  rw [finsuppProdLEquiv, LinearEquiv.coe_mk, finsuppProdEquiv, Finsupp.curry_apply]
+  rw [finsuppProdLEquiv]; rw [LinearEquiv.coe_mk]; rw [finsuppProdEquiv]; rw [Finsupp.curry_apply]
 #align finsupp.finsupp_prod_lequiv_apply Finsupp.finsuppProdLEquiv_apply
 
 @[simp]
 theorem finsuppProdLEquiv_symm_apply {α β R M : Type*} [Semiring R] [AddCommMonoid M] [Module R M]
     (f : α →₀ β →₀ M) (xy) : (finsuppProdLEquiv R).symm f xy = f xy.1 xy.2 := by
   conv_rhs =>
-    rw [← (finsuppProdLEquiv R).apply_symm_apply f, finsuppProdLEquiv_apply]
+    rw [← (finsuppProdLEquiv R).apply_symm_apply f]; rw [finsuppProdLEquiv_apply]
 #align finsupp.finsupp_prod_lequiv_symm_apply Finsupp.finsuppProdLEquiv_symm_apply
 
 end Prod
@@ -1075,7 +1073,7 @@ theorem Fintype.total_apply (f) : Fintype.total R S v f = ∑ i, f i • v i :=
 theorem Fintype.total_apply_single [DecidableEq α] (i : α) (r : R) :
     Fintype.total R S v (Pi.single i r) = r • v i := by
   simp_rw [Fintype.total_apply, Pi.single_apply, ite_smul, zero_smul]
-  rw [Finset.sum_ite_eq', if_pos (Finset.mem_univ _)]
+  rw [Finset.sum_ite_eq']; rw [if_pos (Finset.mem_univ _)]
 #align fintype.total_apply_single Fintype.total_apply_single
 
 variable (S)
@@ -1100,8 +1098,7 @@ variable {S}
 @[simp]
 theorem Fintype.range_total :
     LinearMap.range (Fintype.total R S v) = Submodule.span R (Set.range v) := by
-  rw [← Finsupp.total_eq_fintype_total, LinearMap.range_comp, LinearEquiv.range,
-    Submodule.map_top, Finsupp.range_total]
+  rw [← Finsupp.total_eq_fintype_total]; rw [LinearMap.range_comp]; rw [LinearEquiv.range]; rw [Submodule.map_top]; rw [Finsupp.range_total]
 #align fintype.range_total Fintype.range_total
 
 section SpanRange
@@ -1212,7 +1209,7 @@ lemma mem_span_set' {m : M} {s : Set M} :
   · rcases mem_span_set.1 h with ⟨c, cs, rfl⟩
     have A : c.support ≃ Fin c.support.card := Finset.equivFin _
     refine ⟨_, fun i ↦ c (A.symm i), fun i ↦ ⟨A.symm i, cs (A.symm i).2⟩, ?_⟩
-    rw [Finsupp.sum, ← Finset.sum_coe_sort c.support]
+    rw [Finsupp.sum]; rw [← Finset.sum_coe_sort c.support]
     exact Fintype.sum_equiv A.symm _ (fun j ↦ c j • (j : M)) (fun i ↦ rfl)
   · rintro ⟨n, f, g, rfl⟩
     exact Submodule.sum_mem _ (fun i _ ↦ Submodule.smul_mem _ _ (Submodule.subset_span (g i).2))
@@ -1262,7 +1259,7 @@ theorem splittingOfFinsuppSurjective_splits (f : M →ₗ[R] α →₀ R) (s : S
   refine lhom_ext' fun x => ext_ring <| Finsupp.ext fun y => ?_
   dsimp [splittingOfFinsuppSurjective]
   congr
-  rw [sum_single_index, one_smul]
+  rw [sum_single_index]; rw [one_smul]
   · exact (s (Finsupp.single x 1)).choose_spec
   · rw [zero_smul]
 #align linear_map.splitting_of_finsupp_surjective_splits LinearMap.splittingOfFinsuppSurjective_splits
@@ -1291,8 +1288,7 @@ theorem splittingOfFunOnFintypeSurjective_splits [Fintype α] (f : M →ₗ[R] �
   -- Porting note: `ext` can't find appropriate theorems.
   refine pi_ext' fun x => ext_ring <| funext fun y => ?_
   dsimp [splittingOfFunOnFintypeSurjective]
-  rw [linearEquivFunOnFinite_symm_single, Finsupp.sum_single_index, one_smul,
-    (s (Finsupp.single x 1)).choose_spec, Finsupp.single_eq_pi_single]
+  rw [linearEquivFunOnFinite_symm_single]; rw [Finsupp.sum_single_index]; rw [one_smul]; rw [(s (Finsupp.single x 1)).choose_spec]; rw [Finsupp.single_eq_pi_single]
   rw [zero_smul]
 #align linear_map.splitting_of_fun_on_fintype_surjective_splits LinearMap.splittingOfFunOnFintypeSurjective_splits
 

@@ -52,7 +52,7 @@ theorem exists_idempotent_of_compact_t2_of_continuous_mul_left {M} [Nonempty M] 
         · rwa [← scaling_eq_self] at hm
         · rintro m'' ⟨mem'', eq'' : _ = m⟩ m' ⟨mem', eq' : _ = m⟩
           refine' ⟨N_mul _ mem'' _ mem', _⟩
-          rw [Set.mem_setOf_eq, mul_assoc, eq', eq'']
+          rw [Set.mem_setOf_eq]; rw [mul_assoc]; rw [eq']; rw [eq'']
       apply Set.inter_subset_left
     -- Thus `m * m = m` as desired.
     rw [← absorbing_eq_self] at hm

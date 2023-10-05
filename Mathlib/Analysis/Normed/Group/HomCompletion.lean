@@ -100,16 +100,14 @@ def normedAddGroupHomCompletionHom :
 theorem NormedAddGroupHom.completion_id :
     (NormedAddGroupHom.id G).completion = NormedAddGroupHom.id (Completion G) := by
   ext x
-  rw [NormedAddGroupHom.completion_def, NormedAddGroupHom.coe_id, Completion.map_id]
+  rw [NormedAddGroupHom.completion_def]; rw [NormedAddGroupHom.coe_id]; rw [Completion.map_id]
   rfl
 #align normed_add_group_hom.completion_id NormedAddGroupHom.completion_id
 
 theorem NormedAddGroupHom.completion_comp (f : NormedAddGroupHom G H) (g : NormedAddGroupHom H K) :
     g.completion.comp f.completion = (g.comp f).completion := by
   ext x
-  rw [NormedAddGroupHom.coe_comp, NormedAddGroupHom.completion_def,
-    NormedAddGroupHom.completion_coe_to_fun, NormedAddGroupHom.completion_coe_to_fun,
-    Completion.map_comp g.uniformContinuous f.uniformContinuous]
+  rw [NormedAddGroupHom.coe_comp]; rw [NormedAddGroupHom.completion_def]; rw [NormedAddGroupHom.completion_coe_to_fun]; rw [NormedAddGroupHom.completion_coe_to_fun]; rw [Completion.map_comp g.uniformContinuous f.uniformContinuous]
   rfl
 #align normed_add_group_hom.completion_comp NormedAddGroupHom.completion_comp
 
@@ -227,8 +225,7 @@ theorem NormedAddGroupHom.extension_coe_to_fun (f : NormedAddGroupHom G H) :
 theorem NormedAddGroupHom.extension_unique (f : NormedAddGroupHom G H)
     {g : NormedAddGroupHom (Completion G) H} (hg : ∀ v, f v = g v) : f.extension = g := by
   ext v
-  rw [NormedAddGroupHom.extension_coe_to_fun,
-    Completion.extension_unique f.uniformContinuous g.uniformContinuous fun a => hg a]
+  rw [NormedAddGroupHom.extension_coe_to_fun]; rw [Completion.extension_unique f.uniformContinuous g.uniformContinuous fun a => hg a]
 #align normed_add_group_hom.extension_unique NormedAddGroupHom.extension_unique
 
 end Extension

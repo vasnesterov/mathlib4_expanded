@@ -177,7 +177,7 @@ variable {M}
 @[to_additive mem_fixedPoints_iff_card_orbit_eq_one]
 theorem mem_fixedPoints_iff_card_orbit_eq_one {a : α} [Fintype (orbit M a)] :
     a ∈ fixedPoints M α ↔ Fintype.card (orbit M a) = 1 := by
-  rw [Fintype.card_eq_one_iff, mem_fixedPoints]
+  rw [Fintype.card_eq_one_iff]; rw [mem_fixedPoints]
   constructor
   · exact fun h => ⟨⟨a, mem_orbit_self _⟩, fun ⟨a, ⟨x, hx⟩⟩ => Subtype.eq <| by simp [h x, hx.symm]⟩
   · intro h x
@@ -299,7 +299,7 @@ theorem quotient_preimage_image_eq_union_mul (U : Set α) :
   · intro hx
     rw [Set.mem_iUnion] at hx
     obtain ⟨g, u, hu₁, hu₂⟩ := hx
-    rw [Set.mem_preimage, Set.mem_image_iff_bex]
+    rw [Set.mem_preimage]; rw [Set.mem_image_iff_bex]
     refine' ⟨g⁻¹ • a, _, by simp only [Quotient.eq']; use g⁻¹⟩
     rw [← hu₂]
     convert hu₁
@@ -418,8 +418,7 @@ variable {G α}
 theorem stabilizer_smul_eq_stabilizer_map_conj (g : G) (a : α) :
     stabilizer G (g • a) = (stabilizer G a).map (MulAut.conj g).toMonoidHom := by
   ext h
-  rw [mem_stabilizer_iff, ← smul_left_cancel_iff g⁻¹, smul_smul, smul_smul, smul_smul, mul_left_inv,
-    one_smul, ← mem_stabilizer_iff, Subgroup.mem_map_equiv, MulAut.conj_symm_apply]
+  rw [mem_stabilizer_iff]; rw [← smul_left_cancel_iff g⁻¹]; rw [smul_smul]; rw [smul_smul]; rw [smul_smul]; rw [mul_left_inv]; rw [one_smul]; rw [← mem_stabilizer_iff]; rw [Subgroup.mem_map_equiv]; rw [MulAut.conj_symm_apply]
 #align mul_action.stabilizer_smul_eq_stabilizer_map_conj MulAction.stabilizer_smul_eq_stabilizer_map_conj
 
 /-- A bijection between the stabilizers of two elements in the same orbit. -/
@@ -428,7 +427,7 @@ noncomputable def stabilizerEquivStabilizerOfOrbitRel {a b : α} (h : (orbitRel 
   let g : G := Classical.choose h
   have hg : g • b = a := Classical.choose_spec h
   have this : stabilizer G a = (stabilizer G b).map (MulAut.conj g).toMonoidHom := by
-    rw [← hg, stabilizer_smul_eq_stabilizer_map_conj]
+    rw [← hg]; rw [stabilizer_smul_eq_stabilizer_map_conj]
   (MulEquiv.subgroupCongr this).trans ((MulAut.conj g).subgroupMap <| stabilizer G b).symm
 #align mul_action.stabilizer_equiv_stabilizer_of_orbit_rel MulAction.stabilizerEquivStabilizerOfOrbitRel
 
@@ -442,9 +441,7 @@ variable (G : Type u) (α : Type v) [AddGroup G] [AddAction G α]
 theorem stabilizer_vadd_eq_stabilizer_map_conj (g : G) (a : α) :
     stabilizer G (g +ᵥ a) = (stabilizer G a).map (AddAut.conj g).toAddMonoidHom := by
   ext h
-  rw [mem_stabilizer_iff, ← vadd_left_cancel_iff (-g), vadd_vadd, vadd_vadd, vadd_vadd,
-    add_left_neg, zero_vadd, ← mem_stabilizer_iff, AddSubgroup.mem_map_equiv,
-    AddAut.conj_symm_apply]
+  rw [mem_stabilizer_iff]; rw [← vadd_left_cancel_iff (-g)]; rw [vadd_vadd]; rw [vadd_vadd]; rw [vadd_vadd]; rw [add_left_neg]; rw [zero_vadd]; rw [← mem_stabilizer_iff]; rw [AddSubgroup.mem_map_equiv]; rw [AddAut.conj_symm_apply]
 #align add_action.stabilizer_vadd_eq_stabilizer_map_conj AddAction.stabilizer_vadd_eq_stabilizer_map_conj
 
 /-- A bijection between the stabilizers of two elements in the same orbit. -/
@@ -453,7 +450,7 @@ noncomputable def stabilizerEquivStabilizerOfOrbitRel {a b : α} (h : (orbitRel 
   let g : G := Classical.choose h
   have hg : g +ᵥ b = a := Classical.choose_spec h
   have this : stabilizer G a = (stabilizer G b).map (AddAut.conj g).toAddMonoidHom := by
-    rw [← hg, stabilizer_vadd_eq_stabilizer_map_conj]
+    rw [← hg]; rw [stabilizer_vadd_eq_stabilizer_map_conj]
   (AddEquiv.addSubgroupCongr this).trans ((AddAut.conj g).addSubgroupMap <| stabilizer G b).symm
 #align add_action.stabilizer_equiv_stabilizer_of_orbit_rel AddAction.stabilizerEquivStabilizerOfOrbitRel
 
@@ -467,5 +464,5 @@ theorem smul_cancel_of_non_zero_divisor {M R : Type*} [Monoid M] [NonUnitalNonAs
     a = b := by
   rw [← sub_eq_zero]
   refine' h _ _
-  rw [smul_sub, h', sub_self]
+  rw [smul_sub]; rw [h']; rw [sub_self]
 #align smul_cancel_of_non_zero_divisor smul_cancel_of_non_zero_divisor

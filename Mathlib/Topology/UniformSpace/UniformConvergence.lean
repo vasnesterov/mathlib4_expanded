@@ -141,7 +141,7 @@ theorem tendstoUniformlyOn_univ : TendstoUniformlyOn F f p univ ↔ TendstoUnifo
 
 theorem tendstoUniformly_iff_tendstoUniformlyOnFilter :
     TendstoUniformly F f p ↔ TendstoUniformlyOnFilter F f p ⊤ := by
-  rw [← tendstoUniformlyOn_univ, tendstoUniformlyOn_iff_tendstoUniformlyOnFilter, principal_univ]
+  rw [← tendstoUniformlyOn_univ]; rw [tendstoUniformlyOn_iff_tendstoUniformlyOnFilter]; rw [principal_univ]
 #align tendsto_uniformly_iff_tendsto_uniformly_on_filter tendstoUniformly_iff_tendstoUniformlyOnFilter
 
 theorem TendstoUniformly.tendstoUniformlyOnFilter (h : TendstoUniformly F f p) :
@@ -276,7 +276,7 @@ theorem TendstoUniformlyOnFilter.prod_map {ι' α' β' : Type*} [UniformSpace β
     TendstoUniformlyOnFilter (fun i : ι × ι' => Prod.map (F i.1) (F' i.2)) (Prod.map f f')
       (p ×ˢ q) (p' ×ˢ q') := by
   rw [tendstoUniformlyOnFilter_iff_tendsto] at h h' ⊢
-  rw [uniformity_prod_eq_comap_prod, tendsto_comap_iff, ← map_swap4_prod, tendsto_map'_iff]
+  rw [uniformity_prod_eq_comap_prod]; rw [tendsto_comap_iff]; rw [← map_swap4_prod]; rw [tendsto_map'_iff]
   convert h.prod_map h' -- seems to be faster than `exact` here
 #align tendsto_uniformly_on_filter.prod_map TendstoUniformlyOnFilter.prod_map
 
@@ -292,7 +292,7 @@ theorem TendstoUniformlyOn.prod_map {ι' α' β' : Type*} [UniformSpace β'] {F'
 theorem TendstoUniformly.prod_map {ι' α' β' : Type*} [UniformSpace β'] {F' : ι' → α' → β'}
     {f' : α' → β'} {p' : Filter ι'} (h : TendstoUniformly F f p) (h' : TendstoUniformly F' f' p') :
     TendstoUniformly (fun i : ι × ι' => Prod.map (F i.1) (F' i.2)) (Prod.map f f') (p ×ˢ p') := by
-  rw [← tendstoUniformlyOn_univ, ← univ_prod_univ] at *
+  rw [← tendstoUniformlyOn_univ] at *; rw [← univ_prod_univ] at *
   exact h.prod_map h'
 #align tendsto_uniformly.prod_map TendstoUniformly.prod_map
 
@@ -519,7 +519,7 @@ theorem UniformCauchySeqOn.prod_map {ι' α' β' : Type*} [UniformSpace β'] {F'
     (h' : UniformCauchySeqOn F' p' s') :
     UniformCauchySeqOn (fun i : ι × ι' => Prod.map (F i.1) (F' i.2)) (p ×ˢ p') (s ×ˢ s') := by
   intro u hu
-  rw [uniformity_prod_eq_prod, mem_map, mem_prod_iff] at hu
+  rw [uniformity_prod_eq_prod] at hu; rw [mem_map] at hu; rw [mem_prod_iff] at hu
   obtain ⟨v, hv, w, hw, hvw⟩ := hu
   simp_rw [mem_prod, Prod_map, and_imp, Prod.forall]
   rw [← Set.image_subset_iff] at hvw
@@ -556,7 +556,7 @@ section SeqTendsto
 theorem tendstoUniformlyOn_of_seq_tendstoUniformlyOn {l : Filter ι} [l.IsCountablyGenerated]
     (h : ∀ u : ℕ → ι, Tendsto u atTop l → TendstoUniformlyOn (fun n => F (u n)) f atTop s) :
     TendstoUniformlyOn F f l s := by
-  rw [tendstoUniformlyOn_iff_tendsto, tendsto_iff_seq_tendsto]
+  rw [tendstoUniformlyOn_iff_tendsto]; rw [tendsto_iff_seq_tendsto]
   intro u hu
   rw [tendsto_prod_iff'] at hu
   specialize h (fun n => (u n).fst) hu.1
@@ -611,7 +611,7 @@ theorem tendstoLocallyUniformlyOn_iff_forall_tendsto :
     TendstoLocallyUniformlyOn F f p s ↔
       ∀ x ∈ s, Tendsto (fun y : ι × α => (f y.2, F y.1 y.2)) (p ×ˢ 𝓝[s] x) (𝓤 β) :=
   forall₂_swap.trans <| forall₄_congr fun _ _ _ _ => by
-    rw [mem_map, mem_prod_iff_right]; rfl
+    rw [mem_map]; rw [mem_prod_iff_right]; rfl
 
 nonrec theorem IsOpen.tendstoLocallyUniformlyOn_iff_forall_tendsto (hs : IsOpen s) :
     TendstoLocallyUniformlyOn F f p s ↔

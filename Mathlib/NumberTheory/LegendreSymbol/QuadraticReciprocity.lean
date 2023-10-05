@@ -59,13 +59,13 @@ variable (hp : p ≠ 2)
 /-- `legendreSym p 2` is given by `χ₈ p`. -/
 theorem at_two : legendreSym p 2 = χ₈ p := by
   have : (2 : ZMod p) = (2 : ℤ) := by norm_cast
-  rw [legendreSym, ← this, quadraticChar_two ((ringChar_zmod_n p).substr hp), card p]
+  rw [legendreSym]; rw [← this]; rw [quadraticChar_two ((ringChar_zmod_n p).substr hp)]; rw [card p]
 #align legendre_sym.at_two legendreSym.at_two
 
 /-- `legendreSym p (-2)` is given by `χ₈' p`. -/
 theorem at_neg_two : legendreSym p (-2) = χ₈' p := by
   have : (-2 : ZMod p) = (-2 : ℤ) := by norm_cast
-  rw [legendreSym, ← this, quadraticChar_neg_two ((ringChar_zmod_n p).substr hp), card p]
+  rw [legendreSym]; rw [← this]; rw [quadraticChar_neg_two ((ringChar_zmod_n p).substr hp)]; rw [card p]
 #align legendre_sym.at_neg_two legendreSym.at_neg_two
 
 end legendreSym
@@ -76,7 +76,7 @@ variable (hp : p ≠ 2)
 
 /-- `2` is a square modulo an odd prime `p` iff `p` is congruent to `1` or `7` mod `8`. -/
 theorem exists_sq_eq_two_iff : IsSquare (2 : ZMod p) ↔ p % 8 = 1 ∨ p % 8 = 7 := by
-  rw [FiniteField.isSquare_two_iff, card p]
+  rw [FiniteField.isSquare_two_iff]; rw [card p]
   have h₁ := Prime.mod_two_eq_one_iff_ne_two.mpr hp
   rw [← mod_mod_of_dvd p (by norm_num : 2 ∣ 8)] at h₁
   have h₂ := mod_lt p (by norm_num : 0 < 8)
@@ -87,7 +87,7 @@ theorem exists_sq_eq_two_iff : IsSquare (2 : ZMod p) ↔ p % 8 = 1 ∨ p % 8 = 7
 
 /-- `-2` is a square modulo an odd prime `p` iff `p` is congruent to `1` or `3` mod `8`. -/
 theorem exists_sq_eq_neg_two_iff : IsSquare (-2 : ZMod p) ↔ p % 8 = 1 ∨ p % 8 = 3 := by
-  rw [FiniteField.isSquare_neg_two_iff, card p]
+  rw [FiniteField.isSquare_neg_two_iff]; rw [card p]
   have h₁ := Prime.mod_two_eq_one_iff_ne_two.mpr hp
   rw [← mod_mod_of_dvd p (by norm_num : 2 ∣ 8)] at h₁
   have h₂ := mod_lt p (by norm_num : 0 < 8)
@@ -128,9 +128,7 @@ theorem quadratic_reciprocity (hp : p ≠ 2) (hq : q ≠ 2) (hpq : p ≠ q) :
   rw [card p] at h
   have nc : ∀ n r : ℕ, ((n : ℤ) : ZMod r) = n := fun n r => by norm_cast
   have nc' : (((-1) ^ (p / 2) : ℤ) : ZMod q) = (-1) ^ (p / 2) := by norm_cast
-  rw [legendreSym, legendreSym, nc, nc, h, map_mul, mul_rotate', mul_comm (p / 2), ← pow_two,
-    quadraticChar_sq_one (prime_ne_zero q p hpq.symm), mul_one, pow_mul, χ₄_eq_neg_one_pow hp₁, nc',
-    map_pow, quadraticChar_neg_one hq₂, card q, χ₄_eq_neg_one_pow hq₁]
+  rw [legendreSym]; rw [legendreSym]; rw [nc]; rw [nc]; rw [h]; rw [map_mul]; rw [mul_rotate']; rw [mul_comm (p / 2)]; rw [← pow_two]; rw [quadraticChar_sq_one (prime_ne_zero q p hpq.symm)]; rw [mul_one]; rw [pow_mul]; rw [χ₄_eq_neg_one_pow hp₁]; rw [nc']; rw [map_pow]; rw [quadraticChar_neg_one hq₂]; rw [card q]; rw [χ₄_eq_neg_one_pow hq₁]
 #align legendre_sym.quadratic_reciprocity legendreSym.quadratic_reciprocity
 
 /-- The Law of Quadratic Reciprocity: if `p` and `q` are odd primes, then
@@ -139,7 +137,7 @@ theorem quadratic_reciprocity' (hp : p ≠ 2) (hq : q ≠ 2) :
     legendreSym q p = (-1) ^ (p / 2 * (q / 2)) * legendreSym p q := by
   cases' eq_or_ne p q with h h
   · subst p
-    rw [(eq_zero_iff q q).mpr (by exact_mod_cast nat_cast_self q), mul_zero]
+    rw [(eq_zero_iff q q).mpr (by exact_mod_cast nat_cast_self q)]; rw [mul_zero]
   · have qr := congr_arg (· * legendreSym p q) (quadratic_reciprocity hp hq h)
     have : ((q : ℤ) : ZMod p) ≠ 0 := by exact_mod_cast prime_ne_zero p q h
     simpa only [mul_assoc, ← pow_two, sq_one p this, mul_one] using qr
@@ -149,8 +147,7 @@ theorem quadratic_reciprocity' (hp : p ≠ 2) (hq : q ≠ 2) :
 then `(q / p) = (p / q)`. -/
 theorem quadratic_reciprocity_one_mod_four (hp : p % 4 = 1) (hq : q ≠ 2) :
     legendreSym q p = legendreSym p q := by
-  rw [quadratic_reciprocity' (Prime.mod_two_eq_one_iff_ne_two.mp (odd_of_mod_four_eq_one hp)) hq,
-    pow_mul, neg_one_pow_div_two_of_one_mod_four hp, one_pow, one_mul]
+  rw [quadratic_reciprocity' (Prime.mod_two_eq_one_iff_ne_two.mp (odd_of_mod_four_eq_one hp)) hq]; rw [pow_mul]; rw [neg_one_pow_div_two_of_one_mod_four hp]; rw [one_pow]; rw [one_mul]
 #align legendre_sym.quadratic_reciprocity_one_mod_four legendreSym.quadratic_reciprocity_one_mod_four
 
 /-- The Law of Quadratic Reciprocity: if `p` and `q` are primes that are both congruent
@@ -158,7 +155,7 @@ to `3` mod `4`, then `(q / p) = -(p / q)`. -/
 theorem quadratic_reciprocity_three_mod_four (hp : p % 4 = 3) (hq : q % 4 = 3) :
     legendreSym q p = -legendreSym p q := by
   let nop := @neg_one_pow_div_two_of_three_mod_four
-  rw [quadratic_reciprocity', pow_mul, nop hp, nop hq, neg_one_mul] <;>
+  rw [quadratic_reciprocity']; rw [pow_mul]; rw [nop hp]; rw [nop hq]; rw [neg_one_mul]; all_goals
   rwa [← Prime.mod_two_eq_one_iff_ne_two, odd_of_mod_four_eq_three]
 #align legendre_sym.quadratic_reciprocity_three_mod_four legendreSym.quadratic_reciprocity_three_mod_four
 
@@ -182,8 +179,7 @@ theorem exists_sq_eq_prime_iff_of_mod_four_eq_one (hp1 : p % 4 = 1) (hq1 : q ≠
 a square mod `p` iff `p` is a nonsquare mod `q`. -/
 theorem exists_sq_eq_prime_iff_of_mod_four_eq_three (hp3 : p % 4 = 3) (hq3 : q % 4 = 3)
     (hpq : p ≠ q) : IsSquare (q : ZMod p) ↔ ¬IsSquare (p : ZMod q) := by
-  rw [← eq_one_iff' p (prime_ne_zero p q hpq), ← eq_neg_one_iff' q,
-    quadratic_reciprocity_three_mod_four hp3 hq3, neg_inj]
+  rw [← eq_one_iff' p (prime_ne_zero p q hpq)]; rw [← eq_neg_one_iff' q]; rw [quadratic_reciprocity_three_mod_four hp3 hq3]; rw [neg_inj]
 #align zmod.exists_sq_eq_prime_iff_of_mod_four_eq_three ZMod.exists_sq_eq_prime_iff_of_mod_four_eq_three
 
 end ZMod

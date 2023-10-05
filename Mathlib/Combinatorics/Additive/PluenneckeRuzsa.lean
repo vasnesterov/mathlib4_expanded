@@ -43,7 +43,7 @@ variable {α : Type*} [CommGroup α] [DecidableEq α] {A B C : Finset α}
       "**Ruzsa's triangle inequality**. Subtraction version."]
 theorem card_div_mul_le_card_div_mul_card_div (A B C : Finset α) :
     (A / C).card * B.card ≤ (A / B).card * (B / C).card := by
-  rw [← card_product (A / B), ← mul_one ((A / B) ×ˢ (B / C)).card]
+  rw [← card_product (A / B)]; rw [← mul_one ((A / B) ×ˢ (B / C)).card]
   refine' card_mul_le_card_mul (fun b ac ↦ ac.1 * ac.2 = b) (fun x hx ↦ _)
     fun x _ ↦ card_le_one_iff.2 fun hu hv ↦
       ((mem_bipartiteBelow _).1 hu).2.symm.trans ((mem_bipartiteBelow _).1 hv).2
@@ -60,7 +60,7 @@ theorem card_div_mul_le_card_div_mul_card_div (A B C : Finset α) :
       "**Ruzsa's triangle inequality**. Sub-add-add version."]
 theorem card_div_mul_le_card_mul_mul_card_mul (A B C : Finset α) :
     (A / C).card * B.card ≤ (A * B).card * (B * C).card := by
-  rw [← div_inv_eq_mul, ← card_inv B, ← card_inv (B * C), mul_inv, ← div_eq_mul_inv]
+  rw [← div_inv_eq_mul]; rw [← card_inv B]; rw [← card_inv (B * C)]; rw [mul_inv]; rw [← div_eq_mul_inv]
   exact card_div_mul_le_card_div_mul_card_div _ _ _
 #align finset.card_div_mul_le_card_mul_mul_card_mul Finset.card_div_mul_le_card_mul_mul_card_mul
 #align finset.card_sub_mul_le_card_add_mul_card_add Finset.card_sub_mul_le_card_add_mul_card_add
@@ -70,7 +70,7 @@ theorem card_div_mul_le_card_mul_mul_card_mul (A B C : Finset α) :
       "**Ruzsa's triangle inequality**. Add-sub-sub version."]
 theorem card_mul_mul_le_card_div_mul_card_mul (A B C : Finset α) :
     (A * C).card * B.card ≤ (A / B).card * (B * C).card := by
-  rw [← div_inv_eq_mul, ← div_inv_eq_mul B]
+  rw [← div_inv_eq_mul]; rw [← div_inv_eq_mul B]
   exact card_div_mul_le_card_div_mul_card_div _ _ _
 #align finset.card_mul_mul_le_card_div_mul_card_mul Finset.card_mul_mul_le_card_div_mul_card_mul
 #align finset.card_add_mul_le_card_sub_mul_card_add Finset.card_add_mul_le_card_sub_mul_card_add
@@ -80,7 +80,7 @@ theorem card_mul_mul_le_card_div_mul_card_mul (A B C : Finset α) :
       "**Ruzsa's triangle inequality**. Add-add-sub version."]
 theorem card_mul_mul_le_card_mul_mul_card_div (A B C : Finset α) :
     (A * C).card * B.card ≤ (A * B).card * (B / C).card := by
-  rw [← div_inv_eq_mul, div_eq_mul_inv B]
+  rw [← div_inv_eq_mul]; rw [div_eq_mul_inv B]
   exact card_div_mul_le_card_mul_mul_card_mul _ _ _
 #align finset.card_mul_mul_le_card_mul_mul_card_div Finset.card_mul_mul_le_card_mul_mul_card_div
 #align finset.card_add_mul_le_card_add_mul_card_sub Finset.card_add_mul_le_card_add_mul_card_sub
@@ -94,25 +94,23 @@ theorem mul_pluennecke_petridis (C : Finset α)
   set A' := A ∩ (A * C / {x}) with hA'
   set C' := insert x C with hC'
   have h₀ : A' * {x} = A * {x} ∩ (A * C) := by
-    rw [hA', inter_mul_singleton, (isUnit_singleton x).div_mul_cancel]
+    rw [hA']; rw [inter_mul_singleton]; rw [(isUnit_singleton x).div_mul_cancel]
   have h₁ : A * B * C' = A * B * C ∪ (A * B * {x}) \ (A' * B * {x}) := by
-    rw [hC', insert_eq, union_comm, mul_union]
+    rw [hC']; rw [insert_eq]; rw [union_comm]; rw [mul_union]
     refine' (sup_sdiff_eq_sup _).symm
-    rw [mul_right_comm, mul_right_comm A, h₀]
+    rw [mul_right_comm]; rw [mul_right_comm A]; rw [h₀]
     exact mul_subset_mul_right (inter_subset_right _ _)
   have h₂ : A' * B * {x} ⊆ A * B * {x} :=
     mul_subset_mul_right (mul_subset_mul_right <| inter_subset_left _ _)
   have h₃ : (A * B * C').card ≤ (A * B * C).card + (A * B).card - (A' * B).card := by
     rw [h₁]
     refine' (card_union_le _ _).trans_eq _
-    rw [card_sdiff h₂, ← add_tsub_assoc_of_le (card_le_of_subset h₂), card_mul_singleton,
-      card_mul_singleton]
+    rw [card_sdiff h₂]; rw [← add_tsub_assoc_of_le (card_le_of_subset h₂)]; rw [card_mul_singleton]; rw [card_mul_singleton]
   refine' (mul_le_mul_right' h₃ _).trans _
-  rw [tsub_mul, add_mul]
+  rw [tsub_mul]; rw [add_mul]
   refine' (tsub_le_tsub (add_le_add_right ih _) <| hA _ <| inter_subset_left _ _).trans_eq _
-  rw [← mul_add, ← mul_tsub, ← hA', hC', insert_eq, mul_union, ← card_mul_singleton A x, ←
-    card_mul_singleton A' x, add_comm (card _), h₀,
-    eq_tsub_of_add_eq (card_union_add_card_inter _ _)]
+  rw [← mul_add]; rw [← mul_tsub]; rw [← hA']; rw [hC']; rw [insert_eq]; rw [mul_union]; rw [← card_mul_singleton A x]; rw [←
+    card_mul_singleton A' x]; rw [add_comm (card _)]; rw [h₀]; rw [eq_tsub_of_add_eq (card_union_add_card_inter _ _)]
 #align finset.mul_pluennecke_petridis Finset.mul_pluennecke_petridis
 #align finset.add_pluennecke_petridis Finset.add_pluennecke_petridis
 
@@ -143,16 +141,16 @@ theorem card_mul_mul_card_le_card_mul_mul_card_mul (A B C : Finset α) :
   have hB' : B ∈ B.powerset.erase ∅ := mem_erase_of_ne_of_mem hB.ne_empty (mem_powerset_self _)
   obtain ⟨U, hU, hUA⟩ :=
     exists_min_image (B.powerset.erase ∅) (fun U ↦ (U * A).card / U.card : _ → ℚ≥0) ⟨B, hB'⟩
-  rw [mem_erase, mem_powerset, ← nonempty_iff_ne_empty] at hU
+  rw [mem_erase] at hU; rw [mem_powerset] at hU; rw [← nonempty_iff_ne_empty] at hU
   refine' cast_le.1 (_ : (_ : ℚ≥0) ≤ _)
   push_cast
   refine' (le_div_iff <| cast_pos.2 hB.card_pos).1 _
-  rw [mul_div_right_comm, mul_comm _ B]
+  rw [mul_div_right_comm]; rw [mul_comm _ B]
   refine' (cast_le.2 <| card_le_card_mul_left _ hU.1).trans _
   refine' le_trans _
     (mul_le_mul (hUA _ hB') (cast_le.2 <| card_le_of_subset <| mul_subset_mul_right hU.2)
       (zero_le _) (zero_le _))
-  rw [← mul_div_right_comm, ← mul_assoc]
+  rw [← mul_div_right_comm]; rw [← mul_assoc]
   refine' (le_div_iff <| cast_pos.2 hU.1.card_pos).2 _
   exact_mod_cast mul_pluennecke_petridis C (mul_aux hU.1 hU.2 hUA)
 #align finset.card_mul_mul_card_le_card_mul_mul_card_mul Finset.card_mul_mul_card_le_card_mul_mul_card_mul
@@ -161,21 +159,21 @@ theorem card_mul_mul_card_le_card_mul_mul_card_mul (A B C : Finset α) :
 /-- **Ruzsa's triangle inequality**. Add-sub-sub version. -/
 theorem card_mul_mul_le_card_div_mul_card_div (A B C : Finset α) :
     (A * C).card * B.card ≤ (A / B).card * (B / C).card := by
-  rw [div_eq_mul_inv, ← card_inv B, ← card_inv (B / C), inv_div', div_inv_eq_mul]
+  rw [div_eq_mul_inv]; rw [← card_inv B]; rw [← card_inv (B / C)]; rw [inv_div']; rw [div_inv_eq_mul]
   exact card_mul_mul_card_le_card_mul_mul_card_mul _ _ _
 #align finset.card_mul_mul_le_card_div_mul_card_div Finset.card_mul_mul_le_card_div_mul_card_div
 
 /-- **Ruzsa's triangle inequality**. Sub-add-sub version. -/
 theorem card_div_mul_le_card_mul_mul_card_div (A B C : Finset α) :
     (A / C).card * B.card ≤ (A * B).card * (B / C).card := by
-  rw [div_eq_mul_inv, div_eq_mul_inv]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]
   exact card_mul_mul_card_le_card_mul_mul_card_mul _ _ _
 #align finset.card_div_mul_le_card_mul_mul_card_div Finset.card_div_mul_le_card_mul_mul_card_div
 
 /-- **Ruzsa's triangle inequality**. Sub-sub-add version. -/
 theorem card_div_mul_le_card_div_mul_card_mul (A B C : Finset α) :
     (A / C).card * B.card ≤ (A / B).card * (B * C).card := by
-  rw [← div_inv_eq_mul, div_eq_mul_inv]
+  rw [← div_inv_eq_mul]; rw [div_eq_mul_inv]
   exact card_mul_mul_le_card_div_mul_card_div _ _ _
 #align finset.card_div_mul_le_card_div_mul_card_mul Finset.card_div_mul_le_card_div_mul_card_mul
 
@@ -186,8 +184,7 @@ theorem card_add_nsmul_le {α : Type*} [AddCommGroup α] [DecidableEq α] {A B :
   · simp
   induction' n with n ih
   · simp
-  rw [succ_nsmul, ← add_assoc, _root_.pow_succ, mul_assoc, ← mul_div_right_comm, le_div_iff,
-    ← cast_mul]
+  rw [succ_nsmul]; rw [← add_assoc]; rw [_root_.pow_succ]; rw [mul_assoc]; rw [← mul_div_right_comm]; rw [le_div_iff]; rw [← cast_mul]
   swap; exact cast_pos.2 hA.card_pos
   refine' (cast_le.2 <| add_pluennecke_petridis _ hAB).trans _
   rw [cast_mul]
@@ -201,8 +198,7 @@ theorem card_mul_pow_le (hAB : ∀ (A') (_ : A' ⊆ A), (A * B).card * A'.card �
   · simp
   induction' n with n ih
   · simp
-  rw [_root_.pow_succ, ← mul_assoc, _root_.pow_succ, @mul_assoc ℚ≥0, ← mul_div_right_comm,
-    le_div_iff, ← cast_mul]
+  rw [_root_.pow_succ]; rw [← mul_assoc]; rw [_root_.pow_succ]; rw [@mul_assoc ℚ≥0]; rw [← mul_div_right_comm]; rw [le_div_iff]; rw [← cast_mul]
   swap; exact cast_pos.2 hA.card_pos
   refine' (cast_le.2 <| mul_pluennecke_petridis _ hAB).trans _
   rw [cast_mul]
@@ -218,7 +214,7 @@ theorem card_pow_div_pow_le (hA : A.Nonempty) (B : Finset α) (m n : ℕ) :
   have hA' : A ∈ A.powerset.erase ∅ := mem_erase_of_ne_of_mem hA.ne_empty (mem_powerset_self _)
   obtain ⟨C, hC, hCA⟩ :=
     exists_min_image (A.powerset.erase ∅) (fun C ↦ (C * B).card / C.card : _ → ℚ≥0) ⟨A, hA'⟩
-  rw [mem_erase, mem_powerset, ← nonempty_iff_ne_empty] at hC
+  rw [mem_erase] at hC; rw [mem_powerset] at hC; rw [← nonempty_iff_ne_empty] at hC
   refine' (mul_le_mul_right <| cast_pos.2 hC.1.card_pos).1 _
   norm_cast
   refine' (cast_le.2 <| card_div_mul_le_card_mul_mul_card_mul _ _ _).trans _
@@ -226,7 +222,7 @@ theorem card_pow_div_pow_le (hA : A.Nonempty) (B : Finset α) (m n : ℕ) :
   rw [mul_comm _ C]
   refine' (mul_le_mul (card_mul_pow_le (mul_aux hC.1 hC.2 hCA) _)
     (card_mul_pow_le (mul_aux hC.1 hC.2 hCA) _) (zero_le _) (zero_le _)).trans _
-  rw [mul_mul_mul_comm, ← pow_add, ← mul_assoc]
+  rw [mul_mul_mul_comm]; rw [← pow_add]; rw [← mul_assoc]
   gcongr ((?_ ^ _) * Nat.cast ?_) * _
   · exact hCA _ hA'
   · exact card_le_of_subset hC.2
@@ -237,7 +233,7 @@ theorem card_pow_div_pow_le (hA : A.Nonempty) (B : Finset α) (m n : ℕ) :
 @[to_additive "The **Plünnecke-Ruzsa inequality**. Subtraction version."]
 theorem card_pow_div_pow_le' (hA : A.Nonempty) (B : Finset α) (m n : ℕ) :
     (B ^ m / B ^ n).card ≤ ((A / B).card / A.card : ℚ≥0) ^ (m + n) * A.card := by
-  rw [← card_inv, inv_div', ← inv_pow, ← inv_pow, div_eq_mul_inv A]
+  rw [← card_inv]; rw [inv_div']; rw [← inv_pow]; rw [← inv_pow]; rw [div_eq_mul_inv A]
   exact card_pow_div_pow_le hA _ _ _
 #align finset.card_pow_div_pow_le' Finset.card_pow_div_pow_le'
 #align finset.card_nsmul_sub_nsmul_le' Finset.card_nsmul_sub_nsmul_le'

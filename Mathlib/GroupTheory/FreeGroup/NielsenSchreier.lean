@@ -122,7 +122,7 @@ instance actionGroupoidIsFree {G A : Type u} [Group G] [IsFreeGroup G] [MulActio
         -- Porting note: `MonoidHom.ext_iff` has been deprecated.
         exact FunLike.ext_iff.mp this
       ext
-      rw [MonoidHom.comp_apply, hF']
+      rw [MonoidHom.comp_apply]; rw [hF']
       rfl
     · rintro ⟨⟨⟩, a : A⟩ ⟨⟨⟩, b⟩ ⟨e, h : IsFreeGroup.of e • a = b⟩
       change (F' (IsFreeGroup.of _)).left _ = _
@@ -176,7 +176,7 @@ def treeHom (a : G) : root' T ⟶ a :=
 
 /-- Any path to `a` gives `treeHom T a`, since paths in the tree are unique. -/
 theorem treeHom_eq {a : G} (p : Path (root T) a) : treeHom T a = homOfPath T p := by
-  rw [treeHom, Unique.default_eq]
+  rw [treeHom]; rw [Unique.default_eq]
 #align is_free_groupoid.spanning_tree.tree_hom_eq IsFreeGroupoid.SpanningTree.treeHom_eq
 
 @[simp]
@@ -194,7 +194,7 @@ def loopOfHom {a b : G} (p : a ⟶ b) : End (root' T) :=
 /-- Turning an edge in the spanning tree into a loop gives the identity loop. -/
 theorem loopOfHom_eq_id {a b : Generators G} (e) (H : e ∈ wideSubquiverSymmetrify T a b) :
     loopOfHom T (of e) = 𝟙 (root' T) := by
-  rw [loopOfHom, ← Category.assoc, IsIso.comp_inv_eq, Category.id_comp]
+  rw [loopOfHom]; rw [← Category.assoc]; rw [IsIso.comp_inv_eq]; rw [Category.id_comp]
   cases' H with H H
   · rw [treeHom_eq T (Path.cons default ⟨Sum.inl e, H⟩), homOfPath]
     rfl
@@ -212,10 +212,10 @@ def functorOfMonoidHom {X} [Monoid X] (f : End (root' T) →* X) : G ⥤ Categor
   map_id := by
     intro a
     dsimp only [loopOfHom]
-    rw [Category.id_comp, IsIso.hom_inv_id, ← End.one_def, f.map_one, id_as_one]
+    rw [Category.id_comp]; rw [IsIso.hom_inv_id]; rw [← End.one_def]; rw [f.map_one]; rw [id_as_one]
   map_comp := by
     intros
-    rw [comp_as_mul, ← f.map_mul]
+    rw [comp_as_mul]; rw [← f.map_mul]
     simp only [IsIso.inv_hom_id_assoc, loopOfHom, End.mul_def, Category.assoc]
 #align is_free_groupoid.spanning_tree.functor_of_monoid_hom IsFreeGroupoid.SpanningTree.functorOfMonoidHom
 
@@ -242,7 +242,7 @@ def endIsFree : IsFreeGroup (End (root' T)) :=
         intro a p
         induction' p with b c p e ih
         · rw [homOfPath, F'.map_id, id_as_one]
-        rw [homOfPath, F'.map_comp, comp_as_mul, ih, mul_one]
+        rw [homOfPath]; rw [F'.map_comp]; rw [comp_as_mul]; rw [ih]; rw [mul_one]
         rcases e with ⟨e | e, eT⟩
         · rw [hF']
           exact dif_pos (Or.inl eT)
@@ -275,14 +275,14 @@ from `a` to `b` in the generating quiver. -/
 theorem path_nonempty_of_hom {G} [Groupoid.{u, u} G] [IsFreeGroupoid G] {a b : G} :
     Nonempty (a ⟶ b) → Nonempty (Path (symgen a) (symgen b)) := by
   rintro ⟨p⟩
-  rw [← @WeaklyConnectedComponent.eq (Generators G), eq_comm, ← FreeGroup.of_injective.eq_iff, ←
+  rw [← @WeaklyConnectedComponent.eq (Generators G)]; rw [eq_comm]; rw [← FreeGroup.of_injective.eq_iff]; rw [←
     mul_inv_eq_one]
   let X := FreeGroup (WeaklyConnectedComponent <| Generators G)
   let f : G → X := fun g => FreeGroup.of (WeaklyConnectedComponent.mk g)
   let F : G ⥤ CategoryTheory.SingleObj.{u} (X : Type u) := SingleObj.differenceFunctor f
   change (F.map p) = ((@CategoryTheory.Functor.const G _ _ (SingleObj.category X)).obj ()).map p
   congr; ext
-  rw [Functor.const_obj_map, id_as_one, differenceFunctor_map, @mul_inv_eq_one _ _ (f _)]
+  rw [Functor.const_obj_map]; rw [id_as_one]; rw [differenceFunctor_map]; rw [@mul_inv_eq_one _ _ (f _)]
   apply congr_arg FreeGroup.of
   apply (WeaklyConnectedComponent.eq _ _).mpr
   exact ⟨Hom.toPath (Sum.inr (by assumption))⟩

@@ -247,7 +247,7 @@ the submonoid. -/
 theorem multiset_prod_mem {M} [CommMonoid M] {s : Set M} (hs : IsSubmonoid s) (m : Multiset M) :
     (∀ a ∈ m, a ∈ s) → m.prod ∈ s := by
   refine' Quotient.inductionOn m fun l hl => _
-  rw [Multiset.quot_mk_to_coe, Multiset.coe_prod]
+  rw [Multiset.quot_mk_to_coe]; rw [Multiset.coe_prod]
   exact list_prod_mem hs hl
 #align is_submonoid.multiset_prod_mem IsSubmonoid.multiset_prod_mem
 #align is_add_submonoid.multiset_sum_mem IsAddSubmonoid.multiset_sum_mem
@@ -402,10 +402,10 @@ theorem mem_closure_union_iff {M : Type*} [CommMonoid M] {s t : Set M} {x : M} :
           Or.casesOn (HL1 hd <| List.mem_cons_self _ _)
             (fun hs =>
               ⟨hd * y, (closure.isSubmonoid _).mul_mem (subset_closure hs) hy, z, hz, by
-                rw [mul_assoc, List.prod_cons, ← hyzx]⟩)
+                rw [mul_assoc]; rw [List.prod_cons]; rw [← hyzx]⟩)
             fun ht =>
             ⟨y, hy, z * hd, (closure.isSubmonoid _).mul_mem hz (subset_closure ht), by
-              rw [← mul_assoc, List.prod_cons, ← hyzx, mul_comm hd]⟩)
+              rw [← mul_assoc]; rw [List.prod_cons]; rw [← hyzx]; rw [mul_comm hd]⟩)
         HL1,
     fun ⟨y, hy, z, hz, hyzx⟩ =>
     hyzx ▸

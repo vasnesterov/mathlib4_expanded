@@ -40,11 +40,11 @@ def derivative : R[X] →ₗ[R] R[X] where
   toFun p := p.sum fun n a => C (a * n) * X ^ (n - 1)
   map_add' p q := by
     dsimp only
-    rw [sum_add_index] <;>
+    rw [sum_add_index]  <;>
       simp only [add_mul, forall_const, RingHom.map_add, eq_self_iff_true, zero_mul,
         RingHom.map_zero]
   map_smul' a p := by
-    dsimp; rw [sum_smul_index] <;>
+    dsimp; rw [sum_smul_index]  <;>
       simp only [mul_sum, ← C_mul', mul_assoc, coeff_C_mul, RingHom.map_mul, forall_const, zero_mul,
         RingHom.map_zero, sum]
 #align polynomial.derivative Polynomial.derivative
@@ -57,14 +57,14 @@ theorem coeff_derivative (p : R[X]) (n : ℕ) :
     coeff (derivative p) n = coeff p (n + 1) * (n + 1) := by
   rw [derivative_apply]
   simp only [coeff_X_pow, coeff_sum, coeff_C_mul]
-  rw [sum, Finset.sum_eq_single (n + 1)]
+  rw [sum]; rw [Finset.sum_eq_single (n + 1)]
   simp only [Nat.add_succ_sub_one, add_zero, mul_one, if_true, eq_self_iff_true]; norm_cast
   · intro b
     cases b
     · intros
-      rw [Nat.cast_zero, mul_zero, zero_mul]
+      rw [Nat.cast_zero]; rw [mul_zero]; rw [zero_mul]
     · intro _ H
-      rw [Nat.succ_sub_one, if_neg (mt (congr_arg Nat.succ) H.symm), mul_zero]
+      rw [Nat.succ_sub_one]; rw [if_neg (mt (congr_arg Nat.succ) H.symm)]; rw [mul_zero]
   · rw [if_pos (add_tsub_cancel_right n 1).symm, mul_one, Nat.cast_add, Nat.cast_one,
       mem_support_iff]
     intro h
@@ -87,7 +87,7 @@ theorem iterate_derivative_zero {k : ℕ} : derivative^[k] (0 : R[X]) = 0 := by
 @[simp]
 theorem derivative_monomial (a : R) (n : ℕ) :
     derivative (monomial n a) = monomial (n - 1) (a * n) := by
-  rw [derivative_apply, sum_monomial_index, C_mul_X_pow_eq_monomial]
+  rw [derivative_apply]; rw [sum_monomial_index]; rw [C_mul_X_pow_eq_monomial]
   simp
 #align polynomial.derivative_monomial Polynomial.derivative_monomial
 
@@ -98,12 +98,12 @@ set_option linter.uppercaseLean3 false in
 
 theorem derivative_C_mul_X_pow (a : R) (n : ℕ) :
     derivative (C a * X ^ n) = C (a * n) * X ^ (n - 1) := by
-  rw [C_mul_X_pow_eq_monomial, C_mul_X_pow_eq_monomial, derivative_monomial]
+  rw [C_mul_X_pow_eq_monomial]; rw [C_mul_X_pow_eq_monomial]; rw [derivative_monomial]
 set_option linter.uppercaseLean3 false in
 #align polynomial.derivative_C_mul_X_pow Polynomial.derivative_C_mul_X_pow
 
 theorem derivative_C_mul_X_sq (a : R) : derivative (C a * X ^ 2) = C (a * 2) * X := by
-  rw [derivative_C_mul_X_pow, Nat.cast_two, pow_one]
+  rw [derivative_C_mul_X_pow]; rw [Nat.cast_two]; rw [pow_one]
 set_option linter.uppercaseLean3 false in
 #align polynomial.derivative_C_mul_X_sq Polynomial.derivative_C_mul_X_sq
 
@@ -115,7 +115,7 @@ set_option linter.uppercaseLean3 false in
 
 --Porting note: removed `simp`: `simp` can prove it.
 theorem derivative_X_sq : derivative (X ^ 2 : R[X]) = C 2 * X := by
-  rw [derivative_X_pow, Nat.cast_two, pow_one]
+  rw [derivative_X_pow]; rw [Nat.cast_two]; rw [pow_one]
 set_option linter.uppercaseLean3 false in
 #align polynomial.derivative_X_sq Polynomial.derivative_X_sq
 
@@ -125,7 +125,7 @@ set_option linter.uppercaseLean3 false in
 #align polynomial.derivative_C Polynomial.derivative_C
 
 theorem derivative_of_natDegree_zero {p : R[X]} (hp : p.natDegree = 0) : derivative p = 0 := by
-  rw [eq_C_of_natDegree_eq_zero hp, derivative_C]
+  rw [eq_C_of_natDegree_eq_zero hp]; rw [derivative_C]
 #align polynomial.derivative_of_nat_degree_zero Polynomial.derivative_of_natDegree_zero
 
 @[simp]
@@ -156,7 +156,7 @@ theorem derivative_add {f g : R[X]} : derivative (f + g) = derivative f + deriva
 
 --Porting note: removed `simp`: `simp` can prove it.
 theorem derivative_X_add_C (c : R) : derivative (X + C c) = 1 := by
-  rw [derivative_add, derivative_X, derivative_C, add_zero]
+  rw [derivative_add]; rw [derivative_X]; rw [derivative_C]; rw [add_zero]
 set_option linter.uppercaseLean3 false in
 #align polynomial.derivative_X_add_C Polynomial.derivative_X_add_C
 
@@ -223,7 +223,7 @@ theorem natDegree_iterate_derivative (p : R[X]) (k : ℕ) :
   induction k with
   | zero => rw [Function.iterate_zero_apply, Nat.sub_zero]
   | succ d hd =>
-      rw [Function.iterate_succ_apply', Nat.sub_succ']
+      rw [Function.iterate_succ_apply']; rw [Nat.sub_succ']
       exact (natDegree_derivative_le _).trans <| Nat.sub_le_sub_right hd 1
 
 @[simp]
@@ -278,9 +278,9 @@ theorem natDegree_eq_zero_of_derivative_eq_zero [NoZeroSMulDivisors ℕ R] {f : 
   have hm : m + 1 = f.natDegree := tsub_add_cancel_of_le f_nat_degree_pos
   have h2 := coeff_derivative f m
   rw [Polynomial.ext_iff] at h
-  rw [h m, coeff_zero, ← Nat.cast_add_one, ← nsmul_eq_mul', eq_comm, smul_eq_zero] at h2
+  rw [h m] at h2; rw [coeff_zero] at h2; rw [← Nat.cast_add_one] at h2; rw [← nsmul_eq_mul'] at h2; rw [eq_comm] at h2; rw [smul_eq_zero] at h2
   replace h2 := h2.resolve_left m.succ_ne_zero
-  rw [hm, ← leadingCoeff, leadingCoeff_eq_zero] at h2
+  rw [hm] at h2; rw [← leadingCoeff] at h2; rw [leadingCoeff_eq_zero] at h2
   exact hf h2
 #align polynomial.nat_degree_eq_zero_of_derivative_eq_zero Polynomial.natDegree_eq_zero_of_derivative_eq_zero
 
@@ -295,7 +295,7 @@ theorem derivative_mul {f g : R[X]} : derivative (f * g) = derivative f * g + f 
   calc
     derivative (f * g) =
         f.sum fun n a => g.sum fun m b => (n + m) • (C (a * b) * X ^ (n + m - 1)) := by
-      rw [mul_eq_sum_sum, derivative_sum]
+      rw [mul_eq_sum_sum]; rw [derivative_sum]
       trans
       · apply Finset.sum_congr rfl
         intro x _
@@ -303,7 +303,7 @@ theorem derivative_mul {f g : R[X]} : derivative (f * g) = derivative f * g + f 
       apply Finset.sum_congr rfl; intro n _; apply Finset.sum_congr rfl; intro m _
       trans
       · exact congr_arg _ C_mul_X_pow_eq_monomial.symm
-      dsimp; rw [← smul_mul_assoc, smul_C, nsmul_eq_mul']; exact derivative_C_mul_X_pow _ _
+      dsimp; rw [← smul_mul_assoc]; rw [smul_C]; rw [nsmul_eq_mul']; exact derivative_C_mul_X_pow _ _
     _ =
         f.sum fun n a =>
           g.sum fun m b =>
@@ -336,12 +336,12 @@ theorem derivative_eval (p : R[X]) (x : R) :
 theorem derivative_map [Semiring S] (p : R[X]) (f : R →+* S) :
     derivative (p.map f) = p.derivative.map f := by
   let n := max p.natDegree (map f p).natDegree
-  rw [derivative_apply, derivative_apply]
+  rw [derivative_apply]; rw [derivative_apply]
   rw [sum_over_range' _ _ (n + 1) ((le_max_left _ _).trans_lt (lt_add_one _))]
   rw [sum_over_range' _ _ (n + 1) ((le_max_right _ _).trans_lt (lt_add_one _))]
   simp only [Polynomial.map_sum, Polynomial.map_mul, Polynomial.map_C, map_mul, coeff_map,
     map_natCast, Polynomial.map_nat_cast, Polynomial.map_pow, map_X]
-  all_goals intro n; rw [zero_mul, C_0, zero_mul]
+  all_goals intro n; rw [zero_mul]; rw [C_0]; rw [zero_mul]
 #align polynomial.derivative_map Polynomial.derivative_map
 
 @[simp]
@@ -367,7 +367,7 @@ theorem mem_support_derivative [NoZeroSMulDivisors ℕ R] (p : R[X]) (n : ℕ) :
     n ∈ (derivative p).support ↔ n + 1 ∈ p.support := by
   suffices ¬p.coeff (n + 1) * (n + 1 : ℕ) = 0 ↔ coeff p (n + 1) ≠ 0 by
     simpa only [mem_support_iff, coeff_derivative, Ne.def, Nat.cast_succ]
-  rw [← nsmul_eq_mul', smul_eq_zero]
+  rw [← nsmul_eq_mul']; rw [smul_eq_zero]
   simp only [Nat.succ_ne_zero, false_or_iff]
 #align polynomial.mem_support_derivative Polynomial.mem_support_derivative
 
@@ -381,10 +381,10 @@ theorem degree_derivative_eq [NoZeroSMulDivisors ℕ R] (p : R[X]) (hp : 0 < nat
     apply le_trans (degree_C_mul_X_pow_le _ _) (WithBot.coe_le_coe.2 (tsub_le_tsub_right _ _))
     apply le_natDegree_of_mem_supp _ hn
   · refine' le_sup _
-    rw [mem_support_derivative, tsub_add_cancel_of_le, mem_support_iff]
+    rw [mem_support_derivative]; rw [tsub_add_cancel_of_le]; rw [mem_support_iff]
     · rw [coeff_natDegree, Ne.def, leadingCoeff_eq_zero]
       intro h
-      rw [h, natDegree_zero] at hp
+      rw [h] at hp; rw [natDegree_zero] at hp
       exact hp.false
     exact hp
 #align polynomial.degree_derivative_eq Polynomial.degree_derivative_eq
@@ -400,11 +400,11 @@ theorem coeff_iterate_derivative {k} (p : R[X]) (m : ℕ) :
       calc
         (derivative^[k + 1] p).coeff m
         _ = Nat.descFactorial (Nat.succ (m + k)) k • p.coeff (m + k.succ) * (m + 1) := by
-          rw [Function.iterate_succ_apply', coeff_derivative, ih m.succ, Nat.succ_add, Nat.add_succ]
+          rw [Function.iterate_succ_apply']; rw [coeff_derivative]; rw [ih m.succ]; rw [Nat.succ_add]; rw [Nat.add_succ]
         _ = ((m + 1) * Nat.descFactorial (Nat.succ (m + k)) k) • p.coeff (m + k.succ) := by
-          rw [← Nat.cast_add_one, ← nsmul_eq_mul', smul_smul]
+          rw [← Nat.cast_add_one]; rw [← nsmul_eq_mul']; rw [smul_smul]
         _ = Nat.descFactorial (m.succ + k) k.succ • p.coeff (m + k.succ) := by
-          rw [← Nat.succ_add, Nat.descFactorial_succ, add_tsub_cancel_right]
+          rw [← Nat.succ_add]; rw [Nat.descFactorial_succ]; rw [add_tsub_cancel_right]
         _ = Nat.descFactorial (m + k.succ) k.succ • p.coeff (m + k.succ) := by
           rw [Nat.succ_add_eq_succ_add]
 
@@ -447,7 +447,7 @@ theorem iterate_derivative_mul {n} (p q : R[X]) :
     refine' sum_congr rfl fun k hk => _
     rw [mem_range] at hk
     congr
-    rw [tsub_add_eq_add_tsub (Nat.succ_le_of_lt hk), Nat.succ_sub_succ]
+    rw [tsub_add_eq_add_tsub (Nat.succ_le_of_lt hk)]; rw [Nat.succ_sub_succ]
   · rw [Nat.choose_zero_right, tsub_zero]
 #align polynomial.iterate_derivative_mul Polynomial.iterate_derivative_mul
 
@@ -460,8 +460,7 @@ variable [CommSemiring R]
 theorem derivative_pow_succ (p : R[X]) (n : ℕ) :
     derivative (p ^ (n + 1)) = C (n + 1 : R) * p ^ n * derivative p :=
   Nat.recOn n (by simp) fun n ih => by
-    rw [pow_succ', derivative_mul, ih, Nat.add_one, mul_right_comm, C_add,
-      add_mul, add_mul, pow_succ', ← mul_assoc, C_1, one_mul]; simp [add_mul]
+    rw [pow_succ']; rw [derivative_mul]; rw [ih]; rw [Nat.add_one]; rw [mul_right_comm]; rw [C_add]; rw [add_mul]; rw [add_mul]; rw [pow_succ']; rw [← mul_assoc]; rw [C_1]; rw [one_mul]; simp [add_mul]
 #align polynomial.derivative_pow_succ Polynomial.derivative_pow_succ
 
 theorem derivative_pow (p : R[X]) (n : ℕ) :
@@ -471,14 +470,13 @@ theorem derivative_pow (p : R[X]) (n : ℕ) :
 #align polynomial.derivative_pow Polynomial.derivative_pow
 
 theorem derivative_sq (p : R[X]) : derivative (p ^ 2) = C 2 * p * derivative p := by
-  rw [derivative_pow_succ, Nat.cast_one, one_add_one_eq_two, pow_one]
+  rw [derivative_pow_succ]; rw [Nat.cast_one]; rw [one_add_one_eq_two]; rw [pow_one]
 #align polynomial.derivative_sq Polynomial.derivative_sq
 
 theorem dvd_iterate_derivative_pow (f : R[X]) (n : ℕ) {m : ℕ} (c : R) (hm : m ≠ 0) :
     (n : R) ∣ eval c (derivative^[m] (f ^ n)) := by
   obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hm
-  rw [Function.iterate_succ_apply, derivative_pow, mul_assoc, C_eq_nat_cast,
-    iterate_derivative_nat_cast_mul, eval_mul, eval_nat_cast]
+  rw [Function.iterate_succ_apply]; rw [derivative_pow]; rw [mul_assoc]; rw [C_eq_nat_cast]; rw [iterate_derivative_nat_cast_mul]; rw [eval_mul]; rw [eval_nat_cast]
   exact dvd_mul_right _ _
 #align polynomial.dvd_iterate_derivative_pow Polynomial.dvd_iterate_derivative_pow
 
@@ -494,24 +492,24 @@ set_option linter.uppercaseLean3 false in
 
 theorem iterate_derivative_X_pow_eq_C_mul (n k : ℕ) :
     derivative^[k] (X ^ n : R[X]) = C (Nat.descFactorial n k : R) * X ^ (n - k) := by
-  rw [iterate_derivative_X_pow_eq_nat_cast_mul n k, C_eq_nat_cast]
+  rw [iterate_derivative_X_pow_eq_nat_cast_mul n k]; rw [C_eq_nat_cast]
 set_option linter.uppercaseLean3 false in
 #align polynomial.iterate_derivative_X_pow_eq_C_mul Polynomial.iterate_derivative_X_pow_eq_C_mul
 
 theorem iterate_derivative_X_pow_eq_smul (n : ℕ) (k : ℕ) :
     derivative^[k] (X ^ n : R[X]) = (Nat.descFactorial n k : R) • X ^ (n - k) := by
-  rw [iterate_derivative_X_pow_eq_C_mul n k, smul_eq_C_mul]
+  rw [iterate_derivative_X_pow_eq_C_mul n k]; rw [smul_eq_C_mul]
 set_option linter.uppercaseLean3 false in
 #align polynomial.iterate_derivative_X_pow_eq_smul Polynomial.iterate_derivative_X_pow_eq_smul
 
 theorem derivative_X_add_C_pow (c : R) (m : ℕ) :
     derivative ((X + C c) ^ m) = C (m : R) * (X + C c) ^ (m - 1) := by
-  rw [derivative_pow, derivative_X_add_C, mul_one]
+  rw [derivative_pow]; rw [derivative_X_add_C]; rw [mul_one]
 set_option linter.uppercaseLean3 false in
 #align polynomial.derivative_X_add_C_pow Polynomial.derivative_X_add_C_pow
 
 theorem derivative_X_add_C_sq (c : R) : derivative ((X + C c) ^ 2) = C 2 * (X + C c) := by
-  rw [derivative_sq, derivative_X_add_C, mul_one]
+  rw [derivative_sq]; rw [derivative_X_add_C]; rw [mul_one]
 set_option linter.uppercaseLean3 false in
 #align polynomial.derivative_X_add_C_sq Polynomial.derivative_X_add_C_sq
 
@@ -520,9 +518,7 @@ theorem iterate_derivative_X_add_pow (n k : ℕ) (c : R) :
   induction k with
   | zero => simp
   | succ k IH =>
-      rw [Nat.sub_succ', Function.iterate_succ_apply', IH, derivative_smul,
-        derivative_X_add_C_pow, map_natCast, Nat.descFactorial_succ, nsmul_eq_mul, nsmul_eq_mul,
-        Nat.cast_mul]
+      rw [Nat.sub_succ']; rw [Function.iterate_succ_apply']; rw [IH]; rw [derivative_smul]; rw [derivative_X_add_C_pow]; rw [map_natCast]; rw [Nat.descFactorial_succ]; rw [nsmul_eq_mul]; rw [nsmul_eq_mul]; rw [Nat.cast_mul]
       ring
 set_option linter.uppercaseLean3 false in
 #align polynomial.iterate_derivative_X_add_pow Polynomial.iterate_derivative_X_add_powₓ
@@ -541,10 +537,9 @@ theorem derivative_eval₂_C (p q : R[X]) :
     derivative (p.eval₂ C q) = p.derivative.eval₂ C q * derivative q :=
   Polynomial.induction_on p (fun r => by rw [eval₂_C, derivative_C, eval₂_zero, zero_mul])
     (fun p₁ p₂ ih₁ ih₂ => by
-      rw [eval₂_add, derivative_add, ih₁, ih₂, derivative_add, eval₂_add, add_mul])
+      rw [eval₂_add]; rw [derivative_add]; rw [ih₁]; rw [ih₂]; rw [derivative_add]; rw [eval₂_add]; rw [add_mul])
     fun n r ih => by
-    rw [pow_succ', ← mul_assoc, eval₂_mul, eval₂_X, derivative_mul, ih, @derivative_mul _ _ _ X,
-      derivative_X, mul_one, eval₂_add, @eval₂_mul _ _ _ _ X, eval₂_X, add_mul, mul_right_comm]
+    rw [pow_succ']; rw [← mul_assoc]; rw [eval₂_mul]; rw [eval₂_X]; rw [derivative_mul]; rw [ih]; rw [@derivative_mul _ _ _ X]; rw [derivative_X]; rw [mul_one]; rw [eval₂_add]; rw [@eval₂_mul _ _ _ _ X]; rw [eval₂_X]; rw [add_mul]; rw [mul_right_comm]
 set_option linter.uppercaseLean3 false in
 #align polynomial.derivative_eval₂_C Polynomial.derivative_eval₂_C
 
@@ -552,14 +547,12 @@ theorem derivative_prod {s : Multiset ι} {f : ι → R[X]} :
     derivative (Multiset.map f s).prod =
       (Multiset.map (fun i => (Multiset.map f (s.erase i)).prod * derivative (f i)) s).sum := by
   refine' Multiset.induction_on s (by simp) fun i s h => _
-  rw [Multiset.map_cons, Multiset.prod_cons, derivative_mul, Multiset.map_cons _ i s,
-    Multiset.sum_cons, Multiset.erase_cons_head, mul_comm (derivative (f i))]
+  rw [Multiset.map_cons]; rw [Multiset.prod_cons]; rw [derivative_mul]; rw [Multiset.map_cons _ i s]; rw [Multiset.sum_cons]; rw [Multiset.erase_cons_head]; rw [mul_comm (derivative (f i))]
   congr
-  rw [h, ← AddMonoidHom.coe_mulLeft, (AddMonoidHom.mulLeft (f i)).map_multiset_sum _,
-    AddMonoidHom.coe_mulLeft]
+  rw [h]; rw [← AddMonoidHom.coe_mulLeft]; rw [(AddMonoidHom.mulLeft (f i)).map_multiset_sum _]; rw [AddMonoidHom.coe_mulLeft]
   simp only [Function.comp_apply, Multiset.map_map]
   refine' congr_arg _ (Multiset.map_congr rfl fun j hj => _)
-  rw [← mul_assoc, ← Multiset.prod_cons, ← Multiset.map_cons]
+  rw [← mul_assoc]; rw [← Multiset.prod_cons]; rw [← Multiset.map_cons]
   by_cases hij : i = j
   · simp [hij, ← Multiset.prod_cons, ← Multiset.map_cons, Multiset.cons_erase hj]
   · simp [hij]
@@ -588,7 +581,7 @@ theorem derivative_sub {f g : R[X]} : derivative (f - g) = derivative f - deriva
 
 --Porting note: removed `simp`: `simp` can prove it.
 theorem derivative_X_sub_C (c : R) : derivative (X - C c) = 1 := by
-  rw [derivative_sub, derivative_X, derivative_C, sub_zero]
+  rw [derivative_sub]; rw [derivative_X]; rw [derivative_C]; rw [sub_zero]
 set_option linter.uppercaseLean3 false in
 #align polynomial.derivative_X_sub_C Polynomial.derivative_X_sub_C
 
@@ -646,18 +639,18 @@ set_option linter.uppercaseLean3 false in
 
 theorem derivative_X_sub_C_pow (c : R) (m : ℕ) :
     derivative ((X - C c) ^ m) = C (m : R) * (X - C c) ^ (m - 1) := by
-  rw [derivative_pow, derivative_X_sub_C, mul_one]
+  rw [derivative_pow]; rw [derivative_X_sub_C]; rw [mul_one]
 set_option linter.uppercaseLean3 false in
 #align polynomial.derivative_X_sub_C_pow Polynomial.derivative_X_sub_C_pow
 
 theorem derivative_X_sub_C_sq (c : R) : derivative ((X - C c) ^ 2) = C 2 * (X - C c) := by
-  rw [derivative_sq, derivative_X_sub_C, mul_one]
+  rw [derivative_sq]; rw [derivative_X_sub_C]; rw [mul_one]
 set_option linter.uppercaseLean3 false in
 #align polynomial.derivative_X_sub_C_sq Polynomial.derivative_X_sub_C_sq
 
 theorem iterate_derivative_X_sub_pow (n k : ℕ) (c : R) :
     (derivative^[k]) ((X - C c) ^ n : R[X]) = n.descFactorial k • (X - C c) ^ (n - k) := by
-  rw [sub_eq_add_neg, ← C_neg, iterate_derivative_X_add_pow]
+  rw [sub_eq_add_neg]; rw [← C_neg]; rw [iterate_derivative_X_add_pow]
 set_option linter.uppercaseLean3 false in
 #align polynomial.iterate_derivative_X_sub_pow Polynomial.iterate_derivative_X_sub_powₓ
 

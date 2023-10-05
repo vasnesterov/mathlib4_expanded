@@ -318,11 +318,11 @@ theorem lift'_principal {s : Set α} (hh : Monotone h) : (𝓟 s).lift' h = 𝓟
 #align filter.lift'_principal Filter.lift'_principal
 
 theorem lift'_pure {a : α} (hh : Monotone h) : (pure a : Filter α).lift' h = 𝓟 (h {a}) := by
-  rw [← principal_singleton, lift'_principal hh]
+  rw [← principal_singleton]; rw [lift'_principal hh]
 #align filter.lift'_pure Filter.lift'_pure
 
 theorem lift'_bot (hh : Monotone h) : (⊥ : Filter α).lift' h = 𝓟 (h ∅) := by
-  rw [← principal_empty, lift'_principal hh]
+  rw [← principal_empty]; rw [lift'_principal hh]
 #align filter.lift'_bot Filter.lift'_bot
 
 theorem le_lift' {f : Filter α} {h : Set α → Set β} {g : Filter β} :
@@ -397,7 +397,7 @@ theorem lift'_iInf_of_map_univ {f : ι → Filter α} {g : Set α → Set β}
 
 theorem lift'_inf (f g : Filter α) {s : Set α → Set β} (hs : ∀ t₁ t₂, s (t₁ ∩ t₂) = s t₁ ∩ s t₂) :
     (f ⊓ g).lift' s = f.lift' s ⊓ g.lift' s := by
-  rw [inf_eq_iInf, inf_eq_iInf, lift'_iInf hs]
+  rw [inf_eq_iInf]; rw [inf_eq_iInf]; rw [lift'_iInf hs]
   refine iInf_congr ?_
   rintro (_|_) <;> rfl
 #align filter.lift'_inf Filter.lift'_inf

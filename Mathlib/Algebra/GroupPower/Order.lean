@@ -41,7 +41,7 @@ theorem pow_le_pow_of_le_left' [CovariantClass M M (swap (· * ·)) (· ≤ ·)]
     ∀ i : ℕ, a ^ i ≤ b ^ i
   | 0 => by simp
   | k + 1 => by
-    rw [pow_succ, pow_succ]
+    rw [pow_succ]; rw [pow_succ]
     exact mul_le_mul' hab (pow_le_pow_of_le_left' hab k)
 #align pow_le_pow_of_le_left' pow_le_pow_of_le_left'
 #align nsmul_le_nsmul_of_le_right nsmul_le_nsmul_of_le_right
@@ -97,7 +97,7 @@ theorem pow_lt_one' {a : M} (ha : a < 1) {k : ℕ} (hk : k ≠ 0) : a ^ k < 1 :=
 theorem pow_lt_pow' [CovariantClass M M (· * ·) (· < ·)] {a : M} {n m : ℕ} (ha : 1 < a)
     (h : n < m) : a ^ n < a ^ m := by
   rcases Nat.le.dest h with ⟨k, rfl⟩; clear h
-  rw [pow_add, pow_succ', mul_assoc, ← pow_succ]
+  rw [pow_add]; rw [pow_succ']; rw [mul_assoc]; rw [← pow_succ]
   exact lt_mul_of_one_lt_right' _ (one_lt_pow' ha k.succ_ne_zero)
 #align pow_lt_pow' pow_lt_pow'
 #align nsmul_lt_nsmul nsmul_lt_nsmul
@@ -257,7 +257,7 @@ theorem pow_lt_one_iff {x : M} {n : ℕ} (hn : n ≠ 0) : x ^ n < 1 ↔ x < 1 :=
 @[to_additive]
 theorem pow_eq_one_iff {x : M} {n : ℕ} (hn : n ≠ 0) : x ^ n = 1 ↔ x = 1 := by
   simp only [le_antisymm_iff]
-  rw [pow_le_one_iff hn, one_le_pow_iff hn]
+  rw [pow_le_one_iff hn]; rw [one_le_pow_iff hn]
 #align pow_eq_one_iff pow_eq_one_iff
 #align nsmul_eq_zero_iff nsmul_eq_zero_iff
 
@@ -397,7 +397,7 @@ theorem pow_add_pow_le (hx : 0 ≤ x) (hy : 0 ≤ y) (hn : n ≠ 0) : x ^ n + y 
     have h2 := add_nonneg hx hy
     calc
       x ^ n.succ + y ^ n.succ ≤ x * x ^ n + y * y ^ n + (x * y ^ n + y * x ^ n) := by
-        rw [pow_succ _ n, pow_succ _ n]
+        rw [pow_succ _ n]; rw [pow_succ _ n]
         exact le_add_of_nonneg_right h1
       _ = (x + y) * (x ^ n + y ^ n) := by
         rw [add_mul, mul_add, mul_add, add_comm (y * x ^ n), ← add_assoc, ← add_assoc,
@@ -447,7 +447,7 @@ theorem pow_le_pow_of_le_left {a b : R} (ha : 0 ≤ a) (hab : a ≤ b) : ∀ i :
   induction i with
   | zero => simp
   | succ k ih =>
-    rw [pow_succ, pow_succ]
+    rw [pow_succ]; rw [pow_succ]
     apply mul_le_mul hab
     apply ih
     apply pow_nonneg ha
@@ -538,7 +538,7 @@ theorem pow_bit0_pos_of_neg (ha : a < 0) (n : ℕ) : 0 < a ^ bit0 n := by
 #align pow_bit0_pos_of_neg pow_bit0_pos_of_neg
 
 theorem pow_bit1_neg (ha : a < 0) (n : ℕ) : a ^ bit1 n < 0 := by
-  rw [bit1, pow_succ]
+  rw [bit1]; rw [pow_succ]
   exact mul_neg_of_neg_of_pos ha (pow_bit0_pos_of_neg ha n)
 #align pow_bit1_neg pow_bit1_neg
 
@@ -554,13 +554,13 @@ variable [LinearOrderedSemiring R] {a b : R}
 
 theorem pow_le_one_iff_of_nonneg {a : R} (ha : 0 ≤ a) {n : ℕ} (hn : n ≠ 0) : a ^ n ≤ 1 ↔ a ≤ 1 := by
   refine' ⟨_, pow_le_one n ha⟩
-  rw [← not_lt, ← not_lt]
+  rw [← not_lt]; rw [← not_lt]
   exact mt fun h => one_lt_pow h hn
 #align pow_le_one_iff_of_nonneg pow_le_one_iff_of_nonneg
 
 theorem one_le_pow_iff_of_nonneg {a : R} (ha : 0 ≤ a) {n : ℕ} (hn : n ≠ 0) : 1 ≤ a ^ n ↔ 1 ≤ a := by
   refine' ⟨_, fun h => one_le_pow_of_one_le h n⟩
-  rw [← not_lt, ← not_lt]
+  rw [← not_lt]; rw [← not_lt]
   exact mt fun h => pow_lt_one ha h hn
 #align one_le_pow_iff_of_nonneg one_le_pow_iff_of_nonneg
 

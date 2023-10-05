@@ -54,7 +54,7 @@ example : (x : let ty := Nat; ty) → let y := (1 : Nat); Fin (y + Nat.succ x) :
   lift_lets
   guard_target =ₛ let ty := Nat; let y := 1; (x : ty) → Fin (y + Nat.succ x)
   intro ty y x
-  rw [Nat.add_succ, Nat.succ_eq_add_one]
+  rw [Nat.add_succ]; rw [Nat.succ_eq_add_one]
   exact 0
 
 example : (x : Nat) → (y : Nat) → let z := x + 1; let w := 3; Fin (z + w) := by

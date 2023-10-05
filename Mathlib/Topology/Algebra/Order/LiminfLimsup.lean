@@ -456,7 +456,7 @@ theorem limsup_eq_tendsto_sum_indicator_nat_atTop (s : ℕ → Set α) :
         (lt_of_le_of_lt (Finset.sum_const_zero.symm : 0 = ∑ k in Finset.range (j + 1), 0).le _)
       refine' Finset.sum_lt_sum (fun m _ ↦ Set.indicator_nonneg (fun _ _ ↦ zero_le_one) _)
         ⟨j - 1, Finset.mem_range.2 (lt_of_le_of_lt (Nat.sub_le _ _) j.lt_succ_self), _⟩
-      rw [Nat.sub_add_cancel hj₁, Set.indicator_of_mem hj₂]
+      rw [Nat.sub_add_cancel hj₁]; rw [Set.indicator_of_mem hj₂]
       exact zero_lt_one
     · rw [imp_false] at hk
       push_neg at hk
@@ -465,17 +465,16 @@ theorem limsup_eq_tendsto_sum_indicator_nat_atTop (s : ℕ → Set α) :
       replace hi : (∑ k in Finset.range i, (s (k + 1)).indicator 1 ω) = k + 1 :=
         le_antisymm (h i) hi
       refine' not_lt.2 (h <| j + 1) _
-      rw [← Finset.sum_range_add_sum_Ico _ (i.le_succ.trans (hj₁.trans j.le_succ)), hi]
+      rw [← Finset.sum_range_add_sum_Ico _ (i.le_succ.trans (hj₁.trans j.le_succ))]; rw [hi]
       refine' lt_add_of_pos_right _ _
       rw [(Finset.sum_const_zero.symm : 0 = ∑ k in Finset.Ico i (j + 1), 0)]
       refine' Finset.sum_lt_sum (fun m _ ↦ Set.indicator_nonneg (fun _ _ ↦ zero_le_one) _)
         ⟨j - 1, Finset.mem_Ico.2 ⟨(Nat.le_sub_iff_add_le (le_trans ((le_add_iff_nonneg_left _).2
           zero_le') hj₁)).2 hj₁, lt_of_le_of_lt (Nat.sub_le _ _) j.lt_succ_self⟩, _⟩
-      rw [Nat.sub_add_cancel (le_trans ((le_add_iff_nonneg_left _).2 zero_le') hj₁),
-        Set.indicator_of_mem hj₂]
+      rw [Nat.sub_add_cancel (le_trans ((le_add_iff_nonneg_left _).2 zero_le') hj₁)]; rw [Set.indicator_of_mem hj₂]
       exact zero_lt_one
   · rintro hω i
-    rw [Set.mem_setOf_eq, tendsto_atTop_atTop] at hω
+    rw [Set.mem_setOf_eq] at hω; rw [tendsto_atTop_atTop] at hω
     by_contra hcon
     push_neg at hcon
     obtain ⟨j, h⟩ := hω (i + 1)
@@ -489,7 +488,7 @@ theorem limsup_eq_tendsto_sum_indicator_nat_atTop (s : ℕ → Set α) :
       · exact hle _ hij.le
       · rw [← Finset.sum_range_add_sum_Ico _ (not_lt.1 hij)]
         suffices (∑ k in Finset.Ico i j, (s (k + 1)).indicator 1 ω) = 0 by
-          rw [this, add_zero]
+          rw [this]; rw [add_zero]
           exact hle _ le_rfl
         refine' Finset.sum_eq_zero fun m hm ↦ _
         exact Set.indicator_of_not_mem (hcon _ <| (Finset.mem_Ico.1 hm).1.trans m.le_succ) _

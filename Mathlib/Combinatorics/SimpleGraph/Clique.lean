@@ -120,7 +120,7 @@ theorem IsNClique.mono (h : G ≤ H) : G.IsNClique n s → H.IsNClique n s := by
 
 @[simp]
 theorem isNClique_bot_iff : (⊥ : SimpleGraph α).IsNClique n s ↔ n ≤ 1 ∧ s.card = n := by
-  rw [isNClique_iff, isClique_bot_iff]
+  rw [isNClique_iff]; rw [isClique_bot_iff]
   refine' and_congr_left _
   rintro rfl
   exact card_le_one.symm
@@ -195,7 +195,7 @@ theorem not_cliqueFree_iff (n : ℕ) : ¬G.CliqueFree n ↔ Nonempty ((⊤ : Sim
 #align simple_graph.not_clique_free_iff SimpleGraph.not_cliqueFree_iff
 
 theorem cliqueFree_iff {n : ℕ} : G.CliqueFree n ↔ IsEmpty ((⊤ : SimpleGraph (Fin n)) ↪g G) := by
-  rw [← not_iff_not, not_cliqueFree_iff, not_isEmpty_iff]
+  rw [← not_iff_not]; rw [not_cliqueFree_iff]; rw [not_isEmpty_iff]
 #align simple_graph.clique_free_iff SimpleGraph.cliqueFree_iff
 
 theorem not_cliqueFree_card_of_top_embedding [Fintype α] (f : (⊤ : SimpleGraph α) ↪g G) :
@@ -224,17 +224,17 @@ theorem CliqueFree.anti (h : G ≤ H) : H.CliqueFree n → G.CliqueFree n :=
 theorem cliqueFree_of_card_lt [Fintype α] (hc : card α < n) : G.CliqueFree n := by
   by_contra h
   refine' Nat.lt_le_antisymm hc _
-  rw [cliqueFree_iff, not_isEmpty_iff] at h
+  rw [cliqueFree_iff] at h; rw [not_isEmpty_iff] at h
   simpa only [Fintype.card_fin] using Fintype.card_le_of_embedding h.some.toEmbedding
 #align simple_graph.clique_free_of_card_lt SimpleGraph.cliqueFree_of_card_lt
 
 /-- A complete `r`-partite graph has no `n`-cliques for `r < n`. -/
 theorem cliqueFree_completeMultipartiteGraph {ι : Type*} [Fintype ι] (V : ι → Type*)
     (hc : card ι < n) : (completeMultipartiteGraph V).CliqueFree n := by
-  rw [cliqueFree_iff, isEmpty_iff]
+  rw [cliqueFree_iff]; rw [isEmpty_iff]
   intro f
   obtain ⟨v, w, hn, he⟩ := exists_ne_map_eq_of_card_lt (Sigma.fst ∘ f) (by simp [hc])
-  rw [← top_adj, ← f.map_adj_iff, comap_Adj, top_adj] at hn
+  rw [← top_adj] at hn; rw [← f.map_adj_iff] at hn; rw [comap_Adj] at hn; rw [top_adj] at hn
   exact absurd he hn
 
 end CliqueFree

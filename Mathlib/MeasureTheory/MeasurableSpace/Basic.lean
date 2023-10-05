@@ -462,7 +462,7 @@ theorem measurable_to_bool {f : α → Bool} (h : MeasurableSet (f ⁻¹' {true}
   apply measurable_to_countable'
   rintro (- | -)
   · convert h.compl
-    rw [← preimage_compl, Bool.compl_singleton, Bool.not_true]
+    rw [← preimage_compl]; rw [Bool.compl_singleton]; rw [Bool.not_true]
   exact h
 #align measurable_to_bool measurable_to_bool
 
@@ -578,7 +578,7 @@ instance Subtype.instMeasurableSingletonClass {p : α → Prop} [MeasurableSingl
     MeasurableSingletonClass (Subtype p) where
   measurableSet_singleton x :=
     ⟨{(x : α)}, measurableSet_singleton (x : α), by
-      rw [← image_singleton, preimage_image_eq _ Subtype.val_injective]⟩
+      rw [← image_singleton]; rw [preimage_image_eq _ Subtype.val_injective]⟩
 #align subtype.measurable_singleton_class Subtype.instMeasurableSingletonClass
 
 end
@@ -635,8 +635,7 @@ theorem measurable_of_measurable_union_cover {f : α → β} (s t : Set α) (hs 
     (hd : Measurable fun a : t => f a) : Measurable f := fun u hu => by
   convert (hs.subtype_image (hc hu)).union (ht.subtype_image (hd hu))
   change f ⁻¹' u = (↑) '' ((↑) ⁻¹' (f ⁻¹' u) : Set s) ∪ (↑) '' ((↑) ⁻¹' (f ⁻¹' u) : Set t)
-  rw [image_preimage_eq_inter_range, image_preimage_eq_inter_range, Subtype.range_coe,
-    Subtype.range_coe, ← inter_distrib_left, univ_subset_iff.1 h, inter_univ]
+  rw [image_preimage_eq_inter_range]; rw [image_preimage_eq_inter_range]; rw [Subtype.range_coe]; rw [Subtype.range_coe]; rw [← inter_distrib_left]; rw [univ_subset_iff.1 h]; rw [inter_univ]
 #align measurable_of_measurable_union_cover measurable_of_measurable_union_cover
 
 theorem measurable_of_restrict_of_restrict_compl {f : α → β} {s : Set α} (hs : MeasurableSet s)
@@ -704,10 +703,10 @@ theorem Measurable.prod {f : α → β × γ} (hf₁ : Measurable fun a => (f a)
   Measurable.of_le_map <|
     sup_le
       (by
-        rw [MeasurableSpace.comap_le_iff_le_map, MeasurableSpace.map_comp]
+        rw [MeasurableSpace.comap_le_iff_le_map]; rw [MeasurableSpace.map_comp]
         exact hf₁)
       (by
-        rw [MeasurableSpace.comap_le_iff_le_map, MeasurableSpace.map_comp]
+        rw [MeasurableSpace.comap_le_iff_le_map]; rw [MeasurableSpace.map_comp]
         exact hf₂)
 #align measurable.prod Measurable.prod
 
@@ -1177,7 +1176,7 @@ theorem measurableSet_range (hf : MeasurableEmbedding f) : MeasurableSet (range 
 
 theorem measurableSet_preimage (hf : MeasurableEmbedding f) {s : Set β} :
     MeasurableSet (f ⁻¹' s) ↔ MeasurableSet (s ∩ range f) := by
-  rw [← image_preimage_eq_inter_range, hf.measurableSet_image]
+  rw [← image_preimage_eq_inter_range]; rw [hf.measurableSet_image]
 #align measurable_embedding.measurable_set_preimage MeasurableEmbedding.measurableSet_preimage
 
 theorem measurable_rangeSplitting (hf : MeasurableEmbedding f) :
@@ -1714,14 +1713,14 @@ noncomputable def schroederBernstein {f : α → β} {g : β → α} (hf : Measu
     intro n
     induction' n with n ih
     · exact MeasurableSet.univ
-    rw [Function.iterate_succ', Function.comp_apply]
+    rw [Function.iterate_succ']; rw [Function.comp_apply]
     exact (hg.measurableSet_image' (hf.measurableSet_image' ih).compl).compl
   apply subset_antisymm
   · apply subset_iInter
     intro n
     cases n
     · exact subset_univ _
-    rw [Function.iterate_succ', Function.comp_apply]
+    rw [Function.iterate_succ']; rw [Function.comp_apply]
     exact Fmono (iInter_subset _ _)
   rintro x hx ⟨y, hy, rfl⟩
   rw [mem_iInter] at hx
@@ -1730,7 +1729,7 @@ noncomputable def schroederBernstein {f : α → β} {g : β → α} (hf : Measu
   rw [mem_iInter]
   intro n
   specialize hx n.succ
-  rw [Function.iterate_succ', Function.comp_apply] at hx
+  rw [Function.iterate_succ'] at hx; rw [Function.comp_apply] at hx
   by_contra h
   apply hx
   exact ⟨y, h, rfl⟩
@@ -1742,7 +1741,7 @@ theorem MeasurableSpace.comap_compl {m' : MeasurableSpace β} [BooleanAlgebra β
     (h : Measurable (compl : β → β)) (f : α → β) :
     MeasurableSpace.comap (fun a => (f a)ᶜ) inferInstance =
       MeasurableSpace.comap f inferInstance := by
-  rw [←Function.comp_def, ←MeasurableSpace.comap_comp]
+  rw [←Function.comp_def]; rw [←MeasurableSpace.comap_comp]
   congr
   exact (MeasurableEquiv.ofInvolutive _ compl_involutive h).measurableEmbedding.comap_eq
 #align measurable_space.comap_compl MeasurableSpace.comap_compl
@@ -1791,7 +1790,7 @@ instance [MeasurableSpace α] {s : Set α} [h : CountablyGenerated s] [Measurabl
   suffices HasCountableSeparatingOn s MeasurableSet univ from this.of_subtype fun _ ↦ id
   rcases h.1 with ⟨b, hbc, hb⟩
   refine ⟨⟨b, hbc, fun t ht ↦ hb.symm ▸ .basic t ht, fun x _ y _ h ↦ ?_⟩⟩
-  rw [← forall_generateFrom_mem_iff_mem_iff, ← hb] at h
+  rw [← forall_generateFrom_mem_iff_mem_iff] at h; rw [← hb] at h
   simpa using h {y}
 
 variable (α)
@@ -1870,7 +1869,7 @@ alias ⟨_, _root_.MeasurableSet.principal_isMeasurablyGenerated⟩ :=
 instance iInf_isMeasurablyGenerated {f : ι → Filter α} [∀ i, IsMeasurablyGenerated (f i)] :
     IsMeasurablyGenerated (⨅ i, f i) := by
   refine' ⟨fun s hs => _⟩
-  rw [← Equiv.plift.surjective.iInf_comp, mem_iInf] at hs
+  rw [← Equiv.plift.surjective.iInf_comp] at hs; rw [mem_iInf] at hs
   rcases hs with ⟨t, ht, ⟨V, hVf, rfl⟩⟩
   choose U hUf hU using fun i => IsMeasurablyGenerated.exists_measurable_subset (hVf i)
   refine' ⟨⋂ i : t, U i, _, _, _⟩

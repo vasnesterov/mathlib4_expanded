@@ -66,8 +66,8 @@ theorem rotation_ne_conjLie (a : circle) : rotation a ≠ conjLie := by
   intro h
   have h1 : rotation a 1 = conj 1 := LinearIsometryEquiv.congr_fun h 1
   have hI : rotation a I = conj I := LinearIsometryEquiv.congr_fun h I
-  rw [rotation_apply, RingHom.map_one, mul_one] at h1
-  rw [rotation_apply, conj_I, ← neg_one_mul, mul_left_inj' I_ne_zero, h1, eq_neg_self_iff] at hI
+  rw [rotation_apply] at h1; rw [RingHom.map_one] at h1; rw [mul_one] at h1
+  rw [rotation_apply] at hI; rw [conj_I] at hI; rw [← neg_one_mul] at hI; rw [mul_left_inj' I_ne_zero] at hI; rw [h1] at hI; rw [eq_neg_self_iff] at hI
   exact one_ne_zero hI
 #align rotation_ne_conj_lie rotation_ne_conjLie
 
@@ -106,14 +106,14 @@ theorem LinearIsometry.im_apply_eq_im {f : ℂ →ₗᵢ[ℝ] ℂ} (h : f 1 = 1)
   have : ‖f z - 1‖ = ‖z - 1‖ := by rw [← f.norm_map (z - 1), f.map_sub, h]
   apply_fun fun x => x ^ 2 at this
   simp only [norm_eq_abs, ← normSq_eq_abs] at this
-  rw [← ofReal_inj, ← mul_conj, ← mul_conj] at this
-  rw [RingHom.map_sub, RingHom.map_sub] at this
+  rw [← ofReal_inj] at this; rw [← mul_conj] at this; rw [← mul_conj] at this
+  rw [RingHom.map_sub] at this; rw [RingHom.map_sub] at this
   simp only [sub_mul, mul_sub, one_mul, mul_one] at this
-  rw [mul_conj, normSq_eq_abs, ← norm_eq_abs, LinearIsometry.norm_map] at this
-  rw [mul_conj, normSq_eq_abs, ← norm_eq_abs] at this
+  rw [mul_conj] at this; rw [normSq_eq_abs] at this; rw [← norm_eq_abs] at this; rw [LinearIsometry.norm_map] at this
+  rw [mul_conj] at this; rw [normSq_eq_abs] at this; rw [← norm_eq_abs] at this
   simp only [sub_sub, sub_right_inj, mul_one, ofReal_pow, RingHom.map_one, norm_eq_abs] at this
   simp only [add_sub, sub_left_inj] at this
-  rw [add_comm, ← this, add_comm]
+  rw [add_comm]; rw [← this]; rw [add_comm]
 #align linear_isometry.im_apply_eq_im LinearIsometry.im_apply_eq_im
 
 theorem LinearIsometry.re_apply_eq_re {f : ℂ →ₗᵢ[ℝ] ℂ} (h : f 1 = 1) (z : ℂ) : (f z).re = z.re := by
@@ -162,12 +162,12 @@ theorem toMatrix_rotation (a : circle) :
 /-- The determinant of `rotation` (as a linear map) is equal to `1`. -/
 @[simp]
 theorem det_rotation (a : circle) : LinearMap.det ((rotation a).toLinearEquiv : ℂ →ₗ[ℝ] ℂ) = 1 := by
-  rw [← LinearMap.det_toMatrix basisOneI, toMatrix_rotation, Matrix.det_fin_two]
+  rw [← LinearMap.det_toMatrix basisOneI]; rw [toMatrix_rotation]; rw [Matrix.det_fin_two]
   simp [← normSq_apply]
 #align det_rotation det_rotation
 
 /-- The determinant of `rotation` (as a linear equiv) is equal to `1`. -/
 @[simp]
 theorem linearEquiv_det_rotation (a : circle) : LinearEquiv.det (rotation a).toLinearEquiv = 1 := by
-  rw [← Units.eq_iff, LinearEquiv.coe_det, det_rotation, Units.val_one]
+  rw [← Units.eq_iff]; rw [LinearEquiv.coe_det]; rw [det_rotation]; rw [Units.val_one]
 #align linear_equiv_det_rotation linearEquiv_det_rotation

@@ -371,7 +371,7 @@ theorem other_mem {a : α} {z : Sym2 α} (h : a ∈ z) : Mem.other h ∈ z := by
 theorem mem_and_mem_iff {x y : α} {z : Sym2 α} (hne : x ≠ y) : x ∈ z ∧ y ∈ z ↔ z = ⟦(x, y)⟧ := by
   constructor
   · induction' z using Sym2.ind with x' y'
-    rw [mem_iff, mem_iff]
+    rw [mem_iff]; rw [mem_iff]
     aesop
   · rintro rfl
     simp
@@ -566,7 +566,7 @@ private theorem perm_card_two_iff {a₁ b₁ a₂ b₂ : α} :
       aesop
     mpr := fun
         | .inl ⟨h₁, h₂⟩ | .inr ⟨h₁, h₂⟩ => by
-          rw [h₁, h₂]
+          rw [h₁]; rw [h₂]
           first | done | apply List.Perm.swap'; rfl }
 -- porting note: remove alignment for private theorem
 
@@ -733,7 +733,7 @@ theorem filter_image_quotient_mk''_isDiag [DecidableEq α] (s : Finset α) :
   simp only [mem_image, mem_diag, exists_prop, mem_filter, Prod.exists, mem_product]
   constructor
   · rintro ⟨⟨a, b, ⟨ha, hb⟩, (h : Quotient.mk _ _ = _)⟩, hab⟩
-    rw [← h, Sym2.mk''_isDiag_iff] at hab
+    rw [← h] at hab; rw [Sym2.mk''_isDiag_iff] at hab
     exact ⟨a, b, ⟨ha, hab⟩, h⟩
   · rintro ⟨a, b, ⟨ha, rfl⟩, h⟩
     rw [← h]
@@ -748,10 +748,10 @@ theorem filter_image_quotient_mk''_not_isDiag [DecidableEq α] (s : Finset α) :
   simp only [mem_image, mem_offDiag, mem_filter, Prod.exists, mem_product]
   constructor
   · rintro ⟨⟨a, b, ⟨ha, hb⟩, (h : Quotient.mk _ _ = _)⟩, hab⟩
-    rw [← h, Sym2.mk''_isDiag_iff] at hab
+    rw [← h] at hab; rw [Sym2.mk''_isDiag_iff] at hab
     exact ⟨a, b, ⟨ha, hb, hab⟩, h⟩
   · rintro ⟨a, b, ⟨ha, hb, hab⟩, (h : Quotient.mk _ _ = _)⟩
-    rw [Ne.def, ← Sym2.mk''_isDiag_iff, h] at hab
+    rw [Ne.def] at hab; rw [← Sym2.mk''_isDiag_iff] at hab; rw [h] at hab
     exact ⟨⟨a, b, ⟨ha, hb⟩, h⟩, hab⟩
 #align sym2.filter_image_quotient_mk_not_is_diag Sym2.filter_image_quotient_mk''_not_isDiag
 

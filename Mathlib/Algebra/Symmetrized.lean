@@ -279,9 +279,9 @@ instance [Mul α] [AddMonoidWithOne α] [Invertible (2 : α)] (a : α) [Invertib
     Invertible (sym a) where
   invOf := sym (⅟ a)
   invOf_mul_self := by
-    rw [sym_mul_sym, mul_invOf_self, invOf_mul_self, one_add_one_eq_two, invOf_mul_self, sym_one]
+    rw [sym_mul_sym]; rw [mul_invOf_self]; rw [invOf_mul_self]; rw [one_add_one_eq_two]; rw [invOf_mul_self]; rw [sym_one]
   mul_invOf_self := by
-    rw [sym_mul_sym, mul_invOf_self, invOf_mul_self, one_add_one_eq_two, invOf_mul_self, sym_one]
+    rw [sym_mul_sym]; rw [mul_invOf_self]; rw [invOf_mul_self]; rw [one_add_one_eq_two]; rw [invOf_mul_self]; rw [sym_one]
 
 @[simp]
 theorem invOf_sym [Mul α] [AddMonoidWithOne α] [Invertible (2 : α)] (a : α) [Invertible a] :
@@ -294,24 +294,22 @@ instance nonAssocSemiring [Semiring α] [Invertible (2 : α)] : NonAssocSemiring
     one := 1
     mul := (· * ·)
     zero_mul := fun _ => by
-      rw [mul_def, unsym_zero, zero_mul, mul_zero, add_zero,
-        mul_zero, sym_zero]
+      rw [mul_def]; rw [unsym_zero]; rw [zero_mul]; rw [mul_zero]; rw [add_zero]; rw [mul_zero]; rw [sym_zero]
     mul_zero := fun _ => by
-      rw [mul_def, unsym_zero, zero_mul, mul_zero, add_zero,
-        mul_zero, sym_zero]
+      rw [mul_def]; rw [unsym_zero]; rw [zero_mul]; rw [mul_zero]; rw [add_zero]; rw [mul_zero]; rw [sym_zero]
     mul_one := fun _ => by
-      rw [mul_def, unsym_one, mul_one, one_mul, ← two_mul, invOf_mul_self_assoc, sym_unsym]
+      rw [mul_def]; rw [unsym_one]; rw [mul_one]; rw [one_mul]; rw [← two_mul]; rw [invOf_mul_self_assoc]; rw [sym_unsym]
     one_mul := fun _ => by
-      rw [mul_def, unsym_one, mul_one, one_mul, ← two_mul, invOf_mul_self_assoc, sym_unsym]
+      rw [mul_def]; rw [unsym_one]; rw [mul_one]; rw [one_mul]; rw [← two_mul]; rw [invOf_mul_self_assoc]; rw [sym_unsym]
     left_distrib := fun a b c => by
       -- Porting note: rewrote previous proof which used `match` in a way that seems unsupported.
-      rw [mul_def, mul_def, mul_def, ← sym_add, ← mul_add, unsym_add, add_mul]
+      rw [mul_def]; rw [mul_def]; rw [mul_def]; rw [← sym_add]; rw [← mul_add]; rw [unsym_add]; rw [add_mul]
       congr 2
       rw [mul_add]
       abel
     right_distrib := fun a b c => by
       -- Porting note: rewrote previous proof which used `match` in a way that seems unsupported.
-      rw [mul_def, mul_def, mul_def, ← sym_add, ← mul_add, unsym_add, add_mul]
+      rw [mul_def]; rw [mul_def]; rw [mul_def]; rw [← sym_add]; rw [← mul_add]; rw [unsym_add]; rw [add_mul]
       congr 2
       rw [mul_add]
       abel }
@@ -328,7 +326,7 @@ theorem unsym_mul_self [Semiring α] [Invertible (2 : α)] (a : αˢʸᵐ) :
 #align sym_alg.unsym_mul_self SymAlg.unsym_mul_self
 
 theorem sym_mul_self [Semiring α] [Invertible (2 : α)] (a : α) : sym (a * a) = sym a * sym a := by
-  rw [sym_mul_sym, ← two_mul, invOf_mul_self_assoc]
+  rw [sym_mul_sym]; rw [← two_mul]; rw [invOf_mul_self_assoc]
 #align sym_alg.sym_mul_self SymAlg.sym_mul_self
 
 theorem mul_comm [Mul α] [AddCommSemigroup α] [One α] [OfNat α 2] [Invertible (2 : α)]
@@ -364,12 +362,11 @@ instance [Ring α] [Invertible (2 : α)] : IsCommJordan αˢʸᵐ where
     · rw [unsym_sym, sym_inj, ← mul_assoc, ← commute_half_left (unsym a), mul_assoc (⅟ 2) (unsym a),
         mul_assoc (⅟ 2) _ (unsym a), ← mul_add, ← mul_assoc]
       conv_rhs => rw [mul_add (unsym a)]
-      rw [add_mul, ← add_assoc, ← mul_assoc, ← mul_assoc]
+      rw [add_mul]; rw [← add_assoc]; rw [← mul_assoc]; rw [← mul_assoc]
       rw [unsym_mul_self]
-      rw [← mul_assoc, ← mul_assoc, ← mul_assoc, ← mul_assoc, ← sub_eq_zero, ← mul_sub]
+      rw [← mul_assoc]; rw [← mul_assoc]; rw [← mul_assoc]; rw [← mul_assoc]; rw [← sub_eq_zero]; rw [← mul_sub]
       convert mul_zero (⅟ (2 : α) * ⅟ (2 : α))
-      rw [add_sub_add_right_eq_sub, add_assoc, add_assoc, add_sub_add_left_eq_sub, add_comm,
-        add_sub_add_right_eq_sub, sub_eq_zero]
+      rw [add_sub_add_right_eq_sub]; rw [add_assoc]; rw [add_assoc]; rw [add_sub_add_left_eq_sub]; rw [add_comm]; rw [add_sub_add_right_eq_sub]; rw [sub_eq_zero]
 
     -- Rearrange RHS
     · rw [← mul_def, ← mul_def]

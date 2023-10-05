@@ -75,7 +75,7 @@ instance (priority := 100) PseudoEpimorphismClass.toTopHomClass [PartialOrder α
     [Preorder β] [OrderTop β] [PseudoEpimorphismClass F α β] : TopHomClass F α β where
   map_top f := by
     let ⟨b, h⟩ := exists_map_eq_of_map_le f (@le_top _ _ _ <| f ⊤)
-    rw [← top_le_iff.1 h.1, h.2]
+    rw [← top_le_iff.1 h.1]; rw [h.2]
 #align pseudo_epimorphism_class.to_top_hom_class PseudoEpimorphismClass.toTopHomClass
 
 -- See note [lower instance priority]

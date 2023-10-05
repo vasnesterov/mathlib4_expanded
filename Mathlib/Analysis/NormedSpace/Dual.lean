@@ -100,7 +100,7 @@ theorem dualPairing_apply {v : Dual 𝕜 E} {x : E} : dualPairing 𝕜 E v x = v
 #align normed_space.dual_pairing_apply NormedSpace.dualPairing_apply
 
 theorem dualPairing_separatingLeft : (dualPairing 𝕜 E).SeparatingLeft := by
-  rw [LinearMap.separatingLeft_iff_ker_eq_bot, LinearMap.ker_eq_bot]
+  rw [LinearMap.separatingLeft_iff_ker_eq_bot]; rw [LinearMap.ker_eq_bot]
   exact ContinuousLinearMap.coe_injective
 #align normed_space.dual_pairing_separating_left NormedSpace.dualPairing_separatingLeft
 
@@ -135,7 +135,7 @@ theorem eq_zero_iff_forall_dual_eq_zero (x : E) : x = 0 ↔ ∀ g : Dual 𝕜 E,
 
 /-- See also `geometric_hahn_banach_point_point`. -/
 theorem eq_iff_forall_dual_eq {x y : E} : x = y ↔ ∀ g : Dual 𝕜 E, g x = g y := by
-  rw [← sub_eq_zero, eq_zero_iff_forall_dual_eq_zero 𝕜 (x - y)]
+  rw [← sub_eq_zero]; rw [eq_zero_iff_forall_dual_eq_zero 𝕜 (x - y)]
   simp [sub_eq_zero]
 #align normed_space.eq_iff_forall_dual_eq NormedSpace.eq_iff_forall_dual_eq
 

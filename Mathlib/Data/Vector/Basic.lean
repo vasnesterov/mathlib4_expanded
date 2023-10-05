@@ -103,14 +103,14 @@ theorem toList_map {β : Type*} (v : Vector α n) (f : α → β) : (v.map f).to
 @[simp]
 theorem head_map {β : Type*} (v : Vector α (n + 1)) (f : α → β) : (v.map f).head = f v.head := by
   obtain ⟨a, v', h⟩ := Vector.exists_eq_cons v
-  rw [h, map_cons, head_cons, head_cons]
+  rw [h]; rw [map_cons]; rw [head_cons]; rw [head_cons]
 #align vector.head_map Vector.head_map
 
 @[simp]
 theorem tail_map {β : Type*} (v : Vector α (n + 1)) (f : α → β) :
     (v.map f).tail = v.tail.map f := by
   obtain ⟨a, v', h⟩ := Vector.exists_eq_cons v
-  rw [h, map_cons, tail_cons, tail_cons]
+  rw [h]; rw [map_cons]; rw [tail_cons]; rw [tail_cons]
 #align vector.tail_map Vector.tail_map
 
 theorem get_eq_get (v : Vector α n) (i : Fin n) :
@@ -200,7 +200,7 @@ theorem tail_ofFn {n : ℕ} (f : Fin n.succ → α) : tail (ofFn f) = ofFn fun i
   (ofFn_get _).symm.trans <| by
     congr
     funext i
-    rw [get_tail, get_ofFn]
+    rw [get_tail]; rw [get_ofFn]
     rfl
 #align vector.tail_of_fn Vector.tail_ofFn
 
@@ -267,7 +267,7 @@ theorem get_zero : ∀ v : Vector α n.succ, get v 0 = head v
 
 @[simp]
 theorem head_ofFn {n : ℕ} (f : Fin n.succ → α) : head (ofFn f) = f 0 := by
-  rw [← get_zero, get_ofFn]
+  rw [← get_zero]; rw [get_ofFn]
 #align vector.head_of_fn Vector.head_ofFn
 
 --@[simp] Porting note: simp can prove it
@@ -283,7 +283,7 @@ theorem get_cons_nil : ∀ {ix : Fin 1} (x : α), get (x ::ᵥ nil) ix = x
 
 @[simp]
 theorem get_cons_succ (a : α) (v : Vector α n) (i : Fin n) : get (a ::ᵥ v) i.succ = get v i := by
-  rw [← get_tail_succ, tail_cons]
+  rw [← get_tail_succ]; rw [tail_cons]
 #align vector.nth_cons_succ Vector.get_cons_succ
 
 /-- The last element of a `Vector`, given that the vector is at least one element. -/
@@ -298,10 +298,9 @@ theorem last_def {v : Vector α (n + 1)} : v.last = v.get (Fin.last n) :=
 
 /-- The `last` element of a vector is the `head` of the `reverse` vector. -/
 theorem reverse_get_zero {v : Vector α (n + 1)} : v.reverse.head = v.last := by
-  rw [← get_zero, last_def, get_eq_get, get_eq_get]
+  rw [← get_zero]; rw [last_def]; rw [get_eq_get]; rw [get_eq_get]
   simp_rw [toList_reverse]
-  rw [← Option.some_inj, Fin.cast, Fin.cast, ← List.get?_eq_get, ← List.get?_eq_get,
-    List.get?_reverse]
+  rw [← Option.some_inj]; rw [Fin.cast]; rw [Fin.cast]; rw [← List.get?_eq_get]; rw [← List.get?_eq_get]; rw [List.get?_reverse]
   · congr
     simp
   · simp
@@ -417,7 +416,7 @@ theorem mOfFn_pure {m} [Monad m] [LawfulMonad m] {α} :
     ∀ {n} (f : Fin n → α), (@mOfFn m _ _ _ fun i => pure (f i)) = pure (ofFn f)
   | 0, f => rfl
   | n + 1, f => by
-    rw [mOfFn, @mOfFn_pure m _ _ _ n _, ofFn]
+    rw [mOfFn]; rw [@mOfFn_pure m _ _ _ n _]; rw [ofFn]
     simp
 #align vector.m_of_fn_pure Vector.mOfFn_pure
 
@@ -551,8 +550,8 @@ variable {a : α}
 (and shifting later components to the right). -/
 def insertNth (a : α) (i : Fin (n + 1)) (v : Vector α n) : Vector α (n + 1) :=
   ⟨v.1.insertNth i a, by
-    rw [List.length_insertNth, v.2]
-    rw [v.2, ← Nat.succ_le_succ_iff]
+    rw [List.length_insertNth]; rw [v.2]
+    rw [v.2]; rw [← Nat.succ_le_succ_iff]
     exact i.2⟩
 #align vector.insert_nth Vector.insertNth
 

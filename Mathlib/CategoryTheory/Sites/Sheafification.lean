@@ -163,8 +163,7 @@ def mk {X : C} {P : Cᵒᵖ ⥤ D} {S : J.Cover X} (x : Meq P S) : (J.plusObj P)
 theorem res_mk_eq_mk_pullback {Y X : C} {P : Cᵒᵖ ⥤ D} {S : J.Cover X} (x : Meq P S) (f : Y ⟶ X) :
     (J.plusObj P).map f.op (mk x) = mk (x.pullback f) := by
   dsimp [mk, plusObj]
-  rw [← comp_apply (x := (Meq.equiv P S).symm x), ι_colimMap_assoc, colimit.ι_pre,
-    comp_apply (x := (Meq.equiv P S).symm x)]
+  rw [← comp_apply (x := (Meq.equiv P S).symm x)]; rw [ι_colimMap_assoc]; rw [colimit.ι_pre]; rw [comp_apply (x := (Meq.equiv P S).symm x)]
   apply congr_arg
   apply (Meq.equiv P _).injective
   erw [Equiv.apply_symm_apply]
@@ -197,7 +196,7 @@ theorem toPlus_apply {X : C} {P : Cᵒᵖ ⥤ D} (S : J.Cover X) (x : Meq P S) (
   delta Cover.toMultiequalizer
   dsimp [mk]
   erw [←comp_apply]
-  rw [ι_colimMap_assoc, colimit.ι_pre, comp_apply, comp_apply]
+  rw [ι_colimMap_assoc]; rw [colimit.ι_pre]; rw [comp_apply]; rw [comp_apply]
   dsimp only [Functor.op]
   let e : (J.pullback I.f).obj (unop (op S)) ⟶ ⊤ := homOfLE (OrderTop.le_top _)
   rw [← colimit.w _ e.op]
@@ -206,8 +205,7 @@ theorem toPlus_apply {X : C} {P : Cᵒᵖ ⥤ D} (S : J.Cover X) (x : Meq P S) (
   apply Concrete.multiequalizer_ext
   intro i
   dsimp [diagram]
-  rw [←comp_apply, ←comp_apply, ←comp_apply, Multiequalizer.lift_ι, Multiequalizer.lift_ι,
-    Multiequalizer.lift_ι]
+  rw [←comp_apply]; rw [←comp_apply]; rw [←comp_apply]; rw [Multiequalizer.lift_ι]; rw [Multiequalizer.lift_ι]; rw [Multiequalizer.lift_ι]
   erw [Meq.equiv_symm_eq_apply]
   let RR : S.Relation :=
     ⟨_, _, _, i.f, 𝟙 _, I.f, i.f ≫ I.f, I.hf, Sieve.downward_closed _ I.hf _, by simp⟩
@@ -224,7 +222,7 @@ theorem toPlus_eq_mk {X : C} {P : Cᵒᵖ ⥤ D} (x : P.obj (op X)) :
   apply congr_arg
   apply (Meq.equiv P ⊤).injective
   ext i
-  rw [Meq.equiv_apply, Equiv.apply_symm_apply, ←comp_apply, Multiequalizer.lift_ι]
+  rw [Meq.equiv_apply]; rw [Equiv.apply_symm_apply]; rw [←comp_apply]; rw [Multiequalizer.lift_ι]
   rfl
 #align category_theory.grothendieck_topology.plus.to_plus_eq_mk CategoryTheory.GrothendieckTopology.Plus.toPlus_eq_mk
 
@@ -261,7 +259,7 @@ theorem eq_mk_iff_exists {X : C} {P : Cᵒᵖ ⥤ D} {S T : J.Cover X} (x : Meq 
     convert e
     all_goals
       dsimp [diagram]
-      rw [← comp_apply, Multiequalizer.lift_ι]
+      rw [← comp_apply]; rw [Multiequalizer.lift_ι]
       erw [Meq.equiv_symm_eq_apply]
       cases i; rfl
 #align category_theory.grothendieck_topology.plus.eq_mk_iff_exists CategoryTheory.GrothendieckTopology.Plus.eq_mk_iff_exists
@@ -349,12 +347,11 @@ def meqOfSep (P : Cᵒᵖ ⥤ D)
   property := by
     intro II
     apply inj_of_sep P hsep
-    rw [← comp_apply, ← comp_apply, (J.toPlus P).naturality, (J.toPlus P).naturality, comp_apply,
-      comp_apply]
+    rw [← comp_apply]; rw [← comp_apply]; rw [(J.toPlus P).naturality]; rw [(J.toPlus P).naturality]; rw [comp_apply]; rw [comp_apply]
     erw [toPlus_apply (T II.fst.fromMiddle) (t II.fst.fromMiddle) II.fst.toMiddle,
       toPlus_apply (T II.snd.fromMiddle) (t II.snd.fromMiddle) II.snd.toMiddle, ← ht, ← ht, ←
       comp_apply, ← comp_apply, ← (J.plusObj P).map_comp, ← (J.plusObj P).map_comp]
-    rw [← op_comp, ← op_comp]
+    rw [← op_comp]; rw [← op_comp]
     let IR : S.Relation :=
       ⟨_, _, _, II.g₁ ≫ II.fst.toMiddleHom, II.g₂ ≫ II.snd.toMiddleHom, II.fst.fromMiddleHom,
         II.snd.fromMiddleHom, II.fst.from_middle_condition, II.snd.from_middle_condition, by
@@ -569,7 +566,7 @@ theorem sheafifyLift_unique {P Q : Cᵒᵖ ⥤ D} (η : P ⟶ Q) (hQ : Presheaf.
   intro h
   apply plusLift_unique
   apply plusLift_unique
-  rw [← Category.assoc, ← plusMap_toPlus]
+  rw [← Category.assoc]; rw [← plusMap_toPlus]
   exact h
 #align category_theory.grothendieck_topology.sheafify_lift_unique CategoryTheory.GrothendieckTopology.sheafifyLift_unique
 
@@ -584,7 +581,7 @@ theorem sheafify_hom_ext {P Q : Cᵒᵖ ⥤ D} (η γ : J.sheafify P ⟶ Q) (hQ 
     (h : J.toSheafify P ≫ η = J.toSheafify P ≫ γ) : η = γ := by
   apply J.plus_hom_ext _ _ hQ
   apply J.plus_hom_ext _ _ hQ
-  rw [← Category.assoc, ← Category.assoc, ← plusMap_toPlus]
+  rw [← Category.assoc]; rw [← Category.assoc]; rw [← plusMap_toPlus]
   exact h
 #align category_theory.grothendieck_topology.sheafify_hom_ext CategoryTheory.GrothendieckTopology.sheafify_hom_ext
 
@@ -593,7 +590,7 @@ theorem sheafifyMap_sheafifyLift {P Q R : Cᵒᵖ ⥤ D} (η : P ⟶ Q) (γ : Q 
     (hR : Presheaf.IsSheaf J R) :
     J.sheafifyMap η ≫ J.sheafifyLift γ hR = J.sheafifyLift (η ≫ γ) hR := by
   apply J.sheafifyLift_unique
-  rw [← Category.assoc, ← J.toSheafify_naturality, Category.assoc, toSheafify_sheafifyLift]
+  rw [← Category.assoc]; rw [← J.toSheafify_naturality]; rw [Category.assoc]; rw [toSheafify_sheafifyLift]
 #align category_theory.grothendieck_topology.sheafify_map_sheafify_lift CategoryTheory.GrothendieckTopology.sheafifyMap_sheafifyLift
 
 end GrothendieckTopology

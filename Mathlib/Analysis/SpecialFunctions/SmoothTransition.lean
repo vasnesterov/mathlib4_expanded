@@ -110,7 +110,7 @@ theorem hasDerivAt_polynomial_eval_inv_mul (p : ℝ[X]) (x : ℝ) :
   · rw [zero_of_nonpos hx.le, mul_zero]
     refine (hasDerivAt_const _ 0).congr_of_eventuallyEq ?_
     filter_upwards [gt_mem_nhds hx] with y hy
-    rw [zero_of_nonpos hy.le, mul_zero]
+    rw [zero_of_nonpos hy.le]; rw [mul_zero]
   · rw [expNegInvGlue.zero, mul_zero, hasDerivAt_iff_tendsto_slope]
     refine ((tendsto_polynomial_inv_mul_zero (p * X)).mono_left inf_le_left).congr fun x ↦ ?_
     simp [slope_def_field, div_eq_mul_inv, mul_right_comm]

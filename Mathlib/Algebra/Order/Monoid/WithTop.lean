@@ -346,10 +346,10 @@ instance addMonoidWithOne [AddMonoidWithOne α] : AddMonoidWithOne (WithTop α) 
     natCast := fun n => ↑(n : α),
     natCast_zero := by
       simp only -- Porting note: Had to add this...?
-      rw [Nat.cast_zero, WithTop.coe_zero],
+      rw [Nat.cast_zero]; rw [WithTop.coe_zero],
     natCast_succ := fun n => by
       simp only -- Porting note: Had to add this...?
-      rw [Nat.cast_add_one, WithTop.coe_add, WithTop.coe_one]
+      rw [Nat.cast_add_one]; rw [WithTop.coe_add]; rw [WithTop.coe_one]
   }
 
 instance charZero [AddMonoidWithOne α] [CharZero α] : CharZero (WithTop α) :=

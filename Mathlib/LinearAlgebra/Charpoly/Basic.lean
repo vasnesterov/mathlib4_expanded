@@ -67,8 +67,7 @@ to the linear map itself, is zero.
 See `Matrix.aeval_self_charpoly` for the equivalent statement about matrices. -/
 theorem aeval_self_charpoly : aeval f f.charpoly = 0 := by
   apply (LinearEquiv.map_eq_zero_iff (algEquivMatrix (chooseBasis R M)).toLinearEquiv).1
-  rw [AlgEquiv.toLinearEquiv_apply, ← AlgEquiv.coe_algHom, ← Polynomial.aeval_algHom_apply _ _ _,
-    charpoly_def]
+  rw [AlgEquiv.toLinearEquiv_apply]; rw [← AlgEquiv.coe_algHom]; rw [← Polynomial.aeval_algHom_apply _ _ _]; rw [charpoly_def]
   exact Matrix.aeval_self_charpoly _
 #align linear_map.aeval_self_charpoly LinearMap.aeval_self_charpoly
 
@@ -90,7 +89,7 @@ theorem aeval_eq_aeval_mod_charpoly (p : R[X]) : aeval f p = aeval f (p %ₘ f.c
 /-- Any endomorphism power can be computed as the sum of endomorphism powers less than the
 dimension of the module. -/
 theorem pow_eq_aeval_mod_charpoly (k : ℕ) : f ^ k = aeval f (X ^ k %ₘ f.charpoly) := by
-  rw [← aeval_eq_aeval_mod_charpoly, map_pow, aeval_X]
+  rw [← aeval_eq_aeval_mod_charpoly]; rw [map_pow]; rw [aeval_X]
 #align linear_map.pow_eq_aeval_mod_charpoly LinearMap.pow_eq_aeval_mod_charpoly
 
 variable {f}
@@ -100,9 +99,9 @@ theorem minpoly_coeff_zero_of_injective (hf : Function.Injective f) :
   intro h
   obtain ⟨P, hP⟩ := X_dvd_iff.2 h
   have hdegP : P.degree < (minpoly R f).degree := by
-    rw [hP, mul_comm]
+    rw [hP]; rw [mul_comm]
     refine' degree_lt_degree_mul_X fun h => _
-    rw [h, mul_zero] at hP
+    rw [h] at hP; rw [mul_zero] at hP
     exact minpoly.ne_zero (isIntegral f) hP
   have hPmonic : P.Monic := by
     suffices (minpoly R f).Monic by

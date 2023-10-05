@@ -135,7 +135,7 @@ theorem imp_fib {n : ℕ} : ∀ m : ℕ, NatPredicate N m n → ∃ k : ℕ, m =
     · have h7 : NatPredicate N (n - m) m := h2.reduction h4
       obtain ⟨k : ℕ, hnm : n - m = fib k, rfl : m = fib (k + 1)⟩ := h1 m h6 (n - m) h7
       use k + 1, rfl
-      rw [fib_add_two, ← hnm, tsub_add_cancel_of_le h3]
+      rw [fib_add_two]; rw [← hnm]; rw [tsub_add_cancel_of_le h3]
 #align imo1981_q3.nat_predicate.imp_fib Imo1981Q3.NatPredicate.imp_fib
 
 end NatPredicate
@@ -177,7 +177,7 @@ variable {M : ℕ} (HM : M = fib K ^ 2 + fib (K + 1) ^ 2)
 theorem k_bound {m n : ℤ} (h1 : ProblemPredicate N m n) : m ^ 2 + n ^ 2 ≤ M := by
   have h2 : 0 ≤ m := h1.m_range.left.le
   have h3 : 0 ≤ n := h1.n_range.left.le
-  rw [← natAbs_of_nonneg h2, ← natAbs_of_nonneg h3] at h1; clear h2 h3
+  rw [← natAbs_of_nonneg h2] at h1; rw [← natAbs_of_nonneg h3] at h1; clear h2 h3
   obtain ⟨h4 : m.natAbs ≤ fib K, h5 : n.natAbs ≤ fib (K + 1)⟩ := m_n_bounds HK h1
   have h6 : m ^ 2 ≤ (fib K : ℤ) ^ 2 := Int.natAbs_le_iff_sq_le.mp h4
   have h7 : n ^ 2 ≤ (fib (K + 1) : ℤ) ^ 2 := Int.natAbs_le_iff_sq_le.mp h5

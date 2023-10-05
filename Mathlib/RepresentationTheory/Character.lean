@@ -80,7 +80,7 @@ variable {G : Type u} [Group G]
 /-- The character of a representation is constant on conjugacy classes. -/
 @[simp]
 theorem char_conj (V : FdRep k G) (g : G) (h : G) : V.character (h * g * h⁻¹) = V.character g := by
-  rw [char_mul_comm, inv_mul_cancel_left]
+  rw [char_mul_comm]; rw [inv_mul_cancel_left]
 #align fdRep.char_conj FdRep.char_conj
 
 @[simp]
@@ -91,7 +91,7 @@ theorem char_dual (V : FdRep k G) (g : G) : (of (dual V.ρ)).character g = V.cha
 @[simp]
 theorem char_linHom (V W : FdRep k G) (g : G) :
     (of (linHom V.ρ W.ρ)).character g = V.character g⁻¹ * W.character g := by
-  rw [← char_iso (dualTensorIsoLinHom _ _), char_tensor, Pi.mul_apply, char_dual]
+  rw [← char_iso (dualTensorIsoLinHom _ _)]; rw [char_tensor]; rw [Pi.mul_apply]; rw [char_dual]
 #align fdRep.char_lin_hom FdRep.char_linHom
 
 variable [Fintype G] [Invertible (Fintype.card G : k)]
@@ -122,7 +122,7 @@ theorem char_orthonormal (V W : FdRep k G) [Simple V] [Simple W] :
   -- Porting note: Originally `conv in V.character _ * W.character _ =>`
   conv_lhs =>
     enter [2, 2, g]
-    rw [mul_comm, ← char_dual, ← Pi.mul_apply, ← char_tensor]
+    rw [mul_comm]; rw [← char_dual]; rw [← Pi.mul_apply]; rw [← char_tensor]
     rw [char_iso (FdRep.dualTensorIsoLinHom W.ρ V)]
   -- The average over the group of the character of a representation equals the dimension of the
   -- space of invariants.

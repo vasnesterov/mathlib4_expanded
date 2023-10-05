@@ -227,14 +227,14 @@ theorem Prefunctor.pathStar_injective (hφ : ∀ u, Injective (φ.star u)) (u : 
     rfl
   · exfalso
     cases' h with h h'
-    rw [← Path.eq_cast_iff_heq rfl h.symm, Path.cast_cons] at h'
+    rw [← Path.eq_cast_iff_heq rfl h.symm] at h'; rw [Path.cast_cons] at h'
     exact (Path.nil_ne_cons _ _) h'
   · exfalso
     cases' h with h h'
-    rw [← Path.cast_eq_iff_heq rfl h, Path.cast_cons] at h'
+    rw [← Path.cast_eq_iff_heq rfl h] at h'; rw [Path.cast_cons] at h'
     exact (Path.cons_ne_nil _ _) h'
   · cases' h with hφy h'
-    rw [← Path.cast_eq_iff_heq rfl hφy, Path.cast_cons, Path.cast_rfl_rfl] at h'
+    rw [← Path.cast_eq_iff_heq rfl hφy] at h'; rw [Path.cast_cons] at h'; rw [Path.cast_rfl_rfl] at h'
     have hφx := Path.obj_eq_of_cons_eq_cons h'
     have hφp := Path.heq_of_cons_eq_cons h'
     have hφe := HEq.trans (Hom.cast_heq rfl hφy _).symm (Path.hom_heq_of_cons_eq_cons h')
@@ -315,7 +315,7 @@ theorem Prefunctor.costar_conj_star (u : U) :
 
 theorem Prefunctor.bijective_costar_iff_bijective_star (u : U) :
     Bijective (φ.costar u) ↔ Bijective (φ.star u) := by
-  rw [Prefunctor.costar_conj_star, EquivLike.comp_bijective, EquivLike.bijective_comp]
+  rw [Prefunctor.costar_conj_star]; rw [EquivLike.comp_bijective]; rw [EquivLike.bijective_comp]
 #align prefunctor.bijective_costar_iff_bijective_star Prefunctor.bijective_costar_iff_bijective_star
 
 theorem Prefunctor.isCovering_of_bijective_star (h : ∀ u, Bijective (φ.star u)) : φ.IsCovering :=

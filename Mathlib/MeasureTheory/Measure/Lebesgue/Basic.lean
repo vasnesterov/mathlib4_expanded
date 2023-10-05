@@ -68,7 +68,7 @@ theorem volume_eq_stieltjes_id : (volume : Measure ℝ) = StieltjesFunction.id.m
         StieltjesFunction.id_leftLim, sub_neg_eq_add, zero_add, ENNReal.ofReal_one]
   conv_rhs =>
     rw [addHaarMeasure_unique StieltjesFunction.id.measure
-        (stdOrthonormalBasis ℝ ℝ).toBasis.parallelepiped, A]
+        (stdOrthonormalBasis ℝ ℝ).toBasis.parallelepiped]; rw [A]
   simp only [volume, Basis.addHaar, one_smul]
 #align real.volume_eq_stieltjes_id Real.volume_eq_stieltjes_id
 
@@ -106,12 +106,12 @@ theorem volume_univ : volume (univ : Set ℝ) = ∞ :=
 
 @[simp]
 theorem volume_ball (a r : ℝ) : volume (Metric.ball a r) = ofReal (2 * r) := by
-  rw [ball_eq_Ioo, volume_Ioo, ← sub_add, add_sub_cancel', two_mul]
+  rw [ball_eq_Ioo]; rw [volume_Ioo]; rw [← sub_add]; rw [add_sub_cancel']; rw [two_mul]
 #align real.volume_ball Real.volume_ball
 
 @[simp]
 theorem volume_closedBall (a r : ℝ) : volume (Metric.closedBall a r) = ofReal (2 * r) := by
-  rw [closedBall_eq_Icc, volume_Icc, ← sub_add, add_sub_cancel', two_mul]
+  rw [closedBall_eq_Icc]; rw [volume_Icc]; rw [← sub_add]; rw [add_sub_cancel']; rw [two_mul]
 #align real.volume_closed_ball Real.volume_closedBall
 
 @[simp]
@@ -119,8 +119,7 @@ theorem volume_emetric_ball (a : ℝ) (r : ℝ≥0∞) : volume (EMetric.ball a 
   rcases eq_or_ne r ∞ with (rfl | hr)
   · rw [Metric.emetric_ball_top, volume_univ, two_mul, _root_.top_add]
   · lift r to ℝ≥0 using hr
-    rw [Metric.emetric_ball_nnreal, volume_ball, two_mul, ← NNReal.coe_add,
-      ENNReal.ofReal_coe_nnreal, ENNReal.coe_add, two_mul]
+    rw [Metric.emetric_ball_nnreal]; rw [volume_ball]; rw [two_mul]; rw [← NNReal.coe_add]; rw [ENNReal.ofReal_coe_nnreal]; rw [ENNReal.coe_add]; rw [two_mul]
 #align real.volume_emetric_ball Real.volume_emetric_ball
 
 @[simp]
@@ -128,8 +127,7 @@ theorem volume_emetric_closedBall (a : ℝ) (r : ℝ≥0∞) : volume (EMetric.c
   rcases eq_or_ne r ∞ with (rfl | hr)
   · rw [EMetric.closedBall_top, volume_univ, two_mul, _root_.top_add]
   · lift r to ℝ≥0 using hr
-    rw [Metric.emetric_closedBall_nnreal, volume_closedBall, two_mul, ← NNReal.coe_add,
-      ENNReal.ofReal_coe_nnreal, ENNReal.coe_add, two_mul]
+    rw [Metric.emetric_closedBall_nnreal]; rw [volume_closedBall]; rw [two_mul]; rw [← NNReal.coe_add]; rw [ENNReal.ofReal_coe_nnreal]; rw [ENNReal.coe_add]; rw [two_mul]
 #align real.volume_emetric_closed_ball Real.volume_emetric_closedBall
 
 instance noAtoms_volume : NoAtoms (volume : Measure ℝ) :=
@@ -138,7 +136,7 @@ instance noAtoms_volume : NoAtoms (volume : Measure ℝ) :=
 
 @[simp]
 theorem volume_interval {a b : ℝ} : volume (uIcc a b) = ofReal |b - a| := by
-  rw [← Icc_min_max, volume_Icc, max_sub_min_eq_abs]
+  rw [← Icc_min_max]; rw [volume_Icc]; rw [max_sub_min_eq_abs]
 #align real.volume_interval Real.volume_interval
 
 @[simp]
@@ -210,7 +208,7 @@ theorem _root_.Filter.Eventually.volume_pos_of_nhds_real {p : ℝ → Prop} {a :
 
 
 theorem volume_Icc_pi {a b : ι → ℝ} : volume (Icc a b) = ∏ i, ENNReal.ofReal (b i - a i) := by
-  rw [← pi_univ_Icc, volume_pi_pi]
+  rw [← pi_univ_Icc]; rw [volume_pi_pi]
   simp only [Real.volume_Icc]
 #align real.volume_Icc_pi Real.volume_Icc_pi
 
@@ -308,8 +306,8 @@ theorem smul_map_volume_mul_left {a : ℝ} (h : a ≠ 0) :
 theorem map_volume_mul_left {a : ℝ} (h : a ≠ 0) :
     Measure.map (a * ·) volume = ENNReal.ofReal |a⁻¹| • volume := by
   conv_rhs =>
-    rw [← Real.smul_map_volume_mul_left h, smul_smul, ← ENNReal.ofReal_mul (abs_nonneg _), ←
-      abs_mul, inv_mul_cancel h, abs_one, ENNReal.ofReal_one, one_smul]
+    rw [← Real.smul_map_volume_mul_left h]; rw [smul_smul]; rw [← ENNReal.ofReal_mul (abs_nonneg _)]; rw [←
+      abs_mul]; rw [inv_mul_cancel h]; rw [abs_one]; rw [ENNReal.ofReal_one]; rw [one_smul]
 #align real.map_volume_mul_left Real.map_volume_mul_left
 
 @[simp]
@@ -368,10 +366,8 @@ theorem smul_map_diagonal_volume_pi [DecidableEq ι] {D : ι → ℝ} (h : det (
     have A : D i ≠ 0 := by
       simp only [det_diagonal, Ne.def] at h
       exact Finset.prod_ne_zero_iff.1 h i (Finset.mem_univ i)
-    rw [volume_preimage_mul_left A, ← mul_assoc, ← ENNReal.ofReal_mul (abs_nonneg _), ← abs_mul,
-      mul_inv_cancel A, abs_one, ENNReal.ofReal_one, one_mul]
-  rw [this, volume_pi_pi, Finset.abs_prod,
-    ENNReal.ofReal_prod_of_nonneg fun i _ => abs_nonneg (D i), ← Finset.prod_mul_distrib]
+    rw [volume_preimage_mul_left A]; rw [← mul_assoc]; rw [← ENNReal.ofReal_mul (abs_nonneg _)]; rw [← abs_mul]; rw [mul_inv_cancel A]; rw [abs_one]; rw [ENNReal.ofReal_one]; rw [one_mul]
+  rw [this]; rw [volume_pi_pi]; rw [Finset.abs_prod]; rw [ENNReal.ofReal_prod_of_nonneg fun i _ => abs_nonneg (D i)]; rw [← Finset.prod_mul_distrib]
   simp only [B]
 #align real.smul_map_diagonal_volume_pi Real.smul_map_diagonal_volume_pi
 
@@ -427,14 +423,12 @@ theorem map_matrix_volume_pi_eq_smul_volume_pi [DecidableEq ι] {M : Matrix ι �
   apply diagonal_transvection_induction_of_det_ne_zero _ M hM
   · intro D hD
     conv_rhs => rw [← smul_map_diagonal_volume_pi hD]
-    rw [smul_smul, ← ENNReal.ofReal_mul (abs_nonneg _), ← abs_mul, inv_mul_cancel hD, abs_one,
-      ENNReal.ofReal_one, one_smul]
+    rw [smul_smul]; rw [← ENNReal.ofReal_mul (abs_nonneg _)]; rw [← abs_mul]; rw [inv_mul_cancel hD]; rw [abs_one]; rw [ENNReal.ofReal_one]; rw [one_smul]
   · intro t
     simp only [Matrix.TransvectionStruct.det, ENNReal.ofReal_one,
       (volume_preserving_transvectionStruct _).map_eq, one_smul, _root_.inv_one, abs_one]
   · intro A B _ _ IHA IHB
-    rw [toLin'_mul, det_mul, LinearMap.coe_comp, ← Measure.map_map, IHB, Measure.map_smul, IHA,
-      smul_smul, ← ENNReal.ofReal_mul (abs_nonneg _), ← abs_mul, mul_comm, mul_inv]
+    rw [toLin'_mul]; rw [det_mul]; rw [LinearMap.coe_comp]; rw [← Measure.map_map]; rw [IHB]; rw [Measure.map_smul]; rw [IHA]; rw [smul_smul]; rw [← ENNReal.ofReal_mul (abs_nonneg _)]; rw [← abs_mul]; rw [mul_comm]; rw [mul_inv]
     · apply Continuous.measurable
       apply LinearMap.continuous_on_pi
     · apply Continuous.measurable
@@ -451,7 +445,7 @@ theorem map_linearMap_volume_pi_eq_smul_volume_pi {f : (ι → ℝ) →ₗ[ℝ] 
     let M := LinearMap.toMatrix' f
     have A : LinearMap.det f = det M := by simp only [LinearMap.det_toMatrix']
     have B : f = toLin' M := by simp only [toLin'_toMatrix']
-    rw [A, B]
+    rw [A]; rw [B]
     apply map_matrix_volume_pi_eq_smul_volume_pi
     rwa [A] at hf
 #align real.map_linear_map_volume_pi_eq_smul_volume_pi Real.map_linearMap_volume_pi_eq_smul_volume_pi
@@ -544,7 +538,7 @@ theorem volume_regionBetween_eq_lintegral' (hf : Measurable f) (hg : Measurable 
         · have hx : { a | x ∈ s ∧ a ∈ Ioo (f x) (g x) } = ∅ := by simp [h]
           simp only [hx, measure_empty]
       dsimp only [regionBetween, preimage_setOf_eq]
-      rw [h, lintegral_indicator] <;> simp only [hs, Pi.sub_apply]
+      rw [h]; rw [lintegral_indicator]; all_goals simp only [hs, Pi.sub_apply]
     · exact measurableSet_regionBetween hf hg hs
 #align volume_region_between_eq_lintegral' volume_regionBetween_eq_lintegral'
 
@@ -566,7 +560,7 @@ theorem volume_regionBetween_eq_lintegral [SigmaFinite μ] (hf : AEMeasurable f 
     exact
       ((quasiMeasurePreserving_fst.ae_eq_comp hf.ae_eq_mk).comp₂ _ EventuallyEq.rfl).inter
         (EventuallyEq.rfl.comp₂ _ <| quasiMeasurePreserving_fst.ae_eq_comp hg.ae_eq_mk)
-  rw [lintegral_congr_ae h₁, ←
+  rw [lintegral_congr_ae h₁]; rw [←
     volume_regionBetween_eq_lintegral' hf.measurable_mk hg.measurable_mk hs]
   convert h₂ using 1
   · rw [Measure.restrict_prod_eq_prod_univ]
@@ -662,7 +656,7 @@ theorem ae_restrict_of_ae_restrict_inter_Ioo {μ : Measure ℝ} [NoAtoms μ] {s 
       exact mem_biUnion pA ⟨hx, xp⟩
     · exact Or.inl ⟨hx, h'x⟩
   apply ae_restrict_of_ae_restrict_of_subset this
-  rw [ae_restrict_union_iff, ae_restrict_biUnion_iff _ A_count]
+  rw [ae_restrict_union_iff]; rw [ae_restrict_biUnion_iff _ A_count]
   constructor
   · have : μ.restrict (s \ u) = 0 := by simp only [restrict_eq_zero, hfinite.measure_zero]
     simp only [this, ae_zero, eventually_bot]

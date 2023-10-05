@@ -95,8 +95,7 @@ def componentwiseDiagram (F : J ⥤ PresheafedSpace.{_, _, v} C) [HasColimit F]
     simp_rw [map_comp_c_app]
     simp only [op_obj, unop_op, eqToHom_op, id_eq, id_comp, assoc, eqToHom_trans]
     congr 1
-    rw [TopCat.Presheaf.Pushforward.comp_inv_app, TopCat.Presheaf.pushforwardEq_hom_app,
-      CategoryTheory.NatTrans.naturality_assoc, TopCat.Presheaf.pushforwardMap_app]
+    rw [TopCat.Presheaf.Pushforward.comp_inv_app]; rw [TopCat.Presheaf.pushforwardEq_hom_app]; rw [CategoryTheory.NatTrans.naturality_assoc]; rw [TopCat.Presheaf.pushforwardMap_app]
     congr 1
     simp
   map_id x := by
@@ -134,11 +133,11 @@ def pushforwardDiagramToColimit (F : J ⥤ PresheafedSpace.{_, _, v} C) :
         pushforwardObj_obj, op_obj, Opens.map_obj, opEquiv, Equiv.coe_fn_mk, unop_comp,
         Quiver.Hom.unop_op, unop_id]
       -- Porting note : some `simp` lemmas are not picked up
-      rw [NatTrans.comp_app, pushforwardMap_app, NatTrans.id_app]
+      rw [NatTrans.comp_app]; rw [pushforwardMap_app]; rw [NatTrans.id_app]
       simp only [op_obj, unop_op, Opens.map_obj, map_id_c_app, Opens.map_id_obj',
         map_id, pushforwardEq_hom_app, eqToHom_op, id_eq, eqToHom_map, id_comp,
         TopCat.Presheaf.Pushforward.id_inv_app']
-      rw [NatTrans.comp_app, Pushforward.comp_inv_app, id_comp]
+      rw [NatTrans.comp_app]; rw [Pushforward.comp_inv_app]; rw [id_comp]
       dsimp
       simp
   map_comp {j₁ j₂ j₃} f g := by
@@ -147,11 +146,7 @@ def pushforwardDiagramToColimit (F : J ⥤ PresheafedSpace.{_, _, v} C) :
     dsimp only [comp_obj, forget_obj, Functor.comp_map, forget_map, op_comp, unop_op,
       pushforwardObj_obj, op_obj, opEquiv, Equiv.coe_fn_mk, unop_comp, Quiver.Hom.unop_op]
     -- Porting note : some `simp` lemmas are not picked up
-    rw [NatTrans.comp_app, pushforwardMap_app, NatTrans.comp_app, Pushforward.comp_inv_app,
-      id_comp, pushforwardEq_hom_app, NatTrans.comp_app, NatTrans.comp_app, NatTrans.comp_app,
-      pushforwardMap_app, Pushforward.comp_inv_app, id_comp, pushforwardEq_hom_app,
-      NatTrans.comp_app, NatTrans.comp_app, pushforwardEq_hom_app, Pushforward.comp_inv_app,
-      id_comp, pushforwardMap_app]
+    rw [NatTrans.comp_app]; rw [pushforwardMap_app]; rw [NatTrans.comp_app]; rw [Pushforward.comp_inv_app]; rw [id_comp]; rw [pushforwardEq_hom_app]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]; rw [pushforwardMap_app]; rw [Pushforward.comp_inv_app]; rw [id_comp]; rw [pushforwardEq_hom_app]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]; rw [pushforwardEq_hom_app]; rw [Pushforward.comp_inv_app]; rw [id_comp]; rw [pushforwardMap_app]
     simp only [pushforwardObj_obj, op_obj, unop_op, map_comp_c_app, pushforwardMap_app,
       Opens.map_comp_obj, Pushforward.comp_inv_app, pushforwardEq_hom_app, eqToHom_op, id_eq,
       eqToHom_map, id_comp, assoc, eqToHom_trans]
@@ -213,14 +208,11 @@ def colimitCocone (F : J ⥤ PresheafedSpace.{_, _, v} C) : Cocone F where
           exact colimit.w_apply (F ⋙ PresheafedSpace.forget C) f x
         · ext ⟨U, hU⟩
           dsimp
-          rw [PresheafedSpace.id_c_app, map_id]
+          rw [PresheafedSpace.id_c_app]; rw [map_id]
           erw [id_comp]
-          rw [NatTrans.comp_app, PresheafedSpace.comp_c_app, whiskerRight_app, eqToHom_app,
-            ← congr_arg NatTrans.app (limit.w (pushforwardDiagramToColimit F).leftOp f.op),
-            NatTrans.comp_app, Functor.leftOp_map, pushforwardDiagramToColimit_map]
+          rw [NatTrans.comp_app]; rw [PresheafedSpace.comp_c_app]; rw [whiskerRight_app]; rw [eqToHom_app]; rw [← congr_arg NatTrans.app (limit.w (pushforwardDiagramToColimit F).leftOp f.op)]; rw [NatTrans.comp_app]; rw [Functor.leftOp_map]; rw [pushforwardDiagramToColimit_map]
           dsimp
-          rw [NatTrans.comp_app, NatTrans.comp_app, pushforwardEq_hom_app, id.def, eqToHom_op,
-            Pushforward.comp_inv_app, id_comp, pushforwardMap_app, ←assoc]
+          rw [NatTrans.comp_app]; rw [NatTrans.comp_app]; rw [pushforwardEq_hom_app]; rw [id.def]; rw [eqToHom_op]; rw [Pushforward.comp_inv_app]; rw [id_comp]; rw [pushforwardMap_app]; rw [←assoc]
           congr 1 }
 set_option linter.uppercaseLean3 false in
 #align algebraic_geometry.PresheafedSpace.colimit_cocone AlgebraicGeometry.PresheafedSpace.colimitCocone
@@ -302,7 +294,7 @@ theorem desc_fac (F : J ⥤ PresheafedSpace.{_, _, v} C) (s : Cocone F) (j : J) 
   · simp [desc]
   · -- Porting note : the original proof is just `ext; dsimp [desc, descCApp]; simpa`,
     -- but this has to be expanded a bit
-    rw [NatTrans.comp_app, PresheafedSpace.comp_c_app, whiskerRight_app]
+    rw [NatTrans.comp_app]; rw [PresheafedSpace.comp_c_app]; rw [whiskerRight_app]
     dsimp [desc, descCApp]
     simp only [eqToHom_app, op_obj, Opens.map_comp_obj, eqToHom_map, Functor.leftOp, assoc]
     rw [limitObjIsoLimitCompEvaluation_inv_π_app_assoc]
@@ -327,7 +319,7 @@ def colimitCoconeIsColimit (F : J ⥤ PresheafedSpace.{_, _, v} C) :
         colimit.desc (F ⋙ PresheafedSpace.forget C) ((PresheafedSpace.forget C).mapCocone s) := by
       dsimp
       ext j
-      rw [colimit.ι_desc, mapCocone_ι_app, ← w j]
+      rw [colimit.ι_desc]; rw [mapCocone_ι_app]; rw [← w j]
       simp
     ext : 1
     · exact t
@@ -335,7 +327,7 @@ def colimitCoconeIsColimit (F : J ⥤ PresheafedSpace.{_, _, v} C) :
       dsimp only [colimitCocone_pt, colimit_carrier, leftOp_obj, pushforwardDiagramToColimit_obj,
         comp_obj, forget_obj, unop_op, op_obj, desc, colimit_presheaf, descCApp, mapCocone_pt,
         pushforwardObj_obj, const_obj_obj, id_eq, evaluation_obj_obj, Eq.ndrec, eq_mpr_eq_cast]
-      rw [NatTrans.comp_app, whiskerRight_app]
+      rw [NatTrans.comp_app]; rw [whiskerRight_app]
       simp only [pushforwardObj_obj, op_obj, comp_obj, eqToHom_app, eqToHom_map, assoc,
         limitObjIsoLimitCompEvaluation_inv_π_app, limit.lift_π]
       rw [PresheafedSpace.congr_app (w (unop j)).symm U]
@@ -414,12 +406,11 @@ theorem colimitPresheafObjIsoComponentwiseLimit_inv_ι_app (F : J ⥤ Presheafed
     (colimitPresheafObjIsoComponentwiseLimit F U).inv ≫ (colimit.ι F j).c.app (op U) =
       limit.π _ (op j) := by
   delta colimitPresheafObjIsoComponentwiseLimit
-  rw [Iso.trans_inv, Iso.trans_inv, Iso.app_inv, sheafIsoOfIso_inv, pushforwardToOfIso_app,
-    congr_app (Iso.symm_inv _)]
+  rw [Iso.trans_inv]; rw [Iso.trans_inv]; rw [Iso.app_inv]; rw [sheafIsoOfIso_inv]; rw [pushforwardToOfIso_app]; rw [congr_app (Iso.symm_inv _)]
   dsimp
-  rw [map_id, comp_id, assoc, assoc, assoc, NatTrans.naturality]
+  rw [map_id]; rw [comp_id]; rw [assoc]; rw [assoc]; rw [assoc]; rw [NatTrans.naturality]
   erw [← comp_c_app_assoc]
-  rw [congr_app (colimit.isoColimitCocone_ι_hom _ _), assoc]
+  rw [congr_app (colimit.isoColimitCocone_ι_hom _ _)]; rw [assoc]
   erw [limitObjIsoLimitCompEvaluation_inv_π_app_assoc, limMap_π_assoc]
   -- Porting note : `convert` doesn't work due to meta variable, so change to a `suffices` block
   set f := _

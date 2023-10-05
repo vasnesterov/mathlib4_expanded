@@ -272,7 +272,7 @@ protected theorem isTopologicalBasis : IsTopologicalBasis (lowerBasis α) := by
     simp only [sInter_image]
   · rintro ⟨F, ⟨hF, hs⟩, rfl⟩
     haveI := hF.to_subtype
-    rw [subset_def, Subtype.forall'] at hs
+    rw [subset_def] at hs; rw [Subtype.forall'] at hs
     choose f hf using hs
     exact ⟨_, finite_range f, by simp_rw [biInter_range, hf, sInter_eq_iInter]⟩
 #align lower_topology.is_topological_basis Topology.IsLower.isTopologicalBasis
@@ -391,8 +391,7 @@ instance instIsLowerProd [Preorder α] [TopologicalSpace α] [IsLower α]
     · rintro _ ⟨x, rfl⟩
       exact (isClosed_Ici.prod isClosed_Ici).isOpen_compl
     rw [(IsLower.isTopologicalBasis.prod
-      IsLower.isTopologicalBasis).eq_generateFrom, le_generateFrom_iff_subset_isOpen,
-      image2_subset_iff]
+      IsLower.isTopologicalBasis).eq_generateFrom]; rw [le_generateFrom_iff_subset_isOpen]; rw [image2_subset_iff]
     rintro _ ⟨s, hs, rfl⟩ _ ⟨t, ht, rfl⟩
     dsimp
     simp_rw [coe_upperClosure, compl_iUnion, prod_eq, preimage_iInter, preimage_compl]

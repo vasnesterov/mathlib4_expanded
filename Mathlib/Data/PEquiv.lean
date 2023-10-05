@@ -257,7 +257,7 @@ theorem ofSet_eq_refl {s : Set α} [DecidablePred (· ∈ s)] :
   ⟨fun h => by
     rw [Set.eq_univ_iff_forall]
     intro
-    rw [← mem_ofSet_self_iff, h]
+    rw [← mem_ofSet_self_iff]; rw [h]
     exact rfl, fun h => by simp only [← ofSet_univ, h]⟩
 #align pequiv.of_set_eq_refl PEquiv.ofSet_eq_refl
 
@@ -284,7 +284,7 @@ theorem symm_trans_self (f : α ≃. β) : f.symm.trans f = ofSet { b | (f.symm 
 
 theorem trans_symm_eq_iff_forall_isSome {f : α ≃. β} :
     f.trans f.symm = PEquiv.refl α ↔ ∀ a, isSome (f a) := by
-  rw [self_trans_symm, ofSet_eq_refl, Set.eq_univ_iff_forall]; rfl
+  rw [self_trans_symm]; rw [ofSet_eq_refl]; rw [Set.eq_univ_iff_forall]; rfl
 #align pequiv.trans_symm_eq_iff_forall_is_some PEquiv.trans_symm_eq_iff_forall_isSome
 
 instance instBotPEquiv : Bot (α ≃. β) :=
@@ -384,7 +384,7 @@ theorem single_trans_single (a : α) (b : β) (c : γ) :
 theorem single_subsingleton_eq_refl [Subsingleton α] (a b : α) : single a b = PEquiv.refl α := by
   ext i j
   dsimp [single]
-  rw [if_pos (Subsingleton.elim i a), Subsingleton.elim i j, Subsingleton.elim b j]
+  rw [if_pos (Subsingleton.elim i a)]; rw [Subsingleton.elim i j]; rw [Subsingleton.elim b j]
 #align pequiv.single_subsingleton_eq_refl PEquiv.single_subsingleton_eq_refl
 
 theorem trans_single_of_eq_none {b : β} (c : γ) {f : δ ≃. β} (h : f.symm b = none) :
@@ -442,14 +442,14 @@ instance [DecidableEq α] [DecidableEq β] : SemilatticeInf (α ≃. β) :=
           split_ifs with h1 h2 h2 <;> try simp [hf]
           · contrapose! h2
             rw [h2]
-            rw [← h1, hf, h2] at hg
+            rw [← h1] at hg; rw [hf] at hg; rw [h2] at hg
             simp only [mem_def, true_iff_iff, eq_self_iff_true] at hg
             rw [hg]
           · contrapose! h1
             rw [h1] at hf h2
             rw [← h2] at hg
             simp only [iff_true] at hf hg
-            rw [hf, hg] }
+            rw [hf]; rw [hg] }
     inf_le_left := fun _ _ _ _ => by simp; split_ifs <;> simp [*]
     inf_le_right := fun _ _ _ _ => by simp; split_ifs <;> simp [*]
     le_inf := fun f g h fg gh a b => by
@@ -457,7 +457,7 @@ instance [DecidableEq α] [DecidableEq β] : SemilatticeInf (α ≃. β) :=
       have hf := fg a b H
       have hg := gh a b H
       simp only [Option.mem_def, PEquiv.coe_mk_apply] at *
-      rw [hf, hg, if_pos rfl] }
+      rw [hf]; rw [hg]; rw [if_pos rfl] }
 
 end Order
 

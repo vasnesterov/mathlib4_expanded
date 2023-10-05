@@ -74,8 +74,8 @@ theorem isUnit_res_of_isUnit_germ (U : Opens X) (f : X.presheaf.obj (op U)) (x :
     exact heq
   obtain ⟨W', hxW', i₁, i₂, heq'⟩ := X.presheaf.germ_eq x.1 hxW hxW _ _ heq
   use W', i₁ ≫ Opens.infLELeft U V, hxW'
-  rw [(X.presheaf.map i₂.op).map_one, (X.presheaf.map i₁.op).map_mul] at heq'
-  rw [← comp_apply, ←X.presheaf.map_comp, ←comp_apply, ←X.presheaf.map_comp, ←op_comp] at heq'
+  rw [(X.presheaf.map i₂.op).map_one] at heq'; rw [(X.presheaf.map i₁.op).map_mul] at heq'
+  rw [← comp_apply] at heq'; rw [←X.presheaf.map_comp] at heq'; rw [←comp_apply] at heq'; rw [←X.presheaf.map_comp] at heq'; rw [←op_comp] at heq'
   exact isUnit_of_mul_eq_one _ _ heq'
 set_option linter.uppercaseLean3 false in
 #align algebraic_geometry.RingedSpace.is_unit_res_of_is_unit_germ AlgebraicGeometry.RingedSpace.isUnit_res_of_isUnit_germ
@@ -106,23 +106,18 @@ theorem isUnit_of_isUnit_germ (U : Opens X) (f : X.presheaf.obj (op U))
     -- Porting note : change was not necessary in Lean3
     change X.presheaf.germ ⟨z, hzVx⟩ _ * (X.presheaf.germ ⟨z, hzVx⟩ _) =
       X.presheaf.germ ⟨z, hzVx⟩ _ * X.presheaf.germ ⟨z, hzVy⟩ (g y)
-    rw [← RingHom.map_mul,
-      congr_arg (X.presheaf.germ (⟨z, hzVx⟩ : V x)) (hg x),
-      -- Porting note : now need explicitly typing the rewrites
+    rw [← RingHom.map_mul]; rw [congr_arg (X.presheaf.germ (⟨z, hzVx⟩ : V x)) (hg x)]; rw [-- Porting note : now need explicitly typing the rewrites
       show X.presheaf.germ ⟨z, hzVx⟩ (X.presheaf.map (iVU x).op f) =
-        X.presheaf.germ ⟨z, ((iVU x) ⟨z, hzVx⟩).2⟩ f from X.presheaf.germ_res_apply _ _ f,
-      -- Porting note : now need explicitly typing the rewrites
+        X.presheaf.germ ⟨z, ((iVU x) ⟨z, hzVx⟩).2⟩ f from X.presheaf.germ_res_apply _ _ f]; rw [-- Porting note : now need explicitly typing the rewrites
       ← show X.presheaf.germ ⟨z, hzVy⟩ (X.presheaf.map (iVU y).op f) =
           X.presheaf.germ ⟨z, ((iVU x) ⟨z, hzVx⟩).2⟩ f from
-          X.presheaf.germ_res_apply (iVU y) ⟨z, hzVy⟩ f,
-      ← RingHom.map_mul,
-      congr_arg (X.presheaf.germ (⟨z, hzVy⟩ : V y)) (hg y), RingHom.map_one, RingHom.map_one]
+          X.presheaf.germ_res_apply (iVU y) ⟨z, hzVy⟩ f]; rw [← RingHom.map_mul]; rw [congr_arg (X.presheaf.germ (⟨z, hzVy⟩ : V y)) (hg y)]; rw [RingHom.map_one]; rw [RingHom.map_one]
   -- We claim that these local inverses glue together to a global inverse of `f`.
   obtain ⟨gl, gl_spec, -⟩ := X.sheaf.existsUnique_gluing' V U iVU hcover g ic
   apply isUnit_of_mul_eq_one f gl
   apply X.sheaf.eq_of_locally_eq' V U iVU hcover
   intro i
-  rw [RingHom.map_one, RingHom.map_mul, gl_spec]
+  rw [RingHom.map_one]; rw [RingHom.map_mul]; rw [gl_spec]
   exact hg i
 set_option linter.uppercaseLean3 false in
 #align algebraic_geometry.RingedSpace.is_unit_of_is_unit_germ AlgebraicGeometry.RingedSpace.isUnit_of_isUnit_germ
@@ -207,7 +202,7 @@ theorem basicOpen_res_eq {U V : (Opens X)ᵒᵖ} (i : U ⟶ V) [IsIso i] (f : X.
   apply le_antisymm
   · rw [X.basicOpen_res i f]; exact inf_le_right
   · have := X.basicOpen_res (inv i) (X.presheaf.map i f)
-    rw [← comp_apply, ← X.presheaf.map_comp, IsIso.hom_inv_id, X.presheaf.map_id, id_apply] at this
+    rw [← comp_apply] at this; rw [← X.presheaf.map_comp] at this; rw [IsIso.hom_inv_id] at this; rw [X.presheaf.map_id] at this; rw [id_apply] at this
     rw [this]
     exact inf_le_right
 set_option linter.uppercaseLean3 false in

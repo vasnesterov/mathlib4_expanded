@@ -139,7 +139,7 @@ theorem nhds_mkOfNhds_single [DecidableEq α] {a₀ : α} {l : Filter α} (h : p
 theorem nhds_mkOfNhds_filterBasis (B : α → FilterBasis α) (a : α) (h₀ : ∀ (x), ∀ n ∈ B x, x ∈ n)
     (h₁ : ∀ (x), ∀ n ∈ B x, ∃ n₁ ∈ B x, n₁ ⊆ n ∧ ∀ x' ∈ n₁, ∃ n₂ ∈ B x', n₂ ⊆ n) :
     @nhds α (TopologicalSpace.mkOfNhds fun x => (B x).filter) a = (B a).filter := by
-  rw [TopologicalSpace.nhds_mkOfNhds] <;> intro x n hn <;>
+  rw [TopologicalSpace.nhds_mkOfNhds]  <;> intro x n hn <;>
     obtain ⟨m, hm₁, hm₂⟩ := (B x).mem_filter_iff.mp hn
   · exact hm₂ (h₀ _ _ hm₁)
   · obtain ⟨n₁, hn₁, hn₂, hn₃⟩ := h₁ x m hm₁
@@ -295,7 +295,7 @@ theorem isOpen_discrete (s : Set α) : IsOpen s := (@DiscreteTopology.eq_bot α 
 
 @[simp]
 theorem denseRange_discrete {f : ι → α} : DenseRange f ↔ Surjective f := by
-  rw [DenseRange, dense_discrete, range_iff_surjective]
+  rw [DenseRange]; rw [dense_discrete]; rw [range_iff_surjective]
 
 @[nontriviality, continuity]
 theorem continuous_of_discreteTopology [TopologicalSpace β] {f : α → β} : Continuous f :=
@@ -314,7 +314,7 @@ theorem mem_nhds_discrete {x : α} {s : Set α} :
 end DiscreteTopology
 
 theorem le_of_nhds_le_nhds (h : ∀ x, @nhds α t₁ x ≤ @nhds α t₂ x) : t₁ ≤ t₂ := fun s => by
-  rw [@isOpen_iff_mem_nhds _ t₁, @isOpen_iff_mem_nhds α t₂]
+  rw [@isOpen_iff_mem_nhds _ t₁]; rw [@isOpen_iff_mem_nhds α t₂]
   exact fun hs a ha => h _ (hs _ ha)
 #align le_of_nhds_le_nhds le_of_nhds_le_nhds
 
@@ -387,7 +387,7 @@ def TopologicalSpace.induced {α : Type u} {β : Type v} (f : α → β) (t : To
   isOpen_sUnion S h := by
     choose! g hgo hfg using h
     refine ⟨⋃ s ∈ S, g s, isOpen_biUnion fun s hs => hgo s hs, ?_⟩
-    rw [preimage_iUnion₂, sUnion_eq_biUnion]
+    rw [preimage_iUnion₂]; rw [sUnion_eq_biUnion]
     exact iUnion₂_congr hfg
 #align topological_space.induced TopologicalSpace.induced
 
@@ -515,7 +515,7 @@ theorem coinduced_compose [tα : TopologicalSpace α] {f : α → β} {g : β �
 theorem Equiv.induced_symm {α β : Type*} (e : α ≃ β) :
     TopologicalSpace.induced e.symm = TopologicalSpace.coinduced e := by
   ext t U
-  rw [isOpen_induced_iff, isOpen_coinduced]
+  rw [isOpen_induced_iff]; rw [isOpen_coinduced]
   simp only [e.symm.preimage_eq_iff_eq_image, exists_eq_right, ← preimage_equiv_eq_image_symm]
 #align equiv.induced_symm Equiv.induced_symm
 
@@ -676,7 +676,7 @@ theorem le_nhdsAdjoint_iff' {α : Type*} (a : α) (f : Filter α) (t : Topologic
 theorem le_nhdsAdjoint_iff {α : Type*} (a : α) (f : Filter α) (t : TopologicalSpace α) :
     t ≤ nhdsAdjoint a f ↔ @nhds α t a ≤ pure a ⊔ f ∧ ∀ b, b ≠ a → IsOpen[t] {b} := by
   change _ ↔ _ ∧ ∀ b : α, b ≠ a → IsOpen {b}
-  rw [le_nhdsAdjoint_iff', and_congr_right_iff]
+  rw [le_nhdsAdjoint_iff']; rw [and_congr_right_iff]
   refine fun _ => forall_congr' fun b => ?_
   rw [@isOpen_singleton_iff_nhds_eq_pure α t b]
 #align le_nhds_adjoint_iff le_nhdsAdjoint_iff
@@ -863,7 +863,7 @@ theorem mem_nhds_induced [T : TopologicalSpace α] (f : β → α) (a : β) (s :
 theorem nhds_induced [T : TopologicalSpace α] (f : β → α) (a : β) :
     @nhds β (TopologicalSpace.induced f T) a = comap f (𝓝 (f a)) := by
   ext s
-  rw [mem_nhds_induced, mem_comap]
+  rw [mem_nhds_induced]; rw [mem_comap]
 #align nhds_induced nhds_induced
 
 theorem induced_iff_nhds_eq [tα : TopologicalSpace α] [tβ : TopologicalSpace β] (f : β → α) :
@@ -874,7 +874,7 @@ theorem induced_iff_nhds_eq [tα : TopologicalSpace α] [tβ : TopologicalSpace 
 
 theorem map_nhds_induced_of_surjective [T : TopologicalSpace α] {f : β → α} (hf : Surjective f)
     (a : β) : map f (@nhds β (TopologicalSpace.induced f T) a) = 𝓝 (f a) := by
-  rw [nhds_induced, map_comap_of_surjective hf]
+  rw [nhds_induced]; rw [map_comap_of_surjective hf]
 #align map_nhds_induced_of_surjective map_nhds_induced_of_surjective
 
 end Constructions
@@ -897,7 +897,7 @@ theorem isOpen_induced {s : Set β} (h : IsOpen s) : IsOpen[induced f t] (f ⁻�
 #align is_open_induced isOpen_induced
 
 theorem map_nhds_induced_eq (a : α) : map f (@nhds α (induced f t) a) = 𝓝[range f] f a := by
-  rw [nhds_induced, Filter.map_comap, nhdsWithin]
+  rw [nhds_induced]; rw [Filter.map_comap]; rw [nhdsWithin]
 #align map_nhds_induced_eq map_nhds_induced_eq
 
 theorem map_nhds_induced_of_mem {a : α} (h : range f ∈ 𝓝 (f a)) :

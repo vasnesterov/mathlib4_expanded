@@ -93,7 +93,7 @@ theorem IsComplement'.symm (h : IsComplement' H K) : IsComplement' K H := by
       (fun x => Prod.ext (inv_inv _) (inv_inv _)) fun x => Prod.ext (inv_inv _) (inv_inv _)
   let ψ : G ≃ G := Equiv.mk (fun g : G => g⁻¹) (fun g : G => g⁻¹) inv_inv inv_inv
   suffices hf : (ψ ∘ fun x : H × K => x.1.1 * x.2.1) = (fun x : K × H => x.1.1 * x.2.1) ∘ ϕ by
-    rw [isComplement'_def, IsComplement, ← Equiv.bijective_comp ϕ]
+    rw [isComplement'_def]; rw [IsComplement]; rw [← Equiv.bijective_comp ϕ]
     apply (congr_arg Function.Bijective hf).mp -- porting note: This was a `rw` in mathlib3
     rwa [ψ.comp_bijective]
   exact funext fun x => mul_inv_rev _ _
@@ -207,7 +207,7 @@ theorem isComplement'_top_right : IsComplement' H ⊤ ↔ H = ⊥ :=
 @[to_additive]
 theorem mem_leftTransversals_iff_existsUnique_inv_mul_mem :
     S ∈ leftTransversals T ↔ ∀ g : G, ∃! s : S, (s : G)⁻¹ * g ∈ T := by
-  rw [leftTransversals, Set.mem_setOf_eq, isComplement_iff_existsUnique]
+  rw [leftTransversals]; rw [Set.mem_setOf_eq]; rw [isComplement_iff_existsUnique]
   refine' ⟨fun h g => _, fun h g => _⟩
   · obtain ⟨x, h1, h2⟩ := h g
     exact
@@ -223,7 +223,7 @@ theorem mem_leftTransversals_iff_existsUnique_inv_mul_mem :
 @[to_additive]
 theorem mem_rightTransversals_iff_existsUnique_mul_inv_mem :
     S ∈ rightTransversals T ↔ ∀ g : G, ∃! s : S, g * (s : G)⁻¹ ∈ T := by
-  rw [rightTransversals, Set.mem_setOf_eq, isComplement_iff_existsUnique]
+  rw [rightTransversals]; rw [Set.mem_setOf_eq]; rw [isComplement_iff_existsUnique]
   refine' ⟨fun h g => _, fun h g => _⟩
   · obtain ⟨x, h1, h2⟩ := h g
     exact
@@ -355,11 +355,10 @@ theorem equiv_snd_eq_inv_mul (g : G) : ↑(hST.equiv g).snd = ((hST.equiv g).fst
 
 theorem equiv_fst_eq_iff_leftCosetEquivalence {g₁ g₂ : G} :
     (hSK.equiv g₁).fst = (hSK.equiv g₂).fst ↔ LeftCosetEquivalence K g₁ g₂ := by
-  rw [LeftCosetEquivalence, leftCoset_eq_iff]
+  rw [LeftCosetEquivalence]; rw [leftCoset_eq_iff]
   constructor
   · intro h
-    rw [← hSK.equiv_fst_mul_equiv_snd g₂, ←hSK.equiv_fst_mul_equiv_snd g₁, ← h,
-      mul_inv_rev, ← mul_assoc, inv_mul_cancel_right, ← coe_inv, ← coe_mul]
+    rw [← hSK.equiv_fst_mul_equiv_snd g₂]; rw [←hSK.equiv_fst_mul_equiv_snd g₁]; rw [← h]; rw [mul_inv_rev]; rw [← mul_assoc]; rw [inv_mul_cancel_right]; rw [← coe_inv]; rw [← coe_mul]
     exact Subtype.property _
   · intro h
     apply (mem_leftTransversals_iff_existsUnique_inv_mul_mem.1 hSK g₁).unique
@@ -369,11 +368,10 @@ theorem equiv_fst_eq_iff_leftCosetEquivalence {g₁ g₂ : G} :
 
 theorem equiv_snd_eq_iff_rightCosetEquivalence {g₁ g₂ : G} :
     (hHT.equiv g₁).snd = (hHT.equiv g₂).snd ↔ RightCosetEquivalence H g₁ g₂ := by
-  rw [RightCosetEquivalence, rightCoset_eq_iff]
+  rw [RightCosetEquivalence]; rw [rightCoset_eq_iff]
   constructor
   · intro h
-    rw [← hHT.equiv_fst_mul_equiv_snd g₂, ←hHT.equiv_fst_mul_equiv_snd g₁, ← h,
-      mul_inv_rev, mul_assoc, mul_inv_cancel_left, ← coe_inv, ← coe_mul]
+    rw [← hHT.equiv_fst_mul_equiv_snd g₂]; rw [←hHT.equiv_fst_mul_equiv_snd g₁]; rw [← h]; rw [mul_inv_rev]; rw [mul_assoc]; rw [mul_inv_cancel_left]; rw [← coe_inv]; rw [← coe_mul]
     exact Subtype.property _
   · intro h
     apply (mem_rightTransversals_iff_existsUnique_mul_inv_mem.1 hHT g₁).unique
@@ -392,24 +390,24 @@ theorem rightCosetEquivalence_equiv_snd (g : G) :
 theorem equiv_fst_eq_self_of_mem_of_one_mem {g : G} (h1 : 1 ∈ T) (hg : g ∈ S) :
     (hST.equiv g).fst = ⟨g, hg⟩ := by
   have : hST.equiv.symm (⟨g, hg⟩, ⟨1, h1⟩) = g := by
-    rw [equiv, Equiv.ofBijective]; simp
+    rw [equiv]; rw [Equiv.ofBijective]; simp
   conv_lhs => rw [← this, Equiv.apply_symm_apply]
 
 theorem equiv_snd_eq_self_of_mem_of_one_mem {g : G} (h1 : 1 ∈ S) (hg : g ∈ T) :
     (hST.equiv g).snd = ⟨g, hg⟩ := by
   have : hST.equiv.symm (⟨1, h1⟩, ⟨g, hg⟩) = g := by
-    rw [equiv, Equiv.ofBijective]; simp
+    rw [equiv]; rw [Equiv.ofBijective]; simp
   conv_lhs => rw [← this, Equiv.apply_symm_apply]
 
 theorem equiv_snd_eq_one_of_mem_of_one_mem {g : G} (h1 : 1 ∈ T) (hg : g ∈ S) :
     (hST.equiv g).snd = ⟨1, h1⟩ := by
   ext
-  rw [equiv_snd_eq_inv_mul, equiv_fst_eq_self_of_mem_of_one_mem _ h1 hg, inv_mul_self]
+  rw [equiv_snd_eq_inv_mul]; rw [equiv_fst_eq_self_of_mem_of_one_mem _ h1 hg]; rw [inv_mul_self]
 
 theorem equiv_fst_eq_one_of_mem_of_one_mem {g : G} (h1 : 1 ∈ S) (hg : g ∈ T) :
     (hST.equiv g).fst = ⟨1, h1⟩ := by
   ext
-  rw [equiv_fst_eq_mul_inv, equiv_snd_eq_self_of_mem_of_one_mem _ h1 hg, mul_inv_self]
+  rw [equiv_fst_eq_mul_inv]; rw [equiv_snd_eq_self_of_mem_of_one_mem _ h1 hg]; rw [mul_inv_self]
 
 @[simp]
 theorem equiv_mul_right (g : G) (k : K) :
@@ -463,11 +461,11 @@ theorem equiv_snd_eq_self_iff_mem {g : G} (h1 : 1 ∈ S) :
 
 theorem coe_equiv_fst_eq_one_iff_mem {g : G} (h1 : 1 ∈ S) :
     ((hST.equiv g).fst : G) = 1 ↔ g ∈ T := by
-  rw [equiv_fst_eq_mul_inv, mul_inv_eq_one, eq_comm, equiv_snd_eq_self_iff_mem _ h1]
+  rw [equiv_fst_eq_mul_inv]; rw [mul_inv_eq_one]; rw [eq_comm]; rw [equiv_snd_eq_self_iff_mem _ h1]
 
 theorem coe_equiv_snd_eq_one_iff_mem {g : G} (h1 : 1 ∈ T) :
     ((hST.equiv g).snd : G) = 1 ↔ g ∈ S := by
-  rw [equiv_snd_eq_inv_mul, inv_mul_eq_one, equiv_fst_eq_self_iff_mem _ h1]
+  rw [equiv_snd_eq_inv_mul]; rw [inv_mul_eq_one]; rw [equiv_fst_eq_self_iff_mem _ h1]
 
 end IsComplement
 
@@ -612,7 +610,7 @@ theorem smul_toEquiv (f : F) (T : leftTransversals (H : Set G)) (q : G ⧸ H) :
 @[to_additive]
 theorem smul_apply_eq_smul_apply_inv_smul (f : F) (T : leftTransversals (H : Set G)) (q : G ⧸ H) :
     (toEquiv (f • T).2 q : G) = f • (toEquiv T.2 (f⁻¹ • q) : G) := by
-  rw [smul_toEquiv, smul_inv_smul]
+  rw [smul_toEquiv]; rw [smul_inv_smul]
 #align subgroup.smul_apply_eq_smul_apply_inv_smul Subgroup.smul_apply_eq_smul_apply_inv_smul
 #align add_subgroup.vadd_apply_eq_vadd_apply_neg_vadd AddSubgroup.vadd_apply_eq_vadd_apply_neg_vadd
 
@@ -723,8 +721,7 @@ theorem quotientEquivSigmaZMod_symm_apply (q : orbitRel.Quotient (zpowers g) (G 
 
 theorem quotientEquivSigmaZMod_apply (q : orbitRel.Quotient (zpowers g) (G ⧸ H)) (k : ℤ) :
     quotientEquivSigmaZMod H g (g ^ k • q.out') = ⟨q, k⟩ := by
-  rw [apply_eq_iff_eq_symm_apply, quotientEquivSigmaZMod_symm_apply, ZMod.coe_int_cast,
-    zpow_smul_mod_minimalPeriod]
+  rw [apply_eq_iff_eq_symm_apply]; rw [quotientEquivSigmaZMod_symm_apply]; rw [ZMod.coe_int_cast]; rw [zpow_smul_mod_minimalPeriod]
 #align subgroup.quotient_equiv_sigma_zmod_apply Subgroup.quotientEquivSigmaZMod_apply
 
 /-- The transfer transversal as a function. Given a `⟨g⟩`-orbit `q₀, g • q₀, ..., g ^ (m - 1) • q₀`
@@ -741,8 +738,7 @@ theorem transferFunction_apply (q : G ⧸ H) :
 #align subgroup.transfer_function_apply Subgroup.transferFunction_apply
 
 theorem coe_transferFunction (q : G ⧸ H) : ↑(transferFunction H g q) = q := by
-  rw [transferFunction_apply, ← smul_eq_mul, Quotient.coe_smul_out',
-    ← quotientEquivSigmaZMod_symm_apply, Sigma.eta, symm_apply_apply]
+  rw [transferFunction_apply]; rw [← smul_eq_mul]; rw [Quotient.coe_smul_out']; rw [← quotientEquivSigmaZMod_symm_apply]; rw [Sigma.eta]; rw [symm_apply_apply]
 #align subgroup.coe_transfer_function Subgroup.coe_transferFunction
 
 /-- The transfer transversal as a set. Contains elements of the form `g ^ k • g₀` for fixed choices
@@ -769,8 +765,7 @@ theorem transferTransversal_apply (q : G ⧸ H) :
 theorem transferTransversal_apply' (q : orbitRel.Quotient (zpowers g) (G ⧸ H))
     (k : ZMod (minimalPeriod ((· • ·) g) q.out')) :
     ↑(toEquiv (transferTransversal H g).2 (g ^ (k : ℤ) • q.out')) = g ^ (k : ℤ) * q.out'.out' := by
-  rw [transferTransversal_apply, transferFunction_apply, ← quotientEquivSigmaZMod_symm_apply,
-    apply_symm_apply]
+  rw [transferTransversal_apply]; rw [transferFunction_apply]; rw [← quotientEquivSigmaZMod_symm_apply]; rw [apply_symm_apply]
 #align subgroup.transfer_transversal_apply' Subgroup.transferTransversal_apply'
 
 theorem transferTransversal_apply'' (q : orbitRel.Quotient (zpowers g) (G ⧸ H))
@@ -778,10 +773,9 @@ theorem transferTransversal_apply'' (q : orbitRel.Quotient (zpowers g) (G ⧸ H)
     ↑(toEquiv (g • transferTransversal H g).2 (g ^ (k : ℤ) • q.out')) =
       if k = 0 then g ^ minimalPeriod ((· • ·) g) q.out' * q.out'.out'
       else g ^ (k : ℤ) * q.out'.out' := by
-  rw [smul_apply_eq_smul_apply_inv_smul, transferTransversal_apply, transferFunction_apply, ←
-    mul_smul, ← zpow_neg_one, ← zpow_add, quotientEquivSigmaZMod_apply, smul_eq_mul, ← mul_assoc,
-    ← zpow_one_add, Int.cast_add, Int.cast_neg, Int.cast_one, int_cast_cast, cast_id', id.def, ←
-    sub_eq_neg_add, cast_sub_one, add_sub_cancel'_right]
+  rw [smul_apply_eq_smul_apply_inv_smul]; rw [transferTransversal_apply]; rw [transferFunction_apply]; rw [←
+    mul_smul]; rw [← zpow_neg_one]; rw [← zpow_add]; rw [quotientEquivSigmaZMod_apply]; rw [smul_eq_mul]; rw [← mul_assoc]; rw [← zpow_one_add]; rw [Int.cast_add]; rw [Int.cast_neg]; rw [Int.cast_one]; rw [int_cast_cast]; rw [cast_id']; rw [id.def]; rw [←
+    sub_eq_neg_add]; rw [cast_sub_one]; rw [add_sub_cancel'_right]
   by_cases hk : k = 0
   · rw [if_pos hk, if_pos hk, zpow_ofNat]
   · rw [if_neg hk, if_neg hk]

@@ -138,15 +138,15 @@ theorem map_monotone (d : ℕ) : Monotone (map d : (Fin n → ℕ) → ℕ) := f
 #align behrend.map_monotone Behrend.map_monotone
 
 theorem map_mod (a : Fin n.succ → ℕ) : map d a % d = a 0 % d := by
-  rw [map_succ, Nat.add_mul_mod_self_right]
+  rw [map_succ]; rw [Nat.add_mul_mod_self_right]
 #align behrend.map_mod Behrend.map_mod
 
 theorem map_eq_iff {x₁ x₂ : Fin n.succ → ℕ} (hx₁ : ∀ i, x₁ i < d) (hx₂ : ∀ i, x₂ i < d) :
     map d x₁ = map d x₂ ↔ x₁ 0 = x₂ 0 ∧ map d (x₁ ∘ Fin.succ) = map d (x₂ ∘ Fin.succ) := by
   refine' ⟨fun h => _, fun h => by rw [map_succ', map_succ', h.1, h.2]⟩
   have : x₁ 0 = x₂ 0 := by
-    rw [← mod_eq_of_lt (hx₁ _), ← map_mod, ← mod_eq_of_lt (hx₂ _), ← map_mod, h]
-  rw [map_succ, map_succ, this, add_right_inj, mul_eq_mul_right_iff] at h
+    rw [← mod_eq_of_lt (hx₁ _)]; rw [← map_mod]; rw [← mod_eq_of_lt (hx₂ _)]; rw [← map_mod]; rw [h]
+  rw [map_succ] at h; rw [map_succ] at h; rw [this] at h; rw [add_right_inj] at h; rw [mul_eq_mul_right_iff] at h
   exact ⟨this, h.resolve_right (pos_of_gt (hx₁ 0)).ne'⟩
 #align behrend.map_eq_iff Behrend.map_eq_iff
 
@@ -175,7 +175,7 @@ nonrec theorem addSalemSpencer_sphere : AddSalemSpencer (sphere n d k : Set (Fin
   refine' AddSalemSpencer.of_image (f.toAddFreimanHom (sphere n d k : Set (Fin n → ℕ)) 2) _ _
   · exact cast_injective.comp_left.injOn _
   refine' (addSalemSpencer_sphere 0 <| Real.sqrt k).mono (Set.image_subset_iff.2 fun x => _)
-  rw [Set.mem_preimage, mem_sphere_zero_iff_norm]
+  rw [Set.mem_preimage]; rw [mem_sphere_zero_iff_norm]
   exact norm_of_mem_sphere
 #align behrend.add_salem_spencer_sphere Behrend.addSalemSpencer_sphere
 
@@ -189,7 +189,7 @@ theorem addSalemSpencer_image_sphere :
   rintro a ha b hb i
   have hai := mem_box.1 (sphere_subset_box ha) i
   have hbi := mem_box.1 (sphere_subset_box hb) i
-  rw [lt_tsub_iff_right, ← succ_le_iff, two_mul]
+  rw [lt_tsub_iff_right]; rw [← succ_le_iff]; rw [two_mul]
   exact (add_add_add_comm _ _ 1 1).trans_le (_root_.add_le_add hai hbi)
 #align behrend.add_salem_spencer_image_sphere Behrend.addSalemSpencer_image_sphere
 
@@ -255,7 +255,7 @@ theorem exists_large_sphere (n d : ℕ) : ∃ k, (d ^ n / ↑(n * d ^ 2) : ℝ) 
   · simp
   obtain rfl | hd := d.eq_zero_or_pos
   · simp
-  rw [rpow_nat_cast, ← cast_pow]
+  rw [rpow_nat_cast]; rw [← cast_pow]
   refine' (div_le_div_of_le_left _ _ _).trans hk
   · exact cast_nonneg _
   · exact cast_add_one_pos _
@@ -276,8 +276,7 @@ theorem bound_aux' (n d : ℕ) : (d ^ n / ↑(n * d ^ 2) : ℝ) ≤ rothNumberNa
 theorem bound_aux (hd : d ≠ 0) (hn : 2 ≤ n) :
     (d ^ (n - 2) / n : ℝ) ≤ rothNumberNat ((2 * d - 1) ^ n) := by
   convert bound_aux' n d using 1
-  rw [cast_mul, cast_pow, mul_comm, ← div_div, ← cast_two, ← cast_sub hn, rpow_nat_cast,
-    rpow_nat_cast, pow_sub₀ _ (cast_ne_zero.2 hd) hn, ← div_eq_mul_inv]
+  rw [cast_mul]; rw [cast_pow]; rw [mul_comm]; rw [← div_div]; rw [← cast_two]; rw [← cast_sub hn]; rw [rpow_nat_cast]; rw [rpow_nat_cast]; rw [pow_sub₀ _ (cast_ne_zero.2 hd) hn]; rw [← div_eq_mul_inv]
 #align behrend.bound_aux Behrend.bound_aux
 
 open scoped Filter Topology
@@ -288,9 +287,9 @@ section NumericalBounds
 
 theorem log_two_mul_two_le_sqrt_log_eight : log 2 * 2 ≤ sqrt (log 8) := by
   have : (8 : ℝ) = 2 ^ ((3 : ℕ) : ℝ) := by rw [rpow_nat_cast]; norm_num
-  rw [this, log_rpow zero_lt_two (3 : ℕ)]
+  rw [this]; rw [log_rpow zero_lt_two (3 : ℕ)]
   apply le_sqrt_of_sq_le
-  rw [mul_pow, sq (log 2), mul_assoc, mul_comm]
+  rw [mul_pow]; rw [sq (log 2)]; rw [mul_assoc]; rw [mul_comm]
   refine' mul_le_mul_of_nonneg_right _ (log_nonneg one_le_two)
   rw [← le_div_iff]
   apply log_two_lt_d9.le.trans
@@ -298,15 +297,15 @@ theorem log_two_mul_two_le_sqrt_log_eight : log 2 * 2 ≤ sqrt (log 8) := by
 #align behrend.log_two_mul_two_le_sqrt_log_eight Behrend.log_two_mul_two_le_sqrt_log_eight
 
 theorem two_div_one_sub_two_div_e_le_eight : 2 / (1 - 2 / exp 1) ≤ 8 := by
-  rw [div_le_iff, mul_sub, mul_one, mul_div_assoc', le_sub_comm, div_le_iff (exp_pos _)]
+  rw [div_le_iff]; rw [mul_sub]; rw [mul_one]; rw [mul_div_assoc']; rw [le_sub_comm]; rw [div_le_iff (exp_pos _)]
   · have : 16 < 6 * (2.7182818283 : ℝ) := by norm_num
     linarith [exp_one_gt_d9]
-  rw [sub_pos, div_lt_one] <;> exact exp_one_gt_d9.trans' (by norm_num)
+  rw [sub_pos]; rw [div_lt_one]; all_goals exact exp_one_gt_d9.trans' (by norm_num)
 #align behrend.two_div_one_sub_two_div_e_le_eight Behrend.two_div_one_sub_two_div_e_le_eight
 
 theorem le_sqrt_log (hN : 4096 ≤ N) : log (2 / (1 - 2 / exp 1)) * (69 / 50) ≤ sqrt (log ↑N) := by
   have : ((12 : ℕ) : ℝ) * log 2 ≤ log N := by
-    rw [← log_rpow zero_lt_two, log_le_log, rpow_nat_cast]
+    rw [← log_rpow zero_lt_two]; rw [log_le_log]; rw [rpow_nat_cast]
     · norm_num1
       exact_mod_cast hN
     · exact rpow_pos_of_pos zero_lt_two _
@@ -315,14 +314,14 @@ theorem le_sqrt_log (hN : 4096 ≤ N) : log (2 / (1 - 2 / exp 1)) * (69 / 50) �
   refine' (mul_le_mul_of_nonneg_right ((log_le_log _ <| by norm_num1).2
       two_div_one_sub_two_div_e_le_eight) <| by norm_num1).trans _
   · refine' div_pos zero_lt_two _
-    rw [sub_pos, div_lt_one (exp_pos _)]
+    rw [sub_pos]; rw [div_lt_one (exp_pos _)]
     exact exp_one_gt_d9.trans_le' (by norm_num1)
   have l8 : log 8 = (3 : ℕ) * log 2 := by
-    rw [← log_rpow zero_lt_two, rpow_nat_cast]
+    rw [← log_rpow zero_lt_two]; rw [rpow_nat_cast]
     norm_num
   rw [l8]
   apply le_sqrt_of_sq_le (le_trans _ this)
-  rw [mul_right_comm, mul_pow, sq (log 2), ← mul_assoc]
+  rw [mul_right_comm]; rw [mul_pow]; rw [sq (log 2)]; rw [← mul_assoc]
   apply mul_le_mul_of_nonneg_right _ (log_nonneg one_le_two)
   rw [← le_div_iff']
   · exact log_two_lt_d9.le.trans (by norm_num1)
@@ -334,12 +333,11 @@ theorem exp_neg_two_mul_le {x : ℝ} (hx : 0 < x) : exp (-2 * x) < exp (2 - ⌈x
   have h₂ : 1 - x ≤ 2 - ⌈x⌉₊ := by
     rw [_root_.le_sub_iff_add_le]
     apply (add_le_add_left h₁.le _).trans_eq
-    rw [← add_assoc, sub_add_cancel]
+    rw [← add_assoc]; rw [sub_add_cancel]
     linarith
   refine' lt_of_le_of_lt _ (div_lt_div_of_lt_left (exp_pos _) (cast_pos.2 <| ceil_pos.2 hx) h₁)
   refine' le_trans _ (div_le_div_of_le_of_nonneg (exp_le_exp.2 h₂) <| add_nonneg hx.le zero_le_one)
-  rw [le_div_iff (add_pos hx zero_lt_one), ← le_div_iff' (exp_pos _), ← exp_sub, neg_mul,
-    sub_neg_eq_add, two_mul, sub_add_add_cancel, add_comm _ x]
+  rw [le_div_iff (add_pos hx zero_lt_one)]; rw [← le_div_iff' (exp_pos _)]; rw [← exp_sub]; rw [neg_mul]; rw [sub_neg_eq_add]; rw [two_mul]; rw [sub_add_add_cancel]; rw [add_comm _ x]
   refine' le_trans _ (add_one_le_exp_of_nonneg <| add_nonneg hx.le zero_le_one)
   exact le_add_of_nonneg_right zero_le_one
 #align behrend.exp_neg_two_mul_le Behrend.exp_neg_two_mul_le
@@ -347,7 +345,7 @@ theorem exp_neg_two_mul_le {x : ℝ} (hx : 0 < x) : exp (-2 * x) < exp (2 - ⌈x
 theorem div_lt_floor {x : ℝ} (hx : 2 / (1 - 2 / exp 1) ≤ x) : x / exp 1 < (⌊x / 2⌋₊ : ℝ) := by
   apply lt_of_le_of_lt _ (sub_one_lt_floor _)
   have : 0 < 1 - 2 / exp 1 := by
-    rw [sub_pos, div_lt_one (exp_pos _)]
+    rw [sub_pos]; rw [div_lt_one (exp_pos _)]
     exact lt_of_le_of_lt (by norm_num) exp_one_gt_d9
   rwa [le_sub_comm, div_eq_mul_one_div x, div_eq_mul_one_div x, ← mul_sub, div_sub', ←
     div_eq_mul_one_div, mul_div_assoc', one_le_div, ← div_le_iff this]
@@ -357,7 +355,7 @@ theorem div_lt_floor {x : ℝ} (hx : 2 / (1 - 2 / exp 1) ≤ x) : x / exp 1 < (�
 
 theorem ceil_lt_mul {x : ℝ} (hx : 50 / 19 ≤ x) : (⌈x⌉₊ : ℝ) < 1.38 * x := by
   refine' (ceil_lt_add_one <| hx.trans' <| by norm_num).trans_le _
-  rw [← le_sub_iff_add_le', ← sub_one_mul]
+  rw [← le_sub_iff_add_le']; rw [← sub_one_mul]
   have : (1.38 : ℝ) = 69 / 50 := by norm_num
   rwa [this, show (69 / 50 - 1 : ℝ) = (50 / 19)⁻¹ by norm_num1, ←
     div_eq_inv_mul, one_le_div]
@@ -382,7 +380,7 @@ theorem nValue_pos (hN : 2 ≤ N) : 0 < nValue N :=
 
 theorem two_le_nValue (hN : 3 ≤ N) : 2 ≤ nValue N := by
   refine' succ_le_of_lt (lt_ceil.2 <| lt_sqrt_of_sq_lt _)
-  rw [cast_one, one_pow, lt_log_iff_exp_lt]
+  rw [cast_one]; rw [one_pow]; rw [lt_log_iff_exp_lt]
   refine' lt_of_lt_of_le _ (cast_le.2 hN)
   · exact exp_one_lt_d9.trans_le (by norm_num)
   rw [cast_pos]
@@ -390,13 +388,13 @@ theorem two_le_nValue (hN : 3 ≤ N) : 2 ≤ nValue N := by
 #align behrend.two_le_n_value Behrend.two_le_nValue
 
 theorem three_le_nValue (hN : 64 ≤ N) : 3 ≤ nValue N := by
-  rw [nValue, ← lt_iff_add_one_le, lt_ceil, cast_two]
+  rw [nValue]; rw [← lt_iff_add_one_le]; rw [lt_ceil]; rw [cast_two]
   apply lt_sqrt_of_sq_lt
   have : (2 : ℝ) ^ ((6 : ℕ) : ℝ) ≤ N := by
     rw [rpow_nat_cast]
     exact (cast_le.2 hN).trans' (by norm_num1)
   apply lt_of_lt_of_le _ ((log_le_log (rpow_pos_of_pos zero_lt_two _) _).2 this)
-  rw [log_rpow zero_lt_two, ← div_lt_iff']
+  rw [log_rpow zero_lt_two]; rw [← div_lt_iff']
   · exact log_two_gt_d9.trans_le' (by norm_num1)
   · norm_num1
   rw [cast_pos]
@@ -405,16 +403,15 @@ theorem three_le_nValue (hN : 64 ≤ N) : 3 ≤ nValue N := by
 
 theorem dValue_pos (hN₃ : 8 ≤ N) : 0 < dValue N := by
   have hN₀ : 0 < (N : ℝ) := cast_pos.2 (succ_pos'.trans_le hN₃)
-  rw [dValue, floor_pos, ← log_le_log zero_lt_one, log_one, log_div _ two_ne_zero, log_rpow hN₀,
-    div_mul_eq_mul_div, one_mul, sub_nonneg, le_div_iff]
+  rw [dValue]; rw [floor_pos]; rw [← log_le_log zero_lt_one]; rw [log_one]; rw [log_div _ two_ne_zero]; rw [log_rpow hN₀]; rw [div_mul_eq_mul_div]; rw [one_mul]; rw [sub_nonneg]; rw [le_div_iff]
   · have : (nValue N : ℝ) ≤ 2 * sqrt (log N) := by
       apply (ceil_lt_add_one <| sqrt_nonneg _).le.trans
-      rw [two_mul, add_le_add_iff_left]
+      rw [two_mul]; rw [add_le_add_iff_left]
       apply le_sqrt_of_sq_le
-      rw [one_pow, le_log_iff_exp_le hN₀]
+      rw [one_pow]; rw [le_log_iff_exp_le hN₀]
       exact (exp_one_lt_d9.le.trans <| by norm_num).trans (cast_le.2 hN₃)
     apply (mul_le_mul_of_nonneg_left this <| log_nonneg one_le_two).trans _
-    rw [← mul_assoc, ← le_div_iff (Real.sqrt_pos.2 <| log_pos <| one_lt_cast.2 _), div_sqrt]
+    rw [← mul_assoc]; rw [← le_div_iff (Real.sqrt_pos.2 <| log_pos <| one_lt_cast.2 _)]; rw [div_sqrt]
     · apply log_two_mul_two_le_sqrt_log_eight.trans
       apply Real.sqrt_le_sqrt
       rw [log_le_log _ hN₀]
@@ -433,7 +430,7 @@ theorem le_N (hN : 2 ≤ N) : (2 * dValue N - 1) ^ nValue N ≤ N := by
   suffices ((2 * dValue N) ^ nValue N : ℝ) ≤ N by exact_mod_cast this
   suffices i : (2 * dValue N : ℝ) ≤ (N : ℝ) ^ (1 / nValue N : ℝ)
   · apply (rpow_le_rpow (mul_nonneg zero_le_two (cast_nonneg _)) i (cast_nonneg _)).trans
-    rw [← rpow_mul (cast_nonneg _), one_div_mul_cancel, rpow_one]
+    rw [← rpow_mul (cast_nonneg _)]; rw [one_div_mul_cancel]; rw [rpow_one]
     rw [cast_ne_zero]
     apply (nValue_pos hN).ne'
   rw [← le_div_iff']
@@ -444,9 +441,9 @@ set_option linter.uppercaseLean3 false in
 
 theorem bound (hN : 4096 ≤ N) : (N : ℝ) ^ (1 / nValue N : ℝ) / exp 1 < dValue N := by
   apply div_lt_floor _
-  rw [← log_le_log, log_rpow, mul_comm, ← div_eq_mul_one_div]
+  rw [← log_le_log]; rw [log_rpow]; rw [mul_comm]; rw [← div_eq_mul_one_div]
   · apply le_trans _ (div_le_div_of_le_left _ _ (ceil_lt_mul _).le)
-    rw [mul_comm, ← div_div, div_sqrt, le_div_iff]
+    rw [mul_comm]; rw [← div_div]; rw [div_sqrt]; rw [le_div_iff]
     · norm_num; exact le_sqrt_log hN
     · norm_num1
     · apply log_nonneg
@@ -458,7 +455,7 @@ theorem bound (hN : 4096 ≤ N) : (N : ℝ) ^ (1 / nValue N : ℝ) / exp 1 < dVa
       exact hN.trans_lt' (by norm_num1)
     apply le_sqrt_of_sq_le
     have : ((12 : ℕ) : ℝ) * log 2 ≤ log N := by
-      rw [← log_rpow zero_lt_two, log_le_log, rpow_nat_cast]
+      rw [← log_rpow zero_lt_two]; rw [log_le_log]; rw [rpow_nat_cast]
       · norm_num1
         exact_mod_cast hN
       · exact rpow_pos_of_pos zero_lt_two _
@@ -471,7 +468,7 @@ theorem bound (hN : 4096 ≤ N) : (N : ℝ) ^ (1 / nValue N : ℝ) / exp 1 < dVa
   · rw [cast_pos]
     exact hN.trans_lt' (by norm_num1)
   · refine' div_pos zero_lt_two _
-    rw [sub_pos, div_lt_one (exp_pos _)]
+    rw [sub_pos]; rw [div_lt_one (exp_pos _)]
     exact lt_of_le_of_lt (by norm_num1) exp_one_gt_d9
   apply rpow_pos_of_pos
   rw [cast_pos]
@@ -491,13 +488,11 @@ theorem roth_lower_bound_explicit (hN : 4096 ≤ N) :
   refine' (div_lt_div_of_lt hn <| pow_lt_pow_of_lt_left (bound hN) _ _).trans_le' _
   · exact div_nonneg (rpow_nonneg_of_nonneg (cast_nonneg _) _) (exp_pos _).le
   · exact tsub_pos_of_lt (three_le_nValue <| hN.trans' <| by norm_num1)
-  rw [← rpow_nat_cast, div_rpow (rpow_nonneg_of_nonneg hN₀.le _) (exp_pos _).le, ← rpow_mul hN₀.le,
-    mul_comm (_ / _), mul_one_div, cast_sub hn₂, cast_two, same_sub_div hn.ne', exp_one_rpow,
-    div_div, rpow_sub hN₀, rpow_one, div_div, div_eq_mul_inv]
+  rw [← rpow_nat_cast]; rw [div_rpow (rpow_nonneg_of_nonneg hN₀.le _) (exp_pos _).le]; rw [← rpow_mul hN₀.le]; rw [mul_comm (_ / _)]; rw [mul_one_div]; rw [cast_sub hn₂]; rw [cast_two]; rw [same_sub_div hn.ne']; rw [exp_one_rpow]; rw [div_div]; rw [rpow_sub hN₀]; rw [rpow_one]; rw [div_div]; rw [div_eq_mul_inv]
   refine' mul_le_mul_of_nonneg_left _ (cast_nonneg _)
-  rw [mul_inv, mul_inv, ← exp_neg, ← rpow_neg (cast_nonneg _), neg_sub, ← div_eq_mul_inv]
+  rw [mul_inv]; rw [mul_inv]; rw [← exp_neg]; rw [← rpow_neg (cast_nonneg _)]; rw [neg_sub]; rw [← div_eq_mul_inv]
   have : exp (-4 * sqrt (log N)) = exp (-2 * sqrt (log N)) * exp (-2 * sqrt (log N)) := by
-    rw [← exp_add, ← add_mul]
+    rw [← exp_add]; rw [← add_mul]
     norm_num
   rw [this]
   refine' mul_le_mul _ (exp_neg_two_mul_le <| Real.sqrt_pos.2 <| log_pos _).le (exp_pos _).le <|
@@ -528,11 +523,9 @@ theorem four_zero_nine_six_lt_exp_sixteen : 4096 < exp 16 := by
 
 theorem lower_bound_le_one' (hN : 2 ≤ N) (hN' : N ≤ 4096) :
     (N : ℝ) * exp (-4 * sqrt (log N)) ≤ 1 := by
-  rw [← log_le_log (mul_pos (cast_pos.2 (zero_lt_two.trans_le hN)) (exp_pos _)) zero_lt_one,
-    log_one, log_mul (cast_pos.2 (zero_lt_two.trans_le hN)).ne' (exp_pos _).ne', log_exp, neg_mul, ←
-    sub_eq_add_neg, sub_nonpos, ←
-    div_le_iff (Real.sqrt_pos.2 <| log_pos <| one_lt_cast.2 <| one_lt_two.trans_le hN), div_sqrt,
-    sqrt_le_left zero_le_four, log_le_iff_le_exp (cast_pos.2 (zero_lt_two.trans_le hN))]
+  rw [← log_le_log (mul_pos (cast_pos.2 (zero_lt_two.trans_le hN)) (exp_pos _)) zero_lt_one]; rw [log_one]; rw [log_mul (cast_pos.2 (zero_lt_two.trans_le hN)).ne' (exp_pos _).ne']; rw [log_exp]; rw [neg_mul]; rw [←
+    sub_eq_add_neg]; rw [sub_nonpos]; rw [←
+    div_le_iff (Real.sqrt_pos.2 <| log_pos <| one_lt_cast.2 <| one_lt_two.trans_le hN)]; rw [div_sqrt]; rw [sqrt_le_left zero_le_four]; rw [log_le_iff_le_exp (cast_pos.2 (zero_lt_two.trans_le hN))]
   norm_num1
   apply le_trans _ four_zero_nine_six_lt_exp_sixteen.le
   exact_mod_cast hN'

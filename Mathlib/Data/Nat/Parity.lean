@@ -92,7 +92,7 @@ theorem even_xor_odd' (n : ℕ) : ∃ k, Xor' (n = 2 * k) (n = 2 * k + 1) := by
 
 theorem mod_two_add_add_odd_mod_two (m : ℕ) {n : ℕ} (hn : Odd n) : m % 2 + (m + n) % 2 = 1 :=
   ((even_or_odd m).elim fun hm => by rw [even_iff.1 hm, odd_iff.1 (hm.add_odd hn)]) fun hm => by
-    rw [odd_iff.1 hm, even_iff.1 (hm.add_odd hn)]
+    rw [odd_iff.1 hm]; rw [even_iff.1 (hm.add_odd hn)]
 #align nat.mod_two_add_add_odd_mod_two Nat.mod_two_add_add_odd_mod_two
 
 @[simp]
@@ -102,7 +102,7 @@ theorem mod_two_add_succ_mod_two (m : ℕ) : m % 2 + (m + 1) % 2 = 1 :=
 
 @[simp]
 theorem succ_mod_two_add_mod_two (m : ℕ) : (m + 1) % 2 + m % 2 = 1 := by
-  rw [add_comm, mod_two_add_succ_mod_two]
+  rw [add_comm]; rw [mod_two_add_succ_mod_two]
 #align nat.succ_mod_two_add_mod_two Nat.succ_mod_two_add_mod_two
 
 @[simp] theorem not_even_one : ¬Even 1 := odd_iff_not_even.1 odd_one
@@ -115,7 +115,7 @@ theorem even_add : Even (m + n) ↔ (Even m ↔ Even n) := by
 #align nat.even_add Nat.even_add
 
 theorem even_add' : Even (m + n) ↔ (Odd m ↔ Odd n) := by
-  rw [even_add, even_iff_not_odd, even_iff_not_odd, not_iff_not]
+  rw [even_add]; rw [even_iff_not_odd]; rw [even_iff_not_odd]; rw [not_iff_not]
 #align nat.even_add' Nat.even_add'
 
 @[parity_simps]
@@ -141,7 +141,7 @@ theorem even_sub (h : n ≤ m) : Even (m - n) ↔ (Even m ↔ Even n) := by
 #align nat.even_sub Nat.even_sub
 
 theorem even_sub' (h : n ≤ m) : Even (m - n) ↔ (Odd m ↔ Odd n) := by
-  rw [even_sub h, even_iff_not_odd, even_iff_not_odd, not_iff_not]
+  rw [even_sub h]; rw [even_iff_not_odd]; rw [even_iff_not_odd]; rw [not_iff_not]
 #align nat.even_sub' Nat.even_sub'
 
 theorem Odd.sub_odd (hm : Odd m) (hn : Odd n) : Even (m - n) :=
@@ -177,11 +177,11 @@ theorem even_pow' (h : n ≠ 0) : Even (m ^ n) ↔ Even m :=
 #align nat.even_pow' Nat.even_pow'
 
 theorem even_div : Even (m / n) ↔ m % (2 * n) / n = 0 := by
-  rw [even_iff_two_dvd, dvd_iff_mod_eq_zero, Nat.div_mod_eq_mod_mul_div, mul_comm]
+  rw [even_iff_two_dvd]; rw [dvd_iff_mod_eq_zero]; rw [Nat.div_mod_eq_mod_mul_div]; rw [mul_comm]
 #align nat.even_div Nat.even_div
 
 @[parity_simps] theorem odd_add : Odd (m + n) ↔ (Odd m ↔ Even n) := by
-  rw [odd_iff_not_even, even_add, not_iff, odd_iff_not_even]
+  rw [odd_iff_not_even]; rw [even_add]; rw [not_iff]; rw [odd_iff_not_even]
 #align nat.odd_add Nat.odd_add
 
 theorem odd_add' : Odd (m + n) ↔ (Odd n ↔ Even m) := by rw [add_comm, odd_add]
@@ -191,7 +191,7 @@ theorem ne_of_odd_add (h : Odd (m + n)) : m ≠ n := fun hnot => by simp [hnot] 
 #align nat.ne_of_odd_add Nat.ne_of_odd_add
 
 @[parity_simps] theorem odd_sub (h : n ≤ m) : Odd (m - n) ↔ (Odd m ↔ Even n) := by
-  rw [odd_iff_not_even, even_sub h, not_iff, odd_iff_not_even]
+  rw [odd_iff_not_even]; rw [even_sub h]; rw [not_iff]; rw [odd_iff_not_even]
 #align nat.odd_sub Nat.odd_sub
 
 theorem Odd.sub_even (h : n ≤ m) (hm : Odd m) (hn : Even n) : Odd (m - n) :=
@@ -199,7 +199,7 @@ theorem Odd.sub_even (h : n ≤ m) (hm : Odd m) (hn : Even n) : Odd (m - n) :=
 #align nat.odd.sub_even Nat.Odd.sub_even
 
 theorem odd_sub' (h : n ≤ m) : Odd (m - n) ↔ (Odd n ↔ Even m) := by
-  rw [odd_iff_not_even, even_sub h, not_iff, not_iff_comm, odd_iff_not_even]
+  rw [odd_iff_not_even]; rw [even_sub h]; rw [not_iff]; rw [not_iff_comm]; rw [odd_iff_not_even]
 #align nat.odd_sub' Nat.odd_sub'
 
 theorem Even.sub_odd (h : n ≤ m) (hm : Even m) (hn : Odd n) : Odd (m - n) :=
@@ -207,7 +207,7 @@ theorem Even.sub_odd (h : n ≤ m) (hm : Even m) (hn : Odd n) : Odd (m - n) :=
 #align nat.even.sub_odd Nat.Even.sub_odd
 
 theorem even_mul_succ_self (n : ℕ) : Even (n * (n + 1)) := by
-  rw [even_mul, even_add_one]
+  rw [even_mul]; rw [even_add_one]
   exact em _
 #align nat.even_mul_succ_self Nat.even_mul_succ_self
 
@@ -225,48 +225,48 @@ theorem div_two_mul_two_of_even : Even n → n / 2 * 2 = n :=
 #align nat.div_two_mul_two_of_even Nat.div_two_mul_two_of_even
 
 theorem two_mul_div_two_add_one_of_odd (h : Odd n) : 2 * (n / 2) + 1 = n := by
-  rw [← odd_iff.mp h, div_add_mod]
+  rw [← odd_iff.mp h]; rw [div_add_mod]
 #align nat.two_mul_div_two_add_one_of_odd Nat.two_mul_div_two_add_one_of_odd
 
 theorem div_two_mul_two_add_one_of_odd (h : Odd n) : n / 2 * 2 + 1 = n := by
-  rw [← odd_iff.mp h, div_add_mod']
+  rw [← odd_iff.mp h]; rw [div_add_mod']
 #align nat.div_two_mul_two_add_one_of_odd Nat.div_two_mul_two_add_one_of_odd
 
 theorem one_add_div_two_mul_two_of_odd (h : Odd n) : 1 + n / 2 * 2 = n := by
-  rw [← odd_iff.mp h, mod_add_div']
+  rw [← odd_iff.mp h]; rw [mod_add_div']
 #align nat.one_add_div_two_mul_two_of_odd Nat.one_add_div_two_mul_two_of_odd
 
 set_option linter.deprecated false in
 section
 
 theorem bit0_div_two : bit0 n / 2 = n := by
-  rw [← Nat.bit0_eq_bit0, bit0_eq_two_mul, two_mul_div_two_of_even (even_bit0 n)]
+  rw [← Nat.bit0_eq_bit0]; rw [bit0_eq_two_mul]; rw [two_mul_div_two_of_even (even_bit0 n)]
 #align nat.bit0_div_two Nat.bit0_div_two
 
 theorem bit1_div_two : bit1 n / 2 = n := by
-  rw [← Nat.bit1_eq_bit1, bit1, bit0_eq_two_mul, Nat.two_mul_div_two_add_one_of_odd (odd_bit1 n)]
+  rw [← Nat.bit1_eq_bit1]; rw [bit1]; rw [bit0_eq_two_mul]; rw [Nat.two_mul_div_two_add_one_of_odd (odd_bit1 n)]
 #align nat.bit1_div_two Nat.bit1_div_two
 
 @[simp]
 theorem bit0_div_bit0 : bit0 n / bit0 m = n / m := by
-  rw [bit0_eq_two_mul m, ← Nat.div_div_eq_div_mul, bit0_div_two]
+  rw [bit0_eq_two_mul m]; rw [← Nat.div_div_eq_div_mul]; rw [bit0_div_two]
 #align nat.bit0_div_bit0 Nat.bit0_div_bit0
 
 @[simp]
 theorem bit1_div_bit0 : bit1 n / bit0 m = n / m := by
-  rw [bit0_eq_two_mul, ← Nat.div_div_eq_div_mul, bit1_div_two]
+  rw [bit0_eq_two_mul]; rw [← Nat.div_div_eq_div_mul]; rw [bit1_div_two]
 #align nat.bit1_div_bit0 Nat.bit1_div_bit0
 
 @[simp]
 theorem bit0_mod_bit0 : bit0 n % bit0 m = bit0 (n % m) := by
-  rw [bit0_eq_two_mul n, bit0_eq_two_mul m, bit0_eq_two_mul (n % m), Nat.mul_mod_mul_left]
+  rw [bit0_eq_two_mul n]; rw [bit0_eq_two_mul m]; rw [bit0_eq_two_mul (n % m)]; rw [Nat.mul_mod_mul_left]
 #align nat.bit0_mod_bit0 Nat.bit0_mod_bit0
 
 @[simp]
 theorem bit1_mod_bit0 : bit1 n % bit0 m = bit1 (n % m) := by
   have h₁ := congr_arg bit1 (Nat.div_add_mod n m)
   -- `∀ m n : ℕ, bit0 m * n = bit0 (m * n)` seems to be missing...
-  rw [bit1_add, bit0_eq_two_mul, ← mul_assoc, ← bit0_eq_two_mul] at h₁
+  rw [bit1_add] at h₁; rw [bit0_eq_two_mul] at h₁; rw [← mul_assoc] at h₁; rw [← bit0_eq_two_mul] at h₁
   have h₂ := Nat.div_add_mod (bit1 n) (bit0 m)
   rw [bit1_div_bit0] at h₂
   exact add_left_cancel (h₂.trans h₁.symm)
@@ -296,26 +296,26 @@ set_option linter.deprecated false in
 section
 
 theorem iterate_bit0 (hf : Involutive f) (n : ℕ) : f^[bit0 n] = id := by
-  rw [bit0, ← two_mul, iterate_mul, involutive_iff_iter_2_eq_id.1 hf, iterate_id]
+  rw [bit0]; rw [← two_mul]; rw [iterate_mul]; rw [involutive_iff_iter_2_eq_id.1 hf]; rw [iterate_id]
 #align function.involutive.iterate_bit0 Function.Involutive.iterate_bit0
 
 theorem iterate_bit1 (hf : Involutive f) (n : ℕ) : f^[bit1 n] = f := by
-  rw [bit1, ←succ_eq_add_one, iterate_succ, hf.iterate_bit0, comp.left_id]
+  rw [bit1]; rw [←succ_eq_add_one]; rw [iterate_succ]; rw [hf.iterate_bit0]; rw [comp.left_id]
 #align function.involutive.iterate_bit1 Function.Involutive.iterate_bit1
 
 end
 
 theorem iterate_two_mul (hf : Involutive f) (n : ℕ) : f^[2 * n] = id := by
-  rw [iterate_mul, involutive_iff_iter_2_eq_id.1 hf, iterate_id]
+  rw [iterate_mul]; rw [involutive_iff_iter_2_eq_id.1 hf]; rw [iterate_id]
 
 theorem iterate_even (hf : Involutive f) (hn : Even n) : f^[n] = id := by
   rcases hn with ⟨m, rfl⟩
-  rw [← two_mul, hf.iterate_two_mul]
+  rw [← two_mul]; rw [hf.iterate_two_mul]
 #align function.involutive.iterate_even Function.Involutive.iterate_even
 
 theorem iterate_odd (hf : Involutive f) (hn : Odd n) : f^[n] = f := by
   rcases hn with ⟨m, rfl⟩
-  rw [iterate_add, hf.iterate_two_mul, comp.left_id, iterate_one]
+  rw [iterate_add]; rw [hf.iterate_two_mul]; rw [comp.left_id]; rw [iterate_one]
 #align function.involutive.iterate_odd Function.Involutive.iterate_odd
 
 theorem iterate_eq_self (hf : Involutive f) (hne : f ≠ id) : f^[n] = f ↔ Odd n :=

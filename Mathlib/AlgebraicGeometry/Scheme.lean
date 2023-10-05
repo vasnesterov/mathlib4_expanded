@@ -156,7 +156,7 @@ theorem app_eq {X Y : Scheme} (f : X ⟶ Y) {U V : Opens Y.carrier} (e : U = V) 
       Y.presheaf.map (eqToHom e.symm).op ≫
         f.val.c.app (op V) ≫
           X.presheaf.map (eqToHom (congr_arg (Opens.map f.val.base).obj e)).op := by
-  rw [← IsIso.inv_comp_eq, ← Functor.map_inv, f.val.c.naturality, Presheaf.pushforwardObj_map]
+  rw [← IsIso.inv_comp_eq]; rw [← Functor.map_inv]; rw [f.val.c.naturality]; rw [Presheaf.pushforwardObj_map]
   cases e
   rfl
 #align algebraic_geometry.Scheme.app_eq AlgebraicGeometry.Scheme.app_eq
@@ -165,7 +165,7 @@ theorem app_eq {X Y : Scheme} (f : X ⟶ Y) {U V : Opens Y.carrier} (e : U = V) 
 -- when terms get very complicated. See `AlgebraicGeometry.IsAffineOpen.isLocalization_stalk_aux`.
 lemma presheaf_map_eqToHom_op (X : Scheme) (U V : Opens X) (i : U = V) :
     X.presheaf.map (eqToHom i).op = eqToHom (i ▸ rfl) := by
-  rw [eqToHom_op, eqToHom_map]
+  rw [eqToHom_op]; rw [eqToHom_map]
 
 instance is_locallyRingedSpace_iso {X Y : Scheme} (f : X ⟶ Y) [IsIso f] :
     @IsIso LocallyRingedSpace _ _ _ f :=
@@ -186,8 +186,7 @@ theorem inv_val_c_app {X Y : Scheme} (f : X ⟶ Y) [IsIso f] (U : Opens X.carrie
         inv (f.val.c.app (op <| (Opens.map _).obj U)) := by
   rw [IsIso.eq_comp_inv]
   erw [← Scheme.comp_val_c_app]
-  rw [Scheme.congr_app (IsIso.hom_inv_id f), Scheme.id_app, ← Functor.map_comp, eqToHom_trans,
-    eqToHom_op]
+  rw [Scheme.congr_app (IsIso.hom_inv_id f)]; rw [Scheme.id_app]; rw [← Functor.map_comp]; rw [eqToHom_trans]; rw [eqToHom_op]
 #align algebraic_geometry.Scheme.inv_val_c_app AlgebraicGeometry.Scheme.inv_val_c_app
 
 /-- Given a morphism of schemes `f : X ⟶ Y`, and open sets `U ⊆ Y`, `V ⊆ f ⁻¹' U`,

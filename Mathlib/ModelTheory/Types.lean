@@ -101,7 +101,7 @@ theorem not_mem_iff (p : T.CompleteType α) (φ : L[[α]].Sentence) : φ.not ∈
       simp only [model_iff, mem_insert_iff, mem_singleton_iff, forall_eq_or_imp, forall_eq] at h
       exact h.2 h.1
     refine' h (p.isMaximal.1.mono _)
-    rw [insert_subset_iff, singleton_subset_iff]
+    rw [insert_subset_iff]; rw [singleton_subset_iff]
     exact ⟨ht, hf⟩, (p.mem_or_not_mem φ).resolve_left⟩
 #align first_order.language.Theory.complete_type.not_mem_iff FirstOrder.Language.Theory.CompleteType.not_mem_iff
 
@@ -114,7 +114,7 @@ theorem compl_setOf_mem {φ : L[[α]].Sentence} :
 theorem setOf_subset_eq_empty_iff (S : L[[α]].Theory) :
     { p : T.CompleteType α | S ⊆ ↑p } = ∅ ↔
       ¬((L.lhomWithConstants α).onTheory T ∪ S).IsSatisfiable := by
-  rw [iff_not_comm, ← not_nonempty_iff_eq_empty, Classical.not_not, Set.Nonempty]
+  rw [iff_not_comm]; rw [← not_nonempty_iff_eq_empty]; rw [Classical.not_not]; rw [Set.Nonempty]
   refine'
     ⟨fun h =>
       ⟨⟨L[[α]].completeTheory h.some, (subset_union_left _ S).trans completeTheory.subset,
@@ -127,7 +127,7 @@ theorem setOf_subset_eq_empty_iff (S : L[[α]].Theory) :
 
 theorem setOf_mem_eq_univ_iff (φ : L[[α]].Sentence) :
     { p : T.CompleteType α | φ ∈ p } = Set.univ ↔ (L.lhomWithConstants α).onTheory T ⊨ᵇ φ := by
-  rw [models_iff_not_satisfiable, ← compl_empty_iff, compl_setOf_mem, ← setOf_subset_eq_empty_iff]
+  rw [models_iff_not_satisfiable]; rw [← compl_empty_iff]; rw [compl_setOf_mem]; rw [← setOf_subset_eq_empty_iff]
   simp
 #align first_order.language.Theory.complete_type.set_of_mem_eq_univ_iff FirstOrder.Language.Theory.CompleteType.setOf_mem_eq_univ_iff
 
@@ -145,8 +145,7 @@ theorem setOf_subset_eq_univ_iff (S : L[[α]].Theory) :
 
 theorem nonempty_iff : Nonempty (T.CompleteType α) ↔ T.IsSatisfiable := by
   rw [← isSatisfiable_onTheory_iff (lhomWithConstants_injective L α)]
-  rw [nonempty_iff_univ_nonempty, nonempty_iff_ne_empty, Ne.def, not_iff_comm,
-    ← union_empty ((L.lhomWithConstants α).onTheory T), ← setOf_subset_eq_empty_iff]
+  rw [nonempty_iff_univ_nonempty]; rw [nonempty_iff_ne_empty]; rw [Ne.def]; rw [not_iff_comm]; rw [← union_empty ((L.lhomWithConstants α).onTheory T)]; rw [← setOf_subset_eq_empty_iff]
   simp
 #align first_order.language.Theory.complete_type.nonempty_iff FirstOrder.Language.Theory.CompleteType.nonempty_iff
 

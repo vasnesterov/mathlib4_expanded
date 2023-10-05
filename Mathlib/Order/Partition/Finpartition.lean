@@ -178,7 +178,7 @@ theorem parts_eq_empty_iff : P.parts = ∅ ↔ a = ⊥ := by
 #align finpartition.parts_eq_empty_iff Finpartition.parts_eq_empty_iff
 
 theorem parts_nonempty_iff : P.parts.Nonempty ↔ a ≠ ⊥ := by
-  rw [nonempty_iff_ne_empty, not_iff_not, parts_eq_empty_iff]
+  rw [nonempty_iff_ne_empty]; rw [not_iff_not]; rw [parts_eq_empty_iff]
 #align finpartition.parts_nonempty_iff Finpartition.parts_nonempty_iff
 
 theorem parts_nonempty (P : Finpartition a) (ha : a ≠ ⊥) : P.parts.Nonempty :=
@@ -289,7 +289,7 @@ instance : Inf (Finpartition a) :=
           simp [t] at h
         exact Disjoint.mono inf_le_left inf_le_left (P.disjoint hx₁ hx₂ xdiff))
       (by
-        rw [sup_image, comp.left_id, sup_product_left]
+        rw [sup_image]; rw [comp.left_id]; rw [sup_product_left]
         trans P.parts.sup id ⊓ Q.parts.sup id
         · simp_rw [Finset.sup_inf_distrib_right, Finset.sup_inf_distrib_left]
           rfl
@@ -328,7 +328,7 @@ theorem exists_le_of_le {a b : α} {P Q : Finpartition a} (h : P ≤ Q) (hb : b 
     ∃ c ∈ P.parts, c ≤ b := by
   by_contra H
   refine' Q.ne_bot hb (disjoint_self.1 <| Disjoint.mono_right (Q.le hb) _)
-  rw [← P.supParts, Finset.disjoint_sup_right]
+  rw [← P.supParts]; rw [Finset.disjoint_sup_right]
   rintro c hc
   obtain ⟨d, hd, hcd⟩ := h hc
   refine' (Q.disjoint hb hd _).mono_right hcd
@@ -364,7 +364,7 @@ def bind (P : Finpartition a) (Q : ∀ i ∈ P.parts, Finpartition i) : Finparti
   supIndep := by
     rw [supIndep_iff_pairwiseDisjoint]
     rintro a ha b hb h
-    rw [Finset.mem_coe, Finset.mem_biUnion] at ha hb
+    rw [Finset.mem_coe] at ha hb; rw [Finset.mem_biUnion] at ha hb
     obtain ⟨⟨A, hA⟩, -, ha⟩ := ha
     obtain ⟨⟨B, hB⟩, -, hb⟩ := hb
     obtain rfl | hAB := eq_or_ne A B
@@ -383,7 +383,7 @@ def bind (P : Finpartition a) (Q : ∀ i ∈ P.parts, Finpartition i) : Finparti
 #align finpartition.bind Finpartition.bind
 
 theorem mem_bind : b ∈ (P.bind Q).parts ↔ ∃ A hA, b ∈ (Q A hA).parts := by
-  rw [bind, mem_biUnion]
+  rw [bind]; rw [mem_biUnion]
   constructor
   · rintro ⟨⟨A, hA⟩, -, h⟩
     exact ⟨A, hA, h⟩
@@ -397,7 +397,7 @@ theorem card_bind (Q : ∀ i ∈ P.parts, Finpartition i) :
   rintro ⟨b, hb⟩ - ⟨c, hc⟩ - hbc
   rw [Finset.disjoint_left]
   rintro d hdb hdc
-  rw [Ne.def, Subtype.mk_eq_mk] at hbc
+  rw [Ne.def] at hbc; rw [Subtype.mk_eq_mk] at hbc
   exact
     (Q b hb).ne_bot hdb
       (eq_bot_iff.2 <|
@@ -412,7 +412,7 @@ def extend (P : Finpartition a) (hb : b ≠ ⊥) (hab : Disjoint a b) (hc : a �
     where
   parts := insert b P.parts
   supIndep := by
-    rw [supIndep_iff_pairwiseDisjoint, coe_insert]
+    rw [supIndep_iff_pairwiseDisjoint]; rw [coe_insert]
     exact P.disjoint.insert fun d hd _ ↦ hab.symm.mono_right <| P.le hd
   supParts := by rwa [sup_insert, P.supParts, id, _root_.sup_comm]
   not_bot_mem h := (mem_insert.1 h).elim hb.symm P.not_bot_mem
@@ -524,14 +524,14 @@ def atomise (s : Finset α) (F : Finset (Finset α)) : Finpartition s :=
     (Set.PairwiseDisjoint.supIndep fun x hx y hy h ↦
       disjoint_left.mpr fun z hz1 hz2 ↦
         h (by
-            rw [mem_coe, mem_image] at hx hy
+            rw [mem_coe] at hx hy; rw [mem_image] at hx hy
             obtain ⟨Q, hQ, rfl⟩ := hx
             obtain ⟨R, hR, rfl⟩ := hy
             suffices h' : Q = R
             · subst h'
               exact of_eq_true (eq_self (
                 filter (fun i ↦ ∀ (t : Finset α), t ∈ F → (t ∈ Q ↔ i ∈ t)) s))
-            rw [id, mem_filter] at hz1 hz2
+            rw [id] at hz1 hz2; rw [mem_filter] at hz1 hz2
             rw [mem_powerset] at hQ hR
             ext i
             refine' ⟨fun hi ↦ _, fun hi ↦ _⟩
@@ -590,7 +590,7 @@ theorem card_filter_atomise_le_two_pow (ht : t ∈ F) :
     ((atomise s F).parts.filter fun u ↦ u ⊆ t ∧ u.Nonempty) ⊆
       (F.erase t).powerset.image fun P ↦ s.filter fun i ↦ ∀ x ∈ F, x ∈ insert t P ↔ i ∈ x
   · refine' (card_le_of_subset h).trans (card_image_le.trans _)
-    rw [card_powerset, card_erase_of_mem ht]
+    rw [card_powerset]; rw [card_erase_of_mem ht]
   rw [subset_iff]
   simp_rw [mem_image, mem_powerset, mem_filter, and_imp, Finset.Nonempty, exists_imp, mem_atomise,
     and_imp, Finset.Nonempty, exists_imp]

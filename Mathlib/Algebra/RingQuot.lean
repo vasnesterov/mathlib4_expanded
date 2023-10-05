@@ -65,7 +65,7 @@ inductive Rel (r : R → R → Prop) : R → R → Prop
 #align ring_quot.rel RingQuot.Rel
 
 theorem Rel.add_right {r : R → R → Prop} ⦃a b c : R⦄ (h : Rel r b c) : Rel r (a + b) (a + c) := by
-  rw [add_comm a b, add_comm a c]
+  rw [add_comm a b]; rw [add_comm a c]
   exact Rel.add_left h
 #align ring_quot.rel.add_right RingQuot.Rel.add_right
 
@@ -189,7 +189,7 @@ private irreducible_def npow (n : ℕ) : RingQuot r → RingQuot r
           induction n with
           | zero => rw [pow_zero, pow_zero]
           | succ n ih =>
-            rw [pow_succ, pow_succ]
+            rw [pow_succ]; rw [pow_succ]
             -- Porting note:
             -- `simpa [mul_def] using congr_arg₂ (fun x y ↦ mul r ⟨x⟩ ⟨y⟩) (Quot.sound h) ih`
             -- mysteriously doesn't work
@@ -532,7 +532,7 @@ def idealQuotientToRingQuot (r : B → B → Prop) : B ⧸ Ideal.ofRel r →+* R
       · rintro y ⟨a, b, h, su⟩
         symm at su
         rw [← sub_eq_iff_eq_add] at su
-        rw [← su, RingHom.map_sub, mkRingHom_rel h, sub_self]
+        rw [← su]; rw [RingHom.map_sub]; rw [mkRingHom_rel h]; rw [sub_self]
       · simp
       · intro a b ha hb
         simp [ha, hb]

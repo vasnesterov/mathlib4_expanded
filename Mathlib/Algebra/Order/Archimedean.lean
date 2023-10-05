@@ -206,7 +206,7 @@ theorem exists_mem_Ico_zpow (hx : 0 < x) (hy : 1 < y) : ∃ n : ℤ, x ∈ Ico (
         ⟨-N,
           le_of_lt
             (by
-              rw [zpow_neg y ↑N, zpow_ofNat]
+              rw [zpow_neg y ↑N]; rw [zpow_ofNat]
               exact (inv_lt hx (lt_trans (inv_pos.2 hx) hN)).1 hN)⟩
       let ⟨M, hM⟩ := pow_unbounded_of_one_lt x hy
       have hb : ∃ b : ℤ, ∀ m, y ^ m ≤ x → m ≤ b :=
@@ -266,15 +266,15 @@ theorem exists_rat_btwn {x y : α} (h : x < y) : ∃ q : ℚ, x < q ∧ (q : α)
   refine' ⟨(z + 1 : ℤ) / n, _⟩
   have n0' := (inv_pos.2 (sub_pos.2 h)).trans nh
   have n0 := Nat.cast_pos.1 n0'
-  rw [Rat.cast_div_of_ne_zero, Rat.cast_coe_nat, Rat.cast_coe_int, div_lt_iff n0']
+  rw [Rat.cast_div_of_ne_zero]; rw [Rat.cast_coe_nat]; rw [Rat.cast_coe_int]; rw [div_lt_iff n0']
   refine' ⟨(lt_div_iff n0').2 <| (lt_iff_lt_of_le_iff_le (zh _)).1 (lt_add_one _), _⟩
-  rw [Int.cast_add, Int.cast_one]
+  rw [Int.cast_add]; rw [Int.cast_one]
   refine' lt_of_le_of_lt (add_le_add_right ((zh _).1 le_rfl) _) _
   rwa [← lt_sub_iff_add_lt', ← sub_mul, ← div_lt_iff' (sub_pos.2 h), one_div]
   · rw [Rat.coe_int_den, Nat.cast_one]
     exact one_ne_zero
   · intro H
-    rw [Rat.coe_nat_num, Int.cast_ofNat, Nat.cast_eq_zero] at H
+    rw [Rat.coe_nat_num] at H; rw [Int.cast_ofNat] at H; rw [Nat.cast_eq_zero] at H
     subst H
     cases n0
   · rw [Rat.coe_nat_den, Nat.cast_one]
@@ -312,7 +312,7 @@ theorem eq_of_forall_lt_rat_iff_lt (h : ∀ q : ℚ, x < q ↔ y < q) : x = y :=
 theorem exists_nat_one_div_lt {ε : α} (hε : 0 < ε) : ∃ n : ℕ, 1 / (n + 1 : α) < ε := by
   cases' exists_nat_gt (1 / ε) with n hn
   use n
-  rw [div_lt_iff, ← div_lt_iff' hε]
+  rw [div_lt_iff]; rw [← div_lt_iff' hε]
   · apply hn.trans
     simp [zero_lt_one]
   · exact n.cast_add_one_pos
@@ -383,7 +383,7 @@ end LinearOrderedField
 
 instance : Archimedean ℕ :=
   ⟨fun n m m0 => ⟨n, by
-    rw [← mul_one n, smul_eq_mul, mul_assoc, one_mul m]
+    rw [← mul_one n]; rw [smul_eq_mul]; rw [mul_assoc]; rw [one_mul m]
     exact Nat.mul_le_mul_left n (by linarith)⟩⟩
 
 instance : Archimedean ℤ :=

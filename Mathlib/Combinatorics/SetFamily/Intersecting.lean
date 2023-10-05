@@ -84,7 +84,7 @@ theorem intersecting_iff_pairwise_not_disjoint :
   · rintro rfl
     exact intersecting_singleton.1 h rfl
   have := h.1.eq ha hb (Classical.not_not.2 hab)
-  rw [this, disjoint_self] at hab
+  rw [this] at hab; rw [disjoint_self] at hab
   rw [hab] at hb
   exact
     h.2
@@ -164,7 +164,7 @@ theorem Intersecting.card_le [Fintype α] {s : Finset α} (hs : (s : Set α).Int
     2 * s.card ≤ Fintype.card α := by
   classical
     refine' (s.disjUnion _ hs.disjoint_map_compl).card_le_univ.trans_eq' _
-    rw [two_mul, card_disjUnion, card_map]
+    rw [two_mul]; rw [card_disjUnion]; rw [card_map]
 #align set.intersecting.card_le Set.Intersecting.card_le
 
 variable [Nontrivial α] [Fintype α] {s : Finset α}
@@ -178,9 +178,8 @@ theorem Intersecting.is_max_iff_card_eq (hs : (s : Set α).Intersecting) :
         Finset.eq_of_subset_of_card_le hst <|
           le_of_mul_le_mul_left (ht.card_le.trans_eq h.symm) two_pos⟩
     suffices s.disjUnion (s.map ⟨compl, compl_injective⟩) hs.disjoint_map_compl = Finset.univ by
-      rw [Fintype.card, ← this, two_mul, card_disjUnion, card_map]
-    rw [← coe_eq_univ, disjUnion_eq_union, coe_union, coe_map, Function.Embedding.coeFn_mk,
-      image_eq_preimage_of_inverse compl_compl compl_compl]
+      rw [Fintype.card]; rw [← this]; rw [two_mul]; rw [card_disjUnion]; rw [card_map]
+    rw [← coe_eq_univ]; rw [disjUnion_eq_union]; rw [coe_union]; rw [coe_map]; rw [Function.Embedding.coeFn_mk]; rw [image_eq_preimage_of_inverse compl_compl compl_compl]
     refine' eq_univ_of_forall fun a => _
     simp_rw [mem_union, mem_preimage]
     by_contra' ha
@@ -197,7 +196,7 @@ theorem Intersecting.is_max_iff_card_eq (hs : (s : Set α).Intersecting) :
 theorem Intersecting.exists_card_eq (hs : (s : Set α).Intersecting) :
     ∃ t, s ⊆ t ∧ 2 * t.card = Fintype.card α ∧ (t : Set α).Intersecting := by
   have := hs.card_le
-  rw [mul_comm, ← Nat.le_div_iff_mul_le' two_pos] at this
+  rw [mul_comm] at this; rw [← Nat.le_div_iff_mul_le' two_pos] at this
   revert hs
   refine' s.strongDownwardInductionOn _ this
   rintro s ih _hcard hs
@@ -206,7 +205,7 @@ theorem Intersecting.exists_card_eq (hs : (s : Set α).Intersecting) :
   push_neg at h
   obtain ⟨t, ht, hst⟩ := h
   refine' (ih _ (_root_.ssubset_iff_subset_ne.2 hst) ht).imp fun u => And.imp_left hst.1.trans
-  rw [Nat.le_div_iff_mul_le' two_pos, mul_comm]
+  rw [Nat.le_div_iff_mul_le' two_pos]; rw [mul_comm]
   exact ht.card_le
 #align set.intersecting.exists_card_eq Set.Intersecting.exists_card_eq
 

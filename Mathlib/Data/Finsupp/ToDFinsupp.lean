@@ -281,7 +281,7 @@ open Finsupp
 /-- `Finsupp.split` is an equivalence between `(Σ i, η i) →₀ N` and `Π₀ i, (η i →₀ N)`. -/
 def sigmaFinsuppEquivDFinsupp [Zero N] : ((Σi, η i) →₀ N) ≃ Π₀ i, η i →₀ N where
   toFun f := ⟨split f, Trunc.mk ⟨(splitSupport f : Finset ι).val, fun i => by
-          rw [← Finset.mem_def, mem_splitSupport_iff_nonzero]
+          rw [← Finset.mem_def]; rw [mem_splitSupport_iff_nonzero]
           exact (em _).symm⟩⟩
   invFun f := by
     haveI := Classical.decEq ι

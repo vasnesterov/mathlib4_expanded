@@ -66,11 +66,11 @@ theorem fold_cons_right (b a : α) (s : Multiset α) : (a ::ₘ s).fold op b = s
 #align multiset.fold_cons_right Multiset.fold_cons_right
 
 theorem fold_cons'_right (b a : α) (s : Multiset α) : (a ::ₘ s).fold op b = s.fold op (b * a) := by
-  rw [fold_eq_foldl, foldl_cons, ← fold_eq_foldl]
+  rw [fold_eq_foldl]; rw [foldl_cons]; rw [← fold_eq_foldl]
 #align multiset.fold_cons'_right Multiset.fold_cons'_right
 
 theorem fold_cons'_left (b a : α) (s : Multiset α) : (a ::ₘ s).fold op b = s.fold op (a * b) := by
-  rw [fold_cons'_right, hc.comm]
+  rw [fold_cons'_right]; rw [hc.comm]
 #align multiset.fold_cons'_left Multiset.fold_cons'_left
 
 theorem fold_add (b₁ b₂ : α) (s₁ s₂ : Multiset α) :
@@ -95,9 +95,7 @@ theorem fold_singleton (b a : α) : ({a} : Multiset α).fold op b = a * b :=
 theorem fold_distrib {f g : β → α} (u₁ u₂ : α) (s : Multiset β) :
     (s.map fun x => f x * g x).fold op (u₁ * u₂) = (s.map f).fold op u₁ * (s.map g).fold op u₂ :=
   Multiset.induction_on s (by simp) (fun a b h => by
-    rw [map_cons, fold_cons_left, h, map_cons, fold_cons_left, map_cons,
-      fold_cons_right, ha.assoc, ← ha.assoc (g a), hc.comm (g a),
-      ha.assoc, hc.comm (g a), ha.assoc])
+    rw [map_cons]; rw [fold_cons_left]; rw [h]; rw [map_cons]; rw [fold_cons_left]; rw [map_cons]; rw [fold_cons_right]; rw [ha.assoc]; rw [← ha.assoc (g a)]; rw [hc.comm (g a)]; rw [ha.assoc]; rw [hc.comm (g a)]; rw [ha.assoc])
 #align multiset.fold_distrib Multiset.fold_distrib
 
 theorem fold_hom {op' : β → β → β} [IsCommutative β op'] [IsAssociative β op'] {m : α → β}
@@ -108,7 +106,7 @@ theorem fold_hom {op' : β → β → β} [IsCommutative β op'] [IsAssociative 
 
 theorem fold_union_inter [DecidableEq α] (s₁ s₂ : Multiset α) (b₁ b₂ : α) :
     ((s₁ ∪ s₂).fold op b₁ * (s₁ ∩ s₂).fold op b₂) = s₁.fold op b₁ * s₂.fold op b₂ := by
-  rw [← fold_add op, union_add_inter, fold_add op]
+  rw [← fold_add op]; rw [union_add_inter]; rw [fold_add op]
 #align multiset.fold_union_inter Multiset.fold_union_inter
 
 @[simp]
@@ -117,7 +115,7 @@ theorem fold_dedup_idem [DecidableEq α] [hi : IsIdempotent α op] (s : Multiset
   Multiset.induction_on s (by simp) fun a s IH => by
     by_cases h : a ∈ s <;> simp [IH, h]
     show fold op b s = op a (fold op b s)
-    rw [← cons_erase h, fold_cons_left, ← ha.assoc, hi.idempotent]
+    rw [← cons_erase h]; rw [fold_cons_left]; rw [← ha.assoc]; rw [hi.idempotent]
 #align multiset.fold_dedup_idem Multiset.fold_dedup_idem
 
 end Fold

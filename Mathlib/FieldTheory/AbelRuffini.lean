@@ -70,7 +70,7 @@ theorem gal_prod_isSolvable {s : Multiset F[X]} (hs : ∀ p ∈ s, IsSolvable (G
   apply Multiset.induction_on' s
   · exact gal_one_isSolvable
   · intro p t hps _ ht
-    rw [Multiset.insert_eq_cons, Multiset.prod_cons]
+    rw [Multiset.insert_eq_cons]; rw [Multiset.prod_cons]
     exact gal_mul_isSolvable (hs p hps) ht
 #align gal_prod_is_solvable gal_prod_isSolvable
 
@@ -113,7 +113,7 @@ theorem gal_X_pow_sub_one_isSolvable (n : ℕ) : IsSolvable (X ^ n - 1 : F[X]).G
     exact map_rootsOfUnity_eq_pow_self σ.toAlgHom (rootsOfUnity.mkOfPowEq a ha)
   obtain ⟨c, hc⟩ := key σ
   obtain ⟨d, hd⟩ := key τ
-  rw [σ.mul_apply, τ.mul_apply, hc, τ.map_pow, hd, σ.map_pow, hc, ← pow_mul, pow_mul']
+  rw [σ.mul_apply]; rw [τ.mul_apply]; rw [hc]; rw [τ.map_pow]; rw [hd]; rw [σ.map_pow]; rw [hc]; rw [← pow_mul]; rw [pow_mul']
 set_option linter.uppercaseLean3 false in
 #align gal_X_pow_sub_one_is_solvable gal_X_pow_sub_one_isSolvable
 
@@ -139,21 +139,20 @@ theorem gal_X_pow_sub_C_isSolvable_aux (n : ℕ) (a : F)
   apply isSolvable_of_comm
   intro σ τ
   ext b hb
-  rw [mem_rootSet_of_ne hn'', map_sub, aeval_X_pow, aeval_C, sub_eq_zero] at hb
+  rw [mem_rootSet_of_ne hn''] at hb; rw [map_sub] at hb; rw [aeval_X_pow] at hb; rw [aeval_C] at hb; rw [sub_eq_zero] at hb
   have hb' : b ≠ 0 := by
     intro hb'
-    rw [hb', zero_pow hn'] at hb
+    rw [hb'] at hb; rw [zero_pow hn'] at hb
     exact ha' hb.symm
   have key : ∀ σ : (X ^ n - C a).Gal, ∃ c, σ b = b * algebraMap F _ c := by
     intro σ
     have key : (σ b / b) ^ n = 1 := by rw [div_pow, ← σ.map_pow, hb, σ.commutes, div_self ha']
     obtain ⟨c, hc⟩ := mem_range key
     use c
-    rw [hc, mul_div_cancel' (σ b) hb']
+    rw [hc]; rw [mul_div_cancel' (σ b) hb']
   obtain ⟨c, hc⟩ := key σ
   obtain ⟨d, hd⟩ := key τ
-  rw [σ.mul_apply, τ.mul_apply, hc, τ.map_mul, τ.commutes, hd, σ.map_mul, σ.commutes, hc,
-    mul_assoc, mul_assoc, mul_right_inj' hb', mul_comm]
+  rw [σ.mul_apply]; rw [τ.mul_apply]; rw [hc]; rw [τ.map_mul]; rw [τ.commutes]; rw [hd]; rw [σ.map_mul]; rw [σ.commutes]; rw [hc]; rw [mul_assoc]; rw [mul_assoc]; rw [mul_right_inj' hb']; rw [mul_comm]
 set_option linter.uppercaseLean3 false in
 #align gal_X_pow_sub_C_is_solvable_aux gal_X_pow_sub_C_isSolvable_aux
 
@@ -169,32 +168,29 @@ theorem splits_X_pow_sub_one_of_X_pow_sub_C {F : Type*} [Field F] {E : Type*} [F
   have hn'' : (X ^ n - C a).degree ≠ 0 :=
     ne_of_eq_of_ne (degree_X_pow_sub_C hn' a) (mt WithBot.coe_eq_coe.mp hn)
   obtain ⟨b, hb⟩ := exists_root_of_splits i h hn''
-  rw [eval₂_sub, eval₂_X_pow, eval₂_C, sub_eq_zero] at hb
+  rw [eval₂_sub] at hb; rw [eval₂_X_pow] at hb; rw [eval₂_C] at hb; rw [sub_eq_zero] at hb
   have hb' : b ≠ 0 := by
     intro hb'
-    rw [hb', zero_pow hn'] at hb
+    rw [hb'] at hb; rw [zero_pow hn'] at hb
     exact ha' hb.symm
   let s := ((X ^ n - C a).map i).roots
   have hs : _ = _ * (s.map _).prod := eq_prod_roots_of_splits h
-  rw [leadingCoeff_X_pow_sub_C hn', RingHom.map_one, C_1, one_mul] at hs
+  rw [leadingCoeff_X_pow_sub_C hn'] at hs; rw [RingHom.map_one] at hs; rw [C_1] at hs; rw [one_mul] at hs
   have hs' : Multiset.card s = n := (natDegree_eq_card_roots h).symm.trans natDegree_X_pow_sub_C
   apply @splits_of_exists_multiset F E _ _ i (X ^ n - 1) (s.map fun c : E => c / b)
-  rw [leadingCoeff_X_pow_sub_one hn', RingHom.map_one, C_1, one_mul, Multiset.map_map]
+  rw [leadingCoeff_X_pow_sub_one hn']; rw [RingHom.map_one]; rw [C_1]; rw [one_mul]; rw [Multiset.map_map]
   have C_mul_C : C (i a⁻¹) * C (i a) = 1 := by
-    rw [← C_mul, ← i.map_mul, inv_mul_cancel ha, i.map_one, C_1]
+    rw [← C_mul]; rw [← i.map_mul]; rw [inv_mul_cancel ha]; rw [i.map_one]; rw [C_1]
   have key1 : (X ^ n - 1 : F[X]).map i = C (i a⁻¹) * ((X ^ n - C a).map i).comp (C b * X) := by
-    rw [Polynomial.map_sub, Polynomial.map_sub, Polynomial.map_pow, map_X, map_C,
-      Polynomial.map_one, sub_comp, pow_comp, X_comp, C_comp, mul_pow, ← C_pow, hb, mul_sub, ←
-      mul_assoc, C_mul_C, one_mul]
+    rw [Polynomial.map_sub]; rw [Polynomial.map_sub]; rw [Polynomial.map_pow]; rw [map_X]; rw [map_C]; rw [Polynomial.map_one]; rw [sub_comp]; rw [pow_comp]; rw [X_comp]; rw [C_comp]; rw [mul_pow]; rw [← C_pow]; rw [hb]; rw [mul_sub]; rw [←
+      mul_assoc]; rw [C_mul_C]; rw [one_mul]
   have key2 : ((fun q : E[X] => q.comp (C b * X)) ∘ fun c : E => X - C c) = fun c : E =>
       C b * (X - C (c / b)) := by
     ext1 c
     dsimp only [Function.comp_apply]
-    rw [sub_comp, X_comp, C_comp, mul_sub, ← C_mul, mul_div_cancel' c hb']
-  rw [key1, hs, multiset_prod_comp, Multiset.map_map, key2, Multiset.prod_map_mul,
-    -- Porting note: needed for `Multiset.map_const` to work
-    show (fun (_ : E) => C b) = Function.const E (C b) by rfl,
-    Multiset.map_const, Multiset.prod_replicate, hs', ← C_pow, hb, ← mul_assoc, C_mul_C, one_mul]
+    rw [sub_comp]; rw [X_comp]; rw [C_comp]; rw [mul_sub]; rw [← C_mul]; rw [mul_div_cancel' c hb']
+  rw [key1]; rw [hs]; rw [multiset_prod_comp]; rw [Multiset.map_map]; rw [key2]; rw [Multiset.prod_map_mul]; rw [-- Porting note: needed for `Multiset.map_const` to work
+    show (fun (_ : E) => C b) = Function.const E (C b) by rfl]; rw [Multiset.map_const]; rw [Multiset.prod_replicate]; rw [hs']; rw [← C_pow]; rw [hb]; rw [← mul_assoc]; rw [C_mul_C]; rw [one_mul]
   rfl
 set_option linter.uppercaseLean3 false in
 #align splits_X_pow_sub_one_of_X_pow_sub_C splits_X_pow_sub_one_of_X_pow_sub_C
@@ -324,7 +320,7 @@ theorem induction3 {α : solvableByRad F E} {n : ℕ} (hn : n ≠ 0) (hα : P (�
   · refine' gal_isSolvable_tower p (p.comp (X ^ n)) _ hα _
     · exact Gal.splits_in_splittingField_of_comp _ _ (by rwa [natDegree_X_pow])
     · obtain ⟨s, hs⟩ := (splits_iff_exists_multiset _).1 (SplittingField.splits p)
-      rw [map_comp, Polynomial.map_pow, map_X, hs, mul_comp, C_comp]
+      rw [map_comp]; rw [Polynomial.map_pow]; rw [map_X]; rw [hs]; rw [mul_comp]; rw [C_comp]
       apply gal_mul_isSolvable (gal_C_isSolvable _)
       rw [multiset_prod_comp]
       apply gal_prod_isSolvable
@@ -333,7 +329,7 @@ theorem induction3 {α : solvableByRad F E} {n : ℕ} (hn : n ≠ 0) (hα : P (�
       obtain ⟨q, hq, rfl⟩ := hq
       rw [Multiset.mem_map] at hq
       obtain ⟨q, _, rfl⟩ := hq
-      rw [sub_comp, X_comp, C_comp]
+      rw [sub_comp]; rw [X_comp]; rw [C_comp]
       exact gal_X_pow_sub_C_isSolvable n q
 #align solvable_by_rad.induction3 solvableByRad.induction3
 
@@ -355,7 +351,7 @@ theorem induction2 {α β γ : solvableByRad F E} (hγ : γ ∈ F⟮α, β⟯) (
     refine' minpoly.eq_of_irreducible_of_monic
       (minpoly.irreducible (isIntegral γ)) _ (minpoly.monic (isIntegral γ))
     suffices aeval (⟨γ, hγ⟩ : F⟮α, β⟯) (minpoly F γ) = 0 by
-      rw [aeval_algHom_apply, this, AlgHom.map_zero]
+      rw [aeval_algHom_apply]; rw [this]; rw [AlgHom.map_zero]
     -- Porting note: this instance is needed for the following `apply`
     haveI := @IntermediateField.toAlgebra F (solvableByRad F E) _ _ _ F⟮α, β⟯
       (solvableByRad F E) _ (Algebra.id (solvableByRad F E))
@@ -364,7 +360,7 @@ theorem induction2 {α β γ : solvableByRad F E} (hγ : γ ∈ F⟮α, β⟯) (
     -- Porting note: end of the proof was `exact minpoly.aeval F γ`.
     apply Subtype.val_injective
     simp [Polynomial.aeval_subalgebra_coe (minpoly F γ)]
-  rw [P, key]
+  rw [P]; rw [key]
   refine' gal_isSolvable_of_splits ⟨Normal.splits _ (f ⟨γ, hγ⟩)⟩ (gal_mul_isSolvable hα hβ)
   apply SplittingField.instNormal
 #align solvable_by_rad.induction2 solvableByRad.induction2
@@ -392,12 +388,12 @@ theorem isSolvable (α : solvableByRad F E) : IsSolvable (minpoly F α).Gal := b
 theorem isSolvable' {α : E} {q : F[X]} (q_irred : Irreducible q) (q_aeval : aeval α q = 0)
     (hα : IsSolvableByRad F α) : IsSolvable q.Gal := by
   have : _root_.IsSolvable (q * C q.leadingCoeff⁻¹).Gal := by
-    rw [minpoly.eq_of_irreducible q_irred q_aeval, ←
+    rw [minpoly.eq_of_irreducible q_irred q_aeval]; rw [←
       show minpoly F (⟨α, hα⟩ : solvableByRad F E) = minpoly F α from
         (minpoly.algebraMap_eq (RingHom.injective _) _).symm]
     exact isSolvable ⟨α, hα⟩
   refine' solvable_of_surjective (Gal.restrictDvd_surjective ⟨C q.leadingCoeff⁻¹, rfl⟩ _)
-  rw [mul_ne_zero_iff, Ne, Ne, C_eq_zero, inv_eq_zero]
+  rw [mul_ne_zero_iff]; rw [Ne]; rw [Ne]; rw [C_eq_zero]; rw [inv_eq_zero]
   exact ⟨q_irred.ne_zero, leadingCoeff_ne_zero.mpr q_irred.ne_zero⟩
 #align solvable_by_rad.is_solvable' solvableByRad.isSolvable'
 

@@ -136,7 +136,7 @@ theorem smul (r : R) (hφ : IsSymmetric φ) : IsSymmetric (r • φ) :=
 
 @[simp]
 theorem map (hφ : IsSymmetric φ) (f : R →+* S) : IsSymmetric (map f φ) := fun e => by
-  rw [← map_rename, hφ]
+  rw [← map_rename]; rw [hφ]
 #align mv_polynomial.is_symmetric.map MvPolynomial.IsSymmetric.map
 
 end CommSemiring
@@ -226,18 +226,18 @@ theorem support_esymm'' (n : ℕ) [DecidableEq σ] [Nontrivial R] :
   simp only [← single_eq_monomial]
   refine' Finsupp.support_sum_eq_biUnion (powersetLen n (univ : Finset σ)) _
   intro s t hst
-  rw [Finset.disjoint_left, Finsupp.support_single_ne_zero _ one_ne_zero]
+  rw [Finset.disjoint_left]; rw [Finsupp.support_single_ne_zero _ one_ne_zero]
   rw [Finsupp.support_single_ne_zero _ one_ne_zero]
   simp only [one_ne_zero, mem_singleton, Finsupp.mem_support_iff]
   rintro a h rfl
   have := congr_arg Finsupp.support h
-  rw [Finsupp.support_sum_eq_biUnion, Finsupp.support_sum_eq_biUnion] at this
+  rw [Finsupp.support_sum_eq_biUnion] at this; rw [Finsupp.support_sum_eq_biUnion] at this
   have hsingle : ∀ s : Finset σ, ∀ x : σ, x ∈ s → (Finsupp.single x 1).support = {x} := by
     intros _ x _
     rw [Finsupp.support_single_ne_zero x one_ne_zero]
   have hs := biUnion_congr (of_eq_true (eq_self s)) (hsingle s)
   have ht := biUnion_congr (of_eq_true (eq_self t)) (hsingle t)
-  rw [hs, ht] at this
+  rw [hs] at this; rw [ht] at this
   · simp only [biUnion_singleton_eq_self] at this
     exact absurd this hst.symm
   all_goals intro x y; simp [Finsupp.support_single_disjoint]
@@ -266,7 +266,7 @@ theorem degrees_esymm [Nontrivial R] (n : ℕ) (hpos : 0 < n) (hn : n ≤ Fintyp
       (Finsupp.toMultiset ∘ fun t : Finset σ => ∑ i : σ in t, Finsupp.single i 1) = Finset.val := by
       funext
       simp [Finsupp.toMultiset_sum_single]
-    rw [degrees_def, support_esymm, sup_image, this]
+    rw [degrees_def]; rw [support_esymm]; rw [sup_image]; rw [this]
     have : ((powersetLen n univ).sup (fun (x : Finset σ) => x)).val
         = sup (powersetLen n univ) val := by
       refine' comp_sup_eq_sup_comp _ _ _

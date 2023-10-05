@@ -135,9 +135,7 @@ instance (priority := 10) exponentialIdeal_of_preservesBinaryProducts
   refine' prodComparison L A _ ≫ Limits.prod.map (𝟙 _) (ε.app _) ≫ inv (prodComparison _ _ _)
   have : η.app (A ⟹ i.obj B) ≫ q = 𝟙 (A ⟹ i.obj B) := by
     dsimp
-    rw [← curry_natural_left, curry_eq_iff, uncurry_id_eq_ev, ← ir.homEquiv_naturality_left,
-      ir.homEquiv_apply_eq, assoc, assoc, prodComparison_natural_assoc, L.map_id,
-      ← prod.map_id_comp_assoc, ir.left_triangle_components, prod.map_id_id, id_comp]
+    rw [← curry_natural_left]; rw [curry_eq_iff]; rw [uncurry_id_eq_ev]; rw [← ir.homEquiv_naturality_left]; rw [ir.homEquiv_apply_eq]; rw [assoc]; rw [assoc]; rw [prodComparison_natural_assoc]; rw [L.map_id]; rw [← prod.map_id_comp_assoc]; rw [ir.left_triangle_components]; rw [prod.map_id_id]; rw [id_comp]
     apply IsIso.hom_inv_id_assoc
   haveI : IsSplitMono (η.app (A ⟹ i.obj B)) := IsSplitMono.mk' ⟨_, this⟩
   apply mem_essImage_of_unit_isSplitMono
@@ -161,7 +159,7 @@ def cartesianClosedOfReflective : CartesianClosed D :=
                     Adjunction.rightAdjointPreservesLimits.{0, 0} (Adjunction.ofRightAdjoint i)
                   apply asIso (prodComparison i B X)
                 · dsimp [asIso]
-                  rw [prodComparison_natural, Functor.map_id]
+                  rw [prodComparison_natural]; rw [Functor.map_id]
               · apply (exponentialIdealReflective i _).symm } } }
 #align category_theory.cartesian_closed_of_reflective CategoryTheory.cartesianClosedOfReflective
 
@@ -209,13 +207,10 @@ theorem bijection_symm_apply_id (A B : C) :
   dsimp [bijection]
   -- Porting note: added
   erw [homEquiv_symm_apply_eq, homEquiv_symm_apply_eq, homEquiv_apply_eq, homEquiv_apply_eq]
-  rw [comp_id, comp_id, comp_id, i.map_id, comp_id, unitCompPartialBijective_symm_apply,
-    unitCompPartialBijective_symm_apply, uncurry_natural_left, uncurry_curry,
-    uncurry_natural_left, uncurry_curry, prod.lift_map_assoc, comp_id, prod.lift_map_assoc, comp_id]
+  rw [comp_id]; rw [comp_id]; rw [comp_id]; rw [i.map_id]; rw [comp_id]; rw [unitCompPartialBijective_symm_apply]; rw [unitCompPartialBijective_symm_apply]; rw [uncurry_natural_left]; rw [uncurry_curry]; rw [uncurry_natural_left]; rw [uncurry_curry]; rw [prod.lift_map_assoc]; rw [comp_id]; rw [prod.lift_map_assoc]; rw [comp_id]
   -- Porting note: added
   dsimp only [Functor.comp_obj]
-  rw [prod.comp_lift_assoc, prod.lift_snd, prod.lift_fst_assoc, prod.lift_fst_comp_snd_comp,
-    ← Adjunction.eq_homEquiv_apply, Adjunction.homEquiv_unit, Iso.comp_inv_eq, assoc]
+  rw [prod.comp_lift_assoc]; rw [prod.lift_snd]; rw [prod.lift_fst_assoc]; rw [prod.lift_fst_comp_snd_comp]; rw [← Adjunction.eq_homEquiv_apply]; rw [Adjunction.homEquiv_unit]; rw [Iso.comp_inv_eq]; rw [assoc]
   -- Porting note: rw became erw
   erw [PreservesLimitPair.iso_hom i ((leftAdjoint i).obj A) ((leftAdjoint i).obj B)]
   apply prod.hom_ext
@@ -232,10 +227,7 @@ theorem bijection_natural (A B : C) (X X' : D) (f : (leftAdjoint i).obj (A ⨯ B
   erw [homEquiv_symm_apply_eq, homEquiv_symm_apply_eq, homEquiv_apply_eq, homEquiv_apply_eq,
     homEquiv_symm_apply_eq, homEquiv_symm_apply_eq, homEquiv_apply_eq, homEquiv_apply_eq]
   apply i.map_injective
-  rw [i.image_preimage, i.map_comp, i.image_preimage, comp_id, comp_id, comp_id, comp_id, comp_id,
-    comp_id, Adjunction.homEquiv_naturality_right, ← assoc, curry_natural_right _ (i.map g),
-    unitCompPartialBijective_natural, uncurry_natural_right, ← assoc, curry_natural_right,
-    unitCompPartialBijective_natural, uncurry_natural_right, assoc]
+  rw [i.image_preimage]; rw [i.map_comp]; rw [i.image_preimage]; rw [comp_id]; rw [comp_id]; rw [comp_id]; rw [comp_id]; rw [comp_id]; rw [comp_id]; rw [Adjunction.homEquiv_naturality_right]; rw [← assoc]; rw [curry_natural_right _ (i.map g)]; rw [unitCompPartialBijective_natural]; rw [uncurry_natural_right]; rw [← assoc]; rw [curry_natural_right]; rw [unitCompPartialBijective_natural]; rw [uncurry_natural_right]; rw [assoc]
 #align category_theory.bijection_natural CategoryTheory.bijection_natural
 
 /--
@@ -244,8 +236,7 @@ is the forward map of the identity morphism.
 -/
 theorem prodComparison_iso (A B : C) : IsIso (prodComparison (leftAdjoint i) A B) :=
   ⟨⟨bijection i _ _ _ (𝟙 _), by
-      rw [← (bijection i _ _ _).injective.eq_iff, bijection_natural, ← bijection_symm_apply_id,
-        Equiv.apply_symm_apply, id_comp],
+      rw [← (bijection i _ _ _).injective.eq_iff]; rw [bijection_natural]; rw [← bijection_symm_apply_id]; rw [Equiv.apply_symm_apply]; rw [id_comp],
       by rw [← bijection_natural, id_comp, ← bijection_symm_apply_id, Equiv.apply_symm_apply]⟩⟩
 #align category_theory.prod_comparison_iso CategoryTheory.prodComparison_iso
 

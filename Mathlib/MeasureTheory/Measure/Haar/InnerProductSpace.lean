@@ -37,12 +37,11 @@ theorem Orientation.measure_orthonormalBasis (o : Orientation ℝ F (Fin n))
     (b : OrthonormalBasis ι ℝ F) : o.volumeForm.measure (parallelepiped b) = 1 := by
   have e : ι ≃ Fin n := by
     refine' Fintype.equivFinOfCardEq _
-    rw [← _i.out, finrank_eq_card_basis b.toBasis]
+    rw [← _i.out]; rw [finrank_eq_card_basis b.toBasis]
   have A : ⇑b = b.reindex e ∘ e := by
     ext x
     simp only [OrthonormalBasis.coe_reindex, Function.comp_apply, Equiv.symm_apply_apply]
-  rw [A, parallelepiped_comp_equiv, AlternatingMap.measure_parallelepiped,
-    o.abs_volumeForm_apply_of_orthonormal, ENNReal.ofReal_one]
+  rw [A]; rw [parallelepiped_comp_equiv]; rw [AlternatingMap.measure_parallelepiped]; rw [o.abs_volumeForm_apply_of_orthonormal]; rw [ENNReal.ofReal_one]
 #align orientation.measure_orthonormal_basis Orientation.measure_orthonormalBasis
 
 /-- In an oriented inner product space, the measure coming from the canonical volume form
@@ -52,7 +51,7 @@ theorem Orientation.measure_eq_volume (o : Orientation ℝ F (Fin n)) :
   have A : o.volumeForm.measure (stdOrthonormalBasis ℝ F).toBasis.parallelepiped = 1 :=
     Orientation.measure_orthonormalBasis o (stdOrthonormalBasis ℝ F)
   rw [addHaarMeasure_unique o.volumeForm.measure
-    (stdOrthonormalBasis ℝ F).toBasis.parallelepiped, A, one_smul]
+    (stdOrthonormalBasis ℝ F).toBasis.parallelepiped]; rw [A]; rw [one_smul]
   simp only [volume, Basis.addHaar]
 #align orientation.measure_eq_volume Orientation.measure_eq_volume
 
@@ -85,8 +84,7 @@ theorem EuclideanSpace.volume_preserving_measurableEquiv :
     MeasurePreserving (EuclideanSpace.measurableEquiv ι) := by
   suffices volume = map (EuclideanSpace.measurableEquiv ι).symm volume by
     convert ((EuclideanSpace.measurableEquiv ι).symm.measurable.measurePreserving _).symm
-  rw [← addHaarMeasure_eq_volume_pi, ← Basis.parallelepiped_basisFun, ← Basis.addHaar_def,
-    coe_measurableEquiv_symm, ← PiLp.continuousLinearEquiv_symm_apply 2 ℝ, Basis.map_addHaar]
+  rw [← addHaarMeasure_eq_volume_pi]; rw [← Basis.parallelepiped_basisFun]; rw [← Basis.addHaar_def]; rw [coe_measurableEquiv_symm]; rw [← PiLp.continuousLinearEquiv_symm_apply 2 ℝ]; rw [Basis.map_addHaar]
   exact (EuclideanSpace.basisFun _ _).addHaar_eq_volume.symm
 
 /-- A copy of `EuclideanSpace.volume_preserving_measurableEquiv` for the canonical spelling of the

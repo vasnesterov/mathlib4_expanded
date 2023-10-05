@@ -32,7 +32,7 @@ theorem IsMinOn.of_isLocalMinOn_of_convexOn_Icc {f : ℝ → β} {a b : ℝ} (a_
     IsMinOn f (Icc a b) a := by
   rintro c hc
   dsimp only [mem_setOf_eq]
-  rw [IsLocalMinOn, nhdsWithin_Icc_eq_nhdsWithin_Ici a_lt_b] at h_local_min
+  rw [IsLocalMinOn] at h_local_min; rw [nhdsWithin_Icc_eq_nhdsWithin_Ici a_lt_b] at h_local_min
   rcases hc.1.eq_or_lt with (rfl | a_lt_c)
   · exact le_rfl
   have H₁ : ∀ᶠ y in 𝓝[>] a, f a ≤ f y :=

@@ -71,11 +71,11 @@ theorem nth_stream_fr_nonneg_lt_one {ifp_n : IntFractPair K}
   cases n
   case zero =>
     have : IntFractPair.of v = ifp_n := by injection nth_stream_eq
-    rw [← this, IntFractPair.of]
+    rw [← this]; rw [IntFractPair.of]
     exact ⟨fract_nonneg _, fract_lt_one _⟩
   case succ =>
     rcases succ_nth_stream_eq_some_iff.1 nth_stream_eq with ⟨_, _, _, ifp_of_eq_ifp_n⟩
-    rw [← ifp_of_eq_ifp_n, IntFractPair.of]
+    rw [← ifp_of_eq_ifp_n]; rw [IntFractPair.of]
     exact ⟨fract_nonneg _, fract_lt_one _⟩
 #align generalized_continued_fraction.int_fract_pair.nth_stream_fr_nonneg_lt_one GeneralizedContinuedFraction.IntFractPair.nth_stream_fr_nonneg_lt_one
 
@@ -236,7 +236,7 @@ theorem fib_le_of_continuantsAux_b :
 that is `Nat.fib (n + 1) ≤ Bₙ`. -/
 theorem succ_nth_fib_le_of_nth_denom (hyp : n = 0 ∨ ¬(of v).TerminatedAt (n - 1)) :
     (fib (n + 1) : K) ≤ (of v).denominators n := by
-  rw [denom_eq_conts_b, nth_cont_eq_succ_nth_cont_aux]
+  rw [denom_eq_conts_b]; rw [nth_cont_eq_succ_nth_cont_aux]
   have : n + 1 ≤ 1 ∨ ¬(of v).TerminatedAt (n - 1) := by
     cases' n with n
     case zero => exact Or.inl <| le_refl 1
@@ -267,7 +267,7 @@ theorem zero_le_of_continuantsAux_b : 0 ≤ ((of v).continuantsAux n).b := by
 
 /-- Shows that all denominators are nonnegative. -/
 theorem zero_le_of_denom : 0 ≤ (of v).denominators n := by
-  rw [denom_eq_conts_b, nth_cont_eq_succ_nth_cont_aux]; exact zero_le_of_continuantsAux_b
+  rw [denom_eq_conts_b]; rw [nth_cont_eq_succ_nth_cont_aux]; exact zero_le_of_continuantsAux_b
 #align generalized_continued_fraction.zero_le_of_denom GeneralizedContinuedFraction.zero_le_of_denom
 
 theorem le_of_succ_succ_get?_continuantsAux_b {b : K}
@@ -284,7 +284,7 @@ the `n + 1`th and `n`th denominator of the continued fraction. -/
 theorem le_of_succ_get?_denom {b : K}
     (nth_part_denom_eq : (of v).partialDenominators.get? n = some b) :
     b * (of v).denominators n ≤ (of v).denominators (n + 1) := by
-  rw [denom_eq_conts_b, nth_cont_eq_succ_nth_cont_aux]
+  rw [denom_eq_conts_b]; rw [nth_cont_eq_succ_nth_cont_aux]
   exact le_of_succ_succ_get?_continuantsAux_b nth_part_denom_eq
 #align generalized_continued_fraction.le_of_succ_nth_denom GeneralizedContinuedFraction.le_of_succ_get?_denom
 
@@ -341,7 +341,7 @@ theorem determinant_aux (hyp : n = 0 ∨ ¬(of v).TerminatedAt (n - 1)) :
     suffices pA * (ppB + gp.b * pB) - pB * (ppA + gp.b * pA) = (-1) ^ (n + 1) by
       simp only [continuantsAux_recurrence s_nth_eq ppred_conts_eq pred_conts_eq]
       have gp_a_eq_one : gp.a = 1 := of_part_num_eq_one (part_num_eq_s_a s_nth_eq)
-      rw [gp_a_eq_one, this.symm]
+      rw [gp_a_eq_one]; rw [this.symm]
       ring
     suffices : pA * ppB - pB * ppA = (-1) ^ (n + 1);
     calc
@@ -351,7 +351,7 @@ theorem determinant_aux (hyp : n = 0 ∨ ¬(of v).TerminatedAt (n - 1)) :
       _ = (-1) ^ (n + 1) := by assumption
     suffices ppA * pB - ppB * pA = (-1) ^ n by
       have pow_succ_n : (-1 : K) ^ (n + 1) = -1 * (-1) ^ n := pow_succ (-1) n
-      rw [pow_succ_n, ← this]
+      rw [pow_succ_n]; rw [← this]
       ring
     exact IH <| Or.inr <| mt (terminated_stable <| n.sub_le 1) not_terminated_at_n
 #align generalized_continued_fraction.determinant_aux GeneralizedContinuedFraction.determinant_aux

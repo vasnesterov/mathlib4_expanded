@@ -93,7 +93,7 @@ noncomputable def inverse : M₀ → M₀ := fun x => if h : IsUnit x then ((h.u
 /-- By definition, if `x` is invertible then `inverse x = x⁻¹`. -/
 @[simp]
 theorem inverse_unit (u : M₀ˣ) : inverse (u : M₀) = (u⁻¹ : M₀ˣ) := by
-  rw [inverse, dif_pos u.isUnit, IsUnit.unit_of_val_units]
+  rw [inverse]; rw [dif_pos u.isUnit]; rw [IsUnit.unit_of_val_units]
 #align ring.inverse_unit Ring.inverse_unit
 
 /-- By definition, if `x` is not invertible then `inverse x = 0`. -/
@@ -104,28 +104,28 @@ theorem inverse_non_unit (x : M₀) (h : ¬IsUnit x) : inverse x = 0 :=
 
 theorem mul_inverse_cancel (x : M₀) (h : IsUnit x) : x * inverse x = 1 := by
   rcases h with ⟨u, rfl⟩
-  rw [inverse_unit, Units.mul_inv]
+  rw [inverse_unit]; rw [Units.mul_inv]
 #align ring.mul_inverse_cancel Ring.mul_inverse_cancel
 
 theorem inverse_mul_cancel (x : M₀) (h : IsUnit x) : inverse x * x = 1 := by
   rcases h with ⟨u, rfl⟩
-  rw [inverse_unit, Units.inv_mul]
+  rw [inverse_unit]; rw [Units.inv_mul]
 #align ring.inverse_mul_cancel Ring.inverse_mul_cancel
 
 theorem mul_inverse_cancel_right (x y : M₀) (h : IsUnit x) : y * x * inverse x = y := by
-  rw [mul_assoc, mul_inverse_cancel x h, mul_one]
+  rw [mul_assoc]; rw [mul_inverse_cancel x h]; rw [mul_one]
 #align ring.mul_inverse_cancel_right Ring.mul_inverse_cancel_right
 
 theorem inverse_mul_cancel_right (x y : M₀) (h : IsUnit x) : y * inverse x * x = y := by
-  rw [mul_assoc, inverse_mul_cancel x h, mul_one]
+  rw [mul_assoc]; rw [inverse_mul_cancel x h]; rw [mul_one]
 #align ring.inverse_mul_cancel_right Ring.inverse_mul_cancel_right
 
 theorem mul_inverse_cancel_left (x y : M₀) (h : IsUnit x) : x * (inverse x * y) = y := by
-  rw [← mul_assoc, mul_inverse_cancel x h, one_mul]
+  rw [← mul_assoc]; rw [mul_inverse_cancel x h]; rw [one_mul]
 #align ring.mul_inverse_cancel_left Ring.mul_inverse_cancel_left
 
 theorem inverse_mul_cancel_left (x y : M₀) (h : IsUnit x) : inverse x * (x * y) = y := by
-  rw [← mul_assoc, inverse_mul_cancel x h, one_mul]
+  rw [← mul_assoc]; rw [inverse_mul_cancel x h]; rw [one_mul]
 #align ring.inverse_mul_cancel_left Ring.inverse_mul_cancel_left
 
 theorem inverse_mul_eq_iff_eq_mul (x y z : M₀) (h : IsUnit x) : inverse x * y = z ↔ y = x * z :=
@@ -340,7 +340,7 @@ noncomputable def groupWithZeroOfIsUnitOrEqZero [hM : MonoidWithZero M]
     inv_zero := dif_pos rfl,
     mul_inv_cancel := fun a h0 => by
       change (a * if h0 : a = 0 then 0 else ↑((h a).resolve_right h0).unit⁻¹) = 1
-      rw [dif_neg h0, Units.mul_inv_eq_iff_eq_mul, one_mul, IsUnit.unit_spec],
+      rw [dif_neg h0]; rw [Units.mul_inv_eq_iff_eq_mul]; rw [one_mul]; rw [IsUnit.unit_spec],
     exists_pair_ne := Nontrivial.exists_pair_ne }
 #align group_with_zero_of_is_unit_or_eq_zero groupWithZeroOfIsUnitOrEqZero
 

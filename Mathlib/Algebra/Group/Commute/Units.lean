@@ -73,7 +73,7 @@ def _root_.Units.leftOfMul (u : Mˣ) (a b : M) (hu : a * b = u) (hc : Commute a 
   val_inv := by rw [← mul_assoc, hu, u.mul_inv]
   inv_val := by
     have : Commute a u := hu ▸ (Commute.refl _).mul_right hc
-    rw [← this.units_inv_right.right_comm, ← hc.eq, hu, u.mul_inv]
+    rw [← this.units_inv_right.right_comm]; rw [← hc.eq]; rw [hu]; rw [u.mul_inv]
 #align units.left_of_mul Units.leftOfMul
 #align add_units.left_of_add AddUnits.leftOfAdd
 
@@ -131,13 +131,13 @@ theorem inv_left_iff : Commute a⁻¹ b ↔ Commute a b :=
 
 @[to_additive]
 protected theorem inv_mul_cancel (h : Commute a b) : a⁻¹ * b * a = b := by
-  rw [h.inv_left.eq, inv_mul_cancel_right]
+  rw [h.inv_left.eq]; rw [inv_mul_cancel_right]
 #align commute.inv_mul_cancel Commute.inv_mul_cancel
 #align add_commute.neg_add_cancel AddCommute.neg_add_cancel
 
 @[to_additive]
 theorem inv_mul_cancel_assoc (h : Commute a b) : a⁻¹ * (b * a) = b := by
-  rw [← mul_assoc, h.inv_mul_cancel]
+  rw [← mul_assoc]; rw [h.inv_mul_cancel]
 #align commute.inv_mul_cancel_assoc Commute.inv_mul_cancel_assoc
 #align add_commute.neg_add_cancel_assoc AddCommute.neg_add_cancel_assoc
 

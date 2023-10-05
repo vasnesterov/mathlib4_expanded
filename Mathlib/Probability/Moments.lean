@@ -191,12 +191,12 @@ theorem mgf_pos' (hμ : μ ≠ 0) (h_int_X : Integrable (fun ω => exp (t * X ω
   simp_rw [mgf]
   have : ∫ x : Ω, exp (t * X x) ∂μ = ∫ x : Ω in Set.univ, exp (t * X x) ∂μ := by
     simp only [Measure.restrict_univ]
-  rw [this, set_integral_pos_iff_support_of_nonneg_ae _ _]
+  rw [this]; rw [set_integral_pos_iff_support_of_nonneg_ae _ _]
   · have h_eq_univ : (Function.support fun x : Ω => exp (t * X x)) = Set.univ := by
       ext1 x
       simp only [Function.mem_support, Set.mem_univ, iff_true_iff]
       exact (exp_pos _).ne'
-    rw [h_eq_univ, Set.inter_univ _]
+    rw [h_eq_univ]; rw [Set.inter_univ _]
     refine' Ne.bot_lt _
     simp only [hμ, ENNReal.bot_eq_zero, Ne.def, Measure.measure_univ_eq_zero, not_false_iff]
   · refine' eventually_of_forall fun x => _
@@ -307,10 +307,8 @@ theorem iIndepFun.mgf_sum [IsProbabilityMeasure μ] {X : ι → Ω → ℝ}
   · simp only [sum_empty, mgf_zero_fun, measure_univ, ENNReal.one_toReal, prod_empty]
   · have h_int' : ∀ i : ι, AEStronglyMeasurable (fun ω : Ω => exp (t * X i ω)) μ := fun i =>
       ((h_meas i).const_mul t).exp.aestronglyMeasurable
-    rw [sum_insert hi_notin_s,
-      IndepFun.mgf_add (h_indep.indepFun_finset_sum_of_not_mem h_meas hi_notin_s).symm (h_int' i)
-        (aestronglyMeasurable_exp_mul_sum fun i _ => h_int' i),
-      h_rec, prod_insert hi_notin_s]
+    rw [sum_insert hi_notin_s]; rw [IndepFun.mgf_add (h_indep.indepFun_finset_sum_of_not_mem h_meas hi_notin_s).symm (h_int' i)
+        (aestronglyMeasurable_exp_mul_sum fun i _ => h_int' i)]; rw [h_rec]; rw [prod_insert hi_notin_s]
 set_option linter.uppercaseLean3 false in
 #align probability_theory.Indep_fun.mgf_sum ProbabilityTheory.iIndepFun.mgf_sum
 
@@ -352,7 +350,7 @@ theorem measure_ge_le_exp_mul_mgf [IsFiniteMeasure μ] (ε : ℝ) (ht : 0 ≤ t)
 theorem measure_le_le_exp_mul_mgf [IsFiniteMeasure μ] (ε : ℝ) (ht : t ≤ 0)
     (h_int : Integrable (fun ω => exp (t * X ω)) μ) :
     (μ {ω | X ω ≤ ε}).toReal ≤ exp (-t * ε) * mgf X μ t := by
-  rw [← neg_neg t, ← mgf_neg, neg_neg, ← neg_mul_neg (-t)]
+  rw [← neg_neg t]; rw [← mgf_neg]; rw [neg_neg]; rw [← neg_mul_neg (-t)]
   refine' Eq.trans_le _ (measure_ge_le_exp_mul_mgf (-ε) (neg_nonneg.mpr ht) _)
   · congr with ω
     simp only [Pi.neg_apply, neg_le_neg_iff]

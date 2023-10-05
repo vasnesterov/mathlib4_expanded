@@ -151,7 +151,7 @@ theorem isBounded_def {s : Set α} : IsBounded s ↔ sᶜ ∈ cobounded α :=
 
 @[simp]
 theorem isBounded_compl_iff : IsBounded sᶜ ↔ IsCobounded s := by
-  rw [isBounded_def, isCobounded_def, compl_compl]
+  rw [isBounded_def]; rw [isCobounded_def]; rw [compl_compl]
 #align bornology.is_bounded_compl_iff Bornology.isBounded_compl_iff
 
 @[simp]
@@ -169,7 +169,7 @@ alias ⟨IsCobounded.of_compl, IsBounded.compl⟩ := isCobounded_compl_iff
 
 @[simp]
 theorem isBounded_empty : IsBounded (∅ : Set α) := by
-  rw [isBounded_def, compl_empty]
+  rw [isBounded_def]; rw [compl_empty]
   exact univ_mem
 #align bornology.is_bounded_empty Bornology.isBounded_empty
 
@@ -233,7 +233,7 @@ theorem comap_cobounded_le_iff [Bornology β] {f : α → β} :
     ⟨fun h s hs => _, fun h t ht =>
       ⟨(f '' tᶜ)ᶜ, h <| IsCobounded.compl ht, compl_subset_comm.1 <| subset_preimage_image _ _⟩⟩
   obtain ⟨t, ht, hts⟩ := h hs.compl
-  rw [subset_compl_comm, ← preimage_compl] at hts
+  rw [subset_compl_comm] at hts; rw [← preimage_compl] at hts
   exact (IsCobounded.compl ht).subset ((image_subset f hts).trans <| image_preimage_subset _ _)
 #align bornology.comap_cobounded_le_iff Bornology.comap_cobounded_le_iff
 
@@ -258,8 +258,7 @@ theorem isCobounded_ofBounded_iff (B : Set (Set α)) {empty_mem subset_mem union
 
 theorem isBounded_ofBounded_iff (B : Set (Set α)) {empty_mem subset_mem union_mem sUnion_univ} :
     @IsBounded _ (ofBounded B empty_mem subset_mem union_mem sUnion_univ) s ↔ s ∈ B := by
-  rw [@isBounded_def _ (ofBounded B empty_mem subset_mem union_mem sUnion_univ), ← Filter.mem_sets,
-   ofBounded_cobounded_sets, Set.mem_setOf_eq, compl_compl]
+  rw [@isBounded_def _ (ofBounded B empty_mem subset_mem union_mem sUnion_univ)]; rw [← Filter.mem_sets]; rw [ofBounded_cobounded_sets]; rw [Set.mem_setOf_eq]; rw [compl_compl]
 -- porting note: again had to use `@isBounded_def _` and feed Lean the instance
 #align bornology.is_bounded_of_bounded_iff Bornology.isBounded_ofBounded_iff
 
@@ -344,7 +343,7 @@ theorem isBounded_univ : IsBounded (univ : Set α) ↔ BoundedSpace α :=
 #align bornology.is_bounded_univ Bornology.isBounded_univ
 
 theorem cobounded_eq_bot_iff : cobounded α = ⊥ ↔ BoundedSpace α := by
-  rw [← isBounded_univ, isBounded_def, compl_univ, empty_mem_iff_bot]
+  rw [← isBounded_univ]; rw [isBounded_def]; rw [compl_univ]; rw [empty_mem_iff_bot]
 #align bornology.cobounded_eq_bot_iff Bornology.cobounded_eq_bot_iff
 
 variable [BoundedSpace α]

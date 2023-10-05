@@ -27,19 +27,19 @@ namespace Int
 variable {a b : ℤ} {n : ℕ}
 
 theorem natAbs_eq_iff_mul_self_eq {a b : ℤ} : a.natAbs = b.natAbs ↔ a * a = b * b := by
-  rw [← abs_eq_iff_mul_self_eq, abs_eq_natAbs, abs_eq_natAbs]
+  rw [← abs_eq_iff_mul_self_eq]; rw [abs_eq_natAbs]; rw [abs_eq_natAbs]
   exact Int.coe_nat_inj'.symm
 #align int.nat_abs_eq_iff_mul_self_eq Int.natAbs_eq_iff_mul_self_eq
 
 #align int.eq_nat_abs_iff_mul_eq_zero Int.eq_natAbs_iff_mul_eq_zero
 
 theorem natAbs_lt_iff_mul_self_lt {a b : ℤ} : a.natAbs < b.natAbs ↔ a * a < b * b := by
-  rw [← abs_lt_iff_mul_self_lt, abs_eq_natAbs, abs_eq_natAbs]
+  rw [← abs_lt_iff_mul_self_lt]; rw [abs_eq_natAbs]; rw [abs_eq_natAbs]
   exact Int.ofNat_lt.symm
 #align int.nat_abs_lt_iff_mul_self_lt Int.natAbs_lt_iff_mul_self_lt
 
 theorem natAbs_le_iff_mul_self_le {a b : ℤ} : a.natAbs ≤ b.natAbs ↔ a * a ≤ b * b := by
-  rw [← abs_le_iff_mul_self_le, abs_eq_natAbs, abs_eq_natAbs]
+  rw [← abs_le_iff_mul_self_le]; rw [abs_eq_natAbs]; rw [abs_eq_natAbs]
   exact Int.ofNat_le.symm
 #align int.nat_abs_le_iff_mul_self_le Int.natAbs_le_iff_mul_self_le
 
@@ -48,7 +48,7 @@ theorem dvd_div_of_mul_dvd {a b c : ℤ} (h : a * b ∣ c) : b ∣ c / a := by
   · simp only [Int.ediv_zero, dvd_zero]
   rcases h with ⟨d, rfl⟩
   refine' ⟨d, _⟩
-  rw [mul_assoc, Int.mul_ediv_cancel_left _ ha]
+  rw [mul_assoc]; rw [Int.mul_ediv_cancel_left _ ha]
 #align int.dvd_div_of_mul_dvd Int.dvd_div_of_mul_dvd
 
 /-! ### units -/
@@ -60,7 +60,7 @@ theorem eq_zero_of_abs_lt_dvd {m x : ℤ} (h1 : m ∣ x) (h2 : |x| < m) : x = 0 
     exact zero_dvd_iff.mp h1
   rcases h1 with ⟨d, rfl⟩
   apply mul_eq_zero_of_right
-  rw [← abs_lt_one_iff, ← mul_lt_iff_lt_one_right (abs_pos.mpr hm), ← abs_mul]
+  rw [← abs_lt_one_iff]; rw [← mul_lt_iff_lt_one_right (abs_pos.mpr hm)]; rw [← abs_mul]
   exact lt_of_lt_of_le h2 (le_abs_self m)
 #align int.eq_zero_of_abs_lt_dvd Int.eq_zero_of_abs_lt_dvd
 

@@ -69,8 +69,7 @@ def v : M →ₗ[R] CliffordAlgebra (Q' Q) :=
 #align clifford_algebra.equiv_even.v CliffordAlgebra.EquivEven.v
 
 theorem ι_eq_v_add_smul_e0 (m : M) (r : R) : ι (Q' Q) (m, r) = v Q m + r • e0 Q := by
-  rw [e0, v, LinearMap.comp_apply, LinearMap.inl_apply, ← LinearMap.map_smul, Prod.smul_mk,
-    smul_zero, smul_eq_mul, mul_one, ← LinearMap.map_add, Prod.mk_add_mk, zero_add, add_zero]
+  rw [e0]; rw [v]; rw [LinearMap.comp_apply]; rw [LinearMap.inl_apply]; rw [← LinearMap.map_smul]; rw [Prod.smul_mk]; rw [smul_zero]; rw [smul_eq_mul]; rw [mul_one]; rw [← LinearMap.map_add]; rw [Prod.mk_add_mk]; rw [zero_add]; rw [add_zero]
 #align clifford_algebra.equiv_even.ι_eq_v_add_smul_e0 CliffordAlgebra.EquivEven.ι_eq_v_add_smul_e0
 
 theorem e0_mul_e0 : e0 Q * e0 Q = -1 :=
@@ -95,7 +94,7 @@ theorem neg_v_mul_e0 (m : M) : -(v Q m * e0 Q) = e0 Q * v Q m := by
 
 @[simp]
 theorem e0_mul_v_mul_e0 (m : M) : e0 Q * v Q m * e0 Q = v Q m := by
-  rw [← neg_v_mul_e0, ← neg_mul, mul_assoc, e0_mul_e0, mul_neg_one, neg_neg]
+  rw [← neg_v_mul_e0]; rw [← neg_mul]; rw [mul_assoc]; rw [e0_mul_e0]; rw [mul_neg_one]; rw [neg_neg]
 #align clifford_algebra.equiv_even.e0_mul_v_mul_e0 CliffordAlgebra.EquivEven.e0_mul_v_mul_e0
 
 @[simp]
@@ -127,21 +126,21 @@ def toEven : CliffordAlgebra Q →ₐ[R] CliffordAlgebra.even (Q' Q) := by
   refine' CliffordAlgebra.lift Q ⟨_, fun m => _⟩
   · refine' LinearMap.codRestrict _ _ fun m => Submodule.mem_iSup_of_mem ⟨2, rfl⟩ _
     · exact (LinearMap.mulLeft R <| e0 Q).comp (v Q)
-    rw [Subtype.coe_mk, pow_two]
+    rw [Subtype.coe_mk]; rw [pow_two]
     exact Submodule.mul_mem_mul (LinearMap.mem_range_self _ _) (LinearMap.mem_range_self _ _)
   · ext1
     rw [Subalgebra.coe_mul]  -- porting note: was part of the `dsimp only` below
     erw [LinearMap.codRestrict_apply] -- porting note: was part of the `dsimp only` below
     dsimp only [LinearMap.comp_apply, LinearMap.mulLeft_apply, Subalgebra.coe_algebraMap]
-    rw [← mul_assoc, e0_mul_v_mul_e0, v_sq_scalar]
+    rw [← mul_assoc]; rw [e0_mul_v_mul_e0]; rw [v_sq_scalar]
 #align clifford_algebra.to_even CliffordAlgebra.toEven
 
 @[simp]
 theorem toEven_ι (m : M) : (toEven Q (ι Q m) : CliffordAlgebra (Q' Q)) = e0 Q * v Q m := by
-  rw [toEven, CliffordAlgebra.lift_ι_apply]
+  rw [toEven]; rw [CliffordAlgebra.lift_ι_apply]
   -- porting note: was `rw`
   erw [LinearMap.codRestrict_apply]
-  rw [LinearMap.coe_comp, Function.comp_apply, LinearMap.mulLeft_apply]
+  rw [LinearMap.coe_comp]; rw [Function.comp_apply]; rw [LinearMap.mulLeft_apply]
 #align clifford_algebra.to_even_ι CliffordAlgebra.toEven_ι
 
 /-- The embedding from the even subalgebra with an extra dimension into the original algebra. -/
@@ -165,13 +164,12 @@ def ofEven : CliffordAlgebra.even (Q' Q) →ₐ[R] CliffordAlgebra Q := by
     ∀ m : M × R,
       ι Q m.1 * ι Q m.1 - algebraMap R _ m.2 * algebraMap R _ m.2 = algebraMap R _ (Q' Q m) := by
     intro m
-    rw [ι_sq_scalar, ← RingHom.map_mul, ← RingHom.map_sub, sub_eq_add_neg, Q'_apply, sub_eq_add_neg]
+    rw [ι_sq_scalar]; rw [← RingHom.map_mul]; rw [← RingHom.map_sub]; rw [sub_eq_add_neg]; rw [Q'_apply]; rw [sub_eq_add_neg]
   refine' even.lift (Q' Q) ⟨f, _, _⟩ <;> simp_rw [f_apply]
   · intro m
-    rw [← (hc _ _).symm.mul_self_sub_mul_self_eq, hm]
+    rw [← (hc _ _).symm.mul_self_sub_mul_self_eq]; rw [hm]
   · intro m₁ m₂ m₃
-    rw [← mul_smul_comm, ← mul_assoc, mul_assoc (_ + _), ← (hc _ _).symm.mul_self_sub_mul_self_eq',
-      Algebra.smul_def, ← mul_assoc, hm]
+    rw [← mul_smul_comm]; rw [← mul_assoc]; rw [mul_assoc (_ + _)]; rw [← (hc _ _).symm.mul_self_sub_mul_self_eq']; rw [Algebra.smul_def]; rw [← mul_assoc]; rw [hm]
 #align clifford_algebra.of_even CliffordAlgebra.ofEven
 
 theorem ofEven_ι (x y : M × R) :
@@ -196,26 +194,24 @@ theorem toEven_comp_ofEven : (toEven Q).comp (ofEven Q) = AlgHom.id R _ :=
             calc
               ↑(toEven Q (ofEven Q ((even.ι (Q' Q)).bilin (m₁, r₁) (m₂, r₂)))) =
                   (e0 Q * v Q m₁ + algebraMap R _ r₁) * (e0 Q * v Q m₂ - algebraMap R _ r₂) := by
-                rw [ofEven_ι, AlgHom.map_mul, AlgHom.map_add, AlgHom.map_sub, AlgHom.commutes,
-                  AlgHom.commutes, Subalgebra.coe_mul, Subalgebra.coe_add, Subalgebra.coe_sub,
-                  toEven_ι, toEven_ι, Subalgebra.coe_algebraMap, Subalgebra.coe_algebraMap]
+                rw [ofEven_ι]; rw [AlgHom.map_mul]; rw [AlgHom.map_add]; rw [AlgHom.map_sub]; rw [AlgHom.commutes]; rw [AlgHom.commutes]; rw [Subalgebra.coe_mul]; rw [Subalgebra.coe_add]; rw [Subalgebra.coe_sub]; rw [toEven_ι]; rw [toEven_ι]; rw [Subalgebra.coe_algebraMap]; rw [Subalgebra.coe_algebraMap]
               _ =
                   e0 Q * v Q m₁ * (e0 Q * v Q m₂) + r₁ • e0 Q * v Q m₂ - r₂ • e0 Q * v Q m₁ -
                     algebraMap R _ (r₁ * r₂) := by
-                rw [mul_sub, add_mul, add_mul, ← Algebra.commutes, ← Algebra.smul_def, ← map_mul, ←
-                  Algebra.smul_def, sub_add_eq_sub_sub, smul_mul_assoc, smul_mul_assoc]
+                rw [mul_sub]; rw [add_mul]; rw [add_mul]; rw [← Algebra.commutes]; rw [← Algebra.smul_def]; rw [← map_mul]; rw [←
+                  Algebra.smul_def]; rw [sub_add_eq_sub_sub]; rw [smul_mul_assoc]; rw [smul_mul_assoc]
               _ =
                   v Q m₁ * v Q m₂ + r₁ • e0 Q * v Q m₂ + v Q m₁ * r₂ • e0 Q +
                     r₁ • e0 Q * r₂ • e0 Q := by
                 have h1 : e0 Q * v Q m₁ * (e0 Q * v Q m₂) = v Q m₁ * v Q m₂ := by
-                  rw [← mul_assoc, e0_mul_v_mul_e0]
+                  rw [← mul_assoc]; rw [e0_mul_v_mul_e0]
                 have h2 : -(r₂ • e0 Q * v Q m₁) = v Q m₁ * r₂ • e0 Q := by
-                  rw [mul_smul_comm, smul_mul_assoc, ← smul_neg, neg_e0_mul_v]
+                  rw [mul_smul_comm]; rw [smul_mul_assoc]; rw [← smul_neg]; rw [neg_e0_mul_v]
                 have h3 : -algebraMap R _ (r₁ * r₂) = r₁ • e0 Q * r₂ • e0 Q := by
-                  rw [Algebra.algebraMap_eq_smul_one, smul_mul_smul, e0_mul_e0, smul_neg]
-                rw [sub_eq_add_neg, sub_eq_add_neg, h1, h2, h3]
+                  rw [Algebra.algebraMap_eq_smul_one]; rw [smul_mul_smul]; rw [e0_mul_e0]; rw [smul_neg]
+                rw [sub_eq_add_neg]; rw [sub_eq_add_neg]; rw [h1]; rw [h2]; rw [h3]
               _ = ι (Q' Q) (m₁, r₁) * ι (Q' Q) (m₂, r₂) := by
-                rw [ι_eq_v_add_smul_e0, ι_eq_v_add_smul_e0, mul_add, add_mul, add_mul, add_assoc]
+                rw [ι_eq_v_add_smul_e0]; rw [ι_eq_v_add_smul_e0]; rw [mul_add]; rw [add_mul]; rw [add_mul]; rw [add_assoc]
 #align clifford_algebra.to_even_comp_of_even CliffordAlgebra.toEven_comp_ofEven
 
 theorem ofEven_comp_toEven : (ofEven Q).comp (toEven Q) = AlgHom.id R _ :=
@@ -288,7 +284,7 @@ theorem evenToNeg_comp_evenToNeg (Q' : QuadraticForm R M) (h : Q' = -Q) (h' : Q 
   ext m₁ m₂ : 4
   dsimp only [EvenHom.compr₂_bilin, LinearMap.compr₂_apply, AlgHom.toLinearMap_apply,
     AlgHom.comp_apply, AlgHom.id_apply]
-  rw [evenToNeg_ι, map_neg, evenToNeg_ι, neg_neg]
+  rw [evenToNeg_ι]; rw [map_neg]; rw [evenToNeg_ι]; rw [neg_neg]
 #align clifford_algebra.even_to_neg_comp_even_to_neg CliffordAlgebra.evenToNeg_comp_evenToNeg
 
 /-- The even subalgebras of the algebras with quadratic form `Q` and `-Q` are isomorphic.

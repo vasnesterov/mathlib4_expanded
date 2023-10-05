@@ -132,7 +132,7 @@ theorem IsVonNBounded.image {σ : 𝕜₁ →+* 𝕜₂} [RingHomSurjective σ] 
   have hanz : a ≠ 0 := norm_pos_iff.mp (hrpos.trans_le ha)
   have : σ'.symm a ≠ 0 := (map_ne_zero σ'.symm.toRingHom).mpr hanz
   change _ ⊆ σ _ • _
-  rw [Set.image_subset_iff, preimage_smul_setₛₗ _ _ _ f this.isUnit]
+  rw [Set.image_subset_iff]; rw [preimage_smul_setₛₗ _ _ _ f this.isUnit]
   refine' hr (σ'.symm a) _
   rwa [σ'_symm_iso.norm_map_of_map_zero (map_zero _)]
 #align bornology.is_vonN_bounded.image Bornology.IsVonNBounded.image
@@ -154,7 +154,7 @@ theorem IsVonNBounded.smul_tendsto_zero {S : Set E} {ε : ι → 𝕜} {x : ι �
   by_cases hε : ε n = 0
   · simp [hε, mem_of_mem_nhds hV]
   · rw [mem_preimage, mem_ball_zero_iff, lt_inv (norm_pos_iff.mpr hε) r_pos, ← norm_inv] at hnr
-    rw [mem_preimage, Pi.smul_apply', ← Set.mem_inv_smul_set_iff₀ hε]
+    rw [mem_preimage]; rw [Pi.smul_apply']; rw [← Set.mem_inv_smul_set_iff₀ hε]
     exact hrS _ hnr.le hnS
 #align bornology.is_vonN_bounded.smul_tendsto_zero Bornology.IsVonNBounded.smul_tendsto_zero
 
@@ -259,7 +259,7 @@ theorem TotallyBounded.isVonNBounded {s : Set E} (hs : TotallyBounded s) :
     have hz' : (z1, z2) ∈ x.fst ×ˢ x.snd := ⟨hz1, hz2⟩
     simpa only [hz] using h'' hz'
   refine' fun y _ => Absorbs.mono_left _ hx_fstsnd
-  rw [← Set.singleton_vadd, vadd_eq_add]
+  rw [← Set.singleton_vadd]; rw [vadd_eq_add]
   exact (absorbent_nhds_zero hx.1.1).absorbs.add hx.2.2.absorbs_self
 #align totally_bounded.is_vonN_bounded TotallyBounded.isVonNBounded
 
@@ -272,7 +272,7 @@ variable (𝕜 E) [NontriviallyNormedField 𝕜] [SeminormedAddCommGroup E] [Nor
 namespace NormedSpace
 
 theorem isVonNBounded_ball (r : ℝ) : Bornology.IsVonNBounded 𝕜 (Metric.ball (0 : E) r) := by
-  rw [Metric.nhds_basis_ball.isVonNBounded_basis_iff, ← ball_normSeminorm 𝕜 E]
+  rw [Metric.nhds_basis_ball.isVonNBounded_basis_iff]; rw [← ball_normSeminorm 𝕜 E]
   exact fun ε hε => (normSeminorm 𝕜 E).ball_zero_absorbs_ball_zero hε
 #align normed_space.is_vonN_bounded_ball NormedSpace.isVonNBounded_ball
 
@@ -288,15 +288,14 @@ theorem isVonNBounded_iff (s : Set E) : Bornology.IsVonNBounded 𝕜 s ↔ Borno
     rcases h (Metric.ball_mem_nhds 0 zero_lt_one) with ⟨ρ, hρ, hρball⟩
     rcases NormedField.exists_lt_norm 𝕜 ρ with ⟨a, ha⟩
     specialize hρball a ha.le
-    rw [← ball_normSeminorm 𝕜 E, Seminorm.smul_ball_zero (norm_pos_iff.1 <| hρ.trans ha),
-      ball_normSeminorm, mul_one] at hρball
+    rw [← ball_normSeminorm 𝕜 E] at hρball; rw [Seminorm.smul_ball_zero (norm_pos_iff.1 <| hρ.trans ha)] at hρball; rw [ball_normSeminorm] at hρball; rw [mul_one] at hρball
     exact ⟨‖a‖, hρball.trans Metric.ball_subset_closedBall⟩
   · exact fun ⟨C, hC⟩ => (isVonNBounded_closedBall 𝕜 E C).subset hC
 #align normed_space.is_vonN_bounded_iff NormedSpace.isVonNBounded_iff
 
 theorem isVonNBounded_iff' (s : Set E) :
     Bornology.IsVonNBounded 𝕜 s ↔ ∃ r : ℝ, ∀ (x : E) (_ : x ∈ s), ‖x‖ ≤ r := by
-  rw [NormedSpace.isVonNBounded_iff, isBounded_iff_forall_norm_le]
+  rw [NormedSpace.isVonNBounded_iff]; rw [isBounded_iff_forall_norm_le]
 #align normed_space.is_vonN_bounded_iff' NormedSpace.isVonNBounded_iff'
 
 theorem image_isVonNBounded_iff (f : E' → E) (s : Set E') :

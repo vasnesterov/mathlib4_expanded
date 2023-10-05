@@ -128,7 +128,7 @@ theorem proj_continuous : Continuous S.proj :=
 
 instance : DiscreteTopology S :=
   singletons_open_iff_discrete.1 <| S.proj_surjective.forall.2 fun x => by
-    rw [← S.proj_quotientMap.isOpen_preimage, fiber_eq]
+    rw [← S.proj_quotientMap.isOpen_preimage]; rw [fiber_eq]
     exact S.isOpen_setOf_rel _
 
 theorem proj_isLocallyConstant : IsLocallyConstant S.proj :=
@@ -363,8 +363,7 @@ end Map
 
 theorem eq_of_forall_proj_eq [T2Space X] [CompactSpace X] [disc : TotallyDisconnectedSpace X]
     {x y : X} (h : ∀ Q : DiscreteQuotient X, Q.proj x = Q.proj y) : x = y := by
-  rw [← mem_singleton_iff, ← connectedComponent_eq_singleton, connectedComponent_eq_iInter_clopen,
-    mem_iInter]
+  rw [← mem_singleton_iff]; rw [← connectedComponent_eq_singleton]; rw [connectedComponent_eq_iInter_clopen]; rw [mem_iInter]
   rintro ⟨U, hU1, hU2⟩
   exact (Quotient.exact' (h (ofClopen hU1))).mpr hU2
 #align discrete_quotient.eq_of_forall_proj_eq DiscreteQuotient.eq_of_forall_proj_eq
@@ -372,7 +371,7 @@ theorem eq_of_forall_proj_eq [T2Space X] [CompactSpace X] [disc : TotallyDisconn
 theorem fiber_subset_ofLE {A B : DiscreteQuotient X} (h : A ≤ B) (a : A) :
     A.proj ⁻¹' {a} ⊆ B.proj ⁻¹' {ofLE h a} := by
   rcases A.proj_surjective a with ⟨a, rfl⟩
-  rw [fiber_eq, ofLE_proj, fiber_eq]
+  rw [fiber_eq]; rw [ofLE_proj]; rw [fiber_eq]
   exact fun _ h' => h h'
 #align discrete_quotient.fiber_subset_of_le DiscreteQuotient.fiber_subset_ofLE
 

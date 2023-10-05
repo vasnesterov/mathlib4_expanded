@@ -155,8 +155,7 @@ theorem Basis.smul_apply {ι : Type v₁} {ι' : Type w₁} (b : Basis ι R S) (
   obtain ⟨i, j⟩ := ij
   rw [Basis.apply_eq_iff]
   ext ⟨i', j'⟩
-  rw [Basis.smul_repr, LinearEquiv.map_smul, Basis.repr_self, Finsupp.smul_apply,
-    Finsupp.single_apply]
+  rw [Basis.smul_repr]; rw [LinearEquiv.map_smul]; rw [Basis.repr_self]; rw [Finsupp.smul_apply]; rw [Finsupp.single_apply]
   dsimp only
   split_ifs with hi
   · simp [hi, Finsupp.single_apply]

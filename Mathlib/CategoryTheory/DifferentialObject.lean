@@ -104,7 +104,7 @@ theorem comp_f {X Y Z : DifferentialObject S C} (f : X ⟶ Y) (g : Y ⟶ Z) :
 theorem eqToHom_f {X Y : DifferentialObject S C} (h : X = Y) :
     Hom.f (eqToHom h) = eqToHom (congr_arg _ h) := by
   subst h
-  rw [eqToHom_refl, eqToHom_refl]
+  rw [eqToHom_refl]; rw [eqToHom_refl]
   rfl
 #align category_theory.differential_object.eq_to_hom_f CategoryTheory.DifferentialObject.eqToHom_f
 
@@ -162,8 +162,7 @@ def mkIso {X Y : DifferentialObject S C} (f : X.obj ≅ Y.obj) (hf : X.d ≫ f.h
     X ≅ Y where
   hom := ⟨f.hom, hf⟩
   inv := ⟨f.inv, by
-    rw [← Functor.mapIso_inv, Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp, Functor.mapIso_hom,
-      hf]⟩
+    rw [← Functor.mapIso_inv]; rw [Iso.comp_inv_eq]; rw [Category.assoc]; rw [Iso.eq_inv_comp]; rw [Functor.mapIso_hom]; rw [hf]⟩
   hom_inv_id := by ext1; dsimp; exact f.hom_inv_id
   inv_hom_id := by ext1; dsimp; exact f.inv_hom_id
 #align category_theory.differential_object.mk_iso CategoryTheory.DifferentialObject.mkIso
@@ -188,11 +187,11 @@ def mapDifferentialObject (F : C ⥤ D)
     { obj := F.obj X.obj
       d := F.map X.d ≫ η.app X.obj
       d_squared := by
-        rw [Functor.map_comp, ← Functor.comp_map F (shiftFunctor D (1 : S))]
+        rw [Functor.map_comp]; rw [← Functor.comp_map F (shiftFunctor D (1 : S))]
         slice_lhs 2 3 => rw [← η.naturality X.d]
         rw [Functor.comp_map]
         slice_lhs 1 2 => rw [← F.map_comp, X.d_squared, hF]
-        rw [zero_comp, zero_comp] }
+        rw [zero_comp]; rw [zero_comp] }
   map f :=
     { f := F.map f.f
       comm := by
@@ -262,8 +261,7 @@ def shiftFunctor (n : S) : DifferentialObject S C ⥤ DifferentialObject S C whe
     { obj := X.obj⟦n⟧
       d := X.d⟦n⟧' ≫ (shiftComm _ _ _).hom
       d_squared := by
-        rw [Functor.map_comp, Category.assoc, shiftComm_hom_comp_assoc, ← Functor.map_comp_assoc,
-          X.d_squared, Functor.map_zero, zero_comp] }
+        rw [Functor.map_comp]; rw [Category.assoc]; rw [shiftComm_hom_comp_assoc]; rw [← Functor.map_comp_assoc]; rw [X.d_squared]; rw [Functor.map_zero]; rw [zero_comp] }
   map f :=
     { f := f.f⟦n⟧'
       comm := by

@@ -87,7 +87,7 @@ integral of `f`. The formula we give works even when `f` is not integrable or `R
 thanks to the convention that a non-integrable function has integral zero. -/
 theorem integral_comp_smul_of_nonneg (f : E → F) (R : ℝ) {hR : 0 ≤ R} :
     (∫ x, f (R • x) ∂μ) = (R ^ finrank ℝ E)⁻¹ • ∫ x, f x ∂μ := by
-  rw [integral_comp_smul μ f R, abs_of_nonneg (inv_nonneg.2 (pow_nonneg hR _))]
+  rw [integral_comp_smul μ f R]; rw [abs_of_nonneg (inv_nonneg.2 (pow_nonneg hR _))]
 #align measure_theory.measure.integral_comp_smul_of_nonneg MeasureTheory.Measure.integral_comp_smul_of_nonneg
 
 /-- The integral of `f (R⁻¹ • x)` with respect to an additive Haar measure is a multiple of the
@@ -95,7 +95,7 @@ integral of `f`. The formula we give works even when `f` is not integrable or `R
 thanks to the convention that a non-integrable function has integral zero. -/
 theorem integral_comp_inv_smul (f : E → F) (R : ℝ) :
     (∫ x, f (R⁻¹ • x) ∂μ) = |R ^ finrank ℝ E| • ∫ x, f x ∂μ := by
-  rw [integral_comp_smul μ f R⁻¹, inv_pow, inv_inv]
+  rw [integral_comp_smul μ f R⁻¹]; rw [inv_pow]; rw [inv_inv]
 #align measure_theory.measure.integral_comp_inv_smul MeasureTheory.Measure.integral_comp_inv_smul
 
 /-- The integral of `f (R⁻¹ • x)` with respect to an additive Haar measure is a multiple of the
@@ -103,7 +103,7 @@ integral of `f`. The formula we give works even when `f` is not integrable or `R
 thanks to the convention that a non-integrable function has integral zero. -/
 theorem integral_comp_inv_smul_of_nonneg (f : E → F) {R : ℝ} (hR : 0 ≤ R) :
     (∫ x, f (R⁻¹ • x) ∂μ) = R ^ finrank ℝ E • ∫ x, f x ∂μ := by
-  rw [integral_comp_inv_smul μ f R, abs_of_nonneg (pow_nonneg hR _)]
+  rw [integral_comp_inv_smul μ f R]; rw [abs_of_nonneg (pow_nonneg hR _)]
 #align measure_theory.measure.integral_comp_inv_smul_of_nonneg MeasureTheory.Measure.integral_comp_inv_smul_of_nonneg
 
 theorem integral_comp_mul_left (g : ℝ → F) (a : ℝ) : (∫ x : ℝ, g (a * x)) = |a⁻¹| • ∫ y : ℝ, g y :=
@@ -140,7 +140,7 @@ theorem integrable_comp_smul_iff {E : Type*} [NormedAddCommGroup E] [NormedSpace
     ∀ {g : E → F} (hg : Integrable g μ) {S : ℝ} (hS : S ≠ 0), Integrable (fun x => g (S • x)) μ by
     refine' ⟨fun hf => _, fun hf => this hf hR⟩
     convert this hf (inv_ne_zero hR)
-    rw [← mul_smul, mul_inv_cancel hR, one_smul]
+    rw [← mul_smul]; rw [mul_inv_cancel hR]; rw [one_smul]
   -- now prove
   intro g hg S hS
   let t := ((Homeomorph.smul (isUnit_iff_ne_zero.2 hS).unit).toMeasurableEquiv : E ≃ᵐ E)

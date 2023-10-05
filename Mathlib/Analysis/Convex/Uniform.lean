@@ -72,7 +72,7 @@ theorem exists_forall_closed_ball_dist_add_le_two_sub (hε : 0 < ε) :
   have hδ' : 0 < 1 - δ' := sub_pos_of_lt (min_lt_of_left_lt one_half_lt_one)
   have h₁ : ∀ z : E, 1 - δ' < ‖z‖ → ‖‖z‖⁻¹ • z‖ = 1 := by
     rintro z hz
-    rw [norm_smul_of_nonneg (inv_nonneg.2 <| norm_nonneg _), inv_mul_cancel (hδ'.trans hz).ne']
+    rw [norm_smul_of_nonneg (inv_nonneg.2 <| norm_nonneg _)]; rw [inv_mul_cancel (hδ'.trans hz).ne']
   have h₂ : ∀ z : E, ‖z‖ ≤ 1 → 1 - δ' ≤ ‖z‖ → ‖‖z‖⁻¹ • z - z‖ ≤ δ' := by
     rintro z hz hδz
     nth_rw 3 [← one_smul ℝ z]
@@ -89,23 +89,23 @@ theorem exists_forall_closed_ball_dist_add_le_two_sub (hε : 0 < ε) :
         · exact (h₂ _ hy hy'.le).trans <| min_le_of_right_le <| min_le_left _ _
       _ ≤ _ := by
         have : ∀ x' y', x - y = x' - y' + (x - x') + (y' - y) := fun _ _ => by abel
-        rw [sub_le_iff_le_add, norm_sub_rev _ x, ← add_assoc, this]
+        rw [sub_le_iff_le_add]; rw [norm_sub_rev _ x]; rw [← add_assoc]; rw [this]
         exact norm_add₃_le _ _ _
   calc
     ‖x + y‖ ≤ ‖x' + y'‖ + ‖x' - x‖ + ‖y' - y‖ := by
       have : ∀ x' y', x + y = x' + y' + (x - x') + (y - y') := fun _ _ => by abel
-      rw [norm_sub_rev, norm_sub_rev y', this]
+      rw [norm_sub_rev]; rw [norm_sub_rev y']; rw [this]
       exact norm_add₃_le _ _ _
     _ ≤ 2 - δ + δ' + δ' :=
       (add_le_add_three (h (h₁ _ hx') (h₁ _ hy') hxy') (h₂ _ hx hx'.le) (h₂ _ hy hy'.le))
     _ ≤ 2 - δ' := by
-      rw [← le_sub_iff_add_le, ← le_sub_iff_add_le, sub_sub, sub_sub]
+      rw [← le_sub_iff_add_le]; rw [← le_sub_iff_add_le]; rw [sub_sub]; rw [sub_sub]
       refine' sub_le_sub_left _ _
       ring_nf
       rw [← mul_div_cancel' δ three_ne_zero]
       norm_num -- Porting note: these three extra lines needed to make `exact` work
       have : 3 * (δ / 3) * (1 / 3) = δ / 3 := by linarith
-      rw [this, mul_comm]
+      rw [this]; rw [mul_comm]
       gcongr
       exact min_le_of_right_le <| min_le_right _ _
 #align exists_forall_closed_ball_dist_add_le_two_sub exists_forall_closed_ball_dist_add_le_two_sub
@@ -117,7 +117,7 @@ theorem exists_forall_closed_ball_dist_add_le_two_mul_sub (hε : 0 < ε) (r : �
       h.trans <| (norm_sub_le _ _).trans <| add_nonpos (hx.trans hr) (hy.trans hr)).elim⟩
   obtain ⟨δ, hδ, h⟩ := exists_forall_closed_ball_dist_add_le_two_sub E (div_pos hε hr)
   refine' ⟨δ * r, mul_pos hδ hr, fun x hx y hy hxy => _⟩
-  rw [← div_le_one hr, div_eq_inv_mul, ← norm_smul_of_nonneg (inv_nonneg.2 hr.le)] at hx hy
+  rw [← div_le_one hr] at hx hy; rw [div_eq_inv_mul] at hx hy; rw [← norm_smul_of_nonneg (inv_nonneg.2 hr.le)] at hx hy
   try infer_instance
   have := h hx hy
   simp_rw [← smul_add, ← smul_sub, norm_smul_of_nonneg (inv_nonneg.2 hr.le), ← div_eq_inv_mul,

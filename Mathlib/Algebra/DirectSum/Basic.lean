@@ -229,13 +229,13 @@ def fromAddMonoid : (⨁ i, γ →+ β i) →+ γ →+ ⨁ i, β i :=
 
 @[simp]
 theorem fromAddMonoid_of (i : ι) (f : γ →+ β i) : fromAddMonoid (of _ i f) = (of _ i).comp f := by
-  rw [fromAddMonoid, toAddMonoid_of]
+  rw [fromAddMonoid]; rw [toAddMonoid_of]
   rfl
 #align direct_sum.from_add_monoid_of DirectSum.fromAddMonoid_of
 
 theorem fromAddMonoid_of_apply (i : ι) (f : γ →+ β i) (x : γ) :
     fromAddMonoid (of _ i f) x = of _ i (f x) := by
-      rw [fromAddMonoid_of, AddMonoidHom.coe_comp, Function.comp]
+      rw [fromAddMonoid_of]; rw [AddMonoidHom.coe_comp]; rw [Function.comp]
 #align direct_sum.from_add_monoid_of_apply DirectSum.fromAddMonoid_of_apply
 
 end FromAddMonoid
@@ -275,7 +275,7 @@ protected def id (M : Type v) (ι : Type* := PUnit) [AddCommMonoid M] [Unique ι
     left_inv := fun x =>
       DirectSum.induction_on x (by rw [AddMonoidHom.map_zero, AddMonoidHom.map_zero])
         (fun p x => by rw [Unique.default_eq p, toAddMonoid_of]; rfl) fun x y ihx ihy => by
-        rw [AddMonoidHom.map_add, AddMonoidHom.map_add, ihx, ihy]
+        rw [AddMonoidHom.map_add]; rw [AddMonoidHom.map_add]; rw [ihx]; rw [ihy]
     right_inv := fun x => toAddMonoid_of _ _ _ }
 #align direct_sum.id DirectSum.id
 
@@ -390,7 +390,7 @@ def IsInternal {M S : Type*} [DecidableEq ι] [AddCommMonoid M] [SetLike S M]
 
 theorem IsInternal.addSubmonoid_iSup_eq_top {M : Type*} [DecidableEq ι] [AddCommMonoid M]
     (A : ι → AddSubmonoid M) (h : IsInternal A) : iSup A = ⊤ := by
-  rw [AddSubmonoid.iSup_eq_mrange_dfinsupp_sumAddHom, AddMonoidHom.mrange_top_iff_surjective]
+  rw [AddSubmonoid.iSup_eq_mrange_dfinsupp_sumAddHom]; rw [AddMonoidHom.mrange_top_iff_surjective]
   exact Function.Bijective.surjective h
 #align direct_sum.is_internal.add_submonoid_supr_eq_top DirectSum.IsInternal.addSubmonoid_iSup_eq_top
 

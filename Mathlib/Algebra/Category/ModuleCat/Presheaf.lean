@@ -148,16 +148,14 @@ lemma add_app (f g : P ⟶ Q) (X : Cᵒᵖ) : (f + g).app X = f.app X + g.app X 
 
 instance : Sub (P ⟶ Q) := ⟨fun f g => mk (f.hom - g.hom) (by
   intros
-  rw [NatTrans.app_sub, AddMonoidHom.sub_apply, AddMonoidHom.sub_apply,
-    smul_sub, map_smul, map_smul])⟩
+  rw [NatTrans.app_sub]; rw [AddMonoidHom.sub_apply]; rw [AddMonoidHom.sub_apply]; rw [smul_sub]; rw [map_smul]; rw [map_smul])⟩
 
 @[simp]
 lemma sub_app (f g : P ⟶ Q) (X : Cᵒᵖ) : (f - g).app X = f.app X - g.app X := rfl
 
 instance : Neg (P ⟶ Q) := ⟨fun f => mk (-f.hom) (by
   intros
-  rw [NatTrans.app_neg, AddMonoidHom.neg_apply, AddMonoidHom.neg_apply,
-    map_smul, smul_neg])⟩
+  rw [NatTrans.app_neg]; rw [AddMonoidHom.neg_apply]; rw [AddMonoidHom.neg_apply]; rw [map_smul]; rw [smul_neg])⟩
 
 @[simp]
 lemma neg_app (f : P ⟶ Q) (X : Cᵒᵖ): (-f).app X = -f.app X := rfl

@@ -332,7 +332,7 @@ theorem coe_mk' (l u : ι → ℝ) : (mk' l u : Set (ι → ℝ)) = pi univ fun 
   rw [mk']; split_ifs with h
   · exact coe_eq_pi _
   · rcases not_forall.mp h with ⟨i, hi⟩
-    rw [coe_bot, univ_pi_eq_empty]
+    rw [coe_bot]; rw [univ_pi_eq_empty]
     exact Ioc_eq_empty hi
 #align box_integral.box.coe_mk' BoxIntegral.Box.coe_mk'
 
@@ -358,10 +358,10 @@ instance : Lattice (WithBot (Box ι)) :=
   { WithBot.semilatticeSup,
     Box.WithBot.inf with
     inf_le_left := fun I J ↦ by
-      rw [← withBotCoe_subset_iff, coe_inf]
+      rw [← withBotCoe_subset_iff]; rw [coe_inf]
       exact inter_subset_left _ _
     inf_le_right := fun I J ↦ by
-      rw [← withBotCoe_subset_iff, coe_inf]
+      rw [← withBotCoe_subset_iff]; rw [coe_inf]
       exact inter_subset_right _ _
     le_inf := fun I J₁ J₂ h₁ h₂ ↦ by
       simp only [← withBotCoe_subset_iff, coe_inf] at *
@@ -380,7 +380,7 @@ theorem disjoint_coe : Disjoint (I : WithBot (Box ι)) J ↔ Disjoint (I : Set (
 
 theorem not_disjoint_coe_iff_nonempty_inter :
     ¬Disjoint (I : WithBot (Box ι)) J ↔ (I ∩ J : Set (ι → ℝ)).Nonempty := by
-  rw [disjoint_coe, Set.not_disjoint_iff_nonempty_inter]
+  rw [disjoint_coe]; rw [Set.not_disjoint_iff_nonempty_inter]
 #align box_integral.box.not_disjoint_coe_iff_nonempty_inter BoxIntegral.Box.not_disjoint_coe_iff_nonempty_inter
 
 /-!

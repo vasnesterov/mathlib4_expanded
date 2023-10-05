@@ -77,17 +77,17 @@ theorem sup_dedup (s : Multiset α) : (dedup s).sup = s.sup :=
 
 @[simp]
 theorem sup_ndunion (s₁ s₂ : Multiset α) : (ndunion s₁ s₂).sup = s₁.sup ⊔ s₂.sup := by
-  rw [← sup_dedup, dedup_ext.2, sup_dedup, sup_add]; simp
+  rw [← sup_dedup]; rw [dedup_ext.2]; rw [sup_dedup]; rw [sup_add]; simp
 #align multiset.sup_ndunion Multiset.sup_ndunion
 
 @[simp]
 theorem sup_union (s₁ s₂ : Multiset α) : (s₁ ∪ s₂).sup = s₁.sup ⊔ s₂.sup := by
-  rw [← sup_dedup, dedup_ext.2, sup_dedup, sup_add]; simp
+  rw [← sup_dedup]; rw [dedup_ext.2]; rw [sup_dedup]; rw [sup_add]; simp
 #align multiset.sup_union Multiset.sup_union
 
 @[simp]
 theorem sup_ndinsert (a : α) (s : Multiset α) : (ndinsert a s).sup = a ⊔ s.sup := by
-  rw [← sup_dedup, dedup_ext.2, sup_dedup, sup_cons]; simp
+  rw [← sup_dedup]; rw [dedup_ext.2]; rw [sup_dedup]; rw [sup_cons]; simp
 #align multiset.sup_ndinsert Multiset.sup_ndinsert
 
 theorem nodup_sup_iff {α : Type*} [DecidableEq α] {m : Multiset (Multiset α)} :
@@ -161,17 +161,17 @@ theorem inf_dedup (s : Multiset α) : (dedup s).inf = s.inf :=
 
 @[simp]
 theorem inf_ndunion (s₁ s₂ : Multiset α) : (ndunion s₁ s₂).inf = s₁.inf ⊓ s₂.inf := by
-  rw [← inf_dedup, dedup_ext.2, inf_dedup, inf_add]; simp
+  rw [← inf_dedup]; rw [dedup_ext.2]; rw [inf_dedup]; rw [inf_add]; simp
 #align multiset.inf_ndunion Multiset.inf_ndunion
 
 @[simp]
 theorem inf_union (s₁ s₂ : Multiset α) : (s₁ ∪ s₂).inf = s₁.inf ⊓ s₂.inf := by
-  rw [← inf_dedup, dedup_ext.2, inf_dedup, inf_add]; simp
+  rw [← inf_dedup]; rw [dedup_ext.2]; rw [inf_dedup]; rw [inf_add]; simp
 #align multiset.inf_union Multiset.inf_union
 
 @[simp]
 theorem inf_ndinsert (a : α) (s : Multiset α) : (ndinsert a s).inf = a ⊓ s.inf := by
-  rw [← inf_dedup, dedup_ext.2, inf_dedup, inf_cons]; simp
+  rw [← inf_dedup]; rw [dedup_ext.2]; rw [inf_dedup]; rw [inf_cons]; simp
 #align multiset.inf_ndinsert Multiset.inf_ndinsert
 
 end Inf

@@ -151,7 +151,7 @@ theorem comp_pi_eq_pi_comp (γ₀ : ∀ i, Path.Homotopic.Quotient (as i) (bs i)
   apply Quotient.induction_on_pi (p := _) γ₀
   intros
   simp only [pi_lift]
-  rw [← Path.Homotopic.comp_lift, Path.trans_pi_eq_pi_trans, ← pi_lift]
+  rw [← Path.Homotopic.comp_lift]; rw [Path.trans_pi_eq_pi_trans]; rw [← pi_lift]
   rfl
 #align path.homotopic.comp_pi_eq_pi_comp Path.Homotopic.comp_pi_eq_pi_comp
 
@@ -167,7 +167,7 @@ theorem proj_pi (i : ι) (paths : ∀ i, Path.Homotopic.Quotient (as i) (bs i)) 
     proj i (pi paths) = paths i := by
   apply Quotient.induction_on_pi (p := _) paths
   intro; unfold proj
-  rw [pi_lift, ← Path.Homotopic.map_lift]
+  rw [pi_lift]; rw [← Path.Homotopic.map_lift]
   congr
 #align path.homotopic.proj_pi Path.Homotopic.proj_pi
 
@@ -239,7 +239,7 @@ theorem projLeft_prod : projLeft (prod q₁ q₂) = q₁ := by
   apply Quotient.inductionOn₂ (motive := _) q₁ q₂
   intro p₁ p₂
   unfold projLeft
-  rw [prod_lift, ← Path.Homotopic.map_lift]
+  rw [prod_lift]; rw [← Path.Homotopic.map_lift]
   congr
 #align path.homotopic.proj_left_prod Path.Homotopic.projLeft_prod
 
@@ -248,7 +248,7 @@ theorem projRight_prod : projRight (prod q₁ q₂) = q₂ := by
   apply Quotient.inductionOn₂ (motive := _) q₁ q₂
   intro p₁ p₂
   unfold projRight
-  rw [prod_lift, ← Path.Homotopic.map_lift]
+  rw [prod_lift]; rw [← Path.Homotopic.map_lift]
   congr
 #align path.homotopic.proj_right_prod Path.Homotopic.projRight_prod
 

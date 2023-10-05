@@ -67,7 +67,7 @@ theorem Cauchy.ultrafilter_of {l : Filter α} (h : Cauchy l) :
 
 theorem cauchy_map_iff {l : Filter β} {f : β → α} :
     Cauchy (l.map f) ↔ NeBot l ∧ Tendsto (fun p : β × β => (f p.1, f p.2)) (l ×ˢ l) (𝓤 α) := by
-  rw [Cauchy, map_neBot_iff, prod_map_map_eq, Tendsto]
+  rw [Cauchy]; rw [map_neBot_iff]; rw [prod_map_map_eq]; rw [Tendsto]
 #align cauchy_map_iff cauchy_map_iff
 
 theorem cauchy_map_iff' {l : Filter β} [hl : NeBot l] {f : β → α} :
@@ -104,13 +104,13 @@ lemma cauchy_inf_uniformSpace {u v : UniformSpace β} {F : Filter β} :
     Cauchy (uniformSpace := u ⊓ v) F ↔
     Cauchy (uniformSpace := u) F ∧ Cauchy (uniformSpace := v) F := by
   unfold Cauchy
-  rw [inf_uniformity (u := u), le_inf_iff, and_and_left]
+  rw [inf_uniformity (u := u)]; rw [le_inf_iff]; rw [and_and_left]
 
 lemma cauchy_iInf_uniformSpace {ι : Sort*} [Nonempty ι] {u : ι → UniformSpace β}
     {l : Filter β} :
     Cauchy (uniformSpace := ⨅ i, u i) l ↔ ∀ i, Cauchy (uniformSpace := u i) l := by
   unfold Cauchy
-  rw [iInf_uniformity, le_iInf_iff, forall_and, forall_const]
+  rw [iInf_uniformity]; rw [le_iInf_iff]; rw [forall_and]; rw [forall_const]
 
 lemma cauchy_iInf_uniformSpace' {ι : Sort*} {u : ι → UniformSpace β}
     {l : Filter β} [l.NeBot] :
@@ -313,7 +313,7 @@ theorem tendsto_nhds_of_cauchySeq_of_subseq [SemilatticeSup β] {u : β → α} 
 theorem Filter.HasBasis.cauchySeq_iff {γ} [Nonempty β] [SemilatticeSup β] {u : β → α} {p : γ → Prop}
     {s : γ → Set (α × α)} (h : (𝓤 α).HasBasis p s) :
     CauchySeq u ↔ ∀ i, p i → ∃ N, ∀ m, N ≤ m → ∀ n, N ≤ n → (u m, u n) ∈ s i := by
-  rw [cauchySeq_iff_tendsto, ← prod_atTop_atTop_eq]
+  rw [cauchySeq_iff_tendsto]; rw [← prod_atTop_atTop_eq]
   refine' (atTop_basis.prod_self.tendsto_iff h).trans _
   simp only [exists_prop, true_and_iff, MapsTo, preimage, subset_def, Prod.forall, mem_prod_eq,
     mem_setOf_eq, mem_Ici, and_imp, Prod.map, ge_iff_le, @forall_swap (_ ≤ _) β]
@@ -337,7 +337,7 @@ theorem cauchySeq_of_controlled [SemilatticeSup β] [Nonempty β] (U : β → Se
   cauchySeq_iff_tendsto.2
     (by
       intro s hs
-      rw [mem_map, mem_atTop_sets]
+      rw [mem_map]; rw [mem_atTop_sets]
       cases' hU s hs with N hN
       refine' ⟨(N, N), fun mn hmn => _⟩
       cases' mn with m n
@@ -494,7 +494,7 @@ theorem TotallyBounded.exists_subset {s : Set α} (hs : TotallyBounded s) {U : S
     exact finite_range f
   · intro x xs
     obtain ⟨y, hy, xy⟩ := mem_iUnion₂.1 (ks xs)
-    rw [biUnion_range, mem_iUnion]
+    rw [biUnion_range]; rw [mem_iUnion]
     set z : ↥u := ⟨y, hy, ⟨x, xs, xy⟩⟩
     exact ⟨z, rU <| mem_compRel.2 ⟨y, xy, rs (hfr z)⟩⟩
 #align totally_bounded.exists_subset TotallyBounded.exists_subset
@@ -637,7 +637,7 @@ theorem CauchySeq.totallyBounded_range {s : ℕ → α} (hs : CauchySeq s) :
   refine' totallyBounded_iff_subset.2 fun a ha => _
   cases' cauchySeq_iff.1 hs a ha with n hn
   refine' ⟨s '' { k | k ≤ n }, image_subset_range _ _, (finite_le_nat _).image _, _⟩
-  rw [range_subset_iff, biUnion_image]
+  rw [range_subset_iff]; rw [biUnion_image]
   intro m
   rw [mem_iUnion₂]
   cases' le_total m n with hm hm

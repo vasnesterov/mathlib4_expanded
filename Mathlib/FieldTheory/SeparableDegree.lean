@@ -91,7 +91,7 @@ theorem HasSeparableContraction.dvd_degree : hf.degree ∣ f.natDegree :=
 theorem HasSeparableContraction.eq_degree {f : F[X]} (hf : HasSeparableContraction 1 f) :
     hf.degree = f.natDegree := by
   let ⟨a, ha⟩ := hf.dvd_degree'
-  rw [← ha, one_pow a, mul_one]
+  rw [← ha]; rw [one_pow a]; rw [mul_one]
 #align polynomial.has_separable_contraction.eq_degree Polynomial.HasSeparableContraction.eq_degree
 
 end CommSemiring
@@ -120,7 +120,7 @@ theorem contraction_degree_eq_or_insep [hq : NeZero q] [CharP F q] (g g' : F[X])
   wlog hm : m ≤ m'
   · exact (this q hf g' g m' m h_expand.symm hg' hg (le_of_not_le hm)).symm
   obtain ⟨s, rfl⟩ := exists_add_of_le hm
-  rw [pow_add, expand_mul, expand_inj (pow_pos (NeZero.pos q) m)] at h_expand
+  rw [pow_add] at h_expand; rw [expand_mul] at h_expand; rw [expand_inj (pow_pos (NeZero.pos q) m)] at h_expand
   subst h_expand
   rcases isUnit_or_eq_zero_of_separable_expand q s (NeZero.pos q) hg with (h | rfl)
   · rw [natDegree_expand, natDegree_eq_zero_of_isUnit h, zero_mul]
@@ -132,14 +132,14 @@ theorem IsSeparableContraction.degree_eq [hF : ExpChar F q] (g : F[X])
     (hg : IsSeparableContraction q f g) : g.natDegree = hf.degree := by
   cases hF
   · rcases hg with ⟨_, m, hm⟩
-    rw [one_pow, expand_one] at hm
-    rw [hf.eq_degree, hm]
+    rw [one_pow] at hm; rw [expand_one] at hm
+    rw [hf.eq_degree]; rw [hm]
   · rcases hg with ⟨hg, m, hm⟩
     let g' := Classical.choose hf
     obtain ⟨hg', m', hm'⟩ := Classical.choose_spec hf
     haveI : Fact q.Prime := ⟨by assumption⟩
     refine contraction_degree_eq_or_insep q g g' m m' ?_ hg hg'
-    rw [hm, hm']
+    rw [hm]; rw [hm']
 #align polynomial.is_separable_contraction.degree_eq Polynomial.IsSeparableContraction.degree_eq
 
 end Field

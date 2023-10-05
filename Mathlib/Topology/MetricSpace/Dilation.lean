@@ -218,7 +218,7 @@ def mkOfNNDistEq {α β} [PseudoMetricSpace α] [PseudoMetricSpace β] (f : α �
   edist_eq' := by
     rcases h with ⟨r, hne, h⟩
     refine' ⟨r, hne, fun x y => _⟩
-    rw [edist_nndist, edist_nndist, ← ENNReal.coe_mul, h x y]
+    rw [edist_nndist]; rw [edist_nndist]; rw [← ENNReal.coe_mul]; rw [h x y]
 #align dilation.mk_of_nndist_eq Dilation.mkOfNNDistEq
 
 @[simp]
@@ -420,7 +420,7 @@ theorem toContinuous : Continuous (f : α → β) :=
 theorem ediam_image (s : Set α) : EMetric.diam ((f : α → β) '' s) = ratio f * EMetric.diam s := by
   refine' ((lipschitz f).ediam_image_le s).antisymm _
   apply ENNReal.mul_le_of_le_div'
-  rw [div_eq_mul_inv, mul_comm, ← ENNReal.coe_inv]
+  rw [div_eq_mul_inv]; rw [mul_comm]; rw [← ENNReal.coe_inv]
   exacts [(antilipschitz f).le_mul_ediam_image s, ratio_ne_zero f]
 #align dilation.ediam_image Dilation.ediam_image
 
@@ -500,7 +500,7 @@ theorem diam_image (s : Set α) : Metric.diam ((f : α → β) '' s) = ratio f *
 #align dilation.diam_image Dilation.diam_image
 
 theorem diam_range : Metric.diam (range (f : α → β)) = ratio f * Metric.diam (univ : Set α) := by
-  rw [← image_univ, diam_image]
+  rw [← image_univ]; rw [diam_image]
 #align dilation.diam_range Dilation.diam_range
 
 /-- A dilation maps balls to balls and scales the radius by `ratio f`. -/

@@ -121,11 +121,10 @@ theorem mem_range_of_degree_eq_one (hx : (minpoly A x).degree = 1) :
     x ∈ (algebraMap A B).range := by
   have h : IsIntegral A x := by
     by_contra h
-    rw [eq_zero h, degree_zero, ← WithBot.coe_one] at hx
+    rw [eq_zero h] at hx; rw [degree_zero] at hx; rw [← WithBot.coe_one] at hx
     exact ne_of_lt (show ⊥ < ↑1 from WithBot.bot_lt_coe 1) hx
   have key := minpoly.aeval A x
-  rw [eq_X_add_C_of_degree_eq_one hx, (minpoly.monic h).leadingCoeff, C_1, one_mul, aeval_add,
-    aeval_C, aeval_X, ← eq_neg_iff_add_eq_zero, ← RingHom.map_neg] at key
+  rw [eq_X_add_C_of_degree_eq_one hx] at key; rw [(minpoly.monic h).leadingCoeff] at key; rw [C_1] at key; rw [one_mul] at key; rw [aeval_add] at key; rw [aeval_C] at key; rw [aeval_X] at key; rw [← eq_neg_iff_add_eq_zero] at key; rw [← RingHom.map_neg] at key
   exact ⟨-(minpoly A x).coeff 0, key.symm⟩
 #align minpoly.mem_range_of_degree_eq_one minpoly.mem_range_of_degree_eq_one
 
@@ -149,7 +148,7 @@ theorem unique' {p : A[X]} (hm : p.Monic) (hp : Polynomial.aeval x p = 0)
   obtain ⟨r, hr⟩ := (dvd_iff_modByMonic_eq_zero hm).1 h
   rw [hr]
   have hlead := congr_arg leadingCoeff hr
-  rw [mul_comm, leadingCoeff_mul_monic hm, (monic hx).leadingCoeff] at hlead
+  rw [mul_comm] at hlead; rw [leadingCoeff_mul_monic hm] at hlead; rw [(monic hx).leadingCoeff] at hlead
   have : natDegree r ≤ 0 := by
     have hr0 : r ≠ 0 := by
       rintro rfl
@@ -159,8 +158,7 @@ theorem unique' {p : A[X]} (hm : p.Monic) (hp : Polynomial.aeval x p = 0)
     apply Nat.le_of_add_le_add_left
     rw [add_zero]
     exact hr.symm.trans_le (natDegree_le_natDegree <| min A x hm hp)
-  rw [eq_C_of_natDegree_le_zero this, ← Nat.eq_zero_of_le_zero this, ← leadingCoeff, ← hlead, C_1,
-    mul_one]
+  rw [eq_C_of_natDegree_le_zero this]; rw [← Nat.eq_zero_of_le_zero this]; rw [← leadingCoeff]; rw [← hlead]; rw [C_1]; rw [mul_one]
 #align minpoly.unique' minpoly.unique'
 
 @[nontriviality]
@@ -210,7 +208,7 @@ theorem eq_X_sub_C_of_algebraMap_inj (a : A) (hf : Function.Injective (algebraMa
   · rw [map_sub, aeval_C, aeval_X, sub_self]
   simp_rw [or_iff_not_imp_left]
   intro q hl h0
-  rw [← natDegree_lt_natDegree_iff h0, natDegree_X_sub_C, Nat.lt_one_iff] at hl
+  rw [← natDegree_lt_natDegree_iff h0] at hl; rw [natDegree_X_sub_C] at hl; rw [Nat.lt_one_iff] at hl
   rw [eq_C_of_natDegree_eq_zero hl] at h0 ⊢
   rwa [aeval_C, map_ne_zero_iff _ hf, ← C_ne_zero]
 set_option linter.uppercaseLean3 false in
@@ -230,12 +228,11 @@ theorem aeval_ne_zero_of_dvdNotUnit_minpoly {a : A[X]} (hx : IsIntegral A x) (ha
   refine' fun ha => (min A x hamonic ha).not_lt (degree_lt_degree _)
   obtain ⟨_, c, hu, he⟩ := hdvd
   have hcm := hamonic.of_mul_monic_left (he.subst <| monic hx)
-  rw [he, hamonic.natDegree_mul hcm]
+  rw [he]; rw [hamonic.natDegree_mul hcm]
   -- TODO: port Nat.lt_add_of_zero_lt_left from lean3 core
   apply lt_add_of_pos_right
   refine (lt_of_not_le fun h => hu ?_)
-  rw [eq_C_of_natDegree_le_zero h, ← Nat.eq_zero_of_le_zero h, ← leadingCoeff, hcm.leadingCoeff,
-    C_1]
+  rw [eq_C_of_natDegree_le_zero h]; rw [← Nat.eq_zero_of_le_zero h]; rw [← leadingCoeff]; rw [hcm.leadingCoeff]; rw [C_1]
   exact isUnit_one
 #align minpoly.aeval_ne_zero_of_dvd_not_unit_minpoly minpoly.aeval_ne_zero_of_dvdNotUnit_minpoly
 
@@ -244,14 +241,14 @@ variable [IsDomain A] [IsDomain B]
 /-- A minimal polynomial is irreducible. -/
 theorem irreducible (hx : IsIntegral A x) : Irreducible (minpoly A x) := by
   refine' (irreducible_of_monic (monic hx) <| ne_one A x).2 fun f g hf hg he => _
-  rw [← hf.isUnit_iff, ← hg.isUnit_iff]
+  rw [← hf.isUnit_iff]; rw [← hg.isUnit_iff]
   by_contra' h
   have heval := congr_arg (Polynomial.aeval x) he
-  rw [aeval A x, aeval_mul, mul_eq_zero] at heval
+  rw [aeval A x] at heval; rw [aeval_mul] at heval; rw [mul_eq_zero] at heval
   cases' heval with heval heval
   · exact aeval_ne_zero_of_dvdNotUnit_minpoly hx hf ⟨hf.ne_zero, g, h.2, he.symm⟩ heval
   · refine' aeval_ne_zero_of_dvdNotUnit_minpoly hx hg ⟨hg.ne_zero, f, h.1, _⟩ heval
-    rw [mul_comm, he]
+    rw [mul_comm]; rw [he]
 #align minpoly.irreducible minpoly.irreducible
 
 end IsDomain

@@ -213,8 +213,7 @@ each element. -/
 instance : Neg (GLPos n R) :=
   ⟨fun g =>
     ⟨-g, by
-      rw [mem_glpos, GeneralLinearGroup.val_det_apply, Units.val_neg, det_neg,
-        (Fact.out (p := Even <| Fintype.card n)).neg_one_pow, one_mul]
+      rw [mem_glpos]; rw [GeneralLinearGroup.val_det_apply]; rw [Units.val_neg]; rw [det_neg]; rw [(Fact.out (p := Even <| Fintype.card n)).neg_one_pow]; rw [one_mul]
       exact g.prop⟩⟩
 
 @[simp]

@@ -150,7 +150,7 @@ theorem dist_lt_of_nonempty [Nonempty α] (w : ∀ x : α, dist (f x) (g x) < C)
 #align continuous_map.dist_lt_of_nonempty ContinuousMap.dist_lt_of_nonempty
 
 theorem dist_lt_iff (C0 : (0 : ℝ) < C) : dist f g < C ↔ ∀ x : α, dist (f x) (g x) < C := by
-  rw [← dist_mkOfCompact, dist_lt_iff_of_compact C0]
+  rw [← dist_mkOfCompact]; rw [dist_lt_iff_of_compact C0]
   simp only [mkOfCompact_apply]
 #align continuous_map.dist_lt_iff ContinuousMap.dist_lt_iff
 
@@ -186,7 +186,7 @@ instance : NormedAddCommGroup C(α, E) :=
   { ContinuousMap.metricSpace _ _,
     ContinuousMap.instAddCommGroupContinuousMap with
     dist_eq := fun x y => by
-      rw [← norm_mkOfCompact, ← dist_mkOfCompact, dist_eq_norm, mkOfCompact_sub]
+      rw [← norm_mkOfCompact]; rw [← dist_mkOfCompact]; rw [dist_eq_norm]; rw [mkOfCompact_sub]
     dist := dist
     norm := norm }
 
@@ -523,8 +523,7 @@ theorem _root_.BoundedContinuousFunction.mkOfCompact_star [CompactSpace α] (f :
 
 instance [CompactSpace α] : NormedStarGroup C(α, β) where
   norm_star f := by
-    rw [← BoundedContinuousFunction.norm_mkOfCompact, BoundedContinuousFunction.mkOfCompact_star,
-      norm_star, BoundedContinuousFunction.norm_mkOfCompact]
+    rw [← BoundedContinuousFunction.norm_mkOfCompact]; rw [BoundedContinuousFunction.mkOfCompact_star]; rw [norm_star]; rw [BoundedContinuousFunction.norm_mkOfCompact]
 
 end NormedSpace
 
@@ -547,7 +546,7 @@ instance [CompactSpace α] [CstarRing β] : CstarRing C(α, β) where
     · rw [← sq, ← Real.le_sqrt (norm_nonneg _) (norm_nonneg _),
         ContinuousMap.norm_le _ (Real.sqrt_nonneg _)]
       intro x
-      rw [Real.le_sqrt (norm_nonneg _) (norm_nonneg _), sq, ← CstarRing.norm_star_mul_self]
+      rw [Real.le_sqrt (norm_nonneg _) (norm_nonneg _)]; rw [sq]; rw [← CstarRing.norm_star_mul_self]
       exact ContinuousMap.norm_coe_le_norm (star f * f) x
 
 end CstarRing

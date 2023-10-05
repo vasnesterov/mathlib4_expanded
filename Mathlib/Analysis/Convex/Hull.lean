@@ -99,7 +99,7 @@ theorem convexHull_empty : convexHull 𝕜 (∅ : Set E) = ∅ :=
 theorem convexHull_empty_iff : convexHull 𝕜 s = ∅ ↔ s = ∅ := by
   constructor
   · intro h
-    rw [← Set.subset_empty_iff, ← h]
+    rw [← Set.subset_empty_iff]; rw [← h]
     exact subset_convexHull 𝕜 _
   · rintro rfl
     exact convexHull_empty
@@ -107,7 +107,7 @@ theorem convexHull_empty_iff : convexHull 𝕜 s = ∅ ↔ s = ∅ := by
 
 @[simp]
 theorem convexHull_nonempty_iff : (convexHull 𝕜 s).Nonempty ↔ s.Nonempty := by
-  rw [nonempty_iff_ne_empty, nonempty_iff_ne_empty, Ne.def, Ne.def]
+  rw [nonempty_iff_ne_empty]; rw [nonempty_iff_ne_empty]; rw [Ne.def]; rw [Ne.def]
   exact not_congr convexHull_empty_iff
 #align convex_hull_nonempty_iff convexHull_nonempty_iff
 
@@ -132,7 +132,7 @@ theorem convexHull_zero : convexHull 𝕜 (0 : Set E) = 0 :=
 theorem convexHull_pair (x y : E) : convexHull 𝕜 {x, y} = segment 𝕜 x y := by
   refine (convexHull_min ?_ <| convex_segment _ _).antisymm
     (segment_subset_convexHull (mem_insert _ _) <| subset_insert _ _ <| mem_singleton _)
-  rw [insert_subset_iff, singleton_subset_iff]
+  rw [insert_subset_iff]; rw [singleton_subset_iff]
   exact ⟨left_mem_segment _ _ _, right_mem_segment _ _ _⟩
 #align convex_hull_pair convexHull_pair
 

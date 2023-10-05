@@ -88,10 +88,10 @@ theorem spectrum_star_mul_self_of_isStarNormal :
   · simp only [spectrum.of_subsingleton, Set.empty_subset]
   · set a' : elementalStarAlgebra ℂ a := ⟨a, self_mem ℂ a⟩
     refine' (spectrum.subset_starSubalgebra (star a' * a')).trans _
-    rw [← spectrum.gelfandTransform_eq (star a' * a'), ContinuousMap.spectrum_eq_range]
+    rw [← spectrum.gelfandTransform_eq (star a' * a')]; rw [ContinuousMap.spectrum_eq_range]
     rintro - ⟨φ, rfl⟩
-    rw [gelfandTransform_apply_apply ℂ _ (star a' * a') φ, map_mul φ, map_star φ]
-    rw [Complex.eq_coe_norm_of_nonneg (star_mul_self_nonneg _), ← map_star, ← map_mul]
+    rw [gelfandTransform_apply_apply ℂ _ (star a' * a') φ]; rw [map_mul φ]; rw [map_star φ]
+    rw [Complex.eq_coe_norm_of_nonneg (star_mul_self_nonneg _)]; rw [← map_star]; rw [← map_mul]
     exact
       ⟨Complex.zero_le_real.2 (norm_nonneg _),
         Complex.real_le_real.2 (AlgHom.norm_apply_le_self φ (star a' * a'))⟩
@@ -147,7 +147,7 @@ theorem elementalStarAlgebra.isUnit_of_isUnit_of_isStarNormal (h : IsUnit a) :
     `[0, ‖star a * a‖)`. -/
   have h₂ : ∀ z ∈ spectrum ℂ (algebraMap ℂ A ‖star a * a‖ - star a * a), ‖z‖₊ < ‖star a * a‖₊ := by
     intro z hz
-    rw [← spectrum.singleton_sub_eq, Set.singleton_sub] at hz
+    rw [← spectrum.singleton_sub_eq] at hz; rw [Set.singleton_sub] at hz
     have h₃ : z ∈ Set.Icc (0 : ℂ) ‖star a * a‖ := by
       replace hz := Set.image_subset _ (spectrum_star_mul_self_of_isStarNormal a) hz
       rwa [Set.image_const_sub_Icc, sub_self, sub_zero] at hz
@@ -158,7 +158,7 @@ theorem elementalStarAlgebra.isUnit_of_isUnit_of_isStarNormal (h : IsUnit a) :
       rw [← Complex.eq_coe_norm_of_nonneg h₃.1] at hz'
       obtain ⟨w, hw₁, hw₂⟩ := hz
       refine' (spectrum.zero_not_mem_iff ℂ).mpr h _
-      rw [hz', sub_eq_self] at hw₂
+      rw [hz'] at hw₂; rw [sub_eq_self] at hw₂
       rwa [hw₂] at hw₁
   /- The norm of `‖star a * a‖ • 1 - star a * a` in the subalgebra and in `A` coincide. In `A`,
     because this element is selfadjoint, by `IsSelfAdjoint.spectralRadius_eq_nnnorm`, its norm is
@@ -171,7 +171,7 @@ theorem elementalStarAlgebra.isUnit_of_isUnit_of_isStarNormal (h : IsUnit a) :
         by rw [← nnnorm_neg, neg_sub]; rfl
       _ = spectralRadius ℂ (algebraMap ℂ A ‖star a * a‖ - star a * a) := by
         refine' (IsSelfAdjoint.spectralRadius_eq_nnnorm _).symm
-        rw [IsSelfAdjoint, star_sub, star_mul, star_star, ← algebraMap_star_comm]
+        rw [IsSelfAdjoint]; rw [star_sub]; rw [star_mul]; rw [star_star]; rw [← algebraMap_star_comm]
         congr!
         exact IsROrC.conj_ofReal _
       _ < ‖star a * a‖₊ := spectrum.spectralRadius_lt_of_forall_lt _ h₂)

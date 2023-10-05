@@ -607,7 +607,7 @@ theorem Pi.mulSingle_mul_mulSingle_eq_mulSingle_mul_mulSingle {M : Type*} [CommM
           contradiction
       · rw [if_neg hkm.symm, if_neg hmn, one_mul, mul_one] at hm
         obtain rfl := (ite_ne_right_iff.mp (ne_of_eq_of_ne hm.symm hu)).1
-        rw [if_neg hkm, if_neg hkm, one_mul, mul_one] at hk
+        rw [if_neg hkm] at hk; rw [if_neg hkm] at hk; rw [one_mul] at hk; rw [mul_one] at hk
         obtain rfl := (ite_ne_right_iff.mp (ne_of_eq_of_ne hk.symm hu)).1
         exact Or.inr (Or.inl ⟨hk.trans (if_pos rfl), rfl, rfl⟩)
   · rintro (⟨rfl, rfl⟩ | ⟨rfl, rfl, rfl⟩ | ⟨h, rfl, rfl⟩)

@@ -105,8 +105,8 @@ the transfer homomorphism is `transfer ϕ : G →+ A`."]
 noncomputable def transfer [FiniteIndex H] : G →* A :=
   let T : leftTransversals (H : Set G) := Inhabited.default
   { toFun := fun g => diff ϕ T (g • T)
-    map_one' := by simp only; rw [one_smul, diff_self] -- porting note: added `simp only`
-    map_mul' := fun g h => by simp only; rw [mul_smul, ← diff_mul_diff, smul_diff_smul] }
+    map_one' := by simp only; rw [one_smul]; rw [diff_self] -- porting note: added `simp only`
+    map_mul' := fun g h => by simp only; rw [mul_smul]; rw [← diff_mul_diff]; rw [smul_diff_smul] }
 #align monoid_hom.transfer MonoidHom.transfer
 #align add_monoid_hom.transfer AddMonoidHom.transfer
 
@@ -114,7 +114,7 @@ variable (T : leftTransversals (H : Set G))
 
 @[to_additive]
 theorem transfer_def [FiniteIndex H] (g : G) : transfer ϕ g = diff ϕ T (g • T) := by
-  rw [transfer, ← diff_mul_diff, ← smul_diff_smul, mul_comm, diff_mul_diff] <;> rfl
+  rw [transfer]; rw [← diff_mul_diff]; rw [← smul_diff_smul]; rw [mul_comm]; rw [diff_mul_diff]; all_goals rfl
 #align monoid_hom.transfer_def MonoidHom.transfer_def
 #align add_monoid_hom.transfer_def AddMonoidHom.transfer_def
 
@@ -172,13 +172,11 @@ theorem transfer_eq_pow [FiniteIndex H] (g : G)
   classical
     letI := H.fintypeQuotientOfFiniteIndex
     change ∀ (k g₀) (hk : g₀⁻¹ * g ^ k * g₀ ∈ H), ↑(⟨g₀⁻¹ * g ^ k * g₀, hk⟩ : H) = g ^ k at key
-    rw [transfer_eq_prod_quotient_orbitRel_zpowers_quot, ← Finset.prod_to_list]
+    rw [transfer_eq_prod_quotient_orbitRel_zpowers_quot]; rw [← Finset.prod_to_list]
     refine' (List.prod_map_hom _ _ _).trans _ -- porting note: this used to be in the `rw`
     refine' congrArg ϕ (Subtype.coe_injective _)
     simp only -- porting note: added `simp only`
-    rw [H.coe_mk, ← (zpowers g).coe_mk g (mem_zpowers g), ← (zpowers g).coe_pow,
-      index_eq_card, Fintype.card_congr (selfEquivSigmaOrbits (zpowers g) (G ⧸ H)),
-      Fintype.card_sigma, ← Finset.prod_pow_eq_pow_sum, ← Finset.prod_to_list]
+    rw [H.coe_mk]; rw [← (zpowers g).coe_mk g (mem_zpowers g)]; rw [← (zpowers g).coe_pow]; rw [index_eq_card]; rw [Fintype.card_congr (selfEquivSigmaOrbits (zpowers g) (G ⧸ H))]; rw [Fintype.card_sigma]; rw [← Finset.prod_pow_eq_pow_sum]; rw [← Finset.prod_to_list]
     simp only [Subgroup.val_list_prod, List.map_map, ← minimalPeriod_eq_card]
     congr
     funext
@@ -253,12 +251,10 @@ theorem ker_transferSylow_isComplement' : IsComplement' (transferSylow P hP).ker
       (P.2.powEquiv'
           (not_dvd_index_sylow P
             (mt index_eq_zero_of_relindex_eq_zero index_ne_zero_of_finite))).bijective
-  rw [Function.Bijective, ← range_top_iff_surjective, restrict_range] at hf
+  rw [Function.Bijective] at hf; rw [← range_top_iff_surjective] at hf; rw [restrict_range] at hf
   have := range_top_iff_surjective.mp (top_le_iff.mp (hf.2.ge.trans
     (map_le_range (transferSylow P hP) P)))
-  rw [← (comap_injective this).eq_iff, comap_top, comap_map_eq, sup_comm, SetLike.ext'_iff,
-    normal_mul, ← ker_eq_bot_iff, ← (map_injective (P : Subgroup G).subtype_injective).eq_iff,
-    ker_restrict, subgroupOf_map_subtype, Subgroup.map_bot, coe_top] at hf
+  rw [← (comap_injective this).eq_iff] at hf; rw [comap_top] at hf; rw [comap_map_eq] at hf; rw [sup_comm] at hf; rw [SetLike.ext'_iff] at hf; rw [normal_mul] at hf; rw [← ker_eq_bot_iff] at hf; rw [← (map_injective (P : Subgroup G).subtype_injective).eq_iff] at hf; rw [ker_restrict] at hf; rw [subgroupOf_map_subtype] at hf; rw [Subgroup.map_bot] at hf; rw [coe_top] at hf
   exact isComplement'_of_disjoint_and_mul_eq_univ (disjoint_iff.2 hf.1) hf.2
 #align monoid_hom.ker_transfer_sylow_is_complement' MonoidHom.ker_transferSylow_isComplement'
 

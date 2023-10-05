@@ -116,7 +116,7 @@ theorem norm_abs_eq_norm (a : α) : ‖|a|‖ = ‖a‖ :=
 #align norm_abs_eq_norm norm_abs_eq_norm
 
 theorem norm_inf_sub_inf_le_add_norm (a b c d : α) : ‖a ⊓ b - c ⊓ d‖ ≤ ‖a - c‖ + ‖b - d‖ := by
-  rw [← norm_abs_eq_norm (a - c), ← norm_abs_eq_norm (b - d)]
+  rw [← norm_abs_eq_norm (a - c)]; rw [← norm_abs_eq_norm (b - d)]
   refine' le_trans (solid _) (norm_add_le |a - c| |b - d|)
   rw [abs_of_nonneg (|a - c| + |b - d|) (add_nonneg (abs_nonneg (a - c)) (abs_nonneg (b - d)))]
   calc
@@ -130,7 +130,7 @@ theorem norm_inf_sub_inf_le_add_norm (a b c d : α) : ‖a ⊓ b - c ⊓ d‖ �
 #align norm_inf_sub_inf_le_add_norm norm_inf_sub_inf_le_add_norm
 
 theorem norm_sup_sub_sup_le_add_norm (a b c d : α) : ‖a ⊔ b - c ⊔ d‖ ≤ ‖a - c‖ + ‖b - d‖ := by
-  rw [← norm_abs_eq_norm (a - c), ← norm_abs_eq_norm (b - d)]
+  rw [← norm_abs_eq_norm (a - c)]; rw [← norm_abs_eq_norm (b - d)]
   refine' le_trans (solid _) (norm_add_le |a - c| |b - d|)
   rw [abs_of_nonneg (|a - c| + |b - d|) (add_nonneg (abs_nonneg (a - c)) (abs_nonneg (b - d)))]
   calc
@@ -194,7 +194,7 @@ theorem norm_inf_sub_inf_le_norm (x y z : α) : ‖x ⊓ z - y ⊓ z‖ ≤ ‖x
 
 theorem lipschitzWith_sup_right (z : α) : LipschitzWith 1 fun x => x ⊔ z :=
   LipschitzWith.of_dist_le_mul fun x y => by
-    rw [NNReal.coe_one, one_mul, dist_eq_norm, dist_eq_norm]
+    rw [NNReal.coe_one]; rw [one_mul]; rw [dist_eq_norm]; rw [dist_eq_norm]
     exact norm_sup_sub_sup_le_norm x y z
 #align lipschitz_with_sup_right lipschitzWith_sup_right
 

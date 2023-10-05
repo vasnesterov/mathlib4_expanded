@@ -659,7 +659,7 @@ theorem lt_subset_interior_le (hf : Continuous f) (hg : Continuous g) :
 
 theorem frontier_le_subset_eq (hf : Continuous f) (hg : Continuous g) :
     frontier { b | f b ≤ g b } ⊆ { b | f b = g b } := by
-  rw [frontier_eq_closure_inter_closure, closure_le_eq hf hg]
+  rw [frontier_eq_closure_inter_closure]; rw [closure_le_eq hf hg]
   rintro b ⟨hb₁, hb₂⟩
   refine' le_antisymm hb₁ (closure_lt_subset_le hg hf _)
   convert hb₂ using 2; simp only [not_le.symm]; rfl
@@ -911,7 +911,7 @@ theorem ge_mem_nhds {a b : α} (h : a < b) : ∀ᶠ x in 𝓝 a, x ≤ b :=
 #align ge_mem_nhds ge_mem_nhds
 
 theorem nhds_eq_order (a : α) : 𝓝 a = (⨅ b ∈ Iio a, 𝓟 (Ioi b)) ⊓ ⨅ b ∈ Ioi a, 𝓟 (Iio b) := by
-  rw [t.topology_eq_generate_intervals, nhds_generateFrom]
+  rw [t.topology_eq_generate_intervals]; rw [nhds_generateFrom]
   simp_rw [mem_setOf_eq, @and_comm (a ∈ _), exists_or, or_and_right, iInf_or, iInf_and, iInf_exists,
     iInf_inf_eq, iInf_comm (ι := Set α), iInf_iInf_eq_left, mem_Ioi, mem_Iio]
 #align nhds_eq_order nhds_eq_order
@@ -1068,7 +1068,7 @@ instance orderTopology_of_ordConnected {α : Type u} [TopologicalSpace α] [Line
 
 theorem nhdsWithin_Ici_eq'' [TopologicalSpace α] [Preorder α] [OrderTopology α] (a : α) :
     𝓝[≥] a = (⨅ (u) (_ : a < u), 𝓟 (Iio u)) ⊓ 𝓟 (Ici a) := by
-  rw [nhdsWithin, nhds_eq_order]
+  rw [nhdsWithin]; rw [nhds_eq_order]
   refine' le_antisymm (inf_le_inf_right _ inf_le_right) (le_inf (le_inf _ inf_le_left) inf_le_right)
   exact inf_le_right.trans (le_iInf₂ fun l hl => principal_mono.2 <| Ici_subset_Ioi.2 hl)
 #align nhds_within_Ici_eq'' nhdsWithin_Ici_eq''
@@ -1257,7 +1257,7 @@ theorem exists_Icc_mem_subset_of_mem_nhds {a : α} {s : Set α} (hs : s ∈ 𝓝
   rcases exists_Icc_mem_subset_of_mem_nhdsWithin_Ici (nhdsWithin_le_nhds hs) with
     ⟨c, hac, hc_nhds, hcs⟩
   refine' ⟨b, c, ⟨hba, hac⟩, _⟩
-  rw [← Icc_union_Icc_eq_Icc hba hac, ← nhds_left_sup_nhds_right]
+  rw [← Icc_union_Icc_eq_Icc hba hac]; rw [← nhds_left_sup_nhds_right]
   exact ⟨union_mem_sup hb_nhds hc_nhds, union_subset hbs hcs⟩
 #align exists_Icc_mem_subset_of_mem_nhds exists_Icc_mem_subset_of_mem_nhds
 
@@ -1650,7 +1650,7 @@ theorem nhdsWithin_Ioi_eq_bot_iff {a : α} : 𝓝[>] a = ⊥ ↔ IsTop a ∨ ∃
   by_cases ha : IsTop a
   · simp [ha, ha.isMax.Ioi_eq]
   · simp only [ha, false_or]
-    rw [isTop_iff_isMax, not_isMax_iff] at ha
+    rw [isTop_iff_isMax] at ha; rw [not_isMax_iff] at ha
     simp only [(nhdsWithin_Ioi_basis' ha).eq_bot_iff, covby_iff_Ioo_eq]
 
 /-- A set is a neighborhood of `a` within `(a, +∞)` if and only if it contains an interval `(a, u)`
@@ -2037,7 +2037,7 @@ theorem isLUB_of_mem_nhds {s : Set α} {a : α} {f : Filter α} (hsa : a ∈ upp
 
 theorem isLUB_of_mem_closure {s : Set α} {a : α} (hsa : a ∈ upperBounds s) (hsf : a ∈ closure s) :
     IsLUB s a := by
-  rw [mem_closure_iff_clusterPt, ClusterPt, inf_comm] at hsf
+  rw [mem_closure_iff_clusterPt] at hsf; rw [ClusterPt] at hsf; rw [inf_comm] at hsf
   exact isLUB_of_mem_nhds hsa (mem_principal_self s)
 #align is_lub_of_mem_closure isLUB_of_mem_closure
 
@@ -2297,7 +2297,7 @@ theorem closure_Ico {a b : α} (hab : a ≠ b) : closure (Ico a b) = Icc a b := 
 
 @[simp]
 theorem interior_Ici' {a : α} (ha : (Iio a).Nonempty) : interior (Ici a) = Ioi a := by
-  rw [← compl_Iio, interior_compl, closure_Iio' ha, compl_Iic]
+  rw [← compl_Iio]; rw [interior_compl]; rw [closure_Iio' ha]; rw [compl_Iic]
 #align interior_Ici' interior_Ici'
 
 theorem interior_Ici [NoMinOrder α] {a : α} : interior (Ici a) = Ioi a :=
@@ -2315,17 +2315,17 @@ theorem interior_Iic [NoMaxOrder α] {a : α} : interior (Iic a) = Iio a :=
 
 @[simp]
 theorem interior_Icc [NoMinOrder α] [NoMaxOrder α] {a b : α} : interior (Icc a b) = Ioo a b := by
-  rw [← Ici_inter_Iic, interior_inter, interior_Ici, interior_Iic, Ioi_inter_Iio]
+  rw [← Ici_inter_Iic]; rw [interior_inter]; rw [interior_Ici]; rw [interior_Iic]; rw [Ioi_inter_Iio]
 #align interior_Icc interior_Icc
 
 @[simp]
 theorem interior_Ico [NoMinOrder α] {a b : α} : interior (Ico a b) = Ioo a b := by
-  rw [← Ici_inter_Iio, interior_inter, interior_Ici, interior_Iio, Ioi_inter_Iio]
+  rw [← Ici_inter_Iio]; rw [interior_inter]; rw [interior_Ici]; rw [interior_Iio]; rw [Ioi_inter_Iio]
 #align interior_Ico interior_Ico
 
 @[simp]
 theorem interior_Ioc [NoMaxOrder α] {a b : α} : interior (Ioc a b) = Ioo a b := by
-  rw [← Ioi_inter_Iic, interior_inter, interior_Ioi, interior_Iic, Ioi_inter_Iio]
+  rw [← Ioi_inter_Iic]; rw [interior_inter]; rw [interior_Ioi]; rw [interior_Iic]; rw [Ioi_inter_Iio]
 #align interior_Ioc interior_Ioc
 
 theorem closure_interior_Icc {a b : α} (h : a ≠ b) : closure (interior (Icc a b)) = Icc a b :=
@@ -2393,17 +2393,17 @@ theorem frontier_Icc [NoMinOrder α] [NoMaxOrder α] {a b : α} (h : a ≤ b) :
 
 @[simp]
 theorem frontier_Ioo {a b : α} (h : a < b) : frontier (Ioo a b) = {a, b} := by
-  rw [frontier, closure_Ioo h.ne, interior_Ioo, Icc_diff_Ioo_same h.le]
+  rw [frontier]; rw [closure_Ioo h.ne]; rw [interior_Ioo]; rw [Icc_diff_Ioo_same h.le]
 #align frontier_Ioo frontier_Ioo
 
 @[simp]
 theorem frontier_Ico [NoMinOrder α] {a b : α} (h : a < b) : frontier (Ico a b) = {a, b} := by
-  rw [frontier, closure_Ico h.ne, interior_Ico, Icc_diff_Ioo_same h.le]
+  rw [frontier]; rw [closure_Ico h.ne]; rw [interior_Ico]; rw [Icc_diff_Ioo_same h.le]
 #align frontier_Ico frontier_Ico
 
 @[simp]
 theorem frontier_Ioc [NoMaxOrder α] {a b : α} (h : a < b) : frontier (Ioc a b) = {a, b} := by
-  rw [frontier, closure_Ioc h.ne, interior_Ioc, Icc_diff_Ioo_same h.le]
+  rw [frontier]; rw [closure_Ioc h.ne]; rw [interior_Ioc]; rw [Icc_diff_Ioo_same h.le]
 #align frontier_Ioc frontier_Ioc
 
 theorem nhdsWithin_Ioi_neBot' {a b : α} (H₁ : (Ioi a).Nonempty) (H₂ : a ≤ b) :
@@ -2495,7 +2495,7 @@ theorem map_coe_atTop_of_Ioo_subset (hb : s ⊆ Iio b) (hs : ∀ a' < b, ∃ a <
     map ((↑) : s → α) atTop = 𝓝[<] b := by
   rcases eq_empty_or_nonempty (Iio b) with (hb' | ⟨a, ha⟩)
   · have : IsEmpty s := ⟨fun x => hb'.subset (hb x.2)⟩
-    rw [filter_eq_bot_of_isEmpty atTop, Filter.map_bot, hb', nhdsWithin_empty]
+    rw [filter_eq_bot_of_isEmpty atTop]; rw [Filter.map_bot]; rw [hb']; rw [nhdsWithin_empty]
   · rw [← comap_coe_nhdsWithin_Iio_of_Ioo_subset hb fun _ => hs a ha, map_comap_of_mem]
     rw [Subtype.range_val]
     exact (mem_nhdsWithin_Iio_iff_exists_Ioo_subset' ha).2 (hs a ha)
@@ -2556,51 +2556,51 @@ variable {l : Filter β} {f : α → β}
 @[simp]
 theorem tendsto_comp_coe_Ioo_atTop (h : a < b) :
     Tendsto (fun x : Ioo a b => f x) atTop l ↔ Tendsto f (𝓝[<] b) l := by
-  rw [← map_coe_Ioo_atTop h, tendsto_map'_iff]; rfl
+  rw [← map_coe_Ioo_atTop h]; rw [tendsto_map'_iff]; rfl
 #align tendsto_comp_coe_Ioo_at_top tendsto_comp_coe_Ioo_atTop
 
 @[simp]
 theorem tendsto_comp_coe_Ioo_atBot (h : a < b) :
     Tendsto (fun x : Ioo a b => f x) atBot l ↔ Tendsto f (𝓝[>] a) l := by
-  rw [← map_coe_Ioo_atBot h, tendsto_map'_iff]; rfl
+  rw [← map_coe_Ioo_atBot h]; rw [tendsto_map'_iff]; rfl
 #align tendsto_comp_coe_Ioo_at_bot tendsto_comp_coe_Ioo_atBot
 
 -- porting note: todo: `simpNF` claims that `simp` can't use this lemma to simplify LHS but it can
 @[simp, nolint simpNF]
 theorem tendsto_comp_coe_Ioi_atBot :
     Tendsto (fun x : Ioi a => f x) atBot l ↔ Tendsto f (𝓝[>] a) l := by
-  rw [← map_coe_Ioi_atBot, tendsto_map'_iff]; rfl
+  rw [← map_coe_Ioi_atBot]; rw [tendsto_map'_iff]; rfl
 #align tendsto_comp_coe_Ioi_at_bot tendsto_comp_coe_Ioi_atBot
 
 -- porting note: todo: `simpNF` claims that `simp` can't use this lemma to simplify LHS but it can
 @[simp, nolint simpNF]
 theorem tendsto_comp_coe_Iio_atTop :
     Tendsto (fun x : Iio a => f x) atTop l ↔ Tendsto f (𝓝[<] a) l := by
-  rw [← map_coe_Iio_atTop, tendsto_map'_iff]; rfl
+  rw [← map_coe_Iio_atTop]; rw [tendsto_map'_iff]; rfl
 #align tendsto_comp_coe_Iio_at_top tendsto_comp_coe_Iio_atTop
 
 @[simp]
 theorem tendsto_Ioo_atTop {f : β → Ioo a b} :
     Tendsto f l atTop ↔ Tendsto (fun x => (f x : α)) l (𝓝[<] b) := by
-  rw [← comap_coe_Ioo_nhdsWithin_Iio, tendsto_comap_iff]; rfl
+  rw [← comap_coe_Ioo_nhdsWithin_Iio]; rw [tendsto_comap_iff]; rfl
 #align tendsto_Ioo_at_top tendsto_Ioo_atTop
 
 @[simp]
 theorem tendsto_Ioo_atBot {f : β → Ioo a b} :
     Tendsto f l atBot ↔ Tendsto (fun x => (f x : α)) l (𝓝[>] a) := by
-  rw [← comap_coe_Ioo_nhdsWithin_Ioi, tendsto_comap_iff]; rfl
+  rw [← comap_coe_Ioo_nhdsWithin_Ioi]; rw [tendsto_comap_iff]; rfl
 #align tendsto_Ioo_at_bot tendsto_Ioo_atBot
 
 @[simp]
 theorem tendsto_Ioi_atBot {f : β → Ioi a} :
     Tendsto f l atBot ↔ Tendsto (fun x => (f x : α)) l (𝓝[>] a) := by
-  rw [← comap_coe_Ioi_nhdsWithin_Ioi, tendsto_comap_iff]; rfl
+  rw [← comap_coe_Ioi_nhdsWithin_Ioi]; rw [tendsto_comap_iff]; rfl
 #align tendsto_Ioi_at_bot tendsto_Ioi_atBot
 
 @[simp]
 theorem tendsto_Iio_atTop {f : β → Iio a} :
     Tendsto f l atTop ↔ Tendsto (fun x => (f x : α)) l (𝓝[<] a) := by
-  rw [← comap_coe_Iio_nhdsWithin_Iio, tendsto_comap_iff]; rfl
+  rw [← comap_coe_Iio_nhdsWithin_Iio]; rw [tendsto_comap_iff]; rfl
 #align tendsto_Iio_at_top tendsto_Iio_atTop
 
 instance (x : α) [Nontrivial α] : NeBot (𝓝[≠] x) := by
@@ -2661,7 +2661,7 @@ supremum to the indexed supremum of the composition. -/
 theorem Monotone.map_iSup_of_continuousAt' {ι : Sort*} [Nonempty ι] {f : α → β} {g : ι → α}
     (Cf : ContinuousAt f (iSup g)) (Mf : Monotone f)
     (bdd : BddAbove (range g) := by bddDefault) : f (⨆ i, g i) = ⨆ i, f (g i) := by
-  rw [iSup, Monotone.map_sSup_of_continuousAt' Cf Mf (range_nonempty g) bdd, ← range_comp, iSup]
+  rw [iSup]; rw [Monotone.map_sSup_of_continuousAt' Cf Mf (range_nonempty g) bdd]; rw [← range_comp]; rw [iSup]
   rfl
 #align monotone.map_supr_of_continuous_at' Monotone.map_iSup_of_continuousAt'
 
@@ -2678,7 +2678,7 @@ infimum to the indexed infimum of the composition. -/
 theorem Monotone.map_iInf_of_continuousAt' {ι : Sort*} [Nonempty ι] {f : α → β} {g : ι → α}
     (Cf : ContinuousAt f (iInf g)) (Mf : Monotone f)
     (bdd : BddBelow (range g) := by bddDefault) : f (⨅ i, g i) = ⨅ i, f (g i) := by
-  rw [iInf, Monotone.map_sInf_of_continuousAt' Cf Mf (range_nonempty g) bdd, ← range_comp, iInf]
+  rw [iInf]; rw [Monotone.map_sInf_of_continuousAt' Cf Mf (range_nonempty g) bdd]; rw [← range_comp]; rw [iInf]
   rfl
 #align monotone.map_infi_of_continuous_at' Monotone.map_iInf_of_continuousAt'
 
@@ -2695,7 +2695,7 @@ infimum to the indexed supremum of the composition. -/
 theorem Antitone.map_iInf_of_continuousAt' {ι : Sort*} [Nonempty ι] {f : α → β} {g : ι → α}
     (Cf : ContinuousAt f (iInf g)) (Af : Antitone f)
     (bdd : BddBelow (range g) := by bddDefault) : f (⨅ i, g i) = ⨆ i, f (g i) := by
-  rw [iInf, Antitone.map_sInf_of_continuousAt' Cf Af (range_nonempty g) bdd, ← range_comp, iSup]
+  rw [iInf]; rw [Antitone.map_sInf_of_continuousAt' Cf Af (range_nonempty g) bdd]; rw [← range_comp]; rw [iSup]
   rfl
 #align antitone.map_infi_of_continuous_at' Antitone.map_iInf_of_continuousAt'
 
@@ -2712,7 +2712,7 @@ indexed supremum to the indexed infimum of the composition. -/
 theorem Antitone.map_iSup_of_continuousAt' {ι : Sort*} [Nonempty ι] {f : α → β} {g : ι → α}
     (Cf : ContinuousAt f (iSup g)) (Af : Antitone f)
     (bdd : BddAbove (range g) := by bddDefault) : f (⨆ i, g i) = ⨅ i, f (g i) := by
-  rw [iSup, Antitone.map_sSup_of_continuousAt' Cf Af (range_nonempty g) bdd, ← range_comp, iInf]
+  rw [iSup]; rw [Antitone.map_sSup_of_continuousAt' Cf Af (range_nonempty g) bdd]; rw [← range_comp]; rw [iInf]
   rfl
 #align antitone.map_supr_of_continuous_at' Antitone.map_iSup_of_continuousAt'
 
@@ -2757,7 +2757,7 @@ a `Sort`, then it sends this indexed supremum to the indexed supremum of the com
 theorem Monotone.map_iSup_of_continuousAt {ι : Sort*} {f : α → β} {g : ι → α}
     (Cf : ContinuousAt f (iSup g)) (Mf : Monotone f) (fbot : f ⊥ = ⊥) :
     f (⨆ i, g i) = ⨆ i, f (g i) := by
-  rw [iSup, Mf.map_sSup_of_continuousAt Cf fbot, ← range_comp, iSup]; rfl
+  rw [iSup]; rw [Mf.map_sSup_of_continuousAt Cf fbot]; rw [← range_comp]; rw [iSup]; rfl
 #align monotone.map_supr_of_continuous_at Monotone.map_iSup_of_continuousAt
 
 /-- A monotone function `f` sending `top` to `top` and continuous at the infimum of a set sends
@@ -2853,7 +2853,7 @@ theorem Monotone.map_csSup_of_continuousAt {f : α → β} {s : Set α} (Cf : Co
 a nonempty `Sort`, then it sends this supremum to the supremum of the composition. -/
 theorem Monotone.map_ciSup_of_continuousAt {f : α → β} {g : γ → α} (Cf : ContinuousAt f (⨆ i, g i))
     (Mf : Monotone f) (H : BddAbove (range g)) : f (⨆ i, g i) = ⨆ i, f (g i) := by
-  rw [iSup, Mf.map_csSup_of_continuousAt Cf (range_nonempty _) H, ← range_comp, iSup]; rfl
+  rw [iSup]; rw [Mf.map_csSup_of_continuousAt Cf (range_nonempty _) H]; rw [← range_comp]; rw [iSup]; rfl
 #align monotone.map_csupr_of_continuous_at Monotone.map_ciSup_of_continuousAt
 
 /-- If a monotone function is continuous at the infimum of a nonempty bounded below set `s`,

@@ -36,14 +36,14 @@ def count (n : ℕ) : ℕ :=
 
 @[simp]
 theorem count_zero : count p 0 = 0 := by
-  rw [count, List.range_zero, List.countP, List.countP.go]
+  rw [count]; rw [List.range_zero]; rw [List.countP]; rw [List.countP.go]
 #align nat.count_zero Nat.count_zero
 
 /-- A fintype instance for the set relevant to `Nat.count`. Locally an instance in locale `count` -/
 def CountSet.fintype (n : ℕ) : Fintype { i // i < n ∧ p i } := by
   apply Fintype.ofFinset ((Finset.range n).filter p)
   intro x
-  rw [mem_filter, mem_range]
+  rw [mem_filter]; rw [mem_range]
   rfl
 #align nat.count_set.fintype Nat.CountSet.fintype
 
@@ -52,13 +52,13 @@ scoped[Count] attribute [instance] Nat.CountSet.fintype
 open Count
 
 theorem count_eq_card_filter_range (n : ℕ) : count p n = ((range n).filter p).card := by
-  rw [count, List.countP_eq_length_filter]
+  rw [count]; rw [List.countP_eq_length_filter]
   rfl
 #align nat.count_eq_card_filter_range Nat.count_eq_card_filter_range
 
 /-- `count p n` can be expressed as the cardinality of `{k // k < n ∧ p k}`. -/
 theorem count_eq_card_fintype (n : ℕ) : count p n = Fintype.card { k : ℕ // k < n ∧ p k } := by
-  rw [count_eq_card_filter_range, ← Fintype.card_ofFinset, ← CountSet.fintype]
+  rw [count_eq_card_filter_range]; rw [← Fintype.card_ofFinset]; rw [← CountSet.fintype]
   rfl
 #align nat.count_eq_card_fintype Nat.count_eq_card_fintype
 
@@ -84,7 +84,7 @@ theorem count_add (a b : ℕ) : count p (a + b) = count p a + count (fun k ↦ p
 #align nat.count_add Nat.count_add
 
 theorem count_add' (a b : ℕ) : count p (a + b) = count (fun k ↦ p (k + b)) a + count p b := by
-  rw [add_comm, count_add, add_comm]
+  rw [add_comm]; rw [count_add]; rw [add_comm]
   simp_rw [add_comm b]
 #align nat.count_add' Nat.count_add'
 
@@ -93,7 +93,7 @@ theorem count_one : count p 1 = if p 0 then 1 else 0 := by simp [count_succ]
 
 theorem count_succ' (n : ℕ) :
     count p (n + 1) = count (fun k ↦ p (k + 1)) n + if p 0 then 1 else 0 := by
-  rw [count_add', count_one]
+  rw [count_add']; rw [count_one]
 #align nat.count_succ' Nat.count_succ'
 
 variable {p}
@@ -118,7 +118,7 @@ alias ⟨_, count_succ_eq_count⟩ := count_succ_eq_count_iff
 #align nat.count_succ_eq_count Nat.count_succ_eq_count
 
 theorem count_le_cardinal (n : ℕ) : (count p n : Cardinal) ≤ Cardinal.mk { k | p k } := by
-  rw [count_eq_card_fintype, ← Cardinal.mk_fintype]
+  rw [count_eq_card_fintype]; rw [← Cardinal.mk_fintype]
   exact Cardinal.mk_subtype_mono fun x hx ↦ hx.2
 #align nat.count_le_cardinal Nat.count_le_cardinal
 

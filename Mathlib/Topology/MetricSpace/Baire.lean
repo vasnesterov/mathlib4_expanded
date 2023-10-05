@@ -199,7 +199,7 @@ theorem dense_sInter_of_open {S : Set (Set α)} (ho : ∀ s ∈ S, IsOpen s) (hS
   · simp [h]
   · rcases hS.exists_eq_range h with ⟨f, hf⟩
     have F : ∀ n, f n ∈ S := fun n => by rw [hf]; exact mem_range_self _
-    rw [hf, sInter_range]
+    rw [hf]; rw [sInter_range]
     exact dense_iInter_of_open_nat (fun n => ho _ (F n)) fun n => hd _ (F n)
 #align dense_sInter_of_open dense_sInter_of_open
 
@@ -295,7 +295,7 @@ theorem IsGδ.dense_iUnion_interior_of_closed [Encodable ι] {s : Set α} (hs : 
   have hgo : ∀ i, IsOpen (g i) := fun i => isClosed_frontier.isOpen_compl
   have hgd : Dense (⋂ i, g i) := by
     refine' dense_iInter_of_open hgo fun i x => _
-    rw [closure_compl, interior_frontier (hc _)]
+    rw [closure_compl]; rw [interior_frontier (hc _)]
     exact id
   refine' (hd.inter_of_Gδ hs (isGδ_iInter_of_open fun i => (hgo i)) hgd).mono _
   rintro x ⟨hxs, hxg⟩

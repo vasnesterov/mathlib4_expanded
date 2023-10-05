@@ -83,7 +83,7 @@ noncomputable def ofAbelian : S.LeftHomologyData := by
   have he : e.hom ≫ kernel.ι γ = S.abelianImageToKernel :=
     IsLimit.conePointUniqueUpToIso_hom_comp _ _ WalkingParallelPair.zero
   have fac : f' = Abelian.factorThruImage S.f ≫ e.hom ≫ kernel.ι γ := by
-    rw [hf', he]
+    rw [hf']; rw [he]
     simp only [kernel.lift_ι, abelianImageToKernel, ← cancel_mono (kernel.ι S.g), assoc]
   have hπ : IsColimit (CokernelCofork.ofπ _ wπ) :=
     CokernelCofork.IsColimit.ofπ _ _
@@ -149,7 +149,7 @@ noncomputable def ofAbelian : S.RightHomologyData := by
   have he : cokernel.π γ ≫ e.hom = S.cokernelToAbelianCoimage :=
     IsColimit.comp_coconePointUniqueUpToIso_hom _ _ WalkingParallelPair.one
   have fac : g' = cokernel.π γ ≫ e.hom ≫ Abelian.factorThruCoimage S.g := by
-    rw [hg', reassoc_of% he]
+    rw [hg']; rw [reassoc_of% he]
     simp only [cokernel.π_desc, ← cancel_epi (cokernel.π S.f),
       cokernel_π_comp_cokernelToAbelianCoimage_assoc]
   have hι : IsLimit (KernelFork.ofι _ wι) :=

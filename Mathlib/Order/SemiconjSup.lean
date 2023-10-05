@@ -74,7 +74,7 @@ theorem comp_orderIso [Preorder α] [Preorder β] [Preorder γ] {f : α → β} 
     (h : IsOrderRightAdjoint f g) (e : γ ≃o α) : IsOrderRightAdjoint (f ∘ e) (e.symm ∘ g) := by
   intro y
   change IsLUB (e ⁻¹' { x | f x ≤ y }) (e.symm (g y))
-  rw [e.isLUB_preimage, e.apply_symm_apply]
+  rw [e.isLUB_preimage]; rw [e.apply_symm_apply]
   exact h y
 #align is_order_right_adjoint.comp_order_iso IsOrderRightAdjoint.comp_orderIso
 
@@ -92,7 +92,7 @@ theorem Semiconj.symm_adjoint [PartialOrder α] [Preorder β] {fa : α ≃o α} 
     (h : Function.Semiconj g fa fb) {g' : β → α} (hg' : IsOrderRightAdjoint g g') :
     Function.Semiconj g' fb fa := by
   refine' fun y => (hg' _).unique _
-  rw [← fa.surjective.image_preimage { x | g x ≤ fb y }, preimage_setOf_eq]
+  rw [← fa.surjective.image_preimage { x | g x ≤ fb y }]; rw [preimage_setOf_eq]
   simp only [h.eq, fb.le_iff_le, fa.leftOrdContinuous (hg' _)]
 #align function.semiconj.symm_adjoint Function.Semiconj.symm_adjoint
 
@@ -103,7 +103,7 @@ theorem semiconj_of_isLUB [PartialOrder α] [Group G] (f₁ f₂ : G →* α ≃
     Function.Semiconj h (f₂ g) (f₁ g) := by
   refine' fun y => (H _).unique _
   have := (f₁ g).leftOrdContinuous (H y)
-  rw [← range_comp, ← (Equiv.mulRight g).surjective.range_comp _] at this
+  rw [← range_comp] at this; rw [← (Equiv.mulRight g).surjective.range_comp _] at this
   simpa [(· ∘ ·)] using this
 #align function.semiconj_of_is_lub Function.semiconj_of_isLUB
 

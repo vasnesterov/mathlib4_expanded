@@ -66,7 +66,7 @@ theorem differentiableAt_log_iff : DifferentiableAt ℝ log x ↔ x ≠ 0 :=
 
 theorem deriv_log (x : ℝ) : deriv log x = x⁻¹ :=
   if hx : x = 0 then by
-    rw [deriv_zero_of_not_differentiableAt (differentiableAt_log_iff.not_left.2 hx), hx, inv_zero]
+    rw [deriv_zero_of_not_differentiableAt (differentiableAt_log_iff.not_left.2 hx)]; rw [hx]; rw [inv_zero]
   else (hasDerivAt_log hx).deriv
 #align real.deriv_log Real.deriv_log
 
@@ -244,7 +244,7 @@ theorem abs_log_sub_add_sum_range_le {x : ℝ} (h : |x| < 1) (n : ℕ) :
         ring
       _ = ∑ i in Finset.range n, ↑(i + 1) * y ^ i / (↑i + 1) + -1 / (1 - y) := by
         congr with i
-        rw [Nat.cast_succ, mul_div_cancel_left _ (Nat.cast_add_one_pos i).ne']
+        rw [Nat.cast_succ]; rw [mul_div_cancel_left _ (Nat.cast_add_one_pos i).ne']
   -- second step: show that the derivative of `F` is small
   have B : ∀ y ∈ Icc (-|x|) |x|, |F' y| ≤ |x| ^ n / (1 - |x|) := fun y hy ↦
     calc
@@ -283,7 +283,7 @@ theorem hasSum_pow_div_log_of_abs_lt_1 {x : ℝ} (h : |x| < 1) :
     calc
       ‖x ^ (i + 1) / (i + 1)‖ = |x| ^ (i + 1) / (i + 1) := by
         have : (0 : ℝ) ≤ i + 1 := le_of_lt (Nat.cast_add_one_pos i)
-        rw [norm_eq_abs, abs_div, ← pow_abs, abs_of_nonneg this]
+        rw [norm_eq_abs]; rw [abs_div]; rw [← pow_abs]; rw [abs_of_nonneg this]
       _ ≤ |x| ^ (i + 1) / (0 + 1) := by
         gcongr
         exact i.cast_nonneg
@@ -303,14 +303,14 @@ theorem hasSum_log_sub_log_of_abs_lt_1 {x : ℝ} (h : |x| < 1) :
     rw [Odd.neg_pow (⟨n, rfl⟩ : Odd (2 * n + 1)) x]
     push_cast
     ring_nf
-  rw [← h_term_eq_goal, (mul_right_injective₀ (two_ne_zero' ℕ)).hasSum_iff]
+  rw [← h_term_eq_goal]; rw [(mul_right_injective₀ (two_ne_zero' ℕ)).hasSum_iff]
   · have h₁ := (hasSum_pow_div_log_of_abs_lt_1 (Eq.trans_lt (abs_neg x) h)).mul_left (-1)
     convert h₁.add (hasSum_pow_div_log_of_abs_lt_1 h) using 1
     ring_nf
   · intro m hm
-    rw [range_two_mul, Set.mem_setOf_eq, ← Nat.even_add_one] at hm
+    rw [range_two_mul] at hm; rw [Set.mem_setOf_eq] at hm; rw [← Nat.even_add_one] at hm
     dsimp
-    rw [Even.neg_pow hm, neg_one_mul, neg_add_self]
+    rw [Even.neg_pow hm]; rw [neg_one_mul]; rw [neg_add_self]
 #align real.has_sum_log_sub_log_of_abs_lt_1 Real.hasSum_log_sub_log_of_abs_lt_1
 
 /-- Expansion of `log (1 + a⁻¹)` as a series in powers of `1 / (2 * a + 1)`. -/
@@ -318,7 +318,7 @@ theorem hasSum_log_one_add_inv {a : ℝ} (h : 0 < a) :
     HasSum (fun k : ℕ => (2 : ℝ) * (1 / (2 * k + 1)) * (1 / (2 * a + 1)) ^ (2 * k + 1))
       (log (1 + a⁻¹)) := by
   have h₁ : |1 / (2 * a + 1)| < 1 := by
-    rw [abs_of_pos, div_lt_one]
+    rw [abs_of_pos]; rw [div_lt_one]
     · linarith
     · linarith
     · exact div_pos one_pos (by linarith)

@@ -44,7 +44,7 @@ def hammingDist (x y : ∀ i, β i) : ℕ :=
 /-- Corresponds to `dist_self`. -/
 @[simp]
 theorem hammingDist_self (x : ∀ i, β i) : hammingDist x x = 0 := by
-  rw [hammingDist, card_eq_zero, filter_eq_empty_iff]
+  rw [hammingDist]; rw [card_eq_zero]; rw [filter_eq_empty_iff]
   exact fun _ _ H => H rfl
 #align hamming_dist_self hammingDist_self
 
@@ -105,7 +105,7 @@ theorem hammingDist_eq_zero {x y : ∀ i, β i} : hammingDist x y = 0 ↔ x = y 
 /-- Corresponds to `zero_eq_dist`. -/
 @[simp]
 theorem hamming_zero_eq_dist {x y : ∀ i, β i} : 0 = hammingDist x y ↔ x = y := by
-  rw [eq_comm, hammingDist_eq_zero]
+  rw [eq_comm]; rw [hammingDist_eq_zero]
 #align hamming_zero_eq_dist hamming_zero_eq_dist
 
 /-- Corresponds to `dist_ne_zero`. -/
@@ -116,12 +116,12 @@ theorem hammingDist_ne_zero {x y : ∀ i, β i} : hammingDist x y ≠ 0 ↔ x �
 /-- Corresponds to `dist_pos`. -/
 @[simp]
 theorem hammingDist_pos {x y : ∀ i, β i} : 0 < hammingDist x y ↔ x ≠ y := by
-  rw [← hammingDist_ne_zero, iff_not_comm, not_lt, le_zero_iff]
+  rw [← hammingDist_ne_zero]; rw [iff_not_comm]; rw [not_lt]; rw [le_zero_iff]
 #align hamming_dist_pos hammingDist_pos
 
 -- @[simp] -- Porting note: simp can prove this
 theorem hammingDist_lt_one {x y : ∀ i, β i} : hammingDist x y < 1 ↔ x = y := by
-  rw [Nat.lt_one_iff, hammingDist_eq_zero]
+  rw [Nat.lt_one_iff]; rw [hammingDist_eq_zero]
 #align hamming_dist_lt_one hammingDist_lt_one
 
 theorem hammingDist_le_card_fintype {x y : ∀ i, β i} : hammingDist x y ≤ Fintype.card ι :=
@@ -430,7 +430,7 @@ instance : PseudoMetricSpace (Hamming β) where
     constructor
     · refine' fun hs => ⟨1, zero_lt_one, fun hab => _⟩
       rw_mod_cast [hammingDist_lt_one] at hab
-      rw [ofHamming_inj, ← mem_idRel] at hab
+      rw [ofHamming_inj] at hab; rw [← mem_idRel] at hab
       exact hs hab
     · rintro ⟨_, hε, hs⟩ ⟨_, _⟩ hab
       rw [mem_idRel] at hab

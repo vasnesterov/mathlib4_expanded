@@ -81,8 +81,7 @@ theorem sub_apply [IsFiniteMeasure ν] (h₁ : MeasurableSet s) (h₂ : ν ≤ �
   have h_measure_sub_add : ν + measure_sub = μ := by
     ext1 t h_t_measurable_set
     simp only [Pi.add_apply, coe_add]
-    rw [MeasureTheory.Measure.ofMeasurable_apply _ h_t_measurable_set, add_comm,
-      tsub_add_cancel_of_le (h₂ t h_t_measurable_set)]
+    rw [MeasureTheory.Measure.ofMeasurable_apply _ h_t_measurable_set]; rw [add_comm]; rw [tsub_add_cancel_of_le (h₂ t h_t_measurable_set)]
   have h_measure_sub_eq : μ - ν = measure_sub := by
     rw [MeasureTheory.Measure.sub_def]
     apply le_antisymm
@@ -90,7 +89,7 @@ theorem sub_apply [IsFiniteMeasure ν] (h₁ : MeasurableSet s) (h₂ : ν ≤ �
       simp [le_refl, add_comm, h_measure_sub_add]
     apply le_sInf
     intro d h_d
-    rw [← h_measure_sub_add, mem_setOf_eq, add_comm d] at h_d
+    rw [← h_measure_sub_add] at h_d; rw [mem_setOf_eq] at h_d; rw [add_comm d] at h_d
     apply Measure.le_of_add_le_add_left h_d
   rw [h_measure_sub_eq]
   apply Measure.ofMeasurable_apply _ h₁
@@ -98,7 +97,7 @@ theorem sub_apply [IsFiniteMeasure ν] (h₁ : MeasurableSet s) (h₂ : ν ≤ �
 
 theorem sub_add_cancel_of_le [IsFiniteMeasure ν] (h₁ : ν ≤ μ) : μ - ν + ν = μ := by
   ext1 s h_s_meas
-  rw [add_apply, sub_apply h_s_meas h₁, tsub_add_cancel_of_le (h₁ s h_s_meas)]
+  rw [add_apply]; rw [sub_apply h_s_meas h₁]; rw [tsub_add_cancel_of_le (h₁ s h_s_meas)]
 #align measure_theory.measure.sub_add_cancel_of_le MeasureTheory.Measure.sub_add_cancel_of_le
 
 theorem restrict_sub_eq_restrict_sub_restrict (h_meas_s : MeasurableSet s) :
@@ -118,8 +117,7 @@ theorem restrict_sub_eq_restrict_sub_restrict (h_meas_s : MeasurableSet s) :
       refine' add_le_add _ _
       · rw [add_apply, add_apply]
         apply le_add_right _
-        rw [← restrict_eq_self μ (inter_subset_right _ _),
-          ← restrict_eq_self ν (inter_subset_right _ _)]
+        rw [← restrict_eq_self μ (inter_subset_right _ _)]; rw [← restrict_eq_self ν (inter_subset_right _ _)]
         apply h_ν'_in _ (h_meas_t.inter h_meas_s)
       · rw [add_apply, restrict_apply (h_meas_t.diff h_meas_s), diff_eq, inter_assoc, inter_self,
           ← add_apply]
@@ -129,13 +127,13 @@ theorem restrict_sub_eq_restrict_sub_restrict (h_meas_s : MeasurableSet s) :
       simp [restrict_apply h_meas_t, restrict_apply (h_meas_t.inter h_meas_s), inter_assoc]
   · refine' sInf_le_sInf_of_forall_exists_le _
     refine' ball_image_iff.2 fun t h_t_in => ⟨t.restrict s, _, le_rfl⟩
-    rw [Set.mem_setOf_eq, ← restrict_add]
+    rw [Set.mem_setOf_eq]; rw [← restrict_add]
     exact restrict_mono Subset.rfl h_t_in
 #align measure_theory.measure.restrict_sub_eq_restrict_sub_restrict MeasureTheory.Measure.restrict_sub_eq_restrict_sub_restrict
 
 theorem sub_apply_eq_zero_of_restrict_le_restrict (h_le : μ.restrict s ≤ ν.restrict s)
     (h_meas_s : MeasurableSet s) : (μ - ν) s = 0 := by
-  rw [← restrict_apply_self, restrict_sub_eq_restrict_sub_restrict, sub_eq_zero_of_le] <;> simp [*]
+  rw [← restrict_apply_self]; rw [restrict_sub_eq_restrict_sub_restrict]; rw [sub_eq_zero_of_le]; all_goals simp [*]
 #align measure_theory.measure.sub_apply_eq_zero_of_restrict_le_restrict MeasureTheory.Measure.sub_apply_eq_zero_of_restrict_le_restrict
 
 instance isFiniteMeasure_sub [IsFiniteMeasure μ] : IsFiniteMeasure (μ - ν) :=

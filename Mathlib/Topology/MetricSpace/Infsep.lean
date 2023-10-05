@@ -60,7 +60,7 @@ theorem einfsep_zero : s.einfsep = 0 ↔
 theorem einfsep_pos :
     0 < s.einfsep ↔
       ∃ (C : _) (_hC : 0 < C), ∀ (x) (_ : x ∈ s) (y) (_ : y ∈ s) (_hxy : x ≠ y), C ≤ edist x y := by
-  rw [pos_iff_ne_zero, Ne.def, einfsep_zero]
+  rw [pos_iff_ne_zero]; rw [Ne.def]; rw [einfsep_zero]
   simp only [not_forall, not_exists, not_lt]
 #align set.einfsep_pos Set.einfsep_pos
 
@@ -336,7 +336,7 @@ section EDist
 variable [EDist α] {x y : α} {s : Set α}
 
 theorem infsep_zero : s.infsep = 0 ↔ s.einfsep = 0 ∨ s.einfsep = ∞ := by
-  rw [infsep, ENNReal.toReal_eq_zero_iff]
+  rw [infsep]; rw [ENNReal.toReal_eq_zero_iff]
 #align set.infsep_zero Set.infsep_zero
 
 theorem infsep_nonneg : 0 ≤ s.infsep :=
@@ -429,7 +429,7 @@ theorem infsep_le_of_mem_of_edist_le {d x} (hx : x ∈ s) {y} (hy : y ∈ s) (hx
 #align set.infsep_le_of_mem_of_edist_le Set.infsep_le_of_mem_of_edist_le
 
 theorem infsep_pair : ({x, y} : Set α).infsep = dist x y := by
-  rw [infsep_pair_eq_toReal, edist_dist]
+  rw [infsep_pair_eq_toReal]; rw [edist_dist]
   exact ENNReal.toReal_ofReal dist_nonneg
 #align set.infsep_pair Set.infsep_pair
 
@@ -497,7 +497,7 @@ theorem Finite.infsep_of_nontrivial (hsf : s.Finite) (hs : s.Nontrivial) :
 theorem _root_.Finset.coe_infsep [DecidableEq α] (s : Finset α) : (s : Set α).infsep =
     if hs : s.offDiag.Nonempty then s.offDiag.inf' hs (uncurry dist) else 0 := by
   have H : (s : Set α).Nontrivial ↔ s.offDiag.Nonempty := by
-    rw [← Set.offDiag_nonempty, ← Finset.coe_offDiag, Finset.coe_nonempty]
+    rw [← Set.offDiag_nonempty]; rw [← Finset.coe_offDiag]; rw [Finset.coe_nonempty]
   split_ifs with hs
   · simp_rw [(H.mpr hs).infsep_of_fintype, ← Finset.coe_offDiag, Finset.toFinset_coe]
   · exact (not_nontrivial_iff.mp (H.mp.mt hs)).infsep_zero
@@ -505,13 +505,13 @@ theorem _root_.Finset.coe_infsep [DecidableEq α] (s : Finset α) : (s : Set α)
 
 theorem _root_.Finset.coe_infsep_of_offDiag_nonempty [DecidableEq α] {s : Finset α}
     (hs : s.offDiag.Nonempty) : (s : Set α).infsep = s.offDiag.inf' hs (uncurry dist) := by
-  rw [Finset.coe_infsep, dif_pos hs]
+  rw [Finset.coe_infsep]; rw [dif_pos hs]
 #align finset.coe_infsep_of_off_diag_nonempty Finset.coe_infsep_of_offDiag_nonempty
 
 theorem _root_.Finset.coe_infsep_of_offDiag_empty
     [DecidableEq α] {s : Finset α} (hs : s.offDiag = ∅) : (s : Set α).infsep = 0 := by
   rw [← Finset.not_nonempty_iff_eq_empty] at hs
-  rw [Finset.coe_infsep, dif_neg hs]
+  rw [Finset.coe_infsep]; rw [dif_neg hs]
 #align finset.coe_infsep_of_off_diag_empty Finset.coe_infsep_of_offDiag_empty
 
 theorem Nontrivial.infsep_exists_of_finite [Finite s] (hs : s.Nontrivial) :
@@ -538,12 +538,12 @@ section MetricSpace
 variable [MetricSpace α] {s : Set α}
 
 theorem infsep_zero_iff_subsingleton_of_finite [Finite s] : s.infsep = 0 ↔ s.Subsingleton := by
-  rw [infsep_zero, einfsep_eq_top_iff, or_iff_right_iff_imp]
+  rw [infsep_zero]; rw [einfsep_eq_top_iff]; rw [or_iff_right_iff_imp]
   exact fun H => (einfsep_pos_of_finite.ne' H).elim
 #align set.infsep_zero_iff_subsingleton_of_finite Set.infsep_zero_iff_subsingleton_of_finite
 
 theorem infsep_pos_iff_nontrivial_of_finite [Finite s] : 0 < s.infsep ↔ s.Nontrivial := by
-  rw [infsep_pos, einfsep_lt_top_iff, and_iff_right_iff_imp]
+  rw [infsep_pos]; rw [einfsep_lt_top_iff]; rw [and_iff_right_iff_imp]
   exact fun _ => einfsep_pos_of_finite
 #align set.infsep_pos_iff_nontrivial_of_finite Set.infsep_pos_iff_nontrivial_of_finite
 

@@ -131,19 +131,19 @@ theorem traverse_eq_map_id' (f : β → γ) :
 theorem traverse_map' (g : α → β) (h : β → G γ) :
     traverse (h ∘ g) = (traverse h ∘ map g : t α → G (t γ)) := by
   ext
-  rw [comp_apply, traverse_map]
+  rw [comp_apply]; rw [traverse_map]
 #align traversable.traverse_map' Traversable.traverse_map'
 
 theorem map_traverse' (g : α → G β) (h : β → γ) :
     traverse (map h ∘ g) = (map (map h) ∘ traverse g : t α → G (t γ)) := by
   ext
-  rw [comp_apply, map_traverse]
+  rw [comp_apply]; rw [map_traverse]
 #align traversable.map_traverse' Traversable.map_traverse'
 
 theorem naturality_pf (η : ApplicativeTransformation F G) (f : α → F β) :
     traverse (@η _ ∘ f) = @η _ ∘ (traverse f : t α → F (t β)) := by
   ext
-  rw [comp_apply, naturality]
+  rw [comp_apply]; rw [naturality]
 #align traversable.naturality_pf Traversable.naturality_pf
 
 end Traversable

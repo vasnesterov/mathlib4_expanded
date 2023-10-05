@@ -168,8 +168,7 @@ theorem pullbackCompatible_iff (x : FamilyOfElements P R) [R.hasPullbacks] :
     apply pullback.condition
   · intro t Y₁ Y₂ Z g₁ g₂ f₁ f₂ hf₁ hf₂ comm
     haveI := hasPullbacks.has_pullbacks  hf₁ hf₂
-    rw [← pullback.lift_fst _ _ comm, op_comp, FunctorToTypes.map_comp_apply, t hf₁ hf₂,
-      ← FunctorToTypes.map_comp_apply, ← op_comp, pullback.lift_snd]
+    rw [← pullback.lift_fst _ _ comm]; rw [op_comp]; rw [FunctorToTypes.map_comp_apply]; rw [t hf₁ hf₂]; rw [← FunctorToTypes.map_comp_apply]; rw [← op_comp]; rw [pullback.lift_snd]
 #align category_theory.presieve.pullback_compatible_iff CategoryTheory.Presieve.pullbackCompatible_iff
 
 /-- The restriction of a compatible family is compatible. -/
@@ -263,7 +262,7 @@ equal when restricted to `R`.
 theorem restrict_inj {x₁ x₂ : FamilyOfElements P (generate R)} (t₁ : x₁.Compatible)
     (t₂ : x₂.Compatible) : x₁.restrict (le_generate R) = x₂.restrict (le_generate R) → x₁ = x₂ :=
   fun h => by
-  rw [← extend_restrict t₁, ← extend_restrict t₂]
+  rw [← extend_restrict t₁]; rw [← extend_restrict t₂]
   -- porting note: congr fails to make progress
   apply congr_arg
   exact h
@@ -385,14 +384,14 @@ theorem FamilyOfElements.IsAmalgamation.compPresheafMap {x : FamilyOfElements P 
   intro Y g hg
   dsimp [FamilyOfElements.compPresheafMap]
   change (f.app _ ≫ Q.map _) _ = _
-  rw [← f.naturality, types_comp_apply, h g hg]
+  rw [← f.naturality]; rw [types_comp_apply]; rw [h g hg]
 #align category_theory.presieve.family_of_elements.is_amalgamation.comp_presheaf_map CategoryTheory.Presieve.FamilyOfElements.IsAmalgamation.compPresheafMap
 
 theorem is_compatible_of_exists_amalgamation (x : FamilyOfElements P R)
     (h : ∃ t, x.IsAmalgamation t) : x.Compatible := by
   cases' h with t ht
   intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ h₁ h₂ comm
-  rw [← ht _ h₁, ← ht _ h₂, ← FunctorToTypes.map_comp_apply, ← op_comp, comm]
+  rw [← ht _ h₁]; rw [← ht _ h₂]; rw [← FunctorToTypes.map_comp_apply]; rw [← op_comp]; rw [comm]
   simp
 #align category_theory.presieve.is_compatible_of_exists_amalgamation CategoryTheory.Presieve.is_compatible_of_exists_amalgamation
 
@@ -405,7 +404,7 @@ theorem isAmalgamation_sieveExtend {R : Presieve X} (x : FamilyOfElements P R) (
     (ht : x.IsAmalgamation t) : x.sieveExtend.IsAmalgamation t := by
   intro Y f hf
   dsimp [FamilyOfElements.sieveExtend]
-  rw [← ht _, ← FunctorToTypes.map_comp_apply, ← op_comp, hf.choose_spec.choose_spec.choose_spec.2]
+  rw [← ht _]; rw [← FunctorToTypes.map_comp_apply]; rw [← op_comp]; rw [hf.choose_spec.choose_spec.choose_spec.2]
 #align category_theory.presieve.is_amalgamation_sieve_extend CategoryTheory.Presieve.isAmalgamation_sieveExtend
 
 /-- A presheaf is separated for a presieve if there is at most one amalgamation. -/
@@ -436,7 +435,7 @@ theorem isSeparatedFor_top (P : Cᵒᵖ ⥤ Type w) : IsSeparatedFor P (⊤ : Pr
   have q₁ := h₁ (𝟙 X) (by tauto)
   have q₂ := h₂ (𝟙 X) (by tauto)
   simp only [op_id, FunctorToTypes.map_id_apply] at q₁ q₂
-  rw [q₁, q₂]
+  rw [q₁]; rw [q₂]
 #align category_theory.presieve.is_separated_for_top CategoryTheory.Presieve.isSeparatedFor_top
 
 /-- We define `P` to be a sheaf for the presieve `R` if every compatible family has a unique
@@ -519,7 +518,7 @@ C2.1.4 of [Elephant].
 -/
 theorem isSheafFor_iff_yonedaSheafCondition {P : Cᵒᵖ ⥤ Type v₁} :
     IsSheafFor P (S : Presieve X) ↔ YonedaSheafCondition P S := by
-  rw [IsSheafFor, YonedaSheafCondition]
+  rw [IsSheafFor]; rw [YonedaSheafCondition]
   simp_rw [extension_iff_amalgamation]
   rw [Equiv.forall_congr_left' natTransEquivCompatibleFamily]
   rw [Subtype.forall]
@@ -580,7 +579,7 @@ theorem IsSheafFor.hom_ext {P : Cᵒᵖ ⥤ Type v₁} (h : IsSheafFor P (S : Pr
 theorem isSeparatedFor_and_exists_isAmalgamation_iff_isSheafFor :
     (IsSeparatedFor P R ∧ ∀ x : FamilyOfElements P R, x.Compatible → ∃ t, x.IsAmalgamation t) ↔
       IsSheafFor P R := by
-  rw [IsSeparatedFor, ← forall_and]
+  rw [IsSeparatedFor]; rw [← forall_and]
   apply forall_congr'
   intro x
   constructor
@@ -705,8 +704,7 @@ theorem isSheafFor_subsieve_aux (P : Cᵒᵖ ⥤ Type w) {S : Sieve X} {R : Pres
     intro W j hj
     apply (trans hj).ext
     intro Y f hf
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, hS.valid_glue (hx.restrict h) _ hf,
-      FamilyOfElements.restrict, ← hx (𝟙 _) f (h _ hf) _ (id_comp _)]
+    rw [← FunctorToTypes.map_comp_apply]; rw [← op_comp]; rw [hS.valid_glue (hx.restrict h) _ hf]; rw [FamilyOfElements.restrict]; rw [← hx (𝟙 _) f (h _ hf) _ (id_comp _)]
     simp
 #align category_theory.presieve.is_sheaf_for_subsieve_aux CategoryTheory.Presieve.isSheafFor_subsieve_aux
 
@@ -774,7 +772,7 @@ theorem isSheaf_pretopology [HasPullbacks C] (K : Pretopology C) :
       rwa [sets_iff_generate]
     apply isSheafFor_subsieve P gRS _
     intro Y f
-    rw [← pullbackArrows_comm, ← isSheafFor_iff_generate]
+    rw [← pullbackArrows_comm]; rw [← isSheafFor_iff_generate]
     exact PK (pullbackArrows f R) (K.pullbacks f R hR)
 #align category_theory.presieve.is_sheaf_pretopology CategoryTheory.Presieve.isSheaf_pretopology
 
@@ -987,8 +985,7 @@ theorem compatible_iff (x : FirstObj P S) :
 /-- `P` is a sheaf for `S`, iff the fork given by `w` is an equalizer. -/
 theorem equalizer_sheaf_condition :
     Presieve.IsSheafFor P (S : Presieve X) ↔ Nonempty (IsLimit (Fork.ofι _ (w P S))) := by
-  rw [Types.type_equalizer_iff_unique,
-    ← Equiv.forall_congr_left (firstObjEqFamily P (S : Presieve X)).toEquiv.symm]
+  rw [Types.type_equalizer_iff_unique]; rw [← Equiv.forall_congr_left (firstObjEqFamily P (S : Presieve X)).toEquiv.symm]
   simp_rw [← compatible_iff]
   simp only [inv_hom_id_apply, Iso.toEquiv_symm_fun]
   apply ball_congr
@@ -1050,7 +1047,7 @@ theorem w : forkMap P R ≫ firstMap P R = forkMap P R ≫ secondMap P R := by
   simp only [firstMap, secondMap, forkMap]
   simp only [limit.lift_π, limit.lift_π_assoc, assoc, Fan.mk_π_app]
   haveI := Presieve.hasPullbacks.has_pullbacks fg.1.2.2 fg.2.2.2
-  rw [← P.map_comp, ← op_comp, pullback.condition]
+  rw [← P.map_comp]; rw [← op_comp]; rw [pullback.condition]
   simp
 #align category_theory.equalizer.presieve.w CategoryTheory.Equalizer.Presieve.w
 

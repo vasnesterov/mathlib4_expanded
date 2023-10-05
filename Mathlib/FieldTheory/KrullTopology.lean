@@ -177,7 +177,7 @@ def galGroupBasis (K L : Type*) [Field K] [Field L] [Algebra K L] :
     change σ (g (σ⁻¹ x)) = x
     have h_in_F : σ⁻¹ x ∈ F := ⟨x, hx, by dsimp; rw [← AlgEquiv.invFun_eq_symm]; rfl⟩
     have h_g_fix : g (σ⁻¹ x) = σ⁻¹ x := by
-      rw [Subgroup.mem_carrier, IntermediateField.mem_fixingSubgroup_iff F g] at hg
+      rw [Subgroup.mem_carrier] at hg; rw [IntermediateField.mem_fixingSubgroup_iff F g] at hg
       exact hg (σ⁻¹ x) h_in_F
     rw [h_g_fix]
     change σ (σ⁻¹ x) = x
@@ -227,7 +227,7 @@ theorem krullTopology_t2 {K L : Type*} [Field K] [Field L] [Algebra K L]
       have hφx : φ x ≠ x := by
         apply ne_of_apply_ne f
         change f (f.symm (g x)) ≠ f x
-        rw [AlgEquiv.apply_symm_apply f (g x), ne_comm]
+        rw [AlgEquiv.apply_symm_apply f (g x)]; rw [ne_comm]
         exact hx
       let E : IntermediateField K L := IntermediateField.adjoin K {x}
       let h_findim : FiniteDimensional K E := IntermediateField.adjoin.finiteDimensional (h_int x)
@@ -240,7 +240,7 @@ theorem krullTopology_t2 {K L : Type*} [Field K] [Field L] [Algebra K L]
         ⟨hW_open.leftCoset f, hW_open.leftCoset g, ⟨1, hW_1, mul_one _⟩, ⟨1, hW_1, mul_one _⟩, _⟩⟩
       rw [Set.disjoint_left]
       rintro σ ⟨w1, hw1, h⟩ ⟨w2, hw2, rfl⟩
-      rw [eq_inv_mul_iff_mul_eq.symm, ← mul_assoc, mul_inv_eq_iff_eq_mul.symm] at h
+      rw [eq_inv_mul_iff_mul_eq.symm] at h; rw [← mul_assoc] at h; rw [mul_inv_eq_iff_eq_mul.symm] at h
       have h_in_H : w1 * w2⁻¹ ∈ H := H.mul_mem (hWH hw1) (H.inv_mem (hWH hw2))
       rw [h] at h_in_H
       change φ ∈ E.fixingSubgroup at h_in_H

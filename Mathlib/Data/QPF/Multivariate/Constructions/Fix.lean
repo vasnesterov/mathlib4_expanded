@@ -64,7 +64,7 @@ set_option linter.uppercaseLean3 false in
 theorem recF_eq {α : TypeVec n} {β : Type _} (g : F (α.append1 β) → β) (a : q.P.A)
     (f' : q.P.drop.B a ⟹ α) (f : q.P.last.B a → q.P.W α) :
     recF g (q.P.wMk a f' f) = g (abs ⟨a, splitFun f' (recF g ∘ f)⟩) := by
-  rw [recF, MvPFunctor.wRec_eq]; rfl
+  rw [recF]; rw [MvPFunctor.wRec_eq]; rfl
 set_option linter.uppercaseLean3 false in
 #align mvqpf.recF_eq MvQPF.recF_eq
 
@@ -72,7 +72,7 @@ theorem recF_eq' {α : TypeVec n} {β : Type _} (g : F (α.append1 β) → β) (
     recF g x = g (abs (appendFun id (recF g) <$$> q.P.wDest' x)) := by
   apply q.P.w_cases _ x
   intro a f' f
-  rw [recF_eq, q.P.wDest'_wMk, MvPFunctor.map_eq, appendFun_comp_splitFun, TypeVec.id_comp]
+  rw [recF_eq]; rw [q.P.wDest'_wMk]; rw [MvPFunctor.map_eq]; rw [appendFun_comp_splitFun]; rw [TypeVec.id_comp]
 set_option linter.uppercaseLean3 false in
 #align mvqpf.recF_eq' MvQPF.recF_eq'
 
@@ -148,8 +148,8 @@ theorem wrepr_equiv {α : TypeVec n} (x : q.P.W α) : WEquiv (wrepr x) x := by
   apply q.P.w_ind _ x; intro a f' f ih
   apply WEquiv.trans _ (q.P.wMk' (appendFun id wrepr <$$> ⟨a, q.P.appendContents f' f⟩))
   · apply wEquiv.abs'
-    rw [wrepr_wMk, q.P.wDest'_wMk', q.P.wDest'_wMk', abs_repr]
-  rw [q.P.map_eq, MvPFunctor.wMk', appendFun_comp_splitFun, id_comp]
+    rw [wrepr_wMk]; rw [q.P.wDest'_wMk']; rw [q.P.wDest'_wMk']; rw [abs_repr]
+  rw [q.P.map_eq]; rw [MvPFunctor.wMk']; rw [appendFun_comp_splitFun]; rw [id_comp]
   apply WEquiv.ind; exact ih
 set_option linter.uppercaseLean3 false in
 #align mvqpf.Wrepr_equiv MvQPF.wrepr_equiv
@@ -160,11 +160,11 @@ theorem wEquiv_map {α β : TypeVec n} (g : α ⟹ β) (x y : q.P.W α) :
   case ind a f' f₀ f₁ h ih => rw [q.P.w_map_wMk, q.P.w_map_wMk]; apply WEquiv.ind; exact ih
   case
     abs a₀ f'₀ f₀ a₁ f'₁ f₁ h =>
-    rw [q.P.w_map_wMk, q.P.w_map_wMk]; apply WEquiv.abs
+    rw [q.P.w_map_wMk]; rw [q.P.w_map_wMk]; apply WEquiv.abs
     show
       abs (q.P.objAppend1 a₀ (g ⊚ f'₀) fun x => q.P.wMap g (f₀ x)) =
         abs (q.P.objAppend1 a₁ (g ⊚ f'₁) fun x => q.P.wMap g (f₁ x))
-    rw [← q.P.map_objAppend1, ← q.P.map_objAppend1, abs_map, abs_map, h]
+    rw [← q.P.map_objAppend1]; rw [← q.P.map_objAppend1]; rw [abs_map]; rw [abs_map]; rw [h]
   case trans x y z _ _ ih₁ ih₂ => apply MvQPF.WEquiv.trans; apply ih₁; apply ih₂
 set_option linter.uppercaseLean3 false in
 #align mvqpf.Wequiv_map MvQPF.wEquiv_map
@@ -232,23 +232,23 @@ theorem Fix.rec_eq {β : Type u} (g : F (append1 α β) → β) (x : F (append1 
     apply wrepr_equiv
   conv =>
     lhs
-    rw [Fix.rec, Fix.mk]
+    rw [Fix.rec]; rw [Fix.mk]
     dsimp
   cases' h : repr x with a f
-  rw [MvPFunctor.map_eq, recF_eq', ← MvPFunctor.map_eq, MvPFunctor.wDest'_wMk']
-  rw [← MvPFunctor.comp_map, abs_map, ← h, abs_repr, ← appendFun_comp, id_comp, this]
+  rw [MvPFunctor.map_eq]; rw [recF_eq']; rw [← MvPFunctor.map_eq]; rw [MvPFunctor.wDest'_wMk']
+  rw [← MvPFunctor.comp_map]; rw [abs_map]; rw [← h]; rw [abs_repr]; rw [← appendFun_comp]; rw [id_comp]; rw [this]
 #align mvqpf.fix.rec_eq MvQPF.Fix.rec_eq
 
 theorem Fix.ind_aux (a : q.P.A) (f' : q.P.drop.B a ⟹ α) (f : q.P.last.B a → q.P.W α) :
     Fix.mk (abs ⟨a, q.P.appendContents f' fun x => ⟦f x⟧⟩) = ⟦q.P.wMk a f' f⟧ := by
   have : Fix.mk (abs ⟨a, q.P.appendContents f' fun x => ⟦f x⟧⟩) = ⟦wrepr (q.P.wMk a f' f)⟧ := by
     apply Quot.sound; apply wEquiv.abs'
-    rw [MvPFunctor.wDest'_wMk', abs_map, abs_repr, ← abs_map, MvPFunctor.map_eq]
+    rw [MvPFunctor.wDest'_wMk']; rw [abs_map]; rw [abs_repr]; rw [← abs_map]; rw [MvPFunctor.map_eq]
     conv =>
       rhs
-      rw [wrepr_wMk, q.P.wDest'_wMk', abs_repr, MvPFunctor.map_eq]
-    congr 2; rw [MvPFunctor.appendContents, MvPFunctor.appendContents]
-    rw [appendFun, appendFun, ← splitFun_comp, ← splitFun_comp]
+      rw [wrepr_wMk]; rw [q.P.wDest'_wMk']; rw [abs_repr]; rw [MvPFunctor.map_eq]
+    congr 2; rw [MvPFunctor.appendContents]; rw [MvPFunctor.appendContents]
+    rw [appendFun]; rw [appendFun]; rw [← splitFun_comp]; rw [← splitFun_comp]
     rfl
   rw [this]
   apply Quot.sound
@@ -267,9 +267,9 @@ theorem Fix.ind_rec {β : Type _} (g₁ g₂ : Fix F α → β)
   show g₁ ⟦q.P.wMk a f' f⟧ = g₂ ⟦q.P.wMk a f' f⟧
   rw [← Fix.ind_aux a f' f]
   apply h
-  rw [← abs_map, ← abs_map, MvPFunctor.map_eq, MvPFunctor.map_eq]
+  rw [← abs_map]; rw [← abs_map]; rw [MvPFunctor.map_eq]; rw [MvPFunctor.map_eq]
   congr 2
-  rw [MvPFunctor.appendContents, appendFun, appendFun, ← splitFun_comp, ← splitFun_comp]
+  rw [MvPFunctor.appendContents]; rw [appendFun]; rw [appendFun]; rw [← splitFun_comp]; rw [← splitFun_comp]
   have : (g₁ ∘ fun x => ⟦f x⟧) = g₂ ∘ fun x => ⟦f x⟧ := by
     ext x
     exact ih x
@@ -281,30 +281,30 @@ theorem Fix.rec_unique {β : Type _} (g : F (append1 α β) → β) (h : Fix F �
   ext x
   apply Fix.ind_rec
   intro x hyp'
-  rw [hyp, ← hyp', Fix.rec_eq]
+  rw [hyp]; rw [← hyp']; rw [Fix.rec_eq]
 #align mvqpf.fix.rec_unique MvQPF.Fix.rec_unique
 
 theorem Fix.mk_dest (x : Fix F α) : Fix.mk (Fix.dest x) = x := by
   change (Fix.mk ∘ Fix.dest) x = x
   apply Fix.ind_rec
   intro x; dsimp
-  rw [Fix.dest, Fix.rec_eq, ← comp_map, ← appendFun_comp, id_comp]
+  rw [Fix.dest]; rw [Fix.rec_eq]; rw [← comp_map]; rw [← appendFun_comp]; rw [id_comp]
   intro h; rw [h]
   show Fix.mk (appendFun id id <$$> x) = Fix.mk x
-  rw [appendFun_id_id, MvFunctor.id_map]
+  rw [appendFun_id_id]; rw [MvFunctor.id_map]
 #align mvqpf.fix.mk_dest MvQPF.Fix.mk_dest
 
 theorem Fix.dest_mk (x : F (append1 α (Fix F α))) : Fix.dest (Fix.mk x) = x := by
   unfold Fix.dest
-  rw [Fix.rec_eq, ← Fix.dest, ← comp_map]
+  rw [Fix.rec_eq]; rw [← Fix.dest]; rw [← comp_map]
   conv =>
     rhs
     rw [← MvFunctor.id_map x]
-  rw [← appendFun_comp, id_comp]
+  rw [← appendFun_comp]; rw [id_comp]
   have : Fix.mk ∘ Fix.dest = _root_.id := by
     ext (x : Fix F α)
     apply Fix.mk_dest
-  rw [this, appendFun_id_id]
+  rw [this]; rw [appendFun_id_id]
 #align mvqpf.fix.dest_mk MvQPF.Fix.dest_mk
 
 theorem Fix.ind {α : TypeVec n} (p : Fix F α → Prop)
@@ -356,7 +356,7 @@ def Fix.drec {β : Fix F α → Type u}
     conv =>
       rhs
       rw [← ih]
-    rw [MvFunctor.map_map, ← appendFun_comp, id_comp]
+    rw [MvFunctor.map_map]; rw [← appendFun_comp]; rw [id_comp]
     simp only [Function.comp]
   cast (by rw [this]) y.2
 #align mvqpf.fix.drec MvQPF.Fix.drec

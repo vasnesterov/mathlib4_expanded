@@ -99,7 +99,7 @@ theorem Real.fourierCoeff_tsum_comp_add {f : C(ℝ, ℂ)}
     _ = 𝓕 f m := by
       rw [fourierIntegral_eq_integral_exp_smul]
       congr 1 with x : 1
-      rw [smul_eq_mul, comp_apply, coe_mk, coe_mk, ContinuousMap.toFun_eq_coe, fourier_coe_apply]
+      rw [smul_eq_mul]; rw [comp_apply]; rw [coe_mk]; rw [coe_mk]; rw [ContinuousMap.toFun_eq_coe]; rw [fourier_coe_apply]
       congr 2
       push_cast
       ring
@@ -120,7 +120,7 @@ theorem Real.tsum_eq_tsum_fourierIntegral {f : C(ℝ, ℂ)}
     simpa only [coe_mk, ← QuotientAddGroup.mk_zero, Periodic.lift_coe, zsmul_one, comp_apply,
       coe_addRight, zero_add] using this
   · congr 1 with n : 1
-    rw [← Real.fourierCoeff_tsum_comp_add h_norm n, fourier_eval_zero, smul_eq_mul, mul_one]
+    rw [← Real.fourierCoeff_tsum_comp_add h_norm n]; rw [fourier_eval_zero]; rw [smul_eq_mul]; rw [mul_one]
     rfl
 #align real.tsum_eq_tsum_fourier_integral Real.tsum_eq_tsum_fourierIntegral
 
@@ -148,12 +148,10 @@ theorem isBigO_norm_Icc_restrict_atTop {f : C(ℝ, E)} {b : ℝ} (hb : 0 < b)
         rwa [neg_mul, neg_lt_neg_iff, two_mul, add_lt_iff_neg_left]
     have hy' : 0 < y := hxR.trans_le hy
     have : y ^ (-b) ≤ (x + R) ^ (-b) := by
-      rw [rpow_neg hy'.le, rpow_neg hxR.le,
-        inv_le_inv (rpow_pos_of_pos hy' _) (rpow_pos_of_pos hxR _)]
+      rw [rpow_neg hy'.le]; rw [rpow_neg hxR.le]; rw [inv_le_inv (rpow_pos_of_pos hy' _) (rpow_pos_of_pos hxR _)]
       exact rpow_le_rpow hxR.le hy hb.le
     refine' this.trans _
-    rw [← mul_rpow one_half_pos.le hx.1.le, rpow_neg (mul_pos one_half_pos hx.1).le,
-      rpow_neg hxR.le]
+    rw [← mul_rpow one_half_pos.le hx.1.le]; rw [rpow_neg (mul_pos one_half_pos hx.1).le]; rw [rpow_neg hxR.le]
     refine' inv_le_inv_of_le (rpow_pos_of_pos (mul_pos one_half_pos hx.1) _) _
     exact rpow_le_rpow (mul_pos one_half_pos hx.1).le (by linarith) hb.le
   -- Now the main proof.
@@ -161,15 +159,14 @@ theorem isBigO_norm_Icc_restrict_atTop {f : C(ℝ, E)} {b : ℝ} (hb : 0 < b)
   simp only [IsBigO, IsBigOWith, eventually_atTop] at hc' ⊢
   obtain ⟨d, hd⟩ := hc'
   refine' ⟨c * (1 / 2) ^ (-b), ⟨max (1 + max 0 (-2 * R)) (d - R), fun x hx => _⟩⟩
-  rw [ge_iff_le, max_le_iff] at hx
+  rw [ge_iff_le] at hx; rw [max_le_iff] at hx
   have hx' : max 0 (-2 * R) < x := by linarith
   rw [max_lt_iff] at hx'
-  rw [norm_norm,
-    ContinuousMap.norm_le _
+  rw [norm_norm]; rw [ContinuousMap.norm_le _
       (mul_nonneg (mul_nonneg hc.le <| rpow_nonneg_of_nonneg one_half_pos.le _) (norm_nonneg _))]
   refine' fun y => (hd y.1 (by linarith [hx.1, y.2.1])).trans _
   have A : ∀ x : ℝ, 0 ≤ |x| ^ (-b) := fun x => by positivity
-  rw [mul_assoc, mul_le_mul_left hc, norm_of_nonneg (A _), norm_of_nonneg (A _)]
+  rw [mul_assoc]; rw [mul_le_mul_left hc]; rw [norm_of_nonneg (A _)]; rw [norm_of_nonneg (A _)]
   convert claim x (by linarith only [hx.1]) y.1 y.2.1
   · apply abs_of_nonneg; linarith [y.2.1]
   · exact abs_of_pos hx'.1
@@ -188,12 +185,11 @@ theorem isBigO_norm_Icc_restrict_atBot {f : C(ℝ, E)} {b : ℝ} (hb : 0 < b)
   rw [this] at h2
   refine' (isBigO_of_le _ fun x => _).trans h2
   -- equality holds, but less work to prove `≤` alone
-  rw [norm_norm, Function.comp_apply, norm_norm, ContinuousMap.norm_le _ (norm_nonneg _)]
+  rw [norm_norm]; rw [Function.comp_apply]; rw [norm_norm]; rw [ContinuousMap.norm_le _ (norm_nonneg _)]
   rintro ⟨x, hx⟩
   rw [ContinuousMap.restrict_apply_mk]
   refine' (le_of_eq _).trans (ContinuousMap.norm_coe_le_norm _ ⟨-x, _⟩)
-  rw [ContinuousMap.restrict_apply_mk, ContinuousMap.comp_apply, ContinuousMap.coe_mk,
-    ContinuousMap.coe_mk, neg_neg]
+  rw [ContinuousMap.restrict_apply_mk]; rw [ContinuousMap.comp_apply]; rw [ContinuousMap.coe_mk]; rw [ContinuousMap.coe_mk]; rw [neg_neg]
   exact ⟨by linarith [hx.2], by linarith [hx.1]⟩
 set_option linter.uppercaseLean3 false in
 #align is_O_norm_Icc_restrict_at_bot isBigO_norm_Icc_restrict_atBot
@@ -203,7 +199,7 @@ theorem isBigO_norm_restrict_cocompact (f : C(ℝ, E)) {b : ℝ} (hb : 0 < b)
     IsBigO (cocompact ℝ) (fun x => ‖(f.comp (ContinuousMap.addRight x)).restrict K‖) fun x =>
       |x| ^ (-b) := by
   obtain ⟨r, hr⟩ := K.isCompact.isBounded.subset_closedBall 0
-  rw [closedBall_eq_Icc, zero_add, zero_sub] at hr
+  rw [closedBall_eq_Icc] at hr; rw [zero_add] at hr; rw [zero_sub] at hr
   have :
     ∀ x : ℝ,
       ‖(f.comp (ContinuousMap.addRight x)).restrict K‖ ≤ ‖f.restrict (Icc (x - r) (x + r))‖ := by

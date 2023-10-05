@@ -95,7 +95,7 @@ def symm (f : Q₁.IsometryEquiv Q₂) : Q₂.IsometryEquiv Q₁ :=
 @[trans]
 def trans (f : Q₁.IsometryEquiv Q₂) (g : Q₂.IsometryEquiv Q₃) : Q₁.IsometryEquiv Q₃ :=
   { (f : M₁ ≃ₗ[R] M₂).trans (g : M₂ ≃ₗ[R] M₃) with
-    map_app' := by intro m; rw [← f.map_app, ← g.map_app]; rfl }
+    map_app' := by intro m; rw [← f.map_app]; rw [← g.map_app]; rfl }
 #align quadratic_form.isometry.trans QuadraticForm.IsometryEquiv.trans
 
 /-- Isometric equivalences are isometric maps -/

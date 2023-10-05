@@ -259,7 +259,7 @@ variable [SeparatedSpace β]
 
 theorem extend_pureCauchy {f : α → β} (hf : UniformContinuous f) (a : α) :
     extend f (pureCauchy a) = f a := by
-  rw [extend, if_pos hf]
+  rw [extend]; rw [if_pos hf]
   exact uniformly_extend_of_ind uniformInducing_pureCauchy denseRange_pureCauchy hf _
 set_option linter.uppercaseLean3 false in
 #align Cauchy.extend_pure_cauchy CauchyFilter.extend_pureCauchy
@@ -323,7 +323,7 @@ theorem separated_pureCauchy_injective {α : Type*} [UniformSpace α] [s : Separ
       fun a : α => ⟦pureCauchy a⟧
   | a, b, h => by
     refine separated_def.1 s _ _ (fun s hs => ?_)
-    rw [← (@uniformEmbedding_pureCauchy α _).comap_uniformity, Filter.mem_comap] at hs
+    rw [← (@uniformEmbedding_pureCauchy α _).comap_uniformity] at hs; rw [Filter.mem_comap] at hs
     obtain ⟨t, ht, hts⟩ := hs
     exact @hts (a, b) (Quotient.exact h t ht)
 set_option linter.uppercaseLean3 false in
@@ -400,9 +400,9 @@ theorem comap_coe_eq_uniformity :
       (fun x : CauchyFilter α × CauchyFilter α => (⟦x.1⟧, ⟦x.2⟧)) ∘ fun x : α × α =>
         (pureCauchy x.1, pureCauchy x.2) :=
     by ext ⟨a, b⟩ <;> simp <;> rfl
-  rw [this, ← Filter.comap_comap]
+  rw [this]; rw [← Filter.comap_comap]
   change Filter.comap _ (Filter.comap _ (𝓤 <| Quotient <| separationSetoid <| CauchyFilter α)) = 𝓤 α
-  rw [comap_quotient_eq_uniformity, uniformEmbedding_pureCauchy.comap_uniformity]
+  rw [comap_quotient_eq_uniformity]; rw [uniformEmbedding_pureCauchy.comap_uniformity]
 #align uniform_space.completion.comap_coe_eq_uniformity UniformSpace.Completion.comap_coe_eq_uniformity
 
 theorem uniformInducing_coe : UniformInducing ((↑) : α → Completion α) :=
@@ -613,8 +613,7 @@ theorem extension_map [CompleteSpace γ] [SeparatedSpace γ] {f : β → γ} {g 
     intro a
     -- porting note: this is not provable by simp [hf, hg, hf.comp hg, map_coe, extension_coe],
     -- but should be?
-    rw [extension_coe (hf.comp hg), Function.comp_apply, map_coe hg, extension_coe hf,
-      Function.comp_apply]
+    rw [extension_coe (hf.comp hg)]; rw [Function.comp_apply]; rw [map_coe hg]; rw [extension_coe hf]; rw [Function.comp_apply]
 #align uniform_space.completion.extension_map UniformSpace.Completion.extension_map
 
 theorem map_comp {g : β → γ} {f : α → β} (hg : UniformContinuous g) (hf : UniformContinuous f) :
@@ -639,8 +638,7 @@ def completionSeparationQuotientEquiv (α : Type u) [UniformSpace α] :
     refine' induction_on a (isClosed_eq (continuous_map.comp continuous_extension) continuous_id) _
     rintro ⟨a⟩
     -- porting note: had to insert rewrites to switch between Quot.mk, Quotient.mk, Quotient.mk'
-    rw [← Quotient.mk,extension_coe (SeparationQuotient.uniformContinuous_lift _),
-      SeparationQuotient.lift_mk (uniformContinuous_coe α), map_coe]
+    rw [← Quotient.mk]; rw [extension_coe (SeparationQuotient.uniformContinuous_lift _)]; rw [SeparationQuotient.lift_mk (uniformContinuous_coe α)]; rw [map_coe]
     · rfl
     · exact uniformContinuous_quotient_mk
   · intro a

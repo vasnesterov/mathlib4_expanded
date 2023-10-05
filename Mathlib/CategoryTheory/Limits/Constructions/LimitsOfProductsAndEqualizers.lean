@@ -63,7 +63,7 @@ def buildLimit : Cone F where
     { app := fun j => i.ι ≫ c₁.π.app ⟨_⟩
       naturality := fun j₁ j₂ f => by
         dsimp
-        rw [Category.id_comp, Category.assoc, ← hs ⟨⟨_, _⟩, f⟩, i.condition_assoc, ht] }
+        rw [Category.id_comp]; rw [Category.assoc]; rw [← hs ⟨⟨_, _⟩, f⟩]; rw [i.condition_assoc]; rw [ht] }
 #align category_theory.limits.has_limit_of_has_products_of_has_equalizers.build_limit CategoryTheory.Limits.HasLimitOfHasProductsOfHasEqualizers.buildLimit
 
 variable {i}
@@ -192,7 +192,7 @@ noncomputable def preservesLimitOfPreservesEqualizersAndProduct : PreservesLimit
       apply congrArg G.map
       dsimp
     · apply Fork.ofι (G.map i)
-      rw [← G.map_comp, ← G.map_comp]
+      rw [← G.map_comp]; rw [← G.map_comp]
       apply congrArg G.map
       exact equalizer.condition s t
     · apply isLimitOfHasProductOfPreservesLimit
@@ -283,7 +283,7 @@ def buildColimit : Cocone F where
         have reassoced (f : (p : J × J) × (p.fst ⟶ p.snd)) {W : C} {h : _ ⟶ W} :
           c₁.ι.app ⟨f⟩ ≫ s ≫ h = F.map f.snd ≫ c₂.ι.app ⟨f.fst.snd⟩ ≫ h := by
             simp only [← Category.assoc, eq_whisker (hs f)]
-        rw [Category.comp_id, ← reassoced ⟨⟨_, _⟩, f⟩, i.condition, ← Category.assoc, ht] }
+        rw [Category.comp_id]; rw [← reassoced ⟨⟨_, _⟩, f⟩]; rw [i.condition]; rw [← Category.assoc]; rw [ht] }
 #align category_theory.limits.has_colimit_of_has_coproducts_of_has_coequalizers.build_colimit CategoryTheory.Limits.HasColimitOfHasCoproductsOfHasCoequalizers.buildColimit
 
 variable {i}
@@ -418,7 +418,7 @@ noncomputable def preservesColimitOfPreservesCoequalizersAndCoproduct :
       simp only [← G.map_comp, colimit.ι_desc]
       dsimp
     · refine Cofork.ofπ (G.map i) ?_
-      rw [← G.map_comp, ← G.map_comp]
+      rw [← G.map_comp]; rw [← G.map_comp]
       apply congrArg G.map
       apply coequalizer.condition
     · apply isColimitOfHasCoproductOfPreservesColimit

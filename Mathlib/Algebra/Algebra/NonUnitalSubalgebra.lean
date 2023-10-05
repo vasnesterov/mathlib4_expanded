@@ -422,7 +422,7 @@ theorem mem_range_self (φ : F) (x : A) :
 theorem coe_range (φ : F) :
     ((NonUnitalAlgHom.range φ : NonUnitalSubalgebra R B) : Set B) = Set.range (φ : A → B) := by
   ext
-  rw [SetLike.mem_coe, mem_range]
+  rw [SetLike.mem_coe]; rw [mem_range]
   rfl
 
 theorem range_comp (f : A →ₙₐ[R] B) (g : B →ₙₐ[R] C) :
@@ -465,9 +465,9 @@ def equalizer (ϕ ψ : F) : NonUnitalSubalgebra R A
   carrier := {a | (ϕ a : B) = ψ a}
   zero_mem' := by rw [Set.mem_setOf_eq, map_zero, map_zero]
   add_mem' {x y} (hx : ϕ x = ψ x) (hy : ϕ y = ψ y) := by
-    rw [Set.mem_setOf_eq, map_add, map_add, hx, hy]
+    rw [Set.mem_setOf_eq]; rw [map_add]; rw [map_add]; rw [hx]; rw [hy]
   mul_mem' {x y} (hx : ϕ x = ψ x) (hy : ϕ y = ψ y) := by
-    rw [Set.mem_setOf_eq, map_mul, map_mul, hx, hy]
+    rw [Set.mem_setOf_eq]; rw [map_mul]; rw [map_mul]; rw [hx]; rw [hy]
   smul_mem' r x (hx : ϕ x = ψ x) := by rw [Set.mem_setOf_eq, map_smul, map_smul, hx]
 
 @[simp]
@@ -703,8 +703,7 @@ instance : Inhabited (NonUnitalSubalgebra R A) :=
 
 theorem mem_bot {x : A} : x ∈ (⊥ : NonUnitalSubalgebra R A) ↔ x = 0 :=
   show x ∈ Submodule.span R (NonUnitalSubsemiring.closure (∅ : Set A) : Set A) ↔ x = 0 by
-    rw [NonUnitalSubsemiring.closure_empty, NonUnitalSubsemiring.coe_bot,
-      Submodule.span_zero_singleton, Submodule.mem_bot]
+    rw [NonUnitalSubsemiring.closure_empty]; rw [NonUnitalSubsemiring.coe_bot]; rw [Submodule.span_zero_singleton]; rw [Submodule.mem_bot]
 
 theorem toSubmodule_bot : (⊥ : NonUnitalSubalgebra R A).toSubmodule = ⊥ := by
   ext
@@ -885,7 +884,7 @@ noncomputable def iSupLift [Nonempty ι] (K : ι → NonUnitalSubalgebra R A) (d
             (fun i j x hxi hxj => by
               let ⟨k, hik, hjk⟩ := dir i j
               simp only
-              rw [hf i k hik, hf j k hjk]
+              rw [hf i k hik]; rw [hf j k hjk]
               rfl)
             (↑(iSup K)) (by rw [coe_iSup_of_directed dir])
         map_zero' := by

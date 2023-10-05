@@ -56,7 +56,7 @@ theorem numerators_recurrence {gp : Pair K} {ppredA predA : K}
   obtain ⟨predConts, succ_nth_conts_eq, ⟨rfl⟩⟩ :
     ∃ conts, g.continuants (n + 1) = conts ∧ conts.a = predA
   exact exists_conts_a_of_num succ_nth_num_eq
-  rw [num_eq_conts_a, continuants_recurrence succ_nth_s_eq nth_conts_eq succ_nth_conts_eq]
+  rw [num_eq_conts_a]; rw [continuants_recurrence succ_nth_s_eq nth_conts_eq succ_nth_conts_eq]
 #align generalized_continued_fraction.numerators_recurrence GeneralizedContinuedFraction.numerators_recurrence
 
 /-- Shows that `Bₙ = bₙ * Bₙ₋₁ + aₙ * Bₙ₋₂`. -/
@@ -69,7 +69,7 @@ theorem denominators_recurrence {gp : Pair K} {ppredB predB : K}
   obtain ⟨predConts, succ_nth_conts_eq, ⟨rfl⟩⟩ :
     ∃ conts, g.continuants (n + 1) = conts ∧ conts.b = predB
   exact exists_conts_b_of_denom succ_nth_denom_eq
-  rw [denom_eq_conts_b, continuants_recurrence succ_nth_s_eq nth_conts_eq succ_nth_conts_eq]
+  rw [denom_eq_conts_b]; rw [continuants_recurrence succ_nth_s_eq nth_conts_eq succ_nth_conts_eq]
 #align generalized_continued_fraction.denominators_recurrence GeneralizedContinuedFraction.denominators_recurrence
 
 end GeneralizedContinuedFraction

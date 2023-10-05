@@ -46,7 +46,7 @@ structure LieSubalgebra extends Submodule R L where
 /-- The zero algebra is a subalgebra of any Lie algebra. -/
 instance : Zero (LieSubalgebra R L) :=
   ⟨⟨0, @fun x y hx _hy ↦ by
-    rw [(Submodule.mem_bot R).1 hx, zero_lie]
+    rw [(Submodule.mem_bot R).1 hx]; rw [zero_lie]
     exact Submodule.zero_mem 0⟩⟩
 
 instance : Inhabited (LieSubalgebra R L) :=
@@ -494,7 +494,7 @@ theorem sInf_coe_to_submodule (S : Set (LieSubalgebra R L)) :
 
 @[simp]
 theorem sInf_coe (S : Set (LieSubalgebra R L)) : (↑(sInf S) : Set L) = ⋂ s ∈ S, (s : Set L) := by
-  rw [← coe_to_submodule, sInf_coe_to_submodule, Submodule.sInf_coe]
+  rw [← coe_to_submodule]; rw [sInf_coe_to_submodule]; rw [Submodule.sInf_coe]
   ext x
   simp
 #align lie_subalgebra.Inf_coe LieSubalgebra.sInf_coe
@@ -555,8 +555,7 @@ theorem inf_coe_to_submodule :
 
 @[simp]
 theorem mem_inf (x : L) : x ∈ K ⊓ K' ↔ x ∈ K ∧ x ∈ K' := by
-  rw [← mem_coe_submodule, ← mem_coe_submodule, ← mem_coe_submodule, inf_coe_to_submodule,
-    Submodule.mem_inf]
+  rw [← mem_coe_submodule]; rw [← mem_coe_submodule]; rw [← mem_coe_submodule]; rw [inf_coe_to_submodule]; rw [Submodule.mem_inf]
 #align lie_subalgebra.mem_inf LieSubalgebra.mem_inf
 
 theorem eq_bot_iff : K = ⊥ ↔ ∀ x : L, x ∈ K → x = 0 := by
@@ -711,7 +710,7 @@ theorem coe_lieSpan_submodule_eq_iff {p : Submodule R L} :
     (lieSpan R L (p : Set L) : Submodule R L) = p ↔ ∃ K : LieSubalgebra R L, ↑K = p := by
   rw [p.exists_lieSubalgebra_coe_eq_iff]; constructor <;> intro h
   · intro x m hm
-    rw [← h, mem_coe_submodule]
+    rw [← h]; rw [mem_coe_submodule]
     exact lie_mem _ (subset_lieSpan hm)
   · rw [← coe_to_submodule_mk p @h, coe_to_submodule, coe_to_submodule_eq_iff, lieSpan_eq]
 #align lie_subalgebra.coe_lie_span_submodule_eq_iff LieSubalgebra.coe_lieSpan_submodule_eq_iff

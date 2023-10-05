@@ -36,7 +36,7 @@ def imageOfDf (f : R[X]) : Set (PrimeSpectrum R) :=
 #align algebraic_geometry.polynomial.image_of_Df AlgebraicGeometry.Polynomial.imageOfDf
 
 theorem isOpen_imageOfDf : IsOpen (imageOfDf f) := by
-  rw [imageOfDf, setOf_exists fun i (x : PrimeSpectrum R) => coeff f i ∉ x.asIdeal]
+  rw [imageOfDf]; rw [setOf_exists fun i (x : PrimeSpectrum R) => coeff f i ∉ x.asIdeal]
   exact isOpen_iUnion fun i => isOpen_basicOpen
 #align algebraic_geometry.polynomial.is_open_image_of_Df AlgebraicGeometry.Polynomial.isOpen_imageOfDf
 
@@ -73,8 +73,7 @@ https://stacks.math.columbia.edu/tag/00FB
 -/
 theorem isOpenMap_comap_C : IsOpenMap (PrimeSpectrum.comap (C : R →+* R[X])) := by
   rintro U ⟨s, z⟩
-  rw [← compl_compl U, ← z, ← iUnion_of_singleton_coe s, zeroLocus_iUnion, compl_iInter,
-    image_iUnion]
+  rw [← compl_compl U]; rw [← z]; rw [← iUnion_of_singleton_coe s]; rw [zeroLocus_iUnion]; rw [compl_iInter]; rw [image_iUnion]
   simp_rw [← imageOfDf_eq_comap_C_compl_zeroLocus]
   exact isOpen_iUnion fun f => isOpen_imageOfDf
 #align algebraic_geometry.polynomial.is_open_map_comap_C AlgebraicGeometry.Polynomial.isOpenMap_comap_C

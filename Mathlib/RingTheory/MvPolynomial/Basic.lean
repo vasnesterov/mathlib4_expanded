@@ -67,9 +67,9 @@ section Homomorphism
 
 theorem mapRange_eq_map {R S : Type*} [CommSemiring R] [CommSemiring S] (p : MvPolynomial σ R)
     (f : R →+* S) : Finsupp.mapRange f f.map_zero p = map f p := by
-  rw [p.as_sum, Finsupp.mapRange_finset_sum, (map f).map_sum]
+  rw [p.as_sum]; rw [Finsupp.mapRange_finset_sum]; rw [(map f).map_sum]
   refine' Finset.sum_congr rfl fun n _ => _
-  rw [map_monomial, ← single_eq_monomial, Finsupp.mapRange_single, single_eq_monomial]
+  rw [map_monomial]; rw [← single_eq_monomial]; rw [Finsupp.mapRange_single]; rw [single_eq_monomial]
 #align mv_polynomial.map_range_eq_map MvPolynomial.mapRange_eq_map
 
 end Homomorphism
@@ -91,13 +91,13 @@ variable {R}
 
 theorem mem_restrictTotalDegree (p : MvPolynomial σ R) :
     p ∈ restrictTotalDegree σ R m ↔ p.totalDegree ≤ m := by
-  rw [totalDegree, Finset.sup_le_iff]
+  rw [totalDegree]; rw [Finset.sup_le_iff]
   rfl
 #align mv_polynomial.mem_restrict_total_degree MvPolynomial.mem_restrictTotalDegree
 
 theorem mem_restrictDegree (p : MvPolynomial σ R) (n : ℕ) :
     p ∈ restrictDegree σ R n ↔ ∀ s ∈ p.support, ∀ i, (s : σ →₀ ℕ) i ≤ n := by
-  rw [restrictDegree, Finsupp.mem_supported]
+  rw [restrictDegree]; rw [Finsupp.mem_supported]
   rfl
 #align mv_polynomial.mem_restrict_degree MvPolynomial.mem_restrictDegree
 

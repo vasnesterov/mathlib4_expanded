@@ -244,7 +244,7 @@ theorem hasFiniteIntegral_prod_iff ⦃f : α × β → E⦄ (h1f : StronglyMeasu
     ennnorm_eq_ofReal toReal_nonneg, ofReal_norm_eq_coe_nnnorm]
   -- this fact is probably too specialized to be its own lemma
   have : ∀ {p q r : Prop} (_ : r → p), (r ↔ p ∧ q) ↔ p → (r ↔ q) := fun {p q r} h1 => by
-    rw [← and_congr_right_iff, and_iff_right_of_imp h1]
+    rw [← and_congr_right_iff]; rw [and_iff_right_of_imp h1]
   rw [this]
   · intro h2f; rw [lintegral_congr_ae]
     refine' h2f.mp _; apply eventually_of_forall; intro x hx; dsimp only
@@ -256,8 +256,7 @@ theorem hasFiniteIntegral_prod_iff' ⦃f : α × β → E⦄ (h1f : AEStronglyMe
     HasFiniteIntegral f (μ.prod ν) ↔
       (∀ᵐ x ∂μ, HasFiniteIntegral (fun y => f (x, y)) ν) ∧
         HasFiniteIntegral (fun x => ∫ y, ‖f (x, y)‖ ∂ν) μ := by
-  rw [hasFiniteIntegral_congr h1f.ae_eq_mk,
-    hasFiniteIntegral_prod_iff h1f.stronglyMeasurable_mk]
+  rw [hasFiniteIntegral_congr h1f.ae_eq_mk]; rw [hasFiniteIntegral_prod_iff h1f.stronglyMeasurable_mk]
   apply and_congr
   · apply eventually_congr
     filter_upwards [ae_ae_of_ae_prod h1f.ae_eq_mk.symm]
@@ -284,7 +283,7 @@ theorem integrable_prod_iff' [SigmaFinite μ] ⦃f : α × β → E⦄
     Integrable f (μ.prod ν) ↔
       (∀ᵐ y ∂ν, Integrable (fun x => f (x, y)) μ) ∧ Integrable (fun y => ∫ x, ‖f (x, y)‖ ∂μ) ν := by
   convert integrable_prod_iff h1f.prod_swap using 1
-  rw [funext fun _ => Function.comp_apply.symm, integrable_swap_iff]
+  rw [funext fun _ => Function.comp_apply.symm]; rw [integrable_swap_iff]
 #align measure_theory.integrable_prod_iff' MeasureTheory.integrable_prod_iff'
 
 theorem Integrable.prod_left_ae [SigmaFinite μ] ⦃f : α × β → E⦄ (hf : Integrable f (μ.prod ν)) :
@@ -342,7 +341,7 @@ variable [SigmaFinite μ]
 theorem integral_prod_swap (f : α × β → E) (hf : AEStronglyMeasurable f (μ.prod ν)) :
     ∫ z, f z.swap ∂ν.prod μ = ∫ z, f z ∂μ.prod ν := by
   rw [← prod_swap] at hf
-  rw [← integral_map measurable_swap.aemeasurable hf, prod_swap]
+  rw [← integral_map measurable_swap.aemeasurable hf]; rw [prod_swap]
 #align measure_theory.integral_prod_swap MeasureTheory.integral_prod_swap
 
 variable {E' : Type*} [NormedAddCommGroup E'] [CompleteSpace E'] [NormedSpace ℝ E']
@@ -439,7 +438,7 @@ theorem continuous_integral_integral :
   conv =>
     congr
     ext
-    rw [← lintegral_prod_of_measurable _ (this _), ← L1.ofReal_norm_sub_eq_lintegral]
+    rw [← lintegral_prod_of_measurable _ (this _)]; rw [← L1.ofReal_norm_sub_eq_lintegral]
   rw [← ofReal_zero]
   refine' (continuous_ofReal.tendsto 0).comp _
   rw [← tendsto_iff_norm_sub_tendsto_zero]; exact tendsto_id

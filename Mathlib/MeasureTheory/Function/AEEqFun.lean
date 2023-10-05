@@ -166,7 +166,7 @@ theorem mk_coeFn (f : α →ₘ[μ] β) : mk f f.aestronglyMeasurable = f := by
   conv_rhs => rw [← Quotient.out_eq' f]
   set g : { f : α → β // AEStronglyMeasurable f μ } := Quotient.out' f
   have : g = ⟨g.1, g.2⟩ := Subtype.eq rfl
-  rw [this, ← mk, mk_eq_mk]
+  rw [this]; rw [← mk]; rw [mk_eq_mk]
   exact (AEStronglyMeasurable.ae_eq_mk _).symm
 #align measure_theory.ae_eq_fun.mk_coe_fn MeasureTheory.AEEqFun.mk_coeFn
 
@@ -232,7 +232,7 @@ theorem compQuasiMeasurePreserving_mk {g : β → γ} (hg : AEStronglyMeasurable
 theorem compQuasiMeasurePreserving_eq_mk (g : β →ₘ[ν] γ) (hf : QuasiMeasurePreserving f μ ν) :
     g.compQuasiMeasurePreserving f hf =
       mk (g ∘ f) (g.aestronglyMeasurable.comp_quasiMeasurePreserving hf) := by
-  rw [← compQuasiMeasurePreserving_mk g.aestronglyMeasurable hf, mk_coeFn]
+  rw [← compQuasiMeasurePreserving_mk g.aestronglyMeasurable hf]; rw [mk_coeFn]
 
 theorem coeFn_compQuasiMeasurePreserving (g : β →ₘ[ν] γ) (hf : QuasiMeasurePreserving f μ ν) :
     g.compQuasiMeasurePreserving f hf =ᵐ[μ] g ∘ f := by
@@ -286,7 +286,7 @@ theorem comp_mk (g : β → γ) (hg : Continuous g) (f : α → β) (hf) :
 
 theorem comp_eq_mk (g : β → γ) (hg : Continuous g) (f : α →ₘ[μ] β) :
     comp g hg f = mk (g ∘ f) (hg.comp_aestronglyMeasurable f.aestronglyMeasurable) := by
-  rw [← comp_mk g hg f f.aestronglyMeasurable, mk_coeFn]
+  rw [← comp_mk g hg f f.aestronglyMeasurable]; rw [mk_coeFn]
 #align measure_theory.ae_eq_fun.comp_eq_mk MeasureTheory.AEEqFun.comp_eq_mk
 
 theorem coeFn_comp (g : β → γ) (hg : Continuous g) (f : α →ₘ[μ] β) : comp g hg f =ᵐ[μ] g ∘ f := by
@@ -915,7 +915,7 @@ theorem lintegral_mk (f : α → ℝ≥0∞) (hf) : (mk f hf : α →ₘ[μ] ℝ
 #align measure_theory.ae_eq_fun.lintegral_mk MeasureTheory.AEEqFun.lintegral_mk
 
 theorem lintegral_coeFn (f : α →ₘ[μ] ℝ≥0∞) : ∫⁻ a, f a ∂μ = f.lintegral := by
-  rw [← lintegral_mk, mk_coeFn]
+  rw [← lintegral_mk]; rw [mk_coeFn]
 #align measure_theory.ae_eq_fun.lintegral_coe_fn MeasureTheory.AEEqFun.lintegral_coeFn
 
 @[simp]
@@ -942,7 +942,7 @@ theorem coeFn_abs {β} [TopologicalSpace β] [Lattice β] [TopologicalLattice β
     [TopologicalAddGroup β] (f : α →ₘ[μ] β) : ⇑|f| =ᵐ[μ] fun x => |f x| := by
   simp_rw [abs_eq_sup_neg]
   filter_upwards [AEEqFun.coeFn_sup f (-f), AEEqFun.coeFn_neg f] with x hx_sup hx_neg
-  rw [hx_sup, hx_neg, Pi.neg_apply]
+  rw [hx_sup]; rw [hx_neg]; rw [Pi.neg_apply]
 #align measure_theory.ae_eq_fun.coe_fn_abs MeasureTheory.AEEqFun.coeFn_abs
 
 end Abs

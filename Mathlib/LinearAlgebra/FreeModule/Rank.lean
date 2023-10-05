@@ -38,8 +38,7 @@ open Module.Free
 theorem rank_finsupp (ι : Type w) :
     Module.rank R (ι →₀ M) = Cardinal.lift.{v} #ι * Cardinal.lift.{w} (Module.rank R M) := by
   obtain ⟨⟨_, bs⟩⟩ := Module.Free.exists_basis (R := R) (M := M)
-  rw [← bs.mk_eq_rank'', ← (Finsupp.basis fun _ : ι => bs).mk_eq_rank'', Cardinal.mk_sigma,
-    Cardinal.sum_const]
+  rw [← bs.mk_eq_rank'']; rw [← (Finsupp.basis fun _ : ι => bs).mk_eq_rank'']; rw [Cardinal.mk_sigma]; rw [Cardinal.sum_const]
 #align rank_finsupp rank_finsupp
 
 theorem rank_finsupp' (ι : Type v) : Module.rank R (ι →₀ M) = #ι * Module.rank R M := by
@@ -75,7 +74,7 @@ theorem rank_matrix (m : Type v) (n : Type w) [Finite m] [Finite n] :
   cases nonempty_fintype m
   cases nonempty_fintype n
   have h := (Matrix.stdBasis R m n).mk_eq_rank
-  rw [← lift_lift.{max v w u, max v w}, lift_inj] at h
+  rw [← lift_lift.{max v w u, max v w}] at h; rw [lift_inj] at h
   simpa using h.symm
 #align rank_matrix rank_matrix
 
@@ -84,7 +83,7 @@ theorem rank_matrix (m : Type v) (n : Type w) [Finite m] [Finite n] :
 @[simp high]
 theorem rank_matrix' (m n : Type v) [Finite m] [Finite n] :
     Module.rank R (Matrix m n R) = Cardinal.lift.{u} (#m * #n) := by
-  rw [rank_matrix, lift_mul, lift_umax.{v, u}]
+  rw [rank_matrix]; rw [lift_mul]; rw [lift_umax.{v, u}]
 #align rank_matrix' rank_matrix'
 
 /-- If `m` and `n` are `Fintype` that lie in the same universe as `R`, the rank of `m × n` matrices
@@ -113,7 +112,7 @@ theorem rank_tensorProduct :
       Cardinal.lift.{w, v} (Module.rank R M) * Cardinal.lift.{v, w} (Module.rank R N) := by
   obtain ⟨⟨_, bM⟩⟩ := Module.Free.exists_basis (R := R) (M := M)
   obtain ⟨⟨_, bN⟩⟩ := Module.Free.exists_basis (R := R) (M := N)
-  rw [← bM.mk_eq_rank'', ← bN.mk_eq_rank'', ← (bM.tensorProduct bN).mk_eq_rank'', Cardinal.mk_prod]
+  rw [← bM.mk_eq_rank'']; rw [← bN.mk_eq_rank'']; rw [← (bM.tensorProduct bN).mk_eq_rank'']; rw [Cardinal.mk_prod]
 #align rank_tensor_product rank_tensorProduct
 
 /-- If `M` and `N` lie in the same universe, the rank of `M ⊗[R] N` is

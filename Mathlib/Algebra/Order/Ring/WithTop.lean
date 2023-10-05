@@ -59,7 +59,7 @@ theorem top_mul' (a : WithTop α) : ⊤ * a = if a = 0 then 0 else ⊤ := by
 #align with_top.top_mul WithTop.top_mul
 
 theorem mul_eq_top_iff {a b : WithTop α} : a * b = ⊤ ↔ a ≠ 0 ∧ b = ⊤ ∨ a = ⊤ ∧ b ≠ 0 := by
-  rw [mul_def, ite_eq_iff, ← none_eq_top, Option.map₂_eq_none_iff]
+  rw [mul_def]; rw [ite_eq_iff]; rw [← none_eq_top]; rw [Option.map₂_eq_none_iff]
   have ha : a = 0 → a ≠ none := fun h => h.symm ▸ zero_ne_top
   have hb : b = 0 → b ≠ none := fun h => h.symm ▸ zero_ne_top
   tauto
@@ -76,7 +76,7 @@ theorem mul_lt_top [LT α] {a b : WithTop α} (ha : a ≠ ⊤) (hb : b ≠ ⊤) 
 
 instance noZeroDivisors [NoZeroDivisors α] : NoZeroDivisors (WithTop α) := by
   refine ⟨fun h₁ => Decidable.by_contradiction <| fun h₂ => ?_⟩
-  rw [mul_def, if_neg h₂] at h₁
+  rw [mul_def] at h₁; rw [if_neg h₂] at h₁
   rcases Option.mem_map₂_iff.1 h₁ with ⟨a, b, (rfl : _ = _), (rfl : _ = _), hab⟩
   exact h₂ ((eq_zero_or_eq_zero_of_mul_eq_zero hab).imp (congr_arg some) (congr_arg some))
 
@@ -101,7 +101,7 @@ theorem mul_coe {b : α} (hb : b ≠ 0) : ∀ {a : WithTop α},
   | none =>
     show (if (⊤ : WithTop α) = 0 ∨ (b : WithTop α) = 0 then 0 else ⊤ : WithTop α) = ⊤ by simp [hb]
   | Option.some a => by
-    rw [some_eq_coe, ← coe_mul]
+    rw [some_eq_coe]; rw [← coe_mul]
     rfl
 #align with_top.mul_coe WithTop.mul_coe
 
@@ -111,7 +111,7 @@ theorem untop'_zero_mul (a b : WithTop α) : (a * b).untop' 0 = a.untop' 0 * b.u
   by_cases hb : b = 0; · rw [hb, mul_zero, ← coe_zero, untop'_coe, mul_zero]
   induction a using WithTop.recTopCoe; · rw [top_mul hb, untop'_top, zero_mul]
   induction b using WithTop.recTopCoe; · rw [mul_top ha, untop'_top, mul_zero]
-  rw [← coe_mul, untop'_coe, untop'_coe, untop'_coe]
+  rw [← coe_mul]; rw [untop'_coe]; rw [untop'_coe]; rw [untop'_coe]
 #align with_top.untop'_zero_mul WithTop.untop'_zero_mul
 
 end MulZeroClass
@@ -164,7 +164,7 @@ instance instSemigroupWithZeroWithTop [SemigroupWithZero α] [NoZeroDivisors α]
       induction' b using WithTop.recTopCoe with b; · simp [mul_top ha, top_mul hc]
       induction' c using WithTop.recTopCoe with c
       · rw [mul_top hb, mul_top ha]
-        rw [← coe_zero, ne_eq, coe_eq_coe] at ha hb
+        rw [← coe_zero] at ha hb; rw [ne_eq] at ha hb; rw [coe_eq_coe] at ha hb
         simp [ha, hb]
       simp only [← coe_mul, mul_assoc] }
 
@@ -196,7 +196,7 @@ instance commSemiring [Nontrivial α] : CommSemiring (WithTop α) :=
   { WithTop.addCommMonoidWithOne, WithTop.commMonoidWithZero with
     right_distrib := distrib'
     left_distrib := fun a b c => by
-      rw [mul_comm, distrib', mul_comm b, mul_comm c] }
+      rw [mul_comm]; rw [distrib']; rw [mul_comm b]; rw [mul_comm c] }
 
 instance [Nontrivial α] : CanonicallyOrderedCommSemiring (WithTop α) :=
   { WithTop.commSemiring, WithTop.canonicallyOrderedAddMonoid with

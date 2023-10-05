@@ -123,7 +123,7 @@ noncomputable def map : (S.map F).LeftHomologyData := by
 
 @[simp]
 lemma map_f' : (h.map F).f' = F.map h.f' := by
-  rw [← cancel_mono (h.map F).i, f'_i, map_f, map_i, ← F.map_comp, f'_i]
+  rw [← cancel_mono (h.map F).i]; rw [f'_i]; rw [map_f]; rw [map_i]; rw [← F.map_comp]; rw [f'_i]
 
 end LeftHomologyData
 

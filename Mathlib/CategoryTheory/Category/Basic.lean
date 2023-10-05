@@ -327,7 +327,7 @@ theorem mono_of_mono {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) [Mono (f ≫ g)] : 
   intro Z a b w
   replace w := congr_arg (fun k => k ≫ g) w
   dsimp at w
-  rw [Category.assoc, Category.assoc] at w
+  rw [Category.assoc] at w; rw [Category.assoc] at w
   exact (cancel_mono _).1 w
 #align category_theory.mono_of_mono CategoryTheory.mono_of_mono
 
@@ -342,7 +342,7 @@ theorem epi_of_epi {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) [Epi (f ≫ g)] : Epi
   intro Z a b w
   replace w := congr_arg (fun k => f ≫ k) w
   dsimp at w
-  rw [← Category.assoc, ← Category.assoc] at w
+  rw [← Category.assoc] at w; rw [← Category.assoc] at w
   exact (cancel_epi _).1 w
 #align category_theory.epi_of_epi CategoryTheory.epi_of_epi
 

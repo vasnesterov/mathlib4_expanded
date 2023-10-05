@@ -168,8 +168,8 @@ theorem isInvariant_iff_image_eq (s : Set α) : IsInvariant ϕ s ↔ ∀ t, ϕ t
 def reverse : Flow τ α where
   toFun t := ϕ (-t)
   cont' := ϕ.continuous continuous_fst.neg continuous_snd
-  map_add' _ _ _ := by dsimp; rw [neg_add, map_add]
-  map_zero' _ := by dsimp; rw [neg_zero, map_zero_apply]
+  map_add' _ _ _ := by dsimp; rw [neg_add]; rw [map_add]
+  map_zero' _ := by dsimp; rw [neg_zero]; rw [map_zero_apply]
 #align flow.reverse Flow.reverse
 
 -- Porting note: add @continuity to Flow.toFun so that these works:

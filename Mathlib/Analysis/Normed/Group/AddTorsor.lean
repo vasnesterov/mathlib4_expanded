@@ -47,7 +47,7 @@ variable {α V P W Q : Type*} [SeminormedAddCommGroup V] [PseudoMetricSpace P] [
 instance (priority := 100) NormedAddTorsor.to_isometricVAdd : IsometricVAdd V P :=
   ⟨fun c => Isometry.of_dist_eq fun x y => by
     -- Porting note: was `simp [NormedAddTorsor.dist_eq_norm']`
-    rw [NormedAddTorsor.dist_eq_norm', NormedAddTorsor.dist_eq_norm', vadd_vsub_vadd_cancel_left]⟩
+    rw [NormedAddTorsor.dist_eq_norm']; rw [NormedAddTorsor.dist_eq_norm']; rw [vadd_vsub_vadd_cancel_left]⟩
 #align normed_add_torsor.to_has_isometric_vadd NormedAddTorsor.to_isometricVAdd
 
 /-- A `SeminormedAddCommGroup` is a `NormedAddTorsor` over itself. -/
@@ -102,7 +102,7 @@ theorem nndist_vadd_cancel_left (v : V) (x y : P) : nndist (v +ᵥ x) (v +ᵥ y)
 
 @[simp]
 theorem dist_vadd_cancel_right (v₁ v₂ : V) (x : P) : dist (v₁ +ᵥ x) (v₂ +ᵥ x) = dist v₁ v₂ := by
-  rw [dist_eq_norm_vsub V, dist_eq_norm, vadd_vsub_vadd_cancel_right]
+  rw [dist_eq_norm_vsub V]; rw [dist_eq_norm]; rw [vadd_vsub_vadd_cancel_right]
 #align dist_vadd_cancel_right dist_vadd_cancel_right
 
 @[simp]
@@ -113,7 +113,7 @@ theorem nndist_vadd_cancel_right (v₁ v₂ : V) (x : P) : nndist (v₁ +ᵥ x) 
 @[simp]
 theorem dist_vadd_left (v : V) (x : P) : dist (v +ᵥ x) x = ‖v‖ := by
   -- Porting note: was `simp [dist_eq_norm_vsub V _ x]`
-  rw [dist_eq_norm_vsub V _ x, vadd_vsub]
+  rw [dist_eq_norm_vsub V _ x]; rw [vadd_vsub]
 #align dist_vadd_left dist_vadd_left
 
 @[simp]
@@ -140,7 +140,7 @@ def IsometryEquiv.vaddConst (x : P) : V ≃ᵢ P where
 
 @[simp]
 theorem dist_vsub_cancel_left (x y z : P) : dist (x -ᵥ y) (x -ᵥ z) = dist y z := by
-  rw [dist_eq_norm, vsub_sub_vsub_cancel_left, dist_comm, dist_eq_norm_vsub V]
+  rw [dist_eq_norm]; rw [vsub_sub_vsub_cancel_left]; rw [dist_comm]; rw [dist_eq_norm_vsub V]
 #align dist_vsub_cancel_left dist_vsub_cancel_left
 
 -- porting note: new
@@ -179,7 +179,7 @@ theorem nndist_vadd_vadd_le (v v' : V) (p p' : P) :
 
 theorem dist_vsub_vsub_le (p₁ p₂ p₃ p₄ : P) :
     dist (p₁ -ᵥ p₂) (p₃ -ᵥ p₄) ≤ dist p₁ p₃ + dist p₂ p₄ := by
-  rw [dist_eq_norm, vsub_sub_vsub_comm, dist_eq_norm_vsub V, dist_eq_norm_vsub V]
+  rw [dist_eq_norm]; rw [vsub_sub_vsub_comm]; rw [dist_eq_norm_vsub V]; rw [dist_eq_norm_vsub V]
   exact norm_sub_le _ _
 #align dist_vsub_vsub_le dist_vsub_vsub_le
 

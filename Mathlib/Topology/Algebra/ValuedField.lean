@@ -57,11 +57,10 @@ theorem Valuation.inversion_estimate {x y : K} {γ : Γ₀ˣ} (y_ne : y ≠ 0)
   have x_ne : x ≠ 0 := by
     intro h
     apply y_ne
-    rw [h, v.map_zero] at key
+    rw [h] at key; rw [v.map_zero] at key
     exact v.zero_iff.1 key.symm
   have decomp : x⁻¹ - y⁻¹ = x⁻¹ * (y - x) * y⁻¹ := by
-    rw [mul_sub_left_distrib, sub_mul, mul_assoc, show y * y⁻¹ = 1 from mul_inv_cancel y_ne,
-      show x⁻¹ * x = 1 from inv_mul_cancel x_ne, mul_one, one_mul]
+    rw [mul_sub_left_distrib]; rw [sub_mul]; rw [mul_assoc]; rw [show y * y⁻¹ = 1 from mul_inv_cancel y_ne]; rw [show x⁻¹ * x = 1 from inv_mul_cancel x_ne]; rw [mul_one]; rw [one_mul]
   calc
     v (x⁻¹ - y⁻¹) = v (x⁻¹ * (y - x) * y⁻¹) := by rw [decomp]
     _ = v x⁻¹ * (v <| y - x) * v y⁻¹ := by repeat' rw [Valuation.map_mul]
@@ -84,7 +83,7 @@ instance (priority := 100) Valued.topologicalDivisionRing [Valued K Γ₀] :
     continuousAt_inv₀ := by
       intro x x_ne s s_in
       cases' Valued.mem_nhds.mp s_in with γ hs; clear s_in
-      rw [mem_map, Valued.mem_nhds]
+      rw [mem_map]; rw [Valued.mem_nhds]
       change ∃ γ : Γ₀ˣ, { y : K | (v (y - x) : Γ₀) < γ } ⊆ { x : K | x⁻¹ ∈ s }
       have vx_ne := (Valuation.ne_zero_iff <| v).mpr x_ne
       let γ' := Units.mk0 _ vx_ne
@@ -92,7 +91,7 @@ instance (priority := 100) Valued.topologicalDivisionRing [Valued K Γ₀] :
       intro y y_in
       apply hs
       simp only [mem_setOf_eq] at y_in
-      rw [Units.min_val, Units.val_mul, Units.val_mul] at y_in
+      rw [Units.min_val] at y_in; rw [Units.val_mul] at y_in; rw [Units.val_mul] at y_in
       exact Valuation.inversion_estimate _ x_ne y_in }
 #align valued.topological_division_ring Valued.topologicalDivisionRing
 
@@ -120,10 +119,10 @@ theorem Valued.continuous_valuation [Valued K Γ₀] : Continuous (v : K → Γ�
   rcases eq_or_ne x 0 with (rfl | h)
   · rw [ContinuousAt, map_zero, WithZeroTopology.tendsto_zero]
     intro γ hγ
-    rw [Filter.Eventually, Valued.mem_nhds_zero]
+    rw [Filter.Eventually]; rw [Valued.mem_nhds_zero]
     use Units.mk0 γ hγ; rfl
   · have v_ne : (v x : Γ₀) ≠ 0 := (Valuation.ne_zero_iff _).mpr h
-    rw [ContinuousAt, WithZeroTopology.tendsto_of_ne_zero v_ne]
+    rw [ContinuousAt]; rw [WithZeroTopology.tendsto_of_ne_zero v_ne]
     apply Valued.loc_const v_ne
 #align valued.continuous_valuation Valued.continuous_valuation
 
@@ -211,7 +210,7 @@ theorem continuous_extension : Continuous (Valued.extension : hat K → Γ₀) :
         exact zero_ne_one.symm
       convert Valued.loc_const this
       ext x
-      rw [Valuation.map_one, mem_preimage, mem_singleton_iff, mem_setOf_eq]
+      rw [Valuation.map_one]; rw [mem_preimage]; rw [mem_singleton_iff]; rw [mem_setOf_eq]
     obtain ⟨V, V_in, hV⟩ : ∃ V ∈ 𝓝 (1 : hat K), ∀ x : K, (x : hat K) ∈ V → (v x : Γ₀) = 1 := by
       rwa [Completion.denseInducing_coe.nhds_eq_comap, mem_comap] at preimage_one
     have : ∃ V' ∈ 𝓝 (1 : hat K), (0 : hat K) ∉ V' ∧ ∀ (x) (_ : x ∈ V') (y) (_ : y ∈ V'),
@@ -258,14 +257,13 @@ theorem continuous_extension : Continuous (Valued.extension : hat K → Γ₀) :
     rcases this with ⟨z₀, y₀, y₀_in, hz₀, z₀_ne⟩
     have vz₀_ne : (v z₀ : Γ₀) ≠ 0 := by rwa [Valuation.ne_zero_iff]
     refine' ⟨v z₀, _⟩
-    rw [WithZeroTopology.tendsto_of_ne_zero vz₀_ne, eventually_comap]
+    rw [WithZeroTopology.tendsto_of_ne_zero vz₀_ne]; rw [eventually_comap]
     filter_upwards [nhds_right]with x x_in a ha
     rcases x_in with ⟨y, y_in, rfl⟩
     have : (v (a * z₀⁻¹) : Γ₀) = 1 := by
       apply hV
       have : (z₀⁻¹ : K) = (z₀ : hat K)⁻¹ := map_inv₀ (Completion.coeRingHom : K →+* hat K) z₀
-      rw [Completion.coe_mul, this, ha, hz₀, mul_inv, mul_comm y₀⁻¹, ← mul_assoc, mul_assoc y,
-        mul_inv_cancel h, mul_one]
+      rw [Completion.coe_mul]; rw [this]; rw [ha]; rw [hz₀]; rw [mul_inv]; rw [mul_comm y₀⁻¹]; rw [← mul_assoc]; rw [mul_assoc y]; rw [mul_inv_cancel h]; rw [mul_one]
       solve_by_elim
     calc
       v a = v (a * z₀⁻¹ * z₀) := by rw [mul_assoc, inv_mul_cancel z₀_ne, mul_one]
@@ -284,11 +282,11 @@ theorem extension_extends (x : K) : extension (x : hat K) = v x := by
 noncomputable def extensionValuation : Valuation (hat K) Γ₀ where
   toFun := Valued.extension
   map_zero' := by
-    rw [← v.map_zero (R := K), ← Valued.extension_extends (0 : K)]
+    rw [← v.map_zero (R := K)]; rw [← Valued.extension_extends (0 : K)]
     rfl
   map_one' := by
     simp
-    rw [← Completion.coe_one, Valued.extension_extends (1 : K)]
+    rw [← Completion.coe_one]; rw [Valued.extension_extends (1 : K)]
     exact Valuation.map_one _
   map_mul' x y := by
     apply Completion.induction_on₂ x y

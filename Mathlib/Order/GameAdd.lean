@@ -157,7 +157,7 @@ def GameAdd (rα : α → α → Prop) : Sym2 α → Sym2 α → Prop :=
     ⟨fun a₁ b₁ a₂ b₂ => Prod.GameAdd rα rα (a₁, b₁) (a₂, b₂) ∨ Prod.GameAdd rα rα (b₁, a₁) (a₂, b₂),
       fun a₁ b₁ a₂ b₂ => by
         dsimp
-        rw [Prod.gameAdd_swap_swap_mk _ _ b₁ b₂ a₁ a₂, Prod.gameAdd_swap_swap_mk _ _ a₁ b₂ b₁ a₂]
+        rw [Prod.gameAdd_swap_swap_mk _ _ b₁ b₂ a₁ a₂]; rw [Prod.gameAdd_swap_swap_mk _ _ a₁ b₂ b₁ a₂]
         simp [or_comm]⟩
 #align sym2.game_add Sym2.GameAdd
 

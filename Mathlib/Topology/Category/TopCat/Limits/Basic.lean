@@ -112,7 +112,7 @@ def limitConeInfiIsLimit (F : J ⥤ TopCatMax.{v, u}) : IsLimit (limitConeInfi.{
     (fun s => ⟨fun v => ⟨ fun j => (Functor.mapCone forget s).π.app j v, ?_⟩, ?_⟩) fun s => ?_
   · dsimp [Functor.sections]
     intro _ _ _
-    rw [←comp_apply', forget_map_eq_coe, ←s.π.naturality, forget_map_eq_coe]
+    rw [←comp_apply']; rw [forget_map_eq_coe]; rw [←s.π.naturality]; rw [forget_map_eq_coe]
     dsimp
     rw [Category.id_comp]
   · exact
@@ -175,7 +175,7 @@ def colimitCoconeIsColimit (F : J ⥤ TopCatMax.{v, u}) : IsColimit (colimitCoco
       ⟨Quot.lift (fun p => (Functor.mapCocone forget s).ι.app p.fst p.snd) ?_, ?_⟩) fun s => ?_
   · intro _ _ ⟨_, h⟩
     dsimp
-    rw [h, Functor.comp_map, ← comp_apply', s.ι.naturality]
+    rw [h]; rw [Functor.comp_map]; rw [← comp_apply']; rw [s.ι.naturality]
     dsimp
     rw [Category.comp_id]
   · exact

@@ -190,7 +190,7 @@ theorem norm_sub_le_of_mem_A {c : 𝕜} (hc : 1 < ‖c‖) {r ε : ℝ} (hε : 0
     {L₁ L₂ : E →L[𝕜] F} (h₁ : x ∈ A f L₁ r ε) (h₂ : x ∈ A f L₂ r ε) : ‖L₁ - L₂‖ ≤ 4 * ‖c‖ * ε := by
   refine' op_norm_le_of_shell (half_pos hr) (by positivity) hc _
   intro y ley ylt
-  rw [div_div, div_le_iff' (mul_pos (by norm_num : (0 : ℝ) < 2) (zero_lt_one.trans hc))] at ley
+  rw [div_div] at ley; rw [div_le_iff' (mul_pos (by norm_num : (0 : ℝ) < 2) (zero_lt_one.trans hc))] at ley
   calc
     ‖(L₁ - L₂) y‖ = ‖f (x + y) - f x - L₂ (x + y - x) - (f (x + y) - f x - L₁ (x + y - x))‖ := by
       simp
@@ -212,7 +212,7 @@ theorem norm_sub_le_of_mem_A {c : 𝕜} (hc : 1 < ‖c‖) {r ε : ℝ} (hε : 0
 theorem differentiable_set_subset_D :
     { x | DifferentiableAt 𝕜 f x ∧ fderiv 𝕜 f x ∈ K } ⊆ D f K := by
   intro x hx
-  rw [D, mem_iInter]
+  rw [D]; rw [mem_iInter]
   intro e
   have : (0 : ℝ) < (1 / 2) ^ e := pow_pos (by norm_num) _
   rcases mem_A_of_differentiable this hx.1 with ⟨R, R_pos, hR⟩
@@ -290,7 +290,7 @@ theorem D_subset_differentiable_set {K : Set (E →L[𝕜] F)} (hK : IsComplete 
     obtain ⟨e, he⟩ : ∃ e : ℕ, (1 / 2) ^ e < ε / (12 * ‖c‖) :=
       exists_pow_lt_of_lt_one (div_pos εpos (mul_pos (by norm_num) cpos)) (by norm_num)
     refine' ⟨e, fun e' he' => _⟩
-    rw [dist_comm, dist_eq_norm]
+    rw [dist_comm]; rw [dist_eq_norm]
     calc
       ‖L0 e - L0 e'‖ ≤ 12 * ‖c‖ * (1 / 2) ^ e := M _ _ _ _ _ _ le_rfl le_rfl le_rfl le_rfl he'
       _ < 12 * ‖c‖ * (ε / (12 * ‖c‖)) := by gcongr
@@ -579,7 +579,7 @@ theorem norm_sub_le_of_mem_A {r x : ℝ} (hr : 0 < r) (ε : ℝ) {L₁ L₂ : F}
 theorem differentiable_set_subset_D :
     { x | DifferentiableWithinAt ℝ f (Ici x) x ∧ derivWithin f (Ici x) x ∈ K } ⊆ D f K := by
   intro x hx
-  rw [D, mem_iInter]
+  rw [D]; rw [mem_iInter]
   intro e
   have : (0 : ℝ) < (1 / 2) ^ e := pow_pos (by norm_num) _
   rcases mem_A_of_differentiable this hx.1 with ⟨R, R_pos, hR⟩
@@ -656,7 +656,7 @@ theorem D_subset_differentiable_set {K : Set F} (hK : IsComplete K) :
     obtain ⟨e, he⟩ : ∃ e : ℕ, (1 / 2) ^ e < ε / 12 :=
       exists_pow_lt_of_lt_one (div_pos εpos (by norm_num)) (by norm_num)
     refine' ⟨e, fun e' he' => _⟩
-    rw [dist_comm, dist_eq_norm]
+    rw [dist_comm]; rw [dist_eq_norm]
     calc
       ‖L0 e - L0 e'‖ ≤ 12 * (1 / 2) ^ e := M _ _ _ _ _ _ le_rfl le_rfl le_rfl le_rfl he'
       _ < 12 * (ε / 12) := (mul_lt_mul' le_rfl he (le_of_lt P) (by norm_num))

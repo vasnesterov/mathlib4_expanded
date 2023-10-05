@@ -351,7 +351,7 @@ theorem hom_desc (h : IsUniversal f) {c : C} (η : f.right ⟶ c) :
 equal after precomposing the universal arrow. -/
 theorem hom_ext (h : IsUniversal f) {c : C} {η η' : f.right ⟶ c}
     (w : f.hom ≫ T.map η = f.hom ≫ T.map η') : η = η' := by
-  rw [h.hom_desc η, h.hom_desc η', w]
+  rw [h.hom_desc η]; rw [h.hom_desc η']; rw [w]
 
 theorem existsUnique (h : IsUniversal f) (g : StructuredArrow S T) :
     ∃! η : f.right ⟶ g.right, f.hom ≫ T.map η = g.hom :=
@@ -678,7 +678,7 @@ theorem hom_desc (h : IsUniversal f) {c : C} (η : c ⟶ f.left) :
 equal after postcomposing the universal arrow. -/
 theorem hom_ext (h : IsUniversal f) {c : C} {η η' : c ⟶ f.left}
     (w : S.map η ≫ f.hom = S.map η' ≫ f.hom) : η = η' := by
-  rw [h.hom_desc η, h.hom_desc η', w]
+  rw [h.hom_desc η]; rw [h.hom_desc η']; rw [w]
 
 theorem existsUnique (h : IsUniversal f) (g : CostructuredArrow S T) :
     ∃! η : g.left ⟶ f.left, S.map η ≫ f.hom = g.hom :=
@@ -760,7 +760,7 @@ def toCostructuredArrow (F : C ⥤ D) (d : D) :
     CostructuredArrow.homMk f.unop.right.op
       (by
         dsimp
-        rw [← op_comp, ← f.unop.w, Functor.const_obj_map]
+        rw [← op_comp]; rw [← f.unop.w]; rw [Functor.const_obj_map]
         erw [Category.id_comp])
 #align category_theory.structured_arrow.to_costructured_arrow CategoryTheory.StructuredArrow.toCostructuredArrow
 
@@ -777,8 +777,8 @@ def toCostructuredArrow' (F : C ⥤ D) (d : D) :
     CostructuredArrow.homMk f.unop.right.unop
       (by
         dsimp
-        rw [← Quiver.Hom.unop_op (F.map (Quiver.Hom.unop f.unop.right)), ← unop_comp, ← F.op_map, ←
-          f.unop.w, Functor.const_obj_map]
+        rw [← Quiver.Hom.unop_op (F.map (Quiver.Hom.unop f.unop.right))]; rw [← unop_comp]; rw [← F.op_map]; rw [←
+          f.unop.w]; rw [Functor.const_obj_map]
         erw [Category.id_comp])
 #align category_theory.structured_arrow.to_costructured_arrow' CategoryTheory.StructuredArrow.toCostructuredArrow'
 
@@ -798,7 +798,7 @@ def toStructuredArrow (F : C ⥤ D) (d : D) : (CostructuredArrow F d)ᵒᵖ ⥤ 
     StructuredArrow.homMk f.unop.left.op
       (by
         dsimp
-        rw [← op_comp, f.unop.w, Functor.const_obj_map]
+        rw [← op_comp]; rw [f.unop.w]; rw [Functor.const_obj_map]
         erw [Category.comp_id])
 #align category_theory.costructured_arrow.to_structured_arrow CategoryTheory.CostructuredArrow.toStructuredArrow
 
@@ -814,8 +814,7 @@ def toStructuredArrow' (F : C ⥤ D) (d : D) : (CostructuredArrow F.op (op d))�
     StructuredArrow.homMk f.unop.left.unop
       (by
         dsimp
-        rw [← Quiver.Hom.unop_op (F.map f.unop.left.unop), ← unop_comp, ← F.op_map, f.unop.w,
-          Functor.const_obj_map]
+        rw [← Quiver.Hom.unop_op (F.map f.unop.left.unop)]; rw [← unop_comp]; rw [← F.op_map]; rw [f.unop.w]; rw [Functor.const_obj_map]
         erw [Category.comp_id])
 #align category_theory.costructured_arrow.to_structured_arrow' CategoryTheory.CostructuredArrow.toStructuredArrow'
 

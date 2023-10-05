@@ -89,7 +89,7 @@ theorem exists_root [IsSepClosed k] (p : k[X]) (hp : p.degree ≠ 0) (hsep : p.S
 theorem exists_pow_nat_eq [IsSepClosed k] (x : k) (n : ℕ) [hn : NeZero (n : k)] :
     ∃ z, z ^ n = x := by
   have hn' : 0 < n := Nat.pos_of_ne_zero <| fun h => by
-    rw [h, Nat.cast_zero] at hn
+    rw [h] at hn; rw [Nat.cast_zero] at hn
     exact hn.out rfl
   have : degree (X ^ n - C x) ≠ 0 := by
     rw [degree_X_pow_sub_C hn' x]
@@ -110,7 +110,7 @@ theorem roots_eq_zero_iff [IsSepClosed k] {p : k[X]} (hsep : p.Separable) :
   cases' le_or_lt (degree p) 0 with hd hd
   · exact eq_C_of_degree_le_zero hd
   · obtain ⟨z, hz⟩ := IsSepClosed.exists_root p hd.ne' hsep
-    rw [← mem_roots (ne_zero_of_degree_gt hd), h] at hz
+    rw [← mem_roots (ne_zero_of_degree_gt hd)] at hz; rw [h] at hz
     simp at hz
 
 theorem exists_eval₂_eq_zero [IsSepClosed K] (f : k →+* K)
@@ -157,8 +157,7 @@ theorem algebraMap_surjective
   have h : (minpoly k x).degree = 1 :=
     degree_eq_one_of_irreducible k (minpoly.irreducible (IsSeparable.isIntegral k x)) hsep
   have : aeval x (minpoly k x) = 0 := minpoly.aeval k x
-  rw [eq_X_add_C_of_degree_eq_one h, hq, C_1, one_mul, aeval_add, aeval_X, aeval_C,
-    add_eq_zero_iff_eq_neg] at this
+  rw [eq_X_add_C_of_degree_eq_one h] at this; rw [hq] at this; rw [C_1] at this; rw [one_mul] at this; rw [aeval_add] at this; rw [aeval_X] at this; rw [aeval_C] at this; rw [add_eq_zero_iff_eq_neg] at this
   exact (RingHom.map_neg (algebraMap k K) ((minpoly k x).coeff 0)).symm ▸ this.symm
 
 end IsSepClosed

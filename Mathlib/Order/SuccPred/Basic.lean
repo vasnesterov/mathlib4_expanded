@@ -260,12 +260,12 @@ lemma succ_lt_succ_of_not_isMax (h : a < b) (hb : ¬ IsMax b) : succ a < succ b 
 
 theorem succ_lt_succ_iff_of_not_isMax (ha : ¬IsMax a) (hb : ¬IsMax b) :
     succ a < succ b ↔ a < b := by
-  rw [lt_succ_iff_of_not_isMax hb, succ_le_iff_of_not_isMax ha]
+  rw [lt_succ_iff_of_not_isMax hb]; rw [succ_le_iff_of_not_isMax ha]
 #align order.succ_lt_succ_iff_of_not_is_max Order.succ_lt_succ_iff_of_not_isMax
 
 theorem succ_le_succ_iff_of_not_isMax (ha : ¬IsMax a) (hb : ¬IsMax b) :
     succ a ≤ succ b ↔ a ≤ b := by
-  rw [succ_le_iff_of_not_isMax ha, lt_succ_iff_of_not_isMax hb]
+  rw [succ_le_iff_of_not_isMax ha]; rw [lt_succ_iff_of_not_isMax hb]
 #align order.succ_le_succ_iff_of_not_is_max Order.succ_le_succ_iff_of_not_isMax
 
 @[simp, mono]
@@ -311,19 +311,19 @@ theorem Ici_succ_of_not_isMax (ha : ¬IsMax a) : Ici (succ a) = Ioi a :=
 #align order.Ici_succ_of_not_is_max Order.Ici_succ_of_not_isMax
 
 theorem Ico_succ_right_of_not_isMax (hb : ¬IsMax b) : Ico a (succ b) = Icc a b := by
-  rw [← Ici_inter_Iio, Iio_succ_of_not_isMax hb, Ici_inter_Iic]
+  rw [← Ici_inter_Iio]; rw [Iio_succ_of_not_isMax hb]; rw [Ici_inter_Iic]
 #align order.Ico_succ_right_of_not_is_max Order.Ico_succ_right_of_not_isMax
 
 theorem Ioo_succ_right_of_not_isMax (hb : ¬IsMax b) : Ioo a (succ b) = Ioc a b := by
-  rw [← Ioi_inter_Iio, Iio_succ_of_not_isMax hb, Ioi_inter_Iic]
+  rw [← Ioi_inter_Iio]; rw [Iio_succ_of_not_isMax hb]; rw [Ioi_inter_Iic]
 #align order.Ioo_succ_right_of_not_is_max Order.Ioo_succ_right_of_not_isMax
 
 theorem Icc_succ_left_of_not_isMax (ha : ¬IsMax a) : Icc (succ a) b = Ioc a b := by
-  rw [← Ici_inter_Iic, Ici_succ_of_not_isMax ha, Ioi_inter_Iic]
+  rw [← Ici_inter_Iic]; rw [Ici_succ_of_not_isMax ha]; rw [Ioi_inter_Iic]
 #align order.Icc_succ_left_of_not_is_max Order.Icc_succ_left_of_not_isMax
 
 theorem Ico_succ_left_of_not_isMax (ha : ¬IsMax a) : Ico (succ a) b = Ioo a b := by
-  rw [← Ici_inter_Iio, Ici_succ_of_not_isMax ha, Ioi_inter_Iio]
+  rw [← Ici_inter_Iio]; rw [Ici_succ_of_not_isMax ha]; rw [Ioi_inter_Iio]
 #align order.Ico_succ_left_of_not_is_max Order.Ico_succ_left_of_not_isMax
 
 section NoMaxOrder
@@ -412,8 +412,7 @@ alias ⟨_, _root_.IsMax.succ_eq⟩ := succ_eq_iff_isMax
 
 theorem succ_eq_succ_iff_of_not_isMax (ha : ¬IsMax a) (hb : ¬IsMax b) :
     succ a = succ b ↔ a = b := by
-  rw [eq_iff_le_not_lt, eq_iff_le_not_lt, succ_le_succ_iff_of_not_isMax ha hb,
-    succ_lt_succ_iff_of_not_isMax ha hb]
+  rw [eq_iff_le_not_lt]; rw [eq_iff_le_not_lt]; rw [succ_le_succ_iff_of_not_isMax ha hb]; rw [succ_lt_succ_iff_of_not_isMax ha hb]
 #align order.succ_eq_succ_iff_of_not_is_max Order.succ_eq_succ_iff_of_not_isMax
 
 theorem le_le_succ_iff : a ≤ b ∧ b ≤ succ a ↔ b = a ∨ b = succ a := by
@@ -522,7 +521,7 @@ variable [OrderTop α]
 
 @[simp]
 theorem succ_top : succ (⊤ : α) = ⊤ := by
-  rw [succ_eq_iff_isMax, isMax_iff_eq_top]
+  rw [succ_eq_iff_isMax]; rw [isMax_iff_eq_top]
 #align order.succ_top Order.succ_top
 
 --Porting note: removing @[simp],`simp` can prove it
@@ -546,7 +545,7 @@ theorem lt_succ_bot_iff [NoMaxOrder α] : a < succ ⊥ ↔ a = ⊥ := by rw [lt_
 #align order.lt_succ_bot_iff Order.lt_succ_bot_iff
 
 theorem le_succ_bot_iff : a ≤ succ ⊥ ↔ a = ⊥ ∨ a = succ ⊥ := by
-  rw [le_succ_iff_eq_or_le, le_bot_iff, or_comm]
+  rw [le_succ_iff_eq_or_le]; rw [le_bot_iff]; rw [or_comm]
 #align order.le_succ_bot_iff Order.le_succ_bot_iff
 
 variable [Nontrivial α]
@@ -678,19 +677,19 @@ theorem Iic_pred_of_not_isMin (ha : ¬IsMin a) : Iic (pred a) = Iio a :=
 #align order.Iic_pred_of_not_is_min Order.Iic_pred_of_not_isMin
 
 theorem Ioc_pred_left_of_not_isMin (ha : ¬IsMin a) : Ioc (pred a) b = Icc a b := by
-  rw [← Ioi_inter_Iic, Ioi_pred_of_not_isMin ha, Ici_inter_Iic]
+  rw [← Ioi_inter_Iic]; rw [Ioi_pred_of_not_isMin ha]; rw [Ici_inter_Iic]
 #align order.Ioc_pred_left_of_not_is_min Order.Ioc_pred_left_of_not_isMin
 
 theorem Ioo_pred_left_of_not_isMin (ha : ¬IsMin a) : Ioo (pred a) b = Ico a b := by
-  rw [← Ioi_inter_Iio, Ioi_pred_of_not_isMin ha, Ici_inter_Iio]
+  rw [← Ioi_inter_Iio]; rw [Ioi_pred_of_not_isMin ha]; rw [Ici_inter_Iio]
 #align order.Ioo_pred_left_of_not_is_min Order.Ioo_pred_left_of_not_isMin
 
 theorem Icc_pred_right_of_not_isMin (ha : ¬IsMin b) : Icc a (pred b) = Ico a b := by
-  rw [← Ici_inter_Iic, Iic_pred_of_not_isMin ha, Ici_inter_Iio]
+  rw [← Ici_inter_Iic]; rw [Iic_pred_of_not_isMin ha]; rw [Ici_inter_Iio]
 #align order.Icc_pred_right_of_not_is_min Order.Icc_pred_right_of_not_isMin
 
 theorem Ioc_pred_right_of_not_isMin (ha : ¬IsMin b) : Ioc a (pred b) = Ioo a b := by
-  rw [← Ioi_inter_Iic, Iic_pred_of_not_isMin ha, Ioi_inter_Iio]
+  rw [← Ioi_inter_Iic]; rw [Iic_pred_of_not_isMin ha]; rw [Ioi_inter_Iio]
 #align order.Ioc_pred_right_of_not_is_min Order.Ioc_pred_right_of_not_isMin
 
 section NoMinOrder
@@ -967,18 +966,18 @@ theorem pred_succ_iterate_of_not_isMax (i : α) (n : ℕ) (hin : ¬IsMax (succ^[
     pred^[n] (succ^[n] i) = i := by
   induction' n with n hn
   · simp only [Nat.zero_eq, Function.iterate_zero, id.def]
-  rw [Nat.succ_sub_succ_eq_sub, Nat.sub_zero] at hin
+  rw [Nat.succ_sub_succ_eq_sub] at hin; rw [Nat.sub_zero] at hin
   have h_not_max : ¬IsMax (succ^[n - 1] i) := by
     cases' n with n
     · simpa using hin
-    rw [Nat.succ_sub_succ_eq_sub, Nat.sub_zero] at hn ⊢
+    rw [Nat.succ_sub_succ_eq_sub] at hn ⊢; rw [Nat.sub_zero] at hn ⊢
     have h_sub_le : succ^[n] i ≤ succ^[n.succ] i := by
       rw [Function.iterate_succ']
       exact le_succ _
     refine' fun h_max => hin fun j hj => _
     have hj_le : j ≤ succ^[n] i := h_max (h_sub_le.trans hj)
     exact hj_le.trans h_sub_le
-  rw [Function.iterate_succ, Function.iterate_succ']
+  rw [Function.iterate_succ]; rw [Function.iterate_succ']
   simp only [Function.comp_apply]
   rw [pred_succ_of_not_isMax hin]
   exact hn h_not_max
@@ -1170,7 +1169,7 @@ instance [hα : Nonempty α] : IsEmpty (PredOrder (WithTop α)) :=
     cases' h : pred (⊤ : WithTop α) with a ha
     · exact hα.elim fun a => (min_of_le_pred h.ge).not_lt <| coe_lt_top a
     · obtain ⟨c, hc⟩ := exists_gt a
-      rw [← some_lt_some, ← h] at hc
+      rw [← some_lt_some] at hc; rw [← h] at hc
       exact (le_of_pred_lt hc).not_lt (some_lt_none _)⟩
 
 end Pred
@@ -1301,7 +1300,7 @@ instance [hα : Nonempty α] : IsEmpty (SuccOrder (WithBot α)) :=
     cases' h : succ (⊥ : WithBot α) with a ha
     · exact hα.elim fun a => (max_of_succ_le h.le).not_lt <| bot_lt_coe a
     · obtain ⟨c, hc⟩ := exists_lt a
-      rw [← some_lt_some, ← h] at hc
+      rw [← some_lt_some] at hc; rw [← h] at hc
       exact (le_of_lt_succ hc).not_lt (none_lt_some _)⟩
 
 end Succ
@@ -1517,7 +1516,7 @@ instance (priority := 100) IsWellOrder.toIsPredArchimedean [h : IsWellOrder α (
     dsimp at ih
     obtain ⟨k, hk⟩ := ih (pred b) hb (le_pred_of_lt hab)
     refine' ⟨k + 1, _⟩
-    rw [iterate_add_apply, iterate_one, hk]⟩
+    rw [iterate_add_apply]; rw [iterate_one]; rw [hk]⟩
 #align is_well_order.to_is_pred_archimedean IsWellOrder.toIsPredArchimedean
 
 instance (priority := 100) IsWellOrder.toIsSuccArchimedean [h : IsWellOrder α (· > ·)]

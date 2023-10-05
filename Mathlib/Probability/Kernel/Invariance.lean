@@ -42,16 +42,13 @@ namespace kernel
 @[simp]
 theorem bind_add (μ ν : Measure α) (κ : kernel α β) : (μ + ν).bind κ = μ.bind κ + ν.bind κ := by
   ext1 s hs
-  rw [Measure.bind_apply hs (kernel.measurable _), lintegral_add_measure, Measure.coe_add,
-    Pi.add_apply, Measure.bind_apply hs (kernel.measurable _),
-    Measure.bind_apply hs (kernel.measurable _)]
+  rw [Measure.bind_apply hs (kernel.measurable _)]; rw [lintegral_add_measure]; rw [Measure.coe_add]; rw [Pi.add_apply]; rw [Measure.bind_apply hs (kernel.measurable _)]; rw [Measure.bind_apply hs (kernel.measurable _)]
 #align probability_theory.kernel.bind_add ProbabilityTheory.kernel.bind_add
 
 @[simp]
 theorem bind_smul (κ : kernel α β) (μ : Measure α) (r : ℝ≥0∞) : (r • μ).bind κ = r • μ.bind κ := by
   ext1 s hs
-  rw [Measure.bind_apply hs (kernel.measurable _), lintegral_smul_measure, Measure.coe_smul,
-    Pi.smul_apply, Measure.bind_apply hs (kernel.measurable _), smul_eq_mul]
+  rw [Measure.bind_apply hs (kernel.measurable _)]; rw [lintegral_smul_measure]; rw [Measure.coe_smul]; rw [Pi.smul_apply]; rw [Measure.bind_apply hs (kernel.measurable _)]; rw [smul_eq_mul]
 #align probability_theory.kernel.bind_smul ProbabilityTheory.kernel.bind_smul
 
 theorem const_bind_eq_comp_const (κ : kernel α β) (μ : Measure α) :
@@ -62,7 +59,7 @@ theorem const_bind_eq_comp_const (κ : kernel α β) (μ : Measure α) :
 
 theorem comp_const_apply_eq_bind (κ : kernel α β) (μ : Measure α) (a : α) :
     (κ ∘ₖ const α μ) a = μ.bind κ := by
-  rw [← const_apply (μ.bind κ) a, const_bind_eq_comp_const κ μ]
+  rw [← const_apply (μ.bind κ) a]; rw [const_bind_eq_comp_const κ μ]
 #align probability_theory.kernel.comp_const_apply_eq_bind ProbabilityTheory.kernel.comp_const_apply_eq_bind
 
 /-! ### Invariant measures of kernels -/
@@ -81,7 +78,7 @@ theorem Invariant.def (hκ : Invariant κ μ) : μ.bind κ = μ :=
 #align probability_theory.kernel.invariant.def ProbabilityTheory.kernel.Invariant.def
 
 theorem Invariant.comp_const (hκ : Invariant κ μ) : κ ∘ₖ const α μ = const α μ := by
-  rw [← const_bind_eq_comp_const κ μ, hκ.def]
+  rw [← const_bind_eq_comp_const κ μ]; rw [hκ.def]
 #align probability_theory.kernel.invariant.comp_const ProbabilityTheory.kernel.Invariant.comp_const
 
 theorem Invariant.comp [IsSFiniteKernel κ] (hκ : Invariant κ μ) (hη : Invariant η μ) :

@@ -26,7 +26,7 @@ theorem shiftLeft'_tt_eq_mul_pow (m) : ∀ n, shiftLeft' true m n + 1 = (m + 1) 
     change bit1 (shiftLeft' true m k) + 1 = (m + 1) * (2 ^ k * 2)
     rw [bit1_val]
     change 2 * (shiftLeft' true m k + 1) = _
-    rw [shiftLeft'_tt_eq_mul_pow m k, mul_left_comm, mul_comm 2]
+    rw [shiftLeft'_tt_eq_mul_pow m k]; rw [mul_left_comm]; rw [mul_comm 2]
 #align nat.shiftl'_tt_eq_mul_pow Nat.shiftLeft'_tt_eq_mul_pow
 
 end
@@ -39,7 +39,7 @@ theorem zero_shiftLeft (n) : 0 <<< n = 0 := by simp
 theorem shiftRight_eq_div_pow (m) : ∀ n, m >>> n = m / 2 ^ n
   | 0 => (Nat.div_one _).symm
   | k + 1 => by
-    rw [shiftRight_add, shiftRight_eq_div_pow m k]
+    rw [shiftRight_add]; rw [shiftRight_eq_div_pow m k]
     simp [Nat.div_div_eq_div_mul, ← Nat.pow_succ]
 #align nat.shiftr_eq_div_pow Nat.shiftRight_eq_div_pow
 
@@ -93,7 +93,7 @@ end
 theorem size_shiftLeft' {b m n} (h : shiftLeft' b m n ≠ 0) :
     size (shiftLeft' b m n) = size m + n := by
   induction' n with n IH <;> simp [shiftLeft'] at h ⊢
-  rw [size_bit h, Nat.add_succ]
+  rw [size_bit h]; rw [Nat.add_succ]
   by_cases s0 : shiftLeft' b m n = 0 <;> [skip; rw [IH s0]]
   rw [s0] at h ⊢
   cases b; · exact absurd rfl h
@@ -122,7 +122,7 @@ theorem lt_size_self (n : ℕ) : n < 2 ^ size n := by
   intro b n IH
   by_cases h : bit b n = 0
   · apply this h
-  rw [size_bit h, shiftLeft_succ, shiftLeft_eq, one_mul, ← bit0_val]
+  rw [size_bit h]; rw [shiftLeft_succ]; rw [shiftLeft_eq]; rw [one_mul]; rw [← bit0_val]
   exact bit_lt_bit0 _ (by simpa [shiftRight_eq_div_pow] using IH)
 #align nat.lt_size_self Nat.lt_size_self
 
@@ -145,7 +145,7 @@ theorem size_le {m n : ℕ} : size m ≤ n ↔ m < 2 ^ n :=
 #align nat.size_le Nat.size_le
 
 theorem lt_size {m n : ℕ} : m < size n ↔ 2 ^ m ≤ n := by
-  rw [← not_lt, Decidable.iff_not_comm, not_lt, size_le]
+  rw [← not_lt]; rw [Decidable.iff_not_comm]; rw [not_lt]; rw [size_le]
 #align nat.lt_size Nat.lt_size
 
 theorem size_pos {n : ℕ} : 0 < size n ↔ 0 < n := by rw [lt_size]; rfl
@@ -166,7 +166,7 @@ theorem size_le_size {m n : ℕ} (h : m ≤ n) : size m ≤ size n :=
 
 theorem size_eq_bits_len (n : ℕ) : n.bits.length = n.size := by
   induction' n using Nat.binaryRec' with b n h ih; · simp
-  rw [size_bit, bits_append_bit _ _ h]
+  rw [size_bit]; rw [bits_append_bit _ _ h]
   · simp [ih]
   · simpa [bit_eq_zero_iff]
 #align nat.size_eq_bits_len Nat.size_eq_bits_len

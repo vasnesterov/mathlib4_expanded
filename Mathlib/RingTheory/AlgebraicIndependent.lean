@@ -96,7 +96,7 @@ theorem algebraicIndependent_empty_type_iff [IsEmpty ι] :
   have : aeval x = (Algebra.ofId R A).comp (@isEmptyAlgEquiv R ι _ _).toAlgHom := by
     ext i
     exact IsEmpty.elim' ‹IsEmpty ι› i
-  rw [AlgebraicIndependent, this, ← Injective.of_comp_iff' _ (@isEmptyAlgEquiv R ι _ _).bijective]
+  rw [AlgebraicIndependent]; rw [this]; rw [← Injective.of_comp_iff' _ (@isEmptyAlgEquiv R ι _ _).bijective]
   rfl
 #align algebraic_independent_empty_type_iff algebraicIndependent_empty_type_iff
 
@@ -160,7 +160,7 @@ theorem map' {f : A →ₐ[R] A'} (hf_inj : Injective f) : AlgebraicIndependent 
 theorem of_comp (f : A →ₐ[R] A') (hfv : AlgebraicIndependent R (f ∘ x)) :
     AlgebraicIndependent R x := by
   have : aeval (f ∘ x) = f.comp (aeval x) := by ext; simp
-  rw [AlgebraicIndependent, this, AlgHom.coe_comp] at hfv
+  rw [AlgebraicIndependent] at hfv; rw [this] at hfv; rw [AlgHom.coe_comp] at hfv
   exact hfv.of_comp
 #align algebraic_independent.of_comp AlgebraicIndependent.of_comp
 
@@ -217,7 +217,7 @@ theorem AlgebraicIndependent.restrictScalars {K : Type*} [CommRing K] [Algebra R
       (aeval x : MvPolynomial ι R →ₐ[R] A).toRingHom := by
     ext <;> simp [algebraMap_eq_smul_one]
   show Injective (aeval x).toRingHom
-  rw [← this, RingHom.coe_comp]
+  rw [← this]; rw [RingHom.coe_comp]
   exact Injective.comp ai (MvPolynomial.map_injective _ hinj)
 #align algebraic_independent.restrict_scalars AlgebraicIndependent.restrictScalars
 
@@ -437,9 +437,7 @@ theorem AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_apply
 theorem AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_C
     (hx : AlgebraicIndependent R x) (r) :
     hx.mvPolynomialOptionEquivPolynomialAdjoin (C r) = Polynomial.C (algebraMap _ _ r) := by
-  rw [AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_apply, aeval_C,
-    IsScalarTower.algebraMap_apply R (MvPolynomial ι R), ← Polynomial.C_eq_algebraMap,
-    Polynomial.map_C, RingHom.coe_coe, AlgEquiv.commutes]
+  rw [AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_apply]; rw [aeval_C]; rw [IsScalarTower.algebraMap_apply R (MvPolynomial ι R)]; rw [← Polynomial.C_eq_algebraMap]; rw [Polynomial.map_C]; rw [RingHom.coe_coe]; rw [AlgEquiv.commutes]
 set_option linter.uppercaseLean3 false in
 #align algebraic_independent.mv_polynomial_option_equiv_polynomial_adjoin_C AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_C
 
@@ -447,8 +445,7 @@ set_option linter.uppercaseLean3 false in
 theorem AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_X_none
     (hx : AlgebraicIndependent R x) :
     hx.mvPolynomialOptionEquivPolynomialAdjoin (X none) = Polynomial.X := by
-  rw [AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_apply, aeval_X, Option.elim,
-    Polynomial.map_X]
+  rw [AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_apply]; rw [aeval_X]; rw [Option.elim]; rw [Polynomial.map_X]
 set_option linter.uppercaseLean3 false in
 #align algebraic_independent.mv_polynomial_option_equiv_polynomial_adjoin_X_none AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_X_none
 
@@ -457,8 +454,7 @@ theorem AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_X_some
     (hx : AlgebraicIndependent R x) (i) :
     hx.mvPolynomialOptionEquivPolynomialAdjoin (X (some i)) =
       Polynomial.C (hx.aevalEquiv (X i)) := by
-  rw [AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_apply, aeval_X, Option.elim,
-    Polynomial.map_C, RingHom.coe_coe]
+  rw [AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_apply]; rw [aeval_X]; rw [Option.elim]; rw [Polynomial.map_C]; rw [RingHom.coe_coe]
 set_option linter.uppercaseLean3 false in
 #align algebraic_independent.mv_polynomial_option_equiv_polynomial_adjoin_X_some AlgebraicIndependent.mvPolynomialOptionEquivPolynomialAdjoin_X_some
 
@@ -474,8 +470,7 @@ theorem AlgebraicIndependent.aeval_comp_mvPolynomialOptionEquivPolynomialAdjoin
     simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom,
       AlgHom.coe_toRingHom, AlgHom.coe_toRingHom]
   · intro r
-    rw [hx.mvPolynomialOptionEquivPolynomialAdjoin_C, aeval_C, Polynomial.aeval_C,
-      IsScalarTower.algebraMap_apply R (adjoin R (range x)) A]
+    rw [hx.mvPolynomialOptionEquivPolynomialAdjoin_C]; rw [aeval_C]; rw [Polynomial.aeval_C]; rw [IsScalarTower.algebraMap_apply R (adjoin R (range x)) A]
   · rintro (⟨⟩ | ⟨i⟩)
     · rw [hx.mvPolynomialOptionEquivPolynomialAdjoin_X_none, aeval_X, Polynomial.aeval_X,
         Option.elim]
@@ -486,9 +481,8 @@ theorem AlgebraicIndependent.aeval_comp_mvPolynomialOptionEquivPolynomialAdjoin
 theorem AlgebraicIndependent.option_iff (hx : AlgebraicIndependent R x) (a : A) :
     (AlgebraicIndependent R fun o : Option ι => o.elim a x) ↔
       ¬IsAlgebraic (adjoin R (Set.range x)) a := by
-  rw [algebraicIndependent_iff_injective_aeval, isAlgebraic_iff_not_injective, Classical.not_not, ←
-    AlgHom.coe_toRingHom, ← hx.aeval_comp_mvPolynomialOptionEquivPolynomialAdjoin,
-    RingHom.coe_comp]
+  rw [algebraicIndependent_iff_injective_aeval]; rw [isAlgebraic_iff_not_injective]; rw [Classical.not_not]; rw [←
+    AlgHom.coe_toRingHom]; rw [← hx.aeval_comp_mvPolynomialOptionEquivPolynomialAdjoin]; rw [RingHom.coe_comp]
   exact Injective.of_comp_iff' (Polynomial.aeval a)
     (mvPolynomialOptionEquivPolynomialAdjoin hx).bijective
 #align algebraic_independent.option_iff AlgebraicIndependent.option_iff
@@ -523,7 +517,7 @@ theorem AlgebraicIndependent.isTranscendenceBasis_iff {ι : Type w} {R : Type u}
   fconstructor
   · rintro p κ w i' j rfl
     have p := p.2 (range w) i'.coe_range (range_comp_subset_range _ _)
-    rw [range_comp, ← @image_univ _ _ w] at p
+    rw [range_comp] at p; rw [← @image_univ _ _ w] at p
     exact range_iff_surjective.mp (image_injective.mpr i'.injective p)
   · intro p
     use i
@@ -531,7 +525,7 @@ theorem AlgebraicIndependent.isTranscendenceBasis_iff {ι : Type w} {R : Type u}
     specialize p w ((↑) : w → A) i' (fun i => ⟨x i, range_subset_iff.mp h i⟩) (by ext; simp)
     have q := congr_arg (fun s => ((↑) : w → A) '' s) p.range_eq
     dsimp at q
-    rw [← image_univ, image_image] at q
+    rw [← image_univ] at q; rw [image_image] at q
     simpa using q
 #align algebraic_independent.is_transcendence_basis_iff AlgebraicIndependent.isTranscendenceBasis_iff
 

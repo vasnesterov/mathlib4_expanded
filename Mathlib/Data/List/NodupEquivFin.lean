@@ -119,22 +119,22 @@ theorem sublist_of_orderEmbedding_get?_eq {l l' : List α} (f : ℕ ↪o ℕ)
   induction' l with hd tl IH generalizing l' f
   · simp
   have : some hd = _ := hf 0
-  rw [eq_comm, List.get?_eq_some] at this
+  rw [eq_comm] at this; rw [List.get?_eq_some] at this
   obtain ⟨w, h⟩ := this
   let f' : ℕ ↪o ℕ :=
     OrderEmbedding.ofMapLEIff (fun i => f (i + 1) - (f 0 + 1)) fun a b => by
       dsimp only
-      rw [tsub_le_tsub_iff_right, OrderEmbedding.le_iff_le, Nat.succ_le_succ_iff]
-      rw [Nat.succ_le_iff, OrderEmbedding.lt_iff_lt]
+      rw [tsub_le_tsub_iff_right]; rw [OrderEmbedding.le_iff_le]; rw [Nat.succ_le_succ_iff]
+      rw [Nat.succ_le_iff]; rw [OrderEmbedding.lt_iff_lt]
       exact b.succ_pos
   have : ∀ ix, tl.get? ix = (l'.drop (f 0 + 1)).get? (f' ix) := by
     intro ix
-    rw [List.get?_drop, OrderEmbedding.coe_ofMapLEIff, add_tsub_cancel_of_le, ←hf, List.get?]
-    rw [Nat.succ_le_iff, OrderEmbedding.lt_iff_lt]
+    rw [List.get?_drop]; rw [OrderEmbedding.coe_ofMapLEIff]; rw [add_tsub_cancel_of_le]; rw [←hf]; rw [List.get?]
+    rw [Nat.succ_le_iff]; rw [OrderEmbedding.lt_iff_lt]
     exact ix.succ_pos
-  rw [← List.take_append_drop (f 0 + 1) l', ← List.singleton_append]
+  rw [← List.take_append_drop (f 0 + 1) l']; rw [← List.singleton_append]
   apply List.Sublist.append _ (IH _ this)
-  rw [List.singleton_sublist, ← h, l'.get_take _ (Nat.lt_succ_self _)]
+  rw [List.singleton_sublist]; rw [← h]; rw [l'.get_take _ (Nat.lt_succ_self _)]
   apply List.get_mem
 #align list.sublist_of_order_embedding_nth_eq List.sublist_of_orderEmbedding_get?_eq
 
@@ -176,7 +176,7 @@ theorem sublist_iff_exists_fin_orderEmbedding_get_eq {l l' : List α} :
     have h : ∀ {i : ℕ} (_ : i < l.length), f i < l'.length := by
       intro i hi
       specialize hf i
-      rw [get?_eq_get hi, eq_comm, get?_eq_some] at hf
+      rw [get?_eq_get hi] at hf; rw [eq_comm] at hf; rw [get?_eq_some] at hf
       obtain ⟨h, -⟩ := hf
       exact h
     refine' ⟨OrderEmbedding.ofMapLEIff (fun ix => ⟨f ix, h ix.is_lt⟩) _, _⟩
@@ -214,8 +214,7 @@ theorem duplicate_iff_exists_distinct_get {l : List α} {x : α} :
       ∃ (n m : Fin l.length) (_ : n < m),
         x = l.get n ∧ x = l.get m := by
   classical
-    rw [duplicate_iff_two_le_count, le_count_iff_replicate_sublist,
-      sublist_iff_exists_fin_orderEmbedding_get_eq]
+    rw [duplicate_iff_two_le_count]; rw [le_count_iff_replicate_sublist]; rw [sublist_iff_exists_fin_orderEmbedding_get_eq]
     constructor
     · rintro ⟨f, hf⟩
       refine' ⟨f ⟨0, by simp⟩, f ⟨1, by simp⟩,

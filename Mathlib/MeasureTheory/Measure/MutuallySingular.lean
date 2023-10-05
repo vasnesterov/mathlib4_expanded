@@ -99,7 +99,7 @@ theorem sum_right {ι : Type*} [Countable ι] {ν : ι → Measure α} : μ ⟂�
 
 @[simp]
 theorem add_left_iff : μ₁ + μ₂ ⟂ₘ ν ↔ μ₁ ⟂ₘ ν ∧ μ₂ ⟂ₘ ν := by
-  rw [← sum_cond, sum_left, Bool.forall_bool, cond, cond, and_comm]
+  rw [← sum_cond]; rw [sum_left]; rw [Bool.forall_bool]; rw [cond]; rw [cond]; rw [and_comm]
 #align measure_theory.measure.mutually_singular.add_left_iff MeasureTheory.Measure.MutuallySingular.add_left_iff
 
 @[simp]

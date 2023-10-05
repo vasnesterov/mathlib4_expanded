@@ -48,13 +48,13 @@ theorem zero_pow_eq (n : ℕ) : (0 : M) ^ n = if n = 0 then 1 else 0 := by
 #align zero_pow_eq zero_pow_eq
 
 theorem pow_eq_zero_of_le {x : M} {n m : ℕ} (hn : n ≤ m) (hx : x ^ n = 0) : x ^ m = 0 := by
-  rw [← tsub_add_cancel_of_le hn, pow_add, hx, mul_zero]
+  rw [← tsub_add_cancel_of_le hn]; rw [pow_add]; rw [hx]; rw [mul_zero]
 #align pow_eq_zero_of_le pow_eq_zero_of_le
 
 theorem pow_eq_zero [NoZeroDivisors M] {x : M} {n : ℕ} (H : x ^ n = 0) : x = 0 := by
   induction' n with n ih
   · rw [pow_zero] at H
-    rw [← mul_one x, H, mul_zero]
+    rw [← mul_one x]; rw [H]; rw [mul_zero]
   · rw [pow_succ] at H
     exact Or.casesOn (mul_eq_zero.1 H) id ih
 #align pow_eq_zero pow_eq_zero
@@ -105,8 +105,7 @@ theorem zero_pow_eq_zero [Nontrivial M] {n : ℕ} : (0 : M) ^ n = 0 ↔ 0 < n :=
 theorem Ring.inverse_pow (r : M) : ∀ n : ℕ, Ring.inverse r ^ n = Ring.inverse (r ^ n)
   | 0 => by rw [pow_zero, pow_zero, Ring.inverse_one]
   | n + 1 => by
-    rw [pow_succ, pow_succ', Ring.mul_inverse_rev' ((Commute.refl r).pow_left n),
-      Ring.inverse_pow r n]
+    rw [pow_succ]; rw [pow_succ']; rw [Ring.mul_inverse_rev' ((Commute.refl r).pow_left n)]; rw [Ring.inverse_pow r n]
 #align ring.inverse_pow Ring.inverse_pow
 
 end MonoidWithZero
@@ -139,7 +138,7 @@ theorem pow_dvd_pow_iff [CancelCommMonoidWithZero R] {x : R} {n m : ℕ} (h0 : x
     intro hmn
     apply h1
     have : x ^ m * x ∣ x ^ m * 1 := by
-      rw [← pow_succ', mul_one]
+      rw [← pow_succ']; rw [mul_one]
       exact (pow_dvd_pow _ (Nat.succ_le_of_lt hmn)).trans h
     rwa [mul_dvd_mul_iff_left, ← isUnit_iff_dvd_one] at this
     apply pow_ne_zero m h0
@@ -206,7 +205,7 @@ section
 set_option linter.deprecated false
 
 theorem neg_pow_bit0 (a : R) (n : ℕ) : (-a) ^ bit0 n = a ^ bit0 n := by
-  rw [pow_bit0', neg_mul_neg, pow_bit0']
+  rw [pow_bit0']; rw [neg_mul_neg]; rw [pow_bit0']
 #align neg_pow_bit0 neg_pow_bit0
 
 @[simp]
@@ -236,7 +235,7 @@ section Ring
 variable [Ring R] {a b : R}
 
 protected theorem Commute.sq_sub_sq (h : Commute a b) : a ^ 2 - b ^ 2 = (a + b) * (a - b) := by
-  rw [sq, sq, h.mul_self_sub_mul_self_eq]
+  rw [sq]; rw [sq]; rw [h.mul_self_sub_mul_self_eq]
 #align commute.sq_sub_sq Commute.sq_sub_sq
 
 @[simp]
@@ -253,12 +252,12 @@ variable [NoZeroDivisors R]
 
 protected theorem Commute.sq_eq_sq_iff_eq_or_eq_neg (h : Commute a b) :
     a ^ 2 = b ^ 2 ↔ a = b ∨ a = -b := by
-  rw [← sub_eq_zero, h.sq_sub_sq, mul_eq_zero, add_eq_zero_iff_eq_neg, sub_eq_zero, or_comm]
+  rw [← sub_eq_zero]; rw [h.sq_sub_sq]; rw [mul_eq_zero]; rw [add_eq_zero_iff_eq_neg]; rw [sub_eq_zero]; rw [or_comm]
 #align commute.sq_eq_sq_iff_eq_or_eq_neg Commute.sq_eq_sq_iff_eq_or_eq_neg
 
 @[simp]
 theorem sq_eq_one_iff : a ^ 2 = 1 ↔ a = 1 ∨ a = -1 := by
-  rw [← (Commute.one_right a).sq_eq_sq_iff_eq_or_eq_neg, one_pow]
+  rw [← (Commute.one_right a).sq_eq_sq_iff_eq_or_eq_neg]; rw [one_pow]
 #align sq_eq_one_iff sq_eq_one_iff
 
 theorem sq_ne_one_iff : a ^ 2 ≠ 1 ↔ a ≠ 1 ∧ a ≠ -1 :=
@@ -279,14 +278,14 @@ alias pow_two_sub_pow_two := sq_sub_sq
 #align pow_two_sub_pow_two pow_two_sub_pow_two
 
 theorem sub_sq (a b : R) : (a - b) ^ 2 = a ^ 2 - 2 * a * b + b ^ 2 := by
-  rw [sub_eq_add_neg, add_sq, neg_sq, mul_neg, ← sub_eq_add_neg]
+  rw [sub_eq_add_neg]; rw [add_sq]; rw [neg_sq]; rw [mul_neg]; rw [← sub_eq_add_neg]
 #align sub_sq sub_sq
 
 alias sub_pow_two := sub_sq
 #align sub_pow_two sub_pow_two
 
 theorem sub_sq' (a b : R) : (a - b) ^ 2 = a ^ 2 + b ^ 2 - 2 * a * b := by
-  rw [sub_eq_add_neg, add_sq', neg_sq, mul_neg, ← sub_eq_add_neg]
+  rw [sub_eq_add_neg]; rw [add_sq']; rw [neg_sq]; rw [mul_neg]; rw [← sub_eq_add_neg]
 #align sub_sq' sub_sq'
 
 variable [NoZeroDivisors R] {a b : R}

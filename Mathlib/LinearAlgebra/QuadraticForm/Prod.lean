@@ -97,10 +97,10 @@ theorem anisotropic_of_prod {R} [OrderedRing R] [Module R M₁] [Module R M₂]
   constructor
   · intro x hx
     refine' (h x 0 _).1
-    rw [hx, zero_add, map_zero]
+    rw [hx]; rw [zero_add]; rw [map_zero]
   · intro x hx
     refine' (h 0 x _).2
-    rw [hx, add_zero, map_zero]
+    rw [hx]; rw [add_zero]; rw [map_zero]
 #align quadratic_form.anisotropic_of_prod QuadraticForm.anisotropic_of_prod
 
 theorem nonneg_prod_iff {R} [OrderedRing R] [Module R M₁] [Module R M₂] {Q₁ : QuadraticForm R M₁}
@@ -125,7 +125,7 @@ theorem posDef_prod_iff {R} [OrderedRing R] [Module R M₁] [Module R M₂] {Q�
   · rintro ⟨⟨hle₁, ha₁⟩, ⟨hle₂, ha₂⟩⟩
     refine' ⟨⟨hle₁, hle₂⟩, _⟩
     rintro ⟨x₁, x₂⟩ (hx : Q₁ x₁ + Q₂ x₂ = 0)
-    rw [add_eq_zero_iff' (hle₁ x₁) (hle₂ x₂), ha₁.eq_zero_iff, ha₂.eq_zero_iff] at hx
+    rw [add_eq_zero_iff' (hle₁ x₁) (hle₂ x₂)] at hx; rw [ha₁.eq_zero_iff] at hx; rw [ha₂.eq_zero_iff] at hx
     rwa [Prod.mk_eq_zero]
 #align quadratic_form.pos_def_prod_iff QuadraticForm.posDef_prod_iff
 
@@ -177,7 +177,7 @@ theorem anisotropic_of_pi [Fintype ι] {R} [OrderedRing R] [∀ i, Module R (M�
   apply Finset.sum_eq_zero
   intro j _
   by_cases hji : j = i
-  · subst hji; rw [Pi.single_eq_same, hx]
+  · subst hji; rw [Pi.single_eq_same]; rw [hx]
   · rw [Pi.single_eq_of_ne hji, map_zero]
 #align quadratic_form.anisotropic_of_pi QuadraticForm.anisotropic_of_pi
 
@@ -189,8 +189,8 @@ theorem nonneg_pi_iff [Fintype ι] {R} [OrderedRing R] [∀ i, Module R (Mᵢ i)
   · intro h i x
     classical
     convert h (Pi.single i x) using 1
-    rw [Finset.sum_eq_single_of_mem i (Finset.mem_univ _) fun j _ hji => ?_, Pi.single_eq_same]
-    rw [Pi.single_eq_of_ne hji, map_zero]
+    rw [Finset.sum_eq_single_of_mem i (Finset.mem_univ _) fun j _ hji => ?_]; rw [Pi.single_eq_same]
+    rw [Pi.single_eq_of_ne hji]; rw [map_zero]
   · rintro h x
     exact Finset.sum_nonneg fun i _ => h i (x i)
 #align quadratic_form.nonneg_pi_iff QuadraticForm.nonneg_pi_iff
@@ -204,7 +204,7 @@ theorem posDef_pi_iff [Fintype ι] {R} [OrderedRing R] [∀ i, Module R (Mᵢ i)
     exact ⟨hle i, anisotropic_of_pi ha i⟩
   · intro h
     refine' ⟨fun i => (h i).1, fun x hx => funext fun i => (h i).2 _ _⟩
-    rw [pi_apply, Finset.sum_eq_zero_iff_of_nonneg fun j _ => ?_] at hx
+    rw [pi_apply] at hx; rw [Finset.sum_eq_zero_iff_of_nonneg fun j _ => ?_] at hx
     · exact hx _ (Finset.mem_univ _)
     exact (h j).1 _
 #align quadratic_form.pos_def_pi_iff QuadraticForm.posDef_pi_iff

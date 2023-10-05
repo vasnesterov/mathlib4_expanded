@@ -114,7 +114,7 @@ theorem cutExpand_fibration (r : α → α → Prop) :
   -- This is https://github.com/leanprover/std4/issues/62
   obtain ⟨ha, hb⟩ := add_singleton_eq_iff.1 he
   rw [hb]
-  rw [add_assoc, mem_add] at ha
+  rw [add_assoc] at ha; rw [mem_add] at ha
   obtain h | h := ha
   · refine' ⟨(s₁.erase a + t, s₂), GameAdd.fst ⟨t, a, hr, _⟩, _⟩
     · rw [add_comm, ← add_assoc, singleton_add, cons_erase h]
@@ -145,7 +145,7 @@ theorem _root_.Acc.cutExpand [IsIrrefl α r] {a : α} (hacc : Acc r a) : Acc (Cu
   simp only [cutExpand_iff, mem_singleton]
   rintro ⟨t, a, hr, rfl, rfl⟩
   refine' acc_of_singleton fun a' ↦ _
-  rw [erase_singleton, zero_add]
+  rw [erase_singleton]; rw [zero_add]
   exact ih a' ∘ hr a'
 #align acc.cut_expand Acc.cutExpand
 

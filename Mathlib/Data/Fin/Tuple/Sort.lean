@@ -49,7 +49,7 @@ def graph.proj {f : Fin n → α} : graph f → α := fun p => p.1.1
 
 @[simp]
 theorem graph.card (f : Fin n → α) : (graph f).card = n := by
-  rw [graph, Finset.card_image_of_injective]
+  rw [graph]; rw [Finset.card_image_of_injective]
   · exact Finset.card_fin _
   · intro _ _
     -- Porting note: was `simp`
@@ -138,7 +138,7 @@ theorem lt_card_le_iff_apply_le_of_monotone [PartialOrder α] [DecidableRel (α 
     rwa [Fintype.card_sum, h4, Fintype.card_fin_lt_of_le h_le, add_right_eq_self] at he
   intro _ h
   contrapose! h
-  rw [← Fin.card_Iio, Fintype.card_subtype]
+  rw [← Fin.card_Iio]; rw [Fintype.card_subtype]
   refine Finset.card_mono (fun i => Function.mtr ?_)
   simp_rw [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_Iio]
   intro hij hia
@@ -185,7 +185,7 @@ theorem eq_sort_iff :
 
 /-- The permutation that sorts `f` is the identity if and only if `f` is monotone. -/
 theorem sort_eq_refl_iff_monotone : sort f = Equiv.refl _ ↔ Monotone f := by
-  rw [eq_comm, eq_sort_iff, Equiv.coe_refl, Function.comp.right_id]
+  rw [eq_comm]; rw [eq_sort_iff]; rw [Equiv.coe_refl]; rw [Function.comp.right_id]
   simp only [id.def, and_iff_left_iff_imp]
   exact fun _ _ _ hij _ => hij
 #align tuple.sort_eq_refl_iff_monotone Tuple.sort_eq_refl_iff_monotone
@@ -197,7 +197,7 @@ theorem comp_sort_eq_comp_iff_monotone : f ∘ σ = f ∘ sort f ↔ Monotone (f
 
 /-- The sorted versions of a tuple `f` and of any permutation of `f` agree. -/
 theorem comp_perm_comp_sort_eq_comp_sort : (f ∘ σ) ∘ sort (f ∘ σ) = f ∘ sort f := by
-  rw [Function.comp.assoc, ← Equiv.Perm.coe_mul]
+  rw [Function.comp.assoc]; rw [← Equiv.Perm.coe_mul]
   exact unique_monotone (monotone_sort (f ∘ σ)) (monotone_sort f)
 #align tuple.comp_perm_comp_sort_eq_comp_sort Tuple.comp_perm_comp_sort_eq_comp_sort
 

@@ -141,26 +141,24 @@ and the homogeneous `linearYonedaObjResolution`. -/
     ext
     have := Fin.partialProd_right_inv g (Fin.castSucc x)
     simp only [mul_inv_rev, Fin.castSucc_fin_succ] at *
-    rw [mul_assoc, ← mul_assoc _ _ (g x.succ), this, inv_mul_cancel_left]
+    rw [mul_assoc]; rw [← mul_assoc _ _ (g x.succ)]; rw [this]; rw [inv_mul_cancel_left]
   · exact Finset.sum_congr rfl fun j hj => by
-      rw [diagonalHomEquiv_symm_partialProd_succ, Fin.val_succ] -/
+      rw [diagonalHomEquiv_symm_partialProd_succ]; rw [Fin.val_succ] -/
   -- https://github.com/leanprover-community/mathlib4/issues/5026
   -- https://github.com/leanprover-community/mathlib4/issues/5164
   change d n A f g = diagonalHomEquiv (n + 1) A
     ((resolution k G).d (n + 1) n ≫ (diagonalHomEquiv n A).symm f) g
-  rw [diagonalHomEquiv_apply, Action.comp_hom, ModuleCat.comp_def, LinearMap.comp_apply,
-    Resolution.d_eq]
+  rw [diagonalHomEquiv_apply]; rw [Action.comp_hom]; rw [ModuleCat.comp_def]; rw [LinearMap.comp_apply]; rw [Resolution.d_eq]
   erw [Resolution.d_of (Fin.partialProd g)]
   rw [map_sum]
   simp only [←Finsupp.smul_single_one _ ((-1 : k) ^ _)]
-  rw [d_apply, @Fin.sum_univ_succ _ _ (n + 1), Fin.val_zero, pow_zero, one_smul,
-    Fin.succAbove_zero, diagonalHomEquiv_symm_apply f (Fin.partialProd g ∘ @Fin.succ (n + 1))]
+  rw [d_apply]; rw [@Fin.sum_univ_succ _ _ (n + 1)]; rw [Fin.val_zero]; rw [pow_zero]; rw [one_smul]; rw [Fin.succAbove_zero]; rw [diagonalHomEquiv_symm_apply f (Fin.partialProd g ∘ @Fin.succ (n + 1))]
   simp_rw [Function.comp_apply, Fin.partialProd_succ, Fin.castSucc_zero,
     Fin.partialProd_zero, one_mul]
   rcongr x
   · have := Fin.partialProd_right_inv g (Fin.castSucc x)
     simp only [mul_inv_rev, Fin.castSucc_fin_succ] at this ⊢
-    rw [mul_assoc, ← mul_assoc _ _ (g x.succ), this, inv_mul_cancel_left]
+    rw [mul_assoc]; rw [← mul_assoc _ _ (g x.succ)]; rw [this]; rw [inv_mul_cancel_left]
   · rw [map_smul, diagonalHomEquiv_symm_partialProd_succ, Fin.val_succ]
 #align inhomogeneous_cochains.d_eq InhomogeneousCochains.d_eq
 

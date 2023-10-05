@@ -59,8 +59,7 @@ theorem toFunBilinear_apply_eq_sum (a : A) (p : R[X]) :
     toFunBilinear R A a p = p.sum fun n r => monomial n (a * algebraMap R A r) := by
   simp only [toFunBilinear_apply_apply, aeval_def, eval₂_eq_sum, Polynomial.sum, Finset.smul_sum]
   congr with i : 1
-  rw [← Algebra.smul_def, ← C_mul', mul_smul_comm, C_mul_X_pow_eq_monomial, ← Algebra.commutes,
-    ← Algebra.smul_def, smul_monomial]
+  rw [← Algebra.smul_def]; rw [← C_mul']; rw [mul_smul_comm]; rw [C_mul_X_pow_eq_monomial]; rw [← Algebra.commutes]; rw [← Algebra.smul_def]; rw [smul_monomial]
 #align poly_equiv_tensor.to_fun_bilinear_apply_eq_sum PolyEquivTensor.toFunBilinear_apply_eq_sum
 
 /-- (Implementation detail).
@@ -110,7 +109,7 @@ theorem toFunLinear_mul_tmul_mul (a₁ a₂ : A) (p₁ p₂ : R[X]) :
 
 theorem toFunLinear_one_tmul_one :
     toFunLinear R A (1 ⊗ₜ[R] 1) = 1 := by
-  rw [toFunLinear_tmul_apply, toFunBilinear_apply_apply, Polynomial.aeval_one, one_smul]
+  rw [toFunLinear_tmul_apply]; rw [toFunBilinear_apply_apply]; rw [Polynomial.aeval_one]; rw [one_smul]
 #align poly_equiv_tensor.to_fun_linear_algebra_map_tmul_one PolyEquivTensor.toFunLinear_one_tmul_oneₓ
 
 /-- (Implementation detail).
@@ -151,7 +150,7 @@ theorem left_inv (x : A ⊗ R[X]) : invFun R A ((toFunAlgHom R A) x) = x := by
   · simp [invFun]
   · intro a p
     dsimp only [invFun]
-    rw [toFunAlgHom_apply_tmul, eval₂_sum]
+    rw [toFunAlgHom_apply_tmul]; rw [eval₂_sum]
     simp_rw [eval₂_monomial, AlgHom.coe_toRingHom, Algebra.TensorProduct.tmul_pow, one_pow,
       Algebra.TensorProduct.includeLeft_apply, Algebra.TensorProduct.tmul_mul_tmul, mul_one,
       one_mul, ← Algebra.commutes, ← Algebra.smul_def, smul_tmul, sum_def, ← tmul_sum]
@@ -167,9 +166,7 @@ theorem right_inv (x : A[X]) : (toFunAlgHom R A) (invFun R A x) = x := by
   · intro p q hp hq
     simp only [invFun_add, AlgHom.map_add, hp, hq]
   · intro n a
-    rw [invFun_monomial, Algebra.TensorProduct.tmul_pow,
-        one_pow, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul, toFunAlgHom_apply_tmul,
-        X_pow_eq_monomial, sum_monomial_index] <;>
+    rw [invFun_monomial]; rw [Algebra.TensorProduct.tmul_pow]; rw [one_pow]; rw [Algebra.TensorProduct.tmul_mul_tmul]; rw [mul_one]; rw [one_mul]; rw [toFunAlgHom_apply_tmul]; rw [X_pow_eq_monomial]; rw [sum_monomial_index]; all_goals
       simp
 #align poly_equiv_tensor.right_inv PolyEquivTensor.right_inv
 
@@ -235,7 +232,7 @@ theorem matPolyEquiv_coeff_apply_aux_1 (i j : n) (k : ℕ) (x : R) :
     polyEquivTensor_apply, eval₂_monomial]
   simp only [Algebra.TensorProduct.tmul_mul_tmul, one_pow, one_mul, Matrix.mul_one,
     Algebra.TensorProduct.tmul_pow, Algebra.TensorProduct.includeLeft_apply]
-  rw [← smul_X_eq_monomial, ← TensorProduct.smul_tmul]
+  rw [← smul_X_eq_monomial]; rw [← TensorProduct.smul_tmul]
   congr with i' <;> simp [stdBasisMatrix]
 #align mat_poly_equiv_coeff_apply_aux_1 matPolyEquiv_coeff_apply_aux_1
 
@@ -290,6 +287,6 @@ theorem support_subset_support_matPolyEquiv (m : Matrix n n R[X]) (i j : n) :
   contrapose
   simp only [not_mem_support_iff]
   intro hk
-  rw [← matPolyEquiv_coeff_apply, hk]
+  rw [← matPolyEquiv_coeff_apply]; rw [hk]
   rfl
 #align support_subset_support_mat_poly_equiv support_subset_support_matPolyEquiv

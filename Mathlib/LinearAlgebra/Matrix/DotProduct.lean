@@ -40,7 +40,7 @@ variable [Semiring R] [Fintype n]
 @[simp]
 theorem dotProduct_stdBasis_eq_mul [DecidableEq n] (v : n → R) (c : R) (i : n) :
     dotProduct v (LinearMap.stdBasis R (fun _ => R) i c) = v i * c := by
-  rw [dotProduct, Finset.sum_eq_single i, LinearMap.stdBasis_same]
+  rw [dotProduct]; rw [Finset.sum_eq_single i]; rw [LinearMap.stdBasis_same]
   exact fun _ _ hb => by rw [LinearMap.stdBasis_ne _ _ _ _ hb, mul_zero]
   exact fun hi => False.elim (hi <| Finset.mem_univ _)
 #align matrix.dot_product_std_basis_eq_mul Matrix.dotProduct_stdBasis_eq_mul
@@ -48,7 +48,7 @@ theorem dotProduct_stdBasis_eq_mul [DecidableEq n] (v : n → R) (c : R) (i : n)
 -- @[simp] -- Porting note: simp can prove this
 theorem dotProduct_stdBasis_one [DecidableEq n] (v : n → R) (i : n) :
     dotProduct v (LinearMap.stdBasis R (fun _ => R) i 1) = v i := by
-  rw [dotProduct_stdBasis_eq_mul, mul_one]
+  rw [dotProduct_stdBasis_eq_mul]; rw [mul_one]
 #align matrix.dot_product_std_basis_one Matrix.dotProduct_stdBasis_one
 
 theorem dotProduct_eq (v w : n → R) (h : ∀ u, dotProduct v u = dotProduct w u) : v = w := by
@@ -123,8 +123,7 @@ lemma self_mul_conjTranspose_mul_eq_zero (A : Matrix m n R) (B : Matrix m p R) :
 
 lemma mul_self_mul_conjTranspose_eq_zero (A : Matrix m n R) (B : Matrix p m R) :
     B * (A * Aᴴ) = 0 ↔ B * A = 0 := by
-  rw [← conjTranspose_eq_zero, conjTranspose_mul, conjTranspose_mul, conjTranspose_conjTranspose,
-    self_mul_conjTranspose_mul_eq_zero, ← conjTranspose_mul, conjTranspose_eq_zero]
+  rw [← conjTranspose_eq_zero]; rw [conjTranspose_mul]; rw [conjTranspose_mul]; rw [conjTranspose_conjTranspose]; rw [self_mul_conjTranspose_mul_eq_zero]; rw [← conjTranspose_mul]; rw [conjTranspose_eq_zero]
 
 lemma mul_conjTranspose_mul_self_eq_zero (A : Matrix m n R) (B : Matrix p n R) :
     B * (Aᴴ * A) = 0 ↔ B * Aᴴ = 0 := by

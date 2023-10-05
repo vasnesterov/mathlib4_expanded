@@ -48,7 +48,7 @@ def LinearMap.clmOfExistsBoundedImage (f : E →ₗ[𝕜] F)
   ⟨f, by
     -- It suffices to show that `f` is continuous at `0`.
     refine' continuous_of_continuousAt_zero f _
-    rw [continuousAt_def, f.map_zero]
+    rw [continuousAt_def]; rw [f.map_zero]
     intro U hU
     -- Continuity means that `U ∈ 𝓝 0` implies that `f ⁻¹' U ∈ 𝓝 0`.
     rcases h with ⟨V, hV, h⟩
@@ -120,8 +120,7 @@ theorem LinearMap.continuousAt_zero_of_locally_bounded (f : E →ₛₗ[σ] F)
       rw [← hy]
       refine' (bE1 (n + 1)).2.smul_mem _ hx
       have h' : 0 < (n : ℝ) + 1 := n.cast_add_one_pos
-      rw [norm_inv, ← Nat.cast_one, ← Nat.cast_add, IsROrC.norm_natCast, Nat.cast_add, Nat.cast_one,
-        inv_le h' zero_lt_one]
+      rw [norm_inv]; rw [← Nat.cast_one]; rw [← Nat.cast_add]; rw [IsROrC.norm_natCast]; rw [Nat.cast_add]; rw [Nat.cast_one]; rw [inv_le h' zero_lt_one]
       simp
     intro n hn
     -- The converse direction follows from continuity of the scalar multiplication
@@ -132,7 +131,7 @@ theorem LinearMap.continuousAt_zero_of_locally_bounded (f : E →ₛₗ[σ] F)
     rcases hcont (b n) (bE1 n).1 with ⟨i, _, hi⟩
     refine' ⟨i, trivial, fun x hx => ⟨(n : 𝕜) • x, hi hx, _⟩⟩
     simp [← mul_smul, hn]
-  rw [ContinuousAt, map_zero, bE'.tendsto_iff (nhds_basis_balanced 𝕜' F)] at h
+  rw [ContinuousAt] at h; rw [map_zero] at h; rw [bE'.tendsto_iff (nhds_basis_balanced 𝕜' F)] at h
   push_neg at h
   rcases h with ⟨V, ⟨hV, -⟩, h⟩
   simp only [id.def, forall_true_left] at h
@@ -147,7 +146,7 @@ theorem LinearMap.continuousAt_zero_of_locally_bounded (f : E →ₛₗ[σ] F)
       refine' mem_of_mem_nhds (bE.1.mem_of_mem <| by triv)
     rcases hu n h with ⟨y, hy, hu1⟩
     convert hy
-    rw [← hu1, ← mul_smul]
+    rw [← hu1]; rw [← mul_smul]
     simp only [h, mul_inv_cancel, Ne.def, Nat.cast_eq_zero, not_false_iff, one_smul]
   -- The image `(fun n ↦ n • u n)` is von Neumann bounded:
   have h_bounded : IsVonNBounded 𝕜 (Set.range fun n : ℕ => (n : 𝕜) • u n) :=
@@ -160,7 +159,7 @@ theorem LinearMap.continuousAt_zero_of_locally_bounded (f : E →ₛₗ[σ] F)
     rw [IsROrC.norm_natCast]
     exact hn.le
   have hn' : 0 < ‖(n : 𝕜')‖ := lt_of_lt_of_le hr h1
-  rw [norm_pos_iff, Ne.def, Nat.cast_eq_zero] at hn'
+  rw [norm_pos_iff] at hn'; rw [Ne.def] at hn'; rw [Nat.cast_eq_zero] at hn'
   have h'' : f (u n) ∈ V := by
     simp only [Set.image_subset_iff] at h'
     specialize h' (n : 𝕜') h1 (Set.mem_range_self n)

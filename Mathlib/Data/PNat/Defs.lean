@@ -289,8 +289,7 @@ instance Nat.canLiftPNat : CanLift ℕ ℕ+ (↑) (fun n => 0 < n) :=
 instance Int.canLiftPNat : CanLift ℤ ℕ+ (↑) ((0 < ·)) :=
   ⟨fun n hn =>
     ⟨Nat.toPNat' (Int.natAbs n), by
-      rw [Nat.toPNat'_coe, if_pos (Int.natAbs_pos.2 hn.ne'),
-        Int.natAbs_of_nonneg hn.le]⟩⟩
+      rw [Nat.toPNat'_coe]; rw [if_pos (Int.natAbs_pos.2 hn.ne')]; rw [Int.natAbs_of_nonneg hn.le]⟩⟩
 #align int.can_lift_pnat Int.canLiftPNat
 
 end CanLift

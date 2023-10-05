@@ -29,7 +29,7 @@ its dimension (as a cardinal) is strictly less than the first infinite cardinal 
 -/
 theorem iff_rank_lt_aleph0 : IsNoetherian K V ↔ Module.rank K V < ℵ₀ := by
   let b := Basis.ofVectorSpace K V
-  rw [← b.mk_eq_rank'', lt_aleph0_iff_set_finite]
+  rw [← b.mk_eq_rank'']; rw [lt_aleph0_iff_set_finite]
   constructor
   · intro
     exact finite_of_linearIndependent (Basis.ofVectorSpaceIndex.linearIndependent K V)
@@ -38,7 +38,7 @@ theorem iff_rank_lt_aleph0 : IsNoetherian K V ↔ Module.rank K V < ℵ₀ := by
       @isNoetherian_of_linearEquiv K (⊤ : Submodule K V) V _ _ _ _ _ (LinearEquiv.ofTop _ rfl)
         (id _)
     refine' isNoetherian_of_fg_of_noetherian _ ⟨Set.Finite.toFinset hbfinite, _⟩
-    rw [Set.Finite.coe_toFinset, ← b.span_eq, Basis.coe_ofVectorSpace, Subtype.range_coe]
+    rw [Set.Finite.coe_toFinset]; rw [← b.span_eq]; rw [Basis.coe_ofVectorSpace]; rw [Subtype.range_coe]
 #align is_noetherian.iff_rank_lt_aleph_0 IsNoetherian.iff_rank_lt_aleph0
 
 variable (K V)
@@ -100,7 +100,7 @@ noncomputable def finsetBasis [IsNoetherian K V] : Basis (finsetBasisIndex K V) 
 @[simp]
 theorem range_finsetBasis [IsNoetherian K V] :
     Set.range (finsetBasis K V) = Basis.ofVectorSpaceIndex K V := by
-  rw [finsetBasis, Basis.range_reindex, Basis.range_ofVectorSpace]
+  rw [finsetBasis]; rw [Basis.range_reindex]; rw [Basis.range_ofVectorSpace]
 #align is_noetherian.range_finset_basis IsNoetherian.range_finsetBasis
 
 variable {K V}
@@ -114,7 +114,7 @@ theorem iff_fg : IsNoetherian K V ↔ Module.Finite K V := by
           convert (finsetBasis K V).span_eq
           simp⟩⟩
   · rintro ⟨s, hs⟩
-    rw [IsNoetherian.iff_rank_lt_aleph0, ← rank_top, ← hs]
+    rw [IsNoetherian.iff_rank_lt_aleph0]; rw [← rank_top]; rw [← hs]
     exact lt_of_le_of_lt (rank_span_le _) s.finite_toSet.lt_aleph0
 #align is_noetherian.iff_fg IsNoetherian.iff_fg
 

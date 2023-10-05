@@ -137,7 +137,7 @@ theorem toMatrix_dualTensorHom {m : Type*} {n : Type*} [Fintype m] [Fintype n] [
   ext i' j'
   by_cases hij : i = i' ∧ j = j' <;>
     simp [LinearMap.toMatrix_apply, Finsupp.single_eq_pi_single, hij]
-  rw [and_iff_not_or_not, Classical.not_not] at hij
+  rw [and_iff_not_or_not] at hij; rw [Classical.not_not] at hij
   cases' hij with hij hij <;> simp [hij]
 #align to_matrix_dual_tensor_hom toMatrix_dualTensorHom
 
@@ -190,14 +190,13 @@ theorem dualTensorHomEquivOfBasis_toLinearMap :
 @[simp]
 theorem dualTensorHomEquivOfBasis_symm_cancel_left (x : Module.Dual R M ⊗[R] N) :
     (dualTensorHomEquivOfBasis (N := N) b).symm (dualTensorHom R M N x) = x := by
-  rw [← dualTensorHomEquivOfBasis_apply b,
-    LinearEquiv.symm_apply_apply <| dualTensorHomEquivOfBasis (N := N) b]
+  rw [← dualTensorHomEquivOfBasis_apply b]; rw [LinearEquiv.symm_apply_apply <| dualTensorHomEquivOfBasis (N := N) b]
 #align dual_tensor_hom_equiv_of_basis_symm_cancel_left dualTensorHomEquivOfBasis_symm_cancel_left
 
 @[simp]
 theorem dualTensorHomEquivOfBasis_symm_cancel_right (x : M →ₗ[R] N) :
     dualTensorHom R M N ((dualTensorHomEquivOfBasis (N := N) b).symm x) = x := by
-  rw [← dualTensorHomEquivOfBasis_apply b, LinearEquiv.apply_symm_apply]
+  rw [← dualTensorHomEquivOfBasis_apply b]; rw [LinearEquiv.apply_symm_apply]
 #align dual_tensor_hom_equiv_of_basis_symm_cancel_right dualTensorHomEquivOfBasis_symm_cancel_right
 
 variable (R M N P Q)
@@ -285,13 +284,13 @@ variable {R M N P Q}
 @[simp]
 theorem lTensorHomEquivHomLTensor_apply (x : P ⊗[R] (M →ₗ[R] Q)) :
     lTensorHomEquivHomLTensor R M P Q x = lTensorHomToHomLTensor R M P Q x := by
-  rw [← LinearEquiv.coe_toLinearMap, lTensorHomEquivHomLTensor_toLinearMap]
+  rw [← LinearEquiv.coe_toLinearMap]; rw [lTensorHomEquivHomLTensor_toLinearMap]
 #align ltensor_hom_equiv_hom_ltensor_apply lTensorHomEquivHomLTensor_apply
 
 @[simp]
 theorem rTensorHomEquivHomRTensor_apply (x : (M →ₗ[R] P) ⊗[R] Q) :
     rTensorHomEquivHomRTensor R M P Q x = rTensorHomToHomRTensor R M P Q x := by
-  rw [← LinearEquiv.coe_toLinearMap, rTensorHomEquivHomRTensor_toLinearMap]
+  rw [← LinearEquiv.coe_toLinearMap]; rw [rTensorHomEquivHomRTensor_toLinearMap]
 #align rtensor_hom_equiv_hom_rtensor_apply rTensorHomEquivHomRTensor_apply
 
 variable (R M N P Q)
@@ -322,7 +321,7 @@ variable {R M N P Q}
 @[simp]
 theorem homTensorHomEquiv_apply (x : (M →ₗ[R] P) ⊗[R] (N →ₗ[R] Q)) :
     homTensorHomEquiv R M N P Q x = homTensorHomMap R M N P Q x := by
-  rw [← LinearEquiv.coe_toLinearMap, homTensorHomEquiv_toLinearMap]
+  rw [← LinearEquiv.coe_toLinearMap]; rw [homTensorHomEquiv_toLinearMap]
 #align hom_tensor_hom_equiv_apply homTensorHomEquiv_apply
 
 end CommRing

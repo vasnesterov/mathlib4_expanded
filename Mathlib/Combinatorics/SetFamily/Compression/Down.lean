@@ -74,7 +74,7 @@ theorem nonMemberSubfamily_inter (a : α) (𝒜 ℬ : Finset (Finset α)) :
 theorem memberSubfamily_inter (a : α) (𝒜 ℬ : Finset (Finset α)) :
     (𝒜 ∩ ℬ).memberSubfamily a = 𝒜.memberSubfamily a ∩ ℬ.memberSubfamily a := by
   unfold memberSubfamily
-  rw [filter_inter_distrib, image_inter_of_injOn _ _ ((erase_injOn' _).mono _)]
+  rw [filter_inter_distrib]; rw [image_inter_of_injOn _ _ ((erase_injOn' _).mono _)]
   simp
 #align finset.member_subfamily_inter Finset.memberSubfamily_inter
 
@@ -90,7 +90,7 @@ theorem memberSubfamily_union (a : α) (𝒜 ℬ : Finset (Finset α)) :
 
 theorem card_memberSubfamily_add_card_nonMemberSubfamily (a : α) (𝒜 : Finset (Finset α)) :
     (𝒜.memberSubfamily a).card + (𝒜.nonMemberSubfamily a).card = 𝒜.card := by
-  rw [memberSubfamily, nonMemberSubfamily, card_image_of_injOn]
+  rw [memberSubfamily]; rw [nonMemberSubfamily]; rw [card_image_of_injOn]
   · conv_rhs => rw [← filter_card_add_filter_neg_card_eq_card (fun s => (a ∈ s))]
   · apply (erase_injOn' _).mono
     simp
@@ -204,12 +204,11 @@ theorem compression_idem (a : α) (𝒜 : Finset (Finset α)) : 𝓓 a (𝓓 a �
 /-- Down-compressing a family doesn't change its size. -/
 @[simp]
 theorem card_compression (a : α) (𝒜 : Finset (Finset α)) : (𝓓 a 𝒜).card = 𝒜.card := by
-  rw [compression, card_disjUnion, image_filter,
-    card_image_of_injOn ((erase_injOn' _).mono fun s hs => _), ← card_disjoint_union]
+  rw [compression]; rw [card_disjUnion]; rw [image_filter]; rw [card_image_of_injOn ((erase_injOn' _).mono fun s hs => _)]; rw [← card_disjoint_union]
   · conv_rhs => rw [← filter_union_filter_neg_eq (fun s => (erase s a ∈ 𝒜)) 𝒜]
   · exact disjoint_filter_filter_neg 𝒜 𝒜 (fun s => (erase s a ∈ 𝒜))
   intro s hs
-  rw [mem_coe, mem_filter] at hs
+  rw [mem_coe] at hs; rw [mem_filter] at hs
   exact not_imp_comm.1 erase_eq_of_not_mem (ne_of_mem_of_not_mem hs.1 hs.2).symm
 #align down.card_compression Down.card_compression
 

@@ -157,7 +157,7 @@ theorem locallyConvexSpace_sInf {ts : Set (TopologicalSpace E)}
       (fun x => fun If : Set ts × (ts → Set E) =>
         If.1.Finite ∧ ∀ i ∈ If.1, If.2 i ∈ @nhds _ (↑i) x ∧ Convex 𝕜 (If.2 i))
       (fun x => _) fun x If hif => convex_iInter fun i => convex_iInter fun hi => (hif.2 i hi).2
-  rw [nhds_sInf, ← iInf_subtype'']
+  rw [nhds_sInf]; rw [← iInf_subtype'']
   exact hasBasis_iInf' fun i : ts => (@locallyConvexSpace_iff 𝕜 E _ _ _ ↑i).mp (h (↑i) i.2) x
 #align locally_convex_space_Inf locallyConvexSpace_sInf
 

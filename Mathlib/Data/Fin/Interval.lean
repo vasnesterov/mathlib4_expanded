@@ -103,55 +103,55 @@ theorem map_subtype_embedding_uIcc : (uIcc a b).map valEmbedding = uIcc ↑a ↑
 
 @[simp]
 theorem card_Icc : (Icc a b).card = b + 1 - a := by
-  rw [← Nat.card_Icc, ← map_valEmbedding_Icc, card_map]
+  rw [← Nat.card_Icc]; rw [← map_valEmbedding_Icc]; rw [card_map]
 #align fin.card_Icc Fin.card_Icc
 
 @[simp]
 theorem card_Ico : (Ico a b).card = b - a := by
-  rw [← Nat.card_Ico, ← map_valEmbedding_Ico, card_map]
+  rw [← Nat.card_Ico]; rw [← map_valEmbedding_Ico]; rw [card_map]
 #align fin.card_Ico Fin.card_Ico
 
 @[simp]
 theorem card_Ioc : (Ioc a b).card = b - a := by
-  rw [← Nat.card_Ioc, ← map_valEmbedding_Ioc, card_map]
+  rw [← Nat.card_Ioc]; rw [← map_valEmbedding_Ioc]; rw [card_map]
 #align fin.card_Ioc Fin.card_Ioc
 
 @[simp]
 theorem card_Ioo : (Ioo a b).card = b - a - 1 := by
-  rw [← Nat.card_Ioo, ← map_valEmbedding_Ioo, card_map]
+  rw [← Nat.card_Ioo]; rw [← map_valEmbedding_Ioo]; rw [card_map]
 #align fin.card_Ioo Fin.card_Ioo
 
 @[simp]
 theorem card_uIcc : (uIcc a b).card = (b - a : ℤ).natAbs + 1 := by
-  rw [← Nat.card_uIcc, ← map_subtype_embedding_uIcc, card_map]
+  rw [← Nat.card_uIcc]; rw [← map_subtype_embedding_uIcc]; rw [card_map]
 #align fin.card_uIcc Fin.card_uIcc
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIcc : Fintype.card (Set.Icc a b) = b + 1 - a := by
-  rw [← card_Icc, Fintype.card_ofFinset]
+  rw [← card_Icc]; rw [Fintype.card_ofFinset]
 #align fin.card_fintype_Icc Fin.card_fintypeIcc
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIco : Fintype.card (Set.Ico a b) = b - a := by
-  rw [← card_Ico, Fintype.card_ofFinset]
+  rw [← card_Ico]; rw [Fintype.card_ofFinset]
 #align fin.card_fintype_Ico Fin.card_fintypeIco
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIoc : Fintype.card (Set.Ioc a b) = b - a := by
-  rw [← card_Ioc, Fintype.card_ofFinset]
+  rw [← card_Ioc]; rw [Fintype.card_ofFinset]
 #align fin.card_fintype_Ioc Fin.card_fintypeIoc
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIoo : Fintype.card (Set.Ioo a b) = b - a - 1 := by
-  rw [← card_Ioo, Fintype.card_ofFinset]
+  rw [← card_Ioo]; rw [Fintype.card_ofFinset]
 #align fin.card_fintype_Ioo Fin.card_fintypeIoo
 
 theorem card_fintype_uIcc : Fintype.card (Set.uIcc a b) = (b - a : ℤ).natAbs + 1 := by
-  rw [← card_uIcc, Fintype.card_ofFinset]
+  rw [← card_uIcc]; rw [Fintype.card_ofFinset]
 #align fin.card_fintype_uIcc Fin.card_fintype_uIcc
 
 theorem Ici_eq_finset_subtype : Ici a = (Icc (a : ℕ) n).fin n := by
@@ -219,46 +219,46 @@ theorem card_Ici : (Ici a).card = n - a := by
   cases n with
   | zero => exact Fin.elim0 a
   | succ =>
-    rw [← card_map, map_valEmbedding_Ici, Nat.card_Icc, Nat.succ_sub_one]
+    rw [← card_map]; rw [map_valEmbedding_Ici]; rw [Nat.card_Icc]; rw [Nat.succ_sub_one]
 #align fin.card_Ici Fin.card_Ici
 
 @[simp]
 theorem card_Ioi : (Ioi a).card = n - 1 - a := by
-  rw [← card_map, map_valEmbedding_Ioi, Nat.card_Ioc]
+  rw [← card_map]; rw [map_valEmbedding_Ioi]; rw [Nat.card_Ioc]
 #align fin.card_Ioi Fin.card_Ioi
 
 @[simp]
 theorem card_Iic : (Iic b).card = b + 1 := by
-  rw [← Nat.card_Iic b, ← map_valEmbedding_Iic, card_map]
+  rw [← Nat.card_Iic b]; rw [← map_valEmbedding_Iic]; rw [card_map]
 #align fin.card_Iic Fin.card_Iic
 
 @[simp]
 theorem card_Iio : (Iio b).card = b := by
-  rw [← Nat.card_Iio b, ← map_valEmbedding_Iio, card_map]
+  rw [← Nat.card_Iio b]; rw [← map_valEmbedding_Iio]; rw [card_map]
 #align fin.card_Iio Fin.card_Iio
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIci : Fintype.card (Set.Ici a) = n - a := by
-  rw [Fintype.card_ofFinset, card_Ici]
+  rw [Fintype.card_ofFinset]; rw [card_Ici]
 #align fin.card_fintype_Ici Fin.card_fintypeIci
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIoi : Fintype.card (Set.Ioi a) = n - 1 - a := by
-  rw [Fintype.card_ofFinset, card_Ioi]
+  rw [Fintype.card_ofFinset]; rw [card_Ioi]
 #align fin.card_fintype_Ioi Fin.card_fintypeIoi
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIic : Fintype.card (Set.Iic b) = b + 1 := by
-  rw [Fintype.card_ofFinset, card_Iic]
+  rw [Fintype.card_ofFinset]; rw [card_Iic]
 #align fin.card_fintype_Iic Fin.card_fintypeIic
 
 -- Porting note: simp can prove this
 -- @[simp]
 theorem card_fintypeIio : Fintype.card (Set.Iio b) = b := by
-  rw [Fintype.card_ofFinset, card_Iio]
+  rw [Fintype.card_ofFinset]; rw [card_Iio]
 #align fin.card_fintype_Iio Fin.card_fintypeIio
 
 end Fin

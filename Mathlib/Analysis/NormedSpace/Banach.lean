@@ -108,14 +108,14 @@ theorem exists_approx_preimage_norm_le (surj : Surjective f) :
       rcases Metric.mem_closure_iff.1 (H this) _ δpos with ⟨z₁, z₁im, h₁⟩
       rcases(mem_image _ _ _).1 z₁im with ⟨x₁, hx₁, xz₁⟩
       rw [← xz₁] at h₁
-      rw [mem_ball, dist_eq_norm, sub_zero] at hx₁
+      rw [mem_ball] at hx₁; rw [dist_eq_norm] at hx₁; rw [sub_zero] at hx₁
       have : a ∈ ball a ε := by
         simp
         exact εpos
       rcases Metric.mem_closure_iff.1 (H this) _ δpos with ⟨z₂, z₂im, h₂⟩
       rcases(mem_image _ _ _).1 z₂im with ⟨x₂, hx₂, xz₂⟩
       rw [← xz₂] at h₂
-      rw [mem_ball, dist_eq_norm, sub_zero] at hx₂
+      rw [mem_ball] at hx₂; rw [dist_eq_norm] at hx₂; rw [sub_zero] at hx₂
       let x := x₁ - x₂
       have I : ‖f x - d • y‖ ≤ 2 * δ :=
         calc
@@ -145,7 +145,7 @@ theorem exists_approx_preimage_norm_le (surj : Surjective f) :
             simp only
             ring
           _ = ‖y‖ / 2 := by
-            rw [inv_mul_cancel, one_mul]
+            rw [inv_mul_cancel]; rw [one_mul]
             simp [norm_eq_zero, hd]
           _ = 1 / 2 * ‖y‖ := by ring
       rw [← dist_eq_norm] at J
@@ -179,7 +179,7 @@ theorem exists_preimage_norm_le (surj : Surjective f) :
   let h y := y - f (g y)
   have hle : ∀ y, ‖h y‖ ≤ 1 / 2 * ‖y‖ := by
     intro y
-    rw [← dist_eq_norm, dist_comm]
+    rw [← dist_eq_norm]; rw [dist_comm]
     exact (hg y).1
   refine' ⟨2 * C + 1, by linarith, fun y => _⟩
   have hnle : ∀ n : ℕ, ‖h^[n] y‖ ≤ (1 / 2) ^ n * ‖y‖ := by
@@ -188,7 +188,7 @@ theorem exists_preimage_norm_le (surj : Surjective f) :
     · simp only [one_div, Nat.zero_eq, one_mul, iterate_zero_apply, pow_zero, le_rfl]
     · rw [iterate_succ']
       apply le_trans (hle _) _
-      rw [pow_succ, mul_assoc]
+      rw [pow_succ]; rw [mul_assoc]
       apply mul_le_mul_of_nonneg_left IH
       norm_num
   let u n := g (h^[n] y)
@@ -420,8 +420,7 @@ theorem range_eq_map_coprodSubtypeLEquivOfIsCompl (f : E →L[𝕜] F) {G : Subm
     LinearMap.range f =
       ((⊤ : Submodule 𝕜 E).prod (⊥ : Submodule 𝕜 G)).map
         (f.coprodSubtypeLEquivOfIsCompl h hker : E × G →ₗ[𝕜] F) := by
-  rw [coprodSubtypeLEquivOfIsCompl, ContinuousLinearEquiv.coe_ofBijective,
-    coe_coprod, LinearMap.coprod_map_prod, Submodule.map_bot, sup_bot_eq, Submodule.map_top]
+  rw [coprodSubtypeLEquivOfIsCompl]; rw [ContinuousLinearEquiv.coe_ofBijective]; rw [coe_coprod]; rw [LinearMap.coprod_map_prod]; rw [Submodule.map_bot]; rw [sup_bot_eq]; rw [Submodule.map_top]
   rfl
 set_option linter.uppercaseLean3 false in
 #align continuous_linear_map.range_eq_map_coprod_subtypeL_equiv_of_is_compl ContinuousLinearMap.range_eq_map_coprodSubtypeLEquivOfIsCompl

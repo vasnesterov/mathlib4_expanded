@@ -56,7 +56,7 @@ def relation : Setoid (finiteCoproduct X) where
     · rintro ⟨a,x⟩ ⟨b,y⟩ ⟨Z,z,fst,snd,w,h1,h2⟩
       exact ⟨Z,z,snd,fst,w.symm,h2,h1⟩
     · rintro ⟨a,x⟩ ⟨b,y⟩ ⟨z,c⟩ ⟨Z,z,fstZ,sndZ,hZ,hZ1,hZ2⟩ ⟨W,w,fstW,sndW,hW,hW1,hW2⟩
-      refine ⟨pullback sndZ fstW, ⟨⟨z,w⟩, by dsimp; rw [hZ2, hW1]⟩,
+      refine ⟨pullback sndZ fstW, ⟨⟨z,w⟩, by dsimp; rw [hZ2]; rw [hW1]⟩,
         pullback.fst _ _ ≫ fstZ, pullback.snd _ _ ≫ sndW, ?_, hZ1, hW2⟩
       dsimp at *
       simp only [Category.assoc, hZ, ← hW]
@@ -73,7 +73,7 @@ def ιFun : Quotient (relation π) → B :=
   Quotient.lift (fun ⟨a,x⟩ => π a x) <| by
     rintro ⟨a,x⟩ ⟨b,y⟩ ⟨Z,z,fst,snd,h,hx,hy⟩
     dsimp at *
-    rw [← hx, ← hy]
+    rw [← hx]; rw [← hy]
     apply_fun (fun t => t z) at h
     exact h
 
@@ -130,7 +130,7 @@ def structAux : EffectiveEpiFamilyStruct X (π' π) where
   desc := fun {W} e h => {
     toFun := Quotient.lift (fun ⟨a,x⟩ => e a x) <| by
       rintro ⟨a,x⟩ ⟨b,y⟩ ⟨Z,z,fst,snd,hh,hx,hy⟩; dsimp at *
-      rw [← hx, ← hy]
+      rw [← hx]; rw [← hy]
       specialize h _ _ fst snd ?_
       · ext z
         apply ιFun_injective

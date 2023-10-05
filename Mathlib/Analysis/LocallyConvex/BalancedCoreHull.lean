@@ -177,7 +177,7 @@ theorem balancedCoreAux_balanced (h0 : (0 : E) ∈ balancedCoreAux 𝕜 s) :
   rw [mem_balancedCoreAux_iff] at hy ⊢
   intro r hr
   have h'' : 1 ≤ ‖a⁻¹ • r‖ := by
-    rw [norm_smul, norm_inv]
+    rw [norm_smul]; rw [norm_inv]
     exact one_le_mul_of_one_le_of_one_le (one_le_inv (norm_pos_iff.mpr h) ha) hr
   have h' := hy (a⁻¹ • r) h''
   rwa [smul_assoc, mem_inv_smul_set_iff₀ h] at h'
@@ -255,7 +255,7 @@ theorem balancedCore_mem_nhds_zero (hU : U ∈ 𝓝 (0 : E)) : balancedCore 𝕜
   rw [smul_smul]
   rintro _ ⟨z, hz, rfl⟩
   refine' hrVU _ _ _ hz
-  rw [norm_mul, ← one_mul r]
+  rw [norm_mul]; rw [← one_mul r]
   exact mul_lt_mul' ha hyr (norm_nonneg y) one_pos
 #align balanced_core_mem_nhds_zero balancedCore_mem_nhds_zero
 

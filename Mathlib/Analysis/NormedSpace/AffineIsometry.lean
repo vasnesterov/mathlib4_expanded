@@ -140,7 +140,7 @@ theorem map_vsub (p1 p2 : P) : f.linearIsometry (p1 -ᵥ p2) = f p1 -ᵥ f p2 :=
 
 @[simp]
 theorem dist_map (x y : P) : dist (f x) (f y) = dist x y := by
-  rw [dist_eq_norm_vsub V₂, dist_eq_norm_vsub V, ← map_vsub, f.linearIsometry.norm_map]
+  rw [dist_eq_norm_vsub V₂]; rw [dist_eq_norm_vsub V]; rw [← map_vsub]; rw [f.linearIsometry.norm_map]
 #align affine_isometry.dist_map AffineIsometry.dist_map
 
 -- Porting note: added `(dist_map)` to simp
@@ -799,7 +799,7 @@ theorem pointReflection_symm (x : P) : (pointReflection 𝕜 x).symm = pointRefl
 
 @[simp]
 theorem dist_pointReflection_fixed (x y : P) : dist (pointReflection 𝕜 x y) x = dist y x := by
-  rw [← (pointReflection 𝕜 x).dist_map y x, pointReflection_self]
+  rw [← (pointReflection 𝕜 x).dist_map y x]; rw [pointReflection_self]
 #align affine_isometry_equiv.dist_point_reflection_fixed AffineIsometryEquiv.dist_pointReflection_fixed
 
 set_option linter.deprecated false in
@@ -810,7 +810,7 @@ theorem dist_pointReflection_self' (x y : P) : dist (pointReflection 𝕜 x y) y
 set_option linter.deprecated false in
 theorem dist_pointReflection_self (x y : P) :
     dist (pointReflection 𝕜 x y) y = ‖(2 : 𝕜)‖ * dist x y := by
-  rw [dist_pointReflection_self', ← two_smul' 𝕜 (x -ᵥ y), norm_smul, ← dist_eq_norm_vsub V]
+  rw [dist_pointReflection_self']; rw [← two_smul' 𝕜 (x -ᵥ y)]; rw [norm_smul]; rw [← dist_eq_norm_vsub V]
 #align affine_isometry_equiv.dist_point_reflection_self AffineIsometryEquiv.dist_pointReflection_self
 
 theorem pointReflection_fixed_iff [Invertible (2 : 𝕜)] {x y : P} :

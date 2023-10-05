@@ -144,9 +144,9 @@ variable {X} {Y}
 def map (f : X ⟶ Y) : obj X ⟶ obj Y :=
   ChainComplex.ofHom _ _ _ _ _ _ (fun n => f.app (op [n])) fun n => by
     dsimp
-    rw [comp_sum, sum_comp]
+    rw [comp_sum]; rw [sum_comp]
     refine' Finset.sum_congr rfl fun _ _ => _
-    rw [comp_zsmul, zsmul_comp]
+    rw [comp_zsmul]; rw [zsmul_comp]
     congr 1
     symm
     apply f.naturality
@@ -232,9 +232,7 @@ def ε [Limits.HasZeroObject C] :
     refine' (ChainComplex.toSingle₀Equiv _ _).symm _
     refine' ⟨X.hom.app (op [0]), _⟩
     dsimp
-    rw [alternatingFaceMapComplex_obj_d, objD, Fin.sum_univ_two, Fin.val_zero,
-      pow_zero, one_smul, Fin.val_one, pow_one, neg_smul, one_smul, add_comp,
-      neg_comp, SimplicialObject.δ_naturality, SimplicialObject.δ_naturality]
+    rw [alternatingFaceMapComplex_obj_d]; rw [objD]; rw [Fin.sum_univ_two]; rw [Fin.val_zero]; rw [pow_zero]; rw [one_smul]; rw [Fin.val_one]; rw [pow_one]; rw [neg_smul]; rw [one_smul]; rw [add_comp]; rw [neg_comp]; rw [SimplicialObject.δ_naturality]; rw [SimplicialObject.δ_naturality]
     apply add_right_neg
   naturality _ _ f := ChainComplex.to_single₀_ext _ _ (by exact congr_app f.w _)
 #align algebraic_topology.alternating_face_map_complex.ε AlgebraicTopology.AlternatingFaceMapComplex.ε
@@ -259,14 +257,12 @@ def inclusionOfMooreComplexMap (X : SimplicialObject A) :
            zero on the normalized_Moore_complex -/
   intro i
   simp only [AlternatingFaceMapComplex.objD, comp_sum]
-  rw [Fin.sum_univ_succ, Fintype.sum_eq_zero]
+  rw [Fin.sum_univ_succ]; rw [Fintype.sum_eq_zero]
   swap
   · intro j
-    rw [NormalizedMooreComplex.objX, comp_zsmul,
-      ← factorThru_arrow _ _ (finset_inf_arrow_factors Finset.univ _ _ (Finset.mem_univ j)),
-      Category.assoc, kernelSubobject_arrow_comp, comp_zero, smul_zero]
+    rw [NormalizedMooreComplex.objX]; rw [comp_zsmul]; rw [← factorThru_arrow _ _ (finset_inf_arrow_factors Finset.univ _ _ (Finset.mem_univ j))]; rw [Category.assoc]; rw [kernelSubobject_arrow_comp]; rw [comp_zero]; rw [smul_zero]
   -- finally, we study the remaining term which is induced by X.δ 0
-  rw [add_zero, Fin.val_zero, pow_zero, one_zsmul]
+  rw [add_zero]; rw [Fin.val_zero]; rw [pow_zero]; rw [one_zsmul]
   dsimp [NormalizedMooreComplex.objD, NormalizedMooreComplex.objX]
   cases i <;> simp
 set_option linter.uppercaseLean3 false in
@@ -325,9 +321,9 @@ variable {X} {Y}
 def map (f : X ⟶ Y) : obj X ⟶ obj Y :=
   CochainComplex.ofHom _ _ _ _ _ _ (fun n => f.app [n]) fun n => by
     dsimp
-    rw [comp_sum, sum_comp]
+    rw [comp_sum]; rw [sum_comp]
     refine' Finset.sum_congr rfl fun x _ => _
-    rw [comp_zsmul, zsmul_comp]
+    rw [comp_zsmul]; rw [zsmul_comp]
     congr 1
     symm
     apply f.naturality

@@ -65,7 +65,7 @@ def toNat : WType Natβ → ℕ
 
 theorem leftInverse_nat : Function.LeftInverse ofNat toNat
   | WType.mk Natα.zero f => by
-    rw [toNat, ofNat]
+    rw [toNat]; rw [ofNat]
     congr
     ext x
     cases x

@@ -81,8 +81,7 @@ theorem lineMap_strict_mono_endpoints (ha : a < a') (hb : b < b') (h₀ : 0 ≤ 
 
 theorem lineMap_lt_lineMap_iff_of_lt (h : r < r') : lineMap a b r < lineMap a b r' ↔ a < b := by
   simp only [lineMap_apply_module]
-  rw [← lt_sub_iff_add_lt, add_sub_assoc, ← sub_lt_iff_lt_add', ← sub_smul, ← sub_smul,
-    sub_sub_sub_cancel_left, smul_lt_smul_iff_of_pos (sub_pos.2 h)]
+  rw [← lt_sub_iff_add_lt]; rw [add_sub_assoc]; rw [← sub_lt_iff_lt_add']; rw [← sub_smul]; rw [← sub_smul]; rw [sub_sub_sub_cancel_left]; rw [smul_lt_smul_iff_of_pos (sub_pos.2 h)]
 #align line_map_lt_line_map_iff_of_lt lineMap_lt_lineMap_iff_of_lt
 
 theorem left_lt_lineMap_iff_lt (h : 0 < r) : a < lineMap a b r ↔ a < b :=
@@ -126,8 +125,7 @@ variable {a b : E} {r r' : k}
 
 theorem lineMap_le_lineMap_iff_of_lt (h : r < r') : lineMap a b r ≤ lineMap a b r' ↔ a ≤ b := by
   simp only [lineMap_apply_module]
-  rw [← le_sub_iff_add_le, add_sub_assoc, ← sub_le_iff_le_add', ← sub_smul, ← sub_smul,
-    sub_sub_sub_cancel_left, smul_le_smul_iff_of_pos (sub_pos.2 h)]
+  rw [← le_sub_iff_add_le]; rw [add_sub_assoc]; rw [← sub_le_iff_le_add']; rw [← sub_smul]; rw [← sub_smul]; rw [sub_sub_sub_cancel_left]; rw [smul_le_smul_iff_of_pos (sub_pos.2 h)]
 #align line_map_le_line_map_iff_of_lt lineMap_le_lineMap_iff_of_lt
 
 theorem left_le_lineMap_iff_le (h : 0 < r) : a ≤ lineMap a b r ↔ a ≤ b :=
@@ -206,12 +204,7 @@ local notation "c" => lineMap a b r
 segment `[(a, f a), (b, f b)]` if and only if `slope f a c ≤ slope f a b`. -/
 theorem map_le_lineMap_iff_slope_le_slope_left (h : 0 < r * (b - a)) :
     f c ≤ lineMap (f a) (f b) r ↔ slope f a c ≤ slope f a b := by
-  rw [lineMap_apply, lineMap_apply, slope, slope, vsub_eq_sub, vsub_eq_sub, vsub_eq_sub,
-    vadd_eq_add, vadd_eq_add, smul_eq_mul, add_sub_cancel, smul_sub, smul_sub, smul_sub,
-    sub_le_iff_le_add, mul_inv_rev, mul_smul, mul_smul, ← smul_sub, ← smul_sub, ← smul_add,
-    smul_smul, ← mul_inv_rev, inv_smul_le_iff h, smul_smul,
-    mul_inv_cancel_right₀ (right_ne_zero_of_mul h.ne'), smul_add,
-    smul_inv_smul₀ (left_ne_zero_of_mul h.ne')]
+  rw [lineMap_apply]; rw [lineMap_apply]; rw [slope]; rw [slope]; rw [vsub_eq_sub]; rw [vsub_eq_sub]; rw [vsub_eq_sub]; rw [vadd_eq_add]; rw [vadd_eq_add]; rw [smul_eq_mul]; rw [add_sub_cancel]; rw [smul_sub]; rw [smul_sub]; rw [smul_sub]; rw [sub_le_iff_le_add]; rw [mul_inv_rev]; rw [mul_smul]; rw [mul_smul]; rw [← smul_sub]; rw [← smul_sub]; rw [← smul_add]; rw [smul_smul]; rw [← mul_inv_rev]; rw [inv_smul_le_iff h]; rw [smul_smul]; rw [mul_inv_cancel_right₀ (right_ne_zero_of_mul h.ne')]; rw [smul_add]; rw [smul_inv_smul₀ (left_ne_zero_of_mul h.ne')]
 #align map_le_line_map_iff_slope_le_slope_left map_le_lineMap_iff_slope_le_slope_left
 
 /-- Given `c = lineMap a b r`, `a < c`, the point `(c, f c)` is non-strictly above the
@@ -240,11 +233,10 @@ theorem lineMap_lt_map_iff_slope_lt_slope_left (h : 0 < r * (b - a)) :
 segment `[(a, f a), (b, f b)]` if and only if `slope f a b ≤ slope f c b`. -/
 theorem map_le_lineMap_iff_slope_le_slope_right (h : 0 < (1 - r) * (b - a)) :
     f c ≤ lineMap (f a) (f b) r ↔ slope f a b ≤ slope f c b := by
-  rw [← lineMap_apply_one_sub, ← lineMap_apply_one_sub _ _ r]
+  rw [← lineMap_apply_one_sub]; rw [← lineMap_apply_one_sub _ _ r]
   revert h; generalize 1 - r = r'; clear! r; intro h
   simp_rw [lineMap_apply, slope, vsub_eq_sub, vadd_eq_add, smul_eq_mul]
-  rw [sub_add_eq_sub_sub_swap, sub_self, zero_sub, neg_mul_eq_mul_neg, neg_sub, le_inv_smul_iff h,
-    smul_smul, mul_inv_cancel_right₀, le_sub_comm, ← neg_sub (f b), smul_neg, neg_add_eq_sub]
+  rw [sub_add_eq_sub_sub_swap]; rw [sub_self]; rw [zero_sub]; rw [neg_mul_eq_mul_neg]; rw [neg_sub]; rw [le_inv_smul_iff h]; rw [smul_smul]; rw [mul_inv_cancel_right₀]; rw [le_sub_comm]; rw [← neg_sub (f b)]; rw [smul_neg]; rw [neg_add_eq_sub]
   · exact right_ne_zero_of_mul h.ne'
 #align map_le_line_map_iff_slope_le_slope_right map_le_lineMap_iff_slope_le_slope_right
 
@@ -274,8 +266,8 @@ theorem lineMap_lt_map_iff_slope_lt_slope_right (h : 0 < (1 - r) * (b - a)) :
 segment `[(a, f a), (b, f b)]` if and only if `slope f a c ≤ slope f c b`. -/
 theorem map_le_lineMap_iff_slope_le_slope (hab : a < b) (h₀ : 0 < r) (h₁ : r < 1) :
     f c ≤ lineMap (f a) (f b) r ↔ slope f a c ≤ slope f c b := by
-  rw [map_le_lineMap_iff_slope_le_slope_left (mul_pos h₀ (sub_pos.2 hab)), ←
-    lineMap_slope_lineMap_slope_lineMap f a b r, right_le_lineMap_iff_le h₁]
+  rw [map_le_lineMap_iff_slope_le_slope_left (mul_pos h₀ (sub_pos.2 hab))]; rw [←
+    lineMap_slope_lineMap_slope_lineMap f a b r]; rw [right_le_lineMap_iff_le h₁]
 #align map_le_line_map_iff_slope_le_slope map_le_lineMap_iff_slope_le_slope
 
 /-- Given `c = lineMap a b r`, `a < c < b`, the point `(c, f c)` is non-strictly above the

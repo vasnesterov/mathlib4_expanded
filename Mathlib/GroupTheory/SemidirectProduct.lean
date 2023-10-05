@@ -159,7 +159,7 @@ theorem inl_aut (g : G) (n : N) : (inl (φ g n) : N ⋊[φ] G) = inr g * inl n *
 #align semidirect_product.inl_aut SemidirectProduct.inl_aut
 
 theorem inl_aut_inv (g : G) (n : N) : (inl ((φ g)⁻¹ n) : N ⋊[φ] G) = inr g⁻¹ * inl n * inr g := by
-  rw [← MonoidHom.map_inv, inl_aut, inv_inv]
+  rw [← MonoidHom.map_inv]; rw [inl_aut]; rw [inv_inv]
 #align semidirect_product.inl_aut_inv SemidirectProduct.inl_aut_inv
 
 @[simp]
@@ -251,7 +251,7 @@ theorem lift_unique (F : N ⋊[φ] G →* H) :
   with both `inl` and `inr` -/
 theorem hom_ext {f g : N ⋊[φ] G →* H} (hl : f.comp inl = g.comp inl)
     (hr : f.comp inr = g.comp inr) : f = g := by
-  rw [lift_unique f, lift_unique g]
+  rw [lift_unique f]; rw [lift_unique g]
   simp only [*]
 #align semidirect_product.hom_ext SemidirectProduct.hom_ext
 

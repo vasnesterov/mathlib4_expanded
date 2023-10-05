@@ -54,7 +54,7 @@ theorem entry_norm_bound_of_unitary {U : Matrix n n 𝕜} (hU : U ∈ Matrix.uni
   have diag_eq_one : IsROrC.re ((U * Uᴴ) i i) = 1 := by
     simp only [mul_eq_one, eq_self_iff_true, Matrix.one_apply_eq, IsROrC.one_re]
   -- Putting it all together
-  rw [← sq_le_one_iff (norm_nonneg (U i j)), ← diag_eq_one, re_diag_eq_norm_sum]
+  rw [← sq_le_one_iff (norm_nonneg (U i j))]; rw [← diag_eq_one]; rw [re_diag_eq_norm_sum]
   exact norm_sum
 #align entry_norm_bound_of_unitary entry_norm_bound_of_unitary
 

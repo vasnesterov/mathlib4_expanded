@@ -88,12 +88,12 @@ theorem thickenedIndicatorAux_one (δ : ℝ) (E : Set α) {x : α} (x_in_E : x �
 
 theorem thickenedIndicatorAux_one_of_mem_closure (δ : ℝ) (E : Set α) {x : α}
     (x_mem : x ∈ closure E) : thickenedIndicatorAux δ E x = 1 := by
-  rw [← thickenedIndicatorAux_closure_eq, thickenedIndicatorAux_one δ (closure E) x_mem]
+  rw [← thickenedIndicatorAux_closure_eq]; rw [thickenedIndicatorAux_one δ (closure E) x_mem]
 #align thickened_indicator_aux_one_of_mem_closure thickenedIndicatorAux_one_of_mem_closure
 
 theorem thickenedIndicatorAux_zero {δ : ℝ} (δ_pos : 0 < δ) (E : Set α) {x : α}
     (x_out : x ∉ thickening δ E) : thickenedIndicatorAux δ E x = 0 := by
-  rw [thickening, mem_setOf_eq, not_lt] at x_out
+  rw [thickening] at x_out; rw [mem_setOf_eq] at x_out; rw [not_lt] at x_out
   unfold thickenedIndicatorAux
   apply le_antisymm _ bot_le
   have key := tsub_le_tsub
@@ -172,7 +172,7 @@ def thickenedIndicator {δ : ℝ} (δ_pos : 0 < δ) (E : Set α) : α →ᵇ ℝ
     intro x y
     rw [NNReal.dist_eq]
     apply (abs_sub _ _).trans
-    rw [NNReal.abs_eq, NNReal.abs_eq, ← one_add_one_eq_two]
+    rw [NNReal.abs_eq]; rw [NNReal.abs_eq]; rw [← one_add_one_eq_two]
     have key := @thickenedIndicatorAux_le_one _ _ δ E
     apply add_le_add <;>
       · norm_cast
@@ -193,7 +193,7 @@ theorem thickenedIndicator_le_one {δ : ℝ} (δ_pos : 0 < δ) (E : Set α) (x :
 
 theorem thickenedIndicator_one_of_mem_closure {δ : ℝ} (δ_pos : 0 < δ) (E : Set α) {x : α}
     (x_mem : x ∈ closure E) : thickenedIndicator δ_pos E x = 1 := by
-  rw [thickenedIndicator_apply, thickenedIndicatorAux_one_of_mem_closure δ E x_mem, one_toNNReal]
+  rw [thickenedIndicator_apply]; rw [thickenedIndicatorAux_one_of_mem_closure δ E x_mem]; rw [one_toNNReal]
 #align thickened_indicator_one_of_mem_closure thickenedIndicator_one_of_mem_closure
 
 theorem thickenedIndicator_one {δ : ℝ} (δ_pos : 0 < δ) (E : Set α) {x : α} (x_in_E : x ∈ E) :
@@ -203,7 +203,7 @@ theorem thickenedIndicator_one {δ : ℝ} (δ_pos : 0 < δ) (E : Set α) {x : α
 
 theorem thickenedIndicator_zero {δ : ℝ} (δ_pos : 0 < δ) (E : Set α) {x : α}
     (x_out : x ∉ thickening δ E) : thickenedIndicator δ_pos E x = 0 := by
-  rw [thickenedIndicator_apply, thickenedIndicatorAux_zero δ_pos E x_out, zero_toNNReal]
+  rw [thickenedIndicator_apply]; rw [thickenedIndicatorAux_zero δ_pos E x_out]; rw [zero_toNNReal]
 #align thickened_indicator_zero thickenedIndicator_zero
 
 theorem indicator_le_thickenedIndicator {δ : ℝ} (δ_pos : 0 < δ) (E : Set α) :
@@ -278,7 +278,7 @@ lemma mulIndicator_cthickening_eventually_eq_mulIndicator_closure (f : α → β
   by_cases x_mem_closure : x ∈ closure E
   · filter_upwards [univ_mem] with δ _
     have obs : x ∈ cthickening δ E := closure_subset_cthickening δ E x_mem_closure
-    rw [mulIndicator_of_mem obs f, mulIndicator_of_mem x_mem_closure f]
+    rw [mulIndicator_of_mem obs f]; rw [mulIndicator_of_mem x_mem_closure f]
   · filter_upwards [eventually_not_mem_cthickening_of_infEdist_pos x_mem_closure] with δ hδ
     simp only [hδ, not_false_eq_true, mulIndicator_of_not_mem, x_mem_closure]
 

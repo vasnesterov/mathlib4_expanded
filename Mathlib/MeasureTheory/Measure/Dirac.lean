@@ -52,7 +52,7 @@ theorem dirac_apply_of_mem {a : α} (h : a ∈ s) : dirac a s = 1 := by
 theorem dirac_apply [MeasurableSingletonClass α] (a : α) (s : Set α) :
     dirac a s = s.indicator 1 a := by
   by_cases h : a ∈ s; · rw [dirac_apply_of_mem h, indicator_of_mem h, Pi.one_apply]
-  rw [indicator_of_not_mem h, ← nonpos_iff_eq_zero]
+  rw [indicator_of_not_mem h]; rw [← nonpos_iff_eq_zero]
   calc
     dirac a s ≤ dirac a {a}ᶜ := measure_mono (subset_compl_comm.1 <| singleton_subset_iff.2 h)
     _ = 0 := by simp [dirac_apply' _ (measurableSet_singleton _).compl]
@@ -137,7 +137,7 @@ theorem restrict_dirac' (hs : MeasurableSet s) [Decidable (a ∈ s)] :
     (Measure.dirac a).restrict s = if a ∈ s then Measure.dirac a else 0 := by
   split_ifs with has
   · apply restrict_eq_self_of_ae_mem
-    rw [ae_dirac_iff] <;> assumption
+    rw [ae_dirac_iff]  <;> assumption
   · rw [restrict_eq_zero, dirac_apply' _ hs, indicator_of_not_mem has]
 #align measure_theory.restrict_dirac' MeasureTheory.restrict_dirac'
 

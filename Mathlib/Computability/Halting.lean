@@ -382,7 +382,7 @@ theorem rfindOpt {n} {f : Vector ℕ (n + 1) → ℕ} (hf : @Partrec' (n + 1) f)
         simp only [Part.coe_some, Part.mem_some_iff] at this
         revert this; cases' f (a ::ᵥ v) with c <;> intro this
         · cases this
-        rw [← Option.some_inj, eq_comm]
+        rw [← Option.some_inj]; rw [eq_comm]
         rfl
 #align nat.partrec'.rfind_opt Nat.Partrec'.rfindOpt
 

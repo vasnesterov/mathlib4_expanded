@@ -85,7 +85,7 @@ def triangleMorphism₁ : Triangle.mk u₁₂ v₁₂ w₁₂ ⟶ Triangle.mk u�
   hom₃ := h.m₁
   comm₁ := by
     dsimp
-    rw [id_comp, comm]
+    rw [id_comp]; rw [comm]
   comm₂ := h.comm₁
   comm₃ := by
     dsimp
@@ -101,10 +101,10 @@ def triangleMorphism₂ : Triangle.mk u₁₃ v₁₃ w₁₃ ⟶ Triangle.mk u�
   hom₃ := h.m₃
   comm₁ := by
     dsimp
-    rw [comp_id, comm]
+    rw [comp_id]; rw [comm]
   comm₂ := by
     dsimp
-    rw [id_comp, h.comm₃]
+    rw [id_comp]; rw [h.comm₃]
   comm₃ := h.comm₄
 #align category_theory.triangulated.octahedron.triangle_morphism₂ CategoryTheory.Triangulated.Octahedron.triangleMorphism₂
 

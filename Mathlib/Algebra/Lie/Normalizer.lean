@@ -130,7 +130,7 @@ subalgebra. -/
 def normalizer : LieSubalgebra R L :=
   { H.toLieSubmodule.normalizer with
     lie_mem' := fun {y z} hy hz x => by
-      rw [coe_bracket_of_module, mem_toLieSubmodule, leibniz_lie, ← lie_skew y, ← sub_eq_add_neg]
+      rw [coe_bracket_of_module]; rw [mem_toLieSubmodule]; rw [leibniz_lie]; rw [← lie_skew y]; rw [← sub_eq_add_neg]
       exact H.sub_mem (hz ⟨_, hy x⟩) (hy ⟨_, hz x⟩) }
 #align lie_subalgebra.normalizer LieSubalgebra.normalizer
 
@@ -141,7 +141,7 @@ theorem mem_normalizer_iff' (x : L) : x ∈ H.normalizer ↔ ∀ y : L, y ∈ H 
 theorem mem_normalizer_iff (x : L) : x ∈ H.normalizer ↔ ∀ y : L, y ∈ H → ⁅x, y⁆ ∈ H := by
   rw [mem_normalizer_iff']
   refine' forall₂_congr fun y hy => _
-  rw [← lie_skew, neg_mem_iff (G := L)]
+  rw [← lie_skew]; rw [neg_mem_iff (G := L)]
 #align lie_subalgebra.mem_normalizer_iff LieSubalgebra.mem_normalizer_iff
 
 theorem le_normalizer : H ≤ H.normalizer :=
@@ -171,7 +171,7 @@ theorem lie_mem_sup_of_mem_normalizer {x y z : L} (hx : x ∈ H.normalizer) (hy 
 
 /-- A Lie subalgebra is an ideal of its normalizer. -/
 theorem ideal_in_normalizer {x y : L} (hx : x ∈ H.normalizer) (hy : y ∈ H) : ⁅x, y⁆ ∈ H := by
-  rw [← lie_skew, neg_mem_iff (G := L)]
+  rw [← lie_skew]; rw [neg_mem_iff (G := L)]
   exact hx ⟨y, hy⟩
 #align lie_subalgebra.ideal_in_normalizer LieSubalgebra.ideal_in_normalizer
 
@@ -192,7 +192,7 @@ theorem normalizer_eq_self_iff :
   · rintro ⟨x⟩ hx
     suffices x ∈ H by rwa [Submodule.Quotient.quot_mk_eq_mk, Submodule.Quotient.mk_eq_zero,
       coe_toLieSubmodule, mem_coe_submodule]
-    rw [← h, H.mem_normalizer_iff']
+    rw [← h]; rw [H.mem_normalizer_iff']
     intro y hy
     replace hx : ⁅_, LieSubmodule.Quotient.mk' _ x⁆ = 0 := hx ⟨y, hy⟩
     rwa [← LieModuleHom.map_lie, LieSubmodule.Quotient.mk_eq_zero] at hx
@@ -200,8 +200,7 @@ theorem normalizer_eq_self_iff :
     let y := LieSubmodule.Quotient.mk' H.toLieSubmodule x
     have hy : y ∈ LieModule.maxTrivSubmodule R H (L ⧸ H.toLieSubmodule) := by
       rintro ⟨z, hz⟩
-      rw [← LieModuleHom.map_lie, LieSubmodule.Quotient.mk_eq_zero, coe_bracket_of_module,
-        Submodule.coe_mk, mem_toLieSubmodule]
+      rw [← LieModuleHom.map_lie]; rw [LieSubmodule.Quotient.mk_eq_zero]; rw [coe_bracket_of_module]; rw [Submodule.coe_mk]; rw [mem_toLieSubmodule]
       exact (H.mem_normalizer_iff' x).mp hx z hz
     simpa using h y hy
 #align lie_subalgebra.normalizer_eq_self_iff LieSubalgebra.normalizer_eq_self_iff

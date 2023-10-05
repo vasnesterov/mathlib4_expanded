@@ -59,10 +59,10 @@ theorem get_ofFn {n} (f : Fin n → α) (i) : get (ofFn f) i = f (Fin.cast (by s
 theorem get?_ofFn {n} (f : Fin n → α) (i) : get? (ofFn f) i = ofFnNthVal f i :=
   if h : i < (ofFn f).length
   then by
-    rw [get?_eq_get h, get_ofFn]
+    rw [get?_eq_get h]; rw [get_ofFn]
     · simp at h; simp [ofFnNthVal, h]
   else by
-    rw [ofFnNthVal, dif_neg] <;>
+    rw [ofFnNthVal]; rw [dif_neg]; all_goals
     simpa using h
 #align list.nth_of_fn List.get?_ofFn
 
@@ -257,7 +257,7 @@ theorem ofFnRec_ofFn {C : List α → Sort*} (h : ∀ (n) (f : Fin n → α), C 
   dsimp [equivSigmaTuple] at this
   have := this.cast_eq (fun s => h s.1 s.2) ⟨n, f⟩
   dsimp only at this
-  rw [ofFnRec, ← this]
+  rw [ofFnRec]; rw [← this]
 #align list.of_fn_rec_of_fn List.ofFnRec_ofFn
 
 theorem exists_iff_exists_tuple {P : List α → Prop} :

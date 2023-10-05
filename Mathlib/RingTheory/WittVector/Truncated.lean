@@ -143,7 +143,7 @@ variable {n}
 
 @[simp]
 theorem coeff_truncateFun (x : 𝕎 R) (i : Fin n) : (truncateFun n x).coeff i = x.coeff i := by
-  rw [truncateFun, TruncatedWittVector.coeff_mk]
+  rw [truncateFun]; rw [TruncatedWittVector.coeff_mk]
 #align witt_vector.coeff_truncate_fun WittVector.coeff_truncateFun
 
 variable [CommRing R]
@@ -210,7 +210,7 @@ instance hasNatPow : Pow (TruncatedWittVector p n R) ℕ :=
 @[simp]
 theorem coeff_zero (i : Fin n) : (0 : TruncatedWittVector p n R).coeff i = 0 := by
   show coeff i (truncateFun _ 0 : TruncatedWittVector p n R) = 0
-  rw [coeff_truncateFun, WittVector.zero_coeff]
+  rw [coeff_truncateFun]; rw [WittVector.zero_coeff]
 #align truncated_witt_vector.coeff_zero TruncatedWittVector.coeff_zero
 
 end TruncatedWittVector
@@ -467,7 +467,7 @@ variable {f}
 theorem truncate_liftFun (s : S) : WittVector.truncate n (liftFun f s) = f n s := by
   ext i
   simp only [liftFun, TruncatedWittVector.coeff_mk, WittVector.truncate_mk']
-  rw [← f_compat (i + 1) n i.is_lt, RingHom.comp_apply, TruncatedWittVector.coeff_truncate]
+  rw [← f_compat (i + 1) n i.is_lt]; rw [RingHom.comp_apply]; rw [TruncatedWittVector.coeff_truncate]
   congr 1 with _
 #align witt_vector.truncate_lift_fun WittVector.truncate_liftFun
 
@@ -487,7 +487,7 @@ def lift : S →+* 𝕎 R := by
             map_mul' := _ } <;>
   ( intros
     dsimp only
-    rw [← sub_eq_zero, ← Ideal.mem_bot, ← iInf_ker_truncate, Ideal.mem_iInf]
+    rw [← sub_eq_zero]; rw [← Ideal.mem_bot]; rw [← iInf_ker_truncate]; rw [Ideal.mem_iInf]
     simp [RingHom.mem_ker, f_compat])
 #align witt_vector.lift WittVector.lift
 
@@ -500,14 +500,14 @@ theorem truncate_lift (s : S) : WittVector.truncate n (lift _ f_compat s) = f n 
 
 @[simp]
 theorem truncate_comp_lift : (WittVector.truncate n).comp (lift _ f_compat) = f n := by
-  ext1; rw [RingHom.comp_apply, truncate_lift]
+  ext1; rw [RingHom.comp_apply]; rw [truncate_lift]
 #align witt_vector.truncate_comp_lift WittVector.truncate_comp_lift
 
 /-- The uniqueness part of the universal property of `𝕎 R`. -/
 theorem lift_unique (g : S →+* 𝕎 R) (g_compat : ∀ k, (WittVector.truncate k).comp g = f k) :
     lift _ f_compat = g := by
   ext1 x
-  rw [← sub_eq_zero, ← Ideal.mem_bot, ← iInf_ker_truncate, Ideal.mem_iInf]
+  rw [← sub_eq_zero]; rw [← Ideal.mem_bot]; rw [← iInf_ker_truncate]; rw [Ideal.mem_iInf]
   intro i
   simp only [RingHom.mem_ker, g_compat, ← RingHom.comp_apply, truncate_comp_lift, RingHom.map_sub,
     sub_self]

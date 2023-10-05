@@ -224,15 +224,15 @@ theorem UniformOnFun.continuousSMul_induced_of_image_bounded (h𝔖₁ : 𝔖.No
     rw [hφ.induced]
     exact topologicalAddGroup_induced φ
   have : (𝓝 0 : Filter H).HasBasis _ _ := by
-    rw [hφ.induced, nhds_induced, map_zero]
+    rw [hφ.induced]; rw [nhds_induced]; rw [map_zero]
     exact (UniformOnFun.hasBasis_nhds_zero 𝔖 h𝔖₁ h𝔖₂).comap φ
   refine' ContinuousSMul.of_basis_zero this _ _ _
   · rintro ⟨S, V⟩ ⟨hS, hV⟩
     have : Tendsto (fun kx : 𝕜 × E => kx.1 • kx.2) (𝓝 (0, 0)) (𝓝 <| (0 : 𝕜) • (0 : E)) :=
       continuous_smul.tendsto (0 : 𝕜 × E)
-    rw [zero_smul, nhds_prod_eq] at this
+    rw [zero_smul] at this; rw [nhds_prod_eq] at this
     have := this hV
-    rw [mem_map, mem_prod_iff] at this
+    rw [mem_map] at this; rw [mem_prod_iff] at this
     rcases this with ⟨U, hU, W, hW, hUW⟩
     refine' ⟨U, hU, ⟨S, W⟩, ⟨hS, hW⟩, _⟩
     rw [Set.smul_subset_iff]
@@ -253,11 +253,11 @@ theorem UniformOnFun.continuousSMul_induced_of_image_bounded (h𝔖₁ : 𝔖.No
     · rw [ha0]
       simpa using mem_of_mem_nhds hV
     · rw [mem_ball_zero_iff] at ha
-      rw [SMulHomClass.map_smul, Pi.smul_apply]
+      rw [SMulHomClass.map_smul]; rw [Pi.smul_apply]
       have : φ u x ∈ a⁻¹ • V := by
         have ha0 : 0 < ‖a‖ := norm_pos_iff.mpr ha0
         refine' (hr a⁻¹ _) (Set.mem_image_of_mem (φ u) hx)
-        rw [norm_inv, le_inv hrpos ha0]
+        rw [norm_inv]; rw [le_inv hrpos ha0]
         exact ha.le
       rwa [Set.mem_inv_smul_set_iff₀ ha0] at this
 #align uniform_on_fun.has_continuous_smul_induced_of_image_bounded UniformOnFun.continuousSMul_induced_of_image_bounded

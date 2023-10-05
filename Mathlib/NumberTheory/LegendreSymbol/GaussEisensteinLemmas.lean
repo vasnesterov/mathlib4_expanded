@@ -68,8 +68,7 @@ private theorem gauss_lemma_aux₁ (p : ℕ) [Fact p.Prime] {a : ℤ}
       ¬(a * x : ZMod p).val ≤ p / 2).card * (p / 2)! :=
   calc
     (a ^ (p / 2) * (p / 2)! : ZMod p) = ∏ x in Ico 1 (p / 2).succ, a * x := by
-      rw [prod_mul_distrib, ← prod_natCast, prod_Ico_id_eq_factorial, prod_const, card_Ico,
-        succ_sub_one]; simp
+      rw [prod_mul_distrib]; rw [← prod_natCast]; rw [prod_Ico_id_eq_factorial]; rw [prod_const]; rw [card_Ico]; rw [succ_sub_one]; simp
     _ = ∏ x in Ico 1 (p / 2).succ, ↑((a * x : ZMod p).val) := by simp
     _ = ∏ x in Ico 1 (p / 2).succ, (if (a * x : ZMod p).val ≤ p / 2 then (1 : ZMod p) else -1) *
         (a * x : ZMod p).valMinAbs.natAbs :=
@@ -86,18 +85,16 @@ private theorem gauss_lemma_aux₁ (p : ℕ) [Fact p.Prime] {a : ℤ}
           (fun x => by split_ifs <;> simp_all (config := { contextual := true }))
           (fun _ _ _ _ _ _ => id) (fun b h _ => ⟨b, by simp_all [-not_le]⟩)
           (by intros; split_ifs at * <;> simp_all)
-      rw [prod_mul_distrib, this, prod_const]
+      rw [prod_mul_distrib]; rw [this]; rw [prod_const]
     _ = (-1 : ZMod p) ^ ((Ico 1 (p / 2).succ).filter fun x : ℕ =>
         ¬(a * x : ZMod p).val ≤ p / 2).card * (p / 2)! := by
-      rw [← prod_natCast, Finset.prod_eq_multiset_prod,
-        Ico_map_valMinAbs_natAbs_eq_Ico_map_id p a hap, ← Finset.prod_eq_multiset_prod,
-        prod_Ico_id_eq_factorial]
+      rw [← prod_natCast]; rw [Finset.prod_eq_multiset_prod]; rw [Ico_map_valMinAbs_natAbs_eq_Ico_map_id p a hap]; rw [← Finset.prod_eq_multiset_prod]; rw [prod_Ico_id_eq_factorial]
 
 theorem gauss_lemma_aux (p : ℕ) [hp : Fact p.Prime] {a : ℤ}
     (hap : (a : ZMod p) ≠ 0) : (↑a ^ (p / 2) : ZMod p) =
     (-1) ^ ((Ico 1 (p / 2).succ).filter fun x : ℕ => p / 2 < (a * x : ZMod p).val).card :=
   (mul_left_inj' (show ((p / 2)! : ZMod p) ≠ 0 by
-    rw [Ne.def, CharP.cast_eq_zero_iff (ZMod p) p, hp.1.dvd_factorial, not_le]
+    rw [Ne.def]; rw [CharP.cast_eq_zero_iff (ZMod p) p]; rw [hp.1.dvd_factorial]; rw [not_le]
     exact Nat.div_lt_self hp.1.pos (by decide))).1 <| by
       simpa using gauss_lemma_aux₁ p hap
 #align zmod.gauss_lemma_aux ZMod.gauss_lemma_aux
@@ -110,7 +107,7 @@ theorem gauss_lemma {p : ℕ} [h : Fact p.Prime] {a : ℤ} (hp : p ≠ 2) (ha0 :
   replace hp : Odd p := h.out.odd_of_ne_two hp
   have : (legendreSym p a : ZMod p) = (((-1) ^ ((Ico 1 (p / 2).succ).filter fun x : ℕ =>
       p / 2 < (a * x : ZMod p).val).card : ℤ) : ZMod p) := by
-    rw [legendreSym.eq_pow, gauss_lemma_aux p ha0]
+    rw [legendreSym.eq_pow]; rw [gauss_lemma_aux p ha0]
   cases legendreSym.eq_one_or_neg_one p ha0 <;>
   cases neg_one_pow_eq_or ℤ
     ((Ico 1 (p / 2).succ).filter fun x : ℕ => p / 2 < (a * x : ZMod p).val).card <;>
@@ -141,7 +138,7 @@ private theorem eisenstein_lemma_aux₁ (p : ℕ) [Fact p.Prime] [hp2 : Fact (p 
               (∑ x in Ico 1 (p / 2).succ, (a * x : ZMod p).valMinAbs.natAbs : ℕ) := by
             simp [add_comm, sum_add_distrib, Finset.sum_ite, hp2, Nat.cast_sum]
           _ = _ := by
-            rw [Finset.sum_eq_multiset_sum, Ico_map_valMinAbs_natAbs_eq_Ico_map_id p a hap, ←
+            rw [Finset.sum_eq_multiset_sum]; rw [Ico_map_valMinAbs_natAbs_eq_Ico_map_id p a hap]; rw [←
               Finset.sum_eq_multiset_sum])
         rfl
 
@@ -226,7 +223,7 @@ theorem sum_mul_div_add_sum_mul_div_eq_mul (p q : ℕ) [hp : Fact p.Prime] (hq0 
     have : (x.1 : ZMod p) = 0 := by
       simpa [hq0] using congr_arg ((↑) : ℕ → ZMod p) (le_antisymm hpq hqp)
     apply_fun ZMod.val at this
-    rw [val_cast_of_lt hxp, val_zero] at this
+    rw [val_cast_of_lt hxp] at this; rw [val_zero] at this
     simp only [this, nonpos_iff_eq_zero, mem_Ico, one_ne_zero, false_and_iff, mem_product] at hx
   have hunion :
       (((Ico 1 (p / 2).succ ×ˢ Ico 1 (q / 2).succ).filter fun x : ℕ × ℕ => x.2 * p ≤ x.1 * q) ∪
@@ -236,8 +233,7 @@ theorem sum_mul_div_add_sum_mul_div_eq_mul (p q : ℕ) [hp : Fact p.Prime] (hq0 
       have := le_total (x.2 * p) (x.1 * q)
       simp only [mem_union, mem_filter, mem_Ico, mem_product]
       tauto
-  rw [sum_Ico_eq_card_lt, sum_Ico_eq_card_lt, hswap, ← card_disjoint_union hdisj, hunion,
-    card_product]
+  rw [sum_Ico_eq_card_lt]; rw [sum_Ico_eq_card_lt]; rw [hswap]; rw [← card_disjoint_union hdisj]; rw [hunion]; rw [card_product]
   simp only [card_Ico, tsub_zero, succ_sub_succ_eq_sub]
 #align zmod.sum_mul_div_add_sum_mul_div_eq_mul ZMod.sum_mul_div_add_sum_mul_div_eq_mul
 
@@ -245,9 +241,7 @@ theorem eisenstein_lemma {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {a : ℕ} (ha1 
     (ha0 : (a : ZMod p) ≠ 0) : legendreSym p a = (-1) ^ ∑ x in Ico 1 (p / 2).succ, x * a / p := by
   haveI hp' : Fact (p % 2 = 1) := ⟨Nat.Prime.mod_two_eq_one_iff_ne_two.mpr hp⟩
   have ha0' : ((a : ℤ) : ZMod p) ≠ 0 := by norm_cast
-  rw [neg_one_pow_eq_pow_mod_two, gauss_lemma hp ha0', neg_one_pow_eq_pow_mod_two,
-    (by norm_cast : ((a : ℤ) : ZMod p) = (a : ZMod p)),
-    show _ = _ from eisenstein_lemma_aux p ha1 ha0]
+  rw [neg_one_pow_eq_pow_mod_two]; rw [gauss_lemma hp ha0']; rw [neg_one_pow_eq_pow_mod_two]; rw [(by norm_cast : ((a : ℤ) : ZMod p) = (a : ZMod p))]; rw [show _ = _ from eisenstein_lemma_aux p ha1 ha0]
 #align zmod.eisenstein_lemma ZMod.eisenstein_lemma
 
 end ZMod

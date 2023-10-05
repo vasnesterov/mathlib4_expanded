@@ -67,7 +67,7 @@ theorem coe_extend (hs : LinearIndependent K ((↑) : s → V)) : ⇑(Basis.exte
 
 theorem range_extend (hs : LinearIndependent K ((↑) : s → V)) :
     range (Basis.extend hs) = hs.extend (subset_univ _) := by
-  rw [coe_extend, Subtype.range_coe_subtype, setOf_mem_eq]
+  rw [coe_extend]; rw [Subtype.range_coe_subtype]; rw [setOf_mem_eq]
 #align basis.range_extend Basis.range_extend
 
 -- Porting note: adding this to make the statement of `subExtend` more readable
@@ -187,7 +187,7 @@ theorem atom_iff_nonzero_span (W : Submodule K V) :
     refine' ⟨v, ⟨hv, _⟩⟩
     by_contra heq
     specialize h (span K {v})
-    rw [span_singleton_eq_bot, lt_iff_le_and_ne] at h
+    rw [span_singleton_eq_bot] at h; rw [lt_iff_le_and_ne] at h
     exact hv (h ⟨(span_singleton_le_iff_mem v W).2 hW, Ne.symm heq⟩)
   · rcases h with ⟨v, ⟨hv, rfl⟩⟩
     exact nonzero_span_atom v hv
@@ -223,7 +223,7 @@ theorem LinearMap.exists_leftInverse_of_injective (f : V →ₗ[K] V') (hf_inj :
     change f b = Basis.extend this _
     simp_rw [Basis.extend_apply_self]
   dsimp []
-  rw [Basis.ofVectorSpace_apply_self, fb_eq, hC.constr_basis]
+  rw [Basis.ofVectorSpace_apply_self]; rw [fb_eq]; rw [hC.constr_basis]
   exact leftInverse_invFun (LinearMap.ker_eq_bot.1 hf_inj) _
 #align linear_map.exists_left_inverse_of_injective LinearMap.exists_leftInverse_of_injective
 
@@ -242,7 +242,7 @@ theorem LinearMap.exists_rightInverse_of_surjective (f : V →ₗ[K] V') (hf_sur
   let hC := Basis.ofVectorSpace K V'
   haveI : Inhabited V := ⟨0⟩
   refine' ⟨(hC.constr ℕ : _ → _) (C.restrict (invFun f)), hC.ext fun c => _⟩
-  rw [LinearMap.comp_apply, hC.constr_basis]
+  rw [LinearMap.comp_apply]; rw [hC.constr_basis]
   simp [rightInverse_invFun (LinearMap.range_eq_top.1 hf_surj) c]
 #align linear_map.exists_right_inverse_of_surjective LinearMap.exists_rightInverse_of_surjective
 

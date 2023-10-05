@@ -130,7 +130,7 @@ theorem is_coprod_iff_isPushout {X E Y YE : C} (c : BinaryCofan X E) (hc : IsCol
     · intro m e₁ e₂
       apply BinaryCofan.IsColimit.hom_ext h
       · dsimp only [BinaryCofan.mk, id] -- Porting note: Originally `dsimp`
-        rw [Category.assoc, e₂, eq_comm]; exact h.fac _ ⟨WalkingPair.left⟩
+        rw [Category.assoc]; rw [e₂]; rw [eq_comm]; exact h.fac _ ⟨WalkingPair.left⟩
       · refine' e₁.trans (Eq.symm _); exact h.fac _ _
   · refine' fun H => ⟨_⟩
     fapply Limits.BinaryCofan.isColimitMk
@@ -159,23 +159,23 @@ theorem IsPushout.isVanKampen_inl {W E X Z : C} (c : BinaryCofan W E) [FinitaryE
   refine' (is_coprod_iff_isPushout _ hc₂ w).symm.trans _
   refine' ((BinaryCofan.isVanKampen_iff _).mp (FinitaryExtensive.vanKampen _ hc₁)
     (BinaryCofan.mk _ _) pullback.snd _ _ _ hh.w.symm).trans _
-  · dsimp; rw [← pullback.condition_assoc, Category.assoc, hi.w]
+  · dsimp; rw [← pullback.condition_assoc]; rw [Category.assoc]; rw [hi.w]
   constructor
   · rintro ⟨hc₃, hc₄⟩
     refine' ⟨hc₄, _⟩
     let Y'' := pullback αZ i
     let cmp : Y' ⟶ Y'' := pullback.lift i' αY hi.w
     have e₁ : (g' ≫ cmp) ≫ pullback.snd = αW ≫ c.inl := by
-      rw [Category.assoc, pullback.lift_snd, hg.w]
+      rw [Category.assoc]; rw [pullback.lift_snd]; rw [hg.w]
     have e₂ : (pullback.fst ≫ cmp : pullback αY c.inr ⟶ _) ≫ pullback.snd = pullback.snd ≫ c.inr :=
       by rw [Category.assoc, pullback.lift_snd, pullback.condition]
     obtain ⟨hc₄⟩ := ((BinaryCofan.isVanKampen_iff _).mp (FinitaryExtensive.vanKampen c hc)
       (BinaryCofan.mk _ _) αW _ _ e₁.symm e₂.symm).mpr <| by
         constructor
         · apply IsPullback.of_right _ e₁ (IsPullback.of_hasPullback _ _)
-          rw [Category.assoc, pullback.lift_fst, ← H.w, ← w.w]; exact hf.paste_horiz hc₄
+          rw [Category.assoc]; rw [pullback.lift_fst]; rw [← H.w]; rw [← w.w]; exact hf.paste_horiz hc₄
         · apply IsPullback.of_right _ e₂ (IsPullback.of_hasPullback _ _)
-          rw [Category.assoc, pullback.lift_fst]; exact hc₃
+          rw [Category.assoc]; rw [pullback.lift_fst]; exact hc₃
     · rw [← Category.id_comp αZ, ← show cmp ≫ pullback.snd = αY from pullback.lift_snd _ _ _]
       apply IsPullback.paste_vert _ (IsPullback.of_hasPullback αZ i)
       have : cmp = (hc₂.coconePointUniqueUpToIso hc₄).hom := by

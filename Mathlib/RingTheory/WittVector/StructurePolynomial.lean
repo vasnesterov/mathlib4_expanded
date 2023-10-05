@@ -145,7 +145,7 @@ theorem wittStructureRat_prop (Φ : MvPolynomial idx ℚ) (n : ℕ) :
           (bind₁ (xInTermsOfW p ℚ) (W_ ℚ n)) :=
       by rw [bind₁_bind₁]; exact eval₂Hom_congr (RingHom.ext_rat _ _) rfl rfl
     _ = bind₁ (fun i => rename (Prod.mk i) (W_ ℚ n)) Φ := by
-      rw [bind₁_xInTermsOfW_wittPolynomial p _ n, bind₁_X_right]
+      rw [bind₁_xInTermsOfW_wittPolynomial p _ n]; rw [bind₁_X_right]
 #align witt_structure_rat_prop wittStructureRat_prop
 
 theorem wittStructureRat_existsUnique (Φ : MvPolynomial idx ℚ) :
@@ -167,8 +167,8 @@ theorem wittStructureRat_rec_aux (Φ : MvPolynomial idx ℚ) (n : ℕ) :
         ∑ i in range n, C ((p : ℚ) ^ i) * wittStructureRat p Φ i ^ p ^ (n - i) := by
   have := xInTermsOfW_aux p ℚ n
   replace := congr_arg (bind₁ fun k : ℕ => bind₁ (fun i => rename (Prod.mk i) (W_ ℚ k)) Φ) this
-  rw [AlgHom.map_mul, bind₁_C_right] at this
-  rw [wittStructureRat, this]; clear this
+  rw [AlgHom.map_mul] at this; rw [bind₁_C_right] at this
+  rw [wittStructureRat]; rw [this]; clear this
   conv_lhs => simp only [AlgHom.map_sub, bind₁_X_right]
   rw [sub_right_inj]
   simp only [AlgHom.map_sum, AlgHom.map_mul, bind₁_C_right, AlgHom.map_pow]
@@ -184,7 +184,7 @@ theorem wittStructureRat_rec (Φ : MvPolynomial idx ℚ) (n : ℕ) :
   calc
     wittStructureRat p Φ n = C (1 / (p : ℚ) ^ n) * (wittStructureRat p Φ n * C ((p : ℚ) ^ n)) := ?_
     _ = _ := by rw [wittStructureRat_rec_aux]
-  rw [mul_left_comm, ← C_mul, div_mul_cancel, C_1, mul_one]
+  rw [mul_left_comm]; rw [← C_mul]; rw [div_mul_cancel]; rw [C_1]; rw [mul_one]
   exact pow_ne_zero _ (Nat.cast_ne_zero.2 hp.1.ne_zero)
 #align witt_structure_rat_rec wittStructureRat_rec
 
@@ -222,7 +222,7 @@ theorem bind₁_rename_expand_wittPolynomial (Φ : MvPolynomial idx ℤ) (n : �
   rw [key]; clear key
   apply eval₂Hom_congr' rfl _ rfl
   rintro i hi -
-  rw [wittPolynomial_vars, Finset.mem_range] at hi
+  rw [wittPolynomial_vars] at hi; rw [Finset.mem_range] at hi
   simp only [IH i hi]
 #align bind₁_rename_expand_witt_polynomial bind₁_rename_expand_wittPolynomial
 
@@ -243,30 +243,28 @@ theorem C_p_pow_dvd_bind₁_rename_wittPolynomial_sub_sum (Φ : MvPolynomial idx
   apply_fun map (Int.castRingHom (ZMod (p ^ (n + 1)))) at key
   conv_lhs at key => simp only [map_bind₁, map_rename, map_expand, map_wittPolynomial]
   -- clean up and massage
-  rw [Nat.succ_eq_add_one, C_dvd_iff_zmod, RingHom.map_sub, sub_eq_zero, map_bind₁]
+  rw [Nat.succ_eq_add_one]; rw [C_dvd_iff_zmod]; rw [RingHom.map_sub]; rw [sub_eq_zero]; rw [map_bind₁]
   simp only [map_rename, map_wittPolynomial, wittPolynomial_zmod_self]
   rw [key]; clear key IH
-  rw [bind₁, aeval_wittPolynomial, map_sum, map_sum, Finset.sum_congr rfl]
+  rw [bind₁]; rw [aeval_wittPolynomial]; rw [map_sum]; rw [map_sum]; rw [Finset.sum_congr rfl]
   intro k hk
-  rw [Finset.mem_range, Nat.lt_succ_iff] at hk
+  rw [Finset.mem_range] at hk; rw [Nat.lt_succ_iff] at hk
   -- Porting note: was much slower
   -- simp only [← sub_eq_zero, ← RingHom.map_sub, ← C_dvd_iff_zmod, C_eq_coe_nat, ← mul_sub, ←
   --   Nat.cast_pow]
-  rw [← sub_eq_zero, ← RingHom.map_sub, ← C_dvd_iff_zmod, C_eq_coe_nat, ← Nat.cast_pow,
-    ← Nat.cast_pow, C_eq_coe_nat, ← mul_sub]
+  rw [← sub_eq_zero]; rw [← RingHom.map_sub]; rw [← C_dvd_iff_zmod]; rw [C_eq_coe_nat]; rw [← Nat.cast_pow]; rw [← Nat.cast_pow]; rw [C_eq_coe_nat]; rw [← mul_sub]
   have : p ^ (n + 1) = p ^ k * p ^ (n - k + 1) := by
-    rw [← pow_add, ← add_assoc]; congr 2; rw [add_comm, ← tsub_eq_iff_eq_add_of_le hk]
+    rw [← pow_add]; rw [← add_assoc]; congr 2; rw [add_comm]; rw [← tsub_eq_iff_eq_add_of_le hk]
   rw [this]
   simp only -- Porting note: without this, the next `rw` doesn't do anything
-  rw [Nat.cast_mul, Nat.cast_pow, Nat.cast_pow]
+  rw [Nat.cast_mul]; rw [Nat.cast_pow]; rw [Nat.cast_pow]
   apply mul_dvd_mul_left ((p : MvPolynomial (idx × ℕ) ℤ) ^ k)
   rw [show p ^ (n + 1 - k) = p * p ^ (n - k) by rw [← pow_succ, ← tsub_add_eq_add_tsub hk]]
   rw [pow_mul]
   rw [← Nat.cast_pow] -- Porting note: added
   -- the machine!
   apply dvd_sub_pow_of_dvd_sub
-  rw [← C_eq_coe_nat, C_dvd_iff_zmod, RingHom.map_sub, sub_eq_zero, map_expand, RingHom.map_pow,
-    MvPolynomial.expand_zmod]
+  rw [← C_eq_coe_nat]; rw [C_dvd_iff_zmod]; rw [RingHom.map_sub]; rw [sub_eq_zero]; rw [map_expand]; rw [RingHom.map_pow]; rw [MvPolynomial.expand_zmod]
 set_option linter.uppercaseLean3 false in
 #align C_p_pow_dvd_bind₁_rename_witt_polynomial_sub_sum C_p_pow_dvd_bind₁_rename_wittPolynomial_sub_sum
 
@@ -277,9 +275,9 @@ theorem map_wittStructureInt (Φ : MvPolynomial idx ℤ) (n : ℕ) :
     map (Int.castRingHom ℚ) (wittStructureInt p Φ n) =
       wittStructureRat p (map (Int.castRingHom ℚ) Φ) n := by
   induction n using Nat.strong_induction_on with | h n IH => ?_
-  rw [wittStructureInt, map_mapRange_eq_iff, Int.coe_castRingHom]
+  rw [wittStructureInt]; rw [map_mapRange_eq_iff]; rw [Int.coe_castRingHom]
   intro c
-  rw [wittStructureRat_rec, coeff_C_mul, mul_comm, mul_div_assoc', mul_one]
+  rw [wittStructureRat_rec]; rw [coeff_C_mul]; rw [mul_comm]; rw [mul_div_assoc']; rw [mul_one]
   have sum_induction_steps :
       map (Int.castRingHom ℚ)
         (∑ i in range n, C ((p : ℤ) ^ i) * wittStructureInt p Φ i ^ p ^ (n - i)) =
@@ -294,7 +292,7 @@ theorem map_wittStructureInt (Φ : MvPolynomial idx ℤ) (n : ℕ) :
   simp only [← sum_induction_steps, ← map_wittPolynomial p (Int.castRingHom ℚ), ← map_rename, ←
     map_bind₁, ← RingHom.map_sub, coeff_map]
   rw [show (p : ℚ) ^ n = ((↑(p ^ n) : ℤ) : ℚ) by norm_cast]
-  rw [← Rat.den_eq_one_iff, eq_intCast, Rat.den_div_cast_eq_one_iff]
+  rw [← Rat.den_eq_one_iff]; rw [eq_intCast]; rw [Rat.den_div_cast_eq_one_iff]
   swap; · exact_mod_cast pow_ne_zero n hp.1.ne_zero
   revert c; rw [← C_dvd_iff_dvd_coeff]
   exact C_p_pow_dvd_bind₁_rename_wittPolynomial_sub_sum Φ n IH
@@ -338,7 +336,7 @@ theorem witt_structure_prop (Φ : MvPolynomial idx ℤ) (n) :
     aeval (fun i => map (Int.castRingHom R) (wittStructureInt p Φ i)) (wittPolynomial p ℤ n) =
       aeval (fun i => rename (Prod.mk i) (W n)) Φ := by
   convert congr_arg (map (Int.castRingHom R)) (wittStructureInt_prop p Φ n) using 1 <;>
-      rw [hom_bind₁] <;>
+      rw [hom_bind₁]  <;>
     apply eval₂Hom_congr (RingHom.ext_int _ _) _ rfl
   · rfl
   · simp only [map_rename, map_wittPolynomial]
@@ -372,16 +370,15 @@ theorem constantCoeff_wittStructureInt_zero (Φ : MvPolynomial idx ℤ) :
     constantCoeff (wittStructureInt p Φ 0) = constantCoeff Φ := by
   have inj : Function.Injective (Int.castRingHom ℚ) := by intro m n; exact Int.cast_inj.mp
   apply inj
-  rw [← constantCoeff_map, map_wittStructureInt, constantCoeff_wittStructureRat_zero,
-    constantCoeff_map]
+  rw [← constantCoeff_map]; rw [map_wittStructureInt]; rw [constantCoeff_wittStructureRat_zero]; rw [constantCoeff_map]
 #align constant_coeff_witt_structure_int_zero constantCoeff_wittStructureInt_zero
 
 theorem constantCoeff_wittStructureInt (Φ : MvPolynomial idx ℤ) (h : constantCoeff Φ = 0) (n : ℕ) :
     constantCoeff (wittStructureInt p Φ n) = 0 := by
   have inj : Function.Injective (Int.castRingHom ℚ) := by intro m n; exact Int.cast_inj.mp
   apply inj
-  rw [← constantCoeff_map, map_wittStructureInt, constantCoeff_wittStructureRat, RingHom.map_zero]
-  rw [constantCoeff_map, h, RingHom.map_zero]
+  rw [← constantCoeff_map]; rw [map_wittStructureInt]; rw [constantCoeff_wittStructureRat]; rw [RingHom.map_zero]
+  rw [constantCoeff_map]; rw [h]; rw [RingHom.map_zero]
 #align constant_coeff_witt_structure_int constantCoeff_wittStructureInt
 
 variable (R)
@@ -396,7 +393,7 @@ theorem wittStructureRat_vars [Fintype idx] (Φ : MvPolynomial idx ℚ) (n : ℕ
   obtain ⟨k, hk, hx'⟩ := mem_vars_bind₁ _ _ hx
   obtain ⟨i, -, hx''⟩ := mem_vars_bind₁ _ _ hx'
   obtain ⟨j, hj, rfl⟩ := mem_vars_rename _ _ hx''
-  rw [wittPolynomial_vars, Finset.mem_range] at hj
+  rw [wittPolynomial_vars] at hj; rw [Finset.mem_range] at hj
   replace hk := xInTermsOfW_vars_subset p _ hk
   rw [Finset.mem_range] at hk
   exact lt_of_lt_of_le hj hk
@@ -407,7 +404,7 @@ theorem wittStructureRat_vars [Fintype idx] (Φ : MvPolynomial idx ℚ) (n : ℕ
 theorem wittStructureInt_vars [Fintype idx] (Φ : MvPolynomial idx ℤ) (n : ℕ) :
     (wittStructureInt p Φ n).vars ⊆ Finset.univ ×ˢ Finset.range (n + 1) := by
   have : Function.Injective (Int.castRingHom ℚ) := Int.cast_injective
-  rw [← vars_map_of_injective _ this, map_wittStructureInt]
+  rw [← vars_map_of_injective _ this]; rw [map_wittStructureInt]
   apply wittStructureRat_vars
 #align witt_structure_int_vars wittStructureInt_vars
 

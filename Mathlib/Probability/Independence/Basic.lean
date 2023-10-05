@@ -171,7 +171,7 @@ lemma Indep_iff_IndepSets (m₁ m₂ : MeasurableSpace Ω) [MeasurableSpace Ω] 
 lemma Indep_iff (m₁ m₂ : MeasurableSpace Ω) [MeasurableSpace Ω] (μ : Measure Ω ) :
     Indep m₁ m₂ μ
       ↔ ∀ t1 t2, MeasurableSet[m₁] t1 → MeasurableSet[m₂] t2 → μ (t1 ∩ t2) = μ t1 * μ t2 := by
-  rw [Indep_iff_IndepSets, IndepSets_iff]; rfl
+  rw [Indep_iff_IndepSets]; rw [IndepSets_iff]; rfl
 
 lemma iIndepSet_iff_iIndep [MeasurableSpace Ω] (s : ι → Set Ω) (μ : Measure Ω) :
     iIndepSet s μ ↔ iIndep (fun i ↦ generateFrom {s i}) μ := by
@@ -213,7 +213,7 @@ lemma IndepFun_iff {β γ} [MeasurableSpace Ω] [mβ : MeasurableSpace β] [mγ 
     (f : Ω → β) (g : Ω → γ) (μ : Measure Ω) :
     IndepFun f g μ ↔ ∀ t1 t2, MeasurableSet[MeasurableSpace.comap f mβ] t1
       → MeasurableSet[MeasurableSpace.comap g mγ] t2 → μ (t1 ∩ t2) = μ t1 * μ t2 := by
-  rw [IndepFun_iff_Indep, Indep_iff]
+  rw [IndepFun_iff_Indep]; rw [Indep_iff]
 
 end Definition_lemmas
 

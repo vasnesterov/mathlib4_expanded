@@ -43,7 +43,7 @@ variable {S : Type*} [CommRing S] {f : R →+* S} {I J : Ideal S}
 
 theorem coeff_zero_mem_comap_of_root_mem_of_eval_mem {r : S} (hr : r ∈ I) {p : R[X]}
     (hp : p.eval₂ f r ∈ I) : p.coeff 0 ∈ I.comap f := by
-  rw [← p.divX_mul_X_add, eval₂_add, eval₂_C, eval₂_mul, eval₂_X] at hp
+  rw [← p.divX_mul_X_add] at hp; rw [eval₂_add] at hp; rw [eval₂_C] at hp; rw [eval₂_mul] at hp; rw [eval₂_X] at hp
   refine' mem_comap.mpr ((I.add_mem_iff_right _).mp hp)
   exact I.mul_mem_left _ hr
 #align ideal.coeff_zero_mem_comap_of_root_mem_of_eval_mem Ideal.coeff_zero_mem_comap_of_root_mem_of_eval_mem
@@ -63,7 +63,7 @@ theorem exists_coeff_ne_zero_mem_comap_of_non_zero_divisor_root_mem {r : S}
     refine' ⟨0, _, coeff_zero_mem_comap_of_root_mem hr hp⟩
     simp [coeff_eq_zero, a_ne_zero]
   · intro p p_nonzero ih _ hp
-    rw [eval₂_mul, eval₂_X] at hp
+    rw [eval₂_mul] at hp; rw [eval₂_X] at hp
     obtain ⟨i, hi, mem⟩ := ih p_nonzero (r_non_zero_divisor hp)
     refine' ⟨i + 1, _, _⟩
     · simp [hi, mem]
@@ -106,7 +106,7 @@ theorem quotient_mk_maps_eq (P : Ideal R[X]) :
         ((Quotient.mk P).comp C) := by
   refine' RingHom.ext fun x => _
   repeat' rw [RingHom.coe_comp, Function.comp_apply]
-  rw [quotientMap_mk, coe_mapRingHom, map_C]
+  rw [quotientMap_mk]; rw [coe_mapRingHom]; rw [map_C]
 #align ideal.quotient_mk_maps_eq Ideal.quotient_mk_maps_eq
 
 /-- This technical lemma asserts the existence of a polynomial `p` in an ideal `P ⊂ R[x]`
@@ -140,13 +140,12 @@ theorem comap_eq_of_scalar_tower_quotient [Algebra R S] [Algebra (R ⧸ p) (S �
     [IsScalarTower R (R ⧸ p) (S ⧸ P)] (h : Function.Injective (algebraMap (R ⧸ p) (S ⧸ P))) :
     comap (algebraMap R S) P = p := by
   ext x
-  rw [mem_comap, ← Quotient.eq_zero_iff_mem, ← Quotient.eq_zero_iff_mem, Quotient.mk_algebraMap,
-    IsScalarTower.algebraMap_apply R (R ⧸ p) (S ⧸ P), Quotient.algebraMap_eq]
+  rw [mem_comap]; rw [← Quotient.eq_zero_iff_mem]; rw [← Quotient.eq_zero_iff_mem]; rw [Quotient.mk_algebraMap]; rw [IsScalarTower.algebraMap_apply R (R ⧸ p) (S ⧸ P)]; rw [Quotient.algebraMap_eq]
   constructor
   · intro hx
     exact (injective_iff_map_eq_zero (algebraMap (R ⧸ p) (S ⧸ P))).mp h _ hx
   · intro hx
-    rw [hx, RingHom.map_zero]
+    rw [hx]; rw [RingHom.map_zero]
 #align ideal.comap_eq_of_scalar_tower_quotient Ideal.comap_eq_of_scalar_tower_quotient
 
 /-- If `P` lies over `p`, then `R / p` has a canonical map to `S / P`. -/
@@ -175,8 +174,7 @@ theorem Quotient.mk_smul_mk_quotient_map_quotient (x : R) (y : S) :
 instance Quotient.tower_quotient_map_quotient [Algebra R S] :
     IsScalarTower R (R ⧸ p) (S ⧸ map (algebraMap R S) p) :=
   IsScalarTower.of_algebraMap_eq fun x => by
-    rw [Quotient.algebraMap_eq, Quotient.algebraMap_quotient_map_quotient,
-      Quotient.mk_algebraMap]
+    rw [Quotient.algebraMap_eq]; rw [Quotient.algebraMap_quotient_map_quotient]; rw [Quotient.mk_algebraMap]
 #align ideal.quotient.tower_quotient_map_quotient Ideal.Quotient.tower_quotient_map_quotient
 
 instance QuotientMapQuotient.isNoetherian [Algebra R S] [IsNoetherian R S] (I : Ideal R) :
@@ -370,8 +368,7 @@ theorem exists_ideal_over_prime_of_isIntegral' (H : Algebra.IsIntegral R S) (P :
       (isIntegral_localization H) _ Qₚ_maximal
   refine' ⟨comap (algebraMap S Sₚ) Qₚ, ⟨comap_isPrime _ Qₚ, _⟩⟩
   convert Localization.AtPrime.comap_maximalIdeal (I := P)
-  rw [comap_comap, ← LocalRing.eq_maximalIdeal Qₚ_max,
-    ←@IsLocalization.map_comp (P := S) (Q := Sₚ) (g := algebraMap R S)
+  rw [comap_comap]; rw [← LocalRing.eq_maximalIdeal Qₚ_max]; rw [←@IsLocalization.map_comp (P := S) (Q := Sₚ) (g := algebraMap R S)
     (M := P.primeCompl) (T := Algebra.algebraMapSubmonoid S P.primeCompl) (S := Rₚ) _
     _ _ _ _ _ (fun p hp => Algebra.mem_algebraMapSubmonoid_of_mem ⟨p, hp⟩) _ _]
   rfl

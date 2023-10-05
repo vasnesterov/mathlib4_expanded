@@ -89,7 +89,7 @@ variable [SMul R M] [MulAction A M] [IsScalarTower R A M]
 variable {R} {M}
 
 theorem algebraMap_smul (r : R) (x : M) : algebraMap R A r • x = r • x := by
-  rw [Algebra.algebraMap_eq_smul_one, smul_assoc, one_smul]
+  rw [Algebra.algebraMap_eq_smul_one]; rw [smul_assoc]; rw [one_smul]
 #align is_scalar_tower.algebra_map_smul IsScalarTower.algebraMap_smul
 
 end Module
@@ -125,7 +125,7 @@ theorem algebraMap_eq : algebraMap R A = (algebraMap S A).comp (algebraMap R S) 
 #align is_scalar_tower.algebra_map_eq IsScalarTower.algebraMap_eq
 
 theorem algebraMap_apply (x : R) : algebraMap R A x = algebraMap S A (algebraMap R S x) := by
-  rw [algebraMap_eq R S A, RingHom.comp_apply]
+  rw [algebraMap_eq R S A]; rw [RingHom.comp_apply]
 #align is_scalar_tower.algebra_map_apply IsScalarTower.algebraMap_apply
 
 @[ext]
@@ -206,7 +206,7 @@ namespace AlgHom
 def restrictScalars (f : A →ₐ[S] B) : A →ₐ[R] B :=
   { (f : A →+* B) with
     commutes' := fun r => by
-      rw [algebraMap_apply R S A, algebraMap_apply R S B]
+      rw [algebraMap_apply R S A]; rw [algebraMap_apply R S B]
       exact f.commutes (algebraMap R S r) }
 #align alg_hom.restrict_scalars AlgHom.restrictScalars
 
@@ -234,7 +234,7 @@ namespace AlgEquiv
 def restrictScalars (f : A ≃ₐ[S] B) : A ≃ₐ[R] B :=
   { (f : A ≃+* B) with
     commutes' := fun r => by
-      rw [algebraMap_apply R S A, algebraMap_apply R S B]
+      rw [algebraMap_apply R S A]; rw [algebraMap_apply R S B]
       exact f.commutes (algebraMap R S r) }
 #align alg_equiv.restrict_scalars AlgEquiv.restrictScalars
 
@@ -320,7 +320,7 @@ theorem smul_mem_span_smul' {s : Set S} (hs : span R s = ⊤) {t : Set A} {k : S
   span_induction hx
     (fun x hx => by
       let ⟨p, q, _hp, hq, hpq⟩ := Set.mem_smul.1 hx
-      rw [← hpq, smul_smul]
+      rw [← hpq]; rw [smul_smul]
       exact smul_mem_span_smul_of_mem (hs.symm ▸ mem_top) hq)
     (by rw [smul_zero]; exact zero_mem _)
     (fun x y ihx ihy => by rw [smul_add]; exact add_mem ihx ihy)
@@ -362,7 +362,7 @@ theorem span_algebraMap_image_of_tower {S T : Type*} [CommSemiring S] [Semiring 
 theorem map_mem_span_algebraMap_image {S T : Type*} [CommSemiring S] [Semiring T] [Algebra R S]
     [Algebra R T] [Algebra S T] [IsScalarTower R S T] (x : S) (a : Set S)
     (hx : x ∈ Submodule.span R a) : algebraMap S T x ∈ Submodule.span R (algebraMap S T '' a) := by
-  rw [span_algebraMap_image_of_tower, mem_map]
+  rw [span_algebraMap_image_of_tower]; rw [mem_map]
   exact ⟨x, hx, rfl⟩
 #align submodule.map_mem_span_algebra_map_image Submodule.map_mem_span_algebraMap_image
 

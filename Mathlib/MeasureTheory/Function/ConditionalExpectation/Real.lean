@@ -48,8 +48,7 @@ theorem rnDeriv_ae_eq_condexp {hm : m ≤ m0} [hμm : SigmaFinite (μ.trim hm)] 
       ← SignedMeasure.withDensityᵥ_rnDeriv_eq ((μ.withDensityᵥ f).trim hm) (μ.trim hm)
         (hf.withDensityᵥ_trim_absolutelyContinuous hm)]
     rw [withDensityᵥ_apply
-      (SignedMeasure.integrable_rnDeriv ((μ.withDensityᵥ f).trim hm) (μ.trim hm)) hs,
-      ← set_integral_trim hm _ hs]
+      (SignedMeasure.integrable_rnDeriv ((μ.withDensityᵥ f).trim hm) (μ.trim hm)) hs]; rw [← set_integral_trim hm _ hs]
     exact (SignedMeasure.measurable_rnDeriv _ _).stronglyMeasurable
   · exact StronglyMeasurable.aeStronglyMeasurable'
       (SignedMeasure.measurable_rnDeriv _ _).stronglyMeasurable
@@ -74,11 +73,10 @@ theorem snorm_one_condexp_le_snorm (f : α → ℝ) : snorm (μ[f|m]) 1 μ ≤ s
           (@ae_of_all _ m0 _ μ (fun x => neg_le_abs_self (f x): ∀ x, -f x ≤ |f x|)))] with x hx₁ hx₂
       exact abs_le_abs hx₁ hx₂
     _ = snorm f 1 μ := by
-      rw [snorm_one_eq_lintegral_nnnorm, snorm_one_eq_lintegral_nnnorm, ←
-        ENNReal.toReal_eq_toReal (ne_of_lt integrable_condexp.2) (ne_of_lt hf.2), ←
+      rw [snorm_one_eq_lintegral_nnnorm]; rw [snorm_one_eq_lintegral_nnnorm]; rw [←
+        ENNReal.toReal_eq_toReal (ne_of_lt integrable_condexp.2) (ne_of_lt hf.2)]; rw [←
         integral_norm_eq_lintegral_nnnorm
-          (stronglyMeasurable_condexp.mono hm).aestronglyMeasurable,
-        ← integral_norm_eq_lintegral_nnnorm hf.1]
+          (stronglyMeasurable_condexp.mono hm).aestronglyMeasurable]; rw [← integral_norm_eq_lintegral_nnnorm hf.1]
       simp_rw [Real.norm_eq_abs]
       rw [← @integral_condexp _ _ _ _ _ m m0 μ _ hm hsig hf.abs]
       refine' integral_congr_ae _
@@ -100,7 +98,7 @@ theorem integral_abs_condexp_le (f : α → ℝ) : ∫ x, |(μ[f|m]) x| ∂μ �
   · simp only [condexp_undef hfint, Pi.zero_apply, abs_zero, integral_const, Algebra.id.smul_eq_mul,
       mul_zero]
     exact integral_nonneg fun x => abs_nonneg _
-  rw [integral_eq_lintegral_of_nonneg_ae, integral_eq_lintegral_of_nonneg_ae]
+  rw [integral_eq_lintegral_of_nonneg_ae]; rw [integral_eq_lintegral_of_nonneg_ae]
   · rw [ENNReal.toReal_le_toReal] <;> simp_rw [← Real.norm_eq_abs, ofReal_norm_eq_coe_nnnorm]
     · rw [← snorm_one_eq_lintegral_nnnorm, ← snorm_one_eq_lintegral_nnnorm]
       exact snorm_one_condexp_le_snorm _
@@ -132,9 +130,9 @@ theorem set_integral_abs_condexp_le {s : Set α} (hs : MeasurableSet[m] s) (f : 
     have : (fun x => |(μ[s.indicator f|m]) x|) =ᵐ[μ] fun x => |s.indicator (μ[f|m]) x| :=
       EventuallyEq.fun_comp (condexp_indicator hfint hs) _
     refine' EventuallyEq.trans (eventually_of_forall fun x => _) this.symm
-    rw [← Real.norm_eq_abs, norm_indicator_eq_indicator_norm]
+    rw [← Real.norm_eq_abs]; rw [norm_indicator_eq_indicator_norm]
     rfl
-  rw [this, ← integral_indicator]
+  rw [this]; rw [← integral_indicator]
   swap; · exact hnm _ hs
   refine' (integral_abs_condexp_le _).trans
     (le_of_eq <| integral_congr_ae <| eventually_of_forall fun x => _)
@@ -153,7 +151,7 @@ theorem ae_bdd_condexp_of_ae_bdd {R : ℝ≥0} {f : α → ℝ} (hbdd : ∀ᵐ x
   swap
   · simp_rw [condexp_undef hfint]
     filter_upwards [hbdd] with x hx
-    rw [Pi.zero_apply, abs_zero]
+    rw [Pi.zero_apply]; rw [abs_zero]
     exact (abs_nonneg _).trans hx
   by_contra h
   change μ _ ≠ 0 at h
@@ -205,16 +203,14 @@ theorem Integrable.uniformIntegrable_condexp {ι : Type*} [IsFiniteMeasure μ] {
     intro n
     have := mul_meas_ge_le_pow_snorm' μ one_ne_zero ENNReal.one_ne_top
       ((@stronglyMeasurable_condexp _ _ _ _ _ (ℱ n) _ μ g).mono (hℱ n)).aestronglyMeasurable C
-    rw [ENNReal.one_toReal, ENNReal.rpow_one, ENNReal.rpow_one, mul_comm, ←
+    rw [ENNReal.one_toReal] at this; rw [ENNReal.rpow_one] at this; rw [ENNReal.rpow_one] at this; rw [mul_comm] at this; rw [←
       ENNReal.le_div_iff_mul_le (Or.inl (ENNReal.coe_ne_zero.2 hCpos.ne.symm))
         (Or.inl ENNReal.coe_lt_top.ne)] at this
     simp_rw [ENNReal.coe_le_coe] at this
     refine' this.trans _
     rw [ENNReal.div_le_iff_le_mul (Or.inl (ENNReal.coe_ne_zero.2 hCpos.ne.symm))
-        (Or.inl ENNReal.coe_lt_top.ne),
-      hC, Nonneg.inv_mk, ENNReal.coe_mul, ENNReal.coe_toNNReal hg.snorm_lt_top.ne, ← mul_assoc, ←
-      ENNReal.ofReal_eq_coe_nnreal, ← ENNReal.ofReal_mul hδ.le, mul_inv_cancel hδ.ne.symm,
-      ENNReal.ofReal_one, one_mul]
+        (Or.inl ENNReal.coe_lt_top.ne)]; rw [hC]; rw [Nonneg.inv_mk]; rw [ENNReal.coe_mul]; rw [ENNReal.coe_toNNReal hg.snorm_lt_top.ne]; rw [← mul_assoc]; rw [←
+      ENNReal.ofReal_eq_coe_nnreal]; rw [← ENNReal.ofReal_mul hδ.le]; rw [mul_inv_cancel hδ.ne.symm]; rw [ENNReal.ofReal_one]; rw [one_mul]
     exact snorm_one_condexp_le_snorm _
   refine' ⟨C, fun n => le_trans _ (h {x : α | C ≤ ‖(μ[g|ℱ n]) x‖₊} (hmeas n C) (this n))⟩
   have hmeasℱ : MeasurableSet[ℱ n] {x : α | C ≤ ‖(μ[g|ℱ n]) x‖₊} :=
@@ -242,7 +238,7 @@ theorem condexp_stronglyMeasurable_simpleFunc_mul (hm : m ≤ m0) (f : @SimpleFu
     -- for `Set.piecewise_eq_indicator`
     classical simp only [@SimpleFunc.const_zero _ _ m, @SimpleFunc.coe_piecewise _ _ m,
       @SimpleFunc.coe_const _ _ m, @SimpleFunc.coe_zero _ _ m, Set.piecewise_eq_indicator]
-    rw [this, this]
+    rw [this]; rw [this]
     refine' (condexp_indicator (hg.smul c) hs).trans _
     filter_upwards [@condexp_smul α ℝ ℝ _ _ _ _ _ m m0 μ c g] with x hx
     classical simp_rw [Set.indicator_apply, hx]

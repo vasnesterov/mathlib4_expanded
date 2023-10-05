@@ -64,7 +64,7 @@ theorem chain_split {a b : α} {l₁ l₂ : List α} :
 @[simp]
 theorem chain_append_cons_cons {a b c : α} {l₁ l₂ : List α} :
     Chain R a (l₁ ++ b :: c :: l₂) ↔ Chain R a (l₁ ++ [b]) ∧ R b c ∧ Chain R c l₂ := by
-  rw [chain_split, chain_cons]
+  rw [chain_split]; rw [chain_cons]
 #align list.chain_append_cons_cons List.chain_append_cons_cons
 
 theorem chain_iff_forall₂ :
@@ -143,7 +143,7 @@ theorem chain_iff_get {R} : ∀ {a : α} {l : List α}, Chain R a l ↔
         R (get l ⟨i, lt_of_lt_pred h⟩) (get l ⟨i+1, lt_pred_iff.mp h⟩)
   | a, [] => iff_of_true (by simp) ⟨fun h => by simp at h, fun _ h => by simp at h⟩
   | a, b :: t => by
-    rw [chain_cons, @chain_iff_get _ _ t]
+    rw [chain_cons]; rw [@chain_iff_get _ _ t]
     constructor
     · rintro ⟨R, ⟨h0, h⟩⟩
       constructor
@@ -218,7 +218,7 @@ theorem chain'_split {a : α} :
 @[simp]
 theorem chain'_append_cons_cons {b c : α} {l₁ l₂ : List α} :
     Chain' R (l₁ ++ b :: c :: l₂) ↔ Chain' R (l₁ ++ [b]) ∧ R b c ∧ Chain' R (c :: l₂) := by
-  rw [chain'_split, chain'_cons]
+  rw [chain'_split]; rw [chain'_cons]
 #align list.chain'_append_cons_cons List.chain'_append_cons_cons
 
 theorem chain'_map (f : β → α) {l : List β} :
@@ -285,8 +285,7 @@ theorem chain'_append :
   | [], l => by simp
   | [a], l => by simp [chain'_cons', and_comm]
   | a :: b :: l₁, l₂ => by
-    rw [cons_append, cons_append, chain'_cons, chain'_cons, ← cons_append, chain'_append,
-      and_assoc]
+    rw [cons_append]; rw [cons_append]; rw [chain'_cons]; rw [chain'_cons]; rw [← cons_append]; rw [chain'_append]; rw [and_assoc]
     simp
 #align list.chain'_append List.chain'_append
 
@@ -341,8 +340,7 @@ theorem chain'_reverse : ∀ {l}, Chain' R (reverse l) ↔ Chain' (flip R) l
   | [] => Iff.rfl
   | [a] => by simp only [chain'_singleton, reverse_singleton]
   | a :: b :: l => by
-    rw [chain'_cons, reverse_cons, reverse_cons, append_assoc, cons_append, nil_append,
-      chain'_split, ← reverse_cons, @chain'_reverse (b :: l), and_comm, chain'_pair, flip]
+    rw [chain'_cons]; rw [reverse_cons]; rw [reverse_cons]; rw [append_assoc]; rw [cons_append]; rw [nil_append]; rw [chain'_split]; rw [← reverse_cons]; rw [@chain'_reverse (b :: l)]; rw [and_comm]; rw [chain'_pair]; rw [flip]
 #align list.chain'_reverse List.chain'_reverse
 
 theorem chain'_iff_get {R} : ∀ {l : List α}, Chain' R l ↔
@@ -351,7 +349,7 @@ theorem chain'_iff_get {R} : ∀ {l : List α}, Chain' R l ↔
   | [] => iff_of_true (by simp) (fun _ h => by simp at h)
   | [a] => iff_of_true (by simp) (fun _ h => by simp at h)
   | a :: b :: t => by
-    rw [← and_forall_succ, chain'_cons, chain'_iff_get]
+    rw [← and_forall_succ]; rw [chain'_cons]; rw [chain'_iff_get]
     simp
     dsimp [succ_sub_one]
     exact fun _ => ⟨fun h i hi => h i (Nat.lt_of_succ_lt_succ hi),
@@ -380,9 +378,9 @@ lemma chain'_join : ∀ {L : List (List α)}, [] ∉ L →
 | [], _ => by simp
 | [l], _ => by simp [join]
 | (l₁ :: l₂ :: L), hL => by
-    rw [mem_cons, not_or, ← Ne.def] at hL
-    rw [join, chain'_append, chain'_join hL.2, forall_mem_cons, chain'_cons]
-    rw [mem_cons, not_or, ← Ne.def] at hL
+    rw [mem_cons] at hL; rw [not_or] at hL; rw [← Ne.def] at hL
+    rw [join]; rw [chain'_append]; rw [chain'_join hL.2]; rw [forall_mem_cons]; rw [chain'_cons]
+    rw [mem_cons] at hL; rw [not_or] at hL; rw [← Ne.def] at hL
     simp only [forall_mem_cons, and_assoc, join, head?_append_of_ne_nil _ hL.2.1.symm]
     exact Iff.rfl.and (Iff.rfl.and $ Iff.rfl.and and_comm)
 

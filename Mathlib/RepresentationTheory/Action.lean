@@ -635,7 +635,7 @@ theorem functorCategoryMonoidalEquivalence.μ_app (A B : Action V G) :
   --   simp only [monoidal_category.tensor_id, category.comp_id]
   dsimp [Equivalence.unit]
   erw [Category.id_comp]
-  rw [NatIso.isIso_inv_app, IsIso.inv_comp_eq]
+  rw [NatIso.isIso_inv_app]; rw [IsIso.inv_comp_eq]
   erw [MonoidalCategory.tensor_id]
   erw [(functorCategoryEquivalence V G).inverse.map_id,
     (functorCategoryEquivalence V G).functor.map_id, Category.id_comp]
@@ -646,10 +646,9 @@ set_option linter.uppercaseLean3 false in
 @[simp]
 theorem functorCategoryMonoidalEquivalence.μIso_inv_app (A B : Action V G) :
     ((functorCategoryMonoidalEquivalence V G).μIso A B).inv.app PUnit.unit = 𝟙 _ := by
-  rw [← NatIso.app_inv, ← IsIso.Iso.inv_hom]
+  rw [← NatIso.app_inv]; rw [← IsIso.Iso.inv_hom]
   refine' IsIso.inv_eq_of_hom_inv_id _
-  rw [Category.comp_id, NatIso.app_hom, MonoidalFunctor.μIso_hom,
-    functorCategoryMonoidalEquivalence.μ_app]
+  rw [Category.comp_id]; rw [NatIso.app_hom]; rw [MonoidalFunctor.μIso_hom]; rw [functorCategoryMonoidalEquivalence.μ_app]
 set_option linter.uppercaseLean3 false in
 #align Action.functor_category_monoidal_equivalence.μ_iso_inv_app Action.functorCategoryMonoidalEquivalence.μIso_inv_app
 
@@ -897,7 +896,7 @@ noncomputable def leftRegularTensorIso (G : Type u) [Group G] (X : Action (Type 
         funext ⟨(x₁ : G), (x₂ : X.V)⟩
         refine' Prod.ext rfl _
         change (X.ρ ((g * x₁)⁻¹ : G) * X.ρ g) x₂ = X.ρ _ _
-        rw [mul_inv_rev, ← X.ρ.map_mul, inv_mul_cancel_right] }
+        rw [mul_inv_rev]; rw [← X.ρ.map_mul]; rw [inv_mul_cancel_right] }
   inv :=
     { hom := fun g => ⟨g.1, X.ρ g.1 g.2⟩
       comm := fun (g : G) => by
@@ -913,13 +912,13 @@ noncomputable def leftRegularTensorIso (G : Type u) [Group G] (X : Action (Type 
     funext x
     refine' Prod.ext rfl _
     change (X.ρ x.1 * X.ρ (x.1⁻¹ : G)) x.2 = x.2
-    rw [← X.ρ.map_mul, mul_inv_self, X.ρ.map_one, MonCat.one_of, End.one_def, types_id_apply]
+    rw [← X.ρ.map_mul]; rw [mul_inv_self]; rw [X.ρ.map_one]; rw [MonCat.one_of]; rw [End.one_def]; rw [types_id_apply]
   inv_hom_id := by
     apply Hom.ext
     funext x
     refine' Prod.ext rfl _
     change (X.ρ (x.1⁻¹ : G) * X.ρ x.1) x.2 = x.2
-    rw [← X.ρ.map_mul, inv_mul_self, X.ρ.map_one, MonCat.one_of, End.one_def, types_id_apply]
+    rw [← X.ρ.map_mul]; rw [inv_mul_self]; rw [X.ρ.map_one]; rw [MonCat.one_of]; rw [End.one_def]; rw [types_id_apply]
 set_option linter.uppercaseLean3 false in
 #align Action.left_regular_tensor_iso Action.leftRegularTensorIso
 
@@ -949,10 +948,10 @@ def mapAction (F : V ⥤ W) (G : MonCat.{u}) : Action V G ⥤ Action W G where
           map_one' := by simp only [End.one_def, Action.ρ_one, F.map_id, MonCat.one_of]
           map_mul' := fun g h => by
             dsimp
-            rw [map_mul, MonCat.mul_of, End.mul_def, End.mul_def, F.map_comp] } }
+            rw [map_mul]; rw [MonCat.mul_of]; rw [End.mul_def]; rw [End.mul_def]; rw [F.map_comp] } }
   map f :=
     { hom := F.map f.hom
-      comm := fun g => by dsimp; rw [← F.map_comp, f.comm, F.map_comp] }
+      comm := fun g => by dsimp; rw [← F.map_comp]; rw [f.comm]; rw [F.map_comp] }
   map_id M := by ext; simp only [Action.id_hom, F.map_id]
   map_comp f g := by ext; simp only [Action.comp_hom, F.map_comp]
 set_option linter.uppercaseLean3 false in
@@ -989,7 +988,7 @@ def mapAction : MonoidalFunctor (Action V G) (Action W G) :=
       { hom := F.ε
         comm := fun g => by
           dsimp [FunctorCategoryEquivalence.inverse, Functor.mapAction]
-          rw [Category.id_comp, F.map_id, Category.comp_id] }
+          rw [Category.id_comp]; rw [F.map_id]; rw [Category.comp_id] }
     μ := fun X Y =>
       { hom := F.μ X.V Y.V
         comm := fun g => F.toLaxMonoidalFunctor.μ_natural (X.ρ g) (Y.ρ g) }
@@ -1005,22 +1004,20 @@ def mapAction : MonoidalFunctor (Action V G) (Action W G) :=
       simp only [MonoidalCategory.rightUnitor_conjugation,
         LaxMonoidalFunctor.right_unitality, Category.id_comp, Category.assoc,
         LaxMonoidalFunctor.right_unitality_inv_assoc, Category.comp_id, Iso.hom_inv_id]
-      rw [← F.map_comp, Iso.inv_hom_id, F.map_id, Category.comp_id] }
+      rw [← F.map_comp]; rw [Iso.inv_hom_id]; rw [F.map_id]; rw [Category.comp_id] }
 set_option linter.uppercaseLean3 false in
 #align category_theory.monoidal_functor.map_Action CategoryTheory.MonoidalFunctor.mapAction
 
 @[simp]
 theorem mapAction_ε_inv_hom : (inv (F.mapAction G).ε).hom = inv F.ε := by
-  rw [← cancel_mono F.ε, IsIso.inv_hom_id, ← F.mapAction_toLaxMonoidalFunctor_ε_hom G,
-    ← Action.comp_hom, IsIso.inv_hom_id, Action.id_hom]
+  rw [← cancel_mono F.ε]; rw [IsIso.inv_hom_id]; rw [← F.mapAction_toLaxMonoidalFunctor_ε_hom G]; rw [← Action.comp_hom]; rw [IsIso.inv_hom_id]; rw [Action.id_hom]
 set_option linter.uppercaseLean3 false in
 #align category_theory.monoidal_functor.map_Action_ε_inv_hom CategoryTheory.MonoidalFunctor.mapAction_ε_inv_hom
 
 @[simp]
 theorem mapAction_μ_inv_hom (X Y : Action V G) :
     (inv ((F.mapAction G).μ X Y)).hom = inv (F.μ X.V Y.V) := by
-  rw [← cancel_mono (F.μ X.V Y.V), IsIso.inv_hom_id, ← F.mapAction_toLaxMonoidalFunctor_μ_hom G,
-    ← Action.comp_hom, IsIso.inv_hom_id, Action.id_hom]
+  rw [← cancel_mono (F.μ X.V Y.V)]; rw [IsIso.inv_hom_id]; rw [← F.mapAction_toLaxMonoidalFunctor_μ_hom G]; rw [← Action.comp_hom]; rw [IsIso.inv_hom_id]; rw [Action.id_hom]
 set_option linter.uppercaseLean3 false in
 #align category_theory.monoidal_functor.map_Action_μ_inv_hom CategoryTheory.MonoidalFunctor.mapAction_μ_inv_hom
 

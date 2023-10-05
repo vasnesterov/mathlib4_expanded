@@ -46,12 +46,12 @@ variable {R}
 
 @[simp]
 theorem destutter'_cons_pos (h : R b a) : (a :: l).destutter' R b = b :: l.destutter' R a := by
-  rw [destutter', if_pos h]
+  rw [destutter']; rw [if_pos h]
 #align list.destutter'_cons_pos List.destutter'_cons_pos
 
 @[simp]
 theorem destutter'_cons_neg (h : ¬R b a) : (a :: l).destutter' R b = l.destutter' R b := by
-  rw [destutter', if_neg h]
+  rw [destutter']; rw [if_neg h]
 #align list.destutter'_cons_neg List.destutter'_cons_neg
 
 variable (R)
@@ -102,7 +102,7 @@ theorem destutter'_of_chain (h : l.Chain R a) : l.destutter' R a = a :: l := by
   induction' l with b l hb generalizing a
   · simp
   obtain ⟨h, hc⟩ := chain_cons.mp h
-  rw [l.destutter'_cons_pos h, hb hc]
+  rw [l.destutter'_cons_pos h]; rw [hb hc]
 #align list.destutter'_of_chain List.destutter'_of_chain
 
 @[simp]

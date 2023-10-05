@@ -275,7 +275,7 @@ theorem coe_sum {s : Finset α} {f : α → ℚ≥0} : ↑(∑ a in s, f a) = �
 
 theorem toNNRat_sum_of_nonneg {s : Finset α} {f : α → ℚ} (hf : ∀ a, a ∈ s → 0 ≤ f a) :
     (∑ a in s, f a).toNNRat = ∑ a in s, (f a).toNNRat := by
-  rw [← coe_inj, coe_sum, Rat.coe_toNNRat _ (Finset.sum_nonneg hf)]
+  rw [← coe_inj]; rw [coe_sum]; rw [Rat.coe_toNNRat _ (Finset.sum_nonneg hf)]
   exact Finset.sum_congr rfl fun x hxs ↦ by rw [Rat.coe_toNNRat _ (hf x hxs)]
 #align nnrat.to_nnrat_sum_of_nonneg NNRat.toNNRat_sum_of_nonneg
 
@@ -286,7 +286,7 @@ theorem coe_prod {s : Finset α} {f : α → ℚ≥0} : ↑(∏ a in s, f a) = �
 
 theorem toNNRat_prod_of_nonneg {s : Finset α} {f : α → ℚ} (hf : ∀ a ∈ s, 0 ≤ f a) :
     (∏ a in s, f a).toNNRat = ∏ a in s, (f a).toNNRat := by
-  rw [← coe_inj, coe_prod, Rat.coe_toNNRat _ (Finset.prod_nonneg hf)]
+  rw [← coe_inj]; rw [coe_prod]; rw [Rat.coe_toNNRat _ (Finset.prod_nonneg hf)]
   exact Finset.prod_congr rfl fun x hxs ↦ by rw [Rat.coe_toNNRat _ (hf x hxs)]
 #align nnrat.to_nnrat_prod_of_nonneg NNRat.toNNRat_prod_of_nonneg
 
@@ -385,7 +385,7 @@ theorem toNNRat_le_iff_le_coe {p : ℚ≥0} : toNNRat q ≤ p ↔ q ≤ ↑p :=
 #align rat.to_nnrat_le_iff_le_coe Rat.toNNRat_le_iff_le_coe
 
 theorem le_toNNRat_iff_coe_le {q : ℚ≥0} (hp : 0 ≤ p) : q ≤ toNNRat p ↔ ↑q ≤ p := by
-  rw [← coe_le_coe, Rat.coe_toNNRat p hp]
+  rw [← coe_le_coe]; rw [Rat.coe_toNNRat p hp]
 #align rat.le_to_nnrat_iff_coe_le Rat.le_toNNRat_iff_coe_le
 
 theorem le_toNNRat_iff_coe_le' {q : ℚ≥0} (hq : 0 < q) : q ≤ toNNRat p ↔ ↑q ≤ p :=
@@ -394,7 +394,7 @@ theorem le_toNNRat_iff_coe_le' {q : ℚ≥0} (hq : 0 < q) : q ≤ toNNRat p ↔ 
 #align rat.le_to_nnrat_iff_coe_le' Rat.le_toNNRat_iff_coe_le'
 
 theorem toNNRat_lt_iff_lt_coe {p : ℚ≥0} (hq : 0 ≤ q) : toNNRat q < p ↔ q < ↑p := by
-  rw [← coe_lt_coe, Rat.coe_toNNRat q hq]
+  rw [← coe_lt_coe]; rw [Rat.coe_toNNRat q hq]
 #align rat.to_nnrat_lt_iff_lt_coe Rat.toNNRat_lt_iff_lt_coe
 
 theorem lt_toNNRat_iff_coe_lt {q : ℚ≥0} : q < toNNRat p ↔ ↑q < p :=
@@ -409,22 +409,22 @@ theorem toNNRat_mul (hp : 0 ≤ p) : toNNRat (p * q) = toNNRat p * toNNRat q := 
   cases' le_total 0 q with hq hq
   · ext <;> simp [toNNRat, hp, hq, max_eq_left, mul_nonneg]
   · have hpq := mul_nonpos_of_nonneg_of_nonpos hp hq
-    rw [toNNRat_eq_zero.2 hq, toNNRat_eq_zero.2 hpq, mul_zero]
+    rw [toNNRat_eq_zero.2 hq]; rw [toNNRat_eq_zero.2 hpq]; rw [mul_zero]
 #align rat.to_nnrat_mul Rat.toNNRat_mul
 
 theorem toNNRat_inv (q : ℚ) : toNNRat q⁻¹ = (toNNRat q)⁻¹ := by
   obtain hq | hq := le_total q 0
   · rw [toNNRat_eq_zero.mpr hq, inv_zero, toNNRat_eq_zero.mpr (inv_nonpos.mpr hq)]
   · nth_rw 1 [← Rat.coe_toNNRat q hq]
-    rw [← coe_inv, toNNRat_coe]
+    rw [← coe_inv]; rw [toNNRat_coe]
 #align rat.to_nnrat_inv Rat.toNNRat_inv
 
 theorem toNNRat_div (hp : 0 ≤ p) : toNNRat (p / q) = toNNRat p / toNNRat q := by
-  rw [div_eq_mul_inv, div_eq_mul_inv, ← toNNRat_inv, ← toNNRat_mul hp]
+  rw [div_eq_mul_inv]; rw [div_eq_mul_inv]; rw [← toNNRat_inv]; rw [← toNNRat_mul hp]
 #align rat.to_nnrat_div Rat.toNNRat_div
 
 theorem toNNRat_div' (hq : 0 ≤ q) : toNNRat (p / q) = toNNRat p / toNNRat q := by
-  rw [div_eq_inv_mul, div_eq_inv_mul, toNNRat_mul (inv_nonneg.2 hq), toNNRat_inv]
+  rw [div_eq_inv_mul]; rw [div_eq_inv_mul]; rw [toNNRat_mul (inv_nonneg.2 hq)]; rw [toNNRat_inv]
 #align rat.to_nnrat_div' Rat.toNNRat_div'
 
 end Rat
@@ -481,8 +481,7 @@ theorem ext_num_den_iff : p = q ↔ p.num = q.num ∧ p.den = q.den :=
 @[simp]
 theorem num_div_den (q : ℚ≥0) : (q.num : ℚ≥0) / q.den = q := by
   ext1
-  rw [coe_div, coe_natCast, coe_natCast, num, ← Int.cast_ofNat,
-    Int.natAbs_of_nonneg (Rat.num_nonneg_iff_zero_le.2 q.prop)]
+  rw [coe_div]; rw [coe_natCast]; rw [coe_natCast]; rw [num]; rw [← Int.cast_ofNat]; rw [Int.natAbs_of_nonneg (Rat.num_nonneg_iff_zero_le.2 q.prop)]
   exact Rat.num_div_den q
 #align nnrat.num_div_denom NNRat.num_div_den
 

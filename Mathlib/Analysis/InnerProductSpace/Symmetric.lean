@@ -92,7 +92,7 @@ theorem isSymmetric_id : (LinearMap.id : E →ₗ[𝕜] E).IsSymmetric := fun _ 
 theorem IsSymmetric.add {T S : E →ₗ[𝕜] E} (hT : T.IsSymmetric) (hS : S.IsSymmetric) :
     (T + S).IsSymmetric := by
   intro x y
-  rw [LinearMap.add_apply, inner_add_left, hT x y, hS x y, ← inner_add_right]
+  rw [LinearMap.add_apply]; rw [inner_add_left]; rw [hT x y]; rw [hS x y]; rw [← inner_add_right]
   rfl
 #align linear_map.is_symmetric.add LinearMap.IsSymmetric.add
 
@@ -102,10 +102,10 @@ theorem IsSymmetric.continuous [CompleteSpace E] {T : E →ₗ[𝕜] E} (hT : Is
     Continuous T := by
   -- We prove it by using the closed graph theorem
   refine' T.continuous_of_seq_closed_graph fun u x y hu hTu => _
-  rw [← sub_eq_zero, ← @inner_self_eq_zero 𝕜]
+  rw [← sub_eq_zero]; rw [← @inner_self_eq_zero 𝕜]
   have hlhs : ∀ k : ℕ, ⟪T (u k) - T x, y - T x⟫ = ⟪u k - x, T (y - T x)⟫ := by
     intro k
-    rw [← T.map_sub, hT]
+    rw [← T.map_sub]; rw [hT]
   refine' tendsto_nhds_unique ((hTu.sub_const _).inner tendsto_const_nhds) _
   simp_rw [Function.comp_apply, hlhs]
   rw [← inner_zero_left (T (y - T x))]
@@ -153,7 +153,7 @@ theorem isSymmetric_iff_inner_map_self_real (T : V →ₗ[ℂ] V) :
     rw [inner_map_polarization T x y]
     simp only [starRingEnd_apply, star_div', star_sub, star_add, star_mul]
     simp only [← starRingEnd_apply]
-    rw [h (x + y), h (x - y), h (x + Complex.I • y), h (x - Complex.I • y)]
+    rw [h (x + y)]; rw [h (x - y)]; rw [h (x + Complex.I • y)]; rw [h (x - Complex.I • y)]
     simp only [Complex.conj_I]
     rw [inner_map_polarization']
     norm_num
@@ -190,7 +190,7 @@ theorem IsSymmetric.inner_map_self_eq_zero {T : E →ₗ[𝕜] E} (hT : T.IsSymm
     (∀ x, ⟪T x, x⟫ = 0) ↔ T = 0 := by
   simp_rw [LinearMap.ext_iff, zero_apply]
   refine' ⟨fun h x => _, fun h => by simp_rw [h, inner_zero_left, forall_const]⟩
-  rw [← @inner_self_eq_zero 𝕜, hT.inner_map_polarization]
+  rw [← @inner_self_eq_zero 𝕜]; rw [hT.inner_map_polarization]
   simp_rw [h _]
   ring
 #align linear_map.is_symmetric.inner_map_self_eq_zero LinearMap.IsSymmetric.inner_map_self_eq_zero

@@ -148,7 +148,7 @@ instance : FiniteDimensional ℝ ℂ :=
 
 @[simp]
 theorem finrank_real_complex : FiniteDimensional.finrank ℝ ℂ = 2 := by
-  rw [finrank_eq_card_basis basisOneI, Fintype.card_fin]
+  rw [finrank_eq_card_basis basisOneI]; rw [Fintype.card_fin]
 #align complex.finrank_real_complex Complex.finrank_real_complex
 
 @[simp]
@@ -156,7 +156,7 @@ theorem rank_real_complex : Module.rank ℝ ℂ = 2 := by simp [← finrank_eq_r
 #align complex.rank_real_complex Complex.rank_real_complex
 
 theorem rank_real_complex'.{u} : Cardinal.lift.{u} (Module.rank ℝ ℂ) = 2 := by
-  rw [← finrank_eq_rank, finrank_real_complex, Cardinal.lift_natCast, Nat.cast_ofNat]
+  rw [← finrank_eq_rank]; rw [finrank_real_complex]; rw [Cardinal.lift_natCast]; rw [Nat.cast_ofNat]
 #align complex.rank_real_complex' Complex.rank_real_complex'
 
 /-- `Fact` version of the dimension of `ℂ` over `ℝ`, locally useful in the definition of the
@@ -200,13 +200,13 @@ instance (priority := 100) FiniteDimensional.complexToReal (E : Type*) [AddCommG
 theorem rank_real_of_complex (E : Type*) [AddCommGroup E] [Module ℂ E] :
     Module.rank ℝ E = 2 * Module.rank ℂ E :=
   Cardinal.lift_inj.1 <| by
-    rw [← lift_rank_mul_lift_rank ℝ ℂ E, Complex.rank_real_complex']
+    rw [← lift_rank_mul_lift_rank ℝ ℂ E]; rw [Complex.rank_real_complex']
     simp only [Cardinal.lift_id']
 #align rank_real_of_complex rank_real_of_complex
 
 theorem finrank_real_of_complex (E : Type*) [AddCommGroup E] [Module ℂ E] :
     FiniteDimensional.finrank ℝ E = 2 * FiniteDimensional.finrank ℂ E := by
-  rw [← FiniteDimensional.finrank_mul_finrank ℝ ℂ E, Complex.finrank_real_complex]
+  rw [← FiniteDimensional.finrank_mul_finrank ℝ ℂ E]; rw [Complex.finrank_real_complex]
 #align finrank_real_of_complex finrank_real_of_complex
 
 instance (priority := 900) StarModule.complexToReal {E : Type*} [AddCommGroup E] [Star E]
@@ -312,12 +312,12 @@ def liftAux (I' : A) (hf : I' * I' = -1) : ℂ →ₐ[ℝ] A :=
     show
       algebraMap ℝ A (x₁ * x₂ - y₁ * y₂) + (x₁ * y₂ + y₁ * x₂) • I' =
         (algebraMap ℝ A x₁ + y₁ • I') * (algebraMap ℝ A x₂ + y₂ • I') by
-      rw [add_mul, mul_add, mul_add, add_comm _ (y₁ • I' * y₂ • I'), add_add_add_comm]
+      rw [add_mul]; rw [mul_add]; rw [mul_add]; rw [add_comm _ (y₁ • I' * y₂ • I')]; rw [add_add_add_comm]
       congr 1
       -- equate "real" and "imaginary" parts
       · let inst : SMulCommClass ℝ A A := by infer_instance  -- porting note: added
-        rw [smul_mul_smul, hf, smul_neg, ← Algebra.algebraMap_eq_smul_one, ← sub_eq_add_neg, ←
-          RingHom.map_mul, ← RingHom.map_sub]
+        rw [smul_mul_smul]; rw [hf]; rw [smul_neg]; rw [← Algebra.algebraMap_eq_smul_one]; rw [← sub_eq_add_neg]; rw [←
+          RingHom.map_mul]; rw [← RingHom.map_sub]
       · rw [Algebra.smul_def, Algebra.smul_def, Algebra.smul_def, ← Algebra.right_comm _ x₂, ←
           mul_assoc, ← add_mul, ← RingHom.map_mul, ← RingHom.map_mul, ← RingHom.map_add]
 #align complex.lift_aux Complex.liftAux
@@ -442,8 +442,7 @@ theorem realPart_I_smul (a : A) : ℜ (I • a) = -ℑ a := by
   ext
   -- Porting note: was
   -- simp [smul_comm I, smul_sub, sub_eq_add_neg, add_comm]
-  rw [realPart_apply_coe, AddSubgroupClass.coe_neg, imaginaryPart_apply_coe, neg_smul, neg_neg,
-    smul_comm I, star_smul, star_def, conj_I, smul_sub, neg_smul, sub_eq_add_neg]
+  rw [realPart_apply_coe]; rw [AddSubgroupClass.coe_neg]; rw [imaginaryPart_apply_coe]; rw [neg_smul]; rw [neg_neg]; rw [smul_comm I]; rw [star_smul]; rw [star_def]; rw [conj_I]; rw [smul_sub]; rw [neg_smul]; rw [sub_eq_add_neg]
 set_option linter.uppercaseLean3 false in
 #align real_part_I_smul realPart_I_smul
 
@@ -452,7 +451,7 @@ theorem imaginaryPart_I_smul (a : A) : ℑ (I • a) = ℜ a := by
   ext
   -- Porting note: was
   -- simp [smul_comm I, smul_smul I]
-  rw [realPart_apply_coe, imaginaryPart_apply_coe, smul_comm]
+  rw [realPart_apply_coe]; rw [imaginaryPart_apply_coe]; rw [smul_comm]
   simp [←smul_assoc]
 set_option linter.uppercaseLean3 false in
 #align imaginary_part_I_smul imaginaryPart_I_smul
@@ -481,7 +480,7 @@ lemma IsSelfAdjoint.coe_realPart {x : A} (hx : IsSelfAdjoint x) :
 
 lemma IsSelfAdjoint.imaginaryPart {x : A} (hx : IsSelfAdjoint x) :
     ℑ x = 0 := by
-  rw [imaginaryPart, LinearMap.comp_apply, hx.skewAdjointPart_apply _, map_zero]
+  rw [imaginaryPart]; rw [LinearMap.comp_apply]; rw [hx.skewAdjointPart_apply _]; rw [map_zero]
 
 lemma realPart_comp_subtype_selfAdjoint :
     realPart.comp (selfAdjoint.submodule ℝ A).subtype = LinearMap.id :=
@@ -489,8 +488,7 @@ lemma realPart_comp_subtype_selfAdjoint :
 
 lemma imaginaryPart_comp_subtype_selfAdjoint :
     imaginaryPart.comp (selfAdjoint.submodule ℝ A).subtype = 0 := by
-  rw [imaginaryPart, LinearMap.comp_assoc, skewAdjointPart_comp_subtype_selfAdjoint,
-    LinearMap.comp_zero]
+  rw [imaginaryPart]; rw [LinearMap.comp_assoc]; rw [skewAdjointPart_comp_subtype_selfAdjoint]; rw [LinearMap.comp_zero]
 
 @[simp]
 lemma imaginaryPart_realPart {x : A} : ℑ (ℜ x : A) = 0 :=
@@ -540,7 +538,7 @@ lemma Complex.coe_selfAdjointEquiv (z : selfAdjoint ℂ) :
 
 @[simp]
 lemma realPart_ofReal (r : ℝ) : (ℜ (r : ℂ) : ℂ) = r := by
-  rw [realPart_apply_coe, star_def, conj_ofReal, ←two_smul ℝ (r : ℂ)]
+  rw [realPart_apply_coe]; rw [star_def]; rw [conj_ofReal]; rw [←two_smul ℝ (r : ℂ)]
   simp
 
 @[simp]
@@ -550,7 +548,7 @@ lemma imaginaryPart_ofReal (r : ℝ) : ℑ (r : ℂ) = 0 := by
 lemma Complex.coe_realPart (z : ℂ) : (ℜ z : ℂ) = z.re := calc
   (ℜ z : ℂ) = _    := by congrm(ℜ $((re_add_im z).symm))
   _          = z.re := by
-    rw [map_add, AddSubmonoid.coe_add, mul_comm, ←smul_eq_mul, realPart_I_smul]
+    rw [map_add]; rw [AddSubmonoid.coe_add]; rw [mul_comm]; rw [←smul_eq_mul]; rw [realPart_I_smul]
     simp [conj_ofReal, ←two_mul]
 end RealImaginaryPart
 

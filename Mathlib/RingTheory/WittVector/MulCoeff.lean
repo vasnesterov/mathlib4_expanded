@@ -81,7 +81,7 @@ theorem wittPolyProdRemainder_vars (n : ℕ) :
   refine' union_subset _ _
   · apply Subset.trans (vars_pow _ _)
     have : (p : 𝕄) = C (p : ℤ) := by simp only [Int.cast_ofNat, eq_intCast]
-    rw [this, vars_C]
+    rw [this]; rw [vars_C]
     apply empty_subset
   · apply Subset.trans (vars_pow _ _)
     apply Subset.trans (wittMul_vars _ _)
@@ -108,7 +108,7 @@ theorem remainder_vars (n : ℕ) : (remainder p n).vars ⊆ univ ×ˢ range (n +
   · refine' Subset.trans (vars_sum_subset _ _) _
     rw [biUnion_subset]
     intro x hx
-    rw [rename_monomial, vars_monomial, Finsupp.mapDomain_single]
+    rw [rename_monomial]; rw [vars_monomial]; rw [Finsupp.mapDomain_single]
     · apply Subset.trans Finsupp.support_single_subset
       simpa using mem_range.mp hx
     · apply pow_ne_zero
@@ -143,7 +143,7 @@ theorem mul_polyOfInterest_aux1 (n : ℕ) :
 theorem mul_polyOfInterest_aux2 (n : ℕ) :
     (p : 𝕄) ^ n * wittMul p n + wittPolyProdRemainder p n = wittPolyProd p n := by
   convert mul_polyOfInterest_aux1 p n
-  rw [sum_range_succ, add_comm, Nat.sub_self, pow_zero, pow_one]
+  rw [sum_range_succ]; rw [add_comm]; rw [Nat.sub_self]; rw [pow_zero]; rw [pow_one]
   rfl
 #align witt_vector.mul_poly_of_interest_aux2 WittVector.mul_polyOfInterest_aux2
 
@@ -157,23 +157,19 @@ theorem mul_polyOfInterest_aux3 (n : ℕ) : wittPolyProd p (n + 1) =
   -- Porting note: the original proof applies `sum_range_succ` through a non-`conv` rewrite,
   -- but this does not work in Lean 4; the whole proof also times out very badly. The proof has been
   -- nearly totally rewritten here and now finishes quite fast.
-  rw [wittPolyProd, wittPolynomial, AlgHom.map_sum, AlgHom.map_sum]
+  rw [wittPolyProd]; rw [wittPolynomial]; rw [AlgHom.map_sum]; rw [AlgHom.map_sum]
   conv_lhs =>
     arg 1
-    rw [sum_range_succ, ← C_mul_X_pow_eq_monomial, tsub_self, pow_zero, pow_one, map_mul,
-      rename_C, rename_X, ← mvpz]
+    rw [sum_range_succ]; rw [← C_mul_X_pow_eq_monomial]; rw [tsub_self]; rw [pow_zero]; rw [pow_one]; rw [map_mul]; rw [rename_C]; rw [rename_X]; rw [← mvpz]
   conv_lhs =>
     arg 2
-    rw [sum_range_succ, ← C_mul_X_pow_eq_monomial, tsub_self, pow_zero, pow_one, map_mul,
-      rename_C, rename_X, ← mvpz]
+    rw [sum_range_succ]; rw [← C_mul_X_pow_eq_monomial]; rw [tsub_self]; rw [pow_zero]; rw [pow_one]; rw [map_mul]; rw [rename_C]; rw [rename_X]; rw [← mvpz]
   conv_rhs =>
     enter [1, 1, 2, 2]
-    rw [sum_range_succ, ← C_mul_X_pow_eq_monomial, tsub_self, pow_zero, pow_one, map_mul,
-      rename_C, rename_X, ← mvpz]
+    rw [sum_range_succ]; rw [← C_mul_X_pow_eq_monomial]; rw [tsub_self]; rw [pow_zero]; rw [pow_one]; rw [map_mul]; rw [rename_C]; rw [rename_X]; rw [← mvpz]
   conv_rhs =>
     enter [1, 2, 2]
-    rw [sum_range_succ, ← C_mul_X_pow_eq_monomial, tsub_self, pow_zero, pow_one, map_mul,
-      rename_C, rename_X, ← mvpz]
+    rw [sum_range_succ]; rw [← C_mul_X_pow_eq_monomial]; rw [tsub_self]; rw [pow_zero]; rw [pow_one]; rw [map_mul]; rw [rename_C]; rw [rename_X]; rw [← mvpz]
   simp only [add_mul, mul_add]
   rw [add_comm _ (remainder p n)]
   simp only [add_assoc]
@@ -187,7 +183,7 @@ theorem mul_polyOfInterest_aux4 (n : ℕ) :
     (p : 𝕄) ^ (n + 1) * X (0, n + 1) * rename (Prod.mk (1 : Fin 2)) (wittPolynomial p ℤ (n + 1)) +
     (p : 𝕄) ^ (n + 1) * X (1, n + 1) * rename (Prod.mk (0 : Fin 2)) (wittPolynomial p ℤ (n + 1)) +
     (remainder p n - wittPolyProdRemainder p (n + 1)) := by
-  rw [← add_sub_assoc, eq_sub_iff_add_eq, mul_polyOfInterest_aux2]
+  rw [← add_sub_assoc]; rw [eq_sub_iff_add_eq]; rw [mul_polyOfInterest_aux2]
   exact mul_polyOfInterest_aux3 _ _
 #align witt_vector.mul_poly_of_interest_aux4 WittVector.mul_polyOfInterest_aux4
 
@@ -212,7 +208,7 @@ theorem polyOfInterest_vars_eq (n : ℕ) : (polyOfInterest p n).vars =
       X (0, n + 1) * rename (Prod.mk (1 : Fin 2)) (wittPolynomial p ℤ (n + 1)) -
       X (1, n + 1) * rename (Prod.mk (0 : Fin 2)) (wittPolynomial p ℤ (n + 1)))).vars := by
   have : (p : 𝕄) ^ (n + 1) = C ((p : ℤ) ^ (n + 1)) := by simp only; norm_cast
-  rw [polyOfInterest, this, vars_C_mul]
+  rw [polyOfInterest]; rw [this]; rw [vars_C_mul]
   apply pow_ne_zero
   exact_mod_cast hp.out.ne_zero
 #align witt_vector.poly_of_interest_vars_eq WittVector.polyOfInterest_vars_eq
@@ -229,10 +225,10 @@ theorem peval_polyOfInterest (n : ℕ) (x y : 𝕎 k) :
   simp only [polyOfInterest, peval, map_natCast, Matrix.head_cons, map_pow,
     Function.uncurry_apply_pair, aeval_X, Matrix.cons_val_one, map_mul, Matrix.cons_val_zero,
     map_sub]
-  rw [sub_sub, add_comm (_ * _), ← sub_sub]
+  rw [sub_sub]; rw [add_comm (_ * _)]; rw [← sub_sub]
   have mvpz : (p : MvPolynomial ℕ ℤ) = MvPolynomial.C ↑p := by rw [eq_intCast, Int.cast_ofNat]
   have : ∀ (f : ℤ →+* k) (g : ℕ → k), eval₂ f g p = f p := by
-    intros; rw [mvpz, MvPolynomial.eval₂_C]
+    intros; rw [mvpz]; rw [MvPolynomial.eval₂_C]
   simp [wittPolynomial_eq_sum_C_mul_X_pow, aeval, eval₂_rename, this, mul_coeff, peval, map_natCast,
     map_add, map_pow, map_mul]
 #align witt_vector.peval_poly_of_interest WittVector.peval_polyOfInterest

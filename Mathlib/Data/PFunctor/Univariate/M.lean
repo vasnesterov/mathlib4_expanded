@@ -164,7 +164,7 @@ theorem head_succ' (n m : ℕ) (x : ∀ n, CofixA F n) (Hconsistent : AllAgree x
     trivial
   · have H := Hconsistent (succ n)
     cases' h₂ : x (succ n) with _ i₂ f₂
-    rw [h₀, h₂] at H
+    rw [h₀] at H; rw [h₂] at H
     apply n_ih (truncate ∘ f₀)
     rw [h₂]
     cases' H with _ _ _ _ _ _ hagree
@@ -344,7 +344,7 @@ theorem mk_dest (x : M F) : M.mk (dest x) = x := by
   dsimp only [Approx.sMk, dest, head]
   cases' h : x.approx (succ n) with _ hd ch
   have h' : hd = head' (x.approx 1) := by
-    rw [← head_succ' n, h, head']
+    rw [← head_succ' n]; rw [h]; rw [head']
     apply x.consistent
   revert ch
   rw [h']
@@ -684,10 +684,10 @@ theorem nth_of_bisim [Inhabited (M F)] (bisim : IsBisimulation R) (s₁ s₂) (p
   induction' h : f i using PFunctor.M.casesOn' with a₀ f₀
   induction' h' : f' i using PFunctor.M.casesOn' with a₁ f₁
   simp only [h, h', isubtree_cons] at ps_ih ⊢
-  rw [h, h'] at h₁
+  rw [h] at h₁; rw [h'] at h₁
   obtain rfl : a₀ = a₁ := bisim.head h₁
   apply ps_ih _ _ _ h₁
-  rw [← h, ← h']
+  rw [← h]; rw [← h']
   apply Or.imp isPath_cons' isPath_cons' hh
 set_option linter.uppercaseLean3 false in
 #align pfunctor.M.nth_of_bisim PFunctor.M.nth_of_bisim
@@ -718,7 +718,7 @@ set_option linter.uppercaseLean3 false in
 variable {P : PFunctor.{u}} {α : Type u}
 
 theorem dest_corec (g : α → P.Obj α) (x : α) : M.dest (M.corec g x) = M.corec g <$> g x := by
-  rw [corec_def, dest_mk]
+  rw [corec_def]; rw [dest_mk]
 set_option linter.uppercaseLean3 false in
 #align pfunctor.M.dest_corec PFunctor.M.dest_corec
 
@@ -732,7 +732,7 @@ theorem bisim (R : M P → M P → Prop)
   · replace h₀ := congr_arg Sigma.fst h₀
     replace h₁ := congr_arg Sigma.fst h₁
     simp only [dest_mk] at h₀ h₁
-    rw [h₀, h₁]
+    rw [h₀]; rw [h₁]
   · simp only [dest_mk] at h₀ h₁
     cases h₀
     cases h₁

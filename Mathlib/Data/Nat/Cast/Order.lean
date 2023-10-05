@@ -107,7 +107,7 @@ theorem one_le_cast : 1 ≤ (n : α) ↔ 1 ≤ n := by rw [← cast_one, cast_le
 
 @[simp, norm_cast]
 theorem cast_lt_one : (n : α) < 1 ↔ n = 0 := by
-  rw [← cast_one, cast_lt, lt_succ_iff, ← bot_eq_zero, le_bot_iff]
+  rw [← cast_one]; rw [cast_lt]; rw [lt_succ_iff]; rw [← bot_eq_zero]; rw [le_bot_iff]
 #align nat.cast_lt_one Nat.cast_lt_one
 
 @[simp, norm_cast]
@@ -125,7 +125,7 @@ theorem cast_tsub [CanonicallyOrderedCommSemiring α] [Sub α] [OrderedSub α]
   · rw [Nat.sub_eq_zero_of_le h, cast_zero, tsub_eq_zero_of_le]
     exact mono_cast h
   · rcases le_iff_exists_add'.mp h with ⟨m, rfl⟩
-    rw [add_tsub_cancel_right, cast_add, add_tsub_cancel_right]
+    rw [add_tsub_cancel_right]; rw [cast_add]; rw [add_tsub_cancel_right]
 #align nat.cast_tsub Nat.cast_tsub
 
 @[simp, norm_cast]

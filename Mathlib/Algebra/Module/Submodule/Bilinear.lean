@@ -83,7 +83,7 @@ theorem map₂_bot_right (f : M →ₗ[R] N →ₗ[R] P) (p : Submodule R M) : m
   eq_bot_iff.2 <|
     map₂_le.2 fun m _hm n hn => by
       rw [Submodule.mem_bot] at hn
-      rw [hn, LinearMap.map_zero]; simp only [mem_bot]
+      rw [hn]; rw [LinearMap.map_zero]; simp only [mem_bot]
 #align submodule.map₂_bot_right Submodule.map₂_bot_right
 
 @[simp]
@@ -91,7 +91,7 @@ theorem map₂_bot_left (f : M →ₗ[R] N →ₗ[R] P) (q : Submodule R N) : ma
   eq_bot_iff.2 <|
     map₂_le.2 fun m hm n hn => by
       rw [Submodule.mem_bot] at hm ⊢
-      rw [hm, LinearMap.map_zero₂]
+      rw [hm]; rw [LinearMap.map_zero₂]
 #align submodule.map₂_bot_left Submodule.map₂_bot_left
 
 @[mono]
@@ -138,12 +138,12 @@ theorem image2_subset_map₂ (f : M →ₗ[R] N →ₗ[R] P) (p : Submodule R M)
 
 theorem map₂_eq_span_image2 (f : M →ₗ[R] N →ₗ[R] P) (p : Submodule R M) (q : Submodule R N) :
     map₂ f p q = span R (Set.image2 (fun m n => f m n) (p : Set M) (q : Set N)) := by
-  rw [← map₂_span_span, span_eq, span_eq]
+  rw [← map₂_span_span]; rw [span_eq]; rw [span_eq]
 #align submodule.map₂_eq_span_image2 Submodule.map₂_eq_span_image2
 
 theorem map₂_flip (f : M →ₗ[R] N →ₗ[R] P) (p : Submodule R M) (q : Submodule R N) :
     map₂ f.flip q p = map₂ f p q := by
-  rw [map₂_eq_span_image2, map₂_eq_span_image2, Set.image2_swap]
+  rw [map₂_eq_span_image2]; rw [map₂_eq_span_image2]; rw [Set.image2_swap]
   rfl
 #align submodule.map₂_flip Submodule.map₂_flip
 

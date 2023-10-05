@@ -237,8 +237,7 @@ theorem fderivWithin_add_const (hxs : UniqueDiffWithinAt 𝕜 s x) (c : F) :
     fderivWithin 𝕜 (fun y => f y + c) s x = fderivWithin 𝕜 f s x :=
   if hf : DifferentiableWithinAt 𝕜 f s x then (hf.hasFDerivWithinAt.add_const c).fderivWithin hxs
   else by
-    rw [fderivWithin_zero_of_not_differentiableWithinAt hf,
-      fderivWithin_zero_of_not_differentiableWithinAt]
+    rw [fderivWithin_zero_of_not_differentiableWithinAt hf]; rw [fderivWithin_zero_of_not_differentiableWithinAt]
     simpa
 #align fderiv_within_add_const fderivWithin_add_const
 
@@ -453,8 +452,7 @@ theorem fderivWithin_neg (hxs : UniqueDiffWithinAt 𝕜 s x) :
     fderivWithin 𝕜 (fun y => -f y) s x = -fderivWithin 𝕜 f s x :=
   if h : DifferentiableWithinAt 𝕜 f s x then h.hasFDerivWithinAt.neg.fderivWithin hxs
   else by
-    rw [fderivWithin_zero_of_not_differentiableWithinAt h,
-      fderivWithin_zero_of_not_differentiableWithinAt, neg_zero]
+    rw [fderivWithin_zero_of_not_differentiableWithinAt h]; rw [fderivWithin_zero_of_not_differentiableWithinAt]; rw [neg_zero]
     simpa
 #align fderiv_within_neg fderivWithin_neg
 

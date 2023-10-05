@@ -116,7 +116,7 @@ theorem angle_eq_iff_two_pi_dvd_sub {ψ θ : ℝ} : (θ : Angle) = ψ ↔ ∃ k 
   simp only [QuotientAddGroup.eq, AddSubgroup.zmultiples_eq_closure,
     AddSubgroup.mem_closure_singleton, zsmul_eq_mul', (sub_eq_neg_add _ _).symm, eq_comm]
   -- Porting note: added `rw`, `simp [Angle.coe, QuotientAddGroup.eq]` doesn't fire otherwise
-  rw [Angle.coe, Angle.coe, QuotientAddGroup.eq]
+  rw [Angle.coe]; rw [Angle.coe]; rw [QuotientAddGroup.eq]
   simp only [AddSubgroup.zmultiples_eq_closure,
     AddSubgroup.mem_closure_singleton, zsmul_eq_mul', (sub_eq_neg_add _ _).symm, eq_comm]
 #align real.angle.angle_eq_iff_two_pi_dvd_sub Real.Angle.angle_eq_iff_two_pi_dvd_sub
@@ -128,33 +128,33 @@ theorem coe_two_pi : ↑(2 * π : ℝ) = (0 : Angle) :=
 
 @[simp]
 theorem neg_coe_pi : -(π : Angle) = π := by
-  rw [← coe_neg, angle_eq_iff_two_pi_dvd_sub]
+  rw [← coe_neg]; rw [angle_eq_iff_two_pi_dvd_sub]
   use -1
   simp [two_mul, sub_eq_add_neg]
 #align real.angle.neg_coe_pi Real.Angle.neg_coe_pi
 
 @[simp]
 theorem two_nsmul_coe_div_two (θ : ℝ) : (2 : ℕ) • (↑(θ / 2) : Angle) = θ := by
-  rw [← coe_nsmul, two_nsmul, add_halves]
+  rw [← coe_nsmul]; rw [two_nsmul]; rw [add_halves]
 #align real.angle.two_nsmul_coe_div_two Real.Angle.two_nsmul_coe_div_two
 
 @[simp]
 theorem two_zsmul_coe_div_two (θ : ℝ) : (2 : ℤ) • (↑(θ / 2) : Angle) = θ := by
-  rw [← coe_zsmul, two_zsmul, add_halves]
+  rw [← coe_zsmul]; rw [two_zsmul]; rw [add_halves]
 #align real.angle.two_zsmul_coe_div_two Real.Angle.two_zsmul_coe_div_two
 
 -- Porting note: @[simp] can prove it
 theorem two_nsmul_neg_pi_div_two : (2 : ℕ) • (↑(-π / 2) : Angle) = π := by
-  rw [two_nsmul_coe_div_two, coe_neg, neg_coe_pi]
+  rw [two_nsmul_coe_div_two]; rw [coe_neg]; rw [neg_coe_pi]
 #align real.angle.two_nsmul_neg_pi_div_two Real.Angle.two_nsmul_neg_pi_div_two
 
 -- Porting note: @[simp] can prove it
 theorem two_zsmul_neg_pi_div_two : (2 : ℤ) • (↑(-π / 2) : Angle) = π := by
-  rw [two_zsmul, ← two_nsmul, two_nsmul_neg_pi_div_two]
+  rw [two_zsmul]; rw [← two_nsmul]; rw [two_nsmul_neg_pi_div_two]
 #align real.angle.two_zsmul_neg_pi_div_two Real.Angle.two_zsmul_neg_pi_div_two
 
 theorem sub_coe_pi_eq_add_coe_pi (θ : Angle) : θ - π = θ + π := by
-  rw [sub_eq_add_neg, neg_coe_pi]
+  rw [sub_eq_add_neg]; rw [neg_coe_pi]
 #align real.angle.sub_coe_pi_eq_add_coe_pi Real.Angle.sub_coe_pi_eq_add_coe_pi
 
 @[simp]
@@ -182,9 +182,7 @@ theorem nsmul_eq_iff {ψ θ : Angle} {n : ℕ} (hz : n ≠ 0) :
 theorem two_zsmul_eq_iff {ψ θ : Angle} : (2 : ℤ) • ψ = (2 : ℤ) • θ ↔ ψ = θ ∨ ψ = θ + ↑π := by
   -- Porting note: no `Int.natAbs_bit0` anymore
   have : Int.natAbs 2 = 2 := rfl
-  rw [zsmul_eq_iff two_ne_zero, this, Fin.exists_fin_two, Fin.val_zero,
-    Fin.val_one, zero_smul, coe_zero, add_zero, one_smul, Int.cast_two,
-    mul_div_cancel_left (_ : ℝ) two_ne_zero]
+  rw [zsmul_eq_iff two_ne_zero]; rw [this]; rw [Fin.exists_fin_two]; rw [Fin.val_zero]; rw [Fin.val_one]; rw [zero_smul]; rw [coe_zero]; rw [add_zero]; rw [one_smul]; rw [Int.cast_two]; rw [mul_div_cancel_left (_ : ℝ) two_ne_zero]
 #align real.angle.two_zsmul_eq_iff Real.Angle.two_zsmul_eq_iff
 
 theorem two_nsmul_eq_iff {ψ θ : Angle} : (2 : ℕ) • ψ = (2 : ℕ) • θ ↔ ψ = θ ∨ ψ = θ + ↑π := by
@@ -196,7 +194,7 @@ theorem two_nsmul_eq_zero_iff {θ : Angle} : (2 : ℕ) • θ = 0 ↔ θ = 0 ∨
 #align real.angle.two_nsmul_eq_zero_iff Real.Angle.two_nsmul_eq_zero_iff
 
 theorem two_nsmul_ne_zero_iff {θ : Angle} : (2 : ℕ) • θ ≠ 0 ↔ θ ≠ 0 ∧ θ ≠ π := by
-  rw [← not_or, ← two_nsmul_eq_zero_iff]
+  rw [← not_or]; rw [← two_nsmul_eq_zero_iff]
 #align real.angle.two_nsmul_ne_zero_iff Real.Angle.two_nsmul_ne_zero_iff
 
 theorem two_zsmul_eq_zero_iff {θ : Angle} : (2 : ℤ) • θ = 0 ↔ θ = 0 ∨ θ = π := by
@@ -204,97 +202,84 @@ theorem two_zsmul_eq_zero_iff {θ : Angle} : (2 : ℤ) • θ = 0 ↔ θ = 0 ∨
 #align real.angle.two_zsmul_eq_zero_iff Real.Angle.two_zsmul_eq_zero_iff
 
 theorem two_zsmul_ne_zero_iff {θ : Angle} : (2 : ℤ) • θ ≠ 0 ↔ θ ≠ 0 ∧ θ ≠ π := by
-  rw [← not_or, ← two_zsmul_eq_zero_iff]
+  rw [← not_or]; rw [← two_zsmul_eq_zero_iff]
 #align real.angle.two_zsmul_ne_zero_iff Real.Angle.two_zsmul_ne_zero_iff
 
 theorem eq_neg_self_iff {θ : Angle} : θ = -θ ↔ θ = 0 ∨ θ = π := by
-  rw [← add_eq_zero_iff_eq_neg, ← two_nsmul, two_nsmul_eq_zero_iff]
+  rw [← add_eq_zero_iff_eq_neg]; rw [← two_nsmul]; rw [two_nsmul_eq_zero_iff]
 #align real.angle.eq_neg_self_iff Real.Angle.eq_neg_self_iff
 
 theorem ne_neg_self_iff {θ : Angle} : θ ≠ -θ ↔ θ ≠ 0 ∧ θ ≠ π := by
-  rw [← not_or, ← eq_neg_self_iff.not]
+  rw [← not_or]; rw [← eq_neg_self_iff.not]
 #align real.angle.ne_neg_self_iff Real.Angle.ne_neg_self_iff
 
 theorem neg_eq_self_iff {θ : Angle} : -θ = θ ↔ θ = 0 ∨ θ = π := by rw [eq_comm, eq_neg_self_iff]
 #align real.angle.neg_eq_self_iff Real.Angle.neg_eq_self_iff
 
 theorem neg_ne_self_iff {θ : Angle} : -θ ≠ θ ↔ θ ≠ 0 ∧ θ ≠ π := by
-  rw [← not_or, ← neg_eq_self_iff.not]
+  rw [← not_or]; rw [← neg_eq_self_iff.not]
 #align real.angle.neg_ne_self_iff Real.Angle.neg_ne_self_iff
 
 theorem two_nsmul_eq_pi_iff {θ : Angle} : (2 : ℕ) • θ = π ↔ θ = (π / 2 : ℝ) ∨ θ = (-π / 2 : ℝ) := by
   have h : (π : Angle) = (2 : ℕ) • (π / 2 : ℝ) := by rw [two_nsmul, add_halves]
   nth_rw 1 [h]
-  rw [coe_nsmul, two_nsmul_eq_iff]
+  rw [coe_nsmul]; rw [two_nsmul_eq_iff]
   -- Porting note: `congr` didn't simplify the goal of iff of `Or`s
   convert Iff.rfl
-  rw [add_comm, ← coe_add, ← sub_eq_zero, ← coe_sub, neg_div, ←neg_sub, sub_neg_eq_add, add_assoc,
-    add_halves, ← two_mul, coe_neg, coe_two_pi, neg_zero]
+  rw [add_comm]; rw [← coe_add]; rw [← sub_eq_zero]; rw [← coe_sub]; rw [neg_div]; rw [←neg_sub]; rw [sub_neg_eq_add]; rw [add_assoc]; rw [add_halves]; rw [← two_mul]; rw [coe_neg]; rw [coe_two_pi]; rw [neg_zero]
 #align real.angle.two_nsmul_eq_pi_iff Real.Angle.two_nsmul_eq_pi_iff
 
 theorem two_zsmul_eq_pi_iff {θ : Angle} : (2 : ℤ) • θ = π ↔ θ = (π / 2 : ℝ) ∨ θ = (-π / 2 : ℝ) := by
-  rw [two_zsmul, ← two_nsmul, two_nsmul_eq_pi_iff]
+  rw [two_zsmul]; rw [← two_nsmul]; rw [two_nsmul_eq_pi_iff]
 #align real.angle.two_zsmul_eq_pi_iff Real.Angle.two_zsmul_eq_pi_iff
 
 theorem cos_eq_iff_coe_eq_or_eq_neg {θ ψ : ℝ} :
     cos θ = cos ψ ↔ (θ : Angle) = ψ ∨ (θ : Angle) = -ψ := by
   constructor
   · intro Hcos
-    rw [← sub_eq_zero, cos_sub_cos, mul_eq_zero, mul_eq_zero, neg_eq_zero,
-      eq_false (two_ne_zero' ℝ), false_or_iff, sin_eq_zero_iff, sin_eq_zero_iff] at Hcos
+    rw [← sub_eq_zero] at Hcos; rw [cos_sub_cos] at Hcos; rw [mul_eq_zero] at Hcos; rw [mul_eq_zero] at Hcos; rw [neg_eq_zero] at Hcos; rw [eq_false (two_ne_zero' ℝ)] at Hcos; rw [false_or_iff] at Hcos; rw [sin_eq_zero_iff] at Hcos; rw [sin_eq_zero_iff] at Hcos
     rcases Hcos with (⟨n, hn⟩ | ⟨n, hn⟩)
     · right
-      rw [eq_div_iff_mul_eq (two_ne_zero' ℝ), ← sub_eq_iff_eq_add] at hn
-      rw [← hn, coe_sub, eq_neg_iff_add_eq_zero, sub_add_cancel, mul_assoc, coe_int_mul_eq_zsmul,
-        mul_comm, coe_two_pi, zsmul_zero]
+      rw [eq_div_iff_mul_eq (two_ne_zero' ℝ)] at hn; rw [← sub_eq_iff_eq_add] at hn
+      rw [← hn]; rw [coe_sub]; rw [eq_neg_iff_add_eq_zero]; rw [sub_add_cancel]; rw [mul_assoc]; rw [coe_int_mul_eq_zsmul]; rw [mul_comm]; rw [coe_two_pi]; rw [zsmul_zero]
     · left
-      rw [eq_div_iff_mul_eq (two_ne_zero' ℝ), eq_sub_iff_add_eq] at hn
-      rw [← hn, coe_add, mul_assoc, coe_int_mul_eq_zsmul, mul_comm, coe_two_pi, zsmul_zero,
-        zero_add]
+      rw [eq_div_iff_mul_eq (two_ne_zero' ℝ)] at hn; rw [eq_sub_iff_add_eq] at hn
+      rw [← hn]; rw [coe_add]; rw [mul_assoc]; rw [coe_int_mul_eq_zsmul]; rw [mul_comm]; rw [coe_two_pi]; rw [zsmul_zero]; rw [zero_add]
   · rw [angle_eq_iff_two_pi_dvd_sub, ← coe_neg, angle_eq_iff_two_pi_dvd_sub]
     rintro (⟨k, H⟩ | ⟨k, H⟩)
-    rw [← sub_eq_zero, cos_sub_cos, H, mul_assoc 2 π k, mul_div_cancel_left _ (two_ne_zero' ℝ),
-      mul_comm π _, sin_int_mul_pi, mul_zero]
-    rw [← sub_eq_zero, cos_sub_cos, ← sub_neg_eq_add, H, mul_assoc 2 π k,
-      mul_div_cancel_left _ (two_ne_zero' ℝ), mul_comm π _, sin_int_mul_pi, mul_zero,
-      zero_mul]
+    rw [← sub_eq_zero]; rw [cos_sub_cos]; rw [H]; rw [mul_assoc 2 π k]; rw [mul_div_cancel_left _ (two_ne_zero' ℝ)]; rw [mul_comm π _]; rw [sin_int_mul_pi]; rw [mul_zero]
+    rw [← sub_eq_zero]; rw [cos_sub_cos]; rw [← sub_neg_eq_add]; rw [H]; rw [mul_assoc 2 π k]; rw [mul_div_cancel_left _ (two_ne_zero' ℝ)]; rw [mul_comm π _]; rw [sin_int_mul_pi]; rw [mul_zero]; rw [zero_mul]
 #align real.angle.cos_eq_iff_coe_eq_or_eq_neg Real.Angle.cos_eq_iff_coe_eq_or_eq_neg
 
 theorem sin_eq_iff_coe_eq_or_add_eq_pi {θ ψ : ℝ} :
     sin θ = sin ψ ↔ (θ : Angle) = ψ ∨ (θ : Angle) + ψ = π := by
   constructor
   · intro Hsin
-    rw [← cos_pi_div_two_sub, ← cos_pi_div_two_sub] at Hsin
+    rw [← cos_pi_div_two_sub] at Hsin; rw [← cos_pi_div_two_sub] at Hsin
     cases' cos_eq_iff_coe_eq_or_eq_neg.mp Hsin with h h
     · left
-      rw [coe_sub, coe_sub] at h
+      rw [coe_sub] at h; rw [coe_sub] at h
       exact sub_right_inj.1 h
     right
-    rw [coe_sub, coe_sub, eq_neg_iff_add_eq_zero, add_sub, sub_add_eq_add_sub, ← coe_add,
-      add_halves, sub_sub, sub_eq_zero] at h
+    rw [coe_sub] at h; rw [coe_sub] at h; rw [eq_neg_iff_add_eq_zero] at h; rw [add_sub] at h; rw [sub_add_eq_add_sub] at h; rw [← coe_add] at h; rw [add_halves] at h; rw [sub_sub] at h; rw [sub_eq_zero] at h
     exact h.symm
   · rw [angle_eq_iff_two_pi_dvd_sub, ← eq_sub_iff_add_eq, ← coe_sub, angle_eq_iff_two_pi_dvd_sub]
     rintro (⟨k, H⟩ | ⟨k, H⟩)
-    rw [← sub_eq_zero, sin_sub_sin, H, mul_assoc 2 π k, mul_div_cancel_left _ (two_ne_zero' ℝ),
-      mul_comm π _, sin_int_mul_pi, mul_zero, zero_mul]
+    rw [← sub_eq_zero]; rw [sin_sub_sin]; rw [H]; rw [mul_assoc 2 π k]; rw [mul_div_cancel_left _ (two_ne_zero' ℝ)]; rw [mul_comm π _]; rw [sin_int_mul_pi]; rw [mul_zero]; rw [zero_mul]
     have H' : θ + ψ = 2 * k * π + π := by
       rwa [← sub_add, sub_add_eq_add_sub, sub_eq_iff_eq_add, mul_assoc, mul_comm π _, ←
         mul_assoc] at H
-    rw [← sub_eq_zero, sin_sub_sin, H', add_div, mul_assoc 2 _ π,
-      mul_div_cancel_left _ (two_ne_zero' ℝ), cos_add_pi_div_two, sin_int_mul_pi, neg_zero,
-      mul_zero]
+    rw [← sub_eq_zero]; rw [sin_sub_sin]; rw [H']; rw [add_div]; rw [mul_assoc 2 _ π]; rw [mul_div_cancel_left _ (two_ne_zero' ℝ)]; rw [cos_add_pi_div_two]; rw [sin_int_mul_pi]; rw [neg_zero]; rw [mul_zero]
 #align real.angle.sin_eq_iff_coe_eq_or_add_eq_pi Real.Angle.sin_eq_iff_coe_eq_or_add_eq_pi
 
 theorem cos_sin_inj {θ ψ : ℝ} (Hcos : cos θ = cos ψ) (Hsin : sin θ = sin ψ) : (θ : Angle) = ψ := by
   cases' cos_eq_iff_coe_eq_or_eq_neg.mp Hcos with hc hc; · exact hc
   cases' sin_eq_iff_coe_eq_or_add_eq_pi.mp Hsin with hs hs; · exact hs
-  rw [eq_neg_iff_add_eq_zero, hs] at hc
+  rw [eq_neg_iff_add_eq_zero] at hc; rw [hs] at hc
   obtain ⟨n, hn⟩ : ∃ n, n • _ = _ := QuotientAddGroup.leftRel_apply.mp (Quotient.exact' hc)
-  rw [← neg_one_mul, add_zero, ← sub_eq_zero, zsmul_eq_mul, ← mul_assoc, ← sub_mul, mul_eq_zero,
-    eq_false (ne_of_gt pi_pos), or_false_iff, sub_neg_eq_add, ← Int.cast_zero, ← Int.cast_one,
-    ← Int.int_cast_ofNat, ← Int.cast_mul, ← Int.cast_add, Int.cast_inj] at hn
+  rw [← neg_one_mul] at hn; rw [add_zero] at hn; rw [← sub_eq_zero] at hn; rw [zsmul_eq_mul] at hn; rw [← mul_assoc] at hn; rw [← sub_mul] at hn; rw [mul_eq_zero] at hn; rw [eq_false (ne_of_gt pi_pos)] at hn; rw [or_false_iff] at hn; rw [sub_neg_eq_add] at hn; rw [← Int.cast_zero] at hn; rw [← Int.cast_one] at hn; rw [← Int.int_cast_ofNat] at hn; rw [← Int.cast_mul] at hn; rw [← Int.cast_add] at hn; rw [Int.cast_inj] at hn
   have : (n * 2 + 1) % (2 : ℤ) = 0 % (2 : ℤ) := congr_arg (· % (2 : ℤ)) hn
-  rw [add_comm, Int.add_mul_emod_self] at this
+  rw [add_comm] at this; rw [Int.add_mul_emod_self] at this
   exact absurd this one_ne_zero
 #align real.angle.cos_sin_inj Real.Angle.cos_sin_inj
 
@@ -365,7 +350,7 @@ theorem sin_eq_zero_iff {θ : Angle} : sin θ = 0 ↔ θ = 0 ∨ θ = π := by
 #align real.angle.sin_eq_zero_iff Real.Angle.sin_eq_zero_iff
 
 theorem sin_ne_zero_iff {θ : Angle} : sin θ ≠ 0 ↔ θ ≠ 0 ∧ θ ≠ π := by
-  rw [← not_or, ← sin_eq_zero_iff]
+  rw [← not_or]; rw [← sin_eq_zero_iff]
 #align real.angle.sin_ne_zero_iff Real.Angle.sin_ne_zero_iff
 
 @[simp]
@@ -421,7 +406,7 @@ theorem cos_sub_pi (θ : Angle) : cos (θ - π) = -cos θ :=
 #align real.angle.cos_sub_pi Real.Angle.cos_sub_pi
 
 theorem cos_eq_zero_iff {θ : Angle} : cos θ = 0 ↔ θ = (π / 2 : ℝ) ∨ θ = (-π / 2 : ℝ) := by
-  rw [← cos_pi_div_two, ← cos_coe, cos_eq_iff_eq_or_eq_neg, ← coe_neg, ← neg_div]
+  rw [← cos_pi_div_two]; rw [← cos_coe]; rw [cos_eq_iff_eq_or_eq_neg]; rw [← coe_neg]; rw [← neg_div]
 #align real.angle.cos_eq_zero_iff Real.Angle.cos_eq_zero_iff
 
 theorem sin_add (θ₁ θ₂ : Real.Angle) : sin (θ₁ + θ₂) = sin θ₁ * cos θ₂ + cos θ₁ * sin θ₂ := by
@@ -504,14 +489,14 @@ theorem abs_cos_eq_of_two_zsmul_eq {θ ψ : Angle} (h : (2 : ℤ) • θ = (2 : 
 theorem coe_toIcoMod (θ ψ : ℝ) : ↑(toIcoMod two_pi_pos ψ θ) = (θ : Angle) := by
   rw [angle_eq_iff_two_pi_dvd_sub]
   refine' ⟨-toIcoDiv two_pi_pos ψ θ, _⟩
-  rw [toIcoMod_sub_self, zsmul_eq_mul, mul_comm]
+  rw [toIcoMod_sub_self]; rw [zsmul_eq_mul]; rw [mul_comm]
 #align real.angle.coe_to_Ico_mod Real.Angle.coe_toIcoMod
 
 @[simp]
 theorem coe_toIocMod (θ ψ : ℝ) : ↑(toIocMod two_pi_pos ψ θ) = (θ : Angle) := by
   rw [angle_eq_iff_two_pi_dvd_sub]
   refine' ⟨-toIocDiv two_pi_pos ψ θ, _⟩
-  rw [toIocMod_sub_self, zsmul_eq_mul, mul_comm]
+  rw [toIocMod_sub_self]; rw [zsmul_eq_mul]; rw [mul_comm]
 #align real.angle.coe_to_Ioc_mod Real.Angle.coe_toIocMod
 
 /-- Convert a `Real.Angle` to a real number in the interval `Ioc (-π) π`. -/
@@ -524,13 +509,13 @@ theorem toReal_coe (θ : ℝ) : (θ : Angle).toReal = toIocMod two_pi_pos (-π) 
 #align real.angle.to_real_coe Real.Angle.toReal_coe
 
 theorem toReal_coe_eq_self_iff {θ : ℝ} : (θ : Angle).toReal = θ ↔ -π < θ ∧ θ ≤ π := by
-  rw [toReal_coe, toIocMod_eq_self two_pi_pos]
+  rw [toReal_coe]; rw [toIocMod_eq_self two_pi_pos]
   ring_nf
   rfl
 #align real.angle.to_real_coe_eq_self_iff Real.Angle.toReal_coe_eq_self_iff
 
 theorem toReal_coe_eq_self_iff_mem_Ioc {θ : ℝ} : (θ : Angle).toReal = θ ↔ θ ∈ Set.Ioc (-π) π := by
-  rw [toReal_coe_eq_self_iff, ← Set.mem_Ioc]
+  rw [toReal_coe_eq_self_iff]; rw [← Set.mem_Ioc]
 #align real.angle.to_real_coe_eq_self_iff_mem_Ioc Real.Angle.toReal_coe_eq_self_iff_mem_Ioc
 
 theorem toReal_injective : Function.Injective toReal := by
@@ -580,7 +565,7 @@ theorem toIocMod_toReal (θ : Angle) : toIocMod two_pi_pos (-π) θ.toReal = θ.
 
 @[simp]
 theorem toReal_zero : (0 : Angle).toReal = 0 := by
-  rw [← coe_zero, toReal_coe_eq_self_iff]
+  rw [← coe_zero]; rw [toReal_coe_eq_self_iff]
   exact ⟨Left.neg_neg_iff.2 Real.pi_pos, Real.pi_pos.le⟩
 #align real.angle.to_real_zero Real.Angle.toReal_zero
 
@@ -601,7 +586,7 @@ theorem toReal_eq_pi_iff {θ : Angle} : θ.toReal = π ↔ θ = π := by rw [←
 #align real.angle.to_real_eq_pi_iff Real.Angle.toReal_eq_pi_iff
 
 theorem pi_ne_zero : (π : Angle) ≠ 0 := by
-  rw [← toReal_injective.ne_iff, toReal_pi, toReal_zero]
+  rw [← toReal_injective.ne_iff]; rw [toReal_pi]; rw [toReal_zero]
   exact Real.pi_ne_zero
 #align real.angle.pi_ne_zero Real.Angle.pi_ne_zero
 
@@ -612,7 +597,7 @@ theorem toReal_pi_div_two : ((π / 2 : ℝ) : Angle).toReal = π / 2 :=
 
 @[simp]
 theorem toReal_eq_pi_div_two_iff {θ : Angle} : θ.toReal = π / 2 ↔ θ = (π / 2 : ℝ) := by
-  rw [← toReal_inj, toReal_pi_div_two]
+  rw [← toReal_inj]; rw [toReal_pi_div_two]
 #align real.angle.to_real_eq_pi_div_two_iff Real.Angle.toReal_eq_pi_div_two_iff
 
 @[simp]
@@ -622,16 +607,16 @@ theorem toReal_neg_pi_div_two : ((-π / 2 : ℝ) : Angle).toReal = -π / 2 :=
 
 @[simp]
 theorem toReal_eq_neg_pi_div_two_iff {θ : Angle} : θ.toReal = -π / 2 ↔ θ = (-π / 2 : ℝ) := by
-  rw [← toReal_inj, toReal_neg_pi_div_two]
+  rw [← toReal_inj]; rw [toReal_neg_pi_div_two]
 #align real.angle.to_real_eq_neg_pi_div_two_iff Real.Angle.toReal_eq_neg_pi_div_two_iff
 
 theorem pi_div_two_ne_zero : ((π / 2 : ℝ) : Angle) ≠ 0 := by
-  rw [← toReal_injective.ne_iff, toReal_pi_div_two, toReal_zero]
+  rw [← toReal_injective.ne_iff]; rw [toReal_pi_div_two]; rw [toReal_zero]
   exact div_ne_zero Real.pi_ne_zero two_ne_zero
 #align real.angle.pi_div_two_ne_zero Real.Angle.pi_div_two_ne_zero
 
 theorem neg_pi_div_two_ne_zero : ((-π / 2 : ℝ) : Angle) ≠ 0 := by
-  rw [← toReal_injective.ne_iff, toReal_neg_pi_div_two, toReal_zero]
+  rw [← toReal_injective.ne_iff]; rw [toReal_neg_pi_div_two]; rw [toReal_zero]
   exact div_ne_zero (neg_ne_zero.2 Real.pi_ne_zero) two_ne_zero
 #align real.angle.neg_pi_div_two_ne_zero Real.Angle.neg_pi_div_two_ne_zero
 
@@ -644,24 +629,20 @@ theorem abs_toReal_coe_eq_self_iff {θ : ℝ} : |(θ : Angle).toReal| = θ ↔ 0
 theorem abs_toReal_neg_coe_eq_self_iff {θ : ℝ} : |(-θ : Angle).toReal| = θ ↔ 0 ≤ θ ∧ θ ≤ π := by
   refine' ⟨fun h => h ▸ ⟨abs_nonneg _, abs_toReal_le_pi _⟩, fun h => _⟩
   by_cases hnegpi : θ = π; · simp [hnegpi, Real.pi_pos.le]
-  rw [← coe_neg,
-    toReal_coe_eq_self_iff.2
-      ⟨neg_lt_neg (lt_of_le_of_ne h.2 hnegpi), (neg_nonpos.2 h.1).trans Real.pi_pos.le⟩,
-    abs_neg, abs_eq_self.2 h.1]
+  rw [← coe_neg]; rw [toReal_coe_eq_self_iff.2
+      ⟨neg_lt_neg (lt_of_le_of_ne h.2 hnegpi), (neg_nonpos.2 h.1).trans Real.pi_pos.le⟩]; rw [abs_neg]; rw [abs_eq_self.2 h.1]
 #align real.angle.abs_to_real_neg_coe_eq_self_iff Real.Angle.abs_toReal_neg_coe_eq_self_iff
 
 theorem abs_toReal_eq_pi_div_two_iff {θ : Angle} :
     |θ.toReal| = π / 2 ↔ θ = (π / 2 : ℝ) ∨ θ = (-π / 2 : ℝ) := by
-  rw [abs_eq (div_nonneg Real.pi_pos.le two_pos.le), ← neg_div, toReal_eq_pi_div_two_iff,
-    toReal_eq_neg_pi_div_two_iff]
+  rw [abs_eq (div_nonneg Real.pi_pos.le two_pos.le)]; rw [← neg_div]; rw [toReal_eq_pi_div_two_iff]; rw [toReal_eq_neg_pi_div_two_iff]
 #align real.angle.abs_to_real_eq_pi_div_two_iff Real.Angle.abs_toReal_eq_pi_div_two_iff
 
 theorem nsmul_toReal_eq_mul {n : ℕ} (h : n ≠ 0) {θ : Angle} :
     (n • θ).toReal = n * θ.toReal ↔ θ.toReal ∈ Set.Ioc (-π / n) (π / n) := by
   nth_rw 1 [← coe_toReal θ]
   have h' : 0 < (n : ℝ) := by exact_mod_cast Nat.pos_of_ne_zero h
-  rw [← coe_nsmul, nsmul_eq_mul, toReal_coe_eq_self_iff, Set.mem_Ioc, div_lt_iff' h',
-    le_div_iff' h']
+  rw [← coe_nsmul]; rw [nsmul_eq_mul]; rw [toReal_coe_eq_self_iff]; rw [Set.mem_Ioc]; rw [div_lt_iff' h']; rw [le_div_iff' h']
 #align real.angle.nsmul_to_real_eq_mul Real.Angle.nsmul_toReal_eq_mul
 
 theorem two_nsmul_toReal_eq_two_mul {θ : Angle} :
@@ -671,13 +652,13 @@ theorem two_nsmul_toReal_eq_two_mul {θ : Angle} :
 
 theorem two_zsmul_toReal_eq_two_mul {θ : Angle} :
     ((2 : ℤ) • θ).toReal = 2 * θ.toReal ↔ θ.toReal ∈ Set.Ioc (-π / 2) (π / 2) := by
-  rw [two_zsmul, ← two_nsmul, two_nsmul_toReal_eq_two_mul]
+  rw [two_zsmul]; rw [← two_nsmul]; rw [two_nsmul_toReal_eq_two_mul]
 #align real.angle.two_zsmul_to_real_eq_two_mul Real.Angle.two_zsmul_toReal_eq_two_mul
 
 theorem toReal_coe_eq_self_sub_two_mul_int_mul_pi_iff {θ : ℝ} {k : ℤ} :
     (θ : Angle).toReal = θ - 2 * k * π ↔ θ ∈ Set.Ioc ((2 * k - 1 : ℝ) * π) ((2 * k + 1) * π) := by
-  rw [← sub_zero (θ : Angle), ← zsmul_zero k, ← coe_two_pi, ← coe_zsmul, ← coe_sub, zsmul_eq_mul, ←
-    mul_assoc, mul_comm (k : ℝ), toReal_coe_eq_self_iff, Set.mem_Ioc]
+  rw [← sub_zero (θ : Angle)]; rw [← zsmul_zero k]; rw [← coe_two_pi]; rw [← coe_zsmul]; rw [← coe_sub]; rw [zsmul_eq_mul]; rw [←
+    mul_assoc]; rw [mul_comm (k : ℝ)]; rw [toReal_coe_eq_self_iff]; rw [Set.mem_Ioc]
   exact ⟨fun h => ⟨by linarith, by linarith⟩, fun h => ⟨by linarith, by linarith⟩⟩
 #align real.angle.to_real_coe_eq_self_sub_two_mul_int_mul_pi_iff Real.Angle.toReal_coe_eq_self_sub_two_mul_int_mul_pi_iff
 
@@ -694,7 +675,7 @@ theorem toReal_coe_eq_self_add_two_pi_iff {θ : ℝ} :
 theorem two_nsmul_toReal_eq_two_mul_sub_two_pi {θ : Angle} :
     ((2 : ℕ) • θ).toReal = 2 * θ.toReal - 2 * π ↔ π / 2 < θ.toReal := by
   nth_rw 1 [← coe_toReal θ]
-  rw [← coe_nsmul, two_nsmul, ← two_mul, toReal_coe_eq_self_sub_two_pi_iff, Set.mem_Ioc]
+  rw [← coe_nsmul]; rw [two_nsmul]; rw [← two_mul]; rw [toReal_coe_eq_self_sub_two_pi_iff]; rw [Set.mem_Ioc]
   exact
     ⟨fun h => by linarith, fun h =>
       ⟨(div_lt_iff' (zero_lt_two' ℝ)).1 h, by linarith [pi_pos, toReal_le_pi θ]⟩⟩
@@ -702,13 +683,13 @@ theorem two_nsmul_toReal_eq_two_mul_sub_two_pi {θ : Angle} :
 
 theorem two_zsmul_toReal_eq_two_mul_sub_two_pi {θ : Angle} :
     ((2 : ℤ) • θ).toReal = 2 * θ.toReal - 2 * π ↔ π / 2 < θ.toReal := by
-  rw [two_zsmul, ← two_nsmul, two_nsmul_toReal_eq_two_mul_sub_two_pi]
+  rw [two_zsmul]; rw [← two_nsmul]; rw [two_nsmul_toReal_eq_two_mul_sub_two_pi]
 #align real.angle.two_zsmul_to_real_eq_two_mul_sub_two_pi Real.Angle.two_zsmul_toReal_eq_two_mul_sub_two_pi
 
 theorem two_nsmul_toReal_eq_two_mul_add_two_pi {θ : Angle} :
     ((2 : ℕ) • θ).toReal = 2 * θ.toReal + 2 * π ↔ θ.toReal ≤ -π / 2 := by
   nth_rw 1 [← coe_toReal θ]
-  rw [← coe_nsmul, two_nsmul, ← two_mul, toReal_coe_eq_self_add_two_pi_iff, Set.mem_Ioc]
+  rw [← coe_nsmul]; rw [two_nsmul]; rw [← two_mul]; rw [toReal_coe_eq_self_add_two_pi_iff]; rw [Set.mem_Ioc]
   refine'
     ⟨fun h => by linarith, fun h =>
       ⟨by linarith [pi_pos, neg_pi_lt_toReal θ], (le_div_iff' (zero_lt_two' ℝ)).1 h⟩⟩
@@ -716,7 +697,7 @@ theorem two_nsmul_toReal_eq_two_mul_add_two_pi {θ : Angle} :
 
 theorem two_zsmul_toReal_eq_two_mul_add_two_pi {θ : Angle} :
     ((2 : ℤ) • θ).toReal = 2 * θ.toReal + 2 * π ↔ θ.toReal ≤ -π / 2 := by
-  rw [two_zsmul, ← two_nsmul, two_nsmul_toReal_eq_two_mul_add_two_pi]
+  rw [two_zsmul]; rw [← two_nsmul]; rw [two_nsmul_toReal_eq_two_mul_add_two_pi]
 #align real.angle.two_zsmul_to_real_eq_two_mul_add_two_pi Real.Angle.two_zsmul_toReal_eq_two_mul_add_two_pi
 
 @[simp]
@@ -731,10 +712,10 @@ theorem cos_toReal (θ : Angle) : Real.cos θ.toReal = cos θ := by
 
 theorem cos_nonneg_iff_abs_toReal_le_pi_div_two {θ : Angle} : 0 ≤ cos θ ↔ |θ.toReal| ≤ π / 2 := by
   nth_rw 1 [← coe_toReal θ]
-  rw [abs_le, cos_coe]
+  rw [abs_le]; rw [cos_coe]
   refine' ⟨fun h => _, cos_nonneg_of_mem_Icc⟩
   by_contra hn
-  rw [not_and_or, not_le, not_le] at hn
+  rw [not_and_or] at hn; rw [not_le] at hn; rw [not_le] at hn
   refine' (not_lt.2 h) _
   rcases hn with (hn | hn)
   · rw [← Real.cos_neg]
@@ -745,19 +726,19 @@ theorem cos_nonneg_iff_abs_toReal_le_pi_div_two {θ : Angle} : 0 ≤ cos θ ↔ 
 #align real.angle.cos_nonneg_iff_abs_to_real_le_pi_div_two Real.Angle.cos_nonneg_iff_abs_toReal_le_pi_div_two
 
 theorem cos_pos_iff_abs_toReal_lt_pi_div_two {θ : Angle} : 0 < cos θ ↔ |θ.toReal| < π / 2 := by
-  rw [lt_iff_le_and_ne, lt_iff_le_and_ne, cos_nonneg_iff_abs_toReal_le_pi_div_two, ←
+  rw [lt_iff_le_and_ne]; rw [lt_iff_le_and_ne]; rw [cos_nonneg_iff_abs_toReal_le_pi_div_two]; rw [←
     and_congr_right]
   rintro -
-  rw [Ne.def, Ne.def, not_iff_not, @eq_comm ℝ 0, abs_toReal_eq_pi_div_two_iff, cos_eq_zero_iff]
+  rw [Ne.def]; rw [Ne.def]; rw [not_iff_not]; rw [@eq_comm ℝ 0]; rw [abs_toReal_eq_pi_div_two_iff]; rw [cos_eq_zero_iff]
 #align real.angle.cos_pos_iff_abs_to_real_lt_pi_div_two Real.Angle.cos_pos_iff_abs_toReal_lt_pi_div_two
 
 theorem cos_neg_iff_pi_div_two_lt_abs_toReal {θ : Angle} : cos θ < 0 ↔ π / 2 < |θ.toReal| := by
-  rw [← not_le, ← not_le, not_iff_not, cos_nonneg_iff_abs_toReal_le_pi_div_two]
+  rw [← not_le]; rw [← not_le]; rw [not_iff_not]; rw [cos_nonneg_iff_abs_toReal_le_pi_div_two]
 #align real.angle.cos_neg_iff_pi_div_two_lt_abs_to_real Real.Angle.cos_neg_iff_pi_div_two_lt_abs_toReal
 
 theorem abs_cos_eq_abs_sin_of_two_nsmul_add_two_nsmul_eq_pi {θ ψ : Angle}
     (h : (2 : ℕ) • θ + (2 : ℕ) • ψ = π) : |cos θ| = |sin ψ| := by
-  rw [← eq_sub_iff_add_eq, ← two_nsmul_coe_div_two, ← nsmul_sub, two_nsmul_eq_iff] at h
+  rw [← eq_sub_iff_add_eq] at h; rw [← two_nsmul_coe_div_two] at h; rw [← nsmul_sub] at h; rw [two_nsmul_eq_iff] at h
   rcases h with (rfl | rfl) <;> simp [cos_pi_div_two_sub]
 #align real.angle.abs_cos_eq_abs_sin_of_two_nsmul_add_two_nsmul_eq_pi Real.Angle.abs_cos_eq_abs_sin_of_two_nsmul_add_two_nsmul_eq_pi
 
@@ -778,7 +759,7 @@ theorem tan_eq_sin_div_cos (θ : Angle) : tan θ = sin θ / cos θ :=
 
 @[simp]
 theorem tan_coe (x : ℝ) : tan (x : Angle) = Real.tan x := by
-  rw [tan, sin_coe, cos_coe, Real.tan_eq_sin_div_cos]
+  rw [tan]; rw [sin_coe]; rw [cos_coe]; rw [Real.tan_eq_sin_div_cos]
 #align real.angle.tan_coe Real.Angle.tan_coe
 
 @[simp]
@@ -792,7 +773,7 @@ theorem tan_coe_pi : tan (π : Angle) = 0 := by rw [tan_coe, Real.tan_pi]
 theorem tan_periodic : Function.Periodic tan (π : Angle) := by
   intro θ
   induction θ using Real.Angle.induction_on
-  rw [← coe_add, tan_coe, tan_coe]
+  rw [← coe_add]; rw [tan_coe]; rw [tan_coe]
   exact Real.tan_periodic _
 #align real.angle.tan_periodic Real.Angle.tan_periodic
 
@@ -827,12 +808,10 @@ theorem tan_eq_inv_of_two_nsmul_add_two_nsmul_eq_pi {θ ψ : Angle}
     (h : (2 : ℕ) • θ + (2 : ℕ) • ψ = π) : tan ψ = (tan θ)⁻¹ := by
   induction θ using Real.Angle.induction_on
   induction ψ using Real.Angle.induction_on
-  rw [← smul_add, ← coe_add, ← coe_nsmul, two_nsmul, ← two_mul, angle_eq_iff_two_pi_dvd_sub] at h
+  rw [← smul_add] at h; rw [← coe_add] at h; rw [← coe_nsmul] at h; rw [two_nsmul] at h; rw [← two_mul] at h; rw [angle_eq_iff_two_pi_dvd_sub] at h
   rcases h with ⟨k, h⟩
-  rw [sub_eq_iff_eq_add, ← mul_inv_cancel_left₀ two_ne_zero π, mul_assoc, ← mul_add,
-    mul_right_inj' (two_ne_zero' ℝ), ← eq_sub_iff_add_eq', mul_inv_cancel_left₀ two_ne_zero π,
-    inv_mul_eq_div, mul_comm] at h
-  rw [tan_coe, tan_coe, ← tan_pi_div_two_sub, h, add_sub_assoc, add_comm]
+  rw [sub_eq_iff_eq_add] at h; rw [← mul_inv_cancel_left₀ two_ne_zero π] at h; rw [mul_assoc] at h; rw [← mul_add] at h; rw [mul_right_inj' (two_ne_zero' ℝ)] at h; rw [← eq_sub_iff_add_eq'] at h; rw [mul_inv_cancel_left₀ two_ne_zero π] at h; rw [inv_mul_eq_div] at h; rw [mul_comm] at h
+  rw [tan_coe]; rw [tan_coe]; rw [← tan_pi_div_two_sub]; rw [h]; rw [add_sub_assoc]; rw [add_comm]
   exact Real.tan_periodic.int_mul _ _
 #align real.angle.tan_eq_inv_of_two_nsmul_add_two_nsmul_eq_pi Real.Angle.tan_eq_inv_of_two_nsmul_add_two_nsmul_eq_pi
 
@@ -851,7 +830,7 @@ def sign (θ : Angle) : SignType :=
 
 @[simp]
 theorem sign_zero : (0 : Angle).sign = 0 := by
-  rw [sign, sin_zero, _root_.sign_zero]
+  rw [sign]; rw [sin_zero]; rw [_root_.sign_zero]
 #align real.angle.sign_zero Real.Angle.sign_zero
 
 @[simp]
@@ -864,7 +843,7 @@ theorem sign_neg (θ : Angle) : (-θ).sign = -θ.sign := by
 #align real.angle.sign_neg Real.Angle.sign_neg
 
 theorem sign_antiperiodic : Function.Antiperiodic sign (π : Angle) := fun θ => by
-  rw [sign, sign, sin_add_pi, Left.sign_neg]
+  rw [sign]; rw [sign]; rw [sin_add_pi]; rw [Left.sign_neg]
 #align real.angle.sign_antiperiodic Real.Angle.sign_antiperiodic
 
 @[simp]
@@ -887,15 +866,15 @@ theorem sign_pi_sub (θ : Angle) : ((π : Angle) - θ).sign = θ.sign := by
 #align real.angle.sign_pi_sub Real.Angle.sign_pi_sub
 
 theorem sign_eq_zero_iff {θ : Angle} : θ.sign = 0 ↔ θ = 0 ∨ θ = π := by
-  rw [sign, _root_.sign_eq_zero_iff, sin_eq_zero_iff]
+  rw [sign]; rw [_root_.sign_eq_zero_iff]; rw [sin_eq_zero_iff]
 #align real.angle.sign_eq_zero_iff Real.Angle.sign_eq_zero_iff
 
 theorem sign_ne_zero_iff {θ : Angle} : θ.sign ≠ 0 ↔ θ ≠ 0 ∧ θ ≠ π := by
-  rw [← not_or, ← sign_eq_zero_iff]
+  rw [← not_or]; rw [← sign_eq_zero_iff]
 #align real.angle.sign_ne_zero_iff Real.Angle.sign_ne_zero_iff
 
 theorem toReal_neg_iff_sign_neg {θ : Angle} : θ.toReal < 0 ↔ θ.sign = -1 := by
-  rw [sign, ← sin_toReal, sign_eq_neg_one_iff]
+  rw [sign]; rw [← sin_toReal]; rw [sign_eq_neg_one_iff]
   rcases lt_trichotomy θ.toReal 0 with (h | h | h)
   · exact ⟨fun _ => Real.sin_neg_of_neg_of_neg_pi_lt h (neg_pi_lt_toReal θ), fun _ => h⟩
   · simp [h]
@@ -911,7 +890,7 @@ theorem toReal_nonneg_iff_sign_nonneg {θ : Angle} : 0 ≤ θ.toReal ↔ 0 ≤ �
     exact False.elim (hn.not_lt (by decide))
   · simp [h, sign, ← sin_toReal]
   · refine' ⟨fun _ => _, fun _ => h.le⟩
-    rw [sign, ← sin_toReal, sign_nonneg_iff]
+    rw [sign]; rw [← sin_toReal]; rw [sign_nonneg_iff]
     exact sin_nonneg_of_nonneg_of_le_pi h.le (toReal_le_pi θ)
 #align real.angle.to_real_nonneg_iff_sign_nonneg Real.Angle.toReal_nonneg_iff_sign_nonneg
 
@@ -926,7 +905,7 @@ theorem sign_toReal {θ : Angle} (h : θ ≠ π) : SignType.sign θ.toReal = θ.
 #align real.angle.sign_to_real Real.Angle.sign_toReal
 
 theorem coe_abs_toReal_of_sign_nonneg {θ : Angle} (h : 0 ≤ θ.sign) : ↑|θ.toReal| = θ := by
-  rw [abs_eq_self.2 (toReal_nonneg_iff_sign_nonneg.2 h), coe_toReal]
+  rw [abs_eq_self.2 (toReal_nonneg_iff_sign_nonneg.2 h)]; rw [coe_toReal]
 #align real.angle.coe_abs_to_real_of_sign_nonneg Real.Angle.coe_abs_toReal_of_sign_nonneg
 
 theorem neg_coe_abs_toReal_of_sign_nonpos {θ : Angle} (h : θ.sign ≤ 0) : -↑|θ.toReal| = θ := by
@@ -954,8 +933,8 @@ theorem eq_iff_sign_eq_and_abs_toReal_eq {θ ψ : Angle} :
         exact False.elim ((neg_pi_lt_toReal θ).ne hr.symm)
       · rw [← sign_toReal h, ← sign_toReal h', hr, Left.sign_neg, SignType.neg_eq_self_iff,
           _root_.sign_eq_zero_iff, toReal_eq_zero_iff] at hs
-        rw [hs, toReal_zero, neg_zero, toReal_eq_zero_iff] at hr
-        rw [hr, hs]
+        rw [hs] at hr; rw [toReal_zero] at hr; rw [neg_zero] at hr; rw [toReal_eq_zero_iff] at hr
+        rw [hr]; rw [hs]
 #align real.angle.eq_iff_sign_eq_and_abs_to_real_eq Real.Angle.eq_iff_sign_eq_and_abs_toReal_eq
 
 theorem eq_iff_abs_toReal_eq_of_sign_eq {θ ψ : Angle} (h : θ.sign = ψ.sign) :
@@ -964,23 +943,23 @@ theorem eq_iff_abs_toReal_eq_of_sign_eq {θ ψ : Angle} (h : θ.sign = ψ.sign) 
 
 @[simp]
 theorem sign_coe_pi_div_two : (↑(π / 2) : Angle).sign = 1 := by
-  rw [sign, sin_coe, sin_pi_div_two, sign_one]
+  rw [sign]; rw [sin_coe]; rw [sin_pi_div_two]; rw [sign_one]
 #align real.angle.sign_coe_pi_div_two Real.Angle.sign_coe_pi_div_two
 
 @[simp]
 theorem sign_coe_neg_pi_div_two : (↑(-π / 2) : Angle).sign = -1 := by
-  rw [sign, sin_coe, neg_div, Real.sin_neg, sin_pi_div_two, Left.sign_neg, sign_one]
+  rw [sign]; rw [sin_coe]; rw [neg_div]; rw [Real.sin_neg]; rw [sin_pi_div_two]; rw [Left.sign_neg]; rw [sign_one]
 #align real.angle.sign_coe_neg_pi_div_two Real.Angle.sign_coe_neg_pi_div_two
 
 theorem sign_coe_nonneg_of_nonneg_of_le_pi {θ : ℝ} (h0 : 0 ≤ θ) (hpi : θ ≤ π) :
     0 ≤ (θ : Angle).sign := by
-  rw [sign, sign_nonneg_iff]
+  rw [sign]; rw [sign_nonneg_iff]
   exact sin_nonneg_of_nonneg_of_le_pi h0 hpi
 #align real.angle.sign_coe_nonneg_of_nonneg_of_le_pi Real.Angle.sign_coe_nonneg_of_nonneg_of_le_pi
 
 theorem sign_neg_coe_nonpos_of_nonneg_of_le_pi {θ : ℝ} (h0 : 0 ≤ θ) (hpi : θ ≤ π) :
     (-θ : Angle).sign ≤ 0 := by
-  rw [sign, sign_nonpos_iff, sin_neg, Left.neg_nonpos_iff]
+  rw [sign]; rw [sign_nonpos_iff]; rw [sin_neg]; rw [Left.neg_nonpos_iff]
   exact sin_nonneg_of_nonneg_of_le_pi h0 hpi
 #align real.angle.sign_neg_coe_nonpos_of_nonneg_of_le_pi Real.Angle.sign_neg_coe_nonpos_of_nonneg_of_le_pi
 
@@ -990,7 +969,7 @@ theorem sign_two_nsmul_eq_sign_iff {θ : Angle} :
   rw [or_iff_right hpi]
   refine' ⟨fun h => _, fun h => _⟩
   · by_contra hle
-    rw [not_lt, le_abs, le_neg] at hle
+    rw [not_lt] at hle; rw [le_abs] at hle; rw [le_neg] at hle
     have hpi' : θ.toReal ≠ π := by simpa using hpi
     rcases hle with (hle | hle) <;> rcases hle.eq_or_lt with (heq | hlt)
     · rw [← coe_toReal θ, ← heq] at h
@@ -1010,25 +989,24 @@ theorem sign_two_nsmul_eq_sign_iff {θ : Angle} :
       · intro he
         simp [he] at h
       rw [← neg_div] at hlt
-      rw [two_nsmul_toReal_eq_two_mul_add_two_pi.2 hlt.le, sign_pos] at h
+      rw [two_nsmul_toReal_eq_two_mul_add_two_pi.2 hlt.le] at h; rw [sign_pos] at h
       · simp at h
       · linarith [neg_pi_lt_toReal θ]
   · have hpi' : (2 : ℕ) • θ ≠ π := by
-      rw [Ne.def, two_nsmul_eq_pi_iff, not_or]
+      rw [Ne.def]; rw [two_nsmul_eq_pi_iff]; rw [not_or]
       constructor
       · rintro rfl
         simp [pi_pos, div_pos, abs_of_pos] at h
       · rintro rfl
         rw [toReal_neg_pi_div_two] at h
         simp [pi_pos, div_pos, neg_div, abs_of_pos] at h
-    rw [abs_lt, ← neg_div] at h
-    rw [← sign_toReal hpi, ← sign_toReal hpi', two_nsmul_toReal_eq_two_mul.2 ⟨h.1, h.2.le⟩,
-      sign_mul, sign_pos (zero_lt_two' ℝ), one_mul]
+    rw [abs_lt] at h; rw [← neg_div] at h
+    rw [← sign_toReal hpi]; rw [← sign_toReal hpi']; rw [two_nsmul_toReal_eq_two_mul.2 ⟨h.1, h.2.le⟩]; rw [sign_mul]; rw [sign_pos (zero_lt_two' ℝ)]; rw [one_mul]
 #align real.angle.sign_two_nsmul_eq_sign_iff Real.Angle.sign_two_nsmul_eq_sign_iff
 
 theorem sign_two_zsmul_eq_sign_iff {θ : Angle} :
     ((2 : ℤ) • θ).sign = θ.sign ↔ θ = π ∨ |θ.toReal| < π / 2 := by
-  rw [two_zsmul, ← two_nsmul, sign_two_nsmul_eq_sign_iff]
+  rw [two_zsmul]; rw [← two_nsmul]; rw [sign_two_nsmul_eq_sign_iff]
 #align real.angle.sign_two_zsmul_eq_sign_iff Real.Angle.sign_two_zsmul_eq_sign_iff
 
 theorem continuousAt_sign {θ : Angle} (h0 : θ ≠ 0) (hpi : θ ≠ π) : ContinuousAt sign θ :=

@@ -655,7 +655,7 @@ variable {M : Type u} [Monoid M]
 
 @[to_additive]
 theorem left_inv_eq_right_inv {a b c : M} (hba : b * a = 1) (hac : a * c = 1) : b = c := by
-  rw [← one_mul c, ← hba, mul_assoc, hac, mul_one b]
+  rw [← one_mul c]; rw [← hba]; rw [mul_assoc]; rw [hac]; rw [mul_one b]
 #align left_inv_eq_right_inv left_inv_eq_right_inv
 #align left_neg_eq_right_neg left_neg_eq_right_neg
 

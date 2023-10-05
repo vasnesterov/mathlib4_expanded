@@ -963,14 +963,14 @@ theorem mem_closure_iff_exists_list {R} [Semiring R] {s : Set R} {x} :
         suffices ∃ t : List R, (∀ y ∈ t, y ∈ s) ∧ t.prod = x from
           let ⟨t, ht1, ht2⟩ := this
           ⟨[t], List.forall_mem_singleton.2 ht1, by
-            rw [List.map_singleton, List.sum_singleton, ht2]⟩
+            rw [List.map_singleton]; rw [List.sum_singleton]; rw [ht2]⟩
         Submonoid.closure_induction hx
           (fun x hx => ⟨[x], List.forall_mem_singleton.2 hx, one_mul x⟩)
           ⟨[], List.forall_mem_nil _, rfl⟩ fun x y ⟨t, ht1, ht2⟩ ⟨u, hu1, hu2⟩ =>
           ⟨t ++ u, List.forall_mem_append.2 ⟨ht1, hu1⟩, by rw [List.prod_append, ht2, hu2]⟩)
       ⟨[], List.forall_mem_nil _, rfl⟩ fun x y ⟨L, HL1, HL2⟩ ⟨M, HM1, HM2⟩ =>
       ⟨L ++ M, List.forall_mem_append.2 ⟨HL1, HM1⟩, by
-        rw [List.map_append, List.sum_append, HL2, HM2]⟩
+        rw [List.map_append]; rw [List.sum_append]; rw [HL2]; rw [HM2]⟩
   · rintro ⟨L, HL1, HL2⟩
     exact HL2 ▸
       list_sum_mem fun r hr =>

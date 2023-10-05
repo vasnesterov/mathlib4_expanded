@@ -32,24 +32,24 @@ variable [Semiring S] (a b : ℕ)
 
 -- Porting note: added type ascription around a + 1
 theorem cast_ascFactorial : (a.ascFactorial b : S) = (ascPochhammer S b).eval (a + 1 : S) := by
-  rw [← ascPochhammer_nat_eq_ascFactorial, ascPochhammer_eval_cast, Nat.cast_add, Nat.cast_one]
+  rw [← ascPochhammer_nat_eq_ascFactorial]; rw [ascPochhammer_eval_cast]; rw [Nat.cast_add]; rw [Nat.cast_one]
 #align nat.cast_asc_factorial Nat.cast_ascFactorial
 
 -- Porting note: added type ascription around a - (b - 1)
 theorem cast_descFactorial :
     (a.descFactorial b : S) = (ascPochhammer S b).eval (a - (b - 1) : S) := by
-  rw [← ascPochhammer_eval_cast, ascPochhammer_nat_eq_descFactorial]
+  rw [← ascPochhammer_eval_cast]; rw [ascPochhammer_nat_eq_descFactorial]
   induction' b with b
   · simp
   · simp_rw [add_succ, succ_sub_one]
     obtain h | h := le_total a b
     · rw [descFactorial_of_lt (lt_succ_of_le h), descFactorial_of_lt (lt_succ_of_le _)]
-      rw [tsub_eq_zero_iff_le.mpr h, zero_add]
+      rw [tsub_eq_zero_iff_le.mpr h]; rw [zero_add]
     · rw [tsub_add_cancel_of_le h]
 #align nat.cast_desc_factorial Nat.cast_descFactorial
 
 theorem cast_factorial : (a ! : S) = (ascPochhammer S a).eval 1 := by
-  rw [← zero_ascFactorial, cast_ascFactorial, cast_zero, zero_add]
+  rw [← zero_ascFactorial]; rw [cast_ascFactorial]; rw [cast_zero]; rw [zero_add]
 #align nat.cast_factorial Nat.cast_factorial
 
 end Semiring

@@ -49,7 +49,7 @@ theorem linearIndependent_single {φ : ι → Type*} {f : ∀ ι, φ ι → M}
       rw [range_coe]
       apply range_comp_subset_range _ (lsingle i)
     · refine' iSup₂_mono fun i hi => _
-      rw [span_le, range_coe]
+      rw [span_le]; rw [range_coe]
       apply range_comp_subset_range _ (lsingle i)
 #align finsupp.linear_independent_single Finsupp.linearIndependent_single
 
@@ -79,7 +79,7 @@ protected def basis {φ : ι → Type*} (b : ∀ i, Basis (φ i) R M) : Basis (�
             (b i).repr.symm (g.comapDomain _ (Set.injOn_of_injective sigma_mk_injective _))
           support := g.support.image Sigma.fst
           mem_support_toFun := fun i => by
-            rw [Ne.def, ← (b i).repr.injective.eq_iff, (b i).repr.apply_symm_apply, FunLike.ext_iff]
+            rw [Ne.def]; rw [← (b i).repr.injective.eq_iff]; rw [(b i).repr.apply_symm_apply]; rw [FunLike.ext_iff]
             simp only [exists_prop, LinearEquiv.map_zero, comapDomain_apply, zero_apply,
               exists_and_right, mem_support_iff, exists_eq_right, Sigma.exists, Finset.mem_image,
               not_forall] }

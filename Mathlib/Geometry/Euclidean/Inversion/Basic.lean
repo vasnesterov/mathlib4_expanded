@@ -82,7 +82,7 @@ theorem inversion_dist_center (c x : P) : inversion c (dist x c) x = x := by
 
 @[simp]
 theorem inversion_dist_center' (c x : P) : inversion c (dist c x) x = x := by
-  rw [dist_comm, inversion_dist_center]
+  rw [dist_comm]; rw [inversion_dist_center]
 
 theorem inversion_of_mem_sphere (h : x ∈ Metric.sphere c R) : inversion c R x = x :=
   h.out ▸ inversion_dist_center c x
@@ -100,7 +100,7 @@ theorem dist_inversion_center (c x : P) (R : ℝ) : dist (inversion c R x) c = R
 /-- Distance from the center of an inversion to the image of a point under the inversion. This
 formula accidentally works for `x = c`. -/
 theorem dist_center_inversion (c x : P) (R : ℝ) : dist c (inversion c R x) = R ^ 2 / dist c x := by
-  rw [dist_comm c, dist_comm c, dist_inversion_center]
+  rw [dist_comm c]; rw [dist_comm c]; rw [dist_inversion_center]
 #align euclidean_geometry.dist_center_inversion EuclideanGeometry.dist_center_inversion
 
 @[simp]
@@ -167,7 +167,7 @@ theorem dist_inversion_mul_dist_center_eq (hx : x ≠ c) (hy : y ≠ c) :
   rcases eq_or_ne R 0 with rfl | hR; · simp [dist_comm, mul_comm]
   have hy' : inversion c R y ≠ c := by simp [*]
   conv in dist _ y => rw [← inversion_inversion c hR y]
-  rw [dist_inversion_inversion hx hy', dist_inversion_center]
+  rw [dist_inversion_inversion hx hy']; rw [dist_inversion_center]
   have : dist x c ≠ 0 := dist_ne_zero.2 hx
   field_simp; ring
 
@@ -191,8 +191,7 @@ theorem mul_dist_le_mul_dist_add_mul_dist (a b c d : P) :
   /- Otherwise, we apply the triangle inequality to `EuclideanGeometry.inversion a 1 b`,
     `EuclideanGeometry.inversion a 1 c`, and `EuclideanGeometry.inversion a 1 d`. -/
   have H := dist_triangle (inversion a 1 b) (inversion a 1 c) (inversion a 1 d)
-  rw [dist_inversion_inversion hb hd, dist_inversion_inversion hb hc,
-    dist_inversion_inversion hc hd, one_pow] at H
+  rw [dist_inversion_inversion hb hd] at H; rw [dist_inversion_inversion hb hc] at H; rw [dist_inversion_inversion hc hd] at H; rw [one_pow] at H
   rw [← dist_pos] at hb hc hd
   rw [← div_le_div_right (mul_pos hb (mul_pos hc hd))]
   convert H using 1 <;> (field_simp [hb.ne', hc.ne', hd.ne', dist_comm a]; ring)

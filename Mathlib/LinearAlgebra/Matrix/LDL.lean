@@ -63,7 +63,7 @@ theorem LDL.lowerInv_eq_gramSchmidtBasis :
   letI := NormedAddCommGroup.ofMatrix hS.transpose
   letI := InnerProductSpace.ofMatrix hS.transpose
   ext i j
-  rw [LDL.lowerInv, Basis.coePiBasisFun.toMatrix_eq_transpose, coe_gramSchmidtBasis]
+  rw [LDL.lowerInv]; rw [Basis.coePiBasisFun.toMatrix_eq_transpose]; rw [coe_gramSchmidtBasis]
   rfl
 #align LDL.lower_inv_eq_gram_schmidt_basis LDL.lowerInv_eq_gramSchmidtBasis
 
@@ -94,8 +94,7 @@ noncomputable def LDL.diag : Matrix n n 𝕜 :=
 theorem LDL.lowerInv_triangular {i j : n} (hij : i < j) : LDL.lowerInv hS i j = 0 := by
   rw [←
     @gramSchmidt_triangular 𝕜 (n → 𝕜) _ (_ : _) (InnerProductSpace.ofMatrix hS.transpose) n _ _ _
-      i j hij (Pi.basisFun 𝕜 n),
-    Pi.basisFun_repr, LDL.lowerInv]
+      i j hij (Pi.basisFun 𝕜 n)]; rw [Pi.basisFun_repr]; rw [LDL.lowerInv]
 #align LDL.lower_inv_triangular LDL.lowerInv_triangular
 
 /-- Inverse statement of **LDL decomposition**: we can conjugate a positive definite matrix
@@ -107,10 +106,8 @@ theorem LDL.diag_eq_lowerInv_conj : LDL.diag hS = LDL.lowerInv hS * S * (LDL.low
     diagonal_apply_eq, Matrix.mul_assoc]
     rfl
   · simp only [LDL.diag, hij, diagonal_apply_ne, Ne.def, not_false_iff, mul_mul_apply]
-    rw [conjTranspose, transpose_map, transpose_transpose, dotProduct_mulVec,
-      (LDL.lowerInv_orthogonal hS fun h : j = i => hij h.symm).symm, ← inner_conj_symm,
-      mulVec_transpose, EuclideanSpace.inner_piLp_equiv_symm, ← IsROrC.star_def, ←
-      star_dotProduct_star, dotProduct_comm, star_star]
+    rw [conjTranspose]; rw [transpose_map]; rw [transpose_transpose]; rw [dotProduct_mulVec]; rw [(LDL.lowerInv_orthogonal hS fun h : j = i => hij h.symm).symm]; rw [← inner_conj_symm]; rw [mulVec_transpose]; rw [EuclideanSpace.inner_piLp_equiv_symm]; rw [← IsROrC.star_def]; rw [←
+      star_dotProduct_star]; rw [dotProduct_comm]; rw [star_star]
     rfl
 #align LDL.diag_eq_lower_inv_conj LDL.diag_eq_lowerInv_conj
 
@@ -122,9 +119,7 @@ noncomputable def LDL.lower :=
 /-- **LDL decomposition**: any positive definite matrix `S` can be
 decomposed as `S = LDLᴴ` where `L` is a lower-triangular matrix and `D` is a diagonal matrix.  -/
 theorem LDL.lower_conj_diag : LDL.lower hS * LDL.diag hS * (LDL.lower hS)ᴴ = S := by
-  rw [LDL.lower, conjTranspose_nonsing_inv, Matrix.mul_assoc,
-    Matrix.inv_mul_eq_iff_eq_mul_of_invertible (LDL.lowerInv hS),
-    Matrix.mul_inv_eq_iff_eq_mul_of_invertible]
+  rw [LDL.lower]; rw [conjTranspose_nonsing_inv]; rw [Matrix.mul_assoc]; rw [Matrix.inv_mul_eq_iff_eq_mul_of_invertible (LDL.lowerInv hS)]; rw [Matrix.mul_inv_eq_iff_eq_mul_of_invertible]
   exact LDL.diag_eq_lowerInv_conj hS
 #align LDL.lower_conj_diag LDL.lower_conj_diag
 

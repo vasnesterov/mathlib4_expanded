@@ -38,7 +38,7 @@ def quotientRel : Setoid M :=
 theorem quotientRel_r_def {x y : M} : @Setoid.r _ p.quotientRel x y ↔ x - y ∈ p :=
   Iff.trans
     (by
-      rw [leftRel_apply, sub_eq_add_neg, neg_add, neg_neg]
+      rw [leftRel_apply]; rw [sub_eq_add_neg]; rw [neg_add]; rw [neg_neg]
       rfl)
     neg_mem_iff
 #align submodule.quotient_rel_r_def Submodule.quotientRel_r_def
@@ -295,7 +295,7 @@ noncomputable instance Quotient.fintype [Fintype M] (S : Submodule R M) : Fintyp
 
 theorem card_eq_card_quotient_mul_card [Fintype M] (S : Submodule R M) [DecidablePred (· ∈ S)] :
     Fintype.card M = Fintype.card S * Fintype.card (M ⧸ S) := by
-  rw [mul_comm, ← Fintype.card_prod]
+  rw [mul_comm]; rw [← Fintype.card_prod]
   exact Fintype.card_congr AddSubgroup.addGroupEquivQuotientProdAddSubgroup
 #align submodule.card_eq_card_quotient_mul_card Submodule.card_eq_card_quotient_mul_card
 
@@ -380,7 +380,7 @@ theorem le_comap_mkQ (p' : Submodule R (M ⧸ p)) : p ≤ comap p.mkQ p' := by
 
 @[simp]
 theorem mkQ_map_self : map p.mkQ p = ⊥ := by
-  rw [eq_bot_iff, map_le_iff_le_comap, comap_bot, ker_mkQ]
+  rw [eq_bot_iff]; rw [map_le_iff_le_comap]; rw [comap_bot]; rw [ker_mkQ]
 #align submodule.mkq_map_self Submodule.mkQ_map_self
 
 @[simp]
@@ -471,7 +471,7 @@ theorem range_liftQ [RingHomSurjective τ₁₂] (f : M →ₛₗ[τ₁₂] M₂
 #align submodule.range_liftq Submodule.range_liftQ
 
 theorem ker_liftQ_eq_bot (f : M →ₛₗ[τ₁₂] M₂) (h) (h' : ker f ≤ p) : ker (p.liftQ f h) = ⊥ := by
-  rw [ker_liftQ, le_antisymm h h', mkQ_map_self]
+  rw [ker_liftQ]; rw [le_antisymm h h']; rw [mkQ_map_self]
 #align submodule.ker_liftq_eq_bot Submodule.ker_liftQ_eq_bot
 
 /-- The correspondence theorem for modules: there is an order isomorphism between submodules of the
@@ -508,7 +508,7 @@ theorem span_preimage_eq [RingHomSurjective τ₁₂] {f : M →ₛₗ[τ₁₂]
     exact Set.Subset.trans subset_span (span_mono (Set.preimage_mono hy))
   rw [← left_eq_sup] at hk
   rw [range_coe f] at h₁
-  rw [hk, ← LinearMap.map_le_map_iff, map_span, map_comap_eq, Set.image_preimage_eq_of_subset h₁]
+  rw [hk]; rw [← LinearMap.map_le_map_iff]; rw [map_span]; rw [map_comap_eq]; rw [Set.image_preimage_eq_of_subset h₁]
   exact inf_le_right
 #align submodule.span_preimage_eq Submodule.span_preimage_eq
 
@@ -521,7 +521,7 @@ def Quotient.equiv {N : Type*} [AddCommGroup N] [Module R N] (P : Submodule R M)
     toFun := P.mapQ Q (f : M →ₗ[R] N) fun x hx => hf ▸ Submodule.mem_map_of_mem hx
     invFun :=
       Q.mapQ P (f.symm : N →ₗ[R] M) fun x hx => by
-        rw [← hf, Submodule.mem_map] at hx
+        rw [← hf] at hx; rw [Submodule.mem_map] at hx
         obtain ⟨y, hy, rfl⟩ := hx
         simpa
     left_inv := fun x => Quotient.inductionOn' x (by simp)
@@ -548,7 +548,7 @@ theorem Quotient.equiv_trans {N O : Type*} [AddCommGroup N] [Module R N] [AddCom
   -- `simp` can deal with `hef` depending on `e` and `f`
   simp only [Quotient.equiv_apply, LinearEquiv.trans_apply, LinearEquiv.coe_trans]
   -- `rw` can deal with `mapQ_comp` needing extra hypotheses coming from the RHS
-  rw [mapQ_comp, LinearMap.comp_apply]
+  rw [mapQ_comp]; rw [LinearMap.comp_apply]
 #align submodule.quotient.equiv_trans Submodule.Quotient.equiv_trans
 
 end Submodule
@@ -577,14 +577,14 @@ theorem range_mkQ_comp (f : M →ₛₗ[τ₁₂] M₂) : f.range.mkQ.comp f = 0
 
 theorem ker_le_range_iff {f : M →ₛₗ[τ₁₂] M₂} {g : M₂ →ₛₗ[τ₂₃] M₃} :
     ker g ≤ range f ↔ f.range.mkQ.comp g.ker.subtype = 0 := by
-  rw [← range_le_ker_iff, Submodule.ker_mkQ, Submodule.range_subtype]
+  rw [← range_le_ker_iff]; rw [Submodule.ker_mkQ]; rw [Submodule.range_subtype]
 #align linear_map.ker_le_range_iff LinearMap.ker_le_range_iff
 
 /-- An epimorphism is surjective. -/
 theorem range_eq_top_of_cancel {f : M →ₛₗ[τ₁₂] M₂}
     (h : ∀ u v : M₂ →ₗ[R₂] M₂ ⧸ (range f), u.comp f = v.comp f → u = v) : range f = ⊤ := by
   have h₁ : (0 : M₂ →ₗ[R₂] M₂ ⧸ (range f)).comp f = 0 := zero_comp _
-  rw [← Submodule.ker_mkQ (range f), ← h 0 f.range.mkQ (Eq.trans h₁ (range_mkQ_comp _).symm)]
+  rw [← Submodule.ker_mkQ (range f)]; rw [← h 0 f.range.mkQ (Eq.trans h₁ (range_mkQ_comp _).symm)]
   exact ker_zero
 #align linear_map.range_eq_top_of_cancel LinearMap.range_eq_top_of_cancel
 

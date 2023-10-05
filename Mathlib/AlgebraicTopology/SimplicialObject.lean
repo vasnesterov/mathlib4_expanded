@@ -374,7 +374,7 @@ def whiskering (D : Type u') [Category.{v'} D] : (C ⥤ D) ⥤ Augmented C ⥤ A
           w := by
             ext n
             dsimp
-            rw [Category.comp_id, Category.comp_id, η.naturality] } }
+            rw [Category.comp_id]; rw [Category.comp_id]; rw [η.naturality] } }
   map_comp := fun _ _ => by ext <;> rfl
 #align category_theory.simplicial_object.augmented.whiskering CategoryTheory.SimplicialObject.Augmented.whiskering
 
@@ -722,7 +722,7 @@ def whiskeringObj (D : Type*) [Category D] (F : C ⥤ D) : Augmented C ⥤ Augme
       w := by
         ext
         dsimp
-        rw [Category.id_comp, Category.id_comp, ← F.map_comp, ← F.map_comp, ← NatTrans.comp_app]
+        rw [Category.id_comp]; rw [Category.id_comp]; rw [← F.map_comp]; rw [← F.map_comp]; rw [← NatTrans.comp_app]
         erw [← η.w]
         rfl }
 #align category_theory.cosimplicial_object.augmented.whiskering_obj CategoryTheory.CosimplicialObject.Augmented.whiskeringObj
@@ -738,7 +738,7 @@ def whiskering (D : Type u') [Category.{v'} D] : (C ⥤ D) ⥤ Augmented C ⥤ A
           w := by
             ext n
             dsimp
-            rw [Category.id_comp, Category.id_comp, η.naturality] }
+            rw [Category.id_comp]; rw [Category.id_comp]; rw [η.naturality] }
       naturality := fun _ _ f => by ext <;> dsimp <;> simp }
 #align category_theory.cosimplicial_object.augmented.whiskering CategoryTheory.CosimplicialObject.Augmented.whiskering
 

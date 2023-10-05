@@ -51,8 +51,7 @@ theorem rpow_neg_one_add_norm_sq_le {r : ℝ} (x : E) (hr : 0 < r) :
   calc
     ((1 : ℝ) + ‖x‖ ^ 2) ^ (-r / 2)
       = (2 : ℝ) ^ (r / 2) * ((Real.sqrt 2 * Real.sqrt ((1 : ℝ) + ‖x‖ ^ 2)) ^ r)⁻¹ := by
-      rw [rpow_div_two_eq_sqrt, rpow_div_two_eq_sqrt, mul_rpow, mul_inv, rpow_neg,
-        mul_inv_cancel_left₀] <;> positivity
+      rw [rpow_div_two_eq_sqrt]; rw [rpow_div_two_eq_sqrt]; rw [mul_rpow]; rw [mul_inv]; rw [rpow_neg]; rw [mul_inv_cancel_left₀]; all_goals positivity
     _ ≤ (2 : ℝ) ^ (r / 2) * ((1 + ‖x‖) ^ r)⁻¹ := by
       gcongr
       apply one_add_norm_le_sqrt_two_mul_sqrt
@@ -61,7 +60,7 @@ theorem rpow_neg_one_add_norm_sq_le {r : ℝ} (x : E) (hr : 0 < r) :
 
 theorem le_rpow_one_add_norm_iff_norm_le {r t : ℝ} (hr : 0 < r) (ht : 0 < t) (x : E) :
     t ≤ (1 + ‖x‖) ^ (-r) ↔ ‖x‖ ≤ t ^ (-r⁻¹) - 1 := by
-  rw [le_sub_iff_add_le', neg_inv]
+  rw [le_sub_iff_add_le']; rw [neg_inv]
   exact (Real.le_rpow_inv_iff_of_neg (by positivity) ht (neg_lt_zero.mpr hr)).symm
 #align le_rpow_one_add_norm_iff_norm_le le_rpow_one_add_norm_iff_norm_le
 
@@ -69,7 +68,7 @@ variable (E)
 
 theorem closedBall_rpow_sub_one_eq_empty_aux {r t : ℝ} (hr : 0 < r) (ht : 1 < t) :
     Metric.closedBall (0 : E) (t ^ (-r⁻¹) - 1) = ∅ := by
-  rw [Metric.closedBall_eq_empty, sub_neg]
+  rw [Metric.closedBall_eq_empty]; rw [sub_neg]
   exact Real.rpow_lt_one_of_one_lt_of_neg ht (by simp only [hr, Right.neg_neg_iff, inv_pos])
 #align closed_ball_rpow_sub_one_eq_empty_aux closedBall_rpow_sub_one_eq_empty_aux
 
@@ -83,11 +82,11 @@ theorem finite_integral_rpow_sub_one_pow_aux {r : ℝ} (n : ℕ) (hnr : (n : ℝ
   have h_int : ∀ x : ℝ, x ∈ Ioc (0 : ℝ) 1 →
       ENNReal.ofReal ((x ^ (-r⁻¹) - 1) ^ n) ≤ ENNReal.ofReal (x ^ (-(r⁻¹ * n))) := fun x hx ↦ by
     apply ENNReal.ofReal_le_ofReal
-    rw [← neg_mul, rpow_mul hx.1.le, rpow_nat_cast]
+    rw [← neg_mul]; rw [rpow_mul hx.1.le]; rw [rpow_nat_cast]
     refine' pow_le_pow_of_le_left _ (by simp only [sub_le_self_iff, zero_le_one]) n
-    rw [le_sub_iff_add_le', add_zero]
+    rw [le_sub_iff_add_le']; rw [add_zero]
     refine' Real.one_le_rpow_of_pos_of_le_one_of_nonpos hx.1 hx.2 _
-    rw [Right.neg_nonpos_iff, inv_nonneg]
+    rw [Right.neg_nonpos_iff]; rw [inv_nonneg]
     exact hr.le
   refine' lt_of_le_of_lt (set_lintegral_mono' measurableSet_Ioc h_int) _
   refine' IntegrableOn.set_lintegral_lt_top _
@@ -126,16 +125,14 @@ theorem finite_integral_one_add_norm [MeasureSpace E] [BorelSpace E]
       refine' volume.addHaar_closedBall (0 : E) _
       rw [sub_nonneg]
       exact Real.one_le_rpow_of_pos_of_le_one_of_nonpos ht.1 ht.2 (by simp [hr.le])
-    rw [set_lintegral_congr_fun measurableSet_Ioc (ae_of_all _ h_int'),
-      lintegral_mul_const' _ _ measure_ball_lt_top.ne]
+    rw [set_lintegral_congr_fun measurableSet_Ioc (ae_of_all _ h_int')]; rw [lintegral_mul_const' _ _ measure_ball_lt_top.ne]
     exact ENNReal.mul_lt_top
       (finite_integral_rpow_sub_one_pow_aux (finrank ℝ E) hnr).ne measure_ball_lt_top.ne
   · -- The integral from 1 to ∞ is zero:
     have h_int'' : ∀ t ∈ Ioi (1 : ℝ), f t = 0 := fun t ht => by
       simp only [closedBall_rpow_sub_one_eq_empty_aux E hr ht, measure_empty]
     -- The integral over the constant zero function is finite:
-    rw [set_lintegral_congr_fun measurableSet_Ioi (ae_of_all volume <| h_int''), lintegral_const 0,
-      zero_mul]
+    rw [set_lintegral_congr_fun measurableSet_Ioi (ae_of_all volume <| h_int'')]; rw [lintegral_const 0]; rw [zero_mul]
     exact WithTop.zero_lt_top
 #align finite_integral_one_add_norm finite_integral_one_add_norm
 
@@ -147,7 +144,7 @@ theorem integrable_one_add_norm [MeasureSpace E] [BorelSpace E] [(@volume E _).I
   -- Lower Lebesgue integral
   have : (∫⁻ a : E, ‖(1 + ‖a‖) ^ (-r)‖₊) = ∫⁻ a : E, ENNReal.ofReal ((1 + ‖a‖) ^ (-r)) :=
     lintegral_nnnorm_eq_of_nonneg fun _ => rpow_nonneg_of_nonneg (by positivity) _
-  rw [HasFiniteIntegral, this]
+  rw [HasFiniteIntegral]; rw [this]
   exact finite_integral_one_add_norm hnr
 #align integrable_one_add_norm integrable_one_add_norm
 

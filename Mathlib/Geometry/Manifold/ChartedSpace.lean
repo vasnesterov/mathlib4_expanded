@@ -294,7 +294,7 @@ def idGroupoid (H : Type u) [TopologicalSpace H] : StructureGroupoid H where
       rcases h with ⟨x, hx⟩
       rcases he x hx with ⟨s, open_s, xs, hs⟩
       have x's : x ∈ (e.restr s).source := by
-        rw [restr_source, open_s.interior_eq]
+        rw [restr_source]; rw [open_s.interior_eq]
         exact ⟨hx, xs⟩
       cases' hs with hs hs
       · replace hs : LocalHomeomorph.restr e s = LocalHomeomorph.refl H
@@ -316,7 +316,7 @@ def idGroupoid (H : Type u) [TopologicalSpace H] : StructureGroupoid H where
     · left
       have : e = e' := by
         refine' eq_of_eq_on_source_univ (Setoid.symm he'e) _ _ <;>
-          rw [Set.mem_singleton_iff.1 he] <;> rfl
+          rw [Set.mem_singleton_iff.1 he]  <;> rfl
       rwa [← this]
     · right
       have he : e.toLocalEquiv.source = ∅ := he
@@ -335,7 +335,7 @@ instance instStructureGroupoidOrderBot : OrderBot (StructureGroupoid H) where
       apply u.id_mem
     · apply u.locality
       intro x hx
-      rw [hf, mem_empty_iff_false] at hx
+      rw [hf] at hx; rw [mem_empty_iff_false] at hx
       exact hx.elim
 
 instance : Inhabited (StructureGroupoid H) := ⟨idGroupoid H⟩
@@ -392,7 +392,7 @@ def Pregroupoid.groupoid (PG : Pregroupoid H) : StructureGroupoid H where
       -- convert he.2
       -- rw [A.1]
       -- rfl
-      rw [A.1, symm_toLocalEquiv, LocalEquiv.symm_source]
+      rw [A.1]; rw [symm_toLocalEquiv]; rw [LocalEquiv.symm_source]
       exact he.2
 #align pregroupoid.groupoid Pregroupoid.groupoid
 
@@ -907,7 +907,7 @@ protected def localHomeomorph (e : LocalEquiv M H) (he : e ∈ c.atlas) :
           (c.continuous_toFun e e' he e'_atlas) s s_open
       have A : e' ∘ e.symm ⁻¹' s ∩ (e.target ∩ e.symm ⁻¹' e'.source) =
           e.target ∩ (e' ∘ e.symm ⁻¹' s ∩ e.symm ⁻¹' e'.source) := by
-        rw [← inter_assoc, ← inter_assoc]
+        rw [← inter_assoc]; rw [← inter_assoc]
         congr 1
         exact inter_comm _ _
       simpa [LocalEquiv.trans_source, preimage_inter, preimage_comp.symm, A] using this }
@@ -977,7 +977,7 @@ instance hasGroupoid_model_space (H : Type*) [TopologicalSpace H] (G : Structure
 /-- Any charted space structure is compatible with the groupoid of all local homeomorphisms. -/
 instance hasGroupoid_continuousGroupoid : HasGroupoid M (continuousGroupoid H) := by
   refine' ⟨fun _ _ ↦ _⟩
-  rw [continuousGroupoid, mem_groupoid_of_pregroupoid]
+  rw [continuousGroupoid]; rw [mem_groupoid_of_pregroupoid]
   simp only [and_self_iff]
 #align has_groupoid_continuous_groupoid hasGroupoid_continuousGroupoid
 
@@ -1096,8 +1096,7 @@ theorem singleton_hasGroupoid (h : e.source = Set.univ) (G : StructureGroupoid H
   { e.singletonChartedSpace h with
     compatible := by
       intro e' e'' he' he''
-      rw [e.singletonChartedSpace_mem_atlas_eq h e' he',
-        e.singletonChartedSpace_mem_atlas_eq h e'' he'']
+      rw [e.singletonChartedSpace_mem_atlas_eq h e' he']; rw [e.singletonChartedSpace_mem_atlas_eq h e'' he'']
       refine' G.eq_on_source _ e.trans_symm_self
       have hle : idRestrGroupoid ≤ G := (closedUnderRestriction_iff_id_le G).mp (by assumption)
       exact StructureGroupoid.le_iff.mp hle _ (idRestrGroupoid_mem _) }
@@ -1154,9 +1153,9 @@ protected instance instHasGroupoid [ClosedUnderRestriction G] : HasGroupoid s G 
     rintro e e' ⟨_, ⟨x, hc⟩, he⟩ ⟨_, ⟨x', hc'⟩, he'⟩
     haveI : Nonempty s := ⟨x⟩
     have asdf := he
-    rw [hc.symm, mem_singleton_iff] at he
-    rw [hc'.symm, mem_singleton_iff] at he'
-    rw [he, he']
+    rw [hc.symm] at he; rw [mem_singleton_iff] at he
+    rw [hc'.symm] at he'; rw [mem_singleton_iff] at he'
+    rw [he]; rw [he']
     refine' G.eq_on_source _ (subtypeRestr_symm_trans_subtypeRestr s (chartAt H x) (chartAt H x'))
     apply closedUnderRestriction'
     · exact G.compatible (chart_mem_atlas _ _) (chart_mem_atlas _ _)

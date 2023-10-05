@@ -119,7 +119,7 @@ def setOfIdeal (I : Ideal C(X, R)) : Set X :=
 
 theorem not_mem_setOfIdeal {I : Ideal C(X, R)} {x : X} :
     x ∉ setOfIdeal I ↔ ∀ ⦃f : C(X, R)⦄, f ∈ I → f x = 0 := by
-  rw [← Set.mem_compl_iff, setOfIdeal, compl_compl, Set.mem_setOf]
+  rw [← Set.mem_compl_iff]; rw [setOfIdeal]; rw [compl_compl]; rw [Set.mem_setOf]
 #align continuous_map.not_mem_set_of_ideal ContinuousMap.not_mem_setOfIdeal
 
 theorem mem_setOfIdeal {I : Ideal C(X, R)} {x : X} :
@@ -273,7 +273,7 @@ theorem idealOfSet_ofIdeal_eq_closure (I : Ideal C(X, 𝕜)) :
         simpa only [zero_add] using add_lt_add_of_le_of_lt zero_le' (hgt₂ x hx)
     · intro x hx
       replace hx := htI.subset_compl_right hx
-      rw [compl_compl, mem_setOfIdeal] at hx
+      rw [compl_compl] at hx; rw [mem_setOfIdeal] at hx
       obtain ⟨g, hI, hgx⟩ := hx
       have := (map_continuous g).continuousAt.eventually_ne hgx
       refine'
@@ -319,7 +319,7 @@ theorem setOfIdeal_ofSet_eq_interior (s : Set X) : setOfIdeal (idealOfSet 𝕜 s
         Set.not_mem_compl_iff.mp (mt (@hf x) hfx))
       fun x hx => _
   -- If `x ∉ closure sᶜ`, we must produce `f : C(X, 𝕜)` which is zero on `sᶜ` and `f x ≠ 0`.
-  rw [← compl_compl (interior s), ← closure_compl] at hx
+  rw [← compl_compl (interior s)] at hx; rw [← closure_compl] at hx
   simp_rw [mem_setOfIdeal, mem_idealOfSet]
   /- Apply Urysohn's lemma to get `g : C(X, ℝ)` which is zero on `sᶜ` and `g x ≠ 0`, then compose
     with the natural embedding `ℝ ↪ 𝕜` to produce the desired `f`. -/

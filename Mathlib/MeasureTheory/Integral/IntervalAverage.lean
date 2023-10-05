@@ -37,7 +37,7 @@ notation3 "⨍ "(...)" in "a".."b",
   "r:60:(scoped f => average (Measure.restrict volume (uIoc a b)) f) => r
 
 theorem interval_average_symm (f : ℝ → E) (a b : ℝ) : (⨍ x in a..b, f x) = ⨍ x in b..a, f x := by
-  rw [setAverage_eq, setAverage_eq, uIoc_comm]
+  rw [setAverage_eq]; rw [setAverage_eq]; rw [uIoc_comm]
 #align interval_average_symm interval_average_symm
 
 theorem interval_average_eq (f : ℝ → E) (a b : ℝ) :
@@ -51,5 +51,5 @@ theorem interval_average_eq (f : ℝ → E) (a b : ℝ) :
 
 theorem interval_average_eq_div (f : ℝ → ℝ) (a b : ℝ) :
     (⨍ x in a..b, f x) = (∫ x in a..b, f x) / (b - a) := by
-  rw [interval_average_eq, smul_eq_mul, div_eq_inv_mul]
+  rw [interval_average_eq]; rw [smul_eq_mul]; rw [div_eq_inv_mul]
 #align interval_average_eq_div interval_average_eq_div

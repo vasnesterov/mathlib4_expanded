@@ -72,7 +72,7 @@ theorem matPolyEquiv_charmatrix (M : Matrix n n R) : matPolyEquiv (charmatrix M)
   simp only [matPolyEquiv_coeff_apply, coeff_sub, Pi.sub_apply]
   by_cases h : i = j
   · subst h
-    rw [charmatrix_apply_eq, coeff_sub]
+    rw [charmatrix_apply_eq]; rw [coeff_sub]
     simp only [coeff_X, coeff_C]
     split_ifs <;> simp
   · rw [charmatrix_apply_ne _ _ _ h, coeff_X, coeff_neg, coeff_C, coeff_C]
@@ -95,7 +95,7 @@ def Matrix.charpoly (M : Matrix n n R) : R[X] :=
 theorem Matrix.charpoly_reindex {m : Type v} [DecidableEq m] [Fintype m] (e : n ≃ m)
     (M : Matrix n n R) : (reindex e e M).charpoly = M.charpoly := by
   unfold Matrix.charpoly
-  rw [charmatrix_reindex, Matrix.det_reindex_self]
+  rw [charmatrix_reindex]; rw [Matrix.det_reindex_self]
 #align matrix.charpoly_reindex Matrix.charpoly_reindex
 
 -- This proof follows http://drorbn.net/AcademicPensieve/2015-12/CayleyHamilton.pdf
@@ -124,7 +124,7 @@ theorem Matrix.aeval_self_charpoly (M : Matrix n n R) : aeval M M.charpoly = 0 :
   rw [eval_mul_X_sub_C] at h
   -- Now $χ_M (t) I$, when thought of as a polynomial of matrices
   -- and evaluated at some `N` is exactly $χ_M (N)$.
-  rw [matPolyEquiv_smul_one, eval_map] at h
+  rw [matPolyEquiv_smul_one] at h; rw [eval_map] at h
   -- Thus we have $χ_M(M) = 0$, which is the desired result.
   exact h
 #align matrix.aeval_self_charpoly Matrix.aeval_self_charpoly

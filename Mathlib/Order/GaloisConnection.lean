@@ -286,7 +286,7 @@ theorem l_iSup {f : ι → α} : l (iSup f) = ⨆ i, l (f i) :=
   Eq.symm <|
     IsLUB.iSup_eq <|
       show IsLUB (range (l ∘ f)) (l (iSup f)) by
-        rw [range_comp, ← sSup_range]; exact gc.isLUB_l_image (isLUB_sSup _)
+        rw [range_comp]; rw [← sSup_range]; exact gc.isLUB_l_image (isLUB_sSup _)
 #align galois_connection.l_supr GaloisConnection.l_iSup
 
 theorem l_iSup₂ {f : ∀ i, κ i → α} : l (⨆ (i) (j), f i j) = ⨆ (i) (j), l (f i j) := by
@@ -329,7 +329,7 @@ protected theorem id [pα : Preorder α] : @GaloisConnection α α pα pα id id
 
 protected theorem compose [Preorder α] [Preorder β] [Preorder γ] {l1 : α → β} {u1 : β → α}
     {l2 : β → γ} {u2 : γ → β} (gc1 : GaloisConnection l1 u1) (gc2 : GaloisConnection l2 u2) :
-    GaloisConnection (l2 ∘ l1) (u1 ∘ u2) := by intro a b; dsimp; rw [gc2, gc1]
+    GaloisConnection (l2 ∘ l1) (u1 ∘ u2) := by intro a b; dsimp; rw [gc2]; rw [gc1]
 #align galois_connection.compose GaloisConnection.compose
 
 protected theorem dfun {ι : Type u} {α : ι → Type v} {β : ι → Type w} [∀ i, Preorder (α i)]
@@ -344,7 +344,7 @@ protected theorem compl [BooleanAlgebra α] [BooleanAlgebra β] {l : α → β} 
     GaloisConnection (compl ∘ u ∘ compl) (compl ∘ l ∘ compl) := by
   intro a b
   dsimp
-  rw [le_compl_iff_le_compl, gc, compl_le_iff_compl_le]
+  rw [le_compl_iff_le_compl]; rw [gc]; rw [compl_le_iff_compl_le]
 
 end Constructions
 
@@ -454,12 +454,12 @@ theorem bddBelow_image (e : α ≃o β) {s : Set α} : BddBelow (e '' s) ↔ Bdd
 
 @[simp]
 theorem bddAbove_preimage (e : α ≃o β) {s : Set β} : BddAbove (e ⁻¹' s) ↔ BddAbove s := by
-  rw [← e.bddAbove_image, e.image_preimage]
+  rw [← e.bddAbove_image]; rw [e.image_preimage]
 #align order_iso.bdd_above_preimage OrderIso.bddAbove_preimage
 
 @[simp]
 theorem bddBelow_preimage (e : α ≃o β) {s : Set β} : BddBelow (e ⁻¹' s) ↔ BddBelow s := by
-  rw [← e.bddBelow_image, e.image_preimage]
+  rw [← e.bddBelow_image]; rw [e.image_preimage]
 #align order_iso.bdd_below_preimage OrderIso.bddBelow_preimage
 
 end OrderIso
@@ -604,7 +604,7 @@ theorem l_iInf_of_ul_eq_self [CompleteLattice α] [CompleteLattice β] (gi : Gal
 theorem l_biInf_of_ul_eq_self [CompleteLattice α] [CompleteLattice β] (gi : GaloisInsertion l u)
     {ι : Sort x} {p : ι → Prop} (f : ∀ (i) (_ : p i), α) (hf : ∀ i hi, u (l (f i hi)) = f i hi) :
     l (⨅ (i) (hi), f i hi) = ⨅ (i) (hi), l (f i hi) := by
-  rw [iInf_subtype', iInf_subtype']
+  rw [iInf_subtype']; rw [iInf_subtype']
   exact gi.l_iInf_of_ul_eq_self _ fun _ => hf _ _
 #align galois_insertion.l_binfi_of_ul_eq_self GaloisInsertion.l_biInf_of_ul_eq_self
 

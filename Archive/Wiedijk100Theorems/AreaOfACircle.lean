@@ -75,7 +75,7 @@ theorem disc_eq_regionBetween :
   constructor <;> intro h
   · cases abs_lt_of_sq_lt_sq' (lt_of_add_lt_of_nonneg_left h (sq_nonneg p.2)) r.2 with
     | intro left right =>
-      rw [add_comm, ← lt_sub_iff_add_lt] at h
+      rw [add_comm] at h; rw [← lt_sub_iff_add_lt] at h
       exact ⟨⟨left, right.le⟩, sq_lt.mp h⟩
   · rw [add_comm, ← lt_sub_iff_add_lt]
     exact sq_lt.mpr h.2
@@ -113,7 +113,7 @@ theorem area_disc : volume (disc r) = NNReal.pi * r ^ 2 := by
       using 1
     · have h₁ : (r:ℝ) ^ 2 - x ^ 2 > 0 := sub_pos_of_lt (sq_lt_sq' hx1 hx2)
       have h : sqrt ((r:ℝ) ^ 2 - x ^ 2) ^ 3 = ((r:ℝ) ^ 2 - x ^ 2) * sqrt ((r: ℝ) ^ 2 - x ^ 2) := by
-        rw [pow_three, ← mul_assoc, mul_self_sqrt (by positivity)]
+        rw [pow_three]; rw [← mul_assoc]; rw [mul_self_sqrt (by positivity)]
       field_simp
       ring_nf
       rw [h]

@@ -119,7 +119,7 @@ theorem polarCoord_source_ae_eq_univ : polarCoord.source =ᵐ[volume] univ := by
     exact hx.2
   have B : volume (LinearMap.ker (LinearMap.snd ℝ ℝ ℝ) : Set (ℝ × ℝ)) = 0 := by
     apply Measure.addHaar_submodule
-    rw [Ne.def, LinearMap.ker_eq_top]
+    rw [Ne.def]; rw [LinearMap.ker_eq_top]
     intro h
     have : (LinearMap.snd ℝ ℝ ℝ) (0, 1) = (0 : ℝ × ℝ →ₗ[ℝ] ℝ) (0, 1) := by rw [h]
     simp at this
@@ -151,6 +151,6 @@ theorem integral_comp_polarCoord_symm {E : Type*} [NormedAddCommGroup E] [Normed
       apply integral_target_eq_integral_abs_det_fderiv_smul volume A
     _ = ∫ p in polarCoord.target, p.1 • f (polarCoord.symm p) := by
       apply set_integral_congr polarCoord.open_target.measurableSet fun x hx => ?_
-      rw [B_det, abs_of_pos]
+      rw [B_det]; rw [abs_of_pos]
       exact hx.1
 #align integral_comp_polar_coord_symm integral_comp_polarCoord_symm

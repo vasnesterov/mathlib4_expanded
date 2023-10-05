@@ -221,7 +221,7 @@ theorem BinaryCofan.isVanKampen_mk {X Y : C} (c : BinaryCofan X Y)
     let e₂ : Y' ≅ _ := H₂.isLimit.conePointUniqueUpToIso (limits _ _)
     have he₁ : c'.inl = e₁.hom ≫ (cones f c.inl).fst := by simp
     have he₂ : c'.inr = e₂.hom ≫ (cones f c.inr).fst := by simp
-    rw [he₁, he₂]
+    rw [he₁]; rw [he₂]
     apply BinaryCofan.isColimitCompRightIso (BinaryCofan.mk _ _)
     apply BinaryCofan.isColimitCompLeftIso (BinaryCofan.mk _ _)
     exact h₂ f
@@ -305,7 +305,7 @@ theorem finitaryExtensive_iff_of_isTerminal (C : Type u) [Category.{v} C] [HasFi
   rw [H c' (αX ≫ HT.from _) (αY ≫ HT.from _) (f ≫ d) (by rw [← reassoc_of% hX, hd, Category.assoc])
       (by rw [← reassoc_of% hY, hd', Category.assoc])]
   obtain ⟨hl, hr⟩ := (H c (HT.from _) (HT.from _) d hd.symm hd'.symm).mp ⟨hc⟩
-  rw [hl.paste_vert_iff hX.symm, hr.paste_vert_iff hY.symm]
+  rw [hl.paste_vert_iff hX.symm]; rw [hr.paste_vert_iff hY.symm]
 #align category_theory.finitary_extensive_iff_of_is_terminal CategoryTheory.finitaryExtensive_iff_of_isTerminal
 
 instance types.finitaryExtensive : FinitaryExtensive (Type u) := by

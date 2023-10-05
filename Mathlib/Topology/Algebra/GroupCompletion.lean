@@ -72,7 +72,7 @@ instance [UniformSpace α] [MonoidWithZero M] [Zero α] [MulActionWithZero M α]
     smul_zero := fun r ↦ by rw [← coe_zero, ← coe_smul, MulActionWithZero.smul_zero r]
     zero_smul :=
       ext' (continuous_const_smul _) continuous_const fun a ↦ by
-        rw [← coe_smul, zero_smul, coe_zero] }
+        rw [← coe_smul]; rw [zero_smul]; rw [coe_zero] }
 
 end Zero
 
@@ -124,7 +124,7 @@ instance : AddMonoid (Completion α) :=
       Completion.induction_on a
         (isClosed_eq continuous_map <| continuous_map₂ continuous_id continuous_map) fun a ↦
         show (n + 1) • (a : Completion α) = (a : Completion α) + n • (a : Completion α) by
-          rw [← coe_smul, succ_nsmul, coe_add, coe_smul] }
+          rw [← coe_smul]; rw [succ_nsmul]; rw [coe_add]; rw [coe_smul] }
 
 instance : SubNegMonoid (Completion α) :=
   { (inferInstance : AddMonoid $ Completion α),
@@ -143,14 +143,14 @@ instance : SubNegMonoid (Completion α) :=
       Completion.induction_on a
         (isClosed_eq continuous_map <| continuous_map₂ continuous_id continuous_map) fun a ↦
           show Int.ofNat n.succ • (a : Completion α) = _ by
-            rw [← coe_smul, show Int.ofNat n.succ • a = a + Int.ofNat n • a from
-              SubNegMonoid.zsmul_succ' n a, coe_add, coe_smul]
+            rw [← coe_smul]; rw [show Int.ofNat n.succ • a = a + Int.ofNat n • a from
+              SubNegMonoid.zsmul_succ' n a]; rw [coe_add]; rw [coe_smul]
     zsmul_neg' := fun n a ↦
       Completion.induction_on a
         (isClosed_eq continuous_map <| Completion.continuous_map.comp continuous_map) fun a ↦
           show (Int.negSucc n) • (a : Completion α) = _ by
-            rw [← coe_smul, show (Int.negSucc n) • a = -((n.succ : ℤ) • a) from
-              SubNegMonoid.zsmul_neg' n a, coe_neg, coe_smul] }
+            rw [← coe_smul]; rw [show (Int.negSucc n) • a = -((n.succ : ℤ) • a) from
+              SubNegMonoid.zsmul_neg' n a]; rw [coe_neg]; rw [coe_smul] }
 
 instance addGroup : AddGroup (Completion α) :=
   { (inferInstance : SubNegMonoid $ Completion α) with
@@ -209,7 +209,7 @@ instance : AddCommGroup (Completion α) :=
           (continuous_map₂ continuous_snd continuous_fst))
         fun x y ↦ by
         change (x : Completion α) + ↑y = ↑y + ↑x
-        rw [← coe_add, ← coe_add, add_comm] }
+        rw [← coe_add]; rw [← coe_add]; rw [add_comm] }
 
 instance instModule [Semiring R] [Module R α] [UniformContinuousConstSMul R α] :
     Module R (Completion α) :=
@@ -218,7 +218,7 @@ instance instModule [Semiring R] [Module R α] [UniformContinuousConstSMul R α]
     add_smul := fun a b ↦
       ext' (continuous_const_smul _) ((continuous_const_smul _).add (continuous_const_smul _))
         fun x ↦ by
-          rw [← coe_smul, add_smul, coe_add, coe_smul, coe_smul] }
+          rw [← coe_smul]; rw [add_smul]; rw [coe_add]; rw [coe_smul]; rw [coe_smul] }
 #align uniform_space.completion.module UniformSpace.Completion.instModule
 
 end UniformAddCommGroup

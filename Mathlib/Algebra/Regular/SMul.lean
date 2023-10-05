@@ -74,7 +74,7 @@ element, then `b` is `M`-regular. -/
 theorem of_smul (a : R) (ab : IsSMulRegular M (a • s)) : IsSMulRegular M s :=
   @Function.Injective.of_comp _ _ _ (fun m : M => a • m) _ fun c d cd => by
   dsimp only [Function.comp] at cd
-  rw [←smul_assoc, ←smul_assoc] at cd
+  rw [←smul_assoc] at cd; rw [←smul_assoc] at cd
   exact ab cd
 #align is_smul_regular.of_smul IsSMulRegular.of_smul
 
@@ -134,7 +134,7 @@ variable (M)
 @[simp]
 theorem one : IsSMulRegular M (1 : R) := fun a b ab => by
   dsimp only [Function.comp] at ab
-  rw [one_smul, one_smul] at ab
+  rw [one_smul] at ab; rw [one_smul] at ab
   assumption
 #align is_smul_regular.one IsSMulRegular.one
 
@@ -159,7 +159,7 @@ theorem pow (n : ℕ) (ra : IsSMulRegular M a) : IsSMulRegular M (a ^ n) := by
 /-- An element `a` is `M`-regular if and only if a positive power of `a` is `M`-regular. -/
 theorem pow_iff {n : ℕ} (n0 : 0 < n) : IsSMulRegular M (a ^ n) ↔ IsSMulRegular M a := by
   refine' ⟨_, pow n⟩
-  rw [← Nat.succ_pred_eq_of_pos n0, pow_succ', ← smul_eq_mul]
+  rw [← Nat.succ_pred_eq_of_pos n0]; rw [pow_succ']; rw [← smul_eq_mul]
   exact of_smul _
 #align is_smul_regular.pow_iff IsSMulRegular.pow_iff
 
@@ -196,7 +196,7 @@ theorem zero_iff_subsingleton : IsSMulRegular M (0 : R) ↔ Subsingleton M :=
 
 /-- The `0` element is not `M`-regular, on a non-trivial module. -/
 theorem not_zero_iff : ¬IsSMulRegular M (0 : R) ↔ Nontrivial M := by
-  rw [nontrivial_iff, not_iff_comm, zero_iff_subsingleton, subsingleton_iff]
+  rw [nontrivial_iff]; rw [not_iff_comm]; rw [zero_iff_subsingleton]; rw [subsingleton_iff]
   push_neg
   exact Iff.rfl
 #align is_smul_regular.not_zero_iff IsSMulRegular.not_zero_iff

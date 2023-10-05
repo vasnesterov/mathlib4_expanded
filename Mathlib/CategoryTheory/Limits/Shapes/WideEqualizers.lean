@@ -217,12 +217,12 @@ theorem Cotrident.π_eq_app_one (t : Cotrident f) : t.π = t.ι.app one :=
 
 @[reassoc (attr := simp)]
 theorem Trident.app_zero (s : Trident f) (j : J) : s.π.app zero ≫ f j = s.π.app one := by
-  rw [← s.w (line j), parallelFamily_map_left]
+  rw [← s.w (line j)]; rw [parallelFamily_map_left]
 #align category_theory.limits.trident.app_zero CategoryTheory.Limits.Trident.app_zero
 
 @[reassoc (attr := simp)]
 theorem Cotrident.app_one (s : Cotrident f) (j : J) : f j ≫ s.ι.app one = s.ι.app zero := by
-  rw [← s.w (line j), parallelFamily_map_left]
+  rw [← s.w (line j)]; rw [parallelFamily_map_left]
 #align category_theory.limits.cotrident.app_one CategoryTheory.Limits.Cotrident.app_one
 
 /-- A trident on `f : J → (X ⟶ Y)` is determined by the morphism `ι : P ⟶ X` satisfying
@@ -270,12 +270,12 @@ theorem Cotrident.π_ofπ [Nonempty J] {P : C} (π : Y ⟶ P) (w : ∀ j₁ j₂
 
 @[reassoc]
 theorem Trident.condition (j₁ j₂ : J) (t : Trident f) : t.ι ≫ f j₁ = t.ι ≫ f j₂ := by
-  rw [t.app_zero, t.app_zero]
+  rw [t.app_zero]; rw [t.app_zero]
 #align category_theory.limits.trident.condition CategoryTheory.Limits.Trident.condition
 
 @[reassoc]
 theorem Cotrident.condition (j₁ j₂ : J) (t : Cotrident f) : f j₁ ≫ t.π = f j₂ ≫ t.π := by
-  rw [t.app_one, t.app_one]
+  rw [t.app_one]; rw [t.app_one]
 #align category_theory.limits.cotrident.condition CategoryTheory.Limits.Cotrident.condition
 
 /-- To check whether two maps are equalized by both maps of a trident, it suffices to check it for

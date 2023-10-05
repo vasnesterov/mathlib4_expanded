@@ -112,8 +112,8 @@ theorem OxfordInvariants.Week3P1 (n : ℕ) (a : ℕ → ℕ) (a_pos : ∀ i ≤ 
   specialize ha n le_rfl
   have ha₀ : a 0 ≤ a n * b := by
     -- Needing this is an artifact of `ℕ`-subtraction.
-    rw [← @Nat.cast_le α, Nat.cast_mul, hb, ←
-      div_le_iff' (a_pos _ <| n.le_succ.trans <| Nat.le_succ _), ←
+    rw [← @Nat.cast_le α]; rw [Nat.cast_mul]; rw [hb]; rw [←
+      div_le_iff' (a_pos _ <| n.le_succ.trans <| Nat.le_succ _)]; rw [←
       mul_div_mul_right _ _ (a_pos _ <| Nat.le_succ _).ne']
     suffices h : ∀ i, i ∈ Finset.range (n + 1) → 0 ≤ (a 0 : α) * a (n + 1) / (a i * a (i + 1))
     · exact Finset.single_le_sum h (Finset.self_mem_range_succ n)
@@ -128,16 +128,14 @@ theorem OxfordInvariants.Week3P1 (n : ℕ) (a : ℕ → ℕ) (a_pos : ∀ i ≤ 
         simp only [← Nat.cast_add, ← Nat.cast_div ha this, ← Nat.cast_mul, ← Nat.cast_sub ha₀,
             ← Nat.cast_div han this]
         rw [Nat.cast_sub (Nat.div_le_of_le_mul _)]
-        rw [← mul_assoc, Nat.mul_div_cancel' ha, add_mul]
+        rw [← mul_assoc]; rw [Nat.mul_div_cancel' ha]; rw [add_mul]
         exact tsub_le_self.trans (Nat.le_add_right _ _)
       _ = a (n + 2) / a (n + 1) * b + a 0 * a (n + 2) / (a (n + 1) * a (n + 2)) := by
-        rw [add_div, add_mul, sub_div, mul_div_right_comm, add_sub_sub_cancel,
-          mul_div_mul_right _ _ (a_pos _ le_rfl).ne']
+        rw [add_div]; rw [add_mul]; rw [sub_div]; rw [mul_div_right_comm]; rw [add_sub_sub_cancel]; rw [mul_div_mul_right _ _ (a_pos _ le_rfl).ne']
       _ = ∑ i : ℕ in Finset.range (n + 2), (a 0 : α) * a (n + 2) / (a i * a (i + 1)) := by
-        rw [Finset.sum_range_succ, hb, Finset.mul_sum]
+        rw [Finset.sum_range_succ]; rw [hb]; rw [Finset.mul_sum]
         congr; ext i
-        rw [← mul_div_assoc, ← mul_div_right_comm, mul_div_assoc,
-          mul_div_cancel _ (a_pos _ <| Nat.le_succ _).ne', mul_comm]
+        rw [← mul_div_assoc]; rw [← mul_div_right_comm]; rw [mul_div_assoc]; rw [mul_div_cancel _ (a_pos _ <| Nat.le_succ _).ne']; rw [mul_comm]
   -- Check the divisibility condition
   · rw [mul_tsub, ← mul_assoc, Nat.mul_div_cancel' ha, add_mul, Nat.mul_div_cancel' han,
       add_tsub_tsub_cancel ha₀, add_tsub_cancel_right]

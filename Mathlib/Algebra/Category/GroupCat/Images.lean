@@ -69,7 +69,7 @@ noncomputable def image.lift (F' : MonoFactorisation f) : image f ⟶ F'.I where
     haveI := F'.m_mono
     apply injective_of_mono F'.m
     change (F'.e ≫ F'.m) _ = _
-    rw [F'.fac, AddMonoidHom.map_zero]
+    rw [F'.fac]; rw [AddMonoidHom.map_zero]
     exact (Classical.indefiniteDescription (fun y => f y = 0) _).2
   map_add' := by
     intro x y
@@ -87,7 +87,7 @@ noncomputable def image.lift (F' : MonoFactorisation f) : image f ⟶ F'.I where
 theorem image.lift_fac (F' : MonoFactorisation f) : image.lift F' ≫ F'.m = image.ι f := by
   ext x
   change (F'.e ≫ F'.m) _ = _
-  rw [F'.fac, (Classical.indefiniteDescription _ x.2).2]
+  rw [F'.fac]; rw [(Classical.indefiniteDescription _ x.2).2]
   rfl
 #align AddCommGroup.image.lift_fac AddCommGroupCat.image.lift_fac
 

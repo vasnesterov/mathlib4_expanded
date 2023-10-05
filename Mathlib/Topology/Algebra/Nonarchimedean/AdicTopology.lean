@@ -200,7 +200,7 @@ theorem is_ideal_adic_pow {J : Ideal R} (h : IsAdic J) {n : ℕ} (hn : 0 < n) : 
     cases n
     · exfalso
       exact Nat.not_succ_le_zero 0 hn
-    rw [← pow_mul, Nat.succ_mul]
+    rw [← pow_mul]; rw [Nat.succ_mul]
     apply Ideal.pow_le_pow
     apply Nat.le_add_left
 #align is_ideal_adic_pow is_ideal_adic_pow

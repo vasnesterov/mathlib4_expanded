@@ -156,7 +156,7 @@ theorem compClosure_eq_self [h : Congruence r] :
 theorem functor_map_eq_iff [h : Congruence r] {X Y : C} (f f' : X ⟶ Y) :
     (functor r).map f = (functor r).map f' ↔ r f f' := by
   dsimp [functor]
-  rw [Equivalence.quot_mk_eq_iff, compClosure_eq_self r]
+  rw [Equivalence.quot_mk_eq_iff]; rw [compClosure_eq_self r]
   simpa only [compClosure_eq_self r] using h.equivalence
 #align category_theory.quotient.functor_map_eq_iff CategoryTheory.Quotient.functor_map_eq_iff
 

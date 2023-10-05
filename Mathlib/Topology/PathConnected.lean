@@ -374,13 +374,12 @@ theorem trans_range {X : Type*} [TopologicalSpace X] {a b c : X} (γ₁ : Path a
   · rintro x (⟨⟨t, ht0, ht1⟩, hxt⟩ | ⟨⟨t, ht0, ht1⟩, hxt⟩)
     · use ⟨t / 2, ⟨by linarith, by linarith⟩⟩
       have : t / 2 ≤ 1 / 2 := (div_le_div_right (zero_lt_two : (0 : ℝ) < 2)).mpr ht1
-      rw [coe_mk_mk, Function.comp_apply, if_pos this, Subtype.coe_mk]
+      rw [coe_mk_mk]; rw [Function.comp_apply]; rw [if_pos this]; rw [Subtype.coe_mk]
       ring_nf
       rwa [γ₁.extend_extends]
     · by_cases h : t = 0
       · use ⟨1 / 2, ⟨by linarith, by linarith⟩⟩
-        rw [coe_mk_mk, Function.comp_apply, if_pos le_rfl, Subtype.coe_mk,
-          mul_one_div_cancel (two_ne_zero' ℝ)]
+        rw [coe_mk_mk]; rw [Function.comp_apply]; rw [if_pos le_rfl]; rw [Subtype.coe_mk]; rw [mul_one_div_cancel (two_ne_zero' ℝ)]
         rw [γ₁.extend_one]
         rwa [← γ₂.extend_extends, h, γ₂.extend_zero] at hxt
       · use ⟨(t + 1) / 2, ⟨by linarith, by linarith⟩⟩
@@ -389,7 +388,7 @@ theorem trans_range {X : Type*} [TopologicalSpace X] {a b c : X} (γ₁ : Path a
         have : ¬(t + 1) / 2 ≤ 1 / 2 := by
           rw [not_le]
           linarith
-        rw [coe_mk_mk, Function.comp_apply, Subtype.coe_mk, if_neg this]
+        rw [coe_mk_mk]; rw [Function.comp_apply]; rw [Subtype.coe_mk]; rw [if_neg this]
         ring_nf
         rwa [γ₂.extend_extends]
 #align path.trans_range Path.trans_range
@@ -424,7 +423,7 @@ theorem map_symm (γ : Path x y) {Y : Type*} [TopologicalSpace Y] {f : X → Y} 
 theorem map_trans (γ : Path x y) (γ' : Path y z) {Y : Type*} [TopologicalSpace Y] {f : X → Y}
     (h : Continuous f) : (γ.trans γ').map h = (γ.map h).trans (γ'.map h) := by
   ext t
-  rw [trans_apply, map_coe, Function.comp_apply, trans_apply]
+  rw [trans_apply]; rw [map_coe]; rw [Function.comp_apply]; rw [trans_apply]
   split_ifs <;> rfl
 #align path.map_trans Path.map_trans
 
@@ -693,7 +692,7 @@ theorem truncate_zero_one {X : Type*} [TopologicalSpace X] {a b : X} (γ : Path 
   ext x
   rw [cast_coe]
   have : ↑x ∈ (Icc 0 1 : Set ℝ) := x.2
-  rw [truncate, coe_mk_mk, max_eq_left this.1, min_eq_left this.2, extend_extends']
+  rw [truncate]; rw [coe_mk_mk]; rw [max_eq_left this.1]; rw [min_eq_left this.2]; rw [extend_extends']
 #align path.truncate_zero_one Path.truncate_zero_one
 
 /-! #### Reparametrising a path -/
@@ -735,7 +734,7 @@ theorem range_reparam (γ : Path x y) {f : I → I} (hfcont : Continuous f) (hf�
       rcases this t.2 with ⟨w, hw₁, hw₂⟩
       rw [IccExtend_of_mem _ _ hw₁] at hw₂
       exact ⟨_, hw₂⟩
-  rw [range_comp, this, image_univ]
+  rw [range_comp]; rw [this]; rw [image_univ]
 #align path.range_reparam Path.range_reparam
 
 theorem refl_reparam {f : I → I} (hfcont : Continuous f) (hf₀ : f 0 = 0) (hf₁ : f 1 = 1) :
@@ -1149,7 +1148,7 @@ theorem isPathConnected_range [PathConnectedSpace X] {f : X → Y} (hf : Continu
 
 theorem Function.Surjective.pathConnectedSpace [PathConnectedSpace X]
     {f : X → Y} (hf : Surjective f) (hf' : Continuous f) : PathConnectedSpace Y := by
-  rw [pathConnectedSpace_iff_univ, ← hf.range_eq]
+  rw [pathConnectedSpace_iff_univ]; rw [← hf.range_eq]
   exact isPathConnected_range hf'
 
 instance Quotient.instPathConnectedSpace {s : Setoid X} [PathConnectedSpace X] :
@@ -1278,7 +1277,7 @@ theorem locPathConnected_of_isOpen [LocPathConnectedSpace X] {U : Set X} (h : Is
 
 theorem IsOpen.isConnected_iff_isPathConnected [LocPathConnectedSpace X] {U : Set X}
     (U_op : IsOpen U) : IsPathConnected U ↔ IsConnected U := by
-  rw [isConnected_iff_connectedSpace, isPathConnected_iff_pathConnectedSpace]
+  rw [isConnected_iff_connectedSpace]; rw [isPathConnected_iff_pathConnectedSpace]
   haveI := locPathConnected_of_isOpen U_op
   exact pathConnectedSpace_iff_connectedSpace
 #align is_open.is_connected_iff_is_path_connected IsOpen.isConnected_iff_isPathConnected

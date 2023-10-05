@@ -312,7 +312,7 @@ theorem ofMulAction_self_smul_eq_mul (x : MonoidAlgebra k G) (y : (ofMulAction k
       simp only [MonoidAlgebra.of_apply, asAlgebraHom_single, one_smul,
         ofMulAction_apply, smul_eq_mul]
       -- Porting note : single_mul_apply not firing in simp
-      rw [MonoidAlgebra.single_mul_apply, one_mul]
+      rw [MonoidAlgebra.single_mul_apply]; rw [one_mul]
     )
     (fun x y hx hy => by simp only [hx, hy, add_mul, add_smul]) fun r x hx => by
     show asAlgebraHom (ofMulAction k G G) _ _ = _  -- Porting note: was simpa [← hx]

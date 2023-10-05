@@ -61,7 +61,7 @@ theorem equalizerSubobject_arrow' :
 @[reassoc]
 theorem equalizerSubobject_arrow_comp :
     (equalizerSubobject f g).arrow ≫ f = (equalizerSubobject f g).arrow ≫ g := by
-  rw [← equalizerSubobject_arrow, Category.assoc, Category.assoc, equalizer.condition]
+  rw [← equalizerSubobject_arrow]; rw [Category.assoc]; rw [Category.assoc]; rw [equalizer.condition]
 #align category_theory.limits.equalizer_subobject_arrow_comp CategoryTheory.Limits.equalizerSubobject_arrow_comp
 
 theorem equalizerSubobject_factors {W : C} (h : W ⟶ X) (w : h ≫ f = h ≫ g) :
@@ -72,8 +72,7 @@ theorem equalizerSubobject_factors {W : C} (h : W ⟶ X) (w : h ≫ f = h ≫ g)
 theorem equalizerSubobject_factors_iff {W : C} (h : W ⟶ X) :
     (equalizerSubobject f g).Factors h ↔ h ≫ f = h ≫ g :=
   ⟨fun w => by
-    rw [← Subobject.factorThru_arrow _ _ w, Category.assoc, equalizerSubobject_arrow_comp,
-      Category.assoc],
+    rw [← Subobject.factorThru_arrow _ _ w]; rw [Category.assoc]; rw [equalizerSubobject_arrow_comp]; rw [Category.assoc],
     equalizerSubobject_factors f g h⟩
 #align category_theory.limits.equalizer_subobject_factors_iff CategoryTheory.Limits.equalizerSubobject_factors_iff
 
@@ -120,8 +119,7 @@ theorem kernelSubobject_factors {W : C} (h : W ⟶ X) (w : h ≫ f = 0) :
 theorem kernelSubobject_factors_iff {W : C} (h : W ⟶ X) :
     (kernelSubobject f).Factors h ↔ h ≫ f = 0 :=
   ⟨fun w => by
-    rw [← Subobject.factorThru_arrow _ _ w, Category.assoc, kernelSubobject_arrow_comp,
-      comp_zero],
+    rw [← Subobject.factorThru_arrow _ _ w]; rw [Category.assoc]; rw [kernelSubobject_arrow_comp]; rw [comp_zero],
     kernelSubobject_factors f h⟩
 #align category_theory.limits.kernel_subobject_factors_iff CategoryTheory.Limits.kernelSubobject_factors_iff
 

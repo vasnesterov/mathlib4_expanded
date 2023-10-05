@@ -602,7 +602,7 @@ theorem left_distrib_equiv (x y z : PGame) : x * (y + z) ≈ x * y + x * z :=
 @[simp]
 theorem quot_left_distrib_sub (x y z : PGame) : (⟦x * (y - z)⟧ : Game) = ⟦x * y⟧ - ⟦x * z⟧ := by
   change (⟦x * (y + -z)⟧ : Game) = ⟦x * y⟧ + -⟦x * z⟧
-  rw [quot_left_distrib, quot_mul_neg]
+  rw [quot_left_distrib]; rw [quot_mul_neg]
 #align pgame.quot_left_distrib_sub SetTheory.PGame.quot_left_distrib_sub
 
 @[simp]
@@ -618,7 +618,7 @@ theorem right_distrib_equiv (x y z : PGame) : (x + y) * z ≈ x * z + y * z :=
 @[simp]
 theorem quot_right_distrib_sub (x y z : PGame) : (⟦(y - z) * x⟧ : Game) = ⟦y * x⟧ - ⟦z * x⟧ := by
   change (⟦(y + -z) * x⟧ : Game) = ⟦y * x⟧ + -⟦z * x⟧
-  rw [quot_right_distrib, quot_neg_mul]
+  rw [quot_right_distrib]; rw [quot_neg_mul]
 #align pgame.quot_right_distrib_sub SetTheory.PGame.quot_right_distrib_sub
 
 /-- `x * 1` has the same moves as `x`. -/

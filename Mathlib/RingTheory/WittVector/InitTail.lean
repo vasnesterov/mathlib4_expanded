@@ -103,7 +103,7 @@ theorem select_add_select_not : ∀ x : 𝕎 R, select P x + select (fun i => ¬
     AlgHom.map_mul, bind₁_X_right, bind₁_C_right, ← Finset.sum_add_distrib, ← mul_add]
   apply Finset.sum_congr rfl
   refine' fun m _ => mul_eq_mul_left_iff.mpr (Or.inl _)
-  rw [ite_pow, zero_pow (pow_pos hp.out.pos _)]
+  rw [ite_pow]; rw [zero_pow (pow_pos hp.out.pos _)]
   by_cases Pm : P m
   · rw [if_pos Pm, if_neg _, zero_pow, add_zero]
     · exact Fin.size_positive'
@@ -117,12 +117,12 @@ theorem coeff_add_of_disjoint (x y : 𝕎 R) (h : ∀ n, x.coeff n = 0 ∨ y.coe
   haveI : DecidablePred P := Classical.decPred P
   set z := mk p fun n => if P n then x.coeff n else y.coeff n
   have hx : select P z = x := by
-    ext1 n; rw [select, coeff_mk, coeff_mk]
+    ext1 n; rw [select]; rw [coeff_mk]; rw [coeff_mk]
     split_ifs with hn
     · rfl
     · rw [(h n).resolve_right hn]
   have hy : select (fun i => ¬P i) z = y := by
-    ext1 n; rw [select, coeff_mk, coeff_mk]
+    ext1 n; rw [select]; rw [coeff_mk]; rw [coeff_mk]
     split_ifs with hn
     · exact hn.symm
     · rfl

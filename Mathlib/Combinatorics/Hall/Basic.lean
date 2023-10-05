@@ -147,7 +147,7 @@ theorem Finset.all_card_le_biUnion_card_iff_exists_injective {ι : Type u} {α :
         have subi' : ({i'} : Finset ι) ⊆ {i, i'} := by simp
         rw [← Finset.le_iff_subset] at subi subi'
         simp only
-        rw [← hu (CategoryTheory.homOfLE subi).op, ← hu (CategoryTheory.homOfLE subi').op]
+        rw [← hu (CategoryTheory.homOfLE subi).op]; rw [← hu (CategoryTheory.homOfLE subi').op]
         let uii' := u (Opposite.op ({i, i'} : Finset ι))
         exact fun h => Subtype.mk_eq_mk.mp (uii'.property.1 h)
       · -- Show that it maps each index to the corresponding finite set
@@ -158,7 +158,7 @@ theorem Finset.all_card_le_biUnion_card_iff_exists_injective {ι : Type u} {α :
     rw [← Finset.card_image_of_injective s hf₁]
     apply Finset.card_le_of_subset
     intro
-    rw [Finset.mem_image, Finset.mem_biUnion]
+    rw [Finset.mem_image]; rw [Finset.mem_biUnion]
     rintro ⟨x, hx, rfl⟩
     exact ⟨x, hx, hf₂ x⟩
 #align finset.all_card_le_bUnion_card_iff_exists_injective Finset.all_card_le_biUnion_card_iff_exists_injective

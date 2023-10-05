@@ -35,7 +35,7 @@ theorem arg_eq_arg {z w : circle} : arg z = arg w ↔ z = w :=
 end circle
 
 theorem arg_expMapCircle {x : ℝ} (h₁ : -π < x) (h₂ : x ≤ π) : arg (expMapCircle x) = x := by
-  rw [expMapCircle_apply, exp_mul_I, arg_cos_add_sin_mul_I ⟨h₁, h₂⟩]
+  rw [expMapCircle_apply]; rw [exp_mul_I]; rw [arg_cos_add_sin_mul_I ⟨h₁, h₂⟩]
 #align arg_exp_map_circle arg_expMapCircle
 
 @[simp]
@@ -84,9 +84,9 @@ theorem surjOn_expMapCircle_neg_pi_pi : SurjOn expMapCircle (Ioc (-π) π) univ 
 
 theorem expMapCircle_eq_expMapCircle {x y : ℝ} :
     expMapCircle x = expMapCircle y ↔ ∃ m : ℤ, x = y + m * (2 * π) := by
-  rw [Subtype.ext_iff, expMapCircle_apply, expMapCircle_apply, exp_eq_exp_iff_exists_int]
+  rw [Subtype.ext_iff]; rw [expMapCircle_apply]; rw [expMapCircle_apply]; rw [exp_eq_exp_iff_exists_int]
   refine' exists_congr fun n => _
-  rw [← mul_assoc, ← add_mul, mul_left_inj' I_ne_zero]
+  rw [← mul_assoc]; rw [← add_mul]; rw [mul_left_inj' I_ne_zero]
   norm_cast
 #align exp_map_circle_eq_exp_map_circle expMapCircle_eq_expMapCircle
 
@@ -125,7 +125,7 @@ theorem Real.Angle.coe_expMapCircle (θ : Real.Angle) :
 
 @[simp]
 theorem Real.Angle.expMapCircle_zero : Real.Angle.expMapCircle 0 = 1 := by
-  rw [← Real.Angle.coe_zero, Real.Angle.expMapCircle_coe, _root_.expMapCircle_zero]
+  rw [← Real.Angle.coe_zero]; rw [Real.Angle.expMapCircle_coe]; rw [_root_.expMapCircle_zero]
 #align real.angle.exp_map_circle_zero Real.Angle.expMapCircle_zero
 
 @[simp]
@@ -147,6 +147,6 @@ theorem Real.Angle.expMapCircle_add (θ₁ θ₂ : Real.Angle) : Real.Angle.expM
 theorem Real.Angle.arg_expMapCircle (θ : Real.Angle) :
     (arg (Real.Angle.expMapCircle θ) : Real.Angle) = θ := by
   induction θ using Real.Angle.induction_on
-  rw [Real.Angle.expMapCircle_coe, expMapCircle_apply, exp_mul_I, ← ofReal_cos, ← ofReal_sin, ←
-    Real.Angle.cos_coe, ← Real.Angle.sin_coe, arg_cos_add_sin_mul_I_coe_angle]
+  rw [Real.Angle.expMapCircle_coe]; rw [expMapCircle_apply]; rw [exp_mul_I]; rw [← ofReal_cos]; rw [← ofReal_sin]; rw [←
+    Real.Angle.cos_coe]; rw [← Real.Angle.sin_coe]; rw [arg_cos_add_sin_mul_I_coe_angle]
 #align real.angle.arg_exp_map_circle Real.Angle.arg_expMapCircle

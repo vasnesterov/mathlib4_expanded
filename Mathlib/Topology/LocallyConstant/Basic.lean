@@ -215,7 +215,7 @@ theorem div [Div Y] ⦃f g : X → Y⦄ (hf : IsLocallyConstant f) (hg : IsLocal
 constant, then the locally constant property descends to `f`. -/
 theorem desc {α β : Type*} (f : X → α) (g : α → β) (h : IsLocallyConstant (g ∘ f))
     (inj : Function.Injective g) : IsLocallyConstant f := fun s => by
-  rw [← preimage_image_eq s inj, preimage_preimage]
+  rw [← preimage_image_eq s inj]; rw [preimage_preimage]
   exact h (g '' s)
 #align is_locally_constant.desc IsLocallyConstant.desc
 
@@ -478,7 +478,7 @@ noncomputable def comap (f : X → Y) : LocallyConstant Y Z → LocallyConstant 
 @[simp]
 theorem coe_comap (f : X → Y) (g : LocallyConstant Y Z) (hf : Continuous f) :
     (comap f g) = g ∘ f := by
-  rw [comap, dif_pos hf]
+  rw [comap]; rw [dif_pos hf]
   rfl
 #align locally_constant.coe_comap LocallyConstant.coe_comap
 
@@ -556,7 +556,7 @@ open Classical
 noncomputable def mulIndicator (hU : IsClopen U) : LocallyConstant X R where
   toFun := Set.mulIndicator U f
   isLocallyConstant := fun s => by
-    rw [mulIndicator_preimage, Set.ite, Set.diff_eq]
+    rw [mulIndicator_preimage]; rw [Set.ite]; rw [Set.diff_eq]
     exact ((f.2 s).inter hU.isOpen).union ((IsLocallyConstant.const 1 s).inter hU.compl.isOpen)
 #align locally_constant.mul_indicator LocallyConstant.mulIndicator
 #align locally_constant.indicator LocallyConstant.indicator
@@ -681,8 +681,8 @@ lemma piecewise'_apply_left {C₀ C₁ C₂ : Set X} (h₀ : C₀ ⊆ C₁ ∪ C
     (x : C₀) (hx : x.val ∈ C₁) :
     piecewise' h₀ h₁ h₂ f₁ f₂ hf x = f₁ ⟨x.val, hx⟩ := by
   letI : ∀ j : C₀, Decidable (j ∈ Subtype.val ⁻¹' C₁) := fun j ↦ decidable_of_iff (↑j ∈ C₁) Iff.rfl
-  rw [piecewise', piecewise_apply_left (f := (f₁.comap (restrictPreimage C₁ ((↑) : C₀ → X))))
-    (hx := hx), coe_comap (hf := continuous_subtype_val.restrictPreimage)]
+  rw [piecewise']; rw [piecewise_apply_left (f := (f₁.comap (restrictPreimage C₁ ((↑) : C₀ → X))))
+    (hx := hx)]; rw [coe_comap (hf := continuous_subtype_val.restrictPreimage)]
   rfl
 
 @[simp]
@@ -692,8 +692,8 @@ lemma piecewise'_apply_right {C₀ C₁ C₂ : Set X} (h₀ : C₀ ⊆ C₁ ∪ 
     (x : C₀) (hx : x.val ∈ C₂) :
     piecewise' h₀ h₁ h₂ f₁ f₂ hf x = f₂ ⟨x.val, hx⟩ := by
   letI : ∀ j : C₀, Decidable (j ∈ Subtype.val ⁻¹' C₁) := fun j ↦ decidable_of_iff (↑j ∈ C₁) Iff.rfl
-  rw [piecewise', piecewise_apply_right (f := (f₁.comap (restrictPreimage C₁ ((↑) : C₀ → X))))
-    (hx := hx), coe_comap (hf := continuous_subtype_val.restrictPreimage)]
+  rw [piecewise']; rw [piecewise_apply_right (f := (f₁.comap (restrictPreimage C₁ ((↑) : C₀ → X))))
+    (hx := hx)]; rw [coe_comap (hf := continuous_subtype_val.restrictPreimage)]
   rfl
 
 end Piecewise

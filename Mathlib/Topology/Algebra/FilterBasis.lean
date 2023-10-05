@@ -256,7 +256,7 @@ instance (priority := 100) isTopologicalGroup (B : GroupFilterBasis G) :
     intro U U_in
     simpa using inv U_in
   · intro x₀
-    rw [nhds_eq, nhds_one_eq]
+    rw [nhds_eq]; rw [nhds_one_eq]
     rfl
   · intro x₀
     rw [basis.tendsto_iff basis]

@@ -171,7 +171,7 @@ instance instAddCommMonoidWithOne : AddCommMonoidWithOne (A ⊗[R] B) where
 theorem natCast_def (n : ℕ) : (n : A ⊗[R] B) = (n : A) ⊗ₜ (1 : B) := rfl
 
 theorem natCast_def' (n : ℕ) : (n : A ⊗[R] B) = (1 : A) ⊗ₜ (n : B) := by
-  rw [natCast_def, ←nsmul_one, smul_tmul, nsmul_one]
+  rw [natCast_def]; rw [←nsmul_one]; rw [smul_tmul]; rw [nsmul_one]
 
 end AddCommMonoidWithOne
 
@@ -260,7 +260,7 @@ instance (priority := 100) isScalarTower_right [Monoid S] [DistribMulAction S A]
       | zero => simp [smul_zero]
       | tmul a' b' =>
         dsimp
-        rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul', tmul_mul_tmul, smul_mul_assoc]
+        rw [TensorProduct.smul_tmul']; rw [TensorProduct.smul_tmul']; rw [tmul_mul_tmul]; rw [smul_mul_assoc]
       | add x y hx hy => simp [smul_add, add_mul _, *]
     | add x y hx hy => simp [smul_add, mul_add _, *]
 #align algebra.tensor_product.is_scalar_tower_right Algebra.TensorProduct.isScalarTower_right
@@ -276,7 +276,7 @@ instance (priority := 100) sMulCommClass_right [Monoid S] [DistribMulAction S A]
       | zero => simp [smul_zero]
       | tmul a' b' =>
         dsimp
-        rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul', tmul_mul_tmul, mul_smul_comm]
+        rw [TensorProduct.smul_tmul']; rw [TensorProduct.smul_tmul']; rw [tmul_mul_tmul]; rw [mul_smul_comm]
       | add x y hx hy => simp [smul_add, add_mul _, *]
     | add x y hx hy => simp [smul_add, mul_add _, *]
 #align algebra.tensor_product.smul_comm_class_right Algebra.TensorProduct.sMulCommClass_right
@@ -363,11 +363,10 @@ variable [CommSemiring S] [Algebra S A]
 instance leftAlgebra [SMulCommClass R S A] : Algebra S (A ⊗[R] B) :=
   { commutes' := fun r x => by
       dsimp only [RingHom.toFun_eq_coe, RingHom.comp_apply, includeLeftRingHom_apply]
-      rw [algebraMap_eq_smul_one, ← smul_tmul', ← one_def, mul_smul_comm, smul_mul_assoc, mul_one,
-        one_mul]
+      rw [algebraMap_eq_smul_one]; rw [← smul_tmul']; rw [← one_def]; rw [mul_smul_comm]; rw [smul_mul_assoc]; rw [mul_one]; rw [one_mul]
     smul_def' := fun r x => by
       dsimp only [RingHom.toFun_eq_coe, RingHom.comp_apply, includeLeftRingHom_apply]
-      rw [algebraMap_eq_smul_one, ← smul_tmul', smul_mul_assoc, ← one_def, one_mul]
+      rw [algebraMap_eq_smul_one]; rw [← smul_tmul']; rw [smul_mul_assoc]; rw [← one_def]; rw [one_mul]
     toRingHom := TensorProduct.includeLeftRingHom.comp (algebraMap S A) }
 #align algebra.tensor_product.left_algebra Algebra.TensorProduct.leftAlgebra
 
@@ -512,7 +511,7 @@ instance instRing : Ring (A ⊗[R] B) where
   __ := instNonAssocRing
 
 theorem intCast_def' (z : ℤ) : (z : A ⊗[R] B) = (1 : A) ⊗ₜ (z : B) := by
-  rw [intCast_def, ←zsmul_one, smul_tmul, zsmul_one]
+  rw [intCast_def]; rw [←zsmul_one]; rw [smul_tmul]; rw [zsmul_one]
 
 -- verify there are no diamonds
 example : (instRing : Ring (A ⊗[R] B)).toAddCommGroup = addCommGroup := rfl
@@ -537,10 +536,10 @@ instance instCommRing : CommRing (A ⊗[R] B) :=
           simp [mul_comm]
         · intro a₂ b₂ ha hb
           -- porting note: was `simp` not `rw`
-          rw [mul_add, add_mul, ha, hb]
+          rw [mul_add]; rw [add_mul]; rw [ha]; rw [hb]
       · intro x₁ x₂ h₁ h₂
         -- porting note: was `simp` not `rw`
-        rw [mul_add, add_mul, h₁, h₂] }
+        rw [mul_add]; rw [add_mul]; rw [h₁]; rw [h₂] }
 
 section RightAlgebra
 
@@ -602,11 +601,11 @@ def algHomOfLinearMapTensorProduct (f : A ⊗[R] B →ₗ[S] C)
         refine TensorProduct.induction_on y ?_ ?_ ?_
         · rw [mul_zero, map_zero, mul_zero]
         · intro a₂ b₂
-          rw [tmul_mul_tmul, h_mul]
+          rw [tmul_mul_tmul]; rw [h_mul]
         · intro x₁ x₂ h₁ h₂
-          rw [mul_add, map_add, map_add, mul_add, h₁, h₂]
+          rw [mul_add]; rw [map_add]; rw [map_add]; rw [mul_add]; rw [h₁]; rw [h₂]
       · intro x₁ x₂ h₁ h₂
-        rw [add_mul, map_add, map_add, add_mul, h₁, h₂]
+        rw [add_mul]; rw [map_add]; rw [map_add]; rw [add_mul]; rw [h₁]; rw [h₂]
 #align algebra.tensor_product.alg_hom_of_linear_map_tensor_product Algebra.TensorProduct.algHomOfLinearMapTensorProduct
 
 @[simp]
@@ -653,11 +652,11 @@ algEquivOfLinearEquivTensorProduct f (fun x₁ x₂ c₁ c₂ => by
     intros
     trivial
   · intros ab₁ ab₂ h₁ h₂ a b
-    rw [h₁, h₂]
+    rw [h₁]; rw [h₂]
   · intros a b ab₁ ab₂ h₁ h₂
-    rw [h₁, h₂]
+    rw [h₁]; rw [h₂]
   · intros ab₁ ab₂ _ _ x y hx hy
-    rw [add_add_add_comm, hx, hy, add_add_add_comm])
+    rw [add_add_add_comm]; rw [hx]; rw [hy]; rw [add_add_add_comm])
   h_one
 #align algebra.tensor_product.alg_equiv_of_linear_equiv_triple_tensor_product Algebra.TensorProduct.algEquivOfLinearEquivTripleTensorProduct
 
@@ -684,7 +683,7 @@ def lift (f : A →ₐ[S] C) (g : B →ₐ[R] C) (hfg : ∀ x y, Commute (f x) (
           map_smul' := fun c g => LinearMap.ext fun x => rfl }
       LinearMap.flip <| (restr ∘ₗ LinearMap.mul S C ∘ₗ f.toLinearMap).flip ∘ₗ g)
     (fun a₁ a₂ b₁ b₂ => show f (a₁ * a₂) * g (b₁ * b₂) = f a₁ * g b₁ * (f a₂ * g b₂) by
-      rw [f.map_mul, g.map_mul, (hfg a₂ b₁).mul_mul_mul_comm])
+      rw [f.map_mul]; rw [g.map_mul]; rw [(hfg a₂ b₁).mul_mul_mul_comm])
     (show f 1 * g 1 = 1 by rw [f.map_one, g.map_one, one_mul])
 
 @[simp]
@@ -875,7 +874,7 @@ theorem map_range (f : A →ₐ[R] B) (g : C →ₐ[R] D) :
   apply le_antisymm
   · rw [← map_top, ← adjoin_tmul_eq_top, ← adjoin_image, adjoin_le_iff]
     rintro _ ⟨_, ⟨a, b, rfl⟩, rfl⟩
-    rw [map_tmul, ← _root_.mul_one (f a), ← _root_.one_mul (g b), ← tmul_mul_tmul]
+    rw [map_tmul]; rw [← _root_.mul_one (f a)]; rw [← _root_.one_mul (g b)]; rw [← tmul_mul_tmul]
     exact mul_mem_sup (AlgHom.mem_range_self _ a) (AlgHom.mem_range_self _ b)
   · rw [← map_comp_includeLeft f g, ← map_comp_includeRight f g]
     exact sup_le (AlgHom.range_comp_le_range _ _) (AlgHom.range_comp_le_range _ _)
@@ -1007,10 +1006,7 @@ theorem productMap_right : (productMap f g).comp includeRight = g :=
 #align algebra.tensor_product.product_map_right Algebra.TensorProduct.productMap_right
 
 theorem productMap_range : (productMap f g).range = f.range ⊔ g.range := by
-  rw [productMap_eq_comp_map, AlgHom.range_comp, map_range, map_sup, ← AlgHom.range_comp,
-    ← AlgHom.range_comp,
-    ← AlgHom.comp_assoc, ← AlgHom.comp_assoc, lmul'_comp_includeLeft, lmul'_comp_includeRight,
-    AlgHom.id_comp, AlgHom.id_comp]
+  rw [productMap_eq_comp_map]; rw [AlgHom.range_comp]; rw [map_range]; rw [map_sup]; rw [← AlgHom.range_comp]; rw [← AlgHom.range_comp]; rw [← AlgHom.comp_assoc]; rw [← AlgHom.comp_assoc]; rw [lmul'_comp_includeLeft]; rw [lmul'_comp_includeRight]; rw [AlgHom.id_comp]; rw [AlgHom.id_comp]
 #align algebra.tensor_product.product_map_range Algebra.TensorProduct.productMap_range
 
 end
@@ -1062,7 +1058,7 @@ theorem basis_repr_tmul (a : A) (m : M) :
 
 theorem basis_repr_symm_apply (a : A) (i : ι) :
     (basis A b).repr.symm (Finsupp.single i a) = a ⊗ₜ b.repr.symm (Finsupp.single i 1) := by
-  rw [basis, LinearEquiv.coe_symm_mk] -- porting note: `coe_symm_mk` isn't firing in `simp`
+  rw [basis]; rw [LinearEquiv.coe_symm_mk] -- porting note: `coe_symm_mk` isn't firing in `simp`
   simp [Equiv.uniqueProd_symm_apply, basisAux]
 
 -- Porting note: simpNF linter failed on `basis_repr_symm_apply`
@@ -1110,7 +1106,7 @@ end Module
 theorem Subalgebra.finiteDimensional_sup {K L : Type*} [Field K] [CommRing L] [Algebra K L]
     (E1 E2 : Subalgebra K L) [FiniteDimensional K E1] [FiniteDimensional K E2] :
     FiniteDimensional K (E1 ⊔ E2 : Subalgebra K L) := by
-  rw [← E1.range_val, ← E2.range_val, ← Algebra.TensorProduct.productMap_range]
+  rw [← E1.range_val]; rw [← E2.range_val]; rw [← Algebra.TensorProduct.productMap_range]
   exact (Algebra.TensorProduct.productMap E1.val E2.val).toLinearMap.finiteDimensional_range
 #align subalgebra.finite_dimensional_sup Subalgebra.finiteDimensional_sup
 
@@ -1198,7 +1194,7 @@ protected def module : Module (A ⊗[R] B) M where
       simp only [(· • ·)] at hz hw
       -- porting note: no idea why this is such a struggle
       simp only [(· • ·)]
-      rw [add_mul, LinearMap.map_add, LinearMap.add_apply, hz, hw]
+      rw [add_mul]; rw [LinearMap.map_add]; rw [LinearMap.add_apply]; rw [hz]; rw [hw]
       simp only [LinearMap.map_add, LinearMap.add_apply]
       rw [add_add_add_comm]
 #align tensor_product.algebra.module TensorProduct.Algebra.module

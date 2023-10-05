@@ -98,7 +98,7 @@ theorem map_natCast' {A} [AddMonoidWithOne A] [AddMonoidHomClass F A B] (f : F) 
     ∀ n : ℕ, f n = n
   | 0 => by simp [map_zero f]
   | n + 1 => by
-    rw [Nat.cast_add, map_add, Nat.cast_add, map_natCast' f h n, Nat.cast_one, h, Nat.cast_one]
+    rw [Nat.cast_add]; rw [map_add]; rw [Nat.cast_add]; rw [map_natCast' f h n]; rw [Nat.cast_one]; rw [h]; rw [Nat.cast_one]
 #align map_nat_cast' map_natCast'
 
 end AddMonoidHomClass

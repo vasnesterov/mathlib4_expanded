@@ -91,8 +91,7 @@ lemma of_cons (a : α) (m : Multiset α) : (FreeAbelianGroup.of (Multiplicative.
     @HMul.hMul _ (FreeCommRing α) (FreeCommRing α) _ (of a)
     (FreeAbelianGroup.of (Multiplicative.ofAdd m)) := by
   dsimp [FreeCommRing]
-  rw [← Multiset.singleton_add, ofAdd_add,
-    of, FreeAbelianGroup.of_mul_of]
+  rw [← Multiset.singleton_add]; rw [ofAdd_add]; rw [of]; rw [FreeAbelianGroup.of_mul_of]
 
 @[elab_as_elim]
 protected theorem induction_on {C : FreeCommRing α → Prop} (z : FreeCommRing α) (hn1 : C (-1))
@@ -243,14 +242,14 @@ theorem isSupported_of {p} {s : Set α} : IsSupported (of p) s ↔ p ∈ s :=
       rw [RingHom.map_one]
       norm_cast
     · use -1
-      rw [RingHom.map_neg, RingHom.map_one, Int.cast_neg, Int.cast_one]
+      rw [RingHom.map_neg]; rw [RingHom.map_one]; rw [Int.cast_neg]; rw [Int.cast_one]
     · rintro _ ⟨z, hzs, rfl⟩ _ _
       use 0
-      rw [RingHom.map_mul, lift_of, if_pos hzs, zero_mul]
+      rw [RingHom.map_mul]; rw [lift_of]; rw [if_pos hzs]; rw [zero_mul]
       norm_cast
     · rintro x y ⟨q, hq⟩ ⟨r, hr⟩
       refine' ⟨q + r, _⟩
-      rw [RingHom.map_add, hq, hr]
+      rw [RingHom.map_add]; rw [hq]; rw [hr]
       norm_cast
   specialize this (of p) hps
   rw [lift_of] at this
@@ -273,9 +272,9 @@ theorem map_subtype_val_restriction {x} (s : Set α) [DecidablePred (· ∈ s)]
   · rw [map_neg, map_one]
     rfl
   · rintro _ ⟨p, hps, rfl⟩ n ih
-    rw [RingHom.map_mul, restriction_of, dif_pos hps, RingHom.map_mul, map_of, ih]
+    rw [RingHom.map_mul]; rw [restriction_of]; rw [dif_pos hps]; rw [RingHom.map_mul]; rw [map_of]; rw [ih]
   · intro x y ihx ihy
-    rw [RingHom.map_add, RingHom.map_add, ihx, ihy]
+    rw [RingHom.map_add]; rw [RingHom.map_add]; rw [ihx]; rw [ihy]
 #align free_comm_ring.map_subtype_val_restriction FreeCommRing.map_subtype_val_restriction
 
 theorem exists_finite_support (x : FreeCommRing α) : ∃ s : Set α, Set.Finite s ∧ IsSupported x s :=
@@ -338,7 +337,7 @@ protected theorem coe_of (a : α) : ↑(FreeRing.of a) = FreeCommRing.of a :=
 
 @[simp, norm_cast]
 protected theorem coe_neg (x : FreeRing α) : ↑(-x) = -(x : FreeCommRing α) := by
-  rw [castFreeCommRing, map_neg]
+  rw [castFreeCommRing]; rw [map_neg]
 #align free_ring.coe_neg FreeRing.coe_neg
 
 @[simp, norm_cast]
@@ -348,7 +347,7 @@ protected theorem coe_add (x y : FreeRing α) : ↑(x + y) = (x : FreeCommRing �
 
 @[simp, norm_cast]
 protected theorem coe_sub (x y : FreeRing α) : ↑(x - y) = (x : FreeCommRing α) - y := by
-  rw [castFreeCommRing, map_sub]
+  rw [castFreeCommRing]; rw [map_sub]
 #align free_ring.coe_sub FreeRing.coe_sub
 
 @[simp, norm_cast]
@@ -384,7 +383,7 @@ theorem coe_eq : ((↑) : FreeRing α → FreeCommRing α) =
   erw [FreeAbelianGroup.lift.of, Function.comp]
   exact
     FreeMonoid.recOn L rfl fun hd tl ih => by
-      rw [(FreeMonoid.lift _).map_mul, FreeMonoid.lift_eval_of, ih]
+      rw [(FreeMonoid.lift _).map_mul]; rw [FreeMonoid.lift_eval_of]; rw [ih]
       conv_lhs => reduce
 #align free_ring.coe_eq FreeRing.coe_eq
 
@@ -402,10 +401,7 @@ def subsingletonEquivFreeCommRing [Subsingleton α] : FreeRing α ≃+* FreeComm
 instance instCommRing [Subsingleton α] : CommRing (FreeRing α) :=
   { inferInstanceAs (Ring (FreeRing α)) with
     mul_comm := fun x y => by
-      rw [← (subsingletonEquivFreeCommRing α).symm_apply_apply (y * x),
-        (subsingletonEquivFreeCommRing α).map_mul, mul_comm,
-        ← (subsingletonEquivFreeCommRing α).map_mul,
-        (subsingletonEquivFreeCommRing α).symm_apply_apply] }
+      rw [← (subsingletonEquivFreeCommRing α).symm_apply_apply (y * x)]; rw [(subsingletonEquivFreeCommRing α).map_mul]; rw [mul_comm]; rw [← (subsingletonEquivFreeCommRing α).map_mul]; rw [(subsingletonEquivFreeCommRing α).symm_apply_apply] }
 #align free_ring.comm_ring FreeRing.instCommRing
 
 end FreeRing

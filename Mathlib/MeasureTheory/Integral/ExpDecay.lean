@@ -41,7 +41,7 @@ theorem integrable_of_isBigO_exp_neg {f : ℝ → ℝ} {a b : ℝ} (h0 : 0 < b)
     (h1 : ContinuousOn f (Ici a)) (h2 : f =O[atTop] fun x => exp (-b * x)) :
     IntegrableOn f (Ioi a) := by
   cases' h2.isBigOWith with c h3
-  rw [Asymptotics.isBigOWith_iff, eventually_atTop] at h3
+  rw [Asymptotics.isBigOWith_iff] at h3; rw [eventually_atTop] at h3
   cases' h3 with r bdr
   let v := max a r
   -- show integrable on `(a, v]` from continuity
@@ -60,7 +60,7 @@ theorem integrable_of_isBigO_exp_neg {f : ℝ → ℝ} {a b : ℝ} (h0 : 0 < b)
   apply this.mono
   refine' (ae_restrict_iff' measurableSet_Ioi).mpr _
   refine' ae_of_all _ fun x h1x => _
-  rw [norm_mul, norm_eq_abs]
+  rw [norm_mul]; rw [norm_eq_abs]
   rw [mem_Ioi] at h1x
   specialize bdr x ((le_max_right a r).trans h1x.le)
   exact bdr.trans (mul_le_mul_of_nonneg_right (le_abs_self c) (norm_nonneg _))

@@ -396,7 +396,7 @@ lemma LeftHomologyData.homologyIso_leftHomologyData [S.HasHomology] :
     S.leftHomologyData.homologyIso = S.leftHomologyIso.symm := by
   ext
   dsimp [homologyIso, leftHomologyIso, ShortComplex.leftHomologyIso]
-  rw [← leftHomologyMap'_comp, comp_id]
+  rw [← leftHomologyMap'_comp]; rw [comp_id]
 
 @[simp]
 lemma RightHomologyData.homologyIso_rightHomologyData [S.HasHomology] :
@@ -604,8 +604,7 @@ lemma leftRightHomologyComparison'_compatibility (h₁ h₁' : S.LeftHomologyDat
     (h₂ h₂' : S.RightHomologyData) :
     leftRightHomologyComparison' h₁ h₂ = leftHomologyMap' (𝟙 S) h₁ h₁' ≫
       leftRightHomologyComparison' h₁' h₂' ≫ rightHomologyMap' (𝟙 S) _ _ := by
-  rw [leftRightHomologyComparison'_naturality_assoc (𝟙 S) h₁ h₂ h₁' h₂',
-    ← rightHomologyMap'_comp, comp_id, rightHomologyMap'_id, comp_id]
+  rw [leftRightHomologyComparison'_naturality_assoc (𝟙 S) h₁ h₂ h₁' h₂']; rw [← rightHomologyMap'_comp]; rw [comp_id]; rw [rightHomologyMap'_id]; rw [comp_id]
 
 lemma leftRightHomologyComparison_eq [S.HasLeftHomology] [S.HasRightHomology]
     (h₁ : S.LeftHomologyData) (h₂ : S.RightHomologyData) :
@@ -686,10 +685,10 @@ lemma HomologyData.right_homologyIso_eq_left_homologyIso_trans_iso
     (h : S.HomologyData) [S.HasHomology] :
     h.right.homologyIso = h.left.homologyIso ≪≫ h.iso := by
   suffices h.iso = h.left.homologyIso.symm ≪≫ h.right.homologyIso by
-    rw [this, Iso.self_symm_id_assoc]
+    rw [this]; rw [Iso.self_symm_id_assoc]
   ext
   dsimp
-  rw [← leftRightHomologyComparison'_fac, leftRightHomologyComparison'_eq]
+  rw [← leftRightHomologyComparison'_fac]; rw [leftRightHomologyComparison'_eq]
 
 lemma hasHomology_of_isIso_leftRightHomologyComparison'
     (h₁ : S.LeftHomologyData) (h₂ : S.RightHomologyData)
@@ -742,13 +741,7 @@ lemma RightHomologyData.rightHomologyIso_hom_naturality
     (h₁ : S₁.RightHomologyData) (h₂ : S₂.RightHomologyData) :
     h₁.homologyIso.hom ≫ rightHomologyMap' φ h₁ h₂ =
       homologyMap φ ≫ h₂.homologyIso.hom := by
-  rw [← cancel_epi h₁.homologyIso.inv, Iso.inv_hom_id_assoc,
-    ← cancel_epi (leftRightHomologyComparison' S₁.leftHomologyData h₁),
-    ← leftRightHomologyComparison'_naturality φ S₁.leftHomologyData h₁ S₂.leftHomologyData h₂,
-    ← cancel_epi (S₁.leftHomologyData.homologyIso.hom),
-    LeftHomologyData.leftHomologyIso_hom_naturality_assoc,
-    leftRightHomologyComparison'_fac, leftRightHomologyComparison'_fac, assoc,
-    Iso.hom_inv_id_assoc, Iso.hom_inv_id_assoc, Iso.hom_inv_id_assoc]
+  rw [← cancel_epi h₁.homologyIso.inv]; rw [Iso.inv_hom_id_assoc]; rw [← cancel_epi (leftRightHomologyComparison' S₁.leftHomologyData h₁)]; rw [← leftRightHomologyComparison'_naturality φ S₁.leftHomologyData h₁ S₂.leftHomologyData h₂]; rw [← cancel_epi (S₁.leftHomologyData.homologyIso.hom)]; rw [LeftHomologyData.leftHomologyIso_hom_naturality_assoc]; rw [leftRightHomologyComparison'_fac]; rw [leftRightHomologyComparison'_fac]; rw [assoc]; rw [Iso.hom_inv_id_assoc]; rw [Iso.hom_inv_id_assoc]; rw [Iso.hom_inv_id_assoc]
 
 @[reassoc]
 lemma RightHomologyData.rightHomologyIso_inv_naturality
@@ -1056,14 +1049,14 @@ lemma liftCycles_homologyπ_eq_zero_of_boundary [S.HasHomology]
     (k : A ⟶ S.X₂) (x : A ⟶ S.X₁) (hx : k = x ≫ S.f) :
     S.liftCycles k (by rw [hx, assoc, S.zero, comp_zero]) ≫ S.homologyπ = 0 := by
   dsimp only [homologyπ]
-  rw [S.liftCycles_leftHomologyπ_eq_zero_of_boundary_assoc k x hx, zero_comp]
+  rw [S.liftCycles_leftHomologyπ_eq_zero_of_boundary_assoc k x hx]; rw [zero_comp]
 
 @[reassoc]
 lemma homologyι_descOpcycles_π_eq_zero_of_boundary [S.HasHomology]
     (k : S.X₂ ⟶ A) (x : S.X₃ ⟶ A) (hx : k = S.g ≫ x) :
     S.homologyι ≫ S.descOpcycles k (by rw [hx, S.zero_assoc, zero_comp]) = 0 := by
   dsimp only [homologyι]
-  rw [assoc, S.rightHomologyι_descOpcycles_π_eq_zero_of_boundary k x hx, comp_zero]
+  rw [assoc]; rw [S.rightHomologyι_descOpcycles_π_eq_zero_of_boundary k x hx]; rw [comp_zero]
 
 lemma isIso_homologyMap_of_isIso_cyclesMap_of_epi {φ : S₁ ⟶ S₂}
     [S₁.HasHomology] [S₂.HasHomology] (h₁ : IsIso (cyclesMap φ)) (h₂ : Epi φ.τ₁) :

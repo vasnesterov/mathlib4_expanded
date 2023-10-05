@@ -86,7 +86,7 @@ theorem pairwise_of_coe_toFinset_pairwise (hl : (l.toFinset : Set α).Pairwise r
 theorem pairwise_iff_coe_toFinset_pairwise (hn : l.Nodup) (hs : Symmetric r) :
     (l.toFinset : Set α).Pairwise r ↔ l.Pairwise r := by
   letI : IsSymm α r := ⟨hs⟩
-  rw [coe_toFinset, hn.pairwise_coe]
+  rw [coe_toFinset]; rw [hn.pairwise_coe]
 #align list.pairwise_iff_coe_to_finset_pairwise List.pairwise_iff_coe_toFinset_pairwise
 
 theorem pairwise_disjoint_of_coe_toFinset_pairwiseDisjoint {α ι} [SemilatticeInf α] [OrderBot α]

@@ -64,7 +64,7 @@ noncomputable instance : InnerProductSpace ℝ ℍ :=
   InnerProductSpace.ofCore _
 
 theorem normSq_eq_norm_mul_self (a : ℍ) : normSq a = ‖a‖ * ‖a‖ := by
-  rw [← inner_self, real_inner_self_eq_norm_mul_norm]
+  rw [← inner_self]; rw [real_inner_self_eq_norm_mul_norm]
 #align quaternion.norm_sq_eq_norm_sq Quaternion.normSq_eq_norm_mul_self
 
 instance : NormOneClass ℍ :=
@@ -72,7 +72,7 @@ instance : NormOneClass ℍ :=
 
 @[simp, norm_cast]
 theorem norm_coe (a : ℝ) : ‖(a : ℍ)‖ = ‖a‖ := by
-  rw [norm_eq_sqrt_real_inner, inner_self, normSq_coe, Real.sqrt_sq_eq_abs, Real.norm_eq_abs]
+  rw [norm_eq_sqrt_real_inner]; rw [inner_self]; rw [normSq_coe]; rw [Real.sqrt_sq_eq_abs]; rw [Real.norm_eq_abs]
 #align quaternion.norm_coe Quaternion.norm_coe
 
 @[simp, norm_cast]
@@ -173,8 +173,7 @@ theorem coe_ofComplex : ⇑ofComplex = coeComplex := rfl
 /-- The norm of the components as a euclidean vector equals the norm of the quaternion. -/
 theorem norm_piLp_equiv_symm_equivTuple (x : ℍ) :
     ‖(WithLp.equiv 2 (Fin 4 → _)).symm (equivTuple ℝ x)‖ = ‖x‖ := by
-  rw [norm_eq_sqrt_real_inner, norm_eq_sqrt_real_inner, inner_self, normSq_def', PiLp.inner_apply,
-    Fin.sum_univ_four]
+  rw [norm_eq_sqrt_real_inner]; rw [norm_eq_sqrt_real_inner]; rw [inner_self]; rw [normSq_def']; rw [PiLp.inner_apply]; rw [Fin.sum_univ_four]
   simp_rw [IsROrC.inner_apply, starRingEnd_apply, star_trivial, ← sq]
   rfl
 set_option linter.uppercaseLean3 false in

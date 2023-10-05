@@ -174,12 +174,12 @@ theorem constant_descent_vieta_jumping (x y : ℕ) {claim : Prop} {H : ℕ → �
   -- We do that, by showing that it lies in the upper branch
   -- (which is sufficient, because we assumed that the exceptional locus is empty).
   apply Set.mem_image_of_mem
-  rw [exceptional_empty, Set.diff_empty]
+  rw [exceptional_empty]; rw [Set.diff_empty]
   -- Now we are ready to prove that p' = (c, m_x) lies on the upper branch.
   -- We need to check two conditions: H(c, m_x) and c < m_x.
   constructor <;> dsimp only
   · -- The first condition is not so hard. After all, c is the other root of the quadratic equation.
-    rw [H_symm, H_quad]
+    rw [H_symm]; rw [H_quad]
     simpa using h_root
   · -- For the second condition, we note that it suffices to check that c ≠ m_x.
     suffices hc : c ≠ mx
@@ -202,14 +202,14 @@ such that a*b+1 divides a^2 + b^2, show that their quotient is a perfect square.
 theorem imo1988_q6 {a b : ℕ} (h : a * b + 1 ∣ a ^ 2 + b ^ 2) :
     ∃ d, d ^ 2 = (a ^ 2 + b ^ 2) / (a * b + 1) := by
   rcases h with ⟨k, hk⟩
-  rw [hk, Nat.mul_div_cancel_left _ (Nat.succ_pos (a * b))]
+  rw [hk]; rw [Nat.mul_div_cancel_left _ (Nat.succ_pos (a * b))]
   simp only [sq] at hk
   apply constant_descent_vieta_jumping a b (H := fun a b => a * a + b * b = (a * b + 1) * k)
       hk (fun x => k * x) (fun x => x * x - k) fun _ _ => False <;>
     clear hk a b
   · -- We will now show that the fibers of the solution set are described by a quadratic equation.
     intro x y
-    rw [← Int.coe_nat_inj', ← sub_eq_zero]
+    rw [← Int.coe_nat_inj']; rw [← sub_eq_zero]
     apply eq_iff_eq_cancel_right.2
     simp; ring
   · -- Show that the solution set is symmetric in a and b.
@@ -221,7 +221,7 @@ theorem imo1988_q6 {a b : ℕ} (h : a * b + 1 ∣ a ^ 2 + b ^ 2) :
   · -- Show that the claim is true if a = b.
     intro x hx
     suffices k ≤ 1 by
-      rw [Nat.le_add_one_iff, le_zero_iff] at this
+      rw [Nat.le_add_one_iff] at this; rw [le_zero_iff] at this
       rcases this with (rfl | rfl)
       · use 0; simp
       · use 1; simp
@@ -239,7 +239,7 @@ theorem imo1988_q6 {a b : ℕ} (h : a * b + 1 ∣ a ^ 2 + b ^ 2) :
         · apply mul_self_nonneg
         · apply mul_pos <;> exact_mod_cast hx
       have hzx : z * z + x * x = (z * x + 1) * k := by
-        rw [← sub_eq_zero, ← h_root]
+        rw [← sub_eq_zero]; rw [← h_root]
         ring
       rw [hzx] at hpos
       replace hpos : z * x + 1 > 0 := pos_of_mul_pos_left hpos (Int.ofNat_zero_le k)
@@ -267,7 +267,7 @@ example {a b : ℕ} (h : a * b ∣ a ^ 2 + b ^ 2 + 1) : 3 * a * b = a ^ 2 + b ^ 
     clear hk a b
   · -- We will now show that the fibers of the solution set are described by a quadratic equation.
     intro x y
-    rw [← Int.coe_nat_inj', ← sub_eq_zero]
+    rw [← Int.coe_nat_inj']; rw [← sub_eq_zero]
     apply eq_iff_eq_cancel_right.2
     simp; ring
   · -- Show that the solution set is symmetric in a and b.
@@ -294,7 +294,7 @@ example {a b : ℕ} (h : a * b ∣ a ^ 2 + b ^ 2 + 1) : 3 * a * b = a ^ 2 + b ^ 
         z * y > x * y := by apply mul_lt_mul_of_pos_right <;> linarith
         _ ≥ x * (x + 1) := by apply mul_le_mul <;> linarith
         _ > x * x + 1 := by
-          rw [mul_add, mul_one]
+          rw [mul_add]; rw [mul_one]
           apply add_lt_add_left
           assumption_mod_cast
   · -- Show the base case.
@@ -303,6 +303,6 @@ example {a b : ℕ} (h : a * b ∣ a ^ 2 + b ^ 2 + 1) : 3 * a * b = a ^ 2 + b ^ 
     · simp at h
     · rw [mul_one, one_mul, add_right_comm] at h
       have y_dvd : y ∣ y * k := dvd_mul_right y k
-      rw [← h, Nat.dvd_add_left (dvd_mul_left y y)] at y_dvd
+      rw [← h] at y_dvd; rw [Nat.dvd_add_left (dvd_mul_left y y)] at y_dvd
       obtain rfl | rfl := (Nat.dvd_prime Nat.prime_two).mp y_dvd <;> apply mul_left_cancel₀
       exacts [one_ne_zero, h.symm, two_ne_zero, h.symm]

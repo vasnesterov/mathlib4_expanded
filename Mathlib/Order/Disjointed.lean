@@ -91,7 +91,7 @@ def disjointedRec {f : ℕ → α} {p : α → Sort*} (hdiff : ∀ ⦃t i⦄, p 
     rintro k
     induction' k with k ih
     · exact hdiff h
-    rw [partialSups_succ, ← sdiff_sdiff_left]
+    rw [partialSups_succ]; rw [← sdiff_sdiff_left]
     exact hdiff ih
 #align disjointed_rec disjointedRec
 
@@ -122,13 +122,13 @@ theorem disjointed_unique {f d : ℕ → α} (hdisj : Pairwise (Disjoint on d))
   cases' n with n
   · rw [← partialSups_zero d, hsups, partialSups_zero, disjointed_zero]
   suffices h : d n.succ = partialSups d n.succ \ partialSups d n by
-    rw [h, hsups, partialSups_succ, disjointed_succ, sup_sdiff, sdiff_self, bot_sup_eq]
-  rw [partialSups_succ, sup_sdiff, sdiff_self, bot_sup_eq, eq_comm, sdiff_eq_self_iff_disjoint]
+    rw [h]; rw [hsups]; rw [partialSups_succ]; rw [disjointed_succ]; rw [sup_sdiff]; rw [sdiff_self]; rw [bot_sup_eq]
+  rw [partialSups_succ]; rw [sup_sdiff]; rw [sdiff_self]; rw [bot_sup_eq]; rw [eq_comm]; rw [sdiff_eq_self_iff_disjoint]
   suffices h : ∀ m ≤ n, Disjoint (partialSups d m) (d n.succ) from h n le_rfl
   rintro m hm
   induction' m with m ih
   · exact hdisj (Nat.succ_ne_zero _).symm
-  rw [partialSups_succ, disjoint_iff, inf_sup_right, sup_eq_bot_iff, ← disjoint_iff, ← disjoint_iff]
+  rw [partialSups_succ]; rw [disjoint_iff]; rw [inf_sup_right]; rw [sup_eq_bot_iff]; rw [← disjoint_iff]; rw [← disjoint_iff]
   exact ⟨ih (Nat.le_of_succ_le hm), hdisj (Nat.lt_succ_of_le hm).ne⟩
 #align disjointed_unique disjointed_unique
 

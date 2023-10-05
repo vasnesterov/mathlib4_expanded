@@ -72,7 +72,7 @@ lemma conjTranspose_invOf [Invertible A] [Invertible Aᴴ] : (⅟A)ᴴ = ⅟(A�
 
 /-- A matrix is invertible if the conjugate transpose is invertible. -/
 def invertibleOfInvertibleConjTranspose [Invertible Aᴴ] : Invertible A := by
-  rw [← conjTranspose_conjTranspose A, ← star_eq_conjTranspose]
+  rw [← conjTranspose_conjTranspose A]; rw [← star_eq_conjTranspose]
   infer_instance
 #align matrix.invertible_of_invertible_conj_transpose Matrix.invertibleOfInvertibleConjTranspose
 

@@ -112,9 +112,7 @@ lemma isSheafFor_of_factorsThru
   let y : S.FamilyOfElements P := fun Y g hg => P.map (i _).op (x (e hg) (h1 _))
   have hy : y.Compatible := by
     intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ h₁ h₂ h
-    rw [← types_comp_apply (P.map (i h₁).op) (P.map g₁.op),
-      ← types_comp_apply (P.map (i h₂).op) (P.map g₂.op),
-      ← P.map_comp, ← op_comp, ← P.map_comp, ← op_comp]
+    rw [← types_comp_apply (P.map (i h₁).op) (P.map g₁.op)]; rw [← types_comp_apply (P.map (i h₂).op) (P.map g₂.op)]; rw [← P.map_comp]; rw [← op_comp]; rw [← P.map_comp]; rw [← op_comp]
     apply hx
     simp only [h2, h, Category.assoc]
   let ⟨_, h2'⟩ := hS
@@ -123,9 +121,7 @@ lemma isSheafFor_of_factorsThru
   obtain ⟨R, hR1, hR2⟩ := h hg
   choose WW ii ee hh1 hh2 using hR2
   refine hR1.ext (fun Q t ht => ?_)
-  rw [← types_comp_apply (P.map g.op) (P.map t.op), ← P.map_comp, ← op_comp, ← hh2 ht,
-    op_comp, P.map_comp, types_comp_apply, hz _ (hh1 _),
-    ← types_comp_apply _ (P.map (ii ht).op), ← P.map_comp, ← op_comp]
+  rw [← types_comp_apply (P.map g.op) (P.map t.op)]; rw [← P.map_comp]; rw [← op_comp]; rw [← hh2 ht]; rw [op_comp]; rw [P.map_comp]; rw [types_comp_apply]; rw [hz _ (hh1 _)]; rw [← types_comp_apply _ (P.map (ii ht).op)]; rw [← P.map_comp]; rw [← op_comp]
   apply hx
   simp only [Category.assoc, h2, hh2]
 
@@ -351,7 +347,7 @@ theorem isSheaf_coverage (K : Coverage C) (P : Cᵒᵖ ⥤ Type w) :
         refine (H2 hg (𝟙 _)).ext (fun ZZ gg hgg => ?_)
         simp only [Sieve.pullback_id, Sieve.pullback_apply] at hgg
         simp only [← types_comp_apply]
-        rw [← P.map_comp, ← op_comp, h₁, h₂]
+        rw [← P.map_comp]; rw [← op_comp]; rw [h₁]; rw [h₂]
         simpa only [Sieve.pullback_apply, Category.assoc] using hgg
       let y : ∀ ⦃Z : C⦄ (g : Z ⟶ Y),
         ((S.pullback (g ≫ f)).pullback (𝟙 _)).arrows.FamilyOfElements P :=
@@ -368,20 +364,20 @@ theorem isSheaf_coverage (K : Coverage C) (P : Cᵒᵖ ⥤ Type w) :
         apply (H2 h₁ g₁).ext
         intro ZZ gg hgg
         simp only [← types_comp_apply]
-        rw [← P.map_comp, ← P.map_comp, ← op_comp, ← op_comp, hz, hz]
+        rw [← P.map_comp]; rw [← P.map_comp]; rw [← op_comp]; rw [← op_comp]; rw [hz]; rw [hz]
         · dsimp; congr 1; simp only [Category.assoc, h]
         · simpa [reassoc_of% h] using hgg
         · simpa using hgg
       obtain ⟨t, ht⟩ := H1' f q hq
       refine ⟨t, fun Z g hg => ?_⟩
       refine (H1 (g ≫ f)).ext (fun ZZ gg hgg => ?_)
-      rw [← types_comp_apply _ (P.map gg.op), ← P.map_comp, ← op_comp, ht]
+      rw [← types_comp_apply _ (P.map gg.op)]; rw [← P.map_comp]; rw [← op_comp]; rw [ht]
       swap; simpa using hgg
       refine (H2 hgg (𝟙 _)).ext (fun ZZZ ggg hggg => ?_)
-      rw [← types_comp_apply _ (P.map ggg.op), ← P.map_comp, ← op_comp, hz]
+      rw [← types_comp_apply _ (P.map ggg.op)]; rw [← P.map_comp]; rw [← op_comp]; rw [hz]
       swap; simpa using hggg
       refine (H2 hgg ggg).ext (fun ZZZZ gggg _ => ?_)
-      rw [← types_comp_apply _ (P.map gggg.op), ← P.map_comp, ← op_comp]
+      rw [← types_comp_apply _ (P.map gggg.op)]; rw [← P.map_comp]; rw [← op_comp]
       apply hx
       simp
 

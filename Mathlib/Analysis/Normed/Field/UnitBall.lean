@@ -119,7 +119,7 @@ instance Metric.unitSphere.inv [NormedDivisionRing 𝕜] : Inv (sphere (0 : 𝕜
   ⟨fun x =>
     ⟨x⁻¹,
       mem_sphere_zero_iff_norm.2 <| by
-        rw [norm_inv, mem_sphere_zero_iff_norm.1 x.coe_prop, inv_one]⟩⟩
+        rw [norm_inv]; rw [mem_sphere_zero_iff_norm.1 x.coe_prop]; rw [inv_one]⟩⟩
 
 @[simp, norm_cast]
 theorem coe_inv_unitSphere [NormedDivisionRing 𝕜] (x : sphere (0 : 𝕜) 1) : ↑x⁻¹ = (x⁻¹ : 𝕜) :=
@@ -130,8 +130,7 @@ instance Metric.unitSphere.div [NormedDivisionRing 𝕜] : Div (sphere (0 : 𝕜
   ⟨fun x y =>
     ⟨x / y,
       mem_sphere_zero_iff_norm.2 <| by
-        rw [norm_div, mem_sphere_zero_iff_norm.1 x.coe_prop, mem_sphere_zero_iff_norm.1 y.coe_prop,
-          div_one]⟩⟩
+        rw [norm_div]; rw [mem_sphere_zero_iff_norm.1 x.coe_prop]; rw [mem_sphere_zero_iff_norm.1 y.coe_prop]; rw [div_one]⟩⟩
 
 @[simp, norm_cast]
 theorem coe_div_unitSphere [NormedDivisionRing 𝕜] (x y : sphere (0 : 𝕜) 1) :
@@ -142,7 +141,7 @@ theorem coe_div_unitSphere [NormedDivisionRing 𝕜] (x y : sphere (0 : 𝕜) 1)
 instance Metric.unitSphere.pow [NormedDivisionRing 𝕜] : Pow (sphere (0 : 𝕜) 1) ℤ :=
   ⟨fun x n =>
     ⟨(x : 𝕜) ^ n, by
-      rw [mem_sphere_zero_iff_norm, norm_zpow, mem_sphere_zero_iff_norm.1 x.coe_prop, one_zpow]⟩⟩
+      rw [mem_sphere_zero_iff_norm]; rw [norm_zpow]; rw [mem_sphere_zero_iff_norm.1 x.coe_prop]; rw [one_zpow]⟩⟩
 
 @[simp, norm_cast]
 theorem coe_zpow_unitSphere [NormedDivisionRing 𝕜] (x : sphere (0 : 𝕜) 1) (n : ℤ) :

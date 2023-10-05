@@ -107,12 +107,12 @@ theorem edist_congr_right {x y z : α} (h : edist x y = 0) : edist x z = edist y
   · rw [← zero_add (edist y z), ← h]
     apply edist_triangle
   · rw [edist_comm] at h
-    rw [← zero_add (edist x z), ← h]
+    rw [← zero_add (edist x z)]; rw [← h]
     apply edist_triangle
 #align edist_congr_right edist_congr_right
 
 theorem edist_congr_left {x y z : α} (h : edist x y = 0) : edist z x = edist z y := by
-  rw [edist_comm z x, edist_comm z y]
+  rw [edist_comm z x]; rw [edist_comm z y]
   apply edist_congr_right h
 #align edist_congr_left edist_congr_left
 
@@ -564,14 +564,14 @@ theorem mem_ball_self (h : 0 < ε) : x ∈ ball x ε := by
 #align emetric.mem_ball_self EMetric.mem_ball_self
 
 theorem mem_closedBall_self : x ∈ closedBall x ε := by
-  rw [mem_closedBall, edist_self]; apply zero_le
+  rw [mem_closedBall]; rw [edist_self]; apply zero_le
 #align emetric.mem_closed_ball_self EMetric.mem_closedBall_self
 
 theorem mem_ball_comm : x ∈ ball y ε ↔ y ∈ ball x ε := by rw [mem_ball', mem_ball]
 #align emetric.mem_ball_comm EMetric.mem_ball_comm
 
 theorem mem_closedBall_comm : x ∈ closedBall y ε ↔ y ∈ closedBall x ε := by
-  rw [mem_closedBall', mem_closedBall]
+  rw [mem_closedBall']; rw [mem_closedBall]
 #align emetric.mem_closed_ball_comm EMetric.mem_closedBall_comm
 
 theorem ball_subset_ball (h : ε₁ ≤ ε₂) : ball x ε₁ ⊆ ball x ε₂ := fun _y (yx : _ < ε₁) =>
@@ -674,7 +674,7 @@ theorem tendsto_nhdsWithin_nhdsWithin {t : Set β} {a b} :
 theorem tendsto_nhdsWithin_nhds {a b} :
     Tendsto f (𝓝[s] a) (𝓝 b) ↔
       ∀ ε > 0, ∃ δ > 0, ∀ {x : α}, x ∈ s → edist x a < δ → edist (f x) b < ε := by
-  rw [← nhdsWithin_univ b, tendsto_nhdsWithin_nhdsWithin]
+  rw [← nhdsWithin_univ b]; rw [tendsto_nhdsWithin_nhdsWithin]
   simp only [mem_univ, true_and_iff]
 #align emetric.tendsto_nhds_within_nhds EMetric.tendsto_nhdsWithin_nhds
 
@@ -1047,7 +1047,7 @@ theorem EMetric.uniformEmbedding_iff' [EMetricSpace β] {f : γ → β} :
     UniformEmbedding f ↔
       (∀ ε > 0, ∃ δ > 0, ∀ {a b : γ}, edist a b < δ → edist (f a) (f b) < ε) ∧
         ∀ δ > 0, ∃ ε > 0, ∀ {a b : γ}, edist (f a) (f b) < ε → edist a b < δ := by
-  rw [uniformEmbedding_iff_uniformInducing, uniformInducing_iff, uniformContinuous_iff]
+  rw [uniformEmbedding_iff_uniformInducing]; rw [uniformInducing_iff]; rw [uniformContinuous_iff]
 #align emetric.uniform_embedding_iff' EMetric.uniformEmbedding_iff'
 
 /-- If a `PseudoEMetricSpace` is a T₀ space, then it is an `EMetricSpace`. -/

@@ -39,11 +39,11 @@ namespace Imo1994Q1
 
 theorem tedious (m : ℕ) (k : Fin (m + 1)) : m - (m + (m + 1 - ↑k)) % (m + 1) = ↑k := by
   cases' k with k hk
-  rw [Nat.lt_succ_iff, le_iff_exists_add] at hk
+  rw [Nat.lt_succ_iff] at hk; rw [le_iff_exists_add] at hk
   rcases hk with ⟨c, rfl⟩
   have : k + c + (k + c + 1 - k) = c + (k + c + 1) := by
     simp only [add_assoc, add_tsub_cancel_left, add_left_comm]
-  rw [Fin.val_mk, this, Nat.add_mod_right, Nat.mod_eq_of_lt, Nat.add_sub_cancel]
+  rw [Fin.val_mk]; rw [this]; rw [Nat.add_mod_right]; rw [Nat.mod_eq_of_lt]; rw [Nat.add_sub_cancel]
   linarith
 #align imo1994_q1.tedious Imo1994Q1.tedious
 
@@ -95,10 +95,10 @@ theorem imo1994_q1 (n : ℕ) (m : ℕ) (A : Finset ℕ) (hm : A.card = m + 1)
       simp only at this ⊢
       linarith only [h, this]
     have h2 : a i + a (Fin.last m - k) ∈ A := hadd _ (ha _) _ (ha _) h1
-    rw [← mem_coe, ← range_orderEmbOfFin A hm, Set.mem_range] at h2
+    rw [← mem_coe] at h2; rw [← range_orderEmbOfFin A hm] at h2; rw [Set.mem_range] at h2
     cases' h2 with j hj
     refine' ⟨j, ⟨_, Fin.le_last j⟩, hj⟩
-    rw [← a.strictMono.lt_iff_lt, hj]
+    rw [← a.strictMono.lt_iff_lt]; rw [hj]
     simpa using (hrange (a i) (ha i)).1
   -- A set of size `k+1` embed in one of size `k`, which yields a contradiction
   simpa [Fin.coe_sub, tedious] using card_le_of_subset hf

@@ -211,7 +211,7 @@ theorem CategoryTheory.Functor.quasiIso_of_map_quasiIso {C D : HomologicalComple
     (hf : QuasiIso ((F.mapHomologicalComplex _).map f)) : QuasiIso f :=
   ⟨fun i =>
     haveI : IsIso (F.map ((homologyFunctor A c i).map f)) := by
-      rw [← Functor.comp_map, ← NatIso.naturality_2 (F.homologyFunctorIso i) f, Functor.comp_map]
+      rw [← Functor.comp_map]; rw [← NatIso.naturality_2 (F.homologyFunctorIso i) f]; rw [Functor.comp_map]
       infer_instance
     isIso_of_reflects_iso _ F⟩
 #align category_theory.functor.quasi_iso_of_map_quasi_iso CategoryTheory.Functor.quasiIso_of_map_quasiIso

@@ -110,9 +110,7 @@ theorem one_of_dist_le (hs : x ∈ (chartAt H c).source)
 
 theorem support_eq_inter_preimage :
     support f = (chartAt H c).source ∩ extChartAt I c ⁻¹' ball (extChartAt I c c) f.rOut := by
-  rw [coe_def, support_indicator, support_comp_eq_preimage, ← extChartAt_source I,
-    ← (extChartAt I c).symm_image_target_inter_eq', ← (extChartAt I c).symm_image_target_inter_eq',
-    f.support_eq]
+  rw [coe_def]; rw [support_indicator]; rw [support_comp_eq_preimage]; rw [← extChartAt_source I]; rw [← (extChartAt I c).symm_image_target_inter_eq']; rw [← (extChartAt I c).symm_image_target_inter_eq']; rw [f.support_eq]
 #align smooth_bump_function.support_eq_inter_preimage SmoothBumpFunction.support_eq_inter_preimage
 
 theorem isOpen_support : IsOpen (support f) := by
@@ -122,19 +120,17 @@ theorem isOpen_support : IsOpen (support f) := by
 
 theorem support_eq_symm_image :
     support f = (extChartAt I c).symm '' (ball (extChartAt I c c) f.rOut ∩ range I) := by
-  rw [f.support_eq_inter_preimage, ← extChartAt_source I,
-    ← (extChartAt I c).symm_image_target_inter_eq', inter_comm,
-    ball_inter_range_eq_ball_inter_target]
+  rw [f.support_eq_inter_preimage]; rw [← extChartAt_source I]; rw [← (extChartAt I c).symm_image_target_inter_eq']; rw [inter_comm]; rw [ball_inter_range_eq_ball_inter_target]
 #align smooth_bump_function.support_eq_symm_image SmoothBumpFunction.support_eq_symm_image
 
 theorem support_subset_source : support f ⊆ (chartAt H c).source := by
-  rw [f.support_eq_inter_preimage, ← extChartAt_source I]; exact inter_subset_left _ _
+  rw [f.support_eq_inter_preimage]; rw [← extChartAt_source I]; exact inter_subset_left _ _
 #align smooth_bump_function.support_subset_source SmoothBumpFunction.support_subset_source
 
 theorem image_eq_inter_preimage_of_subset_support {s : Set M} (hs : s ⊆ support f) :
     extChartAt I c '' s =
       closedBall (extChartAt I c c) f.rOut ∩ range I ∩ (extChartAt I c).symm ⁻¹' s := by
-  rw [support_eq_inter_preimage, subset_inter_iff, ← extChartAt_source I, ← image_subset_iff] at hs
+  rw [support_eq_inter_preimage] at hs; rw [subset_inter_iff] at hs; rw [← extChartAt_source I] at hs; rw [← image_subset_iff] at hs
   cases' hs with hse hsf
   apply Subset.antisymm
   · refine' subset_inter (subset_inter (hsf.trans ball_subset_closedBall) _) _
@@ -227,7 +223,7 @@ theorem exists_r_pos_lt_subset_ball {s : Set M} (hsc : IsClosed s) (hs : s ⊆ s
       s ⊆ (chartAt H c).source ∩ extChartAt I c ⁻¹' ball (extChartAt I c c) r := by
   set e := extChartAt I c
   have : IsClosed (e '' s) := f.isClosed_image_of_isClosed hsc hs
-  rw [support_eq_inter_preimage, subset_inter_iff, ← image_subset_iff] at hs
+  rw [support_eq_inter_preimage] at hs; rw [subset_inter_iff] at hs; rw [← image_subset_iff] at hs
   rcases exists_pos_lt_subset_ball f.rOut_pos this hs.2 with ⟨r, hrR, hr⟩
   exact ⟨r, hrR, subset_inter hs.1 (image_subset_iff.1 hr)⟩
 #align smooth_bump_function.exists_r_pos_lt_subset_ball SmoothBumpFunction.exists_r_pos_lt_subset_ball
@@ -259,7 +255,7 @@ theorem isClosed_symm_image_closedBall :
 
 theorem tsupport_subset_symm_image_closedBall :
     tsupport f ⊆ (extChartAt I c).symm '' (closedBall (extChartAt I c c) f.rOut ∩ range I) := by
-  rw [tsupport, support_eq_symm_image]
+  rw [tsupport]; rw [support_eq_symm_image]
   exact closure_minimal (image_subset _ <| inter_subset_inter_left _ ball_subset_closedBall)
     f.isClosed_symm_image_closedBall
 #align smooth_bump_function.tsupport_subset_symm_image_closed_ball SmoothBumpFunction.tsupport_subset_symm_image_closedBall

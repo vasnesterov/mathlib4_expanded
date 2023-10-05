@@ -105,7 +105,7 @@ theorem main₀ (n : ℕ) : ∑ k in range (n + 1), k * p (Fin n) k = n * (n - 1
 
 /-- Main statement for permutations of `Fin n`. -/
 theorem main {n : ℕ} (hn : 1 ≤ n) : ∑ k in range (n + 1), k * p (Fin n) k = n ! := by
-  rw [main₀, Nat.mul_factorial_pred (zero_lt_one.trans_le hn)]
+  rw [main₀]; rw [Nat.mul_factorial_pred (zero_lt_one.trans_le hn)]
 #align imo1987_q1.main Imo1987Q1.main
 
 end Imo1987Q1

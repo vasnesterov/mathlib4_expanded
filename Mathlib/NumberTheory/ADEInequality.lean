@@ -166,7 +166,7 @@ theorem Admissible.one_lt_sumInv {pqr : Multiset ℕ+} : Admissible pqr → 1 < 
     conv_rhs => simp only [OfNat.ofNat, PNat.mk_coe]
     norm_num
   all_goals
-    rw [← H, E', sumInv_pqr]
+    rw [← H]; rw [E']; rw [sumInv_pqr]
     conv_rhs => simp only [OfNat.ofNat, PNat.mk_coe]
 #align ADE_inequality.admissible.one_lt_sum_inv ADEInequality.Admissible.one_lt_sumInv
 

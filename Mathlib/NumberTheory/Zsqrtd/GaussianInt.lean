@@ -133,7 +133,7 @@ theorem toComplex_sub (x y : ℤ[i]) : ((x - y : ℤ[i]) : ℂ) = x - y :=
 
 @[simp]
 theorem toComplex_star (x : ℤ[i]) : ((star x : ℤ[i]) : ℂ) = conj (x : ℂ) := by
-  rw [toComplex_def₂, toComplex_def₂]
+  rw [toComplex_def₂]; rw [toComplex_def₂]
   exact congr_arg₂ _ rfl (Int.cast_neg _)
 #align gaussian_int.to_complex_star GaussianInt.toComplex_star
 
@@ -144,17 +144,17 @@ theorem toComplex_inj {x y : ℤ[i]} : (x : ℂ) = y ↔ x = y := by
 
 @[simp]
 theorem toComplex_eq_zero {x : ℤ[i]} : (x : ℂ) = 0 ↔ x = 0 := by
-  rw [← toComplex_zero, toComplex_inj]
+  rw [← toComplex_zero]; rw [toComplex_inj]
 #align gaussian_int.to_complex_eq_zero GaussianInt.toComplex_eq_zero
 
 @[simp]
 theorem int_cast_real_norm (x : ℤ[i]) : (x.norm : ℝ) = Complex.normSq (x : ℂ) := by
-  rw [Zsqrtd.norm, normSq]; simp
+  rw [Zsqrtd.norm]; rw [normSq]; simp
 #align gaussian_int.nat_cast_real_norm GaussianInt.int_cast_real_norm
 
 @[simp]
 theorem int_cast_complex_norm (x : ℤ[i]) : (x.norm : ℂ) = Complex.normSq (x : ℂ) := by
-  cases x; rw [Zsqrtd.norm, normSq]; simp
+  cases x; rw [Zsqrtd.norm]; rw [normSq]; simp
 #align gaussian_int.nat_cast_complex_norm GaussianInt.int_cast_complex_norm
 
 theorem norm_nonneg (x : ℤ[i]) : 0 ≤ norm x :=
@@ -166,7 +166,7 @@ theorem norm_eq_zero {x : ℤ[i]} : norm x = 0 ↔ x = 0 := by rw [← @Int.cast
 #align gaussian_int.norm_eq_zero GaussianInt.norm_eq_zero
 
 theorem norm_pos {x : ℤ[i]} : 0 < norm x ↔ x ≠ 0 := by
-  rw [lt_iff_le_and_ne, Ne.def, eq_comm, norm_eq_zero]; simp [norm_nonneg]
+  rw [lt_iff_le_and_ne]; rw [Ne.def]; rw [eq_comm]; rw [norm_eq_zero]; simp [norm_nonneg]
 #align gaussian_int.norm_pos GaussianInt.norm_pos
 
 theorem abs_coe_nat_norm (x : ℤ[i]) : (x.norm.natAbs : ℤ) = x.norm :=
@@ -175,7 +175,7 @@ theorem abs_coe_nat_norm (x : ℤ[i]) : (x.norm.natAbs : ℤ) = x.norm :=
 
 @[simp]
 theorem nat_cast_natAbs_norm {α : Type*} [Ring α] (x : ℤ[i]) : (x.norm.natAbs : α) = x.norm := by
-  rw [← Int.cast_ofNat, abs_coe_nat_norm]
+  rw [← Int.cast_ofNat]; rw [abs_coe_nat_norm]
 #align gaussian_int.nat_cast_nat_abs_norm GaussianInt.nat_cast_natAbs_norm
 
 theorem natAbs_norm_eq (x : ℤ[i]) :
@@ -195,20 +195,19 @@ theorem div_def (x y : ℤ[i]) :
 #align gaussian_int.div_def GaussianInt.div_def
 
 theorem toComplex_div_re (x y : ℤ[i]) : ((x / y : ℤ[i]) : ℂ).re = round (x / y : ℂ).re := by
-  rw [div_def, ← @Rat.round_cast ℝ _ _]
+  rw [div_def]; rw [← @Rat.round_cast ℝ _ _]
   simp [-Rat.round_cast, mul_assoc, div_eq_mul_inv, mul_add, add_mul]
 #align gaussian_int.to_complex_div_re GaussianInt.toComplex_div_re
 
 theorem toComplex_div_im (x y : ℤ[i]) : ((x / y : ℤ[i]) : ℂ).im = round (x / y : ℂ).im := by
-  rw [div_def, ← @Rat.round_cast ℝ _ _, ← @Rat.round_cast ℝ _ _]
+  rw [div_def]; rw [← @Rat.round_cast ℝ _ _]; rw [← @Rat.round_cast ℝ _ _]
   simp [-Rat.round_cast, mul_assoc, div_eq_mul_inv, mul_add, add_mul]
 #align gaussian_int.to_complex_div_im GaussianInt.toComplex_div_im
 
 theorem normSq_le_normSq_of_re_le_of_im_le {x y : ℂ} (hre : |x.re| ≤ |y.re|)
     (him : |x.im| ≤ |y.im|) : Complex.normSq x ≤ Complex.normSq y := by
-  rw [normSq_apply, normSq_apply, ← _root_.abs_mul_self, _root_.abs_mul, ←
-      _root_.abs_mul_self y.re, _root_.abs_mul y.re, ← _root_.abs_mul_self x.im,
-      _root_.abs_mul x.im, ← _root_.abs_mul_self y.im, _root_.abs_mul y.im]
+  rw [normSq_apply]; rw [normSq_apply]; rw [← _root_.abs_mul_self]; rw [_root_.abs_mul]; rw [←
+      _root_.abs_mul_self y.re]; rw [_root_.abs_mul y.re]; rw [← _root_.abs_mul_self x.im]; rw [_root_.abs_mul x.im]; rw [← _root_.abs_mul_self y.im]; rw [_root_.abs_mul y.im]
   exact
       add_le_add (mul_self_le_mul_self (abs_nonneg _) hre) (mul_self_le_mul_self (abs_nonneg _) him)
 #align gaussian_int.norm_sq_le_norm_sq_of_re_le_of_im_le GaussianInt.normSq_le_normSq_of_re_le_of_im_le
@@ -242,7 +241,7 @@ theorem norm_mod_lt (x : ℤ[i]) {y : ℤ[i]} (hy : y ≠ 0) : (x % y).norm < y.
     calc
       ↑(Zsqrtd.norm (x % y)) = Complex.normSq (x - y * (x / y : ℤ[i]) : ℂ) := by simp [mod_def]
       _ = Complex.normSq (y : ℂ) * Complex.normSq (x / y - (x / y : ℤ[i]) : ℂ) := by
-        rw [← normSq_mul, mul_sub, mul_div_cancel' _ this]
+        rw [← normSq_mul]; rw [mul_sub]; rw [mul_div_cancel' _ this]
       _ < Complex.normSq (y : ℂ) * 1 :=
         (mul_lt_mul_of_pos_left (normSq_div_sub_div_lt_one _ _) (normSq_pos.2 this))
       _ = Zsqrtd.norm y := by simp
@@ -255,7 +254,7 @@ theorem natAbs_norm_mod_lt (x : ℤ[i]) {y : ℤ[i]} (hy : y ≠ 0) :
 
 theorem norm_le_norm_mul_left (x : ℤ[i]) {y : ℤ[i]} (hy : y ≠ 0) :
     (norm x).natAbs ≤ (norm (x * y)).natAbs := by
-  rw [Zsqrtd.norm_mul, Int.natAbs_mul]
+  rw [Zsqrtd.norm_mul]; rw [Int.natAbs_mul]
   exact le_mul_of_one_le_right (Nat.zero_le _) (Int.ofNat_le.1 (by
     rw [abs_coe_nat_norm]
     exact Int.add_one_le_of_lt (norm_pos.2 hy)))
@@ -283,7 +282,7 @@ theorem sq_add_sq_of_nat_prime_of_not_irreducible (p : ℕ) [hp : Fact p.Prime]
     (hpi : ¬Irreducible (p : ℤ[i])) : ∃ a b, a ^ 2 + b ^ 2 = p :=
   have hpu : ¬IsUnit (p : ℤ[i]) :=
     mt norm_eq_one_iff.2 <| by
-      rw [norm_nat_cast, Int.natAbs_mul, mul_eq_one]
+      rw [norm_nat_cast]; rw [Int.natAbs_mul]; rw [mul_eq_one]
       exact fun h => (ne_of_lt hp.1.one_lt).symm h.1
   have hab : ∃ a b, (p : ℤ[i]) = a * b ∧ ¬IsUnit a ∧ ¬IsUnit b := by
     -- Porting note: was
@@ -293,7 +292,7 @@ theorem sq_add_sq_of_nat_prime_of_not_irreducible (p : ℕ) [hp : Fact p.Prime]
   let ⟨a, b, hpab, hau, hbu⟩ := hab
   have hnap : (norm a).natAbs = p :=
     ((hp.1.mul_eq_prime_sq_iff (mt norm_eq_one_iff.1 hau) (mt norm_eq_one_iff.1 hbu)).1 <| by
-        rw [← Int.coe_nat_inj', Int.coe_nat_pow, sq, ← @norm_nat_cast (-1), hpab]; simp).1
+        rw [← Int.coe_nat_inj']; rw [Int.coe_nat_pow]; rw [sq]; rw [← @norm_nat_cast (-1)]; rw [hpab]; simp).1
   ⟨a.re.natAbs, a.im.natAbs, by simpa [natAbs_norm_eq, sq] using hnap⟩
 #align gaussian_int.sq_add_sq_of_nat_prime_of_not_irreducible GaussianInt.sq_add_sq_of_nat_prime_of_not_irreducible
 

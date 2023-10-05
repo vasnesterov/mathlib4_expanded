@@ -70,7 +70,7 @@ theorem embeddingPiTangent_injOn : InjOn f.embeddingPiTangent s := by
   simp only [embeddingPiTangent_coe, funext_iff] at h
   obtain ⟨h₁, h₂⟩ := Prod.mk.inj_iff.1 (h (f.ind x hx))
   rw [f.apply_ind x hx] at h₂
-  rw [← h₂, f.apply_ind x hx, one_smul, one_smul] at h₁
+  rw [← h₂] at h₁; rw [f.apply_ind x hx] at h₁; rw [one_smul] at h₁; rw [one_smul] at h₁
   have := f.mem_extChartAt_source_of_eq_one h₂.symm
   exact (extChartAt I (f.c _)).injOn (f.mem_extChartAt_ind_source x hx) this h₁
 #align smooth_bump_covering.embedding_pi_tangent_inj_on SmoothBumpCovering.embeddingPiTangent_injOn
@@ -95,15 +95,14 @@ theorem comp_embeddingPiTangent_mfderiv (x : M) (hx : x ∈ s) :
   refine' (f.eventuallyEq_one x hx).mono fun y hy => _
   simp only [embeddingPiTangent_coe, ContinuousLinearMap.coe_comp', (· ∘ ·),
     ContinuousLinearMap.coe_fst', ContinuousLinearMap.proj_apply]
-  rw [hy, Pi.one_apply, one_smul]
+  rw [hy]; rw [Pi.one_apply]; rw [one_smul]
 #align smooth_bump_covering.comp_embedding_pi_tangent_mfderiv SmoothBumpCovering.comp_embeddingPiTangent_mfderiv
 
 theorem embeddingPiTangent_ker_mfderiv (x : M) (hx : x ∈ s) :
     LinearMap.ker (mfderiv I 𝓘(ℝ, ι → E × ℝ) f.embeddingPiTangent x) = ⊥ := by
   apply bot_unique
   rw [← (mdifferentiable_chart I (f.c (f.ind x hx))).ker_mfderiv_eq_bot
-      (f.mem_chartAt_ind_source x hx),
-    ← comp_embeddingPiTangent_mfderiv]
+      (f.mem_chartAt_ind_source x hx)]; rw [← comp_embeddingPiTangent_mfderiv]
   exact LinearMap.ker_le_ker_comp _ _
 #align smooth_bump_covering.embedding_pi_tangent_ker_mfderiv SmoothBumpCovering.embeddingPiTangent_ker_mfderiv
 
@@ -128,8 +127,7 @@ theorem exists_immersion_euclidean [Finite ι] (f : SmoothBumpCovering ι I M) :
     eEF.toDiffeomorph.smooth.comp f.embeddingPiTangent.smooth,
     eEF.injective.comp f.embeddingPiTangent_injective, fun x => ?_⟩
   rw [mfderiv_comp _ eEF.differentiableAt.mdifferentiableAt
-      f.embeddingPiTangent.smooth.mdifferentiableAt,
-    eEF.mfderiv_eq]
+      f.embeddingPiTangent.smooth.mdifferentiableAt]; rw [eEF.mfderiv_eq]
   exact eEF.injective.comp (f.embeddingPiTangent_injective_mfderiv _ trivial)
 #align smooth_bump_covering.exists_immersion_euclidean SmoothBumpCovering.exists_immersion_euclidean
 

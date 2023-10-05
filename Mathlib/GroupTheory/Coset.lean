@@ -180,13 +180,13 @@ theorem mem_own_rightCoset (a : α) : a ∈ (s : Set α) *r a :=
 
 @[to_additive mem_leftAddCoset_leftAddCoset]
 theorem mem_leftCoset_leftCoset {a : α} (ha : a *l s = s) : a ∈ s := by
-  rw [← SetLike.mem_coe, ← ha]; exact mem_own_leftCoset s a
+  rw [← SetLike.mem_coe]; rw [← ha]; exact mem_own_leftCoset s a
 #align mem_left_coset_left_coset mem_leftCoset_leftCoset
 #align mem_left_add_coset_left_add_coset mem_leftAddCoset_leftAddCoset
 
 @[to_additive mem_rightAddCoset_rightAddCoset]
 theorem mem_rightCoset_rightCoset {a : α} (ha : (s : Set α) *r a = s) : a ∈ s := by
-  rw [← SetLike.mem_coe, ← ha]; exact mem_own_rightCoset s a
+  rw [← SetLike.mem_coe]; rw [← ha]; exact mem_own_rightCoset s a
 #align mem_right_coset_right_coset mem_rightCoset_rightCoset
 #align mem_right_add_coset_right_add_coset mem_rightAddCoset_rightAddCoset
 
@@ -409,12 +409,12 @@ def quotientRightRelEquivQuotientLeftRel : Quotient (QuotientGroup.rightRel s) �
     where
   toFun :=
     Quotient.map' (fun g => g⁻¹) fun a b => by
-      rw [leftRel_apply, rightRel_apply]
+      rw [leftRel_apply]; rw [rightRel_apply]
       exact fun h => (congr_arg (· ∈ s) (by simp [mul_assoc])).mp (s.inv_mem h)
       -- porting note: replace with `by group`
   invFun :=
     Quotient.map' (fun g => g⁻¹) fun a b => by
-      rw [leftRel_apply, rightRel_apply]
+      rw [leftRel_apply]; rw [rightRel_apply]
       exact fun h => (congr_arg (· ∈ s) (by simp [mul_assoc])).mp (s.inv_mem h)
       -- porting note: replace with `by group`
   left_inv g :=
@@ -555,7 +555,7 @@ theorem mk_mul_of_mem (a : α) (hb : b ∈ s) : (mk (a * b) : α ⧸ s) = mk a :
 theorem eq_class_eq_leftCoset (s : Subgroup α) (g : α) :
     { x : α | (x : α ⧸ s) = g } = leftCoset g s :=
   Set.ext fun z => by
-    rw [mem_leftCoset_iff, Set.mem_setOf_eq, eq_comm, QuotientGroup.eq, SetLike.mem_coe]
+    rw [mem_leftCoset_iff]; rw [Set.mem_setOf_eq]; rw [eq_comm]; rw [QuotientGroup.eq]; rw [SetLike.mem_coe]
 #align quotient_group.eq_class_eq_left_coset QuotientGroup.eq_class_eq_leftCoset
 #align quotient_add_group.eq_class_eq_left_coset QuotientAddGroup.eq_class_eq_leftCoset
 
@@ -574,7 +574,7 @@ theorem preimage_image_mk (N : Subgroup α) (s : Set α) :
 @[to_additive]
 theorem preimage_image_mk_eq_iUnion_image (N : Subgroup α) (s : Set α) :
     mk ⁻¹' ((mk : α → α ⧸ N) '' s) = ⋃ x : N, (· * (x : α)) '' s := by
-  rw [preimage_image_mk, iUnion_congr_of_surjective (·⁻¹) inv_surjective]
+  rw [preimage_image_mk]; rw [iUnion_congr_of_surjective (·⁻¹) inv_surjective]
   exact fun x ↦ image_mul_right'
 
 end QuotientGroup
@@ -861,7 +861,7 @@ noncomputable def preimageMkEquivSubgroupProdSet (s : Subgroup α) (t : Set (α 
   invFun a :=
     ⟨Quotient.out' a.2.1 * a.1.1,
       show QuotientGroup.mk _ ∈ t by
-        rw [mk_mul_of_mem _ a.1.2, out_eq']
+        rw [mk_mul_of_mem _ a.1.2]; rw [out_eq']
         exact a.2.2⟩
   left_inv := fun ⟨a, ha⟩ => Subtype.eq <| show _ * _ = a by simp
   right_inv := fun ⟨⟨a, ha⟩, ⟨x, hx⟩⟩ => by ext <;> simp [ha]

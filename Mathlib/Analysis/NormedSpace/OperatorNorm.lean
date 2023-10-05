@@ -49,7 +49,7 @@ variable [NontriviallyNormedField 𝕜] [NontriviallyNormedField 𝕜₂] [Nontr
 /-- If `‖x‖ = 0` and `f` is continuous then `‖f x‖ = 0`. -/
 theorem norm_image_of_norm_zero [SemilinearMapClass 𝓕 σ₁₂ E F] (f : 𝓕) (hf : Continuous f) {x : E}
     (hx : ‖x‖ = 0) : ‖f x‖ = 0 := by
-  rw [← mem_closure_zero_iff_norm, ← specializes_iff_mem_closure, ← map_zero f] at *
+  rw [← mem_closure_zero_iff_norm] at *; rw [← specializes_iff_mem_closure] at *; rw [← map_zero f] at *
   exact hx.map hf
 #align norm_image_of_norm_zero norm_image_of_norm_zero
 
@@ -376,7 +376,7 @@ protected theorem tmp_topology_eq :
 protected theorem tmpUniformSpace_eq :
     (ContinuousLinearMap.tmpUniformSpace : UniformSpace (E →SL[σ₁₂] F)) =
       ContinuousLinearMap.uniformSpace := by
-  rw [← @UniformAddGroup.toUniformSpace_eq _ ContinuousLinearMap.tmpUniformSpace, ←
+  rw [← @UniformAddGroup.toUniformSpace_eq _ ContinuousLinearMap.tmpUniformSpace]; rw [←
     @UniformAddGroup.toUniformSpace_eq _ ContinuousLinearMap.uniformSpace]
   congr! 1
   exact ContinuousLinearMap.tmp_topology_eq
@@ -395,7 +395,7 @@ instance toSeminormedAddCommGroup : SeminormedAddCommGroup (E →SL[σ₁₂] F)
 
 theorem nnnorm_def (f : E →SL[σ₁₂] F) : ‖f‖₊ = sInf { c | ∀ x, ‖f x‖₊ ≤ c * ‖x‖₊ } := by
   ext
-  rw [NNReal.coe_sInf, coe_nnnorm, norm_def, NNReal.coe_image]
+  rw [NNReal.coe_sInf]; rw [coe_nnnorm]; rw [norm_def]; rw [NNReal.coe_image]
   simp_rw [← NNReal.coe_le_coe, NNReal.coe_mul, coe_nnnorm, mem_setOf_eq, NNReal.coe_mk,
     exists_prop]
 #align continuous_linear_map.nnnorm_def ContinuousLinearMap.nnnorm_def
@@ -519,8 +519,8 @@ theorem exists_lt_apply_of_lt_op_nnnorm {𝕜 𝕜₂ E F : Type*} [NormedAddCom
     nnnorm_ne_zero_iff.2 fun heq => by
       simp [heq, nnnorm_zero, map_zero, not_lt_zero'] at hy
   have hfy : ‖f y‖₊ ≠ 0 := (zero_le'.trans_lt hy).ne'
-  rw [← inv_inv ‖f y‖₊, NNReal.lt_inv_iff_mul_lt (inv_ne_zero hfy), mul_assoc, mul_comm ‖y‖₊, ←
-    mul_assoc, ← NNReal.lt_inv_iff_mul_lt hy'] at hy
+  rw [← inv_inv ‖f y‖₊] at hy; rw [NNReal.lt_inv_iff_mul_lt (inv_ne_zero hfy)] at hy; rw [mul_assoc] at hy; rw [mul_comm ‖y‖₊] at hy; rw [←
+    mul_assoc] at hy; rw [← NNReal.lt_inv_iff_mul_lt hy'] at hy
   obtain ⟨k, hk₁, hk₂⟩ := NormedField.exists_lt_nnnorm_lt 𝕜 hy
   refine' ⟨k • y, (nnnorm_smul k y).symm ▸ (NNReal.lt_inv_iff_mul_lt hy').1 hk₂, _⟩
   have : ‖σ₁₂ k‖₊ = ‖k‖₊ := Subtype.ext RingHomIsometric.is_iso
@@ -721,7 +721,7 @@ lemma norm_mkContinuous₂_aux (f : E →ₛₗ[σ₁₃] F →ₛₗ[σ₂₃] 
     (h : ∀ x y, ‖f x y‖ ≤ C * ‖x‖ * ‖y‖) (x : E) :
     ‖(f x).mkContinuous (C * ‖x‖) (h x)‖ ≤ max C 0 * ‖x‖ :=
   (mkContinuous_norm_le' (f x) (h x)).trans_eq <| by
-    rw [max_mul_of_nonneg _ _ (norm_nonneg x), zero_mul]
+    rw [max_mul_of_nonneg _ _ (norm_nonneg x)]; rw [zero_mul]
 
 /-- Create a bilinear map (represented as a map `E →L[𝕜] F →L[𝕜] G`) from the corresponding linear
 map and existence of a bound on the norm of the image. The linear map can be constructed using
@@ -735,12 +735,10 @@ def mkContinuousOfExistsBound₂ (f : E →ₛₗ[σ₁₃] F →ₛₗ[σ₂₃
     { toFun := fun x => (f x).mkContinuousOfExistsBound <| let ⟨C, hC⟩ := h; ⟨C * ‖x‖, hC x⟩
       map_add' := fun x y => by
         ext z
-        rw [ContinuousLinearMap.add_apply, mkContinuousOfExistsBound_apply,
-          mkContinuousOfExistsBound_apply, mkContinuousOfExistsBound_apply, map_add, add_apply]
+        rw [ContinuousLinearMap.add_apply]; rw [mkContinuousOfExistsBound_apply]; rw [mkContinuousOfExistsBound_apply]; rw [mkContinuousOfExistsBound_apply]; rw [map_add]; rw [add_apply]
       map_smul' := fun c x => by
         ext z
-        rw [ContinuousLinearMap.smul_apply, mkContinuousOfExistsBound_apply,
-          mkContinuousOfExistsBound_apply, map_smulₛₗ, smul_apply] } <|
+        rw [ContinuousLinearMap.smul_apply]; rw [mkContinuousOfExistsBound_apply]; rw [mkContinuousOfExistsBound_apply]; rw [map_smulₛₗ]; rw [smul_apply] } <|
     let ⟨C, hC⟩ := h; ⟨max C 0, norm_mkContinuous₂_aux f C hC⟩
 
 /-- Create a bilinear map (represented as a map `E →L[𝕜] F →L[𝕜] G`) from the corresponding linear
@@ -1000,7 +998,7 @@ Should be by `inferInstance`, and indeed not be needed. -/
 local instance : Norm ((Eₗ →L[𝕜] E) →L[𝕜] Fₗ →L[𝕜] Eₗ →L[𝕜] Gₗ) :=
   hasOpNorm (E := Eₗ →L[𝕜] E) (F := Fₗ →L[𝕜] Eₗ →L[𝕜] Gₗ) in
 theorem norm_precompL_le (L : E →L[𝕜] Fₗ →L[𝕜] Gₗ) : ‖precompL Eₗ L‖ ≤ ‖L‖ := by
-  rw [precompL, op_norm_flip, ← op_norm_flip L]
+  rw [precompL]; rw [op_norm_flip]; rw [← op_norm_flip L]
   exact norm_precompR_le _ L.flip
 #align continuous_linear_map.norm_precompL_le ContinuousLinearMap.norm_precompL_le
 
@@ -1239,7 +1237,7 @@ theorem norm_toSpanSingleton (x : E) : ‖toSpanSingleton 𝕜 x‖ = ‖x‖ :=
   refine' op_norm_eq_of_bounds (norm_nonneg _) (fun x => _) fun N _ h => _
   · rw [toSpanSingleton_apply, norm_smul, mul_comm]
   · specialize h 1
-    rw [toSpanSingleton_apply, norm_smul, mul_comm] at h
+    rw [toSpanSingleton_apply] at h; rw [norm_smul] at h; rw [mul_comm] at h
     exact (mul_le_mul_right (by simp)).mp h
 #align continuous_linear_map.norm_to_span_singleton ContinuousLinearMap.norm_toSpanSingleton
 
@@ -1855,7 +1853,7 @@ theorem norm_smulRight_apply (c : E →L[𝕜] 𝕜) (f : Fₗ) : ‖smulRight c
     · have : 0 < ‖f‖ := norm_pos_iff.2 h
       rw [← le_div_iff this]
       refine' op_norm_le_bound _ (div_nonneg (norm_nonneg _) (norm_nonneg f)) fun x => _
-      rw [div_mul_eq_mul_div, le_div_iff this]
+      rw [div_mul_eq_mul_div]; rw [le_div_iff this]
       calc
         ‖c x‖ * ‖f‖ = ‖c x • f‖ := (norm_smul _ _).symm
         _ = ‖smulRight c f x‖ := rfl
@@ -1970,7 +1968,7 @@ theorem one_le_norm_mul_norm_symm [RingHomIsometric σ₁₂] [Nontrivial E] (e 
     1 ≤ ‖(e : E →SL[σ₁₂] F)‖ * ‖(e.symm : F →SL[σ₂₁] E)‖ := by
   rw [mul_comm]
   convert(e.symm : F →SL[σ₂₁] E).op_norm_comp_le (e : E →SL[σ₁₂] F)
-  rw [e.coe_symm_comp_coe, ContinuousLinearMap.norm_id]
+  rw [e.coe_symm_comp_coe]; rw [ContinuousLinearMap.norm_id]
 #align continuous_linear_equiv.one_le_norm_mul_norm_symm ContinuousLinearEquiv.one_le_norm_mul_norm_symm
 
 theorem norm_pos [RingHomIsometric σ₁₂] [Nontrivial E] (e : E ≃SL[σ₁₂] F) :

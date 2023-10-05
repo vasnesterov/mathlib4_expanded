@@ -118,7 +118,7 @@ theorem hasFDerivWithinAt_inv (x_ne_zero : x ≠ 0) :
 #align has_fderiv_within_at_inv hasFDerivWithinAt_inv
 
 theorem fderiv_inv : fderiv 𝕜 (fun x => x⁻¹) x = smulRight (1 : 𝕜 →L[𝕜] 𝕜) (-(x ^ 2)⁻¹) := by
-  rw [← deriv_fderiv, deriv_inv]
+  rw [← deriv_fderiv]; rw [deriv_inv]
 #align fderiv_inv fderiv_inv
 
 theorem fderivWithin_inv (x_ne_zero : x ≠ 0) (hxs : UniqueDiffWithinAt 𝕜 s x) :

@@ -206,7 +206,7 @@ theorem summable_sum_mul_antidiagonal_of_summable_mul
     (h : Summable fun x : ℕ × ℕ => f x.1 * g x.2) :
     Summable fun n => ∑ kl in Nat.antidiagonal n, f kl.1 * g kl.2 := by
   rw [summable_mul_prod_iff_summable_mul_sigma_antidiagonal] at h
-  conv => congr; ext; rw [← Finset.sum_finset_coe, ← tsum_fintype]
+  conv => congr; ext; rw [← Finset.sum_finset_coe]; rw [← tsum_fintype]
   exact h.sigma' fun n => (hasSum_fintype _).summable
 #align summable_sum_mul_antidiagonal_of_summable_mul summable_sum_mul_antidiagonal_of_summable_mul
 
@@ -218,8 +218,8 @@ summable. -/
 theorem tsum_mul_tsum_eq_tsum_sum_antidiagonal (hf : Summable f) (hg : Summable g)
     (hfg : Summable fun x : ℕ × ℕ => f x.1 * g x.2) :
     ((∑' n, f n) * ∑' n, g n) = ∑' n, ∑ kl in Nat.antidiagonal n, f kl.1 * g kl.2 := by
-  conv_rhs => congr; ext; rw [← Finset.sum_finset_coe, ← tsum_fintype]
-  rw [tsum_mul_tsum hf hg hfg, ← Nat.sigmaAntidiagonalEquivProd.tsum_eq (_ : ℕ × ℕ → α)]
+  conv_rhs => congr; ext; rw [← Finset.sum_finset_coe]; rw [← tsum_fintype]
+  rw [tsum_mul_tsum hf hg hfg]; rw [← Nat.sigmaAntidiagonalEquivProd.tsum_eq (_ : ℕ × ℕ → α)]
   exact
     tsum_sigma' (fun n => (hasSum_fintype _).summable)
       (summable_mul_prod_iff_summable_mul_sigma_antidiagonal.mp hfg)

@@ -45,7 +45,7 @@ variable {R}
 open Algebra
 
 theorem supported_eq_range_rename (s : Set σ) : supported R s = (rename ((↑) : s → σ)).range := by
-  rw [supported, Set.image_eq_range, adjoin_range_eq_range_aeval, rename]
+  rw [supported]; rw [Set.image_eq_range]; rw [adjoin_range_eq_range_aeval]; rw [rename]
   congr
 #align mv_polynomial.supported_eq_range_rename MvPolynomial.supported_eq_range_rename
 
@@ -74,7 +74,7 @@ variable {s t : Set σ}
 
 theorem mem_supported : p ∈ supported R s ↔ ↑p.vars ⊆ s := by
   classical
-  rw [supported_eq_range_rename, AlgHom.mem_range]
+  rw [supported_eq_range_rename]; rw [AlgHom.mem_range]
   constructor
   · rintro ⟨p, rfl⟩
     refine' _root_.trans (Finset.coe_subset.2 (vars_rename _ _)) _
@@ -134,7 +134,7 @@ theorem supported_strictMono [Nontrivial R] :
 
 theorem exists_restrict_to_vars (R : Type*) [CommRing R] {F : MvPolynomial σ ℤ}
     (hF : ↑F.vars ⊆ s) : ∃ f : (s → R) → R, ∀ x : σ → R, f (x ∘ (↑) : s → R) = aeval x F := by
-  rw [← mem_supported, supported_eq_range_rename, AlgHom.mem_range] at hF
+  rw [← mem_supported] at hF; rw [supported_eq_range_rename] at hF; rw [AlgHom.mem_range] at hF
   cases' hF with F' hF'
   use fun z ↦ aeval z F'
   intro x

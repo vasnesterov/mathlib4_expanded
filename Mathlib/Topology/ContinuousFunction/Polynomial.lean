@@ -189,7 +189,7 @@ theorem polynomialFunctions.comap_compRightAlgHom_iccHomeoI (a b : ℝ) (h : a <
         field_simp
         ring
       · change _ + _ ∈ I
-        rw [mul_comm (b - a)⁻¹, ← neg_mul, ← add_mul, ← sub_eq_add_neg]
+        rw [mul_comm (b - a)⁻¹]; rw [← neg_mul]; rw [← add_mul]; rw [← sub_eq_add_neg]
         have w₁ : 0 < (b - a)⁻¹ := inv_pos.mpr (sub_pos.mpr h)
         have w₂ : 0 ≤ (x : ℝ) - a := sub_nonneg.mpr x.2.1
         have w₃ : (x : ℝ) - a ≤ b - a := sub_le_sub_right x.2.2 a
@@ -231,7 +231,7 @@ open StarSubalgebra
 
 theorem polynomialFunctions.starClosure_eq_adjoin_X [StarRing R] [ContinuousStar R] (s : Set R) :
     (polynomialFunctions s).starClosure = adjoin R {toContinuousMapOnAlgHom s X} := by
-  rw [polynomialFunctions.eq_adjoin_X s, adjoin_eq_starClosure_adjoin]
+  rw [polynomialFunctions.eq_adjoin_X s]; rw [adjoin_eq_starClosure_adjoin]
 
 theorem polynomialFunctions.starClosure_le_equalizer {A : Type*} [StarRing R] [ContinuousStar R]
     [Semiring A] [StarRing A] [Algebra R A] (s : Set R) (φ ψ : C(s, R) →⋆ₐ[R] A)

@@ -45,7 +45,7 @@ def piQuotientLift [Fintype ι] [DecidableEq ι] (p : ∀ i, Submodule R (Ms i))
 theorem piQuotientLift_mk [Fintype ι] [DecidableEq ι] (p : ∀ i, Submodule R (Ms i))
     (q : Submodule R N) (f : ∀ i, Ms i →ₗ[R] N) (hf : ∀ i, p i ≤ q.comap (f i)) (x : ∀ i, Ms i) :
     (piQuotientLift p q f hf fun i => Quotient.mk (x i)) = Quotient.mk (lsum _ _ R f x) := by
-  rw [piQuotientLift, lsum_apply, sum_apply, ← mkQ_apply, lsum_apply, sum_apply, _root_.map_sum]
+  rw [piQuotientLift]; rw [lsum_apply]; rw [sum_apply]; rw [← mkQ_apply]; rw [lsum_apply]; rw [sum_apply]; rw [_root_.map_sum]
   simp only [coe_proj, mapQ_apply, mkQ_apply, comp_apply]
 #align submodule.pi_quotient_lift_mk Submodule.piQuotientLift_mk
 
@@ -57,7 +57,7 @@ theorem piQuotientLift_single [Fintype ι] [DecidableEq ι] (p : ∀ i, Submodul
   rw [Finset.sum_eq_single i]
   · rw [Pi.single_eq_same]
   · rintro j - hj
-    rw [Pi.single_eq_of_ne hj, _root_.map_zero]
+    rw [Pi.single_eq_of_ne hj]; rw [_root_.map_zero]
   · intros
     have := Finset.mem_univ i
     contradiction
@@ -96,18 +96,16 @@ theorem left_inv : Function.LeftInverse (invFun p) (toFun p) := fun x =>
   Quotient.inductionOn' x fun x' => by
     rw [Quotient.mk''_eq_mk x']
     dsimp only [toFun, invFun]
-    rw [quotientPiLift_mk p, funext fun i => (mkQ_apply (p i) (x' i)), piQuotientLift_mk p,
-      lsum_single, id_apply]
+    rw [quotientPiLift_mk p]; rw [funext fun i => (mkQ_apply (p i) (x' i))]; rw [piQuotientLift_mk p]; rw [lsum_single]; rw [id_apply]
 
 theorem right_inv : Function.RightInverse (invFun p) (toFun p) := by
   dsimp only [toFun, invFun]
-  rw [Function.rightInverse_iff_comp, ← coe_comp, ← @id_coe R]
+  rw [Function.rightInverse_iff_comp]; rw [← coe_comp]; rw [← @id_coe R]
   refine' congr_arg _ (pi_ext fun i x => Quotient.inductionOn' x fun x' => funext fun j => _)
-  rw [comp_apply, piQuotientLift_single, Quotient.mk''_eq_mk, mapQ_apply,
-    quotientPiLift_mk, id_apply]
+  rw [comp_apply]; rw [piQuotientLift_single]; rw [Quotient.mk''_eq_mk]; rw [mapQ_apply]; rw [quotientPiLift_mk]; rw [id_apply]
   by_cases hij : i = j <;> simp only [mkQ_apply, coe_single]
   · subst hij
-    rw [Pi.single_eq_same, Pi.single_eq_same]
+    rw [Pi.single_eq_same]; rw [Pi.single_eq_same]
   · rw [Pi.single_eq_of_ne (Ne.symm hij), Pi.single_eq_of_ne (Ne.symm hij), Quotient.mk_zero]
 
 theorem map_add (x y : ((i : ι) → Ms i) ⧸ pi Set.univ p) :

@@ -129,7 +129,7 @@ theorem restrict_restrict {X : TopCat} {C : Type*} [Category C] [ConcreteCategor
     {F : X.Presheaf C} {U V W : Opens X} (e₁ : U ≤ V) (e₂ : V ≤ W) (x : F.obj (op W)) :
     x |_ V |_ U = x |_ U := by
   delta restrictOpen restrict
-  rw [← comp_apply, ← Functor.map_comp]
+  rw [← comp_apply]; rw [← Functor.map_comp]
   rfl
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.restrict_restrict TopCat.Presheaf.restrict_restrict
@@ -140,7 +140,7 @@ theorem map_restrict {X : TopCat} {C : Type*} [Category C] [ConcreteCategory C]
     {F G : X.Presheaf C} (e : F ⟶ G) {U V : Opens X} (h : U ≤ V) (x : F.obj (op V)) :
     e.app _ (x |_ U) = e.app _ x |_ U := by
   delta restrictOpen restrict
-  rw [← comp_apply, NatTrans.naturality, comp_apply]
+  rw [← comp_apply]; rw [NatTrans.naturality]; rw [comp_apply]
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.map_restrict TopCat.Presheaf.map_restrict
 
@@ -194,7 +194,7 @@ set_option linter.uppercaseLean3 false in
 
 theorem pushforward_eq'_hom_app {X Y : TopCat.{w}} {f g : X ⟶ Y} (h : f = g) (ℱ : X.Presheaf C)
     (U) : NatTrans.app (eqToHom (pushforward_eq' h ℱ)) U = ℱ.map (eqToHom (by rw [h])) := by
-  rw [eqToHom_app, eqToHom_map]
+  rw [eqToHom_app]; rw [eqToHom_map]
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.pushforward_eq'_hom_app TopCat.Presheaf.pushforward_eq'_hom_app
 
@@ -370,11 +370,11 @@ theorem id_inv_app (U : Opens Y) :
     (id ℱ).inv.app (op U) =
       colimit.ι (Lan.diagram (Opens.map (𝟙 Y)).op ℱ (op U))
         (@CostructuredArrow.mk _ _ _ _ _ (op U) _ (eqToHom (by simp))) := by
-  rw [← Category.id_comp ((id ℱ).inv.app (op U)), ← NatIso.app_inv, Iso.comp_inv_eq]
+  rw [← Category.id_comp ((id ℱ).inv.app (op U))]; rw [← NatIso.app_inv]; rw [Iso.comp_inv_eq]
   dsimp [id]
   erw [colimit.ι_desc_assoc]
   dsimp
-  rw [← ℱ.map_comp, ← ℱ.map_id]; rfl
+  rw [← ℱ.map_comp]; rw [← ℱ.map_id]; rfl
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.pullback.id_inv_app TopCat.Presheaf.Pullback.id_inv_app
 
@@ -440,7 +440,7 @@ theorem toPushforwardOfIso_app {X Y : TopCat} (H₁ : X ≅ Y) {ℱ : X.Presheaf
   -- Porting note : originally is a single invocation of `simp`
   simp only [pushforwardObj_obj, Functor.op_obj, Equivalence.toAdjunction, Adjunction.homEquiv_unit,
     Functor.id_obj, Functor.comp_obj, Adjunction.mkOfUnitCounit_unit, unop_op, eqToHom_map]
-  rw [NatTrans.comp_app, presheafEquivOfIso_inverse_map_app, Equivalence.Equivalence_mk'_unit]
+  rw [NatTrans.comp_app]; rw [presheafEquivOfIso_inverse_map_app]; rw [Equivalence.Equivalence_mk'_unit]
   congr 1
   simp only [Equivalence.unit, Equivalence.op, CategoryTheory.Equivalence.symm, Opens.mapMapIso,
     Functor.id_obj, Functor.comp_obj, Iso.symm_hom, NatIso.op_inv, Iso.symm_inv, NatTrans.op_app,

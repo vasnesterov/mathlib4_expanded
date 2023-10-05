@@ -103,8 +103,7 @@ theorem StrictConvexSpace.of_norm_combo_lt_one
   refine'
     StrictConvexSpace.of_strictConvex_closed_unit_ball ℝ
       ((convex_closedBall _ _).strictConvex' fun x hx y hy hne => _)
-  rw [interior_closedBall (0 : E) one_ne_zero, closedBall_diff_ball,
-    mem_sphere_zero_iff_norm] at hx hy
+  rw [interior_closedBall (0 : E) one_ne_zero] at hx hy; rw [closedBall_diff_ball] at hx hy; rw [mem_sphere_zero_iff_norm] at hx hy
   rcases h x y hx hy hne with ⟨a, b, hab, hlt⟩
   use b
   rwa [AffineMap.lineMap_apply_module, interior_closedBall (0 : E) one_ne_zero, mem_ball_zero_iff,
@@ -130,8 +129,7 @@ theorem StrictConvexSpace.of_norm_add_ne_two
   refine'
     StrictConvexSpace.of_norm_combo_ne_one fun x y hx hy hne =>
       ⟨1 / 2, 1 / 2, one_half_pos.le, one_half_pos.le, add_halves _, _⟩
-  rw [← smul_add, norm_smul, Real.norm_of_nonneg one_half_pos.le, one_div, ← div_eq_inv_mul, Ne.def,
-    div_eq_one_iff_eq (two_ne_zero' ℝ)]
+  rw [← smul_add]; rw [norm_smul]; rw [Real.norm_of_nonneg one_half_pos.le]; rw [one_div]; rw [← div_eq_inv_mul]; rw [Ne.def]; rw [div_eq_one_iff_eq (two_ne_zero' ℝ)]
   exact h hx hy hne
 #align strict_convex_space.of_norm_add_ne_two StrictConvexSpace.of_norm_add_ne_two
 
@@ -240,9 +238,8 @@ theorem dist_add_dist_eq_iff : dist x y + dist y z = dist x z ↔ y ∈ [x -[ℝ
 #align dist_add_dist_eq_iff dist_add_dist_eq_iff
 
 theorem norm_midpoint_lt_iff (h : ‖x‖ = ‖y‖) : ‖(1 / 2 : ℝ) • (x + y)‖ < ‖x‖ ↔ x ≠ y := by
-  rw [norm_smul, Real.norm_of_nonneg (one_div_nonneg.2 zero_le_two), ← inv_eq_one_div, ←
-    div_eq_inv_mul, div_lt_iff (zero_lt_two' ℝ), mul_two, ← not_sameRay_iff_of_norm_eq h,
-    not_sameRay_iff_norm_add_lt, h]
+  rw [norm_smul]; rw [Real.norm_of_nonneg (one_div_nonneg.2 zero_le_two)]; rw [← inv_eq_one_div]; rw [←
+    div_eq_inv_mul]; rw [div_lt_iff (zero_lt_two' ℝ)]; rw [mul_two]; rw [← not_sameRay_iff_of_norm_eq h]; rw [not_sameRay_iff_norm_add_lt]; rw [h]
 #align norm_midpoint_lt_iff norm_midpoint_lt_iff
 
 variable {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
@@ -254,18 +251,17 @@ variable [NormedAddTorsor F PF] [NormedAddTorsor E PE]
 theorem eq_lineMap_of_dist_eq_mul_of_dist_eq_mul {x y z : PE} (hxy : dist x y = r * dist x z)
     (hyz : dist y z = (1 - r) * dist x z) : y = AffineMap.lineMap x z r := by
   have : y -ᵥ x ∈ [(0 : E) -[ℝ] z -ᵥ x] := by
-    rw [← dist_add_dist_eq_iff, dist_zero_left, dist_vsub_cancel_right, ← dist_eq_norm_vsub', ←
-      dist_eq_norm_vsub', hxy, hyz, ← add_mul, add_sub_cancel'_right, one_mul]
+    rw [← dist_add_dist_eq_iff]; rw [dist_zero_left]; rw [dist_vsub_cancel_right]; rw [← dist_eq_norm_vsub']; rw [←
+      dist_eq_norm_vsub']; rw [hxy]; rw [hyz]; rw [← add_mul]; rw [add_sub_cancel'_right]; rw [one_mul]
   rcases eq_or_ne x z with (rfl | hne)
   · obtain rfl : y = x := by simpa
     simp
   · rw [← dist_ne_zero] at hne
     rcases this with ⟨a, b, _, hb, _, H⟩
-    rw [smul_zero, zero_add] at H
+    rw [smul_zero] at H; rw [zero_add] at H
     have H' := congr_arg norm H
-    rw [norm_smul, Real.norm_of_nonneg hb, ← dist_eq_norm_vsub', ← dist_eq_norm_vsub', hxy,
-      mul_left_inj' hne] at H'
-    rw [AffineMap.lineMap_apply, ← H', H, vsub_vadd]
+    rw [norm_smul] at H'; rw [Real.norm_of_nonneg hb] at H'; rw [← dist_eq_norm_vsub'] at H'; rw [← dist_eq_norm_vsub'] at H'; rw [hxy] at H'; rw [mul_left_inj' hne] at H'
+    rw [AffineMap.lineMap_apply]; rw [← H']; rw [H]; rw [vsub_vadd]
 #align eq_line_map_of_dist_eq_mul_of_dist_eq_mul eq_lineMap_of_dist_eq_mul_of_dist_eq_mul
 
 theorem eq_midpoint_of_dist_eq_half {x y z : PE} (hx : dist x y = dist x z / 2)

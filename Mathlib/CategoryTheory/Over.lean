@@ -241,7 +241,7 @@ The converse of `CategoryTheory.Over.mono_of_mono_left`.
 instance mono_left_of_mono {f g : Over X} (k : f ⟶ g) [Mono k] : Mono k.left := by
   refine' ⟨fun { Y : T } l m a => _⟩
   let l' : mk (m ≫ f.hom) ⟶ f := homMk l (by
-        dsimp; rw [← Over.w k, ←Category.assoc, congrArg (· ≫ g.hom) a, Category.assoc])
+        dsimp; rw [← Over.w k]; rw [←Category.assoc]; rw [congrArg (· ≫ g.hom) a]; rw [Category.assoc])
   suffices l' = (homMk m : mk (m ≫ f.hom) ⟶ f) by apply congrArg CommaMorphism.left this
   rw [← cancel_mono k]
   ext
@@ -522,7 +522,7 @@ The converse of `CategoryTheory.under.epi_of_epi_right`.
 instance epi_right_of_epi {f g : Under X} (k : f ⟶ g) [Epi k] : Epi k.right := by
   refine' ⟨fun { Y : T } l m a => _⟩
   let l' : g ⟶ mk (g.hom ≫ m) := homMk l (by
-    dsimp; rw [← Under.w k, Category.assoc, a, Category.assoc])
+    dsimp; rw [← Under.w k]; rw [Category.assoc]; rw [a]; rw [Category.assoc])
   -- Porting note: add type ascription here to `homMk m`
   suffices l' = (homMk m : g ⟶ mk (g.hom ≫ m)) by apply congrArg CommaMorphism.right this
   rw [← cancel_epi k]; ext; apply a

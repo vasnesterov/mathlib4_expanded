@@ -44,7 +44,7 @@ theorem Ioi_zero_eq_map : Ioi (0 : Fin n.succ) = univ.map (Fin.succEmbedding _).
 @[simp]
 theorem Iio_last_eq_map : Iio (Fin.last n) = Finset.univ.map Fin.castSuccEmb.toEmbedding := by
   apply Finset.map_injective Fin.valEmbedding
-  rw [Finset.map_map, Fin.map_valEmbedding_Iio, Fin.val_last]
+  rw [Finset.map_map]; rw [Fin.map_valEmbedding_Iio]; rw [Fin.val_last]
   exact map_valEmbedding_univ.symm
 #align fin.Iio_last_eq_map Fin.Iio_last_eq_map
 
@@ -66,13 +66,13 @@ theorem Ioi_succ (i : Fin n) : Ioi i.succ = (Ioi i).map (Fin.succEmbedding _).to
 theorem Iio_castSucc (i : Fin n) :
     Iio (castSucc i) = (Iio i).map Fin.castSuccEmb.toEmbedding := by
   apply Finset.map_injective Fin.valEmbedding
-  rw [Finset.map_map, Fin.map_valEmbedding_Iio]
+  rw [Finset.map_map]; rw [Fin.map_valEmbedding_Iio]
   exact (Fin.map_valEmbedding_Iio i).symm
 #align fin.Iio_cast_succ Fin.Iio_castSucc
 
 theorem card_filter_univ_succ' (p : Fin (n + 1) → Prop) [DecidablePred p] :
     (univ.filter p).card = ite (p 0) 1 0 + (univ.filter (p ∘ Fin.succ)).card := by
-  rw [Fin.univ_succ, filter_cons, card_disjUnion, filter_map, card_map]
+  rw [Fin.univ_succ]; rw [filter_cons]; rw [card_disjUnion]; rw [filter_map]; rw [card_map]
   split_ifs <;> simp
 #align fin.card_filter_univ_succ' Fin.card_filter_univ_succ'
 

@@ -414,7 +414,7 @@ protected theorem liftOn₂_eq {φ} (p q : Set ℕ) (f : Set ℕ → Set ℕ →
 
 @[simp]
 theorem of_eq_of {p : α → Prop} {q : β → Prop} : of p = of q ↔ ManyOneEquiv p q := by
-  rw [of, of, Quotient.eq'']
+  rw [of]; rw [of]; rw [Quotient.eq'']
   unfold Setoid.r
   simp
 #align many_one_degree.of_eq_of ManyOneDegree.of_eq_of

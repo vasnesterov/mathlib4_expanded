@@ -38,7 +38,7 @@ variable {X Y : C} {f : X ⟶ Y} (c : KernelFork f)
 
 @[reassoc (attr := simp)]
 lemma map_condition : G.map c.ι ≫ G.map f = 0 := by
-  rw [← G.map_comp, c.condition, G.map_zero]
+  rw [← G.map_comp]; rw [c.condition]; rw [G.map_zero]
 
 /-- A kernel fork for `f` is mapped to a kernel fork for `G.map f` if `G` is a functor
 which preserves zero morphisms. -/
@@ -152,8 +152,7 @@ theorem kernel_map_comp_preserves_kernel_iso_inv {X' Y' : C} (g : X' ⟶ Y') [Ha
     kernel.map (G.map f) (G.map g) (G.map p) (G.map q) (by rw [← G.map_comp, hpq, G.map_comp]) ≫
         (PreservesKernel.iso G _).inv =
       (PreservesKernel.iso G _).inv ≫ G.map (kernel.map f g p q hpq) := by
-  rw [Iso.comp_inv_eq, Category.assoc, PreservesKernel.iso_hom, Iso.eq_inv_comp,
-    PreservesKernel.iso_hom, kernelComparison_comp_kernel_map]
+  rw [Iso.comp_inv_eq]; rw [Category.assoc]; rw [PreservesKernel.iso_hom]; rw [Iso.eq_inv_comp]; rw [PreservesKernel.iso_hom]; rw [kernelComparison_comp_kernel_map]
 #align category_theory.limits.kernel_map_comp_preserves_kernel_iso_inv CategoryTheory.Limits.kernel_map_comp_preserves_kernel_iso_inv
 
 end Kernels
@@ -165,7 +164,7 @@ variable {X Y : C} {f : X ⟶ Y} (c : CokernelCofork f)
 
 @[reassoc (attr := simp)]
 lemma map_condition : G.map f ≫ G.map c.π = 0 := by
-  rw [← G.map_comp, c.condition, G.map_zero]
+  rw [← G.map_comp]; rw [c.condition]; rw [G.map_zero]
 
 /-- A cokernel cofork for `f` is mapped to a cokernel cofork for `G.map f` if `G` is a functor
 which preserves zero morphisms. -/
@@ -282,8 +281,7 @@ theorem preserves_cokernel_iso_comp_cokernel_map {X' Y' : C} (g : X' ⟶ Y') [Ha
         cokernel.map (G.map f) (G.map g) (G.map p) (G.map q)
           (by rw [← G.map_comp, hpq, G.map_comp]) =
       G.map (cokernel.map f g p q hpq) ≫ (PreservesCokernel.iso G _).hom := by
-  rw [← Iso.comp_inv_eq, Category.assoc, ← Iso.eq_inv_comp, PreservesCokernel.iso_inv,
-    cokernel_map_comp_cokernelComparison, PreservesCokernel.iso_inv]
+  rw [← Iso.comp_inv_eq]; rw [Category.assoc]; rw [← Iso.eq_inv_comp]; rw [PreservesCokernel.iso_inv]; rw [cokernel_map_comp_cokernelComparison]; rw [PreservesCokernel.iso_inv]
 #align category_theory.limits.preserves_cokernel_iso_comp_cokernel_map CategoryTheory.Limits.preserves_cokernel_iso_comp_cokernel_map
 
 end Cokernels

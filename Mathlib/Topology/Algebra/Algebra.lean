@@ -183,7 +183,7 @@ instance [T2Space A] {x : A} : CommRing (Algebra.elementalAlgebra R x) :=
     letI : CommRing (Algebra.adjoin R ({x} : Set A)) :=
       Algebra.adjoinCommRingOfComm R fun y hy z hz => by
         rw [mem_singleton_iff] at hy hz
-        rw [hy, hz]
+        rw [hy]; rw [hz]
     fun _ _ => mul_comm _ _
 
 end Ring

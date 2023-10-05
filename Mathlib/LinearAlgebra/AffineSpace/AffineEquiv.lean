@@ -193,8 +193,7 @@ def symm (e : P₁ ≃ᵃ[k] P₂) : P₂ ≃ᵃ[k] P₁ where
   linear := e.linear.symm
   map_vadd' p v :=
     e.toEquiv.symm.apply_eq_iff_eq_symm_apply.2 <| by
-      rw [Equiv.symm_symm, e.map_vadd' ((Equiv.symm e.toEquiv) p) ((LinearEquiv.symm e.linear) v),
-        LinearEquiv.apply_symm_apply, Equiv.apply_symm_apply]
+      rw [Equiv.symm_symm]; rw [e.map_vadd' ((Equiv.symm e.toEquiv) p) ((LinearEquiv.symm e.linear) v)]; rw [LinearEquiv.apply_symm_apply]; rw [Equiv.apply_symm_apply]
 #align affine_equiv.symm AffineEquiv.symm
 
 @[simp]

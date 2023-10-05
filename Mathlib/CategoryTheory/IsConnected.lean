@@ -185,7 +185,7 @@ theorem IsConnected.of_induct [Nonempty J] {j₀ : J}
       change F j₁ = F j₀ ↔ F j₂ = F j₀
       simp [a f];)
     intro j j'
-    rw [w j, w j']
+    rw [w j]; rw [w j']
 #align category_theory.is_connected.of_induct CategoryTheory.IsConnected.of_induct
 
 /-- Lifting the universe level of morphisms and objects preserves connectedness. -/

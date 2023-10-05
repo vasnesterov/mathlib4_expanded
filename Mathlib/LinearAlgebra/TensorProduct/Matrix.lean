@@ -57,8 +57,7 @@ theorem TensorProduct.toMatrix_map (f : M →ₗ[R] M') (g : N →ₗ[R] N') :
 theorem Matrix.toLin_kronecker (A : Matrix ι' ι R) (B : Matrix κ' κ R) :
     toLin (bM.tensorProduct bN) (bM'.tensorProduct bN') (A ⊗ₖ B) =
       TensorProduct.map (toLin bM bM' A) (toLin bN bN' B) := by
-  rw [← LinearEquiv.eq_symm_apply, toLin_symm, TensorProduct.toMatrix_map, toMatrix_toLin,
-    toMatrix_toLin]
+  rw [← LinearEquiv.eq_symm_apply]; rw [toLin_symm]; rw [TensorProduct.toMatrix_map]; rw [toMatrix_toLin]; rw [toMatrix_toLin]
 #align matrix.to_lin_kronecker Matrix.toLin_kronecker
 
 /-- `TensorProduct.comm` corresponds to a permutation of the identity matrix. -/

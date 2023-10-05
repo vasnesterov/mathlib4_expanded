@@ -87,8 +87,7 @@ instance mulActionSphereSphere : MulAction (sphere (0 : 𝕜) 1) (sphere (0 : E)
   smul c x :=
     ⟨(c : 𝕜) • ↑x,
       mem_sphere_zero_iff_norm.2 <| by
-        rw [norm_smul, mem_sphere_zero_iff_norm.1 c.coe_prop, mem_sphere_zero_iff_norm.1 x.coe_prop,
-          one_mul]⟩
+        rw [norm_smul]; rw [mem_sphere_zero_iff_norm.1 c.coe_prop]; rw [mem_sphere_zero_iff_norm.1 x.coe_prop]; rw [one_mul]⟩
   one_smul x := Subtype.ext <| one_smul _ _
   mul_smul c₁ c₂ x := Subtype.ext <| mul_smul _ _ _
 #align mul_action_sphere_sphere mulActionSphereSphere

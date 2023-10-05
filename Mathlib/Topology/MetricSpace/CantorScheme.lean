@@ -110,7 +110,7 @@ theorem Disjoint.map_injective (hA : CantorScheme.Disjoint A) : Injective (induc
   refine' ⟨(inducedMap A).2 ⟨x, hx⟩, _, _⟩
   · rw [← res_succ]
     apply map_mem
-  rw [hxy, ih, ← res_succ]
+  rw [hxy]; rw [ih]; rw [← res_succ]
   apply map_mem
 #align cantor_scheme.disjoint.map_injective CantorScheme.Disjoint.map_injective
 
@@ -136,7 +136,7 @@ theorem VanishingDiam.dist_lt (hA : VanishingDiam A) (ε : ℝ) (ε_pos : 0 < ε
     linarith) with n hn
   use n
   intro y hy z hz
-  rw [← ENNReal.ofReal_lt_ofReal_iff ε_pos, ← edist_dist]
+  rw [← ENNReal.ofReal_lt_ofReal_iff ε_pos]; rw [← edist_dist]
   apply lt_of_le_of_lt (EMetric.edist_le_diam_of_mem hy hz)
   apply lt_of_le_of_lt (hn _ (le_refl _))
   rw [ENNReal.ofReal_lt_ofReal_iff ε_pos]
@@ -152,7 +152,7 @@ theorem VanishingDiam.map_continuous [TopologicalSpace β] [DiscreteTopology β]
   rw [_root_.eventually_nhds_iff]
   refine' ⟨(↑)⁻¹' cylinder x n, _, _, by simp⟩
   · rintro ⟨y, hy⟩ hyx
-    rw [mem_preimage, Subtype.coe_mk, cylinder_eq_res, mem_setOf] at hyx
+    rw [mem_preimage] at hyx; rw [Subtype.coe_mk] at hyx; rw [cylinder_eq_res] at hyx; rw [mem_setOf] at hyx
     apply hn
     · rw [← hyx]
       apply map_mem
