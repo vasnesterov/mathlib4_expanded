@@ -1642,11 +1642,7 @@ See also `Finsupp.lsingle` for the version as a linear map. -/
 def DistribMulActionHom.single (a : α) : M →+[R] α →₀ M :=
   { singleAddHom a with
     map_smul' := fun k m => by
-      simp
-      show singleAddHom a (k • m) = k • singleAddHom a m
-      change Finsupp.single a (k • m) = k • (Finsupp.single a m)
-      -- porting note: because `singleAddHom_apply` is missing
-      simp only [smul_single] }
+      simp }
 #align finsupp.distrib_mul_action_hom.single Finsupp.DistribMulActionHom.single
 
 theorem distribMulActionHom_ext {f g : (α →₀ M) →+[R] N}

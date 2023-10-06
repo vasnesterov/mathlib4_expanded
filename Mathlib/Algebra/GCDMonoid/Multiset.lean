@@ -243,7 +243,7 @@ theorem extract_gcd (s : Multiset α) (hs : s ≠ 0) :
     by_cases h : ∀ x ∈ s, x = (0 : α)
     · use replicate (card s) 1
       simp
-      rw [map_replicate]; rw [eq_replicate]; rw [mul_one]; rw [s.gcd_eq_zero_iff.2 h]; rw [← nsmul_singleton]; rw [← gcd_dedup]; rw [dedup_nsmul (card_pos.2 hs).ne']; rw [dedup_singleton]; rw [gcd_singleton]
+      rw [eq_replicate]; rw [s.gcd_eq_zero_iff.2 h]; rw [← nsmul_singleton]; rw [← gcd_dedup]; rw [dedup_nsmul (card_pos.2 hs).ne']; rw [dedup_singleton]; rw [gcd_singleton]
       exact ⟨⟨rfl, h⟩, normalize_one⟩
     · choose f hf using @gcd_dvd _ _ _ s
       push_neg at h
@@ -252,7 +252,6 @@ theorem extract_gcd (s : Multiset α) (hs : s ≠ 0) :
         conv_lhs => rw [← s.map_id, ← s.pmap_eq_map _ _ fun _ ↦ id]
         congr with (x hx)
         simp
-        rw [id]
         rw [← hf hx]
 #align multiset.extract_gcd Multiset.extract_gcd
 
