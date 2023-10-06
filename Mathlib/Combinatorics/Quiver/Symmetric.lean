@@ -200,7 +200,6 @@ theorem lift_reverse [h : HasInvolutiveReverse V']
     (Symmetrify.lift φ).map (Quiver.reverse f) = Quiver.reverse ((Symmetrify.lift φ).map f) := by
   dsimp [Symmetrify.lift]; cases f
   · simp
-    rfl
   · simp only [reverse_reverse]
     rfl
 #align quiver.symmetrify.lift_reverse Quiver.Symmetrify.lift_reverse
