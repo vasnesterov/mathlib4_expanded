@@ -121,13 +121,10 @@ theorem exists_continuous_snorm_sub_le_of_closed [μ.OuterRegular] (hp : p ≠ �
     refine' ⟨g.continuous.aestronglyMeasurable, _⟩
     have : snorm (v.indicator fun _x => (1 : ℝ)) p μ < ⊤ := by
       refine' (snorm_indicator_const_le _ _).trans_lt _
-      simp only [lt_top_iff_ne_top, hμv.ne, nnnorm_one, ENNReal.coe_one, one_div, one_mul, Ne.def,
-        ENNReal.rpow_eq_top_iff, inv_lt_zero, false_and_iff, or_false_iff, not_and, not_lt,
-        ENNReal.toReal_nonneg, imp_true_iff]
+      simp only [lt_top_iff_ne_top, hμv.ne, nnnorm_one, ENNReal.coe_one, one_div, one_mul, Ne.def, ENNReal.rpow_eq_top_iff, inv_lt_zero, false_and_iff, or_false_iff, not_and, not_lt, ENNReal.toReal_nonneg, imp_true_iff]
     refine' (snorm_mono fun x => _).trans_lt this
     by_cases hx : x ∈ v
-    · simp only [hx, abs_of_nonneg (hg_range x).1, (hg_range x).2, Real.norm_eq_abs,
-        indicator_of_mem, CstarRing.norm_one]
+    · simp only [hx, abs_of_nonneg (hg_range x).1, (hg_range x).2, Real.norm_eq_abs, indicator_of_mem, CstarRing.norm_one]
     · simp only [hgv hx, Pi.zero_apply, Real.norm_eq_abs, abs_zero, abs_nonneg]
   refine'
     ⟨fun x => g x • c, g.continuous.smul continuous_const, (snorm_mono gc_bd).trans _, gc_bd0,

@@ -51,8 +51,7 @@ theorem cmpUsing_eq_lt (a b : α) : (cmpUsing lt a b = Ordering.lt) = lt a b := 
 @[simp]
 theorem cmpUsing_eq_gt [IsStrictOrder α lt] (a b : α) :
     (cmpUsing lt a b = Ordering.gt) = lt b a := by
-  simp only [cmpUsing, Ordering.ite_eq_gt_distrib, if_false_right_eq_and, and_true,
-    if_false_left_eq_and]
+  simp only [cmpUsing, Ordering.ite_eq_gt_distrib, if_false_right_eq_and, and_true, if_false_left_eq_and]
   apply propext
   apply Iff.intro
   · exact fun h => h.2

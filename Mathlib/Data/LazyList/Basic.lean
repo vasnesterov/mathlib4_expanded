@@ -73,8 +73,7 @@ instance : LawfulTraversable LazyList := by
     · simpa only [Equiv.map, Functor.map, listEquivLazyList, Equiv.coe_fn_symm_mk, Equiv.coe_fn_mk,
         LazyList.traverse, Seq.seq, toList, ofList, cons.injEq, true_and]
     · ext; apply ih
-  · simp only [Equiv.map, listEquivLazyList, Equiv.coe_fn_symm_mk, Equiv.coe_fn_mk, comp,
-      Functor.mapConst]
+  · simp only [Equiv.map, listEquivLazyList, Equiv.coe_fn_symm_mk, Equiv.coe_fn_mk, comp, Functor.mapConst]
     induction' xs using LazyList.rec with _ _ _ _ ih
     · rfl
     · simpa only [toList, ofList, LazyList.traverse, Seq.seq, Functor.map, cons.injEq, true_and]

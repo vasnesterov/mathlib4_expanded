@@ -322,8 +322,7 @@ theorem mem_toLieSubmodule (x : L) : x ∈ K.toLieSubmodule ↔ x ∈ K :=
 
 theorem exists_lieIdeal_coe_eq_iff :
     (∃ I : LieIdeal R L, ↑I = K) ↔ ∀ x y : L, y ∈ K → ⁅x, y⁆ ∈ K := by
-  simp only [← coe_to_submodule_eq_iff, LieIdeal.coe_to_lieSubalgebra_to_submodule,
-    Submodule.exists_lieSubmodule_coe_eq_iff L]
+  simp only [← coe_to_submodule_eq_iff, LieIdeal.coe_to_lieSubalgebra_to_submodule, Submodule.exists_lieSubmodule_coe_eq_iff L]
   -- Porting note: was `exact Iff.rfl`
   simp only [mem_coe_submodule]
 #align lie_subalgebra.exists_lie_ideal_coe_eq_iff LieSubalgebra.exists_lieIdeal_coe_eq_iff
@@ -408,8 +407,7 @@ instance : InfSet (LieSubmodule R L M) :=
   ⟨fun S ↦
     { sInf {((s : Submodule R M)) | s ∈ S} with
       lie_mem := fun {x m} h ↦ by
-        simp only [Submodule.mem_carrier, mem_iInter, Submodule.sInf_coe, mem_setOf_eq,
-          forall_apply_eq_imp_iff₂, forall_exists_index, and_imp] at h ⊢
+        simp only [Submodule.mem_carrier, mem_iInter, Submodule.sInf_coe, mem_setOf_eq, forall_apply_eq_imp_iff₂, forall_exists_index, and_imp] at h ⊢
         intro N hN; apply N.lie_mem (h N hN) }⟩
 
 @[simp]
@@ -432,8 +430,7 @@ theorem iInf_coe_toSubmodule {ι} (p : ι → LieSubmodule R L M) :
 theorem sInf_coe (S : Set (LieSubmodule R L M)) : (↑(sInf S) : Set M) = ⋂ s ∈ S, (s : Set M) := by
   rw [← LieSubmodule.coe_toSubmodule]; rw [sInf_coe_toSubmodule]; rw [Submodule.sInf_coe]
   ext m
-  simp only [mem_iInter, mem_setOf_eq, forall_apply_eq_imp_iff₂, exists_imp,
-    and_imp, SetLike.mem_coe, mem_coeSubmodule]
+  simp only [mem_iInter, mem_setOf_eq, forall_apply_eq_imp_iff₂, exists_imp, and_imp, SetLike.mem_coe, mem_coeSubmodule]
 #align lie_submodule.Inf_coe LieSubmodule.sInf_coe
 
 @[simp]
@@ -775,9 +772,7 @@ theorem comap_incl_eq_top : N₂.comap N.incl = ⊤ ↔ N ≤ N₂ := by
 #align lie_submodule.comap_incl_eq_top LieSubmodule.comap_incl_eq_top
 
 theorem comap_incl_eq_bot : N₂.comap N.incl = ⊥ ↔ N ⊓ N₂ = ⊥ := by
-  simp only [← LieSubmodule.coe_toSubmodule_eq_iff, LieSubmodule.coeSubmodule_comap,
-    LieSubmodule.incl_coe, LieSubmodule.bot_coeSubmodule, ← Submodule.disjoint_iff_comap_eq_bot,
-    disjoint_iff, inf_coe_toSubmodule]
+  simp only [← LieSubmodule.coe_toSubmodule_eq_iff, LieSubmodule.coeSubmodule_comap, LieSubmodule.incl_coe, LieSubmodule.bot_coeSubmodule, ← Submodule.disjoint_iff_comap_eq_bot, disjoint_iff, inf_coe_toSubmodule]
 #align lie_submodule.comap_incl_eq_bot LieSubmodule.comap_incl_eq_bot
 
 end LieSubmodule
@@ -808,9 +803,7 @@ def comap : LieIdeal R L :=
   { (J : Submodule R L').comap (f : L →ₗ[R] L') with
     lie_mem := fun {x y} h ↦ by
       suffices ⁅f x, f y⁆ ∈ J by
-        simp only [AddSubsemigroup.mem_carrier, AddSubmonoid.mem_toSubsemigroup,
-          Submodule.mem_toAddSubmonoid, Submodule.mem_comap, LieHom.coe_toLinearMap, LieHom.map_lie,
-          LieSubalgebra.mem_coe_submodule]
+        simp only [AddSubsemigroup.mem_carrier, AddSubmonoid.mem_toSubsemigroup, Submodule.mem_toAddSubmonoid, Submodule.mem_comap, LieHom.coe_toLinearMap, LieHom.map_lie, LieSubalgebra.mem_coe_submodule]
         exact this
       apply J.lie_mem h }
 #align lie_ideal.comap LieIdeal.comap
@@ -939,10 +932,7 @@ theorem isIdealMorphism_def : f.IsIdealMorphism ↔ (f.idealRange : LieSubalgebr
 
 theorem isIdealMorphism_iff : f.IsIdealMorphism ↔ ∀ (x : L') (y : L), ∃ z : L, ⁅x, f y⁆ = f z := by
   simp only [isIdealMorphism_def, idealRange_eq_lieSpan_range, ←
-    LieSubalgebra.coe_to_submodule_eq_iff, ← f.range.coe_to_submodule,
-    LieIdeal.coe_to_lieSubalgebra_to_submodule, LieSubmodule.coe_lieSpan_submodule_eq_iff,
-    LieSubalgebra.mem_coe_submodule, mem_range, exists_imp,
-    Submodule.exists_lieSubmodule_coe_eq_iff]
+    LieSubalgebra.coe_to_submodule_eq_iff, ← f.range.coe_to_submodule, LieIdeal.coe_to_lieSubalgebra_to_submodule, LieSubmodule.coe_lieSpan_submodule_eq_iff, LieSubalgebra.mem_coe_submodule, mem_range, exists_imp, Submodule.exists_lieSubmodule_coe_eq_iff]
   constructor
   · intro h x y; obtain ⟨z, hz⟩ := h x (f y) y rfl; use z; exact hz.symm
   · intro h x y z hz; obtain ⟨w, hw⟩ := h x z; use w; rw [← hw]; rw [hz]
@@ -1037,8 +1027,7 @@ theorem coe_map_of_surjective (h : Function.Surjective f) :
         have hy' : ∃ x : L, x ∈ I ∧ f x = y := by simpa [hy]
         obtain ⟨z₂, hz₂, rfl⟩ := hy'
         obtain ⟨z₁, rfl⟩ := h x
-        simp only [LieHom.coe_toLinearMap, SetLike.mem_coe, Set.mem_image,
-          LieSubmodule.mem_coeSubmodule, Submodule.mem_carrier, Submodule.map_coe]
+        simp only [LieHom.coe_toLinearMap, SetLike.mem_coe, Set.mem_image, LieSubmodule.mem_coeSubmodule, Submodule.mem_carrier, Submodule.map_coe]
         use ⁅z₁, z₂⁆
         exact ⟨I.lie_mem hz₂, f.map_lie z₁ z₂⟩ }
   erw [LieSubmodule.coe_lieSpan_submodule_eq_iff]

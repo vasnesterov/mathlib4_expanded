@@ -108,27 +108,21 @@ def preservesEqualizersOfPreservesPullbacksAndBinaryProducts [HasBinaryProducts 
           · exact c.π.app WalkingParallelPair.zero
           apply (mapIsLimitOfPreservesOfIsLimit G _ _ (prodIsProd _ _)).hom_ext
           rintro (_ | _)
-          · simp only [Category.assoc, ← G.map_comp, prod.lift_fst, BinaryFan.π_app_left,
-              BinaryFan.mk_fst]
-          · simp only [BinaryFan.π_app_right, BinaryFan.mk_snd, Category.assoc, ← G.map_comp,
-              prod.lift_snd]
+          · simp only [Category.assoc, ← G.map_comp, prod.lift_fst, BinaryFan.π_app_left, BinaryFan.mk_fst]
+          · simp only [BinaryFan.π_app_right, BinaryFan.mk_snd, Category.assoc, ← G.map_comp, prod.lift_snd]
             exact
               (c.π.naturality WalkingParallelPairHom.left).symm.trans
                 (c.π.naturality WalkingParallelPairHom.right)
         fac := fun c j => by
           rcases j with (_ | _) <;>
-            simp only [Category.comp_id, PreservesPullback.iso_inv_fst, Cone.ofFork_π, G.map_comp,
-              PreservesPullback.iso_inv_fst_assoc, Functor.mapCone_π_app, eqToHom_refl,
-              Category.assoc, Fork.ofι_π_app, pullback.lift_fst, pullback.lift_fst_assoc]
+            simp only [Category.comp_id, PreservesPullback.iso_inv_fst, Cone.ofFork_π, G.map_comp, PreservesPullback.iso_inv_fst_assoc, Functor.mapCone_π_app, eqToHom_refl, Category.assoc, Fork.ofι_π_app, pullback.lift_fst, pullback.lift_fst_assoc]
           exact (c.π.naturality WalkingParallelPairHom.left).symm.trans (Category.id_comp _)
         uniq := fun s m h => by
           rw [Iso.eq_comp_inv]
           have := h WalkingParallelPair.zero
           dsimp [equalizerCone] at this
           ext <;>
-            simp only [PreservesPullback.iso_hom_snd, Category.assoc,
-              PreservesPullback.iso_hom_fst, pullback.lift_fst, pullback.lift_snd,
-              Category.comp_id, ← pullbackFst_eq_pullback_snd, ← this] }⟩
+            simp only [PreservesPullback.iso_hom_snd, Category.assoc, PreservesPullback.iso_hom_fst, pullback.lift_fst, pullback.lift_snd, Category.comp_id, ← pullbackFst_eq_pullback_snd, ← this] }⟩
 #align category_theory.limits.preserves_equalizers_of_preserves_pullbacks_and_binary_products CategoryTheory.Limits.preservesEqualizersOfPreservesPullbacksAndBinaryProducts
 
 -- We hide the "implementation details" inside a namespace
@@ -219,17 +213,14 @@ def preservesCoequalizersOfPreservesPushoutsAndBinaryCoproducts [HasBinaryCoprod
                 (c.ι.naturality WalkingParallelPairHom.right).symm
         fac := fun c j => by
           rcases j with (_ | _) <;>
-            simp only [Functor.mapCocone_ι_app, Cocone.ofCofork_ι, Category.id_comp,
-              eqToHom_refl, Category.assoc, Functor.map_comp, Cofork.ofπ_ι_app, pushout.inl_desc,
-              PreservesPushout.inl_iso_inv_assoc]
+            simp only [Functor.mapCocone_ι_app, Cocone.ofCofork_ι, Category.id_comp, eqToHom_refl, Category.assoc, Functor.map_comp, Cofork.ofπ_ι_app, pushout.inl_desc, PreservesPushout.inl_iso_inv_assoc]
           exact (c.ι.naturality WalkingParallelPairHom.left).trans (Category.comp_id _)
         uniq := fun s m h => by
           rw [Iso.eq_inv_comp]
           have := h WalkingParallelPair.one
           dsimp [coequalizerCocone] at this
           ext <;>
-            simp only [PreservesPushout.inl_iso_hom_assoc, Category.id_comp, pushout.inl_desc,
-              pushout.inr_desc, PreservesPushout.inr_iso_hom_assoc, ← pushoutInl_eq_pushout_inr, ←
+            simp only [PreservesPushout.inl_iso_hom_assoc, Category.id_comp, pushout.inl_desc, pushout.inr_desc, PreservesPushout.inr_iso_hom_assoc, ← pushoutInl_eq_pushout_inr, ←
               this] }⟩
 #align category_theory.limits.preserves_coequalizers_of_preserves_pushouts_and_binary_coproducts CategoryTheory.Limits.preservesCoequalizersOfPreservesPushoutsAndBinaryCoproducts
 

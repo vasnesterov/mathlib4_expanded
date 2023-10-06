@@ -427,15 +427,10 @@ theorem adjunction_unit_app_app_top (X : Scheme) :
   -- Porting Notes: Slightly changed some rewrites.
   -- Originally:
   --  rw [← is_iso.eq_comp_inv] at this
-  --  simp only [Γ_Spec.LocallyRingedSpace_adjunction_counit, nat_trans.op_app, category.id_comp,
-  --    Γ_Spec.adjunction_counit_app] at this
+  --  simp only [Γ_Spec.LocallyRingedSpace_adjunction_counit, nat_trans.op_app, category.id_comp, --    Γ_Spec.adjunction_counit_app] at this
   --  rw [← op_inv, nat_iso.inv_inv_app, quiver.hom.op_inj.eq_iff] at this
   rw [← IsIso.eq_comp_inv] at this
-  simp only [adjunction_counit_app, locallyRingedSpaceAdjunction_counit, NatIso.op_inv,
-    NatTrans.op_app, unop_op, Functor.id_obj, Functor.comp_obj, Functor.rightOp_obj,
-    Spec.toLocallyRingedSpace_obj, Γ_obj, Spec.locallyRingedSpaceObj_toSheafedSpace,
-    Spec.sheafedSpaceObj_carrier, Spec.sheafedSpaceObj_presheaf,
-    SpecΓIdentity_inv_app, Category.id_comp] at this
+  simp only [adjunction_counit_app, locallyRingedSpaceAdjunction_counit, NatIso.op_inv, NatTrans.op_app, unop_op, Functor.id_obj, Functor.comp_obj, Functor.rightOp_obj, Spec.toLocallyRingedSpace_obj, Γ_obj, Spec.locallyRingedSpaceObj_toSheafedSpace, Spec.sheafedSpaceObj_carrier, Spec.sheafedSpaceObj_presheaf, SpecΓIdentity_inv_app, Category.id_comp] at this
   rw [← op_inv] at this; rw [Quiver.Hom.op_inj.eq_iff] at this
   -- Note: changed from `rw` to `simp_rw` to improve performance
   simp_rw [SpecΓIdentity_hom_app]

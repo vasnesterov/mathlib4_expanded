@@ -117,8 +117,7 @@ theorem preperfect_iff_perfect_closure [T1Space α] : Preperfect C ↔ Perfect (
   rw [accPt_iff_frequently] at *
   have : ∀ y, y ≠ x ∧ y ∈ closure C → ∃ᶠ z in 𝓝 y, z ≠ x ∧ z ∈ C := by
     rintro y ⟨hyx, yC⟩
-    simp only [← mem_compl_singleton_iff, and_comm, ← frequently_nhdsWithin_iff,
-      hyx.nhdsWithin_compl_singleton, ← mem_closure_iff_frequently]
+    simp only [← mem_compl_singleton_iff, and_comm, ← frequently_nhdsWithin_iff, hyx.nhdsWithin_compl_singleton, ← mem_closure_iff_frequently]
     exact yC
   rw [← frequently_frequently_nhds]
   exact H.mono this

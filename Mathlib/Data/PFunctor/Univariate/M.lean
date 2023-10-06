@@ -593,8 +593,7 @@ theorem ext_aux [Inhabited (M F)] [DecidableEq F.A] {n : ℕ} (x y z : M F) (hx 
     induction y using PFunctor.M.casesOn'
     simp only [iselect_nil] at hrec
     subst hrec
-    simp only [approx_mk, true_and_iff, eq_self_iff_true, heq_iff_eq, zero_eq, CofixA.intro.injEq,
-                heq_eq_eq, eq_iff_true_of_subsingleton, and_self]
+    simp only [approx_mk, true_and_iff, eq_self_iff_true, heq_iff_eq, zero_eq, CofixA.intro.injEq, heq_eq_eq, eq_iff_true_of_subsingleton, and_self]
   · cases hx
     cases hy
     induction x using PFunctor.M.casesOn'

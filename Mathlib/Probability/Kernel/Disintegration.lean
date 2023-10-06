@@ -83,8 +83,7 @@ theorem set_lintegral_condKernelReal_Iic (ρ : Measure (α × ℝ)) [IsFiniteMea
 
 theorem set_lintegral_condKernelReal_univ (ρ : Measure (α × ℝ)) {s : Set α} (hs : MeasurableSet s) :
     ∫⁻ a in s, condKernelReal ρ a univ ∂ρ.fst = ρ (s ×ˢ univ) := by
-  simp only [measure_univ, lintegral_const, Measure.restrict_apply, MeasurableSet.univ, univ_inter,
-    one_mul, Measure.fst_apply hs, ← prod_univ]
+  simp only [measure_univ, lintegral_const, Measure.restrict_apply, MeasurableSet.univ, univ_inter, one_mul, Measure.fst_apply hs, ← prod_univ]
 #align probability_theory.set_lintegral_cond_kernel_real_univ ProbabilityTheory.set_lintegral_condKernelReal_univ
 
 theorem lintegral_condKernelReal_univ (ρ : Measure (α × ℝ)) :
@@ -137,8 +136,7 @@ theorem lintegral_condKernelReal_mem {s : Set (α × ℝ)} (hs : MeasurableSet s
   -- sets form a π-system that generates the product σ-algebra, hence we can get the same equality
   -- for any measurable set `s`.
   apply MeasurableSpace.induction_on_inter generateFrom_prod.symm isPiSystem_prod _ _ _ _ hs
-  · simp only [mem_empty_iff_false, setOf_false, measure_empty, lintegral_const,
-      zero_mul]
+  · simp only [mem_empty_iff_false, setOf_false, measure_empty, lintegral_const, zero_mul]
   · intro t ht
     rw [mem_image2] at ht
     obtain ⟨t₁, t₂, ht₁, ht₂, rfl⟩ := ht
@@ -146,8 +144,7 @@ theorem lintegral_condKernelReal_mem {s : Set (α × ℝ)} (hs : MeasurableSet s
       intro a ha
       simp only [ha, prod_mk_mem_set_prod_eq, true_and_iff, setOf_mem_eq]
     cases' eq_empty_or_nonempty t₂ with h h
-    · simp only [h, prod_empty, mem_empty_iff_false, setOf_false, measure_empty, lintegral_const,
-        zero_mul]
+    · simp only [h, prod_empty, mem_empty_iff_false, setOf_false, measure_empty, lintegral_const, zero_mul]
     rw [← lintegral_add_compl _ ht₁]
     have h_eq1 : ∫⁻ a in t₁, condKernelReal ρ a {x : ℝ | (a, x) ∈ t₁ ×ˢ t₂} ∂ρ.fst =
         ∫⁻ a in t₁, condKernelReal ρ a t₂ ∂ρ.fst := by
@@ -294,8 +291,7 @@ theorem exists_cond_kernel (γ : Type*) [MeasurableSpace γ] :
     swap; · exact measurable_snd hf.measurableSet_range.compl
     convert measure_empty (α := α × Ω)
     ext1 x
-    simp only [mem_compl_iff, mem_range, preimage_setOf_eq, Prod_map, mem_setOf_eq,
-      mem_empty_iff_false, iff_false_iff, Classical.not_not, exists_apply_eq_apply]
+    simp only [mem_compl_iff, mem_range, preimage_setOf_eq, Prod_map, mem_setOf_eq, mem_empty_iff_false, iff_false_iff, Classical.not_not, exists_apply_eq_apply]
   classical
   obtain ⟨x₀, hx₀⟩ : ∃ x, x ∈ range f := range_nonempty _
   let η' :=
@@ -491,8 +487,7 @@ theorem eq_condKernel_of_measure_eq_compProd' (κ : kernel α Ω) [IsSFiniteKern
     (kernel.measurable_coe κ hs) (kernel.measurable_coe ρ.condKernel hs) _
   intros t ht _
   conv_rhs => rw [set_lintegral_condKernel_eq_measure_prod _ ht hs, hκ]
-  simp only [kernel.compProd_apply _ _ _ (ht.prod hs), kernel.prodMkLeft_apply, Set.mem_prod,
-    kernel.lintegral_const, ← lintegral_indicator _ ht]
+  simp only [kernel.compProd_apply _ _ _ (ht.prod hs), kernel.prodMkLeft_apply, Set.mem_prod, kernel.lintegral_const, ← lintegral_indicator _ ht]
   congr; ext x
   by_cases hx : x ∈ t
   all_goals simp [hx]
@@ -573,9 +568,7 @@ theorem eq_condKernel_of_measure_eq_compProd (κ : kernel α Ω) [IsFiniteKernel
     rw [Measure.map_apply hf.measurable]
     · rfl
     · exact measurable_prod_mk_left hs
-  simp only [hprod, kernel.compProd_apply _ _ _ hs, kernel.prodMkLeft_apply,
-    kernel.map_apply _ hf.measurable, hinteq, Set.mem_preimage, Prod_map, id_eq,
-    kernel.lintegral_const]
+  simp only [hprod, kernel.compProd_apply _ _ _ hs, kernel.prodMkLeft_apply, kernel.map_apply _ hf.measurable, hinteq, Set.mem_preimage, Prod_map, id_eq, kernel.lintegral_const]
   rw [Measure.map_apply (measurable_id.prod_map hf.measurable) hs]; rw [← lintegral_condKernel_mem]
   · rfl
   · exact measurable_id.prod_map hf.measurable hs

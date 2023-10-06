@@ -122,13 +122,11 @@ def ofIso {X Y : SimplicialObject.Augmented C} (e : X ≅ Y) (ed : ExtraDegenera
   s_comp_δ n i := by
     have h := ed.s_comp_δ n i
     dsimp at h ⊢
-    simp only [assoc, ← SimplicialObject.δ_naturality, reassoc_of% h,
-      ← SimplicialObject.δ_naturality_assoc]
+    simp only [assoc, ← SimplicialObject.δ_naturality, reassoc_of% h, ← SimplicialObject.δ_naturality_assoc]
   s_comp_σ n i := by
     have h := ed.s_comp_σ n i
     dsimp at h ⊢
-    simp only [assoc, ← SimplicialObject.σ_naturality, reassoc_of% h,
-      ← SimplicialObject.σ_naturality_assoc]
+    simp only [assoc, ← SimplicialObject.σ_naturality, reassoc_of% h, ← SimplicialObject.σ_naturality_assoc]
 #align simplicial_object.augmented.extra_degeneracy.of_iso SimplicialObject.Augmented.ExtraDegeneracy.ofIso
 
 end ExtraDegeneracy
@@ -218,8 +216,7 @@ protected noncomputable def extraDegeneracy (Δ : SimplexCategory) :
     · subst h
       simp only [Fin.succ_succAbove_zero, shiftFun_0]
     · obtain ⟨_, rfl⟩ := Fin.eq_succ_of_ne_zero <| h
-      simp only [Fin.succ_succAbove_succ, shiftFun_succ, Function.comp_apply,
-        Fin.succAboveEmb_apply]
+      simp only [Fin.succ_succAbove_succ, shiftFun_succ, Function.comp_apply, Fin.succAboveEmb_apply]
   s_comp_σ n i := by
     ext1 φ
     apply SimplexCategory.Hom.ext
@@ -399,22 +396,13 @@ noncomputable def homotopyEquiv {C : Type*} [Category C] [Preadditive C] [HasZer
         rcases i with _|i
         · rw [Homotopy.prevD_chainComplex, Homotopy.dNext_zero_chainComplex, zero_add]
           dsimp [ChainComplex.fromSingle₀Equiv, ChainComplex.toSingle₀Equiv]
-          simp only [comp_id, ite_true, zero_add, ComplexShape.down_Rel, not_true,
-            AlternatingFaceMapComplex.obj_d_eq, Preadditive.neg_comp]
+          simp only [comp_id, ite_true, zero_add, ComplexShape.down_Rel, not_true, AlternatingFaceMapComplex.obj_d_eq, Preadditive.neg_comp]
           erw [Fin.sum_univ_two]
-          simp only [Fin.val_zero, pow_zero, one_smul, Fin.val_one, pow_one, neg_smul,
-            Preadditive.comp_add, s_comp_δ₀, drop_obj, Preadditive.comp_neg, neg_add_rev,
-            neg_neg, neg_add_cancel_right, s₀_comp_δ₁]
+          simp only [Fin.val_zero, pow_zero, one_smul, Fin.val_one, pow_one, neg_smul, Preadditive.comp_add, s_comp_δ₀, drop_obj, Preadditive.comp_neg, neg_add_rev, neg_neg, neg_add_cancel_right, s₀_comp_δ₁]
           rfl
         · rw [Homotopy.prevD_chainComplex, Homotopy.dNext_succ_chainComplex]
           dsimp [ChainComplex.toSingle₀Equiv, ChainComplex.fromSingle₀Equiv]
-          simp only [comp_zero, ComplexShape.down_Rel, not_true, Preadditive.neg_comp,
-            AlternatingFaceMapComplex.obj_d_eq, comp_id, ite_true, Preadditive.comp_neg,
-            @Fin.sum_univ_succ _ _ (i + 2), Fin.val_zero, pow_zero, one_smul, Fin.val_succ,
-            Preadditive.comp_add, drop_obj, s_comp_δ₀, Preadditive.sum_comp,
-            Preadditive.zsmul_comp, Preadditive.comp_sum, Preadditive.comp_zsmul,
-            zsmul_neg, ed.s_comp_δ, pow_add, pow_one, mul_neg, mul_one, neg_zsmul, neg_neg,
-            neg_add_cancel_comm_assoc, add_left_neg] }
+          simp only [comp_zero, ComplexShape.down_Rel, not_true, Preadditive.neg_comp, AlternatingFaceMapComplex.obj_d_eq, comp_id, ite_true, Preadditive.comp_neg, @Fin.sum_univ_succ _ _ (i + 2), Fin.val_zero, pow_zero, one_smul, Fin.val_succ, Preadditive.comp_add, drop_obj, s_comp_δ₀, Preadditive.sum_comp, Preadditive.zsmul_comp, Preadditive.comp_sum, Preadditive.comp_zsmul, zsmul_neg, ed.s_comp_δ, pow_add, pow_one, mul_neg, mul_one, neg_zsmul, neg_neg, neg_add_cancel_comm_assoc, add_left_neg] }
 #align simplicial_object.augmented.extra_degeneracy.homotopy_equiv SimplicialObject.Augmented.ExtraDegeneracy.homotopyEquiv
 
 end ExtraDegeneracy

@@ -105,8 +105,7 @@ theorem exists_int_int_abs_mul_sub_le (ξ : ℝ) {n : ℕ} (n_pos : 0 < n) :
     have hm₀ : 0 < m := by
       have hf₀ : f 0 = 0 := by
         -- Porting note: was
-        -- simp only [floor_eq_zero_iff, algebraMap.coe_zero, mul_zero, fract_zero,
-        --   zero_mul, Set.left_mem_Ico, zero_lt_one]
+        -- simp only [floor_eq_zero_iff, algebraMap.coe_zero, mul_zero, fract_zero, --   zero_mul, Set.left_mem_Ico, zero_lt_one]
         simp only [cast_zero, mul_zero, fract_zero, zero_mul, floor_zero]
       refine' Ne.lt_of_le (fun h => n_pos.ne _) (mem_Icc.mp hm).1
       exact_mod_cast hf₀.symm.trans (h.symm ▸ hf : f 0 = n)
@@ -366,8 +365,7 @@ theorem convergent_of_zero (n : ℕ) : convergent 0 n = 0 := by
 theorem convergent_of_int {ξ : ℤ} (n : ℕ) : convergent ξ n = ξ := by
   cases n
   · simp only [Nat.zero_eq, convergent_zero, floor_intCast]
-  · simp only [convergent_succ, floor_intCast, fract_intCast, convergent_of_zero, add_zero,
-      inv_zero]
+  · simp only [convergent_succ, floor_intCast, fract_intCast, convergent_of_zero, add_zero, inv_zero]
 #align real.convergent_of_int Real.convergent_of_int
 
 /-!
@@ -382,8 +380,7 @@ agrees with `ξ.convergent n`. -/
 theorem continued_fraction_convergent_eq_convergent (ξ : ℝ) (n : ℕ) :
     (GeneralizedContinuedFraction.of ξ).convergents n = ξ.convergent n := by
   induction' n with n ih generalizing ξ
-  · simp only [Nat.zero_eq, zeroth_convergent_eq_h, of_h_eq_floor, convergent_zero,
-      Rat.cast_coe_int]
+  · simp only [Nat.zero_eq, zeroth_convergent_eq_h, of_h_eq_floor, convergent_zero, Rat.cast_coe_int]
   · rw [convergents_succ, ih (fract ξ)⁻¹, convergent_succ, one_div]
     norm_cast
 #align real.continued_fraction_convergent_eq_convergent Real.continued_fraction_convergent_eq_convergent
@@ -535,8 +532,7 @@ theorem exists_rat_eq_convergent' {v : ℕ} (h' : ContfracLegendre.Ass ξ u v) :
   induction v using Nat.strong_induction_on generalizing ξ u with | h v ih => ?_
   rcases lt_trichotomy v 1 with (ht | rfl | ht)
   · replace h := h.2.2
-    simp only [Nat.lt_one_iff.mp ht, Nat.cast_zero, div_zero, tsub_zero, zero_mul,
-      cast_zero, inv_zero] at h
+    simp only [Nat.lt_one_iff.mp ht, Nat.cast_zero, div_zero, tsub_zero, zero_mul, cast_zero, inv_zero] at h
     exact False.elim (lt_irrefl _ <| (abs_nonneg ξ).trans_lt h)
   · rw [Nat.cast_one, div_one]
     obtain ⟨_, h₁, h₂⟩ := h

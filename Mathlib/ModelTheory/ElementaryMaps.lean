@@ -123,8 +123,7 @@ theorem injective (φ : M ↪ₑ[L] N) : Function.Injective φ := by
   have h :=
     φ.map_formula ((var 0).equal (var 1) : L.Formula (Fin 2)) fun i => if i = 0 then x else y
   rw [Formula.realize_equal] at h; rw [Formula.realize_equal] at h
-  simp only [Nat.one_ne_zero, Term.realize, Fin.one_eq_zero_iff, if_true, eq_self_iff_true,
-    Function.comp_apply, if_false] at h
+  simp only [Nat.one_ne_zero, Term.realize, Fin.one_eq_zero_iff, if_true, eq_self_iff_true, Function.comp_apply, if_false] at h
   exact h.1
 #align first_order.language.elementary_embedding.injective FirstOrder.Language.ElementaryEmbedding.injective
 

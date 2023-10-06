@@ -685,8 +685,7 @@ def mkCLM [RingHomIsometric σ] (A : (D → E) → F → G)
         (schwartz_withSeminorms 𝕜' F G) _ fun n => _
     rcases hbound n with ⟨s, C, hC, h⟩
     refine' ⟨s, ⟨C, hC⟩, fun f => _⟩
-    simp only [Seminorm.comp_apply, Seminorm.smul_apply, NNReal.smul_def, Algebra.id.smul_eq_mul,
-      Subtype.coe_mk]
+    simp only [Seminorm.comp_apply, Seminorm.smul_apply, NNReal.smul_def, Algebra.id.smul_eq_mul, Subtype.coe_mk]
     exact (mkLM A hadd hsmul hsmooth hbound f).seminorm_le_bound 𝕜' n.1 n.2 (by positivity) (h f)
   toLinearMap := mkLM A hadd hsmul hsmooth hbound
 #align schwartz_map.mk_clm SchwartzMap.mkCLM
@@ -731,11 +730,9 @@ def bilinLeftCLM (B : E →L[ℝ] F →L[ℝ] G) {g : D → F} (hg : g.HasTemper
     mkCLM
     (fun f x => B (f x) (g x))
     (fun _ _ _ => by
-      simp only [map_add, add_left_inj, Pi.add_apply, eq_self_iff_true,
-        ContinuousLinearMap.add_apply])
+      simp only [map_add, add_left_inj, Pi.add_apply, eq_self_iff_true, ContinuousLinearMap.add_apply])
     (fun _ _ _ => by
-      simp only [smul_apply, map_smul, ContinuousLinearMap.coe_smul', Pi.smul_apply,
-        RingHom.id_apply])
+      simp only [smul_apply, map_smul, ContinuousLinearMap.coe_smul', Pi.smul_apply, RingHom.id_apply])
     (fun f => (B.isBoundedBilinearMap.contDiff.restrict_scalars ℝ).comp (f.smooth'.prod hg.1))
     (by
       -- Porting note: rewrite this proof with `rel_congr`
@@ -1011,9 +1008,7 @@ def toBoundedContinuousFunctionCLM : 𝓢(E, F) →L[𝕜] E →ᵇ F :=
           (norm_withSeminorms 𝕜 (E →ᵇ F)) _ fun _ => ⟨{0}, 1, fun f => _⟩
       -- Porting note: Lean failed to find this instance
       have : MulAction NNReal (Seminorm 𝕜 𝓢(E, F)) := Seminorm.instDistribMulAction.toMulAction
-      simp only [Seminorm.comp_apply, coe_normSeminorm, Finset.sup_singleton,
-        schwartzSeminormFamily_apply_zero, Seminorm.smul_apply, one_smul, ge_iff_le,
-        BoundedContinuousFunction.norm_le (map_nonneg _ _)]
+      simp only [Seminorm.comp_apply, coe_normSeminorm, Finset.sup_singleton, schwartzSeminormFamily_apply_zero, Seminorm.smul_apply, one_smul, ge_iff_le, BoundedContinuousFunction.norm_le (map_nonneg _ _)]
       intro x
       exact norm_le_seminorm 𝕜 _ _ }
 #align schwartz_map.to_bounded_continuous_function_clm SchwartzMap.toBoundedContinuousFunctionCLM

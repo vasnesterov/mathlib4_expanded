@@ -303,25 +303,19 @@ theorem tendsto_integral_exp_smul_cocompact (μ : Measure V) [μ.IsAddHaarMeasur
       map_add' := by
         intro t s
         ext1 v
-        simp only [ContinuousLinearMap.coe_comp', Function.comp_apply,
-          ContinuousLinearMap.add_apply]
+        simp only [ContinuousLinearMap.coe_comp', Function.comp_apply, ContinuousLinearMap.add_apply]
       map_smul' := by
         intro x f
         ext1 v
-        simp only [RingHom.id_apply, ContinuousLinearMap.coe_comp', Function.comp_apply,
-          ContinuousLinearMap.smul_apply]
+        simp only [RingHom.id_apply, ContinuousLinearMap.coe_comp', Function.comp_apply, ContinuousLinearMap.smul_apply]
       left_inv := by
         intro w
         ext1 v
-        simp only [ContinuousLinearMap.coe_comp',
-          ContinuousLinearEquiv.coe_coe, Function.comp_apply,
-          ContinuousLinearEquiv.symm_apply_apply]
+        simp only [ContinuousLinearMap.coe_comp', ContinuousLinearEquiv.coe_coe, Function.comp_apply, ContinuousLinearEquiv.symm_apply_apply]
       right_inv := by
         intro w
         ext1 v
-        simp only [ContinuousLinearMap.coe_comp',
-          ContinuousLinearEquiv.coe_coe, Function.comp_apply,
-          ContinuousLinearEquiv.apply_symm_apply] }
+        simp only [ContinuousLinearMap.coe_comp', ContinuousLinearEquiv.coe_coe, Function.comp_apply, ContinuousLinearEquiv.apply_symm_apply] }
   let Adual : (V →L[ℝ] ℝ) ≃L[ℝ] V' →L[ℝ] ℝ :=
     { Adualₗ with
       continuous_toFun := Adualₗ.toLinearMap.continuous_of_finiteDimensional

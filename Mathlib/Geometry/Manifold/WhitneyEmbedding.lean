@@ -93,8 +93,7 @@ theorem comp_embeddingPiTangent_mfderiv (x : M) (hx : x ∈ s) :
   convert hasMFDerivAt_unique this _
   refine' (hasMFDerivAt_extChartAt I (f.mem_chartAt_ind_source x hx)).congr_of_eventuallyEq _
   refine' (f.eventuallyEq_one x hx).mono fun y hy => _
-  simp only [embeddingPiTangent_coe, ContinuousLinearMap.coe_comp', (· ∘ ·),
-    ContinuousLinearMap.coe_fst', ContinuousLinearMap.proj_apply]
+  simp only [embeddingPiTangent_coe, ContinuousLinearMap.coe_comp', (· ∘ ·), ContinuousLinearMap.coe_fst', ContinuousLinearMap.proj_apply]
   rw [hy]; rw [Pi.one_apply]; rw [one_smul]
 #align smooth_bump_covering.comp_embedding_pi_tangent_mfderiv SmoothBumpCovering.comp_embeddingPiTangent_mfderiv
 

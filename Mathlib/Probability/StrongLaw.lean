@@ -164,8 +164,7 @@ theorem moment_truncation_eq_intervalIntegral_of_nonneg (hf : AEStronglyMeasurab
     · exact ((measurable_id.indicator M).pow_const n).aestronglyMeasurable
   · rw [← integral_map (f := fun z => _ ^ n) hf.aemeasurable, intervalIntegral.integral_of_ge hA.le,
       ← integral_indicator M']
-    · simp only [Set.Ioc_eq_empty_of_le hA.le, zero_pow' _ hn, Set.indicator_empty, integral_zero,
-        zero_eq_neg]
+    · simp only [Set.Ioc_eq_empty_of_le hA.le, zero_pow' _ hn, Set.indicator_empty, integral_zero, zero_eq_neg]
       apply integral_eq_zero_of_ae
       have : ∀ᵐ x ∂Measure.map f μ, (0 : ℝ) ≤ x :=
         (ae_map_iff hf.aemeasurable measurableSet_Ici).2 (eventually_of_forall h'f)
@@ -288,8 +287,7 @@ theorem sum_prob_mem_Ioc_le {X : Ω → ℝ} (hint : Integrable X) (hnonneg : 0 
       _ ≤ 𝔼[X] + 1 := by
         refine' add_le_add le_rfl _
         rw [intervalIntegral.integral_of_le (Nat.cast_nonneg _)]
-        simp only [integral_const, Measure.restrict_apply', measurableSet_Ioc, Set.univ_inter,
-          Algebra.id.smul_eq_mul, mul_one]
+        simp only [integral_const, Measure.restrict_apply', measurableSet_Ioc, Set.univ_inter, Algebra.id.smul_eq_mul, mul_one]
         rw [← ENNReal.one_toReal]
         exact ENNReal.toReal_mono ENNReal.one_ne_top prob_le_one
   have B : ∀ a b, ℙ {ω | X ω ∈ Set.Ioc a b} = ENNReal.ofReal (∫ _ in Set.Ioc a b, (1 : ℝ) ∂ρ) := by
@@ -301,8 +299,7 @@ theorem sum_prob_mem_Ioc_le {X : Ω → ℝ} (hint : Integrable X) (hnonneg : 0 
         ∑ j in range K, ENNReal.ofReal (∫ _ in Set.Ioc (j : ℝ) N, (1 : ℝ) ∂ρ) := by simp_rw [B]
     _ = ENNReal.ofReal (∑ j in range K, ∫ _ in Set.Ioc (j : ℝ) N, (1 : ℝ) ∂ρ) := by
       rw [ENNReal.ofReal_sum_of_nonneg]
-      simp only [integral_const, Algebra.id.smul_eq_mul, mul_one, ENNReal.toReal_nonneg,
-        imp_true_iff]
+      simp only [integral_const, Algebra.id.smul_eq_mul, mul_one, ENNReal.toReal_nonneg, imp_true_iff]
     _ = ENNReal.ofReal (∑ j in range K, ∫ _ in (j : ℝ)..N, (1 : ℝ) ∂ρ) := by
       congr 1
       refine' sum_congr rfl fun j hj => _
@@ -472,8 +469,7 @@ theorem strong_law_aux1 {c : ℝ} (c_one : 1 < c) {ε : ℝ} (εpos : 0 < ε) : 
       _ ≤ ∑ j in range (u (N - 1)), c ^ 5 * (c - 1)⁻¹ ^ 3 / ↑j ^ 2 * Var[Y j] := by
         apply sum_le_sum fun j hj => ?_
         rcases @eq_zero_or_pos _ _ j with (rfl | hj)
-        · simp only [Nat.cast_zero, zero_pow', Ne.def, bit0_eq_zero, Nat.one_ne_zero,
-            not_false_iff, div_zero, zero_mul]
+        · simp only [Nat.cast_zero, zero_pow', Ne.def, bit0_eq_zero, Nat.one_ne_zero, not_false_iff, div_zero, zero_mul]
           simp only [Nat.cast_zero, truncation_zero, variance_zero, mul_zero, le_rfl]
         apply mul_le_mul_of_nonneg_right _ (variance_nonneg _ _)
         convert sum_div_nat_floor_pow_sq_le_div_sq N (Nat.cast_pos.2 hj) c_one using 2
@@ -661,8 +657,7 @@ theorem strong_law_ae_real (X : ℕ → Ω → ℝ) (hint : Integrable (X 0))
   filter_upwards [A, B] with ω hωpos hωneg
   convert hωpos.sub hωneg using 1
   · simp only [← sub_div, ← sum_sub_distrib, max_zero_sub_max_neg_zero_eq_self, Function.comp_apply]
-  · simp only [← integral_sub hint.pos_part hint.neg_part, max_zero_sub_max_neg_zero_eq_self,
-      Function.comp_apply]
+  · simp only [← integral_sub hint.pos_part hint.neg_part, max_zero_sub_max_neg_zero_eq_self, Function.comp_apply]
 #align probability_theory.strong_law_ae ProbabilityTheory.strong_law_ae_real
 
 end StrongLawAeReal
@@ -688,8 +683,7 @@ lemma strong_law_ae_simpleFunc_comp (X : ℕ → Ω → E) (h' : Measurable (X 0
   refine SimpleFunc.induction (P := fun ψ ↦ ∀ᵐ ω,
     Tendsto (fun n : ℕ ↦ (n : ℝ) ⁻¹ • (∑ i in range n, ψ (X i ω))) atTop (𝓝 𝔼[ψ ∘ (X 0)])) ?_ ?_ φ
   · intro c s hs
-    simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const,
-      SimpleFunc.coe_zero, piecewise_eq_indicator, Function.comp_apply]
+    simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const, SimpleFunc.coe_zero, piecewise_eq_indicator, Function.comp_apply]
     let F : E → ℝ := indicator s 1
     have F_meas : Measurable F := (measurable_indicator_const_iff 1).2 hs
     let Y : ℕ → Ω → ℝ := fun n ↦ F ∘ (X n)
@@ -801,8 +795,7 @@ lemma strong_law_ae_of_measurable
       norm_add₃_le _ _ _
   _ ≤ (∑ i in Finset.range n, ‖X i ω - Y k i ω‖) / n + δ + δ := by
       gcongr
-      simp only [Function.comp_apply, norm_smul, norm_inv, IsROrC.norm_natCast,
-        div_eq_inv_mul, inv_pos, Nat.cast_pos, inv_lt_zero]
+      simp only [Function.comp_apply, norm_smul, norm_inv, IsROrC.norm_natCast, div_eq_inv_mul, inv_pos, Nat.cast_pos, inv_lt_zero]
       gcongr
       exact norm_sum_le _ _
   _ ≤ δ + δ + δ := by

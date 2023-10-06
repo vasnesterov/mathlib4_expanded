@@ -94,9 +94,7 @@ theorem irreducible_Phi (p : ℕ) (hp : p.Prime) (hpa : p ∣ a) (hpb : p ∣ b)
     rw [mem_span_singleton]
     rw [degree_Phi] at hn; norm_cast at hn
     interval_cases hn : n <;>
-    simp only [Φ, coeff_X_pow, coeff_C, Int.coe_nat_dvd.mpr, hpb, if_true, coeff_C_mul, if_false,
-      coeff_X_zero, hpa, coeff_add, zero_add, mul_zero, coeff_sub, add_zero, zero_sub, dvd_neg,
-      neg_zero, dvd_mul_of_dvd_left]
+    simp only [Φ, coeff_X_pow, coeff_C, Int.coe_nat_dvd.mpr, hpb, if_true, coeff_C_mul, if_false, coeff_X_zero, hpa, coeff_add, zero_add, mul_zero, coeff_sub, add_zero, zero_sub, dvd_neg, neg_zero, dvd_mul_of_dvd_left]
   · simp only [degree_Phi, ← WithBot.coe_zero, WithBot.coe_lt_coe, Nat.succ_pos']
   · rw [coeff_zero_Phi, span_singleton_pow, mem_span_singleton]
     exact mt Int.coe_nat_dvd.mp hp2b
@@ -152,8 +150,7 @@ theorem real_roots_Phi_ge (hab : b < a) : 2 ≤ Fintype.card ((Φ ℚ a b).rootS
   have key : ↑({x, y} : Finset ℝ) ⊆ (Φ ℚ a b).rootSet ℝ := by
     simp [Set.insert_subset, mem_rootSet_of_ne q_ne_zero, hx, hy]
   convert Fintype.card_le_of_embedding (Set.embeddingOfSubset _ _ key)
-  simp only [Finset.coe_sort_coe, Fintype.card_coe, Finset.card_singleton,
-    Finset.card_insert_of_not_mem (mt Finset.mem_singleton.mp hxy)]
+  simp only [Finset.coe_sort_coe, Fintype.card_coe, Finset.card_singleton, Finset.card_insert_of_not_mem (mt Finset.mem_singleton.mp hxy)]
 #align abel_ruffini.real_roots_Phi_ge AbelRuffini.real_roots_Phi_ge
 
 theorem complex_roots_Phi (h : (Φ ℚ a b).Separable) : Fintype.card ((Φ ℚ a b).rootSet ℂ) = 5 :=

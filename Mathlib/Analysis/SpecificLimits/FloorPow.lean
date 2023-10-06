@@ -217,8 +217,7 @@ theorem tendsto_div_of_monotone_of_tendsto_div_floor_pow (u : ℕ → ℝ) (l : 
   have H : ∀ n : ℕ, (0 : ℝ) < ⌊c k ^ n⌋₊ := by
     intro n
     refine' zero_lt_one.trans_le _
-    simp only [Real.rpow_nat_cast, Nat.one_le_cast, Nat.one_le_floor_iff,
-      one_le_pow_of_one_le (cone k).le n]
+    simp only [Real.rpow_nat_cast, Nat.one_le_cast, Nat.one_le_floor_iff, one_le_pow_of_one_le (cone k).le n]
   have A :
     Tendsto (fun n : ℕ => (⌊c k ^ (n + 1)⌋₊ : ℝ) / c k ^ (n + 1) * c k / (⌊c k ^ n⌋₊ / c k ^ n))
       atTop (𝓝 (1 * c k / 1)) := by
@@ -284,8 +283,7 @@ theorem sum_div_pow_sq_le_div_sq (N : ℕ) {j : ℝ} (hj : 0 < j) {c : ℝ} (hc 
         · rw [one_div]
           exact inv_pos.2 (sq_pos_of_pos hj)
         rw [Real.log_rpow A]
-        simp only [one_div, Real.log_inv, Real.log_pow, Nat.cast_one, mul_neg,
-          neg_inj]
+        simp only [one_div, Real.log_inv, Real.log_pow, Nat.cast_one, mul_neg, neg_inj]
         field_simp [(Real.log_pos hc).ne']
         ring
       rw [Real.rpow_sub A]; rw [I]

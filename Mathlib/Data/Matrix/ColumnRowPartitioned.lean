@@ -223,8 +223,7 @@ lemma fromColumns_mul_fromRows_eq_one_comm (e : n ≃ n₁ ⊕ n₂)
   _ ↔ submatrix (fromRows B₁ B₂) e id * submatrix (fromColumns A₁ A₂) id e = 1 :=
     mul_eq_one_comm
   _ ↔ reindex e.symm e.symm (fromRows B₁ B₂ * fromColumns A₁ A₂) = reindex e.symm e.symm 1 := by
-    simp only [reindex_apply, Equiv.symm_symm, submatrix_one_equiv,
-        submatrix_mul (he₂ := Function.bijective_id)]
+    simp only [reindex_apply, Equiv.symm_symm, submatrix_one_equiv, submatrix_mul (he₂ := Function.bijective_id)]
   _ ↔ fromRows B₁ B₂ * fromColumns A₁ A₂ = 1 :=
     (reindex _ _).injective.eq_iff
 

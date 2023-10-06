@@ -395,8 +395,7 @@ lemma variableChange_b₈ :
     (W.variableChange C).b₈ =
       (↑C.u⁻¹ : R) ^ 8 * (W.b₈ + 3 * C.r * W.b₆ + 3 * C.r ^ 2 * W.b₄ + C.r ^ 3 * W.b₂
         + 3 * C.r ^ 4) := by
-  simp only [b₂, b₄, b₆, b₈, variableChange_a₁, variableChange_a₂, variableChange_a₃,
-    variableChange_a₄, variableChange_a₆]
+  simp only [b₂, b₄, b₆, b₈, variableChange_a₁, variableChange_a₂, variableChange_a₃, variableChange_a₄, variableChange_a₆]
   ring1
 #align weierstrass_curve.variable_change_b₈ WeierstrassCurve.variableChange_b₈
 
@@ -414,8 +413,7 @@ lemma variableChange_c₆ : (W.variableChange C).c₆ = (↑C.u⁻¹ : R) ^ 6 * 
 
 @[simp]
 lemma variableChange_Δ : (W.variableChange C).Δ = (↑C.u⁻¹ : R) ^ 12 * W.Δ := by
-  simp only [b₂, b₄, b₆, b₈, Δ, variableChange_a₁, variableChange_a₂, variableChange_a₃,
-    variableChange_a₄, variableChange_a₆]
+  simp only [b₂, b₄, b₆, b₈, Δ, variableChange_a₁, variableChange_a₂, variableChange_a₃, variableChange_a₄, variableChange_a₆]
   ring1
 #align weierstrass_curve.variable_change_Δ WeierstrassCurve.variableChange_Δ
 
@@ -506,8 +504,7 @@ lemma baseChange_id : baseChange A (id : VariableChange R) = id := by
 lemma baseChange_comp (C' : VariableChange R) :
     baseChange A (C.comp C') = (baseChange A C).comp (baseChange A C') := by
   simp only [comp, baseChange]
-  ext <;> simp only [Units.coe_map, Units.coe_map_inv, MonoidHom.coe_coe,
-    map_ofNat, map_neg, map_add, map_sub, map_mul, map_pow]
+  ext <;> simp only [Units.coe_map, Units.coe_map_inv, MonoidHom.coe_coe, map_ofNat, map_neg, map_add, map_sub, map_mul, map_pow]
 
 /-- The base change of change of variables over `R` to `A` is a group homomorphism. -/
 def baseChangeMap : VariableChange R →* VariableChange A where
@@ -532,8 +529,7 @@ end VariableChange
 lemma baseChange_variableChange (C : VariableChange R) :
     (W.baseChange A).variableChange (C.baseChange A) = (W.variableChange C).baseChange A := by
   simp only [baseChange, variableChange, VariableChange.baseChange]
-  ext <;> simp only [Units.coe_map, Units.coe_map_inv, MonoidHom.coe_coe,
-    map_ofNat, map_neg, map_add, map_sub, map_mul, map_pow]
+  ext <;> simp only [Units.coe_map, Units.coe_map_inv, MonoidHom.coe_coe, map_ofNat, map_neg, map_add, map_sub, map_mul, map_pow]
 
 end BaseChange
 

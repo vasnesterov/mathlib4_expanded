@@ -103,15 +103,11 @@ theorem norm_eq {x : ℝ} : ‖(x : AddCircle p)‖ = |x - round (p⁻¹ * x) * 
     refine'
       ⟨mem_lowerBounds.1 h _ ⟨fract x, _, abs_fract⟩,
         mem_lowerBounds.1 h _ ⟨fract x - 1, _, by rw [abs_sub_comm, abs_one_sub_fract]⟩⟩
-    · simp only [mem_setOf, fract, sub_eq_self, QuotientAddGroup.mk_sub,
-        QuotientAddGroup.eq_zero_iff, int_cast_mem_zmultiples_one]
-    · simp only [mem_setOf, fract, sub_eq_self, QuotientAddGroup.mk_sub,
-        QuotientAddGroup.eq_zero_iff, int_cast_mem_zmultiples_one, sub_sub,
-        (by norm_cast : (⌊x⌋ : ℝ) + 1 = (↑(⌊x⌋ + 1) : ℝ))]
+    · simp only [mem_setOf, fract, sub_eq_self, QuotientAddGroup.mk_sub, QuotientAddGroup.eq_zero_iff, int_cast_mem_zmultiples_one]
+    · simp only [mem_setOf, fract, sub_eq_self, QuotientAddGroup.mk_sub, QuotientAddGroup.eq_zero_iff, int_cast_mem_zmultiples_one, sub_sub, (by norm_cast : (⌊x⌋ : ℝ) + 1 = (↑(⌊x⌋ + 1) : ℝ))]
   · simp only [QuotientAddGroup.mk'_apply, Real.norm_eq_abs, le_csInf_iff h₁ h₂]
     rintro b' ⟨b, hb, rfl⟩
-    simp only [mem_setOf, QuotientAddGroup.eq_iff_sub_mem, mem_zmultiples_iff,
-      smul_one_eq_coe] at hb
+    simp only [mem_setOf, QuotientAddGroup.eq_iff_sub_mem, mem_zmultiples_iff, smul_one_eq_coe] at hb
     obtain ⟨z, hz⟩ := hb
     rw [(by rw [hz]; abel : x = b - z), fract_sub_int, ← abs_sub_round_eq_min]
     convert round_le b 0
@@ -176,8 +172,7 @@ theorem coe_real_preimage_closedBall_period_zero (x ε : ℝ) :
     (↑) ⁻¹' closedBall (x : AddCircle (0 : ℝ)) ε = closedBall x ε := by
   ext y
   -- Porting note: squeezed the simp
-  simp only [Set.mem_preimage, dist_eq_norm, AddCircle.norm_eq_of_zero, iff_self,
-    ← QuotientAddGroup.mk_sub, Metric.mem_closedBall, Real.norm_eq_abs]
+  simp only [Set.mem_preimage, dist_eq_norm, AddCircle.norm_eq_of_zero, iff_self, ← QuotientAddGroup.mk_sub, Metric.mem_closedBall, Real.norm_eq_abs]
 #align add_circle.coe_real_preimage_closed_ball_period_zero AddCircle.coe_real_preimage_closedBall_period_zero
 
 theorem coe_real_preimage_closedBall_eq_iUnion (x ε : ℝ) :
@@ -185,8 +180,7 @@ theorem coe_real_preimage_closedBall_eq_iUnion (x ε : ℝ) :
   rcases eq_or_ne p 0 with (rfl | hp)
   · simp [iUnion_const]
   ext y
-  simp only [dist_eq_norm, mem_preimage, mem_closedBall, zsmul_eq_mul, mem_iUnion, Real.norm_eq_abs,
-    ← QuotientAddGroup.mk_sub, norm_eq, ← sub_sub]
+  simp only [dist_eq_norm, mem_preimage, mem_closedBall, zsmul_eq_mul, mem_iUnion, Real.norm_eq_abs, ← QuotientAddGroup.mk_sub, norm_eq, ← sub_sub]
   refine' ⟨fun h => ⟨round (p⁻¹ * (y - x)), h⟩, _⟩
   rintro ⟨n, hn⟩
   rw [← mul_le_mul_left (abs_pos.mpr <| inv_ne_zero hp)] at hn ⊢; rw [← abs_mul] at hn ⊢; rw [mul_sub] at hn ⊢; rw [mul_comm _ p] at hn ⊢; rw [inv_mul_cancel_left₀ hp] at hn ⊢
@@ -199,8 +193,7 @@ theorem coe_real_preimage_closedBall_inter_eq {x ε : ℝ} (s : Set ℝ)
   cases' le_or_lt (|p| / 2) ε with hε hε
   · rcases eq_or_ne p 0 with (rfl | hp)
     · simp only [abs_zero, zero_div] at hε
-      simp only [not_lt.mpr hε, coe_real_preimage_closedBall_period_zero, abs_zero, zero_div,
-        if_false, inter_eq_right]
+      simp only [not_lt.mpr hε, coe_real_preimage_closedBall_period_zero, abs_zero, zero_div, if_false, inter_eq_right]
       exact hs.trans (closedBall_subset_closedBall <| by simp [hε])
     -- Porting note: was
     -- simp [closedBall_eq_univ_of_half_period_le p hp (↑x) hε, not_lt.mpr hε]

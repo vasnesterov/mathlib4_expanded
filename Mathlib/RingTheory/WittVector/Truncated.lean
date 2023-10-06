@@ -342,8 +342,7 @@ variable (n)
 
 theorem mem_ker_truncate (x : 𝕎 R) :
     x ∈ RingHom.ker (@truncate p _ n R _) ↔ ∀ i < n, x.coeff i = 0 := by
-  simp only [RingHom.mem_ker, truncate, truncateFun, RingHom.coe_mk, TruncatedWittVector.ext_iff,
-    TruncatedWittVector.coeff_mk, coeff_zero]
+  simp only [RingHom.mem_ker, truncate, truncateFun, RingHom.coe_mk, TruncatedWittVector.ext_iff, TruncatedWittVector.coeff_mk, coeff_zero]
   exact Fin.forall_iff
 #align witt_vector.mem_ker_truncate WittVector.mem_ker_truncate
 
@@ -509,8 +508,7 @@ theorem lift_unique (g : S →+* 𝕎 R) (g_compat : ∀ k, (WittVector.truncate
   ext1 x
   rw [← sub_eq_zero]; rw [← Ideal.mem_bot]; rw [← iInf_ker_truncate]; rw [Ideal.mem_iInf]
   intro i
-  simp only [RingHom.mem_ker, g_compat, ← RingHom.comp_apply, truncate_comp_lift, RingHom.map_sub,
-    sub_self]
+  simp only [RingHom.mem_ker, g_compat, ← RingHom.comp_apply, truncate_comp_lift, RingHom.map_sub, sub_self]
 #align witt_vector.lift_unique WittVector.lift_unique
 
 /-- The universal property of `𝕎 R` as projective limit of truncated Witt vector rings. -/

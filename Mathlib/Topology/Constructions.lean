@@ -677,8 +677,7 @@ theorem prod_induced_induced (f : α → β) (g : γ → δ) :
 theorem continuous_uncurry_of_discreteTopology_left [DiscreteTopology α] {f : α → β → γ}
     (h : ∀ a, Continuous (f a)) : Continuous (uncurry f) :=
   continuous_iff_continuousAt.2 fun ⟨a, b⟩ => by
-    simp only [ContinuousAt, nhds_prod_eq, nhds_discrete α, pure_prod, tendsto_map'_iff, (· ∘ ·),
-      uncurry, (h a).tendsto]
+    simp only [ContinuousAt, nhds_prod_eq, nhds_discrete α, pure_prod, tendsto_map'_iff, (· ∘ ·), uncurry, (h a).tendsto]
 #align continuous_uncurry_of_discrete_topology_left continuous_uncurry_of_discreteTopology_left
 
 /-- Given a neighborhood `s` of `(x, x)`, then `(x, x)` has a square open neighborhood
@@ -1630,8 +1629,7 @@ theorem isOpenMap_sigma_map {f₁ : ι → κ} {f₂ : ∀ i, σ i → τ (f₁ 
 
 theorem inducing_sigma_map {f₁ : ι → κ} {f₂ : ∀ i, σ i → τ (f₁ i)} (h₁ : Injective f₁) :
     Inducing (Sigma.map f₁ f₂) ↔ ∀ i, Inducing (f₂ i) := by
-  simp only [inducing_iff_nhds, Sigma.forall, Sigma.nhds_mk, Sigma.map_mk, ← map_sigma_mk_comap h₁,
-    map_inj sigma_mk_injective]
+  simp only [inducing_iff_nhds, Sigma.forall, Sigma.nhds_mk, Sigma.map_mk, ← map_sigma_mk_comap h₁, map_inj sigma_mk_injective]
 #align inducing_sigma_map inducing_sigma_map
 
 theorem embedding_sigma_map {f₁ : ι → κ} {f₂ : ∀ i, σ i → τ (f₁ i)} (h : Injective f₁) :
@@ -1641,8 +1639,7 @@ theorem embedding_sigma_map {f₁ : ι → κ} {f₂ : ∀ i, σ i → τ (f₁ 
 
 theorem openEmbedding_sigma_map {f₁ : ι → κ} {f₂ : ∀ i, σ i → τ (f₁ i)} (h : Injective f₁) :
     OpenEmbedding (Sigma.map f₁ f₂) ↔ ∀ i, OpenEmbedding (f₂ i) := by
-  simp only [openEmbedding_iff_embedding_open, isOpenMap_sigma_map, embedding_sigma_map h,
-    forall_and]
+  simp only [openEmbedding_iff_embedding_open, isOpenMap_sigma_map, embedding_sigma_map h, forall_and]
 #align open_embedding_sigma_map openEmbedding_sigma_map
 
 end Sigma

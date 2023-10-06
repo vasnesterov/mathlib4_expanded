@@ -261,8 +261,7 @@ theorem iIndepSets.indepSets {s : ι → Set (Set Ω)} {_mΩ : MeasurableSpace �
   filter_upwards [h_indep {i, j} hf_m] with a h_indep'
   have h_prod : (∏ t : ι in ({i, j} : Finset ι), κ a (ite (t = i) t₁ t₂))
       = κ a (ite (i = i) t₁ t₂) * κ a (ite (j = i) t₁ t₂) := by
-    simp only [hij, Finset.prod_singleton, Finset.prod_insert, not_false_iff,
-      Finset.mem_singleton]
+    simp only [hij, Finset.prod_singleton, Finset.prod_insert, not_false_iff, Finset.mem_singleton]
   rw [h1]
   nth_rw 2 [h2]
   nth_rw 4 [h2]
@@ -325,8 +324,7 @@ theorem IndepSets.indep_aux {m₂ m : MeasurableSpace Ω}
     ∀ᵐ a ∂μ, κ a (t1 ∩ t2) = κ a t1 * κ a t2 := by
   refine @induction_on_inter _ (fun t ↦ ∀ᵐ a ∂μ, κ a (t1 ∩ t) = κ a t1 * κ a t) _
     m₂ hpm2 hp2 ?_ ?_ ?_ ?_ t2 ht2m
-  · simp only [Set.inter_empty, measure_empty, mul_zero, eq_self_iff_true,
-      Filter.eventually_true]
+  · simp only [Set.inter_empty, measure_empty, mul_zero, eq_self_iff_true, Filter.eventually_true]
   · exact fun t ht_mem_p2 ↦ hyp t1 t ht1 ht_mem_p2
   · intros t ht h
     filter_upwards [h] with a ha
@@ -355,8 +353,7 @@ theorem IndepSets.indep {m1 m2 m : MeasurableSpace Ω} {κ : kernel α Ω} {μ :
   intros t1 t2 ht1 ht2
   refine @induction_on_inter _ (fun t ↦ ∀ᵐ (a : α) ∂μ, κ a (t ∩ t2) = κ a t * κ a t2) _ m1 hpm1 hp1
     ?_ ?_ ?_ ?_ _ ht1
-  · simp only [Set.empty_inter, measure_empty, zero_mul, eq_self_iff_true,
-      Filter.eventually_true]
+  · simp only [Set.empty_inter, measure_empty, zero_mul, eq_self_iff_true, Filter.eventually_true]
   · intros t ht_mem_p1
     have ht1 : MeasurableSet[m] t := by
       refine h1 _ ?_
@@ -556,9 +553,7 @@ theorem iIndepSets.iIndep [IsMarkovKernel κ] (m : ι → MeasurableSpace Ω)
   classical
   intro s f
   refine Finset.induction ?_ ?_ s
-  · simp only [Finset.not_mem_empty, Set.mem_setOf_eq, IsEmpty.forall_iff, implies_true,
-      Set.iInter_of_empty, Set.iInter_univ, measure_univ, Finset.prod_empty,
-      Filter.eventually_true, forall_true_left]
+  · simp only [Finset.not_mem_empty, Set.mem_setOf_eq, IsEmpty.forall_iff, implies_true, Set.iInter_of_empty, Set.iInter_univ, measure_univ, Finset.prod_empty, Filter.eventually_true, forall_true_left]
   · intro a S ha_notin_S h_rec hf_m
     have hf_m_S : ∀ x ∈ S, MeasurableSet[m x] (f x) := fun x hx => hf_m x (by simp [hx])
     let p := piiUnionInter π S

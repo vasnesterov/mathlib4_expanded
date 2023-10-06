@@ -473,8 +473,7 @@ theorem digit_sum_le (p n : ℕ) : List.sum (digits p n) ≤ n := by
 theorem pow_length_le_mul_ofDigits {b : ℕ} {l : List ℕ} (hl : l ≠ []) (hl2 : l.getLast hl ≠ 0) :
     (b + 2) ^ l.length ≤ (b + 2) * ofDigits (b + 2) l := by
   rw [← List.dropLast_append_getLast hl]
-  simp only [List.length_append, List.length, zero_add, List.length_dropLast, ofDigits_append,
-    List.length_dropLast, ofDigits_singleton, add_comm (l.length - 1), pow_add, pow_one]
+  simp only [List.length_append, List.length, zero_add, List.length_dropLast, ofDigits_append, List.length_dropLast, ofDigits_singleton, add_comm (l.length - 1), pow_add, pow_one]
   apply Nat.mul_le_mul_left
   refine' le_trans _ (Nat.le_add_left _ _)
   have : 0 < l.getLast hl := by rwa [pos_iff_ne_zero]
@@ -539,8 +538,7 @@ theorem sub_one_mul_sum_div_pow_eq_sub_sum_digits
   obtain h | rfl | h : 1 < p ∨ 1 = p ∨ p < 1 := trichotomous 1 p
   · induction' L with hd tl ih
     · simp [ofDigits]
-    · simp only [List.length_cons, List.sum_cons, self_div_pow_eq_ofDigits_drop _ _ h,
-          digits_ofDigits p h (hd :: tl) h_lt (fun _ => h_ne_zero)]
+    · simp only [List.length_cons, List.sum_cons, self_div_pow_eq_ofDigits_drop _ _ h, digits_ofDigits p h (hd :: tl) h_lt (fun _ => h_ne_zero)]
       simp only [ofDigits]
       rw [sum_range_succ]; rw [Nat.cast_id]
       simp only [List.drop, List.drop_length]
@@ -549,8 +547,7 @@ theorem sub_one_mul_sum_div_pow_eq_sub_sum_digits
       · have w₁' := fun l hl ↦ h_lt l <| List.mem_cons_of_mem hd hl
         have w₂' := fun (h : tl ≠ []) ↦ (List.getLast_cons h) ▸ h_ne_zero
         have ih := ih (w₂' h') w₁'
-        simp only [self_div_pow_eq_ofDigits_drop _ _ h, digits_ofDigits p h tl w₁' w₂',
-          succ_eq_one_add] at ih
+        simp only [self_div_pow_eq_ofDigits_drop _ _ h, digits_ofDigits p h tl w₁' w₂', succ_eq_one_add] at ih
         have := sum_singleton (fun x ↦ ofDigits p <| tl.drop x) tl.length
         rw [← Ico_succ_singleton] at this; rw [List.drop_length] at this; rw [ofDigits] at this
         have h₁ : 1 ≤ tl.length :=  List.length_pos.mpr h'

@@ -87,8 +87,7 @@ def shiftFunctorAdd' (n₁ n₂ n₁₂ : ℤ) (h : n₁ + n₂ = n₁₂ ) :
     (fun _ _ _ => by
       subst h
       dsimp
-      simp only [add_comm n₁ n₂, Int.negOnePow_add, Preadditive.zsmul_comp,
-        Preadditive.comp_zsmul, d_comp_XIsoOfEq_hom, smul_smul, XIsoOfEq_hom_comp_d]))
+      simp only [add_comm n₁ n₂, Int.negOnePow_add, Preadditive.zsmul_comp, Preadditive.comp_zsmul, d_comp_XIsoOfEq_hom, smul_smul, XIsoOfEq_hom_comp_d]))
     (by aesop_cat)
 
 attribute [local simp] XIsoOfEq
@@ -211,17 +210,13 @@ instance commShiftMapCochainComplex :
     ext
     rw [CommShift.isoZero_hom_app]
     dsimp
-    simp only [mapCochainComplexShiftIso_hom_app_f, CochainComplex.shiftFunctorZero_inv_app_f,
-       CochainComplex.shiftFunctorZero_hom_app_f, HomologicalComplex.XIsoOfEq, eqToIso,
-       eqToHom_map, eqToHom_trans, eqToHom_refl]
+    simp only [mapCochainComplexShiftIso_hom_app_f, CochainComplex.shiftFunctorZero_inv_app_f, CochainComplex.shiftFunctorZero_hom_app_f, HomologicalComplex.XIsoOfEq, eqToIso, eqToHom_map, eqToHom_trans, eqToHom_refl]
   add := fun a b => by
     ext
     rw [CommShift.isoAdd_hom_app]
     dsimp
     erw [id_comp, id_comp]
-    simp only [CochainComplex.shiftFunctorAdd_hom_app_f,
-      CochainComplex.shiftFunctorAdd_inv_app_f, HomologicalComplex.XIsoOfEq, eqToIso,
-      eqToHom_map, eqToHom_trans, eqToHom_refl]
+    simp only [CochainComplex.shiftFunctorAdd_hom_app_f, CochainComplex.shiftFunctorAdd_inv_app_f, HomologicalComplex.XIsoOfEq, eqToIso, eqToHom_map, eqToHom_trans, eqToHom_refl]
 
 lemma mapHomologicalComplex_commShiftIso_eq (n : ℤ) :
     (F.mapHomologicalComplex (ComplexShape.up ℤ)).commShiftIso n =

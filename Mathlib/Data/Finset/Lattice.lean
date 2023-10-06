@@ -570,8 +570,7 @@ theorem inf_sup {κ : ι → Type*} (s : Finset ι) (t : ∀ i, Finset (κ i)) (
   · simp
   rw [inf_insert]; rw [ih]; rw [attach_insert]; rw [sup_inf_sup]
   refine' eq_of_forall_ge_iff fun c => _
-  simp only [Finset.sup_le_iff, mem_product, mem_pi, and_imp, Prod.forall,
-    inf_insert, inf_image]
+  simp only [Finset.sup_le_iff, mem_product, mem_pi, and_imp, Prod.forall, inf_insert, inf_image]
   refine'
     ⟨fun h g hg =>
       h (g i <| mem_insert_self _ _) (fun j hj => g j <| mem_insert_of_mem hj)
@@ -1520,32 +1519,28 @@ theorem map_toDual_max (s : Finset α) : s.max.map toDual = (s.image toDual).min
 theorem ofDual_min' {s : Finset αᵒᵈ} (hs : s.Nonempty) :
     ofDual (min' s hs) = max' (s.image ofDual) (hs.image _) := by
   rw [← WithBot.coe_eq_coe]
-  simp only [min'_eq_inf', id_eq, ofDual_inf', Function.comp_apply, coe_sup', max'_eq_sup',
-    sup_image]
+  simp only [min'_eq_inf', id_eq, ofDual_inf', Function.comp_apply, coe_sup', max'_eq_sup', sup_image]
   rfl
 #align finset.of_dual_min' Finset.ofDual_min'
 
 theorem ofDual_max' {s : Finset αᵒᵈ} (hs : s.Nonempty) :
     ofDual (max' s hs) = min' (s.image ofDual) (hs.image _) := by
   rw [← WithTop.coe_eq_coe]
-  simp only [max'_eq_sup', id_eq, ofDual_sup', Function.comp_apply, coe_inf', min'_eq_inf',
-    inf_image]
+  simp only [max'_eq_sup', id_eq, ofDual_sup', Function.comp_apply, coe_inf', min'_eq_inf', inf_image]
   rfl
 #align finset.of_dual_max' Finset.ofDual_max'
 
 theorem toDual_min' {s : Finset α} (hs : s.Nonempty) :
     toDual (min' s hs) = max' (s.image toDual) (hs.image _) := by
   rw [← WithBot.coe_eq_coe]
-  simp only [min'_eq_inf', id_eq, toDual_inf', Function.comp_apply, coe_sup', max'_eq_sup',
-    sup_image]
+  simp only [min'_eq_inf', id_eq, toDual_inf', Function.comp_apply, coe_sup', max'_eq_sup', sup_image]
   rfl
 #align finset.to_dual_min' Finset.toDual_min'
 
 theorem toDual_max' {s : Finset α} (hs : s.Nonempty) :
     toDual (max' s hs) = min' (s.image toDual) (hs.image _) := by
   rw [← WithTop.coe_eq_coe]
-  simp only [max'_eq_sup', id_eq, toDual_sup', Function.comp_apply, coe_inf', min'_eq_inf',
-    inf_image]
+  simp only [max'_eq_sup', id_eq, toDual_sup', Function.comp_apply, coe_inf', min'_eq_inf', inf_image]
   rfl
 #align finset.to_dual_max' Finset.toDual_max'
 

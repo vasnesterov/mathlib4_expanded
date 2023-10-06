@@ -219,8 +219,7 @@ theorem effectiveEpiFamily_tfae
     rw [Iso.inv_comp_eq]
     apply colimit.hom_ext
     rintro ⟨a⟩
-    simp only [Discrete.functor_obj, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app,
-      colimit.comp_coconePointUniqueUpToIso_hom_assoc]
+    simp only [Discrete.functor_obj, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app, colimit.comp_coconePointUniqueUpToIso_hom_assoc]
     ext; rfl
   tfae_have 3 → 1
   · apply effectiveEpiFamily_of_jointly_surjective

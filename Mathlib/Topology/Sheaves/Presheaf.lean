@@ -356,8 +356,7 @@ def id : pullbackObj (𝟙 _) ℱ ≅ ℱ :=
     fun {U V} i => by
       simp only [pullbackObj_obj]
       ext
-      simp only [Functor.comp_obj, CostructuredArrow.proj_obj, pullbackObj_map,
-        Iso.trans_hom, Functor.mapIso_hom, eqToIso.hom, Category.assoc]
+      simp only [Functor.comp_obj, CostructuredArrow.proj_obj, pullbackObj_map, Iso.trans_hom, Functor.mapIso_hom, eqToIso.hom, Category.assoc]
       erw [colimit.pre_desc_assoc, colimit.ι_desc_assoc, colimit.ι_desc_assoc]
       dsimp
       simp only [← ℱ.map_comp]
@@ -404,8 +403,7 @@ theorem id_pushforward {X : TopCat.{w}} : pushforward C (𝟙 X) = 𝟭 (X.Presh
   · intros a b f
     ext U
     · erw [NatTrans.congr f (Opens.op_map_id_obj (op U))]
-      simp only [Functor.op_obj, eqToHom_refl, CategoryTheory.Functor.map_id,
-        Category.comp_id, Category.id_comp, Functor.id_obj, Functor.id_map]
+      simp only [Functor.op_obj, eqToHom_refl, CategoryTheory.Functor.map_id, Category.comp_id, Category.id_comp, Functor.id_obj, Functor.id_map]
       apply Pushforward.id_eq
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.id_pushforward TopCat.Presheaf.id_pushforward
@@ -438,16 +436,10 @@ theorem toPushforwardOfIso_app {X Y : TopCat} (H₁ : X ≅ Y) {ℱ : X.Presheaf
         H₂.app (op ((Opens.map H₁.inv).obj (unop U))) := by
   delta toPushforwardOfIso
   -- Porting note : originally is a single invocation of `simp`
-  simp only [pushforwardObj_obj, Functor.op_obj, Equivalence.toAdjunction, Adjunction.homEquiv_unit,
-    Functor.id_obj, Functor.comp_obj, Adjunction.mkOfUnitCounit_unit, unop_op, eqToHom_map]
+  simp only [pushforwardObj_obj, Functor.op_obj, Equivalence.toAdjunction, Adjunction.homEquiv_unit, Functor.id_obj, Functor.comp_obj, Adjunction.mkOfUnitCounit_unit, unop_op, eqToHom_map]
   rw [NatTrans.comp_app]; rw [presheafEquivOfIso_inverse_map_app]; rw [Equivalence.Equivalence_mk'_unit]
   congr 1
-  simp only [Equivalence.unit, Equivalence.op, CategoryTheory.Equivalence.symm, Opens.mapMapIso,
-    Functor.id_obj, Functor.comp_obj, Iso.symm_hom, NatIso.op_inv, Iso.symm_inv, NatTrans.op_app,
-    NatIso.ofComponents_hom_app, eqToIso.hom, eqToHom_op, Equivalence.Equivalence_mk'_unitInv,
-    Equivalence.Equivalence_mk'_counitInv, NatIso.op_hom, unop_op, op_unop, eqToIso.inv,
-    NatIso.ofComponents_inv_app, eqToHom_unop, ←ℱ.map_comp, eqToHom_trans, eqToHom_map,
-    presheafEquivOfIso_unitIso_hom_app_app]
+  simp only [Equivalence.unit, Equivalence.op, CategoryTheory.Equivalence.symm, Opens.mapMapIso, Functor.id_obj, Functor.comp_obj, Iso.symm_hom, NatIso.op_inv, Iso.symm_inv, NatTrans.op_app, NatIso.ofComponents_hom_app, eqToIso.hom, eqToHom_op, Equivalence.Equivalence_mk'_unitInv, Equivalence.Equivalence_mk'_counitInv, NatIso.op_hom, unop_op, op_unop, eqToIso.inv, NatIso.ofComponents_inv_app, eqToHom_unop, ←ℱ.map_comp, eqToHom_trans, eqToHom_map, presheafEquivOfIso_unitIso_hom_app_app]
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.to_pushforward_of_iso_app TopCat.Presheaf.toPushforwardOfIso_app
 

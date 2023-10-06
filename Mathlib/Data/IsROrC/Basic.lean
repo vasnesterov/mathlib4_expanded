@@ -565,13 +565,11 @@ theorem inv_im (z : K) : im z⁻¹ = -im z / normSq z := by
 #align is_R_or_C.inv_im IsROrC.inv_im
 
 theorem div_re (z w : K) : re (z / w) = re z * re w / normSq w + im z * im w / normSq w := by
-  simp only [div_eq_mul_inv, mul_assoc, sub_eq_add_neg, neg_mul, mul_neg, neg_neg, map_neg,
-    isROrC_simps]
+  simp only [div_eq_mul_inv, mul_assoc, sub_eq_add_neg, neg_mul, mul_neg, neg_neg, map_neg, isROrC_simps]
 #align is_R_or_C.div_re IsROrC.div_re
 
 theorem div_im (z w : K) : im (z / w) = im z * re w / normSq w - re z * im w / normSq w := by
-  simp only [div_eq_mul_inv, mul_assoc, sub_eq_add_neg, add_comm, neg_mul, mul_neg, map_neg,
-    isROrC_simps]
+  simp only [div_eq_mul_inv, mul_assoc, sub_eq_add_neg, add_comm, neg_mul, mul_neg, map_neg, isROrC_simps]
 #align is_R_or_C.div_im IsROrC.div_im
 
 @[isROrC_simps] -- porting note: was `simp`
@@ -825,8 +823,7 @@ noncomputable instance Real.isROrC : IsROrC ℝ where
   conj_re_ax z := by simp only [starRingEnd_apply, star_id_of_comm]
   conj_im_ax z := by simp only [neg_zero, AddMonoidHom.zero_apply]
   conj_I_ax := by simp only [RingHom.map_zero, neg_zero]
-  norm_sq_eq_def_ax z := by simp only [sq, Real.norm_eq_abs, ← abs_mul, abs_mul_self z, add_zero,
-    mul_zero, AddMonoidHom.zero_apply, AddMonoidHom.id_apply]
+  norm_sq_eq_def_ax z := by simp only [sq, Real.norm_eq_abs, ← abs_mul, abs_mul_self z, add_zero, mul_zero, AddMonoidHom.zero_apply, AddMonoidHom.id_apply]
   mul_im_I_ax z := by simp only [mul_zero, AddMonoidHom.zero_apply]
   le_iff_re_im := (and_iff_left rfl).symm
 #align real.is_R_or_C Real.isROrC

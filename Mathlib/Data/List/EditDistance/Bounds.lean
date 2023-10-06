@@ -26,8 +26,7 @@ theorem suffixLevenshtein_minimum_le_levenshtein_cons (xs : List α) (y ys) :
     (suffixLevenshtein C xs ys).1.minimum ≤ levenshtein C xs (y :: ys) := by
   induction xs with
   | nil =>
-      simp only [suffixLevenshtein_nil', levenshtein_nil_cons,
-        List.minimum_singleton, WithTop.coe_le_coe]
+      simp only [suffixLevenshtein_nil', levenshtein_nil_cons, List.minimum_singleton, WithTop.coe_le_coe]
       exact le_add_of_nonneg_left (by simp)
   | cons x xs ih =>
     suffices

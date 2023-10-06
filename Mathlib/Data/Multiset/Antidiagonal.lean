@@ -49,8 +49,7 @@ theorem mem_antidiagonal {s : Multiset α} {x : Multiset α × Multiset α} :
     dsimp only [quot_mk_to_coe, antidiagonal_coe]
     refine' ⟨fun h => revzip_powersetAux h, fun h ↦ _⟩
     haveI := Classical.decEq α
-    simp only [revzip_powersetAux_lemma l revzip_powersetAux, h.symm, ge_iff_le, mem_coe,
-      List.mem_map, mem_powersetAux]
+    simp only [revzip_powersetAux_lemma l revzip_powersetAux, h.symm, ge_iff_le, mem_coe, List.mem_map, mem_powersetAux]
     cases' x with x₁ x₂
     exact ⟨x₁, le_add_right _ _, by rw [add_tsub_cancel_left x₁ x₂]⟩
 #align multiset.mem_antidiagonal Multiset.mem_antidiagonal
@@ -75,8 +74,7 @@ theorem antidiagonal_cons (a : α) (s) :
     antidiagonal (a ::ₘ s) =
       map (Prod.map id (cons a)) (antidiagonal s) + map (Prod.map (cons a) id) (antidiagonal s) :=
   Quotient.inductionOn s <| fun l ↦ by
-    simp only [revzip, reverse_append, quot_mk_to_coe, coe_eq_coe, powersetAux'_cons, cons_coe,
-      coe_map, antidiagonal_coe', coe_add]
+    simp only [revzip, reverse_append, quot_mk_to_coe, coe_eq_coe, powersetAux'_cons, cons_coe, coe_map, antidiagonal_coe', coe_add]
     rw [← zip_map]; rw [← zip_map]; rw [zip_append]; rw [(_ : _ ++ _ = _)]
     · congr; simp; rw [map_reverse]; simp
     · simp
@@ -106,9 +104,7 @@ theorem prod_map_add [CommSemiring β] {s : Multiset α} {f g : α → β} :
   refine' s.induction_on _ _
   · simp only [map_zero, prod_zero, antidiagonal_zero, map_singleton, mul_one, sum_singleton]
   · intro a s ih
-    simp only [map_cons, prod_cons, ih, sum_map_mul_left.symm, add_mul, mul_left_comm (f a),
-      mul_left_comm (g a), sum_map_add, antidiagonal_cons, Prod_map, id_eq, map_add, map_map,
-      Function.comp_apply, mul_assoc, sum_add]
+    simp only [map_cons, prod_cons, ih, sum_map_mul_left.symm, add_mul, mul_left_comm (f a), mul_left_comm (g a), sum_map_add, antidiagonal_cons, Prod_map, id_eq, map_add, map_map, Function.comp_apply, mul_assoc, sum_add]
     exact add_comm _ _
 #align multiset.prod_map_add Multiset.prod_map_add
 

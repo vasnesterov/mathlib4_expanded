@@ -79,8 +79,7 @@ theorem univ_pi_side (c : Cube n) : pi univ (side c) = c.toSet :=
 #align theorems_100.«82».cube.univ_pi_side Theorems100.«82».Cube.univ_pi_side
 
 theorem toSet_subset {c c' : Cube n} : c.toSet ⊆ c'.toSet ↔ ∀ j, c.side j ⊆ c'.side j := by
-  simp only [← univ_pi_side, univ_pi_subset_univ_pi_iff, (c.side_nonempty _).ne_empty, exists_false,
-    or_false_iff]
+  simp only [← univ_pi_side, univ_pi_subset_univ_pi_iff, (c.side_nonempty _).ne_empty, exists_false, or_false_iff]
 #align theorems_100.«82».cube.to_set_subset Theorems100.«82».Cube.toSet_subset
 
 theorem toSet_disjoint {c c' : Cube n} :

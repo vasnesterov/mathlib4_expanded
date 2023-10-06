@@ -308,8 +308,7 @@ theorem end_hom_mk_of_mk {s} (sec : s ∈ G.end) {K L : (Finset V)ᵒᵖ} (h : L
 
 theorem infinite_iff_in_eventualRange {K : (Finset V)ᵒᵖ} (C : G.componentComplFunctor.obj K) :
     C.supp.Infinite ↔ C ∈ G.componentComplFunctor.eventualRange K := by
-  simp only [C.infinite_iff_in_all_ranges, CategoryTheory.Functor.eventualRange, Set.mem_iInter,
-    Set.mem_range, componentComplFunctor_map]
+  simp only [C.infinite_iff_in_all_ranges, CategoryTheory.Functor.eventualRange, Set.mem_iInter, Set.mem_range, componentComplFunctor_map]
   exact
     ⟨fun h Lop KL => h Lop.unop (le_of_op_hom KL), fun h L KL =>
       h (Opposite.op L) (opHomOfLE KL)⟩

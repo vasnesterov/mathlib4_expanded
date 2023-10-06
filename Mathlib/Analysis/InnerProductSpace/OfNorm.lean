@@ -104,8 +104,7 @@ variable {E}
 
 theorem innerProp_neg_one : innerProp' E ((-1 : ℤ) : 𝕜) := by
   intro x y
-  simp only [inner_, neg_mul_eq_neg_mul, one_mul, Int.cast_one, one_smul, RingHom.map_one, map_neg,
-    Int.cast_neg, neg_smul, neg_one_mul]
+  simp only [inner_, neg_mul_eq_neg_mul, one_mul, Int.cast_one, one_smul, RingHom.map_one, map_neg, Int.cast_neg, neg_smul, neg_one_mul]
   rw [neg_mul_comm]
   congr 1
   have h₁ : ‖-x - y‖ = ‖x + y‖ := by rw [← neg_add', norm_neg]
@@ -131,8 +130,7 @@ theorem inner_.norm_sq (x : E) : ‖x‖ ^ 2 = re (inner_ 𝕜 x x) := by
     rw [← this]; rw [normSq_eq_def']; rw [IsROrC.norm_of_nonneg (by norm_num : (0 : ℝ) ≤ 4)]
     norm_num
   have h₂ : ‖x + x‖ = 2 * ‖x‖ := by rw [← two_smul 𝕜, norm_smul, IsROrC.norm_two]
-  simp only [h₁, h₂, algebraMap_eq_ofReal, sub_self, norm_zero, mul_re, inv_re, ofNat_re, map_sub,
-    map_add, ofReal_re, ofNat_im, ofReal_im, mul_im, I_re, inv_im]
+  simp only [h₁, h₂, algebraMap_eq_ofReal, sub_self, norm_zero, mul_re, inv_re, ofNat_re, map_sub, map_add, ofReal_re, ofNat_im, ofReal_im, mul_im, I_re, inv_im]
   ring
 #align inner_product_spaceable.inner_.norm_sq InnerProductSpaceable.inner_.norm_sq
 
@@ -242,8 +240,7 @@ theorem add_left (x y z : E) : inner_ 𝕜 (x + y) z = inner_ 𝕜 x z + inner_ 
 
 theorem nat (n : ℕ) (x y : E) : inner_ 𝕜 ((n : 𝕜) • x) y = (n : 𝕜) * inner_ 𝕜 x y := by
   induction' n with n ih
-  · simp only [inner_, Nat.zero_eq, zero_sub, Nat.cast_zero, zero_mul,
-      eq_self_iff_true, zero_smul, zero_add, mul_zero, sub_self, norm_neg, smul_zero]
+  · simp only [inner_, Nat.zero_eq, zero_sub, Nat.cast_zero, zero_mul, eq_self_iff_true, zero_smul, zero_add, mul_zero, sub_self, norm_neg, smul_zero]
   · simp only [Nat.cast_succ, add_smul, one_smul]
     rw [add_left]; rw [ih]; rw [add_mul]; rw [one_mul]
 #align inner_product_spaceable.nat InnerProductSpaceable.nat
@@ -257,14 +254,10 @@ private theorem int_prop (n : ℤ) : innerProp' E (n : 𝕜) := by
   simp only [Int.cast_ofNat, map_natCast, map_intCast, Int.cast_mul, map_mul, mul_smul]
   obtain hn | rfl | hn := lt_trichotomy n 0
   · rw [Int.sign_eq_neg_one_of_neg hn, innerProp_neg_one ((n.natAbs : 𝕜) • x), nat]
-    simp only [map_neg, neg_mul, one_mul, mul_eq_mul_left_iff, true_or_iff, Int.natAbs_eq_zero,
-      eq_self_iff_true, Int.cast_one, map_one, neg_inj, Nat.cast_eq_zero, Int.cast_neg]
-  · simp only [inner_, Int.cast_zero, zero_sub, Nat.cast_zero, zero_mul,
-      eq_self_iff_true, Int.sign_zero, zero_smul, zero_add, mul_zero, smul_zero,
-      sub_self, norm_neg, Int.natAbs_zero]
+    simp only [map_neg, neg_mul, one_mul, mul_eq_mul_left_iff, true_or_iff, Int.natAbs_eq_zero, eq_self_iff_true, Int.cast_one, map_one, neg_inj, Nat.cast_eq_zero, Int.cast_neg]
+  · simp only [inner_, Int.cast_zero, zero_sub, Nat.cast_zero, zero_mul, eq_self_iff_true, Int.sign_zero, zero_smul, zero_add, mul_zero, smul_zero, sub_self, norm_neg, Int.natAbs_zero]
   · rw [Int.sign_eq_one_of_pos hn]
-    simp only [one_mul, mul_eq_mul_left_iff, true_or_iff, Int.natAbs_eq_zero, eq_self_iff_true,
-      Int.cast_one, one_smul, Nat.cast_eq_zero, nat]
+    simp only [one_mul, mul_eq_mul_left_iff, true_or_iff, Int.natAbs_eq_zero, eq_self_iff_true, Int.cast_one, one_smul, Nat.cast_eq_zero, nat]
 
 private theorem rat_prop (r : ℚ) : innerProp' E (r : 𝕜) := by
   intro x y

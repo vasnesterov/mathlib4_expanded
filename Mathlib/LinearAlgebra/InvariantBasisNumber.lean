@@ -292,8 +292,7 @@ private def induced_equiv [Fintype ι'] (I : Ideal R) (e : (ι → R) ≃ₗ[R] 
   all_goals
     convert_to Ideal.Quotient.mk (I.pi ι') _ = Ideal.Quotient.mk (I.pi ι') _
     congr
-    simp only [map_add, LinearEquiv.coe_coe, LinearEquiv.map_smulₛₗ, RingHom.id_apply,
-      LinearEquiv.apply_symm_apply]
+    simp only [map_add, LinearEquiv.coe_coe, LinearEquiv.map_smulₛₗ, RingHom.id_apply, LinearEquiv.apply_symm_apply]
 #noalign induced_equiv
 -- porting note: `#noalign` since this is marked `private`
 

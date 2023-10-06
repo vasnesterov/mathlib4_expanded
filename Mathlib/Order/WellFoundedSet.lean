@@ -343,8 +343,7 @@ theorem Subsingleton.partiallyWellOrderedOn (hs : s.Subsingleton) : PartiallyWel
 @[simp]
 theorem partiallyWellOrderedOn_insert :
     PartiallyWellOrderedOn (insert a s) r ↔ PartiallyWellOrderedOn s r := by
-  simp only [← singleton_union, partiallyWellOrderedOn_union,
-    partiallyWellOrderedOn_singleton, true_and_iff]
+  simp only [← singleton_union, partiallyWellOrderedOn_union, partiallyWellOrderedOn_singleton, true_and_iff]
 #align set.partially_well_ordered_on_insert Set.partiallyWellOrderedOn_insert
 
 protected theorem PartiallyWellOrderedOn.insert (h : PartiallyWellOrderedOn s r) (a : α) :

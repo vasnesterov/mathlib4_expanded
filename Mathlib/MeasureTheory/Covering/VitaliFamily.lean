@@ -223,8 +223,7 @@ theorem mem_filterAt_iff {x : α} {s : Set (Set α)} :
   simp only [filterAt, exists_prop, gt_iff_lt]
   rw [mem_biInf_of_directed]
   · simp only [subset_def, and_imp, exists_prop, mem_sep_iff, mem_Ioi, mem_principal]
-  · simp only [DirectedOn, exists_prop, ge_iff_le, le_principal_iff, mem_Ioi, Order.Preimage,
-      mem_principal]
+  · simp only [DirectedOn, exists_prop, ge_iff_le, le_principal_iff, mem_Ioi, Order.Preimage, mem_principal]
     intro x hx y hy
     refine' ⟨min x y, lt_min hx hy,
       fun a ha => ⟨ha.1, ha.2.trans (closedBall_subset_closedBall (min_le_left _ _))⟩,
@@ -233,8 +232,7 @@ theorem mem_filterAt_iff {x : α} {s : Set (Set α)} :
 #align vitali_family.mem_filter_at_iff VitaliFamily.mem_filterAt_iff
 
 instance filterAt_neBot (x : α) : (v.filterAt x).NeBot := by
-  simp only [neBot_iff, ← empty_mem_iff_bot, mem_filterAt_iff, not_exists, exists_prop,
-    mem_empty_iff_false, and_true_iff, gt_iff_lt, not_and, Ne.def, not_false_iff, not_forall]
+  simp only [neBot_iff, ← empty_mem_iff_bot, mem_filterAt_iff, not_exists, exists_prop, mem_empty_iff_false, and_true_iff, gt_iff_lt, not_and, Ne.def, not_false_iff, not_forall]
   intro ε εpos
   obtain ⟨w, w_sets, hw⟩ : ∃ w ∈ v.setsAt x, w ⊆ closedBall x ε := v.Nontrivial x ε εpos
   exact ⟨w, w_sets, hw⟩
@@ -273,8 +271,7 @@ theorem eventually_filterAt_measurableSet (x : α) : ∀ᶠ a in v.filterAt x, M
 
 theorem frequently_filterAt_iff {x : α} {P : Set α → Prop} :
     (∃ᶠ a in v.filterAt x, P a) ↔ ∀ ε > (0 : ℝ), ∃ a ∈ v.setsAt x, a ⊆ closedBall x ε ∧ P a := by
-  simp only [Filter.Frequently, eventually_filterAt_iff, not_exists, exists_prop, not_and,
-    Classical.not_not, not_forall]
+  simp only [Filter.Frequently, eventually_filterAt_iff, not_exists, exists_prop, not_and, Classical.not_not, not_forall]
 #align vitali_family.frequently_filter_at_iff VitaliFamily.frequently_filterAt_iff
 
 theorem eventually_filterAt_subset_of_nhds {x : α} {o : Set α} (hx : o ∈ 𝓝 x) :

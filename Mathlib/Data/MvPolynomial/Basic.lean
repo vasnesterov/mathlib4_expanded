@@ -247,8 +247,7 @@ theorem C_injective (σ : Type*) (R : Type*) [CommSemiring R] :
 theorem C_surjective {R : Type*} [CommSemiring R] (σ : Type*) [IsEmpty σ] :
     Function.Surjective (C : R → MvPolynomial σ R) := by
   refine' fun p => ⟨p.toFun 0, Finsupp.ext fun a => _⟩
-  simp only [C_apply, ←single_eq_monomial, (Finsupp.ext isEmptyElim (α := σ) : a = 0),
-    single_eq_same]
+  simp only [C_apply, ←single_eq_monomial, (Finsupp.ext isEmptyElim (α := σ) : a = 0), single_eq_same]
   rfl
 #align mv_polynomial.C_surjective MvPolynomial.C_surjective
 
@@ -1087,8 +1086,7 @@ theorem map_eval₂Hom [CommSemiring S₂] (f : R →+* S₁) (g : σ → S₁) 
 
 theorem eval₂Hom_monomial (f : R →+* S₁) (g : σ → S₁) (d : σ →₀ ℕ) (r : R) :
     eval₂Hom f g (monomial d r) = f r * d.prod fun i k => g i ^ k := by
-  simp only [monomial_eq, RingHom.map_mul, eval₂Hom_C, Finsupp.prod, map_prod,
-    RingHom.map_pow, eval₂Hom_X']
+  simp only [monomial_eq, RingHom.map_mul, eval₂Hom_C, Finsupp.prod, map_prod, RingHom.map_pow, eval₂Hom_X']
 #align mv_polynomial.eval₂_hom_monomial MvPolynomial.eval₂Hom_monomial
 
 section
@@ -1595,8 +1593,7 @@ variable (R)
 
 theorem _root_.Algebra.adjoin_range_eq_range_aeval :
     Algebra.adjoin R (Set.range f) = (MvPolynomial.aeval f).range := by
-  simp only [← Algebra.map_top, ← MvPolynomial.adjoin_range_X, AlgHom.map_adjoin, ← Set.range_comp,
-    (· ∘ ·), MvPolynomial.aeval_X]
+  simp only [← Algebra.map_top, ← MvPolynomial.adjoin_range_X, AlgHom.map_adjoin, ← Set.range_comp, (· ∘ ·), MvPolynomial.aeval_X]
 #align algebra.adjoin_range_eq_range_aeval Algebra.adjoin_range_eq_range_aeval
 
 theorem _root_.Algebra.adjoin_eq_range (s : Set S₁) :

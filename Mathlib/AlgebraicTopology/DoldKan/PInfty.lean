@@ -37,8 +37,7 @@ theorem P_is_eventually_constant {q n : ℕ} (hqn : n ≤ q) :
     ((P (q + 1)).f n : X _[n] ⟶ _) = (P q).f n := by
   rcases n with (_|n)
   · simp only [Nat.zero_eq, P_f_0_eq]
-  · simp only [P_succ, add_right_eq_self, comp_add, HomologicalComplex.comp_f,
-      HomologicalComplex.add_f_apply, comp_id]
+  · simp only [P_succ, add_right_eq_self, comp_add, HomologicalComplex.comp_f, HomologicalComplex.add_f_apply, comp_id]
     exact (HigherFacesVanish.of_P q n).comp_Hσ_eq_zero (Nat.succ_le_iff.mp hqn)
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.P_is_eventually_constant AlgebraicTopology.DoldKan.P_is_eventually_constant
@@ -129,8 +128,7 @@ set_option linter.uppercaseLean3 false in
 @[reassoc (attr := simp)]
 theorem PInfty_f_comp_QInfty_f (n : ℕ) : (PInfty.f n : X _[n] ⟶ _) ≫ QInfty.f n = 0 := by
   dsimp only [QInfty]
-  simp only [HomologicalComplex.sub_f_apply, HomologicalComplex.id_f, comp_sub, comp_id,
-    PInfty_f_idem, sub_self]
+  simp only [HomologicalComplex.sub_f_apply, HomologicalComplex.id_f, comp_sub, comp_id, PInfty_f_idem, sub_self]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.P_infty_f_comp_Q_infty_f AlgebraicTopology.DoldKan.PInfty_f_comp_QInfty_f
 
@@ -144,8 +142,7 @@ set_option linter.uppercaseLean3 false in
 @[reassoc (attr := simp)]
 theorem QInfty_f_comp_PInfty_f (n : ℕ) : (QInfty.f n : X _[n] ⟶ _) ≫ PInfty.f n = 0 := by
   dsimp only [QInfty]
-  simp only [HomologicalComplex.sub_f_apply, HomologicalComplex.id_f, sub_comp, id_comp,
-    PInfty_f_idem, sub_self]
+  simp only [HomologicalComplex.sub_f_apply, HomologicalComplex.id_f, sub_comp, id_comp, PInfty_f_idem, sub_self]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.Q_infty_f_comp_P_infty_f AlgebraicTopology.DoldKan.QInfty_f_comp_PInfty_f
 
@@ -229,8 +226,7 @@ theorem karoubi_PInfty_f {Y : Karoubi (SimplicialObject C)} (n : ℕ) :
   erw [id_comp, id_comp, comp_id, comp_id] at h₁₄
   -- We use the three equalities h₃₂, h₄₃, h₁₄.
   rw [← h₃₂]; rw [← h₄₃]; rw [h₁₄]
-  simp only [KaroubiFunctorCategoryEmbedding.map_app_f, Karoubi.decompId_p_f,
-    Karoubi.decompId_i_f, Karoubi.comp_f]
+  simp only [KaroubiFunctorCategoryEmbedding.map_app_f, Karoubi.decompId_p_f, Karoubi.decompId_i_f, Karoubi.comp_f]
   let π : Y₄ ⟶ Y₄ := (toKaroubi _ ⋙ karoubiFunctorCategoryEmbedding _ _).map Y.p
   have eq := Karoubi.hom_ext_iff.mp (PInfty_f_naturality n π)
   simp only [Karoubi.comp_f] at eq

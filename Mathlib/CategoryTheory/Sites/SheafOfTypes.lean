@@ -797,9 +797,7 @@ def compatibleYonedaFamily_toCocone (R : Presieve X) (W : C) (x : FamilyOfElemen
     { app := fun f => x f.obj.hom f.property
       naturality := by
         intro g₁ g₂ F
-        simp only [Functor.id_obj, Functor.comp_obj, fullSubcategoryInclusion.obj, Over.forget_obj,
-          Functor.const_obj_obj, Functor.comp_map, fullSubcategoryInclusion.map, Over.forget_map,
-          Functor.const_obj_map, Category.comp_id]
+        simp only [Functor.id_obj, Functor.comp_obj, fullSubcategoryInclusion.obj, Over.forget_obj, Functor.const_obj_obj, Functor.comp_map, fullSubcategoryInclusion.map, Over.forget_map, Functor.const_obj_map, Category.comp_id]
         rw [← Category.id_comp (x g₁.obj.hom g₁.property)]
         apply hx
         simp only [Functor.id_obj, Over.w, Opposite.unop_op, Category.id_comp] }

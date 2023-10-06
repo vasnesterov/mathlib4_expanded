@@ -149,8 +149,7 @@ theorem imageMonoFactorisation_e' {X Y : C} (f : X ⟶ Y) :
     (imageMonoFactorisation f).e = cokernel.π _ ≫ Abelian.coimageImageComparison f := by
   dsimp
   ext
-  simp only [Abelian.coimageImageComparison, imageMonoFactorisation_e, Category.assoc,
-    cokernel.π_desc_assoc]
+  simp only [Abelian.coimageImageComparison, imageMonoFactorisation_e, Category.assoc, cokernel.π_desc_assoc]
 #align category_theory.abelian.of_coimage_image_comparison_is_iso.image_mono_factorisation_e' CategoryTheory.Abelian.OfCoimageImageComparisonIsIso.imageMonoFactorisation_e'
 
 /-- If the coimage-image comparison morphism for a morphism `f` is an isomorphism,
@@ -419,15 +418,12 @@ theorem coimageIsoImage'_hom :
     (coimageIsoImage' f).hom =
       cokernel.desc _ (factorThruImage f) (by simp [← cancel_mono (Limits.image.ι f)]) := by
   ext
-  simp only [← cancel_mono (Limits.image.ι f), IsImage.isoExt_hom, cokernel.π_desc,
-    Category.assoc, IsImage.lift_ι, coimageStrongEpiMonoFactorisation_m,
-    Limits.image.fac]
+  simp only [← cancel_mono (Limits.image.ι f), IsImage.isoExt_hom, cokernel.π_desc, Category.assoc, IsImage.lift_ι, coimageStrongEpiMonoFactorisation_m, Limits.image.fac]
 #align category_theory.abelian.coimage_iso_image'_hom CategoryTheory.Abelian.coimageIsoImage'_hom
 
 theorem factorThruImage_comp_coimageIsoImage'_inv :
     factorThruImage f ≫ (coimageIsoImage' f).inv = cokernel.π _ := by
-  simp only [IsImage.isoExt_inv, image.isImage_lift, image.fac_lift,
-    coimageStrongEpiMonoFactorisation_e]
+  simp only [IsImage.isoExt_inv, image.isImage_lift, image.fac_lift, coimageStrongEpiMonoFactorisation_e]
 #align category_theory.abelian.factor_thru_image_comp_coimage_iso_image'_inv CategoryTheory.Abelian.factorThruImage_comp_coimageIsoImage'_inv
 
 /-- There is a canonical isomorphism between the abelian image and the categorical image of a

@@ -364,8 +364,7 @@ protected theorem aEStronglyMeasurable_on_iff {β : Type*} [TopologicalSpace β]
   calc
     AEStronglyMeasurable f (μ.restrict s) ↔
         AEStronglyMeasurable f (Measure.sum fun g : G => μ.restrict (g • t ∩ s)) := by
-      simp only [← ht.restrict_restrict,
-        ht.sum_restrict_of_ac restrict_le_self.absolutelyContinuous]
+      simp only [← ht.restrict_restrict, ht.sum_restrict_of_ac restrict_le_self.absolutelyContinuous]
     _ ↔ ∀ g : G, AEStronglyMeasurable f (μ.restrict (g • (g⁻¹ • s ∩ t))) := by
       simp only [smul_set_inter, inter_comm, smul_inv_smul, aestronglyMeasurable_sum_measure_iff]
     _ ↔ ∀ g : G, AEStronglyMeasurable f (μ.restrict (g⁻¹ • (g⁻¹⁻¹ • s ∩ t))) :=
@@ -378,8 +377,7 @@ protected theorem aEStronglyMeasurable_on_iff {β : Type*} [TopologicalSpace β]
         _).aestronglyMeasurable_comp_iff he]
       simp only [(· ∘ ·), hf]
     _ ↔ AEStronglyMeasurable f (μ.restrict t) := by
-      simp only [← aestronglyMeasurable_sum_measure_iff, ← hs.restrict_restrict,
-        hs.sum_restrict_of_ac restrict_le_self.absolutelyContinuous]
+      simp only [← aestronglyMeasurable_sum_measure_iff, ← hs.restrict_restrict, hs.sum_restrict_of_ac restrict_le_self.absolutelyContinuous]
 #align measure_theory.is_fundamental_domain.ae_strongly_measurable_on_iff MeasureTheory.IsFundamentalDomain.aEStronglyMeasurable_on_iff
 #align measure_theory.is_add_fundamental_domain.ae_strongly_measurable_on_iff MeasureTheory.IsAddFundamentalDomain.aEStronglyMeasurable_on_iff
 
@@ -699,8 +697,7 @@ protected theorem fundamentalInterior : IsFundamentalDomain G (fundamentalInteri
       simp_rw [diff_subset_iff, ← iUnion_union_distrib, ← smul_set_union (α := G) (β := α),
         fundamentalFrontier_union_fundamentalInterior]; rfl
     refine' eq_bot_mono (μ.mono <| compl_subset_compl.2 this) _
-    simp only [iUnion_inv_smul, compl_sdiff, ENNReal.bot_eq_zero, himp_eq, sup_eq_union,
-      @iUnion_smul_eq_setOf_exists _ _ _ _ s]
+    simp only [iUnion_inv_smul, compl_sdiff, ENNReal.bot_eq_zero, himp_eq, sup_eq_union, @iUnion_smul_eq_setOf_exists _ _ _ _ s]
     exact measure_union_null
       (measure_iUnion_null fun _ => measure_smul_null hs.measure_fundamentalFrontier _) hs.ae_covers
   aedisjoint := (pairwise_disjoint_fundamentalInterior _ _).mono fun _ _ => Disjoint.aedisjoint

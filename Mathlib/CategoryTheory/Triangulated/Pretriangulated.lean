@@ -199,8 +199,7 @@ lemma complete_distinguished_triangle_morphism₂ (T₁ T₂ : Triangle C)
   obtain ⟨a, ⟨ha₁, ha₂⟩⟩ := complete_distinguished_triangle_morphism _ _
     (inv_rot_of_dist_triangle _ hT₁) (inv_rot_of_dist_triangle _ hT₂) (c⟦(-1 : ℤ)⟧') a (by
     dsimp
-    simp only [neg_comp, comp_neg, ← Functor.map_comp_assoc, ← comm,
-      Functor.map_comp, shift_shift_neg', Functor.id_obj, assoc, Iso.inv_hom_id_app, comp_id])
+    simp only [neg_comp, comp_neg, ← Functor.map_comp_assoc, ← comm, Functor.map_comp, shift_shift_neg', Functor.id_obj, assoc, Iso.inv_hom_id_app, comp_id])
   refine' ⟨a, ⟨ha₁, _⟩⟩
   dsimp only [Triangle.invRotate, Triangle.mk] at ha₂
   rw [← cancel_mono ((shiftEquiv C (1 : ℤ)).counitIso.inv.app T₂.obj₃)]; rw [assoc]; rw [assoc]; rw [← ha₂]

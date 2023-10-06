@@ -295,8 +295,7 @@ section Opposite
 theorem Exact.op (h : Exact f g) : Exact g.op f.op := by
   rw [exact_iff]
   refine' ⟨by simp [← op_comp, h.w], Quiver.Hom.unop_inj _⟩
-  simp only [unop_comp, cokernel.π_op, eqToHom_refl, kernel.ι_op, Category.id_comp,
-    Category.assoc, kernel_comp_cokernel_assoc _ _ h, zero_comp, comp_zero, unop_zero]
+  simp only [unop_comp, cokernel.π_op, eqToHom_refl, kernel.ι_op, Category.id_comp, Category.assoc, kernel_comp_cokernel_assoc _ _ h, zero_comp, comp_zero, unop_zero]
 #align category_theory.abelian.exact.op CategoryTheory.Abelian.Exact.op
 
 theorem Exact.op_iff : Exact g.op f.op ↔ Exact f g :=

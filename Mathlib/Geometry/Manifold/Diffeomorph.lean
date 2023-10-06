@@ -331,8 +331,7 @@ theorem contMDiffWithinAt_comp_diffeomorph_iff {m} (h : M ≃ₘ^n⟮I, J⟯ N) 
 theorem contMDiffOn_comp_diffeomorph_iff {m} (h : M ≃ₘ^n⟮I, J⟯ N) {f : N → M'} {s} (hm : m ≤ n) :
     ContMDiffOn I I' m (f ∘ h) s ↔ ContMDiffOn J I' m f (h.symm ⁻¹' s) :=
   h.toEquiv.forall_congr fun {_} => by
-    simp only [hm, coe_toEquiv, h.symm_apply_apply, contMDiffWithinAt_comp_diffeomorph_iff,
-      mem_preimage]
+    simp only [hm, coe_toEquiv, h.symm_apply_apply, contMDiffWithinAt_comp_diffeomorph_iff, mem_preimage]
 #align diffeomorph.cont_mdiff_on_comp_diffeomorph_iff Diffeomorph.contMDiffOn_comp_diffeomorph_iff
 
 @[simp]
@@ -577,8 +576,7 @@ def toTransDiffeomorph (e : E ≃ₘ[𝕜] F) : M ≃ₘ⟮I, I.transDiffeomorph
     refine' contMDiffWithinAt_iff'.2 ⟨continuousWithinAt_id, _⟩
     refine' e.symm.contDiff.contDiffWithinAt.congr' (fun y hy => _) _
     · simp only [mem_inter_iff, I.extChartAt_transDiffeomorph_target] at hy
-      simp only [Equiv.coe_refl, Equiv.refl_symm, id, (· ∘ ·),
-        I.coe_extChartAt_transDiffeomorph_symm, (extChartAt I x).right_inv hy.1]
+      simp only [Equiv.coe_refl, Equiv.refl_symm, id, (· ∘ ·), I.coe_extChartAt_transDiffeomorph_symm, (extChartAt I x).right_inv hy.1]
     exact ⟨(extChartAt _ x).map_source (mem_extChartAt_source _ x), trivial, by
       simp only [e.symm_apply_apply, Equiv.refl_symm, Equiv.coe_refl, mfld_simps]⟩
 #align diffeomorph.to_trans_diffeomorph Diffeomorph.toTransDiffeomorph

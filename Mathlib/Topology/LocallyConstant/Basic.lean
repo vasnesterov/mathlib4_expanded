@@ -344,8 +344,7 @@ def ofClopen {X : Type*} [TopologicalSpace X] {U : Set X} [∀ x, Decidable (x �
     refine IsLocallyConstant.iff_isOpen_fiber.2 <| Fin.forall_fin_two.2 ⟨?_, ?_⟩
     · convert hU.1 using 1
       ext
-      simp only [mem_singleton_iff, Fin.one_eq_zero_iff, mem_preimage, ite_eq_left_iff,
-        Nat.succ_succ_ne_one]
+      simp only [mem_singleton_iff, Fin.one_eq_zero_iff, mem_preimage, ite_eq_left_iff, Nat.succ_succ_ne_one]
       tauto
     · rw [← isClosed_compl_iff]
       convert hU.2
@@ -357,8 +356,7 @@ def ofClopen {X : Type*} [TopologicalSpace X] {U : Set X} [∀ x, Decidable (x �
 theorem ofClopen_fiber_zero {X : Type*} [TopologicalSpace X] {U : Set X} [∀ x, Decidable (x ∈ U)]
     (hU : IsClopen U) : ofClopen hU ⁻¹' ({0} : Set (Fin 2)) = U := by
   ext
-  simp only [ofClopen, mem_singleton_iff, Fin.one_eq_zero_iff, coe_mk, mem_preimage,
-    ite_eq_left_iff, Nat.succ_succ_ne_one]
+  simp only [ofClopen, mem_singleton_iff, Fin.one_eq_zero_iff, coe_mk, mem_preimage, ite_eq_left_iff, Nat.succ_succ_ne_one]
   tauto
 #align locally_constant.of_clopen_fiber_zero LocallyConstant.ofClopen_fiber_zero
 
@@ -366,8 +364,7 @@ theorem ofClopen_fiber_zero {X : Type*} [TopologicalSpace X] {U : Set X} [∀ x,
 theorem ofClopen_fiber_one {X : Type*} [TopologicalSpace X] {U : Set X} [∀ x, Decidable (x ∈ U)]
     (hU : IsClopen U) : ofClopen hU ⁻¹' ({1} : Set (Fin 2)) = Uᶜ := by
   ext
-  simp only [ofClopen, mem_singleton_iff, coe_mk, Fin.zero_eq_one_iff, mem_preimage,
-    ite_eq_right_iff, mem_compl_iff, Nat.succ_succ_ne_one]
+  simp only [ofClopen, mem_singleton_iff, coe_mk, Fin.zero_eq_one_iff, mem_preimage, ite_eq_right_iff, mem_compl_iff, Nat.succ_succ_ne_one]
 #align locally_constant.of_clopen_fiber_one LocallyConstant.ofClopen_fiber_one
 
 theorem locallyConstant_eq_of_fiber_zero_eq {X : Type*} [TopologicalSpace X]
@@ -642,8 +639,7 @@ lemma piecewise_apply_left {C₁ C₂ : Set X} (h₁ : IsClosed C₁) (h₂ : Is
     (hfg : ∀ (x : X) (hx : x ∈ C₁ ∩ C₂), f ⟨x, hx.1⟩ = g ⟨x, hx.2⟩)
     [DecidablePred (· ∈ C₁)] (x : X) (hx : x ∈ C₁) :
     piecewise h₁ h₂ h f g hfg x = f ⟨x, hx⟩ := by
-  simp only [piecewise, Set.mem_preimage, continuous_subtype_val.restrictPreimage,
-    coe_comap, Function.comp_apply, coe_mk]
+  simp only [piecewise, Set.mem_preimage, continuous_subtype_val.restrictPreimage, coe_comap, Function.comp_apply, coe_mk]
   rw [dif_pos hx]
 
 @[simp]
@@ -652,8 +648,7 @@ lemma piecewise_apply_right {C₁ C₂ : Set X} (h₁ : IsClosed C₁) (h₂ : I
     (hfg : ∀ (x : X) (hx : x ∈ C₁ ∩ C₂), f ⟨x, hx.1⟩ = g ⟨x, hx.2⟩)
     [DecidablePred (· ∈ C₁)] (x : X) (hx : x ∈ C₂) :
     piecewise h₁ h₂ h f g hfg x = g ⟨x, hx⟩ := by
-  simp only [piecewise, Set.mem_preimage, continuous_subtype_val.restrictPreimage,
-    coe_comap, Function.comp_apply, coe_mk]
+  simp only [piecewise, Set.mem_preimage, continuous_subtype_val.restrictPreimage, coe_comap, Function.comp_apply, coe_mk]
   split_ifs with h
   · exact hfg x ⟨h, hx⟩
   · rfl

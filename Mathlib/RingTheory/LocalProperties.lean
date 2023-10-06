@@ -456,8 +456,7 @@ theorem multiple_mem_span_of_mem_localization_span [Algebra R' S] [Algebra R S]
   induction s' using Finset.induction_on generalizing x
   · use 1; simpa using hs'
   rename_i a s _ hs
-  simp only [Finset.coe_insert, Finset.image_insert, Finset.coe_image, Subtype.coe_mk,
-    Submodule.mem_span_insert] at hs' ⊢
+  simp only [Finset.coe_insert, Finset.image_insert, Finset.coe_image, Subtype.coe_mk, Submodule.mem_span_insert] at hs' ⊢
   rcases hs' with ⟨y, z, hz, rfl⟩
   rcases IsLocalization.surj M y with ⟨⟨y', s'⟩, e⟩
   replace e : _ * a = _ * a := (congr_arg (fun x => algebraMap R' S x * a) e : _)

@@ -134,8 +134,7 @@ theorem toUniformSpace_eq :
 variable {R Γ₀}
 
 theorem mem_nhds {s : Set R} {x : R} : s ∈ 𝓝 x ↔ ∃ γ : Γ₀ˣ, { y | (v (y - x) : Γ₀) < γ } ⊆ s := by
-  simp only [← nhds_translation_add_neg x, ← sub_eq_add_neg, preimage_setOf_eq, true_and,
-    ((hasBasis_nhds_zero R Γ₀).comap fun y => y - x).mem_iff]
+  simp only [← nhds_translation_add_neg x, ← sub_eq_add_neg, preimage_setOf_eq, true_and, ((hasBasis_nhds_zero R Γ₀).comap fun y => y - x).mem_iff]
 #align valued.mem_nhds Valued.mem_nhds
 
 theorem mem_nhds_zero {s : Set R} : s ∈ 𝓝 (0 : R) ↔ ∃ γ : Γ₀ˣ, { x | v x < (γ : Γ₀) } ⊆ s := by

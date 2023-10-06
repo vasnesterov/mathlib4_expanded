@@ -64,8 +64,7 @@ theorem coe_iSup_of_directed {S : ι → Subsemigroup M} (hS : Directed (· ≤ 
 @[to_additive]
 theorem mem_sSup_of_directed_on {S : Set (Subsemigroup M)} (hS : DirectedOn (· ≤ ·) S) {x : M} :
     x ∈ sSup S ↔ ∃ s ∈ S, x ∈ s := by
-  simp only [sSup_eq_iSup', mem_iSup_of_directed hS.directed_val, SetCoe.exists, Subtype.coe_mk,
-    exists_prop]
+  simp only [sSup_eq_iSup', mem_iSup_of_directed hS.directed_val, SetCoe.exists, Subtype.coe_mk, exists_prop]
 #align subsemigroup.mem_Sup_of_directed_on Subsemigroup.mem_sSup_of_directed_on
 #align add_subsemigroup.mem_Sup_of_directed_on AddSubsemigroup.mem_sSup_of_directed_on
 

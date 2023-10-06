@@ -854,9 +854,7 @@ theorem singletonSubgraph_le_iff (v : V) (H : G.Subgraph) :
 @[simp]
 theorem map_singletonSubgraph (f : G →g G') {v : V} :
     Subgraph.map f (G.singletonSubgraph v) = G'.singletonSubgraph (f v) := by
-  ext <;> simp only [Relation.Map, Subgraph.map_Adj, singletonSubgraph_Adj, Pi.bot_apply,
-    exists_and_left, and_iff_left_iff_imp, IsEmpty.forall_iff, Subgraph.map_verts,
-    singletonSubgraph_verts, Set.image_singleton]
+  ext <;> simp only [Relation.Map, Subgraph.map_Adj, singletonSubgraph_Adj, Pi.bot_apply, exists_and_left, and_iff_left_iff_imp, IsEmpty.forall_iff, Subgraph.map_verts, singletonSubgraph_verts, Set.image_singleton]
   exact False.elim
 #align simple_graph.map_singleton_subgraph SimpleGraph.map_singletonSubgraph
 
@@ -894,8 +892,7 @@ theorem edgeSet_subgraphOfAdj {v w : V} (hvw : G.Adj v w) :
     (G.subgraphOfAdj hvw).edgeSet = {⟦(v, w)⟧} := by
   ext e
   refine' e.ind _
-  simp only [eq_comm, Set.mem_singleton_iff, Subgraph.mem_edgeSet, subgraphOfAdj_Adj, iff_self_iff,
-    forall₂_true_iff]
+  simp only [eq_comm, Set.mem_singleton_iff, Subgraph.mem_edgeSet, subgraphOfAdj_Adj, iff_self_iff, forall₂_true_iff]
 #align simple_graph.edge_set_subgraph_of_adj SimpleGraph.edgeSet_subgraphOfAdj
 
 set_option autoImplicit true in
@@ -916,8 +913,7 @@ theorem subgraphOfAdj_symm {v w : V} (hvw : G.Adj v w) :
 theorem map_subgraphOfAdj (f : G →g G') {v w : V} (hvw : G.Adj v w) :
     Subgraph.map f (G.subgraphOfAdj hvw) = G'.subgraphOfAdj (f.map_adj hvw) := by
   ext
-  · simp only [Subgraph.map_verts, subgraphOfAdj_verts, Set.mem_image, Set.mem_insert_iff,
-      Set.mem_singleton_iff]
+  · simp only [Subgraph.map_verts, subgraphOfAdj_verts, Set.mem_image, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨u, rfl | rfl, rfl⟩ <;> simp
     · rintro (rfl | rfl)
@@ -1088,8 +1084,7 @@ theorem deleteEdges_spanningCoe_eq :
 theorem deleteEdges_coe_eq (s : Set (Sym2 G'.verts)) :
     G'.coe.deleteEdges s = (G'.deleteEdges (Sym2.map (↑) '' s)).coe := by
   ext ⟨v, hv⟩ ⟨w, hw⟩
-  simp only [SimpleGraph.deleteEdges_adj, coe_Adj, deleteEdges_adj, Set.mem_image, not_exists,
-    not_and, and_congr_right_iff]
+  simp only [SimpleGraph.deleteEdges_adj, coe_Adj, deleteEdges_adj, Set.mem_image, not_exists, not_and, and_congr_right_iff]
   intro
   constructor
   · intro hs

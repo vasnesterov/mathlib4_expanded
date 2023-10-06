@@ -1196,8 +1196,7 @@ theorem normSq_def : normSq a = (a * star a).re := rfl
 #align quaternion.norm_sq_def Quaternion.normSq_def
 
 theorem normSq_def' : normSq a = a.1 ^ 2 + a.2 ^ 2 + a.3 ^ 2 + a.4 ^ 2 := by
-  simp only [normSq_def, sq, mul_neg, sub_neg_eq_add, mul_re, star_re, star_imI, star_imJ,
-    star_imK]
+  simp only [normSq_def, sq, mul_neg, sub_neg_eq_add, mul_re, star_re, star_imI, star_imJ, star_imK]
 #align quaternion.norm_sq_def' Quaternion.normSq_def'
 
 theorem normSq_coe : normSq (x : ℍ[R]) = x ^ 2 := by

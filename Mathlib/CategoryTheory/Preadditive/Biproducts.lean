@@ -219,8 +219,7 @@ theorem biproduct.total : ∑ j : J, biproduct.π f j ≫ biproduct.ι f j = �
 theorem biproduct.lift_eq {T : C} {g : ∀ j, T ⟶ f j} :
     biproduct.lift g = ∑ j, g j ≫ biproduct.ι f j := by
   ext j
-  simp only [sum_comp, biproduct.ι_π, comp_dite, biproduct.lift_π, Category.assoc, comp_zero,
-    Finset.sum_dite_eq', Finset.mem_univ, eqToHom_refl, Category.comp_id, if_true]
+  simp only [sum_comp, biproduct.ι_π, comp_dite, biproduct.lift_π, Category.assoc, comp_zero, Finset.sum_dite_eq', Finset.mem_univ, eqToHom_refl, Category.comp_id, if_true]
 #align category_theory.limits.biproduct.lift_eq CategoryTheory.Limits.biproduct.lift_eq
 
 theorem biproduct.desc_eq {T : C} {g : ∀ j, f j ⟶ T} :
@@ -498,8 +497,7 @@ def binaryBiconeOfIsSplitMonoOfCokernel {X Y : C} {f : X ⟶ Y} [IsSplitMono f] 
     dsimp only [cokernelCoforkOfCofork_ofπ]
     letI := epi_of_isColimit_cofork i
     apply zero_of_epi_comp c.π
-    simp only [sub_comp, comp_sub, Category.comp_id, Category.assoc, IsSplitMono.id, sub_self,
-      Cofork.IsColimit.π_desc_assoc, CokernelCofork.π_ofπ, IsSplitMono.id_assoc]
+    simp only [sub_comp, comp_sub, Category.comp_id, Category.assoc, IsSplitMono.id, sub_self, Cofork.IsColimit.π_desc_assoc, CokernelCofork.π_ofπ, IsSplitMono.id_assoc]
     apply sub_eq_zero_of_eq
     apply Category.id_comp
   inr_snd := by apply SplitEpi.id
@@ -511,14 +509,10 @@ def isBilimitBinaryBiconeOfIsSplitMonoOfCokernel {X Y : C} {f : X ⟶ Y} [IsSpli
     {c : CokernelCofork f} (i : IsColimit c) : (binaryBiconeOfIsSplitMonoOfCokernel i).IsBilimit :=
   isBinaryBilimitOfTotal _
     (by
-      simp only [binaryBiconeOfIsSplitMonoOfCokernel_fst,
-        binaryBiconeOfIsSplitMonoOfCokernel_inr,
-        binaryBiconeOfIsSplitMonoOfCokernel_snd,
-        splitEpiOfIdempotentOfIsColimitCofork_section_]
+      simp only [binaryBiconeOfIsSplitMonoOfCokernel_fst, binaryBiconeOfIsSplitMonoOfCokernel_inr, binaryBiconeOfIsSplitMonoOfCokernel_snd, splitEpiOfIdempotentOfIsColimitCofork_section_]
       dsimp only [binaryBiconeOfIsSplitMonoOfCokernel_pt]
       rw [isColimitCoforkOfCokernelCofork_desc]; rw [isCokernelEpiComp_desc]
-      simp only [binaryBiconeOfIsSplitMonoOfCokernel_inl, Cofork.IsColimit.π_desc,
-        cokernelCoforkOfCofork_π, Cofork.π_ofπ, add_sub_cancel'_right])
+      simp only [binaryBiconeOfIsSplitMonoOfCokernel_inl, Cofork.IsColimit.π_desc, cokernelCoforkOfCofork_π, Cofork.π_ofπ, add_sub_cancel'_right])
 #align category_theory.limits.is_bilimit_binary_bicone_of_is_split_mono_of_cokernel CategoryTheory.Limits.isBilimitBinaryBiconeOfIsSplitMonoOfCokernel
 
 /-- If `b` is a binary bicone such that `b.inl` is a kernel of `b.snd`, then `b` is a bilimit
@@ -606,8 +600,7 @@ def binaryBiconeOfIsSplitEpiOfKernel {X Y : C} {f : X ⟶ Y} [IsSplitEpi f] {c :
       dsimp only [kernelForkOfFork_ι]
       letI := mono_of_isLimit_fork i
       apply zero_of_comp_mono c.ι
-      simp only [comp_sub, Category.comp_id, Category.assoc, sub_self, Fork.IsLimit.lift_ι,
-        Fork.ι_ofι, IsSplitEpi.id_assoc]
+      simp only [comp_sub, Category.comp_id, Category.assoc, sub_self, Fork.IsLimit.lift_ι, Fork.ι_ofι, IsSplitEpi.id_assoc]
     inr_snd := by simp }
 #align category_theory.limits.binary_bicone_of_is_split_epi_of_kernel CategoryTheory.Limits.binaryBiconeOfIsSplitEpiOfKernel
 
@@ -704,9 +697,7 @@ theorem Biprod.ofComponents_eq (f : X₁ ⊞ X₂ ⟶ Y₁ ⊞ Y₂) :
         (biprod.inr ≫ f ≫ biprod.fst) (biprod.inr ≫ f ≫ biprod.snd) =
       f := by
   ext <;>
-    simp only [Category.comp_id, biprod.inr_fst, biprod.inr_snd, biprod.inl_snd, add_zero, zero_add,
-      Biprod.inl_ofComponents, Biprod.inr_ofComponents, eq_self_iff_true, Category.assoc,
-      comp_zero, biprod.inl_fst, Preadditive.add_comp]
+    simp only [Category.comp_id, biprod.inr_fst, biprod.inr_snd, biprod.inl_snd, add_zero, zero_add, Biprod.inl_ofComponents, Biprod.inr_ofComponents, eq_self_iff_true, Category.assoc, comp_zero, biprod.inl_fst, Preadditive.add_comp]
 #align category_theory.biprod.of_components_eq CategoryTheory.Biprod.ofComponents_eq
 
 @[simp]
@@ -718,9 +709,7 @@ theorem Biprod.ofComponents_comp {X₁ X₂ Y₁ Y₂ Z₁ Z₂ : C} (f₁₁ : 
         (f₂₁ ≫ g₁₂ + f₂₂ ≫ g₂₂) := by
   dsimp [Biprod.ofComponents]
   ext <;>
-    simp only [add_comp, comp_add, add_comp_assoc, add_zero, zero_add, biprod.inl_fst,
-      biprod.inl_snd, biprod.inr_fst, biprod.inr_snd, biprod.inl_fst_assoc, biprod.inl_snd_assoc,
-      biprod.inr_fst_assoc, biprod.inr_snd_assoc, comp_zero, zero_comp, Category.assoc]
+    simp only [add_comp, comp_add, add_comp_assoc, add_zero, zero_add, biprod.inl_fst, biprod.inl_snd, biprod.inr_fst, biprod.inr_snd, biprod.inl_fst_assoc, biprod.inl_snd_assoc, biprod.inr_fst_assoc, biprod.inr_snd_assoc, comp_zero, zero_comp, Category.assoc]
 #align category_theory.biprod.of_components_comp CategoryTheory.Biprod.ofComponents_comp
 
 /-- The unipotent upper triangular matrix

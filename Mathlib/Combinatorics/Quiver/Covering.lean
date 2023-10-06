@@ -221,8 +221,7 @@ theorem Prefunctor.pathStar_injective (hφ : ∀ u, Injective (φ.star u)) (u : 
     cases' p₂ with x₂ _ p₂ e₂ <;>
     intro h <;>
     -- Porting note: added `Sigma.mk.inj_iff`
-    simp only [Prefunctor.pathStar_apply, Prefunctor.mapPath_nil, Prefunctor.mapPath_cons,
-      Sigma.mk.inj_iff] at h
+    simp only [Prefunctor.pathStar_apply, Prefunctor.mapPath_nil, Prefunctor.mapPath_cons, Sigma.mk.inj_iff] at h
   · -- Porting note: goal not present in lean3.
     rfl
   · exfalso

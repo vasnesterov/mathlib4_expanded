@@ -80,8 +80,7 @@ theorem T_complex_cos : ∀ n, (T ℂ n).eval (cos θ) = cos (n * θ)
     simp only [this, eval_X, eval_one, T_add_two, eval_sub, eval_mul, eval_nat_cast]
     simp only [Nat.cast_ofNat, Nat.cast_add]
     rw [T_complex_cos (n + 1)]; rw [T_complex_cos n]
-    simp only [Nat.cast_add, Nat.cast_one, add_mul, cos_add, one_mul, mul_assoc, sin_two_mul,
-      cos_two_mul]
+    simp only [Nat.cast_add, Nat.cast_one, add_mul, cos_add, one_mul, mul_assoc, sin_two_mul, cos_two_mul]
     ring
 #align polynomial.chebyshev.T_complex_cos Polynomial.Chebyshev.T_complex_cos
 

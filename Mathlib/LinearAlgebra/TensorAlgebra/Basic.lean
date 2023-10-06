@@ -130,8 +130,7 @@ def lift {A : Type*} [Semiring A] [Algebra R A] : (M →ₗ[R] A) ≃ (TensorAlg
       RingQuot.liftAlgHom R ∘ fun f =>
         ⟨FreeAlgebra.lift R (⇑f), fun x y (h : Rel R M x y) => by
           induction h <;>
-            simp only [Algebra.smul_def, FreeAlgebra.lift_ι_apply, LinearMap.map_smulₛₗ,
-              RingHom.id_apply, map_mul, AlgHom.commutes, map_add]⟩
+            simp only [Algebra.smul_def, FreeAlgebra.lift_ι_apply, LinearMap.map_smulₛₗ, RingHom.id_apply, map_mul, AlgHom.commutes, map_add]⟩
     invFun := fun F => F.toLinearMap.comp (ι R)
     left_inv := fun f => by
       rw [ι]

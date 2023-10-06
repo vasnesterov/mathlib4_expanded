@@ -111,8 +111,7 @@ theorem Filter.HasBasis.mem_separationRel {ι : Sort*} {p : ι → Prop} {s : ι
 #align filter.has_basis.mem_separation_rel Filter.HasBasis.mem_separationRel
 
 theorem separationRel_iff_specializes {a b : α} : (a, b) ∈ 𝓢 α ↔ a ⤳ b := by
-  simp only [(𝓤 α).basis_sets.mem_separationRel, id, mem_setOf_eq,
-    (nhds_basis_uniformity (𝓤 α).basis_sets).specializes_iff]
+  simp only [(𝓤 α).basis_sets.mem_separationRel, id, mem_setOf_eq, (nhds_basis_uniformity (𝓤 α).basis_sets).specializes_iff]
 #align separation_rel_iff_specializes separationRel_iff_specializes
 
 theorem separationRel_iff_inseparable {a b : α} : (a, b) ∈ 𝓢 α ↔ Inseparable a b :=

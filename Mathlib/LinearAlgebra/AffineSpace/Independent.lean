@@ -464,8 +464,7 @@ theorem exists_nontrivial_relation_sum_zero_of_not_affine_ind {t : Finset V}
     rw [affineIndependent_iff_of_fintype] at h
     simp only [exists_prop, not_forall] at h
     obtain ⟨w, hw, hwt, i, hi⟩ := h
-    simp only [Finset.weightedVSub_eq_weightedVSubOfPoint_of_sum_eq_zero _ w ((↑) : t → V) hw 0,
-      vsub_eq_sub, Finset.weightedVSubOfPoint_apply, sub_zero] at hwt
+    simp only [Finset.weightedVSub_eq_weightedVSubOfPoint_of_sum_eq_zero _ w ((↑) : t → V) hw 0, vsub_eq_sub, Finset.weightedVSubOfPoint_apply, sub_zero] at hwt
     let f : ∀ x : V, x ∈ t → k := fun x hx => w ⟨x, hx⟩
     refine' ⟨fun x => if hx : x ∈ t then f x hx else (0 : k), _, _, by use i; simp [hi]⟩
     suffices (∑ e : V in t, dite (e ∈ t) (fun hx => f e hx • e) fun _ => 0) = 0 by
@@ -585,8 +584,7 @@ theorem exists_affineIndependent (s : Set P) :
   · rw [Equiv.coe_vaddConst_symm, ← vectorSpan_eq_span_vsub_set_right k hp] at hb₂
     apply AffineSubspace.ext_of_direction_eq
     · have : Submodule.span k b = Submodule.span k (insert 0 b) := by simp
-      simp only [direction_affineSpan, ← hb₂, Equiv.coe_vaddConst, Set.singleton_union,
-        vectorSpan_eq_span_vsub_set_right k (Set.mem_insert p _), this]
+      simp only [direction_affineSpan, ← hb₂, Equiv.coe_vaddConst, Set.singleton_union, vectorSpan_eq_span_vsub_set_right k (Set.mem_insert p _), this]
       congr
       change (Equiv.vaddConst p).symm '' insert p (Equiv.vaddConst p '' b) = _
       rw [Set.image_insert_eq]; rw [← Set.image_comp]

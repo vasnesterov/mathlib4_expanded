@@ -83,9 +83,7 @@ theorem Derivation.tensorProductTo_mul (D : Derivation R S M) (x y : S ⊗[R] S)
   · intro x₁ y₁ h₁ h₂
     rw [mul_add]; rw [map_add]; rw [map_add]; rw [map_add]; rw [add_smul]; rw [smul_add]; rw [h₁]; rw [h₂]; rw [add_add_add_comm]
   intro x y
-  simp only [TensorProduct.tmul_mul_tmul, Derivation.tensorProductTo,
-    TensorProduct.AlgebraTensorModule.lift_apply, TensorProduct.lift.tmul',
-    TensorProduct.lmul'_apply_tmul]
+  simp only [TensorProduct.tmul_mul_tmul, Derivation.tensorProductTo, TensorProduct.AlgebraTensorModule.lift_apply, TensorProduct.lift.tmul', TensorProduct.lmul'_apply_tmul]
   dsimp
   rw [D.leibniz]
   simp only [smul_smul, smul_add, mul_comm (x * y) x₁, mul_right_comm x₁ x₂, ← mul_assoc]
@@ -216,9 +214,7 @@ def KaehlerDifferential.D : Derivation R S (Ω[S⁄R]) :=
         ← LinearMap.map_smul_of_tower (M₂ := Ω[S⁄R]), ← map_add, Ideal.toCotangent_eq, pow_two]
       convert Submodule.mul_mem_mul (KaehlerDifferential.one_smul_sub_smul_one_mem_ideal R a : _)
         (KaehlerDifferential.one_smul_sub_smul_one_mem_ideal R b : _) using 1
-      simp only [AddSubgroupClass.coe_sub, Submodule.coe_add, Submodule.coe_mk,
-        TensorProduct.tmul_mul_tmul, mul_sub, sub_mul, mul_comm b, Submodule.coe_smul_of_tower,
-        smul_sub, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
+      simp only [AddSubgroupClass.coe_sub, Submodule.coe_add, Submodule.coe_mk, TensorProduct.tmul_mul_tmul, mul_sub, sub_mul, mul_comm b, Submodule.coe_smul_of_tower, smul_sub, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
       ring_nf }
 set_option linter.uppercaseLean3 false in
 #align kaehler_differential.D KaehlerDifferential.D
@@ -598,9 +594,7 @@ theorem KaehlerDifferential.kerTotal_map (h : Function.Surjective (algebraMap A 
   -- `map_sub` and `map_add` are not firing so we need to use `LinearMap.map_*` instead
   simp_rw [Set.image_union, Submodule.span_union, ← Set.image_univ, Set.image_image, Set.image_univ,
     LinearMap.map_sub, LinearMap.map_add]
-  simp only [LinearMap.comp_apply, Finsupp.lmapDomain_apply, Finsupp.mapDomain_single,
-    Finsupp.mapRange.linearMap_apply, Finsupp.mapRange_single, Algebra.linearMap_apply,
-    map_one, map_add, map_mul]
+  simp only [LinearMap.comp_apply, Finsupp.lmapDomain_apply, Finsupp.mapDomain_single, Finsupp.mapRange.linearMap_apply, Finsupp.mapRange_single, Algebra.linearMap_apply, map_one, map_add, map_mul]
   simp_rw [sup_assoc, ← (h.Prod_map h).range_comp]
   congr!
   -- Porting note: new

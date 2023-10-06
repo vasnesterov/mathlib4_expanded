@@ -77,8 +77,7 @@ theorem Gamma_one_top : Gamma 1 = ⊤ := by
 
 theorem Gamma_zero_bot : Gamma 0 = ⊥ := by
   ext
-  simp only [Gamma_mem, coe_matrix_coe, Int.coe_castRingHom, map_apply, Int.cast_id,
-    Subgroup.mem_bot]
+  simp only [Gamma_mem, coe_matrix_coe, Int.coe_castRingHom, map_apply, Int.cast_id, Subgroup.mem_bot]
   constructor
   · intro h
     ext i j
@@ -104,8 +103,7 @@ def Gamma0 (N : ℕ) : Subgroup SL(2, ℤ) where
     intro a ha
     simp only [Set.mem_setOf_eq]
     rw [SL2_inv_expl a]
-    simp only [cons_val_zero, cons_val_one, head_cons, coe_matrix_coe,
-      coe_mk, Int.coe_castRingHom, map_apply, Int.cast_neg, neg_eq_zero, Set.mem_setOf_eq] at *
+    simp only [cons_val_zero, cons_val_one, head_cons, coe_matrix_coe, coe_mk, Int.coe_castRingHom, map_apply, Int.cast_neg, neg_eq_zero, Set.mem_setOf_eq] at *
     exact ha
 #align Gamma0 Gamma0
 
@@ -128,8 +126,7 @@ def Gamma0Map (N : ℕ) : Gamma0 N →* ZMod N where
     simp only [Subgroup.coe_mul, coe_matrix_coe, coe_mul, Int.coe_castRingHom, map_apply] at *
     rw [this]
     have ha := A.property
-    simp only [Int.cast_add, Int.cast_mul, add_left_eq_self, Gamma0_mem,
-      coe_matrix_coe, Int.coe_castRingHom, map_apply] at *
+    simp only [Int.cast_add, Int.cast_mul, add_left_eq_self, Gamma0_mem, coe_matrix_coe, Int.coe_castRingHom, map_apply] at *
     rw [ha]
     simp
 #align Gamma_0_map Gamma0Map
@@ -153,14 +150,12 @@ theorem Gamma1_to_Gamma0_mem (N : ℕ) (A : Gamma0 N) : A ∈ Gamma1' N ↔
     rw [Gamma0_mem] at hA
     have adet := Gamma0_det N A
     rw [Matrix.det_fin_two] at adet
-    simp only [Gamma0Map, coe_matrix_coe, Int.coe_castRingHom, map_apply, Gamma1_mem',
-      MonoidHom.coe_mk, OneHom.coe_mk, Int.cast_sub, Int.cast_mul] at *
+    simp only [Gamma0Map, coe_matrix_coe, Int.coe_castRingHom, map_apply, Gamma1_mem', MonoidHom.coe_mk, OneHom.coe_mk, Int.cast_sub, Int.cast_mul] at *
     rw [hA] at adet; rw [ha] at adet
     simp only [mul_one, mul_zero, sub_zero] at adet
     simp only [adet, hA, ha, eq_self_iff_true, and_self_iff]
   · intro ha
-    simp only [Gamma1_mem', Gamma0Map, MonoidHom.coe_mk, coe_matrix_coe,
-      Int.coe_castRingHom, map_apply]
+    simp only [Gamma1_mem', Gamma0Map, MonoidHom.coe_mk, coe_matrix_coe, Int.coe_castRingHom, map_apply]
     exact ha.2.1
 #align Gamma1_to_Gamma0_mem Gamma1_to_Gamma0_mem
 
@@ -185,8 +180,7 @@ theorem Gamma1_mem (N : ℕ) (A : SL(2, ℤ)) : A ∈ Gamma1 N ↔
     simp_rw [Gamma1, Subgroup.mem_map]
     have hA : A ∈ Gamma0 N := by simp [ha.right.right, Gamma0_mem]
     have HA : (⟨A, hA⟩ : Gamma0 N) ∈ Gamma1' N := by
-      simp only [Gamma1_to_Gamma0_mem, Subgroup.coe_mk, coe_matrix_coe,
-        Int.coe_castRingHom, map_apply]
+      simp only [Gamma1_to_Gamma0_mem, Subgroup.coe_mk, coe_matrix_coe, Int.coe_castRingHom, map_apply]
       exact ha
     refine' ⟨(⟨(⟨A, hA⟩ : Gamma0 N), HA⟩ : (Gamma1' N : Subgroup (Gamma0 N))), _⟩
     simp

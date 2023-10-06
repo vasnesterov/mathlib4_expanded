@@ -130,8 +130,7 @@ theorem le_leftLim (h : x < y) : f x ≤ leftLim f y := by
     exact hf h.le
   rw [leftLim_eq_sSup hf h']
   refine' le_csSup ⟨f y, _⟩ (mem_image_of_mem _ h)
-  simp only [upperBounds, mem_image, mem_Iio, forall_exists_index, and_imp,
-    forall_apply_eq_imp_iff₂, mem_setOf_eq]
+  simp only [upperBounds, mem_image, mem_Iio, forall_exists_index, and_imp, forall_apply_eq_imp_iff₂, mem_setOf_eq]
   intro z hz
   exact hf hz.le
 #align monotone.le_left_lim Monotone.le_leftLim

@@ -123,8 +123,7 @@ def unitIso : 𝟭 (Mon_ (C ⥤ D)) ≅ functor ⋙ inverse :=
               simp only [tensor_id, Category.id_comp, Category.comp_id] } })
     fun f => by
       ext X
-      simp only [Functor.id_map, Mon_.comp_hom', NatTrans.comp_app, Category.comp_id,
-        Functor.comp_map, inverse_map_hom_app, functor_map_app_hom, Category.id_comp]
+      simp only [Functor.id_map, Mon_.comp_hom', NatTrans.comp_app, Category.comp_id, Functor.comp_map, inverse_map_hom_app, functor_map_app_hom, Category.id_comp]
 set_option linter.uppercaseLean3 false in
 #align category_theory.monoidal.Mon_functor_category_equivalence.unit_iso CategoryTheory.Monoidal.MonFunctorCategoryEquivalence.unitIso
 

@@ -88,8 +88,7 @@ def Matrix.reindexLieEquiv : Matrix n n R ≃ₗ⁅R⁆ Matrix m m R :=
   { Matrix.reindexLinearEquiv R R e e with
     toFun := Matrix.reindex e e
     map_lie' := fun {_ _} => by
-      simp only [LieRing.of_associative_ring_bracket, Matrix.reindex_apply,
-        Matrix.submatrix_mul_equiv, Matrix.submatrix_sub, Pi.sub_apply] }
+      simp only [LieRing.of_associative_ring_bracket, Matrix.reindex_apply, Matrix.submatrix_mul_equiv, Matrix.submatrix_sub, Pi.sub_apply] }
 #align matrix.reindex_lie_equiv Matrix.reindexLieEquiv
 
 @[simp]

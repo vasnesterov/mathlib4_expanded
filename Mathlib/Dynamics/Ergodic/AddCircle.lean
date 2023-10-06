@@ -131,8 +131,7 @@ theorem ergodic_zsmul_add (x : AddCircle T) {n : ℤ} (h : 1 < |n|) : Ergodic fu
     conv_rhs => congr; rw [← DivisibleBy.div_cancel x h]
     rw [sub_smul]; rw [one_smul]; rw [sub_add_cancel]
   ext y
-  simp only [hnx, MeasurableEquiv.coe_addLeft, MeasurableEquiv.symm_addLeft, comp_apply, smul_add,
-    zsmul_neg', neg_smul, neg_add_rev]
+  simp only [hnx, MeasurableEquiv.coe_addLeft, MeasurableEquiv.symm_addLeft, comp_apply, smul_add, zsmul_neg', neg_smul, neg_add_rev]
   abel
 #align add_circle.ergodic_zsmul_add AddCircle.ergodic_zsmul_add
 

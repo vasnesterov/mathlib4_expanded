@@ -347,8 +347,7 @@ theorem IsNormal.conjugation_bij (Sn : IsNormal S) {c d} (p : c ⟶ d) :
     ⟨p ≫ δ ≫ Groupoid.inv p, Sn.conj' p δS, _⟩⟩
   · simpa only [inv_eq_inv, Category.assoc, IsIso.hom_inv_id, Category.comp_id,
       IsIso.hom_inv_id_assoc] using p ≫= h =≫ inv p
-  · simp only [inv_eq_inv, Category.assoc, IsIso.inv_hom_id, Category.comp_id,
-      IsIso.inv_hom_id_assoc]
+  · simp only [inv_eq_inv, Category.assoc, IsIso.inv_hom_id, Category.comp_id, IsIso.inv_hom_id_assoc]
 #align category_theory.subgroupoid.is_normal.conjugation_bij CategoryTheory.Subgroupoid.IsNormal.conjugation_bij
 
 theorem top_isNormal : IsNormal (⊤ : Subgroupoid C) :=

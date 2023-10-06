@@ -177,14 +177,11 @@ theorem card_of_regular (hd : G.IsRegularOfDegree d) : d + (Fintype.card V - 1) 
   have v := Classical.arbitrary V
   trans (G.adjMatrix ℕ ^ 2).mulVec (fun _ => 1) v
   · rw [adjMatrix_sq_of_regular hG hd, mulVec, dotProduct, ← insert_erase (mem_univ v)]
-    simp only [sum_insert, mul_one, if_true, Nat.cast_id, eq_self_iff_true, mem_erase, not_true,
-      Ne.def, not_false_iff, add_right_inj, false_and_iff, of_apply]
+    simp only [sum_insert, mul_one, if_true, Nat.cast_id, eq_self_iff_true, mem_erase, not_true, Ne.def, not_false_iff, add_right_inj, false_and_iff, of_apply]
     rw [Finset.sum_const_nat]; rw [card_erase_of_mem (mem_univ v)]; rw [mul_one]; · rfl
     intro x hx; simp [(ne_of_mem_erase hx).symm]
   · rw [sq, ← mulVec_mulVec]
-    simp only [adjMatrix_mulVec_const_apply_of_regular hd, neighborFinset,
-      card_neighborSet_eq_degree, hd v, Function.const_def, adjMatrix_mulVec_apply _ _ (mulVec _ _),
-      mul_one, sum_const, Set.toFinset_card, Algebra.id.smul_eq_mul, Nat.cast_id]
+    simp only [adjMatrix_mulVec_const_apply_of_regular hd, neighborFinset, card_neighborSet_eq_degree, hd v, Function.const_def, adjMatrix_mulVec_apply _ _ (mulVec _ _), mul_one, sum_const, Set.toFinset_card, Algebra.id.smul_eq_mul, Nat.cast_id]
 #align theorems_100.friendship.card_of_regular Theorems100.Friendship.card_of_regular
 
 /-- The size of a `d`-regular friendship graph is `1 mod (d-1)`, and thus `1 mod p` for a
@@ -203,8 +200,7 @@ end Nonempty
 theorem adjMatrix_sq_mul_const_one_of_regular (hd : G.IsRegularOfDegree d) :
     G.adjMatrix R * of (fun _ _ => 1) = of (fun _ _ => (d : R)) := by
   ext x
-  simp only [← hd x, degree, adjMatrix_mul_apply, sum_const, Nat.smul_one_eq_coe,
-    of_apply]
+  simp only [← hd x, degree, adjMatrix_mul_apply, sum_const, Nat.smul_one_eq_coe, of_apply]
 #align theorems_100.friendship.adj_matrix_sq_mul_const_one_of_regular Theorems100.Friendship.adjMatrix_sq_mul_const_one_of_regular
 
 theorem adjMatrix_mul_const_one_mod_p_of_regular {p : ℕ} (dmod : (d : ZMod p) = 1)
@@ -255,8 +251,7 @@ theorem false_of_three_le_degree (hd : G.IsRegularOfDegree d) (h : 3 ≤ d) : Fa
   -- but the trace is 1 mod p when computed the other way
   rw [adjMatrix_pow_mod_p_of_regular hG dmod hd hp2]
   dsimp only [Fintype.card] at Vmod
-  simp only [Matrix.trace, Matrix.diag, mul_one, nsmul_eq_mul, LinearMap.coe_mk, sum_const,
-    of_apply, Ne.def]
+  simp only [Matrix.trace, Matrix.diag, mul_one, nsmul_eq_mul, LinearMap.coe_mk, sum_const, of_apply, Ne.def]
   rw [Vmod]; rw [← Nat.cast_one (R := ZMod (Nat.minFac (d - 1)))]; rw [ZMod.nat_cast_zmod_eq_zero_iff_dvd]; rw [Nat.dvd_one]; rw [Nat.minFac_eq_one_iff]
   linarith
 #align theorems_100.friendship.false_of_three_le_degree Theorems100.Friendship.false_of_three_le_degree

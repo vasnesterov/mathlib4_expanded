@@ -116,8 +116,7 @@ theorem unitization_apply (x : Unitization R s) :
 
 theorem unitization_range : (unitization s).range = Algebra.adjoin R (s : Set A) := by
   rw [unitization]; rw [Unitization.lift_range]
-  simp only [NonUnitalAlgHom.coe_range, NonUnitalSubalgebraClass.coeSubtype,
-    Subtype.range_coe_subtype, SetLike.mem_coe]
+  simp only [NonUnitalAlgHom.coe_range, NonUnitalSubalgebraClass.coeSubtype, Subtype.range_coe_subtype, SetLike.mem_coe]
   rfl
 
 end Semiring
@@ -353,8 +352,7 @@ theorem unitization_apply (x : Unitization R s) : unitization s x = algebraMap R
 
 theorem unitization_range : (unitization s).range = StarSubalgebra.adjoin R s := by
   rw [unitization]; rw [Unitization.starLift_range]
-  simp only [NonUnitalStarAlgHom.coe_range, NonUnitalStarSubalgebraClass.coeSubtype,
-    Subtype.range_coe_subtype]
+  simp only [NonUnitalStarAlgHom.coe_range, NonUnitalStarSubalgebraClass.coeSubtype, Subtype.range_coe_subtype]
   rfl
 
 end Semiring

@@ -532,8 +532,7 @@ set_option linter.uppercaseLean3 false in
 #align real.dimH_ball_pi_fin Real.dimH_ball_pi_fin
 
 theorem dimH_univ_pi (ι : Type*) [Fintype ι] : dimH (univ : Set (ι → ℝ)) = Fintype.card ι := by
-  simp only [← Metric.iUnion_ball_nat_succ (0 : ι → ℝ), dimH_iUnion,
-    dimH_ball_pi _ (Nat.cast_add_one_pos _), iSup_const]
+  simp only [← Metric.iUnion_ball_nat_succ (0 : ι → ℝ), dimH_iUnion, dimH_ball_pi _ (Nat.cast_add_one_pos _), iSup_const]
 set_option linter.uppercaseLean3 false in
 #align real.dimH_univ_pi Real.dimH_univ_pi
 

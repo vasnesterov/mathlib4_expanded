@@ -915,8 +915,7 @@ def compSL : (F →SL[σ₂₃] G) →L[𝕜₃] (E →SL[σ₁₂] F) →SL[σ�
   LinearMap.mkContinuous₂
     (LinearMap.mk₂'ₛₗ (RingHom.id 𝕜₃) σ₂₃ comp add_comp smul_comp comp_add fun c f g => by
       ext
-      simp only [ContinuousLinearMap.map_smulₛₗ, coe_smul', coe_comp', Function.comp_apply,
-        Pi.smul_apply])
+      simp only [ContinuousLinearMap.map_smulₛₗ, coe_smul', coe_comp', Function.comp_apply, Pi.smul_apply])
     1 fun f g => by simpa only [one_mul] using op_norm_comp_le f g
 #align continuous_linear_map.compSL ContinuousLinearMap.compSL
 
@@ -1035,8 +1034,7 @@ def prodMapL : (M₁ →L[𝕜] M₂) × (M₃ →L[𝕜] M₄) →L[𝕜] M₁ 
       refine' ContinuousLinearMap.ext fun ⟨x₁, x₂⟩ => _
       -- Porting note: mathport suggested:
       -- ```
-      -- simp only [add_apply, coe_comp', coe_fst', Function.comp_apply, compL_apply, flip_apply,
-      --   coe_snd', inl_apply, inr_apply, Prod.mk_add_mk, add_zero, zero_add, coe_prodMap'
+      -- simp only [add_apply, coe_comp', coe_fst', Function.comp_apply, compL_apply, flip_apply, --   coe_snd', inl_apply, inr_apply, Prod.mk_add_mk, add_zero, zero_add, coe_prodMap'
       --   Prod_map, Prod.mk.inj_iff, eq_self_iff_true, and_self_iff]
       -- rfl
       -- ```
@@ -1047,8 +1045,7 @@ def prodMapL : (M₁ →L[𝕜] M₂) × (M₃ →L[𝕜] M₄) →L[𝕜] M₁ 
       -- ```
       -- Here neither `dsimp` or `simp` seem to make progress.
       repeat first | rw [add_apply] | rw [comp_apply] | rw [flip_apply] | rw [compL_apply]
-      simp only [coe_prodMap', Prod_map, coe_fst', inl_apply, coe_snd', inr_apply, Prod.mk_add_mk,
-        add_zero, zero_add])
+      simp only [coe_prodMap', Prod_map, coe_fst', inl_apply, coe_snd', inr_apply, Prod.mk_add_mk, add_zero, zero_add])
 #align continuous_linear_map.prod_mapL ContinuousLinearMap.prodMapL
 
 variable {M₁ M₂ M₃ M₄}
@@ -1881,11 +1878,9 @@ def smulRightL : (E →L[𝕜] 𝕜) →L[𝕜] Fₗ →L[𝕜] E →L[𝕜] F�
         simp only [add_smul, coe_smulRightₗ, add_apply, smulRight_apply, LinearMap.add_apply]
       map_smul' := fun m c => by
         ext x
-        simp only [smul_smul, coe_smulRightₗ, Algebra.id.smul_eq_mul, coe_smul', smulRight_apply,
-          LinearMap.smul_apply, RingHom.id_apply, Pi.smul_apply] }
+        simp only [smul_smul, coe_smulRightₗ, Algebra.id.smul_eq_mul, coe_smul', smulRight_apply, LinearMap.smul_apply, RingHom.id_apply, Pi.smul_apply] }
     1 fun c x => by
-      simp only [coe_smulRightₗ, one_mul, norm_smulRight_apply, LinearMap.coe_mk, AddHom.coe_mk,
-        le_refl]
+      simp only [coe_smulRightₗ, one_mul, norm_smulRight_apply, LinearMap.coe_mk, AddHom.coe_mk, le_refl]
 #align continuous_linear_map.smul_rightL ContinuousLinearMap.smulRightL
 
 variable {𝕜 E Fₗ}

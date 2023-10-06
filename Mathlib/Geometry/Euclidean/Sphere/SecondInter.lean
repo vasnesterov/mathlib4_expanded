@@ -120,8 +120,7 @@ theorem Sphere.secondInter_secondInter (s : Sphere P) (p : P) (v : V) :
     s.secondInter (s.secondInter p v) v = p := by
   by_cases hv : v = 0; · simp [hv]
   have hv' : ⟪v, v⟫ ≠ 0 := inner_self_ne_zero.2 hv
-  simp only [Sphere.secondInter, vadd_vsub_assoc, vadd_vadd, inner_add_right, inner_smul_right,
-    div_mul_cancel _ hv']
+  simp only [Sphere.secondInter, vadd_vsub_assoc, vadd_vadd, inner_add_right, inner_smul_right, div_mul_cancel _ hv']
   rw [← @vsub_eq_zero_iff_eq V]; rw [vadd_vsub]; rw [← add_smul]; rw [← add_div]
   convert zero_smul ℝ (M := V) _
   convert zero_div (G₀ := ℝ) _

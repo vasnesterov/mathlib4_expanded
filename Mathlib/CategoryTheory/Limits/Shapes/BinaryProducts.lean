@@ -436,10 +436,9 @@ noncomputable def BinaryFan.isLimitCompLeftIso {X Y X' : C} (c : BinaryFan X Y) 
   fapply BinaryFan.isLimitMk
   · exact fun s => h.lift (BinaryFan.mk (s.fst ≫ inv f) s.snd)
   · intro s -- Porting note: simp timed out here
-    simp only [Category.comp_id,BinaryFan.π_app_left,IsIso.inv_hom_id,
-      BinaryFan.mk_fst,IsLimit.fac_assoc,eq_self_iff_true,Category.assoc]
+    simp only [Category.comp_id, BinaryFan.π_app_left, IsIso.inv_hom_id, BinaryFan.mk_fst, IsLimit.fac_assoc, eq_self_iff_true, Category.assoc]
   · intro s -- Porting note: simp timed out here
-    simp only [BinaryFan.π_app_right,BinaryFan.mk_snd,eq_self_iff_true,IsLimit.fac]
+    simp only [BinaryFan.π_app_right, BinaryFan.mk_snd, eq_self_iff_true, IsLimit.fac]
   · intro s m e₁ e₂
      -- Porting note: simpa timed out here also
     apply BinaryFan.IsLimit.hom_ext h
@@ -495,11 +494,10 @@ noncomputable def BinaryCofan.isColimitCompLeftIso {X Y X' : C} (c : BinaryCofan
   · exact fun s => h.desc (BinaryCofan.mk (inv f ≫ s.inl) s.inr)
   · intro s
     -- Porting note: simp timed out here too
-    simp only [IsColimit.fac,BinaryCofan.ι_app_left,eq_self_iff_true,
-      Category.assoc,BinaryCofan.mk_inl,IsIso.hom_inv_id_assoc]
+    simp only [IsColimit.fac, BinaryCofan.ι_app_left, eq_self_iff_true, Category.assoc, BinaryCofan.mk_inl, IsIso.hom_inv_id_assoc]
   · intro s
     -- Porting note: simp timed out here too
-    simp only [IsColimit.fac,BinaryCofan.ι_app_right,eq_self_iff_true,BinaryCofan.mk_inr]
+    simp only [IsColimit.fac, BinaryCofan.ι_app_right, eq_self_iff_true, BinaryCofan.mk_inr]
   · intro s m e₁ e₂
     apply BinaryCofan.IsColimit.hom_ext h
     · rw [← cancel_epi f]

@@ -50,8 +50,7 @@ variable {p}
 theorem mulN_coeff (n : ℕ) (x : 𝕎 R) (k : ℕ) :
     (x * n).coeff k = aeval x.coeff (wittMulN p n k) := by
   induction' n with n ih generalizing k
-  · simp only [Nat.zero_eq, Nat.cast_zero, mul_zero, zero_coeff, wittMulN,
-      AlgHom.map_zero, Pi.zero_apply]
+  · simp only [Nat.zero_eq, Nat.cast_zero, mul_zero, zero_coeff, wittMulN, AlgHom.map_zero, Pi.zero_apply]
   · rw [wittMulN, Nat.succ_eq_add_one, Nat.cast_add, Nat.cast_one, mul_add, mul_one, aeval_bind₁,
       add_coeff]
     apply eval₂Hom_congr (RingHom.ext_int _ _) _ rfl
@@ -77,8 +76,7 @@ theorem bind₁_wittMulN_wittPolynomial (n k : ℕ) :
   · rw [wittMulN, ← bind₁_bind₁, wittAdd, wittStructureInt_prop]
     simp only [AlgHom.map_add, Nat.cast_succ, bind₁_X_right]
     rw [add_mul]; rw [one_mul]; rw [bind₁_rename]; rw [bind₁_rename]
-    simp only [ih, Function.uncurry, Function.comp, bind₁_X_left, AlgHom.id_apply,
-      Matrix.cons_val_zero, Matrix.head_cons, Matrix.cons_val_one]
+    simp only [ih, Function.uncurry, Function.comp, bind₁_X_left, AlgHom.id_apply, Matrix.cons_val_zero, Matrix.head_cons, Matrix.cons_val_one]
 #align witt_vector.bind₁_witt_mul_n_witt_polynomial WittVector.bind₁_wittMulN_wittPolynomial
 
 end

@@ -118,8 +118,7 @@ private theorem weight_add_weight_pairMap {k : ℕ} (t : Finset σ × σ) (h : t
     rw [← neg_one_mul ((-1 : MvPolynomial σ R) ^ n), pow_add, pow_one, mul_comm]
   rcases (em (t.snd ∈ t.fst)) with h1 | h1
   · rw [pairMap_of_snd_mem_fst σ h1]
-    simp only [← prod_erase_mul t.fst (fun j ↦ (X j : MvPolynomial σ R)) h1,
-      mul_assoc (∏ a in erase t.fst t.snd, X a), card_erase_of_mem h1]
+    simp only [← prod_erase_mul t.fst (fun j ↦ (X j : MvPolynomial σ R)) h1, mul_assoc (∏ a in erase t.fst t.snd, X a), card_erase_of_mem h1]
     nth_rewrite 1 [← pow_one (X t.snd)]
     simp only [← pow_add, add_comm]
     have h3 : 1 ≤ card t.fst := lt_iff_add_one_le.mp (card_pos.mpr ⟨t.snd, h1⟩)
@@ -165,8 +164,7 @@ private theorem sum_filter_pairs_eq_sum_filter_antidiagonal_powersetLen_sum (k :
   simp only [← sum_congr rfl equiv_i]
   have pdisj : Set.PairwiseDisjoint ((antidiagonal k).filter (fun a ↦ a.fst < k))
       (fun (a : ℕ × ℕ) ↦ (filter (fun t ↦ card t.fst = a.fst) (pairs σ k))) := by
-    simp only [Set.PairwiseDisjoint, Disjoint, pairs, filter_filter, ne_eq, le_eq_subset,
-      bot_eq_empty]
+    simp only [Set.PairwiseDisjoint, Disjoint, pairs, filter_filter, ne_eq, le_eq_subset, bot_eq_empty]
     intro x hx y hy xny s hs hs' a ha
     simp only [mem_univ, forall_true_left, Prod.forall] at hs hs'
     rw [ne_eq] at xny; rw [antidiagonal_congr (mem_filter.mp hx).left (mem_filter.mp hy).left] at xny; rw [← (mem_filter.mp (hs ha)).right.right] at xny; rw [← (mem_filter.mp (hs' ha)).right.right] at xny
@@ -267,8 +265,7 @@ theorem psum_eq_mul_esymm_sub_sum (k : ℕ) (h : 0 < k) : psum σ R k =
     (-1) ^ a.fst * esymm σ R a.fst * psum σ R a.snd) hesymm
   simp only [left_distrib, add_sub_cancel'] at sub_both_sides
   have sub_both_sides := congrArg ((-1 : MvPolynomial σ R) ^ (k + 1) * ·) sub_both_sides
-  simp only [mul_sub_left_distrib, ← mul_assoc, ← pow_add, Even.neg_one_pow ⟨k + 1, rfl⟩, one_mul,
-    not_le, lt_one_iff, filter_filter (fun a : ℕ × ℕ ↦ a.fst < k) (fun a ↦ ¬0 < a.fst)]
+  simp only [mul_sub_left_distrib, ← mul_assoc, ← pow_add, Even.neg_one_pow ⟨k + 1, rfl⟩, one_mul, not_le, lt_one_iff, filter_filter (fun a : ℕ × ℕ ↦ a.fst < k) (fun a ↦ ¬0 < a.fst)]
     at sub_both_sides
   have : filter (fun a ↦ a.fst < k ∧ ¬0 < a.fst) (antidiagonal k) = {(0, k)} := by
     ext a

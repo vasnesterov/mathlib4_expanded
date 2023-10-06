@@ -234,12 +234,10 @@ def LinearEquiv.dualMap (f : M₁ ≃ₗ[R] M₂) : Dual R M₂ ≃ₗ[R] Dual R
     invFun := f.symm.toLinearMap.dualMap
     left_inv := by
       intro φ; ext x
-      simp only [LinearMap.dualMap_apply, LinearEquiv.coe_toLinearMap, LinearMap.toFun_eq_coe,
-        LinearEquiv.apply_symm_apply]
+      simp only [LinearMap.dualMap_apply, LinearEquiv.coe_toLinearMap, LinearMap.toFun_eq_coe, LinearEquiv.apply_symm_apply]
     right_inv := by
       intro φ; ext x
-      simp only [LinearMap.dualMap_apply, LinearEquiv.coe_toLinearMap, LinearMap.toFun_eq_coe,
-        LinearEquiv.symm_apply_apply] }
+      simp only [LinearMap.dualMap_apply, LinearEquiv.coe_toLinearMap, LinearMap.toFun_eq_coe, LinearEquiv.symm_apply_apply] }
 #align linear_equiv.dual_map LinearEquiv.dualMap
 
 @[simp]
@@ -645,8 +643,7 @@ instance _root_.Prod.instModuleIsReflexive [IsReflexive R N] :
         (dualProdDualEquivDual R (Dual R M) (Dual R N)).symm
     have : Dual.eval R (M × N) = e.symm.comp ((Dual.eval R M).prodMap (Dual.eval R N)) := by
       ext m f <;> simp
-    simp only [this, LinearEquiv.trans_symm, LinearEquiv.symm_symm, LinearEquiv.dualMap_symm,
-      coe_comp, LinearEquiv.coe_coe, EquivLike.comp_bijective]
+    simp only [this, LinearEquiv.trans_symm, LinearEquiv.symm_symm, LinearEquiv.dualMap_symm, coe_comp, LinearEquiv.coe_coe, EquivLike.comp_bijective]
     exact Bijective.Prod_map (bijective_dual_eval R M) (bijective_dual_eval R N)
 
 variable {R M N} in
@@ -656,8 +653,7 @@ lemma equiv [IsReflexive R M] (e : M ≃ₗ[R] N) : IsReflexive R N where
     have : Dual.eval R N = ed.symm.comp ((Dual.eval R M).comp e.symm.toLinearMap) := by
       ext m f
       exact FunLike.congr_arg f (e.apply_symm_apply m).symm
-    simp only [this, LinearEquiv.trans_symm, LinearEquiv.symm_symm, LinearEquiv.dualMap_symm,
-      coe_comp, LinearEquiv.coe_coe, EquivLike.comp_bijective]
+    simp only [this, LinearEquiv.trans_symm, LinearEquiv.symm_symm, LinearEquiv.dualMap_symm, coe_comp, LinearEquiv.coe_coe, EquivLike.comp_bijective]
     refine Bijective.comp (bijective_dual_eval R M) (LinearEquiv.bijective _)
 
 instance _root_.MulOpposite.instModuleIsReflexive : IsReflexive R (MulOpposite M) :=
@@ -1006,8 +1002,7 @@ theorem dualAnnihilator_dualCoannihilator_eq {W : Subspace K V} :
   push_neg at hw'nz
   obtain ⟨φ, hφ⟩ := hw'nz
   exists ((LinearMap.ofIsComplProd hW).comp (LinearMap.inr _ _ _)) φ
-  simp only [coe_comp, coe_inr, Function.comp_apply, ofIsComplProd_apply, map_add,
-    ofIsCompl_left_apply, zero_apply, ofIsCompl_right_apply, zero_add, Ne.def]
+  simp only [coe_comp, coe_inr, Function.comp_apply, ofIsComplProd_apply, map_add, ofIsCompl_left_apply, zero_apply, ofIsCompl_right_apply, zero_add, Ne.def]
   refine' ⟨_, hφ⟩
   intro v hv
   apply LinearMap.ofIsCompl_left_apply hW ⟨v, hv⟩
@@ -1345,10 +1340,7 @@ theorem range_dualMap_eq_dualAnnihilator_ker_of_surjective (f : M →ₗ[R] M')
     apply LinearEquiv.range
   · apply congr_arg
     ext φ x
-    simp only [LinearMap.coe_comp, LinearEquiv.coe_toLinearMap, LinearMap.dualMap_apply,
-      LinearEquiv.dualMap_apply, mkQ_apply, LinearMap.quotKerEquivOfSurjective,
-      LinearEquiv.trans_symm, LinearEquiv.trans_apply, LinearEquiv.ofTop_symm_apply,
-      LinearMap.quotKerEquivRange_symm_apply_image, mkQ_apply, Function.comp]
+    simp only [LinearMap.coe_comp, LinearEquiv.coe_toLinearMap, LinearMap.dualMap_apply, LinearEquiv.dualMap_apply, mkQ_apply, LinearMap.quotKerEquivOfSurjective, LinearEquiv.trans_symm, LinearEquiv.trans_apply, LinearEquiv.ofTop_symm_apply, LinearMap.quotKerEquivRange_symm_apply_image, mkQ_apply, Function.comp]
 #align linear_map.range_dual_map_eq_dual_annihilator_ker_of_surjective LinearMap.range_dualMap_eq_dualAnnihilator_ker_of_surjective
 
 -- Note, this can be specialized to the case where `R` is an injective `R`-module, or when
@@ -1648,11 +1640,7 @@ theorem dualDistrib_dualDistribInvOfBasis_left_inverse (b : Basis ι R M) (c : B
   rintro ⟨i, j⟩
   apply (b.tensorProduct c).ext
   rintro ⟨i', j'⟩
-  simp only [dualDistrib, Basis.coe_dualBasis, coe_comp, Function.comp_apply,
-    dualDistribInvOfBasis_apply, Basis.coord_apply, Basis.tensorProduct_repr_tmul_apply,
-    Basis.repr_self, ne_eq, _root_.map_sum, map_smul, homTensorHomMap_apply, compRight_apply,
-    Basis.tensorProduct_apply, coeFn_sum, Finset.sum_apply, smul_apply, LinearEquiv.coe_coe,
-    map_tmul, lid_tmul, smul_eq_mul, id_coe, id_eq]
+  simp only [dualDistrib, Basis.coe_dualBasis, coe_comp, Function.comp_apply, dualDistribInvOfBasis_apply, Basis.coord_apply, Basis.tensorProduct_repr_tmul_apply, Basis.repr_self, ne_eq, _root_.map_sum, map_smul, homTensorHomMap_apply, compRight_apply, Basis.tensorProduct_apply, coeFn_sum, Finset.sum_apply, smul_apply, LinearEquiv.coe_coe, map_tmul, lid_tmul, smul_eq_mul, id_coe, id_eq]
   rw [Finset.sum_eq_single i]; rw [Finset.sum_eq_single j]; simp
   all_goals { intros; simp [*] at * }
 
@@ -1661,9 +1649,7 @@ theorem dualDistrib_dualDistribInvOfBasis_right_inverse (b : Basis ι R M) (c : 
     comp (dualDistribInvOfBasis b c) (dualDistrib R M N) = LinearMap.id := by
   apply (b.dualBasis.tensorProduct c.dualBasis).ext
   rintro ⟨i, j⟩
-  simp only [Basis.tensorProduct_apply, Basis.coe_dualBasis, coe_comp, Function.comp_apply,
-    dualDistribInvOfBasis_apply, dualDistrib_apply, Basis.coord_apply, Basis.repr_self,
-    ne_eq, id_coe, id_eq]
+  simp only [Basis.tensorProduct_apply, Basis.coe_dualBasis, coe_comp, Function.comp_apply, dualDistribInvOfBasis_apply, dualDistrib_apply, Basis.coord_apply, Basis.repr_self, ne_eq, id_coe, id_eq]
   rw [Finset.sum_eq_single i]; rw [Finset.sum_eq_single j]; simp
   all_goals { intros; simp [*] at * }
 

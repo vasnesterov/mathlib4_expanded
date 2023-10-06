@@ -80,9 +80,7 @@ protected def basis {φ : ι → Type*} (b : ∀ i, Basis (φ i) R M) : Basis (�
           support := g.support.image Sigma.fst
           mem_support_toFun := fun i => by
             rw [Ne.def]; rw [← (b i).repr.injective.eq_iff]; rw [(b i).repr.apply_symm_apply]; rw [FunLike.ext_iff]
-            simp only [exists_prop, LinearEquiv.map_zero, comapDomain_apply, zero_apply,
-              exists_and_right, mem_support_iff, exists_eq_right, Sigma.exists, Finset.mem_image,
-              not_forall] }
+            simp only [exists_prop, LinearEquiv.map_zero, comapDomain_apply, zero_apply, exists_and_right, mem_support_iff, exists_eq_right, Sigma.exists, Finset.mem_image, not_forall] }
       left_inv := fun g => by
         ext i
         rw [← (b i).repr.injective.eq_iff]
@@ -114,12 +112,10 @@ theorem coe_basis {φ : ι → Type*} (b : ∀ i, Basis (φ i) R M) :
       ext ⟨j, y⟩
       by_cases h : i = j
       · cases h
-        simp only [basis_repr, single_eq_same, Basis.repr_self,
-          Finsupp.single_apply_left sigma_mk_injective]
+        simp only [basis_repr, single_eq_same, Basis.repr_self, Finsupp.single_apply_left sigma_mk_injective]
       · have : Sigma.mk i x ≠ Sigma.mk j y := fun h' => h <| congrArg (fun s => s.fst) h'
         -- Porting note: previously `this` not needed
-        simp only [basis_repr, single_apply, h, this, false_and_iff, if_false, LinearEquiv.map_zero,
-        zero_apply]
+        simp only [basis_repr, single_apply, h, this, false_and_iff, if_false, LinearEquiv.map_zero, zero_apply]
 #align finsupp.coe_basis Finsupp.coe_basis
 
 /-- The basis on `ι →₀ M` with basis vectors `fun i ↦ single i 1`. -/

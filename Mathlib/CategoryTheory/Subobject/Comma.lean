@@ -101,8 +101,7 @@ def subobjectEquiv [HasLimits C] [PreservesLimits T] (A : StructuredArrow S T) :
   toFun P := ⟨projectSubobject P, projectSubobject_factors P⟩
   invFun P := liftSubobject P.val P.prop.choose_spec
   left_inv P := lift_projectSubobject _ _
-  right_inv P := Subtype.ext (by simp only [liftSubobject, homMk_right, projectSubobject_mk,
-      Subobject.mk_arrow, Subtype.coe_eta])
+  right_inv P := Subtype.ext (by simp only [liftSubobject, homMk_right, projectSubobject_mk, Subobject.mk_arrow, Subtype.coe_eta])
   map_rel_iff' := by
     apply Subobject.ind₂
     intro P Q f g hf hg
@@ -211,16 +210,14 @@ def quotientEquiv [HasColimits C] [PreservesColimits S] (A : CostructuredArrow S
   toFun P := ⟨projectQuotient P, projectQuotient_factors P⟩
   invFun P := liftQuotient P.val P.prop.choose_spec
   left_inv P := lift_projectQuotient _ _
-  right_inv P := Subtype.ext (by simp only [liftQuotient, Quiver.Hom.unop_op, homMk_left,
-      Quiver.Hom.op_unop, projectQuotient_mk, Subobject.mk_arrow])
+  right_inv P := Subtype.ext (by simp only [liftQuotient, Quiver.Hom.unop_op, homMk_left, Quiver.Hom.op_unop, projectQuotient_mk, Subobject.mk_arrow])
   map_rel_iff' := by
     apply Subobject.ind₂
     intro P Q f g hf hg
     refine' ⟨fun h => Subobject.mk_le_mk_of_comm _ _, fun h => _⟩
     · refine' (homMk (Subobject.ofMkLEMk _ _ h).unop ((cancel_epi (S.map g.unop.left)).1 _)).op
       dsimp
-      simp only [← S.map_comp_assoc, unop_left_comp_ofMkLEMk_unop, unop_op, CommaMorphism.w,
-        Functor.const_obj_obj, right_eq_id, Functor.const_obj_map, Category.comp_id]
+      simp only [← S.map_comp_assoc, unop_left_comp_ofMkLEMk_unop, unop_op, CommaMorphism.w, Functor.const_obj_obj, right_eq_id, Functor.const_obj_map, Category.comp_id]
     · apply Quiver.Hom.unop_inj
       ext
       exact unop_left_comp_ofMkLEMk_unop _

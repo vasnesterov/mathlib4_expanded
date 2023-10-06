@@ -78,8 +78,7 @@ theorem lifts_iff_coeff_lifts (p : S[X]) : p ∈ lifts f ↔ ∀ n : ℕ, p.coef
 /-- If `(r : R)`, then `C (f r)` lifts. -/
 theorem C_mem_lifts (f : R →+* S) (r : R) : C (f r) ∈ lifts f :=
   ⟨C r, by
-    simp only [coe_mapRingHom, map_C, Set.mem_univ, Subsemiring.coe_top, eq_self_iff_true,
-      and_self_iff]⟩
+    simp only [coe_mapRingHom, map_C, Set.mem_univ, Subsemiring.coe_top, eq_self_iff_true, and_self_iff]⟩
 set_option linter.uppercaseLean3 false in
 #align polynomial.C_mem_lifts Polynomial.C_mem_lifts
 
@@ -87,24 +86,21 @@ set_option linter.uppercaseLean3 false in
 theorem C'_mem_lifts {f : R →+* S} {s : S} (h : s ∈ Set.range f) : C s ∈ lifts f := by
   obtain ⟨r, rfl⟩ := Set.mem_range.1 h
   use C r
-  simp only [coe_mapRingHom, map_C, Set.mem_univ, Subsemiring.coe_top, eq_self_iff_true,
-    and_self_iff]
+  simp only [coe_mapRingHom, map_C, Set.mem_univ, Subsemiring.coe_top, eq_self_iff_true, and_self_iff]
 set_option linter.uppercaseLean3 false in
 #align polynomial.C'_mem_lifts Polynomial.C'_mem_lifts
 
 /-- The polynomial `X` lifts. -/
 theorem X_mem_lifts (f : R →+* S) : (X : S[X]) ∈ lifts f :=
   ⟨X, by
-    simp only [coe_mapRingHom, Set.mem_univ, Subsemiring.coe_top, eq_self_iff_true, map_X,
-      and_self_iff]⟩
+    simp only [coe_mapRingHom, Set.mem_univ, Subsemiring.coe_top, eq_self_iff_true, map_X, and_self_iff]⟩
 set_option linter.uppercaseLean3 false in
 #align polynomial.X_mem_lifts Polynomial.X_mem_lifts
 
 /-- The polynomial `X ^ n` lifts. -/
 theorem X_pow_mem_lifts (f : R →+* S) (n : ℕ) : (X ^ n : S[X]) ∈ lifts f :=
   ⟨X ^ n, by
-    simp only [coe_mapRingHom, map_pow, Set.mem_univ, Subsemiring.coe_top, eq_self_iff_true,
-      map_X, and_self_iff]⟩
+    simp only [coe_mapRingHom, map_pow, Set.mem_univ, Subsemiring.coe_top, eq_self_iff_true, map_X, and_self_iff]⟩
 set_option linter.uppercaseLean3 false in
 #align polynomial.X_pow_mem_lifts Polynomial.X_pow_mem_lifts
 
@@ -120,8 +116,7 @@ theorem base_mul_mem_lifts {p : S[X]} (r : R) (hp : p ∈ lifts f) : C (f r) * p
 theorem monomial_mem_lifts {s : S} (n : ℕ) (h : s ∈ Set.range f) : monomial n s ∈ lifts f := by
   obtain ⟨r, rfl⟩ := Set.mem_range.1 h
   use monomial n r
-  simp only [coe_mapRingHom, Set.mem_univ, map_monomial, Subsemiring.coe_top, eq_self_iff_true,
-    and_self_iff]
+  simp only [coe_mapRingHom, Set.mem_univ, map_monomial, Subsemiring.coe_top, eq_self_iff_true, and_self_iff]
 #align polynomial.monomial_mem_lifts Polynomial.monomial_mem_lifts
 
 /-- If `p` lifts then `p.erase n` lifts. -/
@@ -142,8 +137,7 @@ theorem monomial_mem_lifts_and_degree_eq {s : S} {n : ℕ} (hl : monomial n s �
     ∃ q : R[X], map f q = monomial n s ∧ q.degree = (monomial n s).degree := by
   by_cases hzero : s = 0
   · use 0
-    simp only [hzero, degree_zero, eq_self_iff_true, and_self_iff, monomial_zero_right,
-      Polynomial.map_zero]
+    simp only [hzero, degree_zero, eq_self_iff_true, and_self_iff, monomial_zero_right, Polynomial.map_zero]
   rw [lifts_iff_set_range] at hl
   obtain ⟨q, hq⟩ := hl
   replace hq := (ext_iff.1 hq) n

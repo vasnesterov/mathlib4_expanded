@@ -154,8 +154,7 @@ def IsometryEquiv.pi [Fintype ι]
     {Q : ∀ i, QuadraticForm R (Mᵢ i)} {Q' : ∀ i, QuadraticForm R (Nᵢ i)}
     (e : ∀ i, (Q i).IsometryEquiv (Q' i)) : (pi Q).IsometryEquiv (pi Q') where
   map_app' x := by
-    simp only [pi_apply, LinearEquiv.piCongrRight, LinearEquiv.toFun_eq_coe,
-      IsometryEquiv.coe_toLinearEquiv, IsometryEquiv.map_app]
+    simp only [pi_apply, LinearEquiv.piCongrRight, LinearEquiv.toFun_eq_coe, IsometryEquiv.coe_toLinearEquiv, IsometryEquiv.map_app]
   toLinearEquiv := LinearEquiv.piCongrRight fun i => (e i : Mᵢ i ≃ₗ[R] Nᵢ i)
 #align quadratic_form.isometry.pi QuadraticForm.IsometryEquiv.pi
 

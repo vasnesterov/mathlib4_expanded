@@ -1131,8 +1131,7 @@ alias ⟨MDifferentiableAt.differentiableAt, DifferentiableAt.mdifferentiableAt�
 /-- For maps between vector spaces, `MDifferentiableOn` and `DifferentiableOn` coincide -/
 theorem mdifferentiableOn_iff_differentiableOn :
     MDifferentiableOn 𝓘(𝕜, E) 𝓘(𝕜, E') f s ↔ DifferentiableOn 𝕜 f s := by
-  simp only [MDifferentiableOn, DifferentiableOn,
-    mdifferentiableWithinAt_iff_differentiableWithinAt]
+  simp only [MDifferentiableOn, DifferentiableOn, mdifferentiableWithinAt_iff_differentiableWithinAt]
 #align mdifferentiable_on_iff_differentiable_on mdifferentiableOn_iff_differentiableOn
 
 alias ⟨MDifferentiableOn.differentiableOn, DifferentiableOn.mdifferentiableOn⟩ :=
@@ -1862,8 +1861,7 @@ theorem tangentMap_chart_symm {p : TangentBundle I M} {q : TangentBundle I H}
       (chartAt (ModelProd H E) p).symm (TotalSpace.toProd H E q) := by
   dsimp only [tangentMap]
   rw [MDifferentiableAt.mfderiv (mdifferentiableAt_atlas_symm _ (chart_mem_atlas _ _) h)]
-  simp only [ContinuousLinearMap.coe_coe, TangentBundle.chartAt, h, tangentBundleCore,
-    mfld_simps, (· ∘ ·)]
+  simp only [ContinuousLinearMap.coe_coe, TangentBundle.chartAt, h, tangentBundleCore, mfld_simps, (· ∘ ·)]
   -- `simp` fails to apply `LocalEquiv.prod_symm` with `ModelProd`
   congr
   exact ((chartAt H (TotalSpace.proj p)).right_inv h).symm

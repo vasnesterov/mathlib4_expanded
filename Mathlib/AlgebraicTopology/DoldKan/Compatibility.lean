@@ -143,8 +143,7 @@ theorem equivalence₂CounitIso_eq :
     (equivalence₂ eB hF).counitIso = equivalence₂CounitIso eB hF := by
   ext Y'
   dsimp [equivalence₂, Iso.refl]
-  simp only [equivalence₁CounitIso_eq, equivalence₂CounitIso_hom_app,
-    equivalence₁CounitIso_hom_app, Functor.map_comp, assoc]
+  simp only [equivalence₁CounitIso_eq, equivalence₂CounitIso_hom_app, equivalence₁CounitIso_hom_app, Functor.map_comp, assoc]
 #align algebraic_topology.dold_kan.compatibility.equivalence₂_counit_iso_eq AlgebraicTopology.DoldKan.Compatibility.equivalence₂CounitIso_eq
 
 /-- The unit isomorphism of the equivalence `equivalence₂` between `A` and `B`. -/
@@ -161,8 +160,7 @@ def equivalence₂UnitIso : 𝟭 A ≅ (F ⋙ eB.inverse) ⋙ eB.functor ⋙ e'.
 theorem equivalence₂UnitIso_eq : (equivalence₂ eB hF).unitIso = equivalence₂UnitIso eB hF := by
   ext X
   dsimp [equivalence₂]
-  simp only [equivalence₂UnitIso_hom_app, equivalence₁UnitIso_eq, equivalence₁UnitIso_hom_app,
-      assoc, NatIso.cancel_natIso_hom_left]
+  simp only [equivalence₂UnitIso_hom_app, equivalence₁UnitIso_eq, equivalence₁UnitIso_hom_app, assoc, NatIso.cancel_natIso_hom_left]
   rfl
 #align algebraic_topology.dold_kan.compatibility.equivalence₂_unit_iso_eq AlgebraicTopology.DoldKan.Compatibility.equivalence₂UnitIso_eq
 
@@ -228,14 +226,11 @@ theorem equivalenceCounitIso_eq : (equivalence hF hG).counitIso = equivalenceCou
   dsimp [equivalence, Functor.asEquivalence, IsEquivalence.ofEquivalence]
   rw [equivalenceCounitIso_hom_app]; rw [IsEquivalence.ofIso_unitIso_inv_app]
   dsimp
-  simp only [comp_id, id_comp, F.map_comp, assoc,
-    equivalence₂CounitIso_eq, equivalence₂CounitIso_hom_app,
-    ← eB.inverse.map_comp_assoc, ← τ₀_hom_app, hη, τ₁_hom_app]
+  simp only [comp_id, id_comp, F.map_comp, assoc, equivalence₂CounitIso_eq, equivalence₂CounitIso_hom_app, ← eB.inverse.map_comp_assoc, ← τ₀_hom_app, hη, τ₁_hom_app]
   erw [hF.inv.naturality_assoc, hF.inv.naturality_assoc]
   dsimp
   congr 2
-  simp only [assoc, ← e'.functor.map_comp_assoc, Equivalence.fun_inv_map,
-    Iso.inv_hom_id_app_assoc, hG.inv_hom_id_app]
+  simp only [assoc, ← e'.functor.map_comp_assoc, Equivalence.fun_inv_map, Iso.inv_hom_id_app_assoc, hG.inv_hom_id_app]
   dsimp
   rw [comp_id]; rw [eA.functor_unitIso_comp]; rw [e'.functor.map_id]; rw [id_comp]; rw [hF.inv_hom_id_app_assoc]
 #align algebraic_topology.dold_kan.compatibility.equivalence_counit_iso_eq AlgebraicTopology.DoldKan.Compatibility.equivalenceCounitIso_eq
@@ -280,8 +275,7 @@ theorem equivalenceUnitIso_eq : (equivalence hF hG).unitIso = equivalenceUnitIso
   rw [IsEquivalence.ofIso_counitIso_inv_app]
   dsimp
   erw [id_comp, comp_id]
-  simp only [equivalence₂UnitIso_eq eB hF, equivalence₂UnitIso_hom_app,
-    assoc, equivalenceUnitIso_hom_app, ← eA.inverse.map_comp_assoc, ← hε, υ_hom_app]
+  simp only [equivalence₂UnitIso_eq eB hF, equivalence₂UnitIso_hom_app, assoc, equivalenceUnitIso_hom_app, ← eA.inverse.map_comp_assoc, ← hε, υ_hom_app]
 #align algebraic_topology.dold_kan.compatibility.equivalence_unit_iso_eq AlgebraicTopology.DoldKan.Compatibility.equivalenceUnitIso_eq
 
 end Compatibility

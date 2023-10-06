@@ -107,8 +107,7 @@ theorem independent_iff_not_dependent : Independent f ↔ ¬Dependent f := by
 @[simp]
 theorem dependent_pair_iff_eq (u v : ℙ K V) : Dependent ![u, v] ↔ u = v := by
   rw [dependent_iff_not_independent]; rw [independent_iff]; rw [linearIndependent_fin2]; rw [Function.comp_apply]; rw [Matrix.cons_val_one]; rw [Matrix.head_cons]; rw [Ne.def]
-  simp only [Matrix.cons_val_zero, not_and, not_forall, Classical.not_not, Function.comp_apply,
-    ← mk_eq_mk_iff' K _ _ (rep_nonzero u) (rep_nonzero v), mk_rep, imp_iff_right_iff]
+  simp only [Matrix.cons_val_zero, not_and, not_forall, Classical.not_not, Function.comp_apply, ← mk_eq_mk_iff' K _ _ (rep_nonzero u) (rep_nonzero v), mk_rep, imp_iff_right_iff]
   exact Or.inl (rep_nonzero v)
 #align projectivization.dependent_pair_iff_eq Projectivization.dependent_pair_iff_eq
 

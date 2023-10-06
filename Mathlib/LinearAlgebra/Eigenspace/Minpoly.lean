@@ -58,8 +58,7 @@ theorem aeval_apply_of_hasEigenvector {f : End K V} {p : K[X]} {μ : K} {x : V}
   · intro p q hp hq; simp [hp, hq, add_smul]
   · intro n a hna
     rw [mul_comm]; rw [pow_succ]; rw [mul_assoc]; rw [AlgHom.map_mul]; rw [LinearMap.mul_apply]; rw [mul_comm]; rw [hna]
-    simp only [mem_eigenspace_iff.1 h.1, smul_smul, aeval_X, eval_mul, eval_C, eval_pow, eval_X,
-      LinearMap.map_smulₛₗ, RingHom.id_apply, mul_comm]
+    simp only [mem_eigenspace_iff.1 h.1, smul_smul, aeval_X, eval_mul, eval_C, eval_pow, eval_X, LinearMap.map_smulₛₗ, RingHom.id_apply, mul_comm]
 #align module.End.aeval_apply_of_has_eigenvector Module.End.aeval_apply_of_hasEigenvector
 
 theorem isRoot_of_hasEigenvalue {f : End K V} {μ : K} (h : f.HasEigenvalue μ) :

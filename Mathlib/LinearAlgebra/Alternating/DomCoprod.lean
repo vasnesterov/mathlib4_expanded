@@ -56,14 +56,12 @@ def domCoprod.summand (a : AlternatingMap R' Mᵢ N₁ ιa) (b : AlternatingMap 
     rw [QuotientGroup.leftRel_apply] at H
     obtain ⟨⟨sl, sr⟩, h⟩ := H
     ext v
-    simp only [MultilinearMap.domDomCongr_apply, MultilinearMap.domCoprod_apply,
-      coe_multilinearMap, MultilinearMap.smul_apply]
+    simp only [MultilinearMap.domDomCongr_apply, MultilinearMap.domCoprod_apply, coe_multilinearMap, MultilinearMap.smul_apply]
     replace h := inv_mul_eq_iff_eq_mul.mp h.symm
     have : Equiv.Perm.sign (σ₁ * Perm.sumCongrHom _ _ (sl, sr))
       = Equiv.Perm.sign σ₁ * (Equiv.Perm.sign sl * Equiv.Perm.sign sr) := by simp
     rw [h]; rw [this]; rw [mul_smul]; rw [mul_smul]; rw [smul_left_cancel_iff]; rw [← TensorProduct.tmul_smul]; rw [TensorProduct.smul_tmul']
-    simp only [Sum.map_inr, Perm.sumCongrHom_apply, Perm.sumCongr_apply, Sum.map_inl,
-      Function.comp_apply, Perm.coe_mul]
+    simp only [Sum.map_inr, Perm.sumCongrHom_apply, Perm.sumCongr_apply, Sum.map_inl, Function.comp_apply, Perm.coe_mul]
     -- Porting note: Was `rw`.
     erw [← a.map_congr_perm fun i => v (σ₁ _), ← b.map_congr_perm fun i => v (σ₁ _)]
 #align alternating_map.dom_coprod.summand AlternatingMap.domCoprod.summand
@@ -86,9 +84,7 @@ theorem domCoprod.summand_add_swap_smul_eq_zero (a : AlternatingMap R' Mᵢ N₁
   dsimp only [Quotient.liftOn'_mk'', Quotient.map'_mk'', MulAction.Quotient.smul_mk,
     domCoprod.summand]
   rw [smul_eq_mul]; rw [Perm.sign_mul]; rw [Perm.sign_swap hij]
-  simp only [one_mul, neg_mul, Function.comp_apply, Units.neg_smul, Perm.coe_mul, Units.val_neg,
-    MultilinearMap.smul_apply, MultilinearMap.neg_apply, MultilinearMap.domDomCongr_apply,
-    MultilinearMap.domCoprod_apply]
+  simp only [one_mul, neg_mul, Function.comp_apply, Units.neg_smul, Perm.coe_mul, Units.val_neg, MultilinearMap.smul_apply, MultilinearMap.neg_apply, MultilinearMap.domDomCongr_apply, MultilinearMap.domCoprod_apply]
   convert add_right_neg (G := N₁ ⊗[R'] N₂) _ using 6 <;>
     · ext k
       rw [Equiv.apply_swap_eq_self hv]
@@ -188,15 +184,12 @@ def domCoprod' :
       LinearMap.mk₂ R' domCoprod (fun m₁ m₂ n => _) (fun c m n => _) (fun m n₁ n₂ => _)
         fun c m n => _ <;>
     · ext
-      simp only [domCoprod_apply, add_apply, smul_apply, ← Finset.sum_add_distrib,
-        Finset.smul_sum, MultilinearMap.sum_apply, domCoprod.summand]
+      simp only [domCoprod_apply, add_apply, smul_apply, ← Finset.sum_add_distrib, Finset.smul_sum, MultilinearMap.sum_apply, domCoprod.summand]
       congr
       ext σ
       refine Quotient.inductionOn' σ fun σ => ?_
-      simp only [Quotient.liftOn'_mk'', coe_add, coe_smul, MultilinearMap.smul_apply,
-        ← MultilinearMap.domCoprod'_apply]
-      simp only [TensorProduct.add_tmul, ← TensorProduct.smul_tmul', TensorProduct.tmul_add,
-        TensorProduct.tmul_smul, LinearMap.map_add, LinearMap.map_smul]
+      simp only [Quotient.liftOn'_mk'', coe_add, coe_smul, MultilinearMap.smul_apply, ← MultilinearMap.domCoprod'_apply]
+      simp only [TensorProduct.add_tmul, ← TensorProduct.smul_tmul', TensorProduct.tmul_add, TensorProduct.tmul_smul, LinearMap.map_add, LinearMap.map_smul]
       first | rw [← smul_add] | rw [smul_comm]
       rfl
 #align alternating_map.dom_coprod' AlternatingMap.domCoprod'

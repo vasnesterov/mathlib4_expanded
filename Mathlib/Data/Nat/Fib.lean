@@ -40,8 +40,7 @@ Definition of the Fibonacci sequence `F₀ = 0, F₁ = 1, Fₙ₊₂ = Fₙ + F�
 - `Nat.fib_succ_eq_succ_sum`: shows that `F₀ + F₁ + ⋯ + Fₙ = Fₙ₊₂ - 1`.
 - `Nat.fib_two_mul` and `Nat.fib_two_mul_add_one` are the basis for an efficient algorithm to
   compute `fib` (see `Nat.fastFib`). There are `bit0`/`bit1` variants of these can be used to
-  simplify `fib` expressions: `simp only [Nat.fib_bit0, Nat.fib_bit1, Nat.fib_bit0_succ,
-  Nat.fib_bit1_succ, Nat.fib_one, Nat.fib_two]`.
+  simplify `fib` expressions: `simp only [Nat.fib_bit0, Nat.fib_bit1, Nat.fib_bit0_succ, Nat.fib_bit1_succ, Nat.fib_one, Nat.fib_two]`.
 
 ## Implementation Notes
 
@@ -258,8 +257,7 @@ theorem fast_fib_aux_eq (n : ℕ) : fastFibAux n = (fib n, fib (n + 1)) := by
     intro n'
     intro ih
     cases b <;>
-          simp only [fast_fib_aux_bit_ff, fast_fib_aux_bit_tt, congr_arg Prod.fst ih,
-            congr_arg Prod.snd ih, Prod.mk.inj_iff] <;>
+          simp only [fast_fib_aux_bit_ff, fast_fib_aux_bit_tt, congr_arg Prod.fst ih, congr_arg Prod.snd ih, Prod.mk.inj_iff] <;>
           simp [bit, fib_bit0, fib_bit1, fib_bit0_succ, fib_bit1_succ]
 #align nat.fast_fib_aux_eq Nat.fast_fib_aux_eq
 

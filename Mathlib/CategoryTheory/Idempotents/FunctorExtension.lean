@@ -182,9 +182,7 @@ def karoubiUniversal₁ : C ⥤ Karoubi D ≌ Karoubi C ⥤ Karoubi D where
   functor_unitIso_comp F := by
     ext P
     dsimp [FunctorExtension₁.map, KaroubiUniversal₁.counitIso]
-    simp only [eqToHom_app, Functor.id_obj, Functor.comp_obj, functorExtension₁_obj,
-      whiskeringLeft_obj_obj, eqToHom_f, FunctorExtension₁.obj_obj_X, toKaroubi_obj_X,
-      eqToHom_refl, comp_id, comp_p, ←comp_f, ← F.map_comp, P.idem]
+    simp only [eqToHom_app, Functor.id_obj, Functor.comp_obj, functorExtension₁_obj, whiskeringLeft_obj_obj, eqToHom_f, FunctorExtension₁.obj_obj_X, toKaroubi_obj_X, eqToHom_refl, comp_id, comp_p, ←comp_f, ← F.map_comp, P.idem]
 #align category_theory.idempotents.karoubi_universal₁ CategoryTheory.Idempotents.karoubiUniversal₁
 
 theorem functorExtension₁_comp (F : C ⥤ Karoubi D) (G : D ⥤ Karoubi E) :
@@ -207,8 +205,7 @@ def functorExtension₂ : (C ⥤ D) ⥤ Karoubi C ⥤ Karoubi D :=
 theorem functorExtension₂_comp_whiskeringLeft_toKaroubi :
     functorExtension₂ C D ⋙ (whiskeringLeft C (Karoubi C) (Karoubi D)).obj (toKaroubi C) =
       (whiskeringRight C D (Karoubi D)).obj (toKaroubi D) := by
-  simp only [functorExtension₂, Functor.assoc, functorExtension₁_comp_whiskeringLeft_toKaroubi,
-    Functor.comp_id]
+  simp only [functorExtension₂, Functor.assoc, functorExtension₁_comp_whiskeringLeft_toKaroubi, Functor.comp_id]
 #align category_theory.idempotents.functor_extension₂_comp_whiskering_left_to_karoubi CategoryTheory.Idempotents.functorExtension₂_comp_whiskeringLeft_toKaroubi
 
 /-- The natural isomorphism expressing that functors `Karoubi C ⥤ Karoubi D` obtained

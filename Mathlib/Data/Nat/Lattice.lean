@@ -49,8 +49,7 @@ theorem _root_.Set.Infinite.Nat.sSup_eq_zero {s : Set ℕ} (h : s.Infinite) : sS
 theorem sInf_eq_zero {s : Set ℕ} : sInf s = 0 ↔ 0 ∈ s ∨ s = ∅ := by
   cases eq_empty_or_nonempty s with
   | inl h => subst h
-             simp only [or_true_iff, eq_self_iff_true, iff_true_iff, iInf, InfSet.sInf,
-                        mem_empty_iff_false, exists_false, dif_neg, not_false_iff]
+             simp only [or_true_iff, eq_self_iff_true, iff_true_iff, iInf, InfSet.sInf, mem_empty_iff_false, exists_false, dif_neg, not_false_iff]
   | inr h => simp only [h.ne_empty, or_false_iff, Nat.sInf_def, h, Nat.find_eq_zero]
 #align nat.Inf_eq_zero Nat.sInf_eq_zero
 
@@ -129,14 +128,12 @@ noncomputable instance : ConditionallyCompleteLinearOrderBot ℕ :=
       rw [sInf_def hs]; exact hb (@Nat.find_spec (fun n ↦ n ∈ s) _ _)
     csInf_le := fun s a _ ha ↦ by rw [sInf_def ⟨a, ha⟩]; exact Nat.find_min' _ ha
     csSup_empty := by
-      simp only [sSup_def, Set.mem_empty_iff_false, forall_const, forall_prop_of_false,
-        not_false_iff, exists_const]
+      simp only [sSup_def, Set.mem_empty_iff_false, forall_const, forall_prop_of_false, not_false_iff, exists_const]
       apply bot_unique (Nat.find_min' _ _)
       trivial
     csSup_of_not_bddAbove := by
       intro s hs
-      simp only [mem_univ, forall_true_left, sSup,
-        mem_empty_iff_false, IsEmpty.forall_iff, forall_const, exists_const, dite_true]
+      simp only [mem_univ, forall_true_left, sSup, mem_empty_iff_false, IsEmpty.forall_iff, forall_const, exists_const, dite_true]
       rw [dif_neg]
       · exact le_antisymm (zero_le _) (find_le trivial)
       · exact hs

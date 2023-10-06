@@ -569,14 +569,12 @@ theorem isPairSelfAdjoint_equiv (e : M₁ ≃ₗ[R] M) (f : Module.End R M) :
     (F.compl₁₂ (↑e : M₁ →ₗ[R] M) (↑e : M₁ →ₗ[R] M)).comp (e.symm.conj f) =
       (F.comp f).compl₁₂ (↑e : M₁ →ₗ[R] M) (↑e : M₁ →ₗ[R] M) := by
     ext
-    simp only [LinearEquiv.symm_conj_apply, coe_comp, LinearEquiv.coe_coe, compl₁₂_apply,
-      LinearEquiv.apply_symm_apply, Function.comp_apply]
+    simp only [LinearEquiv.symm_conj_apply, coe_comp, LinearEquiv.coe_coe, compl₁₂_apply, LinearEquiv.apply_symm_apply, Function.comp_apply]
   have hᵣ :
     (B.compl₁₂ (↑e : M₁ →ₗ[R] M) (↑e : M₁ →ₗ[R] M)).compl₂ (e.symm.conj f) =
       (B.compl₂ f).compl₁₂ (↑e : M₁ →ₗ[R] M) (↑e : M₁ →ₗ[R] M) := by
     ext
-    simp only [LinearEquiv.symm_conj_apply, compl₂_apply, coe_comp, LinearEquiv.coe_coe,
-      compl₁₂_apply, LinearEquiv.apply_symm_apply, Function.comp_apply]
+    simp only [LinearEquiv.symm_conj_apply, compl₂_apply, coe_comp, LinearEquiv.coe_coe, compl₁₂_apply, LinearEquiv.apply_symm_apply, Function.comp_apply]
   have he : Function.Surjective (⇑(↑e : M₁ →ₗ[R] M) : M₁ → M) := e.surjective
   simp_rw [IsPairSelfAdjoint, isAdjointPair_iff_comp_eq_compl₂, hₗ, hᵣ, compl₁₂_inj he he]
 #align linear_map.is_pair_self_adjoint_equiv LinearMap.isPairSelfAdjoint_equiv
@@ -648,8 +646,7 @@ theorem SeparatingLeft.congr (h : B.SeparatingLeft) :
   rw [← e₁.symm.map_eq_zero_iff]
   refine' h (e₁.symm x) fun y ↦ _
   specialize hx (e₂ y)
-  simp only [LinearEquiv.arrowCongr_apply, LinearEquiv.symm_apply_apply,
-    LinearEquiv.map_eq_zero_iff] at hx
+  simp only [LinearEquiv.arrowCongr_apply, LinearEquiv.symm_apply_apply, LinearEquiv.map_eq_zero_iff] at hx
   exact hx
 #align linear_map.separating_left.congr LinearMap.SeparatingLeft.congr
 

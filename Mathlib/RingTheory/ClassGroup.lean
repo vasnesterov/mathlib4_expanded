@@ -188,18 +188,14 @@ noncomputable def ClassGroup.equiv :
     constructor
     · rintro ⟨I, ⟨x, hx⟩, rfl⟩
       refine ⟨FractionRing.algEquiv R K x, ?_⟩
-      simp only [RingEquiv.toMulEquiv_eq_coe, MulEquiv.coe_toMonoidHom, coe_mapEquiv, ← hx,
-        RingEquiv.coe_toMulEquiv, canonicalEquiv_spanSingleton]
+      simp only [RingEquiv.toMulEquiv_eq_coe, MulEquiv.coe_toMonoidHom, coe_mapEquiv, ← hx, RingEquiv.coe_toMulEquiv, canonicalEquiv_spanSingleton]
       rfl
     · rintro ⟨x, hx⟩
       refine ⟨Units.mapEquiv (canonicalEquiv R⁰ K (FractionRing R)).toMulEquiv I,
         ⟨(FractionRing.algEquiv R K).symm x, ?_⟩, Units.ext ?_⟩
-      · simp only [RingEquiv.toMulEquiv_eq_coe, coe_mapEquiv, ← hx, RingEquiv.coe_toMulEquiv,
-          canonicalEquiv_spanSingleton]
+      · simp only [RingEquiv.toMulEquiv_eq_coe, coe_mapEquiv, ← hx, RingEquiv.coe_toMulEquiv, canonicalEquiv_spanSingleton]
         rfl
-      · simp only [RingEquiv.toMulEquiv_eq_coe, MulEquiv.coe_toMonoidHom, coe_mapEquiv,
-          RingEquiv.coe_toMulEquiv, canonicalEquiv_canonicalEquiv, canonicalEquiv_self,
-          RingEquiv.refl_apply]
+      · simp only [RingEquiv.toMulEquiv_eq_coe, MulEquiv.coe_toMonoidHom, coe_mapEquiv, RingEquiv.coe_toMulEquiv, canonicalEquiv_canonicalEquiv, canonicalEquiv_self, RingEquiv.refl_apply]
   exact @QuotientGroup.congr (FractionalIdeal R⁰ (FractionRing R))ˣ _ (FractionalIdeal R⁰ K)ˣ _
     (toPrincipalIdeal R (FractionRing R)).range (toPrincipalIdeal R K).range _ _
     (Units.mapEquiv (FractionalIdeal.canonicalEquiv R⁰ (FractionRing R) K).toMulEquiv) this
@@ -277,8 +273,7 @@ theorem ClassGroup.mk0_eq_mk0_iff_exists_fraction_ring [IsDedekindDomain R] {I J
     ClassGroup.mk0 I =
       ClassGroup.mk0 J ↔ ∃ (x : _) (_ : x ≠ (0 : K)), spanSingleton R⁰ x * I = J := by
   refine (ClassGroup.equiv K).injective.eq_iff.symm.trans ?_
-  simp only [ClassGroup.equiv_mk0, QuotientGroup.mk'_eq_mk', mem_principal_ideals_iff,
-    Units.ext_iff, Units.val_mul, FractionalIdeal.coe_mk0, exists_prop]
+  simp only [ClassGroup.equiv_mk0, QuotientGroup.mk'_eq_mk', mem_principal_ideals_iff, Units.ext_iff, Units.val_mul, FractionalIdeal.coe_mk0, exists_prop]
   constructor
   · rintro ⟨X, ⟨x, hX⟩, hx⟩
     refine ⟨x, ?_, ?_⟩
@@ -325,8 +320,7 @@ noncomputable def ClassGroup.integralRep
       exact Submodule.zero_mem _
     smul_mem' := by
       intro c _ hb
-      simp only [smul_eq_mul, Set.mem_setOf_eq, RingHom.map_mul,
-        mul_left_comm ((algebraMap R (FractionRing R)) a)⁻¹]
+      simp only [smul_eq_mul, Set.mem_setOf_eq, RingHom.map_mul, mul_left_comm ((algebraMap R (FractionRing R)) a)⁻¹]
       rw [← Algebra.smul_def c]
       exact Submodule.smul_mem _ c hb }
 
@@ -361,9 +355,7 @@ theorem ClassGroup.mk0_integralRep [IsDedekindDomain R]
   refine ⟨Units.mk0 (algebraMap R _ a) fa_ne_zero, ?_⟩
   rw [_root_.eq_inv_mul_iff_mul_eq]; rw [eq_comm]; rw [mul_comm I]
   apply Units.ext
-  simp only [FractionalIdeal.coe_mk0, FractionalIdeal.map_canonicalEquiv_mk0,
-    Units.val_mk0, coe_toPrincipalIdeal, Units.val_mul,
-    FractionalIdeal.eq_spanSingleton_mul]
+  simp only [FractionalIdeal.coe_mk0, FractionalIdeal.map_canonicalEquiv_mk0, Units.val_mk0, coe_toPrincipalIdeal, Units.val_mul, FractionalIdeal.eq_spanSingleton_mul]
   constructor
   · intro zJ' hzJ'
     obtain ⟨zJ, hzJ, rfl⟩ := (mem_coeIdeal R⁰).mp hzJ'
@@ -386,9 +378,7 @@ theorem ClassGroup.mk0_surjective [IsDedekindDomain R] :
 theorem ClassGroup.mk_eq_one_iff {I : (FractionalIdeal R⁰ K)ˣ} :
     ClassGroup.mk I = 1 ↔ (I : Submodule R K).IsPrincipal := by
   rw [← (ClassGroup.equiv K).injective.eq_iff]
-  simp only [equiv_mk, canonicalEquiv_self, RingEquiv.coe_mulEquiv_refl, QuotientGroup.mk'_apply,
-    _root_.map_one, QuotientGroup.eq_one_iff, MonoidHom.mem_range, ext_iff, coe_toPrincipalIdeal,
-    coe_mapEquiv, MulEquiv.refl_apply]
+  simp only [equiv_mk, canonicalEquiv_self, RingEquiv.coe_mulEquiv_refl, QuotientGroup.mk'_apply, _root_.map_one, QuotientGroup.eq_one_iff, MonoidHom.mem_range, ext_iff, coe_toPrincipalIdeal, coe_mapEquiv, MulEquiv.refl_apply]
   refine ⟨fun ⟨x, hx⟩ => ⟨⟨x, by rw [← hx, coe_spanSingleton]⟩⟩, ?_⟩
   intro hI
   obtain ⟨x, hx⟩ := @Submodule.IsPrincipal.principal _ _ _ _ _ _ hI

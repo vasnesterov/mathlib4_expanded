@@ -159,8 +159,7 @@ protected theorem HasLineDerivAt.lineDeriv (h : HasLineDerivAt 𝕜 f f' x v) :
 
 theorem lineDifferentiableWithinAt_univ :
     LineDifferentiableWithinAt 𝕜 f univ x v ↔ LineDifferentiableAt 𝕜 f x v := by
-  simp only [LineDifferentiableWithinAt, LineDifferentiableAt, preimage_univ,
-    differentiableWithinAt_univ]
+  simp only [LineDifferentiableWithinAt, LineDifferentiableAt, preimage_univ, differentiableWithinAt_univ]
 
 theorem LineDifferentiableAt.lineDifferentiableWithinAt (h : LineDifferentiableAt 𝕜 f x v) :
     LineDifferentiableWithinAt 𝕜 f s x v :=
@@ -208,8 +207,7 @@ theorem lineDerivWithin_congr' (hs : EqOn f₁ f s) (hx : x ∈ s) :
 theorem hasLineDerivAt_iff_tendsto_slope_zero :
     HasLineDerivAt 𝕜 f f' x v ↔
       Tendsto (fun (t : 𝕜) ↦ t⁻¹ • (f (x + t • v) - f x)) (𝓝[≠] 0) (𝓝 f') := by
-  simp only [HasLineDerivAt, hasDerivAt_iff_tendsto_slope_zero, zero_add,
-    zero_smul, add_zero]
+  simp only [HasLineDerivAt, hasDerivAt_iff_tendsto_slope_zero, zero_add, zero_smul, add_zero]
 
 alias ⟨HasLineDerivAt.tendsto_slope_zero, _⟩ := hasLineDerivAt_iff_tendsto_slope_zero
 

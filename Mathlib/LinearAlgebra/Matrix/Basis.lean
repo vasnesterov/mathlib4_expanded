@@ -154,8 +154,7 @@ def toMatrixEquiv [Fintype ι] (e : Basis ι R M) : (ι → M) ≃ₗ[R] Matrix 
   right_inv := by
     intro m
     ext k l
-    simp only [e.toMatrix_apply, ← e.equivFun_apply, ← e.equivFun_symm_apply,
-      LinearEquiv.apply_symm_apply]
+    simp only [e.toMatrix_apply, ← e.equivFun_apply, ← e.equivFun_symm_apply, LinearEquiv.apply_symm_apply]
 #align basis.to_matrix_equiv Basis.toMatrixEquiv
 
 end Basis
@@ -230,9 +229,7 @@ theorem LinearMap.toMatrix_id_eq_basis_toMatrix [DecidableEq ι] :
 theorem Basis.toMatrix_reindex' [DecidableEq ι] [DecidableEq ι'] (b : Basis ι R M) (v : ι' → M)
     (e : ι ≃ ι') : (b.reindex e).toMatrix v = Matrix.reindexAlgEquiv _ e (b.toMatrix (v ∘ e)) := by
   ext
-  simp only [Basis.toMatrix_apply, Basis.repr_reindex, Matrix.reindexAlgEquiv_apply,
-    Matrix.reindex_apply, Matrix.submatrix_apply, Function.comp_apply, e.apply_symm_apply,
-    Finsupp.mapDomain_equiv_apply]
+  simp only [Basis.toMatrix_apply, Basis.repr_reindex, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply, Function.comp_apply, e.apply_symm_apply, Finsupp.mapDomain_equiv_apply]
 #align basis.to_matrix_reindex' Basis.toMatrix_reindex'
 
 end Fintype
@@ -263,8 +260,7 @@ def Basis.invertibleToMatrix [DecidableEq ι] [Fintype ι] (b b' : Basis ι R₂
 theorem Basis.toMatrix_reindex (b : Basis ι R M) (v : ι' → M) (e : ι ≃ ι') :
     (b.reindex e).toMatrix v = (b.toMatrix v).submatrix e.symm _root_.id := by
   ext
-  simp only [Basis.toMatrix_apply, Basis.repr_reindex, Matrix.submatrix_apply, id.def,
-    Finsupp.mapDomain_equiv_apply]
+  simp only [Basis.toMatrix_apply, Basis.repr_reindex, Matrix.submatrix_apply, id.def, Finsupp.mapDomain_equiv_apply]
 #align basis.to_matrix_reindex Basis.toMatrix_reindex
 
 @[simp]

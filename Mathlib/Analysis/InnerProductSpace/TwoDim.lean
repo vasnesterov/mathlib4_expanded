@@ -189,9 +189,7 @@ irreducible_def rightAngleRotationAux₁ : E →ₗ[ℝ] E :=
 @[simp]
 theorem inner_rightAngleRotationAux₁_left (x y : E) : ⟪o.rightAngleRotationAux₁ x, y⟫ = ω x y := by
   -- Porting note: split `simp only` for greater proof control
-  simp only [rightAngleRotationAux₁, LinearEquiv.trans_symm, LinearIsometryEquiv.toLinearEquiv_symm,
-    LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply, LinearEquiv.trans_apply,
-    LinearIsometryEquiv.coe_toLinearEquiv]
+  simp only [rightAngleRotationAux₁, LinearEquiv.trans_symm, LinearIsometryEquiv.toLinearEquiv_symm, LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply, LinearEquiv.trans_apply, LinearIsometryEquiv.coe_toLinearEquiv]
   rw [InnerProductSpace.toDual_symm_apply]
   norm_cast
 #align orientation.inner_right_angle_rotation_aux₁_left Orientation.inner_rightAngleRotationAux₁_left
@@ -392,14 +390,9 @@ theorem inner_mul_inner_add_areaForm_mul_areaForm' (a x : E) :
   apply (o.basisRightAngleRotation a ha).ext
   intro i
   fin_cases i
-  · simp only [Fin.mk_zero, coe_basisRightAngleRotation, Matrix.cons_val_zero, LinearMap.add_apply,
-      LinearMap.smul_apply, innerₛₗ_apply, real_inner_self_eq_norm_sq, smul_eq_mul,
-      areaForm_apply_self, mul_zero, add_zero, Real.rpow_two, real_inner_comm]
+  · simp only [Fin.mk_zero, coe_basisRightAngleRotation, Matrix.cons_val_zero, LinearMap.add_apply, LinearMap.smul_apply, innerₛₗ_apply, real_inner_self_eq_norm_sq, smul_eq_mul, areaForm_apply_self, mul_zero, add_zero, Real.rpow_two, real_inner_comm]
     ring
-  · simp only [Fin.mk_one, coe_basisRightAngleRotation, Matrix.cons_val_one, Matrix.head_cons,
-      LinearMap.add_apply, LinearMap.smul_apply, innerₛₗ_apply, inner_rightAngleRotation_right,
-      areaForm_apply_self, neg_zero, smul_eq_mul, mul_zero, areaForm_rightAngleRotation_right,
-      real_inner_self_eq_norm_sq, zero_add, Real.rpow_two, mul_neg]
+  · simp only [Fin.mk_one, coe_basisRightAngleRotation, Matrix.cons_val_one, Matrix.head_cons, LinearMap.add_apply, LinearMap.smul_apply, innerₛₗ_apply, inner_rightAngleRotation_right, areaForm_apply_self, neg_zero, smul_eq_mul, mul_zero, areaForm_rightAngleRotation_right, real_inner_self_eq_norm_sq, zero_add, Real.rpow_two, mul_neg]
     rw [o.areaForm_swap]
     ring
 #align orientation.inner_mul_inner_add_area_form_mul_area_form' Orientation.inner_mul_inner_add_areaForm_mul_areaForm'
@@ -422,15 +415,9 @@ theorem inner_mul_areaForm_sub' (a x : E) : ⟪a, x⟫ • ω a - ω a x • inn
   apply (o.basisRightAngleRotation a ha).ext
   intro i
   fin_cases i
-  · simp only [o.areaForm_swap a x, neg_smul, sub_neg_eq_add, Fin.mk_zero,
-      coe_basisRightAngleRotation, Matrix.cons_val_zero, LinearMap.add_apply, LinearMap.smul_apply,
-      areaForm_apply_self, smul_eq_mul, mul_zero, innerₛₗ_apply, real_inner_self_eq_norm_sq,
-      zero_add, Real.rpow_two]
+  · simp only [o.areaForm_swap a x, neg_smul, sub_neg_eq_add, Fin.mk_zero, coe_basisRightAngleRotation, Matrix.cons_val_zero, LinearMap.add_apply, LinearMap.smul_apply, areaForm_apply_self, smul_eq_mul, mul_zero, innerₛₗ_apply, real_inner_self_eq_norm_sq, zero_add, Real.rpow_two]
     ring
-  · simp only [Fin.mk_one, coe_basisRightAngleRotation, Matrix.cons_val_one, Matrix.head_cons,
-      LinearMap.sub_apply, LinearMap.smul_apply, areaForm_rightAngleRotation_right,
-      real_inner_self_eq_norm_sq, smul_eq_mul, innerₛₗ_apply, inner_rightAngleRotation_right,
-      areaForm_apply_self, neg_zero, mul_zero, sub_zero, Real.rpow_two, real_inner_comm]
+  · simp only [Fin.mk_one, coe_basisRightAngleRotation, Matrix.cons_val_one, Matrix.head_cons, LinearMap.sub_apply, LinearMap.smul_apply, areaForm_rightAngleRotation_right, real_inner_self_eq_norm_sq, smul_eq_mul, innerₛₗ_apply, inner_rightAngleRotation_right, areaForm_apply_self, neg_zero, mul_zero, sub_zero, Real.rpow_two, real_inner_comm]
     ring
 #align orientation.inner_mul_area_form_sub' Orientation.inner_mul_areaForm_sub'
 
@@ -448,12 +435,7 @@ theorem nonneg_inner_and_areaForm_eq_zero_iff_sameRay (x y : E) :
     let b : ℝ := (o.basisRightAngleRotation x hx).repr y 1
     suffices ↑0 ≤ a * ‖x‖ ^ 2 ∧ b * ‖x‖ ^ 2 = 0 → SameRay ℝ x (a • x + b • J x) by
       rw [← (o.basisRightAngleRotation x hx).sum_repr y]
-      simp only [Fin.sum_univ_succ, coe_basisRightAngleRotation, Matrix.cons_val_zero,
-        Fin.succ_zero_eq_one', Fintype.univ_of_isEmpty, Finset.sum_empty, areaForm_apply_self,
-        map_smul, map_add, real_inner_smul_right, inner_add_right, Matrix.cons_val_one,
-        Matrix.head_cons, Algebra.id.smul_eq_mul, areaForm_rightAngleRotation_right,
-        mul_zero, add_zero, zero_add, neg_zero, inner_rightAngleRotation_right,
-        real_inner_self_eq_norm_sq]
+      simp only [Fin.sum_univ_succ, coe_basisRightAngleRotation, Matrix.cons_val_zero, Fin.succ_zero_eq_one', Fintype.univ_of_isEmpty, Finset.sum_empty, areaForm_apply_self, map_smul, map_add, real_inner_smul_right, inner_add_right, Matrix.cons_val_one, Matrix.head_cons, Algebra.id.smul_eq_mul, areaForm_rightAngleRotation_right, mul_zero, add_zero, zero_add, neg_zero, inner_rightAngleRotation_right, real_inner_self_eq_norm_sq]
       exact this
     rintro ⟨ha, hb⟩
     have hx' : 0 < ‖x‖ := by simpa using hx
@@ -462,9 +444,7 @@ theorem nonneg_inner_and_areaForm_eq_zero_iff_sameRay (x y : E) :
     simpa [hb'] using SameRay.sameRay_nonneg_smul_right x ha'
   · intro h
     obtain ⟨r, hr, rfl⟩ := h.exists_nonneg_left hx
-    simp only [inner_smul_right, real_inner_self_eq_norm_sq, LinearMap.map_smulₛₗ,
-      areaForm_apply_self, Algebra.id.smul_eq_mul, mul_zero, eq_self_iff_true,
-      and_true_iff]
+    simp only [inner_smul_right, real_inner_self_eq_norm_sq, LinearMap.map_smulₛₗ, areaForm_apply_self, Algebra.id.smul_eq_mul, mul_zero, eq_self_iff_true, and_true_iff]
     positivity
 #align orientation.nonneg_inner_and_area_form_eq_zero_iff_same_ray Orientation.nonneg_inner_and_areaForm_eq_zero_iff_sameRay
 
@@ -496,16 +476,14 @@ theorem kahler_apply_self (x : E) : o.kahler x x = ‖x‖ ^ 2 := by
 @[simp]
 theorem kahler_rightAngleRotation_left (x y : E) :
     o.kahler (J x) y = -Complex.I * o.kahler x y := by
-  simp only [o.areaForm_rightAngleRotation_left, o.inner_rightAngleRotation_left,
-    o.kahler_apply_apply, Complex.ofReal_neg, Complex.real_smul]
+  simp only [o.areaForm_rightAngleRotation_left, o.inner_rightAngleRotation_left, o.kahler_apply_apply, Complex.ofReal_neg, Complex.real_smul]
   linear_combination ω x y * Complex.I_sq
 #align orientation.kahler_right_angle_rotation_left Orientation.kahler_rightAngleRotation_left
 
 @[simp]
 theorem kahler_rightAngleRotation_right (x y : E) :
     o.kahler x (J y) = Complex.I * o.kahler x y := by
-  simp only [o.areaForm_rightAngleRotation_right, o.inner_rightAngleRotation_right,
-    o.kahler_apply_apply, Complex.ofReal_neg, Complex.real_smul]
+  simp only [o.areaForm_rightAngleRotation_right, o.inner_rightAngleRotation_right, o.kahler_apply_apply, Complex.ofReal_neg, Complex.real_smul]
   linear_combination -ω x y * Complex.I_sq
 #align orientation.kahler_right_angle_rotation_right Orientation.kahler_rightAngleRotation_right
 
@@ -528,12 +506,10 @@ theorem kahler_neg_orientation (x y : E) : (-o).kahler x y = conj (o.kahler x y)
 theorem kahler_mul (a x y : E) : o.kahler x a * o.kahler a y = ‖a‖ ^ 2 * o.kahler x y := by
   trans (↑(‖a‖ ^ 2) : ℂ) * o.kahler x y
   · ext
-    · simp only [o.kahler_apply_apply, Complex.add_im, Complex.add_re, Complex.I_im, Complex.I_re,
-        Complex.mul_im, Complex.mul_re, Complex.ofReal_im, Complex.ofReal_re, Complex.real_smul]
+    · simp only [o.kahler_apply_apply, Complex.add_im, Complex.add_re, Complex.I_im, Complex.I_re, Complex.mul_im, Complex.mul_re, Complex.ofReal_im, Complex.ofReal_re, Complex.real_smul]
       rw [real_inner_comm a x]; rw [o.areaForm_swap x a]
       linear_combination o.inner_mul_inner_add_areaForm_mul_areaForm a x y
-    · simp only [o.kahler_apply_apply, Complex.add_im, Complex.add_re, Complex.I_im, Complex.I_re,
-        Complex.mul_im, Complex.mul_re, Complex.ofReal_im, Complex.ofReal_re, Complex.real_smul]
+    · simp only [o.kahler_apply_apply, Complex.add_im, Complex.add_re, Complex.I_im, Complex.I_re, Complex.mul_im, Complex.mul_re, Complex.ofReal_im, Complex.ofReal_re, Complex.real_smul]
       rw [real_inner_comm a x]; rw [o.areaForm_swap x a]
       linear_combination o.inner_mul_areaForm_sub a x y
   · norm_cast
@@ -602,10 +578,7 @@ attribute [local instance] Complex.finrank_real_complex_fact
 @[simp]
 protected theorem areaForm (w z : ℂ) : Complex.orientation.areaForm w z = (conj w * z).im := by
   let o := Complex.orientation
-  simp only [o.areaForm_to_volumeForm, o.volumeForm_robust Complex.orthonormalBasisOneI rfl,
-    (Basis.det_apply), Matrix.det_fin_two, (Basis.toMatrix_apply), toBasis_orthonormalBasisOneI,
-    Matrix.cons_val_zero, coe_basisOneI_repr, Matrix.cons_val_one, Matrix.head_cons, mul_im,
-    conj_re, conj_im]
+  simp only [o.areaForm_to_volumeForm, o.volumeForm_robust Complex.orthonormalBasisOneI rfl, (Basis.det_apply), Matrix.det_fin_two, (Basis.toMatrix_apply), toBasis_orthonormalBasisOneI, Matrix.cons_val_zero, coe_basisOneI_repr, Matrix.cons_val_one, Matrix.head_cons, mul_im, conj_re, conj_im]
   ring
 #align complex.area_form Complex.areaForm
 
@@ -615,8 +588,7 @@ protected theorem rightAngleRotation (z : ℂ) :
   apply ext_inner_right ℝ
   intro w
   rw [Orientation.inner_rightAngleRotation_left]
-  simp only [Complex.areaForm, Complex.inner, mul_re, mul_im, conj_re, conj_im, map_mul, conj_I,
-    neg_re, neg_im, I_re, I_im]
+  simp only [Complex.areaForm, Complex.inner, mul_re, mul_im, conj_re, conj_im, map_mul, conj_I, neg_re, neg_im, I_re, I_im]
   ring
 #align complex.right_angle_rotation Complex.rightAngleRotation
 

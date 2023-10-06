@@ -296,13 +296,11 @@ def homologyFunctor [HasCokernels V] (i : ι) : HomologicalComplex V c ⥤ V whe
   map_id _ := by
     simp only
     ext1
-    simp only [homology.π_map, kernelSubobjectMap_id, Hom.sqFrom_id, Category.id_comp,
-      Category.comp_id]
+    simp only [homology.π_map, kernelSubobjectMap_id, Hom.sqFrom_id, Category.id_comp, Category.comp_id]
   map_comp _ _ := by
     simp only
     ext1
-    simp only [Hom.sqFrom_comp, kernelSubobjectMap_comp, homology.π_map_assoc, homology.π_map,
-      Category.assoc]
+    simp only [Hom.sqFrom_comp, kernelSubobjectMap_comp, homology.π_map_assoc, homology.π_map, Category.assoc]
 #align homology_functor homologyFunctor
 
 /-- The homology functor from `ι`-indexed complexes to `ι`-graded objects in `V`. -/
@@ -314,14 +312,12 @@ def gradedHomologyFunctor [HasCokernels V] : HomologicalComplex V c ⥤ GradedOb
     ext
     simp only [GradedObject.categoryOfGradedObjects_id]
     ext
-    simp only [homology.π_map, homologyFunctor_map, kernelSubobjectMap_id, Hom.sqFrom_id,
-      Category.id_comp, Category.comp_id]
+    simp only [homology.π_map, homologyFunctor_map, kernelSubobjectMap_id, Hom.sqFrom_id, Category.id_comp, Category.comp_id]
   map_comp _ _ := by
     ext
     simp only [GradedObject.categoryOfGradedObjects_comp]
     ext
-    simp only [Hom.sqFrom_comp, kernelSubobjectMap_comp, homology.π_map_assoc, homology.π_map,
-      homologyFunctor_map, Category.assoc]
+    simp only [Hom.sqFrom_comp, kernelSubobjectMap_comp, homology.π_map_assoc, homology.π_map, homologyFunctor_map, Category.assoc]
 #align graded_homology_functor gradedHomologyFunctor
 
 end

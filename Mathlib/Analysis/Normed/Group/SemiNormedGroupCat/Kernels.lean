@@ -42,9 +42,7 @@ def cokernelCocone {X Y : SemiNormedGroupCat₁.{u}} (f : X ⟶ Y) : Cofork f 0 
     (by
       ext x
       -- Porting note(https://github.com/leanprover-community/mathlib4/issues/5026): was
-      -- simp only [comp_apply, Limits.zero_comp, NormedAddGroupHom.zero_apply,
-      --   SemiNormedGroupCat₁.mkHom_apply, SemiNormedGroupCat₁.zero_apply,
-      --   ← NormedAddGroupHom.mem_ker, f.1.range.ker_normedMk, f.1.mem_range]
+      -- simp only [comp_apply, Limits.zero_comp, NormedAddGroupHom.zero_apply, --   SemiNormedGroupCat₁.mkHom_apply, SemiNormedGroupCat₁.zero_apply, --   ← NormedAddGroupHom.mem_ker, f.1.range.ker_normedMk, f.1.mem_range]
       rw [Limits.zero_comp]; rw [comp_apply]; rw [SemiNormedGroupCat₁.mkHom_apply]; rw [SemiNormedGroupCat₁.zero_apply]; rw [← NormedAddGroupHom.mem_ker]; rw [f.1.range.ker_normedMk]; rw [f.1.mem_range]
       use x
       rfl)

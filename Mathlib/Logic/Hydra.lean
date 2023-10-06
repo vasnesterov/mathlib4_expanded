@@ -69,8 +69,7 @@ theorem cutExpand_le_invImage_lex [DecidableEq α] [IsIrrefl α r] :
     simpa only [count_add, count_singleton, if_neg h.2, add_zero, count_eq_zero.2 (hr b h.1)]
       using he
   · apply_fun count a at he
-    simp only [count_add, count_singleton_self, count_eq_zero.2 (hr _ (irrefl_of r a)),
-      add_zero] at he
+    simp only [count_add, count_singleton_self, count_eq_zero.2 (hr _ (irrefl_of r a)), add_zero] at he
     exact he ▸ Nat.lt_succ_self _
 #align relation.cut_expand_le_inv_image_lex Relation.cutExpand_le_invImage_lex
 

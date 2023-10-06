@@ -84,8 +84,7 @@ theorem Ico_filter_coprime_le {a : ℕ} (k n : ℕ) (a_pos : 0 < a) :
   conv_lhs => rw [← Nat.mod_add_div n a]
   induction' n / a with i ih
   · rw [← filter_coprime_Ico_eq_totient a k]
-    simp only [add_zero, mul_one, mul_zero, le_of_lt (mod_lt n a_pos),
-      Nat.zero_eq, zero_add]
+    simp only [add_zero, mul_one, mul_zero, le_of_lt (mod_lt n a_pos), Nat.zero_eq, zero_add]
     --Porting note: below line was `mono`
     refine Finset.card_mono ?_
     refine' monotone_filter_left a.Coprime _
@@ -194,8 +193,7 @@ theorem totient_prime_pow_succ {p : ℕ} (hp : p.Prime) (n : ℕ) : φ (p ^ (n +
         (by
           rw [sdiff_eq_filter]
           apply filter_congr
-          simp only [mem_range, mem_filter, coprime_pow_left_iff n.succ_pos, mem_image, not_exists,
-            hp.coprime_iff_not_dvd]
+          simp only [mem_range, mem_filter, coprime_pow_left_iff n.succ_pos, mem_image, not_exists, hp.coprime_iff_not_dvd]
           intro a ha
           constructor
           · intro hap b h; rcases h with ⟨_, rfl⟩
@@ -316,8 +314,7 @@ theorem totient_eq_mul_prod_factors (n : ℕ) :
   have hpQ : (∏ p in n.factors.toFinset, (p : ℚ)) ≠ 0 := by
     rw [← cast_prod]; rw [cast_ne_zero]; rw [← zero_lt_iff]; rw [← prod_factorization_eq_prod_factors]
     exact prod_pos fun p hp => pos_of_mem_factorization hp
-  simp only [totient_eq_div_factors_mul n, prod_prime_factors_dvd n, cast_mul, cast_prod,
-    cast_div_charZero, mul_comm_div, mul_right_inj' hn', div_eq_iff hpQ, ← prod_mul_distrib]
+  simp only [totient_eq_div_factors_mul n, prod_prime_factors_dvd n, cast_mul, cast_prod, cast_div_charZero, mul_comm_div, mul_right_inj' hn', div_eq_iff hpQ, ← prod_mul_distrib]
   refine' prod_congr rfl fun p hp => _
   have hp := pos_of_mem_factors (List.mem_toFinset.mp hp)
   have hp' : (p : ℚ) ≠ 0 := cast_ne_zero.mpr hp.ne.symm

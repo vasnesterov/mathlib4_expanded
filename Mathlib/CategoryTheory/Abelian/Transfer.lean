@@ -112,8 +112,7 @@ def coimageIsoImageAux {X Y : C} (f : X ⟶ Y) :
     _ ≅ kernel (cokernel.π (f ≫ _)) := (kernelCompMono _ _)
     _ ≅ kernel (inv (i.inv.app Y) ≫ cokernel.π f ≫ (cokernelCompIsIso f (i.inv.app Y)).inv) :=
       (kernelIsoOfEq
-        (by simp only [cokernel.π_desc, cokernelCompIsIso_inv, Iso.hom_inv_id_app_assoc,
-          NatIso.inv_inv_app]))
+        (by simp only [cokernel.π_desc, cokernelCompIsIso_inv, Iso.hom_inv_id_app_assoc, NatIso.inv_inv_app]))
     _ ≅ kernel (cokernel.π f ≫ _) := (kernelIsIsoComp _ _)
     _ ≅ kernel (cokernel.π f) := kernelCompMono _ _
 #align category_theory.abelian_of_adjunction.coimage_iso_image_aux CategoryTheory.AbelianOfAdjunction.coimageIsoImageAux

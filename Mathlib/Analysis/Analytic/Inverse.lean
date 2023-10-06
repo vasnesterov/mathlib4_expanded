@@ -100,11 +100,9 @@ theorem leftInv_comp (p : FormalMultilinearSeries 𝕜 E F) (i : E ≃L[𝕜] F)
   ext (n v)
   match n with
   | 0 =>
-    simp only [leftInv_coeff_zero, ContinuousMultilinearMap.zero_apply, id_apply_ne_one, Ne.def,
-      not_false_iff, zero_ne_one, comp_coeff_zero']
+    simp only [leftInv_coeff_zero, ContinuousMultilinearMap.zero_apply, id_apply_ne_one, Ne.def, not_false_iff, zero_ne_one, comp_coeff_zero']
   | 1 =>
-    simp only [leftInv_coeff_one, comp_coeff_one, h, id_apply_one, ContinuousLinearEquiv.coe_apply,
-      ContinuousLinearEquiv.symm_apply_apply, continuousMultilinearCurryFin1_symm_apply]
+    simp only [leftInv_coeff_one, comp_coeff_one, h, id_apply_one, ContinuousLinearEquiv.coe_apply, ContinuousLinearEquiv.symm_apply_apply, continuousMultilinearCurryFin1_symm_apply]
   | n + 2 =>
     have A :
       (Finset.univ : Finset (Composition (n + 2))) =
@@ -128,8 +126,7 @@ theorem leftInv_comp (p : FormalMultilinearSeries 𝕜 E F) (i : E ≃L[𝕜] F)
       (p.leftInv i (n + 2) fun j : Fin (n + 2) => p 1 fun _ => v j) =
         -∑ c : Composition (n + 2) in {c : Composition (n + 2) | c.length < n + 2}.toFinset,
             (p.leftInv i c.length) (p.applyComposition c v) := by
-      simp only [leftInv, ContinuousMultilinearMap.neg_apply, neg_inj,
-        ContinuousMultilinearMap.sum_apply]
+      simp only [leftInv, ContinuousMultilinearMap.neg_apply, neg_inj, ContinuousMultilinearMap.sum_apply]
       convert
         (sum_toFinset_eq_subtype
           (fun c : Composition (n + 2) => c.length < n + 2)
@@ -138,8 +135,7 @@ theorem leftInv_comp (p : FormalMultilinearSeries 𝕜 E F) (i : E ≃L[𝕜] F)
             (p.compContinuousLinearMap (i.symm : F →L[𝕜] E)) c (p.leftInv i c.length))
             fun j : Fin (n + 2) => p 1 fun _ : Fin 1 => v j)).symm.trans
           _
-      simp only [compContinuousLinearMap_applyComposition,
-        ContinuousMultilinearMap.compAlongComposition_apply]
+      simp only [compContinuousLinearMap_applyComposition, ContinuousMultilinearMap.compAlongComposition_apply]
       congr
       ext c
       congr
@@ -238,8 +234,7 @@ theorem comp_rightInv_aux2 (p : FormalMultilinearSeries 𝕜 E F) (i : E ≃L[�
   have N : 0 < n + 2 := by norm_num
   refine' sum_congr rfl fun c hc => p.congr rfl fun j hj1 hj2 => _
   have : ∀ k, c.blocksFun k < n + 2 := by
-    simp only [Set.mem_toFinset (s := {c : Composition (n + 2) | 1 < c.length}),
-      Set.mem_setOf_eq] at hc
+    simp only [Set.mem_toFinset (s := {c : Composition (n + 2) | 1 < c.length}), Set.mem_setOf_eq] at hc
     simp [← Composition.ne_single_iff N, Composition.eq_single_iff_length, ne_of_gt hc]
   simp [applyComposition, this]
 #align formal_multilinear_series.comp_right_inv_aux2 FormalMultilinearSeries.comp_rightInv_aux2
@@ -252,11 +247,9 @@ theorem comp_rightInv (p : FormalMultilinearSeries 𝕜 E F) (i : E ≃L[𝕜] F
   ext (n v)
   match n with
   | 0 =>
-    simp only [h0, ContinuousMultilinearMap.zero_apply, id_apply_ne_one, Ne.def, not_false_iff,
-      zero_ne_one, comp_coeff_zero']
+    simp only [h0, ContinuousMultilinearMap.zero_apply, id_apply_ne_one, Ne.def, not_false_iff, zero_ne_one, comp_coeff_zero']
   | 1 =>
-    simp only [comp_coeff_one, h, rightInv_coeff_one, ContinuousLinearEquiv.apply_symm_apply,
-      id_apply_one, ContinuousLinearEquiv.coe_apply, continuousMultilinearCurryFin1_symm_apply]
+    simp only [comp_coeff_one, h, rightInv_coeff_one, ContinuousLinearEquiv.apply_symm_apply, id_apply_one, ContinuousLinearEquiv.coe_apply, continuousMultilinearCurryFin1_symm_apply]
   | n + 2 =>
     have N : 0 < n + 2 := by norm_num
     simp [comp_rightInv_aux1 N, h, rightInv, lt_irrefl n, show n + 2 ≠ 1 by norm_num,
@@ -405,8 +398,7 @@ theorem radius_right_inv_pos_of_radius_pos_aux1 (n : ℕ) (p : ℕ → ℝ) (hp 
         sum_le_sum_of_subset_of_nonneg _ fun x _ _ =>
           prod_nonneg fun j _ => mul_nonneg hr (mul_nonneg (pow_nonneg ha _) (hp _))
       rintro ⟨k, c⟩ hd
-      simp only [Set.mem_toFinset (s := {c | 1 < Composition.length c}), mem_Ico, mem_sigma,
-        Set.mem_setOf_eq] at hd
+      simp only [Set.mem_toFinset (s := {c | 1 < Composition.length c}), mem_Ico, mem_sigma, Set.mem_setOf_eq] at hd
       simp only [mem_compPartialSumTarget_iff]
       refine' ⟨hd.2, c.length_le.trans_lt hd.1.2, fun j => _⟩
       have : c ≠ Composition.single k (zero_lt_two.trans_le hd.1.1) := by
@@ -451,9 +443,7 @@ theorem radius_rightInv_pos_of_radius_pos_aux2 {n : ℕ} (hn : 2 ≤ n + 1)
   calc
     ∑ k in Ico 1 (n + 1), a ^ k * ‖p.rightInv i k‖ =
         a * I + ∑ k in Ico 2 (n + 1), a ^ k * ‖p.rightInv i k‖ := by
-      simp only [LinearIsometryEquiv.norm_map, pow_one, rightInv_coeff_one,
-        show Ico (1 : ℕ) 2 = {1} from Nat.Ico_succ_singleton 1,
-        sum_singleton, ← sum_Ico_consecutive _ one_le_two hn]
+      simp only [LinearIsometryEquiv.norm_map, pow_one, rightInv_coeff_one, show Ico (1 : ℕ) 2 = {1} from Nat.Ico_succ_singleton 1, sum_singleton, ← sum_Ico_consecutive _ one_le_two hn]
     _ =
         a * I +
           ∑ k in Ico 2 (n + 1),

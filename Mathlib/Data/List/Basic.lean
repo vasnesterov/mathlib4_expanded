@@ -366,8 +366,7 @@ theorem append_eq_has_append {L₁ L₂ : List α} : List.append L₁ L₂ = L�
 theorem append_eq_cons_iff {a b c : List α} {x : α} :
     a ++ b = x :: c ↔ a = [] ∧ b = x :: c ∨ ∃ a', a = x :: a' ∧ c = a' ++ b := by
   cases a <;>
-    simp only [and_assoc, @eq_comm _ c, nil_append, cons_append, cons.injEq, true_and_iff,
-      false_and_iff, exists_false, false_or_iff, or_false_iff, exists_and_left, exists_eq_left']
+    simp only [and_assoc, @eq_comm _ c, nil_append, cons_append, cons.injEq, true_and_iff, false_and_iff, exists_false, false_or_iff, or_false_iff, exists_and_left, exists_eq_left']
 #align list.append_eq_cons_iff List.append_eq_cons_iff
 
 theorem cons_eq_append_iff {a b c : List α} {x : α} :
@@ -2576,8 +2575,7 @@ theorem get?_succ_scanl {i : ℕ} : (scanl f b l).get? (i + 1) =
     ((scanl f b l).get? i).bind fun x => (l.get? i).map fun y => f x y := by
   induction' l with hd tl hl generalizing b i
   · symm
-    simp only [Option.bind_eq_none', get?, forall₂_true_iff, not_false_iff, Option.map_none',
-      scanl_nil, Option.not_mem_none, forall_true_iff]
+    simp only [Option.bind_eq_none', get?, forall₂_true_iff, not_false_iff, Option.map_none', scanl_nil, Option.not_mem_none, forall_true_iff]
   · simp only [scanl_cons, singleton_append]
     cases i
     · simp only [Option.map_some', get?_zero_scanl, get?, Option.some_bind']
@@ -3366,17 +3364,14 @@ theorem reduceOption_length_le (l : List (Option α)) : l.reduceOption.length �
 theorem reduceOption_length_eq_iff {l : List (Option α)} :
     l.reduceOption.length = l.length ↔ ∀ x ∈ l, Option.isSome x := by
   induction' l with hd tl hl
-  · simp only [forall_const, reduceOption_nil, not_mem_nil, forall_prop_of_false, eq_self_iff_true,
-      length, not_false_iff]
+  · simp only [forall_const, reduceOption_nil, not_mem_nil, forall_prop_of_false, eq_self_iff_true, length, not_false_iff]
   · cases hd
-    · simp only [mem_cons, forall_eq_or_imp, Bool.coe_sort_false, false_and_iff,
-        reduceOption_cons_of_none, length, Option.isSome_none, iff_false_iff]
+    · simp only [mem_cons, forall_eq_or_imp, Bool.coe_sort_false, false_and_iff, reduceOption_cons_of_none, length, Option.isSome_none, iff_false_iff]
       intro H
       have := reduceOption_length_le tl
       rw [H] at this
       exact absurd (Nat.lt_succ_self _) (not_lt_of_le this)
-    · simp only [length, add_left_inj, find?, mem_cons, forall_eq_or_imp, Option.isSome_some,
-        ← hl, reduceOption, true_and]
+    · simp only [length, add_left_inj, find?, mem_cons, forall_eq_or_imp, Option.isSome_some, ← hl, reduceOption, true_and]
 #align list.reduce_option_length_eq_iff List.reduceOption_length_eq_iff
 
 theorem reduceOption_length_lt_iff {l : List (Option α)} :
@@ -3725,8 +3720,7 @@ theorem erase_diff_erase_sublist_of_sublist {a : α} :
   | b :: l₁, l₂, h =>
     if heq : b = a then by simp only [heq, erase_cons_head, diff_cons]; rfl
     else by
-      simp only [erase_cons_head b l₁, erase_cons_tail l₁ heq,
-        diff_cons ((List.erase l₂ a)) (List.erase l₁ a) b, diff_cons l₂ l₁ b, erase_comm a b l₂]
+      simp only [erase_cons_head b l₁, erase_cons_tail l₁ heq, diff_cons ((List.erase l₂ a)) (List.erase l₁ a) b, diff_cons l₂ l₁ b, erase_comm a b l₂]
       have h' := h.erase b
       rw [erase_cons_head] at h'
       exact @erase_diff_erase_sublist_of_sublist _ l₁ (l₂.erase b) h'

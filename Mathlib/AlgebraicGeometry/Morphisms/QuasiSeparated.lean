@@ -365,8 +365,7 @@ theorem exists_eq_pow_mul_of_is_compact_of_quasi_separated_space_aux (X : Scheme
       · simp only [X.basicOpen_res]
         rintro x ⟨H₁, H₂⟩; exact ⟨h₂ H₁, H₂⟩
   use n
-  simp only [pow_add, map_pow, map_mul, ← comp_apply, ← mul_assoc, ← Functor.map_comp,
-    Subtype.coe_mk] at e ⊢
+  simp only [pow_add, map_pow, map_mul, ← comp_apply, ← mul_assoc, ← Functor.map_comp, Subtype.coe_mk] at e ⊢
   exact e
 #align algebraic_geometry.exists_eq_pow_mul_of_is_compact_of_quasi_separated_space_aux AlgebraicGeometry.exists_eq_pow_mul_of_is_compact_of_quasi_separated_space_aux
 

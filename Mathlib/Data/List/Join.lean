@@ -137,8 +137,7 @@ theorem drop_take_succ_join_eq_get (L : List (List α)) (i : Fin L.length) :
       get L i := by
   have : (L.map length).take i = ((L.take (i + 1)).map length).take i := by
     simp [map_take, take_take]
-  simp only [this, length_map, take_sum_join, drop_sum_join, drop_take_succ_eq_cons_get,
-    join, append_nil]
+  simp only [this, length_map, take_sum_join, drop_sum_join, drop_take_succ_eq_cons_get, join, append_nil]
 
 set_option linter.deprecated false in
 /-- In a join of sublists, taking the slice between the indices `A` and `B - 1` gives back the

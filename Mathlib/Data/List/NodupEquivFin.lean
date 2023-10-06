@@ -226,8 +226,7 @@ theorem duplicate_iff_exists_distinct_get {l : List α} {x : α} :
         · simp
         · simp [hnm]
         · simp
-        · simp only [Nat.lt_succ_iff, Nat.succ_le_succ_iff, replicate, length,
-            nonpos_iff_eq_zero] at hi hj
+        · simp only [Nat.lt_succ_iff, Nat.succ_le_succ_iff, replicate, length, nonpos_iff_eq_zero] at hi hj
           simp [hi, hj]
       · rintro ⟨⟨_ | i⟩, hi⟩
         · simpa using h

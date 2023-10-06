@@ -92,8 +92,7 @@ def tensoringRightMonoidal [MonoidalCategory.{v} C] : MonoidalFunctor C (C ⥤ C
     μ_natural := fun f g => by
       ext Z
       dsimp
-      simp only [← id_tensor_comp_tensor_id g f, id_tensor_comp, ← tensor_id, Category.assoc,
-        associator_naturality, associator_naturality_assoc]
+      simp only [← id_tensor_comp_tensor_id g f, id_tensor_comp, ← tensor_id, Category.assoc, associator_naturality, associator_naturality_assoc]
     associativity := fun X Y Z => by
       ext W
       simp [pentagon]
@@ -328,9 +327,7 @@ noncomputable def equivOfTensorIsoUnit (m n : M) (h₁ : m ⊗ n ≅ 𝟙_ M) (h
   functor_unitIso_comp := by
     intro X
     dsimp
-    simp only [μ_naturalityᵣ_assoc, μ_naturalityₗ_assoc, ε_inv_app_obj, Category.assoc,
-      obj_μ_inv_app, Functor.map_comp, μ_inv_hom_app_assoc, obj_ε_app,
-      unitOfTensorIsoUnit_inv_app]
+    simp only [μ_naturalityᵣ_assoc, μ_naturalityₗ_assoc, ε_inv_app_obj, Category.assoc, obj_μ_inv_app, Functor.map_comp, μ_inv_hom_app_assoc, obj_ε_app, unitOfTensorIsoUnit_inv_app]
     simp [← NatTrans.comp_app, ← F.toFunctor.map_comp, ← H, -Functor.map_comp]
 #align category_theory.equiv_of_tensor_iso_unit CategoryTheory.equivOfTensorIsoUnit
 

@@ -64,8 +64,7 @@ def splitLower (I : Box ι) (i : ι) (x : ℝ) : WithBot (Box ι) :=
 theorem coe_splitLower : (splitLower I i x : Set (ι → ℝ)) = ↑I ∩ { y | y i ≤ x } := by
   rw [splitLower]; rw [coe_mk']
   ext y
-  simp only [mem_univ_pi, mem_Ioc, mem_inter_iff, mem_coe, mem_setOf_eq, forall_and, ← Pi.le_def,
-    le_update_iff, le_min_iff, and_assoc, and_forall_ne (p := fun j => y j ≤ upper I j) i, mem_def]
+  simp only [mem_univ_pi, mem_Ioc, mem_inter_iff, mem_coe, mem_setOf_eq, forall_and, ← Pi.le_def, le_update_iff, le_min_iff, and_assoc, and_forall_ne (p := fun j => y j ≤ upper I j) i, mem_def]
   rw [and_comm (a := y i ≤ x)]
 #align box_integral.box.coe_split_lower BoxIntegral.Box.coe_splitLower
 
@@ -104,9 +103,7 @@ def splitUpper (I : Box ι) (i : ι) (x : ℝ) : WithBot (Box ι) :=
 theorem coe_splitUpper : (splitUpper I i x : Set (ι → ℝ)) = ↑I ∩ { y | x < y i } := by
   rw [splitUpper]; rw [coe_mk']
   ext y
-  simp only [mem_univ_pi, mem_Ioc, mem_inter_iff, mem_coe, mem_setOf_eq, forall_and,
-    forall_update_iff I.lower fun j z => z < y j, max_lt_iff, and_assoc (a := x < y i),
-    and_forall_ne (p := fun j => lower I j < y j) i, mem_def]
+  simp only [mem_univ_pi, mem_Ioc, mem_inter_iff, mem_coe, mem_setOf_eq, forall_and, forall_update_iff I.lower fun j z => z < y j, max_lt_iff, and_assoc (a := x < y i), and_forall_ne (p := fun j => lower I j < y j) i, mem_def]
   exact and_comm
 #align box_integral.box.coe_split_upper BoxIntegral.Box.coe_splitUpper
 
@@ -165,8 +162,7 @@ def split (I : Box ι) (i : ι) (x : ℝ) : Prepartition I :=
       rintro J (rfl | rfl)
       exacts [Box.splitLower_le, Box.splitUpper_le])
     (by
-      simp only [Finset.coe_insert, Finset.coe_singleton, true_and_iff, Set.mem_singleton_iff,
-        pairwise_insert_of_symmetric symmetric_disjoint, pairwise_singleton]
+      simp only [Finset.coe_insert, Finset.coe_singleton, true_and_iff, Set.mem_singleton_iff, pairwise_insert_of_symmetric symmetric_disjoint, pairwise_singleton]
       rintro J rfl -
       exact I.disjoint_splitLower_splitUpper i x)
 #align box_integral.prepartition.split BoxIntegral.Prepartition.split

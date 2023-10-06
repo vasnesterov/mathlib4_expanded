@@ -74,8 +74,7 @@ theorem bodd_neg (n : ℤ) : bodd (-n) = bodd n := by
 theorem bodd_add (m n : ℤ) : bodd (m + n) = xor (bodd m) (bodd n) := by
   cases' m with m m <;>
   cases' n with n n <;>
-  simp only [ofNat_eq_coe, ofNat_add_negSucc, negSucc_add_ofNat,
-             negSucc_add_negSucc, bodd_subNatNat] <;>
+  simp only [ofNat_eq_coe, ofNat_add_negSucc, negSucc_add_ofNat, negSucc_add_negSucc, bodd_subNatNat] <;>
   simp only [negSucc_coe, bodd_neg, bodd_coe, ←Nat.bodd_add, Bool.xor_comm, ←Nat.cast_add]
   rw [←Nat.succ_add]; rw [add_assoc]
 -- Porting note: Heavily refactored proof, used to work all with `simp`:
@@ -86,8 +85,7 @@ theorem bodd_add (m n : ℤ) : bodd (m + n) = xor (bodd m) (bodd n) := by
 @[simp]
 theorem bodd_mul (m n : ℤ) : bodd (m * n) = (bodd m && bodd n) := by
   cases' m with m m <;> cases' n with n n <;>
-  simp only [ofNat_eq_coe, ofNat_mul_negSucc, negSucc_mul_ofNat, ofNat_mul_ofNat,
-             negSucc_mul_negSucc] <;>
+  simp only [ofNat_eq_coe, ofNat_mul_negSucc, negSucc_mul_ofNat, ofNat_mul_ofNat, negSucc_mul_negSucc] <;>
   simp only [negSucc_coe, bodd_neg, bodd_coe, ←Nat.bodd_mul]
 -- Porting note: Heavily refactored proof, used to be:
 -- `by cases m with m m; cases n with n n;`
@@ -220,8 +218,7 @@ theorem testBit_succ (m b) : ∀ n, testBit (bit b n) (Nat.succ m) = testBit n m
 theorem bitwise_or : bitwise or = lor := by
   funext m n
   cases' m with m m <;> cases' n with n n <;> try {rfl}
-    <;> simp only [bitwise, natBitwise, Bool.not_false, Bool.or_true, cond_true, lor, Nat.ldiff',
-      negSucc.injEq, Bool.true_or, Nat.land']
+    <;> simp only [bitwise, natBitwise, Bool.not_false, Bool.or_true, cond_true, lor, Nat.ldiff', negSucc.injEq, Bool.true_or, Nat.land']
   · rw [Nat.bitwise'_swap, Function.swap]
     congr
     funext x y
@@ -239,9 +236,7 @@ theorem bitwise_or : bitwise or = lor := by
 theorem bitwise_and : bitwise and = land := by
   funext m n
   cases' m with m m <;> cases' n with n n <;> try {rfl}
-    <;> simp only [bitwise, natBitwise, Bool.not_false, Bool.or_true,
-      cond_false, cond_true, lor, Nat.ldiff', Bool.and_true, negSucc.injEq,
-      Bool.and_false, Nat.land']
+    <;> simp only [bitwise, natBitwise, Bool.not_false, Bool.or_true, cond_false, cond_true, lor, Nat.ldiff', Bool.and_true, negSucc.injEq, Bool.and_false, Nat.land']
   · rw [Nat.bitwise'_swap, Function.swap]
     congr
     funext x y
@@ -256,9 +251,7 @@ theorem bitwise_and : bitwise and = land := by
 theorem bitwise_diff : (bitwise fun a b => a && not b) = ldiff' := by
   funext m n
   cases' m with m m <;> cases' n with n n <;> try {rfl}
-    <;> simp only [bitwise, natBitwise, Bool.not_false, Bool.or_true,
-      cond_false, cond_true, lor, Nat.ldiff', Bool.and_true, negSucc.injEq,
-      Bool.and_false, Nat.land', Bool.not_true, ldiff', Nat.lor']
+    <;> simp only [bitwise, natBitwise, Bool.not_false, Bool.or_true, cond_false, cond_true, lor, Nat.ldiff', Bool.and_true, negSucc.injEq, Bool.and_false, Nat.land', Bool.not_true, ldiff', Nat.lor']
   · congr
     funext x y
     cases x <;> cases y <;> rfl
@@ -276,9 +269,7 @@ theorem bitwise_diff : (bitwise fun a b => a && not b) = ldiff' := by
 theorem bitwise_xor : bitwise xor = lxor' := by
   funext m n
   cases' m with m m <;> cases' n with n n <;> try {rfl}
-    <;> simp only [bitwise, natBitwise, Bool.not_false, Bool.or_true,
-      cond_false, cond_true, lor, Nat.ldiff', Bool.and_true, negSucc.injEq, Bool.false_xor,
-      Bool.true_xor, Bool.and_false, Nat.land', Bool.not_true, ldiff', Nat.lor', lxor', Nat.lxor']
+    <;> simp only [bitwise, natBitwise, Bool.not_false, Bool.or_true, cond_false, cond_true, lor, Nat.ldiff', Bool.and_true, negSucc.injEq, Bool.false_xor, Bool.true_xor, Bool.and_false, Nat.land', Bool.not_true, ldiff', Nat.lor', lxor', Nat.lxor']
   · congr
     funext x y
     cases x <;> cases y <;> rfl
@@ -294,8 +285,7 @@ theorem bitwise_xor : bitwise xor = lxor' := by
 theorem bitwise_bit (f : Bool → Bool → Bool) (a m b n) :
     bitwise f (bit a m) (bit b n) = bit (f a b) (bitwise f m n) := by
   cases' m with m m <;> cases' n with n n <;>
-  simp only [bitwise, ofNat_eq_coe, bit_coe_nat, natBitwise, Bool.not_false, Bool.not_eq_false',
-    bit_negSucc]
+  simp only [bitwise, ofNat_eq_coe, bit_coe_nat, natBitwise, Bool.not_false, Bool.not_eq_false', bit_negSucc]
   · by_cases h : f false false <;> simp [h]
   · by_cases h : f false true <;> simp [h]
   · by_cases h : f true false <;> simp [h]

@@ -79,8 +79,7 @@ noncomputable def isColimitColimitCocone : IsColimit (colimitCocone F) where
     rw [colimit.ι_desc_assoc]
     rw [mkOfSMul_smul]
     dsimp
-    simp only [ι_colimMap_assoc, Functor.comp_obj, forget₂_obj, colimit.ι_desc,
-      Functor.mapCocone_pt, Functor.mapCocone_ι_app, forget₂_map]
+    simp only [ι_colimMap_assoc, Functor.comp_obj, forget₂_obj, colimit.ι_desc, Functor.mapCocone_pt, Functor.mapCocone_ι_app, forget₂_map]
     exact smul_naturality (s.ι.app j) r)
   fac s j := by
     apply (forget₂ _ AddCommGroupCat).map_injective

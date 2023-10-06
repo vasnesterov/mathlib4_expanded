@@ -313,8 +313,7 @@ theorem mem_iff_lt_rowLen {μ : YoungDiagram} {i j : ℕ} : (i, j) ∈ μ ↔ j 
 
 theorem row_eq_prod {μ : YoungDiagram} {i : ℕ} : μ.row i = {i} ×ˢ Finset.range (μ.rowLen i) := by
   ext ⟨a, b⟩
-  simp only [Finset.mem_product, Finset.mem_singleton, Finset.mem_range, mem_row_iff,
-    mem_iff_lt_rowLen, and_comm, and_congr_right_iff]
+  simp only [Finset.mem_product, Finset.mem_singleton, Finset.mem_range, mem_row_iff, mem_iff_lt_rowLen, and_comm, and_congr_right_iff]
   rintro rfl
   rfl
 #align young_diagram.row_eq_prod YoungDiagram.row_eq_prod
@@ -379,8 +378,7 @@ theorem mem_iff_lt_colLen {μ : YoungDiagram} {i j : ℕ} : (i, j) ∈ μ ↔ i 
 
 theorem col_eq_prod {μ : YoungDiagram} {j : ℕ} : μ.col j = Finset.range (μ.colLen j) ×ˢ {j} := by
   ext ⟨a, b⟩
-  simp only [Finset.mem_product, Finset.mem_singleton, Finset.mem_range, mem_col_iff,
-    mem_iff_lt_colLen, and_comm, and_congr_right_iff]
+  simp only [Finset.mem_product, Finset.mem_singleton, Finset.mem_range, mem_col_iff, mem_iff_lt_colLen, and_comm, and_congr_right_iff]
   rintro rfl
   rfl
 #align young_diagram.col_eq_prod YoungDiagram.col_eq_prod
@@ -497,8 +495,7 @@ theorem mem_ofRowLens {w : List ℕ} {hw : w.Sorted (· ≥ ·)} {c : ℕ × ℕ
 /-- The number of rows in `ofRowLens w hw` is the length of `w` -/
 theorem rowLens_length_ofRowLens {w : List ℕ} {hw : w.Sorted (· ≥ ·)} (hpos : ∀ x ∈ w, 0 < x) :
     (ofRowLens w hw).rowLens.length = w.length := by
-  simp only [length_rowLens, colLen, Nat.find_eq_iff, mem_cells, mem_ofRowLens,
-    lt_self_iff_false, IsEmpty.exists_iff, Classical.not_not]
+  simp only [length_rowLens, colLen, Nat.find_eq_iff, mem_cells, mem_ofRowLens, lt_self_iff_false, IsEmpty.exists_iff, Classical.not_not]
   refine' ⟨True.intro, fun n hn => ⟨hn, hpos _ (List.get_mem _ _ hn)⟩⟩
 #align young_diagram.row_lens_length_of_row_lens YoungDiagram.rowLens_length_ofRowLens
 

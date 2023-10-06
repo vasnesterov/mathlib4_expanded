@@ -161,8 +161,7 @@ theorem lie_of_of_ne [DecidableEq ι] {i j : ι} (hij : j ≠ i) (x : L i) (y : 
     ⁅of L i x, of L j y⁆ = 0 := by
   apply lieAlgebra_ext R ι L; intro k
   rw [LieHom.map_lie]
-  simp only [of, singleAddHom, AddMonoidHom.coe_mk, ZeroHom.coe_mk, lieAlgebraComponent_apply,
-    component, lapply, LinearMap.coe_mk, AddHom.coe_mk, single_apply, LieHom.map_zero]
+  simp only [of, singleAddHom, AddMonoidHom.coe_mk, ZeroHom.coe_mk, lieAlgebraComponent_apply, component, lapply, LinearMap.coe_mk, AddHom.coe_mk, single_apply, LieHom.map_zero]
   by_cases hik : i = k
   · simp only [dif_neg, not_false_iff, lie_zero, hik.symm, hij]
   · simp only [dif_neg, not_false_iff, zero_lie, hik]
@@ -215,13 +214,11 @@ def toLieAlgebra [DecidableEq ι] (L' : Type w₁) [LieRing L'] [LieAlgebra R L'
         congr; clear x; ext j x; exact this j i x y
       -- Tidy up and use `lie_of`.
       intro i j y x
-      simp only [lie_of R, lieAlgebraOf_apply, LieHom.coe_toLinearMap, toAddMonoid_of,
-        coe_toModule_eq_coe_toAddMonoid, LinearMap.toAddMonoidHom_coe]
+      simp only [lie_of R, lieAlgebraOf_apply, LieHom.coe_toLinearMap, toAddMonoid_of, coe_toModule_eq_coe_toAddMonoid, LinearMap.toAddMonoidHom_coe]
       -- And finish with trivial case analysis.
       rcases eq_or_ne i j with (h | h)
       · have h' : f j (h.recOn y) = f i y := Eq.rec (Eq.refl _) h
-        simp only [h, h', LieHom.coe_toLinearMap, dif_pos, LieHom.map_lie, toAddMonoid_of,
-          LinearMap.toAddMonoidHom_coe]
+        simp only [h, h', LieHom.coe_toLinearMap, dif_pos, LieHom.map_lie, toAddMonoid_of, LinearMap.toAddMonoidHom_coe]
       · simp only [h, hf j i h.symm x y, dif_neg, not_false_iff, AddMonoidHom.map_zero] }
 #align direct_sum.to_lie_algebra DirectSum.toLieAlgebra
 

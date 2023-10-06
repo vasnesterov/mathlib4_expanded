@@ -183,13 +183,9 @@ def Triangle.isoMk (A B : Triangle C)
     (comm₃ : A.mor₃ ≫ iso₁.hom⟦1⟧' = iso₃.hom ≫ B.mor₃ := by aesop_cat) : A ≅ B where
   hom := Triangle.homMk _ _ iso₁.hom iso₂.hom iso₃.hom comm₁ comm₂ comm₃
   inv := Triangle.homMk _ _ iso₁.inv iso₂.inv iso₃.inv
-    (by simp only [← cancel_mono iso₂.hom, assoc, Iso.inv_hom_id, comp_id,
-      comm₁, Iso.inv_hom_id_assoc])
-    (by simp only [← cancel_mono iso₃.hom, assoc, Iso.inv_hom_id, comp_id,
-      comm₂, Iso.inv_hom_id_assoc])
-    (by simp only [← cancel_mono (iso₁.hom⟦(1 : ℤ)⟧'), Category.assoc, comm₃,
-      Iso.inv_hom_id_assoc, ← Functor.map_comp, Iso.inv_hom_id,
-      Functor.map_id, Category.comp_id])
+    (by simp only [← cancel_mono iso₂.hom, assoc, Iso.inv_hom_id, comp_id, comm₁, Iso.inv_hom_id_assoc])
+    (by simp only [← cancel_mono iso₃.hom, assoc, Iso.inv_hom_id, comp_id, comm₂, Iso.inv_hom_id_assoc])
+    (by simp only [← cancel_mono (iso₁.hom⟦(1 : ℤ)⟧'), Category.assoc, comm₃, Iso.inv_hom_id_assoc, ← Functor.map_comp, Iso.inv_hom_id, Functor.map_id, Category.comp_id])
 #align category_theory.pretriangulated.triangle.iso_mk CategoryTheory.Pretriangulated.Triangle.isoMk
 
 lemma Triangle.eqToHom_hom₁ {A B : Triangle C} (h : A = B) :

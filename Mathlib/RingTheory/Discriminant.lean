@@ -200,8 +200,7 @@ theorem discr_powerBasis_eq_prod'' [IsSeparable K L] (e : Fin pb.dim ≃ (L →�
   rw [← @Nat.cast_inj ℚ]; rw [Nat.cast_sum]
   have : ∀ x : Fin pb.dim, ↑x + 1 ≤ pb.dim := by simp [Nat.succ_le_iff, Fin.is_lt]
   simp_rw [Fin.card_Ioi, Nat.sub_sub, add_comm 1]
-  simp only [Nat.cast_sub, this, Finset.card_fin, nsmul_eq_mul, sum_const, sum_sub_distrib,
-    Nat.cast_add, Nat.cast_one, sum_add_distrib, mul_one]
+  simp only [Nat.cast_sub, this, Finset.card_fin, nsmul_eq_mul, sum_const, sum_sub_distrib, Nat.cast_add, Nat.cast_one, sum_add_distrib, mul_one]
   rw [← Nat.cast_sum]; rw [← @Finset.sum_range ℕ _ pb.dim fun i => i]; rw [sum_range_id]
   have hn : n = pb.dim := by
     rw [← AlgHom.card K L E]; rw [← Fintype.card_fin pb.dim]
@@ -252,8 +251,7 @@ theorem discr_powerBasis_eq_norm [IsSeparable K L] :
     rw [Multiset.mem_erase_of_ne fun h => ?_]
     · exact hroots _
 -- Porting note: `@mem_compl` was not necessary.
-    · simp only [true_and_iff, mem_univ, Ne.def, mem_sigma, @mem_compl _ _ _ (_),
-        mem_singleton] at hi
+    · simp only [true_and_iff, mem_univ, Ne.def, mem_sigma, @mem_compl _ _ _ (_), mem_singleton] at hi
       rw [← PowerBasis.liftEquiv_apply_coe] at h; rw [← PowerBasis.liftEquiv_apply_coe] at h
       exact hi (e.injective <| pb.liftEquiv.injective <| Subtype.eq h.symm)
   · simp only [Sigma.mk.inj_iff, EmbeddingLike.apply_eq_iff_eq, heq_eq_eq] at hij

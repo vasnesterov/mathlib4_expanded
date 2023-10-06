@@ -73,8 +73,7 @@ theorem AddSubgroup.exists_isLeast_pos {H : AddSubgroup G} (hbot : H ≠ ⊥) {a
     exact ⟨n, _, (@abs_mem_iff (AddSubgroup G) G _ _).2 hgH, hn⟩
   classical rcases Nat.findX this with ⟨n, ⟨x, hxH, hnx, hxn⟩, hmin⟩
   by_contra hxmin
-  simp only [IsLeast, not_and, mem_setOf_eq, mem_lowerBounds, not_exists, not_forall,
-    not_le] at hxmin
+  simp only [IsLeast, not_and, mem_setOf_eq, mem_lowerBounds, not_exists, not_forall, not_le] at hxmin
   rcases hxmin x ⟨hxH, (nsmul_nonneg h₀.le _).trans_lt hnx⟩ with ⟨y, ⟨hyH, hy₀⟩, hxy⟩
   rcases hex y hy₀ with ⟨m, hm⟩
   cases' lt_or_le m n with hmn hnm

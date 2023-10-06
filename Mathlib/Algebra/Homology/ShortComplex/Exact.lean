@@ -131,8 +131,7 @@ lemma HomologyData.exact_iff_i_p_zero (h : S.HomologyData) :
   · intro z
     rw [IsZero.eq_of_src z h.iso.hom 0]; rw [zero_comp]; rw [comp_zero]
   · intro eq
-    simp only [IsZero.iff_id_eq_zero, ← cancel_mono h.iso.hom, id_comp, ← cancel_mono h.right.ι,
-      ← cancel_epi h.left.π, eq, zero_comp, comp_zero]
+    simp only [IsZero.iff_id_eq_zero, ← cancel_mono h.iso.hom, id_comp, ← cancel_mono h.right.ι, ← cancel_epi h.left.π, eq, zero_comp, comp_zero]
 
 lemma Exact.op (h : S.Exact) : S.op.Exact := by
   obtain ⟨h, z⟩ := h

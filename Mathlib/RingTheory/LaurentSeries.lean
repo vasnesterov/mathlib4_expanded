@@ -140,8 +140,7 @@ instance of_powerSeries_localization [CommRing R] :
     intro z
     by_cases h : 0 ≤ z.order
     · refine' ⟨⟨PowerSeries.X ^ Int.natAbs z.order * powerSeriesPart z, 1⟩, _⟩
-      simp only [RingHom.map_one, mul_one, RingHom.map_mul, coe_algebraMap, ofPowerSeries_X_pow,
-        Submonoid.coe_one]
+      simp only [RingHom.map_one, mul_one, RingHom.map_mul, coe_algebraMap, ofPowerSeries_X_pow, Submonoid.coe_one]
       rw [Int.natAbs_of_nonneg h]; rw [single_order_mul_powerSeriesPart]
     · refine' ⟨⟨powerSeriesPart z, PowerSeries.X ^ Int.natAbs z.order, ⟨_, rfl⟩⟩, _⟩
       simp only [coe_algebraMap, ofPowerSeries_powerSeriesPart]
@@ -218,9 +217,7 @@ theorem coeff_coe (i : ℤ) :
   · rw [Int.ofNat_eq_coe, coeff_coe_powerSeries, if_neg (Int.coe_nat_nonneg _).not_lt,
       Int.natAbs_ofNat]
   · rw [ofPowerSeries_apply, embDomain_notin_image_support, if_pos (Int.negSucc_lt_zero _)]
-    simp only [not_exists, RelEmbedding.coe_mk, Set.mem_image, not_and, Function.Embedding.coeFn_mk,
-      Ne.def, toPowerSeries_symm_apply_coeff, mem_support, imp_true_iff,
-      not_false_iff]
+    simp only [not_exists, RelEmbedding.coe_mk, Set.mem_image, not_and, Function.Embedding.coeFn_mk, Ne.def, toPowerSeries_symm_apply_coeff, mem_support, imp_true_iff, not_false_iff]
 #align power_series.coeff_coe PowerSeries.coeff_coe
 
 -- Porting note: simp can prove this, and removed norm_cast attribute

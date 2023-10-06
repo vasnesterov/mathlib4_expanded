@@ -91,8 +91,7 @@ theorem Real.iInter_Iic_rat : ⋂ r : ℚ, Iic (r : ℝ) = ∅ := by
 theorem atBot_le_nhds_bot {α : Type*} [TopologicalSpace α] [LinearOrder α] [OrderBot α]
     [OrderTopology α] : (atBot : Filter α) ≤ 𝓝 ⊥ := by
   cases subsingleton_or_nontrivial α
-  · simp only [nhds_discrete, le_pure_iff, mem_atBot_sets, mem_singleton_iff,
-      eq_iff_true_of_subsingleton, imp_true_iff, exists_const]
+  · simp only [nhds_discrete, le_pure_iff, mem_atBot_sets, mem_singleton_iff, eq_iff_true_of_subsingleton, imp_true_iff, exists_const]
   have h : atBot.HasBasis (fun _ : α => True) Iic := @atBot_basis α _ _
   have h_nhds : (𝓝 ⊥).HasBasis (fun a : α => ⊥ < a) fun a => Iio a := @nhds_bot_basis α _ _ _ _ _
   intro s
@@ -308,8 +307,7 @@ theorem set_lintegral_preCdf_fst (ρ : Measure (α × ℝ)) (r : ℚ) {s : Set �
   have : ∀ r, ∫⁻ x in s, preCdf ρ r x ∂ρ.fst = ∫⁻ x in s, (preCdf ρ r * 1) x ∂ρ.fst := by
     simp only [mul_one, eq_self_iff_true, forall_const]
   rw [this]; rw [← set_lintegral_withDensity_eq_set_lintegral_mul _ measurable_preCdf _ hs]
-  · simp only [withDensity_preCdf ρ r, Pi.one_apply, lintegral_one, Measure.restrict_apply,
-      MeasurableSet.univ, univ_inter]
+  · simp only [withDensity_preCdf ρ r, Pi.one_apply, lintegral_one, Measure.restrict_apply, MeasurableSet.univ, univ_inter]
   · rw [(_ : (1 : α → ℝ≥0∞) = fun _ => 1)]
     exacts [measurable_const, rfl]
 #align probability_theory.set_lintegral_pre_cdf_fst ProbabilityTheory.set_lintegral_preCdf_fst

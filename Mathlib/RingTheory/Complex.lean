@@ -19,11 +19,9 @@ theorem Algebra.leftMulMatrix_complex (z : ℂ) :
   ext i j
   rw [Algebra.leftMulMatrix_eq_repr_mul]; rw [Complex.coe_basisOneI_repr]; rw [Complex.coe_basisOneI]; rw [mul_re]; rw [mul_im]; rw [Matrix.of_apply]
   fin_cases j
-  · simp only [Fin.mk_zero, Matrix.cons_val_zero, one_re, mul_one, one_im, mul_zero, sub_zero,
-      zero_add]
+  · simp only [Fin.mk_zero, Matrix.cons_val_zero, one_re, mul_one, one_im, mul_zero, sub_zero, zero_add]
     fin_cases i <;> rfl
-  · simp only [Fin.mk_one, Matrix.cons_val_one, Matrix.head_cons, I_re, mul_zero, I_im, mul_one,
-      zero_sub, add_zero]
+  · simp only [Fin.mk_one, Matrix.cons_val_one, Matrix.head_cons, I_re, mul_zero, I_im, mul_one, zero_sub, add_zero]
     fin_cases i <;> rfl
 #align algebra.left_mul_matrix_complex Algebra.leftMulMatrix_complex
 

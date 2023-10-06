@@ -71,8 +71,7 @@ def mkUnit {a : Units k} {A : 𝕎 k} (hA : A.coeff 0 = a) : Units (𝕎 k) :=
     linear_combination (norm := skip) -H_coeff * H
     have ha : (a : k) ^ p ^ (n + 1) = ↑(a ^ p ^ (n + 1)) := by norm_cast
     have ha_inv : (↑a⁻¹ : k) ^ p ^ (n + 1) = ↑(a ^ p ^ (n + 1))⁻¹ := by norm_cast; norm_num
-    simp only [nthRemainder_spec, inverseCoeff, succNthValUnits, hA,
-      one_coeff_eq_of_pos, Nat.succ_pos', ha_inv, ha, inv_pow]
+    simp only [nthRemainder_spec, inverseCoeff, succNthValUnits, hA, one_coeff_eq_of_pos, Nat.succ_pos', ha_inv, ha, inv_pow]
     ring!)
 #align witt_vector.mk_unit WittVector.mkUnit
 
@@ -109,8 +108,7 @@ theorem irreducible : Irreducible (p : 𝕎 k) := by
   cases' n with n; · exact Or.inr (isUnit_of_coeff_zero_ne_zero b hb)
   rw [iterate_verschiebung_mul] at hab
   apply_fun fun x => coeff x 1 at hab
-  simp only [coeff_p_one, Nat.add_succ, add_comm _ n, Function.iterate_succ', Function.comp_apply,
-    verschiebung_coeff_add_one, verschiebung_coeff_zero] at hab
+  simp only [coeff_p_one, Nat.add_succ, add_comm _ n, Function.iterate_succ', Function.comp_apply, verschiebung_coeff_add_one, verschiebung_coeff_zero] at hab
   exact (one_ne_zero hab).elim
 #align witt_vector.irreducible WittVector.irreducible
 

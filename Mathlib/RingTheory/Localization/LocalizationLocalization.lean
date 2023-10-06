@@ -84,8 +84,7 @@ theorem localization_localization_surj [IsLocalization N T] (x : T) :
   · rw [mem_localizationLocalizationSubmodule]
     refine' ⟨s, t * t', _⟩
     rw [RingHom.map_mul]; rw [← eq₃]; rw [mul_assoc]; rw [← RingHom.map_mul]; rw [mul_comm t]; rw [Submonoid.coe_mul]
-  · simp only [Subtype.coe_mk, RingHom.map_mul, IsScalarTower.algebraMap_apply R S T, ← eq₃, ← eq₂,
-      ← eq₁]
+  · simp only [Subtype.coe_mk, RingHom.map_mul, IsScalarTower.algebraMap_apply R S T, ← eq₃, ← eq₂, ← eq₁]
     ring
 #align is_localization.localization_localization_surj IsLocalization.localization_localization_surj
 
@@ -225,11 +224,7 @@ theorem isLocalization_of_submonoid_le (M N : Submonoid R) (h : M ≤ N) [IsLoca
           ((algebraMap S T x₂) * (algebraMap R T s₁))
           (IsLocalization.map_units T ⟨(s₂ : R), h s₂.prop⟩)
         simp only [IsScalarTower.algebraMap_apply R S T, Subtype.coe_mk] at h₁ h₂
-        simp only [IsScalarTower.algebraMap_apply R S T, map_mul, ← e₁, ← e₂, ← mul_assoc,
-          mul_right_comm _ (algebraMap R S s₂),
-          mul_right_comm _ (algebraMap S T (algebraMap R S s₂)),
-          (IsLocalization.map_units S s₁).mul_left_inj,
-          (IsLocalization.map_units S s₂).mul_left_inj] at this
+        simp only [IsScalarTower.algebraMap_apply R S T, map_mul, ← e₁, ← e₂, ← mul_assoc, mul_right_comm _ (algebraMap R S s₂), mul_right_comm _ (algebraMap S T (algebraMap R S s₂)), (IsLocalization.map_units S s₁).mul_left_inj, (IsLocalization.map_units S s₂).mul_left_inj] at this
         rw [h₂] at this; rw [h₁] at this
         simpa only [mul_comm] using this
       · simp_rw [IsLocalization.eq_iff_exists N T, IsLocalization.eq_iff_exists M S]

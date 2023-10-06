@@ -578,9 +578,7 @@ theorem contMDiffOn_iff_target :
       ContinuousOn f s ∧
         ∀ y : M',
           ContMDiffOn I 𝓘(𝕜, E') n (extChartAt I' y ∘ f) (s ∩ f ⁻¹' (extChartAt I' y).source) := by
-  simp only [contMDiffOn_iff, ModelWithCorners.source_eq, chartAt_self_eq,
-    LocalHomeomorph.refl_localEquiv, LocalEquiv.refl_trans, extChartAt, LocalHomeomorph.extend,
-    Set.preimage_univ, Set.inter_univ, and_congr_right_iff]
+  simp only [contMDiffOn_iff, ModelWithCorners.source_eq, chartAt_self_eq, LocalHomeomorph.refl_localEquiv, LocalEquiv.refl_trans, extChartAt, LocalHomeomorph.extend, Set.preimage_univ, Set.inter_univ, and_congr_right_iff]
   intro h
   constructor
   · refine' fun h' y => ⟨_, fun x _ => h' x y⟩
@@ -938,8 +936,7 @@ theorem ContMDiffWithinAt.comp {t : Set M'} {g : M' → M''} (x : M)
     (inter_mem _ self_mem_nhdsWithin)).congr_of_eventuallyEq _ _
   · filter_upwards [A]
     rintro x' ⟨ht, hfx'⟩
-    simp only [*, mem_preimage, writtenInExtChartAt, (· ∘ ·), mem_inter_iff, e'.left_inv,
-      true_and_iff]
+    simp only [*, mem_preimage, writtenInExtChartAt, (· ∘ ·), mem_inter_iff, e'.left_inv, true_and_iff]
     exact mem_range_self _
   · filter_upwards [A]
     rintro x' ⟨-, hfx'⟩
@@ -1755,8 +1752,7 @@ theorem contMDiffWithinAt_pi_space :
       ∀ i, ContMDiffWithinAt I 𝓘(𝕜, Fi i) n (fun x => φ x i) s x := by
   -- Porting note: `simp` fails to apply it on the LHS
   rw [contMDiffWithinAt_iff]
-  simp only [contMDiffWithinAt_iff, continuousWithinAt_pi, contDiffWithinAt_pi, forall_and,
-    writtenInExtChartAt, extChartAt_model_space_eq_id, (· ∘ ·), LocalEquiv.refl_coe, id]
+  simp only [contMDiffWithinAt_iff, continuousWithinAt_pi, contDiffWithinAt_pi, forall_and, writtenInExtChartAt, extChartAt_model_space_eq_id, (· ∘ ·), LocalEquiv.refl_coe, id]
 #align cont_mdiff_within_at_pi_space contMDiffWithinAt_pi_space
 
 theorem contMDiffOn_pi_space :

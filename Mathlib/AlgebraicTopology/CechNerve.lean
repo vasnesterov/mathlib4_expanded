@@ -294,8 +294,7 @@ def equivalenceRightToLeft (F : Arrow C) (X : CosimplicialObject.Augmented C)
           rw [Category.assoc]; rw [← X.right.map_comp]
           rfl
         · dsimp
-          simp only [Functor.const_obj_map, ← NatTrans.naturality, WidePushout.head_desc_assoc,
-            WidePushout.head_desc, Category.assoc]
+          simp only [Functor.const_obj_map, ← NatTrans.naturality, WidePushout.head_desc_assoc, WidePushout.head_desc, Category.assoc]
           erw [Category.id_comp] }
 #align category_theory.cosimplicial_object.equivalence_right_to_left CategoryTheory.CosimplicialObject.equivalenceRightToLeft
 
@@ -311,9 +310,7 @@ def cechConerveEquiv (F : Arrow C) (X : CosimplicialObject.Augmented C) :
     · rfl
     · refine' WidePushout.hom_ext _ _ _ (fun j => _) _
       · dsimp
-        simp only [Category.assoc, ← NatTrans.naturality A.right, Arrow.augmentedCechConerve_right,
-          SimplexCategory.len_mk, Arrow.cechConerve_map, colimit.ι_desc,
-          WidePushoutShape.mkCocone_ι_app, colimit.ι_desc_assoc]
+        simp only [Category.assoc, ← NatTrans.naturality A.right, Arrow.augmentedCechConerve_right, SimplexCategory.len_mk, Arrow.cechConerve_map, colimit.ι_desc, WidePushoutShape.mkCocone_ι_app, colimit.ι_desc_assoc]
         rfl
       · dsimp
         rw [colimit.ι_desc]

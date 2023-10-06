@@ -103,8 +103,7 @@ theorem colimitLimitToLimitColimit_injective :
       Finset.mem_union.mpr
         (Or.inl
           (by
-            simp only [true_and_iff, Finset.mem_univ, eq_self_iff_true, exists_prop_of_true,
-              Finset.mem_image, heq_iff_eq]
+            simp only [true_and_iff, Finset.mem_univ, eq_self_iff_true, exists_prop_of_true, Finset.mem_image, heq_iff_eq]
             refine' ⟨j, _⟩
             simp only [heq_iff_eq] ))
     have gH :
@@ -113,8 +112,7 @@ theorem colimitLimitToLimitColimit_injective :
       Finset.mem_union.mpr
         (Or.inr
           (by
-            simp only [true_and_iff, Finset.mem_univ, eq_self_iff_true, exists_prop_of_true,
-              Finset.mem_image, heq_iff_eq]
+            simp only [true_and_iff, Finset.mem_univ, eq_self_iff_true, exists_prop_of_true, Finset.mem_image, heq_iff_eq]
             refine' ⟨j, _⟩
             simp only [heq_iff_eq]))
     -- Our goal is now an equation between equivalence classes of representatives of a colimit,
@@ -254,8 +252,7 @@ theorem colimitLimitToLimitColimit_surjective :
         refine' ⟨j₄, Finset.mem_univ _, _⟩
         rw [Finset.mem_biUnion]
         refine' ⟨f', Finset.mem_univ _, _⟩
-        simp only [eq_self_iff_true, or_true_iff, and_self_iff, Finset.mem_insert,
-          Finset.mem_singleton, heq_iff_eq]
+        simp only [eq_self_iff_true, or_true_iff, and_self_iff, Finset.mem_insert, Finset.mem_singleton, heq_iff_eq]
     clear_value i
     clear s' i' H kfO k'O O
     -- We're finally ready to construct the pre-image, and verify it really maps to `x`.
@@ -298,9 +295,7 @@ theorem colimitLimitToLimitColimit_surjective :
       intro j
       -- and as each component is an equation in a colimit, we can verify it by
       -- pointing out the morphism which carries one representative to the other:
-      simp only [id.def, ← e, Limits.ι_colimitLimitToLimitColimit_π_apply,
-          colimit_eq_iff.{v, v}, Bifunctor.map_id_comp, types_comp_apply, curry_obj_obj_map,
-          Functor.comp_obj, colim_obj, Limit.π_mk]
+      simp only [id.def, ← e, Limits.ι_colimitLimitToLimitColimit_π_apply, colimit_eq_iff.{v, v}, Bifunctor.map_id_comp, types_comp_apply, curry_obj_obj_map, Functor.comp_obj, colim_obj, Limit.π_mk]
       refine' ⟨k'', 𝟙 k'', g j ≫ gf (𝟙 j) ≫ i (𝟙 j), _⟩
       -- porting note: the lean 3 proof finished with
       -- `simp only [Bifunctor.map_id_comp, types_comp_apply, Bifunctor.map_id, types_id_apply]`
@@ -381,14 +376,9 @@ theorem ι_colimitLimitIso_limit_π (F : J ⥤ K ⥤ C) (a) (b) :
     colimit.ι (limit F) a ≫ (colimitLimitIso F).hom ≫ limit.π (colimit F.flip) b =
       (limit.π F b).app a ≫ (colimit.ι F.flip a).app b := by
   dsimp [colimitLimitIso]
-  simp only [Functor.mapCone_π_app, Iso.symm_hom,
-    Limits.limit.conePointUniqueUpToIso_hom_comp_assoc, Limits.limit.cone_π,
-    Limits.colimit.ι_map_assoc, Limits.colimitFlipIsoCompColim_inv_app, assoc,
-    Limits.HasLimit.isoOfNatIso_hom_π]
+  simp only [Functor.mapCone_π_app, Iso.symm_hom, Limits.limit.conePointUniqueUpToIso_hom_comp_assoc, Limits.limit.cone_π, Limits.colimit.ι_map_assoc, Limits.colimitFlipIsoCompColim_inv_app, assoc, Limits.HasLimit.isoOfNatIso_hom_π]
   congr 1
-  simp only [← Category.assoc, Iso.comp_inv_eq,
-    Limits.colimitObjIsoColimitCompEvaluation_ι_app_hom,
-    Limits.HasColimit.isoOfNatIso_ι_hom, NatIso.ofComponents_hom_app]
+  simp only [← Category.assoc, Iso.comp_inv_eq, Limits.colimitObjIsoColimitCompEvaluation_ι_app_hom, Limits.HasColimit.isoOfNatIso_ι_hom, NatIso.ofComponents_hom_app]
   dsimp
   simp
 #align category_theory.limits.ι_colimit_limit_iso_limit_π CategoryTheory.Limits.ι_colimitLimitIso_limit_π

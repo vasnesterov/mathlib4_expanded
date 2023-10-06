@@ -175,8 +175,7 @@ theorem ndunion_le_add (s t : Multiset α) : ndunion s t ≤ s + t :=
 theorem ndunion_le {s t u : Multiset α} : ndunion s t ≤ u ↔ s ⊆ u ∧ t ≤ u :=
   Multiset.induction_on s (by simp [zero_ndunion])
     (fun _ _ h =>
-      by simp only [cons_ndunion, mem_ndunion, ndinsert_le, and_comm, cons_subset, and_left_comm, h,
-        and_assoc])
+      by simp only [cons_ndunion, mem_ndunion, ndinsert_le, and_comm, cons_subset, and_left_comm, h, and_assoc])
 #align multiset.ndunion_le Multiset.ndunion_le
 
 theorem subset_ndunion_left (s t : Multiset α) : s ⊆ ndunion s t := fun _ h =>

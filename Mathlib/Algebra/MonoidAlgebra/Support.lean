@@ -27,8 +27,7 @@ theorem support_single_mul_subset [DecidableEq G] [Mul G] (f : MonoidAlgebra k G
   have : ∀ y, a * y = x → f y = 0 := by
     simpa only [not_and', mem_image, mem_support_iff, exists_prop, not_exists,
       Classical.not_not] using hx
-  simp only [mem_support_iff, mul_apply, sum_single_index, zero_mul, ite_self, sum_zero,
-    Classical.not_not]
+  simp only [mem_support_iff, mul_apply, sum_single_index, zero_mul, ite_self, sum_zero, Classical.not_not]
   exact
     Finset.sum_eq_zero
       (by
@@ -43,8 +42,7 @@ theorem support_mul_single_subset [DecidableEq G] [Mul G] (f : MonoidAlgebra k G
   have : ∀ y, y * a = x → f y = 0 := by
     simpa only [not_and', mem_image, mem_support_iff, exists_prop, not_exists,
       Classical.not_not] using hx
-  simp only [mem_support_iff, mul_apply, sum_single_index, zero_mul, ite_self, sum_zero,
-    Classical.not_not]
+  simp only [mem_support_iff, mul_apply, sum_single_index, zero_mul, ite_self, sum_zero, Classical.not_not]
   exact
     Finset.sum_eq_zero
       (by
@@ -58,8 +56,7 @@ theorem support_single_mul_eq_image [DecidableEq G] [Mul G] (f : MonoidAlgebra k
   refine' subset_antisymm (support_single_mul_subset f _ _) fun y hy => _
   obtain ⟨y, yf, rfl⟩ : ∃ a : G, a ∈ f.support ∧ x * a = y := by
     simpa only [Finset.mem_image, exists_prop] using hy
-  simp only [mul_apply, mem_support_iff.mp yf, hr, mem_support_iff, sum_single_index,
-    Finsupp.sum_ite_eq', Ne.def, not_false_iff, if_true, zero_mul, ite_self, sum_zero, lx.eq_iff]
+  simp only [mul_apply, mem_support_iff.mp yf, hr, mem_support_iff, sum_single_index, Finsupp.sum_ite_eq', Ne.def, not_false_iff, if_true, zero_mul, ite_self, sum_zero, lx.eq_iff]
 #align monoid_algebra.support_single_mul_eq_image MonoidAlgebra.support_single_mul_eq_image
 
 theorem support_mul_single_eq_image [DecidableEq G] [Mul G] (f : MonoidAlgebra k G) {r : k}
@@ -68,8 +65,7 @@ theorem support_mul_single_eq_image [DecidableEq G] [Mul G] (f : MonoidAlgebra k
   refine' subset_antisymm (support_mul_single_subset f _ _) fun y hy => _
   obtain ⟨y, yf, rfl⟩ : ∃ a : G, a ∈ f.support ∧ a * x = y := by
     simpa only [Finset.mem_image, exists_prop] using hy
-  simp only [mul_apply, mem_support_iff.mp yf, hr, mem_support_iff, sum_single_index,
-    Finsupp.sum_ite_eq', Ne.def, not_false_iff, if_true, mul_zero, ite_self, sum_zero, rx.eq_iff]
+  simp only [mul_apply, mem_support_iff.mp yf, hr, mem_support_iff, sum_single_index, Finsupp.sum_ite_eq', Ne.def, not_false_iff, if_true, mul_zero, ite_self, sum_zero, rx.eq_iff]
 #align monoid_algebra.support_mul_single_eq_image MonoidAlgebra.support_mul_single_eq_image
 
 theorem support_mul [Mul G] [DecidableEq G] (a b : MonoidAlgebra k G) :
@@ -84,8 +80,7 @@ theorem support_mul_single [RightCancelSemigroup G] (f : MonoidAlgebra k G) (r :
     (f * single x r).support = f.support.map (mulRightEmbedding x) := by
   classical
     ext
-    simp only [support_mul_single_eq_image f hr (isRightRegular_of_rightCancelSemigroup x),
-      mem_image, mem_map, mulRightEmbedding_apply]
+    simp only [support_mul_single_eq_image f hr (isRightRegular_of_rightCancelSemigroup x), mem_image, mem_map, mulRightEmbedding_apply]
 #align monoid_algebra.support_mul_single MonoidAlgebra.support_mul_single
 
 theorem support_single_mul [LeftCancelSemigroup G] (f : MonoidAlgebra k G) (r : k)
@@ -93,8 +88,7 @@ theorem support_single_mul [LeftCancelSemigroup G] (f : MonoidAlgebra k G) (r : 
     (single x r * f : MonoidAlgebra k G).support = f.support.map (mulLeftEmbedding x) := by
   classical
     ext
-    simp only [support_single_mul_eq_image f hr (isLeftRegular_of_leftCancelSemigroup x), mem_image,
-      mem_map, mulLeftEmbedding_apply]
+    simp only [support_single_mul_eq_image f hr (isLeftRegular_of_leftCancelSemigroup x), mem_image, mem_map, mulLeftEmbedding_apply]
 #align monoid_algebra.support_single_mul MonoidAlgebra.support_single_mul
 
 section Span

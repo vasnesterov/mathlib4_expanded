@@ -55,8 +55,7 @@ def hasBracketAux (x : L) : Module.End R (M ⊗[R] N) :=
 instance lieRingModule : LieRingModule L (M ⊗[R] N) where
   bracket x := hasBracketAux x
   add_lie x y t := by
-    simp only [hasBracketAux, LinearMap.lTensor_add, LinearMap.rTensor_add, LieHom.map_add,
-      LinearMap.add_apply]
+    simp only [hasBracketAux, LinearMap.lTensor_add, LinearMap.rTensor_add, LieHom.map_add, LinearMap.add_apply]
     abel
   lie_add x := LinearMap.map_add _
   leibniz_lie x y t := by
@@ -64,10 +63,7 @@ instance lieRingModule : LieRingModule L (M ⊗[R] N) where
         hasBracketAux ⁅x, y⁆ + (hasBracketAux y).comp (hasBracketAux x) by
       simp only [← LinearMap.add_apply]; rw [← LinearMap.comp_apply]; rw [this]; rfl
     ext m n
-    simp only [hasBracketAux, LieRing.of_associative_ring_bracket, LinearMap.mul_apply, mk_apply,
-      LinearMap.lTensor_sub, LinearMap.compr₂_apply, Function.comp_apply, LinearMap.coe_comp,
-      LinearMap.rTensor_tmul, LieHom.map_lie, toEndomorphism_apply_apply, LinearMap.add_apply,
-      LinearMap.map_add, LinearMap.rTensor_sub, LinearMap.sub_apply, LinearMap.lTensor_tmul]
+    simp only [hasBracketAux, LieRing.of_associative_ring_bracket, LinearMap.mul_apply, mk_apply, LinearMap.lTensor_sub, LinearMap.compr₂_apply, Function.comp_apply, LinearMap.coe_comp, LinearMap.rTensor_tmul, LieHom.map_lie, toEndomorphism_apply_apply, LinearMap.add_apply, LinearMap.map_add, LinearMap.rTensor_sub, LinearMap.sub_apply, LinearMap.lTensor_tmul]
     abel
 #align tensor_product.lie_module.lie_ring_module TensorProduct.LieModule.lieRingModule
 
@@ -75,16 +71,14 @@ instance lieRingModule : LieRingModule L (M ⊗[R] N) where
 instance lieModule : LieModule R L (M ⊗[R] N) where
   smul_lie c x t := by
     change hasBracketAux (c • x) _ = c • hasBracketAux _ _
-    simp only [hasBracketAux, smul_add, LinearMap.rTensor_smul, LinearMap.smul_apply,
-      LinearMap.lTensor_smul, LieHom.map_smul, LinearMap.add_apply]
+    simp only [hasBracketAux, smul_add, LinearMap.rTensor_smul, LinearMap.smul_apply, LinearMap.lTensor_smul, LieHom.map_smul, LinearMap.add_apply]
   lie_smul c x := LinearMap.map_smul _ c
 #align tensor_product.lie_module.lie_module TensorProduct.LieModule.lieModule
 
 @[simp]
 theorem lie_tmul_right (x : L) (m : M) (n : N) : ⁅x, m ⊗ₜ[R] n⁆ = ⁅x, m⁆ ⊗ₜ n + m ⊗ₜ ⁅x, n⁆ :=
   show hasBracketAux x (m ⊗ₜ[R] n) = _ by
-    simp only [hasBracketAux, LinearMap.rTensor_tmul, toEndomorphism_apply_apply,
-      LinearMap.add_apply, LinearMap.lTensor_tmul]
+    simp only [hasBracketAux, LinearMap.rTensor_tmul, toEndomorphism_apply_apply, LinearMap.add_apply, LinearMap.lTensor_tmul]
 #align tensor_product.lie_module.lie_tmul_right TensorProduct.LieModule.lie_tmul_right
 
 variable (R L M N P Q)
@@ -95,8 +89,7 @@ def lift : (M →ₗ[R] N →ₗ[R] P) ≃ₗ⁅R,L⁆ M ⊗[R] N →ₗ[R] P :=
   { TensorProduct.lift.equiv R M N P with
     map_lie' := fun {x f} => by
       ext m n
-      simp only [mk_apply, LinearMap.compr₂_apply, lie_tmul_right, LinearMap.sub_apply,
-        lift.equiv_apply, LinearEquiv.toFun_eq_coe, LieHom.lie_apply, LinearMap.map_add]
+      simp only [mk_apply, LinearMap.compr₂_apply, lie_tmul_right, LinearMap.sub_apply, lift.equiv_apply, LinearEquiv.toFun_eq_coe, LieHom.lie_apply, LinearMap.map_add]
       abel }
 #align tensor_product.lie_module.lift TensorProduct.LieModule.lift
 
@@ -120,9 +113,7 @@ theorem coe_liftLie_eq_lift_coe (f : M →ₗ⁅R,L⁆ N →ₗ[R] P) :
   suffices (liftLie R L M N P f : M ⊗[R] N →ₗ[R] P) = lift R L M N P f by
     rw [← this]; rw [LieModuleHom.coe_toLinearMap]
   ext m n
-  simp only [liftLie, LinearEquiv.trans_apply, LieModuleEquiv.coe_to_linearEquiv,
-    coe_linearMap_maxTrivLinearMapEquivLieModuleHom, coe_maxTrivEquiv_apply,
-    coe_linearMap_maxTrivLinearMapEquivLieModuleHom_symm]
+  simp only [liftLie, LinearEquiv.trans_apply, LieModuleEquiv.coe_to_linearEquiv, coe_linearMap_maxTrivLinearMapEquivLieModuleHom, coe_maxTrivEquiv_apply, coe_linearMap_maxTrivLinearMapEquivLieModuleHom_symm]
 #align tensor_product.lie_module.coe_lift_lie_eq_lift_coe TensorProduct.LieModule.coe_liftLie_eq_lift_coe
 
 theorem liftLie_apply (f : M →ₗ⁅R,L⁆ N →ₗ[R] P) (m : M) (n : N) :
@@ -141,8 +132,7 @@ nonrec def map (f : M →ₗ⁅R,L⁆ P) (g : N →ₗ⁅R,L⁆ Q) : M ⊗[R] N 
       refine' t.induction_on _ _ _
       · simp only [LinearMap.map_zero, lie_zero]
       · intro m n
-        simp only [LieModuleHom.coe_toLinearMap, lie_tmul_right, LieModuleHom.map_lie, map_tmul,
-          LinearMap.map_add]
+        simp only [LieModuleHom.coe_toLinearMap, lie_tmul_right, LieModuleHom.map_lie, map_tmul, LinearMap.map_add]
       · intro t₁ t₂ ht₁ ht₂; simp only [ht₁, ht₂, lie_add, LinearMap.map_add] }
 #align tensor_product.lie_module.map TensorProduct.LieModule.map
 
@@ -192,8 +182,7 @@ def toModuleHom : L ⊗[R] M →ₗ⁅R,L⁆ M :=
 
 @[simp]
 theorem toModuleHom_apply (x : L) (m : M) : toModuleHom R L M (x ⊗ₜ m) = ⁅x, m⁆ := by
-  simp only [toModuleHom, TensorProduct.LieModule.liftLie_apply, LieModuleHom.coe_mk,
-    LinearMap.coe_mk, LinearMap.coe_toAddHom, LieHom.coe_toLinearMap, toEndomorphism_apply_apply]
+  simp only [toModuleHom, TensorProduct.LieModule.liftLie_apply, LieModuleHom.coe_mk, LinearMap.coe_mk, LinearMap.coe_toAddHom, LieHom.coe_toLinearMap, toEndomorphism_apply_apply]
 #align lie_module.to_module_hom_apply LieModule.toModuleHom_apply
 
 end LieModule

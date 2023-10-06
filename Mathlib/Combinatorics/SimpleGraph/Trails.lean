@@ -62,14 +62,11 @@ theorem IsTrail.even_countP_edges_iff {u v : V} {p : G.Walk u v} (ht : p.IsTrail
     · rw [decide_eq_true_eq] at h
       obtain (rfl | rfl) := h
       · rw [Nat.even_add_one, ih]
-        simp only [huv.ne, imp_false, Ne.def, not_false_iff, true_and_iff, not_forall,
-          Classical.not_not, exists_prop, eq_self_iff_true, not_true, false_and_iff,
-          and_iff_right_iff_imp]
+        simp only [huv.ne, imp_false, Ne.def, not_false_iff, true_and_iff, not_forall, Classical.not_not, exists_prop, eq_self_iff_true, not_true, false_and_iff, and_iff_right_iff_imp]
         rintro rfl rfl
         exact G.loopless _ huv
       · rw [Nat.even_add_one, ih, ← not_iff_not]
-        simp only [huv.ne.symm, Ne.def, eq_self_iff_true, not_true, false_and_iff, not_forall,
-          not_false_iff, exists_prop, and_true_iff, Classical.not_not, true_and_iff, iff_and_self]
+        simp only [huv.ne.symm, Ne.def, eq_self_iff_true, not_true, false_and_iff, not_forall, not_false_iff, exists_prop, and_true_iff, Classical.not_not, true_and_iff, iff_and_self]
         rintro rfl
         exact huv.ne
     · rw [decide_eq_true_eq, not_or] at h

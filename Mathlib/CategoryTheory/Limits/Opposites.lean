@@ -65,8 +65,7 @@ def isLimitConeLeftOpOfCocone (F : J ⥤ Cᵒᵖ) {c : Cocone F} (hc : IsColimit
   lift s := (hc.desc (coconeOfConeLeftOp s)).unop
   fac s j :=
     Quiver.Hom.op_inj <| by
-      simp only [coneLeftOpOfCocone_π_app, op_comp, Quiver.Hom.op_unop, IsColimit.fac,
-        coconeOfConeLeftOp_ι_app, op_unop]
+      simp only [coneLeftOpOfCocone_π_app, op_comp, Quiver.Hom.op_unop, IsColimit.fac, coconeOfConeLeftOp_ι_app, op_unop]
   uniq s m w := by
     refine' Quiver.Hom.op_inj (hc.hom_ext fun j => Quiver.Hom.unop_inj _)
     simpa only [Quiver.Hom.op_unop, IsColimit.fac, coconeOfConeLeftOp_ι_app] using w (op j)
@@ -80,8 +79,7 @@ def isColimitCoconeLeftOpOfCone (F : J ⥤ Cᵒᵖ) {c : Cone F} (hc : IsLimit c
   desc s := (hc.lift (coneOfCoconeLeftOp s)).unop
   fac s j :=
     Quiver.Hom.op_inj <| by
-      simp only [coconeLeftOpOfCone_ι_app, op_comp, Quiver.Hom.op_unop, IsLimit.fac,
-        coneOfCoconeLeftOp_π_app, op_unop]
+      simp only [coconeLeftOpOfCone_ι_app, op_comp, Quiver.Hom.op_unop, IsLimit.fac, coneOfCoconeLeftOp_π_app, op_unop]
   uniq s m w := by
     refine' Quiver.Hom.op_inj (hc.hom_ext fun j => Quiver.Hom.unop_inj _)
     simpa only [Quiver.Hom.op_unop, IsLimit.fac, coneOfCoconeLeftOp_π_app] using w (op j)
@@ -165,8 +163,7 @@ def isLimitConeOfCoconeLeftOp (F : J ⥤ Cᵒᵖ) {c : Cocone F.leftOp} (hc : Is
   lift s := (hc.desc (coconeLeftOpOfCone s)).op
   fac s j :=
     Quiver.Hom.unop_inj <| by
-      simp only [coneOfCoconeLeftOp_π_app, unop_comp, Quiver.Hom.unop_op, IsColimit.fac,
-        coconeLeftOpOfCone_ι_app, unop_op]
+      simp only [coneOfCoconeLeftOp_π_app, unop_comp, Quiver.Hom.unop_op, IsColimit.fac, coconeLeftOpOfCone_ι_app, unop_op]
   uniq s m w := by
     refine' Quiver.Hom.unop_inj (hc.hom_ext fun j => Quiver.Hom.op_inj _)
     simpa only [Quiver.Hom.unop_op, IsColimit.fac, coneOfCoconeLeftOp_π_app] using w (unop j)
@@ -180,8 +177,7 @@ def isColimitCoconeOfConeLeftOp (F : J ⥤ Cᵒᵖ) {c : Cone F.leftOp} (hc : Is
   desc s := (hc.lift (coneLeftOpOfCocone s)).op
   fac s j :=
     Quiver.Hom.unop_inj <| by
-      simp only [coconeOfConeLeftOp_ι_app, unop_comp, Quiver.Hom.unop_op, IsLimit.fac,
-        coneLeftOpOfCocone_π_app, unop_op]
+      simp only [coconeOfConeLeftOp_ι_app, unop_comp, Quiver.Hom.unop_op, IsLimit.fac, coneLeftOpOfCocone_π_app, unop_op]
   uniq s m w := by
     refine' Quiver.Hom.unop_inj (hc.hom_ext fun j => Quiver.Hom.op_inj _)
     simpa only [Quiver.Hom.unop_op, IsLimit.fac, coconeOfConeLeftOp_ι_app] using w (unop j)
@@ -431,17 +427,8 @@ lemma opCoproductIsoProduct_inv_comp_ι (b : α) :
     (isLimitCoconeOp _ (coproductIsCoproduct fun b ↦ Z b)) (limit.isLimit _) (op ⟨b⟩)
   dsimp at this
   rw [Category.assoc]; rw [this]
-  simp only [limit.cone_x, Fan.mk_pt, Equivalence.symm_functor, Discrete.natIsoFunctor,
-    Functor.comp_obj, Functor.op_obj, Iso.symm_inv, IsLimit.conePointsIsoOfEquivalence_hom,
-    Equivalence.symm_inverse, Cones.equivalenceOfReindexing_functor, Iso.trans_hom, Iso.symm_hom,
-    isoWhiskerLeft_inv, Iso.trans_inv, whiskerLeft_comp, Cones.whiskering_obj, limit.isLimit_lift,
-    limit.lift_π, Cones.postcompose_obj_pt, Cone.whisker_pt, Cones.postcompose_obj_π,
-    Cone.whisker_π, Category.assoc, NatTrans.comp_app, Functor.const_obj_obj, unop_op,
-    Discrete.functor_obj, whiskerLeft_app, Fan.mk_π_app, Discrete.opposite_functor_obj_as,
-    Discrete.natIso_inv_app, Iso.refl_inv, Equivalence.invFunIdAssoc_hom_app, Functor.id_obj,
-    Functor.op_map, Discrete.functor_map_id, op_id]
-  simp only [Discrete.functor, Function.comp_apply, id_eq, Discrete.opposite, Equivalence.mk,
-    id_obj, comp_obj, leftOp_obj, unop_op, op_obj, Category.comp_id]
+  simp only [limit.cone_x, Fan.mk_pt, Equivalence.symm_functor, Discrete.natIsoFunctor, Functor.comp_obj, Functor.op_obj, Iso.symm_inv, IsLimit.conePointsIsoOfEquivalence_hom, Equivalence.symm_inverse, Cones.equivalenceOfReindexing_functor, Iso.trans_hom, Iso.symm_hom, isoWhiskerLeft_inv, Iso.trans_inv, whiskerLeft_comp, Cones.whiskering_obj, limit.isLimit_lift, limit.lift_π, Cones.postcompose_obj_pt, Cone.whisker_pt, Cones.postcompose_obj_π, Cone.whisker_π, Category.assoc, NatTrans.comp_app, Functor.const_obj_obj, unop_op, Discrete.functor_obj, whiskerLeft_app, Fan.mk_π_app, Discrete.opposite_functor_obj_as, Discrete.natIso_inv_app, Iso.refl_inv, Equivalence.invFunIdAssoc_hom_app, Functor.id_obj, Functor.op_map, Discrete.functor_map_id, op_id]
+  simp only [Discrete.functor, Function.comp_apply, id_eq, Discrete.opposite, Equivalence.mk, id_obj, comp_obj, leftOp_obj, unop_op, op_obj, Category.comp_id]
 
 lemma desc_op_comp_opCoproductIsoProduct_hom {X : C} (π : (a : α) → Z a ⟶ X) :
     (Sigma.desc π).op ≫ (opCoproductIsoProduct Z).hom = Pi.lift (fun a => Quiver.Hom.op (π a)) := by
@@ -449,8 +436,7 @@ lemma desc_op_comp_opCoproductIsoProduct_hom {X : C} (π : (a : α) → Z a ⟶ 
   congr
   refine' Sigma.hom_ext (f := Z) _ _ (fun a => _)
   rw [← Category.assoc]; rw [colimit.ι_desc]; rw [← Quiver.Hom.unop_op (Sigma.ι Z a)]; rw [← unop_comp]; rw [opCoproductIsoProduct_inv_comp_ι]; rw [← unop_comp]
-  simp only [Cofan.mk_pt, Cofan.mk_ι_app, Pi.lift, Pi.π, limit.lift_π, Fan.mk_pt, Fan.mk_π_app,
-    Quiver.Hom.unop_op]
+  simp only [Cofan.mk_pt, Cofan.mk_ι_app, Pi.lift, Pi.π, limit.lift_π, Fan.mk_pt, Fan.mk_π_app, Quiver.Hom.unop_op]
 
 end OppositeCoproducts
 
@@ -485,17 +471,8 @@ lemma π_comp_opProductIsoCoproduct (b : α) : (Pi.π Z b).op ≫ (opProductIsoC
     (isColimitConeOp _ (productIsProduct Z)) (colimit.isColimit _) (op ⟨b⟩)
   dsimp at this
   rw [← Category.assoc]; rw [this]
-  simp only [colimit.cocone_x, Cofan.mk_pt, Equivalence.symm_functor, Discrete.natIsoFunctor,
-    comp_obj, op_obj, Iso.symm_hom, IsColimit.coconePointsIsoOfEquivalence_inv,
-    Equivalence.symm_inverse, Cocones.equivalenceOfReindexing_functor_obj, Iso.trans_inv,
-    Iso.symm_inv, isoWhiskerLeft_hom, Iso.trans_hom, whiskerLeft_comp, colimit.isColimit_desc,
-    colimit.ι_desc, Cocones.precompose_obj_pt, Cocone.whisker_pt, Cocones.precompose_obj_ι,
-    Cocone.whisker_ι, Category.assoc, NatTrans.comp_app, unop_op, Discrete.functor_obj,
-    const_obj_obj, Equivalence.invFunIdAssoc_inv_app, id_obj, op_map, Discrete.functor_map_id,
-    op_id, whiskerLeft_app, Discrete.natIso_hom_app, Iso.refl_hom, Cofan.mk_ι_app,
-    Discrete.opposite_functor_obj_as, Category.id_comp]
-  simp only [Discrete.functor, Function.comp_apply, id_eq, Discrete.opposite, Equivalence.mk,
-    id_obj, comp_obj, leftOp_obj, unop_op, Category.id_comp]
+  simp only [colimit.cocone_x, Cofan.mk_pt, Equivalence.symm_functor, Discrete.natIsoFunctor, comp_obj, op_obj, Iso.symm_hom, IsColimit.coconePointsIsoOfEquivalence_inv, Equivalence.symm_inverse, Cocones.equivalenceOfReindexing_functor_obj, Iso.trans_inv, Iso.symm_inv, isoWhiskerLeft_hom, Iso.trans_hom, whiskerLeft_comp, colimit.isColimit_desc, colimit.ι_desc, Cocones.precompose_obj_pt, Cocone.whisker_pt, Cocones.precompose_obj_ι, Cocone.whisker_ι, Category.assoc, NatTrans.comp_app, unop_op, Discrete.functor_obj, const_obj_obj, Equivalence.invFunIdAssoc_inv_app, id_obj, op_map, Discrete.functor_map_id, op_id, whiskerLeft_app, Discrete.natIso_hom_app, Iso.refl_hom, Cofan.mk_ι_app, Discrete.opposite_functor_obj_as, Category.id_comp]
+  simp only [Discrete.functor, Function.comp_apply, id_eq, Discrete.opposite, Equivalence.mk, id_obj, comp_obj, leftOp_obj, unop_op, Category.id_comp]
 
 lemma opProductIsoCoproduct_inv_comp_π_op {X : C} (π : (a : α) → X ⟶ Z a) :
     (opProductIsoCoproduct Z).inv ≫ (Pi.lift π).op = Sigma.desc (fun a => Quiver.Hom.op (π a)) := by
@@ -503,8 +480,7 @@ lemma opProductIsoCoproduct_inv_comp_π_op {X : C} (π : (a : α) → X ⟶ Z a)
   congr
   refine' Pi.hom_ext (f := Z) _ _ (fun a => _)
   rw [Category.assoc]; rw [limit.lift_π]; rw [← Quiver.Hom.unop_op (Pi.π Z a)]; rw [← unop_comp]; rw [π_comp_opProductIsoCoproduct]; rw [← unop_comp]
-  simp only [Fan.mk_pt, Fan.mk_π_app, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app,
-    Quiver.Hom.unop_op]
+  simp only [Fan.mk_pt, Fan.mk_π_app, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app, Quiver.Hom.unop_op]
 
 end OppositeProducts
 

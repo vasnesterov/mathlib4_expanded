@@ -124,8 +124,7 @@ instance instDiscreteTopology [DiscreteTopology M] : DiscreteTopology Mˣ :=
 @[to_additive] lemma topology_eq_inf :
     instTopologicalSpaceUnits =
       .induced (val : Mˣ → M) ‹_› ⊓ .induced (fun u ↦ ↑u⁻¹ : Mˣ → M) ‹_› := by
-  simp only [inducing_embedProduct.1, instTopologicalSpaceProd, induced_inf,
-    instTopologicalSpaceMulOpposite, induced_compose]; rfl
+  simp only [inducing_embedProduct.1, instTopologicalSpaceProd, induced_inf, instTopologicalSpaceMulOpposite, induced_compose]; rfl
 #align units.topology_eq_inf Units.topology_eq_inf
 #align add_units.topology_eq_inf AddUnits.topology_eq_inf
 
@@ -167,9 +166,7 @@ theorem continuous_val : Continuous ((↑) : Mˣ → M) :=
 @[to_additive]
 protected theorem continuous_iff {f : X → Mˣ} :
     Continuous f ↔ Continuous (val ∘ f) ∧ Continuous (fun x => ↑(f x)⁻¹ : X → M) := by
-  simp only [inducing_embedProduct.continuous_iff, embedProduct_apply, (· ∘ ·),
-    continuous_prod_mk, opHomeomorph.symm.inducing.continuous_iff, opHomeomorph_symm_apply,
-    unop_op]
+  simp only [inducing_embedProduct.continuous_iff, embedProduct_apply, (· ∘ ·), continuous_prod_mk, opHomeomorph.symm.inducing.continuous_iff, opHomeomorph_symm_apply, unop_op]
 #align units.continuous_iff Units.continuous_iff
 #align add_units.continuous_iff AddUnits.continuous_iff
 

@@ -191,8 +191,7 @@ def leftUnitor (X : Center C) : tensorObj tensorUnit X ≅ X :=
   isoMk
     ⟨(λ_ X.1).hom, fun U => by
       dsimp
-      simp only [Category.comp_id, Category.assoc, tensor_inv_hom_id, comp_tensor_id,
-        tensor_id_comp_id_tensor, triangle_assoc_comp_right_inv]
+      simp only [Category.comp_id, Category.assoc, tensor_inv_hom_id, comp_tensor_id, tensor_id_comp_id_tensor, triangle_assoc_comp_right_inv]
       rw [← leftUnitor_tensor]; rw [leftUnitor_naturality]; rw [leftUnitor_tensor'_assoc]⟩
 #align category_theory.center.left_unitor CategoryTheory.Center.leftUnitor
 

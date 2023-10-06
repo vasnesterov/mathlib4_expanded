@@ -68,8 +68,7 @@ theorem ultrafilter_converges_iff {u : Ultrafilter (Ultrafilter α)} {x : Ultraf
     ↑u ≤ 𝓝 x ↔ x = joinM u := by
   rw [eq_comm]; rw [← Ultrafilter.coe_le_coe]
   change ↑u ≤ 𝓝 x ↔ ∀ s ∈ x, { v : Ultrafilter α | s ∈ v } ∈ u
-  simp only [TopologicalSpace.nhds_generateFrom, le_iInf_iff, ultrafilterBasis, le_principal_iff,
-    mem_setOf_eq]
+  simp only [TopologicalSpace.nhds_generateFrom, le_iInf_iff, ultrafilterBasis, le_principal_iff, mem_setOf_eq]
   constructor
   · intro h a ha
     exact h _ ⟨ha, a, rfl⟩

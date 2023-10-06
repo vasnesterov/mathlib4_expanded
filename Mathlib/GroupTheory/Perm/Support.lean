@@ -449,15 +449,13 @@ theorem support_swap_iff (x y : α) : support (swap x y) = {x, y} ↔ x ≠ y :=
 
 theorem support_swap_mul_swap {x y z : α} (h : List.Nodup [x, y, z]) :
     support (swap x y * swap y z) = {x, y, z} := by
-  simp only [List.not_mem_nil, and_true_iff, List.mem_cons, not_false_iff, List.nodup_cons,
-    List.mem_singleton, and_self_iff, List.nodup_nil] at h
+  simp only [List.not_mem_nil, and_true_iff, List.mem_cons, not_false_iff, List.nodup_cons, List.mem_singleton, and_self_iff, List.nodup_nil] at h
   push_neg at h
   apply le_antisymm
   · convert support_mul_le (swap x y) (swap y z) using 1
     rw [support_swap h.left.left]; rw [support_swap h.right.left]
     simp only [sup_eq_union]
-    simp only [mem_singleton, mem_insert, union_insert, insert_union, mem_union, true_or, or_true,
-      insert_eq_of_mem]
+    simp only [mem_singleton, mem_insert, union_insert, insert_union, mem_union, true_or, or_true, insert_eq_of_mem]
     rfl
   · intro
     simp only [mem_insert, mem_singleton]
@@ -469,8 +467,7 @@ theorem support_swap_mul_swap {x y z : α} (h : List.Nodup [x, y, z]) :
 theorem support_swap_mul_ge_support_diff (f : Perm α) (x y : α) :
     f.support \ {x, y} ≤ (swap x y * f).support := by
   intro
-  simp only [and_imp, Perm.coe_mul, Function.comp_apply, Ne.def, mem_support, mem_insert, mem_sdiff,
-    mem_singleton]
+  simp only [and_imp, Perm.coe_mul, Function.comp_apply, Ne.def, mem_support, mem_insert, mem_sdiff, mem_singleton]
   push_neg
   rintro ha ⟨hx, hy⟩ H
   rw [swap_apply_eq_iff] at H; rw [swap_apply_of_ne_of_ne hx hy] at H
@@ -541,8 +538,7 @@ variable {β : Type*} [DecidableEq β] [Fintype β] {p : β → Prop} [Decidable
 theorem support_extend_domain (f : α ≃ Subtype p) {g : Perm α} :
     support (g.extendDomain f) = g.support.map f.asEmbedding := by
   ext b
-  simp only [exists_prop, Function.Embedding.coeFn_mk, toEmbedding_apply, mem_map, Ne.def,
-    Function.Embedding.trans_apply, mem_support]
+  simp only [exists_prop, Function.Embedding.coeFn_mk, toEmbedding_apply, mem_map, Ne.def, Function.Embedding.trans_apply, mem_support]
   by_cases pb : p b
   · rw [extendDomain_apply_subtype _ _ pb]
     constructor

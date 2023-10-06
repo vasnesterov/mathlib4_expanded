@@ -148,8 +148,7 @@ theorem squashSeq_succ_n_tail_eq_squashSeq_tail_n :
     · have : s.tail.get? m = s.get? (m + 1) := s.get?_tail m
       cases s_succ_mth_eq : s.get? (m + 1)
       all_goals have _ := this.trans s_succ_mth_eq
-      · simp only [*, squashSeq, Stream'.Seq.get?_tail, Stream'.Seq.get?_zipWith,
-          Option.map₂_none_right]
+      · simp only [*, squashSeq, Stream'.Seq.get?_tail, Stream'.Seq.get?_zipWith, Option.map₂_none_right]
       · simp [*, squashSeq]
 #align generalized_continued_fraction.squash_seq_succ_n_tail_eq_squash_seq_tail_n GeneralizedContinuedFraction.squashSeq_succ_n_tail_eq_squashSeq_tail_n
 
@@ -230,8 +229,7 @@ theorem succ_nth_convergent'_eq_squashGCF_nth_convergent' :
     cases g_s_head_eq : g.s.get? 0 <;>
       simp [g_s_head_eq, squashGCF, convergents', convergents'Aux, Stream'.Seq.head]
   case succ =>
-    simp only [succ_succ_nth_convergent'_aux_eq_succ_nth_convergent'_aux_squashSeq, convergents',
-      squashGCF]
+    simp only [succ_succ_nth_convergent'_aux_eq_succ_nth_convergent'_aux_squashSeq, convergents', squashGCF]
 #align generalized_continued_fraction.succ_nth_convergent'_eq_squash_gcf_nth_convergent' GeneralizedContinuedFraction.succ_nth_convergent'_eq_squashGCF_nth_convergent'
 
 /-- The auxiliary continuants before the squashed position stay the same. -/

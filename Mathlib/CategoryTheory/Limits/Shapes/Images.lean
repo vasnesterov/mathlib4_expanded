@@ -626,8 +626,7 @@ instance hasImage_comp_iso [HasImage f] [IsIso g] : HasImage (f ≫ g) :=
           have : (image.lift (MonoFactorisation.ofCompIso F') ≫ F'.m) ≫ inv g =
             image.lift (MonoFactorisation.ofCompIso F') ≫
             ((MonoFactorisation.ofCompIso F').m) := by
-              simp only [MonoFactorisation.ofCompIso_I, Category.assoc,
-                MonoFactorisation.ofCompIso_m]
+              simp only [MonoFactorisation.ofCompIso_I, Category.assoc, MonoFactorisation.ofCompIso_m]
           rw [this]; rw [image.lift_fac (MonoFactorisation.ofCompIso F')]; rw [image.as_ι] }}
 #align category_theory.limits.has_image_comp_iso CategoryTheory.Limits.hasImage_comp_iso
 

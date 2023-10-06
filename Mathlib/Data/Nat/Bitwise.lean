@@ -149,8 +149,7 @@ theorem testBit_two_pow_of_ne {n m : ℕ} (hm : n ≠ m) : testBit (2 ^ n) m = f
   · rw [pow_div hm.le zero_lt_two, ← tsub_add_cancel_of_le (succ_le_of_lt <| tsub_pos_of_lt hm)]
     -- Porting note: XXX why does this make it work?
     rw [(rfl : succ 0 = 1)]
-    simp only [ge_iff_le, tsub_le_iff_right, pow_succ, bodd_mul,
-      Bool.and_eq_false_eq_eq_false_or_eq_false, or_true]
+    simp only [ge_iff_le, tsub_le_iff_right, pow_succ, bodd_mul, Bool.and_eq_false_eq_eq_false_or_eq_false, or_true]
 #align nat.test_bit_two_pow_of_ne Nat.testBit_two_pow_of_ne
 
 theorem testBit_two_pow (n m : ℕ) : testBit (2 ^ n) m = (n = m) := by

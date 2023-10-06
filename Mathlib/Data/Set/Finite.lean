@@ -1209,8 +1209,7 @@ theorem empty_card' {h : Fintype.{u} (∅ : Set α)} : @Fintype.card (∅ : Set 
 theorem card_fintypeInsertOfNotMem {a : α} (s : Set α) [Fintype s] (h : a ∉ s) :
     @Fintype.card _ (fintypeInsertOfNotMem s h) = Fintype.card s + 1 := by
   rw [fintypeInsertOfNotMem]; rw [Fintype.card_ofFinset]
-  simp only [Finset.card, toFinset, Finset.map_val, Embedding.coe_subtype,
-             Multiset.card_cons, Multiset.card_map, add_left_inj]
+  simp only [Finset.card, toFinset, Finset.map_val, Embedding.coe_subtype, Multiset.card_cons, Multiset.card_map, add_left_inj]
   rfl
 #align set.card_fintype_insert_of_not_mem Set.card_fintypeInsertOfNotMem
 

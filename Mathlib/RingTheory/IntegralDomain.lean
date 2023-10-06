@@ -206,9 +206,7 @@ theorem card_fiber_eq_of_mem_range {H : Type*} [Group H] [DecidableEq H] (f : G 
     simp only [true_and, map_inv, mul_right_inv, one_mul, and_self, implies_true, forall_const]
   · simp only [mul_left_inj, imp_self, forall₂_true_iff]
   · simp only [true_and_iff, mem_filter, mem_univ] at hg
-    simp only [hg, mem_filter, one_mul, MonoidHom.map_mul, mem_univ, mul_right_inv,
-      eq_self_iff_true, exists_prop_of_true, MonoidHom.map_mul_inv, and_self_iff,
-      mul_inv_cancel_right, inv_mul_cancel_right]
+    simp only [hg, mem_filter, one_mul, MonoidHom.map_mul, mem_univ, mul_right_inv, eq_self_iff_true, exists_prop_of_true, MonoidHom.map_mul_inv, and_self_iff, mul_inv_cancel_right, inv_mul_cancel_right]
     -- porting note: added the next line.  It is weird!
     simp only [map_inv, mul_right_inv, one_mul, and_self, exists_prop]
 #align card_fiber_eq_of_mem_range card_fiber_eq_of_mem_range
@@ -259,8 +257,7 @@ theorem sum_hom_units_eq_zero (f : G →* R) (hf : f ≠ 1) : ∑ g : G, f g = 0
         = ∑ n in range (orderOf x), ((x : Rˣ) : R) ^ n :=
         Eq.symm <|
           sum_bij (fun n _ => x ^ n) (by simp only [mem_univ, forall_true_iff])
-            (by simp only [imp_true_iff, eq_self_iff_true, Subgroup.coe_pow,
-                Units.val_pow_eq_pow_val])
+            (by simp only [imp_true_iff, eq_self_iff_true, Subgroup.coe_pow, Units.val_pow_eq_pow_val])
             (fun m n hm hn =>
               pow_injective_of_lt_orderOf _ (by simpa only [mem_range] using hm)
                 (by simpa only [mem_range] using hn))

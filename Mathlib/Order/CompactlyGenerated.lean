@@ -139,8 +139,7 @@ theorem isCompactElement_iff_le_of_directed_sSup_le (k : α) :
         suffices : ⊥ ∈ S
         exact Set.nonempty_of_mem this
         use ∅
-        simp only [Set.empty_subset, Finset.coe_empty, Finset.sup_empty, eq_self_iff_true,
-          and_self_iff]
+        simp only [Set.empty_subset, Finset.coe_empty, Finset.sup_empty, eq_self_iff_true, and_self_iff]
       -- Now apply the defn of compact and finish.
       obtain ⟨j, ⟨hjS, hjk⟩⟩ := hk S Sne dir_US (le_trans hsup sup_S)
       obtain ⟨t, ⟨htS, htsup⟩⟩ := hjS
@@ -489,8 +488,7 @@ theorem Iic_coatomic_of_compact_element {k : α} (h : IsCompactElement k) :
       intro; apply le_sSup
     exact
       ⟨b, lt_of_le_of_ne hbk H, by
-        simp only [Set.not_nonempty_iff_eq_empty.mp hS, Set.mem_empty_iff_false, forall_const,
-          forall_prop_of_false, not_false_iff]⟩
+        simp only [Set.not_nonempty_iff_eq_empty.mp hS, Set.mem_empty_iff_false, forall_const, forall_prop_of_false, not_false_iff]⟩
 #align complete_lattice.Iic_coatomic_of_compact_element CompleteLattice.Iic_coatomic_of_compact_element
 
 theorem coatomic_of_top_compact (h : IsCompactElement (⊤ : α)) : IsCoatomic α :=

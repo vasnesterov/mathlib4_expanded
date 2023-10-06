@@ -195,8 +195,7 @@ theorem length_subadditive_Icc_Ioo {a b : ℝ} {c d : ℕ → ℝ} (ss : Icc a b
         (fun (i : ℕ) (_ : i ∈ univ) => @isOpen_Ioo _ _ _ _ (c i) (d i)) (by simpa using ss) with
       ⟨s, _, hf, hs⟩
     have e : ⋃ i ∈ (hf.toFinset : Set ℕ), Ioo (c i) (d i) = ⋃ i ∈ s, Ioo (c i) (d i) := by
-      simp only [ext_iff, exists_prop, Finset.set_biUnion_coe, mem_iUnion, forall_const,
-        iff_self_iff, Finite.mem_toFinset]
+      simp only [ext_iff, exists_prop, Finset.set_biUnion_coe, mem_iUnion, forall_const, iff_self_iff, Finite.mem_toFinset]
     rw [ENNReal.tsum_eq_iSup_sum]
     refine' le_trans _ (le_iSup _ hf.toFinset)
     exact this hf.toFinset _ (by simpa only [e] )
@@ -206,8 +205,7 @@ theorem length_subadditive_Icc_Ioo {a b : ℝ} {c d : ℕ → ℝ} (ss : Icc a b
   · rw [ENNReal.ofReal_eq_zero.2 (sub_nonpos.2 (f.mono ab))]
     exact zero_le _
   have := cv ⟨ab, le_rfl⟩
-  simp only [Finset.mem_coe, gt_iff_lt, not_lt, ge_iff_le, mem_iUnion, mem_Ioo, exists_and_left,
-    exists_prop] at this
+  simp only [Finset.mem_coe, gt_iff_lt, not_lt, ge_iff_le, mem_iUnion, mem_Ioo, exists_and_left, exists_prop] at this
   rcases this with ⟨i, cb, is, bd⟩
   rw [← Finset.insert_erase is] at cv ⊢
   rw [Finset.coe_insert] at cv; rw [biUnion_insert] at cv
@@ -292,16 +290,10 @@ theorem measurableSet_Ioi {c : ℝ} : MeasurableSet[f.outer.caratheodory] (Ioi c
       (add_le_add (f.length_mono <| inter_subset_inter_left _ h)
         (f.length_mono <| diff_subset_diff_left h)) _
   cases' le_total a c with hac hac <;> cases' le_total b c with hbc hbc
-  · simp only [Ioc_inter_Ioi, f.length_Ioc, hac, _root_.sup_eq_max, hbc, le_refl, Ioc_eq_empty,
-      max_eq_right, min_eq_left, Ioc_diff_Ioi, f.length_empty, zero_add, not_lt]
-  · simp only [hac, hbc, Ioc_inter_Ioi, Ioc_diff_Ioi, f.length_Ioc, min_eq_right,
-      _root_.sup_eq_max, ← ENNReal.ofReal_add, f.mono hac, f.mono hbc, sub_nonneg,
-      sub_add_sub_cancel, le_refl,
-      max_eq_right]
-  · simp only [hbc, le_refl, Ioc_eq_empty, Ioc_inter_Ioi, min_eq_left, Ioc_diff_Ioi, f.length_empty,
-      zero_add, or_true_iff, le_sup_iff, f.length_Ioc, not_lt]
-  · simp only [hac, hbc, Ioc_inter_Ioi, Ioc_diff_Ioi, f.length_Ioc, min_eq_right, _root_.sup_eq_max,
-      le_refl, Ioc_eq_empty, add_zero, max_eq_left, f.length_empty, not_lt]
+  · simp only [Ioc_inter_Ioi, f.length_Ioc, hac, _root_.sup_eq_max, hbc, le_refl, Ioc_eq_empty, max_eq_right, min_eq_left, Ioc_diff_Ioi, f.length_empty, zero_add, not_lt]
+  · simp only [hac, hbc, Ioc_inter_Ioi, Ioc_diff_Ioi, f.length_Ioc, min_eq_right, _root_.sup_eq_max, ← ENNReal.ofReal_add, f.mono hac, f.mono hbc, sub_nonneg, sub_add_sub_cancel, le_refl, max_eq_right]
+  · simp only [hbc, le_refl, Ioc_eq_empty, Ioc_inter_Ioi, min_eq_left, Ioc_diff_Ioi, f.length_empty, zero_add, or_true_iff, le_sup_iff, f.length_Ioc, not_lt]
+  · simp only [hac, hbc, Ioc_inter_Ioi, Ioc_diff_Ioi, f.length_Ioc, min_eq_right, _root_.sup_eq_max, le_refl, Ioc_eq_empty, add_zero, max_eq_left, f.length_empty, not_lt]
 #align stieltjes_function.measurable_set_Ioi StieltjesFunction.measurableSet_Ioi
 
 theorem outer_trim : f.outer.trim = f.outer := by
@@ -401,8 +393,7 @@ theorem measure_Ioo {a b : ℝ} : f.measure (Ioo a b) = ofReal (leftLim f b - f 
   · have A : Disjoint (Ioo a b) {b} := by simp
     have D : f b - f a = f b - leftLim f b + (leftLim f b - f a) := by abel
     have := f.measure_Ioc a b
-    simp only [← Ioo_union_Icc_eq_Ioc hab le_rfl, measure_singleton,
-      measure_union A (measurableSet_singleton b), Icc_self] at this
+    simp only [← Ioo_union_Icc_eq_Ioc hab le_rfl, measure_singleton, measure_union A (measurableSet_singleton b), Icc_self] at this
     rw [D] at this; rw [ENNReal.ofReal_add] at this; rw [add_comm] at this
     · simpa only [ENNReal.add_right_inj ENNReal.ofReal_ne_top]
     · simp only [f.mono.leftLim_le le_rfl, sub_nonneg]

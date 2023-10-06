@@ -627,8 +627,7 @@ def coneOfDiagramTerminal {X : J} (hX : IsTerminal X) (F : J ⥤ C)
       naturality := by
         intro i j f
         dsimp
-        simp only [IsIso.eq_inv_comp, IsIso.comp_inv_eq, Category.id_comp, ← F.map_comp,
-          hX.hom_ext (hX.from i) (f ≫ hX.from j)] }
+        simp only [IsIso.eq_inv_comp, IsIso.comp_inv_eq, Category.id_comp, ← F.map_comp, hX.hom_ext (hX.from i) (f ≫ hX.from j)] }
 #align category_theory.limits.cone_of_diagram_terminal CategoryTheory.Limits.coneOfDiagramTerminal
 
 /-- From a functor `F : J ⥤ C`, given a terminal object of `J` and that the morphisms in the
@@ -691,8 +690,7 @@ def coconeOfDiagramInitial {X : J} (hX : IsInitial X) (F : J ⥤ C)
       naturality := by
         intro i j f
         dsimp
-        simp only [IsIso.eq_inv_comp, IsIso.comp_inv_eq, Category.comp_id, ← F.map_comp,
-          hX.hom_ext (hX.to i ≫ f) (hX.to j)] }
+        simp only [IsIso.eq_inv_comp, IsIso.comp_inv_eq, Category.comp_id, ← F.map_comp, hX.hom_ext (hX.to i ≫ f) (hX.to j)] }
 #align category_theory.limits.cocone_of_diagram_initial CategoryTheory.Limits.coconeOfDiagramInitial
 
 /-- From a functor `F : J ⥤ C`, given an initial object of `J` and that the morphisms in the
@@ -748,8 +746,7 @@ theorem isIso_ι_of_isInitial {j : J} (I : IsInitial j) (F : J ⥤ C) [HasColimi
     [∀ (i j : J) (f : i ⟶ j), IsIso (F.map f)] : IsIso (colimit.ι F j) :=
   ⟨⟨colimit.desc _ (coconeOfDiagramInitial I F), by
     refine ⟨?_, by ext; simp⟩
-    dsimp; simp only [colimit.ι_desc, coconeOfDiagramInitial_pt, coconeOfDiagramInitial_ι_app,
-      Functor.const_obj_obj, IsInitial.to_self, Functor.map_id]
+    dsimp; simp only [colimit.ι_desc, coconeOfDiagramInitial_pt, coconeOfDiagramInitial_ι_app, Functor.const_obj_obj, IsInitial.to_self, Functor.map_id]
     dsimp [inv]; simp only [Category.id_comp, Category.comp_id, and_self]
     apply @Classical.choose_spec _ (fun x => x = 𝟙 F.obj j) _
   ⟩⟩

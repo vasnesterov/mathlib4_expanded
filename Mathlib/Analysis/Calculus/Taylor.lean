@@ -86,8 +86,7 @@ theorem taylorWithinEval_succ (f : ℝ → E) (n : ℕ) (s : Set ℝ) (x₀ x : 
       (((n + 1 : ℝ) * n !)⁻¹ * (x - x₀) ^ (n + 1)) • iteratedDerivWithin (n + 1) f s x₀ := by
   simp_rw [taylorWithinEval, taylorWithin_succ, LinearMap.map_add, PolynomialModule.comp_eval]
   congr
-  simp only [Polynomial.eval_sub, Polynomial.eval_X, Polynomial.eval_C,
-    PolynomialModule.eval_single, mul_inv_rev]
+  simp only [Polynomial.eval_sub, Polynomial.eval_X, Polynomial.eval_C, PolynomialModule.eval_single, mul_inv_rev]
   dsimp only [taylorCoeffWithin]
   rw [← mul_smul]; rw [mul_comm]; rw [Nat.factorial_succ]; rw [Nat.cast_mul]; rw [Nat.cast_add]; rw [Nat.cast_one]; rw [mul_inv_rev]
 #align taylor_within_eval_succ taylorWithinEval_succ
@@ -179,8 +178,7 @@ theorem hasDerivWithinAt_taylorWithinEval {f : ℝ → E} {x y : ℝ} {n : ℕ} 
     HasDerivWithinAt (fun t => taylorWithinEval f n s t x)
       (((n ! : ℝ)⁻¹ * (x - y) ^ n) • iteratedDerivWithin (n + 1) f s y) s' y := by
   induction' n with k hk
-  · simp only [taylor_within_zero_eval, Nat.factorial_zero, Nat.cast_one, inv_one, pow_zero,
-      mul_one, zero_add, one_smul]
+  · simp only [taylor_within_zero_eval, Nat.factorial_zero, Nat.cast_one, inv_one, pow_zero, mul_one, zero_add, one_smul]
     simp only [iteratedDerivWithin_zero] at hf'
     rw [iteratedDerivWithin_one (hs_unique _ (h hy))]
     norm_num

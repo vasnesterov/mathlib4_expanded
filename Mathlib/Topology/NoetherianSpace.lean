@@ -111,8 +111,7 @@ theorem NoetherianSpace.wellFounded_closeds [NoetherianSpace α] :
   Iff.mp ((noetherianSpace_TFAE α).out 0 1) ‹_›
 
 instance {α} : NoetherianSpace (CofiniteTopology α) := by
-  simp only [noetherianSpace_iff_isCompact, isCompact_iff_ultrafilter_le_nhds,
-    CofiniteTopology.nhds_eq, Ultrafilter.le_sup_iff, Filter.le_principal_iff]
+  simp only [noetherianSpace_iff_isCompact, isCompact_iff_ultrafilter_le_nhds, CofiniteTopology.nhds_eq, Ultrafilter.le_sup_iff, Filter.le_principal_iff]
   intro s f hs
   rcases f.le_cofinite_or_eq_pure with (hf | ⟨a, rfl⟩)
   · rcases Filter.nonempty_of_mem hs with ⟨a, ha⟩
@@ -138,8 +137,7 @@ theorem NoetherianSpace.range [NoetherianSpace α] (f : α → β) (hf : Continu
 
 theorem noetherianSpace_set_iff (s : Set α) :
     NoetherianSpace s ↔ ∀ t, t ⊆ s → IsCompact t := by
-  simp only [noetherianSpace_iff_isCompact, embedding_subtype_val.isCompact_iff_isCompact_image,
-    Subtype.forall_set_subtype]
+  simp only [noetherianSpace_iff_isCompact, embedding_subtype_val.isCompact_iff_isCompact_image, Subtype.forall_set_subtype]
 #align topological_space.noetherian_space_set_iff TopologicalSpace.noetherianSpace_set_iff
 
 @[simp]

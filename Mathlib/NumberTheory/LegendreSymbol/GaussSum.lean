@@ -98,8 +98,7 @@ private theorem gaussSum_mul_aux {χ : MulChar R R'} (hχ : IsNontrivial χ) (ψ
     (b : R) : ∑ a, χ (a * b⁻¹) * ψ (a - b) = ∑ c, χ c * ψ (b * (c - 1)) := by
   cases' eq_or_ne b 0 with hb hb
   · -- case `b = 0`
-    simp only [hb, inv_zero, mul_zero, MulChar.map_zero, zero_mul,
-      Finset.sum_const_zero, map_zero_one, mul_one]
+    simp only [hb, inv_zero, mul_zero, MulChar.map_zero, zero_mul, Finset.sum_const_zero, map_zero_one, mul_one]
     exact (hχ.sum_eq_zero).symm
   · -- case `b ≠ 0`
     refine' (Fintype.sum_bijective _ (mulLeft_bijective₀ b hb) _ _ fun x => _).symm
@@ -333,24 +332,21 @@ theorem FiniteField.two_pow_card {F : Type*} [Fintype F] [Field F] (hF : ringCha
       dsimp only
       congr
       · rw [Matrix.cons_val_zero]; simp
-      · simp only [Matrix.vecCons, ne_eq, Nat.cast_ofNat, id_eq, eq_mpr_eq_cast, mul_eq_zero,
-          zero_lt_two, pow_eq_zero_iff]
+      · simp only [Matrix.vecCons, ne_eq, Nat.cast_ofNat, id_eq, eq_mpr_eq_cast, mul_eq_zero, zero_lt_two, pow_eq_zero_iff]
         left
         rw [← Int.cast_zero (R := FF)]
         exact congr_arg Int.cast rfl
       · simp only [Matrix.vecCons]
         rw [show (-1 : FF) = ↑(- 1 : ℤ) by simp only [Int.cast_neg, Int.cast_one]]
         exact congr_arg Int.cast rfl
-      · simp only [Matrix.vecCons, ne_eq, Nat.cast_ofNat, id_eq, eq_mpr_eq_cast, mul_eq_zero,
-          zero_lt_two, pow_eq_zero_iff]
+      · simp only [Matrix.vecCons, ne_eq, Nat.cast_ofNat, id_eq, eq_mpr_eq_cast, mul_eq_zero, zero_lt_two, pow_eq_zero_iff]
         left
         rw [← Int.cast_zero (R := FF)]
         exact congr_arg Int.cast rfl
       · simp only [Matrix.vecCons]
         rw [show (-1 : FF) = ↑(- 1 : ℤ) by simp only [Int.cast_neg, Int.cast_one]]
         exact congr_arg Int.cast rfl
-      · simp only [Matrix.vecCons, ne_eq, Nat.cast_ofNat, id_eq, eq_mpr_eq_cast, mul_eq_zero,
-          zero_lt_two, pow_eq_zero_iff]
+      · simp only [Matrix.vecCons, ne_eq, Nat.cast_ofNat, id_eq, eq_mpr_eq_cast, mul_eq_zero, zero_lt_two, pow_eq_zero_iff]
         left
         rw [← Int.cast_zero (R := FF)]
         exact congr_arg Int.cast rfl

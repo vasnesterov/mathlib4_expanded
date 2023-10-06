@@ -370,8 +370,7 @@ def ofStepHom (n) : Step k n →ₐ[k] AlgebraicClosureAux k :=
     --Porting Note: Originally `(fun x => Ring.DirectLimit.of_f n.zero_le x)`
     -- I think one problem was in recognizing that we want `toStepOfLE` in `of_f`
       intro x
-      simp only [RingHom.toMonoidHom_eq_coe, OneHom.toFun_eq_coe, MonoidHom.toOneHom_coe,
-          MonoidHom.coe_coe]
+      simp only [RingHom.toMonoidHom_eq_coe, OneHom.toFun_eq_coe, MonoidHom.toOneHom_coe, MonoidHom.coe_coe]
       convert @Ring.DirectLimit.of_f ℕ _ (Step k) _ (fun m n h => (toStepOfLE k m n h : _ → _))
           0 n n.zero_le x }
 #noalign algebraic_closure.of_step_hom
@@ -434,8 +433,7 @@ instance : Field (AlgebraicClosure k) :=
     ratCast_mk := fun a b h1 h2 => by
       apply_fun e
       change e (algebraMap k _ _) = _
-      simp only [map_ratCast, map_natCast, map_mul, map_intCast, AlgEquiv.commutes,
-        AlgEquiv.apply_symm_apply]
+      simp only [map_ratCast, map_natCast, map_mul, map_intCast, AlgEquiv.commutes, AlgEquiv.apply_symm_apply]
       apply Field.ratCast_mk
     exists_pair_ne := ⟨e.symm 0, e.symm 1, fun w => zero_ne_one ((e.symm).injective w)⟩
     mul_inv_cancel := fun a w => by

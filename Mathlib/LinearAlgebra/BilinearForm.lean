@@ -408,16 +408,14 @@ def toLinHom : BilinForm R M →ₗ[R₂] M →ₗ[R₂] M →ₗ[R] R where
       dsimp only [toLinHomAux₁, toLinHomAux₂]
       apply LinearMap.ext
       intro y
-      simp only [toLinHomAux₂, toLinHomAux₁, LinearMap.coe_mk, LinearMap.add_apply, add_apply,
-        AddHom.coe_mk]
+      simp only [toLinHomAux₂, toLinHomAux₁, LinearMap.coe_mk, LinearMap.add_apply, add_apply, AddHom.coe_mk]
   map_smul' c A := by
     dsimp [toLinHomAux₁, toLinHomAux₂]
     apply LinearMap.ext
     intro x
     apply LinearMap.ext
     intro y
-    simp only [toLinHomAux₂, toLinHomAux₁, LinearMap.coe_mk, LinearMap.smul_apply, smul_apply,
-      AddHom.coe_mk]
+    simp only [toLinHomAux₂, toLinHomAux₁, LinearMap.coe_mk, LinearMap.smul_apply, smul_apply, AddHom.coe_mk]
 #align bilin_form.to_lin_hom BilinForm.toLinHom
 
 variable {R₂}

@@ -283,9 +283,7 @@ nonrec def shiftFunctorAdd (m n : S) :
     simp only [Category.assoc, Iso.inv_hom_id_app_assoc]
     erw [← NatTrans.naturality_assoc]
     dsimp
-    simp only [Functor.map_comp, Category.assoc,
-      shiftFunctorComm_hom_app_comp_shift_shiftFunctorAdd_hom_app 1 m n X.obj,
-      Iso.inv_hom_id_app_assoc]
+    simp only [Functor.map_comp, Category.assoc, shiftFunctorComm_hom_app_comp_shift_shiftFunctorAdd_hom_app 1 m n X.obj, Iso.inv_hom_id_app_assoc]
   · ext; dsimp; exact NatTrans.naturality _ _
 #align category_theory.differential_object.shift_functor_add CategoryTheory.DifferentialObject.shiftFunctorAdd
 

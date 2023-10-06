@@ -104,8 +104,7 @@ private theorem card_nonuniformWitness_sdiff_biUnion_star (hV : V ∈ P.parts) (
         fun B => B \ ((chunk hP G ε hU).parts.filter (· ⊆ B)).biUnion id := by
     intro x hx
     rw [← biUnion_filter_atomise hX (G.nonuniformWitness_subset h₂)] at hx; rw [star] at hx; rw [mem_sdiff] at hx; rw [mem_biUnion] at hx
-    simp only [not_exists, mem_biUnion, and_imp, exists_prop, mem_filter,
-      not_and, mem_sdiff, id.def, mem_sdiff] at hx ⊢
+    simp only [not_exists, mem_biUnion, and_imp, exists_prop, mem_filter, not_and, mem_sdiff, id.def, mem_sdiff] at hx ⊢
     obtain ⟨⟨B, hB₁, hB₂⟩, hx⟩ := hx
     exact ⟨B, hB₁, hB₂, fun A hA AB => hx A hA <| AB.trans hB₁.2.1⟩
   apply (card_le_of_subset q).trans (card_biUnion_le.trans _)
@@ -269,8 +268,7 @@ private theorem density_sub_eps_le_sum_density_div_card [Nonempty α]
     simp only [SimpleGraph.edgeDensity_def, sum_div, Rat.cast_div, div_div]
   conv_lhs =>
     rw [SimpleGraph.edgeDensity_def]; rw [SimpleGraph.interedges]; rw [← sup_eq_biUnion]; rw [← sup_eq_biUnion]; rw [Rel.card_interedges_finpartition _ (ofSubset _ hA rfl) (ofSubset _ hB rfl)]; rw [ofSubset_parts]; rw [ofSubset_parts]
-    simp only [cast_sum, sum_div, mul_sum, Rat.cast_sum, Rat.cast_div,
-      mul_div_left_comm ((1 : ℝ) - _)]
+    simp only [cast_sum, sum_div, mul_sum, Rat.cast_sum, Rat.cast_div, mul_div_left_comm ((1 : ℝ) - _)]
   push_cast
   apply sum_le_sum
   simp only [and_imp, Prod.forall, mem_product]
@@ -305,8 +303,7 @@ private theorem sum_density_div_card_le_density_add_eps [Nonempty α]
     simp only [SimpleGraph.edgeDensity, edgeDensity, sum_div, Rat.cast_div, div_div]
   conv_rhs =>
     rw [SimpleGraph.edgeDensity]; rw [edgeDensity]; rw [← sup_eq_biUnion]; rw [← sup_eq_biUnion]; rw [Rel.card_interedges_finpartition _ (ofSubset _ hA rfl) (ofSubset _ hB rfl)]
-    simp only [cast_sum, mul_sum, sum_div, Rat.cast_sum, Rat.cast_div,
-      mul_div_left_comm ((1 : ℝ) + _)]
+    simp only [cast_sum, mul_sum, sum_div, Rat.cast_sum, Rat.cast_div, mul_div_left_comm ((1 : ℝ) + _)]
   push_cast
   apply sum_le_sum
   simp only [and_imp, Prod.forall, mem_product, show A.product B = A ×ˢ B by rfl]

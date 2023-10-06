@@ -87,8 +87,7 @@ theorem d_squared (n : ℕ) : objD X (n + 1) ≫ objD X n = 0 := by
   apply Finset.sum_bij φ
   · -- φ(S) is contained in Sᶜ
     intro ij hij
-    simp only [Finset.mem_univ, Finset.compl_filter, Finset.mem_filter, true_and_iff, Fin.val_succ,
-      Fin.coe_castLT] at hij ⊢
+    simp only [Finset.mem_univ, Finset.compl_filter, Finset.mem_filter, true_and_iff, Fin.val_succ, Fin.coe_castLT] at hij ⊢
     linarith
   · -- identification of corresponding terms in both sums
     rintro ⟨i, j⟩ hij
@@ -106,8 +105,7 @@ theorem d_squared (n : ℕ) : objD X (n + 1) ≫ objD X n = 0 := by
       by simpa [Fin.castSucc_castLT] using congr_arg Fin.castSucc (congr_arg Prod.fst h)⟩
   · -- φ : S → Sᶜ is surjective
     rintro ⟨i', j'⟩ hij'
-    simp only [Finset.mem_univ, forall_true_left, Prod.forall, ge_iff_le, Finset.compl_filter,
-      not_le, Finset.mem_filter, true_and] at hij'
+    simp only [Finset.mem_univ, forall_true_left, Prod.forall, ge_iff_le, Finset.compl_filter, not_le, Finset.mem_filter, true_and] at hij'
     refine' ⟨(j'.pred <| _, Fin.castSucc i'), _, _⟩
     · rintro rfl
       simp only [Fin.val_zero, not_lt_zero'] at hij'
@@ -196,16 +194,12 @@ theorem map_alternatingFaceMapComplex {D : Type*} [Category D] [Preadditive D] (
   apply CategoryTheory.Functor.ext
   · intro X Y f
     ext n
-    simp only [Functor.comp_map, HomologicalComplex.comp_f, alternatingFaceMapComplex_map_f,
-      Functor.mapHomologicalComplex_map_f, HomologicalComplex.eqToHom_f, eqToHom_refl, comp_id,
-      id_comp, SimplicialObject.whiskering_obj_map_app]
+    simp only [Functor.comp_map, HomologicalComplex.comp_f, alternatingFaceMapComplex_map_f, Functor.mapHomologicalComplex_map_f, HomologicalComplex.eqToHom_f, eqToHom_refl, comp_id, id_comp, SimplicialObject.whiskering_obj_map_app]
   · intro X
     apply HomologicalComplex.ext
     · rintro i j (rfl : j + 1 = i)
       dsimp only [Functor.comp_obj]
-      simp only [Functor.mapHomologicalComplex_obj_d, alternatingFaceMapComplex_obj_d,
-        eqToHom_refl, id_comp, comp_id, AlternatingFaceMapComplex.objD, Functor.map_sum,
-        Functor.map_zsmul]
+      simp only [Functor.mapHomologicalComplex_obj_d, alternatingFaceMapComplex_obj_d, eqToHom_refl, id_comp, comp_id, AlternatingFaceMapComplex.objD, Functor.map_sum, Functor.map_zsmul]
       rfl
     · ext n
       rfl
@@ -215,8 +209,7 @@ theorem karoubi_alternatingFaceMapComplex_d (P : Karoubi (SimplicialObject C)) (
     ((AlternatingFaceMapComplex.obj (KaroubiFunctorCategoryEmbedding.obj P)).d (n + 1) n).f =
       P.p.app (op [n + 1]) ≫ (AlternatingFaceMapComplex.obj P.X).d (n + 1) n := by
   dsimp
-  simp only [AlternatingFaceMapComplex.obj_d_eq, Karoubi.sum_hom, Preadditive.comp_sum,
-    Karoubi.zsmul_hom, Preadditive.comp_zsmul]
+  simp only [AlternatingFaceMapComplex.obj_d_eq, Karoubi.sum_hom, Preadditive.comp_sum, Karoubi.zsmul_hom, Preadditive.comp_zsmul]
   rfl
 #align algebraic_topology.karoubi_alternating_face_map_complex_d AlgebraicTopology.karoubi_alternatingFaceMapComplex_d
 

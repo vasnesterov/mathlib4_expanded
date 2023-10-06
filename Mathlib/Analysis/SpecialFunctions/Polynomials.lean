@@ -72,8 +72,7 @@ theorem tendsto_atTop_iff_leadingCoeff_nonneg :
 
 theorem tendsto_atBot_iff_leadingCoeff_nonpos :
     Tendsto (fun x => eval x P) atTop atBot ↔ 0 < P.degree ∧ P.leadingCoeff ≤ 0 := by
-  simp only [← tendsto_neg_atTop_iff, ← eval_neg, tendsto_atTop_iff_leadingCoeff_nonneg,
-    degree_neg, leadingCoeff_neg, neg_nonneg]
+  simp only [← tendsto_neg_atTop_iff, ← eval_neg, tendsto_atTop_iff_leadingCoeff_nonneg, degree_neg, leadingCoeff_neg, neg_nonneg]
 #align polynomial.tendsto_at_bot_iff_leading_coeff_nonpos Polynomial.tendsto_atBot_iff_leadingCoeff_nonpos
 
 theorem tendsto_atBot_of_leadingCoeff_nonpos (hdeg : 0 < P.degree) (hnps : P.leadingCoeff ≤ 0) :

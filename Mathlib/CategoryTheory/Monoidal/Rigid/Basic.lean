@@ -180,14 +180,12 @@ notation "ᘁ" f => leftAdjointMate f
 
 @[simp]
 theorem rightAdjointMate_id {X : C} [HasRightDual X] : (𝟙 X)ᘁ = 𝟙 (Xᘁ) := by
-  simp only [rightAdjointMate, MonoidalCategory.tensor_id, Category.id_comp,
-    coevaluation_evaluation_assoc, Category.comp_id, Iso.inv_hom_id]
+  simp only [rightAdjointMate, MonoidalCategory.tensor_id, Category.id_comp, coevaluation_evaluation_assoc, Category.comp_id, Iso.inv_hom_id]
 #align category_theory.right_adjoint_mate_id CategoryTheory.rightAdjointMate_id
 
 @[simp]
 theorem leftAdjointMate_id {X : C} [HasLeftDual X] : (ᘁ(𝟙 X)) = 𝟙 (ᘁX) := by
-  simp only [leftAdjointMate, MonoidalCategory.tensor_id, Category.id_comp,
-    evaluation_coevaluation_assoc, Category.comp_id, Iso.inv_hom_id]
+  simp only [leftAdjointMate, MonoidalCategory.tensor_id, Category.id_comp, evaluation_coevaluation_assoc, Category.comp_id, Iso.inv_hom_id]
 #align category_theory.left_adjoint_mate_id CategoryTheory.leftAdjointMate_id
 
 theorem rightAdjointMate_comp {X Y Z : C} [HasRightDual X] [HasRightDual Y] {f : X ⟶ Y}
@@ -214,8 +212,7 @@ theorem leftAdjointMate_comp {X Y Z : C} [HasLeftDual X] [HasLeftDual Y] {f : X 
 theorem comp_rightAdjointMate {X Y Z : C} [HasRightDual X] [HasRightDual Y] [HasRightDual Z]
     {f : X ⟶ Y} {g : Y ⟶ Z} : (f ≫ g)ᘁ = gᘁ ≫ fᘁ := by
   rw [rightAdjointMate_comp]
-  simp only [rightAdjointMate, comp_tensor_id, Iso.cancel_iso_inv_left, id_tensor_comp,
-    Category.assoc]
+  simp only [rightAdjointMate, comp_tensor_id, Iso.cancel_iso_inv_left, id_tensor_comp, Category.assoc]
   symm
   iterate 5
     trans
@@ -249,8 +246,7 @@ theorem comp_rightAdjointMate {X Y Z : C} [HasRightDual X] [HasRightDual Y] [Has
 theorem comp_leftAdjointMate {X Y Z : C} [HasLeftDual X] [HasLeftDual Y] [HasLeftDual Z] {f : X ⟶ Y}
     {g : Y ⟶ Z} : (ᘁf ≫ g) = (ᘁg) ≫ ᘁf := by
   rw [leftAdjointMate_comp]
-  simp only [leftAdjointMate, id_tensor_comp, Iso.cancel_iso_inv_left, comp_tensor_id,
-    Category.assoc]
+  simp only [leftAdjointMate, id_tensor_comp, Iso.cancel_iso_inv_left, comp_tensor_id, Category.assoc]
   symm
   iterate 5
     trans

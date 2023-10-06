@@ -70,8 +70,7 @@ theorem bernoulliFun_eval_one (k : ℕ) : bernoulliFun k 1 = bernoulliFun k 0 + 
 theorem hasDerivAt_bernoulliFun (k : ℕ) (x : ℝ) :
     HasDerivAt (bernoulliFun k) (k * bernoulliFun (k - 1) x) x := by
   convert ((Polynomial.bernoulli k).map <| algebraMap ℚ ℝ).hasDerivAt x using 1
-  simp only [bernoulliFun, Polynomial.derivative_map, Polynomial.derivative_bernoulli k,
-    Polynomial.map_mul, Polynomial.map_nat_cast, Polynomial.eval_mul, Polynomial.eval_nat_cast]
+  simp only [bernoulliFun, Polynomial.derivative_map, Polynomial.derivative_bernoulli k, Polynomial.map_mul, Polynomial.map_nat_cast, Polynomial.eval_mul, Polynomial.eval_nat_cast]
 #align has_deriv_at_bernoulli_fun hasDerivAt_bernoulliFun
 
 theorem antideriv_bernoulliFun (k : ℕ) (x : ℝ) :
@@ -139,8 +138,7 @@ theorem bernoulliFourierCoeff_eq {k : ℕ} (hk : k ≠ 0) (n : ℤ) :
       div_zero]
   refine' Nat.le_induction _ (fun k hk h'k => _) k (Nat.one_le_iff_ne_zero.mpr hk)
   · rw [bernoulliFourierCoeff_recurrence 1 hn]
-    simp only [Nat.cast_one, tsub_self, neg_mul, one_mul, eq_self_iff_true, if_true,
-      Nat.factorial_one, pow_one, inv_I, mul_neg]
+    simp only [Nat.cast_one, tsub_self, neg_mul, one_mul, eq_self_iff_true, if_true, Nat.factorial_one, pow_one, inv_I, mul_neg]
     rw [bernoulli_zero_fourier_coeff hn]; rw [sub_zero]; rw [mul_one]; rw [div_neg]; rw [neg_div]
   · rw [bernoulliFourierCoeff_recurrence (k + 1) hn, Nat.add_sub_cancel k 1]
     split_ifs with h

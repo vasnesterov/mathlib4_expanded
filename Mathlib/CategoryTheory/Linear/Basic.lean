@@ -155,13 +155,9 @@ def homCongr (k : Type*) {C : Type*} [Category C] [Semiring k] [Preadditive C] [
         f₁.symm.hom) with
     invFun := (leftComp k W f₁.hom).comp (rightComp k Y f₂.symm.hom)
     left_inv := fun x => by
-      simp only [Iso.symm_hom, LinearMap.toFun_eq_coe, LinearMap.coe_comp, Function.comp_apply,
-        leftComp_apply, rightComp_apply, Category.assoc, Iso.hom_inv_id, Category.comp_id,
-        Iso.hom_inv_id_assoc]
+      simp only [Iso.symm_hom, LinearMap.toFun_eq_coe, LinearMap.coe_comp, Function.comp_apply, leftComp_apply, rightComp_apply, Category.assoc, Iso.hom_inv_id, Category.comp_id, Iso.hom_inv_id_assoc]
     right_inv := fun x => by
-      simp only [Iso.symm_hom, LinearMap.coe_comp, Function.comp_apply, rightComp_apply,
-        leftComp_apply, LinearMap.toFun_eq_coe, Iso.inv_hom_id_assoc, Category.assoc,
-        Iso.inv_hom_id, Category.comp_id] }
+      simp only [Iso.symm_hom, LinearMap.coe_comp, Function.comp_apply, rightComp_apply, leftComp_apply, LinearMap.toFun_eq_coe, Iso.inv_hom_id_assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id] }
 #align category_theory.linear.hom_congr CategoryTheory.Linear.homCongr
 
 theorem homCongr_apply (k : Type*) {C : Type*} [Category C] [Semiring k] [Preadditive C]

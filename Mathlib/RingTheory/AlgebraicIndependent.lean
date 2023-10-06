@@ -467,8 +467,7 @@ theorem AlgebraicIndependent.aeval_comp_mvPolynomialOptionEquivPolynomialAdjoin
         hx.mvPolynomialOptionEquivPolynomialAdjoin.toRingHom =
       ↑(MvPolynomial.aeval fun o : Option ι => o.elim a x : MvPolynomial (Option ι) R →ₐ[R] A) := by
   refine' MvPolynomial.ringHom_ext _ _ <;>
-    simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom,
-      AlgHom.coe_toRingHom, AlgHom.coe_toRingHom]
+    simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, AlgHom.coe_toRingHom, AlgHom.coe_toRingHom]
   · intro r
     rw [hx.mvPolynomialOptionEquivPolynomialAdjoin_C]; rw [aeval_C]; rw [Polynomial.aeval_C]; rw [IsScalarTower.algebraMap_apply R (adjoin R (range x)) A]
   · rintro (⟨⟩ | ⟨i⟩)

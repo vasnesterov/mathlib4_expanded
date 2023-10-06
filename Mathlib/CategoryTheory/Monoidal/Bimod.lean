@@ -435,8 +435,7 @@ theorem tensor_id {X Y Z : Mon_ C} {M : Bimod X Y} {N : Bimod Y Z} :
     tensorHom (𝟙 M) (𝟙 N) = 𝟙 (M.tensorBimod N) := by
   ext
   apply Limits.coequalizer.hom_ext
-  simp only [id_hom', MonoidalCategory.tensor_id, tensorHom_hom, ι_colimMap,
-    parallelPairHom_app_one]
+  simp only [id_hom', MonoidalCategory.tensor_id, tensorHom_hom, ι_colimMap, parallelPairHom_app_one]
   dsimp; dsimp only [TensorBimod.X]
   simp only [Category.id_comp, Category.comp_id]
 set_option linter.uppercaseLean3 false in
@@ -447,8 +446,7 @@ theorem tensor_comp {X Y Z : Mon_ C} {M₁ M₂ M₃ : Bimod X Y} {N₁ N₂ N�
     tensorHom (f₁ ≫ f₂) (g₁ ≫ g₂) = tensorHom f₁ g₁ ≫ tensorHom f₂ g₂ := by
   ext
   apply Limits.coequalizer.hom_ext
-  simp only [comp_hom', MonoidalCategory.tensor_comp, tensorHom_hom,
-    ι_colimMap, parallelPairHom_app_one, Category.assoc, ι_colimMap_assoc]
+  simp only [comp_hom', MonoidalCategory.tensor_comp, tensorHom_hom, ι_colimMap, parallelPairHom_app_one, Category.assoc, ι_colimMap_assoc]
 set_option linter.uppercaseLean3 false in
 #align Bimod.tensor_comp Bimod.tensor_comp
 

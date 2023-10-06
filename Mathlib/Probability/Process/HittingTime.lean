@@ -267,8 +267,7 @@ theorem isStoppingTime_hitting_isStoppingTime [ConditionallyCompleteLinearOrder 
     simp [← exists_or, ← or_and_right, le_or_lt]
   have h₂ : ⋃ i > n, {x | τ x = i} ∩ {x | hitting u s i N x ≤ n} = ∅ := by
     ext x
-    simp only [gt_iff_lt, Set.mem_iUnion, Set.mem_inter_iff, Set.mem_setOf_eq, exists_prop,
-      Set.mem_empty_iff_false, iff_false_iff, not_exists, not_and, not_le]
+    simp only [gt_iff_lt, Set.mem_iUnion, Set.mem_inter_iff, Set.mem_setOf_eq, exists_prop, Set.mem_empty_iff_false, iff_false_iff, not_exists, not_and, not_le]
     rintro m hm rfl
     exact lt_of_lt_of_le hm (le_hitting (hτbdd _) _)
   rw [h₁]; rw [h₂]; rw [Set.union_empty]
@@ -281,8 +280,7 @@ section CompleteLattice
 variable [CompleteLattice ι] {u : ι → Ω → β} {s : Set β} {f : Filtration ι m}
 
 theorem hitting_eq_sInf (ω : Ω) : hitting u s ⊥ ⊤ ω = sInf {i : ι | u i ω ∈ s} := by
-  simp only [hitting, Set.mem_Icc, bot_le, le_top, and_self_iff, exists_true_left, Set.Icc_bot,
-    Set.Iic_top, Set.univ_inter, ite_eq_left_iff, not_exists]
+  simp only [hitting, Set.mem_Icc, bot_le, le_top, and_self_iff, exists_true_left, Set.Icc_bot, Set.Iic_top, Set.univ_inter, ite_eq_left_iff, not_exists]
   intro h_nmem_s
   symm
   rw [sInf_eq_top]

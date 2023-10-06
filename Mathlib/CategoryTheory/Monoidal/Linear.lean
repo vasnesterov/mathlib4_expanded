@@ -63,13 +63,11 @@ theorem monoidalLinearOfFaithful {D : Type*} [Category D] [Preadditive D] [Linea
   { tensor_smul := by
       intros W X Y Z f r g
       apply F.toFunctor.map_injective
-      simp only [F.toFunctor.map_smul r (f ⊗ g), F.toFunctor.map_smul r g, F.map_tensor,
-        MonoidalLinear.tensor_smul, Linear.smul_comp, Linear.comp_smul]
+      simp only [F.toFunctor.map_smul r (f ⊗ g), F.toFunctor.map_smul r g, F.map_tensor, MonoidalLinear.tensor_smul, Linear.smul_comp, Linear.comp_smul]
     smul_tensor := by
       intros W X Y Z r f g
       apply F.toFunctor.map_injective
-      simp only [F.toFunctor.map_smul r (f ⊗ g), F.toFunctor.map_smul r f, F.map_tensor,
-        MonoidalLinear.smul_tensor, Linear.smul_comp, Linear.comp_smul] }
+      simp only [F.toFunctor.map_smul r (f ⊗ g), F.toFunctor.map_smul r f, F.map_tensor, MonoidalLinear.smul_tensor, Linear.smul_comp, Linear.comp_smul] }
 #align category_theory.monoidal_linear_of_faithful CategoryTheory.monoidalLinearOfFaithful
 
 end CategoryTheory

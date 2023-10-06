@@ -266,8 +266,7 @@ theorem mem_prod_iff_right {s : Set (α × β)} {f : Filter α} {g : Filter β} 
 @[simp]
 theorem map_fst_prod (f : Filter α) (g : Filter β) [NeBot g] : map Prod.fst (f ×ˢ g) = f := by
   ext s
-  simp only [mem_map, mem_prod_iff_left, mem_preimage, eventually_const, ← subset_def,
-    exists_mem_subset_iff]
+  simp only [mem_map, mem_prod_iff_left, mem_preimage, eventually_const, ← subset_def, exists_mem_subset_iff]
 #align filter.map_fst_prod Filter.map_fst_prod
 
 @[simp]
@@ -395,8 +394,7 @@ theorem prod_inf {f : Filter α} {g₁ g₂ : Filter β} : f ×ˢ (g₁ ⊓ g₂
 
 @[simp]
 theorem prod_principal_principal {s : Set α} {t : Set β} : 𝓟 s ×ˢ 𝓟 t = 𝓟 (s ×ˢ t) := by
-  simp only [SProd.sprod, Filter.prod, comap_principal, principal_eq_iff_eq, comap_principal,
-    inf_principal]; rfl
+  simp only [SProd.sprod, Filter.prod, comap_principal, principal_eq_iff_eq, comap_principal, inf_principal]; rfl
 #align filter.prod_principal_principal Filter.prod_principal_principal
 
 @[simp]
@@ -541,8 +539,7 @@ provides an example showing that the inequality in the lemma `map_prod_map_copro
 theorem map_const_principal_coprod_map_id_principal {α β ι : Type*} (a : α) (b : β) (i : ι) :
     (map (fun _ => b) (𝓟 {a})).coprod (map id (𝓟 {i})) =
       𝓟 ((({b} : Set β) ×ˢ univ) ∪ (univ ×ˢ ({i} : Set ι))) := by
-  simp only [map_principal, Filter.coprod, comap_principal, sup_principal, image_singleton,
-    image_id, prod_univ, univ_prod, id]
+  simp only [map_principal, Filter.coprod, comap_principal, sup_principal, image_singleton, image_id, prod_univ, univ_prod, id]
 #align filter.map_const_principal_coprod_map_id_principal Filter.map_const_principal_coprod_map_id_principal
 
 /-- Characterization of the `Filter.map` of the coproduct of two principal filters `𝓟 {a}` and

@@ -258,8 +258,7 @@ theorem norm_approxBounded_le {β} {f : α → β} [SeminormedAddCommGroup β] [
 theorem _root_.stronglyMeasurable_bot_iff [Nonempty β] [T2Space β] :
     StronglyMeasurable[⊥] f ↔ ∃ c, f = fun _ => c := by
   cases' isEmpty_or_nonempty α with hα hα
-  · simp only [@Subsingleton.stronglyMeasurable' _ _ ⊥ _ _ f,
-      eq_iff_true_of_subsingleton, exists_const]
+  · simp only [@Subsingleton.stronglyMeasurable' _ _ ⊥ _ _ f, eq_iff_true_of_subsingleton, exists_const]
   refine' ⟨fun hf => _, fun hf_eq => _⟩
   · refine' ⟨f hα.some, _⟩
     let fs := hf.approx
@@ -808,15 +807,13 @@ theorem _root_.stronglyMeasurable_of_stronglyMeasurable_union_cover {m : Measura
           convert(hs.subtype_image ((hc.approx n).measurableSet_fiber x)).union
               ((ht.subtype_image ((hd.approx n).measurableSet_fiber x)).diff hs)
           ext1 y
-          simp only [mem_union, mem_preimage, mem_singleton_iff, mem_image, SetCoe.exists,
-            Subtype.coe_mk, exists_and_right, exists_eq_right, mem_diff]
+          simp only [mem_union, mem_preimage, mem_singleton_iff, mem_image, SetCoe.exists, Subtype.coe_mk, exists_and_right, exists_eq_right, mem_diff]
           by_cases hy : y ∈ s
           · rw [dif_pos hy]
             simp only [hy, exists_true_left, not_true, and_false_iff, or_false_iff]
           · rw [dif_neg hy]
             have A : y ∈ t := by simpa [hy] using h (mem_univ y)
-            simp only [A, hy, false_or_iff, IsEmpty.exists_iff, not_false_iff, and_true_iff,
-              exists_true_left]
+            simp only [A, hy, false_or_iff, IsEmpty.exists_iff, not_false_iff, and_true_iff, exists_true_left]
         finite_range' := by
           apply ((hc.approx n).finite_range.union (hd.approx n).finite_range).subset
           rintro - ⟨y, rfl⟩
@@ -980,8 +977,7 @@ theorem stronglyMeasurable_of_measurableSpace_le_on {α E} {m m₂ : MeasurableS
             rw [this]
             exact MeasurableSet.empty
           ext1 y
-          simp only [mem_inter_iff, mem_preimage, mem_singleton_iff, mem_compl_iff,
-            mem_empty_iff_false, iff_false_iff, not_and, not_not_mem]
+          simp only [mem_inter_iff, mem_preimage, mem_singleton_iff, mem_compl_iff, mem_empty_iff_false, iff_false_iff, not_and, not_not_mem]
           refine' Function.mtr fun hys => _
           rw [hg_seq_zero y hys n]
           exact Ne.symm hx
@@ -1030,8 +1026,7 @@ end StronglyMeasurable
 theorem finStronglyMeasurable_zero {α β} {m : MeasurableSpace α} {μ : Measure α} [Zero β]
     [TopologicalSpace β] : FinStronglyMeasurable (0 : α → β) μ :=
   ⟨0, by
-    simp only [Pi.zero_apply, SimpleFunc.coe_zero, support_zero', measure_empty,
-      WithTop.zero_lt_top, forall_const],
+    simp only [Pi.zero_apply, SimpleFunc.coe_zero, support_zero', measure_empty, WithTop.zero_lt_top, forall_const],
     fun _ => tendsto_const_nhds⟩
 #align measure_theory.fin_strongly_measurable_zero MeasureTheory.finStronglyMeasurable_zero
 

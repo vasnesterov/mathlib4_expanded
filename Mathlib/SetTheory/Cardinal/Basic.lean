@@ -1860,13 +1860,11 @@ def toPartENat : Cardinal →+ PartENat where
         rw [← Nat.cast_add]; rw [toNat_cast]; rw [Nat.cast_add]
       · simp_rw [if_neg hy, PartENat.add_top]
         contrapose! hy
-        simp only [ne_eq, ite_eq_right_iff,
-          PartENat.natCast_ne_top, not_forall, exists_prop, and_true] at hy
+        simp only [ne_eq, ite_eq_right_iff, PartENat.natCast_ne_top, not_forall, exists_prop, and_true] at hy
         exact le_add_self.trans_lt hy
     · simp_rw [if_neg hx, PartENat.top_add]
       contrapose! hx
-      simp only [ne_eq, ite_eq_right_iff,
-      PartENat.natCast_ne_top, not_forall, exists_prop, and_true] at hx
+      simp only [ne_eq, ite_eq_right_iff, PartENat.natCast_ne_top, not_forall, exists_prop, and_true] at hx
       exact le_self_add.trans_lt hx
 #align cardinal.to_part_enat Cardinal.toPartENat
 
@@ -1915,13 +1913,11 @@ lemma toPartENat_le_iff_of_le_aleph0 {c c' : Cardinal} (h : c ≤ ℵ₀) :
       rw [toPartENat_apply_of_lt_aleph0 hc']; rw [PartENat.coe_le_coe]
       exact toNat_le_iff_le_of_lt_aleph0 hc hc'
     | inr hc' =>
-      simp only [toPartENat_apply_of_aleph0_le hc',
-      le_top, true_iff]
+      simp only [toPartENat_apply_of_aleph0_le hc', le_top, true_iff]
       exact le_trans h hc'
   | inr hc =>
     rw [toPartENat_apply_of_aleph0_le hc]
-    simp only [top_le_iff, toPartENat_eq_top_iff_le_aleph0,
-    le_antisymm h hc]
+    simp only [top_le_iff, toPartENat_eq_top_iff_le_aleph0, le_antisymm h hc]
 #align to_part_enat_le_iff_le_of_le_aleph_0 Cardinal.toPartENat_le_iff_of_le_aleph0
 
 lemma toPartENat_le_iff_of_lt_aleph0 {c c' : Cardinal} (hc' : c' < ℵ₀) :
@@ -2243,8 +2239,7 @@ theorem mk_diff_add_mk {S T : Set α} (h : T ⊆ S) : #(S \ T : Set α) + #T = #
 
 theorem mk_union_le_aleph0 {α} {P Q : Set α} :
     #(P ∪ Q : Set α) ≤ ℵ₀ ↔ #P ≤ ℵ₀ ∧ #Q ≤ ℵ₀ := by
-  simp only [le_aleph0_iff_subtype_countable, mem_union, setOf_mem_eq, Set.union_def,
-    ← countable_union]
+  simp only [le_aleph0_iff_subtype_countable, mem_union, setOf_mem_eq, Set.union_def, ← countable_union]
 #align cardinal.mk_union_le_aleph_0 Cardinal.mk_union_le_aleph0
 
 theorem mk_image_eq_lift {α : Type u} {β : Type v} (f : α → β) (s : Set α) (h : Injective f) :

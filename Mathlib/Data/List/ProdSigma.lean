@@ -51,8 +51,7 @@ theorem length_product (l₁ : List α) (l₂ : List β) :
     length (l₁ ×ˢ l₂) = length l₁ * length l₂ := by
   induction' l₁ with x l₁ IH
   · exact (zero_mul _).symm
-  · simp only [length, product_cons, length_append, IH, right_distrib, one_mul, length_map,
-      add_comm]
+  · simp only [length, product_cons, length_append, IH, right_distrib, one_mul, length_map, add_comm]
 #align list.length_product List.length_product
 
 /-! ### sigma -/

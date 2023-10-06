@@ -206,8 +206,7 @@ def coproductIsoCoproduct : finiteCoproduct X ≅ ∐ X :=
 theorem Sigma.ι_comp_toFiniteCoproduct (a : α) :
     (Limits.Sigma.ι X a) ≫ (coproductIsoCoproduct X).inv = finiteCoproduct.ι X a := by
   dsimp [coproductIsoCoproduct]
-  simp only [Limits.colimit.comp_coconePointUniqueUpToIso_inv, finiteCoproduct.cocone_pt,
-    finiteCoproduct.cocone_ι, Discrete.natTrans_app]
+  simp only [Limits.colimit.comp_coconePointUniqueUpToIso_inv, finiteCoproduct.cocone_pt, finiteCoproduct.cocone_ι, Discrete.natTrans_app]
 
 /-- The homeomorphism from the explicit finite coproducts to the abstract coproduct. -/
 noncomputable

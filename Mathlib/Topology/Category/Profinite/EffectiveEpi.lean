@@ -256,8 +256,7 @@ theorem effectiveEpiFamily_tfae {α : Type} [Fintype α] {B : Profinite}
     rw [Iso.inv_comp_eq]
     apply colimit.hom_ext
     rintro ⟨a⟩
-    simp only [Discrete.functor_obj, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app,
-      colimit.comp_coconePointUniqueUpToIso_hom_assoc]
+    simp only [Discrete.functor_obj, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app, colimit.comp_coconePointUniqueUpToIso_hom_assoc]
     ext
     rfl
   tfae_have 3 → 1

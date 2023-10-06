@@ -186,8 +186,7 @@ theorem supIndep_attach : (s.attach.SupIndep fun a => f a) ↔ s.SupIndep f := b
   convert h (filter_subset (fun (i : { x // x ∈ s }) => (i : ι) ∈ t) _) (mem_attach _ ⟨i, ‹_›⟩)
     fun hi => hit <| by simpa using hi using 1
   refine' eq_of_forall_ge_iff _
-  simp only [Finset.sup_le_iff, mem_filter, mem_attach, true_and_iff, Function.comp_apply,
-    Subtype.forall, Subtype.coe_mk]
+  simp only [Finset.sup_le_iff, mem_filter, mem_attach, true_and_iff, Function.comp_apply, Subtype.forall, Subtype.coe_mk]
   exact fun a => forall_congr' fun j => ⟨fun h _ => h, fun h hj => h (ht hj) hj⟩
 #align finset.sup_indep_attach Finset.supIndep_attach
 

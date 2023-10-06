@@ -47,8 +47,7 @@ theorem equitabilise_aux (hs : a * m + b * (m + 1) = s.card) :
   -- Get rid of the easy case `m = 0`
   obtain rfl | m_pos := m.eq_zero_or_pos
   · refine' ⟨⊥, by simp, _, by simpa using hs.symm⟩
-    simp only [le_zero_iff, card_eq_zero, mem_biUnion, exists_prop, mem_filter, id.def, and_assoc,
-      sdiff_eq_empty_iff_subset, subset_iff]
+    simp only [le_zero_iff, card_eq_zero, mem_biUnion, exists_prop, mem_filter, id.def, and_assoc, sdiff_eq_empty_iff_subset, subset_iff]
     exact fun x hx a ha =>
       ⟨{a}, mem_map_of_mem _ (P.le hx ha), singleton_subset_iff.2 ha, mem_singleton_self _⟩
   -- Prove the case `m > 0` by strong induction on `s`
@@ -119,8 +118,7 @@ theorem equitabilise_aux (hs : a * m + b * (m + 1) = s.card) :
         (card_le_of_subset fun i => _).trans
           (hR₂ (u \ t) <| P.mem_avoid.2 ⟨u, hu₁, fun i => hut <| i.antisymm htu, rfl⟩)
       -- Porting note: `not_and` required because `∃ x ∈ s, p x` is defined differently
-      simp only [not_exists, not_and, mem_biUnion, and_imp, mem_union, mem_filter, mem_sdiff,
-        id.def, not_or]
+      simp only [not_exists, not_and, mem_biUnion, and_imp, mem_union, mem_filter, mem_sdiff, id.def, not_or]
       exact fun hi₁ hi₂ hi₃ =>
         ⟨⟨hi₁, hi₂⟩, fun x hx hx' => hi₃ _ hx <| hx'.trans <| sdiff_subset _ _⟩
     · apply sdiff_subset_sdiff Subset.rfl (biUnion_subset_biUnion_of_subset_left _ _)

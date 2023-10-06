@@ -620,8 +620,7 @@ open CauSeq
 
 instance : IsAdicComplete (maximalIdeal ℤ_[p]) ℤ_[p] where
   prec' x hx := by
-    simp only [← Ideal.one_eq_top, smul_eq_mul, mul_one, SModEq.sub_mem, maximalIdeal_eq_span_p,
-      Ideal.span_singleton_pow, ← norm_le_pow_iff_mem_span_pow] at hx ⊢
+    simp only [← Ideal.one_eq_top, smul_eq_mul, mul_one, SModEq.sub_mem, maximalIdeal_eq_span_p, Ideal.span_singleton_pow, ← norm_le_pow_iff_mem_span_pow] at hx ⊢
     let x' : CauSeq ℤ_[p] norm := ⟨x, ?_⟩; swap
     · intro ε hε
       obtain ⟨m, hm⟩ := exists_pow_neg_lt p hε
@@ -680,8 +679,7 @@ instance isFractionRing : IsFractionRing ℤ_[p] ℚ_[p] where
       use
         (⟨a, le_of_eq ha_norm⟩,
           ⟨(p ^ n : ℤ_[p]), mem_nonZeroDivisors_iff_ne_zero.mpr (NeZero.ne _)⟩)
-      simp only [map_pow, map_natCast, algebraMap_apply, PadicInt.coe_pow, PadicInt.coe_nat_cast,
-        Subtype.coe_mk, Nat.cast_pow]
+      simp only [map_pow, map_natCast, algebraMap_apply, PadicInt.coe_pow, PadicInt.coe_nat_cast, Subtype.coe_mk, Nat.cast_pow]
   eq_iff_exists' := by
     simp_rw [algebraMap_apply, Subtype.coe_inj]
     refine ⟨fun h => ⟨1, by rw [h]⟩, ?_⟩

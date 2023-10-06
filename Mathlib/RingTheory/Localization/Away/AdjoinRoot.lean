@@ -32,8 +32,7 @@ noncomputable def Localization.awayEquivAdjoin (r : R) : Away r ≃ₐ[R] Adjoin
       commutes' :=
         IsLocalization.Away.AwayMap.lift_eq r (isUnit_of_mul_eq_one _ _ <| root_isInv r) }
     (liftHom _ (IsLocalization.Away.invSelf r) <| by
-      simp only [map_sub, map_mul, aeval_C, aeval_X, IsLocalization.Away.mul_invSelf, aeval_one,
-        sub_self])
+      simp only [map_sub, map_mul, aeval_C, aeval_X, IsLocalization.Away.mul_invSelf, aeval_one, sub_self])
     (Subsingleton.elim _ _)
     -- Porting note: fix since `IsLocalization.algHom_subsingleton` is no local instance anymore
     (Subsingleton.elim (h := IsLocalization.algHom_subsingleton (Submonoid.powers r)) _ _)

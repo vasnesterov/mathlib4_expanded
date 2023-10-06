@@ -313,12 +313,10 @@ theorem exists_discrete_support_nonpos (f : BoundedAdditiveMeasure α) :
   have I2 : ∀ n : ℕ, (n : ℝ) * (ε / 2) ≤ f ↑(s n) := by
     intro n
     induction' n with n IH
-    · simp only [BoundedAdditiveMeasure.empty, id.def, Nat.cast_zero, zero_mul,
-        Function.iterate_zero, Subtype.coe_mk, Nat.zero_eq]
+    · simp only [BoundedAdditiveMeasure.empty, id.def, Nat.cast_zero, zero_mul, Function.iterate_zero, Subtype.coe_mk, Nat.zero_eq]
       rfl
     · have : (↑(s (n + 1)) : Set α) = ↑(s (n + 1)) \ ↑(s n) ∪ ↑(s n) := by
-        simp only [Function.iterate_succ', union_comm, union_diff_self, Subtype.coe_mk,
-          union_diff_left, Function.comp]
+        simp only [Function.iterate_succ', union_comm, union_diff_self, Subtype.coe_mk, union_diff_left, Function.comp]
       rw [Nat.succ_eq_add_one]; rw [this]; rw [f.additive]
       swap; · exact disjoint_sdiff_self_left
       calc

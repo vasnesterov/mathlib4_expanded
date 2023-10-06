@@ -62,8 +62,7 @@ theorem IsOpen.inter (s t : Set α) : IsOpen α s → IsOpen α t → IsOpen α 
 theorem isOpen_sUnion (s : Set (Set α)) (hs : ∀ t ∈ s, IsOpen α t) : IsOpen α (⋃₀ s) := by
   simp only [IsOpen] at hs ⊢
   convert CompleteLattice.sSup_continuous' (setOf ⁻¹' s) hs
-  simp only [sSup_apply, setOf_bijective.surjective.exists, exists_prop, mem_preimage,
-    SetCoe.exists, iSup_Prop_eq, mem_setOf_eq, mem_sUnion]
+  simp only [sSup_apply, setOf_bijective.surjective.exists, exists_prop, mem_preimage, SetCoe.exists, iSup_Prop_eq, mem_setOf_eq, mem_sUnion]
 #align Scott.is_open_sUnion Scott.isOpen_sUnion
 
 theorem IsOpen.isUpperSet {s : Set α} (hs : IsOpen α s) : IsUpperSet s := hs.fst
@@ -98,8 +97,7 @@ def notBelow :=
 theorem notBelow_isOpen : IsOpen (notBelow y) := by
   have h : Monotone (notBelow y) := fun x z hle ↦ mt hle.trans
   refine ⟨h, fun c ↦ eq_of_forall_ge_iff fun z ↦ ?_⟩
-  simp only [ωSup_le_iff, notBelow, mem_setOf_eq, le_Prop_eq, OrderHom.coe_mk, Chain.map_coe,
-    Function.comp_apply, exists_imp, not_forall]
+  simp only [ωSup_le_iff, notBelow, mem_setOf_eq, le_Prop_eq, OrderHom.coe_mk, Chain.map_coe, Function.comp_apply, exists_imp, not_forall]
 #align not_below_is_open notBelow_isOpen
 
 end notBelow
@@ -125,8 +123,7 @@ theorem scottContinuous_of_continuous {α β} [OmegaCompletePartialOrder α]
   specialize hf' c
   simp only [OrderHom.coe_mk, mem_preimage, notBelow, mem_setOf_eq] at hf'
   rw [← not_iff_not]
-  simp only [ωSup_le_iff, hf', ωSup, iSup, sSup, mem_range, Chain.map_coe, Function.comp_apply,
-    eq_iff_iff, not_forall, OrderHom.coe_mk]
+  simp only [ωSup_le_iff, hf', ωSup, iSup, sSup, mem_range, Chain.map_coe, Function.comp_apply, eq_iff_iff, not_forall, OrderHom.coe_mk]
   tauto
 #align Scott_continuous_of_continuous scottContinuous_of_continuous
 

@@ -133,17 +133,14 @@ theorem IsLocalization.mk' (h₁ : Localization.StrictUniversalPropertyFixedTarg
             eqToIso
               (Localization.Construction.uniq _ _
                 (by
-                  simp only [← Functor.assoc, Localization.Construction.fac, h₂.fac,
-                    Functor.comp_id]))
+                  simp only [← Functor.assoc, Localization.Construction.fac, h₂.fac, Functor.comp_id]))
           counitIso :=
             eqToIso
               (h₁.uniq _ _
                 (by
-                  simp only [← Functor.assoc, h₂.fac, Localization.Construction.fac,
-                    Functor.comp_id]))
+                  simp only [← Functor.assoc, h₂.fac, Localization.Construction.fac, Functor.comp_id]))
           functor_unitIso_comp := fun X => by
-            simp only [eqToIso.hom, eqToHom_app, eqToHom_map, eqToHom_trans,
-              eqToHom_refl]
+            simp only [eqToIso.hom, eqToHom_app, eqToHom_map, eqToHom_trans, eqToHom_refl]
             rfl } }
 #align category_theory.functor.is_localization.mk' CategoryTheory.Functor.IsLocalization.mk'
 

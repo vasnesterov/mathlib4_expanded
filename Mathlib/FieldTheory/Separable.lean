@@ -235,8 +235,7 @@ theorem separable_X_pow_sub_C_unit {n : ℕ} (u : Rˣ) (hn : IsUnit (n : R)) :
       simp only [C.map_mul, C_eq_nat_cast]
       ring
     _ = 1 := by
-      simp only [Units.inv_mul, hn', C.map_one, mul_one, ← pow_succ,
-        Nat.sub_add_cancel (show 1 ≤ n from hpos), sub_add_cancel]
+      simp only [Units.inv_mul, hn', C.map_one, mul_one, ← pow_succ, Nat.sub_add_cancel (show 1 ≤ n from hpos), sub_add_cancel]
 set_option linter.uppercaseLean3 false in
 #align polynomial.separable_X_pow_sub_C_unit Polynomial.separable_X_pow_sub_C_unit
 

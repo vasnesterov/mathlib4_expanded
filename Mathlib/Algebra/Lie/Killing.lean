@@ -70,8 +70,7 @@ lemma traceForm_apply_lie_apply (x y z : L) :
   · simp only [LieHom.map_lie, Ring.lie_def, ← LinearMap.mul_eq_comp]
   · simp only [sub_mul, mul_sub, map_sub, mul_assoc]
   · simp only [LinearMap.trace_mul_cycle' R (φ x) (φ z) (φ y)]
-  · simp only [traceForm_apply_apply, LieHom.map_lie, Ring.lie_def, mul_sub, map_sub,
-      ← LinearMap.mul_eq_comp]
+  · simp only [traceForm_apply_apply, LieHom.map_lie, Ring.lie_def, mul_sub, map_sub, ← LinearMap.mul_eq_comp]
 
 @[simp] lemma traceForm_eq_zero_of_isNilpotent [IsReduced R] [IsNilpotent R L M] :
     traceForm R L M = 0 := by
@@ -146,17 +145,14 @@ noncomputable def killingCompl : LieIdeal R L :=
       ext ⟨z, hz⟩
       suffices killingForm R L ⁅x, y⁆ z = 0 by simpa
       rw [LieModule.traceForm_comm]; rw [← LieModule.traceForm_apply_lie_apply]; rw [LieModule.traceForm_comm]
-      simp only [AddSubsemigroup.mem_carrier, AddSubmonoid.mem_toSubsemigroup,
-        Submodule.mem_toAddSubmonoid, LinearMap.mem_ker] at hy
+      simp only [AddSubsemigroup.mem_carrier, AddSubmonoid.mem_toSubsemigroup, Submodule.mem_toAddSubmonoid, LinearMap.mem_ker] at hy
       replace hy := LinearMap.congr_fun hy ⟨⁅z, x⁆, lie_mem_left R L I z x hz⟩
       simpa using hy }
 
 @[simp] lemma mem_killingCompl {x : L} :
     x ∈ I.killingCompl ↔ ∀ y ∈ I, killingForm R L x y = 0 := by
   change x ∈ LinearMap.ker ((killingForm R L).compl₁₂ LinearMap.id I.subtype) ↔ _
-  simp only [LinearMap.mem_ker, LieModule.traceForm_apply_apply, LinearMap.ext_iff,
-    LinearMap.compl₁₂_apply, LinearMap.id_coe, id_eq, Submodule.coeSubtype,
-    LieModule.traceForm_apply_apply, LinearMap.zero_apply, Subtype.forall]
+  simp only [LinearMap.mem_ker, LieModule.traceForm_apply_apply, LinearMap.ext_iff, LinearMap.compl₁₂_apply, LinearMap.id_coe, id_eq, Submodule.coeSubtype, LieModule.traceForm_apply_apply, LinearMap.zero_apply, Subtype.forall]
   rfl
 
 lemma killingForm_eq :

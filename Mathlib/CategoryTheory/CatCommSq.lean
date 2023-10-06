@@ -78,10 +78,8 @@ lemma hInv_hInv (h : CatCommSq T.functor L R B.functor) :
   erw [← cancel_mono (B.functor.map (L.map (T.unitIso.hom.app X))),
     ← h.iso'.hom.naturality (T.unitIso.hom.app X), hInv_iso'_hom_app, hInv_iso'_inv_app]
   dsimp
-  simp only [Functor.comp_obj, assoc, ← Functor.map_comp, Iso.inv_hom_id_app,
-    Equivalence.counitInv_app_functor, Functor.map_id]
-  simp only [Functor.map_comp, Equivalence.fun_inv_map, assoc,
-    Equivalence.counitInv_functor_comp, comp_id, Iso.inv_hom_id_app_assoc]
+  simp only [Functor.comp_obj, assoc, ← Functor.map_comp, Iso.inv_hom_id_app, Equivalence.counitInv_app_functor, Functor.map_id]
+  simp only [Functor.map_comp, Equivalence.fun_inv_map, assoc, Equivalence.counitInv_functor_comp, comp_id, Iso.inv_hom_id_app_assoc]
   rfl
 
 /-- In a square of categories, when the top and bottom functors are part

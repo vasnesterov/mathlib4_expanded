@@ -507,8 +507,7 @@ theorem exp_add : exp (x + y) = exp x * exp y := by
       Nat.cast_ne_zero.2 (pos_iff_ne_zero.1 (Nat.choose_pos (Nat.le_of_lt_succ (mem_range.1 hi))))
     have h₂ := Nat.choose_mul_factorial_mul_factorial (Nat.le_of_lt_succ <| Finset.mem_range.1 hi)
     rw [← h₂]; rw [Nat.cast_mul]; rw [Nat.cast_mul]; rw [mul_inv]; rw [mul_inv]
-    simp only [mul_left_comm (m.choose I : ℂ), mul_assoc, mul_left_comm (m.choose I : ℂ)⁻¹,
-      mul_comm (m.choose I : ℂ)]
+    simp only [mul_left_comm (m.choose I : ℂ), mul_assoc, mul_left_comm (m.choose I : ℂ)⁻¹, mul_comm (m.choose I : ℂ)]
     rw [inv_mul_cancel h₁]
     simp [div_eq_mul_inv, mul_comm, mul_assoc, mul_left_comm]
   simp_rw [exp, exp', lim_mul_lim]
@@ -1698,8 +1697,7 @@ nonrec theorem exp_bound {x : ℝ} (hx : |x| ≤ 1) {n : ℕ} (hn : 0 < n) :
   have hxc : Complex.abs x ≤ 1 := by exact_mod_cast hx
   convert exp_bound hxc hn using 2 <;>
   --Porting note: was `norm_cast`
-  simp only [← abs_ofReal, ← ofReal_sub, ← ofReal_exp, ← ofReal_sum, ← ofReal_pow,
-    ← ofReal_div, ← ofReal_nat_cast]
+  simp only [← abs_ofReal, ← ofReal_sub, ← ofReal_exp, ← ofReal_sum, ← ofReal_pow, ← ofReal_div, ← ofReal_nat_cast]
 #align real.exp_bound Real.exp_bound
 
 theorem exp_bound' {x : ℝ} (h1 : 0 ≤ x) (h2 : x ≤ 1) {n : ℕ} (hn : 0 < n) :

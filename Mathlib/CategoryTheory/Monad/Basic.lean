@@ -279,8 +279,7 @@ def MonadIso.mk {M N : Monad C} (f : (M : C ⥤ C) ≅ N)
       app_η := fun X => by simp [← f_η]
       app_μ := fun X => by
         rw [← NatIso.cancel_natIso_hom_right f]
-        simp only [NatTrans.naturality, Iso.inv_hom_id_app, assoc, comp_id, f_μ,
-          NatTrans.naturality_assoc, Iso.inv_hom_id_app_assoc, ← Functor.map_comp_assoc]
+        simp only [NatTrans.naturality, Iso.inv_hom_id_app, assoc, comp_id, f_μ, NatTrans.naturality_assoc, Iso.inv_hom_id_app_assoc, ← Functor.map_comp_assoc]
         simp }
 #align category_theory.monad_iso.mk CategoryTheory.MonadIso.mk
 

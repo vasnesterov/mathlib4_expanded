@@ -55,8 +55,7 @@ set_option linter.uppercaseLean3 false in
 @[simp]
 theorem taylor_zero' : taylor (0 : R) = LinearMap.id := by
   ext
-  simp only [taylor_apply, add_zero, comp_X, _root_.map_zero, LinearMap.id_comp,
-    Function.comp_apply, LinearMap.coe_comp]
+  simp only [taylor_apply, add_zero, comp_X, _root_.map_zero, LinearMap.id_comp, Function.comp_apply, LinearMap.coe_comp]
 #align polynomial.taylor_zero' Polynomial.taylor_zero'
 
 theorem taylor_zero (f : R[X]) : taylor 0 f = f := by rw [taylor_zero', LinearMap.id_apply]
@@ -75,11 +74,8 @@ theorem taylor_monomial (i : ℕ) (k : R) : taylor r (monomial i k) = C k * (X +
 theorem taylor_coeff (n : ℕ) : (taylor r f).coeff n = (hasseDeriv n f).eval r :=
   show (lcoeff R n).comp (taylor r) f = (leval r).comp (hasseDeriv n) f by
     congr 1; clear! f; ext i
-    simp only [leval_apply, mul_one, one_mul, eval_monomial, LinearMap.comp_apply, coeff_C_mul,
-      hasseDeriv_monomial, taylor_apply, monomial_comp, C_1, (commute_X (C r)).add_pow i,
-      map_sum]
-    simp only [lcoeff_apply, ← C_eq_nat_cast, mul_assoc, ← C_pow, ← C_mul, coeff_mul_C,
-      (Nat.cast_commute _ _).eq, coeff_X_pow, boole_mul, Finset.sum_ite_eq, Finset.mem_range]
+    simp only [leval_apply, mul_one, one_mul, eval_monomial, LinearMap.comp_apply, coeff_C_mul, hasseDeriv_monomial, taylor_apply, monomial_comp, C_1, (commute_X (C r)).add_pow i, map_sum]
+    simp only [lcoeff_apply, ← C_eq_nat_cast, mul_assoc, ← C_pow, ← C_mul, coeff_mul_C, (Nat.cast_commute _ _).eq, coeff_X_pow, boole_mul, Finset.sum_ite_eq, Finset.mem_range]
     split_ifs with h; · rfl
     push_neg at h; rw [Nat.choose_eq_zero_of_lt h]; rw [Nat.cast_zero]; rw [mul_zero]
 #align polynomial.taylor_coeff Polynomial.taylor_coeff

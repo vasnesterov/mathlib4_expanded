@@ -187,8 +187,7 @@ def monoidalUnit (F : MonoidalFunctor C D) [IsEquivalence F.toFunctor] :
     tensor := fun X Y => by
       -- This proof is not pretty; golfing welcome!
       dsimp
-      simp only [Adjunction.homEquiv_unit, Adjunction.homEquiv_naturality_right,
-        id_comp, assoc]
+      simp only [Adjunction.homEquiv_unit, Adjunction.homEquiv_naturality_right, id_comp, assoc]
       simp only [← Functor.map_comp, assoc]
       erw [e.counit_app_functor, e.counit_app_functor,
         F.toLaxMonoidalFunctor.μ_natural, IsIso.inv_hom_id_assoc]
@@ -216,22 +215,19 @@ def monoidalCounit (F : MonoidalFunctor C D) [IsEquivalence F.toFunctor] :
   { toNatTrans := e.counit
     unit := by
       dsimp
-      simp only [comp_id, assoc, Functor.map_inv, Functor.map_comp,
-        NatIso.inv_inv_app, IsIso.inv_comp, IsEquivalence.fun_inv_map, Adjunction.homEquiv_unit]
+      simp only [comp_id, assoc, Functor.map_inv, Functor.map_comp, NatIso.inv_inv_app, IsIso.inv_comp, IsEquivalence.fun_inv_map, Adjunction.homEquiv_unit]
       erw [e.counit_app_functor, ← e.functor.map_comp_assoc, Iso.hom_inv_id_app]
       dsimp; simp
     tensor := fun X Y => by
       dsimp
-      simp only [Adjunction.homEquiv_unit, Adjunction.homEquiv_naturality_right, assoc,
-        comp_id, Functor.map_comp]
+      simp only [Adjunction.homEquiv_unit, Adjunction.homEquiv_naturality_right, assoc, comp_id, Functor.map_comp]
       simp only [IsEquivalence.fun_inv_map]
       erw [e.counit_app_functor]
       simp only [assoc]
       erw [← e.functor.map_comp_assoc]
       simp only [CategoryTheory.Iso.inv_hom_id_app, CategoryTheory.Iso.inv_hom_id_app_assoc]
       erw [Iso.hom_inv_id_app, CategoryTheory.Functor.map_id]
-      simp only [id_comp, CategoryTheory.Iso.inv_hom_id_app,
-        CategoryTheory.IsIso.hom_inv_id_assoc]
+      simp only [id_comp, CategoryTheory.Iso.inv_hom_id_app, CategoryTheory.IsIso.hom_inv_id_assoc]
       erw [comp_id] }
 #align category_theory.monoidal_counit CategoryTheory.monoidalCounit
 

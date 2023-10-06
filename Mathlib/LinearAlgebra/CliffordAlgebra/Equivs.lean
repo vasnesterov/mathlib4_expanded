@@ -313,8 +313,7 @@ theorem toQuaternion_star (c : CliffordAlgebra (Q c₁ c₂)) :
   simp only [CliffordAlgebra.star_def']
   induction c using CliffordAlgebra.induction
   case h_grade0 r =>
-    simp only [reverse.commutes, AlgHom.commutes, QuaternionAlgebra.coe_algebraMap,
-      QuaternionAlgebra.star_coe]
+    simp only [reverse.commutes, AlgHom.commutes, QuaternionAlgebra.coe_algebraMap, QuaternionAlgebra.star_coe]
   case h_grade1 x =>
     rw [reverse_ι]; rw [involute_ι]; rw [toQuaternion_ι]; rw [AlgHom.map_neg]; rw [toQuaternion_ι]; rw [QuaternionAlgebra.neg_mk]; rw [star_mk]; rw [neg_zero]
   case h_mul x₁ x₂ hx₁ hx₂ => simp only [reverse.map_mul, AlgHom.map_mul, hx₁, hx₂, star_mul]

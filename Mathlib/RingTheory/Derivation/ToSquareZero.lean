@@ -67,8 +67,7 @@ def derivationToSquareZeroOfLift (f : A →ₐ[R] B)
       LinearMap.toFun_eq_coe]
     simp only [map_mul, sub_mul, mul_sub, Algebra.smul_def] at this ⊢
     rw [sub_eq_iff_eq_add] at this; rw [sub_eq_iff_eq_add] at this
-    simp only [LinearMap.coe_toAddHom, diffToIdealOfQuotientCompEq_apply, map_mul, this,
-      IsScalarTower.coe_toAlgHom']
+    simp only [LinearMap.coe_toAddHom, diffToIdealOfQuotientCompEq_apply, map_mul, this, IsScalarTower.coe_toAlgHom']
     ring
 #align derivation_to_square_zero_of_lift derivationToSquareZeroOfLift
 
@@ -90,8 +89,7 @@ def liftOfDerivationToSquareZero (f : Derivation R A I) : A →ₐ[R] B :=
       have : (f x : B) * f y = 0 := by
         rw [← Ideal.mem_bot]; rw [← hI]; rw [pow_two]
         convert Ideal.mul_mem_mul (f x).2 (f y).2 using 1
-      simp only [map_mul, f.leibniz, add_mul, mul_add, Submodule.coe_add,
-        Submodule.coe_smul_of_tower, Algebra.smul_def, this]
+      simp only [map_mul, f.leibniz, add_mul, mul_add, Submodule.coe_add, Submodule.coe_smul_of_tower, Algebra.smul_def, this]
       ring
     commutes' := fun r => by
       simp only [Derivation.map_algebraMap, eq_self_iff_true, zero_add, Submodule.coe_zero, ←

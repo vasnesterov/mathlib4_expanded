@@ -91,8 +91,7 @@ theorem card_cycleType_pos {σ : Perm α} : 0 < Multiset.card σ.cycleType ↔ �
   pos_iff_ne_zero.trans card_cycleType_eq_zero.not
 
 theorem two_le_of_mem_cycleType {σ : Perm α} {n : ℕ} (h : n ∈ σ.cycleType) : 2 ≤ n := by
-  simp only [cycleType_def, ← Finset.mem_def, Function.comp_apply, Multiset.mem_map,
-    mem_cycleFactorsFinset_iff] at h
+  simp only [cycleType_def, ← Finset.mem_def, Function.comp_apply, Multiset.mem_map, mem_cycleFactorsFinset_iff] at h
   obtain ⟨_, ⟨hc, -⟩, rfl⟩ := h
   exact hc.two_le_card_support
 #align equiv.perm.two_le_of_mem_cycle_type Equiv.Perm.two_le_of_mem_cycleType
@@ -130,8 +129,7 @@ theorem cycleType_inv (σ : Perm α) : σ⁻¹.cycleType = σ.cycleType :=
   cycle_induction_on (P := fun τ : Perm α => τ⁻¹.cycleType = τ.cycleType) σ rfl
     (fun σ hσ => by simp only [hσ.cycleType, hσ.inv.cycleType, support_inv])
     fun σ τ hστ _ hσ hτ => by
-      simp only [mul_inv_rev, hστ.cycleType, hστ.symm.inv_left.inv_right.cycleType, hσ, hτ,
-        add_comm]
+      simp only [mul_inv_rev, hστ.cycleType, hστ.symm.inv_left.inv_right.cycleType, hσ, hτ, add_comm]
 #align equiv.perm.cycle_type_inv Equiv.Perm.cycleType_inv
 
 @[simp] -- porting note: new attr

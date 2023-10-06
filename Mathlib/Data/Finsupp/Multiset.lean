@@ -142,12 +142,9 @@ def toFinsupp : Multiset α ≃+ (α →₀ ℕ) where
   map_add' s t := Finsupp.ext <| fun _ => count_add _ _ _
   right_inv f :=
     Finsupp.ext fun a => by
-      simp only [Finsupp.toMultiset_apply, Finsupp.sum, Multiset.count_sum',
-        Multiset.count_singleton, mul_boole, Finsupp.coe_mk, Finsupp.mem_support_iff,
-        Multiset.count_nsmul, Finset.sum_ite_eq, ite_not, ite_eq_right_iff]
+      simp only [Finsupp.toMultiset_apply, Finsupp.sum, Multiset.count_sum', Multiset.count_singleton, mul_boole, Finsupp.coe_mk, Finsupp.mem_support_iff, Multiset.count_nsmul, Finset.sum_ite_eq, ite_not, ite_eq_right_iff]
       exact Eq.symm
-  left_inv s := by simp only [Finsupp.toMultiset_apply, Finsupp.sum, Finsupp.coe_mk,
-    Multiset.toFinset_sum_count_nsmul_eq]
+  left_inv s := by simp only [Finsupp.toMultiset_apply, Finsupp.sum, Finsupp.coe_mk, Multiset.toFinset_sum_count_nsmul_eq]
 #align multiset.to_finsupp Multiset.toFinsupp
 
 @[simp]

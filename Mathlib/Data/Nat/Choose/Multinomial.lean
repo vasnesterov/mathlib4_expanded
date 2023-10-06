@@ -77,8 +77,7 @@ theorem multinomial_insert_one [DecidableEq α] (h : a ∉ s) (h₁ : f a = 1) :
 theorem multinomial_insert [DecidableEq α] (h : a ∉ s) :
     multinomial (insert a s) f = (f a + s.sum f).choose (f a) * multinomial s f := by
   rw [choose_eq_factorial_div_factorial (le.intro rfl)]
-  simp only [multinomial, Nat.add_sub_cancel_left, Finset.sum_insert h, Finset.prod_insert h,
-    Function.comp_apply]
+  simp only [multinomial, Nat.add_sub_cancel_left, Finset.sum_insert h, Finset.prod_insert h, Function.comp_apply]
   rw [div_mul_div_comm ((f a).factorial_mul_factorial_dvd_factorial_add (s.sum f))
       (prod_factorial_dvd_factorial_sum _ _)]; rw [mul_comm (f a)! (s.sum f)!]; rw [mul_assoc]; rw [mul_comm _ (s.sum f)!]; rw [Nat.mul_div_mul_left _ _ (factorial_pos _)]
 #align nat.multinomial_insert Nat.multinomial_insert
@@ -123,8 +122,7 @@ theorem binomial_succ_succ [DecidableEq α] (h : a ≠ b) :
     multinomial {a, b} (Function.update (Function.update f a (f a).succ) b (f b).succ) =
       multinomial {a, b} (Function.update f a (f a).succ) +
       multinomial {a, b} (Function.update f b (f b).succ) := by
-  simp only [binomial_eq_choose, Function.update_apply,
-    h, Ne.def, ite_true, ite_false]
+  simp only [binomial_eq_choose, Function.update_apply, h, Ne.def, ite_true, ite_false]
   rw [if_neg h.symm]
   rw [add_succ]; rw [choose_succ_succ]; rw [succ_add_eq_succ_add]
   ring

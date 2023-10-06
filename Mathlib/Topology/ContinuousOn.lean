@@ -295,8 +295,7 @@ theorem insert_mem_nhdsWithin_insert {a : α} {s t : Set α} (h : t ∈ 𝓝[s] 
 #align insert_mem_nhds_within_insert insert_mem_nhdsWithin_insert
 
 theorem insert_mem_nhds_iff {a : α} {s : Set α} : insert a s ∈ 𝓝 a ↔ s ∈ 𝓝[≠] a := by
-  simp only [nhdsWithin, mem_inf_principal, mem_compl_iff, mem_singleton_iff, or_iff_not_imp_left,
-    insert_def]
+  simp only [nhdsWithin, mem_inf_principal, mem_compl_iff, mem_singleton_iff, or_iff_not_imp_left, insert_def]
 #align insert_mem_nhds_iff insert_mem_nhds_iff
 
 @[simp]
@@ -323,8 +322,7 @@ theorem nhdsWithin_pi_eq {ι : Type*} {α : ι → Type*} [∀ i, TopologicalSpa
     𝓝[pi I s] x =
       (⨅ i ∈ I, comap (fun x => x i) (𝓝[s i] x i)) ⊓
         ⨅ (i) (_ : i ∉ I), comap (fun x => x i) (𝓝 (x i)) := by
-  simp only [nhdsWithin, nhds_pi, Filter.pi, pi_def, ← iInf_principal_finite hI, comap_inf,
-    comap_principal, eval]
+  simp only [nhdsWithin, nhds_pi, Filter.pi, pi_def, ← iInf_principal_finite hI, comap_inf, comap_principal, eval]
   rw [iInf_split _ fun i => i ∈ I]; rw [inf_right_comm]
   simp only [iInf_inf_eq]
 #align nhds_within_pi_eq nhdsWithin_pi_eq
@@ -421,8 +419,7 @@ theorem closure_pi_set {ι : Type*} {α : ι → Type*} [∀ i, TopologicalSpace
 
 theorem dense_pi {ι : Type*} {α : ι → Type*} [∀ i, TopologicalSpace (α i)] {s : ∀ i, Set (α i)}
     (I : Set ι) (hs : ∀ i ∈ I, Dense (s i)) : Dense (pi I s) := by
-  simp only [dense_iff_closure_eq, closure_pi_set, pi_congr rfl fun i hi => (hs i hi).closure_eq,
-    pi_univ]
+  simp only [dense_iff_closure_eq, closure_pi_set, pi_congr rfl fun i hi => (hs i hi).closure_eq, pi_univ]
 #align dense_pi dense_pi
 
 theorem eventuallyEq_nhdsWithin_iff {f g : α → β} {s : Set α} {a : α} :
@@ -765,8 +762,7 @@ theorem continuousWithinAt_singleton {f : α → β} {x : α} : ContinuousWithin
 @[simp]
 theorem continuousWithinAt_insert_self {f : α → β} {x : α} {s : Set α} :
     ContinuousWithinAt f (insert x s) x ↔ ContinuousWithinAt f s x := by
-  simp only [← singleton_union, continuousWithinAt_union, continuousWithinAt_singleton,
-    true_and_iff]
+  simp only [← singleton_union, continuousWithinAt_union, continuousWithinAt_singleton, true_and_iff]
 #align continuous_within_at_insert_self continuousWithinAt_insert_self
 
 alias ⟨_, ContinuousWithinAt.insert_self⟩ := continuousWithinAt_insert_self
@@ -1054,8 +1050,7 @@ theorem continuousOn_to_generateFrom_iff {s : Set α} {T : Set (Set β)} {f : α
     @ContinuousOn α β _ (.generateFrom T) f s ↔ ∀ x ∈ s, ∀ t ∈ T, f x ∈ t → f ⁻¹' t ∈ 𝓝[s] x :=
   forall₂_congr <| fun x _ => by
     delta ContinuousWithinAt
-    simp only [TopologicalSpace.nhds_generateFrom, tendsto_iInf, tendsto_principal, mem_setOf_eq,
-      and_imp]
+    simp only [TopologicalSpace.nhds_generateFrom, tendsto_iInf, tendsto_principal, mem_setOf_eq, and_imp]
     exact forall_congr' fun t => forall_swap
 
 -- porting note: dropped an unneeded assumption
@@ -1264,9 +1259,7 @@ theorem continuousOn_piecewise_ite {s s' t : Set α} {f f' : α → β} [∀ x, 
 
 theorem frontier_inter_open_inter {s t : Set α} (ht : IsOpen t) :
     frontier (s ∩ t) ∩ t = frontier s ∩ t := by
-  simp only [← Subtype.preimage_coe_eq_preimage_coe_iff,
-    ht.isOpenMap_subtype_val.preimage_frontier_eq_frontier_preimage continuous_subtype_val,
-    Subtype.preimage_coe_inter_self]
+  simp only [← Subtype.preimage_coe_eq_preimage_coe_iff, ht.isOpenMap_subtype_val.preimage_frontier_eq_frontier_preimage continuous_subtype_val, Subtype.preimage_coe_inter_self]
 #align frontier_inter_open_inter frontier_inter_open_inter
 
 theorem continuousOn_fst {s : Set (α × β)} : ContinuousOn Prod.fst s :=

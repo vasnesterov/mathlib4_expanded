@@ -36,8 +36,7 @@ theorem derivative_rootMultiplicity_of_root [CharZero R] {p : R[X]} {t : R} (hpt
   rcases eq_or_ne p 0 with (rfl | hp)
   · simp
   nth_rw 1 [← p.divByMonic_mul_pow_rootMultiplicity_eq t]
-  simp only [derivative_pow, derivative_mul, derivative_sub, derivative_X, derivative_C, sub_zero,
-    mul_one]
+  simp only [derivative_pow, derivative_mul, derivative_sub, derivative_X, derivative_C, sub_zero, mul_one]
   set n := p.rootMultiplicity t - 1
   have hn : n + 1 = _ := tsub_add_cancel_of_le ((rootMultiplicity_pos hp).mpr hpt)
   rw [← hn]
@@ -99,8 +98,7 @@ theorem leadingCoeff_normalize (p : R[X]) :
 #align polynomial.leading_coeff_normalize Polynomial.leadingCoeff_normalize
 
 theorem Monic.normalize_eq_self {p : R[X]} (hp : p.Monic) : normalize p = p := by
-  simp only [Polynomial.coe_normUnit, normalize_apply, hp.leadingCoeff, normUnit_one,
-    Units.val_one, Polynomial.C.map_one, mul_one]
+  simp only [Polynomial.coe_normUnit, normalize_apply, hp.leadingCoeff, normUnit_one, Units.val_one, Polynomial.C.map_one, mul_one]
 #align polynomial.monic.normalize_eq_self Polynomial.Monic.normalize_eq_self
 
 theorem roots_normalize {p : R[X]} : (normalize p).roots = p.roots := by

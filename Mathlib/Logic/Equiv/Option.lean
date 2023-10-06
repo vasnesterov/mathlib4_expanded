@@ -192,8 +192,7 @@ def optionSubtype [DecidableEq β] (x : β) :
           cases a with
           | none => simp
           | some a =>
-            simp only [casesOn'_some, Function.comp_apply, Subtype.coe_eta,
-              symm_apply_apply, dite_eq_ite]
+            simp only [casesOn'_some, Function.comp_apply, Subtype.coe_eta, symm_apply_apply, dite_eq_ite]
             exact if_neg (e a).property,
         right_inv := fun b => by
           by_cases h : b = x <;> simp [h] },
@@ -261,8 +260,7 @@ theorem optionSubtype_symm_apply_apply_none
 @[simp]
 theorem optionSubtype_symm_apply_symm_apply [DecidableEq β] (x : β) (e : α ≃ { y : β // y ≠ x })
     (b : { y : β // y ≠ x }) : ((optionSubtype x).symm e : Option α ≃ β).symm b = e.symm b := by
-  simp only [optionSubtype, coe_fn_symm_mk, Subtype.coe_mk,
-             Subtype.coe_eta, dite_eq_ite, ite_eq_right_iff]
+  simp only [optionSubtype, coe_fn_symm_mk, Subtype.coe_mk, Subtype.coe_eta, dite_eq_ite, ite_eq_right_iff]
   exact fun h => False.elim (b.property h)
 #align equiv.option_subtype_symm_apply_symm_apply Equiv.optionSubtype_symm_apply_symm_apply
 

@@ -174,8 +174,7 @@ theorem tendstoUniformlyOn_diff_iUnionNotConvergentSeq (hε : 0 < ε)
   obtain ⟨N, hN⟩ := exists_nat_one_div_lt hδ
   rw [eventually_atTop]
   refine' ⟨Egorov.notConvergentSeqLTIndex (half_pos hε) hf hg hsm hs hfg N, fun n hn x hx => _⟩
-  simp only [Set.mem_diff, Egorov.iUnionNotConvergentSeq, not_exists, Set.mem_iUnion,
-    Set.mem_inter_iff, not_and, exists_and_left] at hx
+  simp only [Set.mem_diff, Egorov.iUnionNotConvergentSeq, not_exists, Set.mem_iUnion, Set.mem_inter_iff, not_and, exists_and_left] at hx
   obtain ⟨hxs, hx⟩ := hx
   specialize hx hxs N
   rw [Egorov.mem_notConvergentSeq_iff] at hx

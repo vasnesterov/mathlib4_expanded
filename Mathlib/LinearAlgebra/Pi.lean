@@ -215,9 +215,7 @@ def iInfKerProjEquiv {I J : Set ι} [DecidablePred fun i => i ∈ I] (hd : Disjo
     rw [dif_neg this]; rw [zero_apply]
   · simp only [pi_comp, comp_assoc, subtype_comp_codRestrict, proj_pi, Subtype.coe_prop]
     ext b ⟨j, hj⟩
-    simp only [dif_pos, Function.comp_apply, Function.eval_apply, LinearMap.codRestrict_apply,
-      LinearMap.coe_comp, LinearMap.coe_proj, LinearMap.pi_apply, Submodule.subtype_apply,
-      Subtype.coe_prop]
+    simp only [dif_pos, Function.comp_apply, Function.eval_apply, LinearMap.codRestrict_apply, LinearMap.coe_comp, LinearMap.coe_proj, LinearMap.pi_apply, Submodule.subtype_apply, Subtype.coe_prop]
     rfl
   · ext1 ⟨b, hb⟩
     apply Subtype.ext
@@ -603,8 +601,7 @@ def LinearMap.vecCons₂ {n} (f : M →ₗ[R] M₂ →ₗ[R] M₃) (g : M →ₗ
   toFun m := LinearMap.vecCons (f m) (g m)
   map_add' x y :=
     LinearMap.ext fun z => by
-      simp only [f.map_add, g.map_add, LinearMap.add_apply, LinearMap.vecCons_apply,
-        Matrix.cons_add_cons (f x z)]
+      simp only [f.map_add, g.map_add, LinearMap.add_apply, LinearMap.vecCons_apply, Matrix.cons_add_cons (f x z)]
   map_smul' r x := LinearMap.ext fun z => by simp [Matrix.smul_cons r (f x z)]
 #align linear_map.vec_cons₂ LinearMap.vecCons₂
 

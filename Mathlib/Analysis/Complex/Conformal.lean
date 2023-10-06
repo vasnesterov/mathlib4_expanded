@@ -108,8 +108,7 @@ theorem isConformalMap_iff_is_complex_or_conj_linear :
       simp only [w, restrictScalars_zero]
     · have minor₁ : g = map.restrictScalars ℝ ∘L ↑conjCle := by
         ext1
-        simp only [hmap, coe_comp', ContinuousLinearEquiv.coe_coe, Function.comp_apply,
-          conjCle_apply, starRingEnd_self_apply]
+        simp only [hmap, coe_comp', ContinuousLinearEquiv.coe_coe, Function.comp_apply, conjCle_apply, starRingEnd_self_apply]
       rw [minor₁] at h₂ ⊢
       refine' isConformalMap_complex_linear_conj _
       contrapose! h₂ with w

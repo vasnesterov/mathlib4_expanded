@@ -148,8 +148,7 @@ theorem setOfTop_eq_univ [Nontrivial R] : setOfIdeal (⊤ : Ideal C(X, R)) = Set
 @[simp]
 theorem idealOfEmpty_eq_bot : idealOfSet R (∅ : Set X) = ⊥ :=
   Ideal.ext fun f => by
-    simp only [mem_idealOfSet, Set.compl_empty, Set.mem_univ, forall_true_left, Ideal.mem_bot,
-      FunLike.ext_iff, zero_apply]
+    simp only [mem_idealOfSet, Set.compl_empty, Set.mem_univ, forall_true_left, Ideal.mem_bot, FunLike.ext_iff, zero_apply]
 #align continuous_map.ideal_of_empty_eq_bot ContinuousMap.idealOfEmpty_eq_bot
 
 @[simp]
@@ -235,11 +234,9 @@ theorem idealOfSet_ofIdeal_eq_closure (I : Ideal C(X, 𝕜)) :
         calc
           ‖((1 - (algebraMapClm ℝ≥0 𝕜 : C(ℝ≥0, 𝕜)).comp g) x : 𝕜)‖₊ =
               ‖1 - algebraMap ℝ≥0 𝕜 (g x)‖₊ := by
-            simp only [coe_sub, coe_one, coe_comp, ContinuousMap.coe_coe, Pi.sub_apply,
-              Pi.one_apply, Function.comp_apply, algebraMapClm_apply]
+            simp only [coe_sub, coe_one, coe_comp, ContinuousMap.coe_coe, Pi.sub_apply, Pi.one_apply, Function.comp_apply, algebraMapClm_apply]
           _ = ‖algebraMap ℝ≥0 𝕜 (1 - g x)‖₊ := by
-            simp only [Algebra.algebraMap_eq_smul_one, NNReal.smul_def, ge_iff_le,
-              NNReal.coe_sub (hg x), NNReal.coe_one, sub_smul, one_smul]
+            simp only [Algebra.algebraMap_eq_smul_one, NNReal.smul_def, ge_iff_le, NNReal.coe_sub (hg x), NNReal.coe_one, sub_smul, one_smul]
           _ ≤ 1 := (nnnorm_algebraMap_nNReal 𝕜 (1 - g x)).trans_le tsub_le_self
       calc
         ‖f x - f x * (algebraMapClm ℝ≥0 𝕜 : C(ℝ≥0, 𝕜)).comp g x‖₊ =
@@ -266,8 +263,7 @@ theorem idealOfSet_ofIdeal_eq_closure (I : Ideal C(X, 𝕜)) :
       refine' ⟨g₁ + g₂, _, fun x hx => _⟩
       · convert I.add_mem hI₁ hI₂
         ext y
-        simp only [coe_add, Pi.add_apply, map_add, coe_comp, Function.comp_apply,
-          ContinuousMap.coe_coe]
+        simp only [coe_add, Pi.add_apply, map_add, coe_comp, Function.comp_apply, ContinuousMap.coe_coe]
       · rcases hx with (hx | hx)
         simpa only [zero_add] using add_lt_add_of_lt_of_le (hgt₁ x hx) zero_le'
         simpa only [zero_add] using add_lt_add_of_le_of_lt zero_le' (hgt₂ x hx)
@@ -283,8 +279,7 @@ theorem idealOfSet_ofIdeal_eq_closure (I : Ideal C(X, 𝕜)) :
             pow_pos (norm_pos_iff.mpr hx.1) 2⟩⟩
       convert I.mul_mem_left (star g) hI
       ext
-      simp only [comp_apply, ContinuousMap.coe_coe, coe_mk, algebraMapClm_toFun, map_pow,
-        mul_apply, star_apply, star_def]
+      simp only [comp_apply, ContinuousMap.coe_coe, coe_mk, algebraMapClm_toFun, map_pow, mul_apply, star_apply, star_def]
       simp only [normSq_eq_def', IsROrC.conj_mul, ofReal_pow]
       rfl
   /- Get the function `g'` which is guaranteed to exist above. By the extreme value theorem and

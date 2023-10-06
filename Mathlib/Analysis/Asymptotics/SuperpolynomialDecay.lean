@@ -343,8 +343,7 @@ theorem superpolynomialDecay_iff_isBigO (hk : Tendsto k l atTop) :
     refine'
       ((isBigO_refl (fun a => k a ^ z) l).mul (h (-(z + 1)))).trans
         (IsBigO.of_bound 1 <| hk0.mono fun a ha0 => _)
-    simp only [one_mul, neg_add z 1, zpow_add₀ ha0, ← mul_assoc, zpow_neg,
-      mul_inv_cancel (zpow_ne_zero z ha0), zpow_one]
+    simp only [one_mul, neg_add z 1, zpow_add₀ ha0, ← mul_assoc, zpow_neg, mul_inv_cancel (zpow_ne_zero z ha0), zpow_one]
     rfl
 set_option linter.uppercaseLean3 false in
 #align asymptotics.superpolynomial_decay_iff_is_O Asymptotics.superpolynomialDecay_iff_isBigO

@@ -83,8 +83,7 @@ theorem hasseDeriv_coeff (n : ℕ) :
 #align polynomial.hasse_deriv_coeff Polynomial.hasseDeriv_coeff
 
 theorem hasseDeriv_zero' : hasseDeriv 0 f = f := by
-  simp only [hasseDeriv_apply, tsub_zero, Nat.choose_zero_right, Nat.cast_one, one_mul,
-    sum_monomial_eq]
+  simp only [hasseDeriv_apply, tsub_zero, Nat.choose_zero_right, Nat.cast_one, one_mul, sum_monomial_eq]
 #align polynomial.hasse_deriv_zero' Polynomial.hasseDeriv_zero'
 
 @[simp]
@@ -100,8 +99,7 @@ theorem hasseDeriv_eq_zero_of_lt_natDegree (p : R[X]) (n : ℕ) (h : p.natDegree
 #align polynomial.hasse_deriv_eq_zero_of_lt_nat_degree Polynomial.hasseDeriv_eq_zero_of_lt_natDegree
 
 theorem hasseDeriv_one' : hasseDeriv 1 f = derivative f := by
-  simp only [hasseDeriv_apply, derivative_apply, ← C_mul_X_pow_eq_monomial, Nat.choose_one_right,
-    (Nat.cast_commute _ _).eq]
+  simp only [hasseDeriv_apply, derivative_apply, ← C_mul_X_pow_eq_monomial, Nat.choose_one_right, (Nat.cast_commute _ _).eq]
 #align polynomial.hasse_deriv_one' Polynomial.hasseDeriv_one'
 
 @[simp]
@@ -145,10 +143,8 @@ theorem factorial_smul_hasseDeriv : ⇑(k ! • @hasseDeriv R _ k) = (@derivativ
   · rw [hasseDeriv_zero, factorial_zero, iterate_zero, one_smul, LinearMap.id_coe]
   ext f n : 2
   rw [iterate_succ_apply']; rw [← ih]
-  simp only [LinearMap.smul_apply, coeff_smul, LinearMap.map_smul_of_tower, coeff_derivative,
-    hasseDeriv_coeff, ← @choose_symm_add _ k]
-  simp only [nsmul_eq_mul, factorial_succ, mul_assoc, succ_eq_add_one, ← add_assoc,
-    add_right_comm n 1 k, ← cast_succ]
+  simp only [LinearMap.smul_apply, coeff_smul, LinearMap.map_smul_of_tower, coeff_derivative, hasseDeriv_coeff, ← @choose_symm_add _ k]
+  simp only [nsmul_eq_mul, factorial_succ, mul_assoc, succ_eq_add_one, ← add_assoc, add_right_comm n 1 k, ← cast_succ]
   rw [← (cast_commute (n + 1) (f.coeff (n + k + 1))).eq]
   simp only [← mul_assoc]
   norm_cast
@@ -164,8 +160,7 @@ theorem factorial_smul_hasseDeriv : ⇑(k ! • @hasseDeriv R _ k) = (@derivativ
 theorem hasseDeriv_comp (k l : ℕ) :
     (@hasseDeriv R _ k).comp (hasseDeriv l) = (k + l).choose k • hasseDeriv (k + l) := by
   ext i : 2
-  simp only [LinearMap.smul_apply, comp_apply, LinearMap.coe_comp, smul_monomial, hasseDeriv_apply,
-    mul_one, monomial_eq_zero_iff, sum_monomial_index, mul_zero, ←
+  simp only [LinearMap.smul_apply, comp_apply, LinearMap.coe_comp, smul_monomial, hasseDeriv_apply, mul_one, monomial_eq_zero_iff, sum_monomial_index, mul_zero, ←
     tsub_add_eq_tsub_tsub, add_comm l k]
   rw_mod_cast [nsmul_eq_mul]
   rw [←Nat.cast_mul]
@@ -196,8 +191,7 @@ theorem natDegree_hasseDeriv_le (p : R[X]) (n : ℕ) :
     refine' (natDegree_sum_le _ _).trans _
     simp_rw [Function.comp, natDegree_monomial]
     rw [Finset.fold_ite]; rw [Finset.fold_const]
-    · simp only [ite_self, max_eq_right, zero_le', Finset.fold_max_le, true_and_iff, and_imp,
-        tsub_le_iff_right, mem_support_iff, Ne.def, Finset.mem_filter]
+    · simp only [ite_self, max_eq_right, zero_le', Finset.fold_max_le, true_and_iff, and_imp, tsub_le_iff_right, mem_support_iff, Ne.def, Finset.mem_filter]
       intro x hx hx'
       have hxp : x ≤ p.natDegree := le_natDegree_of_ne_zero hx
       have hxn : n ≤ x := by
@@ -236,9 +230,7 @@ theorem hasseDeriv_mul (f g : R[X]) :
   congr 2
   clear f g
   ext m r n s : 4
-  simp only [finset_sum_apply, coe_mulLeft, coe_comp, flip_apply, Function.comp_apply,
-             hasseDeriv_monomial, LinearMap.toAddMonoidHom_coe, compHom_apply_apply,
-             coe_mul, monomial_mul_monomial]
+  simp only [finset_sum_apply, coe_mulLeft, coe_comp, flip_apply, Function.comp_apply, hasseDeriv_monomial, LinearMap.toAddMonoidHom_coe, compHom_apply_apply, coe_mul, monomial_mul_monomial]
   have aux :
     ∀ x : ℕ × ℕ,
       x ∈ antidiagonal k →
@@ -248,11 +240,9 @@ theorem hasseDeriv_mul (f g : R[X]) :
     rw [Finset.Nat.mem_antidiagonal] at hx
     subst hx
     by_cases hm : m < x.1
-    · simp only [Nat.choose_eq_zero_of_lt hm, Nat.cast_zero, zero_mul,
-                 monomial_zero_right]
+    · simp only [Nat.choose_eq_zero_of_lt hm, Nat.cast_zero, zero_mul, monomial_zero_right]
     by_cases hn : n < x.2
-    · simp only [Nat.choose_eq_zero_of_lt hn, Nat.cast_zero, zero_mul,
-                 mul_zero, monomial_zero_right]
+    · simp only [Nat.choose_eq_zero_of_lt hn, Nat.cast_zero, zero_mul, mul_zero, monomial_zero_right]
     push_neg at hm hn
     rw [tsub_add_eq_add_tsub hm]; rw [← add_tsub_assoc_of_le hn]; rw [← tsub_add_eq_tsub_tsub]; rw [add_comm x.2 x.1]; rw [mul_assoc]; rw [← mul_assoc r]; rw [← (Nat.cast_commute _ r).eq]; rw [mul_assoc]; rw [mul_assoc]
   rw [Finset.sum_congr rfl aux]

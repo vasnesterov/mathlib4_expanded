@@ -157,8 +157,7 @@ theorem Finset.mem_enum [DecidableEq α] (s : Finset α) (xs : List α) :
       by_cases h : xs_hd ∈ s
       · have : {xs_hd} ⊆ s := by
           simp only [HasSubset.Subset, *, forall_eq, mem_singleton]
-        simp only [union_sdiff_of_subset this, or_true_iff, Finset.union_sdiff_of_subset,
-          eq_self_iff_true]
+        simp only [union_sdiff_of_subset this, or_true_iff, Finset.union_sdiff_of_subset, eq_self_iff_true]
       · left
         symm
         simp only [sdiff_eq_self]

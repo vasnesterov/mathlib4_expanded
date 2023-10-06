@@ -94,8 +94,7 @@ theorem map_subset_iff_subset_preimage {f : α ↪ β} {s : Finset α} {t : Fins
 theorem image_preimage [DecidableEq β] (f : α → β) (s : Finset β) [∀ x, Decidable (x ∈ Set.range f)]
     (hf : Set.InjOn f (f ⁻¹' ↑s)) : image f (preimage s f hf) = s.filter fun x => x ∈ Set.range f :=
   Finset.coe_inj.1 <| by
-    simp only [coe_image, coe_preimage, coe_filter, Set.image_preimage_eq_inter_range,
-      ← Set.sep_mem_eq]; rfl
+    simp only [coe_image, coe_preimage, coe_filter, Set.image_preimage_eq_inter_range, ← Set.sep_mem_eq]; rfl
 #align finset.image_preimage Finset.image_preimage
 
 theorem image_preimage_of_bij [DecidableEq β] (f : α → β) (s : Finset β)

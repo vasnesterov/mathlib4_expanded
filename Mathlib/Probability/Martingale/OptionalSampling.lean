@@ -99,8 +99,7 @@ theorem stoppedValue_ae_eq_condexp_of_le_const_of_countable_range (h : Martingal
     stoppedValue f τ =ᵐ[μ] μ[f n|hτ.measurableSpace] := by
   have : Set.univ = ⋃ i ∈ Set.range τ, {x | τ x = i} := by
     ext1 x
-    simp only [Set.mem_univ, Set.mem_range, true_and_iff, Set.iUnion_exists, Set.iUnion_iUnion_eq',
-      Set.mem_iUnion, Set.mem_setOf_eq, exists_apply_eq_apply']
+    simp only [Set.mem_univ, Set.mem_range, true_and_iff, Set.iUnion_exists, Set.iUnion_iUnion_eq', Set.mem_iUnion, Set.mem_setOf_eq, exists_apply_eq_apply']
   nth_rw 1 [← @Measure.restrict_univ Ω _ μ]
   rw [this]; rw [ae_eq_restrict_biUnion_iff _ h_countable_range]
   exact fun i _ => stoppedValue_ae_eq_restrict_eq h _ hτ_le i

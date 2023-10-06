@@ -54,8 +54,7 @@ theorem lintegral_mul_indicator_eq_lintegral_mul_lintegral_indicator {Mf mΩ : M
   · intro c' s' h_meas_s'
     simp_rw [← inter_indicator_mul]
     rw [lintegral_indicator _ (MeasurableSet.inter (hMf _ h_meas_s') h_meas_T)]; rw [lintegral_indicator _ (hMf _ h_meas_s')]; rw [lintegral_indicator _ h_meas_T]
-    simp only [measurable_const, lintegral_const, univ_inter, lintegral_const_mul,
-      MeasurableSet.univ, Measure.restrict_apply]
+    simp only [measurable_const, lintegral_const, univ_inter, lintegral_const_mul, MeasurableSet.univ, Measure.restrict_apply]
     rw [IndepSets_iff] at h_ind
     rw [mul_mul_mul_comm]; rw [h_ind s' T h_meas_s' (Set.mem_singleton _)]
   · intro f' g _ h_meas_f' _ h_ind_f' h_ind_g
@@ -264,14 +263,12 @@ theorem IndepFun.integral_mul (hXY : IndepFun X Y μ) (hX : AEStronglyMeasurable
   · have h' : X * Y =ᵐ[μ] 0 := by
       filter_upwards [h'X] with ω hω
       simp [hω]
-    simp only [integral_congr_ae h'X, integral_congr_ae h', Pi.zero_apply, integral_const,
-      Algebra.id.smul_eq_mul, mul_zero, zero_mul]
+    simp only [integral_congr_ae h'X, integral_congr_ae h', Pi.zero_apply, integral_const, Algebra.id.smul_eq_mul, mul_zero, zero_mul]
   by_cases h'Y : Y =ᵐ[μ] 0
   · have h' : X * Y =ᵐ[μ] 0 := by
       filter_upwards [h'Y] with ω hω
       simp [hω]
-    simp only [integral_congr_ae h'Y, integral_congr_ae h', Pi.zero_apply, integral_const,
-      Algebra.id.smul_eq_mul, mul_zero, zero_mul]
+    simp only [integral_congr_ae h'Y, integral_congr_ae h', Pi.zero_apply, integral_const, Algebra.id.smul_eq_mul, mul_zero, zero_mul]
   by_cases h : Integrable (X * Y) μ
   · have HX : Integrable X μ := hXY.integrable_left_of_integrable_mul h hX hY h'Y
     have HY : Integrable Y μ := hXY.integrable_right_of_integrable_mul h hX hY h'X

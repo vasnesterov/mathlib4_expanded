@@ -281,8 +281,7 @@ theorem comp_coeff_one (q : FormalMultilinearSeries 𝕜 F G) (p : FormalMultili
     (v : Fin 1 → E) : (q.comp p) 1 v = q 1 fun _i => p 1 v := by
   have : {Composition.ones 1} = (Finset.univ : Finset (Composition 1)) :=
     Finset.eq_univ_of_card _ (by simp [composition_card])
-  simp only [FormalMultilinearSeries.comp, compAlongComposition_apply, ← this,
-    Finset.sum_singleton]
+  simp only [FormalMultilinearSeries.comp, compAlongComposition_apply, ← this, Finset.sum_singleton]
   refine' q.congr (by simp) fun i hi1 hi2 => _
   simp only [applyComposition_ones]
   exact p.congr rfl fun j _hj1 hj2 => by congr! -- porting note: needed the stronger `congr!`
@@ -293,8 +292,7 @@ theorem removeZero_comp_of_pos (q : FormalMultilinearSeries 𝕜 F G)
     (p : FormalMultilinearSeries 𝕜 E F) {n : ℕ} (hn : 0 < n) :
     q.removeZero.comp p n = q.comp p n := by
   ext v
-  simp only [FormalMultilinearSeries.comp, compAlongComposition,
-    ContinuousMultilinearMap.compAlongComposition_apply, ContinuousMultilinearMap.sum_apply]
+  simp only [FormalMultilinearSeries.comp, compAlongComposition, ContinuousMultilinearMap.compAlongComposition_apply, ContinuousMultilinearMap.sum_apply]
   refine' Finset.sum_congr rfl fun c _hc => _
   rw [removeZero_of_pos _ (c.length_pos_of_pos hn)]
 #align formal_multilinear_series.remove_zero_comp_of_pos FormalMultilinearSeries.removeZero_comp_of_pos
@@ -571,8 +569,7 @@ def compPartialSumSource (m M N : ℕ) : Finset (Σ n, Fin n → ℕ) :=
 theorem mem_compPartialSumSource_iff (m M N : ℕ) (i : Σ n, Fin n → ℕ) :
     i ∈ compPartialSumSource m M N ↔
       (m ≤ i.1 ∧ i.1 < M) ∧ ∀ a : Fin i.1, 1 ≤ i.2 a ∧ i.2 a < N := by
-  simp only [compPartialSumSource, Finset.mem_Ico, Fintype.mem_piFinset, Finset.mem_sigma,
-    iff_self_iff]
+  simp only [compPartialSumSource, Finset.mem_Ico, Fintype.mem_piFinset, Finset.mem_sigma, iff_self_iff]
 #align formal_multilinear_series.mem_comp_partial_sum_source_iff FormalMultilinearSeries.mem_compPartialSumSource_iff
 
 /-- Change of variables appearing to compute the composition of partial sums of formal
@@ -661,8 +658,7 @@ theorem compChangeOfVariables_sum {α : Type*} [AddCommMonoid α] (m M N : ℕ)
     rw [mem_compPartialSumSource_iff] at H
     -- Porting note: added
     simp only at H
-    simp only [mem_compPartialSumTarget_iff, Composition.length, Composition.blocks, H.left,
-      map_ofFn, length_ofFn, true_and_iff, compChangeOfVariables]
+    simp only [mem_compPartialSumTarget_iff, Composition.length, Composition.blocks, H.left, map_ofFn, length_ofFn, true_and_iff, compChangeOfVariables]
     intro j
     -- Porting note: the following `simp` was sufficient in lean 3.
     simp only [Composition.blocksFun, (H.right _).right, List.nthLe_ofFn]

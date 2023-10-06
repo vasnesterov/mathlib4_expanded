@@ -437,8 +437,7 @@ theorem preimage_frontier_subset_frontier_preimage (hf : IsOpenMap f) {s : Set �
 
 theorem preimage_frontier_eq_frontier_preimage (hf : IsOpenMap f) (hfc : Continuous f) (s : Set β) :
     f ⁻¹' frontier s = frontier (f ⁻¹' s) := by
-  simp only [frontier_eq_closure_inter_closure, preimage_inter, preimage_compl,
-    hf.preimage_closure_eq_closure_preimage hfc]
+  simp only [frontier_eq_closure_inter_closure, preimage_inter, preimage_compl, hf.preimage_closure_eq_closure_preimage hfc]
 #align is_open_map.preimage_frontier_eq_frontier_preimage IsOpenMap.preimage_frontier_eq_frontier_preimage
 
 end IsOpenMap

@@ -72,8 +72,7 @@ alias ⟨Directed.directedOn_range, _⟩ := directedOn_range
 
 theorem directedOn_image {s : Set β} {f : β → α} :
     DirectedOn r (f '' s) ↔ DirectedOn (f ⁻¹'o r) s := by
-  simp only [DirectedOn, Set.mem_image, exists_exists_and_eq_and, forall_exists_index, and_imp,
-    forall_apply_eq_imp_iff₂, Order.Preimage]
+  simp only [DirectedOn, Set.mem_image, exists_exists_and_eq_and, forall_exists_index, and_imp, forall_apply_eq_imp_iff₂, Order.Preimage]
 #align directed_on_image directedOn_image
 
 theorem DirectedOn.mono' {s : Set α} (hs : DirectedOn r s)

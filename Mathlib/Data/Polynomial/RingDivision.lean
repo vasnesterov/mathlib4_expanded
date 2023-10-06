@@ -315,8 +315,7 @@ theorem Monic.not_irreducible_iff_exists_add_mul_eq_coeff (hm : p.Monic) (hnd : 
   rw [hm.irreducible_iff_natDegree']; rw [and_iff_right]; rw [hnd]
   push_neg; constructor
   · rintro ⟨a, b, ha, hb, rfl, hdb⟩
-    simp only [zero_lt_two, Nat.div_self, ge_iff_le,
-      Nat.Ioc_succ_singleton, zero_add, mem_singleton] at hdb
+    simp only [zero_lt_two, Nat.div_self, ge_iff_le, Nat.Ioc_succ_singleton, zero_add, mem_singleton] at hdb
     have hda := hnd
     rw [ha.natDegree_mul hb] at hda; rw [hdb] at hda
     use a.coeff 0, b.coeff 0, mul_coeff_zero a b
@@ -689,8 +688,7 @@ theorem roots_one : (1 : R[X]).roots = ∅ :=
 @[simp]
 theorem roots_C_mul (p : R[X]) (ha : a ≠ 0) : (C a * p).roots = p.roots := by
   by_cases hp : p = 0 <;>
-    simp only [roots_mul, *, Ne.def, mul_eq_zero, C_eq_zero, or_self_iff, not_false_iff, roots_C,
-      zero_add, mul_zero]
+    simp only [roots_mul, *, Ne.def, mul_eq_zero, C_eq_zero, or_self_iff, not_false_iff, roots_C, zero_add, mul_zero]
 set_option linter.uppercaseLean3 false in
 #align polynomial.roots_C_mul Polynomial.roots_C_mul
 
@@ -767,8 +765,7 @@ set_option linter.uppercaseLean3 false in
 theorem natDegree_multiset_prod_X_sub_C_eq_card (s : Multiset R) :
     (s.map fun a => X - C a).prod.natDegree = Multiset.card s := by
   rw [natDegree_multiset_prod_of_monic]; rw [Multiset.map_map]
-  · simp only [(· ∘ ·), natDegree_X_sub_C, Multiset.map_const', Multiset.sum_replicate, smul_eq_mul,
-      mul_one]
+  · simp only [(· ∘ ·), natDegree_X_sub_C, Multiset.map_const', Multiset.sum_replicate, smul_eq_mul, mul_one]
   · exact Multiset.forall_mem_map_iff.2 fun a _ => monic_X_sub_C a
 set_option linter.uppercaseLean3 false in
 #align polynomial.nat_degree_multiset_prod_X_sub_C_eq_card Polynomial.natDegree_multiset_prod_X_sub_C_eq_card
@@ -1284,8 +1281,7 @@ theorem count_map_roots_of_injective [IsDomain A] [DecidableEq B] (p : A[X]) {f 
     (hf : Function.Injective f) (b : B) :
     (p.roots.map f).count b ≤ rootMultiplicity b (p.map f) := by
   by_cases hp0 : p = 0
-  · simp only [hp0, roots_zero, Multiset.map_zero, Multiset.count_zero, Polynomial.map_zero,
-      rootMultiplicity_zero]
+  · simp only [hp0, roots_zero, Multiset.map_zero, Multiset.count_zero, Polynomial.map_zero, rootMultiplicity_zero]
   · exact count_map_roots ((Polynomial.map_ne_zero_iff hf).mpr hp0) b
 #align polynomial.count_map_roots_of_injective Polynomial.count_map_roots_of_injective
 

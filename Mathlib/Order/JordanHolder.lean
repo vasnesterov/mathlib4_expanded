@@ -394,8 +394,7 @@ theorem top_eraseTop (s : CompositionSeries X) :
     congr_arg s
       (by
         ext
-        simp only [eraseTop_length, Fin.val_last, Fin.coe_castSucc, Fin.coe_ofNat_eq_mod,
-          Fin.val_mk])
+        simp only [eraseTop_length, Fin.val_last, Fin.coe_castSucc, Fin.coe_ofNat_eq_mod, Fin.val_mk])
 #align composition_series.top_erase_top CompositionSeries.top_eraseTop
 
 theorem eraseTop_top_le (s : CompositionSeries X) : s.eraseTop.top ≤ s.top := by
@@ -462,8 +461,7 @@ theorem append_succ_castAdd_aux (i : Fin m) (h : a (Fin.last _) = b 0) :
     Matrix.vecAppend (Nat.add_succ _ _).symm (a ∘ Fin.castSucc) b (Fin.castAdd n i).succ =
       a i.succ := by
   cases' i with i hi
-  simp only [Matrix.vecAppend_eq_ite, hi, Fin.succ_mk, Function.comp_apply, Fin.castSucc_mk,
-    Fin.val_mk, Fin.castAdd_mk]
+  simp only [Matrix.vecAppend_eq_ite, hi, Fin.succ_mk, Function.comp_apply, Fin.castSucc_mk, Fin.val_mk, Fin.castAdd_mk]
   split_ifs with h_1
   · rfl
   · have : i + 1 = m := le_antisymm hi (le_of_not_gt h_1)
@@ -478,16 +476,14 @@ theorem append_natAdd_aux (i : Fin n) :
       (Fin.castSucc <| Fin.natAdd m i) =
       b (Fin.castSucc i) := by
   cases i
-  simp only [Matrix.vecAppend_eq_ite, Nat.not_lt_zero, Fin.natAdd_mk, add_lt_iff_neg_left,
-    add_tsub_cancel_left, dif_neg, Fin.castSucc_mk, not_false_iff, Fin.val_mk]
+  simp only [Matrix.vecAppend_eq_ite, Nat.not_lt_zero, Fin.natAdd_mk, add_lt_iff_neg_left, add_tsub_cancel_left, dif_neg, Fin.castSucc_mk, not_false_iff, Fin.val_mk]
 #align composition_series.append_nat_add_aux CompositionSeries.append_natAdd_aux
 
 theorem append_succ_natAdd_aux (i : Fin n) :
     Matrix.vecAppend (Nat.add_succ _ _).symm (a ∘ Fin.castSucc) b (Fin.natAdd m i).succ =
       b i.succ := by
   cases' i with i hi
-  simp only [Matrix.vecAppend_eq_ite, add_assoc, Nat.not_lt_zero, Fin.natAdd_mk,
-    add_lt_iff_neg_left, add_tsub_cancel_left, Fin.succ_mk, dif_neg, not_false_iff, Fin.val_mk]
+  simp only [Matrix.vecAppend_eq_ite, add_assoc, Nat.not_lt_zero, Fin.natAdd_mk, add_lt_iff_neg_left, add_tsub_cancel_left, Fin.succ_mk, dif_neg, not_false_iff, Fin.val_mk]
 #align composition_series.append_succ_nat_add_aux CompositionSeries.append_succ_natAdd_aux
 
 end FinLemmas

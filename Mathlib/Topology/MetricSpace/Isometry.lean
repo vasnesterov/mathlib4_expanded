@@ -559,8 +559,7 @@ theorem mul_apply (e₁ e₂ : α ≃ᵢ α) (x : α) : (e₁ * e₂) x = e₁ (
 #align isometry_equiv.apply_inv_self IsometryEquiv.apply_inv_self
 
 theorem completeSpace_iff (e : α ≃ᵢ β) : CompleteSpace α ↔ CompleteSpace β := by
-  simp only [completeSpace_iff_isComplete_univ, ← e.range_eq_univ, ← image_univ,
-    isComplete_image_iff e.isometry.uniformInducing]
+  simp only [completeSpace_iff_isComplete_univ, ← e.range_eq_univ, ← image_univ, isComplete_image_iff e.isometry.uniformInducing]
 #align isometry_equiv.complete_space_iff IsometryEquiv.completeSpace_iff
 
 protected theorem completeSpace [CompleteSpace β] (e : α ≃ᵢ β) : CompleteSpace α :=

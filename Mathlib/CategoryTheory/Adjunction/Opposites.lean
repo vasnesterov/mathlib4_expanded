@@ -231,8 +231,7 @@ theorem homEquiv_symm_rightAdjointUniq_hom_app {F : C ⥤ D} {G G' : D ⥤ C} (a
   convert homEquiv_leftAdjointUniq_hom_app (opAdjointOpOfAdjoint _ F adj2)
     (opAdjointOpOfAdjoint _ _ adj1) (Opposite.op x)
   -- Porting note: was `simpa`
-  simp only [opAdjointOpOfAdjoint, Functor.op_obj, Opposite.unop_op, mkOfHomEquiv_unit_app,
-    Equiv.trans_apply, homEquiv_counit, Functor.id_obj]
+  simp only [opAdjointOpOfAdjoint, Functor.op_obj, Opposite.unop_op, mkOfHomEquiv_unit_app, Equiv.trans_apply, homEquiv_counit, Functor.id_obj]
   -- Porting note: Yet another `erw`...
   -- https://github.com/leanprover-community/mathlib4/issues/5164
   erw [F.map_id]
@@ -251,9 +250,7 @@ theorem unit_rightAdjointUniq_hom_app {F : C ⥤ D} {G G' : D ⥤ C} (adj1 : F �
   --all_goals simp
   all_goals {
     -- Porting note: Again, something seems wrong here... Some `simp` lemmas are not firing!
-    simp only [Functor.id_obj, Functor.comp_obj, op_comp, Functor.op_obj, Opposite.unop_op,
-      opAdjointOpOfAdjoint, mkOfHomEquiv_counit_app, Equiv.invFun_as_coe, Equiv.symm_trans_apply,
-      Equiv.symm_symm, homEquiv_unit]
+    simp only [Functor.id_obj, Functor.comp_obj, op_comp, Functor.op_obj, Opposite.unop_op, opAdjointOpOfAdjoint, mkOfHomEquiv_counit_app, Equiv.invFun_as_coe, Equiv.symm_trans_apply, Equiv.symm_symm, homEquiv_unit]
     erw [Functor.map_id]
     rw [Category.comp_id]
     rfl }
@@ -274,8 +271,7 @@ theorem rightAdjointUniq_hom_app_counit {F : C ⥤ D} {G G' : D ⥤ C} (adj1 : F
   convert
     unit_leftAdjointUniq_hom_app (opAdjointOpOfAdjoint _ _ adj2)
       (opAdjointOpOfAdjoint _ _ adj1) (Opposite.op x) using 1
-  · simp only [Functor.id_obj, op_comp, Functor.comp_obj, Functor.op_obj, Opposite.unop_op,
-      opAdjointOpOfAdjoint_unit_app, Functor.op_map]
+  · simp only [Functor.id_obj, op_comp, Functor.comp_obj, Functor.op_obj, Opposite.unop_op, opAdjointOpOfAdjoint_unit_app, Functor.op_map]
     dsimp [opEquiv]
     simp only [← op_comp]
     congr 2

@@ -288,8 +288,7 @@ theorem hyperplane_separation (K : ProperCone ℝ E) {f : E →L[ℝ] F} {b : F}
   Iff.intro
     (by
       -- suppose `b ∈ K.map f`
-      simp only [ProperCone.mem_map, ProperCone.mem_dual, adjoint_inner_right,
-        ConvexCone.mem_closure, mem_closure_iff_seq_limit]
+      simp only [ProperCone.mem_map, ProperCone.mem_dual, adjoint_inner_right, ConvexCone.mem_closure, mem_closure_iff_seq_limit]
       -- there is a sequence `seq : ℕ → F` in the image of `f` that converges to `b`
       rintro ⟨seq, hmem, htends⟩ y hinner
       suffices h : ∀ n, 0 ≤ ⟪y, seq n⟫_ℝ;

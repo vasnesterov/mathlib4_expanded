@@ -51,8 +51,7 @@ theorem coevaluation_apply_one :
       ∑ i : Basis.ofVectorSpaceIndex K V, bV i ⊗ₜ[K] bV.coord i := by
   simp only [coevaluation, id]
   rw [(Basis.singleton Unit K).constr_apply_fintype K]
-  simp only [Fintype.univ_punit, Finset.sum_const, one_smul, Basis.singleton_repr,
-    Basis.equivFun_apply, Basis.coe_ofVectorSpace, one_nsmul, Finset.card_singleton]
+  simp only [Fintype.univ_punit, Finset.sum_const, one_smul, Basis.singleton_repr, Basis.equivFun_apply, Basis.coe_ofVectorSpace, one_nsmul, Finset.card_singleton]
 #align coevaluation_apply_one coevaluation_apply_one
 
 open TensorProduct

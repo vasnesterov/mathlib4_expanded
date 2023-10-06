@@ -157,8 +157,7 @@ theorem effectiveEpiFamily_tfae {α : Type} [Fintype α] {B : Stonean}
     rw [← Iso.inv_comp_eq]
     apply colimit.hom_ext
     rintro ⟨a⟩
-    simp only [Discrete.functor_obj, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app,
-      coproductIsoCoproduct, colimit.comp_coconePointUniqueUpToIso_inv_assoc]
+    simp only [Discrete.functor_obj, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app, coproductIsoCoproduct, colimit.comp_coconePointUniqueUpToIso_inv_assoc]
     ext
     rfl
   tfae_have 3 → 1

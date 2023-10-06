@@ -97,8 +97,7 @@ def transferNatTrans : (G ⋙ L₂ ⟶ L₁ ⋙ H) ≃ (R₁ ⋙ G ⟶ H ⋙ R�
     ext X
     dsimp
     simp only [L₂.map_comp, assoc, adj₂.counit_naturality, adj₂.left_triangle_components_assoc, ←
-      Functor.comp_map G L₂, h.naturality_assoc, Functor.comp_map L₁, ← H.map_comp,
-      adj₁.left_triangle_components]
+      Functor.comp_map G L₂, h.naturality_assoc, Functor.comp_map L₁, ← H.map_comp, adj₁.left_triangle_components]
     dsimp
     simp only [id_comp, ← Functor.comp_map, ← Functor.comp_obj, NatTrans.naturality_assoc]
     simp only [Functor.comp_obj, Functor.comp_map, ← Functor.map_comp]

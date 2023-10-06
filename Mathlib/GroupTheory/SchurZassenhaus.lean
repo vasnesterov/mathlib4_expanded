@@ -65,8 +65,7 @@ theorem smul_diff_smul' [hH : Normal H] (g : Gᵐᵒᵖ) :
         (fun q _ => Subtype.ext _) (fun q _ => g • q) (fun q _ => Finset.mem_univ _)
         (fun q _ => smul_inv_smul g q) fun q _ => inv_smul_smul g q)
       (map_prod ϕ _ _).symm
-  simp only [MonoidHom.id_apply, MonoidHom.coe_mk, OneHom.coe_mk,
-    smul_apply_eq_smul_apply_inv_smul, smul_eq_mul_unop, mul_inv_rev, mul_assoc]
+  simp only [MonoidHom.id_apply, MonoidHom.coe_mk, OneHom.coe_mk, smul_apply_eq_smul_apply_inv_smul, smul_eq_mul_unop, mul_inv_rev, mul_assoc]
 #align subgroup.smul_diff_smul' Subgroup.smul_diff_smul'
 
 variable {H} [Normal H]

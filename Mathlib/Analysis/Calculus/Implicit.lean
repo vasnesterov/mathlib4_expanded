@@ -291,8 +291,7 @@ theorem implicitToLocalHomeomorphOfComplemented_apply (hf : HasStrictFDerivAt f 
 theorem implicitToLocalHomeomorphOfComplemented_apply_ker (hf : HasStrictFDerivAt f f' a)
     (hf' : range f' = ⊤) (hker : (ker f').ClosedComplemented) (y : ker f') :
     hf.implicitToLocalHomeomorphOfComplemented f f' hf' hker (y + a) = (f (y + a), y) := by
-  simp only [implicitToLocalHomeomorphOfComplemented_apply, add_sub_cancel,
-    Classical.choose_spec hker]
+  simp only [implicitToLocalHomeomorphOfComplemented_apply, add_sub_cancel, Classical.choose_spec hker]
 #align has_strict_fderiv_at.implicit_to_local_homeomorph_of_complemented_apply_ker HasStrictFDerivAt.implicitToLocalHomeomorphOfComplemented_apply_ker
 
 @[simp]
@@ -353,14 +352,11 @@ theorem to_implicitFunctionOfComplemented (hf : HasStrictFDerivAt f f' a) (hf' :
   swap
   · ext
     -- Porting note: added parentheses to help `simp`
-    simp only [Classical.choose_spec hker, implicitFunctionDataOfComplemented,
-      (ContinuousLinearMap.comp_apply), Submodule.coe_subtypeL', Submodule.coeSubtype,
-      (ContinuousLinearMap.id_apply)]
+    simp only [Classical.choose_spec hker, implicitFunctionDataOfComplemented, (ContinuousLinearMap.comp_apply), Submodule.coe_subtypeL', Submodule.coeSubtype, (ContinuousLinearMap.id_apply)]
   swap
   · ext
     -- Porting note: added parentheses to help `simp`
-    simp only [(ContinuousLinearMap.comp_apply), Submodule.coe_subtypeL', Submodule.coeSubtype,
-      LinearMap.map_coe_ker, (ContinuousLinearMap.zero_apply)]
+    simp only [(ContinuousLinearMap.comp_apply), Submodule.coe_subtypeL', Submodule.coeSubtype, LinearMap.map_coe_ker, (ContinuousLinearMap.zero_apply)]
   simp only [implicitFunctionDataOfComplemented, map_sub, sub_self]
 #align has_strict_fderiv_at.to_implicit_function_of_complemented HasStrictFDerivAt.to_implicitFunctionOfComplemented
 

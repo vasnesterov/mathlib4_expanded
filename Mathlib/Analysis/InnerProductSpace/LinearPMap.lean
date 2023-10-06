@@ -133,18 +133,15 @@ def adjointAux : T.adjointDomain →ₗ[𝕜] E where
   toFun y := (InnerProductSpace.toDual 𝕜 E).symm (adjointDomainMkClmExtend hT y)
   map_add' x y :=
     hT.eq_of_inner_left fun _ => by
-      simp only [inner_add_left, Submodule.coe_add, InnerProductSpace.toDual_symm_apply,
-        adjointDomainMkClmExtend_apply]
+      simp only [inner_add_left, Submodule.coe_add, InnerProductSpace.toDual_symm_apply, adjointDomainMkClmExtend_apply]
   map_smul' _ _ :=
     hT.eq_of_inner_left fun _ => by
-      simp only [inner_smul_left, Submodule.coe_smul_of_tower, RingHom.id_apply,
-        InnerProductSpace.toDual_symm_apply, adjointDomainMkClmExtend_apply]
+      simp only [inner_smul_left, Submodule.coe_smul_of_tower, RingHom.id_apply, InnerProductSpace.toDual_symm_apply, adjointDomainMkClmExtend_apply]
 #align linear_pmap.adjoint_aux LinearPMap.adjointAux
 
 theorem adjointAux_inner (y : T.adjointDomain) (x : T.domain) :
     ⟪adjointAux hT y, x⟫ = ⟪(y : F), T x⟫ := by
-  simp only [adjointAux, LinearMap.coe_mk, InnerProductSpace.toDual_symm_apply,
-    adjointDomainMkClmExtend_apply]
+  simp only [adjointAux, LinearMap.coe_mk, InnerProductSpace.toDual_symm_apply, adjointDomainMkClmExtend_apply]
   -- Porting note(https://github.com/leanprover-community/mathlib4/issues/5026):
   -- mathlib3 was finished here
   simp only [AddHom.coe_mk, InnerProductSpace.toDual_symm_apply]
@@ -225,8 +222,7 @@ as taking the `continuous_linear_map.adjoint` interpreted as a `linear_pmap`. -/
 theorem toPMap_adjoint_eq_adjoint_toPMap_of_dense (hp : Dense (p : Set E)) :
     (A.toPMap p).adjoint = A.adjoint.toPMap ⊤ := by
   ext x y hxy
-  · simp only [LinearMap.toPMap_domain, Submodule.mem_top, iff_true_iff,
-      LinearPMap.mem_adjoint_domain_iff, LinearMap.coe_comp, innerₛₗ_apply_coe]
+  · simp only [LinearMap.toPMap_domain, Submodule.mem_top, iff_true_iff, LinearPMap.mem_adjoint_domain_iff, LinearMap.coe_comp, innerₛₗ_apply_coe]
     exact ((innerSL 𝕜 x).comp <| A.comp <| Submodule.subtypeL _).cont
   refine' LinearPMap.adjoint_apply_eq _ _ fun v => _
   · -- Porting note: was simply `hp` as an argument above

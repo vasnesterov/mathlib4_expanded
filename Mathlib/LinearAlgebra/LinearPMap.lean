@@ -132,15 +132,13 @@ noncomputable def mkSpanSingleton' (x : E) (y : F) (H : ∀ c : R, c • x = 0 �
         dsimp only []
         rw [← add_smul]
         apply H
-        simp only [add_smul, sub_smul,
-          fun w : R ∙ x => Classical.choose_spec (mem_span_singleton.1 w.prop)]
+        simp only [add_smul, sub_smul, fun w : R ∙ x => Classical.choose_spec (mem_span_singleton.1 w.prop)]
         apply coe_add
       map_smul' := fun c z => by
         dsimp only []
         rw [smul_smul]
         apply H
-        simp only [mul_smul,
-          fun w : R ∙ x => Classical.choose_spec (mem_span_singleton.1 w.prop)]
+        simp only [mul_smul, fun w : R ∙ x => Classical.choose_spec (mem_span_singleton.1 w.prop)]
         apply coe_smul }
 #align linear_pmap.mk_span_singleton' LinearPMap.mkSpanSingleton'
 
@@ -311,8 +309,7 @@ private theorem sup_aux (f g : E →ₗ.[R] F)
     rw [add_comm]; rw [← sub_eq_sub_iff_add_eq_add]; rw [eq_comm]; rw [← map_sub]; rw [← map_sub]
     apply h
     simp only [← eq_sub_iff_add_eq] at hxy
-    simp only [AddSubgroupClass.coe_sub, coe_mk, coe_mk, hxy, ← sub_add, ← sub_sub, sub_self,
-      zero_sub, ← H]
+    simp only [AddSubgroupClass.coe_sub, coe_mk, coe_mk, hxy, ← sub_add, ← sub_sub, sub_self, zero_sub, ← H]
     apply neg_add_eq_sub
   refine' ⟨{ toFun := fg.. }, fg_eq⟩
   · rintro ⟨z₁, hz₁⟩ ⟨z₂, hz₂⟩
@@ -564,11 +561,9 @@ instance instSubtractionCommMonoid : SubtractionCommMonoid (E →ₗ.[R] F) wher
     rw [ext_iff] at h'
     rcases h' with ⟨hdom, h'⟩
     rw [zero_domain] at hdom
-    simp only [inf_coe, neg_domain, Eq.ndrec, Int.ofNat_eq_coe, zero_domain, top_coe, zero_apply,
-      Subtype.forall, mem_top, forall_true_left, forall_eq'] at h'
+    simp only [inf_coe, neg_domain, Eq.ndrec, Int.ofNat_eq_coe, zero_domain, top_coe, zero_apply, Subtype.forall, mem_top, forall_true_left, forall_eq'] at h'
     specialize h' x.1 (by simp [hdom])
-    simp only [inf_coe, neg_domain, Eq.ndrec, Int.ofNat_eq_coe, add_apply, Subtype.coe_eta,
-      ← neg_eq_iff_add_eq_zero] at h'
+    simp only [inf_coe, neg_domain, Eq.ndrec, Int.ofNat_eq_coe, add_apply, Subtype.coe_eta, ← neg_eq_iff_add_eq_zero] at h'
     rw [h']; rw [h]
 
 end Sub
@@ -785,8 +780,7 @@ theorem mem_graph (f : E →ₗ.[R] F) (x : domain f) : ((x : E), f x) ∈ f.gra
 theorem graph_map_fst_eq_domain (f : E →ₗ.[R] F) :
     f.graph.map (LinearMap.fst R E F) = f.domain := by
   ext x
-  simp only [Submodule.mem_map, mem_graph_iff, Subtype.exists, exists_and_left, exists_eq_left,
-    LinearMap.fst_apply, Prod.exists, exists_and_right, exists_eq_right]
+  simp only [Submodule.mem_map, mem_graph_iff, Subtype.exists, exists_and_left, exists_eq_left, LinearMap.fst_apply, Prod.exists, exists_and_right, exists_eq_right]
   constructor <;> intro h
   · rcases h with ⟨x, hx, _⟩
     exact hx
@@ -808,14 +802,12 @@ theorem smul_graph (f : E →ₗ.[R] F) (z : M) :
     rcases h with ⟨y, hy, h⟩
     rw [LinearPMap.smul_apply] at h
     rw [Submodule.mem_map]
-    simp only [mem_graph_iff, LinearMap.prodMap_apply, LinearMap.id_coe, id.def,
-      LinearMap.smul_apply, Prod.mk.inj_iff, Prod.exists, exists_exists_and_eq_and]
+    simp only [mem_graph_iff, LinearMap.prodMap_apply, LinearMap.id_coe, id.def, LinearMap.smul_apply, Prod.mk.inj_iff, Prod.exists, exists_exists_and_eq_and]
     use x_fst, y, hy
   rw [Submodule.mem_map] at h
   rcases h with ⟨x', hx', h⟩
   cases x'
-  simp only [LinearMap.prodMap_apply, LinearMap.id_coe, id.def, LinearMap.smul_apply,
-    Prod.mk.inj_iff] at h
+  simp only [LinearMap.prodMap_apply, LinearMap.id_coe, id.def, LinearMap.smul_apply, Prod.mk.inj_iff] at h
   rw [mem_graph_iff] at hx' ⊢
   rcases hx' with ⟨y, hy, hx'⟩
   use y
@@ -833,14 +825,12 @@ theorem neg_graph (f : E →ₗ.[R] F) :
     rcases h with ⟨y, hy, h⟩
     rw [LinearPMap.neg_apply] at h
     rw [Submodule.mem_map]
-    simp only [mem_graph_iff, LinearMap.prodMap_apply, LinearMap.id_coe, id.def,
-      LinearMap.neg_apply, Prod.mk.inj_iff, Prod.exists, exists_exists_and_eq_and]
+    simp only [mem_graph_iff, LinearMap.prodMap_apply, LinearMap.id_coe, id.def, LinearMap.neg_apply, Prod.mk.inj_iff, Prod.exists, exists_exists_and_eq_and]
     use x_fst, y, hy
   rw [Submodule.mem_map] at h
   rcases h with ⟨x', hx', h⟩
   cases x'
-  simp only [LinearMap.prodMap_apply, LinearMap.id_coe, id.def, LinearMap.neg_apply,
-    Prod.mk.inj_iff] at h
+  simp only [LinearMap.prodMap_apply, LinearMap.id_coe, id.def, LinearMap.neg_apply, Prod.mk.inj_iff] at h
   rw [mem_graph_iff] at hx' ⊢
   rcases hx' with ⟨y, hy, hx'⟩
   use y
@@ -1093,8 +1083,7 @@ variable (hf : LinearMap.ker f.toFun = ⊥)
 theorem mem_inverse_graph_snd_eq_zero (x : F × E)
     (hv : x ∈ (graph f).map (LinearEquiv.prodComm R E F))
     (hv' : x.fst = 0) : x.snd = 0 := by
-  simp only [Submodule.mem_map, mem_graph_iff, Subtype.exists, exists_and_left, exists_eq_left,
-    LinearEquiv.prodComm_apply, Prod.exists, Prod.swap_prod_mk] at hv
+  simp only [Submodule.mem_map, mem_graph_iff, Subtype.exists, exists_and_left, exists_eq_left, LinearEquiv.prodComm_apply, Prod.exists, Prod.swap_prod_mk] at hv
   rcases hv with ⟨a, b, ⟨ha, h1⟩, ⟨h2, h3⟩⟩
   simp only at hv' ⊢
   rw [hv'] at h1
@@ -1111,8 +1100,7 @@ theorem inverse_range : LinearMap.range (inverse f).toFun = f.domain := by
   rfl
 
 theorem mem_inverse_graph (x : f.domain) : (f x, (x : E)) ∈ (inverse f).graph := by
-  simp only [inverse_graph hf, Submodule.mem_map, mem_graph_iff, Subtype.exists, exists_and_left,
-    exists_eq_left, LinearEquiv.prodComm_apply, Prod.exists, Prod.swap_prod_mk, Prod.mk.injEq]
+  simp only [inverse_graph hf, Submodule.mem_map, mem_graph_iff, Subtype.exists, exists_and_left, exists_eq_left, LinearEquiv.prodComm_apply, Prod.exists, Prod.swap_prod_mk, Prod.mk.injEq]
   exact ⟨(x : E), f x, ⟨x.2, Eq.refl _⟩, Eq.refl _, Eq.refl _⟩
 
 theorem inverse_apply_eq {y : (inverse f).domain} {x : f.domain} (hxy : f x = y) :

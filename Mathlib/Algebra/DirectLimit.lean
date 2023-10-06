@@ -653,8 +653,7 @@ def lift : DirectLimit G f →+* P :=
       intro x hx
       rw [SetLike.mem_coe]; rw [Ideal.mem_comap]; rw [mem_bot]
       rcases hx with (⟨i, j, hij, x, rfl⟩ | ⟨i, rfl⟩ | ⟨i, x, y, rfl⟩ | ⟨i, x, y, rfl⟩) <;>
-        simp only [RingHom.map_sub, lift_of, Hg, RingHom.map_one, RingHom.map_add, RingHom.map_mul,
-          (g i).map_one, (g i).map_add, (g i).map_mul, sub_self])
+        simp only [RingHom.map_sub, lift_of, Hg, RingHom.map_one, RingHom.map_add, RingHom.map_mul, (g i).map_one, (g i).map_add, (g i).map_mul, sub_self])
 #align ring.direct_limit.lift Ring.DirectLimit.lift
 
 variable {G f}

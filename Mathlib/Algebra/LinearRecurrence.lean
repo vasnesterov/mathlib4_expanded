@@ -217,8 +217,7 @@ def charPoly : α[X] :=
 theorem geom_sol_iff_root_charPoly (q : α) :
     (E.IsSolution fun n ↦ q ^ n) ↔ E.charPoly.IsRoot q := by
   rw [charPoly]; rw [Polynomial.IsRoot.def]; rw [Polynomial.eval]
-  simp only [Polynomial.eval₂_finset_sum, one_mul, RingHom.id_apply, Polynomial.eval₂_monomial,
-    Polynomial.eval₂_sub]
+  simp only [Polynomial.eval₂_finset_sum, one_mul, RingHom.id_apply, Polynomial.eval₂_monomial, Polynomial.eval₂_sub]
   constructor
   · intro h
     simpa [sub_eq_zero] using h 0

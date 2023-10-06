@@ -166,11 +166,8 @@ theorem circleTransformDeriv_bound {R : ℝ} (hR : 0 < R) {z x : ℂ} {f : ℂ �
     (HX2 (circleMap z R y1) (circleMap_mem_sphere z hR.le y1)) (Complex.abs.nonneg _)
     (Complex.abs.nonneg _)
   simp_rw [hfun]
-  simp only [circleTransformBoundingFunction, circleTransformDeriv, norm_eq_abs,
-    Algebra.id.smul_eq_mul, deriv_circleMap, map_mul, abs_circleMap_zero, abs_I, mul_one, ←
-    mul_assoc, mul_inv_rev, inv_I, abs_neg, abs_inv, abs_ofReal, one_mul, abs_two, abs_pow,
-    mem_ball, gt_iff_lt, Subtype.coe_mk, SetCoe.forall, mem_prod, mem_closedBall, and_imp,
-    Prod.forall, NormedSpace.sphere_nonempty, mem_sphere_iff_norm] at *
+  simp only [circleTransformBoundingFunction, circleTransformDeriv, norm_eq_abs, Algebra.id.smul_eq_mul, deriv_circleMap, map_mul, abs_circleMap_zero, abs_I, mul_one, ←
+    mul_assoc, mul_inv_rev, inv_I, abs_neg, abs_inv, abs_ofReal, one_mul, abs_two, abs_pow, mem_ball, gt_iff_lt, Subtype.coe_mk, SetCoe.forall, mem_prod, mem_closedBall, and_imp, Prod.forall, NormedSpace.sphere_nonempty, mem_sphere_iff_norm] at *
   exact this
 #align complex.circle_transform_deriv_bound Complex.circleTransformDeriv_bound
 

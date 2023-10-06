@@ -389,8 +389,7 @@ end LinearOrder
 instance orderedSub [LinearOrderedRing α] : OrderedSub { x : α // 0 ≤ x } :=
   ⟨by
     rintro ⟨a, ha⟩ ⟨b, hb⟩ ⟨c, hc⟩
-    simp only [sub_le_iff_le_add, Subtype.mk_le_mk, mk_sub_mk, mk_add_mk, toNonneg_le,
-      Subtype.coe_mk]⟩
+    simp only [sub_le_iff_le_add, Subtype.mk_le_mk, mk_sub_mk, mk_add_mk, toNonneg_le, Subtype.coe_mk]⟩
 #align nonneg.has_ordered_sub Nonneg.orderedSub
 
 end Nonneg

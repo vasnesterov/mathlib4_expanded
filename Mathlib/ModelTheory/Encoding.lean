@@ -252,12 +252,10 @@ theorem listDecode_encode_list (l : List (Σn, L.BoundedFormula α n)) :
           Sum.inl (⟨(⟨φ_n, rel φ_R ts⟩ : Σn, L.BoundedFormula α n).fst, ts i⟩ :
             Σn, L.Term (Sum α (Fin n)))) (finRange φ_l) ++ l)).get? ↑i).join = some ⟨_, ts i⟩ := by
           intro i
-          simp only [Option.join, map_append, map_map, Option.bind_eq_some, id.def, exists_eq_right,
-            get?_eq_some, length_append, length_map, length_finRange]
+          simp only [Option.join, map_append, map_map, Option.bind_eq_some, id.def, exists_eq_right, get?_eq_some, length_append, length_map, length_finRange]
           refine' ⟨lt_of_lt_of_le i.2 le_self_add, _⟩
           rw [get_append]; rw [get_map]
-          · simp only [Sum.getLeft?, get_finRange, Fin.eta, Function.comp_apply, eq_self_iff_true,
-              heq_iff_eq, and_self_iff]
+          · simp only [Sum.getLeft?, get_finRange, Fin.eta, Function.comp_apply, eq_self_iff_true, heq_iff_eq, and_self_iff]
           · simp only [length_map, length_finRange, is_lt]
         rw [dif_pos]
         swap

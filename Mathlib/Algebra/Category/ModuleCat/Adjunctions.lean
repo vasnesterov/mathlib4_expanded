@@ -268,9 +268,7 @@ instance categoryFree : Category (Free R C) where
   assoc {W X Y Z} f g h := by
     dsimp
     -- This imitates the proof of associativity for `MonoidAlgebra`.
-    simp only [sum_sum_index, sum_single_index, single_zero, single_add, eq_self_iff_true,
-      forall_true_iff, forall₃_true_iff, add_mul, mul_add, Category.assoc, mul_assoc,
-      zero_mul, mul_zero, sum_zero, sum_add]
+    simp only [sum_sum_index, sum_single_index, single_zero, single_add, eq_self_iff_true, forall_true_iff, forall₃_true_iff, add_mul, mul_add, Category.assoc, mul_assoc, zero_mul, mul_zero, sum_zero, sum_add]
 #align category_theory.category_Free CategoryTheory.categoryFree
 
 namespace Free

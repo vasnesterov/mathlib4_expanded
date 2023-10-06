@@ -66,8 +66,7 @@ protected def directSum :
     refine TensorProduct.ext ?_
     refine LinearMap.ext₂ fun m₁ m₂ => ?_
     -- porting note: seems much nicer than the `repeat` lean 3 proof.
-    simp only [compr₂_apply, comp_apply, id_apply, mk_apply, DirectSum.toModule_lof, map_tmul,
-        lift.tmul, flip_apply, curry_apply]
+    simp only [compr₂_apply, comp_apply, id_apply, mk_apply, DirectSum.toModule_lof, map_tmul, lift.tmul, flip_apply, curry_apply]
   · -- `(_)` prevents typeclass search timing out on problems that can be solved immediately by
     -- unification
     refine TensorProduct.ext ?_
@@ -76,8 +75,7 @@ protected def directSum :
     refine @DirectSum.linearMap_ext R _ _ _ _ _ _ _ _ (_) _ _ fun i₂ => ?_
     refine LinearMap.ext fun x₂ => ?_
     -- porting note: seems much nicer than the `repeat` lean 3 proof.
-    simp only [compr₂_apply, comp_apply, id_apply, mk_apply, DirectSum.toModule_lof, map_tmul,
-        lift.tmul, flip_apply, curry_apply]
+    simp only [compr₂_apply, comp_apply, id_apply, mk_apply, DirectSum.toModule_lof, map_tmul, lift.tmul, flip_apply, curry_apply]
   /- was:
 
     refine'

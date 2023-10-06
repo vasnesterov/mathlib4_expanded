@@ -250,9 +250,7 @@ def cokernelOrderHom [HasCokernels C] (X : C) : Subobject X →o (Subobject (op 
         refine' Subobject.mk_eq_mk_of_comm _ _ (Iso.op _) (Quiver.Hom.unop_inj _)
         · exact (IsColimit.coconePointUniqueUpToIso (colimit.isColimit _)
             (isCokernelEpiComp (colimit.isColimit _) i.hom rfl)).symm
-        · simp only [Iso.comp_inv_eq, Iso.op_hom, Iso.symm_hom, unop_comp, Quiver.Hom.unop_op,
-            colimit.comp_coconePointUniqueUpToIso_hom, Cofork.ofπ_ι_app,
-            coequalizer.cofork_π])
+        · simp only [Iso.comp_inv_eq, Iso.op_hom, Iso.symm_hom, unop_comp, Quiver.Hom.unop_op, colimit.comp_coconePointUniqueUpToIso_hom, Cofork.ofπ_ι_app, coequalizer.cofork_π])
   monotone' :=
     Subobject.ind₂ _ <| by
       intro A B f g hf hg h
@@ -275,8 +273,7 @@ def kernelOrderHom [HasKernels C] (X : C) : (Subobject (op X))ᵒᵈ →o Subobj
             IsLimit.conePointUniqueUpToIso (limit.isLimit _)
               (isKernelCompMono (limit.isLimit (parallelPair g.unop 0)) i.unop.hom rfl)
         · dsimp
-          simp only [← Iso.eq_inv_comp, limit.conePointUniqueUpToIso_inv_comp,
-            Fork.ofι_π_app])
+          simp only [← Iso.eq_inv_comp, limit.conePointUniqueUpToIso_inv_comp, Fork.ofι_π_app])
   monotone' :=
     Subobject.ind₂ _ <| by
       intro A B f g hf hg h

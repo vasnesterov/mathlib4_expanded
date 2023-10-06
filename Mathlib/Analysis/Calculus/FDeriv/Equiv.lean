@@ -178,8 +178,7 @@ theorem comp_right_differentiableWithinAt_iff {f : F → G} {s : Set F} {x : E} 
 
 theorem comp_right_differentiableAt_iff {f : F → G} {x : E} :
     DifferentiableAt 𝕜 (f ∘ iso) x ↔ DifferentiableAt 𝕜 f (iso x) := by
-  simp only [← differentiableWithinAt_univ, ← iso.comp_right_differentiableWithinAt_iff,
-    preimage_univ]
+  simp only [← differentiableWithinAt_univ, ← iso.comp_right_differentiableWithinAt_iff, preimage_univ]
 #align continuous_linear_equiv.comp_right_differentiable_at_iff ContinuousLinearEquiv.comp_right_differentiableAt_iff
 
 theorem comp_right_differentiableOn_iff {f : F → G} {s : Set F} :

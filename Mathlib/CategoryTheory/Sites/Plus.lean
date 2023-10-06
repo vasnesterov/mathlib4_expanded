@@ -135,8 +135,7 @@ def plusObj : Cᵒᵖ ⥤ D where
     intro X Y Z f g
     refine' colimit.hom_ext (fun S => _)
     dsimp
-    simp only [diagramPullback_app, colimit.ι_pre_assoc, colimit.ι_pre, ι_colimMap_assoc,
-      Category.assoc]
+    simp only [diagramPullback_app, colimit.ι_pre_assoc, colimit.ι_pre, ι_colimMap_assoc, Category.assoc]
     let e := S.unop.pullbackComp g.unop f.unop
     dsimp only [Functor.op, pullback_obj]
     erw [← colimit.w _ e.inv.op, ← Category.assoc, ← Category.assoc]
@@ -157,8 +156,7 @@ def plusMap {P Q : Cᵒᵖ ⥤ D} (η : P ⟶ Q) : J.plusObj P ⟶ J.plusObj Q w
     intro X Y f
     dsimp [plusObj]
     ext
-    simp only [diagramPullback_app, ι_colimMap, colimit.ι_pre_assoc, colimit.ι_pre,
-      ι_colimMap_assoc, Category.assoc]
+    simp only [diagramPullback_app, ι_colimMap, colimit.ι_pre_assoc, colimit.ι_pre, ι_colimMap_assoc, Category.assoc]
     simp_rw [← Category.assoc]
     congr 1
     exact Multiequalizer.hom_ext _ _ _ (fun I => by dsimp; simp)
@@ -252,8 +250,7 @@ theorem plusMap_toPlus : J.plusMap (J.toPlus P) = J.toPlus (J.plusObj P) := by
   congr 1
   refine' Multiequalizer.hom_ext _ _ _ (fun I => _)
   erw [Multiequalizer.lift_ι]
-  simp only [unop_op, op_unop, diagram_map, Category.assoc, limit.lift_π,
-    Multifork.ofι_π_app]
+  simp only [unop_op, op_unop, diagram_map, Category.assoc, limit.lift_π, Multifork.ofι_π_app]
   let ee : (J.pullback (I.map e).f).obj S.unop ⟶ ⊤ := homOfLE (OrderTop.le_top _)
   erw [← colimit.w _ ee.op, ι_colimMap_assoc, colimit.ι_pre, diagramPullback_app,
     ← Category.assoc, ← Category.assoc]
@@ -264,8 +261,7 @@ theorem plusMap_toPlus : J.plusMap (J.toPlus P) = J.toPlus (J.plusObj P) := by
         Sieve.downward_closed _ I.hf _, by simp⟩) using 1
   · dsimp [diagram]
     cases I
-    simp only [Category.assoc, limit.lift_π, Multifork.ofι_pt, Multifork.ofι_π_app,
-      Cover.Arrow.map_Y, Cover.Arrow.map_f]
+    simp only [Category.assoc, limit.lift_π, Multifork.ofι_pt, Multifork.ofι_π_app, Cover.Arrow.map_Y, Cover.Arrow.map_f]
     rfl
   · erw [Multiequalizer.lift_ι]
     dsimp [Cover.index]

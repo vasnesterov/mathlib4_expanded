@@ -120,8 +120,7 @@ theorem isSatisfiable_iff_isFinitelySatisfiable {T : L.Theory} :
               ⟨{⟨φ, hφ⟩}, fun s h' =>
                 Theory.realize_sentence_of_mem (s.map (Function.Embedding.subtype fun x => x ∈ T))
                   _⟩)
-        simp only [Finset.coe_map, Function.Embedding.coe_subtype, Set.mem_image, Finset.mem_coe,
-          Subtype.exists, Subtype.coe_mk, exists_and_right, exists_eq_right]
+        simp only [Finset.coe_map, Function.Embedding.coe_subtype, Set.mem_image, Finset.mem_coe, Subtype.exists, Subtype.coe_mk, exists_and_right, exists_eq_right]
         exact ⟨hφ, h' (Finset.mem_singleton_self _)⟩
       exact ⟨ModelType.of T M'⟩⟩
 #align first_order.language.Theory.is_satisfiable_iff_is_finitely_satisfiable FirstOrder.Language.Theory.isSatisfiable_iff_isFinitelySatisfiable
@@ -346,8 +345,7 @@ theorem ModelsBoundedFormula.realize_sentence {φ : L.Sentence} (h : T ⊨ᵇ φ
   rw [models_iff_not_satisfiable] at h
   contrapose! h
   have : M ⊨ T ∪ {Formula.not φ} := by
-    simp only [Set.union_singleton, model_iff, Set.mem_insert_iff, forall_eq_or_imp,
-      Sentence.realize_not]
+    simp only [Set.union_singleton, model_iff, Set.mem_insert_iff, forall_eq_or_imp, Sentence.realize_not]
     rw [← model_iff]
     exact ⟨h, inferInstance⟩
   exact Model.isSatisfiable M

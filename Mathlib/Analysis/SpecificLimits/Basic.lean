@@ -186,8 +186,7 @@ theorem tendsto_atTop_of_geom_le {v : ℕ → ℝ} {c : ℝ} (h₀ : 0 < v 0) (h
 theorem NNReal.tendsto_pow_atTop_nhds_0_of_lt_1 {r : ℝ≥0} (hr : r < 1) :
     Tendsto (fun n : ℕ => r ^ n) atTop (𝓝 0) :=
   NNReal.tendsto_coe.1 <| by
-    simp only [NNReal.coe_pow, NNReal.coe_zero,
-      _root_.tendsto_pow_atTop_nhds_0_of_lt_1 r.coe_nonneg hr]
+    simp only [NNReal.coe_pow, NNReal.coe_zero, _root_.tendsto_pow_atTop_nhds_0_of_lt_1 r.coe_nonneg hr]
 #align nnreal.tendsto_pow_at_top_nhds_0_of_lt_1 NNReal.tendsto_pow_atTop_nhds_0_of_lt_1
 
 theorem ENNReal.tendsto_pow_atTop_nhds_0_of_lt_1 {r : ℝ≥0∞} (hr : r < 1) :
@@ -261,8 +260,7 @@ theorem tsum_geometric_inv_two_ge (n : ℕ) :
   have B : ((Finset.range n).sum fun i : ℕ => ite (n ≤ i) ((2⁻¹ : ℝ) ^ i) 0) = 0 :=
     Finset.sum_eq_zero fun i hi =>
       ite_eq_right_iff.2 fun h => (lt_irrefl _ ((Finset.mem_range.1 hi).trans_le h)).elim
-  simp only [← _root_.sum_add_tsum_nat_add n A, B, if_true, zero_add, zero_le',
-    le_add_iff_nonneg_left, pow_add, _root_.tsum_mul_right, tsum_geometric_inv_two]
+  simp only [← _root_.sum_add_tsum_nat_add n A, B, if_true, zero_add, zero_le', le_add_iff_nonneg_left, pow_add, _root_.tsum_mul_right, tsum_geometric_inv_two]
 #align tsum_geometric_inv_two_ge tsum_geometric_inv_two_ge
 
 theorem hasSum_geometric_two' (a : ℝ) : HasSum (fun n : ℕ => a / 2 / 2 ^ n) a := by
@@ -605,8 +603,7 @@ theorem tendsto_nat_floor_mul_div_atTop {a : R} (ha : 0 ≤ a) :
   rw [sub_zero] at A
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le' A tendsto_const_nhds
   · refine' eventually_atTop.2 ⟨1, fun x hx => _⟩
-    simp only [le_div_iff (zero_lt_one.trans_le hx), _root_.sub_mul,
-      inv_mul_cancel (zero_lt_one.trans_le hx).ne']
+    simp only [le_div_iff (zero_lt_one.trans_le hx), _root_.sub_mul, inv_mul_cancel (zero_lt_one.trans_le hx).ne']
     have := Nat.lt_floor_add_one (a * x)
     linarith
   · refine' eventually_atTop.2 ⟨1, fun x hx => _⟩

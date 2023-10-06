@@ -215,8 +215,7 @@ theorem pushforwardFamily_apply {X} (x : ℱ.obj (op X)) {Y : C} (f : G.obj Y �
   rw [← G.image_preimage (Nonempty.some _ : Presieve.CoverByImageStructure _ _).lift]
   change ℱ.map _ ≫ α.app (op _) ≫ ℱ'.val.map _ = ℱ.map f.op ≫ α.app (op Y)
   erw [← α.naturality (G.preimage _).op]
-  simp only [← Functor.map_comp, ← Category.assoc, Functor.comp_map, G.image_preimage, G.op_map,
-    Quiver.Hom.unop_op, ← op_comp, Presieve.CoverByImageStructure.fac]
+  simp only [← Functor.map_comp, ← Category.assoc, Functor.comp_map, G.image_preimage, G.op_map, Quiver.Hom.unop_op, ← op_comp, Presieve.CoverByImageStructure.fac]
 #align category_theory.cover_dense.types.pushforward_family_apply CategoryTheory.CoverDense.Types.pushforwardFamily_apply
 
 @[simp]
@@ -413,8 +412,7 @@ theorem sheafHom_restrict_eq (α : G.op ⋙ ℱ ⟶ G.op ⋙ ℱ'.val) :
   · exact (pushforwardFamily_compatible H _ _)
   intro Y f hf
   conv_lhs => rw [← hf.some.fac]
-  simp only [pushforwardFamily, Functor.comp_map, yoneda_map_app, coyoneda_obj_map, op_comp,
-    FunctorToTypes.map_comp_apply, homOver_app, ← Category.assoc]
+  simp only [pushforwardFamily, Functor.comp_map, yoneda_map_app, coyoneda_obj_map, op_comp, FunctorToTypes.map_comp_apply, homOver_app, ← Category.assoc]
   congr 1
   simp only [Category.assoc]
   congr 1

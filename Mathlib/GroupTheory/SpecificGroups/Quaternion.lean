@@ -217,8 +217,7 @@ theorem orderOf_xa [NeZero n] (i : ZMod (2 * n)) : orderOf (xa i) = 4 := by
     injection h with h'
     apply_fun ZMod.val at h'
     apply_fun (· / n) at h'
-    simp only [ZMod.val_nat_cast, ZMod.val_zero, Nat.zero_div, Nat.mod_mul_left_div_self,
-      Nat.div_self (NeZero.pos n)] at h'
+    simp only [ZMod.val_nat_cast, ZMod.val_zero, Nat.zero_div, Nat.mod_mul_left_div_self, Nat.div_self (NeZero.pos n)] at h'
   · norm_num
 #align quaternion_group.order_of_xa QuaternionGroup.orderOf_xa
 

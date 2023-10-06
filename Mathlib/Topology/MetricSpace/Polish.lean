@@ -399,8 +399,7 @@ theorem _root_.IsClosed.isClopenable [TopologicalSpace α] [PolishSpace α] {s :
   haveI : PolishSpace t := hs.isOpen_compl.polishSpace
   let f : s ⊕ t ≃ α := Equiv.Set.sumCompl s
   have hle : TopologicalSpace.coinduced f instTopologicalSpaceSum ≤ ‹_›
-  · simp only [instTopologicalSpaceSum, coinduced_sup, coinduced_compose, sup_le_iff,
-      ← continuous_iff_coinduced_le]
+  · simp only [instTopologicalSpaceSum, coinduced_sup, coinduced_compose, sup_le_iff, ← continuous_iff_coinduced_le]
     exact ⟨continuous_subtype_val, continuous_subtype_val⟩
   refine ⟨.coinduced f instTopologicalSpaceSum, hle, ?_, hs.mono hle, ?_⟩
   · rw [← f.induced_symm]

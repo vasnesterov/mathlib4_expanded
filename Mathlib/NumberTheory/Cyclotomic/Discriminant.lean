@@ -96,8 +96,7 @@ theorem discr_prime_pow_ne_two [IsCyclotomicExtension {p ^ (k + 1)} K L] [hp : F
   · have H := congr_arg (@derivative K _) (cyclotomic_prime_pow_mul_X_pow_sub_one K p k)
     rw [derivative_mul] at H; rw [derivative_sub] at H; rw [derivative_one] at H; rw [sub_zero] at H; rw [derivative_X_pow] at H; rw [C_eq_nat_cast] at H; rw [derivative_sub] at H; rw [derivative_one] at H; rw [sub_zero] at H; rw [derivative_X_pow] at H; rw [C_eq_nat_cast] at H; rw [← PNat.pow_coe] at H; rw [hζ.minpoly_eq_cyclotomic_of_irreducible hirr] at H
     replace H := congr_arg (fun P => aeval ζ P) H
-    simp only [aeval_add, aeval_mul, minpoly.aeval, zero_mul, add_zero, aeval_nat_cast,
-      _root_.map_sub, aeval_one, aeval_X_pow] at H
+    simp only [aeval_add, aeval_mul, minpoly.aeval, zero_mul, add_zero, aeval_nat_cast, _root_.map_sub, aeval_one, aeval_X_pow] at H
     replace H := congr_arg (Algebra.norm K) H
     have hnorm : (norm K) (ζ ^ (p : ℕ) ^ k - 1) = (p : K) ^ (p : ℕ) ^ k := by
       by_cases hp : p = 2
@@ -138,8 +137,7 @@ theorem discr_prime_pow [hcycl : IsCyclotomicExtension {p ^ k} K L] [hp : Fact (
     discr K (hζ.powerBasis K).basis =
       (-1) ^ ((p ^ k : ℕ).totient / 2) * p ^ ((p : ℕ) ^ (k - 1) * ((p - 1) * k - 1)) := by
   cases' k with k k
-  · simp only [coe_basis, _root_.pow_zero, powerBasis_gen _ hζ, totient_one, mul_zero, mul_one,
-      show 1 / 2 = 0 by rfl, discr, traceMatrix]
+  · simp only [coe_basis, _root_.pow_zero, powerBasis_gen _ hζ, totient_one, mul_zero, mul_one, show 1 / 2 = 0 by rfl, discr, traceMatrix]
     have hζone : ζ = 1 := by simpa using hζ
     rw [hζ.powerBasis_dim _]; rw [hζone]; rw [← (algebraMap K L).map_one]; rw [minpoly.eq_X_sub_C_of_algebraMap_inj _ (algebraMap K L).injective]; rw [natDegree_X_sub_C]
     simp only [traceMatrix, map_one, one_pow, Matrix.det_unique, traceForm_apply, mul_one]
@@ -163,8 +161,7 @@ theorem discr_prime_pow [hcycl : IsCyclotomicExtension {p ^ k} K L] [hp : Fact (
       -- `Fin (natDegree (minpoly K ζ))` to `Fin 1`
       simp_rw [hζ.eq_neg_one_of_two_right, show (-1 : L) = algebraMap K L (-1) by simp]
       rw [hζ.eq_neg_one_of_two_right]; rw [show (-1 : L) = algebraMap K L (-1) by simp]; rw [minpoly.eq_X_sub_C_of_algebraMap_inj _ (algebraMap K L).injective]; rw [natDegree_X_sub_C]
-      simp only [discr, traceMatrix_apply, Matrix.det_unique, Fin.default_eq_zero, Fin.val_zero,
-        _root_.pow_zero, traceForm_apply, mul_one]
+      simp only [discr, traceMatrix_apply, Matrix.det_unique, Fin.default_eq_zero, Fin.val_zero, _root_.pow_zero, traceForm_apply, mul_one]
       rw [← (algebraMap K L).map_one]; rw [trace_algebraMap]; rw [finrank _ hirr]; rw [hp]; rw [hk]; norm_num
       simp [← coe_two]
     · exact discr_prime_pow_ne_two hζ hirr hk

@@ -163,17 +163,11 @@ def diagram.isoOfIso (α : F ≅ G) : diagram F U ≅ diagram.{v'} G U :=
       · -- Porting note : `ext` can't see `limit.hom_ext` applies here:
         -- See https://github.com/leanprover-community/mathlib4/issues/5229
         refine limit.hom_ext (fun _ => ?_)
-        simp only [leftRes, piOpens.isoOfIso, piInters.isoOfIso, parallelPair_map_left,
-          Functor.mapIso_hom, lim_map, limit.lift_map, limit.lift_π, Cones.postcompose_obj_π,
-          NatTrans.comp_app, Fan.mk_π_app, Discrete.natIso_hom_app, Iso.app_hom, Category.assoc,
-          NatTrans.naturality, limMap_π_assoc]
+        simp only [leftRes, piOpens.isoOfIso, piInters.isoOfIso, parallelPair_map_left, Functor.mapIso_hom, lim_map, limit.lift_map, limit.lift_π, Cones.postcompose_obj_π, NatTrans.comp_app, Fan.mk_π_app, Discrete.natIso_hom_app, Iso.app_hom, Category.assoc, NatTrans.naturality, limMap_π_assoc]
       · -- Porting note : `ext` can't see `limit.hom_ext` applies here:
         -- See https://github.com/leanprover-community/mathlib4/issues/5229
         refine limit.hom_ext (fun _ => ?_)
-        simp only [rightRes, piOpens.isoOfIso, piInters.isoOfIso, parallelPair_map_right,
-          Functor.mapIso_hom, lim_map, limit.lift_map, limit.lift_π, Cones.postcompose_obj_π,
-          NatTrans.comp_app, Fan.mk_π_app, Discrete.natIso_hom_app, Iso.app_hom, Category.assoc,
-          NatTrans.naturality, limMap_π_assoc]
+        simp only [rightRes, piOpens.isoOfIso, piInters.isoOfIso, parallelPair_map_right, Functor.mapIso_hom, lim_map, limit.lift_map, limit.lift_π, Cones.postcompose_obj_π, NatTrans.comp_app, Fan.mk_π_app, Discrete.natIso_hom_app, Iso.app_hom, Category.assoc, NatTrans.naturality, limMap_π_assoc]
       · simp)
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.sheaf_condition_equalizer_products.diagram.iso_of_iso TopCat.Presheaf.SheafConditionEqualizerProducts.diagram.isoOfIso
@@ -192,10 +186,7 @@ def fork.isoOfIso (α : F ≅ G) :
     refine limit.hom_ext (fun _ => ?_)
     dsimp only [Fork.ι]
     -- Ugh, `simp` can't unfold abbreviations.
-    simp only [res, diagram.isoOfIso, Iso.app_hom, piOpens.isoOfIso, Cones.postcompose_obj_π,
-      NatTrans.comp_app, fork_π_app_walkingParallelPair_zero, NatIso.ofComponents_inv_app,
-      Functor.mapIso_inv, lim_map, limit.lift_map, Category.assoc, limit.lift_π, Fan.mk_π_app,
-      Discrete.natIso_inv_app, Iso.app_inv, NatTrans.naturality, Iso.hom_inv_id_app_assoc]
+    simp only [res, diagram.isoOfIso, Iso.app_hom, piOpens.isoOfIso, Cones.postcompose_obj_π, NatTrans.comp_app, fork_π_app_walkingParallelPair_zero, NatIso.ofComponents_inv_app, Functor.mapIso_inv, lim_map, limit.lift_map, Category.assoc, limit.lift_π, Fan.mk_π_app, Discrete.natIso_inv_app, Iso.app_inv, NatTrans.naturality, Iso.hom_inv_id_app_assoc]
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.sheaf_condition_equalizer_products.fork.iso_of_iso TopCat.Presheaf.SheafConditionEqualizerProducts.fork.isoOfIso
 
@@ -236,16 +227,14 @@ def coneEquivFunctorObj (c : Cone ((diagram U).op ⋙ F)) :
           -- See https://github.com/leanprover-community/mathlib4/issues/5229
           refine limit.hom_ext fun i => ?_
           dsimp
-          simp only [limit.lift_π, Category.id_comp, Fan.mk_π_app, CategoryTheory.Functor.map_id,
-            Category.assoc]
+          simp only [limit.lift_π, Category.id_comp, Fan.mk_π_app, CategoryTheory.Functor.map_id, Category.assoc]
           dsimp
           simp only [limit.lift_π, Category.id_comp, Fan.mk_π_app]
         · -- Porting note : `ext` can't see `limit.hom_ext` applies here:
           -- See https://github.com/leanprover-community/mathlib4/issues/5229
           refine limit.hom_ext fun ⟨i, j⟩ => ?_
           dsimp [SheafConditionEqualizerProducts.leftRes]
-          simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app,
-            Category.assoc]
+          simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app, Category.assoc]
           have h := c.π.naturality (Quiver.Hom.op (Hom.left i j))
           dsimp at h
           simpa using h
@@ -253,8 +242,7 @@ def coneEquivFunctorObj (c : Cone ((diagram U).op ⋙ F)) :
           -- See https://github.com/leanprover-community/mathlib4/issues/5229
           refine limit.hom_ext fun ⟨i, j⟩ => ?_
           dsimp [SheafConditionEqualizerProducts.rightRes]
-          simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app,
-            Category.assoc]
+          simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app, Category.assoc]
           have h := c.π.naturality (Quiver.Hom.op (Hom.right i j))
           dsimp at h
           simpa using h
@@ -262,8 +250,7 @@ def coneEquivFunctorObj (c : Cone ((diagram U).op ⋙ F)) :
           -- See https://github.com/leanprover-community/mathlib4/issues/5229
           refine limit.hom_ext fun i => ?_
           dsimp
-          simp only [limit.lift_π, Category.id_comp, Fan.mk_π_app, CategoryTheory.Functor.map_id,
-            Category.assoc]
+          simp only [limit.lift_π, Category.id_comp, Fan.mk_π_app, CategoryTheory.Functor.map_id, Category.assoc]
           dsimp
           simp only [limit.lift_π, Category.id_comp, Fan.mk_π_app] }
 set_option linter.uppercaseLean3 false in
@@ -284,8 +271,7 @@ def coneEquivFunctor :
           · -- Porting note : `ext` can't see `limit.hom_ext` applies here:
             -- See https://github.com/leanprover-community/mathlib4/issues/5229
             refine limit.hom_ext fun i => ?_
-            simp only [Limits.Fan.mk_π_app, Limits.ConeMorphism.w, Limits.limit.lift_π,
-              Category.assoc, coneEquivFunctorObj_π_app] }
+            simp only [Limits.Fan.mk_π_app, Limits.ConeMorphism.w, Limits.limit.lift_π, Category.assoc, coneEquivFunctorObj_π_app] }
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.sheaf_condition_pairwise_intersections.cone_equiv_functor TopCat.Presheaf.SheafConditionPairwiseIntersections.coneEquivFunctor
 
@@ -465,8 +451,7 @@ def isLimitMapConeOfIsLimitSheafConditionFork
               rfl
             · dsimp [coneEquivInverse, SheafConditionEqualizerProducts.res,
                 SheafConditionEqualizerProducts.leftRes]
-              simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app,
-                Category.assoc]
+              simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app, Category.assoc]
               rw [← F.map_comp]
               rfl }
       inv :=
@@ -479,8 +464,7 @@ def isLimitMapConeOfIsLimitSheafConditionFork
               rfl
             · dsimp [coneEquivInverse, SheafConditionEqualizerProducts.res,
                 SheafConditionEqualizerProducts.leftRes]
-              simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app,
-                Category.assoc]
+              simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app, Category.assoc]
               rw [← F.map_comp]
               rfl } }
 set_option linter.uppercaseLean3 false in
@@ -503,8 +487,7 @@ def isLimitSheafConditionForkOfIsLimitMapCone (Q : IsLimit (F.mapCone (cocone U)
               refine limit.hom_ext fun ⟨i, j⟩ => ?_
               dsimp [coneEquivInverse, SheafConditionEqualizerProducts.res,
                 SheafConditionEqualizerProducts.leftRes]
-              simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app,
-                Category.assoc]
+              simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app, Category.assoc]
               rw [← F.map_comp]
               rfl }
       inv :=
@@ -518,8 +501,7 @@ def isLimitSheafConditionForkOfIsLimitMapCone (Q : IsLimit (F.mapCone (cocone U)
               refine limit.hom_ext fun ⟨i, j⟩ => ?_
               dsimp [coneEquivInverse, SheafConditionEqualizerProducts.res,
                 SheafConditionEqualizerProducts.leftRes]
-              simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app,
-                Category.assoc]
+              simp only [limit.lift_π, limit.lift_π_assoc, Category.id_comp, Fan.mk_π_app, Category.assoc]
               rw [← F.map_comp]
               rfl } }
 set_option linter.uppercaseLean3 false in

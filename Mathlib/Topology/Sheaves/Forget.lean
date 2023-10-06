@@ -120,8 +120,7 @@ def mapConeFork :
       -- Porting note : there used to be a non-terminal `simp` for `squeeze_simp` did not work,
       -- however, `simp?` works fine now, but in both mathlib3 and mathlib4, two `simp`s are
       -- required to close goal
-      simp only [Functor.map_comp, Category.assoc, map_lift_piComparison, limit.lift_π, Fan.mk_pt,
-        Fan.mk_π_app, limit.lift_π_assoc, Discrete.functor_obj]
+      simp only [Functor.map_comp, Category.assoc, map_lift_piComparison, limit.lift_π, Fan.mk_pt, Fan.mk_π_app, limit.lift_π_assoc, Discrete.functor_obj]
       simp only [limit.lift_π, Fan.mk_π_app, ← G.map_comp, limit.lift_π_assoc, Fan.mk_π_app]
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.sheaf_condition.map_cone_fork TopCat.Presheaf.SheafCondition.mapConeFork
@@ -217,8 +216,7 @@ theorem isSheaf_iff_isSheaf_comp : Presheaf.IsSheaf F ↔ Presheaf.IsSheaf (F �
         -- See https://github.com/leanprover-community/mathlib4/issues/5229
         refine limit.hom_ext fun j => ?_
         dsimp
-        simp only [Category.assoc, ← Functor.map_comp_assoc, equalizer.lift_ι,
-          map_lift_piComparison_assoc]
+        simp only [Category.assoc, ← Functor.map_comp_assoc, equalizer.lift_ι, map_lift_piComparison_assoc]
         dsimp [res])
       -- conclude that it is an isomorphism,
       -- just because it's a morphism between two limit cones.

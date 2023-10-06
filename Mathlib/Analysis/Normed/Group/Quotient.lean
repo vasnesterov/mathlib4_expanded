@@ -119,8 +119,7 @@ theorem QuotientAddGroup.norm_mk {S : AddSubgroup M} (x : M) :
     ‖(x : M ⧸ S)‖ = infDist x S := by
   rw [norm_eq_infDist]; rw [← infDist_image (IsometryEquiv.subLeft x).isometry]; rw [IsometryEquiv.subLeft_apply]; rw [sub_zero]; rw [← IsometryEquiv.preimage_symm]
   congr 1 with y
-  simp only [mem_preimage, IsometryEquiv.subLeft_symm_apply, mem_setOf_eq, QuotientAddGroup.eq,
-    neg_add, neg_neg, neg_add_cancel_right, SetLike.mem_coe]
+  simp only [mem_preimage, IsometryEquiv.subLeft_symm_apply, mem_setOf_eq, QuotientAddGroup.eq, neg_add, neg_neg, neg_add_cancel_right, SetLike.mem_coe]
 
 theorem image_norm_nonempty {S : AddSubgroup M} (x : M ⧸ S) :
     (norm '' { m | mk' S m = x }).Nonempty :=

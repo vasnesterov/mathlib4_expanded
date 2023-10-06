@@ -184,9 +184,7 @@ theorem le_card_falling_div_choose [Fintype α] (hk : k ≤ Fintype.card α)
         ((𝒜 # (Fintype.card α - r)).card : 𝕜) / (Fintype.card α).choose (Fintype.card α - r)) ≤
       (falling (Fintype.card α - k) 𝒜).card / (Fintype.card α).choose (Fintype.card α - k) := by
   induction' k with k ih
-  · simp only [tsub_zero, cast_one, cast_le, sum_singleton, div_one, choose_self, range_one,
-      zero_eq, zero_add, range_one, ge_iff_le, sum_singleton, nonpos_iff_eq_zero, tsub_zero,
-      choose_self, cast_one, div_one, cast_le]
+  · simp only [tsub_zero, cast_one, cast_le, sum_singleton, div_one, choose_self, range_one, zero_eq, zero_add, range_one, ge_iff_le, sum_singleton, nonpos_iff_eq_zero, tsub_zero, choose_self, cast_one, div_one, cast_le]
     exact card_le_of_subset (slice_subset_falling _ _)
   rw [succ_eq_add_one] at *
   rw [sum_range_succ]; rw [← slice_union_shadow_falling_succ]; rw [card_disjoint_union (IsAntichain.disjoint_slice_shadow_falling h𝒜)]; rw [cast_add]; rw [_root_.add_div]; rw [add_comm]

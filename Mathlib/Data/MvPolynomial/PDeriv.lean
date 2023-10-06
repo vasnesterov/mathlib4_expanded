@@ -71,8 +71,7 @@ theorem pderiv_def [DecidableEq σ] (i : σ) : pderiv i = mkDerivation R (Pi.sin
 theorem pderiv_monomial {i : σ} :
     pderiv i (monomial s a) = monomial (s - single i 1) (a * s i) := by
   classical
-    simp only [pderiv_def, mkDerivation_monomial, Finsupp.smul_sum, smul_eq_mul, ← smul_mul_assoc,
-      ← (monomial _).map_smul]
+    simp only [pderiv_def, mkDerivation_monomial, Finsupp.smul_sum, smul_eq_mul, ← smul_mul_assoc, ← (monomial _).map_smul]
     refine' (Finset.sum_eq_single i (fun j _ hne => _) fun hi => _).trans _
     · simp [Pi.single_eq_of_ne hne]
     · rw [Finsupp.not_mem_support_iff] at hi; simp [hi]

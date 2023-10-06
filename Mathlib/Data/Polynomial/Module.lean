@@ -127,8 +127,7 @@ instance isScalarTower' (M : Type u) [AddCommGroup M] [Module R M] [Module S M]
 @[simp]
 theorem monomial_smul_single (i : ℕ) (r : R) (j : ℕ) (m : M) :
     monomial i r • single R j m = single R (i + j) (r • m) := by
-  simp only [LinearMap.mul_apply, Polynomial.aeval_monomial, LinearMap.pow_apply,
-    Module.algebraMap_end_apply, modulePolynomialOfEndo_smul_def]
+  simp only [LinearMap.mul_apply, Polynomial.aeval_monomial, LinearMap.pow_apply, Module.algebraMap_end_apply, modulePolynomialOfEndo_smul_def]
   induction i generalizing r j m with
   | zero =>
     rw [Nat.zero_eq]; rw [Function.iterate_zero]; rw [zero_add]
@@ -201,8 +200,7 @@ noncomputable def equivPolynomialSelf : PolynomialModule R R ≃ₗ[R[X]] R[X] :
       · rw [smul_zero, map_zero, mul_zero]
       · rw [smul_add, map_add, map_add, mul_add, hp, hq]
       · ext i
-        simp only [coeff_ofFinsupp, smul_single_apply, toFinsuppIso_symm_apply, coeff_ofFinsupp,
-        single_apply, ge_iff_le, smul_eq_mul, Polynomial.coeff_mul, mul_ite, mul_zero]
+        simp only [coeff_ofFinsupp, smul_single_apply, toFinsuppIso_symm_apply, coeff_ofFinsupp, single_apply, ge_iff_le, smul_eq_mul, Polynomial.coeff_mul, mul_ite, mul_zero]
         split_ifs with hn
         · rw [Finset.sum_eq_single (i - n, n)]
           simp only [ite_true]

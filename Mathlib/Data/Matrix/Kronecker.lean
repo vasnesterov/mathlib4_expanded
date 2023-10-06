@@ -214,8 +214,7 @@ theorem kroneckerMapBilinear_mul_mul [CommSemiring R] [Fintype m] [Fintype m']
     kroneckerMapBilinear f (A * B) (A' * B') =
       kroneckerMapBilinear f A A' * kroneckerMapBilinear f B B' := by
   ext ⟨i, i'⟩ ⟨j, j'⟩
-  simp only [kroneckerMapBilinear_apply_apply, mul_apply, ← Finset.univ_product_univ,
-    Finset.sum_product, kroneckerMap_apply]
+  simp only [kroneckerMapBilinear_apply_apply, mul_apply, ← Finset.univ_product_univ, Finset.sum_product, kroneckerMap_apply]
   simp_rw [map_sum f, LinearMap.sum_apply, map_sum, h_comm]
 #align matrix.kronecker_map_bilinear_mul_mul Matrix.kroneckerMapBilinear_mul_mul
 
@@ -562,8 +561,7 @@ theorem det_kroneckerTMul [Fintype m] [Fintype n] [DecidableEq m] [DecidableEq n
   simp (config := { eta := false }) only [mk_apply, ← includeLeft_apply (S := R),
     ← includeRight_apply]
   simp only [← AlgHom.mapMatrix_apply, ← AlgHom.map_det]
-  simp only [includeLeft_apply, includeRight_apply, tmul_pow, tmul_mul_tmul, one_pow,
-    _root_.mul_one, _root_.one_mul]
+  simp only [includeLeft_apply, includeRight_apply, tmul_pow, tmul_mul_tmul, one_pow, _root_.mul_one, _root_.one_mul]
 #align matrix.det_kronecker_tmul Matrix.det_kroneckerTMul
 
 end CommRing

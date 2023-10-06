@@ -69,8 +69,7 @@ variable {s} {l : List α} {a : α}
 
 theorem cons_mem_subchain_iff :
     (a::l) ∈ s.subchain ↔ a ∈ s ∧ l ∈ s.subchain ∧ ∀ b ∈ l.head?, a < b := by
-  simp only [subchain, mem_setOf_eq, forall_mem_cons, chain'_cons', and_left_comm, and_comm,
-    and_assoc]
+  simp only [subchain, mem_setOf_eq, forall_mem_cons, chain'_cons', and_left_comm, and_comm, and_assoc]
 #align set.cons_mem_subchain_iff Set.cons_mem_subchain_iff
 
 @[simp] -- porting note: new lemma + `simp`

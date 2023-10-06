@@ -183,8 +183,7 @@ def applyFinsupp (tf : TotalFunction α β) : α →₀ β where
   mem_support_toFun := by
     intro a
     rcases tf with ⟨A, y⟩
-    simp only [apply, zeroDefaultSupp, List.mem_map, List.mem_filter, exists_and_right,
-      List.mem_toFinset, exists_eq_right, Sigma.exists, Ne.def, zeroDefault]
+    simp only [apply, zeroDefaultSupp, List.mem_map, List.mem_filter, exists_and_right, List.mem_toFinset, exists_eq_right, Sigma.exists, Ne.def, zeroDefault]
     constructor
     · rintro ⟨od, hval, hod⟩
       have := List.mem_dlookup (List.nodupKeys_dedupKeys A) hval
@@ -194,8 +193,7 @@ def applyFinsupp (tf : TotalFunction α β) : α →₀ β where
     · intro h
       use (A.dlookup a).getD (0 : β)
       rw [← List.dlookup_dedupKeys] at h ⊢
-      simp only [h, ← List.mem_dlookup_iff A.nodupKeys_dedupKeys, and_true_iff, not_false_iff,
-        Option.mem_def]
+      simp only [h, ← List.mem_dlookup_iff A.nodupKeys_dedupKeys, and_true_iff, not_false_iff, Option.mem_def]
       cases haA : List.dlookup a A.dedupKeys
       · simp [haA] at h
       · simp
@@ -314,8 +312,7 @@ theorem List.applyId_zip_eq [DecidableEq α] {xs ys : List α} (h₀ : List.Nodu
       cases ys
       · cases h₁
       · -- porting note: `open List` no longer makes `zip_cons_cons` visible
-        simp only [List.applyId, Prod.toSigma, Option.getD_some, List.get?, List.dlookup_cons_eq,
-          List.zip_cons_cons, List.map, Option.some_inj]
+        simp only [List.applyId, Prod.toSigma, Option.getD_some, List.get?, List.dlookup_cons_eq, List.zip_cons_cons, List.map, Option.some_inj]
     · cases ys
       · cases h₁
       · cases' h₀ with _ _ h₀ h₁
@@ -365,8 +362,7 @@ theorem List.applyId_eq_self [DecidableEq α] {xs ys : List α} (x : α) :
   intro h
   dsimp [List.applyId]
   rw [List.dlookup_eq_none.2]; rfl
-  simp only [List.keys, not_exists, Prod.toSigma, exists_and_right, exists_eq_right, List.mem_map,
-    Function.comp_apply, List.map_map, Prod.exists]
+  simp only [List.keys, not_exists, Prod.toSigma, exists_and_right, exists_eq_right, List.mem_map, Function.comp_apply, List.map_map, Prod.exists]
   intro y hy
   exact h (List.mem_zip hy).1
 #align slim_check.injective_function.list.apply_id_eq_self SlimCheck.InjectiveFunction.List.applyId_eq_self
@@ -457,8 +453,7 @@ protected def shrink {α : Type} [DecidableEq α] :
     have h₄ : ys'.length ≤ xs'.length := le_of_eq (List.Perm.length_eq h₀.symm)
     pure
       ⟨(List.zip xs' ys').map Prod.toSigma,
-        by simp only [comp, List.map_fst_zip, List.map_snd_zip, *, Prod.fst_toSigma,
-          Prod.snd_toSigma, List.map_map],
+        by simp only [comp, List.map_fst_zip, List.map_snd_zip, *, Prod.fst_toSigma, Prod.snd_toSigma, List.map_map],
         by simp only [comp, List.map_snd_zip, *, Prod.snd_toSigma, List.map_map]⟩
 #align slim_check.injective_function.shrink SlimCheck.InjectiveFunction.shrink
 
@@ -468,8 +463,7 @@ protected def mk (xs ys : List α) (h : xs ~ ys) (h' : ys.Nodup) : InjectiveFunc
   have h₁ : ys.length ≤ xs.length := le_of_eq h.length_eq.symm
   InjectiveFunction.mapToSelf (List.toFinmap' (xs.zip ys))
     (by
-      simp only [List.toFinmap', comp, List.map_fst_zip, List.map_snd_zip, *, Prod.fst_toSigma,
-        Prod.snd_toSigma, List.map_map])
+      simp only [List.toFinmap', comp, List.map_fst_zip, List.map_snd_zip, *, Prod.fst_toSigma, Prod.snd_toSigma, List.map_map])
     (by simp only [List.toFinmap', comp, List.map_snd_zip, *, Prod.snd_toSigma, List.map_map])
 #align slim_check.injective_function.mk SlimCheck.InjectiveFunction.mk
 
@@ -484,8 +478,7 @@ protected theorem injective [DecidableEq α] (f : InjectiveFunction α) : Inject
     case nil => simp only [List.zip_nil_right, List.map_nil]
     case cons xs_hd xs_tl
       xs_ih =>
-      simp only [true_and_iff, Prod.toSigma, eq_self_iff_true, Sigma.eta, List.zip_cons_cons,
-        List.map, List.cons_inj]
+      simp only [true_and_iff, Prod.toSigma, eq_self_iff_true, Sigma.eta, List.zip_cons_cons, List.map, List.cons_inj]
       exact xs_ih
   revert hperm hnodup
   rw [hxs]; intros hperm hnodup

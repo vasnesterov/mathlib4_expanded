@@ -176,8 +176,7 @@ reformulated in terms of the one-dimensional derivative on sets with unique deri
 theorem contDiffOn_iff_continuousOn_differentiableOn_deriv {n : ℕ∞} (hs : UniqueDiffOn 𝕜 s) :
     ContDiffOn 𝕜 n f s ↔ (∀ m : ℕ, (m : ℕ∞) ≤ n → ContinuousOn (iteratedDerivWithin m f s) s) ∧
       ∀ m : ℕ, (m : ℕ∞) < n → DifferentiableOn 𝕜 (iteratedDerivWithin m f s) s := by
-  simp only [contDiffOn_iff_continuousOn_differentiableOn hs, iteratedFDerivWithin_eq_equiv_comp,
-    LinearIsometryEquiv.comp_continuousOn_iff, LinearIsometryEquiv.comp_differentiableOn_iff]
+  simp only [contDiffOn_iff_continuousOn_differentiableOn hs, iteratedFDerivWithin_eq_equiv_comp, LinearIsometryEquiv.comp_continuousOn_iff, LinearIsometryEquiv.comp_differentiableOn_iff]
 #align cont_diff_on_iff_continuous_on_differentiable_on_deriv contDiffOn_iff_continuousOn_differentiableOn_deriv
 
 /-- The `n+1`-th iterated derivative within a set with unique derivatives can be obtained by
@@ -255,8 +254,7 @@ reformulated in terms of the one-dimensional derivative. -/
 theorem contDiff_iff_iteratedDeriv {n : ℕ∞} : ContDiff 𝕜 n f ↔
     (∀ m : ℕ, (m : ℕ∞) ≤ n → Continuous (iteratedDeriv m f)) ∧
       ∀ m : ℕ, (m : ℕ∞) < n → Differentiable 𝕜 (iteratedDeriv m f) := by
-  simp only [contDiff_iff_continuous_differentiable, iteratedFDeriv_eq_equiv_comp,
-    LinearIsometryEquiv.comp_continuous_iff, LinearIsometryEquiv.comp_differentiable_iff]
+  simp only [contDiff_iff_continuous_differentiable, iteratedFDeriv_eq_equiv_comp, LinearIsometryEquiv.comp_continuous_iff, LinearIsometryEquiv.comp_differentiable_iff]
 #align cont_diff_iff_iterated_deriv contDiff_iff_iteratedDeriv
 
 /-- To check that a function is `n` times continuously differentiable, it suffices to check that its

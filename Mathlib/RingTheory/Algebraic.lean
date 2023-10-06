@@ -394,8 +394,7 @@ theorem Subalgebra.inv_mem_of_root_of_coeff_zero_ne_zero {x : A} {p : K[X]}
   have : aeval (x : L) p = 0 := by rw [Subalgebra.aeval_coe, aeval_eq, Subalgebra.coe_zero]
   -- porting note: this was a long sequence of `rw`.
   rw [inv_eq_of_root_of_coeff_zero_ne_zero this coeff_zero_ne]; rw [div_eq_inv_mul]; rw [Algebra.smul_def]
-  simp only [aeval_coe, Submonoid.coe_mul, Subsemiring.coe_toSubmonoid, coe_toSubsemiring,
-    coe_algebraMap]
+  simp only [aeval_coe, Submonoid.coe_mul, Subsemiring.coe_toSubmonoid, coe_toSubsemiring, coe_algebraMap]
   rw [map_inv₀]; rw [map_neg]; rw [inv_neg]; rw [neg_mul]
 #align subalgebra.inv_mem_of_root_of_coeff_zero_ne_zero Subalgebra.inv_mem_of_root_of_coeff_zero_ne_zero
 
@@ -486,8 +485,7 @@ noncomputable def Polynomial.algebraPi : Algebra R'[X] (S' → T') :=
       exact mul_comm _ _
     smul_def' := fun p f => by
       funext z
-      simp only [polynomial_smul_apply', Algebra.algebraMap_eq_smul_one, RingHom.coe_mk,
-        MonoidHom.coe_mk, OneHom.coe_mk, Pi.mul_apply, Algebra.smul_mul_assoc, one_mul] }
+      simp only [polynomial_smul_apply', Algebra.algebraMap_eq_smul_one, RingHom.coe_mk, MonoidHom.coe_mk, OneHom.coe_mk, Pi.mul_apply, Algebra.smul_mul_assoc, one_mul] }
 #align polynomial.algebra_pi Polynomial.algebraPi
 
 attribute [local instance] Polynomial.algebraPi

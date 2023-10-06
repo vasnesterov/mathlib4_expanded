@@ -107,28 +107,20 @@ def lift : (L →ₗ⁅R⁆ A) ≃ (UniversalEnvelopingAlgebra R L →ₐ[R] A) 
     RingQuot.liftAlgHom R
       ⟨TensorAlgebra.lift R (f : L →ₗ[R] A), by
         intro a b h; induction' h with x y
-        simp only [LieRing.of_associative_ring_bracket, map_add, TensorAlgebra.lift_ι_apply,
-          LieHom.coe_toLinearMap, LieHom.map_lie, map_mul, sub_add_cancel]⟩
+        simp only [LieRing.of_associative_ring_bracket, map_add, TensorAlgebra.lift_ι_apply, LieHom.coe_toLinearMap, LieHom.map_lie, map_mul, sub_add_cancel]⟩
   invFun F := (F : UniversalEnvelopingAlgebra R L →ₗ⁅R⁆ A).comp (ι R)
   left_inv f := by
     ext
     -- Porting note: was
-    -- simp only [ι, mkAlgHom, TensorAlgebra.lift_ι_apply, LieHom.coe_toLinearMap,
-    --   LinearMap.toFun_eq_coe, LinearMap.coe_comp, LieHom.coe_comp, AlgHom.coe_toLieHom,
-    --   LieHom.coe_mk, Function.comp_apply, AlgHom.toLinearMap_apply,
-    --   RingQuot.liftAlgHom_mkAlgHom_apply]
-    simp only [LieHom.coe_comp, Function.comp_apply, AlgHom.coe_toLieHom,
-      UniversalEnvelopingAlgebra.ι_apply, mkAlgHom]
+    -- simp only [ι, mkAlgHom, TensorAlgebra.lift_ι_apply, LieHom.coe_toLinearMap, --   LinearMap.toFun_eq_coe, LinearMap.coe_comp, LieHom.coe_comp, AlgHom.coe_toLieHom, --   LieHom.coe_mk, Function.comp_apply, AlgHom.toLinearMap_apply, --   RingQuot.liftAlgHom_mkAlgHom_apply]
+    simp only [LieHom.coe_comp, Function.comp_apply, AlgHom.coe_toLieHom, UniversalEnvelopingAlgebra.ι_apply, mkAlgHom]
     rw [RingQuot.liftAlgHom_mkAlgHom_apply]
     simp only [TensorAlgebra.lift_ι_apply, LieHom.coe_toLinearMap]
   right_inv F := by
     apply RingQuot.ringQuot_ext'
     ext
     -- Porting note: was
-    -- simp only [ι, mkAlgHom, TensorAlgebra.lift_ι_apply, LieHom.coe_toLinearMap,
-    --   LinearMap.toFun_eq_coe, LinearMap.coe_comp, LieHom.coe_linearMap_comp,
-    --   AlgHom.comp_toLinearMap, Function.comp_apply, AlgHom.toLinearMap_apply,
-    --   RingQuot.liftAlgHom_mkAlgHom_apply, AlgHom.coe_toLieHom, LieHom.coe_mk]
+    -- simp only [ι, mkAlgHom, TensorAlgebra.lift_ι_apply, LieHom.coe_toLinearMap, --   LinearMap.toFun_eq_coe, LinearMap.coe_comp, LieHom.coe_linearMap_comp, --   AlgHom.comp_toLinearMap, Function.comp_apply, AlgHom.toLinearMap_apply, --   RingQuot.liftAlgHom_mkAlgHom_apply, AlgHom.coe_toLieHom, LieHom.coe_mk]
     simp [mkAlgHom]
 #align universal_enveloping_algebra.lift UniversalEnvelopingAlgebra.lift
 

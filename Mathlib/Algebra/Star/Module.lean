@@ -102,8 +102,7 @@ variable {A} [Invertible (2 : R)]
 def selfAdjointPart : A →ₗ[R] selfAdjoint A where
   toFun x :=
     ⟨(⅟ 2 : R) • (x + star x), by
-      simp only [selfAdjoint.mem_iff, star_smul, add_comm, StarAddMonoid.star_add, star_inv',
-        star_bit0, star_one, star_star, star_invOf (2 : R), star_trivial]⟩
+      simp only [selfAdjoint.mem_iff, star_smul, add_comm, StarAddMonoid.star_add, star_inv', star_bit0, star_one, star_star, star_invOf (2 : R), star_trivial]⟩
   map_add' x y := by
     ext
     simp [add_add_add_comm]
@@ -117,12 +116,10 @@ def selfAdjointPart : A →ₗ[R] selfAdjoint A where
 def skewAdjointPart : A →ₗ[R] skewAdjoint A where
   toFun x :=
     ⟨(⅟ 2 : R) • (x - star x), by
-      simp only [skewAdjoint.mem_iff, star_smul, star_sub, star_star, star_trivial, ← smul_neg,
-        neg_sub]⟩
+      simp only [skewAdjoint.mem_iff, star_smul, star_sub, star_star, star_trivial, ← smul_neg, neg_sub]⟩
   map_add' x y := by
     ext
-    simp only [sub_add, ← smul_add, sub_sub_eq_add_sub, star_add, AddSubgroup.coe_mk,
-      AddSubgroup.coe_add]
+    simp only [sub_add, ← smul_add, sub_sub_eq_add_sub, star_add, AddSubgroup.coe_mk, AddSubgroup.coe_add]
   map_smul' r x := by
     ext
     simp [← mul_smul, ← smul_sub,
@@ -131,8 +128,7 @@ def skewAdjointPart : A →ₗ[R] skewAdjoint A where
 
 theorem StarModule.selfAdjointPart_add_skewAdjointPart (x : A) :
     (selfAdjointPart R x : A) + skewAdjointPart R x = x := by
-  simp only [smul_sub, selfAdjointPart_apply_coe, smul_add, skewAdjointPart_apply_coe,
-    add_add_sub_cancel, invOf_two_smul_add_invOf_two_smul]
+  simp only [smul_sub, selfAdjointPart_apply_coe, smul_add, skewAdjointPart_apply_coe, add_add_sub_cancel, invOf_two_smul_add_invOf_two_smul]
 #align star_module.self_adjoint_part_add_skew_adjoint_part StarModule.selfAdjointPart_add_skewAdjointPart
 
 theorem IsSelfAdjoint.coe_selfAdjointPart_apply {x : A} (hx : IsSelfAdjoint x) :
@@ -166,8 +162,7 @@ theorem selfAdjointPart_comp_subtype_skewAdjoint :
 theorem skewAdjointPart_comp_subtype_skewAdjoint :
     (skewAdjointPart R).comp (skewAdjoint.submodule R A).subtype = .id :=
   LinearMap.ext fun ⟨x, (hx : _ = _)⟩ ↦ Subtype.eq <| by
-    simp only [LinearMap.comp_apply, Submodule.subtype_apply, skewAdjointPart_apply_coe, hx,
-      sub_neg_eq_add, smul_add, invOf_two_smul_add_invOf_two_smul]; rfl
+    simp only [LinearMap.comp_apply, Submodule.subtype_apply, skewAdjointPart_apply_coe, hx, sub_neg_eq_add, smul_add, invOf_two_smul_add_invOf_two_smul]; rfl
 
 variable (A)
 

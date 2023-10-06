@@ -108,8 +108,7 @@ theorem dNext_nat (C D : ChainComplex V ℕ) (i : ℕ) (f : ∀ i j, C.X i ⟶ D
     dNext i f = C.d i (i - 1) ≫ f (i - 1) i := by
   dsimp [dNext]
   cases i
-  · simp only [shape, ChainComplex.next_nat_zero, ComplexShape.down_Rel, Nat.one_ne_zero,
-      not_false_iff, zero_comp]
+  · simp only [shape, ChainComplex.next_nat_zero, ComplexShape.down_Rel, Nat.one_ne_zero, not_false_iff, zero_comp]
   · congr <;> simp
 #align d_next_nat dNext_nat
 
@@ -117,8 +116,7 @@ theorem prevD_nat (C D : CochainComplex V ℕ) (i : ℕ) (f : ∀ i j, C.X i ⟶
     prevD i f = f i (i - 1) ≫ D.d (i - 1) i := by
   dsimp [prevD]
   cases i
-  · simp only [shape, CochainComplex.prev_nat_zero, ComplexShape.up_Rel, Nat.one_ne_zero,
-      not_false_iff, comp_zero]
+  · simp only [shape, CochainComplex.prev_nat_zero, ComplexShape.up_Rel, Nat.one_ne_zero, not_false_iff, comp_zero]
   · congr <;> simp
 #align prev_d_nat prevD_nat
 
@@ -787,8 +785,7 @@ theorem homology_map_eq_of_homotopy (h : Homotopy f g) (i : ι) :
   simp only [homology.π_map, comp_zero, Preadditive.comp_sub]
   dsimp [kernelSubobjectMap]
   simp_rw [h.comm i]
-  simp only [zero_add, zero_comp, dNext_eq_dFrom_fromNext, kernelSubobject_arrow_comp_assoc,
-    Preadditive.comp_add]
+  simp only [zero_add, zero_comp, dNext_eq_dFrom_fromNext, kernelSubobject_arrow_comp_assoc, Preadditive.comp_add]
   rw [← Preadditive.sub_comp]
   simp only [CategoryTheory.Subobject.factorThru_add_sub_factorThru_right]
   erw [Subobject.factorThru_ofLE (D.boundaries_le_cycles i)]

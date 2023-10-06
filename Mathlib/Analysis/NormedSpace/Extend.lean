@@ -68,8 +68,7 @@ noncomputable def extendTo𝕜' (fr : F →ₗ[ℝ] ℝ) : F →ₗ[𝕜] 𝕜 :
     cases' @I_mul_I_ax 𝕜 _ with h h
     · simp [h]
     rw [mul_sub]; rw [← mul_assoc]; rw [smul_smul]; rw [h]
-    simp only [neg_mul, LinearMap.map_neg, one_mul, one_smul, mul_neg, ofReal_neg, neg_smul,
-      sub_neg_eq_add, add_comm]
+    simp only [neg_mul, LinearMap.map_neg, one_mul, one_smul, mul_neg, ofReal_neg, neg_smul, sub_neg_eq_add, add_comm]
   have smul_𝕜 : ∀ (c : 𝕜) (x : F), fc (c • x) = c • fc x := by
     intro c x
     rw [← re_add_im c]; rw [add_smul]; rw [add_smul]; rw [add]; rw [smul_ℝ]; rw [← smul_smul]; rw [smul_ℝ]; rw [smul_I]; rw [← mul_assoc]
@@ -86,8 +85,7 @@ theorem extendTo𝕜'_apply (fr : F →ₗ[ℝ] ℝ) (x : F) :
 
 @[simp]
 theorem extendTo𝕜'_apply_re (fr : F →ₗ[ℝ] ℝ) (x : F) : re (fr.extendTo𝕜' x : 𝕜) = fr x := by
-  simp only [extendTo𝕜'_apply, map_sub, zero_mul, mul_zero, sub_zero,
-    isROrC_simps]
+  simp only [extendTo𝕜'_apply, map_sub, zero_mul, mul_zero, sub_zero, isROrC_simps]
 #align linear_map.extend_to_𝕜'_apply_re LinearMap.extendTo𝕜'_apply_re
 
 theorem norm_extendTo𝕜'_apply_sq (fr : F →ₗ[ℝ] ℝ) (x : F) :

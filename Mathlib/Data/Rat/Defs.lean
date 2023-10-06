@@ -328,8 +328,7 @@ instance commRing : CommRing ℚ where
   natCast n := Int.cast n
   natCast_zero := rfl
   natCast_succ n := by
-    simp only [coe_int_eq_divInt, add_def'' one_ne_zero one_ne_zero,
-      ← divInt_one_one, Nat.cast_add, Nat.cast_one, mul_one]
+    simp only [coe_int_eq_divInt, add_def'' one_ne_zero one_ne_zero, ← divInt_one_one, Nat.cast_add, Nat.cast_one, mul_one]
 
 instance commGroupWithZero : CommGroupWithZero ℚ :=
   { exists_pair_ne := ⟨0, 1, Rat.zero_ne_one⟩

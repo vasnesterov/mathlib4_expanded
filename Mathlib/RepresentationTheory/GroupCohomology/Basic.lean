@@ -128,14 +128,8 @@ and the homogeneous `linearYonedaObjResolution`. -/
           (diagonalHomEquiv (n + 1) A).toModuleIso.hom := by
   ext f g
 /- Porting note: broken proof was
-  simp only [ModuleCat.coe_comp, LinearEquiv.coe_coe, Function.comp_apply,
-    LinearEquiv.toModuleIso_inv, linearYonedaObjResolution_d_apply, LinearEquiv.toModuleIso_hom,
-    diagonalHomEquiv_apply, Action.comp_hom, Resolution.d_eq k G n,
-    Resolution.d_of (Fin.partialProd g), LinearMap.map_sum,
-    ←Finsupp.smul_single_one _ ((-1 : k) ^ _), map_smul, d_apply]
-  simp only [@Fin.sum_univ_succ _ _ (n + 1), Fin.val_zero, pow_zero, one_smul, Fin.succAbove_zero,
-    diagonalHomEquiv_symm_apply f (Fin.partialProd g ∘ @Fin.succ (n + 1)), Function.comp_apply,
-    Fin.partialProd_succ, Fin.castSucc_zero, Fin.partialProd_zero, one_mul]
+  simp only [ModuleCat.coe_comp, LinearEquiv.coe_coe, Function.comp_apply, LinearEquiv.toModuleIso_inv, linearYonedaObjResolution_d_apply, LinearEquiv.toModuleIso_hom, diagonalHomEquiv_apply, Action.comp_hom, Resolution.d_eq k G n, Resolution.d_of (Fin.partialProd g), LinearMap.map_sum, ←Finsupp.smul_single_one _ ((-1 : k) ^ _), map_smul, d_apply]
+  simp only [@Fin.sum_univ_succ _ _ (n + 1), Fin.val_zero, pow_zero, one_smul, Fin.succAbove_zero, diagonalHomEquiv_symm_apply f (Fin.partialProd g ∘ @Fin.succ (n + 1)), Function.comp_apply, Fin.partialProd_succ, Fin.castSucc_zero, Fin.partialProd_zero, one_mul]
   congr 1
   · congr
     ext
@@ -181,15 +175,12 @@ noncomputable abbrev inhomogeneousCochains : CochainComplex (ModuleCat k) ℕ :=
     ext x y
     have := LinearMap.ext_iff.1 ((linearYonedaObjResolution A).d_comp_d n (n + 1) (n + 2))
     simp only [ModuleCat.coe_comp, Function.comp_apply] at this
-    simp only [ModuleCat.coe_comp, Function.comp_apply, d_eq, LinearEquiv.toModuleIso_hom,
-      LinearEquiv.toModuleIso_inv, LinearEquiv.coe_coe, LinearEquiv.symm_apply_apply, this,
-      LinearMap.zero_apply, map_zero, Pi.zero_apply] -/
+    simp only [ModuleCat.coe_comp, Function.comp_apply, d_eq, LinearEquiv.toModuleIso_hom, LinearEquiv.toModuleIso_inv, LinearEquiv.coe_coe, LinearEquiv.symm_apply_apply, this, LinearMap.zero_apply, map_zero, Pi.zero_apply] -/
     ext x
     have := LinearMap.ext_iff.1 ((linearYonedaObjResolution A).d_comp_d n (n + 1) (n + 2))
     simp only [ModuleCat.comp_def, LinearMap.comp_apply] at this
     dsimp only
-    simp only [d_eq, LinearEquiv.toModuleIso_inv, LinearEquiv.toModuleIso_hom, ModuleCat.coe_comp,
-      Function.comp_apply]
+    simp only [d_eq, LinearEquiv.toModuleIso_inv, LinearEquiv.toModuleIso_hom, ModuleCat.coe_comp, Function.comp_apply]
     /- Porting note: I can see I need to rewrite `LinearEquiv.coe_coe` twice to at
       least reduce the need for `symm_apply_apply` to be an `erw`. However, even `erw` refuses to
       rewrite the second `coe_coe`... -/
@@ -206,8 +197,7 @@ def inhomogeneousCochainsIso : inhomogeneousCochains A ≅ linearYonedaObjResolu
     (Rep.diagonalHomEquiv i A).toModuleIso.symm) _
   rintro i j (h : i + 1 = j)
   subst h
-  simp only [CochainComplex.of_d, d_eq, Category.assoc, Iso.symm_hom, Iso.hom_inv_id,
-    Category.comp_id]
+  simp only [CochainComplex.of_d, d_eq, Category.assoc, Iso.symm_hom, Iso.hom_inv_id, Category.comp_id]
 #align group_cohomology.inhomogeneous_cochains_iso GroupCohomology.inhomogeneousCochainsIso
 
 end GroupCohomology

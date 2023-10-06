@@ -343,16 +343,13 @@ def inverse : W.FunctorsInverting D ⥤ W.Localization ⥤ D
       (by
         rw [natTransExtension_hcomp]
         ext X
-        simp only [NatTrans.comp_app, eqToHom_app, eqToHom_refl, comp_id, id_comp,
-          NatTrans.hcomp_id_app, NatTrans.id_app, Functor.map_id]
+        simp only [NatTrans.comp_app, eqToHom_app, eqToHom_refl, comp_id, id_comp, NatTrans.hcomp_id_app, NatTrans.id_app, Functor.map_id]
         rfl )
   map_comp τ₁ τ₂ :=
     natTrans_hcomp_injective
       (by
         ext X
-        simp only [natTransExtension_hcomp, NatTrans.comp_app, eqToHom_app, eqToHom_refl,
-          id_comp, comp_id, NatTrans.hcomp_app, NatTrans.id_app, Functor.map_id,
-          natTransExtension_app, NatTransExtension.app_eq]
+        simp only [natTransExtension_hcomp, NatTrans.comp_app, eqToHom_app, eqToHom_refl, id_comp, comp_id, NatTrans.hcomp_app, NatTrans.id_app, Functor.map_id, natTransExtension_app, NatTransExtension.app_eq]
         rfl)
 #align category_theory.localization.construction.whiskering_left_equivalence.inverse CategoryTheory.Localization.Construction.WhiskeringLeftEquivalence.inverse
 
@@ -397,8 +394,7 @@ def whiskeringLeftEquivalence : W.Localization ⥤ D ≌ W.FunctorsInverting D
   counitIso := WhiskeringLeftEquivalence.counitIso W D
   functor_unitIso_comp F := by
     ext
-    simp only [WhiskeringLeftEquivalence.unitIso_hom, eqToHom_app, eqToHom_refl,
-      WhiskeringLeftEquivalence.counitIso_hom, eqToHom_map, eqToHom_trans]
+    simp only [WhiskeringLeftEquivalence.unitIso_hom, eqToHom_app, eqToHom_refl, WhiskeringLeftEquivalence.counitIso_hom, eqToHom_map, eqToHom_trans]
     rfl
 #align category_theory.localization.construction.whiskering_left_equivalence CategoryTheory.Localization.Construction.whiskeringLeftEquivalence
 

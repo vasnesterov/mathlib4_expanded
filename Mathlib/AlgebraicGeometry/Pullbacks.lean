@@ -73,9 +73,7 @@ theorem t_fst_fst (i j : 𝒰.J) : t 𝒰 f g i j ≫ pullback.fst ≫ pullback.
     hasPullback_assoc_symm (𝒰.map j) (𝒰.map i) (𝒰.map i ≫ f) g
   haveI : HasPullback (pullback.snd ≫ 𝒰.map j ≫ f) g :=
     hasPullback_assoc_symm (𝒰.map i) (𝒰.map j) (𝒰.map j ≫ f) g
-  simp only [Category.assoc, id.def, pullbackSymmetry_hom_comp_fst_assoc,
-    pullbackAssoc_hom_snd_fst, pullback.lift_fst_assoc, pullbackSymmetry_hom_comp_snd,
-    pullbackAssoc_inv_fst_fst, pullbackSymmetry_hom_comp_fst]
+  simp only [Category.assoc, id.def, pullbackSymmetry_hom_comp_fst_assoc, pullbackAssoc_hom_snd_fst, pullback.lift_fst_assoc, pullbackSymmetry_hom_comp_snd, pullbackAssoc_inv_fst_fst, pullbackSymmetry_hom_comp_fst]
 #align algebraic_geometry.Scheme.pullback.t_fst_fst AlgebraicGeometry.Scheme.Pullback.t_fst_fst
 
 @[simp, reassoc]
@@ -87,9 +85,7 @@ theorem t_fst_snd (i j : 𝒰.J) :
     hasPullback_assoc_symm (𝒰.map j) (𝒰.map i) (𝒰.map i ≫ f) g
   haveI : HasPullback (pullback.snd ≫ 𝒰.map j ≫ f) g :=
     hasPullback_assoc_symm (𝒰.map i) (𝒰.map j) (𝒰.map j ≫ f) g
-  simp only [pullbackSymmetry_hom_comp_snd_assoc, Category.comp_id, Category.assoc, id.def,
-    pullbackSymmetry_hom_comp_fst_assoc, pullbackAssoc_hom_snd_snd, pullback.lift_snd,
-    pullbackAssoc_inv_snd]
+  simp only [pullbackSymmetry_hom_comp_snd_assoc, Category.comp_id, Category.assoc, id.def, pullbackSymmetry_hom_comp_fst_assoc, pullbackAssoc_hom_snd_snd, pullback.lift_snd, pullbackAssoc_inv_snd]
 #align algebraic_geometry.Scheme.pullback.t_fst_snd AlgebraicGeometry.Scheme.Pullback.t_fst_snd
 
 @[simp, reassoc]
@@ -100,9 +96,7 @@ theorem t_snd (i j : 𝒰.J) : t 𝒰 f g i j ≫ pullback.snd = pullback.fst �
     hasPullback_assoc_symm (𝒰.map j) (𝒰.map i) (𝒰.map i ≫ f) g
   haveI : HasPullback (pullback.snd ≫ 𝒰.map j ≫ f) g :=
     hasPullback_assoc_symm (𝒰.map i) (𝒰.map j) (𝒰.map j ≫ f) g
-  simp only [pullbackSymmetry_hom_comp_snd_assoc, Category.assoc, id.def,
-    pullbackSymmetry_hom_comp_snd, pullbackAssoc_hom_fst, pullback.lift_fst_assoc,
-    pullbackSymmetry_hom_comp_fst, pullbackAssoc_inv_fst_snd]
+  simp only [pullbackSymmetry_hom_comp_snd_assoc, Category.assoc, id.def, pullbackSymmetry_hom_comp_snd, pullbackAssoc_hom_fst, pullback.lift_fst_assoc, pullbackSymmetry_hom_comp_fst, pullbackAssoc_inv_fst_snd]
 #align algebraic_geometry.Scheme.pullback.t_snd AlgebraicGeometry.Scheme.Pullback.t_snd
 
 theorem t_id (i : 𝒰.J) : t 𝒰 f g i i = 𝟙 _ := by
@@ -134,9 +128,7 @@ def t' (i j k : 𝒰.J) :
 theorem t'_fst_fst_fst (i j k : 𝒰.J) :
     t' 𝒰 f g i j k ≫ pullback.fst ≫ pullback.fst ≫ pullback.fst = pullback.fst ≫ pullback.snd := by
   delta t'
-  simp only [Category.assoc, pullbackSymmetry_hom_comp_fst_assoc,
-    pullbackRightPullbackFstIso_inv_snd_fst_assoc, pullback.lift_fst_assoc, t_fst_fst,
-    pullbackRightPullbackFstIso_hom_fst_assoc]
+  simp only [Category.assoc, pullbackSymmetry_hom_comp_fst_assoc, pullbackRightPullbackFstIso_inv_snd_fst_assoc, pullback.lift_fst_assoc, t_fst_fst, pullbackRightPullbackFstIso_hom_fst_assoc]
 #align algebraic_geometry.Scheme.pullback.t'_fst_fst_fst AlgebraicGeometry.Scheme.Pullback.t'_fst_fst_fst
 
 @[simp, reassoc]
@@ -144,27 +136,21 @@ theorem t'_fst_fst_snd (i j k : 𝒰.J) :
     t' 𝒰 f g i j k ≫ pullback.fst ≫ pullback.fst ≫ pullback.snd =
       pullback.fst ≫ pullback.fst ≫ pullback.snd := by
   delta t'
-  simp only [Category.assoc, pullbackSymmetry_hom_comp_fst_assoc,
-    pullbackRightPullbackFstIso_inv_snd_fst_assoc, pullback.lift_fst_assoc, t_fst_snd,
-    pullbackRightPullbackFstIso_hom_fst_assoc]
+  simp only [Category.assoc, pullbackSymmetry_hom_comp_fst_assoc, pullbackRightPullbackFstIso_inv_snd_fst_assoc, pullback.lift_fst_assoc, t_fst_snd, pullbackRightPullbackFstIso_hom_fst_assoc]
 #align algebraic_geometry.Scheme.pullback.t'_fst_fst_snd AlgebraicGeometry.Scheme.Pullback.t'_fst_fst_snd
 
 @[simp, reassoc]
 theorem t'_fst_snd (i j k : 𝒰.J) :
     t' 𝒰 f g i j k ≫ pullback.fst ≫ pullback.snd = pullback.snd ≫ pullback.snd := by
   delta t'
-  simp only [Category.comp_id, Category.assoc, pullbackSymmetry_hom_comp_fst_assoc,
-    pullbackRightPullbackFstIso_inv_snd_snd, pullback.lift_snd,
-    pullbackRightPullbackFstIso_hom_snd]
+  simp only [Category.comp_id, Category.assoc, pullbackSymmetry_hom_comp_fst_assoc, pullbackRightPullbackFstIso_inv_snd_snd, pullback.lift_snd, pullbackRightPullbackFstIso_hom_snd]
 #align algebraic_geometry.Scheme.pullback.t'_fst_snd AlgebraicGeometry.Scheme.Pullback.t'_fst_snd
 
 @[simp, reassoc]
 theorem t'_snd_fst_fst (i j k : 𝒰.J) :
     t' 𝒰 f g i j k ≫ pullback.snd ≫ pullback.fst ≫ pullback.fst = pullback.fst ≫ pullback.snd := by
   delta t'
-  simp only [Category.assoc, pullbackSymmetry_hom_comp_snd_assoc,
-    pullbackRightPullbackFstIso_inv_fst_assoc, pullback.lift_fst_assoc, t_fst_fst,
-    pullbackRightPullbackFstIso_hom_fst_assoc]
+  simp only [Category.assoc, pullbackSymmetry_hom_comp_snd_assoc, pullbackRightPullbackFstIso_inv_fst_assoc, pullback.lift_fst_assoc, t_fst_fst, pullbackRightPullbackFstIso_hom_fst_assoc]
 #align algebraic_geometry.Scheme.pullback.t'_snd_fst_fst AlgebraicGeometry.Scheme.Pullback.t'_snd_fst_fst
 
 @[simp, reassoc]
@@ -172,18 +158,14 @@ theorem t'_snd_fst_snd (i j k : 𝒰.J) :
     t' 𝒰 f g i j k ≫ pullback.snd ≫ pullback.fst ≫ pullback.snd =
       pullback.fst ≫ pullback.fst ≫ pullback.snd := by
   delta t'
-  simp only [Category.assoc, pullbackSymmetry_hom_comp_snd_assoc,
-    pullbackRightPullbackFstIso_inv_fst_assoc, pullback.lift_fst_assoc, t_fst_snd,
-    pullbackRightPullbackFstIso_hom_fst_assoc]
+  simp only [Category.assoc, pullbackSymmetry_hom_comp_snd_assoc, pullbackRightPullbackFstIso_inv_fst_assoc, pullback.lift_fst_assoc, t_fst_snd, pullbackRightPullbackFstIso_hom_fst_assoc]
 #align algebraic_geometry.Scheme.pullback.t'_snd_fst_snd AlgebraicGeometry.Scheme.Pullback.t'_snd_fst_snd
 
 @[simp, reassoc]
 theorem t'_snd_snd (i j k : 𝒰.J) :
     t' 𝒰 f g i j k ≫ pullback.snd ≫ pullback.snd = pullback.fst ≫ pullback.fst ≫ pullback.fst := by
   delta t'
-  simp only [Category.assoc, pullbackSymmetry_hom_comp_snd_assoc,
-    pullbackRightPullbackFstIso_inv_fst_assoc, pullback.lift_fst_assoc, t_snd,
-    pullbackRightPullbackFstIso_hom_fst_assoc]
+  simp only [Category.assoc, pullbackSymmetry_hom_comp_snd_assoc, pullbackRightPullbackFstIso_inv_fst_assoc, pullback.lift_fst_assoc, t_snd, pullbackRightPullbackFstIso_hom_fst_assoc]
 #align algebraic_geometry.Scheme.pullback.t'_snd_snd AlgebraicGeometry.Scheme.Pullback.t'_snd_snd
 
 theorem cocycle_fst_fst_fst (i j k : 𝒰.J) :
@@ -261,8 +243,7 @@ def gluing : Scheme.GlueData.{u} where
     apply pullback.hom_ext
     apply pullback.hom_ext
     all_goals
-      simp only [t'_snd_fst_fst, t'_snd_fst_snd, t'_snd_snd, t_fst_fst, t_fst_snd, t_snd,
-        Category.assoc]
+      simp only [t'_snd_fst_fst, t'_snd_fst_snd, t'_snd_snd, t_fst_fst, t_fst_snd, t_snd, Category.assoc]
   cocycle i j k := cocycle 𝒰 f g i j k
 #align algebraic_geometry.Scheme.pullback.gluing AlgebraicGeometry.Scheme.Pullback.gluing
 
@@ -414,8 +395,7 @@ def pullbackFstιToV (i j : 𝒰.J) :
 theorem pullbackFstιToV_fst (i j : 𝒰.J) :
     pullbackFstιToV 𝒰 f g i j ≫ pullback.fst = pullback.snd := by
   delta pullbackFstιToV
-  simp only [Iso.trans_hom, pullback.congrHom_hom, Category.assoc, pullback.lift_fst,
-    Category.comp_id]
+  simp only [Iso.trans_hom, pullback.congrHom_hom, Category.assoc, pullback.lift_fst, Category.comp_id]
   -- Porting note : `pullbackRightPullbackFstIso_hom_fst` is not used in `simp` even though
   -- instructed, forcing `pullbackSymmetry_hom_comp_fst` to be manually `rw`ed as well.
   erw [pullbackRightPullbackFstIso_hom_fst]
@@ -426,8 +406,7 @@ theorem pullbackFstιToV_fst (i j : 𝒰.J) :
 theorem pullbackFstιToV_snd (i j : 𝒰.J) :
     pullbackFstιToV 𝒰 f g i j ≫ pullback.snd = pullback.fst ≫ pullback.snd := by
   delta pullbackFstιToV
-  simp only [Iso.trans_hom, pullback.congrHom_hom, Category.assoc, pullback.lift_snd,
-    Category.comp_id]
+  simp only [Iso.trans_hom, pullback.congrHom_hom, Category.assoc, pullback.lift_snd, Category.comp_id]
   -- Porting note : `pullbackRightPullbackFstIso_hom_snd` is not used in `simp` even though
   -- instructed, forcing `pullbackSymmetry_hom_comp_snd_assoc` to be manually `rw`ed as well.
   erw [pullbackRightPullbackFstIso_hom_snd]
@@ -535,11 +514,8 @@ def gluedIsLimit : IsLimit (PullbackCone.mk _ _ (p_comm 𝒰 f g)) := by
   simp_rw [← Category.assoc]
   congr 1
   apply pullback.hom_ext
-  · simp only [Category.comp_id, pullbackRightPullbackFstIso_hom_snd, Category.assoc,
-      pullbackP1Iso_hom_fst, pullback.lift_snd, pullback.lift_fst, pullbackSymmetry_hom_comp_fst]
-  · simp only [Category.comp_id, pullbackRightPullbackFstIso_hom_fst_assoc,
-      pullbackP1Iso_hom_snd, Category.assoc, pullback.lift_fst_assoc,
-      pullbackSymmetry_hom_comp_snd_assoc, pullback.lift_snd]
+  · simp only [Category.comp_id, pullbackRightPullbackFstIso_hom_snd, Category.assoc, pullbackP1Iso_hom_fst, pullback.lift_snd, pullback.lift_fst, pullbackSymmetry_hom_comp_fst]
+  · simp only [Category.comp_id, pullbackRightPullbackFstIso_hom_fst_assoc, pullbackP1Iso_hom_snd, Category.assoc, pullback.lift_fst_assoc, pullbackSymmetry_hom_comp_snd_assoc, pullback.lift_snd]
     rw [← pullback.condition_assoc]; rw [h₂]
 #align algebraic_geometry.Scheme.pullback.glued_is_limit AlgebraicGeometry.Scheme.Pullback.gluedIsLimit
 
@@ -613,8 +589,7 @@ def openCoverOfLeft (𝒰 : OpenCover X) (f : X ⟶ Z) (g : Y ⟶ Z) : OpenCover
   apply pullback.hom_ext
   all_goals
     dsimp
-    simp only [limit.isoLimitCone_inv_π, PullbackCone.mk_π_app_left, Category.comp_id,
-      PullbackCone.mk_π_app_right, Category.assoc, pullback.lift_fst, pullback.lift_snd]
+    simp only [limit.isoLimitCone_inv_π, PullbackCone.mk_π_app_left, Category.comp_id, PullbackCone.mk_π_app_right, Category.assoc, pullback.lift_fst, pullback.lift_snd]
     symm
     exact Multicoequalizer.π_desc _ _ _ _ _
 #align algebraic_geometry.Scheme.pullback.open_cover_of_left AlgebraicGeometry.Scheme.Pullback.openCoverOfLeft
@@ -690,10 +665,7 @@ def openCoverOfBase (𝒰 : OpenCover Z) (f : X ⟶ Z) (g : Y ⟶ Z) : OpenCover
   -- Porting note : deviated from original proof a bit so that it won't timeout.
   rw [Iso.refl_hom]; rw [Category.id_comp]; rw [openCoverOfBase'_map]
   apply pullback.hom_ext <;> dsimp <;>
-  · simp only [limit.lift_π, PullbackCone.mk_pt, PullbackCone.mk_π_app, Category.assoc,
-      limit.lift_π_assoc, cospan_left, Category.comp_id, limit.isoLimitCone_inv_π,
-      limit.isoLimitCone_inv_π_assoc, pullbackSymmetry_hom_comp_fst_assoc,
-      pullbackSymmetry_hom_comp_snd_assoc]
+  · simp only [limit.lift_π, PullbackCone.mk_pt, PullbackCone.mk_π_app, Category.assoc, limit.lift_π_assoc, cospan_left, Category.comp_id, limit.isoLimitCone_inv_π, limit.isoLimitCone_inv_π_assoc, pullbackSymmetry_hom_comp_fst_assoc, pullbackSymmetry_hom_comp_snd_assoc]
     rfl
 #align algebraic_geometry.Scheme.pullback.open_cover_of_base AlgebraicGeometry.Scheme.Pullback.openCoverOfBase
 

@@ -956,8 +956,7 @@ instance {S : Type*} [Monoid S] [DistribMulAction S R] [IsScalarTower S R R] :
     Localization.induction_on₂ x y <|
       Prod.rec fun r₁ x₁ =>
         Prod.rec fun r₂ x₂ => by
-          simp only [Localization.smul_mk, Localization.add_mk, smul_add, mul_comm _ (s • _),
-            mul_comm _ r₁, mul_comm _ r₂, smul_mul_assoc]
+          simp only [Localization.smul_mk, Localization.add_mk, smul_add, mul_comm _ (s • _), mul_comm _ r₁, mul_comm _ r₂, smul_mul_assoc]
 
 instance {S : Type*} [Semiring S] [MulSemiringAction S R] [IsScalarTower S R R] :
     MulSemiringAction S (Localization M) :=
@@ -991,15 +990,13 @@ instance algebra {S : Type*} [CommSemiring S] [Algebra S R] : Algebra S (Localiz
       Prod.rec <| by
         intro r x
         dsimp
-        simp only [← mk_one_eq_monoidOf_mk, mk_mul, Localization.smul_mk, one_mul,
-          Algebra.smul_def]
+        simp only [← mk_one_eq_monoidOf_mk, mk_mul, Localization.smul_mk, one_mul, Algebra.smul_def]
   commutes' s :=
     Localization.ind <|
       Prod.rec <| by
         intro r x
         dsimp
-        simp only [← mk_one_eq_monoidOf_mk, mk_mul, Localization.smul_mk, one_mul, mul_one,
-          Algebra.commutes]
+        simp only [← mk_one_eq_monoidOf_mk, mk_mul, Localization.smul_mk, one_mul, mul_one, Algebra.commutes]
 
 instance isLocalization : IsLocalization M (Localization M) where
   map_units' := (Localization.monoidOf M).map_units

@@ -274,8 +274,7 @@ set_option linter.uppercaseLean3 false in
 theorem ofCocomplex_sq_01_comm (Z : C) :
     Injective.ι Z ≫ HomologicalComplex.d (ofCocomplex Z) 0 1 =
     HomologicalComplex.d ((CochainComplex.single₀ C).obj Z) 0 1 ≫ 0 := by
-  simp only [ofCocomplex_d, eq_self_iff_true, eqToHom_refl, Category.comp_id,
-    dite_eq_ite, if_true, comp_zero]
+  simp only [ofCocomplex_d, eq_self_iff_true, eqToHom_refl, Category.comp_id, dite_eq_ite, if_true, comp_zero]
   exact (exact_f_d (Injective.ι Z)).w
 
 -- Porting note: the `exact` in `of` was very, very slow. To assist,
@@ -287,8 +286,7 @@ theorem exact_ofCocomplex (Z : C) (n : ℕ) :
 -- Porting note: used to be simp; apply exact_f_d on both branches
     | 0 => by simp; apply exact_f_d
     | m+1 => by
-      simp only [ofCocomplex_X, ComplexShape.up_Rel, not_true, ofCocomplex_d,
-        eqToHom_refl, Category.comp_id, dite_eq_ite, ite_true]
+      simp only [ofCocomplex_X, ComplexShape.up_Rel, not_true, ofCocomplex_d, eqToHom_refl, Category.comp_id, dite_eq_ite, ite_true]
       erw [if_pos (c := m + 1 + 1 + 1 = m + 2 + 1) rfl]
       apply exact_f_d
 

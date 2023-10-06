@@ -68,9 +68,7 @@ theorem coimageImageComparison_app :
   ext
   dsimp
   dsimp [imageObjIso, coimageObjIso, cokernel.map]
-  simp only [coimage_image_factorisation, PreservesKernel.iso_hom, Category.assoc,
-    kernel.lift_ι, Category.comp_id, PreservesCokernel.iso_inv,
-    cokernel.π_desc_assoc, Category.id_comp]
+  simp only [coimage_image_factorisation, PreservesKernel.iso_hom, Category.assoc, kernel.lift_ι, Category.comp_id, PreservesCokernel.iso_inv, cokernel.π_desc_assoc, Category.id_comp]
   erw [kernelComparison_comp_ι _ ((evaluation C D).obj X),
     π_comp_cokernelComparison_assoc _ ((evaluation C D).obj X)]
   conv_lhs => rw [← coimage_image_factorisation α]
@@ -79,8 +77,7 @@ theorem coimageImageComparison_app :
 theorem coimageImageComparison_app' :
     (coimageImageComparison α).app X =
       (coimageObjIso α X).hom ≫ coimageImageComparison (α.app X) ≫ (imageObjIso α X).inv := by
-  simp only [coimageImageComparison_app, Iso.hom_inv_id_assoc, Iso.hom_inv_id, Category.assoc,
-    Category.comp_id]
+  simp only [coimageImageComparison_app, Iso.hom_inv_id_assoc, Iso.hom_inv_id, Category.assoc, Category.comp_id]
 #align category_theory.abelian.functor_category.coimage_image_comparison_app' CategoryTheory.Abelian.FunctorCategory.coimageImageComparison_app'
 
 instance functor_category_isIso_coimageImageComparison :

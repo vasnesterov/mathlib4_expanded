@@ -290,8 +290,7 @@ open ZMod
 
 /-- `legendreSym p (-1)` is given by `χ₄ p`. -/
 theorem legendreSym.at_neg_one (hp : p ≠ 2) : legendreSym p (-1) = χ₄ p := by
-  simp only [legendreSym, card p, quadraticChar_neg_one ((ringChar_zmod_n p).substr hp),
-    Int.cast_neg, Int.cast_one]
+  simp only [legendreSym, card p, quadraticChar_neg_one ((ringChar_zmod_n p).substr hp), Int.cast_neg, Int.cast_one]
 #align legendre_sym.at_neg_one legendreSym.at_neg_one
 
 namespace ZMod

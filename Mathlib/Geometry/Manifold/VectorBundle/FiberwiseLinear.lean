@@ -277,8 +277,7 @@ def smoothFiberwiseLinear : StructureGroupoid (B × F) where
     -/
     refine mem_iUnion.2 ⟨fun _ ↦ .refl 𝕜 F, mem_iUnion.2 ⟨univ, mem_iUnion.2 ⟨isOpen_univ, ?_⟩⟩⟩
     refine mem_iUnion.2 ⟨contMDiffOn_const, mem_iUnion.2 ⟨contMDiffOn_const, ?_, ?_⟩⟩
-    · simp only [FiberwiseLinear.localHomeomorph, LocalHomeomorph.refl_localEquiv,
-        LocalEquiv.refl_source, univ_prod_univ]
+    · simp only [FiberwiseLinear.localHomeomorph, LocalHomeomorph.refl_localEquiv, LocalEquiv.refl_source, univ_prod_univ]
     · exact eqOn_refl id _
   locality' := by
     -- the hard work has been extracted to `locality_aux₁` and `locality_aux₂`

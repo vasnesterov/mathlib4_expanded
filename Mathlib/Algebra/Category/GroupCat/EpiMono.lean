@@ -327,8 +327,7 @@ theorem g_ne_h (x : B) (hx : x ∉ f.range) : g ≠ h := by
     FunLike.congr_fun (FunLike.congr_fun r x) (fromCoset ⟨f.range, ⟨1, one_leftCoset _⟩⟩)
   change _ = ((τ).symm.trans (g x)).trans τ _ at r
   rw [g_apply_fromCoset] at r; rw [MonoidHom.coe_mk] at r
-  simp only [MonoidHom.coe_range, Subtype.coe_mk, Equiv.symm_swap, Equiv.toFun_as_coe,
-    Equiv.coe_trans, Function.comp_apply] at r
+  simp only [MonoidHom.coe_range, Subtype.coe_mk, Equiv.symm_swap, Equiv.toFun_as_coe, Equiv.coe_trans, Function.comp_apply] at r
   erw [Equiv.swap_apply_left, g_apply_infinity, Equiv.swap_apply_right] at r
   exact fromCoset_ne_of_nin_range _ hx r
 #align Group.surjective_of_epi_auxs.g_ne_h GroupCat.SurjectiveOfEpiAuxs.g_ne_h

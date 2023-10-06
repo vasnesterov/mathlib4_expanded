@@ -426,8 +426,7 @@ instance sheafHomHasNsmul : SMul ℕ (P ⟶ Q) where
         naturality := fun U V i => by
           induction' n with n ih
           · simp only [zero_smul, comp_zero, zero_comp, Nat.zero_eq]
-          · simp only [Nat.succ_eq_add_one, add_smul, ih, one_nsmul, comp_add,
-              NatTrans.naturality, add_comp] }
+          · simp only [Nat.succ_eq_add_one, add_smul, ih, one_nsmul, comp_add, NatTrans.naturality, add_comp] }
 set_option linter.uppercaseLean3 false in
 #align category_theory.Sheaf_hom_has_nsmul CategoryTheory.sheafHomHasNsmul
 
@@ -585,8 +584,7 @@ def secondMap : firstObj R P ⟶ secondObj R P :=
 theorem w : forkMap R P ≫ firstMap R P = forkMap R P ≫ secondMap R P := by
   apply limit.hom_ext
   rintro ⟨⟨Y, f, hf⟩, ⟨Z, g, hg⟩⟩
-  simp only [firstMap, secondMap, forkMap, limit.lift_π, limit.lift_π_assoc, assoc, Fan.mk_π_app,
-    Subtype.coe_mk]
+  simp only [firstMap, secondMap, forkMap, limit.lift_π, limit.lift_π_assoc, assoc, Fan.mk_π_app, Subtype.coe_mk]
   rw [← P.map_comp]; rw [← op_comp]; rw [pullback.condition]
   simp
 #align category_theory.presheaf.w CategoryTheory.Presheaf.w

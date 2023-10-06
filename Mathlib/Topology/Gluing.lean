@@ -185,8 +185,7 @@ theorem eqvGen_of_π_eq
         this :
       _)
   -- Porting note: was
-  -- simp only [eqToHom_refl, types_comp_apply, colimit.ι_map_assoc,
-  --   diagramIsoParallelPair_hom_app, colimit.isoColimitCocone_ι_hom, types_id_apply] at this
+  -- simp only [eqToHom_refl, types_comp_apply, colimit.ι_map_assoc, --   diagramIsoParallelPair_hom_app, colimit.isoColimitCocone_ι_hom, types_id_apply] at this
   -- See https://github.com/leanprover-community/mathlib4/issues/5026
   rw [colimit.ι_map_assoc] at this; rw [diagramIsoParallelPair_hom_app] at this; rw [eqToHom_refl] at this; rw [colimit.isoColimitCocone_ι_hom] at this; rw [types_comp_apply] at this; rw [types_id_apply] at this; rw [types_comp_apply] at this; rw [types_id_apply] at this
   exact Quot.eq.1 this
@@ -213,8 +212,7 @@ theorem ι_eq_iff_rel (i j : D.J) (x : D.U i) (y : D.U j) :
     generalize (sigmaIsoSigma.{u, u} D.V).hom x = x'
     obtain ⟨⟨i, j⟩, y⟩ := x'
     unfold InvImage MultispanIndex.fstSigmaMap MultispanIndex.sndSigmaMap
-    simp only [Opens.inclusion_apply, TopCat.comp_app, sigmaIsoSigma_inv_apply,
-      Cofan.mk_ι_app]
+    simp only [Opens.inclusion_apply, TopCat.comp_app, sigmaIsoSigma_inv_apply, Cofan.mk_ι_app]
     rw [←comp_apply]; rw [colimit.ι_desc]; rw [←comp_apply]; rw [colimit.ι_desc]
     erw [sigmaIsoSigma_hom_ι_apply, sigmaIsoSigma_hom_ι_apply]
     exact Or.inr ⟨y, by dsimp [GlueData.diagram]; simp only [true_and]; rfl⟩

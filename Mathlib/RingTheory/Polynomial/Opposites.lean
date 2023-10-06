@@ -37,9 +37,7 @@ def opRingEquiv (R : Type*) [Semiring R] : R[X]ᵐᵒᵖ ≃+* Rᵐᵒᵖ[X] :=
 @[simp]
 theorem opRingEquiv_op_monomial (n : ℕ) (r : R) :
     opRingEquiv R (op (monomial n r : R[X])) = monomial n (op r) := by
-  simp only [opRingEquiv, RingEquiv.coe_trans, Function.comp_apply,
-    AddMonoidAlgebra.opRingEquiv_apply, RingEquiv.op_apply_apply, toFinsuppIso_apply, unop_op,
-    toFinsupp_monomial, Finsupp.mapRange_single, toFinsuppIso_symm_apply, ofFinsupp_single]
+  simp only [opRingEquiv, RingEquiv.coe_trans, Function.comp_apply, AddMonoidAlgebra.opRingEquiv_apply, RingEquiv.op_apply_apply, toFinsuppIso_apply, unop_op, toFinsupp_monomial, Finsupp.mapRange_single, toFinsuppIso_symm_apply, ofFinsupp_single]
 #align polynomial.op_ring_equiv_op_monomial Polynomial.opRingEquiv_op_monomial
 
 @[simp]
@@ -110,8 +108,7 @@ theorem support_opRingEquiv (p : R[X]ᵐᵒᵖ) : (opRingEquiv R p).support = (u
 theorem natDegree_opRingEquiv (p : R[X]ᵐᵒᵖ) : (opRingEquiv R p).natDegree = (unop p).natDegree := by
   by_cases p0 : p = 0
   · simp only [p0, _root_.map_zero, natDegree_zero, unop_zero]
-  · simp only [p0, natDegree_eq_support_max', Ne.def, AddEquivClass.map_eq_zero_iff, not_false_iff,
-      support_opRingEquiv, unop_eq_zero_iff]
+  · simp only [p0, natDegree_eq_support_max', Ne.def, AddEquivClass.map_eq_zero_iff, not_false_iff, support_opRingEquiv, unop_eq_zero_iff]
 #align polynomial.nat_degree_op_ring_equiv Polynomial.natDegree_opRingEquiv
 
 @[simp]

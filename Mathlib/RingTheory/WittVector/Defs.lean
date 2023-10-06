@@ -229,26 +229,22 @@ section WittStructureSimplifications
 @[simp]
 theorem wittZero_eq_zero (n : ℕ) : wittZero p n = 0 := by
   apply MvPolynomial.map_injective (Int.castRingHom ℚ) Int.cast_injective
-  simp only [wittZero, wittStructureRat, bind₁, aeval_zero', constantCoeff_xInTermsOfW,
-    RingHom.map_zero, AlgHom.map_zero, map_wittStructureInt]
+  simp only [wittZero, wittStructureRat, bind₁, aeval_zero', constantCoeff_xInTermsOfW, RingHom.map_zero, AlgHom.map_zero, map_wittStructureInt]
 #align witt_vector.witt_zero_eq_zero WittVector.wittZero_eq_zero
 
 @[simp]
 theorem wittOne_zero_eq_one : wittOne p 0 = 1 := by
   apply MvPolynomial.map_injective (Int.castRingHom ℚ) Int.cast_injective
-  simp only [wittOne, wittStructureRat, xInTermsOfW_zero, AlgHom.map_one, RingHom.map_one,
-    bind₁_X_right, map_wittStructureInt]
+  simp only [wittOne, wittStructureRat, xInTermsOfW_zero, AlgHom.map_one, RingHom.map_one, bind₁_X_right, map_wittStructureInt]
 #align witt_vector.witt_one_zero_eq_one WittVector.wittOne_zero_eq_one
 
 @[simp]
 theorem wittOne_pos_eq_zero (n : ℕ) (hn : 0 < n) : wittOne p n = 0 := by
   apply MvPolynomial.map_injective (Int.castRingHom ℚ) Int.cast_injective
-  simp only [wittOne, wittStructureRat, RingHom.map_zero, AlgHom.map_one, RingHom.map_one,
-    map_wittStructureInt]
+  simp only [wittOne, wittStructureRat, RingHom.map_zero, AlgHom.map_one, RingHom.map_one, map_wittStructureInt]
   induction n using Nat.strong_induction_on with | h n IH => ?_
   rw [xInTermsOfW_eq]
-  simp only [AlgHom.map_mul, AlgHom.map_sub, AlgHom.map_sum, AlgHom.map_pow, bind₁_X_right,
-    bind₁_C_right]
+  simp only [AlgHom.map_mul, AlgHom.map_sub, AlgHom.map_sum, AlgHom.map_pow, bind₁_X_right, bind₁_C_right]
   rw [sub_mul]; rw [one_mul]
   rw [Finset.sum_eq_single 0]
   · simp only [invOf_eq_inv, one_mul, inv_pow, tsub_zero, RingHom.map_one, pow_zero]
@@ -262,29 +258,25 @@ theorem wittOne_pos_eq_zero (n : ℕ) (hn : 0 < n) : wittOne p n = 0 := by
 @[simp]
 theorem wittAdd_zero : wittAdd p 0 = X (0, 0) + X (1, 0) := by
   apply MvPolynomial.map_injective (Int.castRingHom ℚ) Int.cast_injective
-  simp only [wittAdd, wittStructureRat, AlgHom.map_add, RingHom.map_add, rename_X,
-    xInTermsOfW_zero, map_X, wittPolynomial_zero, bind₁_X_right, map_wittStructureInt]
+  simp only [wittAdd, wittStructureRat, AlgHom.map_add, RingHom.map_add, rename_X, xInTermsOfW_zero, map_X, wittPolynomial_zero, bind₁_X_right, map_wittStructureInt]
 #align witt_vector.witt_add_zero WittVector.wittAdd_zero
 
 @[simp]
 theorem wittSub_zero : wittSub p 0 = X (0, 0) - X (1, 0) := by
   apply MvPolynomial.map_injective (Int.castRingHom ℚ) Int.cast_injective
-  simp only [wittSub, wittStructureRat, AlgHom.map_sub, RingHom.map_sub, rename_X,
-    xInTermsOfW_zero, map_X, wittPolynomial_zero, bind₁_X_right, map_wittStructureInt]
+  simp only [wittSub, wittStructureRat, AlgHom.map_sub, RingHom.map_sub, rename_X, xInTermsOfW_zero, map_X, wittPolynomial_zero, bind₁_X_right, map_wittStructureInt]
 #align witt_vector.witt_sub_zero WittVector.wittSub_zero
 
 @[simp]
 theorem wittMul_zero : wittMul p 0 = X (0, 0) * X (1, 0) := by
   apply MvPolynomial.map_injective (Int.castRingHom ℚ) Int.cast_injective
-  simp only [wittMul, wittStructureRat, rename_X, xInTermsOfW_zero, map_X, wittPolynomial_zero,
-    RingHom.map_mul, bind₁_X_right, AlgHom.map_mul, map_wittStructureInt]
+  simp only [wittMul, wittStructureRat, rename_X, xInTermsOfW_zero, map_X, wittPolynomial_zero, RingHom.map_mul, bind₁_X_right, AlgHom.map_mul, map_wittStructureInt]
 #align witt_vector.witt_mul_zero WittVector.wittMul_zero
 
 @[simp]
 theorem wittNeg_zero : wittNeg p 0 = -X (0, 0) := by
   apply MvPolynomial.map_injective (Int.castRingHom ℚ) Int.cast_injective
-  simp only [wittNeg, wittStructureRat, rename_X, xInTermsOfW_zero, map_X, wittPolynomial_zero,
-    RingHom.map_neg, AlgHom.map_neg, bind₁_X_right, map_wittStructureInt]
+  simp only [wittNeg, wittStructureRat, rename_X, xInTermsOfW_zero, map_X, wittPolynomial_zero, RingHom.map_neg, AlgHom.map_neg, bind₁_X_right, map_wittStructureInt]
 #align witt_vector.witt_neg_zero WittVector.wittNeg_zero
 
 @[simp]

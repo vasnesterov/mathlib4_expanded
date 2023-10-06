@@ -350,8 +350,7 @@ theorem le_nhds_infty {f : Filter (OnePoint X)} :
 
 theorem ultrafilter_le_nhds_infty {f : Ultrafilter (OnePoint X)} :
     (f : Filter (OnePoint X)) ≤ 𝓝 ∞ ↔ ∀ s : Set X, IsClosed s → IsCompact s → (↑) '' s ∉ f := by
-  simp only [le_nhds_infty, ← compl_image_coe, Ultrafilter.mem_coe,
-    Ultrafilter.compl_mem_iff_not_mem]
+  simp only [le_nhds_infty, ← compl_image_coe, Ultrafilter.mem_coe, Ultrafilter.compl_mem_iff_not_mem]
 #align alexandroff.ultrafilter_le_nhds_infty OnePoint.ultrafilter_le_nhds_infty
 
 theorem tendsto_nhds_infty' {α : Type*} {f : OnePoint X → α} {l : Filter α} :
@@ -363,8 +362,7 @@ theorem tendsto_nhds_infty {α : Type*} {f : OnePoint X → α} {l : Filter α} 
     Tendsto f (𝓝 ∞) l ↔
       ∀ s ∈ l, f ∞ ∈ s ∧ ∃ t : Set X, IsClosed t ∧ IsCompact t ∧ MapsTo (f ∘ (↑)) tᶜ s :=
   tendsto_nhds_infty'.trans <| by
-    simp only [tendsto_pure_left, hasBasis_coclosedCompact.tendsto_left_iff, forall_and,
-      and_assoc, exists_prop]
+    simp only [tendsto_pure_left, hasBasis_coclosedCompact.tendsto_left_iff, forall_and, and_assoc, exists_prop]
 #align alexandroff.tendsto_nhds_infty OnePoint.tendsto_nhds_infty
 
 theorem continuousAt_infty' {Y : Type*} [TopologicalSpace Y] {f : OnePoint X → Y} :

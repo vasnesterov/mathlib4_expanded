@@ -1255,8 +1255,7 @@ variable {g g' l}
 
 @[simp]
 theorem isBigOWith_zero_right_iff : (IsBigOWith c l f'' fun _x => (0 : F')) ↔ f'' =ᶠ[l] 0 := by
-  simp only [IsBigOWith_def, exists_prop, true_and_iff, norm_zero, mul_zero,
-    norm_le_zero_iff, EventuallyEq, Pi.zero_apply]
+  simp only [IsBigOWith_def, exists_prop, true_and_iff, norm_zero, mul_zero, norm_le_zero_iff, EventuallyEq, Pi.zero_apply]
 #align asymptotics.is_O_with_zero_right_iff Asymptotics.isBigOWith_zero_right_iff
 
 @[simp]
@@ -1361,8 +1360,7 @@ theorem isLittleO_const_iff_isLittleO_one {c : F''} (hc : c ≠ 0) :
 
 @[simp]
 theorem isLittleO_one_iff : f' =o[l] (fun _x => 1 : α → F) ↔ Tendsto f' l (𝓝 0) := by
-  simp only [isLittleO_iff, norm_one, mul_one, Metric.nhds_basis_closedBall.tendsto_right_iff,
-    Metric.mem_closedBall, dist_zero_right]
+  simp only [isLittleO_iff, norm_one, mul_one, Metric.nhds_basis_closedBall.tendsto_right_iff, Metric.mem_closedBall, dist_zero_right]
 #align asymptotics.is_o_one_iff Asymptotics.isLittleO_one_iff
 
 @[simp]

@@ -218,8 +218,7 @@ theorem card_sphere_le_rothNumberNat (n d k : ℕ) :
   · simp
   refine' addSalemSpencer_image_sphere.le_rothNumberNat _ _ (card_image_of_injOn _)
   · intro; assumption
-  · simp only [subset_iff, mem_image, and_imp, forall_exists_index, mem_range,
-      forall_apply_eq_imp_iff₂, sphere, mem_filter]
+  · simp only [subset_iff, mem_image, and_imp, forall_exists_index, mem_range, forall_apply_eq_imp_iff₂, sphere, mem_filter]
     rintro _ x hx _ rfl
     exact (map_le_of_mem_box hx).trans_lt sum_lt
   refine' map_injOn.mono fun x => _
@@ -259,8 +258,7 @@ theorem exists_large_sphere (n d : ℕ) : ∃ k, (d ^ n / ↑(n * d ^ 2) : ℝ) 
   refine' (div_le_div_of_le_left _ _ _).trans hk
   · exact cast_nonneg _
   · exact cast_add_one_pos _
-  simp only [← le_sub_iff_add_le', cast_mul, ← mul_sub, cast_pow, cast_sub hd, sub_sq, one_pow,
-    cast_one, mul_one, sub_add, sub_sub_self]
+  simp only [← le_sub_iff_add_le', cast_mul, ← mul_sub, cast_pow, cast_sub hd, sub_sq, one_pow, cast_one, mul_one, sub_add, sub_sub_self]
   apply one_le_mul_of_one_le_of_one_le
   · rwa [one_le_cast]
   rw [_root_.le_sub_iff_add_le]

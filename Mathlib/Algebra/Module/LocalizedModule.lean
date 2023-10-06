@@ -156,8 +156,7 @@ instance : Add (LocalizedModule S M) where
               -- Put everything in the same shape, sorting the terms using `simp`
               have hu1' := congr_arg ((· • ·) (u2 * s2 * s2')) hu1
               have hu2' := congr_arg ((· • ·) (u1 * s1 * s1')) hu2
-              simp only [smul_add, ← mul_smul, smul_assoc, mul_assoc, mul_comm,
-                mul_left_comm] at hu1' hu2' ⊢
+              simp only [smul_add, ← mul_smul, smul_assoc, mul_assoc, mul_comm, mul_left_comm] at hu1' hu2' ⊢
               rw [hu1']; rw [hu2']⟩
 
 theorem mk_add_mk {m1 m2 : M} {s1 s2 : S} :
@@ -257,14 +256,12 @@ instance {A : Type _} [Semiring A] [Algebra R A] {S : Submonoid R} :
       rintro ⟨a₁, s₁⟩ ⟨a₂, s₂⟩ ⟨a₃, s₃⟩
       apply mk_eq.mpr _
       use 1
-      simp only [one_mul, smul_add, mul_add, mul_smul_comm, smul_smul, ← mul_assoc,
-        mul_right_comm]
+      simp only [one_mul, smul_add, mul_add, mul_smul_comm, smul_smul, ← mul_assoc, mul_right_comm]
     right_distrib := by
       rintro ⟨a₁, s₁⟩ ⟨a₂, s₂⟩ ⟨a₃, s₃⟩
       apply mk_eq.mpr _
       use 1
-      simp only [one_mul, smul_add, add_mul, smul_smul, ← mul_assoc, smul_mul_assoc,
-        mul_right_comm]
+      simp only [one_mul, smul_add, add_mul, smul_smul, ← mul_assoc, smul_mul_assoc, mul_right_comm]
     zero_mul := by
       rintro ⟨a, s⟩
       exact mk_eq.mpr ⟨1, by simp only [zero_mul, smul_zero]⟩
@@ -317,8 +314,7 @@ instance : SMul (Localization S) (LocalizedModule S M) where
             rintro ⟨m1, t1⟩ ⟨m2, t2⟩ ⟨u, h⟩
             refine' mk_eq.mpr ⟨u, _⟩
             have h' := congr_arg ((· • ·) (s • r)) h
-            simp only [← mul_smul, smul_eq_mul, mul_comm, mul_left_comm, Submonoid.smul_def,
-              Submonoid.coe_mul] at h' ⊢
+            simp only [← mul_smul, smul_eq_mul, mul_comm, mul_left_comm, Submonoid.smul_def, Submonoid.coe_mul] at h' ⊢
             rw [h'])))
       (by
         induction' x using LocalizedModule.induction_on with m t
@@ -373,8 +369,7 @@ private theorem add_smul' (x y : Localization S) (z : LocalizedModule S M) :
   rcases datax, datay with ⟨⟨r, s⟩, ⟨r', s'⟩⟩
   rw [Localization.add_mk]; rw [mk_smul_mk]; rw [mk_smul_mk]; rw [mk_smul_mk]; rw [mk_add_mk]; rw [mk_eq]
   use 1
-  simp only [one_smul, add_smul, smul_add, ← mul_smul, Submonoid.smul_def, Submonoid.coe_mul,
-    Submonoid.coe_one]
+  simp only [one_smul, add_smul, smul_add, ← mul_smul, Submonoid.smul_def, Submonoid.coe_mul, Submonoid.coe_one]
   rw [add_comm]
   -- Commutativity of addition in the module is not applied by `Ring`.
   ring_nf
@@ -486,8 +481,7 @@ def divBy (s : S) : LocalizedModule S M →ₗ[R] LocalizedModule S M where
     x.induction_on₂
       (by
         intro m₁ m₂ t₁ t₂
-        simp only [mk_add_mk, LocalizedModule.liftOn_mk, mul_smul, ← smul_add, mul_assoc,
-          mk_cancel_common_left s]
+        simp only [mk_add_mk, LocalizedModule.liftOn_mk, mul_smul, ← smul_add, mul_assoc, mk_cancel_common_left s]
         rw [show s * (t₁ * t₂) = t₁ * (s * t₂) by
             ext
             simp only [Submonoid.coe_mul]

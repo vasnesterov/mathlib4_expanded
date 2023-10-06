@@ -375,8 +375,7 @@ def conePointsIsoOfEquivalence {F : J ⥤ C} {s : Cone F} {G : K ⥤ C} {t : Con
     hom_inv_id := by
       apply hom_ext P; intro j
       dsimp
-      simp only [Limits.Cone.whisker_π, Limits.Cones.postcompose_obj_π, fac, whiskerLeft_app,
-        assoc, id_comp, invFunIdAssoc_hom_app, fac_assoc, NatTrans.comp_app]
+      simp only [Limits.Cone.whisker_π, Limits.Cones.postcompose_obj_π, fac, whiskerLeft_app, assoc, id_comp, invFunIdAssoc_hom_app, fac_assoc, NatTrans.comp_app]
       rw [counit_app_functor]; rw [←Functor.comp_map]
       have l :
         NatTrans.app w.hom j = NatTrans.app w.hom (Prefunctor.obj (𝟭 J).toPrefunctor j) := by dsimp
@@ -889,8 +888,7 @@ def coconePointsIsoOfEquivalence {F : J ⥤ C} {s : Cocone F} {G : K ⥤ C} {t :
     hom_inv_id := by
       apply hom_ext P; intro j
       dsimp
-      simp only [Limits.Cocone.whisker_ι, fac, invFunIdAssoc_inv_app, whiskerLeft_app, assoc,
-        comp_id, Limits.Cocones.precompose_obj_ι, fac_assoc, NatTrans.comp_app]
+      simp only [Limits.Cocone.whisker_ι, fac, invFunIdAssoc_inv_app, whiskerLeft_app, assoc, comp_id, Limits.Cocones.precompose_obj_ι, fac_assoc, NatTrans.comp_app]
       rw [counitInv_app_functor]; rw [← Functor.comp_map]; rw [← w.inv.naturality_assoc]
       dsimp
       simp

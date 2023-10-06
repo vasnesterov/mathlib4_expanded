@@ -372,11 +372,8 @@ noncomputable def unitsSMul (u : ℤˣ) (w : NormalWord d) : NormalWord d :=
     cons g'.1 u ((g'.2 * w.head⁻¹ : G) • w)
       (by simp)
       (by
-        simp only [group_smul_toList, Option.mem_def, Option.map_eq_some', Prod.exists,
-          exists_and_right, exists_eq_right, group_smul_head, inv_mul_cancel_right,
-          forall_exists_index, unitsSMulGroup]
-        simp only [Cancels, Option.map_eq_some', Prod.exists, exists_and_right, exists_eq_right,
-          not_and, not_exists] at h
+        simp only [group_smul_toList, Option.mem_def, Option.map_eq_some', Prod.exists, exists_and_right, exists_eq_right, group_smul_head, inv_mul_cancel_right, forall_exists_index, unitsSMulGroup]
+        simp only [Cancels, Option.map_eq_some', Prod.exists, exists_and_right, exists_eq_right, not_and, not_exists] at h
         intro u' x hx hmem
         have : w.head ∈ toSubgroup A B u := by
           have := (d.compl u).rightCosetEquivalence_equiv_snd w.head
@@ -390,8 +387,7 @@ theorem not_cancels_of_cons_hyp (u : ℤˣ) (w : NormalWord d)
     (h2 : ∀ u' ∈ Option.map Prod.fst w.toList.head?,
       w.head ∈ toSubgroup A B u → u = u') :
     ¬ Cancels u w := by
-  simp only [Cancels, Option.map_eq_some', Prod.exists,
-    exists_and_right, exists_eq_right, not_and, not_exists]
+  simp only [Cancels, Option.map_eq_some', Prod.exists, exists_and_right, exists_eq_right, not_and, not_exists]
   intro hw x hx
   rw [hx] at h2
   simpa using h2 (-u) rfl hw
@@ -405,8 +401,7 @@ theorem unitsSMul_cancels_iff (u : ℤˣ) (w : NormalWord d) :
     | cons g u' w h1 h2 _ =>
       intro hc
       apply not_cancels_of_cons_hyp _ _ h2
-      simp only [Cancels, cons_head, cons_toList, List.head?_cons,
-        Option.map_some', Option.some.injEq] at h
+      simp only [Cancels, cons_head, cons_toList, List.head?_cons, Option.map_some', Option.some.injEq] at h
       cases h.2
       simpa [Cancels, unitsSMulWithCancel,
         Subgroup.mul_mem_cancel_left] using hc
@@ -597,8 +592,7 @@ theorem exists_normalWord_prod_eq
     · rw [prod_smul, hw'1]
       simp [ReducedWord.prod]
     · have : ¬ Cancels a.1 (a.2 • w') := by
-        simp only [Cancels, group_smul_head, group_smul_toList, Option.map_eq_some',
-          Prod.exists, exists_and_right, exists_eq_right, not_and, not_exists]
+        simp only [Cancels, group_smul_head, group_smul_toList, Option.map_eq_some', Prod.exists, exists_and_right, exists_eq_right, not_and, not_exists]
         intro hS x hx
         have hx' := congr_arg (Option.map Prod.fst) hx
         rw [← List.head?_map] at hx'; rw [hw'2] at hx'; rw [List.head?_map] at hx'; rw [Option.map_some'] at hx'

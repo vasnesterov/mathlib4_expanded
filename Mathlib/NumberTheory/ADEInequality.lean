@@ -114,8 +114,7 @@ def sumInv (pqr : Multiset ℕ+) : ℚ :=
 #align ADE_inequality.sum_inv ADEInequality.sumInv
 
 theorem sumInv_pqr (p q r : ℕ+) : sumInv {p, q, r} = (p : ℚ)⁻¹ + (q : ℚ)⁻¹ + (r : ℚ)⁻¹ := by
-  simp only [sumInv, add_zero, insert_eq_cons, add_assoc, map_cons, sum_cons,
-    map_singleton, sum_singleton]
+  simp only [sumInv, add_zero, insert_eq_cons, add_assoc, map_cons, sum_cons, map_singleton, sum_singleton]
 #align ADE_inequality.sum_inv_pqr ADEInequality.sumInv_pqr
 
 /-- A multiset `pqr` of positive natural numbers is `admissible`

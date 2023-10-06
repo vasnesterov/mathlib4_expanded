@@ -184,8 +184,7 @@ theorem disjoint_right_ordSeparatingSet : Disjoint t (ordSeparatingSet s t) :=
 
 theorem dual_ordSeparatingSet :
     ordSeparatingSet (ofDual ⁻¹' s) (ofDual ⁻¹' t) = ofDual ⁻¹' ordSeparatingSet s t := by
-  simp only [ordSeparatingSet, mem_preimage, ← toDual.surjective.iUnion_comp, ofDual_toDual,
-    dual_ordConnectedComponent, ← preimage_compl, preimage_inter, preimage_iUnion]
+  simp only [ordSeparatingSet, mem_preimage, ← toDual.surjective.iUnion_comp, ofDual_toDual, dual_ordConnectedComponent, ← preimage_compl, preimage_inter, preimage_iUnion]
 #align set.dual_ord_separating_set Set.dual_ordSeparatingSet
 
 /-- An auxiliary neighborhood that will be used in the proof of `OrderTopology.t5Space`. -/

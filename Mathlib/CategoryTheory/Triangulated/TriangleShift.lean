@@ -65,9 +65,7 @@ noncomputable def Triangle.shiftFunctorZero : Triangle.shiftFunctor C 0 ≅ 𝟭
       ((CategoryTheory.shiftFunctorZero C ℤ).app _) ((CategoryTheory.shiftFunctorZero C ℤ).app _)
       (by aesop_cat) (by aesop_cat) (by
         dsimp
-        simp only [one_zsmul, assoc, shiftFunctorComm_zero_hom_app,
-          ← Functor.map_comp, Iso.inv_hom_id_app, Functor.id_obj, Functor.map_id,
-          comp_id, NatTrans.naturality, Functor.id_map]))
+        simp only [one_zsmul, assoc, shiftFunctorComm_zero_hom_app, ← Functor.map_comp, Iso.inv_hom_id_app, Functor.id_obj, Functor.map_id, comp_id, NatTrans.naturality, Functor.id_map]))
     (by aesop_cat)
 
 /-- The canonical isomorphism
@@ -94,8 +92,7 @@ noncomputable def Triangle.shiftFunctorAdd' (a b n : ℤ) (h : a + b = n) :
         dsimp
         rw [zsmul_comp]; rw [comp_zsmul]; rw [Functor.map_zsmul]; rw [zsmul_comp]; rw [comp_zsmul]; rw [smul_smul]; rw [assoc]; rw [Functor.map_comp]; rw [assoc]
         erw [← NatTrans.naturality_assoc]
-        simp only [shiftFunctorAdd'_eq_shiftFunctorAdd, Int.negOnePow_add,
-          shiftFunctorComm_hom_app_comp_shift_shiftFunctorAdd_hom_app, add_comm a]))
+        simp only [shiftFunctorAdd'_eq_shiftFunctorAdd, Int.negOnePow_add, shiftFunctorComm_hom_app_comp_shift_shiftFunctorAdd_hom_app, add_comm a]))
     (by aesop_cat)
 
 /-- Rotating triangles three times identifies with the shift by `1`. -/

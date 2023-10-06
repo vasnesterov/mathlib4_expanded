@@ -72,10 +72,7 @@ def limitConeIsLimit (F : J ⥤ Mon_ C) : IsLimit (limitCone F) where
       mul_hom := by
         dsimp
         ext
-        simp only [Functor.comp_obj, forget_obj, Category.assoc, limit.lift_π, Functor.mapCone_pt,
-          Functor.mapCone_π_app, forget_map, Hom.mul_hom, limit_mul, Cones.postcompose_obj_pt,
-          Cones.postcompose_obj_π, NatTrans.comp_app, Functor.const_obj_obj, tensorObj_obj,
-          MonFunctorCategoryEquivalence.Inverse.obj_mul_app]
+        simp only [Functor.comp_obj, forget_obj, Category.assoc, limit.lift_π, Functor.mapCone_pt, Functor.mapCone_π_app, forget_map, Hom.mul_hom, limit_mul, Cones.postcompose_obj_pt, Cones.postcompose_obj_π, NatTrans.comp_app, Functor.const_obj_obj, tensorObj_obj, MonFunctorCategoryEquivalence.Inverse.obj_mul_app]
         slice_rhs 1 2 => rw [← MonoidalCategory.tensor_comp, limit.lift_π] }
   fac s h := by ext; simp
   uniq s m w := by

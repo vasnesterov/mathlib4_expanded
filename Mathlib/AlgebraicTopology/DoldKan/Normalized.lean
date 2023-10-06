@@ -112,9 +112,7 @@ def splitMonoInclusionOfMooreComplexMap (X : SimplicialObject A) :
     SplitMono (inclusionOfMooreComplexMap X) where
   retraction := PInftyToNormalizedMooreComplex X
   id := by
-    simp only [← cancel_mono (inclusionOfMooreComplexMap X), assoc, id_comp,
-      PInftyToNormalizedMooreComplex_comp_inclusionOfMooreComplexMap,
-      inclusionOfMooreComplexMap_comp_PInfty]
+    simp only [← cancel_mono (inclusionOfMooreComplexMap X), assoc, id_comp, PInftyToNormalizedMooreComplex_comp_inclusionOfMooreComplexMap, inclusionOfMooreComplexMap_comp_PInfty]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.split_mono_inclusion_of_Moore_complex_map AlgebraicTopology.DoldKan.splitMonoInclusionOfMooreComplexMap
 
@@ -130,29 +128,21 @@ def N₁_iso_normalizedMooreComplex_comp_toKaroubi : N₁ ≅ normalizedMooreCom
         { f := PInftyToNormalizedMooreComplex X
           comm := by erw [comp_id, PInfty_comp_PInftyToNormalizedMooreComplex] }
       naturality := fun X Y f => by
-        simp only [Functor.comp_map, normalizedMooreComplex_map,
-          PInftyToNormalizedMooreComplex_naturality, Karoubi.hom_ext_iff, Karoubi.comp_f, N₁_map_f,
-          PInfty_comp_PInftyToNormalizedMooreComplex_assoc, toKaroubi_map_f, assoc] }
+        simp only [Functor.comp_map, normalizedMooreComplex_map, PInftyToNormalizedMooreComplex_naturality, Karoubi.hom_ext_iff, Karoubi.comp_f, N₁_map_f, PInfty_comp_PInftyToNormalizedMooreComplex_assoc, toKaroubi_map_f, assoc] }
   inv :=
     { app := fun X =>
         { f := inclusionOfMooreComplexMap X
           comm := by erw [inclusionOfMooreComplexMap_comp_PInfty, id_comp] }
       naturality := fun X Y f => by
         ext
-        simp only [Functor.comp_map, normalizedMooreComplex_map, Karoubi.comp_f, toKaroubi_map_f,
-          HomologicalComplex.comp_f, NormalizedMooreComplex.map_f,
-          inclusionOfMooreComplexMap_f, factorThru_arrow, N₁_map_f,
-          inclusionOfMooreComplexMap_comp_PInfty_assoc, AlternatingFaceMapComplex.map_f] }
+        simp only [Functor.comp_map, normalizedMooreComplex_map, Karoubi.comp_f, toKaroubi_map_f, HomologicalComplex.comp_f, NormalizedMooreComplex.map_f, inclusionOfMooreComplexMap_f, factorThru_arrow, N₁_map_f, inclusionOfMooreComplexMap_comp_PInfty_assoc, AlternatingFaceMapComplex.map_f] }
   hom_inv_id := by
     ext X : 3
-    simp only [PInftyToNormalizedMooreComplex_comp_inclusionOfMooreComplexMap,
-      NatTrans.comp_app, Karoubi.comp_f, N₁_obj_p, NatTrans.id_app, Karoubi.id_eq]
+    simp only [PInftyToNormalizedMooreComplex_comp_inclusionOfMooreComplexMap, NatTrans.comp_app, Karoubi.comp_f, N₁_obj_p, NatTrans.id_app, Karoubi.id_eq]
   inv_hom_id := by
     ext X : 3
     rw [← cancel_mono (inclusionOfMooreComplexMap X)]
-    simp only [NatTrans.comp_app, Karoubi.comp_f, assoc, NatTrans.id_app, Karoubi.id_eq,
-      PInftyToNormalizedMooreComplex_comp_inclusionOfMooreComplexMap,
-      inclusionOfMooreComplexMap_comp_PInfty]
+    simp only [NatTrans.comp_app, Karoubi.comp_f, assoc, NatTrans.id_app, Karoubi.id_eq, PInftyToNormalizedMooreComplex_comp_inclusionOfMooreComplexMap, inclusionOfMooreComplexMap_comp_PInfty]
     dsimp only [Functor.comp_obj, toKaroubi]
     erw [id_comp]
 set_option linter.uppercaseLean3 false in

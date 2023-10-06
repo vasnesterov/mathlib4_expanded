@@ -592,8 +592,7 @@ lemma p_opcyclesMap' : h₁.p ≫ opcyclesMap' φ h₁ h₂ = φ.τ₂ ≫ h₂.
 
 @[reassoc (attr := simp)]
 lemma opcyclesMap'_g' : opcyclesMap' φ h₁ h₂ ≫ h₂.g' = h₁.g' ≫ φ.τ₃ := by
-  simp only [← cancel_epi h₁.p, assoc, φ.comm₂₃, p_opcyclesMap'_assoc,
-    RightHomologyData.p_g'_assoc, RightHomologyData.p_g']
+  simp only [← cancel_epi h₁.p, assoc, φ.comm₂₃, p_opcyclesMap'_assoc, RightHomologyData.p_g'_assoc, RightHomologyData.p_g']
 
 @[reassoc (attr := simp)]
 lemma rightHomologyι_naturality' :
@@ -814,8 +813,7 @@ lemma rightHomologyIso_inv_comp_rightHomologyι :
 @[reassoc (attr := simp)]
 lemma rightHomologyIso_hom_comp_ι :
     h.rightHomologyIso.hom ≫ h.ι = S.rightHomologyι ≫ h.opcyclesIso.hom := by
-  simp only [← cancel_mono h.opcyclesIso.inv, ← cancel_epi h.rightHomologyIso.inv,
-    assoc, Iso.inv_hom_id_assoc, Iso.hom_inv_id, comp_id, rightHomologyIso_inv_comp_rightHomologyι]
+  simp only [← cancel_mono h.opcyclesIso.inv, ← cancel_epi h.rightHomologyIso.inv, assoc, Iso.inv_hom_id_assoc, Iso.hom_inv_id, comp_id, rightHomologyIso_inv_comp_rightHomologyι]
 
 end RightHomologyData
 
@@ -968,8 +966,7 @@ lemma leftHomologyMap'_op
     (φ : S₁ ⟶ S₂) (h₁ : S₁.LeftHomologyData) (h₂ : S₂.LeftHomologyData) :
     (leftHomologyMap' φ h₁ h₂).op = rightHomologyMap' (opMap φ) h₂.op h₁.op := by
   let γ : LeftHomologyMapData φ h₁ h₂ := leftHomologyMapData φ h₁ h₂
-  simp only [γ.leftHomologyMap'_eq, γ.op.rightHomologyMap'_eq,
-    LeftHomologyMapData.op_φH]
+  simp only [γ.leftHomologyMap'_eq, γ.op.rightHomologyMap'_eq, LeftHomologyMapData.op_φH]
 
 lemma leftHomologyMap_op (φ : S₁ ⟶ S₂) [S₁.HasLeftHomology] [S₂.HasLeftHomology] :
     (leftHomologyMap φ).op = S₂.rightHomologyOpIso.inv ≫ rightHomologyMap (opMap φ) ≫
@@ -983,8 +980,7 @@ lemma rightHomologyMap'_op
     (φ : S₁ ⟶ S₂) (h₁ : S₁.RightHomologyData) (h₂ : S₂.RightHomologyData) :
     (rightHomologyMap' φ h₁ h₂).op = leftHomologyMap' (opMap φ) h₂.op h₁.op := by
   let γ : RightHomologyMapData φ h₁ h₂ := rightHomologyMapData φ h₁ h₂
-  simp only [γ.rightHomologyMap'_eq, γ.op.leftHomologyMap'_eq,
-    RightHomologyMapData.op_φH]
+  simp only [γ.rightHomologyMap'_eq, γ.op.leftHomologyMap'_eq, RightHomologyMapData.op_φH]
 
 lemma rightHomologyMap_op (φ : S₁ ⟶ S₂) [S₁.HasRightHomology] [S₂.HasRightHomology] :
     (rightHomologyMap φ).op = S₂.leftHomologyOpIso.inv ≫ leftHomologyMap (opMap φ) ≫
@@ -1241,10 +1237,8 @@ lemma isIso_opcyclesMap'_of_isIso_of_epi (φ : S₁ ⟶ S₂) (h₂ : IsIso φ.�
     IsIso (opcyclesMap' φ h₁ h₂) := by
   refine' ⟨h₂.descQ (inv φ.τ₂ ≫ h₁.p) _, _, _⟩
   · simp only [← cancel_epi φ.τ₁, comp_zero, φ.comm₁₂_assoc, IsIso.hom_inv_id_assoc, h₁.wp]
-  · simp only [← cancel_epi h₁.p, p_opcyclesMap'_assoc, h₂.p_descQ,
-      IsIso.hom_inv_id_assoc, comp_id]
-  · simp only [← cancel_epi h₂.p, h₂.p_descQ_assoc, assoc, p_opcyclesMap',
-      IsIso.inv_hom_id_assoc, comp_id]
+  · simp only [← cancel_epi h₁.p, p_opcyclesMap'_assoc, h₂.p_descQ, IsIso.hom_inv_id_assoc, comp_id]
+  · simp only [← cancel_epi h₂.p, h₂.p_descQ_assoc, assoc, p_opcyclesMap', IsIso.inv_hom_id_assoc, comp_id]
 
 lemma isIso_opcyclesMap_of_isIso_of_epi' (φ : S₁ ⟶ S₂) (h₂ : IsIso φ.τ₂) (h₁ : Epi φ.τ₁)
     [S₁.HasRightHomology] [S₂.HasRightHomology] :

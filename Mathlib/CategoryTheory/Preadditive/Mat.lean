@@ -209,12 +209,10 @@ instance hasFiniteBiproducts : HasFiniteBiproducts (Mat_ C) where
               ext x y
               dsimp
               simp_rw [dite_comp, comp_dite]
-              simp only [ite_self, dite_eq_ite, dif_ctx_congr, Limits.comp_zero, Limits.zero_comp,
-                eqToHom_trans, Finset.sum_congr]
+              simp only [ite_self, dite_eq_ite, dif_ctx_congr, Limits.comp_zero, Limits.zero_comp, eqToHom_trans, Finset.sum_congr]
               erw [Finset.sum_sigma]
               dsimp
-              simp only [if_congr, if_true, dif_ctx_congr, Finset.sum_dite_irrel, Finset.mem_univ,
-                Finset.sum_const_zero, Finset.sum_congr, Finset.sum_dite_eq']
+              simp only [if_congr, if_true, dif_ctx_congr, Finset.sum_dite_irrel, Finset.mem_univ, Finset.sum_const_zero, Finset.sum_congr, Finset.sum_dite_eq']
               split_ifs with h h'
               · substs h h'
                 simp only [CategoryTheory.eqToHom_refl, CategoryTheory.Mat_.id_apply_self]
@@ -241,8 +239,7 @@ instance hasFiniteBiproducts : HasFiniteBiproducts (Mat_ C) where
               tauto
             · intro hj
               simp at hj
-            simp only [eqToHom_refl, dite_eq_ite, ite_true, Category.id_comp, ne_eq,
-              Sigma.mk.inj_iff, not_and, id_def]
+            simp only [eqToHom_refl, dite_eq_ite, ite_true, Category.id_comp, ne_eq, Sigma.mk.inj_iff, not_and, id_def]
             by_cases i' = i
             · subst h
               rw [dif_pos rfl]
@@ -352,11 +349,9 @@ def isoBiproductEmbedding (M : Mat_ C) : M ≅ ⨁ fun i => (embedding C).obj (M
     intro i
     apply biproduct.hom_ext'
     intro j
-    simp only [Category.id_comp, Category.assoc, biproduct.lift_π, biproduct.ι_desc_assoc,
-      biproduct.ι_π]
+    simp only [Category.id_comp, Category.assoc, biproduct.lift_π, biproduct.ι_desc_assoc, biproduct.ι_π]
     ext ⟨⟩ ⟨⟩
-    simp only [embedding, comp_apply, comp_dite, dite_comp, comp_zero, zero_comp,
-      Finset.sum_dite_eq', Finset.mem_univ, ite_true, eqToHom_refl, Category.comp_id]
+    simp only [embedding, comp_apply, comp_dite, dite_comp, comp_zero, zero_comp, Finset.sum_dite_eq', Finset.mem_univ, ite_true, eqToHom_refl, Category.comp_id]
     split_ifs with h
     · subst h
       simp
@@ -406,12 +401,9 @@ theorem additiveObjIsoBiproduct_naturality (F : Mat_ C ⥤ D) [Functor.Additive 
       (additiveObjIsoBiproduct F M).hom ≫
         biproduct.matrix fun i j => F.map ((embedding C).map (f i j)) := by
   ext i : 1
-  simp only [Category.assoc, additiveObjIsoBiproduct_hom_π, isoBiproductEmbedding_hom,
-    embedding_obj_ι, embedding_obj_X, biproduct.lift_π, biproduct.matrix_π,
-    ← cancel_epi (additiveObjIsoBiproduct F M).inv, Iso.inv_hom_id_assoc]
+  simp only [Category.assoc, additiveObjIsoBiproduct_hom_π, isoBiproductEmbedding_hom, embedding_obj_ι, embedding_obj_X, biproduct.lift_π, biproduct.matrix_π, ← cancel_epi (additiveObjIsoBiproduct F M).inv, Iso.inv_hom_id_assoc]
   ext j : 1
-  simp only [ι_additiveObjIsoBiproduct_inv_assoc, isoBiproductEmbedding_inv,
-    biproduct.ι_desc, ← F.map_comp]
+  simp only [ι_additiveObjIsoBiproduct_inv_assoc, isoBiproductEmbedding_inv, biproduct.ι_desc, ← F.map_comp]
   congr 1
   funext ⟨⟩ ⟨⟩
   simp [comp_apply, dite_comp, comp_dite]

@@ -111,15 +111,13 @@ theorem toNat_lt {n : ℕ} (v : Bitvec n) : v.toNat < 2 ^ n := by
 
 theorem addLsb_div_two {x b} : addLsb x b / 2 = x := by
   cases b <;>
-      simp only [Nat.add_mul_div_left, addLsb, ← two_mul, add_comm, Nat.succ_pos',
-        Nat.mul_div_right, gt_iff_lt, zero_add, cond]
+      simp only [Nat.add_mul_div_left, addLsb, ← two_mul, add_comm, Nat.succ_pos', Nat.mul_div_right, gt_iff_lt, zero_add, cond]
   norm_num
 #align bitvec.add_lsb_div_two Bitvec.addLsb_div_two
 
 theorem decide_addLsb_mod_two {x b} : decide (addLsb x b % 2 = 1) = b := by
   cases b <;>
-      simp only [Bool.decide_iff, Nat.add_mul_mod_self_left, addLsb, ← two_mul, add_comm,
-        Bool.decide_False, Nat.mul_mod_right, zero_add, cond, zero_ne_one]
+      simp only [Bool.decide_iff, Nat.add_mul_mod_self_left, addLsb, ← two_mul, add_comm, Bool.decide_False, Nat.mul_mod_right, zero_add, cond, zero_ne_one]
 #align bitvec.to_bool_add_lsb_mod_two Bitvec.decide_addLsb_mod_two
 
 theorem ofNat_toNat {n : ℕ} (v : Bitvec n) : Bitvec.ofNat n v.toNat = v := by
@@ -136,8 +134,7 @@ theorem ofNat_toNat {n : ℕ} (v : Bitvec n) : Bitvec.ofNat n v.toNat = v := by
     simp [Bitvec.ofNat]
   · simp only [← Nat.succ_eq_add_one, List.length] at h
     subst n
-    simp only [Bitvec.ofNat, Vector.toList_cons, Vector.toList_nil, List.reverse_cons,
-      Vector.toList_append, List.foldr]
+    simp only [Bitvec.ofNat, Vector.toList_cons, Vector.toList_nil, List.reverse_cons, Vector.toList_append, List.foldr]
     erw [addLsb_div_two, decide_addLsb_mod_two]
     congr
     apply ys_ih

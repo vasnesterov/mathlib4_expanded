@@ -481,8 +481,7 @@ theorem isCycle_swap_mul_aux₂ {α : Type*} [DecidableEq α] :
         have hb : (swap x (f⁻¹ x) * f⁻¹) (f⁻¹ b) ≠ f⁻¹ b := by
           rw [mul_apply]; rw [swap_apply_def]
           split_ifs <;>
-              simp only [inv_eq_iff_eq, Perm.mul_apply, zpow_negSucc,
-                Ne.def, Perm.apply_inv_self] at
+              simp only [inv_eq_iff_eq, Perm.mul_apply, zpow_negSucc, Ne.def, Perm.apply_inv_self] at
                 * <;> tauto
         let ⟨i, hi⟩ :=
           isCycle_swap_mul_aux₁ n hb
@@ -859,9 +858,7 @@ theorem IsCycleOn.pow_apply_eq {s : Finset α} (hf : f.IsCycleOn s) (ha : a ∈ 
   classical
     have h : ∀ x ∈ s.attach, ¬f ↑x = ↑x := fun x _ => hf.apply_ne hs x.2
     have := (hf.isCycle_subtypePerm hs).orderOf
-    simp only [coe_sort_coe, support_subtype_perm, ne_eq, decide_not, Bool.not_eq_true',
-      decide_eq_false_iff_not, mem_attach, forall_true_left, Subtype.forall, filter_true_of_mem h,
-      card_attach] at this
+    simp only [coe_sort_coe, support_subtype_perm, ne_eq, decide_not, Bool.not_eq_true', decide_eq_false_iff_not, mem_attach, forall_true_left, Subtype.forall, filter_true_of_mem h, card_attach] at this
     rw [← this]; rw [orderOf_dvd_iff_pow_eq_one]; rw [(hf.isCycle_subtypePerm hs).pow_eq_one_iff'
         (ne_of_apply_ne ((↑) : s → α) <| hf.apply_ne hs (⟨a, ha⟩ : s).2)]
     simp
@@ -1234,8 +1231,7 @@ def cycleFactorsAux [Fintype α] :
   intro l f h
   exact match l with
   | [] => ⟨[], by
-      { simp only [imp_false, List.Pairwise.nil, List.not_mem_nil, forall_const, and_true_iff,
-          forall_prop_of_false, Classical.not_not, not_false_iff, List.prod_nil] at *
+      { simp only [imp_false, List.Pairwise.nil, List.not_mem_nil, forall_const, and_true_iff, forall_prop_of_false, Classical.not_not, not_false_iff, List.prod_nil] at *
         ext
         simp [*]}⟩
   | x::l =>
@@ -1727,8 +1723,7 @@ theorem IsCycle.isConj (hσ : IsCycle σ) (hτ : IsCycle τ) (h : σ.support.car
     Eq.trans _
       (congr rfl (congr rfl (congr rfl (congr rfl (hσ.zpowersEquivSupport_symm_apply n).symm))))
   apply (congr rfl (congr rfl (congr rfl (hσ.zpowersEquivSupport_symm_apply (n + 1))))).trans _
-  simp only [Ne.def, IsCycle.zpowersEquivSupport_apply, Subtype.coe_mk,
-    zpowersEquivZpowers_apply]
+  simp only [Ne.def, IsCycle.zpowersEquivSupport_apply, Subtype.coe_mk, zpowersEquivZpowers_apply]
   dsimp
   rw [pow_succ]; rw [Perm.mul_apply]
 #align equiv.perm.is_cycle.is_conj Equiv.Perm.IsCycle.isConj
@@ -1751,8 +1746,7 @@ theorem IsCycle.isConj_iff (hσ : IsCycle σ) (hτ : IsCycle τ) :
 @[simp]
 theorem support_conj : (σ * τ * σ⁻¹).support = τ.support.map σ.toEmbedding := by
   ext
-  simp only [mem_map_equiv, Perm.coe_mul, Function.comp_apply, Ne.def, Perm.mem_support,
-    Equiv.eq_symm_apply]
+  simp only [mem_map_equiv, Perm.coe_mul, Function.comp_apply, Ne.def, Perm.mem_support, Equiv.eq_symm_apply]
   rfl
 #align equiv.perm.support_conj Equiv.Perm.support_conj
 
@@ -1777,17 +1771,14 @@ theorem Disjoint.isConj_mul {α : Type*} [Finite α] {σ τ π ρ : Perm α} (hc
           ((Equiv.Set.ofEq hd1').trans (Equiv.Set.union hd1''.le_bot)).trans
             ((Equiv.sumCongr (subtypeEquiv f fun a => _) (subtypeEquiv g fun a => _)).trans
               ((Equiv.Set.ofEq hd2').trans (Equiv.Set.union hd2''.le_bot)).symm) <;>
-      · simp only [Set.mem_image, toEmbedding_apply, exists_eq_right, support_conj, coe_map,
-          apply_eq_iff_eq]
+      · simp only [Set.mem_image, toEmbedding_apply, exists_eq_right, support_conj, coe_map, apply_eq_iff_eq]
     · intro x hx
-      simp only [trans_apply, symm_trans_apply, Equiv.Set.ofEq_apply, Equiv.Set.ofEq_symm_apply,
-        Equiv.sumCongr_apply]
+      simp only [trans_apply, symm_trans_apply, Equiv.Set.ofEq_apply, Equiv.Set.ofEq_symm_apply, Equiv.sumCongr_apply]
       rw [hd1'] at hx; rw [Set.mem_union] at hx
       cases' hx with hxσ hxτ
       · rw [mem_coe, mem_support] at hxσ
         rw [Set.union_apply_left hd1''.le_bot _]; rw [Set.union_apply_left hd1''.le_bot _]
-        simp only [subtypeEquiv_apply, Perm.coe_mul, Sum.map_inl, comp_apply,
-          Set.union_symm_apply_left, Subtype.coe_mk, apply_eq_iff_eq]
+        simp only [subtypeEquiv_apply, Perm.coe_mul, Sum.map_inl, comp_apply, Set.union_symm_apply_left, Subtype.coe_mk, apply_eq_iff_eq]
         · have h := (hd2 (f x)).resolve_left ?_
           · rw [mul_apply, mul_apply] at h
             rw [h]; rw [inv_apply_self]; rw [(hd1 x).resolve_left hxσ]
@@ -1797,8 +1788,7 @@ theorem Disjoint.isConj_mul {α : Type*} [Finite α] {σ τ π ρ : Perm α} (hc
         · rwa [Subtype.coe_mk, mem_coe, mem_support]
       · rw [mem_coe, ← apply_mem_support, mem_support] at hxτ
         rw [Set.union_apply_right hd1''.le_bot _]; rw [Set.union_apply_right hd1''.le_bot _]
-        simp only [subtypeEquiv_apply, Perm.coe_mul, Sum.map_inr, comp_apply,
-          Set.union_symm_apply_right, Subtype.coe_mk, apply_eq_iff_eq]
+        simp only [subtypeEquiv_apply, Perm.coe_mul, Sum.map_inr, comp_apply, Set.union_symm_apply_right, Subtype.coe_mk, apply_eq_iff_eq]
         · have h := (hd2 (g (τ x))).resolve_right ?_
           · rw [mul_apply, mul_apply] at h
             rw [inv_apply_self]; rw [h]; rw [(hd1 (τ x)).resolve_right hxτ]
@@ -1838,8 +1828,7 @@ theorem _root_.List.Nodup.isCycleOn_formPerm (h : l.Nodup) :
   rw [Set.mem_setOf] at ha hb; rw [← List.indexOf_lt_length] at ha hb
   rw [← List.indexOf_get ha]; rw [← List.indexOf_get hb]
   refine' ⟨l.indexOf b - l.indexOf a, _⟩
-  simp only [sub_eq_neg_add, zpow_add, zpow_neg, Equiv.Perm.inv_eq_iff_eq, zpow_ofNat,
-    Equiv.Perm.coe_mul, ← List.nthLe_eq, List.formPerm_pow_apply_nthLe _ h, Function.comp]
+  simp only [sub_eq_neg_add, zpow_add, zpow_neg, Equiv.Perm.inv_eq_iff_eq, zpow_ofNat, Equiv.Perm.coe_mul, ← List.nthLe_eq, List.formPerm_pow_apply_nthLe _ h, Function.comp]
   rw [add_comm]
 #align list.nodup.is_cycle_on_form_perm List.Nodup.isCycleOn_formPerm
 
@@ -1925,8 +1914,7 @@ theorem _root_.Finset.product_self_eq_disj_Union_perm_aux (hf : f.IsCycleOn s) :
     rwa [card_range]
   classical
     rintro m hm n hn hmn
-    simp only [disjoint_left, Function.onFun, mem_map, Function.Embedding.coeFn_mk, exists_prop,
-      not_exists, not_and, forall_exists_index, and_imp, Prod.forall, Prod.mk.inj_iff]
+    simp only [disjoint_left, Function.onFun, mem_map, Function.Embedding.coeFn_mk, exists_prop, not_exists, not_and, forall_exists_index, and_imp, Prod.forall, Prod.mk.inj_iff]
     rintro _ _ _ - rfl rfl a ha rfl h
     rw [hf.pow_apply_eq_pow_apply ha] at h
     rw [mem_coe] at hm hn; rw [mem_range] at hm hn
@@ -1950,8 +1938,7 @@ theorem _root_.Finset.product_self_eq_disjUnion_perm (hf : f.IsCycleOn s) :
         (fun k => s.map ⟨fun i => (i, (f ^ k) i), fun i j => congr_arg Prod.fst⟩)
         (product_self_eq_disj_Union_perm_aux hf) := by
   ext ⟨a, b⟩
-  simp only [mem_product, Equiv.Perm.coe_pow, mem_disjiUnion, mem_range, mem_map,
-    Function.Embedding.coeFn_mk, Prod.mk.inj_iff, exists_prop]
+  simp only [mem_product, Equiv.Perm.coe_pow, mem_disjiUnion, mem_range, mem_map, Function.Embedding.coeFn_mk, Prod.mk.inj_iff, exists_prop]
   refine' ⟨fun hx => _, _⟩
   · obtain ⟨n, hn, rfl⟩ := hf.exists_pow_eq hx.1 hx.2
     exact ⟨n, hn, a, hx.1, rfl, by rw [f.iterate_eq_pow]⟩

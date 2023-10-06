@@ -114,8 +114,7 @@ theorem continuous_comp : Continuous (ContinuousMap.comp g : C(α, β) → C(α,
 `ContinuousMap.comp g : C(α, β) → C(α, γ)` is a topology inducing map too. -/
 theorem inducing_comp (hg : Inducing g) : Inducing (g.comp : C(α, β) → C(α, γ)) where
   induced := by
-    simp only [compactOpen_eq, induced_generateFrom_eq, image_image2, preimage_gen,
-      hg.setOf_isOpen, image2_image_right]
+    simp only [compactOpen_eq, induced_generateFrom_eq, image_image2, preimage_gen, hg.setOf_isOpen, image2_image_right]
 
 /-- If `g : C(β, γ)` is a topological embedding, then the composition
 `ContinuousMap.comp g : C(α, β) → C(α, γ)` is an embedding too. -/

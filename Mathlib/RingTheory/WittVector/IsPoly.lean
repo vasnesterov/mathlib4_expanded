@@ -244,13 +244,11 @@ instance IsPoly₂.comp {h f g} [hh : IsPoly₂ p h] [hf : IsPoly p f] [hg : IsP
   apply eval₂Hom_congr rfl _ rfl
   ext ⟨i, n⟩
   fin_cases i <;>
-    simp only [aeval_eq_eval₂Hom, eval₂Hom_rename, Function.comp, Matrix.cons_val_zero,
-      Matrix.head_cons, Matrix.cons_val_one]
+    simp only [aeval_eq_eval₂Hom, eval₂Hom_rename, Function.comp, Matrix.cons_val_zero, Matrix.head_cons, Matrix.cons_val_one]
     -- porting note: added the rest of the proof.
     <;>
     open Matrix in
-    simp only [algebraMap_int_eq, coe_eval₂Hom, Fin.mk_zero, Fin.mk_one, cons_val', empty_val',
-      cons_val_fin_one, cons_val_zero, cons_val_one, eval₂Hom_rename, Function.comp, head_fin_const]
+    simp only [algebraMap_int_eq, coe_eval₂Hom, Fin.mk_zero, Fin.mk_one, cons_val', empty_val', cons_val_fin_one, cons_val_zero, cons_val_one, eval₂Hom_rename, Function.comp, head_fin_const]
 
 #align witt_vector.is_poly₂.comp WittVector.IsPoly₂.comp
 
@@ -278,8 +276,7 @@ instance IsPoly₂.diag {f} [hf : IsPoly₂ p f] : IsPoly p fun R _Rcr x => f x 
     simp only [Matrix.head_cons, aeval_X, Matrix.cons_val_zero, Matrix.cons_val_one] <;>
     --  porting note: the end of the proof was added in the port.
     open Matrix in
-    simp only [Fin.mk_zero, Fin.mk_one, cons_val', empty_val', cons_val_fin_one, cons_val_zero,
-      aeval_X, head_fin_const, cons_val_one]
+    simp only [Fin.mk_zero, Fin.mk_one, cons_val', empty_val', cons_val_fin_one, cons_val_zero, aeval_X, head_fin_const, cons_val_one]
 #align witt_vector.is_poly₂.diag WittVector.IsPoly₂.diag
 
 -- Porting note: Lean 4's typeclass inference is sufficiently more powerful that we no longer
@@ -321,15 +318,12 @@ theorem bind₁_onePoly_wittPolynomial [hp : Fact p.Prime] (n : ℕ) :
     bind₁ onePoly (wittPolynomial p ℤ n) = 1 := by
   ext  -- porting note: `ext` was not in the mathport output.
   rw [wittPolynomial_eq_sum_C_mul_X_pow]; rw [AlgHom.map_sum]; rw [Finset.sum_eq_single 0]
-  · simp only [onePoly, one_pow, one_mul, AlgHom.map_pow, C_1, pow_zero, bind₁_X_right, if_true,
-      eq_self_iff_true]
+  · simp only [onePoly, one_pow, one_mul, AlgHom.map_pow, C_1, pow_zero, bind₁_X_right, if_true, eq_self_iff_true]
   · intro i _hi hi0
-    simp only [onePoly, if_neg hi0, zero_pow (pow_pos hp.1.pos _), mul_zero,
-      AlgHom.map_pow, bind₁_X_right, AlgHom.map_mul]
+    simp only [onePoly, if_neg hi0, zero_pow (pow_pos hp.1.pos _), mul_zero, AlgHom.map_pow, bind₁_X_right, AlgHom.map_mul]
   · rw [Finset.mem_range]
     -- porting note: was `decide`
-    simp only [add_pos_iff, or_true, not_true, pow_zero, map_one, ge_iff_le, nonpos_iff_eq_zero,
-      tsub_zero, one_mul, gt_iff_lt, IsEmpty.forall_iff]
+    simp only [add_pos_iff, or_true, not_true, pow_zero, map_one, ge_iff_le, nonpos_iff_eq_zero, tsub_zero, one_mul, gt_iff_lt, IsEmpty.forall_iff]
 #align witt_vector.bind₁_one_poly_witt_polynomial WittVector.bind₁_onePoly_wittPolynomial
 
 /-- The function that is constantly one on Witt vectors is a polynomial function. -/
@@ -339,8 +333,7 @@ instance oneIsPoly [Fact p.Prime] : IsPoly p fun _ _ _ => 1 :=
       · -- porting note: was `simp only [...]` but with slightly different `[...]`.
         simp only [Nat.zero_eq, lt_self_iff_false, one_coeff_zero, onePoly, ite_true, map_one]
       · -- porting note: was `simp only [...]` but with slightly different `[...]`.
-        simp only [Nat.succ_pos', one_coeff_eq_of_pos, onePoly, Nat.succ_ne_zero, ite_false,
-          map_zero]
+        simp only [Nat.succ_pos', one_coeff_eq_of_pos, onePoly, Nat.succ_ne_zero, ite_false, map_zero]
   ⟩⟩
 #align witt_vector.one_is_poly WittVector.oneIsPoly
 
@@ -440,8 +433,7 @@ theorem map [Fact p.Prime] {f} (hf : IsPoly₂ p f) (g : R →+* S) (x y : 𝕎 
   all_goals simp only [map_coeff, Matrix.cons_val_zero, Matrix.head_cons, Matrix.cons_val_one]
   -- porting note: added the rest of the proof
   all_goals
-    simp only [Fin.mk_zero, Fin.mk_one, Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_one,
-      Matrix.cons_val_fin_one, Matrix.cons_val_zero, map_coeff, Matrix.head_fin_const]
+    simp only [Fin.mk_zero, Fin.mk_one, Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_one, Matrix.cons_val_fin_one, Matrix.cons_val_zero, map_coeff, Matrix.head_fin_const]
 #align witt_vector.is_poly₂.map WittVector.IsPoly₂.map
 
 end IsPoly₂
@@ -464,7 +456,7 @@ syntax (name := ghostSimp) "ghost_simp" (simpArgs)? : tactic
 macro_rules
   | `(tactic| ghost_simp $[[$simpArgs,*]]?) => do
     let args := simpArgs.map (·.getElems) |>.getD #[]
-    `(tactic| simp only [← sub_eq_add_neg, ghost_simps, $args,*])
+    `(tactic| simp only [← sub_eq_add_neg, ghost_simps, $args, *])
 
 
 /-- `ghost_calc` is a tactic for proving identities between polynomial functions.

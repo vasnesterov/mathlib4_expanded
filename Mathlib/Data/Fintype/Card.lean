@@ -607,8 +607,7 @@ theorem exists_unique_iff_card_one {α} [Fintype α] (p : α → Prop) [Decidabl
     (∃! a : α, p a) ↔ (Finset.univ.filter p).card = 1 := by
   rw [Finset.card_eq_one]
   refine' exists_congr fun x => _
-  simp only [forall_true_left, Subset.antisymm_iff, subset_singleton_iff', singleton_subset_iff,
-      true_and, and_comm, mem_univ, mem_filter]
+  simp only [forall_true_left, Subset.antisymm_iff, subset_singleton_iff', singleton_subset_iff, true_and, and_comm, mem_univ, mem_filter]
 
 theorem one_lt_card [h : Nontrivial α] : 1 < Fintype.card α :=
   Fintype.one_lt_card_iff_nontrivial.mpr h
@@ -922,8 +921,7 @@ theorem wellFounded_of_trans_of_irrefl (r : α → α → Prop) [IsTrans α r] [
     ∀ x y, r x y → (univ.filter fun z => r z x).card < (univ.filter fun z => r z y).card :=
     fun x y hxy =>
     Finset.card_lt_card <| by
-      simp only [Finset.lt_iff_ssubset.symm, lt_iff_le_not_le, Finset.le_iff_subset,
-          Finset.subset_iff, mem_filter, true_and_iff, mem_univ, hxy];
+      simp only [Finset.lt_iff_ssubset.symm, lt_iff_le_not_le, Finset.le_iff_subset, Finset.subset_iff, mem_filter, true_and_iff, mem_univ, hxy];
       exact
         ⟨fun z hzx => _root_.trans hzx hxy,
           not_forall_of_exists_not ⟨x, not_imp.2 ⟨hxy, irrefl x⟩⟩⟩

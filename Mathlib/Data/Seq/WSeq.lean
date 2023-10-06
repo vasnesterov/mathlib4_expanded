@@ -1345,8 +1345,7 @@ theorem toList_ofList (l : List α) : l ∈ toList (ofList l) := by
 theorem destruct_ofSeq (s : Seq α) :
     destruct (ofSeq s) = Computation.pure (s.head.map fun a => (a, ofSeq s.tail)) :=
   destruct_eq_pure <| by
-    simp only [destruct, Seq.destruct, Option.map_eq_map, ofSeq, Computation.corec_eq, rmap,
-      Seq.head]
+    simp only [destruct, Seq.destruct, Option.map_eq_map, ofSeq, Computation.corec_eq, rmap, Seq.head]
     rw [show Seq.get? (some <$> s) 0 = some <$> Seq.get? s 0 by apply Seq.map_get?]
     cases' Seq.get? s 0 with a
     · rfl

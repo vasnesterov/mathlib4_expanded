@@ -212,8 +212,7 @@ theorem to_quasiMeasurePreserving {X : Ω → E} [HasPDF X ℙ μ] : QuasiMeasur
 theorem haveLebesgueDecomposition_of_hasPDF {X : Ω → E} [hX' : HasPDF X ℙ μ] :
     (map X ℙ).HaveLebesgueDecomposition μ :=
   ⟨⟨⟨0, pdf X ℙ μ⟩, by
-      simp only [zero_add, measurable_pdf X ℙ μ, true_and_iff, MutuallySingular.zero_left,
-        map_eq_withDensity_pdf X ℙ μ]⟩⟩
+      simp only [zero_add, measurable_pdf X ℙ μ, true_and_iff, MutuallySingular.zero_left, map_eq_withDensity_pdf X ℙ μ]⟩⟩
 #align measure_theory.pdf.have_lebesgue_decomposition_of_has_pdf MeasureTheory.pdf.haveLebesgueDecomposition_of_hasPDF
 
 theorem hasPDF_iff {X : Ω → E} :
@@ -343,8 +342,7 @@ theorem measure_preimage {m : MeasurableSpace Ω} {X : Ω → E} {ℙ : Measure 
     {A : Set E} (hA : MeasurableSet A) : ℙ (X ⁻¹' A) = μ (s ∩ A) / μ s := by
   haveI := hu.hasPDF hns hnt
   rw [← Measure.map_apply (HasPDF.measurable X ℙ μ) hA]; rw [map_eq_set_lintegral_pdf X ℙ μ hA]; rw [lintegral_congr_ae hu.restrict]
-  simp only [hms, hA, lintegral_indicator, Pi.smul_apply, Pi.one_apply, Algebra.id.smul_eq_mul,
-    mul_one, lintegral_const, restrict_apply', Set.univ_inter]
+  simp only [hms, hA, lintegral_indicator, Pi.smul_apply, Pi.one_apply, Algebra.id.smul_eq_mul, mul_one, lintegral_const, restrict_apply', Set.univ_inter]
   rw [ENNReal.div_eq_inv_mul]
 #align measure_theory.pdf.is_uniform.measure_preimage MeasureTheory.pdf.IsUniform.measure_preimage
 
@@ -375,8 +373,7 @@ theorem mul_pdf_integrable [IsFiniteMeasure ℙ] (hcs : IsCompact s) (huX : IsUn
   set ind := (volume s)⁻¹ • (1 : ℝ → ℝ≥0∞)
   have : ∀ x, ↑‖x‖₊ * s.indicator ind x = s.indicator (fun x => ‖x‖₊ * ind x) x := fun x =>
     (s.indicator_mul_right (fun x => ↑‖x‖₊) ind).symm
-  simp only [this, lintegral_indicator _ hms, mul_one, Algebra.id.smul_eq_mul, Pi.one_apply,
-    Pi.smul_apply]
+  simp only [this, lintegral_indicator _ hms, mul_one, Algebra.id.smul_eq_mul, Pi.one_apply, Pi.smul_apply]
   rw [lintegral_mul_const _ measurable_nnnorm.coe_nnreal_ennreal]
   refine' (ENNReal.mul_lt_top (set_lintegral_lt_top_of_isCompact hsupp hcs continuous_nnnorm).ne
     (ENNReal.inv_lt_top.2 (pos_iff_ne_zero.mpr hns)).ne).ne

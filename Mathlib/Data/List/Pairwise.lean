@@ -106,8 +106,7 @@ theorem Pairwise.set_pairwise (hl : Pairwise R l) (hr : Symmetric R) : { x | x �
     ∀ {l : List β}, Pairwise R (map f l) ↔ Pairwise (fun a b : β => R (f a) (f b)) l
   | [] => by simp only [map, Pairwise.nil]
   | b :: l => by
-    simp only [map, pairwise_cons, mem_map, forall_exists_index, and_imp,
-      forall_apply_eq_imp_iff₂, pairwise_map]
+    simp only [map, pairwise_cons, mem_map, forall_exists_index, and_imp, forall_apply_eq_imp_iff₂, pairwise_map]
 #align list.pairwise_map List.pairwise_map'
 
 #align list.pairwise.of_map List.Pairwise.of_map

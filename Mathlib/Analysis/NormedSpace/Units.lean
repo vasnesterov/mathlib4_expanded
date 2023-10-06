@@ -205,8 +205,7 @@ theorem inverse_add_norm_diff_first_order (x : Rˣ) :
 theorem inverse_add_norm_diff_second_order (x : Rˣ) :
     (fun t : R => inverse (↑x + t) - ↑x⁻¹ + ↑x⁻¹ * t * ↑x⁻¹) =O[𝓝 0] fun t => ‖t‖ ^ 2 := by
   convert inverse_add_norm_diff_nth_order x 2 using 2
-  simp only [sum_range_succ, sum_range_zero, zero_add, pow_zero, pow_one, add_mul, one_mul,
-    ← sub_sub, neg_mul, sub_neg_eq_add]
+  simp only [sum_range_succ, sum_range_zero, zero_add, pow_zero, pow_one, add_mul, one_mul, ← sub_sub, neg_mul, sub_neg_eq_add]
 #align normed_ring.inverse_add_norm_diff_second_order NormedRing.inverse_add_norm_diff_second_order
 
 /-- The function `Ring.inverse` is continuous at each unit of `R`. -/

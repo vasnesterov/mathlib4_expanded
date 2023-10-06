@@ -73,8 +73,7 @@ theorem PosSemidef.submatrix {M : Matrix n n R} (hM : M.PosSemidef) (e : m ≃ n
     ext i
     dsimp only [(· ∘ ·), mulVec, dotProduct]
     rw [Finset.sum_bij' (fun i _ => e i) _ _ fun i _ => e.symm i]  <;>
-      simp only [eq_self_iff_true, imp_true_iff, Equiv.symm_apply_apply, Finset.mem_univ,
-        submatrix_apply, Equiv.apply_symm_apply]
+      simp only [eq_self_iff_true, imp_true_iff, Equiv.symm_apply_apply, Finset.mem_univ, submatrix_apply, Equiv.apply_symm_apply]
   rw [this]
   convert hM.2 fun i => x (e.symm i) using 3
   unfold dotProduct
@@ -97,8 +96,7 @@ theorem PosDef.transpose {M : Matrix n n R} (hM : M.PosDef) : Mᵀ.PosDef := by
 theorem posDef_of_toQuadraticForm' [DecidableEq n] {M : Matrix n n ℝ} (hM : M.IsSymm)
     (hMq : M.toQuadraticForm'.PosDef) : M.PosDef := by
   refine' ⟨hM, fun x hx => _⟩
-  simp only [toQuadraticForm', QuadraticForm.PosDef, BilinForm.toQuadraticForm_apply,
-    Matrix.toBilin'_apply'] at hMq
+  simp only [toQuadraticForm', QuadraticForm.PosDef, BilinForm.toQuadraticForm_apply, Matrix.toBilin'_apply'] at hMq
   apply hMq x hx
 #align matrix.pos_def_of_to_quadratic_form' Matrix.posDef_of_toQuadraticForm'
 

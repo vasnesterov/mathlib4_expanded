@@ -924,8 +924,7 @@ theorem srange_snd [Nonempty M] : (snd M N).srange = ⊤ :=
 @[to_additive prod_eq_top_iff]
 theorem prod_eq_top_iff [Nonempty M] [Nonempty N] {s : Subsemigroup M} {t : Subsemigroup N} :
     s.prod t = ⊤ ↔ s = ⊤ ∧ t = ⊤ := by
-  simp only [eq_top_iff, le_prod_iff, ← (gc_map_comap _).le_iff_le, ← srange_eq_map, srange_fst,
-    srange_snd]
+  simp only [eq_top_iff, le_prod_iff, ← (gc_map_comap _).le_iff_le, ← srange_eq_map, srange_fst, srange_snd]
 #align subsemigroup.prod_eq_top_iff Subsemigroup.prod_eq_top_iff
 #align add_subsemigroup.sum_eq_top_iff AddSubsemigroup.prod_eq_top_iff
 

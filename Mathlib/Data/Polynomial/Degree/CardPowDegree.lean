@@ -69,8 +69,7 @@ noncomputable def cardPowDegree : AbsoluteValue Fq[X] ℤ :=
       by_cases hp : p = 0; · simp [hp]
       by_cases hq : q = 0; · simp [hq]
       have hpq : p * q ≠ 0 := mul_ne_zero hp hq
-      simp only [hpq, hp, hq, eq_self_iff_true, if_true, if_false, Polynomial.natDegree_mul hp hq,
-        pow_add] }
+      simp only [hpq, hp, hq, eq_self_iff_true, if_true, if_false, Polynomial.natDegree_mul hp hq, pow_add] }
 #align polynomial.card_pow_degree Polynomial.cardPowDegree
 
 theorem cardPowDegree_apply (p : Fq[X]) :
@@ -97,8 +96,7 @@ theorem cardPowDegree_isEuclidean : IsEuclidean (cardPowDegree : AbsoluteValue F
       simp only [cardPowDegree_apply]
       split_ifs with hp hq hq
       · simp only [hp, hq, lt_self_iff_false]
-      · simp only [hp, hq, degree_zero, Ne.def, bot_lt_iff_ne_bot, degree_eq_bot, pow_pos,
-          not_false_iff]
+      · simp only [hp, hq, degree_zero, Ne.def, bot_lt_iff_ne_bot, degree_eq_bot, pow_pos, not_false_iff]
       · simp only [hp, hq, degree_zero, not_lt_bot, (pow_pos _).not_lt]
       · rw [degree_eq_natDegree hp, degree_eq_natDegree hq, Nat.cast_lt, pow_lt_pow_iff]
         exact_mod_cast @Fintype.one_lt_card Fq _ _ }

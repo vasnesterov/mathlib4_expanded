@@ -144,9 +144,7 @@ expected by lemmas like `HasDerivAt.cpow`. -/
 private theorem aux : ((g x * f x ^ (g x - 1)) • (1 : ℂ →L[ℂ] ℂ).smulRight f' +
     (f x ^ g x * log (f x)) • (1 : ℂ →L[ℂ] ℂ).smulRight g') 1 =
       g x * f x ^ (g x - 1) * f' + f x ^ g x * log (f x) * g' := by
-  simp only [Algebra.id.smul_eq_mul, one_mul, ContinuousLinearMap.one_apply,
-    ContinuousLinearMap.smulRight_apply, ContinuousLinearMap.add_apply, Pi.smul_apply,
-    ContinuousLinearMap.coe_smul']
+  simp only [Algebra.id.smul_eq_mul, one_mul, ContinuousLinearMap.one_apply, ContinuousLinearMap.smulRight_apply, ContinuousLinearMap.add_apply, Pi.smul_apply, ContinuousLinearMap.coe_smul']
 
 nonrec theorem HasStrictDerivAt.cpow (hf : HasStrictDerivAt f f' x) (hg : HasStrictDerivAt g g' x)
     (h0 : 0 < (f x).re ∨ (f x).im ≠ 0) : HasStrictDerivAt (fun x => f x ^ g x)

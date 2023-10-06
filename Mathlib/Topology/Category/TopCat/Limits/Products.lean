@@ -105,7 +105,7 @@ def sigmaCofanIsColimit {ι : Type v} (β : ι → TopCatMax.{v, u}) : IsColimit
   uniq := by
     intro S m h
     ext ⟨i, x⟩
-    simp only [comp_app,hom_apply,← h ⟨i⟩]
+    simp only [comp_app, hom_apply, ← h ⟨i⟩]
     congr
   fac s j := by
     cases j
@@ -251,8 +251,7 @@ theorem range_prod_map {W X Y Z : TopCat.{u}} (f : W ⟶ Y) (g : X ⟶ Z) :
   constructor
   · rintro ⟨y, rfl⟩
     simp only [Set.mem_preimage, Set.mem_range, Set.mem_inter_iff, ← comp_apply]
-    simp only [Limits.prod.map_fst, Limits.prod.map_snd, exists_apply_eq_apply, comp_apply,
-      and_self_iff]
+    simp only [Limits.prod.map_fst, Limits.prod.map_snd, exists_apply_eq_apply, comp_apply, and_self_iff]
   · rintro ⟨⟨x₁, hx₁⟩, ⟨x₂, hx₂⟩⟩
     use (prodIsoProd W X).inv (x₁, x₂)
     apply Concrete.limit_ext
@@ -270,8 +269,7 @@ theorem range_prod_map {W X Y Z : TopCat.{u}} (f : W ⟶ Y) (g : X ⟶ Z) :
 theorem inducing_prod_map {W X Y Z : TopCat.{u}} {f : W ⟶ X} {g : Y ⟶ Z} (hf : Inducing f)
     (hg : Inducing g) : Inducing (Limits.prod.map f g) := by
   constructor
-  simp only [prod_topology, induced_compose, ← coe_comp, Limits.prod.map_fst, Limits.prod.map_snd,
-    induced_inf]
+  simp only [prod_topology, induced_compose, ← coe_comp, Limits.prod.map_fst, Limits.prod.map_snd, induced_inf]
   simp only [coe_comp]
   rw [← @induced_compose _ _ _ _ _ f]; rw [← @induced_compose _ _ _ _ _ g]; rw [← hf.induced]; rw [← hg.induced]
 #align Top.inducing_prod_map TopCat.inducing_prod_map

@@ -109,8 +109,7 @@ theorem comp_traverse {G H : Type _ → Type _} [Applicative G] [Applicative H] 
     Comp.mk (Functor.map (traverse h) (traverse g x)) := by
   refine' Quotient.inductionOn x _
   intro
-  simp only [traverse, quot_mk_to_coe, lift_coe, Coe.coe, Function.comp_apply, Functor.map_map,
-    functor_norm]
+  simp only [traverse, quot_mk_to_coe, lift_coe, Coe.coe, Function.comp_apply, Functor.map_map, functor_norm]
   simp only [Function.comp, lift_coe]
 #align multiset.comp_traverse Multiset.comp_traverse
 
@@ -137,8 +136,7 @@ theorem naturality {G H : Type _ → Type _} [Applicative G] [Applicative H] [Co
     (x : Multiset α) : eta (traverse f x) = traverse (@eta _ ∘ f) x := by
   refine' Quotient.inductionOn x _
   intro
-  simp only [quot_mk_to_coe, traverse, lift_coe, Function.comp_apply,
-    ApplicativeTransformation.preserves_map, LawfulTraversable.naturality]
+  simp only [quot_mk_to_coe, traverse, lift_coe, Function.comp_apply, ApplicativeTransformation.preserves_map, LawfulTraversable.naturality]
 #align multiset.naturality Multiset.naturality
 
 end Multiset

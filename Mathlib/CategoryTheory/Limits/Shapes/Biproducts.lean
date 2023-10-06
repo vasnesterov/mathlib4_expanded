@@ -604,9 +604,7 @@ theorem biproduct.map_eq_map' {f g : J → C} [HasBiproduct f] [HasBiproduct g] 
     biproduct.map p = biproduct.map' p := by
   ext
   dsimp
-  simp only [Discrete.natTrans_app, Limits.IsColimit.ι_map_assoc, Limits.IsLimit.map_π,
-    Category.assoc, ← Bicone.toCone_π_app_mk, ← biproduct.bicone_π, ← Bicone.toCocone_ι_app_mk,
-    ← biproduct.bicone_ι]
+  simp only [Discrete.natTrans_app, Limits.IsColimit.ι_map_assoc, Limits.IsLimit.map_π, Category.assoc, ← Bicone.toCone_π_app_mk, ← biproduct.bicone_π, ← Bicone.toCocone_ι_app_mk, ← biproduct.bicone_ι]
   dsimp
   rw [biproduct.ι_π_assoc]; rw [biproduct.ι_π]
   split_ifs with h
@@ -689,9 +687,7 @@ lemma biproduct.whiskerEquiv_inv_eq_lift {f : J → C} {g : K → C} (e : J ≃ 
   ext j k
   by_cases h : k = e j
   · subst h
-    simp only [ι_desc_assoc, ← eqToHom_iso_hom_naturality_assoc w (e.symm_apply_apply j).symm,
-      Equiv.symm_apply_apply, eqToHom_comp_ι, Category.assoc, bicone_ι_π_self, Category.comp_id,
-      lift_π, bicone_ι_π_self_assoc]
+    simp only [ι_desc_assoc, ← eqToHom_iso_hom_naturality_assoc w (e.symm_apply_apply j).symm, Equiv.symm_apply_apply, eqToHom_comp_ι, Category.assoc, bicone_ι_π_self, Category.comp_id, lift_π, bicone_ι_π_self_assoc]
   · simp only [ι_desc_assoc, Category.assoc, ne_eq, lift_π]
     rw [biproduct.ι_π_ne]; rw [biproduct.ι_π_ne_assoc]
     · simp
@@ -912,8 +908,7 @@ def kernelForkBiproductToSubtype (p : Set K) : LimitCone (parallelPair (biproduc
     KernelFork.ofι (biproduct.fromSubtype f pᶜ)
       (by
         ext j k
-        simp only [Category.assoc, biproduct.ι_fromSubtype_assoc, biproduct.ι_toSubtype_assoc,
-          comp_zero, zero_comp]
+        simp only [Category.assoc, biproduct.ι_fromSubtype_assoc, biproduct.ι_toSubtype_assoc, comp_zero, zero_comp]
         erw [dif_neg k.2]
         simp only [zero_comp])
   isLimit :=
@@ -921,8 +916,7 @@ def kernelForkBiproductToSubtype (p : Set K) : LimitCone (parallelPair (biproduc
       (by
         intro W' g' w
         ext j
-        simp only [Category.assoc, biproduct.toSubtype_fromSubtype, Pi.compl_apply,
-          biproduct.map_π]
+        simp only [Category.assoc, biproduct.toSubtype_fromSubtype, Pi.compl_apply, biproduct.map_π]
         split_ifs with h
         · simp
         · replace w := w =≫ biproduct.π _ ⟨j, not_not.mp h⟩
@@ -949,8 +943,7 @@ def cokernelCoforkBiproductFromSubtype (p : Set K) :
     CokernelCofork.ofπ (biproduct.toSubtype f pᶜ)
       (by
         ext j k
-        simp only [Category.assoc, Pi.compl_apply, biproduct.ι_fromSubtype_assoc,
-          biproduct.ι_toSubtype_assoc, comp_zero, zero_comp]
+        simp only [Category.assoc, Pi.compl_apply, biproduct.ι_fromSubtype_assoc, biproduct.ι_toSubtype_assoc, comp_zero, zero_comp]
         rw [dif_neg]
         simp only [zero_comp]
         exact not_not.mpr k.2)
@@ -1637,20 +1630,16 @@ theorem biprod_isoCoprod_hom {X Y : C} [HasBinaryBiproduct X Y] :
 theorem biprod.map_eq_map' {W X Y Z : C} [HasBinaryBiproduct W X] [HasBinaryBiproduct Y Z]
     (f : W ⟶ Y) (g : X ⟶ Z) : biprod.map f g = biprod.map' f g := by
   ext
-  · simp only [mapPair_left, IsColimit.ι_map, IsLimit.map_π, biprod.inl_fst_assoc,
-      Category.assoc, ← BinaryBicone.toCone_π_app_left, ← BinaryBiproduct.bicone_fst, ←
+  · simp only [mapPair_left, IsColimit.ι_map, IsLimit.map_π, biprod.inl_fst_assoc, Category.assoc, ← BinaryBicone.toCone_π_app_left, ← BinaryBiproduct.bicone_fst, ←
       BinaryBicone.toCocone_ι_app_left, ← BinaryBiproduct.bicone_inl];
     dsimp; simp
-  · simp only [mapPair_left, IsColimit.ι_map, IsLimit.map_π, zero_comp, biprod.inl_snd_assoc,
-      Category.assoc, ← BinaryBicone.toCone_π_app_right, ← BinaryBiproduct.bicone_snd, ←
+  · simp only [mapPair_left, IsColimit.ι_map, IsLimit.map_π, zero_comp, biprod.inl_snd_assoc, Category.assoc, ← BinaryBicone.toCone_π_app_right, ← BinaryBiproduct.bicone_snd, ←
       BinaryBicone.toCocone_ι_app_left, ← BinaryBiproduct.bicone_inl]
     simp
-  · simp only [mapPair_right, biprod.inr_fst_assoc, IsColimit.ι_map, IsLimit.map_π, zero_comp,
-      Category.assoc, ← BinaryBicone.toCone_π_app_left, ← BinaryBiproduct.bicone_fst, ←
+  · simp only [mapPair_right, biprod.inr_fst_assoc, IsColimit.ι_map, IsLimit.map_π, zero_comp, Category.assoc, ← BinaryBicone.toCone_π_app_left, ← BinaryBiproduct.bicone_fst, ←
       BinaryBicone.toCocone_ι_app_right, ← BinaryBiproduct.bicone_inr]
     simp
-  · simp only [mapPair_right, IsColimit.ι_map, IsLimit.map_π, biprod.inr_snd_assoc,
-      Category.assoc, ← BinaryBicone.toCone_π_app_right, ← BinaryBiproduct.bicone_snd, ←
+  · simp only [mapPair_right, IsColimit.ι_map, IsLimit.map_π, biprod.inr_snd_assoc, Category.assoc, ← BinaryBicone.toCone_π_app_right, ← BinaryBiproduct.bicone_snd, ←
       BinaryBicone.toCocone_ι_app_right, ← BinaryBiproduct.bicone_inr]
     simp
 #align category_theory.limits.biprod.map_eq_map' CategoryTheory.Limits.biprod.map_eq_map'
@@ -1956,8 +1945,7 @@ def isoBiprodZero {X Y : C} [HasBinaryBiproduct X Y] (hY : IsZero Y) : X ≅ X �
   inv := biprod.fst
   inv_hom_id := by
     apply CategoryTheory.Limits.biprod.hom_ext <;>
-      simp only [Category.assoc, biprod.inl_fst, Category.comp_id, Category.id_comp, biprod.inl_snd,
-        comp_zero]
+      simp only [Category.assoc, biprod.inl_fst, Category.comp_id, Category.id_comp, biprod.inl_snd, comp_zero]
     apply hY.eq_of_tgt
 #align category_theory.limits.iso_biprod_zero CategoryTheory.Limits.isoBiprodZero
 
@@ -1969,8 +1957,7 @@ def isoZeroBiprod {X Y : C} [HasBinaryBiproduct X Y] (hY : IsZero X) : Y ≅ X �
   inv := biprod.snd
   inv_hom_id := by
     apply CategoryTheory.Limits.biprod.hom_ext <;>
-      simp only [Category.assoc, biprod.inr_snd, Category.comp_id, Category.id_comp, biprod.inr_fst,
-        comp_zero]
+      simp only [Category.assoc, biprod.inr_snd, Category.comp_id, Category.id_comp, biprod.inr_fst, comp_zero]
     apply hY.eq_of_tgt
 #align category_theory.limits.iso_zero_biprod CategoryTheory.Limits.isoZeroBiprod
 

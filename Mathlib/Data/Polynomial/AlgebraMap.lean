@@ -108,8 +108,7 @@ instance subalgebraNontrivial [Nontrivial A] : Nontrivial (Subalgebra R A[X]) :=
   ⟨⟨⊥, ⊤, by
       rw [Ne.def]; rw [SetLike.ext_iff]; rw [not_forall]
       refine' ⟨X, _⟩
-      simp only [Algebra.mem_bot, not_exists, Set.mem_range, iff_true_iff, Algebra.mem_top,
-        algebraMap_apply, not_forall]
+      simp only [Algebra.mem_bot, not_exists, Set.mem_range, iff_true_iff, Algebra.mem_top, algebraMap_apply, not_forall]
       intro x
       rw [ext_iff]; rw [not_forall]
       refine' ⟨1, _⟩

@@ -1021,8 +1021,7 @@ theorem Perm.inter_append {l t₁ t₂ : List α} (h : Disjoint t₁ t₂) :
     · have h₂ : x ∉ t₂ := h h₁
       simp [*]
     by_cases h₂ : x ∈ t₂
-    · simp only [*, inter_cons_of_not_mem, false_or_iff, mem_append, inter_cons_of_mem,
-        not_false_iff]
+    · simp only [*, inter_cons_of_not_mem, false_or_iff, mem_append, inter_cons_of_mem, not_false_iff]
       refine' Perm.trans (Perm.cons _ l_ih) _
       change [x] ++ xs ∩ t₁ ++ xs ∩ t₂ ~ xs ∩ t₁ ++ ([x] ++ xs ∩ t₂)
       rw [← List.append_assoc]
@@ -1305,8 +1304,7 @@ theorem permutations_perm_permutations' (ts : List α) : ts.permutations ~ ts.pe
   refine' List.reverseRecOn ts (fun _ => _) (fun ts t _ h => _) h; · simp [permutations]
   rw [← concat_eq_append] at h; rw [length_concat] at h; rw [Nat.succ_lt_succ_iff] at h
   have IH₂ := (IH ts.reverse (by rwa [length_reverse])).trans (reverse_perm _).permutations'
-  simp only [permutations_append, foldr_permutationsAux2, permutationsAux_nil,
-    permutationsAux_cons, append_nil]
+  simp only [permutations_append, foldr_permutationsAux2, permutationsAux_nil, permutationsAux_cons, append_nil]
   refine'
     (perm_append_comm.trans ((IH₂.bind_right _).append ((IH _ h).map _))).trans
       (Perm.trans _ perm_append_comm.permutations')
@@ -1361,8 +1359,7 @@ theorem count_permutations'Aux_self [DecidableEq α] (l : List α) (x : α) :
     · subst hx
       simpa [takeWhile, Nat.succ_inj', DecEq_eq] using IH _
     · rw [takeWhile]
-      simp only [mem_map, cons.injEq, Ne.symm hx, false_and, and_false, exists_false,
-        not_false_iff, count_eq_zero_of_not_mem, zero_add, hx, decide_False, length_nil]
+      simp only [mem_map, cons.injEq, Ne.symm hx, false_and, and_false, exists_false, not_false_iff, count_eq_zero_of_not_mem, zero_add, hx, decide_False, length_nil]
 #align list.count_permutations'_aux_self List.count_permutations'Aux_self
 
 @[simp]

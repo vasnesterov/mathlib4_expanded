@@ -128,8 +128,7 @@ theorem integral_finset_biUnion {ι : Type*} (t : Finset ι) {s : ι → Set α}
     ∫ x in ⋃ i ∈ t, s i, f x ∂μ = ∑ i in t, ∫ x in s i, f x ∂μ := by
   induction' t using Finset.induction_on with a t hat IH hs h's
   · simp
-  · simp only [Finset.coe_insert, Finset.forall_mem_insert, Set.pairwise_insert,
-      Finset.set_biUnion_insert] at hs hf h's ⊢
+  · simp only [Finset.coe_insert, Finset.forall_mem_insert, Set.pairwise_insert, Finset.set_biUnion_insert] at hs hf h's ⊢
     rw [integral_union _ _ hf.1 (integrableOn_finset_iUnion.2 hf.2)]
     · rw [Finset.sum_insert hat, IH hs.2 h's.1 hf.2]
     · simp only [disjoint_iUnion_right]
@@ -402,8 +401,7 @@ lemma ae_restrict_eq_const_iff_ae_eq_const_of_mem {E : Type*} [MeasurableSpace E
     [MeasurableSingletonClass E] {f : α → E} (c : E) {s : Set α}
     (f_mble : NullMeasurable f (μ.restrict s)) :
     f =ᵐ[Measure.restrict μ s] (fun _ ↦ c) ↔ ∀ᵐ x ∂μ, x ∈ s → f x = c := by
-  simp only [Measure.ae, MeasurableSet.compl_iff, EventuallyEq, Filter.Eventually,
-             Pi.zero_apply, Filter.mem_mk, mem_setOf_eq]
+  simp only [Measure.ae, MeasurableSet.compl_iff, EventuallyEq, Filter.Eventually, Pi.zero_apply, Filter.mem_mk, mem_setOf_eq]
   rw [Measure.restrict_apply₀]
   · constructor <;> intro h <;> rw [← h] <;> congr <;> ext x <;> aesop
   · apply NullMeasurableSet.compl
@@ -412,8 +410,7 @@ lemma ae_restrict_eq_const_iff_ae_eq_const_of_mem {E : Type*} [MeasurableSpace E
 lemma ae_restrict_eq_const_iff_ae_eq_const_of_mem' {E : Type*} (c : E) (f : α → E) {s : Set α}
     (s_mble : MeasurableSet s) :
     f =ᵐ[Measure.restrict μ s] (fun _ ↦ c) ↔ ∀ᵐ x ∂μ, x ∈ s → f x = c := by
-  simp only [Measure.ae, MeasurableSet.compl_iff, EventuallyEq, Filter.Eventually,
-             Pi.zero_apply, Filter.mem_mk, mem_setOf_eq]
+  simp only [Measure.ae, MeasurableSet.compl_iff, EventuallyEq, Filter.Eventually, Pi.zero_apply, Filter.mem_mk, mem_setOf_eq]
   rw [Measure.restrict_apply_eq_zero']
   · constructor <;> intro h <;> rw [← h] <;> congr <;> ext x <;> aesop
   · exact s_mble
@@ -597,8 +594,7 @@ theorem set_integral_gt_gt {R : ℝ} {f : α → ℝ} (hR : 0 ≤ R) (hfm : Meas
       set_lintegral_mono (Measurable.nnnorm _).coe_nnreal_ennreal hfm.nnnorm.coe_nnreal_ennreal
         fun x hx => _
     · exact measurable_const
-    · simp only [ENNReal.coe_le_coe, Real.nnnorm_of_nonneg hR,
-        Real.nnnorm_of_nonneg (hR.trans <| le_of_lt hx), Subtype.mk_le_mk]
+    · simp only [ENNReal.coe_le_coe, Real.nnnorm_of_nonneg hR, Real.nnnorm_of_nonneg (hR.trans <| le_of_lt hx), Subtype.mk_le_mk]
       exact le_of_lt hx
   rw [← sub_pos]; rw [← smul_eq_mul]; rw [← set_integral_const]; rw [← integral_sub hfint this]; rw [set_integral_pos_iff_support_of_nonneg_ae]
   · rw [← zero_lt_iff] at hμ
@@ -1353,13 +1349,11 @@ theorem Integrable.simpleFunc_mul (g : SimpleFunc β ℝ) (hf : Integrable f μ)
       (fun g₁ g₂ _ h_int₁ h_int₂ =>
         (h_int₁.add h_int₂).congr (by rw [SimpleFunc.coe_add, add_mul]))
       g
-  simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const,
-    SimpleFunc.coe_zero, Set.piecewise_eq_indicator]
+  simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const, SimpleFunc.coe_zero, Set.piecewise_eq_indicator]
   have : Set.indicator s (Function.const β c) * f = s.indicator (c • f) := by
     ext1 x
     by_cases hx : x ∈ s
-    · simp only [hx, Pi.mul_apply, Set.indicator_of_mem, Pi.smul_apply, Algebra.id.smul_eq_mul,
-        ← Function.const_def]
+    · simp only [hx, Pi.mul_apply, Set.indicator_of_mem, Pi.smul_apply, Algebra.id.smul_eq_mul, ← Function.const_def]
     · simp only [hx, Pi.mul_apply, Set.indicator_of_not_mem, not_false_iff, zero_mul]
   rw [this]; rw [integrable_indicator_iff hs]
   exact (hf.smul c).integrableOn

@@ -438,8 +438,7 @@ theorem piComparison_comp_π [HasProduct f] [HasProduct fun b => G.obj (f b)] (b
 theorem map_lift_piComparison [HasProduct f] [HasProduct fun b => G.obj (f b)] (P : C)
     (g : ∀ j, P ⟶ f j) : G.map (Pi.lift g) ≫ piComparison G f = Pi.lift fun j => G.map (g j) := by
   ext j
-  simp only [Discrete.functor_obj, Category.assoc, piComparison_comp_π, ← G.map_comp,
-    limit.lift_π, Fan.mk_pt, Fan.mk_π_app]
+  simp only [Discrete.functor_obj, Category.assoc, piComparison_comp_π, ← G.map_comp, limit.lift_π, Fan.mk_pt, Fan.mk_π_app]
 #align category_theory.limits.map_lift_pi_comparison CategoryTheory.Limits.map_lift_piComparison
 
 /-- The comparison morphism for the coproduct of `f`. This is an iso iff `G` preserves the coproduct
@@ -460,8 +459,7 @@ theorem sigmaComparison_map_desc [HasCoproduct f] [HasCoproduct fun b => G.obj (
     (g : ∀ j, f j ⟶ P) :
     sigmaComparison G f ≫ G.map (Sigma.desc g) = Sigma.desc fun j => G.map (g j) := by
   ext j
-  simp only [Discrete.functor_obj, ι_comp_sigmaComparison_assoc, ← G.map_comp, colimit.ι_desc,
-    Cofan.mk_pt, Cofan.mk_ι_app]
+  simp only [Discrete.functor_obj, ι_comp_sigmaComparison_assoc, ← G.map_comp, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app]
 #align category_theory.limits.sigma_comparison_map_desc CategoryTheory.Limits.sigmaComparison_map_desc
 
 end Comparison
@@ -588,9 +586,7 @@ def Pi.reindex : piObj (f ∘ ε) ≅ piObj f :=
 @[reassoc (attr := simp)]
 theorem Pi.reindex_hom_π (b : β) : (Pi.reindex ε f).hom ≫ Pi.π f (ε b) = Pi.π (f ∘ ε) b := by
   dsimp [Pi.reindex]
-  simp only [HasLimit.isoOfEquivalence_hom_π, Discrete.equivalence_inverse, Discrete.functor_obj,
-    Function.comp_apply, Functor.id_obj, Discrete.equivalence_functor, Functor.comp_obj,
-    Discrete.natIso_inv_app, Iso.refl_inv, Category.id_comp]
+  simp only [HasLimit.isoOfEquivalence_hom_π, Discrete.equivalence_inverse, Discrete.functor_obj, Function.comp_apply, Functor.id_obj, Discrete.equivalence_functor, Functor.comp_obj, Discrete.natIso_inv_app, Iso.refl_inv, Category.id_comp]
   exact limit.w (Discrete.functor (f ∘ ε)) (Discrete.eqToHom' (ε.symm_apply_apply b))
 #align category_theory.limits.pi.reindex_hom_π CategoryTheory.Limits.Pi.reindex_hom_π
 
@@ -614,9 +610,7 @@ def Sigma.reindex : sigmaObj (f ∘ ε) ≅ sigmaObj f :=
 theorem Sigma.ι_reindex_hom (b : β) :
     Sigma.ι (f ∘ ε) b ≫ (Sigma.reindex ε f).hom = Sigma.ι f (ε b) := by
   dsimp [Sigma.reindex]
-  simp only [HasColimit.isoOfEquivalence_hom_π, Functor.id_obj, Discrete.functor_obj,
-    Function.comp_apply, Discrete.equivalence_functor, Discrete.equivalence_inverse,
-    Functor.comp_obj, Discrete.natIso_inv_app, Iso.refl_inv, Category.id_comp]
+  simp only [HasColimit.isoOfEquivalence_hom_π, Functor.id_obj, Discrete.functor_obj, Function.comp_apply, Discrete.equivalence_functor, Discrete.equivalence_inverse, Functor.comp_obj, Discrete.natIso_inv_app, Iso.refl_inv, Category.id_comp]
   have h := colimit.w (Discrete.functor f) (Discrete.eqToHom' (ε.apply_symm_apply (ε b)))
   simp only [Discrete.functor_obj] at h
   erw [← h, eqToHom_map, eqToHom_map, eqToHom_trans_assoc]

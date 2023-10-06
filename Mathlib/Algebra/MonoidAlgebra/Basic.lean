@@ -219,8 +219,7 @@ instance nonUnitalSemiring : NonUnitalSemiring (MonoidAlgebra k G) :=
       rw [sum_sum_index]; rw [sum_sum_index]; congr; ext a₂ b₂
       rw [sum_sum_index]; rw [sum_single_index]; congr; ext a₃ b₃
       rw [sum_single_index]; rw [mul_assoc]; rw [mul_assoc]
-      all_goals simp only [single_zero, single_add, forall_true_iff, add_mul,
-        mul_add, zero_mul, mul_zero, sum_zero, sum_add] }
+      all_goals simp only [single_zero, single_add, forall_true_iff, add_mul, mul_add, zero_mul, mul_zero, sum_zero, sum_add] }
 #align monoid_algebra.non_unital_semiring MonoidAlgebra.nonUnitalSemiring
 
 end Semigroup
@@ -256,11 +255,9 @@ instance nonAssocSemiring : NonAssocSemiring (MonoidAlgebra k G) :=
     natCast_zero := by simp
     natCast_succ := fun _ => by simp; rfl
     one_mul := fun f => by
-      simp only [mul_def, one_def, sum_single_index, zero_mul, single_zero, sum_zero, zero_add,
-        one_mul, sum_single]
+      simp only [mul_def, one_def, sum_single_index, zero_mul, single_zero, sum_zero, zero_add, one_mul, sum_single]
     mul_one := fun f => by
-      simp only [mul_def, one_def, sum_single_index, mul_zero, single_zero, sum_zero, add_zero,
-        mul_one, sum_single] }
+      simp only [mul_def, one_def, sum_single_index, mul_zero, single_zero, sum_zero, add_zero, mul_one, sum_single] }
 #align monoid_algebra.non_assoc_semiring MonoidAlgebra.nonAssocSemiring
 
 theorem nat_cast_def (n : ℕ) : (n : MonoidAlgebra k G) = single (1 : G) (n : k) :=
@@ -623,8 +620,7 @@ instance isScalarTower_self [IsScalarTower R k k] :
       simp only [smul_eq_mul, mul_apply]
       rw [coe_smul]
       refine Eq.trans (sum_smul_index' (g := a) (b := t) ?_) ?_ <;>
-        simp only [mul_apply, Finsupp.smul_sum, smul_ite, smul_mul_assoc,
-          zero_mul, ite_self, imp_true_iff, sum_zero, Pi.smul_apply, smul_zero]⟩
+        simp only [mul_apply, Finsupp.smul_sum, smul_ite, smul_mul_assoc, zero_mul, ite_self, imp_true_iff, sum_zero, Pi.smul_apply, smul_zero]⟩
 #align monoid_algebra.is_scalar_tower_self MonoidAlgebra.isScalarTower_self
 
 /-- Note that if `k` is a `CommSemiring` then we have `SMulCommClass k k k` and so we can take
@@ -641,8 +637,7 @@ instance smulCommClass_self [SMulCommClass R k k] :
       rw [coe_smul]
       refine Eq.symm (Eq.trans (congr_arg (sum a)
         (funext₂ fun a₁ b₁ => sum_smul_index' (g := b) (b := t) ?_)) ?_) <;>
-      simp only [mul_apply, Finsupp.sum, Finset.smul_sum, smul_ite, mul_smul_comm,
-        imp_true_iff, ite_eq_right_iff, Pi.smul_apply, mul_zero, smul_zero]⟩
+      simp only [mul_apply, Finsupp.sum, Finset.smul_sum, smul_ite, mul_smul_comm, imp_true_iff, ite_eq_right_iff, Pi.smul_apply, mul_zero, smul_zero]⟩
 #align monoid_algebra.smul_comm_class_self MonoidAlgebra.smulCommClass_self
 
 instance smulCommClass_symm_self [SMulCommClass k R k] :
@@ -701,15 +696,11 @@ def liftMagma [Module k A] [IsScalarTower k A A] [SMulCommClass k A A] :
   invFun F := F.toMulHom.comp (ofMagma k G)
   left_inv f := by
     ext m
-    simp only [NonUnitalAlgHom.coe_mk, ofMagma_apply, NonUnitalAlgHom.toMulHom_eq_coe,
-      sum_single_index, Function.comp_apply, one_smul, zero_smul, MulHom.coe_comp,
-      NonUnitalAlgHom.coe_to_mulHom]
+    simp only [NonUnitalAlgHom.coe_mk, ofMagma_apply, NonUnitalAlgHom.toMulHom_eq_coe, sum_single_index, Function.comp_apply, one_smul, zero_smul, MulHom.coe_comp, NonUnitalAlgHom.coe_to_mulHom]
   right_inv F := by
     -- Porting note: `ext` → `refine nonUnitalAlgHom_ext' k (MulHom.ext fun m => ?_)`
     refine nonUnitalAlgHom_ext' k (MulHom.ext fun m => ?_)
-    simp only [NonUnitalAlgHom.coe_mk, ofMagma_apply, NonUnitalAlgHom.toMulHom_eq_coe,
-      sum_single_index, Function.comp_apply, one_smul, zero_smul, MulHom.coe_comp,
-      NonUnitalAlgHom.coe_to_mulHom]
+    simp only [NonUnitalAlgHom.coe_mk, ofMagma_apply, NonUnitalAlgHom.toMulHom_eq_coe, sum_single_index, Function.comp_apply, one_smul, zero_smul, MulHom.coe_comp, NonUnitalAlgHom.coe_to_mulHom]
 #align monoid_algebra.lift_magma MonoidAlgebra.liftMagma
 #align monoid_algebra.lift_magma_apply_apply MonoidAlgebra.liftMagma_apply_apply
 #align monoid_algebra.lift_magma_symm_apply MonoidAlgebra.liftMagma_symm_apply
@@ -737,8 +728,7 @@ def singleOneRingHom [Semiring k] [MulOneClass G] : k →+* MonoidAlgebra k G :=
     map_one' := rfl
     map_mul' := fun x y => by
       -- Porting note: Was `rw`.
-      simp only [ZeroHom.toFun_eq_coe, AddMonoidHom.toZeroHom_coe, singleAddHom_apply,
-        single_mul_single, mul_one] }
+      simp only [ZeroHom.toFun_eq_coe, AddMonoidHom.toZeroHom_coe, singleAddHom_apply, single_mul_single, mul_one] }
 #align monoid_algebra.single_one_ring_hom MonoidAlgebra.singleOneRingHom
 #align monoid_algebra.single_one_ring_hom_apply MonoidAlgebra.singleOneRingHom_apply
 
@@ -1357,8 +1347,7 @@ instance nonUnitalSemiring : NonUnitalSemiring k[G] :=
       rw [sum_sum_index]; rw [sum_sum_index]; congr; ext a₂ b₂
       rw [sum_sum_index]; rw [sum_single_index]; congr; ext a₃ b₃
       rw [sum_single_index]; rw [mul_assoc]; rw [add_assoc]
-      all_goals simp only [single_zero, single_add, forall_true_iff, add_mul,
-        mul_add, zero_mul, mul_zero, sum_zero, sum_add] }
+      all_goals simp only [single_zero, single_add, forall_true_iff, add_mul, mul_add, zero_mul, mul_zero, sum_zero, sum_add] }
 #align add_monoid_algebra.non_unital_semiring AddMonoidAlgebra.nonUnitalSemiring
 
 end Semigroup
@@ -1373,11 +1362,9 @@ instance nonAssocSemiring : NonAssocSemiring k[G] :=
     natCast_zero := by simp
     natCast_succ := fun _ => by simp; rfl
     one_mul := fun f => by
-      simp only [mul_def, one_def, sum_single_index, zero_mul, single_zero, sum_zero, zero_add,
-        one_mul, sum_single]
+      simp only [mul_def, one_def, sum_single_index, zero_mul, single_zero, sum_zero, zero_add, one_mul, sum_single]
     mul_one := fun f => by
-      simp only [mul_def, one_def, sum_single_index, mul_zero, single_zero, sum_zero, add_zero,
-        mul_one, sum_single] }
+      simp only [mul_def, one_def, sum_single_index, mul_zero, single_zero, sum_zero, add_zero, mul_one, sum_single] }
 #align add_monoid_algebra.non_assoc_semiring AddMonoidAlgebra.nonAssocSemiring
 
 theorem nat_cast_def (n : ℕ) : (n : k[G]) = single (0 : G) (n : k) :=

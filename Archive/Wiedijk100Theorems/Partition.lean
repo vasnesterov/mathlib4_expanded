@@ -182,8 +182,7 @@ theorem cut_insert {ι : Type _} (n : ℕ) (a : ι) (s : Finset ι) (h : a ∉ s
       obtain rfl | h := eq_or_ne x a
       · simp
       · simp [if_neg h]
-  · simp only [mem_insert, Function.Embedding.coeFn_mk, mem_map, Nat.mem_antidiagonal, Prod.exists,
-      exists_prop, mem_cut, not_or]
+  · simp only [mem_insert, Function.Embedding.coeFn_mk, mem_map, Nat.mem_antidiagonal, Prod.exists, exists_prop, mem_cut, not_or]
     rintro ⟨p, q, rfl, g, ⟨rfl, hg₂⟩, rfl⟩
     refine' ⟨_, _⟩
     · simp [sum_add_distrib, if_neg h, hg₂ _ h, add_comm]
@@ -203,8 +202,7 @@ theorem coeff_prod_range [CommSemiring α] {ι : Type _} (s : Finset ι) (f : ι
     intro n
     rw [cut_insert _ _ _ hi]; rw [prod_insert hi]; rw [coeff_mul]; rw [sum_biUnion]
     · congr with i
-      simp only [sum_map, Pi.add_apply, Function.Embedding.coeFn_mk, prod_insert hi, if_pos rfl, ih,
-        mul_sum]
+      simp only [sum_map, Pi.add_apply, Function.Embedding.coeFn_mk, prod_insert hi, if_pos rfl, ih, mul_sum]
       apply sum_congr rfl _
       intro x hx
       rw [mem_cut] at hx
@@ -214,9 +212,7 @@ theorem coeff_prod_range [CommSemiring α] {ι : Type _} (s : Finset ι) (f : ι
       intro k hk
       rw [if_neg]; rw [add_zero]
       exact ne_of_mem_of_not_mem hk hi
-    · simp only [Set.PairwiseDisjoint, Set.Pairwise, Prod.forall, not_and, Ne.def,
-        Nat.mem_antidiagonal, disjoint_left, mem_map, exists_prop, Function.Embedding.coeFn_mk,
-        exists_imp, not_exists, Finset.mem_coe, Function.onFun, mem_cut, and_imp]
+    · simp only [Set.PairwiseDisjoint, Set.Pairwise, Prod.forall, not_and, Ne.def, Nat.mem_antidiagonal, disjoint_left, mem_map, exists_prop, Function.Embedding.coeFn_mk, exists_imp, not_exists, Finset.mem_coe, Function.onFun, mem_cut, and_imp]
       rintro p₁ q₁ rfl p₂ q₂ h t x p hp _ hp3 q hq _ hq3
       have z := hp3.trans hq3.symm
       have := sum_congr (Eq.refl s) fun x _ => Function.funext_iff.1 z x
@@ -251,8 +247,7 @@ theorem constantCoeff_indicator (s : Set ℕ) [Semiring α] :
 theorem two_series (i : ℕ) [Semiring α] :
     1 + (X : PowerSeries α) ^ i.succ = indicatorSeries α {0, i.succ} := by
   ext n
-  simp only [coeff_indicator, coeff_one, coeff_X_pow, Set.mem_insert_iff, Set.mem_singleton_iff,
-    map_add]
+  simp only [coeff_indicator, coeff_one, coeff_X_pow, Set.mem_insert_iff, Set.mem_singleton_iff, map_add]
   cases' n with d
   · simp [(Nat.succ_ne_zero i).symm]
   · simp [Nat.succ_ne_zero d]
@@ -265,8 +260,7 @@ theorem num_series' [Field α] (i : ℕ) :
     cases n with
     | zero => simp [mul_sub, zero_pow, constantCoeff_indicator]
     | succ n =>
-      simp only [coeff_one, if_false, mul_sub, mul_one, coeff_indicator,
-        LinearMap.map_sub]
+      simp only [coeff_one, if_false, mul_sub, mul_one, coeff_indicator, LinearMap.map_sub]
       simp_rw [coeff_mul, coeff_X_pow, coeff_indicator, @boole_mul _ _ _ _]
       erw [sum_ite, sum_ite]
       simp_rw [@filter_filter _ _ _ _ _, sum_const_zero, add_zero, sum_const, nsmul_eq_mul, mul_one,
@@ -318,8 +312,7 @@ theorem partialGF_prop (α : Type _) [CommSemiring α] (n : ℕ) (s : Finset ℕ
   simp_rw [coeff_prod_range, coeff_indicator, prod_boole, sum_boole]
   congr 1
   refine' Finset.card_congr (fun p _ i => Multiset.count i p.parts • i) _ _ _
-  · simp only [mem_filter, mem_cut, mem_univ, true_and_iff, exists_prop, and_assoc, and_imp,
-      smul_eq_zero, Function.Embedding.coeFn_mk, exists_imp]
+  · simp only [mem_filter, mem_cut, mem_univ, true_and_iff, exists_prop, and_assoc, and_imp, smul_eq_zero, Function.Embedding.coeFn_mk, exists_imp]
     rintro ⟨p, hp₁, hp₂⟩ hp₃ hp₄
     dsimp only at *
     refine' ⟨_, _, _⟩

@@ -207,8 +207,7 @@ noncomputable def inverse : Triangle Cᵒᵖ ⥤ (Triangle C)ᵒᵖ where
         dsimp
         rw [assoc]; rw [← Functor.map_comp]; rw [← unop_comp]; rw [← φ.comm₃]; rw [unop_comp]; rw [Functor.map_comp]; rw [← unop_comp_assoc]
         apply Quiver.Hom.op_inj
-        simp only [Opposite.op_unop, op_comp, Quiver.Hom.op_unop, assoc,
-          Opposite.unop_op, unop_comp]
+        simp only [Opposite.op_unop, op_comp, Quiver.Hom.op_unop, assoc, Opposite.unop_op, unop_comp]
         erw [← (opShiftFunctorEquivalence C 1).unitIso.inv.naturality φ.hom₁]
         rfl }
 
@@ -241,8 +240,7 @@ noncomputable def counitIso : inverse C ⋙ functor C ≅ 𝟭 _ :=
     · dsimp
       rw [Functor.map_id]; rw [comp_id]; rw [id_comp]; rw [Functor.map_comp]
       erw [← (opShiftFunctorEquivalence C 1).counitIso.inv.naturality_assoc T.mor₃]
-      simp only [opShiftFunctorEquivalence_counitIso_inv_app_shift, ← Functor.map_comp,
-        Iso.hom_inv_id_app, Functor.map_id, Functor.id_obj, comp_id, Functor.id_map])
+      simp only [opShiftFunctorEquivalence_counitIso_inv_app_shift, ← Functor.map_comp, Iso.hom_inv_id_app, Functor.map_id, Functor.id_obj, comp_id, Functor.id_map])
     (by aesop_cat)
 
 end TriangleOpEquivalence

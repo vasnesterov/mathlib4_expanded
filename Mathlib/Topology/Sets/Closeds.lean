@@ -265,8 +265,7 @@ theorem Opens.isCoatom_iff [T1Space α] {s : Opens α} :
     IsCoatom s ↔ ∃ x, s = (Closeds.singleton x).compl := by
   rw [← s.compl_compl]; rw [← isAtom_dual_iff_isCoatom]
   change IsAtom (Closeds.complOrderIso α s.compl) ↔ _
-  simp only [(Closeds.complOrderIso α).isAtom_iff, Closeds.isAtom_iff,
-    Closeds.compl_bijective.injective.eq_iff]
+  simp only [(Closeds.complOrderIso α).isAtom_iff, Closeds.isAtom_iff, Closeds.compl_bijective.injective.eq_iff]
 #align topological_space.opens.is_coatom_iff TopologicalSpace.Opens.isCoatom_iff
 
 /-! ### Clopen sets -/

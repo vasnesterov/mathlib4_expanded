@@ -104,8 +104,7 @@ theorem Preadditive.exact_of_iso_of_exact {A₁ B₁ C₁ A₂ B₂ C₂ : V} (f
   have eq₁ := β.inv.w
   have eq₂ := α.hom.w
   dsimp at eq₁ eq₂
-  simp only [Category.assoc, Category.assoc, ← eq₁, reassoc_of% eq₂, p,
-    ← reassoc_of% (Arrow.comp_left β.hom β.inv), β.hom_inv_id, Arrow.id_left, Category.id_comp]
+  simp only [Category.assoc, Category.assoc, ← eq₁, reassoc_of% eq₂, p, ← reassoc_of% (Arrow.comp_left β.hom β.inv), β.hom_inv_id, Arrow.id_left, Category.id_comp]
 #align category_theory.preadditive.exact_of_iso_of_exact CategoryTheory.Preadditive.exact_of_iso_of_exact
 
 /-- A reformulation of `Preadditive.exact_of_iso_of_exact` that does not involve the arrow

@@ -225,8 +225,7 @@ theorem basis_singleton (i : ι) : Lagrange.basis {i} v i = 1 := by
 
 @[simp]
 theorem basis_pair_left (hij : i ≠ j) : Lagrange.basis {i, j} v i = basisDivisor (v i) (v j) := by
-  simp only [Lagrange.basis, hij, erase_insert_eq_erase, erase_eq_of_not_mem, mem_singleton,
-    not_false_iff, prod_singleton]
+  simp only [Lagrange.basis, hij, erase_insert_eq_erase, erase_eq_of_not_mem, mem_singleton, not_false_iff, prod_singleton]
 #align lagrange.basis_pair_left Lagrange.basis_pair_left
 
 @[simp]

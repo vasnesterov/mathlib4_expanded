@@ -483,8 +483,7 @@ protected def unit' : 𝟭 (ModuleCat S) ⟶ restrictScalars f ⋙ coextendScala
   naturality Y Y' g :=
     LinearMap.ext fun y : Y => LinearMap.ext fun s : S => by
       -- Porting note: previously simp [CoextendScalars.map_apply]
-      simp only [ModuleCat.coe_comp, Functor.id_map, Functor.id_obj, Functor.comp_obj,
-        Functor.comp_map]
+      simp only [ModuleCat.coe_comp, Functor.id_map, Functor.id_obj, Functor.comp_obj, Functor.comp_map]
       rw [coe_comp]; rw [coe_comp]; rw [Function.comp]; rw [Function.comp]
       conv_rhs => rw [← LinearMap.coe_toAddHom, ←AddHom.toFun_eq_coe]
       erw [CoextendScalars.map_apply, AddHom.toFun_eq_coe, LinearMap.coe_toAddHom,

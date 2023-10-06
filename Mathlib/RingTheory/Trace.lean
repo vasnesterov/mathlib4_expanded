@@ -143,8 +143,7 @@ theorem trace_trace_of_basis [Algebra S T] [IsScalarTower R S T] {ι κ : Type*}
   cases nonempty_fintype κ
   rw [trace_eq_matrix_trace (b.smul c)]; rw [trace_eq_matrix_trace b]; rw [trace_eq_matrix_trace c]; rw [Matrix.trace]; rw [Matrix.trace]; rw [Matrix.trace]; rw [← Finset.univ_product_univ]; rw [Finset.sum_product]
   refine' Finset.sum_congr rfl fun i _ => _
-  simp only [AlgHom.map_sum, smul_leftMulMatrix, Finset.sum_apply,
-    Matrix.diag]
+  simp only [AlgHom.map_sum, smul_leftMulMatrix, Finset.sum_apply, Matrix.diag]
 -- Porting note: the `rw` was inside `simp only`, but it doesn't work anymore.
   rw [Finset.sum_apply
       i (Finset.univ : Finset κ) fun y => leftMulMatrix b (leftMulMatrix c x y y)]
@@ -371,8 +370,7 @@ theorem sum_embeddings_eq_finrank_mul [FiniteDimensional K F] [IsSeparable K F]
     rw [← AlgHom.card L F E]
     exact Finset.card_univ (α := F →ₐ[L] E)
   · intro σ
-    simp only [algHomEquivSigma, Equiv.coe_fn_mk, AlgHom.restrictDomain, AlgHom.comp_apply,
-      IsScalarTower.coe_toAlgHom']
+    simp only [algHomEquivSigma, Equiv.coe_fn_mk, AlgHom.restrictDomain, AlgHom.comp_apply, IsScalarTower.coe_toAlgHom']
 #align sum_embeddings_eq_finrank_mul sum_embeddings_eq_finrank_mul
 
 theorem trace_eq_sum_embeddings [FiniteDimensional K L] [IsSeparable K L] {x : L} :
@@ -399,8 +397,7 @@ theorem trace_eq_sum_automorphisms (x : L) [FiniteDimensional K L] [IsGalois K L
 -- Porting note: `smul_one_smul` was in the `simp only`.
       apply smul_one_smul
   · intro σ
-    simp only [Normal.algHomEquivAut, AlgHom.restrictNormal', Equiv.coe_fn_mk,
-      AlgEquiv.coe_ofBijective, AlgHom.restrictNormal_commutes, id.map_eq_id, RingHom.id_apply]
+    simp only [Normal.algHomEquivAut, AlgHom.restrictNormal', Equiv.coe_fn_mk, AlgEquiv.coe_ofBijective, AlgHom.restrictNormal_commutes, id.map_eq_id, RingHom.id_apply]
 #align trace_eq_sum_automorphisms trace_eq_sum_automorphisms
 
 end EqSumEmbeddings
@@ -443,8 +440,7 @@ theorem traceMatrix_of_matrix_vecMul [Fintype κ] (b : κ → B) (P : Matrix κ 
   rw [Matrix.mul_apply]; rw [sum_mul]
   congr; ext y
   rw [map_apply]; rw [traceForm_apply]; rw [mul_comm (b y)]; rw [← smul_def]
-  simp only [id.smul_eq_mul, RingHom.id_apply, map_apply, transpose_apply, LinearMap.map_smulₛₗ,
-    traceForm_apply, Algebra.smul_mul_assoc]
+  simp only [id.smul_eq_mul, RingHom.id_apply, map_apply, transpose_apply, LinearMap.map_smulₛₗ, traceForm_apply, Algebra.smul_mul_assoc]
   rw [mul_comm (b x)]; rw [← smul_def]
   ring_nf
   rw [mul_assoc]
@@ -581,8 +577,7 @@ theorem det_traceForm_ne_zero [IsSeparable K L] [DecidableEq ι] (b : Basis ι K
               b.toMatrix pb.basis).det :=
         by simp only [← det_mul, Matrix.mul_assoc, Matrix.transpose_mul]
       _ = 1 := by
-        simp only [Basis.toMatrix_mul_toMatrix_flip, Matrix.transpose_one, Matrix.mul_one,
-          Matrix.det_one]
+        simp only [Basis.toMatrix_mul_toMatrix_flip, Matrix.transpose_one, Matrix.mul_one, Matrix.det_one]
   simpa only [traceMatrix_of_basis] using det_traceMatrix_ne_zero' pb
 #align det_trace_form_ne_zero det_traceForm_ne_zero
 

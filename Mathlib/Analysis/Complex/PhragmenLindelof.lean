@@ -183,8 +183,7 @@ theorem horizontal_strip (hfd : DiffContOnCl ℂ f (im ⁻¹' Ioo a b))
     ∃ R : ℝ, |z.re| < R ∧ ∀ w, |re w| = R → im w ∈ Ioo (a - b) (a + b) → ‖g ε w • f w‖ ≤ C := by
     refine' ((eventually_gt_atTop _).and _).exists
     rcases hO.exists_pos with ⟨A, hA₀, hA⟩
-    simp only [isBigOWith_iff, eventually_inf_principal, eventually_comap, mem_Ioo, ← abs_lt,
-      mem_preimage, (· ∘ ·), Real.norm_eq_abs, abs_of_pos (Real.exp_pos _)] at hA
+    simp only [isBigOWith_iff, eventually_inf_principal, eventually_comap, mem_Ioo, ← abs_lt, mem_preimage, (· ∘ ·), Real.norm_eq_abs, abs_of_pos (Real.exp_pos _)] at hA
     suffices :
         Tendsto (fun R => expR (δ * expR (d * R) + B * expR (c * R) + Real.log A)) atTop (𝓝 0)
     · filter_upwards [this.eventually (ge_mem_nhds hC₀), hA] with R hR Hle w hre him
@@ -399,8 +398,7 @@ nonrec theorem quadrant_I (hd : DiffContOnCl ℂ f (Ioi 0 ×ℂ Ioi 0))
       rw [norm_one]; rw [Real.norm_of_nonneg (Real.exp_pos _).le]; rw [Real.one_le_exp_iff]
       exact mul_nonneg (le_max_right _ _) (Real.exp_pos _).le
     · -- For the estimate as `ζ.re → ∞`, we reuse the upper estimate on `f`
-      simp only [eventually_inf_principal, eventually_comap, comp_apply, one_mul,
-        Real.norm_of_nonneg (Real.exp_pos _).le, abs_exp, ← Real.exp_mul, Real.exp_le_exp]
+      simp only [eventually_inf_principal, eventually_comap, comp_apply, one_mul, Real.norm_of_nonneg (Real.exp_pos _).le, abs_exp, ← Real.exp_mul, Real.exp_le_exp]
       refine' (eventually_ge_atTop 0).mono fun x hx z hz _ => _
       rw [hz]; rw [_root_.abs_of_nonneg hx]; rw [mul_comm _ c]
       exact mul_le_mul_of_nonneg_right (le_max_left _ _) (Real.exp_pos _).le
@@ -828,8 +826,7 @@ theorem eq_zero_on_right_half_plane_of_superexponential_decay (hd : DiffContOnCl
     refine' ⟨max c 1, max_lt hc one_lt_two, n + max B 0, .of_norm_left _⟩
     simp only [hg]
     refine' ((isBigO_refl (fun z : ℂ => expR z.re ^ n) _).mul hO.norm_left).trans (.of_bound 1 _)
-    simp only [← Real.exp_nat_mul, ← Real.exp_add, Real.norm_of_nonneg (Real.exp_pos _).le,
-      Real.exp_le_exp, add_mul, eventually_inf_principal, eventually_comap, one_mul]
+    simp only [← Real.exp_nat_mul, ← Real.exp_add, Real.norm_of_nonneg (Real.exp_pos _).le, Real.exp_le_exp, add_mul, eventually_inf_principal, eventually_comap, one_mul]
     -- porting note: todo: `0 < z.re` is not used; where do we use it?
     filter_upwards [eventually_ge_atTop (1 : ℝ)] with r hr z hzr _; subst r
     refine' add_le_add (mul_le_mul_of_nonneg_left _ n.cast_nonneg) _

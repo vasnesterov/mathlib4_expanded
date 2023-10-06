@@ -190,8 +190,7 @@ theorem torsion_by_prime_power_decomposition (hN : Module.IsTorsion' N (Submonoi
         intro i
         let fi := f.symm.toLinearMap.comp (DirectSum.lof _ _ _ i)
         obtain ⟨x, h0, h1⟩ := exists_smul_eq_zero_and_mk_eq hp hN hj fi; refine' ⟨x, h0, _⟩; rw [h1]
-        simp only [LinearMap.coe_comp, f.symm.coe_toLinearMap, f.apply_symm_apply,
-          Function.comp_apply]
+        simp only [LinearMap.coe_comp, f.symm.coe_toLinearMap, f.apply_symm_apply, Function.comp_apply]
       refine ⟨?_, ⟨?_⟩⟩
       · exact fun a => (fun i => (Option.rec (pOrder hN (s j)) k i : ℕ)) (finSuccEquiv d a)
       · refine (((@lequivProdOfRightSplitExact _ _ _ _ _ _ _ _ _ _ _ _

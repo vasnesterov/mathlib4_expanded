@@ -46,8 +46,7 @@ instance : ReflectsIsomorphisms (N₁ : SimplicialObject C ⥤ Karoubi (ChainCom
     have h₂ := HomologicalComplex.congr_hom (Karoubi.hom_ext_iff.mp (IsIso.inv_hom_id (N₁.map f)))
     have h₃ := fun n =>
       Karoubi.HomologicalComplex.p_comm_f_assoc (inv (N₁.map f)) n (f.app (op [n]))
-    simp only [N₁_map_f, Karoubi.comp_f, HomologicalComplex.comp_f,
-      AlternatingFaceMapComplex.map_f, N₁_obj_p, Karoubi.id_eq, assoc] at h₁ h₂ h₃
+    simp only [N₁_map_f, Karoubi.comp_f, HomologicalComplex.comp_f, AlternatingFaceMapComplex.map_f, N₁_obj_p, Karoubi.id_eq, assoc] at h₁ h₂ h₃
     -- we have to construct an inverse to f in degree n, by induction on n
     intro n
     induction' n with n hn
@@ -61,9 +60,7 @@ instance : ReflectsIsomorphisms (N₁ : SimplicialObject C ⥤ Karoubi (ChainCom
     · haveI := hn
       use φ { a := PInfty.f (n + 1) ≫ (inv (N₁.map f)).f.f (n + 1)
               b := fun i => inv (f.app (op [n])) ≫ X.σ i }
-      simp only [MorphComponents.id, ← id_φ, ← preComp_φ, preComp, ← postComp_φ, postComp,
-        PInfty_f_naturality_assoc, IsIso.hom_inv_id_assoc, assoc, IsIso.inv_hom_id_assoc,
-        SimplicialObject.σ_naturality, h₁, h₂, h₃]⟩
+      simp only [MorphComponents.id, ← id_φ, ← preComp_φ, preComp, ← postComp_φ, postComp, PInfty_f_naturality_assoc, IsIso.hom_inv_id_assoc, assoc, IsIso.inv_hom_id_assoc, SimplicialObject.σ_naturality, h₁, h₂, h₃]⟩
 
 theorem compatibility_N₂_N₁_karoubi :
     N₂ ⋙ (karoubiChainComplexEquivalence C ℕ).functor =
@@ -81,15 +78,10 @@ theorem compatibility_N₂_N₁_karoubi :
       have h := (AlternatingFaceMapComplex.map P.p).comm (n + 1) n
       dsimp [N₂, karoubiChainComplexEquivalence,
         KaroubiHomologicalComplexEquivalence.Functor.obj] at h ⊢
-      simp only [assoc, Karoubi.eqToHom_f, eqToHom_refl, comp_id,
-        karoubi_alternatingFaceMapComplex_d, karoubi_PInfty_f,
-        ← HomologicalComplex.Hom.comm_assoc, ← h, app_idem_assoc]
+      simp only [assoc, Karoubi.eqToHom_f, eqToHom_refl, comp_id, karoubi_alternatingFaceMapComplex_d, karoubi_PInfty_f, ← HomologicalComplex.Hom.comm_assoc, ← h, app_idem_assoc]
   · ext n
     dsimp [KaroubiKaroubi.inverse, Functor.mapHomologicalComplex]
-    simp only [karoubi_PInfty_f, HomologicalComplex.eqToHom_f, Karoubi.eqToHom_f,
-      assoc, comp_id, PInfty_f_naturality, app_p_comp,
-      karoubiChainComplexEquivalence_functor_obj_X_p, N₂_obj_p_f, eqToHom_refl,
-      PInfty_f_naturality_assoc, app_comp_p, PInfty_f_idem_assoc]
+    simp only [karoubi_PInfty_f, HomologicalComplex.eqToHom_f, Karoubi.eqToHom_f, assoc, comp_id, PInfty_f_naturality, app_p_comp, karoubiChainComplexEquivalence_functor_obj_X_p, N₂_obj_p_f, eqToHom_refl, PInfty_f_naturality_assoc, app_comp_p, PInfty_f_idem_assoc]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.compatibility_N₂_N₁_karoubi AlgebraicTopology.DoldKan.compatibility_N₂_N₁_karoubi
 

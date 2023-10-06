@@ -1087,8 +1087,7 @@ theorem evaln_prim : Primrec fun a : (ℕ × Code) × ℕ => evaln a.1.1 a.1.2 a
       let a := ofNat (ℕ × Code) n
       (List.range a.1).map (evaln a.1 a.2) :=
     Primrec.nat_strong_rec _ (hG.comp Primrec.snd).to₂ fun _ p => by
-      simp only [G, prod_ofNat_val, ofNat_nat, List.length_map, List.length_range,
-        Nat.pair_unpair, Option.some_inj]
+      simp only [G, prod_ofNat_val, ofNat_nat, List.length_map, List.length_range, Nat.pair_unpair, Option.some_inj]
       refine List.map_congr fun n => ?_
       have : List.range p = List.range (Nat.pair p.unpair.1 (encode (ofNat Code p.unpair.2))) := by
         simp

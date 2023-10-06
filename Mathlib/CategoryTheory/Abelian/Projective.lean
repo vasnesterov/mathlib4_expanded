@@ -112,9 +112,7 @@ describing the inductive steps. The problems apparent here clearly indicate that
 theorem ofComplex_sq_10_comm (Z : C) :
     0 ≫ HomologicalComplex.d ((ChainComplex.single₀ C).obj Z) 1 0 =
     HomologicalComplex.d (ofComplex Z) 1 0 ≫ Projective.π Z := by
-  simp only [ofComplex_X, ChainComplex.single₀_obj_X_0, ChainComplex.single₀_obj_X_succ,
-    ComplexShape.down_Rel, not_true, ChainComplex.single₀_obj_X_d, comp_zero, ofComplex_d,
-    eqToHom_refl, Category.id_comp, dite_eq_ite, ite_true]
+  simp only [ofComplex_X, ChainComplex.single₀_obj_X_0, ChainComplex.single₀_obj_X_succ, ComplexShape.down_Rel, not_true, ChainComplex.single₀_obj_X_d, comp_zero, ofComplex_d, eqToHom_refl, Category.id_comp, dite_eq_ite, ite_true]
   exact (exact_d_f (Projective.π Z)).w.symm
 
 -- Porting note: the `exact` in `of` was very, very slow. To assist,
@@ -126,8 +124,7 @@ theorem exact_ofComplex (Z : C) (n : ℕ) :
 -- Porting note: used to be simp; apply exact_d_f on both branches
     | 0 => by simp; apply exact_d_f
     | m+1 => by
-      simp only [ofComplex_X, ComplexShape.down_Rel, ofComplex_d, eqToHom_refl,
-        Category.id_comp, dite_eq_ite, not_true, ite_true]
+      simp only [ofComplex_X, ComplexShape.down_Rel, ofComplex_d, eqToHom_refl, Category.id_comp, dite_eq_ite, not_true, ite_true]
       -- Porting note: this is probably required now due to
       -- https://github.com/leanprover/lean4/pull/2146
       erw [if_pos (c := m + 1 + 1 + 1 = m + 2 + 1) rfl]

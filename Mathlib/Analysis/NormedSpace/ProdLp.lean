@@ -335,8 +335,7 @@ def prodPseudoEMetricAux [PseudoEMetricSpace α] [PseudoEMetricSpace β] :
           have := ENNReal.Lp_add_le {0, 1}
             (if · = 0 then edist f.fst g.fst else edist f.snd g.snd)
             (if · = 0 then edist g.fst h.fst else edist g.snd h.snd) hp
-          simp only [Finset.mem_singleton, not_false_eq_true, Finset.sum_insert,
-            Finset.sum_singleton] at this
+          simp only [Finset.mem_singleton, not_false_eq_true, Finset.sum_insert, Finset.sum_singleton] at this
           exact this
 
 attribute [local instance] WithLp.prodPseudoEMetricAux
@@ -388,8 +387,7 @@ def prodPseudoMetricAux [PseudoMetricSpace α] [PseudoMetricSpace β] :
         ENNReal.rpow_ne_top_of_nonneg (zero_le_one.trans h) (edist_ne_top _ _)
       have h2 : edist f.snd g.snd ^ p.toReal ≠ ⊤ :=
         ENNReal.rpow_ne_top_of_nonneg (zero_le_one.trans h) (edist_ne_top _ _)
-      simp only [prod_edist_eq_add (zero_lt_one.trans_le h), dist_edist, ENNReal.toReal_rpow,
-        prod_dist_eq_add (zero_lt_one.trans_le h), ← ENNReal.toReal_add h1 h2]
+      simp only [prod_edist_eq_add (zero_lt_one.trans_le h), dist_edist, ENNReal.toReal_rpow, prod_dist_eq_add (zero_lt_one.trans_le h), ← ENNReal.toReal_add h1 h2]
 
 attribute [local instance] WithLp.prodPseudoMetricAux
 
@@ -435,8 +433,7 @@ theorem prod_antilipschitzWith_equiv_aux [PseudoEMetricSpace α] [PseudoEMetricS
         · refine ENNReal.rpow_le_rpow ?_ (le_of_lt pos)
           simp [edist]
       _ = (2 : ℝ≥0) ^ (1 / p.toReal) * edist (WithLp.equiv p _ x) (WithLp.equiv p _ y) := by
-        simp only [← two_mul, ENNReal.mul_rpow_of_nonneg _ _ nonneg, ← ENNReal.rpow_mul, cancel,
-          ENNReal.rpow_one, ← ENNReal.coe_rpow_of_nonneg _ nonneg, coe_ofNat]
+        simp only [← two_mul, ENNReal.mul_rpow_of_nonneg _ _ nonneg, ← ENNReal.rpow_mul, cancel, ENNReal.rpow_one, ← ENNReal.coe_rpow_of_nonneg _ nonneg, coe_ofNat]
 
 theorem prod_aux_uniformity_eq [PseudoEMetricSpace α] [PseudoEMetricSpace β] :
     𝓤 (WithLp p (α × β)) = 𝓤[instUniformSpaceProd] := by
@@ -588,8 +585,7 @@ instance instProdSeminormedAddCommGroup [SeminormedAddCommGroup α] [SeminormedA
     rcases p.dichotomy with (rfl | h)
     · simp only [prod_dist_eq_sup, prod_norm_eq_sup, dist_eq_norm]
       rfl
-    · simp only [prod_dist_eq_add (zero_lt_one.trans_le h),
-        prod_norm_eq_add (zero_lt_one.trans_le h), dist_eq_norm]
+    · simp only [prod_dist_eq_add (zero_lt_one.trans_le h), prod_norm_eq_add (zero_lt_one.trans_le h), dist_eq_norm]
       rfl
 
 /-- normed group instance on the product of two normed groups, using the `L^p` norm. -/
@@ -618,8 +614,7 @@ variable {p α β}
 theorem prod_norm_eq_of_nat [Norm α] [Norm β] (n : ℕ) (h : p = n) (f : WithLp p (α × β)) :
     ‖f‖ = (‖f.fst‖ ^ n + ‖f.snd‖ ^ n) ^ (1 / (n : ℝ)) := by
   have := p.toReal_pos_iff_ne_top.mpr (ne_of_eq_of_ne h <| ENNReal.nat_ne_top n)
-  simp only [one_div, h, Real.rpow_nat_cast, ENNReal.toReal_nat, eq_self_iff_true, Finset.sum_congr,
-    prod_norm_eq_add this]
+  simp only [one_div, h, Real.rpow_nat_cast, ENNReal.toReal_nat, eq_self_iff_true, Finset.sum_congr, prod_norm_eq_add this]
 
 variable [SeminormedAddCommGroup α] [SeminormedAddCommGroup β]
 
@@ -750,8 +745,7 @@ instance instProdNormedSpace : NormedSpace 𝕜 (WithLp p (α × β)) where
     · have : p.toReal * (1 / p.toReal) = 1 := mul_div_cancel' 1 (zero_lt_one.trans_le hp).ne'
       have smul_fst : (c • f).fst = c • f.fst := rfl
       have smul_snd : (c • f).snd = c • f.snd := rfl
-      simp only [prod_norm_eq_add (zero_lt_one.trans_le hp), norm_smul, Real.mul_rpow,
-        norm_nonneg, smul_fst, smul_snd]
+      simp only [prod_norm_eq_add (zero_lt_one.trans_le hp), norm_smul, Real.mul_rpow, norm_nonneg, smul_fst, smul_snd]
       rw [← mul_add]; rw [mul_rpow (rpow_nonneg_of_nonneg (norm_nonneg _) _)]; rw [← rpow_mul (norm_nonneg _)]; rw [this]; rw [Real.rpow_one]
       positivity
 

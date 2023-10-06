@@ -354,8 +354,7 @@ theorem isIntegral_of_mem_of_FG (S : Subalgebra R A) (HS : S.toSubmodule.FG) (x 
         ⟨insert 1 y, by
           rw [Finset.coe_insert]
           ext z
-          simp only [Finset.coe_sort_coe, Finset.univ_eq_attach, Finset.mem_coe,
-            Subalgebra.mem_toSubmodule]
+          simp only [Finset.coe_sort_coe, Finset.univ_eq_attach, Finset.mem_coe, Subalgebra.mem_toSubmodule]
           convert foo z⟩)
       _ _
   rw [← hlx2]; rw [Finsupp.total_apply]; rw [Finsupp.sum]
@@ -701,10 +700,8 @@ theorem IsIntegral.tmul (x : A) {y : B} (h : IsIntegral R y) : IsIntegral A (x �
   convert Polynomial.scaleRoots_eval₂_mul (R := A ⊗[R] B) (S := A)
       Algebra.TensorProduct.includeLeftRingHom (?_) x
   any_goals exact 1 ⊗ₜ y
-  · simp only [Algebra.TensorProduct.includeLeftRingHom_apply,
-      Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
-  · simp only [Algebra.TensorProduct.includeLeftRingHom_apply, Algebra.TensorProduct.tmul_pow,
-      one_pow]
+  · simp only [Algebra.TensorProduct.includeLeftRingHom_apply, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
+  · simp only [Algebra.TensorProduct.includeLeftRingHom_apply, Algebra.TensorProduct.tmul_pow, one_pow]
     convert (mul_zero (M₀ := A ⊗[R] B) _).symm
     erw [Polynomial.eval₂_map, Algebra.TensorProduct.includeLeftRingHom_comp_algebraMap,
       ← Polynomial.eval₂_map]
@@ -726,8 +723,7 @@ noncomputable def normalizeScaleRoots (p : R[X]) : R[X] :=
 theorem normalizeScaleRoots_coeff_mul_leadingCoeff_pow (i : ℕ) (hp : 1 ≤ natDegree p) :
     (normalizeScaleRoots p).coeff i * p.leadingCoeff ^ i =
       p.coeff i * p.leadingCoeff ^ (p.natDegree - 1) := by
-  simp only [normalizeScaleRoots, finset_sum_coeff, coeff_monomial, Finset.sum_ite_eq', one_mul,
-    zero_mul, mem_support_iff, ite_mul, Ne.def, ite_not]
+  simp only [normalizeScaleRoots, finset_sum_coeff, coeff_monomial, Finset.sum_ite_eq', one_mul, zero_mul, mem_support_iff, ite_mul, Ne.def, ite_not]
   split_ifs with h₁ h₂
   · simp [h₁]
   · rw [h₂, leadingCoeff, ← pow_succ, tsub_add_cancel_of_le hp]
@@ -740,11 +736,9 @@ theorem normalizeScaleRoots_coeff_mul_leadingCoeff_pow (i : ℕ) (hp : 1 ≤ nat
 theorem leadingCoeff_smul_normalizeScaleRoots (p : R[X]) :
     p.leadingCoeff • normalizeScaleRoots p = scaleRoots p p.leadingCoeff := by
   ext
-  simp only [coeff_scaleRoots, normalizeScaleRoots, coeff_monomial, coeff_smul, Finset.smul_sum,
-    Ne.def, Finset.sum_ite_eq', finset_sum_coeff, smul_ite, smul_zero, mem_support_iff]
+  simp only [coeff_scaleRoots, normalizeScaleRoots, coeff_monomial, coeff_smul, Finset.smul_sum, Ne.def, Finset.sum_ite_eq', finset_sum_coeff, smul_ite, smul_zero, mem_support_iff]
   -- porting note: added the following `simp only`
-  simp only [ge_iff_le, tsub_le_iff_right, smul_eq_mul, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', mem_support_iff, ne_eq, ite_not]
+  simp only [ge_iff_le, tsub_le_iff_right, smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', mem_support_iff, ne_eq, ite_not]
   split_ifs with h₁ h₂
   · simp [*]
   · simp [*]
@@ -757,8 +751,7 @@ theorem leadingCoeff_smul_normalizeScaleRoots (p : R[X]) :
 theorem normalizeScaleRoots_support : (normalizeScaleRoots p).support ≤ p.support := by
   intro x
   contrapose
-  simp only [not_mem_support_iff, normalizeScaleRoots, finset_sum_coeff, coeff_monomial,
-    Finset.sum_ite_eq', mem_support_iff, Ne.def, Classical.not_not, ite_eq_right_iff]
+  simp only [not_mem_support_iff, normalizeScaleRoots, finset_sum_coeff, coeff_monomial, Finset.sum_ite_eq', mem_support_iff, Ne.def, Classical.not_not, ite_eq_right_iff]
   intro h₁ h₂
   exact (h₂ h₁).elim
 #align normalize_scale_roots_support normalizeScaleRoots_support

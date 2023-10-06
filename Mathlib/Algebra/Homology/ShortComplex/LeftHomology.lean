@@ -497,8 +497,7 @@ lemma cyclesMap'_i : cyclesMap' φ h₁ h₂ ≫ h₂.i = h₁.i ≫ φ.τ₂ :=
 
 @[reassoc (attr := simp)]
 lemma f'_cyclesMap' : h₁.f' ≫ cyclesMap' φ h₁ h₂ = φ.τ₁ ≫ h₂.f' := by
-  simp only [← cancel_mono h₂.i, assoc, φ.comm₁₂, cyclesMap'_i,
-    LeftHomologyData.f'_i_assoc, LeftHomologyData.f'_i]
+  simp only [← cancel_mono h₂.i, assoc, φ.comm₁₂, cyclesMap'_i, LeftHomologyData.f'_i_assoc, LeftHomologyData.f'_i]
 
 @[reassoc (attr := simp)]
 lemma leftHomologyπ_naturality' :
@@ -718,9 +717,7 @@ lemma leftHomologyπ_comp_leftHomologyIso_hom :
 @[reassoc (attr := simp)]
 lemma π_comp_leftHomologyIso_inv :
     h.π ≫ h.leftHomologyIso.inv = h.cyclesIso.inv ≫ S.leftHomologyπ := by
-  simp only [← cancel_epi h.cyclesIso.hom, ← cancel_mono h.leftHomologyIso.hom, assoc,
-    Iso.inv_hom_id, comp_id, Iso.hom_inv_id_assoc,
-    LeftHomologyData.leftHomologyπ_comp_leftHomologyIso_hom]
+  simp only [← cancel_epi h.cyclesIso.hom, ← cancel_mono h.leftHomologyIso.hom, assoc, Iso.inv_hom_id, comp_id, Iso.hom_inv_id_assoc, LeftHomologyData.leftHomologyπ_comp_leftHomologyIso_hom]
 
 end LeftHomologyData
 
@@ -977,8 +974,7 @@ variable {S}
 @[reassoc (attr := simp)]
 lemma LeftHomologyData.liftCycles_comp_cyclesIso_hom :
     S.liftCycles k hk ≫ h.cyclesIso.hom = h.liftK k hk := by
-  simp only [← cancel_mono h.i, assoc, LeftHomologyData.cyclesIso_hom_comp_i,
-    liftCycles_i, LeftHomologyData.liftK_i]
+  simp only [← cancel_mono h.i, assoc, LeftHomologyData.cyclesIso_hom_comp_i, liftCycles_i, LeftHomologyData.liftK_i]
 
 @[reassoc (attr := simp)]
 lemma LeftHomologyData.lift_K_comp_cyclesIso_inv :
@@ -1020,10 +1016,8 @@ lemma isIso_cyclesMap'_of_isIso_of_mono (φ : S₁ ⟶ S₂) (h₂ : IsIso φ.τ
     IsIso (cyclesMap' φ h₁ h₂) := by
   refine' ⟨h₁.liftK (h₂.i ≫ inv φ.τ₂) _, _, _⟩
   · simp only [assoc, ← cancel_mono φ.τ₃, zero_comp, ← φ.comm₂₃, IsIso.inv_hom_id_assoc, h₂.wi]
-  · simp only [← cancel_mono h₁.i, assoc, h₁.liftK_i, cyclesMap'_i_assoc,
-      IsIso.hom_inv_id, comp_id, id_comp]
-  · simp only [← cancel_mono h₂.i, assoc, cyclesMap'_i, h₁.liftK_i_assoc,
-      IsIso.inv_hom_id, comp_id, id_comp]
+  · simp only [← cancel_mono h₁.i, assoc, h₁.liftK_i, cyclesMap'_i_assoc, IsIso.hom_inv_id, comp_id, id_comp]
+  · simp only [← cancel_mono h₂.i, assoc, cyclesMap'_i, h₁.liftK_i_assoc, IsIso.inv_hom_id, comp_id, id_comp]
 
 lemma isIso_cyclesMap_of_isIso_of_mono' (φ : S₁ ⟶ S₂) (h₂ : IsIso φ.τ₂) (h₃ : Mono φ.τ₃)
     [S₁.HasLeftHomology] [S₂.HasLeftHomology] :

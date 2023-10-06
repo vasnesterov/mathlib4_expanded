@@ -581,8 +581,7 @@ nonrec theorem integral_add (hf : IntervalIntegrable f μ a b) (hg : IntervalInt
 nonrec theorem integral_finset_sum {ι} {s : Finset ι} {f : ι → ℝ → E}
     (h : ∀ i ∈ s, IntervalIntegrable (f i) μ a b) :
     ∫ x in a..b, ∑ i in s, f i x ∂μ = ∑ i in s, ∫ x in a..b, f i x ∂μ := by
-  simp only [intervalIntegral_eq_integral_uIoc, integral_finset_sum s fun i hi => (h i hi).def,
-    Finset.smul_sum]
+  simp only [intervalIntegral_eq_integral_uIoc, integral_finset_sum s fun i hi => (h i hi).def, Finset.smul_sum]
 #align interval_integral.integral_finset_sum intervalIntegral.integral_finset_sum
 
 @[simp]
@@ -634,8 +633,7 @@ theorem integral_const' (c : E) :
 
 @[simp]
 theorem integral_const (c : E) : ∫ _ in a..b, c = (b - a) • c := by
-  simp only [integral_const', Real.volume_Ioc, ENNReal.toReal_ofReal', ← neg_sub b,
-    max_zero_sub_eq_self]
+  simp only [integral_const', Real.volume_Ioc, ENNReal.toReal_ofReal', ← neg_sub b, max_zero_sub_eq_self]
 #align interval_integral.integral_const intervalIntegral.integral_const
 
 nonrec theorem integral_smul_measure (c : ℝ≥0∞) :
@@ -940,8 +938,7 @@ theorem integral_interval_sub_interval_comm (hab : IntervalIntegrable f μ a b)
     (hcd : IntervalIntegrable f μ c d) (hac : IntervalIntegrable f μ a c) :
     ((∫ x in a..b, f x ∂μ) - ∫ x in c..d, f x ∂μ) =
       (∫ x in a..c, f x ∂μ) - ∫ x in b..d, f x ∂μ := by
-  simp only [sub_eq_add_neg, ← integral_symm,
-    integral_interval_add_interval_comm hab hcd.symm (hac.trans hcd)]
+  simp only [sub_eq_add_neg, ← integral_symm, integral_interval_add_interval_comm hab hcd.symm (hac.trans hcd)]
 #align interval_integral.integral_interval_sub_interval_comm intervalIntegral.integral_interval_sub_interval_comm
 
 theorem integral_interval_sub_interval_comm' (hab : IntervalIntegrable f μ a b)
@@ -977,8 +974,7 @@ theorem integral_eq_integral_of_support_subset {a b} (h : support f ⊆ Ioc a b)
 
 theorem integral_congr_ae' (h : ∀ᵐ x ∂μ, x ∈ Ioc a b → f x = g x)
     (h' : ∀ᵐ x ∂μ, x ∈ Ioc b a → f x = g x) : ∫ x in a..b, f x ∂μ = ∫ x in a..b, g x ∂μ := by
-  simp only [intervalIntegral, set_integral_congr_ae measurableSet_Ioc h,
-    set_integral_congr_ae measurableSet_Ioc h']
+  simp only [intervalIntegral, set_integral_congr_ae measurableSet_Ioc h, set_integral_congr_ae measurableSet_Ioc h']
 #align interval_integral.integral_congr_ae' intervalIntegral.integral_congr_ae'
 
 theorem integral_congr_ae (h : ∀ᵐ x ∂μ, x ∈ Ι a b → f x = g x) :
@@ -1008,8 +1004,7 @@ nonrec theorem tendsto_integral_filter_of_dominated_convergence {ι} {l : Filter
     (bound_integrable : IntervalIntegrable bound μ a b)
     (h_lim : ∀ᵐ x ∂μ, x ∈ Ι a b → Tendsto (fun n => F n x) l (𝓝 (f x))) :
     Tendsto (fun n => ∫ x in a..b, F n x ∂μ) l (𝓝 <| ∫ x in a..b, f x ∂μ) := by
-  simp only [intervalIntegrable_iff, intervalIntegral_eq_integral_uIoc,
-    ← ae_restrict_iff' (α := ℝ) (μ := μ) measurableSet_uIoc] at *
+  simp only [intervalIntegrable_iff, intervalIntegral_eq_integral_uIoc, ← ae_restrict_iff' (α := ℝ) (μ := μ) measurableSet_uIoc] at *
   exact tendsto_const_nhds.smul <|
     tendsto_integral_filter_of_dominated_convergence bound hF_meas h_bound bound_integrable h_lim
 #align interval_integral.tendsto_integral_filter_of_dominated_convergence intervalIntegral.tendsto_integral_filter_of_dominated_convergence
@@ -1272,8 +1267,7 @@ theorem integral_pos_iff_support_of_nonneg_ae' (hf : 0 ≤ᵐ[μ.restrict (Ι a 
     (0 < ∫ x in a..b, f x ∂μ) ↔ a < b ∧ 0 < μ (support f ∩ Ioc a b) := by
   cases' lt_or_le a b with hab hba
   · rw [uIoc_of_le hab.le] at hf
-    simp only [hab, true_and_iff, integral_of_le hab.le,
-      set_integral_pos_iff_support_of_nonneg_ae hf hfi.1]
+    simp only [hab, true_and_iff, integral_of_le hab.le, set_integral_pos_iff_support_of_nonneg_ae hf hfi.1]
   · suffices (∫ x in a..b, f x ∂μ) ≤ 0 by simp only [this.not_lt, hba.not_lt, false_and_iff]
     rw [integral_of_ge hba]; rw [neg_nonpos]
     rw [uIoc_comm] at hf; rw [uIoc_of_le hba] at hf

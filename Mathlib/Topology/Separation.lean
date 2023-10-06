@@ -243,8 +243,7 @@ theorem TopologicalSpace.IsTopologicalBasis.eq_iff [T0Space α] {b : Set (Set α
 
 theorem t0Space_iff_exists_isOpen_xor'_mem (α : Type u) [TopologicalSpace α] :
     T0Space α ↔ ∀ x y, x ≠ y → ∃ U : Set α, IsOpen U ∧ Xor' (x ∈ U) (y ∈ U) := by
-  simp only [t0Space_iff_not_inseparable, xor_iff_not_iff, not_forall, exists_prop,
-    inseparable_iff_forall_open]
+  simp only [t0Space_iff_not_inseparable, xor_iff_not_iff, not_forall, exists_prop, inseparable_iff_forall_open]
 #align t0_space_iff_exists_is_open_xor_mem t0Space_iff_exists_isOpen_xor'_mem
 
 theorem exists_isOpen_xor'_mem [T0Space α] {x y : α} (h : x ≠ y) :
@@ -491,8 +490,7 @@ theorem t1Space_TFAE (α : Type u) [ TopologicalSpace α ] :
   tfae_have 5 ↔ 6
   · simp only [← subset_compl_singleton_iff, exists_mem_subset_iff]
   tfae_have 5 ↔ 7
-  · simp only [(nhds_basis_opens _).mem_iff, subset_compl_singleton_iff, exists_prop, and_assoc,
-      and_left_comm]
+  · simp only [(nhds_basis_opens _).mem_iff, subset_compl_singleton_iff, exists_prop, and_assoc, and_left_comm]
   tfae_have 5 ↔ 8
   · simp only [← principal_singleton, disjoint_principal_right]
   tfae_have 8 ↔ 9
@@ -504,8 +502,7 @@ theorem t1Space_TFAE (α : Type u) [ TopologicalSpace α ] :
   tfae_have 4 → 2
   · exact fun h x => (CofiniteTopology.isClosed_iff.2 <| Or.inr (finite_singleton _)).preimage h
   tfae_have 2 ↔ 10
-  · simp only [← closure_subset_iff_isClosed, specializes_iff_mem_closure, subset_def,
-      mem_singleton_iff, eq_comm]
+  · simp only [← closure_subset_iff_isClosed, specializes_iff_mem_closure, subset_def, mem_singleton_iff, eq_comm]
   tfae_finish
 #align t1_space_tfae t1Space_TFAE
 
@@ -911,8 +908,7 @@ theorem t2_separation [T2Space α] {x y : α} (h : x ≠ y) :
 -- todo: use this as a definition?
 theorem t2Space_iff_disjoint_nhds : T2Space α ↔ ∀ x y : α, x ≠ y → Disjoint (𝓝 x) (𝓝 y) := by
   refine (t2Space_iff α).trans (forall₃_congr fun x y _ => ?_)
-  simp only [(nhds_basis_opens x).disjoint_iff (nhds_basis_opens y), exists_prop, ← exists_and_left,
-    and_assoc, and_comm, and_left_comm]
+  simp only [(nhds_basis_opens x).disjoint_iff (nhds_basis_opens y), exists_prop, ← exists_and_left, and_assoc, and_comm, and_left_comm]
 #align t2_space_iff_disjoint_nhds t2Space_iff_disjoint_nhds
 
 @[simp]
@@ -981,8 +977,7 @@ theorem t2_iff_ultrafilter :
 #align t2_iff_ultrafilter t2_iff_ultrafilter
 
 theorem t2_iff_isClosed_diagonal : T2Space α ↔ IsClosed (diagonal α) := by
-  simp only [t2Space_iff_disjoint_nhds, ← isOpen_compl_iff, isOpen_iff_mem_nhds, Prod.forall,
-    nhds_prod_eq, compl_diagonal_mem_prod, mem_compl_iff, mem_diagonal_iff]
+  simp only [t2Space_iff_disjoint_nhds, ← isOpen_compl_iff, isOpen_iff_mem_nhds, Prod.forall, nhds_prod_eq, compl_diagonal_mem_prod, mem_compl_iff, mem_diagonal_iff]
 #align t2_iff_is_closed_diagonal t2_iff_isClosed_diagonal
 
 theorem isClosed_diagonal [T2Space α] : IsClosed (diagonal α) :=
@@ -1308,8 +1303,7 @@ theorem IsCompact.isClosed [T2Space α] {s : Set α} (hs : IsCompact s) : IsClos
 
 @[simp]
 theorem Filter.coclosedCompact_eq_cocompact [T2Space α] : coclosedCompact α = cocompact α := by
-  simp only [coclosedCompact, cocompact, iInf_and',
-    and_iff_right_of_imp (@IsCompact.isClosed α _ _ _)]
+  simp only [coclosedCompact, cocompact, iInf_and', and_iff_right_of_imp (@IsCompact.isClosed α _ _ _)]
 #align filter.coclosed_compact_eq_cocompact Filter.coclosedCompact_eq_cocompact
 
 @[simp]
@@ -1520,10 +1514,7 @@ theorem regularSpace_TFAE (X : Type u) [ TopologicalSpace X ] :
       ∀ a : X , (𝓝 a).lift' closure = 𝓝 a] := by
   tfae_have 1 ↔ 5
   · rw [regularSpace_iff, (@compl_surjective (Set X) _).forall, forall_swap]
-    simp only [isClosed_compl_iff, mem_compl_iff, Classical.not_not, @and_comm (_ ∈ _),
-      (nhds_basis_opens _).lift'_closure.le_basis_iff (nhds_basis_opens _), and_imp,
-      (nhds_basis_opens _).disjoint_iff_right, exists_prop, ← subset_interior_iff_mem_nhdsSet,
-      interior_compl, compl_subset_compl]
+    simp only [isClosed_compl_iff, mem_compl_iff, Classical.not_not, @and_comm (_ ∈ _), (nhds_basis_opens _).lift'_closure.le_basis_iff (nhds_basis_opens _), and_imp, (nhds_basis_opens _).disjoint_iff_right, exists_prop, ← subset_interior_iff_mem_nhdsSet, interior_compl, compl_subset_compl]
   tfae_have 5 → 6
   · exact fun h a => (h a).antisymm (𝓝 _).le_lift'_closure
   tfae_have 6 → 4
@@ -1626,8 +1617,7 @@ theorem specializes_iff_inseparable {a b : α} : a ⤳ b ↔ Inseparable a b :=
 #align specializes_iff_inseparable specializes_iff_inseparable
 
 theorem isClosed_setOf_specializes : IsClosed { p : α × α | p.1 ⤳ p.2 } := by
-  simp only [← isOpen_compl_iff, compl_setOf, ← disjoint_nhds_nhds_iff_not_specializes,
-    isOpen_setOf_disjoint_nhds_nhds]
+  simp only [← isOpen_compl_iff, compl_setOf, ← disjoint_nhds_nhds_iff_not_specializes, isOpen_setOf_disjoint_nhds_nhds]
 #align is_closed_set_of_specializes isClosed_setOf_specializes
 
 theorem isClosed_setOf_inseparable : IsClosed { p : α × α | Inseparable p.1 p.2 } := by

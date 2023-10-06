@@ -61,12 +61,10 @@ theorem definable_iff_exists_formula_sum :
   rw [Definable]; rw [Equiv.exists_congr_left (BoundedFormula.constantsVarsEquiv)]
   refine exists_congr (fun φ => iff_iff_eq.2 (congr_arg (s = .) ?_))
   ext
-  simp only [Formula.Realize, BoundedFormula.constantsVarsEquiv, constantsOn, mk₂_Relations,
-    BoundedFormula.mapTermRelEquiv_symm_apply, mem_setOf_eq]
+  simp only [Formula.Realize, BoundedFormula.constantsVarsEquiv, constantsOn, mk₂_Relations, BoundedFormula.mapTermRelEquiv_symm_apply, mem_setOf_eq]
   refine BoundedFormula.realize_mapTermRel_id ?_ (fun _ _ _ => rfl)
   intros
-  simp only [Term.constantsVarsEquivLeft_symm_apply, Term.realize_varsToConstants,
-    coe_con, Term.realize_relabel]
+  simp only [Term.constantsVarsEquivLeft_symm_apply, Term.realize_varsToConstants, coe_con, Term.realize_relabel]
   congr
   ext a
   rcases a with (_ | _) | _ <;> rfl
@@ -200,8 +198,7 @@ theorem definable_iff_finitely_definable :
       · exact Sum.inl (Sum.inl ⟨a, by simpa using ha⟩)
       · exact Sum.inl (Sum.inr a)
     · ext v
-      simp only [Formula.Realize, BoundedFormula.realize_relabel,
-        Set.mem_setOf_eq]
+      simp only [Formula.Realize, BoundedFormula.realize_relabel, Set.mem_setOf_eq]
       apply Iff.symm
       convert BoundedFormula.realize_restrictFreeVar _
       · ext a
@@ -215,8 +212,7 @@ theorem Definable.image_comp_sum_inl_fin (m : ℕ) {s : Set (Sum α (Fin m) → 
   obtain ⟨φ, rfl⟩ := h
   refine' ⟨(BoundedFormula.relabel id φ).exs, _⟩
   ext x
-  simp only [Set.mem_image, mem_setOf_eq, BoundedFormula.realize_exs,
-    BoundedFormula.realize_relabel, Function.comp.right_id, Fin.castAdd_zero, Fin.cast_refl]
+  simp only [Set.mem_image, mem_setOf_eq, BoundedFormula.realize_exs, BoundedFormula.realize_relabel, Function.comp.right_id, Fin.castAdd_zero, Fin.cast_refl]
   constructor
   · rintro ⟨y, hy, rfl⟩
     exact
@@ -262,8 +258,7 @@ theorem Definable.image_comp {s : Set (β → M)} (h : A.Definable L s) (f : α 
       refine' (congr rfl (ext _)).mp (definable_finset_biInter h' Finset.univ)
       simp
     refine' (congr rfl (ext fun x => _)).mp (h.inter h')
-    simp only [Equiv.coe_trans, mem_inter_iff, mem_preimage, mem_image, exists_exists_and_eq_and,
-      mem_setOf_eq]
+    simp only [Equiv.coe_trans, mem_inter_iff, mem_preimage, mem_image, exists_exists_and_eq_and, mem_setOf_eq]
     constructor
     · rintro ⟨⟨y, ys, hy⟩, hx⟩
       refine' ⟨y, ys, _⟩

@@ -483,8 +483,7 @@ instance instDiscrete_unitLattice : DiscreteTopology (unitLattice K) := by
 
 protected theorem finrank_eq_rank :
     finrank ℝ ({w : InfinitePlace K // w ≠ w₀} → ℝ) = Units.rank K := by
-  simp only [finrank_fintype_fun_eq_card, Fintype.card_subtype_compl,
-    Fintype.card_ofSubsingleton, rank]
+  simp only [finrank_fintype_fun_eq_card, Fintype.card_subtype_compl, Fintype.card_ofSubsingleton, rank]
 
 instance instModuleFree_unitLattice : Module.Free ℤ (unitLattice K) :=
   Zlattice.module_free ℝ (unitLattice_span_eq_top K)
@@ -511,8 +510,7 @@ def unitLatticeEquiv : (unitLattice K) ≃ₗ[ℤ] Additive ((𝓞 K)ˣ ⧸ (tor
     rw [AddMonoidHom.mem_ker]; rw [AddMonoidHom.mem_ker]; rw [logEmbedding_eq_zero_iff]; rw [MonoidHom.toAdditive_apply_apply]; rw [ofMul_eq_zero]; rw [QuotientGroup.mk'_apply]; rw [QuotientGroup.eq_one_iff]
     rfl
   · refine ⟨Additive.ofMul x.out', ?_⟩
-    simp only [MonoidHom.toAdditive_apply_apply, toMul_ofMul, QuotientGroup.mk'_apply,
-      QuotientGroup.out_eq']
+    simp only [MonoidHom.toAdditive_apply_apply, toMul_ofMul, QuotientGroup.mk'_apply, QuotientGroup.out_eq']
     rfl
 
 instance : Module.Free ℤ (Additive ((𝓞 K)ˣ ⧸ (torsion K))) :=

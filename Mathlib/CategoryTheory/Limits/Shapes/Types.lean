@@ -334,8 +334,7 @@ theorem binaryCofan_isColimit_iff {X Y : Type u} (c : BinaryCofan X Y) :
       · intro T f g
         funext x
         dsimp
-        simp only [Set.mem_range, Equiv.ofInjective_symm_apply,
-          dite_eq_right_iff, forall_exists_index]
+        simp only [Set.mem_range, Equiv.ofInjective_symm_apply, dite_eq_right_iff, forall_exists_index]
         intro y e
         have : c.inr x ∈ Set.range c.inl ⊓ Set.range c.inr := ⟨⟨_, e⟩, ⟨_, rfl⟩⟩
         rw [disjoint_iff.mp h₃.1] at this

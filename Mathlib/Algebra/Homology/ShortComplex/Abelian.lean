@@ -39,8 +39,7 @@ namespace ShortComplex
 in an abelian category. -/
 noncomputable def abelianImageToKernel : Abelian.image S.f ⟶ kernel S.g :=
   kernel.lift S.g (Abelian.image.ι S.f)
-    (by simp only [← cancel_epi (Abelian.factorThruImage S.f),
-      kernel.lift_ι_assoc, zero, comp_zero])
+    (by simp only [← cancel_epi (Abelian.factorThruImage S.f), kernel.lift_ι_assoc, zero, comp_zero])
 
 @[reassoc (attr := simp)]
 lemma abelianImageToKernel_comp_kernel_ι :
@@ -61,10 +60,8 @@ noncomputable def abelianImageToKernelIsKernel :
       S.abelianImageToKernel_comp_kernel_ι_comp_cokernel_π) :=
   KernelFork.IsLimit.ofι _ _
     (fun k hk => kernel.lift _ (k ≫ kernel.ι S.g) (by rw [assoc, hk]))
-    (fun k hk => by simp only [← cancel_mono (kernel.ι S.g), assoc,
-      abelianImageToKernel_comp_kernel_ι, kernel.lift_ι])
-    (fun k hk b hb => by simp only [← cancel_mono S.abelianImageToKernel,
-      ← cancel_mono (kernel.ι S.g), hb, assoc, abelianImageToKernel_comp_kernel_ι, kernel.lift_ι])
+    (fun k hk => by simp only [← cancel_mono (kernel.ι S.g), assoc, abelianImageToKernel_comp_kernel_ι, kernel.lift_ι])
+    (fun k hk b hb => by simp only [← cancel_mono S.abelianImageToKernel, ← cancel_mono (kernel.ι S.g), hb, assoc, abelianImageToKernel_comp_kernel_ι, kernel.lift_ι])
 
 namespace LeftHomologyData
 
@@ -108,8 +105,7 @@ end LeftHomologyData
 in an abelian category. -/
 noncomputable def cokernelToAbelianCoimage : cokernel S.f ⟶ Abelian.coimage S.g :=
   cokernel.desc S.f (Abelian.coimage.π S.g) (by
-    simp only [← cancel_mono (Abelian.factorThruCoimage S.g), assoc,
-      cokernel.π_desc, zero, zero_comp])
+    simp only [← cancel_mono (Abelian.factorThruCoimage S.g), assoc, cokernel.π_desc, zero, zero_comp])
 
 @[reassoc (attr := simp)]
 lemma cokernel_π_comp_cokernelToAbelianCoimage :
@@ -128,11 +124,9 @@ noncomputable def cokernelToAbelianCoimageIsCokernel :
       S.kernel_ι_comp_cokernel_π_comp_cokernelToAbelianCoimage) :=
   CokernelCofork.IsColimit.ofπ _ _
     (fun k hk => cokernel.desc _ (cokernel.π S.f ≫ k) (by simpa only [assoc] using hk))
-    (fun k hk => by simp only [← cancel_epi (cokernel.π S.f),
-        cokernel_π_comp_cokernelToAbelianCoimage_assoc, cokernel.π_desc])
+    (fun k hk => by simp only [← cancel_epi (cokernel.π S.f), cokernel_π_comp_cokernelToAbelianCoimage_assoc, cokernel.π_desc])
     (fun k hk b hb => by
-      simp only [← cancel_epi S.cokernelToAbelianCoimage, ← cancel_epi (cokernel.π S.f), hb,
-        cokernel_π_comp_cokernelToAbelianCoimage_assoc, cokernel.π_desc])
+      simp only [← cancel_epi S.cokernelToAbelianCoimage, ← cancel_epi (cokernel.π S.f), hb, cokernel_π_comp_cokernelToAbelianCoimage_assoc, cokernel.π_desc])
 
 namespace RightHomologyData
 
@@ -150,8 +144,7 @@ noncomputable def ofAbelian : S.RightHomologyData := by
     IsColimit.comp_coconePointUniqueUpToIso_hom _ _ WalkingParallelPair.one
   have fac : g' = cokernel.π γ ≫ e.hom ≫ Abelian.factorThruCoimage S.g := by
     rw [hg']; rw [reassoc_of% he]
-    simp only [cokernel.π_desc, ← cancel_epi (cokernel.π S.f),
-      cokernel_π_comp_cokernelToAbelianCoimage_assoc]
+    simp only [cokernel.π_desc, ← cancel_epi (cokernel.π S.f), cokernel_π_comp_cokernelToAbelianCoimage_assoc]
   have hι : IsLimit (KernelFork.ofι _ wι) :=
     KernelFork.IsLimit.ofι _ _
       (fun x hx => kernel.lift _ x (by

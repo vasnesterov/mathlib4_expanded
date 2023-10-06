@@ -300,8 +300,7 @@ def finPairsLT (n : ℕ) : Finset (Σ_ : Fin n, Fin n) :=
 #align equiv.perm.fin_pairs_lt Equiv.Perm.finPairsLT
 
 theorem mem_finPairsLT {n : ℕ} {a : Σ_ : Fin n, Fin n} : a ∈ finPairsLT n ↔ a.2 < a.1 := by
-  simp only [finPairsLT, Fin.lt_iff_val_lt_val, true_and_iff, mem_attachFin, mem_range, mem_univ,
-    mem_sigma]
+  simp only [finPairsLT, Fin.lt_iff_val_lt_val, true_and_iff, mem_attachFin, mem_range, mem_univ, mem_sigma]
 #align equiv.perm.mem_fin_pairs_lt Equiv.Perm.mem_finPairsLT
 
 /-- `signAux σ` is the sign of a permutation on `Fin n`, defined as the parity of the number of
@@ -453,8 +452,7 @@ theorem signAux_swap : ∀ {n : ℕ} {x y : Fin n} (_hxy : x ≠ y), signAux (sw
   | 0, x, y => by intro; exact Fin.elim0 x
   | 1, x, y => by
     dsimp [signAux, swap, swapCore]
-    simp only [eq_iff_true_of_subsingleton, not_true, ite_true, le_refl, prod_const,
-               IsEmpty.forall_iff]
+    simp only [eq_iff_true_of_subsingleton, not_true, ite_true, le_refl, prod_const, IsEmpty.forall_iff]
   | n + 2, x, y => fun hxy => by
     have h2n : 2 ≤ n + 2 := by exact le_add_self
     rw [← isConj_iff_eq]; rw [← signAux_swap_zero_one h2n]

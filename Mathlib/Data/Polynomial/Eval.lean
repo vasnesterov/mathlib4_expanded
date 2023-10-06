@@ -465,8 +465,7 @@ theorem eval_mul_X : (p * X).eval x = p.eval x * x := by
   | h_add p q ph qh =>
     simp only [add_mul, eval_add, ph, qh]
   | h_monomial n a =>
-    simp only [← monomial_one_one_eq_X, monomial_mul_monomial, eval_monomial, mul_one, pow_succ',
-      mul_assoc]
+    simp only [← monomial_one_one_eq_X, monomial_mul_monomial, eval_monomial, mul_one, pow_succ', mul_assoc]
 #align polynomial.eval_mul_X Polynomial.eval_mul_X
 
 @[simp]

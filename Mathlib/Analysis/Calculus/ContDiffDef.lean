@@ -883,8 +883,7 @@ theorem norm_iteratedFDerivWithin_fderivWithin {n : ℕ} (hs : UniqueDiffOn 𝕜
 theorem iteratedFDerivWithin_one_apply (h : UniqueDiffWithinAt 𝕜 s x) (m : Fin 1 → E) :
     (iteratedFDerivWithin 𝕜 1 f s x : (Fin 1 → E) → F) m =
       (fderivWithin 𝕜 f s x : E → F) (m 0) := by
-  simp only [iteratedFDerivWithin_succ_apply_left, iteratedFDerivWithin_zero_eq_comp,
-    (continuousMultilinearCurryFin0 𝕜 E F).symm.comp_fderivWithin h]
+  simp only [iteratedFDerivWithin_succ_apply_left, iteratedFDerivWithin_zero_eq_comp, (continuousMultilinearCurryFin0 𝕜 E F).symm.comp_fderivWithin h]
   rfl
 #align iterated_fderiv_within_one_apply iteratedFDerivWithin_one_apply
 
@@ -1016,8 +1015,7 @@ protected theorem ContDiffOn.ftaylorSeriesWithin (h : ContDiffOn 𝕜 n f s) (hs
     HasFTaylorSeriesUpToOn n f (ftaylorSeriesWithin 𝕜 f s) s := by
   constructor
   · intro x _
-    simp only [ftaylorSeriesWithin, ContinuousMultilinearMap.uncurry0_apply,
-      iteratedFDerivWithin_zero_apply]
+    simp only [ftaylorSeriesWithin, ContinuousMultilinearMap.uncurry0_apply, iteratedFDerivWithin_zero_apply]
   · intro m hm x hx
     rcases(h x hx) m.succ (ENat.add_one_le_of_lt hm) with ⟨u, hu, p, Hp⟩
     rw [insert_eq_of_mem hx] at hu
@@ -1064,8 +1062,7 @@ theorem contDiffOn_of_continuousOn_differentiableOn
   refine' ⟨s, self_mem_nhdsWithin, ftaylorSeriesWithin 𝕜 f s, _⟩
   constructor
   · intro y _
-    simp only [ftaylorSeriesWithin, ContinuousMultilinearMap.uncurry0_apply,
-      iteratedFDerivWithin_zero_apply]
+    simp only [ftaylorSeriesWithin, ContinuousMultilinearMap.uncurry0_apply, iteratedFDerivWithin_zero_apply]
   · intro k hk y hy
     convert (Hdiff k (lt_of_lt_of_le hk hm) y hy).hasFDerivWithinAt
   · intro k hk
@@ -1290,8 +1287,7 @@ theorem hasFTaylorSeriesUpTo_top_iff' :
     HasFTaylorSeriesUpTo ∞ f p ↔
       (∀ x, (p x 0).uncurry0 = f x) ∧
         ∀ (m : ℕ) (x), HasFDerivAt (fun y => p y m) (p x m.succ).curryLeft x := by
-  simp only [← hasFTaylorSeriesUpToOn_univ_iff, hasFTaylorSeriesUpToOn_top_iff', mem_univ,
-    forall_true_left, hasFDerivWithinAt_univ]
+  simp only [← hasFTaylorSeriesUpToOn_univ_iff, hasFTaylorSeriesUpToOn_top_iff', mem_univ, forall_true_left, hasFDerivWithinAt_univ]
 #align has_ftaylor_series_up_to_top_iff' hasFTaylorSeriesUpTo_top_iff'
 
 /-- If a function has a Taylor series at order at least `1`, then the term of order `1` of this
@@ -1314,8 +1310,7 @@ theorem hasFTaylorSeriesUpTo_succ_iff_right {n : ℕ} :
         (∀ x, HasFDerivAt (fun y => p y 0) (p x 1).curryLeft x) ∧
           HasFTaylorSeriesUpTo n (fun x => continuousMultilinearCurryFin1 𝕜 E F (p x 1)) fun x =>
             (p x).shift := by
-  simp only [hasFTaylorSeriesUpToOn_succ_iff_right, ← hasFTaylorSeriesUpToOn_univ_iff, mem_univ,
-    forall_true_left, hasFDerivWithinAt_univ]
+  simp only [hasFTaylorSeriesUpToOn_succ_iff_right, ← hasFTaylorSeriesUpToOn_univ_iff, mem_univ, forall_true_left, hasFDerivWithinAt_univ]
 #align has_ftaylor_series_up_to_succ_iff_right hasFTaylorSeriesUpTo_succ_iff_right
 
 /-! ### Smooth functions at a point -/
@@ -1497,8 +1492,7 @@ theorem contDiff_iff_forall_nat_le : ContDiff 𝕜 n f ↔ ∀ m : ℕ, ↑m ≤
 theorem contDiff_succ_iff_has_fderiv {n : ℕ} :
     ContDiff 𝕜 (n + 1 : ℕ) f ↔
       ∃ f' : E → E →L[𝕜] F, ContDiff 𝕜 n f' ∧ ∀ x, HasFDerivAt f (f' x) x := by
-  simp only [← contDiffOn_univ, ← hasFDerivWithinAt_univ,
-    contDiffOn_succ_iff_has_fderiv_within uniqueDiffOn_univ, Set.mem_univ, forall_true_left]
+  simp only [← contDiffOn_univ, ← hasFDerivWithinAt_univ, contDiffOn_succ_iff_has_fderiv_within uniqueDiffOn_univ, Set.mem_univ, forall_true_left]
 #align cont_diff_succ_iff_has_fderiv contDiff_succ_iff_has_fderiv
 
 /-! ### Iterated derivative -/
@@ -1688,8 +1682,7 @@ theorem contDiff_of_differentiable_iteratedFDeriv
 and its derivative (formulated in terms of `fderiv`) is `C^n`. -/
 theorem contDiff_succ_iff_fderiv {n : ℕ} :
     ContDiff 𝕜 (n + 1 : ℕ) f ↔ Differentiable 𝕜 f ∧ ContDiff 𝕜 n fun y => fderiv 𝕜 f y := by
-  simp only [← contDiffOn_univ, ← differentiableOn_univ, ← fderivWithin_univ,
-    contDiffOn_succ_iff_fderivWithin uniqueDiffOn_univ]
+  simp only [← contDiffOn_univ, ← differentiableOn_univ, ← fderivWithin_univ, contDiffOn_succ_iff_fderivWithin uniqueDiffOn_univ]
 #align cont_diff_succ_iff_fderiv contDiff_succ_iff_fderiv
 
 theorem contDiff_one_iff_fderiv : ContDiff 𝕜 1 f ↔ Differentiable 𝕜 f ∧ Continuous (fderiv 𝕜 f) :=

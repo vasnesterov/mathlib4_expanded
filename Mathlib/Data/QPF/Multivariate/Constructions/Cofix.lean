@@ -399,8 +399,7 @@ theorem liftR_map_last [lawful: LawfulMvFunctor F]
     dsimp
     apply eq_of_drop_last_eq
     · dsimp
-      simp only [prod_map_id, dropFun_prod, dropFun_appendFun, dropFun_diag, id_comp,
-        dropFun_toSubtype]
+      simp only [prod_map_id, dropFun_prod, dropFun_appendFun, dropFun_diag, id_comp, dropFun_toSubtype]
       erw [toSubtype_of_subtype_assoc, id_comp]
       clear liftR_map_last q mvf lawful F x R f g hh h b c
       ext (i x) : 2
@@ -408,8 +407,7 @@ theorem liftR_map_last [lawful: LawfulMvFunctor F]
       | fz => rfl
       | fs _ ih =>
         apply ih
-    simp only [lastFun_from_append1_drop_last, lastFun_toSubtype, lastFun_appendFun,
-      lastFun_subtypeVal, comp.left_id, lastFun_comp, lastFun_prod]
+    simp only [lastFun_from_append1_drop_last, lastFun_toSubtype, lastFun_appendFun, lastFun_subtypeVal, comp.left_id, lastFun_comp, lastFun_prod]
     ext1
     rfl
   liftR_map _ _ _ _ (toSubtype _ ⊚ fromAppend1DropLast ⊚ c ⊚ b) hh

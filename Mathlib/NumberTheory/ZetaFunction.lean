@@ -519,8 +519,7 @@ theorem mellin_zetaKernel₁_eq_tsum {s : ℂ} (hs : 1 / 2 < s.re) :
     rw [zetaKernel₁]
     convert
       (hasSum_ofReal.mpr (summable_exp_neg_pi_mul_nat_sq ht).hasSum).mul_left ((t : ℂ) ^ (s - 1))
-    simp only [neg_mul, ofReal_exp, ofReal_neg, ofReal_mul, ofReal_pow, ofReal_add,
-      ofReal_nat_cast, ofReal_one, ofReal_tsum]
+    simp only [neg_mul, ofReal_exp, ofReal_neg, ofReal_mul, ofReal_pow, ofReal_add, ofReal_nat_cast, ofReal_one, ofReal_tsum]
   have h_sum' : ∀ᵐ t : ℝ ∂volume.restrict (Ioi 0), HasSum (fun n : ℕ => f n t)
       ((t : ℂ) ^ (s - 1) * zetaKernel₁ t) :=
     (ae_restrict_iff' hm).mpr (ae_of_all _ fun t ht => h_sum0 ht)

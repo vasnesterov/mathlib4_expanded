@@ -368,8 +368,7 @@ theorem trunc_C_mul_T (n : ℤ) (r : R) : trunc (C r * T n) = ite (0 ≤ n) (mon
     rw [toFinsupp_inj]; rw [if_neg n0]
     ext a
     have := ((not_le.mp n0).trans_le (Int.ofNat_zero_le a)).ne
-    simp only [coeff_ofFinsupp, comapDomain_apply, Int.ofNat_eq_coe, coeff_zero,
-      single_eq_of_ne this]
+    simp only [coeff_ofFinsupp, comapDomain_apply, Int.ofNat_eq_coe, coeff_zero, single_eq_of_ne this]
 set_option linter.uppercaseLean3 false in
 #align laurent_polynomial.trunc_C_mul_T LaurentPolynomial.trunc_C_mul_T
 
@@ -380,8 +379,7 @@ theorem leftInverse_trunc_toLaurent :
   · intro f g hf hg
     simp only [hf, hg, _root_.map_add]
   · intro n r
-    simp only [Polynomial.toLaurent_C_mul_T, trunc_C_mul_T, Int.coe_nat_nonneg, Int.toNat_coe_nat,
-      if_true]
+    simp only [Polynomial.toLaurent_C_mul_T, trunc_C_mul_T, Int.coe_nat_nonneg, Int.toNat_coe_nat, if_true]
 #align laurent_polynomial.left_inverse_trunc_to_laurent LaurentPolynomial.leftInverse_trunc_toLaurent
 
 @[simp]
@@ -407,13 +405,11 @@ theorem exists_T_pow (f : R[T;T⁻¹]) : ∃ (n : ℕ) (f' : R[X]), toLaurent f'
   refine f.induction_on' ?_ fun n a => ?_ <;> clear f
   · rintro f g ⟨m, fn, hf⟩ ⟨n, gn, hg⟩
     refine' ⟨m + n, fn * X ^ n + gn * X ^ m, _⟩
-    simp only [hf, hg, add_mul, add_comm (n : ℤ), map_add, map_mul, Polynomial.toLaurent_X_pow,
-      mul_T_assoc, Int.ofNat_add]
+    simp only [hf, hg, add_mul, add_comm (n : ℤ), map_add, map_mul, Polynomial.toLaurent_X_pow, mul_T_assoc, Int.ofNat_add]
   · cases' n with n n
     · exact ⟨0, Polynomial.C a * X ^ n, by simp⟩
     · refine' ⟨n + 1, Polynomial.C a, _⟩
-      simp only [Int.negSucc_eq, Polynomial.toLaurent_C, Int.ofNat_succ, mul_T_assoc, add_left_neg,
-        T_zero, mul_one]
+      simp only [Int.negSucc_eq, Polynomial.toLaurent_C, Int.ofNat_succ, mul_T_assoc, add_left_neg, T_zero, mul_one]
 set_option linter.uppercaseLean3 false in
 #align laurent_polynomial.exists_T_pow LaurentPolynomial.exists_T_pow
 
@@ -471,8 +467,7 @@ theorem toLaurent_support (f : R[X]) : f.toLaurent.support = f.support.map Nat.c
   · intro a s as hf f fs
     have : (erase a f).toLaurent.support = s.map Nat.castEmbedding := by
       refine' hf (f.erase a) _
-      simp only [fs, Finset.erase_eq_of_not_mem as, Polynomial.support_erase,
-        Finset.erase_insert_eq_erase]
+      simp only [fs, Finset.erase_eq_of_not_mem as, Polynomial.support_erase, Finset.erase_insert_eq_erase]
     rw [← monomial_add_erase f a]; rw [Finset.map_insert]; rw [← this]; rw [map_add]; rw [Polynomial.toLaurent_C_mul_T]; rw [support_add_eq]; rw [Finset.insert_eq]
     · congr
       exact support_C_mul_T_of_ne_zero (Polynomial.mem_support_iff.mp (by simp [fs])) _
@@ -525,8 +520,7 @@ set_option linter.uppercaseLean3 false in
 
 theorem degree_C_mul_T_ite (n : ℤ) (a : R) : degree (C a * T n) = ite (a = 0) ⊥ ↑n := by
   split_ifs with h <;>
-    simp only [h, map_zero, zero_mul, degree_zero, degree_C_mul_T, Ne.def,
-      not_false_iff]
+    simp only [h, map_zero, zero_mul, degree_zero, degree_C_mul_T, Ne.def, not_false_iff]
 set_option linter.uppercaseLean3 false in
 #align laurent_polynomial.degree_C_mul_T_ite LaurentPolynomial.degree_C_mul_T_ite
 
@@ -610,8 +604,7 @@ theorem isLocalization : IsLocalization (Submonoid.closure ({X} : Set R[X])) R[T
       induction' f using LaurentPolynomial.induction_on_mul_T with f n
       have := (Submonoid.closure ({X} : Set R[X])).pow_mem Submonoid.mem_closure_singleton_self n
       refine' ⟨(f, ⟨_, this⟩), _⟩
-      simp only [algebraMap_eq_toLaurent, Polynomial.toLaurent_X_pow, mul_T_assoc,
-        add_left_neg, T_zero, mul_one]
+      simp only [algebraMap_eq_toLaurent, Polynomial.toLaurent_X_pow, mul_T_assoc, add_left_neg, T_zero, mul_one]
     eq_iff_exists' := fun {f g} => by
       rw [algebraMap_eq_toLaurent]; rw [algebraMap_eq_toLaurent]; rw [Polynomial.toLaurent_inj]
       refine' ⟨_, _⟩

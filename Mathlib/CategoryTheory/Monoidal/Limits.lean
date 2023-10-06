@@ -62,12 +62,10 @@ instance limitLaxMonoidal : LaxMonoidal fun F : J ⥤ C => limit F where
               simp only [Category.id_comp, ← tensor_comp, limit.w] } }
   μ_natural f g := by
     ext; dsimp
-    simp only [limit.lift_π, Cones.postcompose_obj_π, Monoidal.tensorHom_app, limit.lift_map,
-      NatTrans.comp_app, Category.assoc, ← tensor_comp, limMap_π]
+    simp only [limit.lift_π, Cones.postcompose_obj_π, Monoidal.tensorHom_app, limit.lift_map, NatTrans.comp_app, Category.assoc, ← tensor_comp, limMap_π]
   associativity X Y Z := by
     ext j; dsimp
-    simp only [limit.lift_π, Cones.postcompose_obj_π, Monoidal.associator_hom_app, limit.lift_map,
-      NatTrans.comp_app, Category.assoc]
+    simp only [limit.lift_π, Cones.postcompose_obj_π, Monoidal.associator_hom_app, limit.lift_map, NatTrans.comp_app, Category.assoc]
     slice_lhs 2 2 => rw [← tensor_id_comp_id_tensor]
     slice_lhs 1 2 =>
       rw [← comp_tensor_id]; rw [limit.lift_π]

@@ -177,9 +177,7 @@ theorem eigenspaces_independent (f : End K V) : CompleteLattice.Independent f.ei
       rw [← Finset.erase_insert hμ₀]; rw [← h_l_support]
       ext a
       have : ¬(a = μ₀ ∨ l a = 0) ↔ ¬a = μ₀ ∧ ¬l a = 0 := not_or
-      simp only [DFinsupp.mapRange.linearMap_apply, DFinsupp.mapRange_apply,
-        DFinsupp.mem_support_iff, Finset.mem_erase, id.def, LinearMap.id_coe, LinearMap.smul_apply,
-        Ne.def, smul_eq_zero, sub_eq_zero, this]
+      simp only [DFinsupp.mapRange.linearMap_apply, DFinsupp.mapRange_apply, DFinsupp.mem_support_iff, Finset.mem_erase, id.def, LinearMap.id_coe, LinearMap.smul_apply, Ne.def, smul_eq_zero, sub_eq_zero, this]
     -- The entries of `l'` add up to `0`.
     have total_l' : S l' = 0 := by
       let g := f - algebraMap K (End K V) μ₀
@@ -195,12 +193,9 @@ theorem eigenspaces_independent (f : End K V) : CompleteLattice.Independent f.ei
       · exact DFinsupp.sum_mapRange_index.linearMap
       · congr
         ext μ v
-        simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.smul_apply, LinearMap.id_coe,
-          id.def, sub_smul, Submodule.subtype_apply, Submodule.coe_sub, Submodule.coe_smul_of_tower,
-          LinearMap.sub_apply, mem_eigenspace_iff.1 v.prop, algebraMap_end_apply]
+        simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.smul_apply, LinearMap.id_coe, id.def, sub_smul, Submodule.subtype_apply, Submodule.coe_sub, Submodule.coe_smul_of_tower, LinearMap.sub_apply, mem_eigenspace_iff.1 v.prop, algebraMap_end_apply]
       · rw [DFinsupp.sum_mapRange_index.linearMap]
-      · simp only [DFinsupp.sumAddHom_apply, LinearMap.id_coe, map_dfinsupp_sum, id.def,
-          LinearMap.toAddMonoidHom_coe, DFinsupp.lsum_apply_apply]
+      · simp only [DFinsupp.sumAddHom_apply, LinearMap.id_coe, map_dfinsupp_sum, id.def, LinearMap.toAddMonoidHom_coe, DFinsupp.lsum_apply_apply]
       · simp only [DFinsupp.sum_mapRange_index.linearMap, LinearMap.id_comp]
     -- Therefore, by the induction hypothesis, all entries of `l'` are zero.
     have l'_eq_0 := ih l' total_l' h_l_support'
@@ -209,8 +204,7 @@ theorem eigenspaces_independent (f : End K V) : CompleteLattice.Independent f.ei
       intro μ
       calc
         (μ - μ₀) • l μ = l' μ := by
-          simp only [LinearMap.id_coe, id.def, LinearMap.smul_apply, DFinsupp.mapRange_apply,
-            DFinsupp.mapRange.linearMap_apply]
+          simp only [LinearMap.id_coe, id.def, LinearMap.smul_apply, DFinsupp.mapRange_apply, DFinsupp.mapRange.linearMap_apply]
         _ = 0 := by rw [l'_eq_0]; rfl
     -- Thus, the eigenspace-representatives in `l` for all `μ ≠ μ₀` are `0`.
     have h_lμ_eq_0 : ∀ μ : K, μ ≠ μ₀ → l μ = 0 := by
@@ -228,9 +222,7 @@ theorem eigenspaces_independent (f : End K V) : CompleteLattice.Independent f.ei
     -- The only potentially nonzero eigenspace-representative in `l` is the one corresponding to
     -- `μ₀`. But since the overall sum is `0` by assumption, this representative must also be `0`.
     have : l μ₀ = 0 := by
-      simp only [DFinsupp.lsum_apply_apply, DFinsupp.sumAddHom_apply,
-        LinearMap.toAddMonoidHom_coe, DFinsupp.sum, h_l_support, Submodule.subtype_apply,
-        Submodule.coe_eq_zero, Finset.sum_insert hμ₀, h_sum_l_support'_eq_0, add_zero] at hl
+      simp only [DFinsupp.lsum_apply_apply, DFinsupp.sumAddHom_apply, LinearMap.toAddMonoidHom_coe, DFinsupp.sum, h_l_support, Submodule.subtype_apply, Submodule.coe_eq_zero, Finset.sum_insert hμ₀, h_sum_l_support'_eq_0, add_zero] at hl
       exact hl
     -- Thus, all coefficients in `l` are `0`.
     show l = 0

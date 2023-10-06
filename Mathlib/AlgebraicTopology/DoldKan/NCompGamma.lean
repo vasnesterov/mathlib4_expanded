@@ -139,8 +139,7 @@ def natTrans : (N₁ : SimplicialObject C ⥤ _) ⋙ Γ₂ ⟶ toKaroubi _ where
             apply (Γ₀.splitting K[X]).hom_ext'
             intro A
             change _ ≫ (Γ₀.obj K[X]).map θ ≫ _ = _
-            simp only [Splitting.ι_desc_assoc, assoc, Γ₀.Obj.map_on_summand'_assoc,
-              Splitting.ι_desc]
+            simp only [Splitting.ι_desc_assoc, assoc, Γ₀.Obj.map_on_summand'_assoc, Splitting.ι_desc]
             erw [Γ₀_obj_termwise_mapMono_comp_PInfty_assoc X (image.ι (θ.unop ≫ A.e))]
             dsimp only [toKaroubi]
             simp only [← X.map_comp]
@@ -151,17 +150,13 @@ def natTrans : (N₁ : SimplicialObject C ⥤ _) ⋙ Γ₂ ⟶ toKaroubi _ where
         apply (Γ₀.splitting K[X]).hom_ext
         intro n
         dsimp [N₁]
-        simp only [← Splitting.ιSummand_id, Splitting.ι_desc, comp_id, Splitting.ι_desc_assoc,
-          assoc, PInfty_f_idem_assoc] }
+        simp only [← Splitting.ιSummand_id, Splitting.ι_desc, comp_id, Splitting.ι_desc_assoc, assoc, PInfty_f_idem_assoc] }
   naturality {X Y} f := by
     ext1
     apply (Γ₀.splitting K[X]).hom_ext
     intro n
     dsimp [N₁, toKaroubi]
-    simp only [← Splitting.ιSummand_id, Splitting.ι_desc, Splitting.ι_desc_assoc, assoc,
-      PInfty_f_idem_assoc, Karoubi.comp_f, NatTrans.comp_app, Γ₂_map_f_app,
-      HomologicalComplex.comp_f, AlternatingFaceMapComplex.map_f, PInfty_f_naturality_assoc,
-      NatTrans.naturality, Splitting.IndexSet.id_fst, unop_op, len_mk]
+    simp only [← Splitting.ιSummand_id, Splitting.ι_desc, Splitting.ι_desc_assoc, assoc, PInfty_f_idem_assoc, Karoubi.comp_f, NatTrans.comp_app, Γ₂_map_f_app, HomologicalComplex.comp_f, AlternatingFaceMapComplex.map_f, PInfty_f_naturality_assoc, NatTrans.naturality, Splitting.IndexSet.id_fst, unop_op, len_mk]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.Γ₂N₁.nat_trans AlgebraicTopology.DoldKan.Γ₂N₁.natTrans
 
@@ -238,16 +233,10 @@ theorem identity_N₂_objectwise (P : Karoubi (SimplicialObject C)) :
   have eq₂ : (Γ₀.splitting (N₂.obj P).X).ιSummand (Splitting.IndexSet.id (op [n])) ≫
       (N₂.map (Γ₂N₂.natTrans.app P)).f.f n = PInfty.f n ≫ P.p.app (op [n]) := by
     dsimp
-    simp only [assoc, Γ₂N₂.natTrans_app_f_app, Functor.comp_map, NatTrans.comp_app,
-      Karoubi.comp_f, compatibility_Γ₂N₁_Γ₂N₂_hom_app, eqToHom_refl, Karoubi.eqToHom_f,
-      PInfty_on_Γ₀_splitting_summand_eq_self_assoc, Functor.comp_obj]
+    simp only [assoc, Γ₂N₂.natTrans_app_f_app, Functor.comp_map, NatTrans.comp_app, Karoubi.comp_f, compatibility_Γ₂N₁_Γ₂N₂_hom_app, eqToHom_refl, Karoubi.eqToHom_f, PInfty_on_Γ₀_splitting_summand_eq_self_assoc, Functor.comp_obj]
     dsimp [N₂]
-    simp only [Splitting.ι_desc_assoc, assoc, id_comp, unop_op,
-      Splitting.IndexSet.id_fst, len_mk, Splitting.IndexSet.e,
-      Splitting.IndexSet.id_snd_coe, op_id, P.X.map_id, id_comp,
-      PInfty_f_naturality_assoc, PInfty_f_idem_assoc, app_idem]
-  simp only [Karoubi.comp_f, HomologicalComplex.comp_f, Karoubi.id_eq, N₂_obj_p_f, assoc,
-    eq₁, eq₂, PInfty_f_naturality_assoc, app_idem, PInfty_f_idem_assoc]
+    simp only [Splitting.ι_desc_assoc, assoc, id_comp, unop_op, Splitting.IndexSet.id_fst, len_mk, Splitting.IndexSet.e, Splitting.IndexSet.id_snd_coe, op_id, P.X.map_id, id_comp, PInfty_f_naturality_assoc, PInfty_f_idem_assoc, app_idem]
+  simp only [Karoubi.comp_f, HomologicalComplex.comp_f, Karoubi.id_eq, N₂_obj_p_f, assoc, eq₁, eq₂, PInfty_f_naturality_assoc, app_idem, PInfty_f_idem_assoc]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.identity_N₂_objectwise AlgebraicTopology.DoldKan.identity_N₂_objectwise
 

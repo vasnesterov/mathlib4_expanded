@@ -1040,8 +1040,7 @@ theorem IsPrime.multiset_prod_le {s : Multiset (Ideal R)} {P : Ideal R} (hp : Is
     obtain ⟨t, rfl⟩ : ∃ t, s = b ::ₘ t
     exact ⟨s.erase b, (Multiset.cons_erase hb).symm⟩
     refine' t.induction_on _ _
-    · simp only [exists_prop, Multiset.cons_zero, Multiset.prod_singleton, Multiset.mem_singleton,
-        exists_eq_left, imp_self]
+    · simp only [exists_prop, Multiset.cons_zero, Multiset.prod_singleton, Multiset.mem_singleton, exists_eq_left, imp_self]
     intro a s ih h
     rw [Multiset.cons_swap] at h; rw [Multiset.prod_cons] at h; rw [hp.mul_le] at h
     rw [Multiset.cons_swap]
@@ -1935,9 +1934,7 @@ noncomputable def basisSpanSingleton (b : Basis ι R S) {x : S} (hx : x ≠ 0) :
 @[simp]
 theorem basisSpanSingleton_apply (b : Basis ι R S) {x : S} (hx : x ≠ 0) (i : ι) :
     (basisSpanSingleton b hx i : S) = x * b i := by
-  simp only [basisSpanSingleton, Basis.map_apply, LinearEquiv.trans_apply,
-    Submodule.restrictScalarsEquiv_apply, LinearEquiv.ofInjective_apply, LinearEquiv.coe_ofEq_apply,
-    LinearEquiv.restrictScalars_apply, Algebra.coe_lmul_eq_mul, LinearMap.mul_apply']
+  simp only [basisSpanSingleton, Basis.map_apply, LinearEquiv.trans_apply, Submodule.restrictScalarsEquiv_apply, LinearEquiv.ofInjective_apply, LinearEquiv.coe_ofEq_apply, LinearEquiv.restrictScalars_apply, Algebra.coe_lmul_eq_mul, LinearMap.mul_apply']
 #align ideal.basis_span_singleton_apply Ideal.basisSpanSingleton_apply
 
 @[simp]

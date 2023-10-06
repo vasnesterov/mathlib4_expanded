@@ -63,8 +63,7 @@ theorem charmatrix_apply_eq (M : Matrix n n R) (i : n) :
 @[simp]
 theorem charmatrix_apply_ne (M : Matrix n n R) (i j : n) (h : i ≠ j) :
     charmatrix M i j = -C (M i j) := by
-  simp only [charmatrix, RingHom.mapMatrix_apply, sub_apply, scalar_apply_ne _ _ _ h, map_apply,
-    sub_eq_neg_self]
+  simp only [charmatrix, RingHom.mapMatrix_apply, sub_apply, scalar_apply_ne _ _ _ h, map_apply, sub_eq_neg_self]
 #align charmatrix_apply_ne charmatrix_apply_ne
 
 theorem matPolyEquiv_charmatrix (M : Matrix n n R) : matPolyEquiv (charmatrix M) = X - C M := by

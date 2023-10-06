@@ -122,8 +122,7 @@ theorem grading.right_inv : Function.RightInverse (coeLinearMap (grading R)) gra
       cases hab <;>
       -- Porting note: proof was `decide`
       -- now we need a `simp` and two `erw` subproofs...
-      simp only [coeLinearMap_of, decompose, AddMonoidHom.coe_mk,
-        ZeroHom.coe_mk, sub_self, sub_zero]
+      simp only [coeLinearMap_of, decompose, AddMonoidHom.coe_mk, ZeroHom.coe_mk, sub_self, sub_zero]
     · erw [map_zero (of (grading R ·) 1), add_zero]; rfl
     · erw [map_zero (of (grading R ·) 0), zero_add]; rfl
   · simp only [map_add, ih1, ih2]
@@ -133,8 +132,7 @@ theorem grading.left_inv : Function.LeftInverse (coeLinearMap (grading R)) gradi
   fun zz => by
   cases' zz with a b
   unfold grading.decompose
-  simp only [AddMonoidHom.coe_mk, ZeroHom.coe_mk, map_add, coeLinearMap_of, Prod.mk_add_mk,
-    add_zero, add_sub_cancel'_right]
+  simp only [AddMonoidHom.coe_mk, ZeroHom.coe_mk, map_add, coeLinearMap_of, Prod.mk_add_mk, add_zero, add_sub_cancel'_right]
 #align counterexample.counterexample_not_prime_but_homogeneous_prime.grading.left_inv Counterexample.CounterexampleNotPrimeButHomogeneousPrime.grading.left_inv
 
 instance : GradedAlgebra (grading R) where
@@ -194,8 +192,7 @@ theorem homogeneous_mem_or_mem {x y : R × R} (hx : SetLike.Homogeneous (grading
     cases hx <;>
     cases hy <;>
     -- Porting note: proof was `tauto`
-    simp only [prod_dvd_iff, dvd_zero, true_and, and_self,
-      Prod.mk_mul_mk, mul_zero, zero_mul] at hxy ⊢ <;>
+    simp only [prod_dvd_iff, dvd_zero, true_and, and_self, Prod.mk_mul_mk, mul_zero, zero_mul] at hxy ⊢ <;>
     apply h2.dvd_or_dvd hxy
 #align counterexample.counterexample_not_prime_but_homogeneous_prime.homogeneous_mem_or_mem Counterexample.CounterexampleNotPrimeButHomogeneousPrime.homogeneous_mem_or_mem
 

@@ -113,8 +113,7 @@ def limitConeLift (F : J ⥤ Cat.{v, v}) (s : Cone F) : s.pt ⟶ limitConeX F wh
       refine' eqToHom _ ≫ (s.π.app j).map f ≫ eqToHom _ <;> simp
     · intro j j' h
       dsimp
-      simp only [Category.assoc, Functor.map_comp, eqToHom_map, eqToHom_trans,
-        eqToHom_trans_assoc, ← Functor.comp_map]
+      simp only [Category.assoc, Functor.map_comp, eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, ← Functor.comp_map]
       have := (s.π.naturality h).symm
       dsimp at this
       rw [Category.id_comp] at this

@@ -108,8 +108,7 @@ theorem finrank_directSum {ι : Type v} [Fintype ι] (M : ι → Type w) [∀ i 
     [∀ i : ι, Module R (M i)] [∀ i : ι, Module.Free R (M i)] [∀ i : ι, Module.Finite R (M i)] :
     finrank R (⨁ i, M i) = ∑ i, finrank R (M i) := by
   letI := nontrivial_of_invariantBasisNumber R
-  simp only [finrank, fun i => rank_eq_card_chooseBasisIndex R (M i), rank_directSum, ← mk_sigma,
-    mk_toNat_eq_card, card_sigma]
+  simp only [finrank, fun i => rank_eq_card_chooseBasisIndex R (M i), rank_directSum, ← mk_sigma, mk_toNat_eq_card, card_sigma]
 #align finite_dimensional.finrank_direct_sum FiniteDimensional.finrank_directSum
 
 /-- The finrank of `M × N` is `(finrank R M) + (finrank R N)`. -/
@@ -124,8 +123,7 @@ theorem finrank_pi_fintype {ι : Type v} [Fintype ι] {M : ι → Type w} [∀ i
     [∀ i : ι, Module R (M i)] [∀ i : ι, Module.Free R (M i)] [∀ i : ι, Module.Finite R (M i)] :
     finrank R (∀ i, M i) = ∑ i, finrank R (M i) := by
   letI := nontrivial_of_invariantBasisNumber R
-  simp only [finrank, fun i => rank_eq_card_chooseBasisIndex R (M i), rank_pi, ← mk_sigma,
-    mk_toNat_eq_card, card_sigma]
+  simp only [finrank, fun i => rank_eq_card_chooseBasisIndex R (M i), rank_pi, ← mk_sigma, mk_toNat_eq_card, card_sigma]
 #align finite_dimensional.finrank_pi_fintype FiniteDimensional.finrank_pi_fintype
 
 /-- If `m` and `n` are `Fintype`, the finrank of `m × n` matrices is

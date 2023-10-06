@@ -37,8 +37,7 @@ def Γ₀NondegComplexIso (K : ChainComplex C ℕ) : (Γ₀.splitting K).nondegC
     (by
       rintro _ n (rfl : n + 1 = _)
       dsimp
-      simp only [id_comp, comp_id, AlternatingFaceMapComplex.obj_d_eq, Preadditive.sum_comp,
-        Preadditive.comp_sum]
+      simp only [id_comp, comp_id, AlternatingFaceMapComplex.obj_d_eq, Preadditive.sum_comp, Preadditive.comp_sum]
       rw [Fintype.sum_eq_single (0 : Fin (n + 2))]
       · simp only [Fin.val_zero, pow_zero, one_zsmul]
         erw [Γ₀.Obj.mapMono_on_summand_id_assoc, Γ₀.Obj.Termwise.mapMono_δ₀,
@@ -151,16 +150,7 @@ set_option linter.uppercaseLean3 false in
 theorem N₂Γ₂_inv_app_f_f (X : Karoubi (ChainComplex C ℕ)) (n : ℕ) :
     (N₂Γ₂.inv.app X).f.f n =
       X.p.f n ≫ (Γ₀.splitting X.X).ιSummand (Splitting.IndexSet.id (op [n])) := by
-  simp only [N₂Γ₂, Functor.preimageIso, Iso.trans,
-    whiskeringLeft_obj_preimage_app, N₂Γ₂ToKaroubiIso_inv, assoc,
-    Functor.id_map, NatTrans.comp_app, eqToHom_app, Karoubi.comp_f,
-    Karoubi.eqToHom_f, Karoubi.decompId_p_f, HomologicalComplex.comp_f,
-    N₁Γ₀_inv_app_f_f, Splitting.toKaroubiNondegComplexIsoN₁_hom_f_f,
-    Functor.comp_map, Functor.comp_obj, Karoubi.decompId_i_f,
-    eqToHom_refl, comp_id, N₂_map_f_f, Γ₂_map_f_app, N₁_obj_p,
-    PInfty_on_Γ₀_splitting_summand_eq_self_assoc, toKaroubi_obj_X,
-    Splitting.ι_desc, Splitting.IndexSet.id_fst, SimplexCategory.len_mk, unop_op,
-    Karoubi.HomologicalComplex.p_idem_assoc]
+  simp only [N₂Γ₂, Functor.preimageIso, Iso.trans, whiskeringLeft_obj_preimage_app, N₂Γ₂ToKaroubiIso_inv, assoc, Functor.id_map, NatTrans.comp_app, eqToHom_app, Karoubi.comp_f, Karoubi.eqToHom_f, Karoubi.decompId_p_f, HomologicalComplex.comp_f, N₁Γ₀_inv_app_f_f, Splitting.toKaroubiNondegComplexIsoN₁_hom_f_f, Functor.comp_map, Functor.comp_obj, Karoubi.decompId_i_f, eqToHom_refl, comp_id, N₂_map_f_f, Γ₂_map_f_app, N₁_obj_p, PInfty_on_Γ₀_splitting_summand_eq_self_assoc, toKaroubi_obj_X, Splitting.ι_desc, Splitting.IndexSet.id_fst, SimplexCategory.len_mk, unop_op, Karoubi.HomologicalComplex.p_idem_assoc]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.N₂Γ₂_inv_app_f_f AlgebraicTopology.DoldKan.N₂Γ₂_inv_app_f_f
 

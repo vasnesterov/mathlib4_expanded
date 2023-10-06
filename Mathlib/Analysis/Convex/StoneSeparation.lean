@@ -72,8 +72,7 @@ theorem not_disjoint_segment_convexHull_triple {p q u v x y z : E} (hz : z ∈ s
       mul_assoc]
     congr 3
     rw [← mul_smul]; rw [← mul_rotate]; rw [mul_right_comm]; rw [mul_smul]; rw [← mul_smul _ av]; rw [mul_rotate]; rw [mul_smul _ bz]; rw [← smul_add]
-    simp only [smul_add, List.foldr, Matrix.cons_val_succ', Fin.mk_one,
-      Matrix.cons_val_one, Matrix.head_cons, add_zero]
+    simp only [smul_add, List.foldr, Matrix.cons_val_succ', Fin.mk_one, Matrix.cons_val_one, Matrix.head_cons, add_zero]
 #align not_disjoint_segment_convex_hull_triple not_disjoint_segment_convexHull_triple
 
 /-- **Stone's Separation Theorem** -/

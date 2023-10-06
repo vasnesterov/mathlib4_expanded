@@ -588,8 +588,7 @@ theorem pow_multiset_sum_mem_span_pow [DecidableEq α] (s : Multiset α) (n : �
     span ((s.map fun (x:α) ↦ x ^ (n + 1)).toFinset : Set α) := by
   induction' s using Multiset.induction_on with a s hs
   · simp
-  simp only [Finset.coe_insert, Multiset.map_cons, Multiset.toFinset_cons, Multiset.sum_cons,
-    Multiset.card_cons, add_pow]
+  simp only [Finset.coe_insert, Multiset.map_cons, Multiset.toFinset_cons, Multiset.sum_cons, Multiset.card_cons, add_pow]
   refine' Submodule.sum_mem _ _
   intro c _hc
   rw [mem_span_insert]

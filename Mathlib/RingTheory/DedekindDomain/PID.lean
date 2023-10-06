@@ -55,8 +55,7 @@ theorem Ideal.eq_span_singleton_of_mem_of_not_mem_sq_of_not_mem_prime_ne {P : Id
       ((associated_iff_normalizedFactors_eq_normalizedFactors hP0 hspan0).mpr
         (le_antisymm ((dvd_iff_normalizedFactors_le_normalizedFactors hP0 hspan0).mp _) _))
   · rwa [Ideal.dvd_iff_le, Ideal.span_singleton_le_iff_mem]
-  simp only [normalizedFactors_irreducible (Ideal.prime_of_isPrime hP0 hP).irreducible,
-    normalize_eq, Multiset.le_iff_count, Multiset.count_singleton]
+  simp only [normalizedFactors_irreducible (Ideal.prime_of_isPrime hP0 hP).irreducible, normalize_eq, Multiset.le_iff_count, Multiset.count_singleton]
   intro Q
   split_ifs with hQ
   · subst hQ
@@ -67,8 +66,7 @@ theorem Ideal.eq_span_singleton_of_mem_of_not_mem_sq_of_not_mem_prime_ne {P : Id
   · skip
     refine' (Ideal.count_normalizedFactors_eq _ _).le <;>
       -- Porting note: included `zero_add` in the simp arguments
-      simp only [Ideal.span_singleton_le_iff_mem, zero_add, pow_one, pow_zero, one_eq_top,
-                 Submodule.mem_top]
+      simp only [Ideal.span_singleton_le_iff_mem, zero_add, pow_one, pow_zero, one_eq_top, Submodule.mem_top]
     exact hxQ _ hQp hQ
   · exact
       (Multiset.count_eq_zero.mpr fun hQi =>

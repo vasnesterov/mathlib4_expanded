@@ -99,14 +99,9 @@ theorem updateRow_eq_transvection [Finite n] (c : R) :
   cases nonempty_fintype n
   ext a b
   by_cases ha : i = a; by_cases hb : j = b
-  · simp only [updateRow_self, transvection, ha, hb, Pi.add_apply, StdBasisMatrix.apply_same,
-      one_apply_eq, Pi.smul_apply, mul_one, Algebra.id.smul_eq_mul, add_apply]
-  · simp only [updateRow_self, transvection, ha, hb, StdBasisMatrix.apply_of_ne, Pi.add_apply,
-      Ne.def, not_false_iff, Pi.smul_apply, and_false_iff, one_apply_ne, Algebra.id.smul_eq_mul,
-      mul_zero, add_apply]
-  · simp only [updateRow_ne, transvection, ha, Ne.symm ha, StdBasisMatrix.apply_of_ne, add_zero,
-      Algebra.id.smul_eq_mul, Ne.def, not_false_iff, DMatrix.add_apply, Pi.smul_apply,
-      mul_zero, false_and_iff, add_apply]
+  · simp only [updateRow_self, transvection, ha, hb, Pi.add_apply, StdBasisMatrix.apply_same, one_apply_eq, Pi.smul_apply, mul_one, Algebra.id.smul_eq_mul, add_apply]
+  · simp only [updateRow_self, transvection, ha, hb, StdBasisMatrix.apply_of_ne, Pi.add_apply, Ne.def, not_false_iff, Pi.smul_apply, and_false_iff, one_apply_ne, Algebra.id.smul_eq_mul, mul_zero, add_apply]
+  · simp only [updateRow_ne, transvection, ha, Ne.symm ha, StdBasisMatrix.apply_of_ne, add_zero, Algebra.id.smul_eq_mul, Ne.def, not_false_iff, DMatrix.add_apply, Pi.smul_apply, mul_zero, false_and_iff, add_apply]
 #align matrix.update_row_eq_transvection Matrix.updateRow_eq_transvection
 
 variable [Fintype n]
@@ -297,8 +292,7 @@ theorem toMatrix_reindexEquiv (e : n ≃ p) (t : TransvectionStruct n R) :
     (t.reindexEquiv e).toMatrix = reindexAlgEquiv R e t.toMatrix := by
   rcases t with ⟨t_i, t_j, _⟩
   ext a b
-  simp only [reindexEquiv, transvection, mul_boole, Algebra.id.smul_eq_mul, toMatrix_mk,
-    submatrix_apply, reindex_apply, DMatrix.add_apply, Pi.smul_apply, reindexAlgEquiv_apply]
+  simp only [reindexEquiv, transvection, mul_boole, Algebra.id.smul_eq_mul, toMatrix_mk, submatrix_apply, reindex_apply, DMatrix.add_apply, Pi.smul_apply, reindexAlgEquiv_apply]
   by_cases ha : e t_i = a <;> by_cases hb : e t_j = b <;> by_cases hab : a = b <;>
     simp [ha, hb, hab, ← e.apply_eq_iff_eq_symm_apply, stdBasisMatrix]
 #align matrix.transvection_struct.to_matrix_reindex_equiv Matrix.TransvectionStruct.toMatrix_reindexEquiv
@@ -307,8 +301,7 @@ theorem toMatrix_reindexEquiv_prod (e : n ≃ p) (L : List (TransvectionStruct n
     (L.map (toMatrix ∘ reindexEquiv e)).prod = reindexAlgEquiv R e (L.map toMatrix).prod := by
   induction' L with t L IH
   · simp
-  · simp only [toMatrix_reindexEquiv, IH, Function.comp_apply, List.prod_cons,
-      reindexAlgEquiv_apply, List.map]
+  · simp only [toMatrix_reindexEquiv, IH, Function.comp_apply, List.prod_cons, reindexAlgEquiv_apply, List.map]
     exact (reindexAlgEquiv_mul _ _ _ _).symm
 #align matrix.transvection_struct.to_matrix_reindex_equiv_prod Matrix.TransvectionStruct.toMatrix_reindexEquiv_prod
 
@@ -362,8 +355,7 @@ theorem listTransvecCol_mul_last_row_drop (i : Sum (Fin r) Unit) {k : ℕ} (hk :
     -- porting note: after changing from `nthLe` to `get`, we need to provide all arguments
     rw [← @List.cons_get_drop_succ _ _ ⟨n, hn'⟩]
     simpa [listTransvecCol, Matrix.mul_assoc]
-  · simp only [listTransvecCol, List.length_ofFn, le_refl, List.drop_eq_nil_of_le, List.prod_nil,
-      Matrix.one_mul]
+  · simp only [listTransvecCol, List.length_ofFn, le_refl, List.drop_eq_nil_of_le, List.prod_nil, Matrix.one_mul]
 #align matrix.pivot.list_transvec_col_mul_last_row_drop Matrix.Pivot.listTransvecCol_mul_last_row_drop
 
 /-- Multiplying by all the matrices in `listTransvecCol M` does not change the last row. -/
@@ -400,8 +392,7 @@ theorem listTransvecCol_mul_last_col (hM : M (inr unit) (inr unit) ≠ 0) (i : F
         cases i
         simp only [Fin.mk_eq_mk] at h
         simp [h]
-      simp only [h, transvection_mul_apply_same, IH, ← hni, add_le_iff_nonpos_right,
-          listTransvecCol_mul_last_row_drop _ _ hn]
+      simp only [h, transvection_mul_apply_same, IH, ← hni, add_le_iff_nonpos_right, listTransvecCol_mul_last_row_drop _ _ hn]
       field_simp [hM]
     · have hni : n ≠ i := by
         rintro rfl
@@ -414,8 +405,7 @@ theorem listTransvecCol_mul_last_col (hM : M (inr unit) (inr unit) ≠ 0) (i : F
       · rw [if_neg, if_neg]
         · simpa only [hni.symm, not_le, or_false_iff] using Nat.lt_succ_iff_lt_or_eq.1 hi
         · simpa only [not_le] using hi
-  · simp only [listTransvecCol, List.length_ofFn, le_refl, List.drop_eq_nil_of_le, List.prod_nil,
-      Matrix.one_mul]
+  · simp only [listTransvecCol, List.length_ofFn, le_refl, List.drop_eq_nil_of_le, List.prod_nil, Matrix.one_mul]
     rw [if_neg]
     simpa only [not_le] using i.2
 #align matrix.pivot.list_transvec_col_mul_last_col Matrix.Pivot.listTransvecCol_mul_last_col
@@ -432,8 +422,7 @@ theorem mul_listTransvecRow_last_col_take (i : Sum (Fin r) Unit) {k : ℕ} (hk :
         ↑(transvection (inr Unit.unit) (inl k')
             (-M (inr Unit.unit) (inl k') / M (inr Unit.unit) (inr Unit.unit))) := by
       simp only [listTransvecRow, List.ofFnNthVal, hkr, dif_pos, List.get?_ofFn]
-    simp only [List.take_succ, ← Matrix.mul_assoc, this, List.prod_append, Matrix.mul_one,
-      List.prod_cons, List.prod_nil, Option.to_list_some]
+    simp only [List.take_succ, ← Matrix.mul_assoc, this, List.prod_append, Matrix.mul_one, List.prod_cons, List.prod_nil, Option.to_list_some]
     rw [mul_transvection_apply_of_ne]; rw [IH hkr.le]
     simp only [Ne.def, not_false_iff]
 #align matrix.pivot.mul_list_transvec_row_last_col_take Matrix.Pivot.mul_listTransvecRow_last_col_take
@@ -469,16 +458,14 @@ theorem mul_listTransvecRow_last_row (hM : M (inr unit) (inr unit) ≠ 0) (i : F
         ↑(transvection (inr unit) (inl n')
         (-M (inr unit) (inl n') / M (inr unit) (inr unit))) := by
       simp only [listTransvecRow, List.ofFnNthVal, hnr, dif_pos, List.get?_ofFn]
-    simp only [List.take_succ, A, ← Matrix.mul_assoc, List.prod_append, Matrix.mul_one,
-      List.prod_cons, List.prod_nil, Option.to_list_some]
+    simp only [List.take_succ, A, ← Matrix.mul_assoc, List.prod_append, Matrix.mul_one, List.prod_cons, List.prod_nil, Option.to_list_some]
     by_cases h : n' = i
     · have hni : n = i := by
         cases i
         simp only [Fin.mk_eq_mk] at h
         simp only [h]
       have : ¬n.succ ≤ i := by simp only [← hni, n.lt_succ_self, not_le]
-      simp only [h, mul_transvection_apply_same, List.take, if_false,
-        mul_listTransvecRow_last_col_take _ _ hnr.le, hni.le, this, if_true, IH hnr.le]
+      simp only [h, mul_transvection_apply_same, List.take, if_false, mul_listTransvecRow_last_col_take _ _ hnr.le, hni.le, this, if_true, IH hnr.le]
       field_simp [hM]
     · have hni : n ≠ i := by
         rintro rfl
@@ -578,8 +565,7 @@ theorem exists_isTwoBlockDiagonal_list_transvec_mul_mul_list_transvec
     rcases exists_isTwoBlockDiagonal_of_ne_zero M' hM' with ⟨L, L', hLL'⟩
     rw [Matrix.mul_assoc] at hLL'
     refine' ⟨L ++ [⟨inr unit, inl i, by simp, 1⟩], L', _⟩
-    simp only [List.map_append, List.prod_append, Matrix.mul_one, toMatrix_mk, List.prod_cons,
-      List.prod_nil, List.map, Matrix.mul_assoc (L.map toMatrix).prod]
+    simp only [List.map_append, List.prod_append, Matrix.mul_one, toMatrix_mk, List.prod_cons, List.prod_nil, List.map, Matrix.mul_assoc (L.map toMatrix).prod]
     exact hLL'
   · let M' := M * transvection (inl i) (inr unit) 1
     have hM' : M' (inr unit) (inr unit) ≠ 0 := by simpa [hM]
@@ -633,8 +619,7 @@ theorem reindex_exists_list_transvec_mul_mul_list_transvec_eq_diagonal (M : Matr
   rcases H with ⟨L₀, L₀', D₀, h₀⟩
   refine' ⟨L₀.map (reindexEquiv e.symm), L₀'.map (reindexEquiv e.symm), D₀ ∘ e, _⟩
   have : M = reindexAlgEquiv 𝕜 e.symm (reindexAlgEquiv 𝕜 e M) := by
-    simp only [Equiv.symm_symm, submatrix_submatrix, reindex_apply, submatrix_id_id,
-      Equiv.symm_comp_self, reindexAlgEquiv_apply]
+    simp only [Equiv.symm_symm, submatrix_submatrix, reindex_apply, submatrix_id_id, Equiv.symm_comp_self, reindexAlgEquiv_apply]
   rw [this]
   simp only [toMatrix_reindexEquiv_prod, List.map_map, reindexAlgEquiv_apply]
   simp only [← reindexAlgEquiv_apply, ← reindexAlgEquiv_mul, h₀]

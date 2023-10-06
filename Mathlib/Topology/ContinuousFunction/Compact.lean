@@ -137,8 +137,7 @@ theorem dist_le (C0 : (0 : ℝ) ≤ C) : dist f g ≤ C ↔ ∀ x : α, dist (f 
 #align continuous_map.dist_le ContinuousMap.dist_le
 
 theorem dist_le_iff_of_nonempty [Nonempty α] : dist f g ≤ C ↔ ∀ x, dist (f x) (g x) ≤ C := by
-  simp only [← dist_mkOfCompact, BoundedContinuousFunction.dist_le_iff_of_nonempty,
-    mkOfCompact_apply]
+  simp only [← dist_mkOfCompact, BoundedContinuousFunction.dist_le_iff_of_nonempty, mkOfCompact_apply]
 #align continuous_map.dist_le_iff_of_nonempty ContinuousMap.dist_le_iff_of_nonempty
 
 theorem dist_lt_iff_of_nonempty [Nonempty α] : dist f g < C ↔ ∀ x : α, dist (f x) (g x) < C := by
@@ -538,8 +537,7 @@ instance [CompactSpace α] [CstarRing β] : CstarRing C(α, β) where
     refine' le_antisymm _ _
     · rw [← sq, ContinuousMap.norm_le _ (sq_nonneg _)]
       intro x
-      simp only [ContinuousMap.coe_mul, coe_star, Pi.mul_apply, Pi.star_apply,
-        CstarRing.norm_star_mul_self, ← sq]
+      simp only [ContinuousMap.coe_mul, coe_star, Pi.mul_apply, Pi.star_apply, CstarRing.norm_star_mul_self, ← sq]
       refine' sq_le_sq' _ _
       · linarith [norm_nonneg (f x), norm_nonneg f]
       · exact ContinuousMap.norm_coe_le_norm f x

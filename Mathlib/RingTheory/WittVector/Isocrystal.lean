@@ -239,12 +239,10 @@ theorem isocrystal_classification (k : Type*) [Field k] [IsAlgClosed k] [CharP k
   intro c
   rw [LinearEquiv.trans_apply]; rw [LinearEquiv.trans_apply]; rw [LinearEquiv.smulOfNeZero_apply]; rw [LinearEquiv.smulOfNeZero_apply]; rw [LinearEquiv.map_smul]; rw [LinearEquiv.map_smul]
   -- Porting note: was
-  -- simp only [hax, LinearEquiv.ofBijective_apply, LinearMap.toSpanSingleton_apply,
-  --   LinearEquiv.map_smulₛₗ, StandardOneDimIsocrystal.frobenius_apply, Algebra.id.smul_eq_mul]
+  -- simp only [hax, LinearEquiv.ofBijective_apply, LinearMap.toSpanSingleton_apply, --   LinearEquiv.map_smulₛₗ, StandardOneDimIsocrystal.frobenius_apply, Algebra.id.smul_eq_mul]
   rw [LinearEquiv.ofBijective_apply]; rw [LinearEquiv.ofBijective_apply]
   erw [LinearMap.toSpanSingleton_apply K(p, k) V x c, LinearMap.toSpanSingleton_apply K(p, k) V x]
-  simp only [hax, LinearEquiv.ofBijective_apply, LinearMap.toSpanSingleton_apply,
-    LinearEquiv.map_smulₛₗ, StandardOneDimIsocrystal.frobenius_apply, Algebra.id.smul_eq_mul]
+  simp only [hax, LinearEquiv.ofBijective_apply, LinearMap.toSpanSingleton_apply, LinearEquiv.map_smulₛₗ, StandardOneDimIsocrystal.frobenius_apply, Algebra.id.smul_eq_mul]
   simp only [← mul_smul]
   congr 1
   linear_combination φ(p, k) c * hmb

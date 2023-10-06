@@ -92,8 +92,7 @@ noncomputable def compProdFun (κ : kernel α β) (η : kernel (α × β) γ) (a
 
 theorem compProdFun_empty (κ : kernel α β) (η : kernel (α × β) γ) (a : α) :
     compProdFun κ η a ∅ = 0 := by
-  simp only [compProdFun, Set.mem_empty_iff_false, Set.setOf_false, measure_empty,
-    MeasureTheory.lintegral_const, zero_mul]
+  simp only [compProdFun, Set.mem_empty_iff_false, Set.setOf_false, measure_empty, MeasureTheory.lintegral_const, zero_mul]
 #align probability_theory.kernel.comp_prod_fun_empty ProbabilityTheory.kernel.compProdFun_empty
 
 theorem compProdFun_iUnion (κ : kernel α β) (η : kernel (α × β) γ) [IsSFiniteKernel η] (a : α)
@@ -329,8 +328,7 @@ theorem compProd_restrict {s : Set β} {t : Set γ} (hs : MeasurableSet s) (ht :
     kernel.restrict κ hs ⊗ₖ kernel.restrict η ht = kernel.restrict (κ ⊗ₖ η) (hs.prod ht) := by
   ext a u hu
   rw [compProd_apply _ _ _ hu]; rw [restrict_apply' _ _ _ hu]; rw [compProd_apply _ _ _ (hu.inter (hs.prod ht))]
-  simp only [kernel.restrict_apply, Measure.restrict_apply' ht, Set.mem_inter_iff,
-    Set.prod_mk_mem_set_prod_eq]
+  simp only [kernel.restrict_apply, Measure.restrict_apply' ht, Set.mem_inter_iff, Set.prod_mk_mem_set_prod_eq]
   have :
     ∀ b,
       η (a, b) {c : γ | (b, c) ∈ u ∧ b ∈ s ∧ c ∈ t} =
@@ -404,8 +402,7 @@ theorem lintegral_compProd' (κ : kernel α β) [IsSFiniteKernel κ] (η : kerne
       ∫⁻ (a_1 : β), ∫⁻ (c : γ), f (a_1, c) ∂η (a, a_1) ∂κ a)) _ _ (F n)
   · intro c s hs
     classical -- Porting note: Added `classical` for `Set.piecewise_eq_indicator`
-    simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const,
-      SimpleFunc.coe_zero, Set.piecewise_eq_indicator, Function.const, lintegral_indicator_const hs]
+    simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const, SimpleFunc.coe_zero, Set.piecewise_eq_indicator, Function.const, lintegral_indicator_const hs]
     rw [compProd_apply κ η _ hs]; rw [← lintegral_const_mul c _]
     swap
     · exact (measurable_kernel_prod_mk_left ((measurable_fst.snd.prod_mk measurable_snd) hs)).comp

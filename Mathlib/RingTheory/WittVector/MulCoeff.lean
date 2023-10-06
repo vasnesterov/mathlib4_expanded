@@ -134,9 +134,7 @@ theorem mul_polyOfInterest_aux1 (n : ℕ) :
       rw [Finsupp.support_eq_singleton]
       simp only [and_true_iff, Finsupp.single_eq_same, eq_self_iff_true, Ne.def]
       exact pow_ne_zero _ hp.out.ne_zero
-    simp only [bind₁_monomial, hsupp, Int.cast_ofNat, prod_singleton, eq_intCast,
-      Finsupp.single_eq_same, C_pow, mul_eq_mul_left_iff, true_or_iff, eq_self_iff_true,
-      Int.cast_pow]
+    simp only [bind₁_monomial, hsupp, Int.cast_ofNat, prod_singleton, eq_intCast, Finsupp.single_eq_same, C_pow, mul_eq_mul_left_iff, true_or_iff, eq_self_iff_true, Int.cast_pow]
   · simp only [map_mul, bind₁_X_right]
 #align witt_vector.mul_poly_of_interest_aux1 WittVector.mul_polyOfInterest_aux1
 
@@ -222,9 +220,7 @@ theorem peval_polyOfInterest (n : ℕ) (x y : 𝕎 k) :
     (x * y).coeff (n + 1) + p ^ (n + 1) * x.coeff (n + 1) * y.coeff (n + 1) -
       y.coeff (n + 1) * ∑ i in range (n + 1 + 1), p ^ i * x.coeff i ^ p ^ (n + 1 - i) -
       x.coeff (n + 1) * ∑ i in range (n + 1 + 1), p ^ i * y.coeff i ^ p ^ (n + 1 - i) := by
-  simp only [polyOfInterest, peval, map_natCast, Matrix.head_cons, map_pow,
-    Function.uncurry_apply_pair, aeval_X, Matrix.cons_val_one, map_mul, Matrix.cons_val_zero,
-    map_sub]
+  simp only [polyOfInterest, peval, map_natCast, Matrix.head_cons, map_pow, Function.uncurry_apply_pair, aeval_X, Matrix.cons_val_one, map_mul, Matrix.cons_val_zero, map_sub]
   rw [sub_sub]; rw [add_comm (_ * _)]; rw [← sub_sub]
   have mvpz : (p : MvPolynomial ℕ ℤ) = MvPolynomial.C ↑p := by rw [eq_intCast, Int.cast_ofNat]
   have : ∀ (f : ℤ →+* k) (g : ℕ → k), eval₂ f g p = f p := by

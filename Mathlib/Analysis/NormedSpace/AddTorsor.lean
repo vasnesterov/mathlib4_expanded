@@ -69,7 +69,7 @@ theorem nndist_homothety_center (p₁ p₂ : P) (c : 𝕜) :
 theorem dist_lineMap_lineMap (p₁ p₂ : P) (c₁ c₂ : 𝕜) :
     dist (lineMap p₁ p₂ c₁) (lineMap p₁ p₂ c₂) = dist c₁ c₂ * dist p₁ p₂ := by
   rw [dist_comm p₁ p₂]
-  -- Porting note: was `simp only [lineMap_apply, dist_eq_norm_vsub, vadd_vsub_vadd_cancel_right,`
+  -- Porting note: was `simp only [lineMap_apply, dist_eq_norm_vsub, vadd_vsub_vadd_cancel_right, `
   -- `← sub_smul, norm_smul, vsub_eq_sub]`
   rw [lineMap_apply]; rw [lineMap_apply]; rw [dist_eq_norm_vsub V]; rw [vadd_vsub_vadd_cancel_right]; rw [← sub_smul]; rw [norm_smul]; rw [← vsub_eq_sub]; rw [← dist_eq_norm_vsub V]; rw [← dist_eq_norm_vsub 𝕜]
 #align dist_line_map_line_map dist_lineMap_lineMap

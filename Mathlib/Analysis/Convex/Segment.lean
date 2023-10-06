@@ -136,8 +136,7 @@ theorem segment_same (x : E) : [x -[𝕜] x] = {x} :=
 
 theorem insert_endpoints_openSegment (x y : E) :
     insert x (insert y (openSegment 𝕜 x y)) = [x -[𝕜] y] := by
-  simp only [subset_antisymm_iff, insert_subset_iff, left_mem_segment, right_mem_segment,
-    openSegment_subset_segment, true_and_iff]
+  simp only [subset_antisymm_iff, insert_subset_iff, left_mem_segment, right_mem_segment, openSegment_subset_segment, true_and_iff]
   rintro z ⟨a, b, ha, hb, hab, rfl⟩
   refine' hb.eq_or_gt.imp _ fun hb' => ha.eq_or_gt.imp _ fun ha' => _
   · rintro rfl
@@ -433,8 +432,7 @@ theorem openSegment_subset_union (x y : E) {z : E} (hz : z ∈ range (lineMap x 
     refine'
       ⟨(a - c) / (1 - c), ⟨div_pos (sub_pos.2 hca) hc, (div_lt_one hc).2 <| sub_lt_sub_right h₁ _⟩,
         _⟩
-    simp only [← homothety_eq_lineMap, ← homothety_mul_apply, sub_mul, one_mul,
-      div_mul_cancel _ hc.ne', sub_sub_sub_cancel_right]
+    simp only [← homothety_eq_lineMap, ← homothety_mul_apply, sub_mul, one_mul, div_mul_cancel _ hc.ne', sub_sub_sub_cancel_right]
 #align open_segment_subset_union openSegment_subset_union
 
 end LinearOrderedField

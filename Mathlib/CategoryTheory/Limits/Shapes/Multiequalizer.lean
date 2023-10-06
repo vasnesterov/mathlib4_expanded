@@ -374,8 +374,7 @@ def ofι (I : MulticospanIndex.{w} C) (P : C) (ι : ∀ a, P ⟶ I.left a)
       naturality := by
         rintro (_ | _) (_ | _) (_ | _ | _) <;>
           dsimp <;>
-          simp only [Category.id_comp, Category.comp_id, Functor.map_id,
-            MulticospanIndex.multicospan_obj_left, MulticospanIndex.multicospan_obj_right]
+          simp only [Category.id_comp, Category.comp_id, Functor.map_id, MulticospanIndex.multicospan_obj_left, MulticospanIndex.multicospan_obj_right]
         apply w }
 #align category_theory.limits.multifork.of_ι CategoryTheory.Limits.Multifork.ofι
 
@@ -425,8 +424,7 @@ noncomputable def toPiFork (K : Multifork I) : Fork I.fstPiMap I.sndPiMap where
       naturality := by
         rintro (_ | _) (_ | _) (_ | _ | _) <;>
           dsimp <;>
-          simp only [Category.id_comp, Functor.map_id, parallelPair_obj_zero, Category.comp_id,
-            pi_condition, parallelPair_obj_one] }
+          simp only [Category.id_comp, Functor.map_id, parallelPair_obj_zero, Category.comp_id, pi_condition, parallelPair_obj_one] }
 #align category_theory.limits.multifork.to_pi_fork CategoryTheory.Limits.Multifork.toPiFork
 
 @[simp]
@@ -565,8 +563,7 @@ def ofπ (I : MultispanIndex.{w} C) (P : C) (π : ∀ b, I.right b ⟶ P)
         | WalkingMultispan.right b => π _
       naturality := by
         rintro (_ | _) (_ | _) (_ | _ | _) <;> dsimp <;>
-          simp only [Functor.map_id, MultispanIndex.multispan_obj_left,
-            Category.id_comp, Category.comp_id, MultispanIndex.multispan_obj_right]
+          simp only [Functor.map_id, MultispanIndex.multispan_obj_left, Category.id_comp, Category.comp_id, MultispanIndex.multispan_obj_right]
         symm
         apply w }
 #align category_theory.limits.multicofork.of_π CategoryTheory.Limits.Multicofork.ofπ
@@ -616,8 +613,7 @@ noncomputable def toSigmaCofork (K : Multicofork I) : Cofork I.fstSigmaMap I.snd
         | WalkingParallelPair.one => Sigma.desc K.π
       naturality := by
         rintro (_ | _) (_ | _) (_ | _ | _) <;> dsimp <;>
-          simp only [Functor.map_id, parallelPair_obj_zero,
-            parallelPair_obj_one, sigma_condition, Category.id_comp, Category.comp_id] }
+          simp only [Functor.map_id, parallelPair_obj_zero, parallelPair_obj_one, sigma_condition, Category.id_comp, Category.comp_id] }
 #align category_theory.limits.multicofork.to_sigma_cofork CategoryTheory.Limits.Multicofork.toSigmaCofork
 
 @[simp]
@@ -912,9 +908,7 @@ def sigmaπ : ∐ I.right ⟶ multicoequalizer I :=
 @[reassoc (attr := simp)]
 theorem ι_sigmaπ (b) : Sigma.ι I.right b ≫ sigmaπ I = π I b := by
   rw [sigmaπ]; rw [← Category.assoc]; rw [Iso.comp_inv_eq]; rw [isoCoequalizer]
-  simp only [MultispanIndex.multicoforkEquivSigmaCofork_inverse,
-    MultispanIndex.ofSigmaCoforkFunctor_obj, colimit.isoColimitCocone_ι_hom,
-    Multicofork.ofSigmaCofork_pt, colimit.cocone_x, Multicofork.π_eq_app_right]
+  simp only [MultispanIndex.multicoforkEquivSigmaCofork_inverse, MultispanIndex.ofSigmaCoforkFunctor_obj, colimit.isoColimitCocone_ι_hom, Multicofork.ofSigmaCofork_pt, colimit.cocone_x, Multicofork.π_eq_app_right]
   rfl
 #align category_theory.limits.multicoequalizer.ι_sigma_π CategoryTheory.Limits.Multicoequalizer.ι_sigmaπ
 

@@ -265,8 +265,7 @@ theorem sum_fintype [Fintype ι] (κ : ι → kernel α β) : kernel.sum κ = �
 theorem sum_add [Countable ι] (κ η : ι → kernel α β) :
     (kernel.sum fun n => κ n + η n) = kernel.sum κ + kernel.sum η := by
   ext a s hs
-  simp only [coeFn_add, Pi.add_apply, sum_apply, Measure.sum_apply _ hs, Pi.add_apply,
-    Measure.coe_add, tsum_add ENNReal.summable ENNReal.summable]
+  simp only [coeFn_add, Pi.add_apply, sum_apply, Measure.sum_apply _ hs, Pi.add_apply, Measure.coe_add, tsum_add ENNReal.summable ENNReal.summable]
 #align probability_theory.kernel.sum_add ProbabilityTheory.kernel.sum_add
 
 end Sum

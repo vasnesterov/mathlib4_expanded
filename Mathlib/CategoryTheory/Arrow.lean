@@ -186,16 +186,14 @@ variable {f g : Arrow T} (sq : f ⟶ g)
 instance isIso_left [IsIso sq] : IsIso sq.left where
   out := by
     apply Exists.intro (inv sq).left
-    simp only [← Comma.comp_left, IsIso.hom_inv_id, IsIso.inv_hom_id, Arrow.id_left,
-      eq_self_iff_true, and_self_iff]
+    simp only [← Comma.comp_left, IsIso.hom_inv_id, IsIso.inv_hom_id, Arrow.id_left, eq_self_iff_true, and_self_iff]
     simp
 #align category_theory.arrow.is_iso_left CategoryTheory.Arrow.isIso_left
 
 instance isIso_right [IsIso sq] : IsIso sq.right where
   out := by
     apply Exists.intro (inv sq).right
-    simp only [← Comma.comp_right, IsIso.hom_inv_id, IsIso.inv_hom_id, Arrow.id_right,
-      eq_self_iff_true, and_self_iff]
+    simp only [← Comma.comp_right, IsIso.hom_inv_id, IsIso.inv_hom_id, Arrow.id_right, eq_self_iff_true, and_self_iff]
     simp
 #align category_theory.arrow.is_iso_right CategoryTheory.Arrow.isIso_right
 

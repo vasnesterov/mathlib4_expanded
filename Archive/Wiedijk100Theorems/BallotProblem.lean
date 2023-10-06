@@ -76,8 +76,7 @@ def countedSequence (p q : ℕ) : Set (List ℤ) :=
 theorem mem_countedSequence_iff_perm {p q l} :
     l ∈ countedSequence p q ↔ l ~ List.replicate p (1 : ℤ) ++ List.replicate q (-1) := by
   rw [List.perm_replicate_append_replicate]
-  · simp only [countedSequence, List.subset_def, mem_setOf_eq, List.mem_cons (b := (1 : ℤ)),
-      List.mem_singleton]
+  · simp only [countedSequence, List.subset_def, mem_setOf_eq, List.mem_cons (b := (1 : ℤ)), List.mem_singleton]
   · norm_num1
 #align ballot.mem_counted_sequence_iff_perm Ballot.mem_countedSequence_iff_perm
 
@@ -226,8 +225,7 @@ theorem first_vote_pos :
         (nonempty_image_iff.2 (countedSequence_nonempty _ _))]
     · have : List.cons (-1) '' countedSequence (p + 1) q ∩ {l : List ℤ | l.headI = 1} = ∅ := by
         ext
-        simp only [mem_inter_iff, mem_image, mem_setOf_eq, mem_empty_iff_false, iff_false_iff,
-          not_and, forall_exists_index, and_imp]
+        simp only [mem_inter_iff, mem_image, mem_setOf_eq, mem_empty_iff_false, iff_false_iff, not_and, forall_exists_index, and_imp]
         rintro l _ rfl
         norm_num
       have hint :
@@ -254,8 +252,7 @@ theorem first_vote_neg (p q : ℕ) (h : 0 < p + q) :
     {l : List ℤ | l.headI = 1}ᶜ (countedSequence_finite p q) (countedSequence_nonempty p q)
   rw [compl_compl] at this; rw [first_vote_pos _ _ h] at this
   rw [(_ : (q / (p + q) : ENNReal) = 1 - p / (p + q))]; rw [← this]; rw [ENNReal.add_sub_cancel_right]
-  · simp only [Ne.def, ENNReal.div_eq_top, Nat.cast_eq_zero, add_eq_zero_iff, ENNReal.nat_ne_top,
-      false_and_iff, or_false_iff, not_and]
+  · simp only [Ne.def, ENNReal.div_eq_top, Nat.cast_eq_zero, add_eq_zero_iff, ENNReal.nat_ne_top, false_and_iff, or_false_iff, not_and]
     intros
     contradiction
   rw [eq_comm]; rw [ENNReal.eq_div_iff]; rw [ENNReal.mul_sub]; rw [ENNReal.mul_div_cancel']
@@ -288,8 +285,7 @@ theorem countedSequence_int_pos_counted_succ_succ (p q : ℕ) :
       (countedSequence p (q + 1)).image (List.cons 1) := by
   rw [counted_succ_succ]; rw [union_inter_distrib_right]; rw [(_ : List.cons (-1) '' countedSequence (p + 1) q ∩ {l | l.headI = 1} = ∅)]; rw [union_empty]; all_goals
     · ext
-      simp only [mem_inter_iff, mem_image, mem_setOf_eq, and_iff_left_iff_imp, mem_empty_iff_false,
-        iff_false_iff, not_and, forall_exists_index, and_imp]
+      simp only [mem_inter_iff, mem_image, mem_setOf_eq, and_iff_left_iff_imp, mem_empty_iff_false, iff_false_iff, not_and, forall_exists_index, and_imp]
       rintro y _ rfl
       norm_num
 #align ballot.counted_sequence_int_pos_counted_succ_succ Ballot.countedSequence_int_pos_counted_succ_succ
@@ -325,8 +321,7 @@ theorem countedSequence_int_neg_counted_succ_succ (p q : ℕ) :
       (countedSequence (p + 1) q).image (List.cons (-1)) := by
   rw [counted_succ_succ]; rw [union_inter_distrib_right]; rw [(_ : List.cons 1 '' countedSequence p (q + 1) ∩ {l : List ℤ | l.headI = 1}ᶜ = ∅)]; rw [empty_union]; all_goals
     · ext
-      simp only [mem_inter_iff, mem_image, mem_setOf_eq, and_iff_left_iff_imp, mem_empty_iff_false,
-        iff_false_iff, not_and, forall_exists_index, and_imp]
+      simp only [mem_inter_iff, mem_image, mem_setOf_eq, and_iff_left_iff_imp, mem_empty_iff_false, iff_false_iff, not_and, forall_exists_index, and_imp]
       rintro y _ rfl
       norm_num
 #align ballot.counted_sequence_int_neg_counted_succ_succ Ballot.countedSequence_int_neg_counted_succ_succ
@@ -409,9 +404,7 @@ theorem ballot_problem :
     rw [ENNReal.toReal_div]; rw [← Nat.cast_add]; rw [← Nat.cast_add]; rw [ENNReal.toReal_nat]; rw [ENNReal.toReal_sub_of_le]; rw [ENNReal.toReal_nat]; rw [ENNReal.toReal_nat]
     exacts [Nat.cast_le.2 qp.le, ENNReal.nat_ne_top _]
   rwa [ENNReal.toReal_eq_toReal (measure_lt_top _ _).ne] at this
-  · simp only [Ne.def, ENNReal.div_eq_top, tsub_eq_zero_iff_le, Nat.cast_le, not_le,
-      add_eq_zero_iff, Nat.cast_eq_zero, ENNReal.add_eq_top, ENNReal.nat_ne_top, or_self_iff,
-      not_false_iff, and_true_iff]
+  · simp only [Ne.def, ENNReal.div_eq_top, tsub_eq_zero_iff_le, Nat.cast_le, not_le, add_eq_zero_iff, Nat.cast_eq_zero, ENNReal.add_eq_top, ENNReal.nat_ne_top, or_self_iff, not_false_iff, and_true_iff]
     push_neg
     exact ⟨fun _ _ => by linarith, (lt_of_le_of_lt tsub_le_self (ENNReal.nat_ne_top p).lt_top).ne⟩
 #align ballot.ballot_problem Ballot.ballot_problem

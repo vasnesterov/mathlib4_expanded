@@ -62,9 +62,7 @@ def toTopMap {x y : SimplexCategory} (f : x ⟶ y) : x.toTopObj → y.toTopObj :
       intro e he
       simp only [Finset.bot_eq_empty, Finset.not_mem_empty]
       apply h
-      simp only [Finset.mem_univ, forall_true_left,
-        ge_iff_le, Finset.le_eq_subset, Finset.inf_eq_inter, Finset.mem_inter,
-        Finset.mem_filter, true_and] at he
+      simp only [Finset.mem_univ, forall_true_left, ge_iff_le, Finset.le_eq_subset, Finset.inf_eq_inter, Finset.mem_inter, Finset.mem_filter, true_and] at he
       rw [← he.1]; rw [he.2]⟩
 set_option linter.uppercaseLean3 false in
 #align simplex_category.to_Top_map SimplexCategory.toTopMap
@@ -112,9 +110,7 @@ def toTop : SimplexCategory ⥤ TopCat where
       intro e he
       simp only [Finset.bot_eq_empty, Finset.not_mem_empty]
       apply h
-      simp only [Finset.mem_univ, forall_true_left,
-        ge_iff_le, Finset.le_eq_subset, Finset.inf_eq_inter, Finset.mem_inter,
-        Finset.mem_filter, true_and] at he
+      simp only [Finset.mem_univ, forall_true_left, ge_iff_le, Finset.le_eq_subset, Finset.inf_eq_inter, Finset.mem_inter, Finset.mem_filter, true_and] at he
       rw [← he.1]; rw [he.2]
 set_option linter.uppercaseLean3 false in
 #align simplex_category.to_Top SimplexCategory.toTop

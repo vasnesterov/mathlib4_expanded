@@ -137,8 +137,7 @@ lemma Sigma.openEmbedding_ι {α : Type} [Fintype α] (Z : α → Stonean.{u}) (
   convert finiteCoproduct.openEmbedding_ι Z a
   ext x
   change ((Sigma.ι Z a) ≫ (coproductIsoCoproduct Z).inv) x = _
-  simp only [coproductIsoCoproduct, colimit.comp_coconePointUniqueUpToIso_inv,
-    finiteCoproduct.explicitCocone_pt, finiteCoproduct.explicitCocone_ι, Discrete.natTrans_app]
+  simp only [coproductIsoCoproduct, colimit.comp_coconePointUniqueUpToIso_inv, finiteCoproduct.explicitCocone_pt, finiteCoproduct.explicitCocone_ι, Discrete.natTrans_app]
 
 end FiniteCoproducts
 
@@ -285,14 +284,12 @@ def pullbackIsoPullback : Stonean.pullback f hi ≅
     inv :=
       pullback.lift f hi Limits.pullback.fst Limits.pullback.snd Limits.pullback.condition
     hom_inv_id :=
-      pullback.hom_ext f hi _ _ (by simp only [pullback.cone_pt, Category.assoc, pullback.lift_fst,
-        limit.lift_π, PullbackCone.mk_pt, PullbackCone.mk_π_app, Category.id_comp])
+      pullback.hom_ext f hi _ _ (by simp only [pullback.cone_pt, Category.assoc, pullback.lift_fst, limit.lift_π, PullbackCone.mk_pt, PullbackCone.mk_π_app, Category.id_comp])
     inv_hom_id := by
       refine' Limits.pullback.hom_ext (k := (pullback.lift f hi Limits.pullback.fst
         Limits.pullback.snd Limits.pullback.condition ≫ Limits.pullback.lift
         (pullback.fst _ hi) (pullback.snd _ hi) (pullback.condition f hi))) _ _
-      · simp only [Category.assoc, limit.lift_π, PullbackCone.mk_pt, PullbackCone.mk_π_app,
-          pullback.lift_fst, Category.id_comp]
+      · simp only [Category.assoc, limit.lift_π, PullbackCone.mk_pt, PullbackCone.mk_π_app, pullback.lift_fst, Category.id_comp]
       · rw [Category.id_comp, Category.assoc, Limits.pullback.lift_snd, pullback.lift_snd] }
 
 end Isos

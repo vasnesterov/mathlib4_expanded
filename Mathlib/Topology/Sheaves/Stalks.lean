@@ -275,9 +275,7 @@ def stalkPullbackIso (f : X ⟶ Y) (F : Y.Presheaf C) (x : X) :
     ext j
     induction' j with j
     cases j
-    simp only [TopologicalSpace.OpenNhds.inclusionMapIso_inv, whiskerRight_app, whiskerLeft_app,
-      whiskeringLeft_obj_map, Functor.comp_map, colimit.ι_map_assoc, NatTrans.op_id, lan_obj_map,
-      pushforwardPullbackAdjunction_unit_app_app, Category.assoc, colimit.ι_pre_assoc]
+    simp only [TopologicalSpace.OpenNhds.inclusionMapIso_inv, whiskerRight_app, whiskerLeft_app, whiskeringLeft_obj_map, Functor.comp_map, colimit.ι_map_assoc, NatTrans.op_id, lan_obj_map, pushforwardPullbackAdjunction_unit_app_app, Category.assoc, colimit.ι_pre_assoc]
     erw [colimit.ι_desc, colimit.pre_desc, colimit.ι_desc, Category.comp_id]
     simp
   inv_hom_id := by
@@ -288,10 +286,7 @@ def stalkPullbackIso (f : X ⟶ Y) (F : Y.Presheaf C) (x : X) :
     ext ⟨j_left, ⟨⟨⟩⟩, j_hom⟩
     erw [colimit.map_desc, colimit.map_desc, colimit.ι_desc_assoc, colimit.ι_desc_assoc,
       colimit.ι_desc, Category.comp_id]
-    simp only [Cocone.whisker_ι, colimit.cocone_ι, OpenNhds.inclusionMapIso_inv,
-      Cocones.precompose_obj_ι, whiskerRight_app, whiskerLeft_app, NatTrans.comp_app,
-      whiskeringLeft_obj_map, NatTrans.op_id, lan_obj_map,
-      pushforwardPullbackAdjunction_unit_app_app]
+    simp only [Cocone.whisker_ι, colimit.cocone_ι, OpenNhds.inclusionMapIso_inv, Cocones.precompose_obj_ι, whiskerRight_app, whiskerLeft_app, NatTrans.comp_app, whiskeringLeft_obj_map, NatTrans.op_id, lan_obj_map, pushforwardPullbackAdjunction_unit_app_app]
     erw [←
       colimit.w _
         (@homOfLE (OpenNhds x) _ ⟨_, U_property⟩
@@ -370,8 +365,7 @@ theorem stalkSpecializes_stalkPushforward (f : X ⟶ Y) (F : X.Presheaf C) {x y 
       F.stalkPushforward _ f y ≫ F.stalkSpecializes h := by
   change (_ : colimit _ ⟶ _) = (_ : colimit _ ⟶ _)
   ext; delta stalkPushforward
-  simp only [stalkSpecializes, colimit.ι_desc_assoc, colimit.ι_map_assoc, colimit.ι_pre,
-    Category.assoc, colimit.pre_desc, colimit.ι_desc]
+  simp only [stalkSpecializes, colimit.ι_desc_assoc, colimit.ι_map_assoc, colimit.ι_pre, Category.assoc, colimit.pre_desc, colimit.ι_desc]
   rfl
 set_option linter.uppercaseLean3 false in
 #align Top.presheaf.stalk_specializes_stalk_pushforward TopCat.Presheaf.stalkSpecializes_stalkPushforward

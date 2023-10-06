@@ -140,8 +140,7 @@ theorem trivial_iff_lower_central_eq_bot : IsTrivial L M ↔ lowerCentralSeries 
   · rw [LieSubmodule.eq_bot_iff] at h; apply IsTrivial.mk; intro x m; apply h
     apply LieSubmodule.subset_lieSpan
     -- Porting note: was `use x, m; rfl`
-    simp only [LieSubmodule.top_coe, Subtype.exists, LieSubmodule.mem_top, exists_prop, true_and,
-      Set.mem_setOf]
+    simp only [LieSubmodule.top_coe, Subtype.exists, LieSubmodule.mem_top, exists_prop, true_and, Set.mem_setOf]
     exact ⟨x, m, rfl⟩
 #align lie_module.trivial_iff_lower_central_eq_bot LieModule.trivial_iff_lower_central_eq_bot
 
@@ -149,8 +148,7 @@ theorem iterate_toEndomorphism_mem_lowerCentralSeries (x : L) (m : M) (k : ℕ) 
     (toEndomorphism R L M x)^[k] m ∈ lowerCentralSeries R L M k := by
   induction' k with k ih
   · simp only [Nat.zero_eq, Function.iterate_zero, lowerCentralSeries_zero, LieSubmodule.mem_top]
-  · simp only [lowerCentralSeries_succ, Function.comp_apply, Function.iterate_succ',
-      toEndomorphism_apply_apply]
+  · simp only [lowerCentralSeries_succ, Function.comp_apply, Function.iterate_succ', toEndomorphism_apply_apply]
     exact LieSubmodule.lie_mem_lie _ _ (LieSubmodule.mem_top x) ih
 #align lie_module.iterate_to_endomorphism_mem_lower_central_series LieModule.iterate_toEndomorphism_mem_lowerCentralSeries
 
@@ -159,8 +157,7 @@ theorem iterate_toEndomorphism_mem_lowerCentralSeries₂ (x y : L) (m : M) (k : 
       lowerCentralSeries R L M (2 * k) := by
   induction' k with k ih; simp
   have hk : 2 * k.succ = (2 * k + 1) + 1 := rfl
-  simp only [lowerCentralSeries_succ, Function.comp_apply, Function.iterate_succ', hk,
-      toEndomorphism_apply_apply, LinearMap.coe_comp, toEndomorphism_apply_apply]
+  simp only [lowerCentralSeries_succ, Function.comp_apply, Function.iterate_succ', hk, toEndomorphism_apply_apply, LinearMap.coe_comp, toEndomorphism_apply_apply]
   refine' LieSubmodule.lie_mem_lie _ _ (LieSubmodule.mem_top x) _
   exact LieSubmodule.lie_mem_lie _ _ (LieSubmodule.mem_top y) ih
 
@@ -246,8 +243,7 @@ theorem isNilpotent_toEndomorphism_of_isNilpotent₂ [IsNilpotent R L M] (x y : 
 @[simp] lemma maxGenEigenSpace_toEndomorphism_eq_top [IsNilpotent R L M] (x : L) :
     ((toEndomorphism R L M x).maximalGeneralizedEigenspace 0) = ⊤ := by
   ext m
-  simp only [Module.End.mem_maximalGeneralizedEigenspace, zero_smul, sub_zero, Submodule.mem_top,
-    iff_true]
+  simp only [Module.End.mem_maximalGeneralizedEigenspace, zero_smul, sub_zero, Submodule.mem_top, iff_true]
   obtain ⟨k, hk⟩ := exists_forall_pow_toEndomorphism_eq_zero R L M
   exact ⟨k, by simp [hk x]⟩
 
@@ -568,8 +564,7 @@ theorem coe_lowerCentralSeries_ideal_quot_eq {I : LieIdeal R L} (k : ℕ) :
     LieSubmodule.toSubmodule (lowerCentralSeries R L (L ⧸ I) k) =
       LieSubmodule.toSubmodule (lowerCentralSeries R (L ⧸ I) (L ⧸ I) k) := by
   induction' k with k ih
-  · simp only [Nat.zero_eq, LieModule.lowerCentralSeries_zero, LieSubmodule.top_coeSubmodule,
-      LieIdeal.top_coe_lieSubalgebra, LieSubalgebra.top_coe_submodule]
+  · simp only [Nat.zero_eq, LieModule.lowerCentralSeries_zero, LieSubmodule.top_coeSubmodule, LieIdeal.top_coe_lieSubalgebra, LieSubalgebra.top_coe_submodule]
   · simp only [LieModule.lowerCentralSeries_succ, LieSubmodule.lieIdeal_oper_eq_linear_span]
     congr
     ext x

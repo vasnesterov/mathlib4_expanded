@@ -168,8 +168,7 @@ theorem res_mk_eq_mk_pullback {Y X : C} {P : Cᵒᵖ ⥤ D} {S : J.Cover X} (x :
   apply (Meq.equiv P _).injective
   erw [Equiv.apply_symm_apply]
   ext i
-  simp only [Functor.op_obj, unop_op, pullback_obj, diagram_obj, Functor.comp_obj,
-    diagramPullback_app, Meq.equiv_apply, Meq.pullback_apply]
+  simp only [Functor.op_obj, unop_op, pullback_obj, diagram_obj, Functor.comp_obj, diagramPullback_app, Meq.equiv_apply, Meq.pullback_apply]
   erw [← comp_apply, Multiequalizer.lift_ι, Meq.equiv_symm_eq_apply]
   cases i; rfl
 #align category_theory.grothendieck_topology.plus.res_mk_eq_mk_pullback CategoryTheory.GrothendieckTopology.Plus.res_mk_eq_mk_pullback
@@ -185,8 +184,7 @@ theorem toPlus_mk {X : C} {P : Cᵒᵖ ⥤ D} (S : J.Cover X) (x : P.obj (op X))
   dsimp [diagram]
   apply Concrete.multiequalizer_ext
   intro i
-  simp only [← comp_apply, Category.assoc, Multiequalizer.lift_ι, Category.comp_id,
-    Meq.equiv_symm_eq_apply]
+  simp only [← comp_apply, Category.assoc, Multiequalizer.lift_ι, Category.comp_id, Meq.equiv_symm_eq_apply]
   rfl
 #align category_theory.grothendieck_topology.plus.to_plus_mk CategoryTheory.GrothendieckTopology.Plus.toPlus_mk
 

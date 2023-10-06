@@ -539,8 +539,7 @@ theorem sum_one_eq_card_units [Fintype R] [DecidableEq R] :
     · exact map_nonunit _ h
   · congr
     ext a
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and_iff, Finset.mem_map,
-      Function.Embedding.coeFn_mk, exists_true_left, IsUnit]
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and_iff, Finset.mem_map, Function.Embedding.coeFn_mk, exists_true_left, IsUnit]
 #align mul_char.sum_one_eq_card_units MulChar.sum_one_eq_card_units
 
 end MulChar

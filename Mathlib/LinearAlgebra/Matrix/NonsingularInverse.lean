@@ -538,8 +538,7 @@ def diagonalInvertibleEquivInvertible (v : n → α) : Invertible (diagonal v) �
 /-- When lowered to a prop, `Matrix.diagonalInvertibleEquivInvertible` forms an `iff`. -/
 @[simp]
 theorem isUnit_diagonal {v : n → α} : IsUnit (diagonal v) ↔ IsUnit v := by
-  simp only [← nonempty_invertible_iff_isUnit,
-    (diagonalInvertibleEquivInvertible v).nonempty_congr]
+  simp only [← nonempty_invertible_iff_isUnit, (diagonalInvertibleEquivInvertible v).nonempty_congr]
 #align matrix.is_unit_diagonal Matrix.isUnit_diagonal
 
 theorem inv_diagonal (v : n → α) : (diagonal v)⁻¹ = diagonal (Ring.inverse v) := by
@@ -644,8 +643,7 @@ def submatrixEquivInvertibleEquivInvertible (A : Matrix m m α) (e₁ e₂ : n �
 @[simp]
 theorem isUnit_submatrix_equiv {A : Matrix m m α} (e₁ e₂ : n ≃ m) :
     IsUnit (A.submatrix e₁ e₂) ↔ IsUnit A := by
-  simp only [← nonempty_invertible_iff_isUnit,
-    (submatrixEquivInvertibleEquivInvertible A _ _).nonempty_congr]
+  simp only [← nonempty_invertible_iff_isUnit, (submatrixEquivInvertibleEquivInvertible A _ _).nonempty_congr]
 #align matrix.is_unit_submatrix_equiv Matrix.isUnit_submatrix_equiv
 
 @[simp]

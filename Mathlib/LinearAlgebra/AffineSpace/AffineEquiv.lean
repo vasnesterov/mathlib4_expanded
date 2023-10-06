@@ -77,8 +77,7 @@ theorem linear_toAffineMap (e : P₁ ≃ᵃ[k] P₂) : e.toAffineMap.linear = e.
 theorem toAffineMap_injective : Injective (toAffineMap : (P₁ ≃ᵃ[k] P₂) → P₁ →ᵃ[k] P₂) := by
   rintro ⟨e, el, h⟩ ⟨e', el', h'⟩ H
   -- porting note: added `()`s and `AffineMap.mk.injEq`
-  simp only [(toAffineMap_mk), (AffineMap.mk.injEq), Equiv.coe_inj,
-    LinearEquiv.toLinearMap_inj] at H
+  simp only [(toAffineMap_mk), (AffineMap.mk.injEq), Equiv.coe_inj, LinearEquiv.toLinearMap_inj] at H
   congr
   exacts [H.1, H.2]
 #align affine_equiv.to_affine_map_injective AffineEquiv.toAffineMap_injective

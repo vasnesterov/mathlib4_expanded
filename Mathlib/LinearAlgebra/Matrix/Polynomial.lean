@@ -41,8 +41,7 @@ theorem natDegree_det_X_add_C_le (A B : Matrix n n α) :
   rw [det_apply]
   refine' (natDegree_sum_le _ _).trans _
   refine' Multiset.max_nat_le_of_forall_le _ _ _
-  simp only [forall_apply_eq_imp_iff', true_and_iff, Function.comp_apply, Multiset.map_map,
-    Multiset.mem_map, exists_imp, Finset.mem_univ_val]
+  simp only [forall_apply_eq_imp_iff', true_and_iff, Function.comp_apply, Multiset.map_map, Multiset.mem_map, exists_imp, Finset.mem_univ_val]
   intro g
   calc
     natDegree (sign g • ∏ i : n, (X • A.map C + B.map C) (g i) i) ≤
@@ -73,8 +72,7 @@ theorem coeff_det_X_add_C_card (A B : Matrix n n α) :
     coeff (det ((X : α[X]) • A.map C + B.map C)) (Fintype.card n) = det A := by
   rw [det_apply]; rw [det_apply]; rw [finset_sum_coeff]
   refine' Finset.sum_congr rfl _
-  simp only [Algebra.id.smul_eq_mul, Finset.mem_univ, RingHom.mapMatrix_apply, forall_true_left,
-    map_apply, Pi.smul_apply]
+  simp only [Algebra.id.smul_eq_mul, Finset.mem_univ, RingHom.mapMatrix_apply, forall_true_left, map_apply, Pi.smul_apply]
   intro g
   convert coeff_smul (R := α) (sign g) _ _
   rw [← mul_one (Fintype.card n)]

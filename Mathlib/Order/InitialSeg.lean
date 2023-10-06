@@ -297,8 +297,7 @@ instance (r : α → α → Prop) [IsWellOrder α r] : IsEmpty (r ≺i r) :=
 /-- Composition of a principal segment with an initial segment, as a principal segment -/
 def ltLe (f : r ≺i s) (g : s ≼i t) : r ≺i t :=
   ⟨@RelEmbedding.trans _ _ _ r s t f g, g f.top, fun a => by
-    simp only [g.init_iff, PrincipalSeg.down, exists_and_left.symm, exists_swap,
-        RelEmbedding.trans_apply, exists_eq_right', InitialSeg.coe_coe_fn]⟩
+    simp only [g.init_iff, PrincipalSeg.down, exists_and_left.symm, exists_swap, RelEmbedding.trans_apply, exists_eq_right', InitialSeg.coe_coe_fn]⟩
 #align principal_seg.lt_le PrincipalSeg.ltLe
 
 @[simp]

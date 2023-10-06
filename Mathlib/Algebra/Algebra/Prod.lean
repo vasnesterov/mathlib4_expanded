@@ -75,8 +75,7 @@ variable {R A B}
 def prod (f : A →ₐ[R] B) (g : A →ₐ[R] C) : A →ₐ[R] B × C :=
   { f.toRingHom.prod g.toRingHom with
     commutes' := fun r => by
-      simp only [toRingHom_eq_coe, RingHom.toFun_eq_coe, RingHom.prod_apply, coe_toRingHom,
-        commutes, Prod.algebraMap_apply] }
+      simp only [toRingHom_eq_coe, RingHom.toFun_eq_coe, RingHom.prod_apply, coe_toRingHom, commutes, Prod.algebraMap_apply] }
 #align alg_hom.prod AlgHom.prod
 
 theorem coe_prod (f : A →ₐ[R] B) (g : A →ₐ[R] C) : ⇑(f.prod g) = Pi.prod f g :=

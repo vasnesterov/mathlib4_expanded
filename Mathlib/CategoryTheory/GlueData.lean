@@ -272,8 +272,7 @@ def mapGlueData : GlueData C' where
       F.map (D.t' i j k) ≫ (PreservesPullback.iso F (D.f j k) (D.f j i)).hom
   t_fac i j k := by simpa [Iso.inv_comp_eq] using congr_arg (fun f => F.map f) (D.t_fac i j k)
   cocycle i j k := by
-    simp only [Category.assoc, Iso.hom_inv_id_assoc, ← Functor.map_comp_assoc, D.cocycle,
-      Iso.inv_hom_id, CategoryTheory.Functor.map_id, Category.id_comp]
+    simp only [Category.assoc, Iso.hom_inv_id_assoc, ← Functor.map_comp_assoc, D.cocycle, Iso.inv_hom_id, CategoryTheory.Functor.map_id, Category.id_comp]
 #align category_theory.glue_data.map_glue_data CategoryTheory.GlueData.mapGlueData
 
 /-- The diagram of the image of a `GlueData` under a functor `F` is naturally isomorphic to the

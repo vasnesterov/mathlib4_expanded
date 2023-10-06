@@ -307,8 +307,7 @@ theorem mem_generatePiSystem_iUnion_elim {α β} {g : β → Set (Set α)} (h_pi
       rw [← forall_and]
       constructor <;> intro h1 b <;> by_cases hbs : b ∈ T_s <;> by_cases hbt : b ∈ T_t' <;>
           specialize h1 b <;>
-        simp only [hbs, hbt, if_true, if_false, true_imp_iff, and_self_iff, false_imp_iff,
-          and_true_iff, true_and_iff] at h1 ⊢
+        simp only [hbs, hbt, if_true, if_false, true_imp_iff, and_self_iff, false_imp_iff, and_true_iff, true_and_iff] at h1 ⊢
       all_goals exact h1
     intro b h_b
     split_ifs with hbs hbt hbt

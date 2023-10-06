@@ -417,8 +417,7 @@ noncomputable def llift : (X → M) ≃ₗ[S] (X →₀ R) →ₗ[R] M :=
       intros
       dsimp
       ext
-      simp only [coe_comp, Function.comp_apply, lsingle_apply, lift_apply, Pi.smul_apply,
-        sum_single_index, zero_smul, one_smul, LinearMap.smul_apply] }
+      simp only [coe_comp, Function.comp_apply, lsingle_apply, lift_apply, Pi.smul_apply, sum_single_index, zero_smul, one_smul, LinearMap.smul_apply] }
 #align finsupp.llift Finsupp.llift
 
 @[simp]
@@ -937,10 +936,7 @@ def sumFinsuppLEquivProdFinsupp {α β : Type*} : (Sum α β →₀ M) ≃ₗ[R]
       ext <;>
         -- Porting note: `add_equiv.to_fun_eq_coe` →
         --               `Equiv.toFun_as_coe` & `AddEquiv.toEquiv_eq_coe` & `AddEquiv.coe_toEquiv`
-        simp only [Equiv.toFun_as_coe, AddEquiv.toEquiv_eq_coe, AddEquiv.coe_toEquiv, Prod.smul_fst,
-          Prod.smul_snd, smul_apply,
-          snd_sumFinsuppAddEquivProdFinsupp, fst_sumFinsuppAddEquivProdFinsupp,
-          RingHom.id_apply] }
+        simp only [Equiv.toFun_as_coe, AddEquiv.toEquiv_eq_coe, AddEquiv.coe_toEquiv, Prod.smul_fst, Prod.smul_snd, smul_apply, snd_sumFinsuppAddEquivProdFinsupp, fst_sumFinsuppAddEquivProdFinsupp, RingHom.id_apply] }
 #align finsupp.sum_finsupp_lequiv_prod_finsupp Finsupp.sumFinsuppLEquivProdFinsupp
 
 theorem fst_sumFinsuppLEquivProdFinsupp {α β : Type*} (f : Sum α β →₀ M) (x : α) :

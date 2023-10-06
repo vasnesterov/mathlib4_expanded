@@ -89,8 +89,7 @@ local macro "C_simp" : tactic =>
 
 -- porting note: relocated into `Polynomial` section
 local macro "derivative_simp" : tactic =>
-  `(tactic| simp only [derivative_C, derivative_X, derivative_X_pow, derivative_neg, derivative_add,
-              derivative_sub, derivative_mul, derivative_sq])
+  `(tactic| simp only [derivative_C, derivative_X, derivative_X_pow, derivative_neg, derivative_add, derivative_sub, derivative_mul, derivative_sq])
 
 open scoped nonZeroDivisors Polynomial PolynomialPolynomial
 
@@ -971,15 +970,13 @@ def ofBaseChange : W⟮F⟯ →+ W⟮K⟯ where
         · rw [hy, baseChange_negY_of_baseChange]
       · simp only [some_add_some_of_Y_ne hx hy, ofBaseChangeFun]
         rw [some_add_some_of_Y_ne <| congr_arg _ hx]
-        · simp only [baseChange_addX_of_baseChange, baseChange_addY_of_baseChange,
-            baseChange_slope_of_baseChange]
+        · simp only [baseChange_addX_of_baseChange, baseChange_addY_of_baseChange, baseChange_slope_of_baseChange]
         · rw [baseChange_negY_of_baseChange]
           contrapose! hy
           exact NoZeroSMulDivisors.algebraMap_injective F K hy
     · simp only [some_add_some_of_X_ne hx, ofBaseChangeFun]
       rw [some_add_some_of_X_ne]
-      · simp only [baseChange_addX_of_baseChange, baseChange_addY_of_baseChange,
-          baseChange_slope_of_baseChange]
+      · simp only [baseChange_addX_of_baseChange, baseChange_addY_of_baseChange, baseChange_slope_of_baseChange]
       · contrapose! hx
         exact NoZeroSMulDivisors.algebraMap_injective F K hx
 #align weierstrass_curve.point.of_base_change WeierstrassCurve.Point.ofBaseChange

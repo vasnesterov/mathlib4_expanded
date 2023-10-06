@@ -110,8 +110,7 @@ theorem mem_of_formPerm_apply_mem (x : α) (l : List α) (h : l.formPerm x ∈ l
       split_ifs at h <;> aesop
     · replace hx :=
         (Function.Injective.eq_iff (Equiv.injective _)).mp (List.formPerm_apply_of_not_mem _ _ hx)
-      simp only [List.formPerm_cons_cons, hx, Equiv.Perm.coe_mul, Function.comp_apply,
-        List.mem_cons, swap_apply_def, ite_eq_left_iff] at h
+      simp only [List.formPerm_cons_cons, hx, Equiv.Perm.coe_mul, Function.comp_apply, List.mem_cons, swap_apply_def, ite_eq_left_iff] at h
       simp only [List.mem_cons]
       rcases h with h | h | h <;> split_ifs at h with h1 <;> try { aesop }
       · simp [h1, imp_false] at h
@@ -171,16 +170,13 @@ theorem zipWith_swap_prod_support' (l l' : List α) :
   · cases' l' with z l'
     · simp
     · intro x
-      simp only [Set.union_subset_iff, mem_cons, zipWith_cons_cons, foldr, prod_cons,
-        mul_apply]
+      simp only [Set.union_subset_iff, mem_cons, zipWith_cons_cons, foldr, prod_cons, mul_apply]
       intro hx
       by_cases h : x ∈ { x | (zipWith swap l l').prod x ≠ x }
       · specialize hl l' h
-        simp only [ge_iff_le, Finset.le_eq_subset, Finset.sup_eq_union, Finset.coe_union,
-          coe_toFinset, Set.mem_union, Set.mem_setOf_eq] at hl
+        simp only [ge_iff_le, Finset.le_eq_subset, Finset.sup_eq_union, Finset.coe_union, coe_toFinset, Set.mem_union, Set.mem_setOf_eq] at hl
         refine' Or.elim hl (fun hm => _) fun hm => _ <;>
-          · simp only [Finset.coe_insert, Set.mem_insert_iff, Finset.mem_coe, toFinset_cons,
-              mem_toFinset] at hm ⊢
+          · simp only [Finset.coe_insert, Set.mem_insert_iff, Finset.mem_coe, toFinset_cons, mem_toFinset] at hm ⊢
             simp [hm]
       · simp only [not_not, Set.mem_setOf_eq] at h
         simp only [h, Set.mem_setOf_eq] at hx
@@ -414,8 +410,7 @@ theorem formPerm_eq_one_iff (hl : Nodup l) : formPerm l = 1 ↔ l.length ≤ 1 :
     constructor
     · simp (config := { contextual := true })
     · intro h
-      simp only [(hd :: tl).formPerm_apply_mem_eq_self_iff hl hd (mem_cons_self hd tl),
-        add_le_iff_nonpos_left, length, nonpos_iff_eq_zero, length_eq_zero] at h
+      simp only [(hd :: tl).formPerm_apply_mem_eq_self_iff hl hd (mem_cons_self hd tl), add_le_iff_nonpos_left, length, nonpos_iff_eq_zero, length_eq_zero] at h
       simp [h]
 #align list.form_perm_eq_one_iff List.formPerm_eq_one_iff
 

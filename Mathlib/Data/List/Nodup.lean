@@ -230,8 +230,7 @@ theorem nodup_append_comm {l₁ l₂ : List α} : Nodup (l₁ ++ l₂) ↔ Nodup
 
 theorem nodup_middle {a : α} {l₁ l₂ : List α} :
     Nodup (l₁ ++ a :: l₂) ↔ Nodup (a :: (l₁ ++ l₂)) := by
-  simp only [nodup_append, not_or, and_left_comm, and_assoc, nodup_cons, mem_append,
-    disjoint_cons_right]
+  simp only [nodup_append, not_or, and_left_comm, and_assoc, nodup_cons, mem_append, disjoint_cons_right]
 #align list.nodup_middle List.nodup_middle
 
 theorem Nodup.of_map (f : α → β) {l : List α} : Nodup (map f l) → Nodup l :=
@@ -334,8 +333,7 @@ theorem nodup_join {L : List (List α)} :
 theorem nodup_bind {l₁ : List α} {f : α → List β} :
     Nodup (l₁.bind f) ↔
       (∀ x ∈ l₁, Nodup (f x)) ∧ Pairwise (fun a b : α => Disjoint (f a) (f b)) l₁ := by
-  simp only [List.bind, nodup_join, pairwise_map, and_comm, and_left_comm, mem_map, exists_imp,
-      and_imp]
+  simp only [List.bind, nodup_join, pairwise_map, and_comm, and_left_comm, mem_map, exists_imp, and_imp]
   rw [show (∀ (l : List β) (x : α), f x = l → x ∈ l₁ → Nodup l) ↔ ∀ x : α, x ∈ l₁ → Nodup (f x)
       from forall_swap.trans <| forall_congr' fun _ => forall_eq']
 #align list.nodup_bind List.nodup_bind
@@ -389,8 +387,7 @@ theorem Nodup.diff_eq_filter [DecidableEq α] :
   | l₁, [], _ => by simp
   | l₁, a :: l₂, hl₁ => by
     rw [diff_cons]; rw [(hl₁.erase _).diff_eq_filter]; rw [hl₁.erase_eq_filter]; rw [filter_filter]
-    simp only [decide_not, Bool.not_eq_true', decide_eq_false_iff_not, ne_eq, and_comm,
-      Bool.decide_and, find?, mem_cons, not_or]
+    simp only [decide_not, Bool.not_eq_true', decide_eq_false_iff_not, ne_eq, and_comm, Bool.decide_and, find?, mem_cons, not_or]
 #align list.nodup.diff_eq_filter List.Nodup.diff_eq_filter
 
 theorem Nodup.mem_diff_iff [DecidableEq α] (hl₁ : l₁.Nodup) : a ∈ l₁.diff l₂ ↔ a ∈ l₁ ∧ a ∉ l₂ := by

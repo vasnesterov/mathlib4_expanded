@@ -531,8 +531,7 @@ theorem diagonalTargetAffineLocallyOfOpenCover (P : AffineTargetMorphismProperty
   pick_goal 3
   · convert h𝒰' i j k; apply pullback.hom_ext <;> simp
   all_goals apply pullback.hom_ext <;>
-  simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-    pullback.lift_snd_assoc]
+  simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc, pullback.lift_snd_assoc]
 #align algebraic_geometry.diagonal_target_affine_locally_of_open_cover AlgebraicGeometry.diagonalTargetAffineLocallyOfOpenCover
 
 theorem AffineTargetMorphismProperty.diagonalOfTargetAffineLocally
@@ -554,9 +553,7 @@ theorem AffineTargetMorphismProperty.diagonalOfTargetAffineLocally
   rw [← affine_cancel_left_isIso hP.1 (pullbackDiagonalMapIso f _ f₁ f₂).hom]
   convert H
   · apply pullback.hom_ext <;>
-    simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-      pullback.lift_snd_assoc, Category.comp_id, pullbackDiagonalMapIso_hom_fst,
-      pullbackDiagonalMapIso_hom_snd]
+    simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc, pullback.lift_snd_assoc, Category.comp_id, pullbackDiagonalMapIso_hom_fst, pullbackDiagonalMapIso_hom_snd]
 #align algebraic_geometry.affine_target_morphism_property.diagonal_of_target_affine_locally AlgebraicGeometry.AffineTargetMorphismProperty.diagonalOfTargetAffineLocally
 
 open List in

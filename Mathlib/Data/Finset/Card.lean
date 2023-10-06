@@ -650,8 +650,7 @@ theorem card_eq_three [DecidableEq α] :
     rw [mem_insert] at abc; rw [mem_singleton] at abc; rw [not_or] at abc
     exact ⟨a, b, c, abc.1, abc.2, bc, rfl⟩
   · rintro ⟨x, y, z, xy, xz, yz, rfl⟩
-    simp only [xy, xz, yz, mem_insert, card_insert_of_not_mem, not_false_iff, mem_singleton,
-      or_self_iff, card_singleton]
+    simp only [xy, xz, yz, mem_insert, card_insert_of_not_mem, not_false_iff, mem_singleton, or_self_iff, card_singleton]
 #align finset.card_eq_three Finset.card_eq_three
 
 /-! ### Inductions -/

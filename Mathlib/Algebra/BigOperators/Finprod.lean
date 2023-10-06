@@ -615,8 +615,7 @@ theorem finprod_mul_distrib (hf : (mulSupport f).Finite) (hg : (mulSupport g).Fi
     rw [finprod_eq_prod_of_mulSupport_toFinset_subset _ hf (Finset.subset_union_left _ _)]; rw [finprod_eq_prod_of_mulSupport_toFinset_subset _ hg (Finset.subset_union_right _ _)]; rw [←
       Finset.prod_mul_distrib]
     refine' finprod_eq_prod_of_mulSupport_subset _ _
-    simp only [Finset.coe_union, Finite.coe_toFinset, mulSupport_subset_iff,
-      mem_union, mem_mulSupport]
+    simp only [Finset.coe_union, Finite.coe_toFinset, mulSupport_subset_iff, mem_union, mem_mulSupport]
     intro x
     contrapose!
     rintro ⟨hf, hg⟩
@@ -631,8 +630,7 @@ equals the product of `f i` divided by the product of `g i`. -/
       equals the sum of `f i` minus the sum of `g i`."]
 theorem finprod_div_distrib [DivisionCommMonoid G] {f g : α → G} (hf : (mulSupport f).Finite)
     (hg : (mulSupport g).Finite) : ∏ᶠ i, f i / g i = (∏ᶠ i, f i) / ∏ᶠ i, g i := by
-  simp only [div_eq_mul_inv, finprod_mul_distrib hf ((mulSupport_inv g).symm.rec hg),
-    finprod_inv_distrib]
+  simp only [div_eq_mul_inv, finprod_mul_distrib hf ((mulSupport_inv g).symm.rec hg), finprod_inv_distrib]
 #align finprod_div_distrib finprod_div_distrib
 #align finsum_sub_distrib finsum_sub_distrib
 

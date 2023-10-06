@@ -162,16 +162,14 @@ def adj : free.{u} R ⊣ forget (AlgebraCat.{u} R) :=
       homEquiv_naturality_left_symm := by
         -- porting note: `apply FreeAlgebra.hom_ext` was `ext1`.
         intros; apply FreeAlgebra.hom_ext; simp only [FreeAlgebra.ι_comp_lift]; ext1
-        simp only [free_map, Equiv.symm_symm, FreeAlgebra.lift_ι_apply, CategoryTheory.coe_comp,
-          Function.comp_apply, types_comp_apply]
+        simp only [free_map, Equiv.symm_symm, FreeAlgebra.lift_ι_apply, CategoryTheory.coe_comp, Function.comp_apply, types_comp_apply]
         -- Porting node: this ↓ `erw` and `rfl` used to be handled by the `simp` above
         erw [FreeAlgebra.lift_ι_apply, CategoryTheory.comp_apply, FreeAlgebra.lift_ι_apply,
           Function.comp_apply, FreeAlgebra.lift_ι_apply]
         rfl
       homEquiv_naturality_right := by
         intros; ext
-        simp only [CategoryTheory.coe_comp, Function.comp_apply,
-          FreeAlgebra.lift_symm_apply, types_comp_apply]
+        simp only [CategoryTheory.coe_comp, Function.comp_apply, FreeAlgebra.lift_symm_apply, types_comp_apply]
         -- Porting note: proof used to be done after this ↑ `simp`; added ↓ two lines
         erw [FreeAlgebra.lift_symm_apply, FreeAlgebra.lift_symm_apply]
         rfl }

@@ -165,8 +165,7 @@ theorem units_smul_def (g : ConjAct Mˣ) (h : M) : g • h = ofConjAct g * h * �
 -- porting note: very slow without `simp only` and need to separate `units_smul_def`
 -- so that things trigger appropriately
 instance unitsMulDistribMulAction : MulDistribMulAction (ConjAct Mˣ) M where
-  one_smul := by simp only [units_smul_def, ofConjAct_one, Units.val_one, one_mul, inv_one,
-    mul_one, forall_const]
+  one_smul := by simp only [units_smul_def, ofConjAct_one, Units.val_one, one_mul, inv_one, mul_one, forall_const]
   mul_smul := by
     simp only [units_smul_def]
     simp only [map_mul, Units.val_mul, mul_assoc, mul_inv_rev, forall_const, «forall»]

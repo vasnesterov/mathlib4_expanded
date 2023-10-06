@@ -210,8 +210,7 @@ theorem mul_of_ne {k l : n} (h : j ≠ k) (d : α) :
     apply if_neg
     rintro ⟨⟨rfl, rfl⟩, h⟩
     contradiction
-  · simp only [h₁, false_and, ite_false, mul_ite, zero_mul, mul_zero, ite_self,
-      Finset.sum_const_zero, zero_apply]
+  · simp only [h₁, false_and, ite_false, mul_ite, zero_mul, mul_zero, ite_self, Finset.sum_const_zero, zero_apply]
 #align matrix.std_basis_matrix.mul_of_ne Matrix.StdBasisMatrix.mul_of_ne
 
 end

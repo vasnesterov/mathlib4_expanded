@@ -165,8 +165,7 @@ theorem coord_reindex (i : ι') : (b.reindex e).coord i = b.coord (e.symm i) := 
 
 @[simp]
 theorem coord_apply_eq (i : ι) : b.coord i (b i) = 1 := by
-  simp only [coord, Basis.coe_sumCoords, LinearEquiv.map_zero, LinearEquiv.coe_coe, sub_zero,
-    AffineMap.coe_mk, Finsupp.sum_zero_index, vsub_self]
+  simp only [coord, Basis.coe_sumCoords, LinearEquiv.map_zero, LinearEquiv.coe_coe, sub_zero, AffineMap.coe_mk, Finsupp.sum_zero_index, vsub_self]
 #align affine_basis.coord_apply_eq AffineBasis.coord_apply_eq
 
 @[simp]
@@ -184,17 +183,13 @@ theorem coord_apply [DecidableEq ι] (i j : ι) : b.coord i (b j) = if i = j the
 @[simp]
 theorem coord_apply_combination_of_mem (hi : i ∈ s) {w : ι → k} (hw : s.sum w = 1) :
     b.coord i (s.affineCombination k b w) = w i := by
-  classical simp only [coord_apply, hi, Finset.affineCombination_eq_linear_combination, if_true,
-      mul_boole, hw, Function.comp_apply, smul_eq_mul, s.sum_ite_eq,
-      s.map_affineCombination b w hw]
+  classical simp only [coord_apply, hi, Finset.affineCombination_eq_linear_combination, if_true, mul_boole, hw, Function.comp_apply, smul_eq_mul, s.sum_ite_eq, s.map_affineCombination b w hw]
 #align affine_basis.coord_apply_combination_of_mem AffineBasis.coord_apply_combination_of_mem
 
 @[simp]
 theorem coord_apply_combination_of_not_mem (hi : i ∉ s) {w : ι → k} (hw : s.sum w = 1) :
     b.coord i (s.affineCombination k b w) = 0 := by
-  classical simp only [coord_apply, hi, Finset.affineCombination_eq_linear_combination, if_false,
-      mul_boole, hw, Function.comp_apply, smul_eq_mul, s.sum_ite_eq,
-      s.map_affineCombination b w hw]
+  classical simp only [coord_apply, hi, Finset.affineCombination_eq_linear_combination, if_false, mul_boole, hw, Function.comp_apply, smul_eq_mul, s.sum_ite_eq, s.map_affineCombination b w hw]
 #align affine_basis.coord_apply_combination_of_not_mem AffineBasis.coord_apply_combination_of_not_mem
 
 @[simp]
@@ -277,8 +272,7 @@ noncomputable def coords : P →ᵃ[k] ι → k where
     ext i
     -- Porting note:
     -- mathlib3 proof was:
-    -- simp only [linear_eq_sumCoords, LinearMap.coe_mk, LinearMap.neg_apply, Pi.vadd_apply',
-    --   AffineMap.map_vadd]
+    -- simp only [linear_eq_sumCoords, LinearMap.coe_mk, LinearMap.neg_apply, Pi.vadd_apply', --   AffineMap.map_vadd]
     -- but now we need to `dsimp` before `AffineMap.map_vadd` works.
     rw [LinearMap.coe_mk]; rw [Pi.vadd_apply']
     dsimp

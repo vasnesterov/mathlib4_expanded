@@ -164,8 +164,7 @@ theorem _root_.Measurable.lintegral_kernel_prod_right {f : α → β → ℝ≥0
   refine' SimpleFunc.induction
     (P := fun f => Measurable (fun (a : α) => ∫⁻ (b : β), f (a, b) ∂κ a)) _ _ (F n)
   · intro c t ht
-    simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const,
-      SimpleFunc.coe_zero, Set.piecewise_eq_indicator]
+    simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const, SimpleFunc.coe_zero, Set.piecewise_eq_indicator]
     exact kernel.measurable_lintegral_indicator_const (κ := κ) ht c
   · intro g₁ g₂ _ hm₁ hm₂
     simp only [SimpleFunc.coe_add, Pi.add_apply]
@@ -283,8 +282,7 @@ theorem StronglyMeasurable.integral_kernel_prod_right ⦃f : α → β → E⦄
         intro n; apply (hfx.norm.add hfx.norm).mono' (s' n x).aestronglyMeasurable
         apply eventually_of_forall; intro y
         simp_rw [SimpleFunc.coe_comp]; exact SimpleFunc.norm_approxOn_zero_le _ _ (x, y) n
-      simp only [ hfx, SimpleFunc.integral_eq_integral _ (this _), indicator_of_mem,
-        mem_setOf_eq]
+      simp only [hfx, SimpleFunc.integral_eq_integral _ (this _), indicator_of_mem, mem_setOf_eq]
       refine'
         tendsto_integral_of_dominated_convergence (fun y => ‖f x y‖ + ‖f x y‖)
           (fun n => (s' n x).aestronglyMeasurable) (hfx.norm.add hfx.norm) _ _

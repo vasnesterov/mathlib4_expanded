@@ -101,8 +101,7 @@ theorem MeasureTheory.StronglyMeasurable.integral_prod_right [SigmaFinite ν] �
         intro n; apply (hfx.norm.add hfx.norm).mono' (s' n x).aestronglyMeasurable
         apply eventually_of_forall; intro y
         simp_rw [SimpleFunc.coe_comp]; exact SimpleFunc.norm_approxOn_zero_le _ _ (x, y) n
-      simp only [hfx, SimpleFunc.integral_eq_integral _ (this _), indicator_of_mem,
-        mem_setOf_eq]
+      simp only [hfx, SimpleFunc.integral_eq_integral _ (this _), indicator_of_mem, mem_setOf_eq]
       refine'
         tendsto_integral_of_dominated_convergence (fun y => ‖f x y‖ + ‖f x y‖)
           (fun n => (s' n x).aestronglyMeasurable) (hfx.norm.add hfx.norm) _ _

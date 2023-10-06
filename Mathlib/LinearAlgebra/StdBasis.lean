@@ -144,8 +144,7 @@ theorem disjoint_stdBasis_stdBasis (I J : Set ι) (h : Disjoint I J) :
   refine'
     Disjoint.mono (iSup_range_stdBasis_le_iInf_ker_proj _ _ _ _ <| disjoint_compl_right)
       (iSup_range_stdBasis_le_iInf_ker_proj _ _ _ _ <| disjoint_compl_right) _
-  simp only [disjoint_iff_inf_le, SetLike.le_def, mem_iInf, mem_inf, mem_ker, mem_bot, proj_apply,
-    funext_iff]
+  simp only [disjoint_iff_inf_le, SetLike.le_def, mem_iInf, mem_inf, mem_ker, mem_bot, proj_apply, funext_iff]
   rintro b ⟨hI, hJ⟩ i
   classical
     by_cases hiI : i ∈ I
@@ -236,16 +235,13 @@ theorem basis_repr_stdBasis [DecidableEq η] (s : ∀ j, Basis (ιs j) R (Ms j))
   by_cases hj : j = j'
   · subst hj
     -- Porting note: needed to add more lemmas
-    simp only [Pi.basis, LinearEquiv.trans_apply, Basis.repr_self, stdBasis_same,
-      LinearEquiv.piCongrRight, Finsupp.sigmaFinsuppLEquivPiFinsupp_symm_apply,
-      Basis.repr_symm_apply, LinearEquiv.coe_mk, ne_eq, Sigma.mk.inj_iff, heq_eq_eq, true_and]
+    simp only [Pi.basis, LinearEquiv.trans_apply, Basis.repr_self, stdBasis_same, LinearEquiv.piCongrRight, Finsupp.sigmaFinsuppLEquivPiFinsupp_symm_apply, Basis.repr_symm_apply, LinearEquiv.coe_mk, ne_eq, Sigma.mk.inj_iff, heq_eq_eq, true_and]
     symm
     -- Porting note: `Sigma.mk.inj` not found in the following, replaced by `Sigma.mk.inj_iff.mp`
     exact
       Finsupp.single_apply_left
         (fun i i' (h : (⟨j, i⟩ : Σj, ιs j) = ⟨j, i'⟩) => eq_of_heq (Sigma.mk.inj_iff.mp h).2) _ _ _
-  simp only [Pi.basis, LinearEquiv.trans_apply, Finsupp.sigmaFinsuppLEquivPiFinsupp_symm_apply,
-    LinearEquiv.piCongrRight]
+  simp only [Pi.basis, LinearEquiv.trans_apply, Finsupp.sigmaFinsuppLEquivPiFinsupp_symm_apply, LinearEquiv.piCongrRight]
   dsimp
   rw [stdBasis_ne _ _ _ _ (Ne.symm hj)]; rw [LinearEquiv.map_zero]; rw [Finsupp.zero_apply]; rw [Finsupp.single_eq_of_ne]
   rintro ⟨⟩
@@ -277,8 +273,7 @@ noncomputable def basisFun : Basis η R (∀ _ : η, R) :=
 
 @[simp]
 theorem basisFun_apply [DecidableEq η] (i) : basisFun R η i = stdBasis R (fun _ : η => R) i 1 := by
-  simp only [basisFun, Basis.coe_ofEquivFun, LinearEquiv.refl_symm, LinearEquiv.refl_apply,
-    stdBasis_apply]
+  simp only [basisFun, Basis.coe_ofEquivFun, LinearEquiv.refl_symm, LinearEquiv.refl_apply, stdBasis_apply]
 #align pi.basis_fun_apply Pi.basisFun_apply
 
 @[simp]
@@ -339,16 +334,13 @@ theorem stdBasis_eq_stdBasisMatrix (i : n) (j : m) [DecidableEq n] [DecidableEq 
       StdBasisMatrix.apply_same]
     erw [Pi.basis_apply]
     simp
-  · simp only [stdBasis, hi, Basis.coe_reindex, comp_apply, Equiv.sigmaEquivProd_symm_apply,
-      hj, and_false, not_false_iff, StdBasisMatrix.apply_of_ne]
+  · simp only [stdBasis, hi, Basis.coe_reindex, comp_apply, Equiv.sigmaEquivProd_symm_apply, hj, and_false, not_false_iff, StdBasisMatrix.apply_of_ne]
     erw [Pi.basis_apply]
     simp [hj]
-  · simp only [stdBasis, hj, Basis.coe_reindex, comp_apply, Equiv.sigmaEquivProd_symm_apply,
-      hi, and_true, not_false_iff, StdBasisMatrix.apply_of_ne]
+  · simp only [stdBasis, hj, Basis.coe_reindex, comp_apply, Equiv.sigmaEquivProd_symm_apply, hi, and_true, not_false_iff, StdBasisMatrix.apply_of_ne]
     erw [Pi.basis_apply]
     simp [hi, hj, Ne.symm hi, LinearMap.stdBasis_ne]
-  · simp only [stdBasis, Basis.coe_reindex, comp_apply, Equiv.sigmaEquivProd_symm_apply,
-      hi, hj, and_self, not_false_iff, StdBasisMatrix.apply_of_ne]
+  · simp only [stdBasis, Basis.coe_reindex, comp_apply, Equiv.sigmaEquivProd_symm_apply, hi, hj, and_self, not_false_iff, StdBasisMatrix.apply_of_ne]
     erw [Pi.basis_apply]
     simp [hi, hj, Ne.symm hj, Ne.symm hi, LinearMap.stdBasis_ne]
 #align matrix.std_basis_eq_std_basis_matrix Matrix.stdBasis_eq_stdBasisMatrix

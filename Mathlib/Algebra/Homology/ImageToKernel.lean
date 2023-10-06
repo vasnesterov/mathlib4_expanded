@@ -448,13 +448,11 @@ def homologyIsoCokernelImageToKernel' (w : f ≫ g = 0) :
     -- which precomposes with `homology.π`.
     -- As we are trying to work in terms of `cokernel`, it is better to use `coequalizer.hom_ext`.
     apply coequalizer.hom_ext
-    simp only [Iso.hom_inv_id_assoc, cokernel.π_desc, cokernel.π_desc_assoc, Category.assoc,
-      coequalizer_as_cokernel]
+    simp only [Iso.hom_inv_id_assoc, cokernel.π_desc, cokernel.π_desc_assoc, Category.assoc, coequalizer_as_cokernel]
     exact (Category.comp_id _).symm
   inv_hom_id := by
     ext
-    simp only [Iso.inv_hom_id_assoc, cokernel.π_desc, Category.comp_id, cokernel.π_desc_assoc,
-      Category.assoc]
+    simp only [Iso.inv_hom_id_assoc, cokernel.π_desc, Category.comp_id, cokernel.π_desc_assoc, Category.assoc]
 #align homology_iso_cokernel_image_to_kernel' homologyIsoCokernelImageToKernel'
 
 variable [HasEqualizers V]

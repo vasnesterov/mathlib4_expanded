@@ -276,8 +276,7 @@ theorem mul_left_index_le {K : Set G} (hK : IsCompact K) {V : Set G} (hV : (inte
   · simp only [mem_setOf_eq]; refine' Subset.trans (image_subset _ h1s) _
     rintro _ ⟨g₁, ⟨_, ⟨g₂, rfl⟩, ⟨_, ⟨hg₂, rfl⟩, hg₁⟩⟩, rfl⟩
     simp only [mem_preimage] at hg₁;
-    simp only [exists_prop, mem_iUnion, Finset.mem_map, Equiv.coe_mulRight,
-      exists_exists_and_eq_and, mem_preimage, Equiv.toEmbedding_apply]
+    simp only [exists_prop, mem_iUnion, Finset.mem_map, Equiv.coe_mulRight, exists_exists_and_eq_and, mem_preimage, Equiv.toEmbedding_apply]
     refine' ⟨_, hg₂, _⟩; simp only [mul_assoc, hg₁, inv_mul_cancel_left]
 #align measure_theory.measure.haar.mul_left_index_le MeasureTheory.Measure.haar.mul_left_index_le
 #align measure_theory.measure.haar.add_left_add_index_le MeasureTheory.Measure.haar.add_left_addIndex_le
@@ -728,11 +727,8 @@ theorem isHaarMeasure_eq_smul_isHaarMeasure [LocallyCompactSpace G] (μ ν : Mea
   have νpos : 0 < ν K := measure_pos_of_nonempty_interior _ K.interior_nonempty
   have νne : ν K ≠ ∞ := K.isCompact.measure_lt_top.ne
   refine' ⟨μ K / ν K, _, _, _⟩
-  · simp only [νne, (μ.measure_pos_of_nonempty_interior K.interior_nonempty).ne', Ne.def,
-      ENNReal.div_eq_zero_iff, not_false_iff, or_self_iff]
-  · simp only [div_eq_mul_inv, νpos.ne', (K.isCompact.measure_lt_top (μ := μ)).ne, or_self_iff,
-      ENNReal.inv_eq_top, ENNReal.mul_eq_top, Ne.def, not_false_iff, and_false_iff,
-      false_and_iff]
+  · simp only [νne, (μ.measure_pos_of_nonempty_interior K.interior_nonempty).ne', Ne.def, ENNReal.div_eq_zero_iff, not_false_iff, or_self_iff]
+  · simp only [div_eq_mul_inv, νpos.ne', (K.isCompact.measure_lt_top (μ := μ)).ne, or_self_iff, ENNReal.inv_eq_top, ENNReal.mul_eq_top, Ne.def, not_false_iff, and_false_iff, false_and_iff]
   · calc
       μ = μ K • haarMeasure K := haarMeasure_unique μ K
       _ = (μ K / ν K) • ν K • haarMeasure K := by

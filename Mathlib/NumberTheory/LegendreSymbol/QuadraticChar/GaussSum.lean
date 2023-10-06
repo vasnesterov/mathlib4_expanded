@@ -50,8 +50,7 @@ theorem FiniteField.isSquare_two_iff :
   focus
     have h := FiniteField.odd_card_of_char_ne_two hF
     rw [← quadraticChar_one_iff_isSquare (Ring.two_ne_zero hF)]; rw [quadraticChar_two hF]; rw [χ₈_nat_eq_if_mod_eight]
-    simp only [h, Nat.one_ne_zero, if_false, ite_eq_left_iff, Ne.def, (by decide : (-1 : ℤ) ≠ 1),
-      imp_false, Classical.not_not]
+    simp only [h, Nat.one_ne_zero, if_false, ite_eq_left_iff, Ne.def, (by decide : (-1 : ℤ) ≠ 1), imp_false, Classical.not_not]
   all_goals
     rw [← Nat.mod_mod_of_dvd _ (by norm_num : 2 ∣ 8)] at h
     have h₁ := Nat.mod_lt (Fintype.card F) (by decide : 0 < 8)
@@ -78,8 +77,7 @@ theorem FiniteField.isSquare_neg_two_iff :
   focus
     have h := FiniteField.odd_card_of_char_ne_two hF
     rw [← quadraticChar_one_iff_isSquare (neg_ne_zero.mpr (Ring.two_ne_zero hF))]; rw [quadraticChar_neg_two hF]; rw [χ₈'_nat_eq_if_mod_eight]
-    simp only [h, Nat.one_ne_zero, if_false, ite_eq_left_iff, Ne.def, (by decide : (-1 : ℤ) ≠ 1),
-      imp_false, Classical.not_not]
+    simp only [h, Nat.one_ne_zero, if_false, ite_eq_left_iff, Ne.def, (by decide : (-1 : ℤ) ≠ 1), imp_false, Classical.not_not]
   all_goals
     rw [← Nat.mod_mod_of_dvd _ (by norm_num : 2 ∣ 8)] at h
     have h₁ := Nat.mod_lt (Fintype.card F) (by decide : 0 < 8)

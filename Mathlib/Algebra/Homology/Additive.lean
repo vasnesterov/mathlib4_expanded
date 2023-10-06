@@ -232,10 +232,8 @@ def NatIso.mapHomologicalComplex {F G : V ⥤ W} [F.Additive] [G.Additive] (α :
     (c : ComplexShape ι) : F.mapHomologicalComplex c ≅ G.mapHomologicalComplex c where
   hom := NatTrans.mapHomologicalComplex α.hom c
   inv := NatTrans.mapHomologicalComplex α.inv c
-  hom_inv_id := by simp only [← NatTrans.mapHomologicalComplex_comp, α.hom_inv_id,
-    NatTrans.mapHomologicalComplex_id]
-  inv_hom_id := by simp only [← NatTrans.mapHomologicalComplex_comp, α.inv_hom_id,
-    NatTrans.mapHomologicalComplex_id]
+  hom_inv_id := by simp only [← NatTrans.mapHomologicalComplex_comp, α.hom_inv_id, NatTrans.mapHomologicalComplex_id]
+  inv_hom_id := by simp only [← NatTrans.mapHomologicalComplex_comp, α.inv_hom_id, NatTrans.mapHomologicalComplex_id]
 #align category_theory.nat_iso.map_homological_complex CategoryTheory.NatIso.mapHomologicalComplex
 
 /-- An equivalence of categories induces an equivalences between the respective categories
@@ -266,8 +264,7 @@ theorem map_chain_complex_of (F : V ⥤ W) [F.Additive] (X : α → V) (d : ∀ 
         rw [← F.map_comp]; rw [sq n]; rw [Functor.map_zero] := by
   refine' HomologicalComplex.ext rfl _
   rintro i j (rfl : j + 1 = i)
-  simp only [CategoryTheory.Functor.mapHomologicalComplex_obj_d, of_d, eqToHom_refl, comp_id,
-    id_comp]
+  simp only [CategoryTheory.Functor.mapHomologicalComplex_obj_d, of_d, eqToHom_refl, comp_id, id_comp]
 #align chain_complex.map_chain_complex_of ChainComplex.map_chain_complex_of
 
 end ChainComplex

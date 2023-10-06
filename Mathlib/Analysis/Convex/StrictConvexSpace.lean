@@ -117,8 +117,7 @@ theorem StrictConvexSpace.of_norm_combo_ne_one
     StrictConvexSpace ℝ E := by
   refine' StrictConvexSpace.of_strictConvex_closed_unit_ball ℝ
     ((convex_closedBall _ _).strictConvex _)
-  simp only [interior_closedBall _ one_ne_zero, closedBall_diff_ball, Set.Pairwise,
-    frontier_closedBall _ one_ne_zero, mem_sphere_zero_iff_norm]
+  simp only [interior_closedBall _ one_ne_zero, closedBall_diff_ball, Set.Pairwise, frontier_closedBall _ one_ne_zero, mem_sphere_zero_iff_norm]
   intro x hx y hy hne
   rcases h x y hx hy hne with ⟨a, b, ha, hb, hab, hne'⟩
   exact ⟨_, ⟨a, b, ha, hb, hab, rfl⟩, mt mem_sphere_zero_iff_norm.1 hne'⟩
@@ -233,8 +232,7 @@ theorem not_sameRay_iff_abs_lt_norm_sub : ¬SameRay ℝ x y ↔ |‖x‖ - ‖y�
 /-- In a strictly convex space, the triangle inequality turns into an equality if and only if the
 middle point belongs to the segment joining two other points. -/
 theorem dist_add_dist_eq_iff : dist x y + dist y z = dist x z ↔ y ∈ [x -[ℝ] z] := by
-  simp only [mem_segment_iff_sameRay, sameRay_iff_norm_add, dist_eq_norm', sub_add_sub_cancel',
-    eq_comm]
+  simp only [mem_segment_iff_sameRay, sameRay_iff_norm_add, dist_eq_norm', sub_add_sub_cancel', eq_comm]
 #align dist_add_dist_eq_iff dist_add_dist_eq_iff
 
 theorem norm_midpoint_lt_iff (h : ‖x‖ = ‖y‖) : ‖(1 / 2 : ℝ) • (x + y)‖ < ‖x‖ ↔ x ≠ y := by

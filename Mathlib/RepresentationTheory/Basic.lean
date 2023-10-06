@@ -208,14 +208,11 @@ theorem ofModule_asAlgebraHom_apply_apply (r : MonoidAlgebra k G)
       (RestrictScalars.addEquiv _ _ _).symm (r • RestrictScalars.addEquiv _ _ _ m) := by
   apply MonoidAlgebra.induction_on r
   · intro g
-    simp only [one_smul, MonoidAlgebra.lift_symm_apply, MonoidAlgebra.of_apply,
-      Representation.asAlgebraHom_single, Representation.ofModule, AddEquiv.apply_eq_iff_eq,
-      RestrictScalars.lsmul_apply_apply]
+    simp only [one_smul, MonoidAlgebra.lift_symm_apply, MonoidAlgebra.of_apply, Representation.asAlgebraHom_single, Representation.ofModule, AddEquiv.apply_eq_iff_eq, RestrictScalars.lsmul_apply_apply]
   · intro f g fw gw
     simp only [fw, gw, map_add, add_smul, LinearMap.add_apply]
   · intro r f w
-    simp only [w, AlgHom.map_smul, LinearMap.smul_apply,
-      RestrictScalars.addEquiv_symm_map_smul_smul]
+    simp only [w, AlgHom.map_smul, LinearMap.smul_apply, RestrictScalars.addEquiv_symm_map_smul_smul]
 #align representation.of_module_as_algebra_hom_apply_apply Representation.ofModule_asAlgebraHom_apply_apply
 
 @[simp]
@@ -309,8 +306,7 @@ theorem ofMulAction_self_smul_eq_mul (x : MonoidAlgebra k G) (y : (ofMulAction k
   x.induction_on (p := fun z => z • y = z * y)
     (fun g => by
       show asAlgebraHom (ofMulAction k G G) _ _ = _; ext;
-      simp only [MonoidAlgebra.of_apply, asAlgebraHom_single, one_smul,
-        ofMulAction_apply, smul_eq_mul]
+      simp only [MonoidAlgebra.of_apply, asAlgebraHom_single, one_smul, ofMulAction_apply, smul_eq_mul]
       -- Porting note : single_mul_apply not firing in simp
       rw [MonoidAlgebra.single_mul_apply]; rw [one_mul]
     )
@@ -375,8 +371,7 @@ theorem smul_tprod_one_asModule (r : MonoidAlgebra k G) (x : V) (y : W) :
     let z : (ρV.tprod 1).asModule := x ⊗ₜ y
     r • z = (r • x') ⊗ₜ y := by
   show asAlgebraHom (ρV ⊗ 1) _ _ = asAlgebraHom ρV _ _ ⊗ₜ _
-  simp only [asAlgebraHom_def, MonoidAlgebra.lift_apply, tprod_apply, MonoidHom.one_apply,
-    LinearMap.finsupp_sum_apply, LinearMap.smul_apply, TensorProduct.map_tmul, LinearMap.one_apply]
+  simp only [asAlgebraHom_def, MonoidAlgebra.lift_apply, tprod_apply, MonoidHom.one_apply, LinearMap.finsupp_sum_apply, LinearMap.smul_apply, TensorProduct.map_tmul, LinearMap.one_apply]
   simp only [Finsupp.sum, TensorProduct.sum_tmul]
   rfl
 #align representation.smul_tprod_one_as_module Representation.smul_tprod_one_asModule
@@ -387,8 +382,7 @@ theorem smul_one_tprod_asModule (r : MonoidAlgebra k G) (x : V) (y : W) :
     let z : (1 ⊗ ρW).asModule := x ⊗ₜ y
     r • z = x ⊗ₜ (r • y') := by
   show asAlgebraHom (1 ⊗ ρW) _ _ = _ ⊗ₜ asAlgebraHom ρW _ _
-  simp only [asAlgebraHom_def, MonoidAlgebra.lift_apply, tprod_apply, MonoidHom.one_apply,
-    LinearMap.finsupp_sum_apply, LinearMap.smul_apply, TensorProduct.map_tmul, LinearMap.one_apply]
+  simp only [asAlgebraHom_def, MonoidAlgebra.lift_apply, tprod_apply, MonoidHom.one_apply, LinearMap.finsupp_sum_apply, LinearMap.smul_apply, TensorProduct.map_tmul, LinearMap.one_apply]
   simp only [Finsupp.sum, TensorProduct.tmul_sum, TensorProduct.tmul_smul]
 #align representation.smul_one_tprod_as_module Representation.smul_one_tprod_asModule
 

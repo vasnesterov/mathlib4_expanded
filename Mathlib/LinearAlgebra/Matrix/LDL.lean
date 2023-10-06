@@ -102,8 +102,7 @@ by some lower triangular matrix and get a diagonal matrix. -/
 theorem LDL.diag_eq_lowerInv_conj : LDL.diag hS = LDL.lowerInv hS * S * (LDL.lowerInv hS)ᴴ := by
   ext i j
   by_cases hij : i = j
-  · simp only [diag, diagEntries, EuclideanSpace.inner_piLp_equiv_symm, star_star, hij,
-    diagonal_apply_eq, Matrix.mul_assoc]
+  · simp only [diag, diagEntries, EuclideanSpace.inner_piLp_equiv_symm, star_star, hij, diagonal_apply_eq, Matrix.mul_assoc]
     rfl
   · simp only [LDL.diag, hij, diagonal_apply_ne, Ne.def, not_false_iff, mul_mul_apply]
     rw [conjTranspose]; rw [transpose_map]; rw [transpose_transpose]; rw [dotProduct_mulVec]; rw [(LDL.lowerInv_orthogonal hS fun h : j = i => hij h.symm).symm]; rw [← inner_conj_symm]; rw [mulVec_transpose]; rw [EuclideanSpace.inner_piLp_equiv_symm]; rw [← IsROrC.star_def]; rw [←

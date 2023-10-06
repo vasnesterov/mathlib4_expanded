@@ -226,8 +226,7 @@ def obj (K : ChainComplex C ℕ) : SimplicialObject C where
     have fac : θ.unop ≫ θ'.unop ≫ A.e = (θ' ≫ θ).unop ≫ A.e := by rw [unop_comp, assoc]
     rw [← image.fac (θ'.unop ≫ A.e)] at fac; rw [← assoc] at fac; rw [←
       image.fac (θ.unop ≫ factorThruImage (θ'.unop ≫ A.e))] at fac; rw [assoc] at fac
-    simp only [Obj.map_on_summand₀'_assoc K A θ', Obj.map_on_summand₀' K _ θ,
-      Obj.Termwise.mapMono_comp_assoc, Obj.map_on_summand₀ K A fac]
+    simp only [Obj.map_on_summand₀'_assoc K A θ', Obj.map_on_summand₀' K _ θ, Obj.Termwise.mapMono_comp_assoc, Obj.map_on_summand₀ K A fac]
     rfl)
 #align algebraic_topology.dold_kan.Γ₀.obj AlgebraicTopology.DoldKan.Γ₀.obj
 
@@ -302,8 +301,7 @@ def map {K K' : ChainComplex C ℕ} (f : K ⟶ K') : obj K ⟶ obj K' where
   naturality {Δ' Δ} θ := by
     apply (Γ₀.splitting K).hom_ext'
     intro A
-    simp only [(splitting K).ι_desc_assoc, Obj.map_on_summand'_assoc K _ θ, (splitting K).ι_desc,
-      assoc, Obj.map_on_summand' K' _ θ]
+    simp only [(splitting K).ι_desc_assoc, Obj.map_on_summand'_assoc K _ θ, (splitting K).ι_desc, assoc, Obj.map_on_summand' K' _ θ]
     apply Obj.Termwise.mapMono_naturality_assoc
 #align algebraic_topology.dold_kan.Γ₀.map AlgebraicTopology.DoldKan.Γ₀.map
 

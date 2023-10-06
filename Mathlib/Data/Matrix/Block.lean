@@ -250,8 +250,7 @@ theorem fromBlocks_multiply [Fintype l] [Fintype m] [NonUnitalNonAssocSemiring �
     fromBlocks A B C D * fromBlocks A' B' C' D' =
       fromBlocks (A * A' + B * C') (A * B' + B * D') (C * A' + D * C') (C * B' + D * D') := by
   ext i j
-  rcases i with ⟨⟩ <;> rcases j with ⟨⟩ <;> simp only [fromBlocks, mul_apply, of_apply,
-      Sum.elim_inr, Fintype.sum_sum_type, Sum.elim_inl, add_apply]
+  rcases i with ⟨⟩ <;> rcases j with ⟨⟩ <;> simp only [fromBlocks, mul_apply, of_apply, Sum.elim_inr, Fintype.sum_sum_type, Sum.elim_inl, add_apply]
 #align matrix.from_blocks_multiply Matrix.fromBlocks_multiply
 
 theorem fromBlocks_mulVec [Fintype l] [Fintype m] [NonUnitalNonAssocSemiring α] (A : Matrix n l α)

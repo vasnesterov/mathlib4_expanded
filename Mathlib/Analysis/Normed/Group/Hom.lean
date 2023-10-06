@@ -679,8 +679,7 @@ def compHom : NormedAddGroupHom V₂ V₃ →+ NormedAddGroupHom V₁ V₂ →+ 
     (by
       intros
       ext
-      simp only [comp_apply, Pi.add_apply, Function.comp_apply, AddMonoidHom.add_apply,
-        AddMonoidHom.mk'_apply, coe_add])
+      simp only [comp_apply, Pi.add_apply, Function.comp_apply, AddMonoidHom.add_apply, AddMonoidHom.mk'_apply, coe_add])
 #align normed_add_group_hom.comp_hom NormedAddGroupHom.compHom
 
 @[simp]

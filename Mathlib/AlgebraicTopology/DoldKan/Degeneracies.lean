@@ -49,8 +49,7 @@ theorem HigherFacesVanish.comp_σ {Y : C} {X : SimplicialObject C} {n b q : ℕ}
     rw [Fin.lt_iff_val_lt_val]; rw [Fin.val_succ]
     linarith
   · intro hj'
-    simp only [hnbq, add_comm b, add_assoc, hj', Fin.val_zero, zero_add, add_le_iff_nonpos_right,
-      nonpos_iff_eq_zero, add_eq_zero, false_and] at hj
+    simp only [hnbq, add_comm b, add_assoc, hj', Fin.val_zero, zero_add, add_le_iff_nonpos_right, nonpos_iff_eq_zero, add_eq_zero, false_and] at hj
 #align algebraic_topology.dold_kan.higher_faces_vanish.comp_σ AlgebraicTopology.DoldKan.HigherFacesVanish.comp_σ
 
 theorem σ_comp_P_eq_zero (X : SimplicialObject C) {n q : ℕ} (i : Fin (n + 1)) (hi : n + 1 ≤ i + q) :
@@ -72,16 +71,10 @@ theorem σ_comp_P_eq_zero (X : SimplicialObject C) {n q : ℕ} (i : Fin (n + 1))
         dsimp at h hi
         rw [show q = 0 by linarith]
         change X.σ 0 ≫ (P 1).f 1 = 0
-        simp only [P_succ, HomologicalComplex.add_f_apply, comp_add,
-          HomologicalComplex.id_f, AlternatingFaceMapComplex.obj_d_eq, Hσ,
-          HomologicalComplex.comp_f, Homotopy.nullHomotopicMap'_f (c_mk 2 1 rfl) (c_mk 1 0 rfl),
-          comp_id]
+        simp only [P_succ, HomologicalComplex.add_f_apply, comp_add, HomologicalComplex.id_f, AlternatingFaceMapComplex.obj_d_eq, Hσ, HomologicalComplex.comp_f, Homotopy.nullHomotopicMap'_f (c_mk 2 1 rfl) (c_mk 1 0 rfl), comp_id]
         erw [hσ'_eq' (zero_add 0).symm, hσ'_eq' (add_zero 1).symm, comp_id, Fin.sum_univ_two,
           Fin.sum_univ_succ, Fin.sum_univ_two]
-        simp only [Fin.val_zero, pow_zero, pow_one, pow_add, one_smul, neg_smul, Fin.mk_one,
-          Fin.val_succ, Fin.val_one, Fin.succ_one_eq_two, P_zero, HomologicalComplex.id_f,
-          Fin.val_two, pow_two, mul_neg, one_mul, neg_mul, neg_neg, id_comp, add_comp,
-          comp_add, Fin.mk_zero, neg_comp, comp_neg, Fin.succ_zero_eq_one]
+        simp only [Fin.val_zero, pow_zero, pow_one, pow_add, one_smul, neg_smul, Fin.mk_one, Fin.val_succ, Fin.val_one, Fin.succ_one_eq_two, P_zero, HomologicalComplex.id_f, Fin.val_two, pow_two, mul_neg, one_mul, neg_mul, neg_neg, id_comp, add_comp, comp_add, Fin.mk_zero, neg_comp, comp_neg, Fin.succ_zero_eq_one]
         erw [SimplicialObject.δ_comp_σ_self, SimplicialObject.δ_comp_σ_self_assoc,
           SimplicialObject.δ_comp_σ_succ, comp_id,
           SimplicialObject.δ_comp_σ_of_le X

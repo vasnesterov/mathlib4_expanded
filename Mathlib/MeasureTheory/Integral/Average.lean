@@ -149,8 +149,7 @@ theorem laverage_add_measure :
   · rw [not_isFiniteMeasure_iff] at hν
     simp [laverage_eq, hν]
   haveI := hμ; haveI := hν
-  simp only [←ENNReal.mul_div_right_comm, measure_mul_laverage, ←ENNReal.add_div,
-    ←lintegral_add_measure, ←Measure.add_apply, ←laverage_eq]
+  simp only [←ENNReal.mul_div_right_comm, measure_mul_laverage, ←ENNReal.add_div, ←lintegral_add_measure, ←Measure.add_apply, ←laverage_eq]
 #align measure_theory.laverage_add_measure MeasureTheory.laverage_add_measure
 
 theorem measure_mul_setLaverage (f : α → ℝ≥0∞) (h : μ s ≠ ∞) :
@@ -201,8 +200,7 @@ theorem laverage_const (μ : Measure α) [IsFiniteMeasure μ] [h : NeZero μ] (c
 #align measure_theory.laverage_const MeasureTheory.laverage_const
 
 theorem setLaverage_const (hs₀ : μ s ≠ 0) (hs : μ s ≠ ∞) (c : ℝ≥0∞) : ⨍⁻ _x in s, c ∂μ = c := by
-  simp only [setLaverage_eq, lintegral_const, Measure.restrict_apply, MeasurableSet.univ,
-    univ_inter, div_eq_mul_inv, mul_assoc, ENNReal.mul_inv_cancel hs₀ hs, mul_one]
+  simp only [setLaverage_eq, lintegral_const, Measure.restrict_apply, MeasurableSet.univ, univ_inter, div_eq_mul_inv, mul_assoc, ENNReal.mul_inv_cancel hs₀ hs, mul_one]
 #align measure_theory.set_laverage_const MeasureTheory.setLaverage_const
 
 theorem laverage_one [IsFiniteMeasure μ] [NeZero μ] : ⨍⁻ _x, (1 : ℝ≥0∞) ∂μ = 1 :=
@@ -322,8 +320,7 @@ theorem average_add_measure [IsFiniteMeasure μ] {ν : Measure α} [IsFiniteMeas
     ⨍ x, f x ∂(μ + ν) =
       ((μ univ).toReal / ((μ univ).toReal + (ν univ).toReal)) • ⨍ x, f x ∂μ +
         ((ν univ).toReal / ((μ univ).toReal + (ν univ).toReal)) • ⨍ x, f x ∂ν := by
-  simp only [div_eq_inv_mul, mul_smul, measure_smul_average, ←smul_add,
-    ←integral_add_measure hμ hν, ←ENNReal.toReal_add (measure_ne_top μ _) (measure_ne_top ν _)]
+  simp only [div_eq_inv_mul, mul_smul, measure_smul_average, ←smul_add, ←integral_add_measure hμ hν, ←ENNReal.toReal_add (measure_ne_top μ _) (measure_ne_top ν _)]
   rw [average_eq]; rw [Measure.add_apply]
 #align measure_theory.average_add_measure MeasureTheory.average_add_measure
 

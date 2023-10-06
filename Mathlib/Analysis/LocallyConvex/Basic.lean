@@ -97,8 +97,7 @@ theorem absorbs_iUnion_finset {ι : Type*} {t : Finset ι} {f : ι → Set E} :
     Absorbs 𝕜 s (⋃ i ∈ t, f i) ↔ ∀ i ∈ t, Absorbs 𝕜 s (f i) := by
   classical
     induction' t using Finset.induction_on with i t _ht hi
-    · simp only [Finset.not_mem_empty, Set.iUnion_false, Set.iUnion_empty, absorbs_empty,
-        IsEmpty.forall_iff, imp_true_iff]
+    · simp only [Finset.not_mem_empty, Set.iUnion_false, Set.iUnion_empty, absorbs_empty, IsEmpty.forall_iff, imp_true_iff]
     rw [Finset.set_biUnion_insert]; rw [absorbs_union]; rw [hi]
     constructor <;> intro h
     · refine' fun _ hi' => (Finset.mem_insert.mp hi').elim _ (h.2 _)

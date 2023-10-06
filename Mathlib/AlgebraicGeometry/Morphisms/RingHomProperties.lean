@@ -149,8 +149,7 @@ theorem StableUnderBaseChange.Γ_pullback_fst (hP : StableUnderBaseChange @P) (h
         (AffineScheme.ofHom g))
   simp only [Quiver.Hom.unop_op, Functor.rightOp_map, unop_comp] at this
   delta AffineScheme.Γ at this
-  simp only [Quiver.Hom.unop_op, Functor.comp_map, AffineScheme.forgetToScheme_map,
-    Functor.op_map] at this
+  simp only [Quiver.Hom.unop_op, Functor.comp_map, AffineScheme.forgetToScheme_map, Functor.op_map] at this
   rw [← this]; rw [hP'.cancel_right_isIso]; rw [←pushoutIsoUnopPullback_inl_hom (Quiver.Hom.unop _) (Quiver.Hom.unop _)]; rw [hP'.cancel_right_isIso]
   exact hP.pushout_inl _ hP' _ _ H
 #align ring_hom.stable_under_base_change.Γ_pullback_fst RingHom.StableUnderBaseChange.Γ_pullback_fst

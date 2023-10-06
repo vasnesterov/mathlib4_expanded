@@ -186,8 +186,7 @@ theorem maximal_ineq [IsFiniteMeasure μ] (hsub : Submartingale f 𝒢 μ) (hnon
       intro ω hω
       rw [Set.mem_setOf_eq] at hω
       have : hitting f {y : ℝ | ↑ε ≤ y} 0 n ω = n := by
-        classical simp only [hitting, Set.mem_setOf_eq, exists_prop, Pi.coe_nat, Nat.cast_id,
-          ite_eq_right_iff, forall_exists_index, and_imp]
+        classical simp only [hitting, Set.mem_setOf_eq, exists_prop, Pi.coe_nat, Nat.cast_id, ite_eq_right_iff, forall_exists_index, and_imp]
         intro m hm hεm
         exact False.elim
           ((not_le.2 hω) ((le_sup'_iff _).2 ⟨m, mem_range.2 (Nat.lt_succ_of_le hm.2), hεm⟩))

@@ -156,8 +156,7 @@ lemma extensive_regular_generate_coherent [Preregular C] [Extensive C] [Precoher
       let Zf := Sieve.generate (Presieve.ofArrows (fun (_ : Unit) ↦ Xs) (fun (_ : Unit) ↦ F))
       apply Coverage.saturate.transitive Y Zf
       · apply Coverage.saturate.of
-        simp only [Coverage.sup_covering, extensiveCoverage, regularCoverage, Set.mem_union,
-          Set.mem_setOf_eq]
+        simp only [Coverage.sup_covering, extensiveCoverage, regularCoverage, Set.mem_union, Set.mem_setOf_eq]
         exact Or.inr ⟨Xs, F, ⟨rfl, inferInstance⟩⟩
       · intro R g hZfg
         dsimp at hZfg
@@ -173,8 +172,7 @@ lemma extensive_regular_generate_coherent [Preregular C] [Extensive C] [Precoher
         suffices : Sieve.generate (Presieve.ofArrows X φ) ≤ Z.pullback F
         · apply Coverage.saturate_of_superset _ this
           apply Coverage.saturate.of
-          simp only [Coverage.sup_covering, extensiveCoverage, regularCoverage, Set.mem_union,
-            Set.mem_setOf_eq]
+          simp only [Coverage.sup_covering, extensiveCoverage, regularCoverage, Set.mem_union, Set.mem_setOf_eq]
           refine Or.inl ⟨I, hI, X, φ, ⟨rfl, ?_⟩⟩
           suffices Sigma.desc φ = 𝟙 _ by rw [this]; infer_instance
           ext

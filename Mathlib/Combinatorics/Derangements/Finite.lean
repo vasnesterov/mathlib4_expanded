@@ -49,18 +49,13 @@ theorem card_derangements_fin_add_two (n : ℕ) :
   -- get some basic results about the size of fin (n+1) plus or minus an element
   have h1 : ∀ a : Fin (n + 1), card ({a}ᶜ : Set (Fin (n + 1))) = card (Fin n) := by
     intro a
-    simp only [Fintype.card_fin, Finset.card_fin, Fintype.card_ofFinset, Finset.filter_ne' _ a,
-      Set.mem_compl_singleton_iff, Finset.card_erase_of_mem (Finset.mem_univ a),
-      add_tsub_cancel_right]
+    simp only [Fintype.card_fin, Finset.card_fin, Fintype.card_ofFinset, Finset.filter_ne' _ a, Set.mem_compl_singleton_iff, Finset.card_erase_of_mem (Finset.mem_univ a), add_tsub_cancel_right]
   have h2 : card (Fin (n + 2)) = card (Option (Fin (n + 1))) := by simp only [card_fin, card_option]
   -- rewrite the LHS and substitute in our fintype-level equivalence
-  simp only [card_derangements_invariant h2,
-    card_congr
+  simp only [card_derangements_invariant h2, card_congr
       (@derangementsRecursionEquiv (Fin (n + 1))
-        _),-- push the cardinality through the Σ and ⊕ so that we can use `card_n`
-    card_sigma,
-    card_sum, card_derangements_invariant (h1 _), Finset.sum_const, nsmul_eq_mul, Finset.card_fin,
-    mul_add, Nat.cast_id]
+        _), -- push the cardinality through the Σ and ⊕ so that we can use `card_n`
+    card_sigma, card_sum, card_derangements_invariant (h1 _), Finset.sum_const, nsmul_eq_mul, Finset.card_fin, mul_add, Nat.cast_id]
 #align card_derangements_fin_add_two card_derangements_fin_add_two
 
 /-- The number of derangements of an `n`-element set. -/

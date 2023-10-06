@@ -743,8 +743,7 @@ theorem toQuadraticForm_sub (B₁ B₂ : BilinForm R M) :
 #align bilin_form.to_quadratic_form_sub BilinForm.toQuadraticForm_sub
 
 theorem polar_toQuadraticForm (x y : M) : polar (toQuadraticForm B) x y = B x y + B y x := by
-  simp only [toQuadraticForm_apply, add_assoc, add_sub_cancel', add_right, polar, add_left_inj,
-    add_neg_cancel_left, add_left, sub_eq_add_neg _ (B y y), add_comm (B y x) _]
+  simp only [toQuadraticForm_apply, add_assoc, add_sub_cancel', add_right, polar, add_left_inj, add_neg_cancel_left, add_left, sub_eq_add_neg _ (B y y), add_comm (B y x) _]
 #align bilin_form.polar_to_quadratic_form BilinForm.polar_toQuadraticForm
 
 theorem polarBilin_toQuadraticForm : polarBilin (toQuadraticForm B) = B + flip' B :=
@@ -904,9 +903,7 @@ theorem associated_linMulLin (f g : M →ₗ[R₁] R₁) :
     associated (R₁ := R₁) (linMulLin f g) =
       ⅟ (2 : R₁) • (BilinForm.linMulLin f g + BilinForm.linMulLin g f) := by
   ext
-  simp only [smul_add, Algebra.id.smul_eq_mul, BilinForm.linMulLin_apply,
-    QuadraticForm.linMulLin_apply, BilinForm.smul_apply, associated_apply, BilinForm.add_apply,
-    LinearMap.map_add]
+  simp only [smul_add, Algebra.id.smul_eq_mul, BilinForm.linMulLin_apply, QuadraticForm.linMulLin_apply, BilinForm.smul_apply, associated_apply, BilinForm.add_apply, LinearMap.map_add]
   ring
 #align quadratic_form.associated_lin_mul_lin QuadraticForm.associated_linMulLin
 
@@ -1080,8 +1077,7 @@ theorem discr_smul (a : R₁) : (a • Q).discr = a ^ Fintype.card n * Q.discr :
 
 theorem discr_comp (f : (n → R₁) →ₗ[R₁] n → R₁) :
     (Q.comp f).discr = f.toMatrix'.det * f.toMatrix'.det * Q.discr := by
-  simp only [Matrix.det_transpose, mul_left_comm, QuadraticForm.toMatrix'_comp, mul_comm,
-    Matrix.det_mul, discr]
+  simp only [Matrix.det_transpose, mul_left_comm, QuadraticForm.toMatrix'_comp, mul_comm, Matrix.det_mul, discr]
 #align quadratic_form.discr_comp QuadraticForm.discr_comp
 
 end Discriminant

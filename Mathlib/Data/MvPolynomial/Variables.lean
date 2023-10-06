@@ -257,8 +257,7 @@ theorem degrees_map_of_injective [CommSemiring S] (p : MvPolynomial σ R) {f : R
 theorem degrees_rename_of_injective {p : MvPolynomial σ R} {f : σ → τ} (h : Function.Injective f) :
     degrees (rename f p) = (degrees p).map f := by
   classical
-  simp only [degrees, Multiset.map_finset_sup p.support Finsupp.toMultiset f h,
-    support_rename_of_injective h, Finset.sup_image]
+  simp only [degrees, Multiset.map_finset_sup p.support Finsupp.toMultiset f h, support_rename_of_injective h, Finset.sup_image]
   refine' Finset.sup_congr rfl fun x _ => _
   exact (Finsupp.toMultiset_map _ _).symm
 #align mv_polynomial.degrees_rename_of_injective MvPolynomial.degrees_rename_of_injective
@@ -557,8 +556,7 @@ theorem degreeOf_mul_X_ne {i j : σ} (f : MvPolynomial σ R) (h : i ≠ j) :
   simp only [Finset.sup_map]
   congr
   ext
-  simp only [Finsupp.single, Nat.one_ne_zero, add_right_eq_self, addRightEmbedding_apply, coe_mk,
-    Pi.add_apply, comp_apply, ite_eq_right_iff, Finsupp.coe_add, Pi.single_eq_of_ne h]
+  simp only [Finsupp.single, Nat.one_ne_zero, add_right_eq_self, addRightEmbedding_apply, coe_mk, Pi.add_apply, comp_apply, ite_eq_right_iff, Finsupp.coe_add, Pi.single_eq_of_ne h]
 set_option linter.uppercaseLean3 false in
 #align mv_polynomial.degree_of_mul_X_ne MvPolynomial.degreeOf_mul_X_ne
 

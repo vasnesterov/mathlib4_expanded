@@ -61,8 +61,7 @@ lemma P_succ (q : ℕ) : (P (q+1) : K[X] ⟶ K[X]) = P q ≫ (𝟙 _ + Hσ q) :=
 theorem P_f_0_eq (q : ℕ) : ((P q).f 0 : X _[0] ⟶ X _[0]) = 𝟙 _ := by
   induction' q with q hq
   · rfl
-  · simp only [P_succ, HomologicalComplex.add_f_apply, HomologicalComplex.comp_f,
-      HomologicalComplex.id_f, id_comp, hq, Hσ_eq_zero, add_zero]
+  · simp only [P_succ, HomologicalComplex.add_f_apply, HomologicalComplex.comp_f, HomologicalComplex.id_f, id_comp, hq, Hσ_eq_zero, add_zero]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.P_f_0_eq AlgebraicTopology.DoldKan.P_f_0_eq
 
@@ -123,8 +122,7 @@ theorem comp_P_eq_self {Y : C} {n q : ℕ} {φ : Y ⟶ X _[n + 1]} (v : HigherFa
   induction' q with q hq
   · simp only [P_zero]
     apply comp_id
-  · simp only [P_succ, comp_add, HomologicalComplex.comp_f, HomologicalComplex.add_f_apply,
-      comp_id, ← assoc, hq v.of_succ, add_right_eq_self]
+  · simp only [P_succ, comp_add, HomologicalComplex.comp_f, HomologicalComplex.add_f_apply, comp_id, ← assoc, hq v.of_succ, add_right_eq_self]
     by_cases hqn : n < q
     · exact v.of_succ.comp_Hσ_eq_zero hqn
     · obtain ⟨a, ha⟩ := Nat.le.dest (not_lt.mp hqn)
@@ -203,8 +201,7 @@ set_option linter.uppercaseLean3 false in
 @[reassoc (attr := simp)]
 theorem Q_f_naturality (q n : ℕ) {X Y : SimplicialObject C} (f : X ⟶ Y) :
     f.app (op [n]) ≫ (Q q).f n = (Q q).f n ≫ f.app (op [n]) := by
-  simp only [Q, HomologicalComplex.sub_f_apply, HomologicalComplex.id_f, comp_sub, P_f_naturality,
-    sub_comp, sub_left_inj]
+  simp only [Q, HomologicalComplex.sub_f_apply, HomologicalComplex.id_f, comp_sub, P_f_naturality, sub_comp, sub_left_inj]
   dsimp
   simp only [comp_id, id_comp]
 set_option linter.uppercaseLean3 false in
@@ -223,8 +220,7 @@ theorem map_P {D : Type*} [Category D] [Preadditive D] (G : C ⥤ D) [G.Additive
   induction' q with q hq
   · simp only [P_zero]
     apply G.map_id
-  · simp only [P_succ, comp_add, HomologicalComplex.comp_f, HomologicalComplex.add_f_apply,
-      comp_id, Functor.map_add, Functor.map_comp, hq, map_Hσ]
+  · simp only [P_succ, comp_add, HomologicalComplex.comp_f, HomologicalComplex.add_f_apply, comp_id, Functor.map_add, Functor.map_comp, hq, map_Hσ]
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.map_P AlgebraicTopology.DoldKan.map_P
 

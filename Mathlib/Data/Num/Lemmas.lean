@@ -911,9 +911,7 @@ theorem bitwise'_to_nat {f : Num → Num → Num} {g : Bool → Bool → Bool} (
     have : ∀ (b) (n : PosNum), (cond b (↑n) 0 : ℕ) = ↑(cond b (pos n) 0 : Num) := by
       intros b _; cases b <;> rfl
     induction' m with m IH m IH generalizing n <;> cases' n with n n
-    any_goals simp only [show one = 1 from rfl, show pos 1 = 1 from rfl,
-      show PosNum.bit0 = PosNum.bit false from rfl, show PosNum.bit1 = PosNum.bit true from rfl,
-      show ((1 : Num) : ℕ) = Nat.bit true 0 from rfl]
+    any_goals simp only [show one = 1 from rfl, show pos 1 = 1 from rfl, show PosNum.bit0 = PosNum.bit false from rfl, show PosNum.bit1 = PosNum.bit true from rfl, show ((1 : Num) : ℕ) = Nat.bit true 0 from rfl]
     all_goals
       repeat'
         rw [show ∀ b n, (pos (PosNum.bit b n) : ℕ) = Nat.bit b ↑n by

@@ -41,12 +41,10 @@ def derivative : R[X] →ₗ[R] R[X] where
   map_add' p q := by
     dsimp only
     rw [sum_add_index]  <;>
-      simp only [add_mul, forall_const, RingHom.map_add, eq_self_iff_true, zero_mul,
-        RingHom.map_zero]
+      simp only [add_mul, forall_const, RingHom.map_add, eq_self_iff_true, zero_mul, RingHom.map_zero]
   map_smul' a p := by
     dsimp; rw [sum_smul_index]  <;>
-      simp only [mul_sum, ← C_mul', mul_assoc, coeff_C_mul, RingHom.map_mul, forall_const, zero_mul,
-        RingHom.map_zero, sum]
+      simp only [mul_sum, ← C_mul', mul_assoc, coeff_C_mul, RingHom.map_mul, forall_const, zero_mul, RingHom.map_zero, sum]
 #align polynomial.derivative Polynomial.derivative
 
 theorem derivative_apply (p : R[X]) : derivative p = p.sum fun n a => C (a * n) * X ^ (n - 1) :=
@@ -339,8 +337,7 @@ theorem derivative_map [Semiring S] (p : R[X]) (f : R →+* S) :
   rw [derivative_apply]; rw [derivative_apply]
   rw [sum_over_range' _ _ (n + 1) ((le_max_left _ _).trans_lt (lt_add_one _))]
   rw [sum_over_range' _ _ (n + 1) ((le_max_right _ _).trans_lt (lt_add_one _))]
-  simp only [Polynomial.map_sum, Polynomial.map_mul, Polynomial.map_C, map_mul, coeff_map,
-    map_natCast, Polynomial.map_nat_cast, Polynomial.map_pow, map_X]
+  simp only [Polynomial.map_sum, Polynomial.map_mul, Polynomial.map_C, map_mul, coeff_map, map_natCast, Polynomial.map_nat_cast, Polynomial.map_pow, map_X]
   all_goals intro n; rw [zero_mul]; rw [C_0]; rw [zero_mul]
 #align polynomial.derivative_map Polynomial.derivative_map
 
@@ -527,8 +524,7 @@ theorem derivative_comp (p q : R[X]) :
     derivative (p.comp q) = derivative q * p.derivative.comp q := by
   induction p using Polynomial.induction_on'
   · simp [*, mul_add]
-  · simp only [derivative_pow, derivative_mul, monomial_comp, derivative_monomial, derivative_C,
-      zero_mul, C_eq_nat_cast, zero_add, RingHom.map_mul]
+  · simp only [derivative_pow, derivative_mul, monomial_comp, derivative_monomial, derivative_C, zero_mul, C_eq_nat_cast, zero_add, RingHom.map_mul]
     ring
 #align polynomial.derivative_comp Polynomial.derivative_comp
 

@@ -661,8 +661,7 @@ theorem DifferentiableOn.mono (h : DifferentiableOn 𝕜 f t) (st : s ⊆ t) : D
 #align differentiable_on.mono DifferentiableOn.mono
 
 theorem differentiableOn_univ : DifferentiableOn 𝕜 f univ ↔ Differentiable 𝕜 f := by
-  simp only [DifferentiableOn, Differentiable, differentiableWithinAt_univ, mem_univ,
-    forall_true_left]
+  simp only [DifferentiableOn, Differentiable, differentiableWithinAt_univ, mem_univ, forall_true_left]
 #align differentiable_on_univ differentiableOn_univ
 
 theorem Differentiable.differentiableOn (h : Differentiable 𝕜 f) : DifferentiableOn 𝕜 f s :=
@@ -1189,8 +1188,7 @@ theorem differentiableOn_const (c : F) : DifferentiableOn 𝕜 (fun _ => c) s :=
 
 theorem hasFDerivWithinAt_singleton (f : E → F) (x : E) :
     HasFDerivWithinAt f (0 : E →L[𝕜] F) {x} x := by
-  simp only [HasFDerivWithinAt, nhdsWithin_singleton, HasFDerivAtFilter, isLittleO_pure,
-    ContinuousLinearMap.zero_apply, sub_self]
+  simp only [HasFDerivWithinAt, nhdsWithin_singleton, HasFDerivAtFilter, isLittleO_pure, ContinuousLinearMap.zero_apply, sub_self]
 #align has_fderiv_within_at_singleton hasFDerivWithinAt_singleton
 
 theorem hasFDerivAt_of_subsingleton [h : Subsingleton E] (f : E → F) (x : E) :

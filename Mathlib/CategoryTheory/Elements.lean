@@ -203,8 +203,7 @@ def fromCostructuredArrow (F : Cᵒᵖ ⥤ Type v) : (CostructuredArrow yoneda F
   map {X Y} f :=
     ⟨f.unop.1.op, by
       convert (congr_fun ((unop X).hom.naturality f.unop.left.op) (𝟙 _)).symm
-      simp only [Equiv.toFun_as_coe, Quiver.Hom.unop_op, yonedaEquiv_apply, types_comp_apply,
-        Category.comp_id, yoneda_obj_map]
+      simp only [Equiv.toFun_as_coe, Quiver.Hom.unop_op, yonedaEquiv_apply, types_comp_apply, Category.comp_id, yoneda_obj_map]
       have : yoneda.map f.unop.left ≫ (unop X).hom = (unop Y).hom := by
         convert f.unop.3
       erw [← this]
@@ -240,8 +239,7 @@ theorem to_fromCostructuredArrow_eq (F : Cᵒᵖ ⥤ Type v) :
   · intro X
     cases' X with X_left X_right X_hom
     cases X_right
-    simp only [Functor.id_obj, Functor.rightOp_obj, toCostructuredArrow_obj, Functor.comp_obj,
-      CostructuredArrow.mk]
+    simp only [Functor.id_obj, Functor.rightOp_obj, toCostructuredArrow_obj, Functor.comp_obj, CostructuredArrow.mk]
     congr
     ext x f
     convert congr_fun (X_hom.naturality f.op).symm (𝟙 X_left)
@@ -270,8 +268,7 @@ theorem costructuredArrow_yoneda_equivalence_naturality {F₁ F₂ : Cᵒᵖ ⥤
     (map α).op ⋙ toCostructuredArrow F₂ = toCostructuredArrow F₁ ⋙ CostructuredArrow.map α := by
   fapply Functor.ext
   · intro X
-    simp only [CostructuredArrow.map_mk, toCostructuredArrow_obj, Functor.op_obj,
-      Functor.comp_obj]
+    simp only [CostructuredArrow.map_mk, toCostructuredArrow_obj, Functor.op_obj, Functor.comp_obj]
     congr
     ext _ f
     simpa using congr_fun (α.naturality f.op).symm (unop X).snd

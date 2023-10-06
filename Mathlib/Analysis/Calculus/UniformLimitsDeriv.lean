@@ -179,8 +179,7 @@ theorem uniformCauchySeqOn_ball_of_fderiv {r : ℝ} (hf' : UniformCauchySeqOn f'
   letI : NormedSpace ℝ E := NormedSpace.restrictScalars ℝ 𝕜 _
   have : NeBot l := (cauchy_map_iff.1 hfg).1
   rcases le_or_lt r 0 with (hr | hr)
-  · simp only [Metric.ball_eq_empty.2 hr, UniformCauchySeqOn, Set.mem_empty_iff_false,
-      IsEmpty.forall_iff, eventually_const, imp_true_iff]
+  · simp only [Metric.ball_eq_empty.2 hr, UniformCauchySeqOn, Set.mem_empty_iff_false, IsEmpty.forall_iff, eventually_const, imp_true_iff]
   rw [SeminormedAddGroup.uniformCauchySeqOn_iff_tendstoUniformlyOn_zero] at hf' ⊢
   suffices
     TendstoUniformlyOn (fun (n : ι × ι) (z : E) => f n.1 z - f n.2 z - (f n.1 x - f n.2 x)) 0
@@ -469,8 +468,7 @@ theorem UniformCauchySeqOnFilter.one_smulRight {l' : Filter 𝕜}
   simp only [dist_eq_norm, Pi.zero_apply, zero_sub, norm_neg] at hn ⊢
   refine' ContinuousLinearMap.op_norm_le_bound _ hq.le _
   intro z
-  simp only [ContinuousLinearMap.coe_sub', Pi.sub_apply, ContinuousLinearMap.smulRight_apply,
-    ContinuousLinearMap.one_apply]
+  simp only [ContinuousLinearMap.coe_sub', Pi.sub_apply, ContinuousLinearMap.smulRight_apply, ContinuousLinearMap.one_apply]
   rw [← smul_sub]; rw [norm_smul]; rw [mul_comm]
   gcongr
 #align uniform_cauchy_seq_on_filter.one_smul_right UniformCauchySeqOnFilter.one_smulRight
@@ -517,8 +515,7 @@ theorem hasDerivAt_of_tendstoUniformlyOnFilter [NeBot l]
     simp only [dist_eq_norm] at hn ⊢
     refine' ContinuousLinearMap.op_norm_le_bound _ hq.le _
     intro z
-    simp only [ContinuousLinearMap.coe_sub', Pi.sub_apply, ContinuousLinearMap.smulRight_apply,
-      ContinuousLinearMap.one_apply]
+    simp only [ContinuousLinearMap.coe_sub', Pi.sub_apply, ContinuousLinearMap.smulRight_apply, ContinuousLinearMap.one_apply]
     rw [← smul_sub]; rw [norm_smul]; rw [mul_comm]
     gcongr
   exact hasFDerivAt_of_tendstoUniformlyOnFilter hf' hf hfg

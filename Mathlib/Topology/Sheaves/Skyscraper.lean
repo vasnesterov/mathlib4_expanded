@@ -158,8 +158,7 @@ noncomputable def skyscraperPresheafCoconeIsColimitOfSpecializes {y : X} (h : p�
     rw [← c.w (homOfLE <| (le_top : unop U ≤ _)).op]
     change _ ≫ _ ≫ dite _ _ _ ≫ _ = _
     rw [dif_pos]
-    · simp only [skyscraperPresheafCoconeOfSpecializes_ι_app, eqToHom_trans_assoc,
-        eqToHom_refl, Category.id_comp, unop_op, op_unop]
+    · simp only [skyscraperPresheafCoconeOfSpecializes_ι_app, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp, unop_op, op_unop]
     · exact h.mem_open U.unop.1.2 U.unop.2
   uniq c f h := by
     dsimp -- Porting note : added a `dsimp`
@@ -290,8 +289,7 @@ def fromStalk {𝓕 : Presheaf C X} {c : C} (f : 𝓕 ⟶ skyscraperPresheaf p�
           -- Porting note : added this `dsimp` and `rfl` in the end
           dsimp only [skyscraperPresheaf_obj, unop_op, Eq.ndrec]
           have hV : p₀ ∈ (OpenNhds.inclusion p₀).obj V.unop := V.unop.2; split_ifs <;>
-          simp only [comp_eqToHom_iff, Category.assoc, eqToHom_trans, eqToHom_refl,
-            Category.comp_id] <;> rfl }
+          simp only [comp_eqToHom_iff, Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id] <;> rfl }
   colimit.desc _ χ
 #align stalk_skyscraper_presheaf_adjunction_auxs.from_stalk StalkSkyscraperPresheafAdjunctionAuxs.fromStalk
 
@@ -371,8 +369,7 @@ def skyscraperPresheafStalkAdjunction [HasColimits C] :
     ext U;
     -- Porting note : `NatTrans.comp_app` is not picked up by `simp`
     rw [NatTrans.comp_app]
-    simp only [Equiv.coe_fn_mk, toSkyscraperPresheaf_app, SkyscraperPresheafFunctor.map'_app,
-      skyscraperPresheafFunctor_map, unit_app]
+    simp only [Equiv.coe_fn_mk, toSkyscraperPresheaf_app, SkyscraperPresheafFunctor.map'_app, skyscraperPresheafFunctor_map, unit_app]
     split_ifs with h
     · erw [Category.id_comp, ← Category.assoc, comp_eqToHom_iff, Category.assoc, Category.assoc,
         Category.assoc, Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id, ←

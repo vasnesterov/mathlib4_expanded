@@ -229,9 +229,7 @@ def fromLoop (i : N) (p : Ω (Ω^ { j // j ≠ i } X x) const) : Ω^ N X x :=
     (Cube.splitAt i).toContinuousMap,
     by
     rintro y ⟨j, Hj⟩
-    simp only [ContinuousMap.comp_apply, toContinuousMap_apply,
-      funSplitAt_apply, ContinuousMap.uncurry_apply, ContinuousMap.coe_mk,
-      Function.uncurry_apply_pair]
+    simp only [ContinuousMap.comp_apply, toContinuousMap_apply, funSplitAt_apply, ContinuousMap.uncurry_apply, ContinuousMap.coe_mk, Function.uncurry_apply_pair]
     obtain rfl | Hne := eq_or_ne j i
     · cases' Hj with Hj Hj <;> simp only [Hj, p.coe_toContinuousMap, p.source, p.target] <;> rfl
     · exact GenLoop.boundary _ _ ⟨⟨j, Hne⟩, Hj⟩⟩
@@ -530,8 +528,7 @@ theorem auxGroup_indep (i j : N) : (auxGroup i : Group (HomotopyGroup N X x)) = 
   rintro ⟨a⟩ ⟨b⟩ ⟨c⟩ ⟨d⟩
   change Quotient.mk' _ = _
   apply congr_arg Quotient.mk'
-  simp only [fromLoop_trans_toLoop, transAt_distrib h, coe_toEquiv, loopHomeo_apply,
-    coe_symm_toEquiv, loopHomeo_symm_apply]
+  simp only [fromLoop_trans_toLoop, transAt_distrib h, coe_toEquiv, loopHomeo_apply, coe_symm_toEquiv, loopHomeo_symm_apply]
 #align homotopy_group.aux_group_indep HomotopyGroup.auxGroup_indep
 
 theorem transAt_indep {i} (j) (f g : Ω^ N X x) :
@@ -573,8 +570,7 @@ instance commGroup [Nontrivial N] : CommGroup (HomotopyGroup N X x) :=
     (by
       rintro ⟨a⟩ ⟨b⟩ ⟨c⟩ ⟨d⟩
       apply congr_arg Quotient.mk'
-      simp only [fromLoop_trans_toLoop, transAt_distrib <| Classical.choose_spec h, coe_toEquiv,
-        loopHomeo_apply, coe_symm_toEquiv, loopHomeo_symm_apply])
+      simp only [fromLoop_trans_toLoop, transAt_distrib <| Classical.choose_spec h, coe_toEquiv, loopHomeo_apply, coe_symm_toEquiv, loopHomeo_symm_apply])
 #align homotopy_group.comm_group HomotopyGroup.commGroup
 
 end HomotopyGroup

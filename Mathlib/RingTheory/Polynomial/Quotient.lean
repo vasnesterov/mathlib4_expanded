@@ -124,22 +124,16 @@ def polynomialQuotientEquivQuotientPolynomial (I : Ideal R) :
       simp only [coe_eval₂RingHom] at hp hq
       simp only [coe_eval₂RingHom, hp, hq, RingHom.map_add]
     · rintro n ⟨x⟩
-      simp only [← smul_X_eq_monomial, C_mul', Quotient.lift_mk, Submodule.Quotient.quot_mk_eq_mk,
-        Quotient.mk_eq_mk, eval₂_X_pow, eval₂_smul, coe_eval₂RingHom, RingHom.map_pow, eval₂_C,
-        RingHom.coe_comp, RingHom.map_mul, eval₂_X, Function.comp_apply]
+      simp only [← smul_X_eq_monomial, C_mul', Quotient.lift_mk, Submodule.Quotient.quot_mk_eq_mk, Quotient.mk_eq_mk, eval₂_X_pow, eval₂_smul, coe_eval₂RingHom, RingHom.map_pow, eval₂_C, RingHom.coe_comp, RingHom.map_mul, eval₂_X, Function.comp_apply]
   right_inv := by
     rintro ⟨f⟩
     refine Polynomial.induction_on' f ?_ ?_
     · -- Porting note: was `simp_intro p q hp hq`
       intros p q hp hq
-      simp only [Submodule.Quotient.quot_mk_eq_mk, Quotient.mk_eq_mk, map_add, Quotient.lift_mk,
-        coe_eval₂RingHom] at hp hq ⊢
+      simp only [Submodule.Quotient.quot_mk_eq_mk, Quotient.mk_eq_mk, map_add, Quotient.lift_mk, coe_eval₂RingHom] at hp hq ⊢
       rw [hp]; rw [hq]
     · intro n a
-      simp only [← smul_X_eq_monomial, ← C_mul' a (X ^ n), Quotient.lift_mk,
-        Submodule.Quotient.quot_mk_eq_mk, Quotient.mk_eq_mk, eval₂_X_pow, eval₂_smul,
-        coe_eval₂RingHom, RingHom.map_pow, eval₂_C, RingHom.coe_comp, RingHom.map_mul, eval₂_X,
-        Function.comp_apply]
+      simp only [← smul_X_eq_monomial, ← C_mul' a (X ^ n), Quotient.lift_mk, Submodule.Quotient.quot_mk_eq_mk, Quotient.mk_eq_mk, eval₂_X_pow, eval₂_smul, coe_eval₂RingHom, RingHom.map_pow, eval₂_C, RingHom.coe_comp, RingHom.map_mul, eval₂_X, Function.comp_apply]
 #align ideal.polynomial_quotient_equiv_quotient_polynomial Ideal.polynomialQuotientEquivQuotientPolynomial
 
 @[simp]
@@ -253,12 +247,10 @@ lemma quotientEquivQuotientMvPolynomial_leftInverse (I : Ideal R) :
     rw [Ideal.Quotient.lift_mk]; rw [eval₂Hom_C]; rw [RingHom.comp_apply]; rw [eval₂_C]; rw [Ideal.Quotient.lift_mk]; rw [RingHom.comp_apply]
   · intros p q hp hq
     erw [Ideal.Quotient.lift_mk] at hp hq ⊢
-    simp only [Submodule.Quotient.quot_mk_eq_mk, eval₂_add, RingHom.map_add, coe_eval₂Hom,
-      Ideal.Quotient.lift_mk, Ideal.Quotient.mk_eq_mk] at hp hq ⊢
+    simp only [Submodule.Quotient.quot_mk_eq_mk, eval₂_add, RingHom.map_add, coe_eval₂Hom, Ideal.Quotient.lift_mk, Ideal.Quotient.mk_eq_mk] at hp hq ⊢
     rw [hp]; rw [hq]
   · intros p i hp
-    simp only [Submodule.Quotient.quot_mk_eq_mk, coe_eval₂Hom, Ideal.Quotient.lift_mk,
-      Ideal.Quotient.mk_eq_mk, eval₂_mul, RingHom.map_mul, eval₂_X] at hp ⊢
+    simp only [Submodule.Quotient.quot_mk_eq_mk, coe_eval₂Hom, Ideal.Quotient.lift_mk, Ideal.Quotient.mk_eq_mk, eval₂_mul, RingHom.map_mul, eval₂_X] at hp ⊢
     simp only [hp]
 
 -- Porting note: this definition was split to avoid timeouts.

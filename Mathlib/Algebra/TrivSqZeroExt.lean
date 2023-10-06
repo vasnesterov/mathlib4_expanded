@@ -803,8 +803,7 @@ def liftAux (f : M →ₗ[R'] A) (hf : ∀ x y, f x * f y = 0) : tsze R' M →�
     (TrivSqZeroExt.ind fun r₁ m₁ =>
       TrivSqZeroExt.ind fun r₂ m₂ => by
         dsimp
-        simp only [add_zero, zero_add, add_mul, mul_add, smul_mul_smul, hf, smul_zero,
-          op_smul_eq_smul]
+        simp only [add_zero, zero_add, add_mul, mul_add, smul_mul_smul, hf, smul_zero, op_smul_eq_smul]
         rw [← RingHom.map_mul]; rw [LinearMap.map_add]; rw [← Algebra.commutes _ (f _)]; rw [← Algebra.smul_def]; rw [←
           Algebra.smul_def]; rw [add_right_comm]; rw [add_assoc]; rw [LinearMap.map_smul]; rw [LinearMap.map_smul])
 #align triv_sq_zero_ext.lift_aux TrivSqZeroExt.liftAux

@@ -294,9 +294,7 @@ theorem dist_triangle_nonarch (x y z : ∀ n, E n) : dist x z ≤ max (dist x y)
   · simp
   rcases eq_or_ne y z with (rfl | hyz)
   · simp
-  simp only [dist_eq_of_ne, hxz, hxy, hyz, inv_le_inv, one_div, inv_pow, zero_lt_two, Ne.def,
-    not_false_iff, le_max_iff, pow_le_pow_iff, one_lt_two, pow_pos,
-    min_le_iff.1 (min_firstDiff_le x y z hxz)]
+  simp only [dist_eq_of_ne, hxz, hxy, hyz, inv_le_inv, one_div, inv_pow, zero_lt_two, Ne.def, not_false_iff, le_max_iff, pow_le_pow_iff, one_lt_two, pow_pos, min_le_iff.1 (min_firstDiff_le x y z hxz)]
 #align pi_nat.dist_triangle_nonarch PiNat.dist_triangle_nonarch
 
 protected theorem dist_triangle (x y z : ∀ n, E n) : dist x z ≤ dist x y + dist y z :=
@@ -887,8 +885,7 @@ protected def metricSpace : MetricSpace (∀ i, F i) where
     simp
   toUniformSpace := Pi.uniformSpace _
   uniformity_dist := by
-    simp only [Pi.uniformity, comap_iInf, gt_iff_lt, preimage_setOf_eq, comap_principal,
-      PseudoMetricSpace.uniformity_dist]
+    simp only [Pi.uniformity, comap_iInf, gt_iff_lt, preimage_setOf_eq, comap_principal, PseudoMetricSpace.uniformity_dist]
     apply le_antisymm
     · simp only [le_iInf_iff, le_principal_iff]
       intro ε εpos

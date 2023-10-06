@@ -149,8 +149,7 @@ noncomputable instance : InfSet (Filtration ι m) :=
       mono' := fun i j hij => by
         by_cases h_nonempty : Set.Nonempty s
         swap; · simp only [h_nonempty, Set.nonempty_image_iff, if_false, le_refl]
-        simp only [h_nonempty, if_true, le_sInf_iff, Set.mem_image, forall_exists_index, and_imp,
-          forall_apply_eq_imp_iff₂]
+        simp only [h_nonempty, if_true, le_sInf_iff, Set.mem_image, forall_exists_index, and_imp, forall_apply_eq_imp_iff₂]
         refine' fun f hf_mem => le_trans _ (f.mono hij)
         have hfi_mem : f i ∈ (fun g : Filtration ι m => g i) '' s := ⟨f, hf_mem, rfl⟩
         exact sInf_le hfi_mem
@@ -194,8 +193,7 @@ noncomputable instance instCompleteLattice : CompleteLattice (Filtration ι m) w
   le_sInf s f h_forall i := by
     by_cases hs : s.Nonempty
     swap; · simp only [sInf_def, hs, if_false]; exact f.le i
-    simp only [sInf_def, hs, if_true, le_sInf_iff, Set.mem_image, forall_exists_index, and_imp,
-      forall_apply_eq_imp_iff₂]
+    simp only [sInf_def, hs, if_true, le_sInf_iff, Set.mem_image, forall_exists_index, and_imp, forall_apply_eq_imp_iff₂]
     exact fun g hg_mem => h_forall g hg_mem i
   top := ⊤
   bot := ⊥

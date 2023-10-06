@@ -54,8 +54,7 @@ theorem decomposition_Q (n q : ℕ) :
       ∑ i : Fin (n + 1) in Finset.filter (fun i : Fin (n + 1) => (i : ℕ) < q) Finset.univ,
         (P i).f (n + 1) ≫ X.δ i.rev.succ ≫ X.σ (Fin.rev i) := by
   induction' q with q hq
-  · simp only [Nat.zero_eq, Q_zero, HomologicalComplex.zero_f_apply, Nat.not_lt_zero,
-      Finset.filter_False, Finset.sum_empty]
+  · simp only [Nat.zero_eq, Q_zero, HomologicalComplex.zero_f_apply, Nat.not_lt_zero, Finset.filter_False, Finset.sum_empty]
   · by_cases hqn : q + 1 ≤ n + 1
     swap
     · rw [Q_is_eventually_constant (show n + 1 ≤ q by linarith), hq]
@@ -71,13 +70,10 @@ theorem decomposition_Q (n q : ℕ) :
       rw [← @Finset.add_sum_erase _ _ _ _ _ _ q' (by simp)]
       congr
       · have hnaq' : n = a + q := by linarith
-        simp only [Fin.val_mk, (HigherFacesVanish.of_P q n).comp_Hσ_eq hnaq',
-          q'.rev_eq hnaq', neg_neg]
+        simp only [Fin.val_mk, (HigherFacesVanish.of_P q n).comp_Hσ_eq hnaq', q'.rev_eq hnaq', neg_neg]
         rfl
       · ext ⟨i, hi⟩
-        simp only [Nat.succ_eq_add_one, Nat.lt_succ_iff_lt_or_eq, Finset.mem_univ,
-          forall_true_left, Finset.mem_filter, lt_self_iff_false, or_true, and_self, not_true,
-          Finset.mem_erase, ne_eq, Fin.mk.injEq, true_and]
+        simp only [Nat.succ_eq_add_one, Nat.lt_succ_iff_lt_or_eq, Finset.mem_univ, forall_true_left, Finset.mem_filter, lt_self_iff_false, or_true, and_self, not_true, Finset.mem_erase, ne_eq, Fin.mk.injEq, true_and]
         aesop
 set_option linter.uppercaseLean3 false in
 #align algebraic_topology.dold_kan.decomposition_Q AlgebraicTopology.DoldKan.decomposition_Q

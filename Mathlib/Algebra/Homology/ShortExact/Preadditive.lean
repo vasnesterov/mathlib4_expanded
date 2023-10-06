@@ -272,9 +272,7 @@ variable (h : Splitting f g)
 theorem split_add : h.retraction ≫ f + g ≫ h.section = 𝟙 _ := by
   delta Splitting.section retraction
   rw [← cancel_mono h.iso.hom]; rw [← cancel_epi h.iso.inv]
-  simp only [Category.comp_id, Category.id_comp, Category.assoc, Iso.inv_hom_id_assoc,
-    Iso.inv_hom_id, Limits.biprod.total, Preadditive.comp_add, Preadditive.add_comp,
-    Splitting.comp_iso_eq_inl, Splitting.iso_comp_eq_snd_assoc]
+  simp only [Category.comp_id, Category.id_comp, Category.assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id, Limits.biprod.total, Preadditive.comp_add, Preadditive.add_comp, Splitting.comp_iso_eq_inl, Splitting.iso_comp_eq_snd_assoc]
 #align category_theory.splitting.split_add CategoryTheory.Splitting.split_add
 
 @[reassoc]

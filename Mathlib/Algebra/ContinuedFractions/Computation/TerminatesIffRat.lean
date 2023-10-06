@@ -92,8 +92,7 @@ nonrec theorem exists_gcf_pair_rat_eq_of_nth_conts_aux :
           obtain ⟨a_eq_one, z, b_eq_z⟩ : gp_n.a = 1 ∧ ∃ z : ℤ, gp_n.b = (z : K);
           exact of_part_num_eq_one_and_exists_int_part_denom_eq s_ppred_nth_eq
           -- finally, unfold the recurrence to obtain the required rational value.
-          simp only [a_eq_one, b_eq_z,
-            continuantsAux_recurrence s_ppred_nth_eq ppred_conts_eq pred_conts_eq]
+          simp only [a_eq_one, b_eq_z, continuantsAux_recurrence s_ppred_nth_eq ppred_conts_eq pred_conts_eq]
           use nextContinuants 1 (z : ℚ) ppred_conts pred_conts
           cases ppred_conts; cases pred_conts
           simp [nextContinuants, nextNumerator, nextDenominator])
@@ -233,8 +232,7 @@ theorem coe_of_rat_eq :
   obtain rfl : ↑⌊(q : K)⌋ = h := by injection gcf_v_eq
   -- Porting note: was
   -- simp [coe_of_h_rat_eq rfl, coe_of_s_rat_eq rfl, gcf_v_eq]
-  simp only [gcf_v_eq, Int.cast_inj, Rat.floor_cast, of_h_eq_floor, eq_self_iff_true,
-    Rat.cast_coe_int, and_self, coe_of_h_rat_eq rfl, coe_of_s_rat_eq rfl]
+  simp only [gcf_v_eq, Int.cast_inj, Rat.floor_cast, of_h_eq_floor, eq_self_iff_true, Rat.cast_coe_int, and_self, coe_of_h_rat_eq rfl, coe_of_s_rat_eq rfl]
 #align generalized_continued_fraction.coe_of_rat_eq GeneralizedContinuedFraction.coe_of_rat_eq
 
 theorem of_terminates_iff_of_rat_terminates {v : K} {q : ℚ} (v_eq_q : v = (q : K)) :
@@ -325,8 +323,7 @@ theorem exists_nth_stream_eq_none_of_rat (q : ℚ) : ∃ n : ℕ, IntFractPair.s
       have : 0 ≤ fract_q_num := Rat.num_nonneg_iff_zero_le.mpr (Int.fract_nonneg q)
       -- Porting note: was
       -- simp [Int.natAbs_of_nonneg this, sub_add_eq_sub_sub_swap, sub_right_comm]
-      simp only [Nat.cast_add, Int.natAbs_of_nonneg this, Nat.cast_one, sub_add_eq_sub_sub_swap,
-        sub_right_comm, sub_self, zero_sub]
+      simp only [Nat.cast_add, Int.natAbs_of_nonneg this, Nat.cast_one, sub_add_eq_sub_sub_swap, sub_right_comm, sub_self, zero_sub]
     have : 0 ≤ ifp.fr := (nth_stream_fr_nonneg_lt_one stream_nth_eq).left
     have : 0 ≤ ifp.fr.num := Rat.num_nonneg_iff_zero_le.mpr this
     linarith

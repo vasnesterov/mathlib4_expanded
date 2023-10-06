@@ -66,8 +66,7 @@ theorem AntitoneOn.integral_le_sum (hf : AntitoneOn f (Icc x₀ (x₀ + a))) :
       have ia : i < a := Finset.mem_range.1 hi
       refine' intervalIntegral.integral_mono_on (by simp) (hint _ ia) (by simp) fun x hx => _
       apply hf _ _ hx.1
-      · simp only [ia.le, mem_Icc, le_add_iff_nonneg_right, Nat.cast_nonneg, add_le_add_iff_left,
-          Nat.cast_le, and_self_iff]
+      · simp only [ia.le, mem_Icc, le_add_iff_nonneg_right, Nat.cast_nonneg, add_le_add_iff_left, Nat.cast_le, and_self_iff]
       · refine' mem_Icc.2 ⟨le_trans (by simp) hx.1, le_trans hx.2 _⟩
         simp only [add_le_add_iff_left, Nat.cast_le, Nat.succ_le_of_lt ia]
     _ = ∑ i in Finset.range a, f (x₀ + i) := by simp

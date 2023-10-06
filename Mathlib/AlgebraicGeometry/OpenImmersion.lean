@@ -762,8 +762,7 @@ theorem Scheme.restrictFunctor_map_base {U V : Opens X} (i : U ⟶ V) :
 theorem Scheme.restrictFunctor_map_app_aux {U V : Opens X} (i : U ⟶ V) (W : Opens V) :
     U.openEmbedding.isOpenMap.functor.obj ((Opens.map (X.restrictFunctor.map i).1.val.base).obj W) ≤
       V.openEmbedding.isOpenMap.functor.obj W := by
-  simp only [← SetLike.coe_subset_coe, IsOpenMap.functor_obj_coe, Set.image_subset_iff,
-    Scheme.restrictFunctor_map_base, Opens.map_coe, Opens.inclusion_apply]
+  simp only [← SetLike.coe_subset_coe, IsOpenMap.functor_obj_coe, Set.image_subset_iff, Scheme.restrictFunctor_map_base, Opens.map_coe, Opens.inclusion_apply]
   rintro _ h
   exact ⟨_, h, rfl⟩
 #align algebraic_geometry.Scheme.restrict_functor_map_app_aux AlgebraicGeometry.Scheme.restrictFunctor_map_app_aux
@@ -1078,9 +1077,7 @@ def morphismRestrictRestrict {X Y : Scheme} (f : X ⟶ Y) (U : Opens Y) (V : Ope
   · repeat
       apply (config := { allowSynthFailures := true }) IsIso.comp_isIso
   have : (f ∣_ U ∣_ V) ≫ (Iso.refl _).hom = (asIso h).hom ≫ pullback.snd (f := f) (g := g)
-  · simp only [Category.comp_id, pullbackRightPullbackFstIso_hom_fst, Iso.refl_hom,
-      Category.assoc, pullbackSymmetry_hom_comp_snd, asIso_hom, pullback.lift_fst,
-      pullbackSymmetry_hom_comp_fst]
+  · simp only [Category.comp_id, pullbackRightPullbackFstIso_hom_fst, Iso.refl_hom, Category.assoc, pullbackSymmetry_hom_comp_snd, asIso_hom, pullback.lift_fst, pullbackSymmetry_hom_comp_fst]
     rfl
   refine'
     Arrow.isoMk' _ _ _ _ this.symm ≪≫
@@ -1125,8 +1122,7 @@ def morphismRestrictStalkMap {X Y : Scheme} (f : X ⟶ Y) (U : Opens Y) (x) :
   · exact X.restrictStalkIso (Opens.openEmbedding _) _
   · apply TopCat.Presheaf.stalk_hom_ext
     intro V hxV
-    simp only [TopCat.Presheaf.stalkCongr_hom, CategoryTheory.Category.assoc,
-      CategoryTheory.Iso.trans_hom]
+    simp only [TopCat.Presheaf.stalkCongr_hom, CategoryTheory.Category.assoc, CategoryTheory.Iso.trans_hom]
     erw [PresheafedSpace.restrictStalkIso_hom_eq_germ_assoc]
     erw [PresheafedSpace.stalkMap_germ_assoc _ V ⟨_, hxV⟩]
     rw [TopCat.Presheaf.germ_stalkSpecializes'_assoc]

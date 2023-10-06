@@ -472,8 +472,7 @@ theorem bliminf_true (f : Filter β) (u : β → α) : (bliminf u f fun _ => Tru
 
 theorem blimsup_eq_limsup_subtype {f : Filter β} {u : β → α} {p : β → Prop} :
     blimsup u f p = limsup (u ∘ ((↑) : { x | p x } → β)) (comap (↑) f) := by
-  simp only [blimsup_eq, limsup_eq, Function.comp_apply, eventually_comap, SetCoe.forall,
-    Subtype.coe_mk, mem_setOf_eq]
+  simp only [blimsup_eq, limsup_eq, Function.comp_apply, eventually_comap, SetCoe.forall, Subtype.coe_mk, mem_setOf_eq]
   congr
   ext a
   simp_rw [Subtype.forall]
@@ -676,8 +675,7 @@ theorem HasBasis.liminf_eq_sSup_iUnion_iInter {ι ι' : Type*} {f : ι → α} {
   simp_rw [liminf_eq, hv.eventually_iff]
   congr
   ext x
-  simp only [mem_setOf_eq, iInter_coe_set, mem_iUnion, mem_iInter, mem_Iic, Subtype.exists,
-    exists_prop]
+  simp only [mem_setOf_eq, iInter_coe_set, mem_iUnion, mem_iInter, mem_Iic, Subtype.exists, exists_prop]
 
 theorem HasBasis.liminf_eq_sSup_univ_of_empty {f : ι → α} {v : Filter ι}
     {p : ι' → Prop} {s : ι' → Set ι} (hv : v.HasBasis p s) (i : ι') (hi : p i) (h'i : s i = ∅) :
@@ -840,8 +838,7 @@ theorem blimsup_eq_iInf_biSup {f : Filter β} {p : β → Prop} {u : β → α} 
 theorem blimsup_eq_iInf_biSup_of_nat {p : ℕ → Prop} {u : ℕ → α} :
     blimsup u atTop p = ⨅ i, ⨆ (j) (_ : p j ∧ i ≤ j), u j := by
   -- Porting note: Making this into a single simp only does not work?
-  simp only [blimsup_eq_limsup_subtype, Function.comp,
-    (atTop_basis.comap ((↑) : { x | p x } → ℕ)).limsup_eq_iInf_iSup, iSup_subtype, iSup_and]
+  simp only [blimsup_eq_limsup_subtype, Function.comp, (atTop_basis.comap ((↑) : { x | p x } → ℕ)).limsup_eq_iInf_iSup, iSup_subtype, iSup_and]
   simp only [mem_setOf_eq, mem_preimage, mem_Ici, not_le, iInf_pos]
 #align filter.blimsup_eq_infi_bsupr_of_nat Filter.blimsup_eq_iInf_biSup_of_nat
 
@@ -1158,8 +1155,7 @@ theorem cofinite.blimsup_set_eq :
 
 theorem cofinite.bliminf_set_eq : bliminf s cofinite p = { x | { n | p n ∧ x ∉ s n }.Finite } := by
   rw [← compl_inj_iff]
-  simp only [bliminf_eq_iSup_biInf, compl_iInf, compl_iSup, ← blimsup_eq_iInf_biSup,
-    cofinite.blimsup_set_eq]
+  simp only [bliminf_eq_iSup_biInf, compl_iInf, compl_iSup, ← blimsup_eq_iInf_biSup, cofinite.blimsup_set_eq]
   rfl
 #align filter.cofinite.bliminf_set_eq Filter.cofinite.bliminf_set_eq
 

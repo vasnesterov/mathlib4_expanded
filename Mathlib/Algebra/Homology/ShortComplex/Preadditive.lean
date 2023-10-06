@@ -110,8 +110,7 @@ lemma leftHomologyMap'_add :
       leftHomologyMap' φ' h₁ h₂ := by
   have γ : LeftHomologyMapData φ h₁ h₂ := default
   have γ' : LeftHomologyMapData φ' h₁ h₂ := default
-  simp only [γ.leftHomologyMap'_eq, γ'.leftHomologyMap'_eq,
-    (γ.add γ').leftHomologyMap'_eq, LeftHomologyMapData.add_φH]
+  simp only [γ.leftHomologyMap'_eq, γ'.leftHomologyMap'_eq, (γ.add γ').leftHomologyMap'_eq, LeftHomologyMapData.add_φH]
 
 @[simp]
 lemma cyclesMap'_add :
@@ -119,8 +118,7 @@ lemma cyclesMap'_add :
       cyclesMap' φ' h₁ h₂ := by
   have γ : LeftHomologyMapData φ h₁ h₂ := default
   have γ' : LeftHomologyMapData φ' h₁ h₂ := default
-  simp only [γ.cyclesMap'_eq, γ'.cyclesMap'_eq,
-    (γ.add γ').cyclesMap'_eq, LeftHomologyMapData.add_φK]
+  simp only [γ.cyclesMap'_eq, γ'.cyclesMap'_eq, (γ.add γ').cyclesMap'_eq, LeftHomologyMapData.add_φK]
 
 @[simp]
 lemma leftHomologyMap'_sub :

@@ -446,13 +446,7 @@ lemma δ_δ (n₀ n₁ n₂ : ℤ) (z : Cochain F G n₀) : δ n₁ n₂ (δ n�
   by_cases h₀₁ : n₀ + 1 = n₁; swap; rw [δ_shape _ _ h₀₁]; rw [δ_zero]
   ext p q hpq
   dsimp
-  simp only [δ_v n₁ n₂ h₁₂ _ p q hpq _ _ rfl rfl,
-    δ_v n₀ n₁ h₀₁ z p (q-1) (by linarith) (q-2) _ (by linarith) rfl,
-    δ_v n₀ n₁ h₀₁ z (p+1) q (by linarith) _ (p+2) rfl (by linarith),
-    ← h₀₁, Int.negOnePow_succ, neg_smul, add_comp, assoc,
-    HomologicalComplex.d_comp_d, comp_zero, neg_comp, zero_add, neg_neg, comp_add,
-    comp_neg, comp_zsmul, HomologicalComplex.d_comp_d_assoc, zero_comp, zsmul_zero,
-    neg_zero, add_zero, zsmul_comp, add_left_neg]
+  simp only [δ_v n₁ n₂ h₁₂ _ p q hpq _ _ rfl rfl, δ_v n₀ n₁ h₀₁ z p (q-1) (by linarith) (q-2) _ (by linarith) rfl, δ_v n₀ n₁ h₀₁ z (p+1) q (by linarith) _ (p+2) rfl (by linarith), ← h₀₁, Int.negOnePow_succ, neg_smul, add_comp, assoc, HomologicalComplex.d_comp_d, comp_zero, neg_comp, zero_add, neg_neg, comp_add, comp_neg, comp_zsmul, HomologicalComplex.d_comp_d_assoc, zero_comp, zsmul_zero, neg_zero, add_zero, zsmul_comp, add_left_neg]
 
 lemma δ_comp {n₁ n₂ n₁₂ : ℤ} (z₁ : Cochain F G n₁) (z₂ : Cochain G K n₂) (h : n₁ + n₂ = n₁₂)
     (m₁ m₂ m₁₂ : ℤ) (h₁₂ : n₁₂ + 1 = m₁₂) (h₁ : n₁ + 1 = m₁) (h₂ : n₂ + 1 = m₂) :
@@ -464,9 +458,7 @@ lemma δ_comp {n₁ n₂ n₁₂ : ℤ} (z₁ : Cochain F G n₁) (z₂ : Cochai
   dsimp
   rw [z₁.comp_v _ (add_assoc n₁ n₂ 1).symm p _ q rfl (by linarith)]; rw [Cochain.comp_v _ _ (show n₁ + 1 + n₂ = n₁ + n₂ + 1 by linarith) p (p+n₁+1) q
       (by linarith) (by linarith)]; rw [δ_v (n₁ + n₂) _ rfl (z₁.comp z₂ rfl) p q hpq (p + n₁ + n₂) _ (by linarith) rfl]; rw [z₁.comp_v z₂ rfl p _ _ rfl rfl]; rw [z₁.comp_v z₂ rfl (p+1) (p+n₁+1) q (by linarith) (by linarith)]; rw [δ_v n₂ (n₂+1) rfl z₂ (p+n₁) q (by linarith) (p+n₁+n₂) _ (by linarith) rfl]; rw [δ_v n₁ (n₁+1) rfl z₁ p (p+n₁+1) (by linarith) (p+n₁) _ (by linarith) rfl]
-  simp only [assoc, comp_add, add_comp, Int.negOnePow_succ, Int.negOnePow_add n₁ n₂,
-    neg_smul, comp_neg, neg_comp, comp_zsmul, zsmul_comp, zsmul_add, smul_neg, smul_smul,
-    mul_comm n₁.negOnePow n₂.negOnePow]
+  simp only [assoc, comp_add, add_comp, Int.negOnePow_succ, Int.negOnePow_add n₁ n₂, neg_smul, comp_neg, neg_comp, comp_zsmul, zsmul_comp, zsmul_add, smul_neg, smul_smul, mul_comm n₁.negOnePow n₂.negOnePow]
   abel
 
 lemma δ_zero_cochain_comp {n₂ : ℤ} (z₁ : Cochain F G 0) (z₂ : Cochain G K n₂)
@@ -480,14 +472,12 @@ lemma δ_comp_zero_cochain {n₁ : ℤ} (z₁ : Cochain F G n₁) (z₂ : Cochai
     (m₁ : ℤ) (h₁ : n₁ + 1 = m₁) :
     δ n₁ m₁ (z₁.comp z₂ (add_zero n₁)) =
       z₁.comp (δ 0 1 z₂) h₁ + (δ n₁ m₁ z₁).comp z₂ (add_zero m₁) := by
-  simp only [δ_comp z₁ z₂ (add_zero n₁) m₁ 1 m₁ h₁ h₁ (zero_add 1), one_zsmul,
-    Int.negOnePow_zero]
+  simp only [δ_comp z₁ z₂ (add_zero n₁) m₁ 1 m₁ h₁ h₁ (zero_add 1), one_zsmul, Int.negOnePow_zero]
 
 @[simp]
 lemma δ_zero_cochain_v (z : Cochain F G 0) (p q : ℤ) (hpq : p + 1 = q) :
     (δ 0 1 z).v p q hpq = z.v p p (add_zero p) ≫ G.d p q - F.d p q ≫ z.v q q (add_zero q):= by
-  simp only [δ_v 0 1 (zero_add 1) z p q hpq p q (by linarith) hpq, zero_add,
-    Int.negOnePow_one, neg_smul, one_smul, sub_eq_add_neg]
+  simp only [δ_v 0 1 (zero_add 1) z p q hpq p q (by linarith) hpq, zero_add, Int.negOnePow_one, neg_smul, one_smul, sub_eq_add_neg]
 
 @[simp]
 lemma δ_ofHom {p : ℤ} (φ : F ⟶ G) : δ 0 p (Cochain.ofHom φ) = 0 := by
@@ -507,8 +497,7 @@ lemma δ_ofHomotopy {φ₁ φ₂ : F ⟶ G} (h : Homotopy φ₁ φ₂) :
   have eq := h.comm p
   rw [dNext_eq h.hom (show (ComplexShape.up ℤ).Rel p (p+1) by simp)] at eq; rw [prevD_eq h.hom (show (ComplexShape.up ℤ).Rel (p-1) p by simp)] at eq
   rw [Cochain.ofHomotopy]; rw [δ_v (-1) 0 (neg_add_self 1) _ p p (add_zero p) (p-1) (p+1) rfl rfl]
-  simp only [Cochain.mk_v, add_left_neg, one_zsmul, Int.negOnePow_zero,
-    Cochain.sub_v, Cochain.ofHom_v, eq]
+  simp only [Cochain.mk_v, add_left_neg, one_zsmul, Int.negOnePow_zero, Cochain.sub_v, Cochain.ofHom_v, eq]
   abel
 
 lemma δ_neg_one_cochain (z : Cochain F G (-1)) :
@@ -650,8 +639,7 @@ variable (K)
 def diff : Cocycle K K 1 :=
   Cocycle.mk (Cochain.diff K) 2 rfl (by
     ext p q hpq
-    simp only [Cochain.zero_v, δ_v 1 2 rfl _ p q hpq _ _ rfl rfl, Cochain.diff_v,
-      HomologicalComplex.d_comp_d, smul_zero, add_zero])
+    simp only [Cochain.zero_v, δ_v 1 2 rfl _ p q hpq _ _ rfl rfl, Cochain.diff_v, HomologicalComplex.d_comp_d, smul_zero, add_zero])
 
 end Cocycle
 

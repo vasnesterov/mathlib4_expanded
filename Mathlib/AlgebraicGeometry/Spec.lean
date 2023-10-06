@@ -194,8 +194,7 @@ theorem Spec.basicOpen_hom_ext {X : RingedSpace.{u}} {R : CommRingCat.{u}}
     apply (StructureSheaf.to_basicOpen_epi R r).1
     -- Porting note : was a one-liner `simpa using h r`
     specialize h r
-    simp only [sheafedSpaceObj_carrier, Functor.op_obj, unop_op, TopCat.Presheaf.pushforwardObj_obj,
-      sheafedSpaceObj_presheaf, Category.assoc] at h
+    simp only [sheafedSpaceObj_carrier, Functor.op_obj, unop_op, TopCat.Presheaf.pushforwardObj_obj, sheafedSpaceObj_presheaf, Category.assoc] at h
     rw [NatTrans.comp_app]; rw [←h]
     congr
     simp
@@ -456,8 +455,7 @@ instance isLocalizedModule_toPushforwardStalkAlgHom :
         U.2
     change PrimeSpectrum.basicOpen r ≤ U at hrU
     apply_fun (Spec.topMap (algebraMap R S) _* (structureSheaf S).1).map (homOfLE hrU).op at e
-    simp only [TopCat.Presheaf.pushforwardObj_map, Functor.op_map, map_zero, ← comp_apply,
-      toOpen_res] at e
+    simp only [TopCat.Presheaf.pushforwardObj_map, Functor.op_map, map_zero, ← comp_apply, toOpen_res] at e
     have : toOpen S (PrimeSpectrum.basicOpen <| algebraMap R S r) x = 0 := by
       refine' Eq.trans _ e; rfl
     have :=

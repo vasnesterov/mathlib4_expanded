@@ -327,8 +327,7 @@ theorem isCompact_of_finite_subcover
       ∃ t : Finset ι, s ⊆ ⋃ i ∈ t, U i) :
     IsCompact s := fun f hf hfs => by
   contrapose! h
-  simp only [ClusterPt, not_neBot, ← disjoint_iff, SetCoe.forall',
-    (nhds_basis_opens _).disjoint_iff_left] at h
+  simp only [ClusterPt, not_neBot, ← disjoint_iff, SetCoe.forall', (nhds_basis_opens _).disjoint_iff_left] at h
   choose U hU hUf using h
   refine ⟨s, U, fun x => (hU x).2, fun x hx => mem_iUnion.2 ⟨⟨x, hx⟩, (hU _).1⟩, fun t ht => ?_⟩
   refine compl_not_mem (le_principal_iff.1 hfs) ?_
@@ -1023,8 +1022,7 @@ variable [∀ i, TopologicalSpace (π i)]
 /-- **Tychonoff's theorem**: product of compact sets is compact. -/
 theorem isCompact_pi_infinite {s : ∀ i, Set (π i)} :
     (∀ i, IsCompact (s i)) → IsCompact { x : ∀ i, π i | ∀ i, x i ∈ s i } := by
-  simp only [isCompact_iff_ultrafilter_le_nhds, nhds_pi, Filter.pi, exists_prop, mem_setOf_eq,
-    le_iInf_iff, le_principal_iff]
+  simp only [isCompact_iff_ultrafilter_le_nhds, nhds_pi, Filter.pi, exists_prop, mem_setOf_eq, le_iInf_iff, le_principal_iff]
   intro h f hfs
   have : ∀ i : ι, ∃ a, a ∈ s i ∧ Tendsto (Function.eval i) f (𝓝 a) := by
     refine fun i => h i (f.map _) (mem_map.2 ?_)
@@ -1284,8 +1282,7 @@ theorem IsClosed.exists_minimal_nonempty_closed_subset [CompactSpace α] {S : Se
         · exact isOpen_sUnion fun _ h => (hc h).2.1
         · convert_to (⋂ U : { U // U ∈ c }, U.1ᶜ).Nonempty
           · ext
-            simp only [not_exists, exists_prop, not_and, Set.mem_iInter, Subtype.forall,
-              mem_setOf_eq, mem_compl_iff, mem_sUnion]
+            simp only [not_exists, exists_prop, not_and, Set.mem_iInter, Subtype.forall, mem_setOf_eq, mem_compl_iff, mem_sUnion]
           apply IsCompact.nonempty_iInter_of_directed_nonempty_compact_closed
           · rintro ⟨U, hU⟩ ⟨U', hU'⟩
             obtain ⟨V, hVc, hVU, hVU'⟩ := hz.directedOn U hU U' hU'
@@ -1368,8 +1365,7 @@ theorem exists_mem_compactCovering (x : α) : ∃ n, x ∈ compactCovering α n 
 instance [SigmaCompactSpace β] : SigmaCompactSpace (α × β) :=
   ⟨⟨fun n => compactCovering α n ×ˢ compactCovering β n, fun _ =>
       (isCompact_compactCovering _ _).prod (isCompact_compactCovering _ _), by
-      simp only [iUnion_prod_of_monotone (compactCovering_subset α) (compactCovering_subset β),
-        iUnion_compactCovering, univ_prod_univ]⟩⟩
+      simp only [iUnion_prod_of_monotone (compactCovering_subset α) (compactCovering_subset β), iUnion_compactCovering, univ_prod_univ]⟩⟩
 
 instance [Finite ι] [∀ i, TopologicalSpace (π i)] [∀ i, SigmaCompactSpace (π i)] :
     SigmaCompactSpace (∀ i, π i) := by
@@ -1383,8 +1379,7 @@ instance [SigmaCompactSpace β] : SigmaCompactSpace (Sum α β) :=
   ⟨⟨fun n => Sum.inl '' compactCovering α n ∪ Sum.inr '' compactCovering β n, fun n =>
       ((isCompact_compactCovering α n).image continuous_inl).union
         ((isCompact_compactCovering β n).image continuous_inr),
-      by simp only [iUnion_union_distrib, ← image_iUnion, iUnion_compactCovering, image_univ,
-        range_inl_union_range_inr]⟩⟩
+      by simp only [iUnion_union_distrib, ← image_iUnion, iUnion_compactCovering, image_univ, range_inl_union_range_inr]⟩⟩
 
 instance [Countable ι] [∀ i, TopologicalSpace (π i)] [∀ i, SigmaCompactSpace (π i)] :
     SigmaCompactSpace (Σi, π i) := by
@@ -1987,8 +1982,7 @@ theorem isIrreducible_iff_sUnion_closed {s : Set α} :
     sUnion_image, Equiv.coe_toEmbedding, Function.Involutive.coe_toPerm, isClosed_compl_iff,
     exists_exists_and_eq_and]
   refine forall_congr' fun _ => Iff.trans ?_ not_imp_not
-  simp only [not_exists, not_and, ← compl_iInter₂, ← sInter_eq_biInter,
-    subset_compl_iff_disjoint_right, not_disjoint_iff_nonempty_inter]
+  simp only [not_exists, not_and, ← compl_iInter₂, ← sInter_eq_biInter, subset_compl_iff_disjoint_right, not_disjoint_iff_nonempty_inter]
 #align is_irreducible_iff_sUnion_closed isIrreducible_iff_sUnion_closed
 
 /-- A nonempty open subset of a preirreducible subspace is dense in the subspace. -/

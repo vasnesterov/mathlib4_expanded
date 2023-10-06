@@ -30,8 +30,7 @@ def Irrational (x : ℝ) :=
 #align irrational Irrational
 
 theorem irrational_iff_ne_rational (x : ℝ) : Irrational x ↔ ∀ a b : ℤ, x ≠ a / b := by
-  simp only [Irrational, Rat.forall, cast_mk, not_exists, Set.mem_range, cast_coe_int, cast_div,
-    eq_comm]
+  simp only [Irrational, Rat.forall, cast_mk, not_exists, Set.mem_range, cast_coe_int, cast_div, eq_comm]
 #align irrational_iff_ne_rational irrational_iff_ne_rational
 
 /-- A transcendental real number is irrational. -/

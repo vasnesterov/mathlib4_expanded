@@ -276,8 +276,7 @@ theorem continuous_lim (c : CU X) : Continuous c.lim := by
       exact compl_subset_compl.2 c.left.left_U_subset_right_C hxl
       replace hyl : y ∉ c.left.left.U
       exact compl_subset_compl.2 c.left.left_U_subset_right_C hyl
-      simp only [pow_succ, c.lim_eq_midpoint, c.left.lim_eq_midpoint,
-        c.left.left.lim_of_nmem_U _ hxl, c.left.left.lim_of_nmem_U _ hyl]
+      simp only [pow_succ, c.lim_eq_midpoint, c.left.lim_eq_midpoint, c.left.left.lim_of_nmem_U _ hxl, c.left.left.lim_of_nmem_U _ hyl]
       refine' (dist_midpoint_midpoint_le _ _ _ _).trans _
       refine' (div_le_div_of_le_of_nonneg (add_le_add_right (dist_midpoint_midpoint_le _ _ _ _) _)
         zero_le_two).trans _

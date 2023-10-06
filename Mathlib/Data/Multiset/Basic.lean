@@ -2086,8 +2086,7 @@ theorem filter_add_not (s : Multiset α) : filter p s + filter (fun a => ¬p a) 
   rw [filter_add_filter]; rw [filter_eq_self.2]; rw [filter_eq_nil.2]
   · simp only [add_zero]
   · simp [Decidable.em, -Bool.not_eq_true, -not_and, not_and_or, or_comm]
-  · simp only [Bool.not_eq_true, decide_eq_true_eq, Bool.eq_false_or_eq_true,
-      decide_True, implies_true, Decidable.em]
+  · simp only [Bool.not_eq_true, decide_eq_true_eq, Bool.eq_false_or_eq_true, decide_True, implies_true, Decidable.em]
 #align multiset.filter_add_not Multiset.filter_add_not
 
 theorem map_filter (f : β → α) (s : Multiset β) : filter p (map f s) = map f (filter (p ∘ f) s) :=
@@ -2530,8 +2529,7 @@ instance : DistribLattice (Multiset α) :=
       le_of_eq <|
         Eq.symm <|
           ext.2 fun a => by
-            simp only [max_min_distrib_left, Multiset.count_inter, Multiset.sup_eq_union,
-              Multiset.count_union, Multiset.inf_eq_inter] }
+            simp only [max_min_distrib_left, Multiset.count_inter, Multiset.sup_eq_union, Multiset.count_union, Multiset.inf_eq_inter] }
 
 theorem count_map {α β : Type*} (f : α → β) (s : Multiset α) [DecidableEq β] (b : β) :
     count b (map f s) = card (s.filter fun a => b = f a) := by
@@ -2642,8 +2640,7 @@ for more discussion.
 @[simp]
 theorem map_count_True_eq_filter_card (s : Multiset α) (p : α → Prop) [DecidablePred p] :
     (s.map p).count True = card (s.filter p) := by
-  simp only [count_eq_card_filter_eq, map_filter, card_map, Function.comp.left_id,
-    eq_true_eq_id, Function.comp]
+  simp only [count_eq_card_filter_eq, map_filter, card_map, Function.comp.left_id, eq_true_eq_id, Function.comp]
   congr; funext _
   simp only [eq_iff_iff, true_iff]
 #align multiset.map_count_true_eq_filter_card Multiset.map_count_True_eq_filter_card

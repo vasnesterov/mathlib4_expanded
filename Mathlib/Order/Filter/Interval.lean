@@ -99,8 +99,7 @@ protected theorem Tendsto.Ioo {l₁ l₂ : Filter α} [TendstoIxxClass Ioo l₁ 
 theorem tendstoIxxClass_principal {s t : Set α} {Ixx : α → α → Set α} :
     TendstoIxxClass Ixx (𝓟 s) (𝓟 t) ↔ ∀ (x) (_ : x ∈ s) (y) (_ : y ∈ s), Ixx x y ⊆ t :=
   Iff.trans ⟨fun h => h.1, fun h => ⟨h⟩⟩ <| by
-    simp only [smallSets_principal, prod_principal_principal, tendsto_principal_principal,
-      forall_prod_set, mem_powerset_iff, mem_principal]
+    simp only [smallSets_principal, prod_principal_principal, tendsto_principal_principal, forall_prod_set, mem_powerset_iff, mem_principal]
 #align filter.tendsto_Ixx_class_principal Filter.tendstoIxxClass_principal
 
 theorem tendstoIxxClass_inf {l₁ l₁' l₂ l₂' : Filter α} {Ixx} [h : TendstoIxxClass Ixx l₁ l₂]

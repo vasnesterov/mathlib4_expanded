@@ -94,9 +94,7 @@ private theorem distinct_pairs_increment :
       (chunk hP G ε (mem_offDiag.1 UV.2).2.1).parts) ⊆
     (increment hP G ε).parts.offDiag := by
   rintro ⟨Ui, Vj⟩
-  simp only [increment, mem_offDiag, bind_parts, mem_biUnion, Prod.exists, exists_and_left,
-    exists_prop, mem_product, mem_attach, true_and_iff, Subtype.exists, and_imp, mem_offDiag,
-    forall_exists_index, bex_imp, Ne.def]
+  simp only [increment, mem_offDiag, bind_parts, mem_biUnion, Prod.exists, exists_and_left, exists_prop, mem_product, mem_attach, true_and_iff, Subtype.exists, and_imp, mem_offDiag, forall_exists_index, bex_imp, Ne.def]
   refine' fun U V hUV hUi hVj => ⟨⟨_, hUV.1, hUi⟩, ⟨_, hUV.2.1, hVj⟩, _⟩
   rintro rfl
   obtain ⟨i, hi⟩ := nonempty_of_mem_parts _ hUi
@@ -116,8 +114,7 @@ theorem offDiag_pairs_le_increment_energy :
   refine' div_le_div_of_le_of_nonneg (α := ℚ) _ (sq_nonneg _)
   rw [← sum_biUnion]
   · exact sum_le_sum_of_subset_of_nonneg distinct_pairs_increment fun i _ _ => sq_nonneg _
-  simp only [Set.PairwiseDisjoint, Function.onFun, disjoint_left, inf_eq_inter, mem_inter,
-    mem_product]
+  simp only [Set.PairwiseDisjoint, Function.onFun, disjoint_left, inf_eq_inter, mem_inter, mem_product]
   rintro ⟨⟨s₁, s₂⟩, hs⟩ _ ⟨⟨t₁, t₂⟩, ht⟩ _ hst ⟨u, v⟩ huv₁ huv₂
   rw [mem_offDiag] at hs ht
   obtain ⟨a, ha⟩ := Finpartition.nonempty_of_mem_parts _ huv₁.1

@@ -277,9 +277,7 @@ theorem support_indicator [Zero β] {s : Set α} (hs : MeasurableSet s) (f : α 
 theorem range_indicator {s : Set α} (hs : MeasurableSet s) (hs_nonempty : s.Nonempty)
     (hs_ne_univ : s ≠ univ) (x y : β) :
     (piecewise s hs (const α x) (const α y)).range = {x, y} := by
-  simp only [← Finset.coe_inj, coe_range, coe_piecewise, range_piecewise, coe_const,
-    Finset.coe_insert, Finset.coe_singleton, hs_nonempty.image_const,
-    (nonempty_compl.2 hs_ne_univ).image_const, singleton_union, Function.const]
+  simp only [← Finset.coe_inj, coe_range, coe_piecewise, range_piecewise, coe_const, Finset.coe_insert, Finset.coe_singleton, hs_nonempty.image_const, (nonempty_compl.2 hs_ne_univ).image_const, singleton_union, Function.const]
 #align measure_theory.simple_func.range_indicator MeasureTheory.SimpleFunc.range_indicator
 
 theorem measurable_bind [MeasurableSpace γ] (f : α →ₛ β) (g : β → α → γ)
@@ -332,8 +330,7 @@ theorem map_const (g : β → γ) (b : β) : (const α b).map g = const α (g b)
 
 theorem map_preimage (f : α →ₛ β) (g : β → γ) (s : Set γ) :
     f.map g ⁻¹' s = f ⁻¹' ↑(f.range.filter fun b => g b ∈ s) := by
-  simp only [coe_range, sep_mem_eq, coe_map, Finset.coe_filter,
-    ← mem_preimage, inter_comm, preimage_inter_range, ← Finset.mem_coe]
+  simp only [coe_range, sep_mem_eq, coe_map, Finset.coe_filter, ← mem_preimage, inter_comm, preimage_inter_range, ← Finset.mem_coe]
   exact preimage_comp
 #align measure_theory.simple_func.map_preimage MeasureTheory.SimpleFunc.map_preimage
 
@@ -1167,8 +1164,7 @@ open Finset Function
 theorem support_eq [MeasurableSpace α] [Zero β] (f : α →ₛ β) :
     support f = ⋃ y ∈ f.range.filter fun y => y ≠ 0, f ⁻¹' {y} :=
   Set.ext fun x => by
-    simp only [mem_support, Set.mem_preimage, mem_filter, mem_range_self, true_and_iff, exists_prop,
-      mem_iUnion, Set.mem_range, mem_singleton_iff, exists_eq_right']
+    simp only [mem_support, Set.mem_preimage, mem_filter, mem_range_self, true_and_iff, exists_prop, mem_iUnion, Set.mem_range, mem_singleton_iff, exists_eq_right']
 #align measure_theory.simple_func.support_eq MeasureTheory.SimpleFunc.support_eq
 
 variable {m : MeasurableSpace α} [Zero β] [Zero γ] {μ : Measure α} {f : α →ₛ β}
@@ -1325,8 +1321,7 @@ theorem _root_.Measurable.add_simpleFunc
     Measurable (g + (f : α → E)) := by
   classical
   induction' f using SimpleFunc.induction with c s hs f f' hff' hf hf'
-  · simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const,
-      SimpleFunc.coe_zero]
+  · simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const, SimpleFunc.coe_zero]
     change Measurable (g + s.piecewise (Function.const α c) (0 : α → E))
     rw [← piecewise_same s g]; rw [← piecewise_add]
     exact Measurable.piecewise hs (hg.add_const _) (hg.add_const _)
@@ -1350,8 +1345,7 @@ theorem _root_.Measurable.simpleFunc_add
     Measurable ((f : α → E) + g) := by
   classical
   induction' f using SimpleFunc.induction with c s hs f f' hff' hf hf'
-  · simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const,
-      SimpleFunc.coe_zero]
+  · simp only [SimpleFunc.const_zero, SimpleFunc.coe_piecewise, SimpleFunc.coe_const, SimpleFunc.coe_zero]
     change Measurable (s.piecewise (Function.const α c) (0 : α → E) + g)
     rw [← piecewise_same s g]; rw [← piecewise_add]
     exact Measurable.piecewise hs (hg.const_add _) (hg.const_add _)

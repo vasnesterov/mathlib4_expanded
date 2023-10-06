@@ -109,8 +109,7 @@ theorem integrableOn_Ioi_exp_neg_mul_sq_iff {b : ℝ} :
   by_contra' hb
   have : ∫⁻ _ : ℝ in Ioi 0, 1 ≤ ∫⁻ x : ℝ in Ioi 0, ‖exp (-b * x ^ 2)‖₊ := by
     apply lintegral_mono (fun x ↦ _)
-    simp only [neg_mul, ENNReal.one_le_coe_iff, ← toNNReal_one, toNNReal_le_iff_le_coe,
-      Real.norm_of_nonneg (exp_pos _).le, coe_nnnorm, one_le_exp_iff, Right.nonneg_neg_iff]
+    simp only [neg_mul, ENNReal.one_le_coe_iff, ← toNNReal_one, toNNReal_le_iff_le_coe, Real.norm_of_nonneg (exp_pos _).le, coe_nnnorm, one_le_exp_iff, Right.nonneg_neg_iff]
     exact fun x ↦ mul_nonpos_of_nonpos_of_nonneg hb (sq_nonneg x)
   simpa using this.trans_lt h.2
 #align integrable_on_Ioi_exp_neg_mul_sq_iff integrableOn_Ioi_exp_neg_mul_sq_iff
@@ -166,8 +165,7 @@ theorem integral_mul_cexp_neg_mul_sq {b : ℂ} (hb : 0 < b.re) :
         (tendsto_pow_atTop two_ne_zero))
   convert integral_Ioi_of_hasDerivAt_of_tendsto' (fun x _ => (A ↑x).comp_ofReal)
     (integrable_mul_cexp_neg_mul_sq hb).integrableOn B using 1
-  simp only [mul_zero, ofReal_zero, zero_pow', Ne.def, bit0_eq_zero, Nat.one_ne_zero,
-    not_false_iff, Complex.exp_zero, mul_one, sub_neg_eq_add, zero_add]
+  simp only [mul_zero, ofReal_zero, zero_pow', Ne.def, bit0_eq_zero, Nat.one_ne_zero, not_false_iff, Complex.exp_zero, mul_one, sub_neg_eq_add, zero_add]
 #align integral_mul_cexp_neg_mul_sq integral_mul_cexp_neg_mul_sq
 
 /-- The *square* of the Gaussian integral `∫ x:ℝ, exp (-b * x^2)` is equal to `π / b`. -/
@@ -197,8 +195,7 @@ theorem integral_gaussian_sq_complex {b : ℂ} (hb : 0 < b.re) :
       ring
     _ = ↑π / b := by
       have : 0 ≤ π + π := by linarith [Real.pi_pos]
-      simp only [integral_const, Measure.restrict_apply', measurableSet_Ioo, univ_inter, volume_Ioo,
-        sub_neg_eq_add, ENNReal.toReal_ofReal, this]
+      simp only [integral_const, Measure.restrict_apply', measurableSet_Ioo, univ_inter, volume_Ioo, sub_neg_eq_add, ENNReal.toReal_ofReal, this]
       rw [← two_mul]; rw [real_smul]; rw [mul_one]; rw [ofReal_mul]; rw [ofReal_ofNat]; rw [integral_mul_cexp_neg_mul_sq hb]
       field_simp [(by contrapose! hb; rw [hb]; rw [zero_re] : b ≠ 0)]
       ring

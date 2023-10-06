@@ -57,8 +57,7 @@ theorem hall_cond_of_erase {x : ι} (a : α)
   · have ha' : s'.card < (s'.biUnion fun x => t x).card := by
       convert ha he fun h => by simpa [← h] using mem_univ x using 2
       ext x
-      simp only [mem_image, mem_biUnion, exists_prop, SetCoe.exists, exists_and_right,
-        exists_eq_right, Subtype.coe_mk]
+      simp only [mem_image, mem_biUnion, exists_prop, SetCoe.exists, exists_and_right, exists_eq_right, Subtype.coe_mk]
     rw [← erase_biUnion]
     by_cases hb : a ∈ s'.biUnion fun x => t x
     · rw [card_erase_of_mem hb]
@@ -138,8 +137,7 @@ theorem hall_cond_of_compl {ι : Type u} {t : ι → Finset α} {s : Finset ι}
     (s' : Finset (sᶜ : Set ι)) : s'.card ≤ (s'.biUnion fun x' => t x' \ s.biUnion t).card := by
   haveI := Classical.decEq ι
   have disj : Disjoint s (s'.image fun z => z.1) := by
-    simp only [disjoint_left, not_exists, mem_image, exists_prop, SetCoe.exists, exists_and_right,
-      exists_eq_right, Subtype.coe_mk]
+    simp only [disjoint_left, not_exists, mem_image, exists_prop, SetCoe.exists, exists_and_right, exists_eq_right, Subtype.coe_mk]
     intro x hx hc _
     exact absurd hx hc
   have : s'.card = (s ∪ s'.image fun z => z.1).card - s.card := by
@@ -149,8 +147,7 @@ theorem hall_cond_of_compl {ι : Type u} {t : ι → Finset α} {s : Finset ι}
   rw [← card_sdiff]
   · refine' (card_le_of_subset _).trans le_rfl
     intro t
-    simp only [mem_biUnion, mem_sdiff, not_exists, mem_image, and_imp, mem_union, exists_and_right,
-      exists_imp]
+    simp only [mem_biUnion, mem_sdiff, not_exists, mem_image, and_imp, mem_union, exists_and_right, exists_imp]
     rintro x (hx | ⟨x', hx', rfl⟩) rat hs
     · exact False.elim <| (hs x) <| And.intro hx rat
     · use x', hx', rat, hs

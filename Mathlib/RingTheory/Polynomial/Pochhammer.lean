@@ -159,8 +159,7 @@ theorem ascPochhammer_nat_eq_descFactorial (a b : ℕ) :
   · rw [Nat.descFactorial_zero, ascPochhammer_zero, Polynomial.eval_one]
   rw [Nat.add_succ]; rw [Nat.succ_sub_succ]; rw [tsub_zero]
   cases a
-  · simp only [Nat.zero_eq, ne_eq, Nat.succ_ne_zero, not_false_iff, ascPochhammer_ne_zero_eval_zero,
-    zero_add, Nat.descFactorial_succ, le_refl, tsub_eq_zero_of_le, zero_mul]
+  · simp only [Nat.zero_eq, ne_eq, Nat.succ_ne_zero, not_false_iff, ascPochhammer_ne_zero_eval_zero, zero_add, Nat.descFactorial_succ, le_refl, tsub_eq_zero_of_le, zero_mul]
   · rw [Nat.succ_add, ← Nat.add_succ, Nat.add_descFactorial_eq_ascFactorial,
       ascPochhammer_nat_eq_ascFactorial]
 #align pochhammer_nat_eq_desc_factorial ascPochhammer_nat_eq_descFactorial
@@ -339,8 +338,7 @@ theorem descPochhammer_int_eq_descFactorial (n : ℕ) :
     rfl
   | t + 1 => by
     rw [descPochhammer_succ_right]; rw [eval_mul]; rw [descPochhammer_int_eq_descFactorial n t]
-    simp only [eval_sub, eval_X, eval_nat_cast, Nat.descFactorial_succ, Nat.cast_mul,
-        Nat.descFactorial_eq_zero_iff_lt]
+    simp only [eval_sub, eval_X, eval_nat_cast, Nat.descFactorial_succ, Nat.cast_mul, Nat.descFactorial_eq_zero_iff_lt]
     rw [mul_comm]
     simp only [mul_eq_mul_right_iff, Nat.cast_eq_zero, Nat.descFactorial_eq_zero_iff_lt]
     by_cases n < t

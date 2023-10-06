@@ -371,20 +371,17 @@ set_option linter.uppercaseLean3 false in
 theorem isTheta_exp_comp_exp_comp {f g : α → ℝ} :
     ((fun x => exp (f x)) =Θ[l] fun x => exp (g x)) ↔
       IsBoundedUnder (· ≤ ·) l fun x => |f x - g x| := by
-  simp only [isBoundedUnder_le_abs, ← isBoundedUnder_le_neg, neg_sub, IsTheta,
-    isBigO_exp_comp_exp_comp, Pi.sub_def]
+  simp only [isBoundedUnder_le_abs, ← isBoundedUnder_le_neg, neg_sub, IsTheta, isBigO_exp_comp_exp_comp, Pi.sub_def]
 set_option linter.uppercaseLean3 false in
 #align real.is_Theta_exp_comp_exp_comp Real.isTheta_exp_comp_exp_comp
 
 @[simp]
 theorem isLittleO_exp_comp_exp_comp {f g : α → ℝ} :
     ((fun x => exp (f x)) =o[l] fun x => exp (g x)) ↔ Tendsto (fun x => g x - f x) l atTop := by
-  simp only [isLittleO_iff_tendsto, exp_ne_zero, ← exp_sub, ← tendsto_neg_atTop_iff, false_imp_iff,
-    imp_true_iff, tendsto_exp_comp_nhds_zero, neg_sub]
+  simp only [isLittleO_iff_tendsto, exp_ne_zero, ← exp_sub, ← tendsto_neg_atTop_iff, false_imp_iff, imp_true_iff, tendsto_exp_comp_nhds_zero, neg_sub]
 #align real.is_o_exp_comp_exp_comp Real.isLittleO_exp_comp_exp_comp
 
--- Porting note: @[simp] can prove:  by simp only [@Asymptotics.isLittleO_one_left_iff,
---   Real.norm_eq_abs, Real.abs_exp, @Real.tendsto_exp_comp_atTop]
+-- Porting note: @[simp] can prove:  by simp only [@Asymptotics.isLittleO_one_left_iff, --   Real.norm_eq_abs, Real.abs_exp, @Real.tendsto_exp_comp_atTop]
 theorem isLittleO_one_exp_comp {f : α → ℝ} :
     ((fun _ => 1 : α → ℝ) =o[l] fun x => exp (f x)) ↔ Tendsto f l atTop := by
   simp only [← exp_zero, isLittleO_exp_comp_exp_comp, sub_zero]

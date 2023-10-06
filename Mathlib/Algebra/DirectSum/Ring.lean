@@ -248,8 +248,7 @@ private theorem mul_assoc (a b c : ⨁ i, A i) : a * b * c = a * (b * c) := by
       (AddMonoidHom.compHom flipHom <| (mulHom A).flip.compHom.comp (mulHom A)).flip by
       have sol := FunLike.congr_fun (FunLike.congr_fun (FunLike.congr_fun this a) b) c
       have aux : ∀ a b, (mulHom A) a b = a * b := fun _ _ ↦ rfl
-      simp only [coe_comp, Function.comp_apply, AddMonoidHom.compHom_apply_apply, aux, flip_apply,
-        AddMonoidHom.flipHom_apply] at sol
+      simp only [coe_comp, Function.comp_apply, AddMonoidHom.compHom_apply_apply, aux, flip_apply, AddMonoidHom.flipHom_apply] at sol
       exact sol
   ext ai ax bi bx ci cx
   dsimp only [coe_comp, Function.comp_apply, AddMonoidHom.compHom_apply_apply, flip_apply,
@@ -315,8 +314,7 @@ theorem mul_eq_dfinsupp_sum [∀ (i : ι) (x : A i), Decidable (x ≠ 0)] (a a' 
   funext x
   simp_rw [flip_apply]
   erw [DFinsupp.sumAddHom_apply]
-  simp only [gMulHom, AddMonoidHom.dfinsupp_sum_apply, flip_apply, coe_comp, AddMonoidHom.coe_mk,
-  ZeroHom.coe_mk, Function.comp_apply, AddMonoidHom.compHom_apply_apply]
+  simp only [gMulHom, AddMonoidHom.dfinsupp_sum_apply, flip_apply, coe_comp, AddMonoidHom.coe_mk, ZeroHom.coe_mk, Function.comp_apply, AddMonoidHom.compHom_apply_apply]
 #align direct_sum.mul_eq_dfinsupp_sum DirectSum.mul_eq_dfinsupp_sum
 
 /-- A heavily unfolded version of the definition of multiplication -/
@@ -646,8 +644,7 @@ def liftRingHom :
   right_inv F := by
     apply RingHom.coe_addMonoidHom_injective
     refine DirectSum.addHom_ext' (fun xi ↦ AddMonoidHom.ext (fun xv ↦ ?_))
-    simp only [RingHom.coe_addMonoidHom_mk, DirectSum.toAddMonoid_of, AddMonoidHom.mk_coe,
-      AddMonoidHom.comp_apply, toSemiring_coe_addMonoidHom]
+    simp only [RingHom.coe_addMonoidHom_mk, DirectSum.toAddMonoid_of, AddMonoidHom.mk_coe, AddMonoidHom.comp_apply, toSemiring_coe_addMonoidHom]
 #align direct_sum.lift_ring_hom DirectSum.liftRingHom
 
 end ToSemiring

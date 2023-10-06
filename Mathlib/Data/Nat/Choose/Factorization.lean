@@ -67,8 +67,7 @@ theorem factorization_choose_of_lt_three_mul (hp' : p ≠ 2) (hk : p ≤ k) (hk'
   cases' lt_or_le n k with hnk hkn
   · simp [choose_eq_zero_of_lt hnk]
   rw [factorization_def _ hp]; rw [@padicValNat_def _ ⟨hp⟩ _ (choose_pos hkn)]
-  simp only [hp.multiplicity_choose hkn (lt_add_one _), PartENat.get_natCast, Finset.card_eq_zero,
-    Finset.filter_eq_empty_iff, not_le]
+  simp only [hp.multiplicity_choose hkn (lt_add_one _), PartENat.get_natCast, Finset.card_eq_zero, Finset.filter_eq_empty_iff, not_le]
   intro i hi
   rcases eq_or_lt_of_le (Finset.mem_Ico.mp hi).1 with (rfl | hi)
   · rw [pow_one, ← add_lt_add_iff_left (2 * p), ← succ_mul, two_mul, add_add_add_comm]

@@ -135,8 +135,7 @@ theorem dickson_one_one_eval_add_inv (x y : R) (h : x * y = 1) :
     exact eval_nat_cast
   | 1 => by simp only [eval_X, dickson_one, pow_one]
   | n + 2 => by
-    simp only [eval_sub, eval_mul, dickson_one_one_eval_add_inv x y h _, eval_X, dickson_add_two,
-      C_1, eval_one]
+    simp only [eval_sub, eval_mul, dickson_one_one_eval_add_inv x y h _, eval_X, dickson_add_two, C_1, eval_one]
     conv_lhs => simp only [pow_succ, add_mul, mul_add, h, ← mul_assoc, mul_comm y x, one_mul]
     ring
 #align polynomial.dickson_one_one_eval_add_inv Polynomial.dickson_one_one_eval_add_inv
@@ -181,8 +180,7 @@ theorem dickson_one_one_mul (m n : ℕ) :
   simp only [← map_dickson (Int.castRingHom R), ← map_comp]
   congr 1
   apply map_injective (Int.castRingHom ℚ) Int.cast_injective
-  simp only [map_dickson, map_comp, eq_intCast, Int.cast_one, dickson_one_one_eq_chebyshev_T,
-    Chebyshev.T_mul, two_mul, ← add_comp]
+  simp only [map_dickson, map_comp, eq_intCast, Int.cast_one, dickson_one_one_eq_chebyshev_T, Chebyshev.T_mul, two_mul, ← add_comp]
   simp only [← two_mul, ← comp_assoc]
   apply eval₂_congr rfl rfl
   rw [comp_assoc]
@@ -217,9 +215,7 @@ theorem dickson_one_one_zmod_p (p : ℕ) [Fact p.Prime] : dickson 1 (1 : ZMod p)
   -- The two polynomials agree on all `x` of the form `x = y + y⁻¹`.
   apply @Set.Infinite.mono _ { x : K | ∃ y, x = y + y⁻¹ ∧ y ≠ 0 }
   · rintro _ ⟨x, rfl, hx⟩
-    simp only [eval_X, eval_pow, Set.mem_setOf_eq, @add_pow_char K _ p,
-      dickson_one_one_eval_add_inv _ _ (mul_inv_cancel hx), inv_pow, ZMod.castHom_apply,
-      ZMod.cast_one']
+    simp only [eval_X, eval_pow, Set.mem_setOf_eq, @add_pow_char K _ p, dickson_one_one_eval_add_inv _ _ (mul_inv_cancel hx), inv_pow, ZMod.castHom_apply, ZMod.cast_one']
   -- Now we need to show that the set of such `x` is infinite.
   -- If the set is finite, then we will show that `K` is also finite.
   · intro h
@@ -244,9 +240,7 @@ theorem dickson_one_one_zmod_p (p : ℕ) [Fact p.Prime] : dickson 1 (1 : ZMod p)
       classical
         convert(φ.roots ∪ {0}).toFinset.finite_toSet using 1
         ext1 y
-        simp only [Multiset.mem_toFinset, Set.mem_setOf_eq, Finset.mem_coe, Multiset.mem_union,
-          mem_roots hφ, IsRoot, eval_add, eval_sub, eval_pow, eval_mul, eval_X, eval_C, eval_one,
-          Multiset.mem_singleton]
+        simp only [Multiset.mem_toFinset, Set.mem_setOf_eq, Finset.mem_coe, Multiset.mem_union, mem_roots hφ, IsRoot, eval_add, eval_sub, eval_pow, eval_mul, eval_X, eval_C, eval_one, Multiset.mem_singleton]
         by_cases hy : y = 0
         · simp only [hy, eq_self_iff_true, or_true_iff]
         apply or_congr _ Iff.rfl

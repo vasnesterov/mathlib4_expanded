@@ -247,8 +247,7 @@ theorem tendsto_set_integral_pow_smul_of_unique_maximum_of_isCompact_of_measure_
       have B : t' ^ n * (μ (v ∩ s)).toReal ≤ ∫ y in s, c y ^ n ∂μ :=
         calc
           t' ^ n * (μ (v ∩ s)).toReal = ∫ _ in v ∩ s, t' ^ n ∂μ := by
-            simp only [integral_const, Measure.restrict_apply, MeasurableSet.univ, univ_inter,
-              Algebra.id.smul_eq_mul, mul_comm]
+            simp only [integral_const, Measure.restrict_apply, MeasurableSet.univ, univ_inter, Algebra.id.smul_eq_mul, mul_comm]
           _ ≤ ∫ y in v ∩ s, c y ^ n ∂μ := by
             apply set_integral_mono_on _ _ (v_open.measurableSet.inter hs.measurableSet) _
             · apply integrableOn_const.2 (Or.inr _)

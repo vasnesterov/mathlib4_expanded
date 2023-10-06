@@ -434,8 +434,7 @@ theorem Submartingale.sum_mul_upcrossingStrat_le [IsFiniteMeasure μ] (hf : Subm
   have h₂ : μ[∑ k in Finset.range n, (1 - upcrossingStrat a b f N k) * (f (k + 1) - f k)] =
     μ[∑ k in Finset.range n, (f (k + 1) - f k)] -
       μ[∑ k in Finset.range n, upcrossingStrat a b f N k * (f (k + 1) - f k)] := by
-    simp only [sub_mul, one_mul, Finset.sum_sub_distrib, Pi.sub_apply, Finset.sum_apply,
-      Pi.mul_apply]
+    simp only [sub_mul, one_mul, Finset.sum_sub_distrib, Pi.sub_apply, Finset.sum_apply, Pi.mul_apply]
     refine' integral_sub (Integrable.sub (integrable_finset_sum _ fun i _ => hf.integrable _)
       (integrable_finset_sum _ fun i _ => hf.integrable _)) _
     convert (hf.sum_upcrossingStrat_mul a b N).integrable n using 1
@@ -495,8 +494,7 @@ theorem crossing_eq_crossing_of_lowerCrossingTime_lt {M : ℕ} (hNM : N ≤ M)
   have h' : upperCrossingTime a b f N n ω < N :=
     lt_of_le_of_lt upperCrossingTime_le_lowerCrossingTime h
   induction' n with k ih
-  · simp only [Nat.zero_eq, upperCrossingTime_zero, bot_eq_zero', eq_self_iff_true,
-      lowerCrossingTime_zero, true_and_iff, eq_comm]
+  · simp only [Nat.zero_eq, upperCrossingTime_zero, bot_eq_zero', eq_self_iff_true, lowerCrossingTime_zero, true_and_iff, eq_comm]
     refine' hitting_eq_hitting_of_exists hNM _
     rw [lowerCrossingTime] at h; rw [hitting_lt_iff] at h
     obtain ⟨j, hj₁, hj₂⟩ := h
@@ -614,8 +612,7 @@ theorem mul_upcrossingsBefore_le (hf : a ≤ f N ω) (hab : a < b) :
       Finset.Ico (lowerCrossingTime a b f N k ω) (upperCrossingTime a b f N (k + 1) ω))]; rw [Finset.sum_Ico_eq_add_neg _ lowerCrossingTime_le_upperCrossingTime_succ]; rw [Finset.sum_range_sub fun n => f n ω]; rw [Finset.sum_range_sub fun n => f n ω]; rw [neg_sub]; rw [sub_add_sub_cancel]
     · rfl
     · ext i
-      simp only [Set.mem_Ico, Finset.mem_filter, Finset.mem_range, Finset.mem_Ico,
-        and_iff_right_iff_imp, and_imp]
+      simp only [Set.mem_Ico, Finset.mem_filter, Finset.mem_range, Finset.mem_Ico, and_iff_right_iff_imp, and_imp]
       exact fun _ h => lt_of_lt_of_le h upperCrossingTime_le
   simp_rw [h₁]
   have h₂ : ∑ _k in Finset.range (upcrossingsBefore a b f N ω), (b - a) ≤

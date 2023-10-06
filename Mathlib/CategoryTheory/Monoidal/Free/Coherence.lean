@@ -247,20 +247,15 @@ def normalizeIso : tensorFunc C ≅ normalize' C :=
         dsimp
         rw [mk_α_hom]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight, Functor.comp]
-        simp only [comp_tensor_id, associator_conjugation, tensor_id,
-          Category.comp_id]
+        simp only [comp_tensor_id, associator_conjugation, tensor_id, Category.comp_id]
         simp only [← Category.assoc]
         congr 4
-        simp only [Category.assoc, ← cancel_epi (𝟙 (inclusionObj n.as) ⊗ (α_ X₁ X₂ X₃).inv),
-          pentagon_inv_assoc (inclusionObj n.as) X₁ X₂ X₃,
-          tensor_inv_hom_id_assoc, tensor_id, Category.id_comp, Iso.inv_hom_id,
-          Category.comp_id]
+        simp only [Category.assoc, ← cancel_epi (𝟙 (inclusionObj n.as) ⊗ (α_ X₁ X₂ X₃).inv), pentagon_inv_assoc (inclusionObj n.as) X₁ X₂ X₃, tensor_inv_hom_id_assoc, tensor_id, Category.id_comp, Iso.inv_hom_id, Category.comp_id]
       · ext n
         dsimp
         rw [mk_α_inv]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight, Functor.comp]
-        simp only [Category.assoc, comp_tensor_id, tensor_id, Category.comp_id,
-          pentagon_inv_assoc, ← associator_inv_naturality_assoc]
+        simp only [Category.assoc, comp_tensor_id, tensor_id, Category.comp_id, pentagon_inv_assoc, ← associator_inv_naturality_assoc]
         rfl
       · ext n
         dsimp [Functor.comp]
@@ -272,22 +267,18 @@ def normalizeIso : tensorFunc C ≅ normalize' C :=
         dsimp [Functor.comp]
         rw [mk_l_inv]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight, Functor.comp]
-        simp only [triangle_assoc_comp_left_inv_assoc, inv_hom_id_tensor_assoc, tensor_id,
-          Category.id_comp, Category.comp_id]
+        simp only [triangle_assoc_comp_left_inv_assoc, inv_hom_id_tensor_assoc, tensor_id, Category.id_comp, Category.comp_id]
         rfl
       · ext n
         dsimp
         rw [mk_ρ_hom]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight, Functor.comp]
-        simp only [← (Iso.inv_comp_eq _).2 (rightUnitor_tensor _ _), Category.assoc,
-          ← rightUnitor_naturality, Category.comp_id]; rfl
+        simp only [← (Iso.inv_comp_eq _).2 (rightUnitor_tensor _ _), Category.assoc, ← rightUnitor_naturality, Category.comp_id]; rfl
       · ext n
         dsimp
         rw [mk_ρ_inv]; rw [NatTrans.comp_app]; rw [NatTrans.comp_app]
         dsimp [NatIso.ofComponents, normalizeMapAux, whiskeringRight, whiskerRight, Functor.comp]
-        simp only [← (Iso.eq_comp_inv _).1 (rightUnitor_tensor_inv _ _), rightUnitor_conjugation,
-          Category.assoc, Iso.hom_inv_id_assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id,
-          Discrete.functor, Category.comp_id, Function.comp]
+        simp only [← (Iso.eq_comp_inv _).1 (rightUnitor_tensor_inv _ _), rightUnitor_conjugation, Category.assoc, Iso.hom_inv_id_assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id, Discrete.functor, Category.comp_id, Function.comp]
       · rw [mk_comp, Functor.map_comp, Functor.map_comp, Category.assoc, h₂, reassoc_of% h₁]
       · ext ⟨n⟩
         replace h₁ := NatTrans.congr_app h₁ ⟨n⟩

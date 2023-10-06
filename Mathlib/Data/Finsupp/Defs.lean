@@ -1184,8 +1184,7 @@ def embDomain.addMonoidHom (f : α ↪ β) : (α →₀ M) →+ β →₀ M wher
     by_cases h : b ∈ Set.range f
     · rcases h with ⟨a, rfl⟩
       simp
-    · simp only [Set.mem_range, not_exists, coe_add, Pi.add_apply,
-        embDomain_notin_range _ _ _ h, add_zero]
+    · simp only [Set.mem_range, not_exists, coe_add, Pi.add_apply, embDomain_notin_range _ _ _ h, add_zero]
 #align finsupp.emb_domain.add_monoid_hom Finsupp.embDomain.addMonoidHom
 
 @[simp]

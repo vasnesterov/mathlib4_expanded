@@ -289,8 +289,7 @@ instance addCommMonoid : AddCommMonoid (M ⊗[R] N) :=
     toZero := (TensorProduct.addZeroClass _ _).toZero
     nsmul := fun n v => n • v
     nsmul_zero := by simp [TensorProduct.zero_smul]
-    nsmul_succ := by simp only [TensorProduct.one_smul, TensorProduct.add_smul, add_comm,
-      forall_const] }
+    nsmul_succ := by simp only [TensorProduct.one_smul, TensorProduct.add_smul, add_comm, forall_const] }
 
 instance leftDistribMulAction : DistribMulAction R' (M ⊗[R] N) :=
   have : ∀ (r : R') (m : M) (n : N), r • m ⊗ₜ[R] n = (r • m) ⊗ₜ n := fun _ _ _ => rfl
@@ -761,8 +760,7 @@ theorem map_tmul (f : M →ₗ[R] P) (g : N →ₗ[R] Q) (m : M) (n : N) : map f
 
 theorem map_range_eq_span_tmul (f : M →ₗ[R] P) (g : N →ₗ[R] Q) :
     range (map f g) = Submodule.span R { t | ∃ m n, f m ⊗ₜ g n = t } := by
-  simp only [← Submodule.map_top, ← span_tmul_eq_top, Submodule.map_span, Set.mem_image,
-    Set.mem_setOf_eq]
+  simp only [← Submodule.map_top, ← span_tmul_eq_top, Submodule.map_span, Set.mem_image, Set.mem_setOf_eq]
   congr; ext t
   constructor
   · rintro ⟨_, ⟨⟨m, n, rfl⟩, rfl⟩⟩

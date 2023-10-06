@@ -162,8 +162,7 @@ theorem map_T (f : R →+* S) : ∀ n : ℕ, map f (T R n) = T S n
   | 0 => by simp only [T_zero, Polynomial.map_one]
   | 1 => by simp only [T_one, map_X]
   | n + 2 => by
-    simp only [T_add_two, Polynomial.map_mul, Polynomial.map_sub, map_X, Polynomial.map_add,
-      Polynomial.map_one, Polynomial.map_ofNat, map_T f (n + 1), map_T f n]
+    simp only [T_add_two, Polynomial.map_mul, Polynomial.map_sub, map_X, Polynomial.map_add, Polynomial.map_one, Polynomial.map_ofNat, map_T f (n + 1), map_T f n]
 #align polynomial.chebyshev.map_T Polynomial.Chebyshev.map_T
 
 @[simp]
@@ -172,8 +171,7 @@ theorem map_U (f : R →+* S) : ∀ n : ℕ, map f (U R n) = U S n
   | 1 => by
     simp [U_one, map_X, Polynomial.map_mul, Polynomial.map_add, Polynomial.map_one]
   | n + 2 => by
-    simp only [U_add_two, Polynomial.map_mul, Polynomial.map_sub, map_X, Polynomial.map_add,
-      Polynomial.map_one, map_U f (n + 1), map_U f n]
+    simp only [U_add_two, Polynomial.map_mul, Polynomial.map_sub, map_X, Polynomial.map_add, Polynomial.map_one, map_U f (n + 1), map_U f n]
     norm_num
 #align polynomial.chebyshev.map_U Polynomial.Chebyshev.map_U
 
@@ -212,8 +210,7 @@ theorem add_one_mul_T_eq_poly_in_U (n : ℕ) :
   have h : derivative (T R (n + 2)) = U R (n + 1) - X * U R n + X * derivative (T R (n + 1)) +
       2 * X * U R n - (1 - X ^ 2) * derivative (U R n) := by
     conv_lhs => rw [T_eq_X_mul_T_sub_pol_U]
-    simp only [derivative_sub, derivative_mul, derivative_X, derivative_one, derivative_X_pow,
-      one_mul, T_derivative_eq_U]
+    simp only [derivative_sub, derivative_mul, derivative_X, derivative_one, derivative_X_pow, one_mul, T_derivative_eq_U]
     rw [T_eq_U_sub_X_mul_U]; rw [C_eq_nat_cast]
     ring
   calc

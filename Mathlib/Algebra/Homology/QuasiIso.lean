@@ -83,8 +83,7 @@ theorem toQuasiIso_inv {C D : HomologicalComplex W c} (e : HomotopyEquiv C D) (i
     (@asIso _ _ _ _ _ (e.toQuasiIso.1 i)).inv = (homologyFunctor W c i).map e.inv := by
   symm
   haveI := e.toQuasiIso.1 i -- Porting note: Added this to get `asIso_hom` to work.
-  simp only [← Iso.hom_comp_eq_id, asIso_hom, ← Functor.map_comp, ← (homologyFunctor W c i).map_id,
-    homology_map_eq_of_homotopy e.homotopyHomInvId _]
+  simp only [← Iso.hom_comp_eq_id, asIso_hom, ← Functor.map_comp, ← (homologyFunctor W c i).map_id, homology_map_eq_of_homotopy e.homotopyHomInvId _]
 #align homotopy_equiv.to_quasi_iso_inv HomotopyEquiv.toQuasiIso_inv
 
 end
@@ -164,11 +163,9 @@ theorem fromSingle₀KernelAtZeroIso_inv_eq [hf : QuasiIso f] :
   ext
   dsimp only [fromSingle₀KernelAtZeroIso, CochainComplex.homologyZeroIso, homologyOfZeroLeft,
     homology.mapIso, CochainComplex.homologyFunctor0Single₀, kernel.map]
-  simp only [Iso.trans_inv, Iso.app_inv, Iso.symm_inv, Category.assoc, equalizer_as_kernel,
-    kernel.lift_ι]
+  simp only [Iso.trans_inv, Iso.app_inv, Iso.symm_inv, Category.assoc, equalizer_as_kernel, kernel.lift_ι]
   dsimp [asIso]
-  simp only [Category.assoc, homology.π_map, cokernelZeroIsoTarget_hom,
-    cokernelIsoOfEq_hom_comp_desc, kernelSubobject_arrow, homology.π_map_assoc, IsIso.inv_comp_eq]
+  simp only [Category.assoc, homology.π_map, cokernelZeroIsoTarget_hom, cokernelIsoOfEq_hom_comp_desc, kernelSubobject_arrow, homology.π_map_assoc, IsIso.inv_comp_eq]
   simp [homology.π, kernelSubobjectMap_comp, Iso.refl_hom (X.X 0), Category.comp_id]
 #align homological_complex.hom.from_single₀_kernel_at_zero_iso_inv_eq HomologicalComplex.Hom.fromSingle₀KernelAtZeroIso_inv_eq
 

@@ -56,8 +56,7 @@ def factorization (n : ℕ) : ℕ →₀ ℕ where
   mem_support_toFun := by
     rcases eq_or_ne n 0 with (rfl | hn0)
     · simp
-    simp only [mem_factors hn0, mem_toFinset, Ne.def, ite_eq_right_iff, not_forall, exists_prop,
-      and_congr_right_iff]
+    simp only [mem_factors hn0, mem_toFinset, Ne.def, ite_eq_right_iff, not_forall, exists_prop, and_congr_right_iff]
     rintro p hp
     haveI := fact_iff.mpr hp
     exact dvd_iff_padicValNat_ne_zero hn0
@@ -217,8 +216,7 @@ theorem factorization_eq_zero_iff' (n : ℕ) : n.factorization = 0 ↔ n = 0 ∨
 theorem factorization_mul {a b : ℕ} (ha : a ≠ 0) (hb : b ≠ 0) :
     (a * b).factorization = a.factorization + b.factorization := by
   ext p
-  simp only [add_apply, ← factors_count_eq, perm_iff_count.mp (perm_factors_mul ha hb) p,
-    count_append]
+  simp only [add_apply, ← factors_count_eq, perm_iff_count.mp (perm_factors_mul ha hb) p, count_append]
 #align nat.factorization_mul Nat.factorization_mul
 
 theorem factorization_mul_support {a b : ℕ} (ha : a ≠ 0) (hb : b ≠ 0) :
@@ -715,8 +713,7 @@ theorem Icc_factorization_eq_pow_dvd (n : ℕ) {p : ℕ} (pp : Prime p) :
   rcases eq_or_ne n 0 with (rfl | hn)
   · simp
   ext x
-  simp only [mem_Icc, Finset.mem_filter, mem_Ico, and_assoc, and_congr_right_iff,
-    pp.pow_dvd_iff_le_factorization hn, iff_and_self]
+  simp only [mem_Icc, Finset.mem_filter, mem_Ico, and_assoc, and_congr_right_iff, pp.pow_dvd_iff_le_factorization hn, iff_and_self]
   exact fun _ H => lt_of_le_of_lt H (factorization_lt p hn)
 #align nat.Icc_factorization_eq_pow_dvd Nat.Icc_factorization_eq_pow_dvd
 

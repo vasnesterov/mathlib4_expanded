@@ -99,8 +99,7 @@ theorem select_add_select_not : ∀ x : 𝕎 R, select P x + select (fun i => ¬
       wittPolynomial p ℤ n by
     apply_fun aeval x.coeff at this
     simpa only [AlgHom.map_add, aeval_bind₁, ← coeff_select]
-  simp only [wittPolynomial_eq_sum_C_mul_X_pow, selectPoly, AlgHom.map_sum, AlgHom.map_pow,
-    AlgHom.map_mul, bind₁_X_right, bind₁_C_right, ← Finset.sum_add_distrib, ← mul_add]
+  simp only [wittPolynomial_eq_sum_C_mul_X_pow, selectPoly, AlgHom.map_sum, AlgHom.map_pow, AlgHom.map_mul, bind₁_X_right, bind₁_C_right, ← Finset.sum_add_distrib, ← mul_add]
   apply Finset.sum_congr rfl
   refine' fun m _ => mul_eq_mul_left_iff.mpr (Or.inl _)
   rw [ite_pow]; rw [zero_pow (pow_pos hp.out.pos _)]
@@ -177,17 +176,13 @@ elab_rules : tactic
     ))
   if let some e := a then
     evalTactic <|← `(tactic|(
-      simp only [WittVector.add_coeff, WittVector.mul_coeff, WittVector.neg_coeff,
-        WittVector.sub_coeff, WittVector.nsmul_coeff, WittVector.zsmul_coeff, WittVector.pow_coeff]
+      simp only [WittVector.add_coeff, WittVector.mul_coeff, WittVector.neg_coeff, WittVector.sub_coeff, WittVector.nsmul_coeff, WittVector.zsmul_coeff, WittVector.pow_coeff]
       apply MvPolynomial.eval₂Hom_congr' (RingHom.ext_int _ _) _ rfl
       rintro ⟨b, k⟩ h -
       replace h := $e:term p _ h
       simp only [Finset.mem_range, Finset.mem_product, true_and, Finset.mem_univ] at h
       have hk : k < n := by linarith
-      fin_cases b <;> simp only [Function.uncurry, Matrix.cons_val_zero, Matrix.head_cons,
-        WittVector.coeff_mk, Matrix.cons_val_one, WittVector.mk, Fin.mk_zero, Matrix.cons_val',
-        Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.cons_val_zero,
-        hk, if_true]
+      fin_cases b <;> simp only [Function.uncurry, Matrix.cons_val_zero, Matrix.head_cons, WittVector.coeff_mk, Matrix.cons_val_one, WittVector.mk, Fin.mk_zero, Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.cons_val_zero, hk, if_true]
     ))
 
 -- Porting note: `by init_ring` should suffice; this patches over an issue with `split_ifs`.

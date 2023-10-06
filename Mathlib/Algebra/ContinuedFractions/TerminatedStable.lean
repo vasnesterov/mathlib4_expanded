@@ -68,8 +68,7 @@ theorem convergents'Aux_stable_of_terminated {s : Stream'.Seq <| Pair K} (n_le_m
 
 theorem continuants_stable_of_terminated (n_le_m : n ≤ m) (terminated_at_n : g.TerminatedAt n) :
     g.continuants m = g.continuants n := by
-  simp only [nth_cont_eq_succ_nth_cont_aux,
-    continuantsAux_stable_of_terminated (Nat.pred_le_iff.mp n_le_m) terminated_at_n]
+  simp only [nth_cont_eq_succ_nth_cont_aux, continuantsAux_stable_of_terminated (Nat.pred_le_iff.mp n_le_m) terminated_at_n]
 #align generalized_continued_fraction.continuants_stable_of_terminated GeneralizedContinuedFraction.continuants_stable_of_terminated
 
 theorem numerators_stable_of_terminated (n_le_m : n ≤ m) (terminated_at_n : g.TerminatedAt n) :
@@ -84,8 +83,7 @@ theorem denominators_stable_of_terminated (n_le_m : n ≤ m) (terminated_at_n : 
 
 theorem convergents_stable_of_terminated (n_le_m : n ≤ m) (terminated_at_n : g.TerminatedAt n) :
     g.convergents m = g.convergents n := by
-  simp only [convergents, denominators_stable_of_terminated n_le_m terminated_at_n,
-    numerators_stable_of_terminated n_le_m terminated_at_n]
+  simp only [convergents, denominators_stable_of_terminated n_le_m terminated_at_n, numerators_stable_of_terminated n_le_m terminated_at_n]
 #align generalized_continued_fraction.convergents_stable_of_terminated GeneralizedContinuedFraction.convergents_stable_of_terminated
 
 theorem convergents'_stable_of_terminated (n_le_m : n ≤ m) (terminated_at_n : g.TerminatedAt n) :

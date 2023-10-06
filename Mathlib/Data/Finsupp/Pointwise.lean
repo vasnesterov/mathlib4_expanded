@@ -96,8 +96,7 @@ instance pointwiseScalar [Semiring β] : SMul (α → β) (α →₀ β) where
   smul f g :=
     Finsupp.ofSupportFinite (fun a ↦ f a • g a) (by
       apply Set.Finite.subset g.finite_support
-      simp only [Function.support_subset_iff, Finsupp.mem_support_iff, Ne.def,
-        Finsupp.fun_support_eq, Finset.mem_coe]
+      simp only [Function.support_subset_iff, Finsupp.mem_support_iff, Ne.def, Finsupp.fun_support_eq, Finset.mem_coe]
       intro x hx h
       apply hx
       rw [h]; rw [smul_zero])

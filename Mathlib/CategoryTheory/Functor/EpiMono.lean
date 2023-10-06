@@ -231,7 +231,7 @@ def splitEpiEquiv [Full F] [Faithful F] : SplitEpi f ≃ SplitEpi (F.map f)
     apply SplitEpi.id
   left_inv := by aesop_cat
   right_inv := by
-      simp only [Function.RightInverse,Function.LeftInverse]
+      simp only [Function.RightInverse, Function.LeftInverse]
       intro x
       simp only [SplitEpi.map, preimage]
       aesop_cat
@@ -259,7 +259,7 @@ def splitMonoEquiv [Full F] [Faithful F] : SplitMono f ≃ SplitMono (F.map f)
   right_inv := by
     simp only [Function.RightInverse, Function.LeftInverse]
     intro x
-    simp only [SplitMono.map,preimage]
+    simp only [SplitMono.map, preimage]
     aesop_cat
 #align category_theory.functor.split_mono_equiv CategoryTheory.Functor.splitMonoEquiv
 

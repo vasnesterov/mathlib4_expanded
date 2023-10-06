@@ -572,8 +572,7 @@ theorem cast_injective_of_lt {m n : ℕ} [nzm : NeZero m] (h : m < n) :
   | zero => cases nzm; simp_all
   | succ m =>
     rintro ⟨x, hx⟩ ⟨y, hy⟩ f
-    simp only [cast, val, nat_cast_eq_nat_cast_iff',
-      Nat.mod_eq_of_lt (lt_trans hx h), Nat.mod_eq_of_lt (lt_trans hy h)] at f
+    simp only [cast, val, nat_cast_eq_nat_cast_iff', Nat.mod_eq_of_lt (lt_trans hx h), Nat.mod_eq_of_lt (lt_trans hy h)] at f
     apply Fin.ext
     exact f
 

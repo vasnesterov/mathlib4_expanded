@@ -443,15 +443,13 @@ def reindex (e : ι ≃ ι₂) : (⨂[R] _ : ι, M) ≃ₗ[R] ⨂[R] _ : ι₂, 
     (lift (domDomCongr e (tprod R : MultilinearMap R _ (⨂[R] _ : ι, M))))
     (by
       ext
-      simp only [LinearMap.comp_apply, LinearMap.id_apply, lift_tprod,
-        LinearMap.compMultilinearMap_apply, lift.tprod, domDomCongr_apply]
+      simp only [LinearMap.comp_apply, LinearMap.id_apply, lift_tprod, LinearMap.compMultilinearMap_apply, lift.tprod, domDomCongr_apply]
       congr
       ext
       rw [e.apply_symm_apply])
     (by
       ext
-      simp only [LinearMap.comp_apply, LinearMap.id_apply, lift_tprod,
-        LinearMap.compMultilinearMap_apply, lift.tprod, domDomCongr_apply]
+      simp only [LinearMap.comp_apply, LinearMap.id_apply, lift_tprod, LinearMap.compMultilinearMap_apply, lift.tprod, domDomCongr_apply]
       congr
       ext
       rw [e.symm_apply_apply])
@@ -491,9 +489,7 @@ theorem reindex_trans (e : ι ≃ ι₂) (e' : ι₂ ≃ ι₃) :
     (reindex R M e).trans (reindex R M e') = reindex R M (e.trans e') := by
   apply LinearEquiv.toLinearMap_injective
   ext f
-  simp only [LinearEquiv.trans_apply, LinearEquiv.coe_coe, reindex_tprod,
-    LinearMap.coe_compMultilinearMap, Function.comp_apply, MultilinearMap.domDomCongr_apply,
-    reindex_comp_tprod]
+  simp only [LinearEquiv.trans_apply, LinearEquiv.coe_coe, reindex_tprod, LinearMap.coe_compMultilinearMap, Function.comp_apply, MultilinearMap.domDomCongr_apply, reindex_comp_tprod]
   congr
 #align pi_tensor_product.reindex_trans PiTensorProduct.reindex_trans
 
@@ -525,8 +521,7 @@ def isEmptyEquiv [IsEmpty ι] : (⨂[R] _ : ι, M) ≃ₗ[R] R where
   left_inv x := by
     refine x.induction_on ?_ ?_
     · intro x y
-      simp only [map_smulₛₗ, RingHom.id_apply, lift.tprod, constOfIsEmpty_apply, const_apply,
-        smul_eq_mul, mul_one]
+      simp only [map_smulₛₗ, RingHom.id_apply, lift.tprod, constOfIsEmpty_apply, const_apply, smul_eq_mul, mul_one]
       congr
       aesop
     · simp only
@@ -561,8 +556,7 @@ def subsingletonEquiv [Subsingleton ι] (i₀ : ι) : (⨂[R] _ : ι, M) ≃ₗ[
       rw [Subsingleton.elim i i₀]; rw [Function.update_same]
     refine x.induction_on ?_ ?_
     · intro r f
-      simp only [LinearMap.map_smul, lift.tprod, ofSubsingleton_apply, Function.eval, this f,
-        MultilinearMap.map_smul, update_eq_self]
+      simp only [LinearMap.map_smul, lift.tprod, ofSubsingleton_apply, Function.eval, this f, MultilinearMap.map_smul, update_eq_self]
     · intro x y hx hy
       rw [LinearMap.map_add]; rw [this 0 (_ + _)]; rw [MultilinearMap.map_add]; rw [← this 0 (lift _ _)]; rw [hx]; rw [← this 0 (lift _ _)]; rw [hy]
   right_inv t := by simp only [ofSubsingleton_apply, lift.tprod, Function.eval_apply]

@@ -2552,8 +2552,7 @@ theorem mul_submatrix_one [Fintype n] [Finite o] [NonAssocSemiring α] [Decidabl
   have : M = A.submatrix id e₁ := by
     simp only [submatrix_submatrix, Function.comp.right_id, submatrix_id_id, Equiv.symm_comp_self]
   rw [this]; rw [submatrix_mul_equiv]
-  simp only [Matrix.mul_one, submatrix_submatrix, Function.comp.right_id, submatrix_id_id,
-    Equiv.symm_comp_self]
+  simp only [Matrix.mul_one, submatrix_submatrix, Function.comp.right_id, submatrix_id_id, Equiv.symm_comp_self]
 #align matrix.mul_submatrix_one Matrix.mul_submatrix_one
 
 theorem one_submatrix_mul [Fintype m] [Finite o] [NonAssocSemiring α] [DecidableEq o] (e₁ : l → o)
@@ -2564,8 +2563,7 @@ theorem one_submatrix_mul [Fintype m] [Finite o] [NonAssocSemiring α] [Decidabl
   have : M = A.submatrix e₂ id := by
     simp only [submatrix_submatrix, Function.comp.right_id, submatrix_id_id, Equiv.symm_comp_self]
   rw [this]; rw [submatrix_mul_equiv]
-  simp only [Matrix.one_mul, submatrix_submatrix, Function.comp.right_id, submatrix_id_id,
-    Equiv.symm_comp_self]
+  simp only [Matrix.one_mul, submatrix_submatrix, Function.comp.right_id, submatrix_id_id, Equiv.symm_comp_self]
 #align matrix.one_submatrix_mul Matrix.one_submatrix_mul
 
 /-- The natural map that reindexes a matrix's rows and columns with equivalent types is an

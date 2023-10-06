@@ -461,8 +461,7 @@ def EffectiveEpiFamily_descStruct {B : C} {α : Type*} (X : α → C) (π : (a :
     simpa only [Category.assoc, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app])
   fac e h := by
     ext a
-    simp only [colimit.ι_desc_assoc, Discrete.functor_obj, Cofan.mk_pt, Cofan.mk_ι_app,
-      EffectiveEpiFamily.fac]
+    simp only [colimit.ι_desc_assoc, Discrete.functor_obj, Cofan.mk_pt, Cofan.mk_ι_app, EffectiveEpiFamily.fac]
   uniq e _ m hm := by
     have := EffectiveEpiFamily.uniq X π (fun a ↦ Sigma.ι X a ≫ e) ?_ m
     · apply this
@@ -524,16 +523,13 @@ def EffectiveEpiFamilyStruct_of_isIso_desc {B : C} {α : Type*} (X : α → C)
   desc e _ := (asIso (Sigma.desc π)).inv ≫ (Sigma.desc e)
   fac e h := by
     intro a
-    have : π a = Sigma.ι X a ≫ (asIso (Sigma.desc π)).hom := by simp only [asIso_hom,
-      colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app]
+    have : π a = Sigma.ι X a ≫ (asIso (Sigma.desc π)).hom := by simp only [asIso_hom, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app]
     rw [this]; rw [Category.assoc]
-    simp only [asIso_hom, asIso_inv, IsIso.hom_inv_id_assoc, colimit.ι_desc, Cofan.mk_pt,
-      Cofan.mk_ι_app]
+    simp only [asIso_hom, asIso_inv, IsIso.hom_inv_id_assoc, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app]
   uniq e h m hm := by
     simp only [asIso_inv, IsIso.eq_inv_comp]
     ext a
-    simp only [colimit.ι_desc_assoc, Discrete.functor_obj, Cofan.mk_pt, Cofan.mk_ι_app,
-      colimit.ι_desc]
+    simp only [colimit.ι_desc_assoc, Discrete.functor_obj, Cofan.mk_pt, Cofan.mk_ι_app, colimit.ι_desc]
     exact hm a
 
 instance {B : C} {α : Type*} (X : α → C) (π : (a : α) → (X a ⟶ B)) [HasCoproduct X]

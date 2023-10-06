@@ -268,8 +268,7 @@ theorem rightDerivedZeroToSelfAppInv_comp [EnoughInjectives C] [PreservesFiniteL
   apply (@IsIso.comp_inv_eq D _ _ _ _ _ ?_ _ _).mpr
   · rw [Category.id_comp]
     ext
-    simp only [Limits.kernel.lift_ι_assoc,
-      Category.assoc, Limits.kernel.lift_ι, homology.lift]
+    simp only [Limits.kernel.lift_ι_assoc, Category.assoc, Limits.kernel.lift_ι, homology.lift]
     rw [← Category.assoc]; rw [← Category.assoc]; rw [Category.assoc _ _ (homologyIsoKernelDesc _ _ _).hom]
     simp
     -- Porting note: this used to be an instance in ML3

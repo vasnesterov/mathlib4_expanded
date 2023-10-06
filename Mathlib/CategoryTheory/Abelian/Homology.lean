@@ -68,8 +68,7 @@ instance : Mono (homologyCToK f g w) := by
   intro a ha
   obtain ⟨a, rfl⟩ := Pseudoelement.pseudo_surjective_of_epi (cokernel.π (kernel.lift g f w)) a
   apply_fun kernel.ι (cokernel.desc f g w) at ha
-  simp only [← Pseudoelement.comp_apply, cokernel.π_desc, kernel.lift_ι,
-    Pseudoelement.apply_zero] at ha
+  simp only [← Pseudoelement.comp_apply, cokernel.π_desc, kernel.lift_ι, Pseudoelement.apply_zero] at ha
   simp only [Pseudoelement.comp_apply] at ha
   obtain ⟨b, hb⟩ : ∃ b, f b = _ := (Pseudoelement.pseudo_exact_of_exact (exact_cokernel f)).2 _ ha
   rsuffices ⟨c, rfl⟩ : ∃ c, kernel.lift g f w c = a
@@ -354,8 +353,7 @@ noncomputable def homologyFunctorIso (i : ι) :
       simp only [Category.assoc, cokernelComparison_map_desc, cokernel.π_desc]
       simp only [π_comp_cokernelComparison, ← F.map_comp]
       erw [← kernelSubobjectIso_comp_kernel_map_assoc]
-      simp only [HomologicalComplex.Hom.sqFrom_right, HomologicalComplex.Hom.sqFrom_left,
-        F.mapHomologicalComplex_map_f, F.map_comp]
+      simp only [HomologicalComplex.Hom.sqFrom_right, HomologicalComplex.Hom.sqFrom_left, F.mapHomologicalComplex_map_f, F.map_comp]
       dsimp [HomologicalComplex.dFrom, HomologicalComplex.Hom.next]
       rw [kernel_map_comp_preserves_kernel_iso_inv_assoc]
       conv_lhs => erw [← F.map_comp_assoc]

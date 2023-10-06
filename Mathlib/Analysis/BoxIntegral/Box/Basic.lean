@@ -350,8 +350,7 @@ theorem coe_inf (I J : WithBot (Box ι)) : (↑(I ⊓ J) : Set (ι → ℝ)) = (
   · change ∅ = _
     simp
   change ((mk' _ _ : WithBot (Box ι)) : Set (ι → ℝ)) = _
-  simp only [coe_eq_pi, ← pi_inter_distrib, Ioc_inter_Ioc, Pi.sup_apply, Pi.inf_apply, coe_mk',
-    coe_coe]
+  simp only [coe_eq_pi, ← pi_inter_distrib, Ioc_inter_Ioc, Pi.sup_apply, Pi.inf_apply, coe_mk', coe_coe]
 #align box_integral.box.coe_inf BoxIntegral.Box.coe_inf
 
 instance : Lattice (WithBot (Box ι)) :=

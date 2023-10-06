@@ -719,8 +719,7 @@ theorem isBounded_iff_exists_ge {s : Set α} (c : ℝ) :
 
 theorem isBounded_iff_nndist {s : Set α} :
     IsBounded s ↔ ∃ C : ℝ≥0, ∀ ⦃x⦄, x ∈ s → ∀ ⦃y⦄, y ∈ s → nndist x y ≤ C := by
-  simp only [isBounded_iff_exists_ge 0, NNReal.exists, ← NNReal.coe_le_coe, ← dist_nndist,
-    NNReal.coe_mk, exists_prop]
+  simp only [isBounded_iff_exists_ge 0, NNReal.exists, ← NNReal.coe_le_coe, ← dist_nndist, NNReal.coe_mk, exists_prop]
 #align metric.is_bounded_iff_nndist Metric.isBounded_iff_nndist
 
 theorem toUniformSpace_eq :
@@ -930,8 +929,7 @@ theorem tendstoLocallyUniformly_iff [TopologicalSpace β] {F : ι → β → α}
     {p : Filter ι} :
     TendstoLocallyUniformly F f p ↔
       ∀ ε > 0, ∀ x : β, ∃ t ∈ 𝓝 x, ∀ᶠ n in p, ∀ y ∈ t, dist (f y) (F n y) < ε := by
-  simp only [← tendstoLocallyUniformlyOn_univ, tendstoLocallyUniformlyOn_iff, nhdsWithin_univ,
-    mem_univ, forall_const, exists_prop]
+  simp only [← tendstoLocallyUniformlyOn_univ, tendstoLocallyUniformlyOn_iff, nhdsWithin_univ, mem_univ, forall_const, exists_prop]
 #align metric.tendsto_locally_uniformly_iff Metric.tendstoLocallyUniformly_iff
 
 /-- Expressing uniform convergence using `dist`. -/
@@ -1170,8 +1168,7 @@ theorem Metric.uniformity_edist_aux {α} (d : α → α → ℝ≥0) :
     exact fun _ => ENNReal.coe_lt_coe.1
 
 theorem Metric.uniformity_edist : 𝓤 α = ⨅ ε > 0, 𝓟 { p : α × α | edist p.1 p.2 < ε } := by
-  simp only [PseudoMetricSpace.uniformity_dist, dist_nndist, edist_nndist,
-    Metric.uniformity_edist_aux]
+  simp only [PseudoMetricSpace.uniformity_dist, dist_nndist, edist_nndist, Metric.uniformity_edist_aux]
 #align metric.uniformity_edist Metric.uniformity_edist
 
 -- see Note [lower instance priority]
@@ -1694,8 +1691,7 @@ theorem NNReal.dist_eq (a b : ℝ≥0) : dist a b = |(a : ℝ) - b| := rfl
 
 theorem NNReal.nndist_eq (a b : ℝ≥0) : nndist a b = max (a - b) (b - a) :=
   eq_of_forall_ge_iff fun _ => by
-    simp only [← NNReal.coe_le_coe, coe_nndist, dist_eq, max_le_iff, abs_sub_le_iff,
-      tsub_le_iff_right, NNReal.coe_add]
+    simp only [← NNReal.coe_le_coe, coe_nndist, dist_eq, max_le_iff, abs_sub_le_iff, tsub_le_iff_right, NNReal.coe_add]
 #align nnreal.nndist_eq NNReal.nndist_eq
 
 @[simp]
@@ -1750,8 +1746,7 @@ instance Prod.pseudoMetricSpaceMax : PseudoMetricSpace (α × β) :=
   let i := PseudoEMetricSpace.toPseudoMetricSpaceOfDist
     (fun x y : α × β => dist x.1 y.1 ⊔ dist x.2 y.2)
     (fun x y => (max_lt (edist_lt_top _ _) (edist_lt_top _ _)).ne) fun x y => by
-      simp only [sup_eq_max, dist_edist, ← ENNReal.toReal_max (edist_ne_top _ _) (edist_ne_top _ _),
-        Prod.edist_eq]
+      simp only [sup_eq_max, dist_edist, ← ENNReal.toReal_max (edist_ne_top _ _) (edist_ne_top _ _), Prod.edist_eq]
   i.replaceBornology fun s => by
     simp only [← isBounded_image_fst_and_snd, isBounded_iff_eventually, ball_image_iff, ←
       eventually_and, ← forall_and, ← max_le_iff]
@@ -1839,8 +1834,7 @@ protected theorem Filter.Tendsto.dist {f g : β → α} {x : Filter β} {a b : �
 #align filter.tendsto.dist Filter.Tendsto.dist
 
 theorem nhds_comap_dist (a : α) : ((𝓝 (0 : ℝ)).comap (dist · a)) = 𝓝 a := by
-  simp only [@nhds_eq_comap_uniformity α, Metric.uniformity_eq_comap_nhds_zero, comap_comap,
-    (· ∘ ·), dist_comm]
+  simp only [@nhds_eq_comap_uniformity α, Metric.uniformity_eq_comap_nhds_zero, comap_comap, (· ∘ ·), dist_comm]
 #align nhds_comap_dist nhds_comap_dist
 
 theorem tendsto_iff_dist_tendsto_zero {f : β → α} {x : Filter β} {a : α} :
@@ -2010,8 +2004,7 @@ instance pseudoMetricSpacePi : PseudoMetricSpace (∀ b, π b) := by
     (fun f g => by
       simp only [edist_pi_def, edist_nndist, ← ENNReal.coe_finset_sup, ENNReal.coe_toReal])
   refine i.replaceBornology fun s => ?_
-  simp only [← isBounded_def, isBounded_iff_eventually, ← forall_isBounded_image_eval_iff,
-    ball_image_iff, ← Filter.eventually_all, Function.eval_apply, @dist_nndist (π _)]
+  simp only [← isBounded_def, isBounded_iff_eventually, ← forall_isBounded_image_eval_iff, ball_image_iff, ← Filter.eventually_all, Function.eval_apply, @dist_nndist (π _)]
   refine' eventually_congr ((eventually_ge_atTop 0).mono fun C hC => _)
   lift C to ℝ≥0 using hC
   refine' ⟨fun H x hx y hy => NNReal.coe_le_coe.2 <| Finset.sup_le fun b _ => H b x hx y hy,

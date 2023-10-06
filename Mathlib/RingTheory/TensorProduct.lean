@@ -646,8 +646,7 @@ def algEquivOfLinearEquivTripleTensorProduct (f : (A ⊗[R] B) ⊗[R] C ≃ₗ[R
 algEquivOfLinearEquivTensorProduct f (fun x₁ x₂ c₁ c₂ => by
   refine TensorProduct.induction_on x₁ ?_ ?_ ?_ <;>
   refine TensorProduct.induction_on x₂ ?_ ?_ ?_ <;>
-  simp only [zero_tmul, tmul_zero, tmul_mul_tmul, map_zero, zero_mul, mul_zero, mul_add, add_mul,
-    map_add, add_tmul, tmul_add, h_mul] <;>
+  simp only [zero_tmul, tmul_zero, tmul_mul_tmul, map_zero, zero_mul, mul_zero, mul_add, add_mul, map_add, add_tmul, tmul_add, h_mul] <;>
   try
     intros
     trivial

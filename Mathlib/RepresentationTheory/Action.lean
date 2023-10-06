@@ -554,8 +554,7 @@ set_option linter.uppercaseLean3 false in
 is isomorphic to the tensor unit of `Action V G`. -/
 def tensorUnitIso {X : V} (f : 𝟙_ V ≅ X) : 𝟙_ (Action V G) ≅ Action.mk X 1 :=
   Action.mkIso f fun _ => by
-    simp only [MonoidHom.one_apply, End.one_def, Category.id_comp f.hom, tensorUnit_rho,
-      MonCat.oneHom_apply, MonCat.one_of, Category.comp_id]
+    simp only [MonoidHom.one_apply, End.one_def, Category.id_comp f.hom, tensorUnit_rho, MonCat.oneHom_apply, MonCat.one_of, Category.comp_id]
 set_option linter.uppercaseLean3 false in
 #align Action.tensor_unit_iso Action.tensorUnitIso
 
@@ -765,8 +764,7 @@ def actionPunitEquivalence : Action V (MonCat.of PUnit) ≌ V where
       map := fun f => ⟨f, fun ⟨⟩ => by simp⟩ }
   unitIso :=
     NatIso.ofComponents fun X => mkIso (Iso.refl _) fun ⟨⟩ => by
-      simp only [MonCat.oneHom_apply, MonCat.one_of, End.one_def, id_eq, Functor.comp_obj,
-        forget_obj, Iso.refl_hom, Category.comp_id]
+      simp only [MonCat.oneHom_apply, MonCat.one_of, End.one_def, id_eq, Functor.comp_obj, forget_obj, Iso.refl_hom, Category.comp_id]
       exact ρ_one X
   counitIso := NatIso.ofComponents fun X => Iso.refl _
 set_option linter.uppercaseLean3 false in
@@ -1001,9 +999,7 @@ def mapAction : MonoidalFunctor (Action V G) (Action W G) :=
       intros
       ext
       dsimp
-      simp only [MonoidalCategory.rightUnitor_conjugation,
-        LaxMonoidalFunctor.right_unitality, Category.id_comp, Category.assoc,
-        LaxMonoidalFunctor.right_unitality_inv_assoc, Category.comp_id, Iso.hom_inv_id]
+      simp only [MonoidalCategory.rightUnitor_conjugation, LaxMonoidalFunctor.right_unitality, Category.id_comp, Category.assoc, LaxMonoidalFunctor.right_unitality_inv_assoc, Category.comp_id, Iso.hom_inv_id]
       rw [← F.map_comp]; rw [Iso.inv_hom_id]; rw [F.map_id]; rw [Category.comp_id] }
 set_option linter.uppercaseLean3 false in
 #align category_theory.monoidal_functor.map_Action CategoryTheory.MonoidalFunctor.mapAction

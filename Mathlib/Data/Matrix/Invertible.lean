@@ -114,8 +114,7 @@ def transposeInvertibleEquivInvertible : Invertible Aᵀ ≃ Invertible A where
   right_inv _ := Subsingleton.elim _ _
 
 @[simp] lemma isUnit_transpose : IsUnit Aᵀ ↔ IsUnit A := by
-  simp only [← nonempty_invertible_iff_isUnit,
-    (transposeInvertibleEquivInvertible A).nonempty_congr]
+  simp only [← nonempty_invertible_iff_isUnit, (transposeInvertibleEquivInvertible A).nonempty_congr]
 
 end CommSemiring
 

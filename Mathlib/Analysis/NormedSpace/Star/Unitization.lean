@@ -112,9 +112,7 @@ theorem Unitization.norm_splitMul_snd_sq (x : Unitization 𝕜 E) :
       simpa only [mul_one] using
         mul_le_mul_of_nonneg_left (mem_closedBall_zero_iff.1 hy) (norm_nonneg (star x * x).fst)
     · exact (unit_le_op_norm _ y <| mem_closedBall_zero_iff.1 hy).trans (op_norm_mul_apply_le _ _ _)
-  · simp only [ContinuousLinearMap.add_apply, mul_apply', Unitization.snd_star, Unitization.snd_mul,
-      Unitization.fst_mul, Unitization.fst_star, Algebra.algebraMap_eq_smul_one, smul_apply,
-      one_apply, smul_add, mul_add, add_mul]
+  · simp only [ContinuousLinearMap.add_apply, mul_apply', Unitization.snd_star, Unitization.snd_mul, Unitization.fst_mul, Unitization.fst_star, Algebra.algebraMap_eq_smul_one, smul_apply, one_apply, smul_add, mul_add, add_mul]
     simp only [smul_smul, smul_mul_assoc, ← add_assoc, ← mul_assoc, mul_smul_comm]
 
 variable {𝕜}
@@ -141,8 +139,7 @@ instance Unitization.instCstarRing : CstarRing (Unitization 𝕜 E) where
             exact norm_mul_le _ _
         rw [sq] at this
         rw [← Ne.def] at h; rw [← norm_pos_iff] at h
-        simp only [add_zero, Unitization.splitMul_apply, Unitization.snd_star,
-          Unitization.fst_star, star_star] at this
+        simp only [add_zero, Unitization.splitMul_apply, Unitization.snd_star, Unitization.fst_star, star_star] at this
         exact (mul_le_mul_right h).mp this
     -- in this step we make use of the key lemma `norm_splitMul_snd_sq`
     have h₂ : ‖(Unitization.splitMul 𝕜 E (star x * x)).snd‖
@@ -156,8 +153,7 @@ instance Unitization.instCstarRing : CstarRing (Unitization 𝕜 E) where
     -- Show that `(Unitization.splitMul 𝕜 E x).fst` satisfies the C⋆-property
     have h₃ : ‖(Unitization.splitMul 𝕜 E (star x * x)).fst‖
         = ‖(Unitization.splitMul 𝕜 E x).fst‖ ^ 2 := by
-      simp only [Unitization.splitMul_apply, Unitization.fst_mul, Unitization.fst_star, add_zero,
-        norm_mul, norm_star, sq]
+      simp only [Unitization.splitMul_apply, Unitization.fst_mul, Unitization.fst_star, add_zero, norm_mul, norm_star, sq]
     rw [h₂]; rw [h₃]
     /- use the definition of the norm, and split into cases based on whether the norm in the first
     coordinate is bigger or smaller than the norm in the second coordinate. -/

@@ -55,8 +55,7 @@ lemma IsZeckendorfRep.sum_fib_lt : ∀ {n l}, IsZeckendorfRep l → (∀ a ∈ (
     simp only [IsZeckendorfRep, cons_append, chain'_iff_pairwise, pairwise_cons] at hl
     have : ∀ b, b ∈ head? (l ++ [0]) → b < a - 1 :=
       fun b hb ↦ lt_tsub_iff_right.2 $ hl.1 _ $ mem_of_mem_head? hb
-    simp only [mem_append, mem_singleton, ←chain'_iff_pairwise, or_imp, forall_and, forall_eq,
-      zero_add] at hl
+    simp only [mem_append, mem_singleton, ←chain'_iff_pairwise, or_imp, forall_and, forall_eq, zero_add] at hl
     simp only [map, List.sum_cons]
     refine (add_lt_add_left (sum_fib_lt hl.2 this) _).trans_le ?_
     rw [add_comm]; rw [←fib_add_one (hl.1.2.trans_lt' zero_lt_two).ne']
@@ -147,15 +146,12 @@ lemma zeckendorf_sum_fib : ∀ {l}, IsZeckendorfRep l → zeckendorf (l.map fib)
   | [], _ => rfl
   | a :: l, hl => by
     have hl' := hl
-    simp only [IsZeckendorfRep, cons_append, chain'_iff_pairwise, pairwise_cons, mem_append,
-      mem_singleton, or_imp, forall_and, forall_eq, zero_add] at hl
+    simp only [IsZeckendorfRep, cons_append, chain'_iff_pairwise, pairwise_cons, mem_append, mem_singleton, or_imp, forall_and, forall_eq, zero_add] at hl
     rw [←chain'_iff_pairwise] at hl
     have ha : 0 < a := hl.1.2.trans_lt' zero_lt_two
     suffices h : greatestFib (fib a + sum (map fib l)) = a
-    · simp only [map, List.sum_cons, add_pos_iff, fib_pos.2 ha, true_or, zeckendorf_of_pos, h,
-      add_tsub_cancel_left, zeckendorf_sum_fib hl.2]
-    simp only [add_comm, add_assoc, greatestFib, findGreatest_eq_iff, ne_eq, ha.ne',
-      not_false_eq_true, le_add_iff_nonneg_left, _root_.zero_le, forall_true_left, not_le, true_and]
+    · simp only [map, List.sum_cons, add_pos_iff, fib_pos.2 ha, true_or, zeckendorf_of_pos, h, add_tsub_cancel_left, zeckendorf_sum_fib hl.2]
+    simp only [add_comm, add_assoc, greatestFib, findGreatest_eq_iff, ne_eq, ha.ne', not_false_eq_true, le_add_iff_nonneg_left, _root_.zero_le, forall_true_left, not_le, true_and]
     refine ⟨le_add_of_le_right $ le_fib_add_one _, fun n hn _ ↦ ?_⟩
     rw [add_comm]; rw [←List.sum_cons]; rw [←map_cons]
     exact hl'.sum_fib_lt (by simpa)

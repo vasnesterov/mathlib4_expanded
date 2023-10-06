@@ -127,8 +127,7 @@ theorem contDiffOn_of_subsingleton [Subsingleton F] : ContDiffOn 𝕜 n f s := b
 theorem iteratedFDeriv_succ_const (n : ℕ) (c : F) :
     (iteratedFDeriv 𝕜 (n + 1) fun _ : E => c) = 0 := by
   ext x
-  simp only [iteratedFDeriv_succ_eq_comp_right, fderiv_const, Pi.zero_apply,
-    iteratedFDeriv_zero_fun, comp_apply, LinearIsometryEquiv.map_zero]
+  simp only [iteratedFDeriv_succ_eq_comp_right, fderiv_const, Pi.zero_apply, iteratedFDeriv_zero_fun, comp_apply, LinearIsometryEquiv.map_zero]
 #align iterated_fderiv_succ_const iteratedFDeriv_succ_const
 
 theorem iteratedFDeriv_const_of_ne {n : ℕ} (hn : n ≠ 0) (c : F) :
@@ -259,8 +258,7 @@ theorem ContinuousLinearEquiv.iteratedFDerivWithin_comp_left (g : F ≃L[𝕜] G
       (g : F →L[𝕜] G).compContinuousMultilinearMap (iteratedFDerivWithin 𝕜 i f s x) := by
   induction' i with i IH generalizing x
   · ext1 m
-    simp only [Nat.zero_eq, iteratedFDerivWithin_zero_apply, comp_apply,
-      ContinuousLinearMap.compContinuousMultilinearMap_coe, coe_coe]
+    simp only [Nat.zero_eq, iteratedFDerivWithin_zero_apply, comp_apply, ContinuousLinearMap.compContinuousMultilinearMap_coe, coe_coe]
   · ext1 m
     rw [iteratedFDerivWithin_succ_apply_left]
     have Z : fderivWithin 𝕜 (iteratedFDerivWithin 𝕜 i (g ∘ f) s) s x =
@@ -269,9 +267,7 @@ theorem ContinuousLinearEquiv.iteratedFDerivWithin_comp_left (g : F ≃L[𝕜] G
       fderivWithin_congr' (@IH) hx
     simp_rw [Z]
     rw [(g.compContinuousMultilinearMapL fun _ : Fin i => E).comp_fderivWithin (hs x hx)]
-    simp only [ContinuousLinearMap.coe_comp', ContinuousLinearEquiv.coe_coe, comp_apply,
-      ContinuousLinearEquiv.compContinuousMultilinearMapL_apply,
-      ContinuousLinearMap.compContinuousMultilinearMap_coe, EmbeddingLike.apply_eq_iff_eq]
+    simp only [ContinuousLinearMap.coe_comp', ContinuousLinearEquiv.coe_coe, comp_apply, ContinuousLinearEquiv.compContinuousMultilinearMapL_apply, ContinuousLinearMap.compContinuousMultilinearMap_coe, EmbeddingLike.apply_eq_iff_eq]
     rw [iteratedFDerivWithin_succ_apply_left]
 #align continuous_linear_equiv.iterated_fderiv_within_comp_left ContinuousLinearEquiv.iteratedFDerivWithin_comp_left
 
@@ -415,20 +411,16 @@ theorem ContinuousLinearEquiv.iteratedFDerivWithin_comp_right (g : G ≃L[𝕜] 
       (iteratedFDerivWithin 𝕜 i f s (g x)).compContinuousLinearMap fun _ => g := by
   induction' i with i IH generalizing x
   · ext1
-    simp only [Nat.zero_eq, iteratedFDerivWithin_zero_apply, comp_apply,
-     ContinuousMultilinearMap.compContinuousLinearMap_apply]
+    simp only [Nat.zero_eq, iteratedFDerivWithin_zero_apply, comp_apply, ContinuousMultilinearMap.compContinuousLinearMap_apply]
   · ext1 m
-    simp only [ContinuousMultilinearMap.compContinuousLinearMap_apply,
-      ContinuousLinearEquiv.coe_coe, iteratedFDerivWithin_succ_apply_left]
+    simp only [ContinuousMultilinearMap.compContinuousLinearMap_apply, ContinuousLinearEquiv.coe_coe, iteratedFDerivWithin_succ_apply_left]
     have : fderivWithin 𝕜 (iteratedFDerivWithin 𝕜 i (f ∘ g) (g ⁻¹' s)) (g ⁻¹' s) x =
         fderivWithin 𝕜
           (ContinuousMultilinearMap.compContinuousLinearMapEquivL _ (fun _x : Fin i => g) ∘
             (iteratedFDerivWithin 𝕜 i f s ∘ g)) (g ⁻¹' s) x :=
       fderivWithin_congr' (@IH) hx
     rw [this]; rw [ContinuousLinearEquiv.comp_fderivWithin _ (g.uniqueDiffOn_preimage_iff.2 hs x hx)]
-    simp only [ContinuousLinearMap.coe_comp', ContinuousLinearEquiv.coe_coe, comp_apply,
-      ContinuousMultilinearMap.compContinuousLinearMapEquivL_apply,
-      ContinuousMultilinearMap.compContinuousLinearMap_apply]
+    simp only [ContinuousLinearMap.coe_comp', ContinuousLinearEquiv.coe_coe, comp_apply, ContinuousMultilinearMap.compContinuousLinearMapEquivL_apply, ContinuousMultilinearMap.compContinuousLinearMap_apply]
     rw [ContinuousLinearEquiv.comp_right_fderivWithin _ (g.uniqueDiffOn_preimage_iff.2 hs x hx)]; rw [ContinuousLinearMap.coe_comp']; rw [coe_coe]; rw [comp_apply]; rw [tail_def]; rw [tail_def]
 #align continuous_linear_equiv.iterated_fderiv_within_comp_right ContinuousLinearEquiv.iteratedFDerivWithin_comp_right
 
@@ -2180,8 +2172,7 @@ theorem ContDiffOn.continuousOn_deriv_of_open (h : ContDiffOn 𝕜 n f₂ s₂) 
   and its derivative (formulated in terms of `deriv`) is `C^n`. -/
 theorem contDiff_succ_iff_deriv {n : ℕ} :
     ContDiff 𝕜 (n + 1 : ℕ) f₂ ↔ Differentiable 𝕜 f₂ ∧ ContDiff 𝕜 n (deriv f₂) := by
-  simp only [← contDiffOn_univ, contDiffOn_succ_iff_deriv_of_open, isOpen_univ,
-    differentiableOn_univ]
+  simp only [← contDiffOn_univ, contDiffOn_succ_iff_deriv_of_open, isOpen_univ, differentiableOn_univ]
 #align cont_diff_succ_iff_deriv contDiff_succ_iff_deriv
 
 theorem contDiff_one_iff_deriv : ContDiff 𝕜 1 f₂ ↔ Differentiable 𝕜 f₂ ∧ Continuous (deriv f₂) :=
@@ -2287,8 +2278,7 @@ theorem ContinuousLinearMap.norm_iteratedFDerivWithin_le_of_bilinear_aux {Du Eu 
     original spaces, which explains why we assume in the lemma that all spaces live in the same
     universe. -/
   induction' n with n IH generalizing Eu Fu Gu
-  · simp only [Nat.zero_eq, norm_iteratedFDerivWithin_zero, zero_add, Finset.range_one,
-      Finset.sum_singleton, Nat.choose_self, Nat.cast_one, one_mul, Nat.sub_zero, ← mul_assoc]
+  · simp only [Nat.zero_eq, norm_iteratedFDerivWithin_zero, zero_add, Finset.range_one, Finset.sum_singleton, Nat.choose_self, Nat.cast_one, one_mul, Nat.sub_zero, ← mul_assoc]
     apply B.le_op_norm₂
   · have In : (n : ℕ∞) + 1 ≤ n.succ := by simp only [Nat.cast_succ, le_refl]
     -- Porting note: the next line is a hack allowing Lean to find the operator norm instance.
@@ -2394,9 +2384,7 @@ theorem ContinuousLinearMap.norm_iteratedFDerivWithin_le_of_bilinear (B : E →L
     ext1 y
     -- Porting note: the two blocks of `rw`s below were
     -- ```
-    -- simp only [ContinuousLinearMap.compL_apply, Function.comp_apply,
-    --   ContinuousLinearMap.coe_comp', LinearIsometryEquiv.coe_coe'',
-    --   ContinuousLinearMap.flip_apply, LinearIsometryEquiv.apply_symm_apply]
+    -- simp only [ContinuousLinearMap.compL_apply, Function.comp_apply, --   ContinuousLinearMap.coe_comp', LinearIsometryEquiv.coe_coe'', --   ContinuousLinearMap.flip_apply, LinearIsometryEquiv.apply_symm_apply]
     -- ```
     rw [hBu]
     iterate 2 rw [ContinuousLinearMap.compL_apply, ContinuousLinearMap.coe_comp',
@@ -2410,9 +2398,7 @@ theorem ContinuousLinearMap.norm_iteratedFDerivWithin_le_of_bilinear (B : E →L
   have Bu_le : ‖Bu‖ ≤ ‖B‖ := by
     refine' ContinuousLinearMap.op_norm_le_bound _ (norm_nonneg _) fun y => _
     refine' ContinuousLinearMap.op_norm_le_bound _ (by positivity) fun x => _
-    simp only [ContinuousLinearMap.compL_apply, ContinuousLinearMap.coe_comp',
-      Function.comp_apply, LinearIsometryEquiv.coe_coe'', ContinuousLinearMap.flip_apply,
-      LinearIsometryEquiv.norm_map]
+    simp only [ContinuousLinearMap.compL_apply, ContinuousLinearMap.coe_comp', Function.comp_apply, LinearIsometryEquiv.coe_coe'', ContinuousLinearMap.flip_apply, LinearIsometryEquiv.norm_map]
     rw [ContinuousLinearMap.coe_comp']; rw [Function.comp_apply]; rw [ContinuousLinearMap.compL_apply]; rw [ContinuousLinearMap.coe_comp']; rw [Function.comp_apply]
     iterate 2 rw [ContinuousLinearMap.flip_apply, ContinuousLinearMap.coe_comp',
       Function.comp_apply]
@@ -2667,8 +2653,7 @@ theorem norm_iteratedFDerivWithin_comp_le_aux {Fu Gu : Type u} [NormedAddCommGro
       apply inv_le_one
       simpa only [Nat.one_le_cast] using (n - i).factorial_pos
     _ = (n + 1)! * C * D ^ (n + 1) := by
-      simp only [mul_assoc, mul_one, Finset.sum_const, Finset.card_range, nsmul_eq_mul,
-        Nat.factorial_succ, Nat.cast_mul]
+      simp only [mul_assoc, mul_one, Finset.sum_const, Finset.card_range, nsmul_eq_mul, Nat.factorial_succ, Nat.cast_mul]
 #align norm_iterated_fderiv_within_comp_le_aux norm_iteratedFDerivWithin_comp_le_aux
 
 /-- If the derivatives within a set of `g` at `f x` are bounded by `C`, and the `i`-th derivative

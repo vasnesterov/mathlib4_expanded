@@ -375,22 +375,19 @@ variable {A : Type*} [AddCommGroup A] [Module ℂ A] [StarAddMonoid A] [StarModu
 def skewAdjoint.negISMul : skewAdjoint A →ₗ[ℝ] selfAdjoint A where
   toFun a :=
     ⟨-I • ↑a, by
-      simp only [neg_smul, neg_mem_iff, selfAdjoint.mem_iff, star_smul, star_def, conj_I,
-        star_val_eq, smul_neg, neg_neg]⟩
+      simp only [neg_smul, neg_mem_iff, selfAdjoint.mem_iff, star_smul, star_def, conj_I, star_val_eq, smul_neg, neg_neg]⟩
   map_add' a b := by
     ext
     simp only [AddSubgroup.coe_add, smul_add, AddMemClass.mk_add_mk]
   map_smul' a b := by
     ext
-    simp only [neg_smul, skewAdjoint.val_smul, AddSubgroup.coe_mk, RingHom.id_apply,
-      selfAdjoint.val_smul, smul_neg, neg_inj]
+    simp only [neg_smul, skewAdjoint.val_smul, AddSubgroup.coe_mk, RingHom.id_apply, selfAdjoint.val_smul, smul_neg, neg_inj]
     rw [smul_comm]
 set_option linter.uppercaseLean3 false in
 #align skew_adjoint.neg_I_smul skewAdjoint.negISMul
 
 theorem skewAdjoint.I_smul_neg_I (a : skewAdjoint A) : I • (skewAdjoint.negISMul a : A) = a := by
-  simp only [smul_smul, skewAdjoint.negISMul_apply_coe, neg_smul, smul_neg, I_mul_I, one_smul,
-    neg_neg]
+  simp only [smul_smul, skewAdjoint.negISMul_apply_coe, neg_smul, smul_neg, I_mul_I, one_smul, neg_neg]
 set_option linter.uppercaseLean3 false in
 #align skew_adjoint.I_smul_neg_I skewAdjoint.I_smul_neg_I
 
@@ -424,8 +421,7 @@ theorem realPart_apply_coe (a : A) : (ℜ a : A) = (2 : ℝ)⁻¹ • (a + star 
 
 theorem imaginaryPart_apply_coe (a : A) : (ℑ a : A) = -I • (2 : ℝ)⁻¹ • (a - star a) := by
   unfold imaginaryPart
-  simp only [LinearMap.coe_comp, Function.comp_apply, skewAdjoint.negISMul_apply_coe,
-    skewAdjointPart_apply_coe, invOf_eq_inv, neg_smul]
+  simp only [LinearMap.coe_comp, Function.comp_apply, skewAdjoint.negISMul_apply_coe, skewAdjointPart_apply_coe, invOf_eq_inv, neg_smul]
 #align imaginary_part_apply_coe imaginaryPart_apply_coe
 
 /-- The standard decomposition of `ℜ a + Complex.I • ℑ a = a` of an element of a star module over

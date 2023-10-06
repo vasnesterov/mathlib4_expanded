@@ -239,9 +239,7 @@ theorem helper {V} (f : V ⟶ U) (y : X ⟶ ((ran G.op).obj ℱ.val).obj (op V))
     convert H (show S ((G.map fV' ≫ W.hom.unop) ≫ f) by simpa only [Category.assoc] using hV')
       using 2
     simp only [Category.assoc]
-  simp only [Quiver.Hom.unop_op, Equiv.symm_symm, StructuredArrow.map_obj_hom, unop_comp,
-    Equiv.coe_fn_mk, Functor.comp_map, coyoneda_obj_map, Category.assoc, ← this, op_comp,
-    ran_obj_map, NatTrans.id_app]
+  simp only [Quiver.Hom.unop_op, Equiv.symm_symm, StructuredArrow.map_obj_hom, unop_comp, Equiv.coe_fn_mk, Functor.comp_map, coyoneda_obj_map, Category.assoc, ← this, op_comp, ran_obj_map, NatTrans.id_app]
   erw [Category.id_comp, limit.pre_π]
   congr
   convert limit.w (Ran.diagram G.op ℱ.val (op V)) (StructuredArrow.homMk' W fV'.op)
@@ -389,10 +387,7 @@ lemma toSheafify_pullbackSheafificationCompatibility
   dsimp [Functor.preimage, Full.preimage, coyoneda, Adjunction.leftAdjointsCoyonedaEquiv]
   erw [Adjunction.homEquiv_unit, Adjunction.homEquiv_counit]
   dsimp [Adjunction.comp]
-  simp only [sheafificationAdjunction_unit_app, Category.comp_id, Functor.map_id,
-    whiskerLeft_id', GrothendieckTopology.sheafifyMap_comp,
-    GrothendieckTopology.sheafifyMap_sheafifyLift, Category.id_comp,
-    Category.assoc, GrothendieckTopology.toSheafify_sheafifyLift]
+  simp only [sheafificationAdjunction_unit_app, Category.comp_id, Functor.map_id, whiskerLeft_id', GrothendieckTopology.sheafifyMap_comp, GrothendieckTopology.sheafifyMap_sheafifyLift, Category.id_comp, Category.assoc, GrothendieckTopology.toSheafify_sheafifyLift]
   ext t s : 3
   dsimp [pullbackSheaf]
   congr 1

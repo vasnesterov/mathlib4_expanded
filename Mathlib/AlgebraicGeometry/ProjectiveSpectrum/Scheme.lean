@@ -449,8 +449,7 @@ theorem carrier.add_mem (q : Spec.T A⁰_ f) {a b : A} (ha : a ∈ carrier f_deg
   rw [HomogeneousLocalization.smul_val]
   split_ifs with h2 h1
   · exact ((Finset.mem_range.1 hj).not_le h2).elim
-  all_goals simp only [HomogeneousLocalization.mul_val, HomogeneousLocalization.zero_val,
-    HomogeneousLocalization.val_mk'', Subtype.coe_mk, mk_mul, ← smul_mk]; congr 2
+  all_goals simp only [HomogeneousLocalization.mul_val, HomogeneousLocalization.zero_val, HomogeneousLocalization.val_mk'', Subtype.coe_mk, mk_mul, ← smul_mk]; congr 2
   · dsimp; rw [mul_assoc]; rw [← pow_add]; rw [add_comm (m - j)]; rw [Nat.add_sub_assoc h1]
   · simp_rw [pow_add]; rfl
   · dsimp; rw [← mul_assoc]; rw [← pow_add]; rw [Nat.add_sub_of_le (le_of_not_le h1)]
@@ -504,8 +503,7 @@ theorem carrier.asIdeal.homogeneous : (carrier.asIdeal f_deg hm q).IsHomogeneous
   fun i a ha j =>
   (em (i = j)).elim (fun h => h ▸ by simpa only [proj_apply, decompose_coe, of_eq_same] using ha _)
     fun h => by
-    simp only [proj_apply, decompose_of_mem_ne 𝒜 (Submodule.coe_mem (decompose 𝒜 a i)) h,
-      zero_pow hm]
+    simp only [proj_apply, decompose_of_mem_ne 𝒜 (Submodule.coe_mem (decompose 𝒜 a i)) h, zero_pow hm]
     convert carrier.zero_mem f_deg hm q j; rw [map_zero]; rw [zero_pow hm]
 #align algebraic_geometry.Proj_iso_Spec_Top_component.from_Spec.carrier.as_ideal.homogeneous AlgebraicGeometry.ProjIsoSpecTopComponent.FromSpec.carrier.asIdeal.homogeneous
 
@@ -544,8 +542,7 @@ theorem carrier.asIdeal.prime : (carrier.asIdeal f_deg hm q).IsPrime :=
         simp_rw [decompose_of_mem_same 𝒜 hnx, decompose_of_mem_same 𝒜 hny,
           decompose_of_mem_same 𝒜 (SetLike.GradedMonoid.toGradedMul.mul_mem hnx hny),
           mul_pow, pow_add]
-        simp only [HomogeneousLocalization.ext_iff_val, HomogeneousLocalization.val_mk'',
-          HomogeneousLocalization.mul_val, mk_mul]
+        simp only [HomogeneousLocalization.ext_iff_val, HomogeneousLocalization.val_mk'', HomogeneousLocalization.mul_val, mk_mul]
         simp only [Submonoid.mk_mul_mk, mk_eq_monoidOf_mk']
       all_goals
         intro n hn; convert q.1.zero_mem using 1

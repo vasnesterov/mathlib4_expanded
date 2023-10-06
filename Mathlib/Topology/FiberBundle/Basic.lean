@@ -535,10 +535,7 @@ theorem localTrivAsLocalEquiv_trans (i j : ι) :
     simp only [mem_localTrivAsLocalEquiv_target, mfld_simps]
     rfl
   · rintro ⟨x, v⟩ hx
-    simp only [trivChange, localTrivAsLocalEquiv, LocalEquiv.symm, true_and_iff,
-      Prod.mk.inj_iff, prod_mk_mem_set_prod_eq, LocalEquiv.trans_source, mem_inter_iff,
-      and_true_iff, mem_preimage, proj, mem_univ, eq_self_iff_true, (· ∘ ·),
-      LocalEquiv.coe_trans, TotalSpace.proj] at hx ⊢
+    simp only [trivChange, localTrivAsLocalEquiv, LocalEquiv.symm, true_and_iff, Prod.mk.inj_iff, prod_mk_mem_set_prod_eq, LocalEquiv.trans_source, mem_inter_iff, and_true_iff, mem_preimage, proj, mem_univ, eq_self_iff_true, (· ∘ ·), LocalEquiv.coe_trans, TotalSpace.proj] at hx ⊢
     simp only [Z.coordChange_comp, hx, mem_inter_iff, and_self_iff, mem_baseSet_at]
 #align fiber_bundle_core.local_triv_as_local_equiv_trans FiberBundleCore.localTrivAsLocalEquiv_trans
 
@@ -556,8 +553,7 @@ theorem open_source' (i : ι) : IsOpen (Z.localTrivAsLocalEquiv i).source := by
   simp only [exists_prop, mem_iUnion, mem_singleton_iff]
   refine ⟨i, Z.baseSet i ×ˢ univ, (Z.isOpen_baseSet i).prod isOpen_univ, ?_⟩
   ext p
-  simp only [localTrivAsLocalEquiv_apply, prod_mk_mem_set_prod_eq, mem_inter_iff, and_self_iff,
-    mem_localTrivAsLocalEquiv_source, and_true, mem_univ, mem_preimage]
+  simp only [localTrivAsLocalEquiv_apply, prod_mk_mem_set_prod_eq, mem_inter_iff, and_self_iff, mem_localTrivAsLocalEquiv_source, and_true, mem_univ, mem_preimage]
 #align fiber_bundle_core.open_source' FiberBundleCore.open_source'
 
 /-- Extended version of the local trivialization of a fiber bundle constructed from core,
@@ -722,8 +718,7 @@ theorem mk_mem_localTrivAt_source : (⟨b, a⟩ : Z.TotalSpace) ∈ (Z.localTriv
 instance fiberBundle : FiberBundle F Z.Fiber where
   totalSpaceMk_inducing' b := inducing_iff_nhds.2 fun x ↦ by
     rw [(Z.localTrivAt b).nhds_eq_comap_inf_principal (mk_mem_localTrivAt_source _ _ _)]; rw [comap_inf]; rw [comap_principal]; rw [comap_comap]
-    simp only [(· ∘ ·), localTrivAt_apply_mk, Trivialization.coe_coe,
-      ← (embedding_prod_mk b).nhds_eq_comap]
+    simp only [(· ∘ ·), localTrivAt_apply_mk, Trivialization.coe_coe, ← (embedding_prod_mk b).nhds_eq_comap]
     convert_to 𝓝 x = 𝓝 x ⊓ 𝓟 univ
     · congr
       exact eq_univ_of_forall (mk_mem_localTrivAt_source Z _)
@@ -795,8 +790,7 @@ theorem isOpen_source (e : Pretrivialization F (π F E)) :
   refine isOpen_iSup_iff.mpr fun e' => isOpen_iSup_iff.mpr fun _ => ?_
   refine' isOpen_coinduced.mpr (isOpen_induced_iff.mpr ⟨e.target, e.open_target, _⟩)
   ext ⟨x, hx⟩
-  simp only [mem_preimage, Pretrivialization.setSymm, restrict, e.mem_target, e.mem_source,
-    e'.proj_symm_apply hx]
+  simp only [mem_preimage, Pretrivialization.setSymm, restrict, e.mem_target, e.mem_source, e'.proj_symm_apply hx]
 #align fiber_prebundle.is_open_source FiberPrebundle.isOpen_source
 
 theorem isOpen_target_of_mem_pretrivializationAtlas_inter (e e' : Pretrivialization F (π F E))

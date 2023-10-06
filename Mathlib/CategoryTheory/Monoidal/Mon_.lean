@@ -154,8 +154,7 @@ instance : ReflectsIsomorphisms (forget C) where
   reflects f e :=
     ⟨⟨{ hom := inv f.hom
         mul_hom := by
-          simp only [IsIso.comp_inv_eq, Hom.mul_hom, Category.assoc, ← tensor_comp_assoc,
-            IsIso.inv_hom_id, tensor_id, Category.id_comp] },
+          simp only [IsIso.comp_inv_eq, Hom.mul_hom, Category.assoc, ← tensor_comp_assoc, IsIso.inv_hom_id, tensor_id, Category.id_comp] },
         by aesop_cat⟩⟩
 
 /-- Construct an isomorphism of monoids by giving an isomorphism between the underlying objects

@@ -116,8 +116,7 @@ theorem sum_le_of_monotoneOn_Icc (f : α → E) {s : Set α} {m n : ℕ} {u : �
         = ∑ i in Finset.Ico m n, edist (f (v (i + 1))) (f (v i)) :=
       Finset.sum_congr rfl fun i hi ↦ by
         rw [Finset.mem_Ico] at hi
-        simp only [projIcc_of_mem hmn ⟨hi.1, hi.2.le⟩,
-          projIcc_of_mem hmn ⟨hi.1.trans i.le_succ, hi.2⟩]
+        simp only [projIcc_of_mem hmn ⟨hi.1, hi.2.le⟩, projIcc_of_mem hmn ⟨hi.1.trans i.le_succ, hi.2⟩]
     _ ≤ ∑ i in Finset.range n, edist (f (v (i + 1))) (f (v i)) :=
       Finset.sum_mono_set _ (Nat.Iio_eq_range ▸ Finset.Ico_subset_Iio_self)
     _ ≤ eVariationOn f s :=
@@ -258,8 +257,7 @@ theorem add_point (f : α → E) {s : Set α} {x : α} (hx : x ∈ s) (u : ℕ �
       · have : i + 1 ≤ n := Nat.succ_le_of_lt hi
         simp only [hi.le, this, if_true]
         exact hu (Nat.le_succ i)
-      · simp only [le_refl, if_true, add_le_iff_nonpos_right, le_zero_iff, Nat.one_ne_zero,
-          if_false, h]
+      · simp only [le_refl, if_true, add_le_iff_nonpos_right, le_zero_iff, Nat.one_ne_zero, if_false, h]
       · have A : ¬i ≤ n := hi.not_le
         have B : ¬i + 1 ≤ n := fun h => A (i.le_succ.trans h)
         simp only [A, B, if_false, le_rfl]
@@ -314,8 +312,7 @@ theorem add_point (f : α → E) {s : Set α} {x : α} (hx : x ∈ s) (u : ℕ �
           ∑ i in Finset.range n, edist (f (w (1 + i + 1))) (f (w (1 + i))) := by
         apply Finset.sum_congr rfl fun i _hi => ?_
         dsimp only
-        simp only [← Npos, Nat.not_lt_zero, Nat.add_succ_sub_one, add_zero, if_false,
-          add_eq_zero_iff, Nat.one_ne_zero, false_and_iff, Nat.succ_add_sub_one, zero_add]
+        simp only [← Npos, Nat.not_lt_zero, Nat.add_succ_sub_one, add_zero, if_false, add_eq_zero_iff, Nat.one_ne_zero, false_and_iff, Nat.succ_add_sub_one, zero_add]
         rw [add_comm 1 i]
       _ = ∑ i in Finset.Ico 1 (n + 1), edist (f (w (i + 1))) (f (w i)) := by
         rw [Finset.range_eq_Ico]
@@ -371,8 +368,7 @@ theorem add_point (f : α → E) {s : Set α} {x : α} (hx : x ∈ s) (u : ℕ �
         · dsimp only
           have A : ¬N + 1 < N := Nat.not_succ_lt_self
           have B : N - 1 < N := Nat.pred_lt Npos.ne'
-          simp only [A, not_and, not_lt, Nat.succ_ne_self, Nat.add_succ_sub_one, add_zero, if_false,
-            B, if_true]
+          simp only [A, not_and, not_lt, Nat.succ_ne_self, Nat.add_succ_sub_one, add_zero, if_false, B, if_true]
         · exact Finset.sum_Ico_add (fun i => edist (f (w (i + 1))) (f (w i))) N n 1
       _ ≤ ((∑ i in Finset.Ico 0 (N - 1), edist (f (w (i + 1))) (f (w i))) +
               ∑ i in Finset.Ico (N - 1) (N + 1), edist (f (w (i + 1))) (f (w i))) +
@@ -681,8 +677,7 @@ protected theorem add {f : α → E} {s : Set α} (hf : LocallyBoundedVariationO
   symm
   refine' additive_of_isTotal ((· : α) ≤ ·) (variationOnFromTo f s) (· ∈ s) _ _ ha hb hc
   · rintro x y _xs _ys
-    simp only [variationOnFromTo.eq_neg_swap f s y x, Subtype.coe_mk, add_right_neg,
-      forall_true_left]
+    simp only [variationOnFromTo.eq_neg_swap f s y x, Subtype.coe_mk, add_right_neg, forall_true_left]
   · rintro x y z xy yz xs ys zs
     rw [variationOnFromTo.eq_of_le f s xy]; rw [variationOnFromTo.eq_of_le f s yz]; rw [variationOnFromTo.eq_of_le f s (xy.trans yz)]; rw [← ENNReal.toReal_add (hf x y xs ys) (hf y z ys zs)]; rw [eVariationOn.Icc_add_Icc f xy yz ys]
 #align variation_on_from_to.add variationOnFromTo.add

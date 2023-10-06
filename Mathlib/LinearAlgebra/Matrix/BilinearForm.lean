@@ -221,8 +221,7 @@ theorem BilinForm.toMatrix'_comp (B : BilinForm R₂ (n → R₂)) (l r : (o →
     BilinForm.toMatrix' (B.comp l r) =
       (LinearMap.toMatrix' l)ᵀ * BilinForm.toMatrix' B * LinearMap.toMatrix' r := by
   ext i j
-  simp only [BilinForm.toMatrix'_apply, BilinForm.comp_apply, transpose_apply, Matrix.mul_apply,
-    LinearMap.toMatrix', LinearEquiv.coe_mk, sum_mul]
+  simp only [BilinForm.toMatrix'_apply, BilinForm.comp_apply, transpose_apply, Matrix.mul_apply, LinearMap.toMatrix', LinearEquiv.coe_mk, sum_mul]
   rw [sum_comm]
   conv_lhs => rw [← BilinForm.sum_repr_mul_repr_mul (Pi.basisFun R₂ n) (l _) (r _)]
   rw [Finsupp.sum_fintype]
@@ -231,8 +230,7 @@ theorem BilinForm.toMatrix'_comp (B : BilinForm R₂ (n → R₂)) (l r : (o →
     rw [Finsupp.sum_fintype]
     · apply sum_congr rfl
       rintro j' -
-      simp only [smul_eq_mul, Pi.basisFun_repr, mul_assoc, mul_comm, mul_left_comm,
-        Pi.basisFun_apply, of_apply]
+      simp only [smul_eq_mul, Pi.basisFun_repr, mul_assoc, mul_comm, mul_left_comm, Pi.basisFun_apply, of_apply]
     · intros
       simp only [zero_smul, smul_zero]
   · intros
@@ -246,8 +244,7 @@ theorem BilinForm.toMatrix'_compLeft (B : BilinForm R₂ (n → R₂)) (f : (n �
 
 theorem BilinForm.toMatrix'_compRight (B : BilinForm R₂ (n → R₂)) (f : (n → R₂) →ₗ[R₂] n → R₂) :
     BilinForm.toMatrix' (B.compRight f) = BilinForm.toMatrix' B * LinearMap.toMatrix' f := by
-  simp only [BilinForm.compRight, BilinForm.toMatrix'_comp, toMatrix'_id, transpose_one,
-    Matrix.one_mul]
+  simp only [BilinForm.compRight, BilinForm.toMatrix'_comp, toMatrix'_id, transpose_one, Matrix.one_mul]
 #align bilin_form.to_matrix'_comp_right BilinForm.toMatrix'_compRight
 
 theorem BilinForm.mul_toMatrix'_mul (B : BilinForm R₂ (n → R₂)) (M : Matrix o n R₂)
@@ -307,8 +304,7 @@ theorem BilinForm.toMatrix_apply (B : BilinForm R₂ M₂) (i j : n) :
 theorem Matrix.toBilin_apply (M : Matrix n n R₂) (x y : M₂) :
     Matrix.toBilin b M x y = ∑ i, ∑ j, b.repr x i * M i j * b.repr y j := by
   rw [Matrix.toBilin]; rw [BilinForm.toMatrix]; rw [LinearEquiv.symm_trans_apply]; rw [← Matrix.toBilin']
-  simp only [congr_symm, congr_apply, LinearEquiv.symm_symm, Matrix.toBilin'_apply,
-    Basis.equivFun_apply]
+  simp only [congr_symm, congr_apply, LinearEquiv.symm_symm, Matrix.toBilin'_apply, Basis.equivFun_apply]
 #align matrix.to_bilin_apply Matrix.toBilin_apply
 
 -- Not a `simp` lemma since `BilinForm.toMatrix` needs an extra argument
@@ -361,8 +357,7 @@ theorem BilinForm.toMatrix_comp (B : BilinForm R₂ M₂) (l r : M₂' →ₗ[R�
     BilinForm.toMatrix c (B.comp l r) =
       (LinearMap.toMatrix c b l)ᵀ * BilinForm.toMatrix b B * LinearMap.toMatrix c b r := by
   ext i j
-  simp only [BilinForm.toMatrix_apply, BilinForm.comp_apply, transpose_apply, Matrix.mul_apply,
-    LinearMap.toMatrix', LinearEquiv.coe_mk, sum_mul]
+  simp only [BilinForm.toMatrix_apply, BilinForm.comp_apply, transpose_apply, Matrix.mul_apply, LinearMap.toMatrix', LinearEquiv.coe_mk, sum_mul]
   rw [sum_comm]
   conv_lhs => rw [← BilinForm.sum_repr_mul_repr_mul b]
   rw [Finsupp.sum_fintype]
@@ -371,8 +366,7 @@ theorem BilinForm.toMatrix_comp (B : BilinForm R₂ M₂) (l r : M₂' →ₗ[R�
     rw [Finsupp.sum_fintype]
     · apply sum_congr rfl
       rintro j' -
-      simp only [smul_eq_mul, LinearMap.toMatrix_apply, Basis.equivFun_apply, mul_assoc, mul_comm,
-        mul_left_comm]
+      simp only [smul_eq_mul, LinearMap.toMatrix_apply, Basis.equivFun_apply, mul_assoc, mul_comm, mul_left_comm]
     · intros
       simp only [zero_smul, smul_zero]
   · intros
@@ -386,8 +380,7 @@ theorem BilinForm.toMatrix_compLeft (B : BilinForm R₂ M₂) (f : M₂ →ₗ[R
 
 theorem BilinForm.toMatrix_compRight (B : BilinForm R₂ M₂) (f : M₂ →ₗ[R₂] M₂) :
     BilinForm.toMatrix b (B.compRight f) = BilinForm.toMatrix b B * LinearMap.toMatrix b b f := by
-  simp only [BilinForm.compRight, BilinForm.toMatrix_comp b b, toMatrix_id, transpose_one,
-    Matrix.one_mul]
+  simp only [BilinForm.compRight, BilinForm.toMatrix_comp b b, toMatrix_id, transpose_one, Matrix.one_mul]
 #align bilin_form.to_matrix_comp_right BilinForm.toMatrix_compRight
 
 @[simp]

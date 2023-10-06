@@ -364,8 +364,7 @@ theorem tendstoLocallyUniformly_iff {ι : Type*} [TopologicalSpace β] {F : ι �
     {p : Filter ι} :
     TendstoLocallyUniformly F f p ↔
       ∀ ε > 0, ∀ x : β, ∃ t ∈ 𝓝 x, ∀ᶠ n in p, ∀ y ∈ t, edist (f y) (F n y) < ε := by
-  simp only [← tendstoLocallyUniformlyOn_univ, tendstoLocallyUniformlyOn_iff, mem_univ,
-    forall_const, exists_prop, nhdsWithin_univ]
+  simp only [← tendstoLocallyUniformlyOn_univ, tendstoLocallyUniformlyOn_iff, mem_univ, forall_const, exists_prop, nhdsWithin_univ]
 #align emetric.tendsto_locally_uniformly_iff EMetric.tendstoLocallyUniformly_iff
 
 /-- Expressing uniform convergence using `edist`. -/
@@ -512,8 +511,7 @@ instance pseudoEMetricSpacePi [∀ b, PseudoEMetricSpace (π b)] : PseudoEMetric
     (add_le_add (edist_le_pi_edist _ _ _) (edist_le_pi_edist _ _ _))
   toUniformSpace := Pi.uniformSpace _
   uniformity_edist := by
-    simp only [Pi.uniformity, PseudoEMetricSpace.uniformity_edist, comap_iInf, gt_iff_lt,
-      preimage_setOf_eq, comap_principal, edist_pi_def]
+    simp only [Pi.uniformity, PseudoEMetricSpace.uniformity_edist, comap_iInf, gt_iff_lt, preimage_setOf_eq, comap_principal, edist_pi_def]
     rw [iInf_comm]; congr; funext ε
     rw [iInf_comm]; congr; funext εpos
     simp [setOf_forall, εpos]
@@ -932,8 +930,7 @@ theorem diam_iUnion_mem_option {ι : Type*} (o : Option ι) (s : ι → Set α) 
 
 theorem diam_insert : diam (insert x s) = max (⨆ y ∈ s, edist x y) (diam s) :=
   eq_of_forall_ge_iff fun d => by
-    simp only [diam_le_iff, ball_insert_iff, edist_self, edist_comm x, max_le_iff, iSup_le_iff,
-      zero_le, true_and_iff, forall_and, and_self_iff, ← and_assoc]
+    simp only [diam_le_iff, ball_insert_iff, edist_self, edist_comm x, max_le_iff, iSup_le_iff, zero_le, true_and_iff, forall_and, and_self_iff, ← and_assoc]
 #align emetric.diam_insert EMetric.diam_insert
 
 theorem diam_pair : diam ({x, y} : Set α) = edist x y := by
@@ -941,8 +938,7 @@ theorem diam_pair : diam ({x, y} : Set α) = edist x y := by
 #align emetric.diam_pair EMetric.diam_pair
 
 theorem diam_triple : diam ({x, y, z} : Set α) = max (max (edist x y) (edist x z)) (edist y z) := by
-  simp only [diam_insert, iSup_insert, iSup_singleton, diam_singleton, ENNReal.max_zero_right,
-    ENNReal.sup_eq_max]
+  simp only [diam_insert, iSup_insert, iSup_singleton, diam_singleton, ENNReal.max_zero_right, ENNReal.sup_eq_max]
 #align emetric.diam_triple EMetric.diam_triple
 
 /-- The diameter is monotonous with respect to inclusion -/

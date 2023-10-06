@@ -547,8 +547,7 @@ variable (p : Submodule R M) (q : Submodule R M₂)
 @[simp]
 theorem map_inl : p.map (inl R M M₂) = prod p ⊥ := by
   ext ⟨x, y⟩
-  simp only [and_left_comm, eq_comm, mem_map, Prod.mk.inj_iff, inl_apply, mem_bot, exists_eq_left',
-    mem_prod]
+  simp only [and_left_comm, eq_comm, mem_map, Prod.mk.inj_iff, inl_apply, mem_bot, exists_eq_left', mem_prod]
 #align submodule.map_inl Submodule.map_inl
 
 @[simp]
@@ -611,10 +610,8 @@ def fstEquiv : Submodule.fst R M M₂ ≃ₗ[R] M where
   -- Porting note: proofs were `tidy` or `simp`
   toFun x := x.1.1
   invFun m := ⟨⟨m, 0⟩, by simp only [fst, comap_bot, mem_ker, snd_apply]⟩
-  map_add' := by simp only [AddSubmonoid.coe_add, coe_toAddSubmonoid, Prod.fst_add, Subtype.forall,
-    implies_true, Prod.forall, forall_const]
-  map_smul' := by simp only [SetLike.val_smul, Prod.smul_fst, RingHom.id_apply, Subtype.forall,
-    implies_true, Prod.forall, forall_const]
+  map_add' := by simp only [AddSubmonoid.coe_add, coe_toAddSubmonoid, Prod.fst_add, Subtype.forall, implies_true, Prod.forall, forall_const]
+  map_smul' := by simp only [SetLike.val_smul, Prod.smul_fst, RingHom.id_apply, Subtype.forall, implies_true, Prod.forall, forall_const]
   left_inv := by
     rintro ⟨⟨x, y⟩, hy⟩
     simp only [fst, comap_bot, mem_ker, snd_apply] at hy
@@ -625,15 +622,13 @@ def fstEquiv : Submodule.fst R M M₂ ≃ₗ[R] M where
 theorem fst_map_fst : (Submodule.fst R M M₂).map (LinearMap.fst R M M₂) = ⊤ := by
   -- Porting note: was `tidy`
   rw [eq_top_iff]; rintro x -
-  simp only [fst, comap_bot, mem_map, mem_ker, snd_apply, fst_apply,
-    Prod.exists, exists_eq_left, exists_eq]
+  simp only [fst, comap_bot, mem_map, mem_ker, snd_apply, fst_apply, Prod.exists, exists_eq_left, exists_eq]
 #align submodule.fst_map_fst Submodule.fst_map_fst
 
 theorem fst_map_snd : (Submodule.fst R M M₂).map (LinearMap.snd R M M₂) = ⊥ := by
   -- Porting note: was `tidy`
   rw [eq_bot_iff]; intro x
-  simp only [fst, comap_bot, mem_map, mem_ker, snd_apply, eq_comm, Prod.exists, exists_eq_left,
-    exists_const, mem_bot, imp_self]
+  simp only [fst, comap_bot, mem_map, mem_ker, snd_apply, eq_comm, Prod.exists, exists_eq_left, exists_const, mem_bot, imp_self]
 #align submodule.fst_map_snd Submodule.fst_map_snd
 
 /-- `N` as a submodule of `M × N`. -/
@@ -647,10 +642,8 @@ def sndEquiv : Submodule.snd R M M₂ ≃ₗ[R] M₂ where
   -- Porting note: proofs were `tidy` or `simp`
   toFun x := x.1.2
   invFun n := ⟨⟨0, n⟩, by simp only [snd, comap_bot, mem_ker, fst_apply]⟩
-  map_add' := by simp only [AddSubmonoid.coe_add, coe_toAddSubmonoid, Prod.snd_add, Subtype.forall,
-    implies_true, Prod.forall, forall_const]
-  map_smul' := by simp only [SetLike.val_smul, Prod.smul_snd, RingHom.id_apply, Subtype.forall,
-    implies_true, Prod.forall, forall_const]
+  map_add' := by simp only [AddSubmonoid.coe_add, coe_toAddSubmonoid, Prod.snd_add, Subtype.forall, implies_true, Prod.forall, forall_const]
+  map_smul' := by simp only [SetLike.val_smul, Prod.smul_snd, RingHom.id_apply, Subtype.forall, implies_true, Prod.forall, forall_const]
   left_inv := by
     rintro ⟨⟨x, y⟩, hx⟩
     simp only [snd, comap_bot, mem_ker, fst_apply] at hx
@@ -661,15 +654,13 @@ def sndEquiv : Submodule.snd R M M₂ ≃ₗ[R] M₂ where
 theorem snd_map_fst : (Submodule.snd R M M₂).map (LinearMap.fst R M M₂) = ⊥ := by
   -- Porting note: was `tidy`
   rw [eq_bot_iff]; intro x
-  simp only [snd, comap_bot, mem_map, mem_ker, fst_apply, eq_comm, Prod.exists, exists_eq_left,
-    exists_const, mem_bot, imp_self]
+  simp only [snd, comap_bot, mem_map, mem_ker, fst_apply, eq_comm, Prod.exists, exists_eq_left, exists_const, mem_bot, imp_self]
 #align submodule.snd_map_fst Submodule.snd_map_fst
 
 theorem snd_map_snd : (Submodule.snd R M M₂).map (LinearMap.snd R M M₂) = ⊤ := by
   -- Porting note: was `tidy`
   rw [eq_top_iff]; rintro x -
-  simp only [snd, comap_bot, mem_map, mem_ker, snd_apply, fst_apply,
-    Prod.exists, exists_eq_right, exists_eq]
+  simp only [snd, comap_bot, mem_map, mem_ker, snd_apply, fst_apply, Prod.exists, exists_eq_right, exists_eq]
 #align submodule.snd_map_snd Submodule.snd_map_snd
 
 theorem fst_sup_snd : Submodule.fst R M M₂ ⊔ Submodule.snd R M M₂ = ⊤ := by
@@ -684,8 +675,7 @@ theorem fst_sup_snd : Submodule.fst R M M₂ ⊔ Submodule.snd R M M₂ = ⊤ :=
 theorem fst_inf_snd : Submodule.fst R M M₂ ⊓ Submodule.snd R M M₂ = ⊥ := by
   -- Porting note: was `tidy`
   rw [eq_bot_iff]; rintro ⟨x, y⟩
-  simp only [fst, comap_bot, snd, ge_iff_le, mem_inf, mem_ker, snd_apply, fst_apply, mem_bot,
-    Prod.mk_eq_zero, and_comm, imp_self]
+  simp only [fst, comap_bot, snd, ge_iff_le, mem_inf, mem_ker, snd_apply, fst_apply, mem_bot, Prod.mk_eq_zero, and_comm, imp_self]
 #align submodule.fst_inf_snd Submodule.fst_inf_snd
 
 theorem le_prod_iff {p₁ : Submodule R M} {p₂ : Submodule R M₂} {q : Submodule R (M × M₂)} :
@@ -871,8 +861,7 @@ variable [Module R M] [Module R M₂] [Module R M₃]
 theorem range_prod_eq {f : M →ₗ[R] M₂} {g : M →ₗ[R] M₃} (h : ker f ⊔ ker g = ⊤) :
     range (prod f g) = (range f).prod (range g) := by
   refine' le_antisymm (f.range_prod_le g) _
-  simp only [SetLike.le_def, prod_apply, mem_range, SetLike.mem_coe, mem_prod, exists_imp, and_imp,
-    Prod.forall, Pi.prod]
+  simp only [SetLike.le_def, prod_apply, mem_range, SetLike.mem_coe, mem_prod, exists_imp, and_imp, Prod.forall, Pi.prod]
   rintro _ _ x rfl y rfl
   simp only [Prod.mk.inj_iff, ← sub_mem_ker_iff]
   have : y - x ∈ ker f ⊔ ker g := by simp only [h, mem_top]

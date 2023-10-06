@@ -729,8 +729,7 @@ theorem nthLe_splitWrtCompositionAux (l : List α) (ns : List ℕ) {i : ℕ} (hi
   cases' i with i
   · rw [Nat.add_zero, List.take_zero, sum_nil, nthLe_zero]; dsimp
     simp only [splitWrtCompositionAux_cons, head!, sum, foldl, zero_add]
-  · simp only [splitWrtCompositionAux_cons, take, sum_cons,
-      Nat.add_eq, add_zero, gt_iff_lt, nthLe_cons, IH]; dsimp
+  · simp only [splitWrtCompositionAux_cons, take, sum_cons, Nat.add_eq, add_zero, gt_iff_lt, nthLe_cons, IH]; dsimp
     rw [Nat.succ_sub_succ_eq_sub]; rw [←Nat.succ_eq_add_one]; rw [tsub_zero]
     simp only [← drop_take, drop_drop]
     rw [add_comm]
@@ -776,8 +775,7 @@ back the original list of lists. -/
 @[simp]
 theorem splitWrtComposition_join (L : List (List α)) (c : Composition L.join.length)
     (h : map length L = c.blocks) : splitWrtComposition (join L) c = L := by
-  simp only [eq_self_iff_true, and_self_iff, eq_iff_join_eq, join_splitWrtComposition,
-    map_length_splitWrtComposition, h]
+  simp only [eq_self_iff_true, and_self_iff, eq_iff_join_eq, join_splitWrtComposition, map_length_splitWrtComposition, h]
 #align list.split_wrt_composition_join List.splitWrtComposition_join
 
 end List
@@ -811,8 +809,7 @@ def compositionAsSetEquiv (n : ℕ) : CompositionAsSet n ≃ Finset (Fin (n - 1)
   left_inv := by
     intro c
     ext i
-    simp only [add_comm, Set.toFinset_setOf, Finset.mem_univ,
-     forall_true_left, Finset.mem_filter, true_and, exists_prop]
+    simp only [add_comm, Set.toFinset_setOf, Finset.mem_univ, forall_true_left, Finset.mem_filter, true_and, exists_prop]
     constructor
     · rintro (rfl | rfl | ⟨j, hj1, hj2⟩)
       · exact c.zero_mem
@@ -843,9 +840,7 @@ def compositionAsSetEquiv (n : ℕ) : CompositionAsSet n ≃ Finset (Fin (n - 1)
       rw [add_comm]
       apply (Nat.succ_pred_eq_of_pos _).symm
       exact (zero_le i.val).trans_lt (i.2.trans_le (Nat.sub_le n 1))
-    simp only [add_comm, Fin.ext_iff, Fin.val_zero, Fin.val_last, exists_prop, Set.toFinset_setOf,
-      Finset.mem_univ, forall_true_left, Finset.mem_filter, add_eq_zero_iff, and_false,
-      add_left_inj, false_or, true_and]
+    simp only [add_comm, Fin.ext_iff, Fin.val_zero, Fin.val_last, exists_prop, Set.toFinset_setOf, Finset.mem_univ, forall_true_left, Finset.mem_filter, add_eq_zero_iff, and_false, add_left_inj, false_or, true_and]
     erw [Set.mem_setOf_eq]
     simp [this, false_or_iff, add_right_inj, add_eq_zero_iff, one_ne_zero, false_and_iff,
       Fin.val_mk]

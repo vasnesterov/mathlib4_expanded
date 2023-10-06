@@ -627,9 +627,7 @@ theorem haveLebesgueDecomposition_of_finiteMeasure [IsFiniteMeasure μ] [IsFinit
         have :
           (∫⁻ a in A, (ξ + E.indicator fun _ => (ε : ℝ≥0∞)) a ∂ν) =
             (∫⁻ a in A ∩ E, ε + ξ a ∂ν) + ∫⁻ a in A \ E, ξ a ∂ν := by
-          simp only [lintegral_add_left measurable_const, lintegral_add_left hξm,
-            set_lintegral_const, add_assoc, lintegral_inter_add_diff _ _ hE₁, Pi.add_apply,
-            lintegral_indicator _ hE₁, restrict_apply hE₁]
+          simp only [lintegral_add_left measurable_const, lintegral_add_left hξm, set_lintegral_const, add_assoc, lintegral_inter_add_diff _ _ hE₁, Pi.add_apply, lintegral_indicator _ hE₁, restrict_apply hE₁]
           rw [inter_comm]; rw [add_comm]
         rw [this]; rw [← measure_inter_add_diff A hE₁]
         exact add_le_add (hε₂ A hA) (hξle (A \ E) (hA.diff hE₁))
@@ -722,8 +720,7 @@ instance (priority := 100) haveLebesgueDecomposition_of_sigmaFinite (μ ν : Mea
             exact hj₂ (this ▸ hi₂)
           · rw [codisjoint_iff_le_sup]
             intro x hx
-            simp only [mem_iUnion, sup_eq_union, mem_inter_iff, mem_union, mem_compl_iff,
-              or_iff_not_imp_left]
+            simp only [mem_iUnion, sup_eq_union, mem_inter_iff, mem_union, mem_compl_iff, or_iff_not_imp_left]
             intro h; push_neg at h
             rw [top_eq_univ] at hx; rw [← S.spanning] at hx; rw [mem_iUnion] at hx
             obtain ⟨i, hi⟩ := hx
