@@ -597,7 +597,7 @@ theorem det_blockDiagonal {o : Type*} [Fintype o] [DecidableEq o] (M : o → Mat
     simp only [sign_prodCongrLeft, Units.coe_prod, Int.cast_prod, blockDiagonal_apply_eq, prodCongrLeft_apply]
   · intro σ σ' _ _ eq
     ext x hx k
-    simp only at eq
+    simp at eq
     have :
       ∀ k x,
         prodCongrLeft (fun k => σ k (Finset.mem_univ _)) (k, x) =
@@ -613,7 +613,7 @@ theorem det_blockDiagonal {o : Type*} [Fintype o] [DecidableEq o] (M : o → Mat
     have mk_apply_eq : ∀ k x, ((σ (x, k)).fst, k) = σ (x, k) := by
       intro k x
       ext
-      · simp only
+      · simp
       · simp only [hσ]
     have mk_inv_apply_eq : ∀ k x, ((σ⁻¹ (x, k)).fst, k) = σ⁻¹ (x, k) := by
       intro k x
@@ -652,7 +652,7 @@ theorem det_fromBlocks_zero₂₁ (A : Matrix m m R) (B : Matrix m n R) (D : Mat
     simp_rw [univ_product_univ]
     rw [(sum_bij (fun (σ : Perm m × Perm n) _ => Equiv.sumCongr σ.fst σ.snd) _ _ _ _).symm]
     · intro σ₁₂ h
-      simp only
+      simp
       erw [Set.mem_toFinset, MonoidHom.mem_range]
       use σ₁₂
       simp only [sumCongrHom_apply]

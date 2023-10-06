@@ -91,7 +91,7 @@ theorem imo1994_q1 (n : ℕ) (m : ℕ) (A : Finset ℕ) (hm : A.card = m + 1)
     have h1 : a i + a (Fin.last m - k) ≤ n := by
       -- Porting note: Original proof was `by linarith only [h, a.monotone hi]`
       have := a.monotone hi
-      simp only at this ⊢
+      simp at this ⊢
       linarith only [h, this]
     have h2 : a i + a (Fin.last m - k) ∈ A := hadd _ (ha _) _ (ha _) h1
     rw [← mem_coe] at h2; rw [← range_orderEmbOfFin A hm] at h2; rw [Set.mem_range] at h2

@@ -516,7 +516,7 @@ nonrec def Basis.det : AlternatingMap R M R ι where
   map_eq_zero_of_eq' := by
     intro v i j h hij
     -- Porting note: added
-    simp only
+    simp
     rw [← Function.update_eq_self i v]; rw [h]; rw [← det_transpose]; rw [e.toMatrix_update]; rw [← updateRow_transpose]; rw [← e.toMatrix_transpose_apply]
     apply det_zero_of_row_eq hij
     rw [updateRow_ne hij.symm]; rw [updateRow_self]

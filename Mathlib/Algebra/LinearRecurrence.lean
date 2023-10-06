@@ -103,7 +103,7 @@ theorem eq_mk_of_is_sol_of_eq_init {u : ℕ → α} {init : Fin E.order → α} 
   rw [mkSol]
   split_ifs with h'
   · exact_mod_cast heq ⟨n, h'⟩
-  simp only
+  simp
   rw [← tsub_add_cancel_of_le (le_of_not_lt h')]; rw [h (n - E.order)]
   congr with k
   have : n - E.order + k < n := by
@@ -177,11 +177,11 @@ def tupleSucc : (Fin E.order → α) →ₗ[α] Fin E.order → α where
   toFun X i := if h : (i : ℕ) + 1 < E.order then X ⟨i + 1, h⟩ else ∑ i, E.coeffs i * X i
   map_add' x y := by
     ext i
-    simp only
+    simp
     split_ifs with h <;> simp [h, mul_add, sum_add_distrib]
   map_smul' x y := by
     ext i
-    simp only
+    simp
     split_ifs with h <;> simp [h, mul_sum]
     exact sum_congr rfl fun x _ ↦ by ac_rfl
 #align linear_recurrence.tuple_succ LinearRecurrence.tupleSucc

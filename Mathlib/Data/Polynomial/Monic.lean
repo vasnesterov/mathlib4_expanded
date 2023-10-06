@@ -472,7 +472,7 @@ theorem Monic.isRegular {R : Type*} [Ring R] {p : R[X]} (hp : Monic p) : IsRegul
     dsimp only at h
     rw [← sub_eq_zero]; rw [← hp.mul_right_eq_zero_iff]; rw [mul_sub]; rw [h]; rw [sub_self]
   · intro q r h
-    simp only at h
+    simp at h
     rw [← sub_eq_zero]; rw [← hp.mul_left_eq_zero_iff]; rw [sub_mul]; rw [h]; rw [sub_self]
 #align polynomial.monic.is_regular Polynomial.Monic.isRegular
 

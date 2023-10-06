@@ -168,7 +168,7 @@ theorem coeff_hermite_explicit :
         hermite_explicit (n + 1) (k + 1) =
           hermite_explicit (n + 1) k - (k + 2) * hermite_explicit n (k + 2) := by
       intro n k
-      simp only
+      simp
       -- Factor out (-1)'s.
       rw [mul_comm (↑k + _ : ℤ)]; rw [sub_eq_add_neg]
       nth_rw 3 [neg_eq_neg_one_mul]

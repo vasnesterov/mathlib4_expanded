@@ -125,7 +125,7 @@ theorem comp_Hσ_eq {Y : C} {n a q : ℕ} {φ : Y ⟶ X _[n + 1]} (v : HigherFac
     rw [← Finset.sum_add_distrib]
     apply Finset.sum_eq_zero
     rintro ⟨i, hi⟩ _
-    simp only
+    simp
     have hia : (⟨i, by linarith⟩ : Fin (n + 2)) ≤
         Fin.castSucc (⟨a, by linarith⟩ : Fin (n + 1)) := by
       rw [Fin.le_iff_val_le_val]

@@ -267,7 +267,7 @@ theorem ι_mul_prod_list {n : ℕ} (f : Fin n → M) (i : Fin n) :
     · replace hn :=
         congr_arg
           ((· * ·) <| ι R <| f 0) (hn (fun i => f <| Fin.succ i) (i.pred h))
-      simp only at hn
+      simp at hn
       rw [Fin.succ_pred] at hn; rw [← mul_assoc] at hn; rw [mul_zero] at hn
       refine' (eq_zero_iff_eq_zero_of_add_eq_zero _).mp hn
       rw [← add_mul]; rw [ι_add_mul_swap]; rw [zero_mul]

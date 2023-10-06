@@ -84,7 +84,7 @@ def tangentBundleCore : VectorBundleCore 𝕜 M E (atlas H M) where
   coordChange i j x :=
     fderivWithin 𝕜 (j.1.extend I ∘ (i.1.extend I).symm) (range I) (i.1.extend I x)
   coordChange_self i x hx v := by
-    simp only
+    simp
     rw [Filter.EventuallyEq.fderivWithin_eq]; rw [fderivWithin_id']; rw [ContinuousLinearMap.id_apply]
     · exact I.unique_diff_at_image
     · filter_upwards [i.1.extend_target_mem_nhdsWithin I hx] with y hy

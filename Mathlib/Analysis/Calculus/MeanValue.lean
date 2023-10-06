@@ -349,7 +349,7 @@ theorem norm_image_sub_le_of_norm_deriv_right_le_segment {f' : ℝ → E} {C : �
     intro x
     simpa using (hasDerivAt_const x C).mul ((hasDerivAt_id x).sub (hasDerivAt_const x a))
   convert image_norm_le_of_norm_deriv_right_le_deriv_boundary hg hg' _ hB bound
-  simp only; rw [sub_self]; rw [norm_zero]; rw [sub_self]; rw [mul_zero]
+  simp; rw [sub_self]; rw [norm_zero]; rw [sub_self]; rw [mul_zero]
 #align norm_image_sub_le_of_norm_deriv_right_le_segment norm_image_sub_le_of_norm_deriv_right_le_segment
 
 /-- A function on `[a, b]` with the norm of the derivative within `[a, b]`
@@ -729,7 +729,7 @@ variable (f f' : ℝ → ℝ) {a b : ℝ} (hab : a < b) (hfc : ContinuousOn f (I
 theorem exists_ratio_hasDerivAt_eq_ratio_slope :
     ∃ c ∈ Ioo a b, (g b - g a) * f' c = (f b - f a) * g' c := by
   let h x := (g b - g a) * f x - (f b - f a) * g x
-  have hI : h a = h b := by simp only; ring
+  have hI : h a = h b := by simp; ring
   let h' x := (g b - g a) * f' x - (f b - f a) * g' x
   have hhh' : ∀ x ∈ Ioo a b, HasDerivAt h (h' x) x := fun x hx =>
     ((hff' x hx).const_mul (g b - g a)).sub ((hgg' x hx).const_mul (f b - f a))

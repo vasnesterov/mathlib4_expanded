@@ -502,7 +502,7 @@ def liftMonoid : (α →* R) ≃ (FreeAbelianGroup α →+* R) where
     toFun := lift f
     map_one' := (lift.of f _).trans f.map_one
     map_mul' := fun x y ↦ by
-      simp only
+      simp
       refine' FreeAbelianGroup.induction_on y
           (by simp only [mul_zero, map_zero]) (fun L2 ↦ _) (fun L2 ih ↦ _) _
       · refine' FreeAbelianGroup.induction_on x
@@ -520,7 +520,7 @@ def liftMonoid : (α →* R) ≃ (FreeAbelianGroup α →+* R) where
   left_inv f := MonoidHom.ext <| by
     simp only [RingHom.coe_monoidHom_mk, MonoidHom.coe_comp, MonoidHom.coe_mk, OneHom.coe_mk, ofMulHom_coe, Function.comp_apply, lift.of, forall_const]
   right_inv F := RingHom.coe_addMonoidHom_injective <| by
-    simp only
+    simp
     rw [← lift.apply_symm_apply (↑F : FreeAbelianGroup α →+ R)]
     rfl
 #align free_abelian_group.lift_monoid FreeAbelianGroup.liftMonoid

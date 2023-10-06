@@ -104,7 +104,7 @@ theorem hasFDerivAt_integral_of_dominated_loc_of_lip' {F : H → α → E} {F' :
   have : ∀ᶠ x in 𝓝 x₀, ‖x - x₀‖⁻¹ * ‖((∫ a, F x a ∂μ) - ∫ a, F x₀ a ∂μ) - (∫ a, F' a ∂μ) (x - x₀)‖ =
       ‖∫ a, ‖x - x₀‖⁻¹ • (F x a - F x₀ a - F' a (x - x₀)) ∂μ‖ := by
     apply mem_of_superset (ball_mem_nhds _ ε_pos)
-    intro x x_in; simp only
+    intro x x_in; simp
     rw [Set.mem_setOf_eq]; rw [← norm_smul_of_nonneg (nneg _)]; rw [integral_smul]; rw [integral_sub]; rw [integral_sub]; rw [← ContinuousLinearMap.integral_apply hF'_int]
     exacts [hF_int' x x_in, hF_int, (hF_int' x x_in).sub hF_int,
       hF'_int.apply_continuousLinearMap _]

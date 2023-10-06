@@ -205,7 +205,7 @@ def upperSubLower.{u} {G : Type u} [AddCommGroup G] (I₀ : Box (Fin (n + 1))) (
       · have : (J.face i : WithTop (Box (Fin n))) ≤ I₀.face i :=
           WithTop.coe_le_coe.2 (face_mono hJ i)
         rw [le_iff_Icc] at hJ; rw [@Box.Icc_eq_pi _ I₀] at hJ
-        simp only
+        simp
         rw [hf _ (hJ J.upper_mem_Icc _ trivial)]; rw [hf _ (hJ J.lower_mem_Icc _ trivial)]; rw [← (fb _).map_split_add this j x]; rw [← (fb _).map_split_add this j x]
         have hx' : x ∈ Ioo ((J.face i).lower j) ((J.face i).upper j) := hx
         simp only [Box.splitLower_def hx, Box.splitUpper_def hx, Box.splitLower_def hx', Box.splitUpper_def hx', ← WithBot.some_eq_coe, Option.elim', Box.face_mk, update_noteq (Fin.succAbove_ne _ _).symm, sub_add_sub_comm, update_comp_eq_of_injective _ (Fin.strictMono_succAbove i).injective j x, ← hf]

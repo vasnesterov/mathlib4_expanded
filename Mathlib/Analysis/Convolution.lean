@@ -1526,7 +1526,7 @@ theorem posConvolution_eq_convolution_indicator (f : ℝ → E) (g : ℝ → E')
   -- porting note: was `rw [convolution, posConvolution, indicator]`, now `rw` can't do it
   -- the `rw` unfolded only one `indicator`; now we unfold it everywhere, so we need to adjust
   -- `rw`s below
-  unfold convolution posConvolution indicator; simp only
+  unfold convolution posConvolution indicator; simp
   split_ifs with h
   · rw [intervalIntegral.integral_of_le (le_of_lt h), integral_Ioc_eq_integral_Ioo, ←
       integral_indicator (measurableSet_Ioo : MeasurableSet (Ioo 0 x))]

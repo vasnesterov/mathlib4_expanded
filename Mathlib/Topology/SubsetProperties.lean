@@ -1390,7 +1390,7 @@ instance [Countable ι] [∀ i, TopologicalSpace (π i)] [∀ i, SigmaCompactSpa
     · refine' (finite_le_nat _).isCompact_biUnion fun k _ => _
       exact (isCompact_compactCovering _ _).image continuous_sigmaMk
     · simp only [iUnion_eq_univ_iff, Sigma.forall, mem_iUnion]
-      rw [hf.forall] -- porting note: `simp only` failed to use `hf.forall`
+      rw [hf.forall] -- porting note: `simp` failed to use `hf.forall`
       intro k y
       rcases exists_mem_compactCovering y with ⟨n, hn⟩
       refine' ⟨max k n, k, le_max_left _ _, mem_image_of_mem _ _⟩

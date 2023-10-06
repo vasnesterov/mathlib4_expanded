@@ -264,7 +264,7 @@ theorem discr_powerBasis_eq_norm [IsSeparable K L] :
     · rw [aeval_def, eval₂_eq_eval_map, ← IsRoot.def, ← mem_roots]
       · exact Multiset.erase_subset _ _ hσ
       · simp [minpoly.ne_zero (IsSeparable.isIntegral K pb.gen)]
--- Porting note: the `simp only` was not needed.
+-- Porting note: the `simp` was not needed.
     · simp only [@mem_compl _ _ _ (_), mem_singleton]
       intro h
       replace h := AlgHom.congr_fun (Equiv.injective _ h) pb.gen

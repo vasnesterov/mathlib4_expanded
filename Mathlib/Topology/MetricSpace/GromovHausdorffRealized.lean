@@ -444,7 +444,7 @@ def premetricOptimalGHDist : PseudoMetricSpace (X ⊕ Y) where
   dist_triangle x y z := candidates_triangle (optimalGHDist_mem_candidatesB X Y)
   -- Porting note: Added a proof for `edist_dist`
   edist_dist x y := by
-    simp only
+    simp
     congr
     simp only [max, left_eq_sup]
     exact candidates_nonneg (optimalGHDist_mem_candidatesB X Y)

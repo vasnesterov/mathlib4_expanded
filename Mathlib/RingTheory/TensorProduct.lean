@@ -594,7 +594,7 @@ def algHomOfLinearMapTensorProduct (f : A ⊗[R] B →ₗ[S] C)
     (h_mul : ∀ (a₁ a₂ : A) (b₁ b₂ : B), f ((a₁ * a₂) ⊗ₜ (b₁ * b₂)) = f (a₁ ⊗ₜ b₁) * f (a₂ ⊗ₜ b₂))
     (h_one : f (1 ⊗ₜ[R] 1) = 1) : A ⊗[R] B →ₐ[S] C :=
   AlgHom.ofLinearMap f h_one fun x y => by
-      simp only
+      simp
       refine TensorProduct.induction_on x ?_ ?_ ?_
       · rw [zero_mul, map_zero, zero_mul]
       · intro a₁ b₁
@@ -1161,7 +1161,7 @@ protected def module : Module (A ⊗[R] B) M where
   smul_add x m₁ m₂ := by simp only [(· • ·), map_add]
   add_smul x y m := by simp only [(· • ·), map_add, LinearMap.add_apply]
   one_smul m := by
-    -- porting note: was one `simp only` not two in lean 3
+    -- porting note: was one `simp` not two in lean 3
     simp only [(· • ·), Algebra.TensorProduct.one_def]
     simp only [moduleAux_apply, one_smul]
   mul_smul x y m := by
@@ -1174,15 +1174,15 @@ protected def module : Module (A ⊗[R] B) M where
     · intro a b
       simp only [(· • ·), mul_zero, map_zero, LinearMap.zero_apply]
     · intro a₁ b₁ a₂ b₂
-      -- porting note; was one `simp only` not two and a `rw` in mathlib3
+      -- porting note; was one `simp` not two and a `rw` in mathlib3
       simp only [(· • ·), Algebra.TensorProduct.tmul_mul_tmul]
       simp only [moduleAux_apply, mul_smul]
       rw [smul_comm a₁ b₂]
     · intro z w hz hw a b
-      --porting note: was one `simp only` but random stuff doesn't work
+      --porting note: was one `simp` but random stuff doesn't work
       simp only [(· • ·)] at hz hw ⊢
       simp only [moduleAux_apply]
-      rw [mul_add]  -- simp only doesn't work
+      rw [mul_add]  -- simp doesn't work
       simp only [LinearMap.map_add, LinearMap.add_apply, moduleAux_apply, hz, hw, smul_add]
     · intro z w _ _
       simp only [(· • ·), mul_zero, map_zero, LinearMap.zero_apply]

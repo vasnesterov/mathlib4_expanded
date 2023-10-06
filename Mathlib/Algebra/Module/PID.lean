@@ -218,7 +218,7 @@ theorem torsion_by_prime_power_decomposition (hN : Module.IsTorsion' N (Submonoi
         ⟨(@hN x).choose, by rw [← Quotient.mk_smul, (@hN x).choose_spec, Quotient.mk_zero]⟩
     · have hs' := congr_arg (Submodule.map <| mkQ <| R ∙ s j) hs
       rw [Submodule.map_span] at hs'; rw [Submodule.map_top] at hs'; rw [range_mkQ] at hs'; simp only [mkQ_apply] at hs'
-      simp only; rw [← Function.comp.assoc]; rw [Set.range_comp (_ ∘ s)]; rw [Fin.range_succAbove]
+      simp; rw [← Function.comp.assoc]; rw [Set.range_comp (_ ∘ s)]; rw [Fin.range_succAbove]
       rw [← Set.range_comp] at hs'; rw [← Set.insert_image_compl_eq_range _ j] at hs'; rw [Function.comp_apply] at hs'; rw [(Quotient.mk_eq_zero _).mpr (Submodule.mem_span_singleton_self _)] at hs'; rw [span_insert_zero] at hs'
       exact hs'
 #align module.torsion_by_prime_power_decomposition Module.torsion_by_prime_power_decomposition
@@ -250,7 +250,7 @@ theorem equiv_directSum_of_isTorsion [h' : Module.Finite R N] (hN : Module.IsTor
             (DirectSum.sigmaLcurryEquiv R).symm.trans
               (DFinsupp.mapRange.linearEquiv fun i => quotEquivOfEq _ _ _)⟩⟩
   cases' i with i j
-  simp only
+  simp
 #align module.equiv_direct_sum_of_is_torsion Module.equiv_directSum_of_isTorsion
 
 /-- **Structure theorem of finitely generated modules over a PID** : A finitely generated

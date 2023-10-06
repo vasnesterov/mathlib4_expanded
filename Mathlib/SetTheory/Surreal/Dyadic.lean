@@ -229,7 +229,7 @@ def dyadicMap : Localization.Away (2 : ℤ) →+ Surreal where
       cases h₂
       · obtain ⟨a₁, ha₁⟩ := n₁.prop
         obtain ⟨a₂, ha₂⟩ := n₂.prop
-        simp only at ha₁ ha₂ ⊢
+        simp at ha₁ ha₂ ⊢
         have hn₁ : n₁ = Submonoid.pow 2 a₁ := Subtype.ext ha₁.symm
         have hn₂ : n₂ = Submonoid.pow 2 a₂ := Subtype.ext ha₂.symm
         have h₂ : 1 < (2 : ℤ).natAbs := one_lt_two

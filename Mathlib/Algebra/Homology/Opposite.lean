@@ -93,7 +93,7 @@ variable [Preadditive V]
 protected def op (X : HomologicalComplex V c) : HomologicalComplex Vᵒᵖ c.symm where
   X i := op (X.X i)
   d i j := (X.d j i).op
-  shape i j hij := by simp only; rw [X.shape j i hij]; rw [op_zero]
+  shape i j hij := by simp; rw [X.shape j i hij]; rw [op_zero]
   d_comp_d' _ _ _ _ _ := by rw [← op_comp, X.d_comp_d, op_zero]
 #align homological_complex.op HomologicalComplex.op
 
@@ -102,7 +102,7 @@ protected def op (X : HomologicalComplex V c) : HomologicalComplex Vᵒᵖ c.sym
 protected def opSymm (X : HomologicalComplex V c.symm) : HomologicalComplex Vᵒᵖ c where
   X i := op (X.X i)
   d i j := (X.d j i).op
-  shape i j hij := by simp only; rw [X.shape j i hij]; rw [op_zero]
+  shape i j hij := by simp; rw [X.shape j i hij]; rw [op_zero]
   d_comp_d' _ _ _ _ _ := by rw [← op_comp, X.d_comp_d, op_zero]
 #align homological_complex.op_symm HomologicalComplex.opSymm
 
@@ -111,7 +111,7 @@ protected def opSymm (X : HomologicalComplex V c.symm) : HomologicalComplex Vᵒ
 protected def unop (X : HomologicalComplex Vᵒᵖ c) : HomologicalComplex V c.symm where
   X i := unop (X.X i)
   d i j := (X.d j i).unop
-  shape i j hij := by simp only; rw [X.shape j i hij]; rw [unop_zero]
+  shape i j hij := by simp; rw [X.shape j i hij]; rw [unop_zero]
   d_comp_d' _ _ _ _ _ := by rw [← unop_comp, X.d_comp_d, unop_zero]
 #align homological_complex.unop HomologicalComplex.unop
 
@@ -120,7 +120,7 @@ protected def unop (X : HomologicalComplex Vᵒᵖ c) : HomologicalComplex V c.s
 protected def unopSymm (X : HomologicalComplex Vᵒᵖ c.symm) : HomologicalComplex V c where
   X i := unop (X.X i)
   d i j := (X.d j i).unop
-  shape i j hij := by simp only; rw [X.shape j i hij]; rw [unop_zero]
+  shape i j hij := by simp; rw [X.shape j i hij]; rw [unop_zero]
   d_comp_d' _ _ _ _ _ := by rw [← unop_comp, X.d_comp_d, unop_zero]
 #align homological_complex.unop_symm HomologicalComplex.unopSymm
 

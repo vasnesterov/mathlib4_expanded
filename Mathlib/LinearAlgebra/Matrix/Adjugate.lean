@@ -454,12 +454,12 @@ theorem isRegular_of_isLeftRegular_det {A : Matrix n n α} (hA : IsLeftRegular A
   constructor
   · intro B C h
     refine' hA.matrix _
-    simp only at h ⊢
+    simp at h ⊢
     rw [← Matrix.one_mul B]; rw [← Matrix.one_mul C]; rw [← Matrix.smul_mul]; rw [← Matrix.smul_mul]; rw [←
       adjugate_mul]; rw [Matrix.mul_assoc]; rw [Matrix.mul_assoc]; rw [h]
   · intro B C (h : B * A = C * A)
     refine' hA.matrix _
-    simp only
+    simp
     rw [← Matrix.mul_one B]; rw [← Matrix.mul_one C]; rw [← Matrix.mul_smul]; rw [← Matrix.mul_smul]; rw [←
       mul_adjugate]; rw [← Matrix.mul_assoc]; rw [← Matrix.mul_assoc]; rw [h]
 #align matrix.is_regular_of_is_left_regular_det Matrix.isRegular_of_isLeftRegular_det
@@ -470,7 +470,7 @@ theorem adjugate_mul_distrib_aux (A B : Matrix n n α) (hA : IsLeftRegular A.det
     rw [det_mul]
     exact hA.mul hB
   refine' (isRegular_of_isLeftRegular_det hAB).left _
-  simp only
+  simp
   rw [mul_adjugate]; rw [Matrix.mul_assoc]; rw [← Matrix.mul_assoc B]; rw [mul_adjugate]; rw [smul_mul]; rw [Matrix.one_mul]; rw [mul_smul]; rw [mul_adjugate]; rw [smul_smul]; rw [mul_comm]; rw [← det_mul]
 #align matrix.adjugate_mul_distrib_aux Matrix.adjugate_mul_distrib_aux
 
@@ -533,7 +533,7 @@ theorem adjugate_adjugate (A : Matrix n n α) (h : Fintype.card n ≠ 1) :
   have is_reg : IsSMulRegular (MvPolynomial (n × n) ℤ) (det A') := fun x y =>
     mul_left_cancel₀ (det_mvPolynomialX_ne_zero n ℤ)
   apply is_reg.matrix
-  simp only
+  simp
   rw [smul_smul]; rw [← pow_succ]; rw [h_card']; rw [det_smul_adjugate_adjugate]
 #align matrix.adjugate_adjugate Matrix.adjugate_adjugate
 

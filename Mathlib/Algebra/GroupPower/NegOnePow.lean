@@ -64,7 +64,7 @@ lemma negOnePow_eq_neg_one_iff (n : ℤ) : n.negOnePow = -1 ↔ Odd n := by
     rw [Int.odd_iff_not_even]
     intro h'
     rw [negOnePow_even _ h'] at h
-    simp only at h
+    simp at h
   · exact negOnePow_odd n
 
 @[simp]

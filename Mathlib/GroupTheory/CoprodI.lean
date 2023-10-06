@@ -1072,7 +1072,7 @@ theorem _root_.FreeGroup.injective_lift_of_ping_pong : Function.Injective (FreeG
   · exact fun i => Set.Nonempty.inl (hXnonempty i)
   show Pairwise fun i j => Disjoint (X' i) (X' j)
   · intro i j hij
-    simp only
+    simp
     apply Disjoint.union_left <;> apply Disjoint.union_right
     · exact hXdisj hij
     · exact hXYdisj i j
@@ -1091,7 +1091,7 @@ theorem _root_.FreeGroup.injective_lift_of_ping_pong : Function.Injective (FreeG
       apply hne1
       simp; rfl
     clear hne1
-    simp only
+    simp
     -- Positive and negative powers separately
     cases' (lt_or_gt_of_ne hnne0).symm with hlt hgt
     · have h1n : 1 ≤ n := hlt
@@ -1137,7 +1137,7 @@ theorem _root_.FreeGroup.injective_lift_of_ping_pong : Function.Injective (FreeG
   · inhabit ι
     right
     use Inhabited.default
-    simp only
+    simp
     rw [FreeGroup.freeGroupUnitEquivInt.cardinal_eq]; rw [Cardinal.mk_denumerable]
     apply le_of_lt
     exact nat_lt_aleph0 3

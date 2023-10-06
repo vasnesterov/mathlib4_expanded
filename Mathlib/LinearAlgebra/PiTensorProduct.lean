@@ -524,13 +524,13 @@ def isEmptyEquiv [IsEmpty ι] : (⨂[R] _ : ι, M) ≃ₗ[R] R where
       simp only [map_smulₛₗ, RingHom.id_apply, lift.tprod, constOfIsEmpty_apply, const_apply, smul_eq_mul, mul_one]
       congr
       aesop
-    · simp only
+    · simp
       intro x y hx hy
       rw [map_add]; rw [add_smul]; rw [hx]; rw [hy]
   right_inv t := by simp
   map_add' := LinearMap.map_add _
   map_smul' := fun r x => by
-    simp only
+    simp
     exact LinearMap.map_smul _ r x
 #align pi_tensor_product.is_empty_equiv PiTensorProduct.isEmptyEquiv
 
@@ -562,7 +562,7 @@ def subsingletonEquiv [Subsingleton ι] (i₀ : ι) : (⨂[R] _ : ι, M) ≃ₗ[
   right_inv t := by simp only [ofSubsingleton_apply, lift.tprod, Function.eval_apply]
   map_add' := LinearMap.map_add _
   map_smul' := fun r x => by
-    simp only
+    simp
     exact LinearMap.map_smul _ r x
 #align pi_tensor_product.subsingleton_equiv PiTensorProduct.subsingletonEquiv
 
@@ -614,7 +614,7 @@ def tmulEquiv : ((⨂[R] _ : ι, M) ⊗[R] ⨂[R] _ : ι₂, M) ≃ₗ[R] ⨂[R]
       show tmul (tmulSymm (tprod R x)) = tprod R x -- Speed up the call to `simp`.
       simp only [tmulSymm_apply, tmul_apply]
       -- Porting note (https://github.com/leanprover-community/mathlib4/issues/5026):
-      -- was part of `simp only` above
+      -- was part of `simp` above
       erw [Sum.elim_comp_inl_inr])
     (by
       ext x y

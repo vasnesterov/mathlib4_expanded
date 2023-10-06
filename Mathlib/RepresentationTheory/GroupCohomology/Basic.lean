@@ -105,11 +105,11 @@ def d [Monoid G] (n : ℕ) (A : Rep k G) : ((Fin n → G) → A) →ₗ[k] (Fin 
         (-1 : k) ^ ((j : ℕ) + 1) • f (Fin.contractNth j (· * ·) g)
   map_add' f g := by
     ext x
-/- Porting note: changed from `simp only` which needed extra heartbeats -/
+/- Porting note: changed from `simp` which needed extra heartbeats -/
     simp_rw [Pi.add_apply, map_add, smul_add, Finset.sum_add_distrib, add_add_add_comm]
   map_smul' r f := by
     ext x
-/- Porting note: changed from `simp only` which needed extra heartbeats -/
+/- Porting note: changed from `simp` which needed extra heartbeats -/
     simp_rw [Pi.smul_apply, RingHom.id_apply, map_smul, smul_add, Finset.smul_sum, ← smul_assoc,
       smul_eq_mul, mul_comm r]
 #align inhomogeneous_cochains.d InhomogeneousCochains.d

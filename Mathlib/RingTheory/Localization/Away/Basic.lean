@@ -294,11 +294,11 @@ theorem selfZpow_pow_sub (a : R) (b : B) (m d : ℤ) :
   constructor
   · intro h
     have := congr_arg (fun s : B => s * selfZpow x B d) h
-    simp only at this
+    simp at this
     rwa [mul_assoc, mul_assoc, selfZpow_neg_mul, mul_one, mul_comm b _] at this
   · intro h
     have := congr_arg (fun s : B => s * selfZpow x B (-d)) h
-    simp only at this
+    simp at this
     rwa [mul_comm _ b, mul_assoc b _ _, selfZpow_mul_neg, mul_one] at this
 #align self_zpow_pow_sub selfZpow_pow_sub
 

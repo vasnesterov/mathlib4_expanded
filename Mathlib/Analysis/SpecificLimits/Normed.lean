@@ -436,7 +436,7 @@ theorem NormedAddCommGroup.cauchy_series_of_le_geometric'' {C : ℝ} {u : ℕ �
     cauchySeq_sum_of_eventually_eq this (NormedAddCommGroup.cauchy_series_of_le_geometric' hr₁ _)
   · exact C
   intro n
-  simp only
+  simp
   split_ifs with H
   · rw [norm_zero]
     exact mul_nonneg hC (pow_nonneg hr₀.le _)
@@ -508,7 +508,7 @@ theorem summable_of_ratio_norm_eventually_le {α : Type*} [SeminormedAddCommGrou
     rw [← @summable_nat_add_iff α _ _ _ _ N]
     refine' summable_of_norm_bounded (fun n ↦ ‖f N‖ * r ^ n)
       (Summable.mul_left _ <| summable_geometric_of_lt_1 hr₀ hr₁) fun n ↦ _
-    simp only
+    simp
     conv_rhs => rw [mul_comm, ← zero_add N]
     refine' le_geom (u := fun n ↦ ‖f (n + N)‖) hr₀ n fun i _ ↦ _
     convert hN (i + N) (N.le_add_left i) using 3

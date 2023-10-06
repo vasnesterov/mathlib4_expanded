@@ -78,7 +78,7 @@ theorem ext (A₁ A₂ : IndexSet Δ) (h₁ : A₁.1 = A₂.1) (h₂ : A₁.e �
     A₁ = A₂ := by
   rcases A₁ with ⟨Δ₁, ⟨α₁, hα₁⟩⟩
   rcases A₂ with ⟨Δ₂, ⟨α₂, hα₂⟩⟩
-  simp only at h₁
+  simp at h₁
   subst h₁
   simp only [eqToHom_refl, comp_id, IndexSet.e] at h₂
   simp only [h₂]
@@ -132,7 +132,7 @@ theorem eqId_iff_eq : A.EqId ↔ A.1 = Δ := by
     rfl
   · intro h
     rcases A with ⟨_, ⟨f, hf⟩⟩
-    simp only at h
+    simp at h
     subst h
     refine' ext _ _ rfl _
     · haveI := hf

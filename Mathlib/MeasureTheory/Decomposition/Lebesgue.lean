@@ -734,7 +734,7 @@ instance (priority := 100) haveLebesgueDecomposition_of_sigmaFinite (μ ν : Mea
     --                        `+ ν.withDensity (rnDeriv (μn n) (νn n)) ∩ (S.set n)`,
     -- it suffices to show that the individual summands are equal. This follows by the
     -- Lebesgue decomposition properties on the individual `μn n` and `νn n`
-    · simp only
+    · simp
       nth_rw 1 [hμ]
       rw [withDensity_tsum _]; rw [sum_add_sum]
       · refine' sum_congr fun n => _

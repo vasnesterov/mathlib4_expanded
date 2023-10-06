@@ -568,7 +568,7 @@ def toTransDiffeomorph (e : E ≃ₘ[𝕜] F) : M ≃ₘ⟮I, I.transDiffeomorph
     refine' contMDiffWithinAt_iff'.2 ⟨continuousWithinAt_id, _⟩
     refine' e.contDiff.contDiffWithinAt.congr' (fun y hy => _) _
     · simp only [Equiv.coe_refl, id, (· ∘ ·), I.coe_extChartAt_transDiffeomorph]
-      -- porting note: `simp only` failed to used next lemma, converted to `rw`
+      -- porting note: `simp` failed to used next lemma, converted to `rw`
       rw [(extChartAt I x).right_inv hy.1]
     exact
       ⟨(extChartAt I x).map_source (mem_extChartAt_source I x), trivial, by simp only [mfld_simps]⟩

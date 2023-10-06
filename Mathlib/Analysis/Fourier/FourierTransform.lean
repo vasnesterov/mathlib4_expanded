@@ -228,8 +228,8 @@ namespace Real
 /-- The standard additive character of `ℝ`, given by `fun x ↦ exp (2 * π * x * I)`. -/
 def fourierChar : Multiplicative ℝ →* 𝕊 where
   toFun z := expMapCircle (2 * π * Multiplicative.toAdd z)
-  map_one' := by simp only; rw [toAdd_one]; rw [mul_zero]; rw [expMapCircle_zero]
-  map_mul' x y := by simp only; rw [toAdd_mul]; rw [mul_add]; rw [expMapCircle_add]
+  map_one' := by simp; rw [toAdd_one]; rw [mul_zero]; rw [expMapCircle_zero]
+  map_mul' x y := by simp; rw [toAdd_mul]; rw [mul_add]; rw [expMapCircle_add]
 #align real.fourier_char Real.fourierChar
 
 theorem fourierChar_apply (x : ℝ) : Real.fourierChar[x] = Complex.exp (↑(2 * π * x) * Complex.I) :=

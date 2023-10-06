@@ -429,7 +429,7 @@ def Matrix.toLin'OfInv [Fintype m] [DecidableEq m] {M : Matrix m n R} {M' : Matr
     invFun := Matrix.toLin' M
     left_inv := fun x => by rw [← Matrix.toLin'_mul_apply, hMM', Matrix.toLin'_one, id_apply]
     right_inv := fun x => by
-      simp only
+      simp
       rw [← Matrix.toLin'_mul_apply]; rw [hM'M]; rw [Matrix.toLin'_one]; rw [id_apply] }
 #align matrix.to_lin'_of_inv Matrix.toLin'OfInv
 
@@ -697,7 +697,7 @@ def Matrix.toLinOfInv [DecidableEq m] {M : Matrix m n R} {M' : Matrix n m R} (hM
     invFun := Matrix.toLin v₂ v₁ M'
     left_inv := fun x => by rw [← Matrix.toLin_mul_apply, hM'M, Matrix.toLin_one, id_apply]
     right_inv := fun x => by
-      simp only
+      simp
       rw [← Matrix.toLin_mul_apply]; rw [hMM']; rw [Matrix.toLin_one]; rw [id_apply] }
 #align matrix.to_lin_of_inv Matrix.toLinOfInv
 
@@ -926,7 +926,7 @@ theorem smul_leftMulMatrix_algebraMap (x : S) :
     leftMulMatrix (b.smul c) (algebraMap _ _ x) = blockDiagonal fun _ => leftMulMatrix b x := by
   ext ⟨i, k⟩ ⟨j, k'⟩
   rw [smul_leftMulMatrix]; rw [AlgHom.commutes]; rw [blockDiagonal_apply]; rw [algebraMap_matrix_apply]
-  split_ifs with h <;> simp only at h <;> simp [h]
+  split_ifs with h <;> simp at h <;> simp [h]
 #align algebra.smul_left_mul_matrix_algebra_map Algebra.smul_leftMulMatrix_algebraMap
 
 theorem smul_leftMulMatrix_algebraMap_eq (x : S) (i j k) :

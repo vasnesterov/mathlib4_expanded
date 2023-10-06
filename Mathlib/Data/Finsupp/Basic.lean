@@ -875,7 +875,7 @@ def filter (p : α → Prop) (f : α →₀ M) : α →₀ M
     haveI := Classical.decPred p
     f.support.filter fun a => p a
   mem_support_toFun a := by
-    simp only -- porting note: necessary to beta reduce to activate `split_ifs`
+    simp -- porting note: necessary to beta reduce to activate `split_ifs`
     split_ifs with h <;>
       · simp only [h, @mem_filter _ _ (Classical.decPred p), mem_support_iff]
         -- porting note: I needed to provide the instance explicitly
@@ -1642,7 +1642,7 @@ See also `Finsupp.lsingle` for the version as a linear map. -/
 def DistribMulActionHom.single (a : α) : M →+[R] α →₀ M :=
   { singleAddHom a with
     map_smul' := fun k m => by
-      simp only
+      simp
       show singleAddHom a (k • m) = k • singleAddHom a m
       change Finsupp.single a (k • m) = k • (Finsupp.single a m)
       -- porting note: because `singleAddHom_apply` is missing

@@ -507,7 +507,7 @@ instance (priority := 100) {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E
         · refine' ⟨y_nonneg _ _, y_le_one _ (IR R h)⟩
         · simp only [le_refl, zero_le_one, and_self]
       symmetric := fun R x => by
-        simp only
+        simp
         split_ifs
         · simp only [y_neg, smul_neg]
         · rfl

@@ -166,7 +166,7 @@ theorem lhopital_zero_atTop_on_Ioi (hff' : ∀ x ∈ Ioi a, HasDerivAt f (f' x) 
       use Ioi 0, self_mem_nhdsWithin
       intro x hx
       unfold Function.comp
-      simp only
+      simp
       erw [mul_div_mul_right]
       refine' neg_ne_zero.mpr (inv_ne_zero <| pow_ne_zero _ <| ne_of_gt hx))
   have := this.comp tendsto_inv_atTop_zero'

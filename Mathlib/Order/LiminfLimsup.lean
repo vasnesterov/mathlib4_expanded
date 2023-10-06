@@ -837,7 +837,7 @@ theorem blimsup_eq_iInf_biSup {f : Filter β} {p : β → Prop} {u : β → α} 
 
 theorem blimsup_eq_iInf_biSup_of_nat {p : ℕ → Prop} {u : ℕ → α} :
     blimsup u atTop p = ⨅ i, ⨆ (j) (_ : p j ∧ i ≤ j), u j := by
-  -- Porting note: Making this into a single simp only does not work?
+  -- Porting note: Making this into a single simp does not work?
   simp only [blimsup_eq_limsup_subtype, Function.comp, (atTop_basis.comap ((↑) : { x | p x } → ℕ)).limsup_eq_iInf_iSup, iSup_subtype, iSup_and]
   simp only [mem_setOf_eq, mem_preimage, mem_Ici, not_le, iInf_pos]
 #align filter.blimsup_eq_infi_bsupr_of_nat Filter.blimsup_eq_iInf_biSup_of_nat

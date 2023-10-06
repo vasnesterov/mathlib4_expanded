@@ -479,7 +479,7 @@ theorem exists_eq_pow_mul_of_isCompact_of_isQuasiSeparated (X : Scheme.{u}) (U :
         (X.sheaf.objSupIsoProdEqLocus_inv_fst S U.1 ⟨⟨_ * _, _ * _⟩, this⟩) using 1
       · delta Scheme.sheaf SheafedSpace.sheaf
         -- Porting note: was just a single `simp only [...]`
-        simp only
+        simp
         erw [← comp_apply, ← comp_apply, ← comp_apply, ← comp_apply]
         simp only [← Functor.map_comp, ← op_comp]
         congr 1
@@ -498,7 +498,7 @@ theorem exists_eq_pow_mul_of_isCompact_of_isQuasiSeparated (X : Scheme.{u}) (U :
       · rw [X.basicOpen_res]; restrict_tac
       · delta Scheme.sheaf SheafedSpace.sheaf
         -- Porting note: was just a single `simp only [...]`
-        simp only
+        simp
         erw [← comp_apply, ← comp_apply, ← comp_apply, ← comp_apply]
         simp only [← Functor.map_comp, ← op_comp]
         congr 1

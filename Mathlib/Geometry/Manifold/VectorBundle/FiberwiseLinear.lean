@@ -263,7 +263,7 @@ def smoothFiberwiseLinear : StructureGroupoid (B × F) where
       exact (h2φ.mono <| inter_subset_left _ _).clm_comp (h2φ'.mono <| inter_subset_right _ _)
     · apply FiberwiseLinear.source_trans_localHomeomorph
     · rintro ⟨b, v⟩ -; apply FiberwiseLinear.trans_localHomeomorph_apply
-  -- porting note: without introducing `e` first, the first `simp only` fails
+  -- porting note: without introducing `e` first, the first `simp` fails
   symm' := fun e ↦ by
     simp only [mem_iUnion]
     rintro ⟨φ, U, hU, hφ, h2φ, heφ⟩

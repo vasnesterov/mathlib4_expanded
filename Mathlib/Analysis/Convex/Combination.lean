@@ -222,7 +222,7 @@ theorem convex_iff_sum_mem : Convex R s ↔ ∀ (t : Finset E) (w : E → R),
     -- Porting note: Original proof had 2 `simp_intro i hi`
     · simp only [sum_pair h_cases, if_neg h_cases, if_pos trivial]
     · intro i _
-      simp only
+      simp
       split_ifs <;> assumption
     · simp only [sum_pair h_cases, if_neg h_cases, if_pos trivial, hab]
     · intro i hi

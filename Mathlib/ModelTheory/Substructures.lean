@@ -915,7 +915,7 @@ def codRestrict (p : L.Substructure N) (f : M ↪[L] N) (h : ∀ c, f c ∈ p) :
   inj' a b ab := f.injective (Subtype.mk_eq_mk.1 ab)
   map_fun' {n} F x := (f.toHom.codRestrict p h).map_fun' F x
   map_rel' {n} r x := by
-    simp only
+    simp
     rw [← p.subtype.map_rel]
     change RelMap r (Hom.comp p.subtype.toHom (f.toHom.codRestrict p h) ∘ x) ↔ _
     rw [Hom.subtype_comp_codRestrict]; rw [← f.map_rel]

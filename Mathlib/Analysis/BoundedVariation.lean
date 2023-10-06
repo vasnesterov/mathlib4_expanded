@@ -246,13 +246,13 @@ theorem add_point (f : α → E) {s : Set α} {x : α} (hx : x ∈ s) (u : ℕ �
   rcases le_or_lt (u n) x with (h | h)
   · let v i := if i ≤ n then u i else x
     have vs : ∀ i, v i ∈ s := fun i ↦ by
-      simp only
+      simp
       split_ifs
       · exact us i
       · exact hx
     have hv : Monotone v := by
       refine monotone_nat_of_le_succ fun i => ?_
-      simp only
+      simp
       rcases lt_trichotomy i n with (hi | rfl | hi)
       · have : i + 1 ≤ n := Nat.succ_le_of_lt hi
         simp only [hi.le, this, if_true]

@@ -301,7 +301,7 @@ protected theorem tendsto_atTop_zero [Nonempty β] [SemilatticeSup β] {f : β �
 
 theorem tendsto_sub : ∀ {a b : ℝ≥0∞}, (a ≠ ∞ ∨ b ≠ ∞) →
     Tendsto (fun p : ℝ≥0∞ × ℝ≥0∞ => p.1 - p.2) (𝓝 (a, b)) (𝓝 (a - b))
-  | ⊤, ⊤, h => by simp only at h
+  | ⊤, ⊤, h => by simp at h
   | ⊤, (b : ℝ≥0), _ => by
     rw [top_sub_coe]; rw [tendsto_nhds_top_iff_nnreal]
     refine fun x => ((lt_mem_nhds <| @coe_lt_top (b + 1 + x)).prod_nhds

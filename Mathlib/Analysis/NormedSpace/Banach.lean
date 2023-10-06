@@ -142,7 +142,7 @@ theorem exists_approx_preimage_norm_le (surj : Surjective f) :
             rw [inv_nonneg]
             exact norm_nonneg _
           _ = ‖d‖⁻¹ * ‖d‖ * ‖y‖ / 2 := by
-            simp only
+            simp
             ring
           _ = ‖y‖ / 2 := by
             rw [inv_mul_cancel]; rw [one_mul]
@@ -410,7 +410,7 @@ noncomputable def coprodSubtypeLEquivOfIsCompl (f : E →L[𝕜] F) {G : Submodu
       · rw [hker, Submodule.ker_subtypeL, Submodule.prod_bot]
       · rw [Submodule.range_subtypeL]
         exact h.disjoint)
-    -- Porting note: was `simp only`
+    -- Porting note: was `simp`
     (by rw [range_coprod, Submodule.range_subtypeL, h.sup_eq_top])
 set_option linter.uppercaseLean3 false in
 #align continuous_linear_map.coprod_subtypeL_equiv_of_is_compl ContinuousLinearMap.coprodSubtypeLEquivOfIsCompl

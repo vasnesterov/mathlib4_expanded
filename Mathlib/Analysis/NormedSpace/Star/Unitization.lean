@@ -92,7 +92,7 @@ theorem Unitization.norm_splitMul_snd_sq (x : Unitization 𝕜 E) :
   rw [← sSup_closed_unit_ball_eq_norm]
   refine csSup_le ((Metric.nonempty_closedBall.2 zero_le_one).image _) ?_
   rintro - ⟨b, hb, rfl⟩
-  simp only
+  simp
   -- rewrite to a more convenient form; this is where we use the C⋆-property
   rw [← Real.sqrt_sq (norm_nonneg _)]; rw [Real.sqrt_le_sqrt_iff (norm_nonneg _)]; rw [sq]; rw [← CstarRing.norm_star_mul_self]; rw [ContinuousLinearMap.add_apply]; rw [star_add]; rw [mul_apply']; rw [Algebra.algebraMap_eq_smul_one]; rw [ContinuousLinearMap.smul_apply]; rw [ContinuousLinearMap.one_apply]; rw [star_mul]; rw [star_smul]; rw [add_mul]; rw [smul_mul_assoc]; rw [← mul_smul_comm]; rw [mul_assoc]; rw [← mul_add]; rw [← sSup_closed_unit_ball_eq_norm]
   refine (norm_mul_le _ _).trans ?_

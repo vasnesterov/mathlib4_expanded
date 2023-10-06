@@ -295,7 +295,7 @@ instance : CategoryTheory.Groupoid (FundamentalGroupoid X) where
     Quotient.lift (fun l : Path x y => ⟦l.symm⟧)
       (by
         rintro a b ⟨h⟩
-        simp only
+        simp
         rw [Quotient.eq]
         exact ⟨h.symm₂⟩)
       p
@@ -325,7 +325,7 @@ def fundamentalGroupoidFunctor : TopCat ⥤ CategoryTheory.Grpd where
         refine' Quotient.inductionOn₂ p q fun a b => _
         simp only [comp_eq, ← Path.Homotopic.map_lift, ← Path.Homotopic.comp_lift, Path.map_trans] }
   map_id X := by
-    simp only
+    simp
     change _ = (⟨_, _, _⟩ : FundamentalGroupoid X ⥤ FundamentalGroupoid X)
     congr
     ext x y p
@@ -333,7 +333,7 @@ def fundamentalGroupoidFunctor : TopCat ⥤ CategoryTheory.Grpd where
     rw [← Path.Homotopic.map_lift]
     conv_rhs => rw [← q.map_id]
   map_comp f g := by
-    simp only
+    simp
     congr
     ext x y p
     refine' Quotient.inductionOn p fun q => _

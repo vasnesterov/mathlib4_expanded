@@ -148,7 +148,7 @@ theorem Split.map {𝒜 ℬ : Type*} [Category 𝒜] [Preadditive 𝒜] [Categor
   obtain ⟨φ, χ, h1, h2, h3, h4, h5⟩ := h
   refine ⟨⟨F.map φ, F.map χ, ?_⟩⟩
   simp only [← F.map_comp, ← F.map_id]
-  rw [← F.map_add] -- porting note: `simp only` fails to use this lemma
+  rw [← F.map_add] -- porting note: `simp` fails to use this lemma
   simp only [F.map_zero, *, true_and]
 #align category_theory.split.map CategoryTheory.Split.map
 

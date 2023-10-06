@@ -225,19 +225,19 @@ def toStepOfLE (m n : ℕ) (h : m ≤ n) : Step k m →+* Step k n where
 --                                   `simp_rw [Nat.leRecOn_succ h, ih, RingHom.map_mul]`
     induction' h with a h ih
     · dsimp [toStepOfLE']; simp_rw [Nat.leRecOn_self]
-    · simp_rw [toStepOfLE'.succ k m a h]; simp only at ih; simp [ih]
+    · simp_rw [toStepOfLE'.succ k m a h]; simp at ih; simp [ih]
 -- Porting note: original proof was `induction' h with n h ih; · exact Nat.leRecOn_self 0`
 --                                   `rw [Nat.leRecOn_succ h, ih, RingHom.map_zero]`
   map_zero' := by
     induction' h with a h ih
     · exact Nat.leRecOn_self 0
-    · simp_rw [toStepOfLE'.succ k m a h]; simp only at ih; simp [ih]
+    · simp_rw [toStepOfLE'.succ k m a h]; simp at ih; simp [ih]
   map_add' x y := by
 -- Porting note: original proof was `induction' h with n h ih; · simp_rw [Nat.leRecOn_self]`
 --                                   `simp_rw [Nat.leRecOn_succ h, ih, RingHom.map_add]`
     induction' h with a h ih
     · dsimp [toStepOfLE']; simp_rw [Nat.leRecOn_self]
-    · simp_rw [toStepOfLE'.succ k m a h]; simp only at ih; simp [ih]
+    · simp_rw [toStepOfLE'.succ k m a h]; simp at ih; simp [ih]
 #align algebraic_closure.to_step_of_le AlgebraicClosure.toStepOfLE
 
 @[simp]
@@ -278,7 +278,7 @@ theorem Step.isIntegral (n) : ∀ z : Step k n, IsIntegral k z := by
     unfold algebra
     unfold RingHom.toAlgebra
     unfold RingHom.toAlgebra'
-    simp only
+    simp
     rw [toStepOfLE.succ k a a.zero_le]
     apply @RingHom.isIntegral_trans (Step k 0) (Step k a) (Step k (a + 1)) _ _ _
         (toStepOfLE k 0 a (a.zero_le : 0 ≤ a)) (toStepSucc k a) _

@@ -140,10 +140,10 @@ theorem col_weak {μ : YoungDiagram} (T : Ssyt μ) {i1 i2 j : ℕ} (hi : i1 ≤ 
 def highestWeight (μ : YoungDiagram) : Ssyt μ where
   entry i j := if (i, j) ∈ μ then i else 0
   row_weak' hj hcell := by
-    simp only
+    simp
     rw [if_pos hcell]; rw [if_pos (μ.up_left_mem (by rfl) (le_of_lt hj) hcell)]
   col_strict' hi hcell := by
-    simp only
+    simp
     rwa [if_pos hcell, if_pos (μ.up_left_mem (le_of_lt hi) (by rfl) hcell)]
   zeros' not_cell := if_neg not_cell
 #align ssyt.highest_weight Ssyt.highestWeight

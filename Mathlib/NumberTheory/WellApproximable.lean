@@ -291,7 +291,7 @@ theorem addWellApproximable_ae_empty_or_univ (δ : ℕ → ℝ) (hδ : Tendsto �
       exact fun contra => h_ndiv (mul_dvd_mul_left p contra)
     replace h_div : n / p * p = n := Nat.div_mul_cancel h_div
     have hf : f = (fun y => x + y) ∘ fun y => p • y := by ext; simp [add_comm x]; ac_rfl
-    simp only at hf
+    simp at hf
     simp_rw [Function.comp_apply, le_eq_subset]
     rw [sSupHom.setImage_toFun]; rw [hf]; rw [image_comp]
     have := @monotone_image 𝕊 𝕊 fun y => x + y

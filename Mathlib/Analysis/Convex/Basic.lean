@@ -671,7 +671,7 @@ theorem convex_stdSimplex : Convex 𝕜 (stdSimplex 𝕜 ι) := by
 variable {ι}
 
 theorem ite_eq_mem_stdSimplex (i : ι) : (fun j => ite (i = j) (1 : 𝕜) 0) ∈ stdSimplex 𝕜 ι :=
-  ⟨fun j => by simp only; split_ifs <;> norm_num, by
+  ⟨fun j => by simp; split_ifs <;> norm_num, by
     rw [Finset.sum_ite_eq]; rw [if_pos (Finset.mem_univ _)]⟩
 #align ite_eq_mem_std_simplex ite_eq_mem_stdSimplex
 

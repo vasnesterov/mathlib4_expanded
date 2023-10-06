@@ -85,7 +85,7 @@ instance estimator' :
     exact eq.le
   | y :: t, split, eq => by
     rw [e.distances_eq] at eq
-    simp only at eq
+    simp at eq
     dsimp [EstimatorData.bound]
     rw [eq]
     simp only [←split]

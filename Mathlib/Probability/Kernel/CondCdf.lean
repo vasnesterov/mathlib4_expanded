@@ -137,7 +137,7 @@ theorem lintegral_iInf_directed_of_measurable {mα : MeasurableSpace α} [Counta
     ∫⁻ a, ⨅ b, f b a ∂μ = ⨅ b, ∫⁻ a, f b a ∂μ := by
   cases nonempty_encodable β
   cases isEmpty_or_nonempty β
-  · -- Porting note: the next `simp only` doesn't do anything, so added a workaround below.
+  · -- Porting note: the next `simp` doesn't do anything, so added a workaround below.
     -- simp only [WithTop.iInf_empty, lintegral_const]
     conv =>
       lhs

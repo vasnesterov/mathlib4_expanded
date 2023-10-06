@@ -197,7 +197,7 @@ noncomputable def NormedAddCommGroup.ofMatrix {M : Matrix n n 𝕜} (hM : M.PosD
         simpa [hx, lt_irrefl] using hM.re_dotProduct_pos h
       add_left := by simp only [star_add, add_dotProduct, eq_self_iff_true, forall_const]
       smul_left := fun x y r => by
-        simp only
+        simp
         rw [← smul_eq_mul]; rw [← smul_dotProduct]; rw [starRingEnd_apply]; rw [← star_smul] }
 #align matrix.normed_add_comm_group.of_matrix Matrix.NormedAddCommGroup.ofMatrix
 

@@ -134,7 +134,7 @@ theorem asString_inv_toList (s : String) : s.toList.asString = s :=
 theorem toList_nonempty : ∀ {s : String}, s ≠ "" → s.toList = s.head :: (s.drop 1).toList
   | ⟨s⟩, h => by
     cases s
-    · simp only at h
+    · simp at h
     · rename_i c cs
       simp only [toList, List.cons.injEq]
       constructor <;> [rfl; simp [drop_eq]]

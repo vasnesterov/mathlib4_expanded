@@ -194,7 +194,7 @@ noncomputable instance : NormedAddCommGroup (V →A[𝕜] W) :=
         simp [(ContinuousAffineMap.neg_apply)]
       add_le' := fun f g => by
         simp only [coe_add, max_le_iff]
-        -- Porting note: previously `Pi.add_apply, add_contLinear, ` in the previous `simp only`
+        -- Porting note: previously `Pi.add_apply, add_contLinear, ` in the previous `simp`
         -- suffices, but now they don't fire.
         rw [add_contLinear]
         exact
@@ -206,7 +206,7 @@ noncomputable instance : NormedAddCommGroup (V →A[𝕜] W) :=
           obtain ⟨q, rfl⟩ := h₂
           simp only [norm_eq_zero] at h₁
           -- Porting note: prevously `coe_const, Function.const_apply` were in the previous
-          -- `simp only`, but now they don't fire.
+          -- `simp`, but now they don't fire.
           rw [coe_const] at h₁; rw [Function.const_apply] at h₁
           rw [h₁]
           rfl
@@ -214,7 +214,7 @@ noncomputable instance : NormedAddCommGroup (V →A[𝕜] W) :=
           obtain ⟨q, rfl⟩ := h₁
           simp only [norm_le_zero_iff] at h₂
           -- Porting note: prevously `coe_const, Function.const_apply` were in the previous
-          -- `simp only`, but now they don't fire.
+          -- `simp`, but now they don't fire.
           rw [coe_const] at h₂; rw [Function.const_apply] at h₂
           rw [h₂]
           rfl }
@@ -222,7 +222,7 @@ noncomputable instance : NormedAddCommGroup (V →A[𝕜] W) :=
 instance : NormedSpace 𝕜 (V →A[𝕜] W) where
   norm_smul_le t f := by
     simp only [norm_def, (smul_contLinear), norm_smul]
-    -- Porting note: previously all these rewrites were in the `simp only`,
+    -- Porting note: previously all these rewrites were in the `simp`,
     -- but now they don't fire.
     -- (in fact, `norm_smul` fires, but only once rather than twice!)
     rw [coe_smul]; rw [Pi.smul_apply]; rw [norm_smul]; rw [← mul_max_of_nonneg _ _ (norm_nonneg t)]

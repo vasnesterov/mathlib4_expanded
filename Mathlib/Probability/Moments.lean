@@ -130,7 +130,7 @@ theorem mgf_const' (c : ℝ) : mgf (fun _ => c) μ t = (μ Set.univ).toReal * ex
   simp only [mgf, integral_const, smul_eq_mul]
 #align probability_theory.mgf_const' ProbabilityTheory.mgf_const'
 
--- @[simp] -- Porting note: `simp only` already proves this
+-- @[simp] -- Porting note: `simp` already proves this
 theorem mgf_const (c : ℝ) [IsProbabilityMeasure μ] : mgf (fun _ => c) μ t = exp (t * c) := by
   simp only [mgf_const', measure_univ, ENNReal.one_toReal, one_mul]
 #align probability_theory.mgf_const ProbabilityTheory.mgf_const
@@ -155,7 +155,7 @@ theorem mgf_zero' : mgf X μ 0 = (μ Set.univ).toReal := by
   simp only [mgf, zero_mul, exp_zero, integral_const, smul_eq_mul, mul_one]
 #align probability_theory.mgf_zero' ProbabilityTheory.mgf_zero'
 
--- @[simp] -- Porting note: `simp only` already proves this
+-- @[simp] -- Porting note: `simp` already proves this
 theorem mgf_zero [IsProbabilityMeasure μ] : mgf X μ 0 = 1 := by
   simp only [mgf_zero', measure_univ, ENNReal.one_toReal]
 #align probability_theory.mgf_zero ProbabilityTheory.mgf_zero
@@ -164,7 +164,7 @@ theorem mgf_zero [IsProbabilityMeasure μ] : mgf X μ 0 = 1 := by
 theorem cgf_zero' : cgf X μ 0 = log (μ Set.univ).toReal := by simp only [cgf, mgf_zero']
 #align probability_theory.cgf_zero' ProbabilityTheory.cgf_zero'
 
--- @[simp] -- Porting note: `simp only` already proves this
+-- @[simp] -- Porting note: `simp` already proves this
 theorem cgf_zero [IsProbabilityMeasure μ] : cgf X μ 0 = 0 := by
   simp only [cgf_zero', measure_univ, ENNReal.one_toReal, log_one]
 #align probability_theory.cgf_zero ProbabilityTheory.cgf_zero

@@ -187,7 +187,7 @@ end Poly
 theorem fib_isSol_fibRec : fibRec.IsSolution (fun x => x.fib : ℕ → α) := by
   rw [fibRec]
   intro n
-  simp only
+  simp
   rw [Nat.fib_add_two]; rw [add_comm]
   simp [Finset.sum_fin_eq_sum_range, Finset.sum_range_succ']
 #align fib_is_sol_fib_rec fib_isSol_fibRec

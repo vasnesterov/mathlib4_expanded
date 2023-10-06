@@ -227,9 +227,9 @@ theorem flip_isSpecial : (flip u).IsSpecial ↔ u.IsSpecial := by
 theorem flip_v : (flip u).v = u.v.swap := by
   dsimp [v]
   ext
-  · simp only
+  · simp
     ring
-  · simp only
+  · simp
     ring
 #align pnat.xgcd_type.flip_v PNat.XgcdType.flip_v
 

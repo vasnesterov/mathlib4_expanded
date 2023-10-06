@@ -627,7 +627,7 @@ theorem contDiffGroupoid_prod {I : ModelWithCorners 𝕜 E H} {I' : ModelWithCor
     (he' : e' ∈ contDiffGroupoid ⊤ I') : e.prod e' ∈ contDiffGroupoid ⊤ (I.prod I') := by
   cases' he with he he_symm
   cases' he' with he' he'_symm
-  simp only at he he_symm he' he'_symm
+  simp at he he_symm he' he'_symm
   constructor <;> simp only [LocalEquiv.prod_source, LocalHomeomorph.prod_toLocalEquiv]
   · have h3 := ContDiffOn.prod_map he he'
     rw [← I.image_eq] at h3; rw [← I'.image_eq] at h3; rw [Set.prod_image_image_eq] at h3

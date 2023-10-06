@@ -80,7 +80,7 @@ add_decl_doc WittVector.coeff
 theorem ext {x y : 𝕎 R} (h : ∀ n, x.coeff n = y.coeff n) : x = y := by
   cases x
   cases y
-  simp only at h
+  simp at h
   simp [Function.funext_iff, h]
 #align witt_vector.ext WittVector.ext
 

@@ -296,7 +296,7 @@ def comp (F : OplaxFunctor B C) (G : OplaxFunctor C D) : OplaxFunctor B D :=
     map₂_associator := fun f g h => by
       dsimp
       -- porting note: if you use the `map₂_associator_aux` hack in the definition of
-      -- `map₂_associator` then the `simp only` call below does not seem to apply `map₂_associator`
+      -- `map₂_associator` then the `simp` call below does not seem to apply `map₂_associator`
       simp only [map₂_associator, ← map₂_comp_assoc, ← mapComp_naturality_right_assoc, whiskerLeft_comp, assoc]
       simp only [map₂_associator, map₂_comp, mapComp_naturality_left_assoc, comp_whiskerRight, assoc]
     map₂_leftUnitor := fun f => by

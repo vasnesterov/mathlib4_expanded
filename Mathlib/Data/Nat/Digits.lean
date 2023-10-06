@@ -215,7 +215,7 @@ theorem coe_ofDigits (α : Type*) [Semiring α] (b : ℕ) (L : List ℕ) :
 theorem coe_int_ofDigits (b : ℕ) (L : List ℕ) : ((ofDigits b L : ℕ) : ℤ) = ofDigits (b : ℤ) L := by
   induction' L with d L _
   · rfl
-  · dsimp [ofDigits]; push_cast; simp only
+  · dsimp [ofDigits]; push_cast; simp
 #align nat.coe_int_of_digits Nat.coe_int_ofDigits
 
 theorem digits_zero_of_eq_zero {b : ℕ} (h : b ≠ 0) :

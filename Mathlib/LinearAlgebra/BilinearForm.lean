@@ -388,7 +388,7 @@ def toLinHomAux₂ (A : BilinForm R M) : M →ₗ[R₂] M →ₗ[R] R where
     LinearMap.ext <| by
       dsimp [toLinHomAux₁]
       intros
-      -- Porting note: moved out of `simp only`
+      -- Porting note: moved out of `simp`
       rw [← algebraMap_smul R c x]
       simp only [Algebra.smul_def, LinearMap.coe_mk, LinearMap.smul_apply, smul_left]
 #align bilin_form.to_lin_hom_aux₂ BilinForm.toLinHomAux₂
@@ -483,7 +483,7 @@ This is an auxiliary definition for the full linear equivalence `LinearMap.toBil
 def LinearMap.toBilinAux (f : M₂ →ₗ[R₂] M₂ →ₗ[R₂] R₂) : BilinForm R₂ M₂ where
   bilin x y := f x y
   bilin_add_left x y z := by
-    simp only
+    simp
     exact (LinearMap.map_add f x y).symm ▸ LinearMap.add_apply (f x) (f y) z
   bilin_smul_left a x y := by simp only [LinearMap.map_smul, LinearMap.smul_apply, smul_eq_mul]
   bilin_add_right x y z := LinearMap.map_add (f x) y z
@@ -547,11 +547,11 @@ def compBilinForm (f : R →ₗ[R'] R') (B : BilinForm R M) : BilinForm R' M whe
   bilin x y := f (B x y)
   bilin_add_left x y z := by simp only [BilinForm.add_left, map_add]
   bilin_smul_left r x y := by
-    simp only
+    simp
     rw [← smul_one_smul R r (_ : M)]; rw [BilinForm.smul_left]; rw [smul_one_mul r (_ : R)]; rw [map_smul]; rw [smul_eq_mul]
   bilin_add_right x y z := by simp only [BilinForm.add_right, map_add]
   bilin_smul_right r x y := by
-    simp only
+    simp
     rw [← smul_one_smul R r (_ : M)]; rw [BilinForm.smul_right]; rw [smul_one_mul r (_ : R)]; rw [map_smul]; rw [smul_eq_mul]
 #align linear_map.comp_bilin_form LinearMap.compBilinForm
 

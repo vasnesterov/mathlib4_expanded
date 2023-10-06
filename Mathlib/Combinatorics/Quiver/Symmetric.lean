@@ -199,7 +199,7 @@ theorem lift_reverse [h : HasInvolutiveReverse V']
     (φ : Prefunctor V V') {X Y : Symmetrify V} (f : X ⟶ Y) :
     (Symmetrify.lift φ).map (Quiver.reverse f) = Quiver.reverse ((Symmetrify.lift φ).map f) := by
   dsimp [Symmetrify.lift]; cases f
-  · simp only
+  · simp
     rfl
   · simp only [reverse_reverse]
     rfl

@@ -67,7 +67,7 @@ def isTerminalEquivUnique (F : Discrete.{0} PEmpty.{1} ⥤ C) (Y : C) :
   left_inv := by dsimp [Function.LeftInverse]; intro x; simp only [eq_iff_true_of_subsingleton]
   right_inv := by
     dsimp [Function.RightInverse,Function.LeftInverse]
-    intro u; funext X; simp only
+    intro u; funext X; simp
 #align category_theory.limits.is_terminal_equiv_unique CategoryTheory.Limits.isTerminalEquivUnique
 
 /-- An object `Y` is terminal if for every `X` there is a unique morphism `X ⟶ Y`
@@ -108,7 +108,7 @@ def isInitialEquivUnique (F : Discrete.{0} PEmpty.{1} ⥤ C) (X : C) :
   left_inv := by dsimp [Function.LeftInverse]; intro; simp only [eq_iff_true_of_subsingleton]
   right_inv := by
     dsimp [Function.RightInverse,Function.LeftInverse]
-    intro; funext; simp only
+    intro; funext; simp
 #align category_theory.limits.is_initial_equiv_unique CategoryTheory.Limits.isInitialEquivUnique
 
 /-- An object `X` is initial if for every `Y` there is a unique morphism `X ⟶ Y`

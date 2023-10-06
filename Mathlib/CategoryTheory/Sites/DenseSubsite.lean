@@ -184,7 +184,7 @@ theorem pushforwardFamily_compatible {X} (x : ℱ.obj (op X)) :
   erw [← α.naturality (G.preimage _).op]
   erw [← α.naturality (G.preimage _).op]
   refine' congr_fun _ x
-  -- porting note: these next 3 tactics (simp, rw, simp) were just one big `simp only` in Lean 3
+  -- porting note: these next 3 tactics (simp, rw, simp) were just one big `simp` in Lean 3
   -- but I can't get `simp` to do the `rw` line.
   simp only [Functor.comp_map, ← Category.assoc, Functor.op_map, Quiver.Hom.unop_op]
   rw [← ℱ.map_comp]; rw [← ℱ.map_comp] -- `simp only [← ℱ.map_comp]` does nothing, even if I add

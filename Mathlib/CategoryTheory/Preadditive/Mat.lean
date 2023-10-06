@@ -235,7 +235,7 @@ instance hasFiniteBiproducts : HasFiniteBiproducts (Mat_ C) where
             rw [Finset.sum_eq_single j]; rotate_left
             · intro b _ hb
               rw [dif_pos rfl]; rw [dif_neg]; rw [zero_comp]
-              simp only
+              simp
               tauto
             · intro hj
               simp at hj

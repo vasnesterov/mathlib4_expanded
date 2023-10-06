@@ -255,7 +255,7 @@ theorem C_p_pow_dvd_bind₁_rename_wittPolynomial_sub_sum (Φ : MvPolynomial idx
   have : p ^ (n + 1) = p ^ k * p ^ (n - k + 1) := by
     rw [← pow_add]; rw [← add_assoc]; congr 2; rw [add_comm]; rw [← tsub_eq_iff_eq_add_of_le hk]
   rw [this]
-  simp only -- Porting note: without this, the next `rw` doesn't do anything
+  simp -- Porting note: without this, the next `rw` doesn't do anything
   rw [Nat.cast_mul]; rw [Nat.cast_pow]; rw [Nat.cast_pow]
   apply mul_dvd_mul_left ((p : MvPolynomial (idx × ℕ) ℤ) ^ k)
   rw [show p ^ (n + 1 - k) = p * p ^ (n - k) by rw [← pow_succ, ← tsub_add_eq_add_tsub hk]]

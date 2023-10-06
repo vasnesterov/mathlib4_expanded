@@ -162,7 +162,7 @@ theorem units_smul_def (g : ConjAct Mˣ) (h : M) : g • h = ofConjAct g * h * �
   rfl
 #align conj_act.units_smul_def ConjAct.units_smul_def
 
--- porting note: very slow without `simp only` and need to separate `units_smul_def`
+-- porting note: very slow without `simp` and need to separate `units_smul_def`
 -- so that things trigger appropriately
 instance unitsMulDistribMulAction : MulDistribMulAction (ConjAct Mˣ) M where
   one_smul := by simp only [units_smul_def, ofConjAct_one, Units.val_one, one_mul, inv_one, mul_one, forall_const]
@@ -193,7 +193,7 @@ section Semiring
 
 variable [Semiring R]
 
--- porting note: very slow without `simp only` and need to separate `units_smul_def`
+-- porting note: very slow without `simp` and need to separate `units_smul_def`
 -- so that things trigger appropriately
 instance unitsMulSemiringAction : MulSemiringAction (ConjAct Rˣ) R :=
   { ConjAct.unitsMulDistribMulAction with
@@ -222,7 +222,7 @@ theorem toConjAct_zero : toConjAct (0 : G₀) = 0 :=
   rfl
 #align conj_act.to_conj_act_zero ConjAct.toConjAct_zero
 
--- porting note: very slow without `simp only` and need to separate `smul_def`
+-- porting note: very slow without `simp` and need to separate `smul_def`
 -- so that things trigger appropriately
 instance mulAction₀ : MulAction (ConjAct G₀) G₀ where
   one_smul := by
@@ -250,7 +250,7 @@ section DivisionRing
 
 variable [DivisionRing K]
 
--- porting note: very slow without `simp only` and need to separate `smul_def`
+-- porting note: very slow without `simp` and need to separate `smul_def`
 -- so that things trigger appropriately
 instance distribMulAction₀ : DistribMulAction (ConjAct K) K :=
   { ConjAct.mulAction₀ with
@@ -268,7 +268,7 @@ variable [Group G]
 
 -- todo: this file is not in good order; I will refactor this after the PR
 
--- porting note: very slow without `simp only` and need to separate `smul_def`
+-- porting note: very slow without `simp` and need to separate `smul_def`
 -- so that things trigger appropriately
 instance : MulDistribMulAction (ConjAct G) G where
   smul_mul := by

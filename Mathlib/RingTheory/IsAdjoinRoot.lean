@@ -412,7 +412,7 @@ def basis (h : IsAdjoinRootMonic S f) : Basis (Fin (natDegree f)) R S :=
         cases subsingleton_or_nontrivial R
         · haveI := h.subsingleton
           exact Subsingleton.elim _ _
-        simp only
+        simp
         rw [Finsupp.mapDomain_comapDomain]; rw [Polynomial.eta]; rw [h.map_modByMonicHom x]
         · exact Fin.val_injective
         intro i hi

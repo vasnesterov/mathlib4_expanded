@@ -95,7 +95,7 @@ theorem IsOpen.exists_between_affineIndependent_span_eq_top {s u : Set P} (hu : 
   let f : P → P := fun y => lineMap q y (ε / dist y q)
   have hf : ∀ y, f y ∈ u := by
     refine' fun y => hεu _
-    simp only
+    simp
     rw [Metric.mem_closedBall]; rw [lineMap_apply]; rw [dist_vadd_left]; rw [norm_smul]; rw [Real.norm_eq_abs]; rw [dist_eq_norm_vsub V y q]; rw [abs_div]; rw [abs_of_pos ε0]; rw [abs_of_nonneg (norm_nonneg _)]; rw [div_mul_comm]
     exact mul_le_of_le_one_left ε0.le (div_self_le_one _)
   have hεyq : ∀ (y) (_ : y ∉ s), ε / dist y q ≠ 0 := fun y hy =>

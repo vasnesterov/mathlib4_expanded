@@ -274,7 +274,7 @@ instance {Ω : Type*} [MeasurableSpace Ω] : Module ℝ≥0 (FiniteMeasure Ω) :
 theorem coeFn_smul_apply [IsScalarTower R ℝ≥0 ℝ≥0] (c : R) (μ : FiniteMeasure Ω) (s : Set Ω) :
     (c • μ) s = c • μ s := by
   rw [coeFn_smul]; rw [Pi.smul_apply]
-  -- porting note: why doesn't `simp only` work in place of `rw` here?
+  -- porting note: why doesn't `simp` work in place of `rw` here?
 #align measure_theory.finite_measure.coe_fn_smul_apply MeasureTheory.FiniteMeasure.coeFn_smul_apply
 
 /-- Restrict a finite measure μ to a set A. -/

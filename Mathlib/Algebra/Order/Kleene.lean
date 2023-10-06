@@ -109,18 +109,18 @@ def IdemSemiring.ofSemiring [Semiring α] (h : ∀ a : α, a + a = a) : IdemSemi
     le := fun a b ↦ a + b = b
     le_refl := h
     le_trans := fun a b c hab hbc ↦ by
-      simp only
+      simp
       rw [← hbc]; rw [← add_assoc]; rw [hab]
     le_antisymm := fun a b hab hba ↦ by rwa [← hba, add_comm]
     sup := (· + ·)
     le_sup_left := fun a b ↦ by
-      simp only
+      simp
       rw [← add_assoc]; rw [h]
     le_sup_right := fun a b ↦ by
-      simp only
+      simp
       rw [add_comm]; rw [add_assoc]; rw [h]
     sup_le := fun a b c hab hbc ↦ by
-      simp only
+      simp
       rwa [add_assoc, hbc]
     bot := 0
     bot_le := zero_add }

@@ -431,7 +431,7 @@ moves by Right. -/
 theorem le_iff_forall_lf {x y : PGame} :
     x ≤ y ↔ (∀ i, x.moveLeft i ⧏ y) ∧ ∀ j, x ⧏ y.moveRight j := by
   unfold LE.le le
-  simp only
+  simp
   rw [Sym2.GameAdd.fix_eq]
   rfl
 #align pgame.le_iff_forall_lf SetTheory.PGame.le_iff_forall_lf

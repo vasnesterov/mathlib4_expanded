@@ -709,7 +709,7 @@ instance : SecondCountableTopology GHSpace := by
       have C2 : Fin.cast Npq ⟨i, hip⟩ = ⟨i, hi⟩ := rfl
       have C3 : (E q).symm ⟨i, hi⟩ = ⟨y, ys⟩ := by
         rw [ihi_eq]; exact (E q).symm_apply_apply ⟨y, ys⟩
-      have : Φ z = y := by simp only; rw [C1]; rw [C2]; rw [C3]
+      have : Φ z = y := by simp; rw [C1]; rw [C2]; rw [C3]
       rw [this]
       exact le_of_lt hy
     show ∀ x y : s p, |dist x y - dist (Φ x) (Φ y)| ≤ ε
@@ -861,7 +861,7 @@ theorem totallyBounded {t : Set GHSpace} {C : ℝ} {u : ℕ → ℝ} {K : ℕ �
       have C2 : Fin.cast Npq ⟨i, hip⟩ = ⟨i, hi⟩ := rfl
       have C3 : (E q).symm ⟨i, hi⟩ = ⟨y, ys⟩ := by
         rw [ihi_eq]; exact (E q).symm_apply_apply ⟨y, ys⟩
-      have : Φ z = y := by simp only; rw [C1]; rw [C2]; rw [C3]
+      have : Φ z = y := by simp; rw [C1]; rw [C2]; rw [C3]
       rw [this]
       exact le_trans (le_of_lt hy) u_le_ε
     show ∀ x y : s p, |dist x y - dist (Φ x) (Φ y)| ≤ ε
@@ -1041,9 +1041,9 @@ instance : CompleteSpace GHSpace := by
     change X2 n = range (coeZ ∘ Φ n.succ ∘ c n ∘
       toGlueR (Y n).isom (isometry_optimalGHInjl (X n) (X n.succ)) ∘
       optimalGHInjl (X n) (X n.succ))
-    simp only --[X2, Φ]
+    simp --[X2, Φ]
     rw [← toInductiveLimit_commute I]
-    simp only --[f]
+    simp --[f]
     rw [← toGlue_commute]
     rfl
   -- simp_rw [range_comp] at X2n

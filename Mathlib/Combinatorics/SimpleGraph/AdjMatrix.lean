@@ -80,7 +80,7 @@ theorem apply_ne_zero_iff [MulZeroOneClass α] [Nontrivial α] (h : IsAdjMatrix 
 @[simps]
 def toGraph [MulZeroOneClass α] [Nontrivial α] (h : IsAdjMatrix A) : SimpleGraph V where
   Adj i j := A i j = 1
-  symm i j hij := by simp only; rwa [h.symm.apply i j]
+  symm i j hij := by simp; rwa [h.symm.apply i j]
   loopless i := by simp [h]
 #align matrix.is_adj_matrix.to_graph Matrix.IsAdjMatrix.toGraph
 

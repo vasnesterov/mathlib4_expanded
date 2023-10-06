@@ -1250,7 +1250,7 @@ protected theorem add_left_neg (x : M ⊗[R] N) : -x + x = 0 :=
     suffices : -x + x + (-y + y) = 0
     · rw [← this]
       unfold Neg.neg neg
-      simp only
+      simp
       rw [AddMonoidHom.map_add]
       abel
     rw [hx]; rw [hy]; rw [add_zero]

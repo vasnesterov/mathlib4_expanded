@@ -511,7 +511,7 @@ theorem exists_nontrivial_relation_sum_zero_of_rank_succ_lt_card [FiniteDimensio
     -- combining the two sums, and
     -- observing that after reindexing we have exactly
     -- ∑ (x : V) in t', g x • x = 0.
-    simp only
+    simp
     conv_lhs =>
       apply_congr
       rfl

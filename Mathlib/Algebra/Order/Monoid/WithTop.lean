@@ -345,10 +345,10 @@ instance addMonoidWithOne [AddMonoidWithOne α] : AddMonoidWithOne (WithTop α) 
   { WithTop.one, WithTop.addMonoid with
     natCast := fun n => ↑(n : α),
     natCast_zero := by
-      simp only -- Porting note: Had to add this...?
+      simp -- Porting note: Had to add this...?
       rw [Nat.cast_zero]; rw [WithTop.coe_zero],
     natCast_succ := fun n => by
-      simp only -- Porting note: Had to add this...?
+      simp -- Porting note: Had to add this...?
       rw [Nat.cast_add_one]; rw [WithTop.coe_add]; rw [WithTop.coe_one]
   }
 

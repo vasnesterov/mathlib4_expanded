@@ -139,7 +139,7 @@ theorem nonempty_hom_of_forall_finite_subgraph_hom [Finite W]
           simp⟩
   · -- Prove that the above mapping preserves adjacency.
     intro v v' e
-    simp only
+    simp
     /- The homomorphism for each edge's singleton subgraph agrees with those for its source and
         target vertices. -/
     have hv : Opposite.op (finsubgraphOfAdj e) ⟶ Opposite.op (singletonFinsubgraph v) :=

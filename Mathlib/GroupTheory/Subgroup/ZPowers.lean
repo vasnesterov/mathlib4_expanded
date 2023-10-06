@@ -170,7 +170,7 @@ theorem ofMul_image_zpowers_eq_zmultiples_ofMul {x : G} :
   constructor
   · rintro ⟨z, ⟨m, hm⟩, hz2⟩
     use m
-    simp only at *
+    simp at *
     rwa [← ofMul_zpow, hm]
   · rintro ⟨n, hn⟩
     refine' ⟨x ^ n, ⟨n, rfl⟩, _⟩

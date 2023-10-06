@@ -94,7 +94,7 @@ theorem lift_unique (Φ : Push σ ⥤q W') (Φ₀ : Φ.obj = τ) (Φcomp : (of �
   dsimp only [of, lift]
   fapply Prefunctor.ext
   · intro X
-    simp only
+    simp
     rw [Φ₀]
   · rintro _ _ ⟨⟩
     subst_vars

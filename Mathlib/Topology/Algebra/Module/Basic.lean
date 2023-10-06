@@ -434,7 +434,7 @@ instance continuousSemilinearMapClass :
 /-- Coerce continuous linear maps to functions. -/
 --instance toFun' : CoeFun (M₁ →SL[σ₁₂] M₂) fun _ => M₁ → M₂ := ⟨FunLike.coe⟩
 
--- porting note: was `simp`, now `simp only` proves it
+-- porting note: was `simp`, now `simp` proves it
 theorem coe_mk (f : M₁ →ₛₗ[σ₁₂] M₂) (h) : (mk f h : M₁ →ₛₗ[σ₁₂] M₂) = f :=
   rfl
 #align continuous_linear_map.coe_mk ContinuousLinearMap.coe_mk

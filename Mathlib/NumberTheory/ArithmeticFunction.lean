@@ -1007,7 +1007,7 @@ theorem moebius_apply_isPrimePow_not_prime {n : ℕ} (hn : IsPrimePow n) (hn' : 
 theorem isMultiplicative_moebius : IsMultiplicative μ := by
   rw [IsMultiplicative.iff_ne_zero]
   refine' ⟨by simp, fun {n m} hn hm hnm => _⟩
-  -- porting note: the rest of this proof was a single `simp only` with all the lemmas thrown in
+  -- porting note: the rest of this proof was a single `simp` with all the lemmas thrown in
   -- followed by the last `rw`.
   simp only [moebius, ZeroHom.coe_mk]
   dsimp only [coe_mk, ZeroHom.toFun_eq_coe, Eq.ndrec, ZeroHom.coe_mk]
@@ -1111,7 +1111,7 @@ theorem sum_eq_iff_sum_smul_moebius_eq [AddCommGroup R] {f g : ℕ → R} :
     | zero => simp
     | succ n =>
       simp only [n.succ_ne_zero, forall_prop_of_true, succ_pos', smul_apply, if_false, ZeroHom.coe_mk]
-      -- porting note: added following `simp only`
+      -- porting note: added following `simp`
       simp only [Nat.isUnit_iff, coe_mk, ZeroHom.toFun_eq_coe, succ_ne_zero, ite_false]
       rw [sum_congr rfl fun x hx => ?_]
       rw [if_neg (ne_of_gt (Nat.pos_of_mem_divisors (snd_mem_divisors_of_mem_antidiagonal hx)))]

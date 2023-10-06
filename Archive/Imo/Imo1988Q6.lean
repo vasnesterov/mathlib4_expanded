@@ -143,7 +143,7 @@ theorem constant_descent_vieta_jumping (x y : ℕ) {claim : Prop} {H : ℕ → �
   rcases m_mem with ⟨⟨mx, my⟩, ⟨⟨hHm, mx_lt_my⟩, h_base⟩, m_eq⟩
   -- This means that m_y = m,
   -- and the conditions H(m_x, m_y) and m_x < m_y are satisfied.
-  simp only at mx_lt_my hHm m_eq
+  simp at mx_lt_my hHm m_eq
   simp only [hHm, Set.mem_setOf_eq, true_and] at h_base
   push_neg at h_base
   -- Finally, it also means that (m_x, m_y) does not lie in the base locus,

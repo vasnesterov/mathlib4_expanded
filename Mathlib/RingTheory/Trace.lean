@@ -144,7 +144,7 @@ theorem trace_trace_of_basis [Algebra S T] [IsScalarTower R S T] {ι κ : Type*}
   rw [trace_eq_matrix_trace (b.smul c)]; rw [trace_eq_matrix_trace b]; rw [trace_eq_matrix_trace c]; rw [Matrix.trace]; rw [Matrix.trace]; rw [Matrix.trace]; rw [← Finset.univ_product_univ]; rw [Finset.sum_product]
   refine' Finset.sum_congr rfl fun i _ => _
   simp only [AlgHom.map_sum, smul_leftMulMatrix, Finset.sum_apply, Matrix.diag]
--- Porting note: the `rw` was inside `simp only`, but it doesn't work anymore.
+-- Porting note: the `rw` was inside `simp`, but it doesn't work anymore.
   rw [Finset.sum_apply
       i (Finset.univ : Finset κ) fun y => leftMulMatrix b (leftMulMatrix c x y y)]
   apply Finset.sum_apply
@@ -364,7 +364,7 @@ theorem sum_embeddings_eq_finrank_mul [FiniteDimensional K F] [IsSeparable K F]
     Finset.univ_sigma_univ, Finset.sum_sigma, ← Finset.sum_nsmul]
   refine' Finset.sum_congr rfl fun σ _ => _
   · letI : Algebra L E := σ.toRingHom.toAlgebra
--- Porting note: `Finset.card_univ` was inside `simp only`.
+-- Porting note: `Finset.card_univ` was inside `simp`.
     simp only [Finset.sum_const]
     congr
     rw [← AlgHom.card L F E]
@@ -394,7 +394,7 @@ theorem trace_eq_sum_automorphisms (x : L) [FiniteDimensional K L] [IsGalois K L
   rw [← Fintype.sum_equiv (Normal.algHomEquivAut K (AlgebraicClosure L) L)]
   · rw [← trace_eq_sum_embeddings (AlgebraicClosure L)]
     · simp only [algebraMap_eq_smul_one]
--- Porting note: `smul_one_smul` was in the `simp only`.
+-- Porting note: `smul_one_smul` was in the `simp`.
       apply smul_one_smul
   · intro σ
     simp only [Normal.algHomEquivAut, AlgHom.restrictNormal', Equiv.coe_fn_mk, AlgEquiv.coe_ofBijective, AlgHom.restrictNormal_commutes, id.map_eq_id, RingHom.id_apply]

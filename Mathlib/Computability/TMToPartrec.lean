@@ -1608,7 +1608,7 @@ theorem trNormal_respects (c k v s) :
   case comp f _ _ IHg => exact IHg (Cont.comp f k) v s
   case case f g IHf IHg =>
     rw [stepNormal]
-    simp only
+    simp
     obtain ⟨s', h⟩ := pred_ok _ _ s v _ _
     revert h; cases' v.headI with n <;> intro h
     · obtain ⟨c, h₁, h₂⟩ := IHf k _ s'

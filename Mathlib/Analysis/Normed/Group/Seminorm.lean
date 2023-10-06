@@ -451,9 +451,9 @@ instance toOne [DecidableEq E] : One (AddGroupSeminorm E) :=
       map_zero' := if_pos rfl
       add_le' := fun x y => by
         by_cases hx : x = 0
-        · simp only
+        · simp
           rw [if_pos hx]; rw [hx]; rw [zero_add]; rw [zero_add]
-        · simp only
+        · simp
           rw [if_neg hx]
           refine' le_add_of_le_of_nonneg _ _ <;> split_ifs <;> norm_num
       neg' := fun x => by simp_rw [neg_eq_zero] }⟩
@@ -622,9 +622,9 @@ instance toOne [DecidableEq E] : One (GroupSeminorm E) :=
       map_one' := if_pos rfl
       mul_le' := fun x y => by
         by_cases hx : x = 1
-        · simp only
+        · simp
           rw [if_pos hx]; rw [hx]; rw [one_mul]; rw [zero_add]
-        · simp only
+        · simp
           rw [if_neg hx]
           refine' le_add_of_le_of_nonneg _ _ <;> split_ifs <;> norm_num
       inv' := fun x => by simp_rw [inv_eq_one] }⟩

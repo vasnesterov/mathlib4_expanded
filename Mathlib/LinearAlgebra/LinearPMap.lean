@@ -843,7 +843,7 @@ theorem mem_graph_snd_inj (f : E →ₗ.[R] F) {x y : E} {x' y' : F} (hx : (x, x
   rw [mem_graph_iff] at hx hy
   rcases hx with ⟨x'', hx1, hx2⟩
   rcases hy with ⟨y'', hy1, hy2⟩
-  simp only at hx1 hx2 hy1 hy2
+  simp at hx1 hx2 hy1 hy2
   rw [← hx1] at hxy; rw [← hy1] at hxy; rw [SetLike.coe_eq_coe] at hxy
   rw [← hx2]; rw [← hy2]; rw [hxy]
 #align linear_pmap.mem_graph_snd_inj LinearPMap.mem_graph_snd_inj
@@ -868,7 +868,7 @@ theorem mem_domain_iff {f : E →ₗ.[R] F} {x : E} : x ∈ f.domain ↔ ∃ y :
   cases' h with y h
   rw [mem_graph_iff] at h
   cases' h with x' h
-  simp only at h
+  simp at h
   rw [← h.1]
   simp
 #align linear_pmap.mem_domain_iff LinearPMap.mem_domain_iff
@@ -902,7 +902,7 @@ theorem mem_range_iff {f : E →ₗ.[R] F} {y : F} : y ∈ Set.range f ↔ ∃ x
   cases' h with x h
   rw [Set.mem_range]
   use x
-  simp only at h
+  simp at h
   rw [h.2]
 #align linear_pmap.mem_range_iff LinearPMap.mem_range_iff
 
@@ -1085,7 +1085,7 @@ theorem mem_inverse_graph_snd_eq_zero (x : F × E)
     (hv' : x.fst = 0) : x.snd = 0 := by
   simp only [Submodule.mem_map, mem_graph_iff, Subtype.exists, exists_and_left, exists_eq_left, LinearEquiv.prodComm_apply, Prod.exists, Prod.swap_prod_mk] at hv
   rcases hv with ⟨a, b, ⟨ha, h1⟩, ⟨h2, h3⟩⟩
-  simp only at hv' ⊢
+  simp at hv' ⊢
   rw [hv'] at h1
   rw [LinearMap.ker_eq_bot'] at hf
   specialize hf ⟨a, ha⟩ h1

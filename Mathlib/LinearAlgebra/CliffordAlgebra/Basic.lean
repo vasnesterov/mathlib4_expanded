@@ -147,7 +147,7 @@ def lift : { f : M →ₗ[R] A // ∀ m, f m * f m = algebraMap _ _ (Q m) } ≃ 
       rw [LinearMap.comp_apply]; rw [AlgHom.toLinearMap_apply]; rw [comp_ι_sq_scalar]⟩
   left_inv f := by
     ext x
-    -- porting note: removed `simp only` proof which gets stuck simplifying `LinearMap.comp_apply`
+    -- porting note: removed `simp` proof which gets stuck simplifying `LinearMap.comp_apply`
     exact (RingQuot.liftAlgHom_mkAlgHom_apply _ _ _ _).trans (TensorAlgebra.lift_ι_apply _ x)
   right_inv F :=
     -- porting note: replaced with proof derived from the one for `TensorAlgebra`

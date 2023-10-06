@@ -310,7 +310,7 @@ variable [SMul R ℝ] [SMul R ℝ≥0] [IsScalarTower R ℝ≥0 ℝ]
 def comp (p : Seminorm 𝕜₂ E₂) (f : E →ₛₗ[σ₁₂] E₂) : Seminorm 𝕜 E :=
   { p.toAddGroupSeminorm.comp f.toAddMonoidHom with
     toFun := fun x => p (f x)
-    -- Porting note: the `simp only` below used to be part of the `rw`.
+    -- Porting note: the `simp` below used to be part of the `rw`.
     -- I'm not sure why this change was needed, and am worried by it!
     smul' := fun _ _ => by simp only [map_smulₛₗ]; rw [map_smul_eq_mul]; rw [RingHomIsometric.is_iso] }
 #align seminorm.comp Seminorm.comp

@@ -158,7 +158,7 @@ end
 theorem exists_mul_emod_eq_gcd {k n : ℕ} (hk : gcd n k < k) : ∃ m, n * m % k = gcd n k := by
   have hk' := Int.ofNat_ne_zero.2 (ne_of_gt (lt_of_le_of_lt (zero_le (gcd n k)) hk))
   have key := congr_arg (fun (m : ℤ) => (m % k).toNat) (gcd_eq_gcd_ab n k)
-  simp only at key
+  simp at key
   rw [Int.add_mul_emod_self_left] at key; rw [← Int.coe_nat_mod] at key; rw [Int.toNat_coe_nat] at key; rw [mod_eq_of_lt hk] at key
   refine' ⟨(n.gcdA k % k).toNat, Eq.trans (Int.ofNat.inj _) key.symm⟩
   rw [Int.ofNat_eq_coe]; rw [Int.coe_nat_mod]; rw [Int.ofNat_mul]; rw [Int.toNat_of_nonneg (Int.emod_nonneg _ hk')]; rw [Int.ofNat_eq_coe]; rw [Int.toNat_of_nonneg (Int.emod_nonneg _ hk')]; rw [Int.mul_emod]; rw [Int.emod_emod]; rw [← Int.mul_emod]

@@ -329,7 +329,7 @@ theorem isFractionRing_of_algebraic (alg : IsAlgebraic A L)
           mem_nonZeroDivisors_iff_ne_zero.mpr fun h =>
             hy (inj _ (by rw [IsScalarTower.algebraMap_apply A C L, h, RingHom.map_zero]))⟩,
         by
-          simp only
+          simp
           rw [algebraMap_mk']; rw [← IsScalarTower.algebraMap_apply A C L]; rw [hxy]⟩
     eq_iff_exists' := fun {x y} =>
       ⟨fun h => ⟨1, by simpa using algebraMap_injective C A L h⟩, fun ⟨c, hc⟩ =>

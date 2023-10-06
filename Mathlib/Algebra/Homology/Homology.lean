@@ -294,11 +294,11 @@ def homologyFunctor [HasCokernels V] (i : ι) : HomologicalComplex V c ⥤ V whe
   obj C := C.homology i
   map {C₁ C₂} f := homology.map _ _ (f.sqTo i) (f.sqFrom i) rfl
   map_id _ := by
-    simp only
+    simp
     ext1
     simp only [homology.π_map, kernelSubobjectMap_id, Hom.sqFrom_id, Category.id_comp, Category.comp_id]
   map_comp _ _ := by
-    simp only
+    simp
     ext1
     simp only [Hom.sqFrom_comp, kernelSubobjectMap_comp, homology.π_map_assoc, homology.π_map, Category.assoc]
 #align homology_functor homologyFunctor

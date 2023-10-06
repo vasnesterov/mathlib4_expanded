@@ -417,7 +417,7 @@ theorem of_separable_splitting_field [sp : p.IsSplittingField F E] (hp : p.Separ
     apply @Fintype.card_congr _ _ _ (_) _
     rw [IntermediateField.adjoin_zero]
   intro K x hx hK
-  simp only at *
+  simp at *
   -- Porting note: need to specify two implicit arguments of `finrank_mul_finrank`
   rw [of_separable_splitting_field_aux hp K (Multiset.mem_toFinset.mp hx)]; rw [hK]; rw [@finrank_mul_finrank _ _ _ _ _ _ _ K⟮x⟯.module _ K⟮x⟯.isScalarTower _]
   symm

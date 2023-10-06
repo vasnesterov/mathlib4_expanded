@@ -379,7 +379,7 @@ def Proj.stalkIso' (x : ProjectiveSpectrum.top 𝒜) :
       obtain ⟨b1_nin_y, eq6⟩ :=
         hs1 ⟨_, leOfHom (Opens.infLELeft _ _ ≫ Opens.infLERight _ _) y.2⟩
       obtain ⟨b2_nin_y, eq7⟩ := hs2 ⟨_, leOfHom (Opens.infLERight _ _) y.2⟩
-      simp only at eq6 eq7
+      simp at eq6 eq7
       erw [eq6, eq7, Quotient.eq'']
       change Localization.mk _ _ = Localization.mk _ _
       exact eq3' _

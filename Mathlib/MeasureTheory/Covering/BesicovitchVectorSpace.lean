@@ -495,7 +495,7 @@ theorem exists_normalized {N : ℕ} {τ : ℝ} (a : SatelliteConfig E N τ) (las
   let c' : Fin N.succ → E := fun i => if ‖a.c i‖ ≤ 2 then a.c i else (2 / ‖a.c i‖) • a.c i
   have norm_c'_le : ∀ i, ‖c' i‖ ≤ 2 := by
     intro i
-    simp only
+    simp
     split_ifs with h; · exact h
     by_cases hi : ‖a.c i‖ = 0 <;> field_simp [norm_smul, hi]; norm_num
   refine' ⟨c', fun n => norm_c'_le n, fun i j inej => _⟩

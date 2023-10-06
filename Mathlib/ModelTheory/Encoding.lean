@@ -153,7 +153,7 @@ theorem card_sigma : #(Σn, L.Term (Sum α (Fin n))) = max ℵ₀ #(Sum α (Σi,
 
 instance [Encodable α] [Encodable (Σi, L.Functions i)] : Encodable (L.Term α) :=
   Encodable.ofLeftInjection listEncode (fun l => (listDecode l).head?.join) fun t => by
-    simp only
+    simp
     rw [← bind_singleton listEncode]; rw [listDecode_encode_list]
     simp only [Option.join, head?, List.map, Option.some_bind, id.def]
 
@@ -278,7 +278,7 @@ theorem listDecode_encode_list (l : List (Σn, L.BoundedFormula α n)) :
       simp only [dite_true]
       exact ⟨rfl, trivial⟩
     · rw [listEncode, cons_append, listDecode]
-      simp only
+      simp
       simp only [] at *
       rw [(ih _).1]; rw [(ih _).2]; rw [sigmaAll]
       exact ⟨rfl, rfl⟩
@@ -293,7 +293,7 @@ protected def encoding : Encoding (Σn, L.BoundedFormula α n) where
   decode_encode φ := by
     have h := listDecode_encode_list [φ]
     rw [bind_singleton] at h
-    simp only
+    simp
     rw [h]
     rfl
 #align first_order.language.bounded_formula.encoding FirstOrder.Language.BoundedFormula.encoding

@@ -254,7 +254,7 @@ theorem Prefunctor.pathStar_surjective (hφ : ∀ u, Surjective (φ.star u)) (u 
   · use ⟨u, Path.nil⟩
     simp only [Prefunctor.mapPath_nil, eq_self_iff_true, heq_iff_eq, and_self_iff]
   · obtain ⟨⟨u', q'⟩, h⟩ := ih
-    simp only at h
+    simp at h
     obtain ⟨rfl, rfl⟩ := h
     obtain ⟨⟨u'', eu⟩, k⟩ := hφ u' ⟨_, ev⟩
     simp only [star_apply, Sigma.mk.inj_iff] at k

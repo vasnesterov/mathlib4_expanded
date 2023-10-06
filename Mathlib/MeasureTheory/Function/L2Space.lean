@@ -201,14 +201,14 @@ private theorem add_left' (f f' g : α →₂[μ] E) : ⟪f + f', g⟫ = inner f
   -- Porting note: was
   -- congr
   -- rwa [Pi.add_apply] at hx
-  simp only
+  simp
   rw [hx]; rw [Pi.add_apply]
 
 
 private theorem smul_left' (f g : α →₂[μ] E) (r : 𝕜) : ⟪r • f, g⟫ = conj r * inner f g := by
   rw [inner_def]; rw [inner_def]; rw [← smul_eq_mul]; rw [← integral_smul]
   refine' integral_congr_ae ((coeFn_smul r f).mono fun x hx => _)
-  simp only
+  simp
   rw [smul_eq_mul]; rw [← inner_smul_left]; rw [hx]; rw [Pi.smul_apply]
   -- Porting note: was
   -- rw [smul_eq_mul, ← inner_smul_left]

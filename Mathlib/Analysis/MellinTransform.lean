@@ -302,7 +302,7 @@ theorem isBigO_rpow_top_log_smul [NormedSpace ℝ E] {a b : ℝ} {f : ℝ → E}
     ((isLittleO_log_rpow_atTop (sub_pos.mpr hab)).isBigO.smul hf).congr'
       (eventually_of_forall fun t => by rfl)
       ((eventually_gt_atTop 0).mp (eventually_of_forall fun t ht => _))
-  simp only
+  simp
   rw [smul_eq_mul]; rw [← rpow_add ht]; rw [← sub_eq_add_neg]; rw [sub_eq_add_neg a]; rw [add_sub_cancel']
 set_option linter.uppercaseLean3 false in
 #align is_O_rpow_top_log_smul isBigO_rpow_top_log_smul

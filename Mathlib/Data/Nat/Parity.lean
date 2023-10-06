@@ -280,7 +280,7 @@ example (m n : ℕ) (h : Even m) : ¬Even (n + 3) ↔ Even (m ^ 2 + m + n) := by
 
 /- Porting note: the `simp` lemmas about `bit*` no longer apply, but `simp` in Lean 4 currently
 simplifies decidable propositions. This may change in the future. -/
-example : ¬Even 25394535 := by simp only
+example : ¬Even 25394535 := by simp
 
 end Nat
 

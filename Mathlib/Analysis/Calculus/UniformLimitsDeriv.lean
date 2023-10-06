@@ -324,7 +324,7 @@ theorem hasFDerivAt_of_tendstoUniformlyOnFilter [NeBot l]
     intro ε hε
     specialize this ε hε
     rw [eventually_curry_iff] at this
-    simp only at this
+    simp at this
     exact (eventually_const.mp this).mono (by simp only [imp_self, forall_const])
   -- With the new quantifier in hand, we can perform the famous `ε/3` proof. Specifically,
   -- we will break up the limit (the difference functions minus the derivative go to 0) into 3:
@@ -351,7 +351,7 @@ theorem hasFDerivAt_of_tendstoUniformlyOnFilter [NeBot l]
   have : 𝓝 (0 : G) = 𝓝 (0 + 0 + 0); simp only [add_zero]
   rw [this]
   refine' Tendsto.add (Tendsto.add _ _) _
-  simp only
+  simp
   · have := difference_quotients_converge_uniformly hf' hf hfg
     rw [Metric.tendstoUniformlyOnFilter_iff] at this
     rw [Metric.tendsto_nhds]

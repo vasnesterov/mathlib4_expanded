@@ -154,7 +154,7 @@ theorem hasSum_of_disjoint_iUnion [Countable β] {f : β → Set α} (hf₁ : �
   have hg₃ : (fun i : β => v (f i)) = fun i => v (g (Encodable.encode i)) := by
     ext x
     rw [hg]
-    simp only
+    simp
     congr
     ext y
     simp only [exists_prop, Set.mem_iUnion, Option.mem_def]
@@ -412,7 +412,7 @@ def toSignedMeasure (μ : Measure α) [hμ : IsFiniteMeasure μ] : SignedMeasure
   empty' := by simp [μ.empty]
   not_measurable' _ hi := if_neg hi
   m_iUnion' f hf₁ hf₂ := by
-    simp only
+    simp
     rw [μ.m_iUnion hf₁ hf₂]; rw [ENNReal.tsum_toReal_eq]; rw [if_pos (MeasurableSet.iUnion hf₁)]; rw [Summable.hasSum_iff]
     · congr
       ext n
@@ -481,7 +481,7 @@ def toENNRealVectorMeasure (μ : Measure α) : VectorMeasure α ℝ≥0∞ where
   empty' := by simp [μ.empty]
   not_measurable' _ hi := if_neg hi
   m_iUnion' _ hf₁ hf₂ := by
-    simp only
+    simp
     rw [Summable.hasSum_iff ENNReal.summable]; rw [if_pos (MeasurableSet.iUnion hf₁)]; rw [MeasureTheory.measure_iUnion hf₂ hf₁]
     exact tsum_congr fun n => if_pos (hf₁ n)
 #align measure_theory.measure.to_ennreal_vector_measure MeasureTheory.Measure.toENNRealVectorMeasure
@@ -559,7 +559,7 @@ def map (v : VectorMeasure α M) (f : α → β) : VectorMeasure β M :=
       not_measurable' := fun i hi => if_neg hi
       m_iUnion' := by
         intro g hg₁ hg₂
-        simp only
+        simp
         convert v.m_iUnion (fun i => hf (hg₁ i)) fun i j hij => (hg₂ hij).preimage _
         · rw [if_pos (hg₁ _)]
         · rw [Set.preimage_iUnion, if_pos (MeasurableSet.iUnion hg₁)] }
@@ -597,8 +597,8 @@ variable {N : Type*} [AddCommMonoid N] [TopologicalSpace N]
 vector measure on `N`. -/
 def mapRange (v : VectorMeasure α M) (f : M →+ N) (hf : Continuous f) : VectorMeasure α N where
   measureOf' s := f (v s)
-  empty' := by simp only; rw [empty]; rw [AddMonoidHom.map_zero]
-  not_measurable' i hi := by simp only; rw [not_measurable v hi]; rw [AddMonoidHom.map_zero]
+  empty' := by simp; rw [empty]; rw [AddMonoidHom.map_zero]
+  not_measurable' i hi := by simp; rw [not_measurable v hi]; rw [AddMonoidHom.map_zero]
   m_iUnion' g hg₁ hg₂ := HasSum.map (v.m_iUnion hg₁ hg₂) f hf
 #align measure_theory.vector_measure.map_range MeasureTheory.VectorMeasure.mapRange
 
@@ -670,7 +670,7 @@ def restrict (v : VectorMeasure α M) (i : Set α) : VectorMeasure α M :=
       not_measurable' := fun i hi => if_neg hi
       m_iUnion' := by
         intro f hf₁ hf₂
-        simp only
+        simp
         convert v.m_iUnion (fun n => (hf₁ n).inter hi)
             (hf₂.mono fun i j => Disjoint.mono inf_le_left inf_le_left)
         · rw [if_pos (hf₁ _)]

@@ -817,7 +817,7 @@ theorem induction_on [Semiring k] [Monoid G] {p : MonoidAlgebra k G → Prop} (f
   refine' Finsupp.induction_linear f _ (fun f g hf hg => hadd f g hf hg) fun g r => _
   · simpa using hsmul 0 (of k G 1) (hM 1)
   · convert hsmul r (of k G g) (hM g)
-    -- Porting note: Was `simp only`.
+    -- Porting note: Was `simp`.
     rw [of_apply]; rw [smul_single']; rw [mul_one]
 #align monoid_algebra.induction_on MonoidAlgebra.induction_on
 
@@ -1668,7 +1668,7 @@ theorem induction_on [AddMonoid G] {p : k[G] → Prop} (f : k[G])
   refine' Finsupp.induction_linear f _ (fun f g hf hg => hadd f g hf hg) fun g r => _
   · simpa using hsmul 0 (of k G (Multiplicative.ofAdd 0)) (hM 0)
   · convert hsmul r (of k G (Multiplicative.ofAdd g)) (hM g)
-    -- Porting note: Was `simp only`.
+    -- Porting note: Was `simp`.
     rw [of_apply]; rw [toAdd_ofAdd]; rw [smul_single']; rw [mul_one]
 #align add_monoid_algebra.induction_on AddMonoidAlgebra.induction_on
 

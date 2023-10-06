@@ -147,7 +147,7 @@ end IsDomain
 /-- Over a ring `R` of characteristic zero, `fun n => cyclotomic n R` is injective. -/
 theorem cyclotomic_injective [CharZero R] : Function.Injective fun n => cyclotomic n R := by
   intro n m hnm
-  simp only at hnm
+  simp at hnm
   rcases eq_or_ne n 0 with (rfl | hzero)
   · rw [cyclotomic_zero] at hnm
     replace hnm := congr_arg natDegree hnm

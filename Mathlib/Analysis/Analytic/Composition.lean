@@ -506,7 +506,7 @@ theorem comp_summable_nnreal (q : FormalMultilinearSeries 𝕜 F G) (p : FormalM
         simp only [mul_pow]; ring
       _ ≤ Cq * Cp ^ n * r0 ^ n := (mul_le_mul' (mul_le_mul' A B) le_rfl)
       _ = Cq / 4 ^ n := by
-        simp only
+        simp
         field_simp [mul_pow, (zero_lt_one.trans_le hCp1).ne']
         ring
   refine' ⟨r, r_pos, NNReal.summable_of_le I _⟩
@@ -657,7 +657,7 @@ theorem compChangeOfVariables_sum {α : Type*} [AddCommMonoid α] (m M N : ℕ)
   · rintro ⟨k, blocks_fun⟩ H
     rw [mem_compPartialSumSource_iff] at H
     -- Porting note: added
-    simp only at H
+    simp at H
     simp only [mem_compPartialSumTarget_iff, Composition.length, Composition.blocks, H.left, map_ofFn, length_ofFn, true_and_iff, compChangeOfVariables]
     intro j
     -- Porting note: the following `simp` was sufficient in lean 3.

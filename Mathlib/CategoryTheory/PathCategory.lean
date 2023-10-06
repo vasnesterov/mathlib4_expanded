@@ -69,7 +69,7 @@ def lift {C} [Category C] (φ : V ⥤q C) : Paths V ⥤ C where
       rfl
     · have : f ≫ Quiver.Path.cons g' p = (f ≫ g').cons p := by apply Quiver.Path.comp_cons
       rw [this]
-      simp only at ih ⊢
+      simp at ih ⊢
       rw [ih]; rw [Category.assoc]
 #align category_theory.paths.lift CategoryTheory.Paths.lift
 

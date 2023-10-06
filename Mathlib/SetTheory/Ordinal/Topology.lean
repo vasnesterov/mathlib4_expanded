@@ -108,7 +108,7 @@ theorem mem_closure_tfae (a : Ordinal.{u}) (s : Set Ordinal) :
     let ⟨y, hyt⟩ := hne
     classical
       refine ⟨succ (sSup t), succ_ne_zero _, fun x _ => if x ∈ t then x else y, fun x _ => ?_, ?_⟩
-      · simp only
+      · simp
         split_ifs with h <;> exact hts ‹_›
       · refine le_antisymm (bsup_le fun x _ => ?_) (csSup_le hne fun x hx => ?_)
         · split_ifs <;> exact hlub.1 ‹_›

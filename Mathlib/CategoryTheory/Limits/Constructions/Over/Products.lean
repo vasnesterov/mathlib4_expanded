@@ -177,7 +177,7 @@ theorem over_hasTerminal (B : C) : HasTerminal (Over B) where
         { lift := fun s => Over.homMk _
           fac := fun _ j => j.as.elim
           uniq := fun s m _ => by
-            simp only
+            simp
             ext
             rw [Over.homMk_left _]
             have := m.w

@@ -384,13 +384,13 @@ theorem color_lt {i : Ordinal.{u}} (hi : i < p.lastStep) {N : ℕ}
   have color_G : ∀ n, n ≤ N → p.color (G n) = n := by
     intro n hn
     rcases hn.eq_or_lt with (rfl | H)
-    · simp only; simp only [color_i, Inf_eq_N, if_true, eq_self_iff_true]
-    · simp only; simp only [H.ne, (hg n H).right.right.symm, if_false]
+    · simp; simp only [color_i, Inf_eq_N, if_true, eq_self_iff_true]
+    · simp; simp only [H.ne, (hg n H).right.right.symm, if_false]
   have G_lt_last : ∀ n, n ≤ N → G n < p.lastStep := by
     intro n hn
     rcases hn.eq_or_lt with (rfl | H)
-    · simp only; simp only [hi, if_true, eq_self_iff_true]
-    · simp only; simp only [H.ne, (hg n H).left.trans hi, if_false]
+    · simp; simp only [hi, if_true, eq_self_iff_true]
+    · simp; simp only [H.ne, (hg n H).left.trans hi, if_false]
   have fGn :
       ∀ n, n ≤ N →
         p.c (p.index (G n)) ∉ p.iUnionUpTo (G n) ∧ p.R (G n) ≤ p.τ * p.r (p.index (G n)) := by

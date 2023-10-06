@@ -105,8 +105,8 @@ the transfer homomorphism is `transfer ϕ : G →+ A`."]
 noncomputable def transfer [FiniteIndex H] : G →* A :=
   let T : leftTransversals (H : Set G) := Inhabited.default
   { toFun := fun g => diff ϕ T (g • T)
-    map_one' := by simp only; rw [one_smul]; rw [diff_self] -- porting note: added `simp only`
-    map_mul' := fun g h => by simp only; rw [mul_smul]; rw [← diff_mul_diff]; rw [smul_diff_smul] }
+    map_one' := by simp; rw [one_smul]; rw [diff_self] -- porting note: added `simp`
+    map_mul' := fun g h => by simp; rw [mul_smul]; rw [← diff_mul_diff]; rw [smul_diff_smul] }
 #align monoid_hom.transfer MonoidHom.transfer
 #align add_monoid_hom.transfer AddMonoidHom.transfer
 
@@ -174,7 +174,7 @@ theorem transfer_eq_pow [FiniteIndex H] (g : G)
     rw [transfer_eq_prod_quotient_orbitRel_zpowers_quot]; rw [← Finset.prod_to_list]
     refine' (List.prod_map_hom _ _ _).trans _ -- porting note: this used to be in the `rw`
     refine' congrArg ϕ (Subtype.coe_injective _)
-    simp only -- porting note: added `simp only`
+    simp -- porting note: added `simp`
     rw [H.coe_mk]; rw [← (zpowers g).coe_mk g (mem_zpowers g)]; rw [← (zpowers g).coe_pow]; rw [index_eq_card]; rw [Fintype.card_congr (selfEquivSigmaOrbits (zpowers g) (G ⧸ H))]; rw [Fintype.card_sigma]; rw [← Finset.prod_pow_eq_pow_sum]; rw [← Finset.prod_to_list]
     simp only [Subgroup.val_list_prod, List.map_map, ← minimalPeriod_eq_card]
     congr

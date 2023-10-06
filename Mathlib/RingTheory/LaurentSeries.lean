@@ -159,7 +159,7 @@ instance of_powerSeries_localization [CommRing R] :
       rw [← sub_eq_zero]; rw [PowerSeries.ext_iff]
       intro m
       have h := hc (m + n)
-      simp only at h
+      simp at h
       rwa [LinearMap.map_zero, PowerSeries.X_pow_eq, PowerSeries.monomial,
         add_comm m, PowerSeries.coeff, Finsupp.single_add, MvPowerSeries.coeff_add_monomial_mul,
         one_mul] at h

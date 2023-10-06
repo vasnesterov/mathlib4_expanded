@@ -291,7 +291,7 @@ theorem subset_starSubalgebra [StarRing R] [StarRing A] [StarModule R A] {S : St
 theorem singleton_add_eq (a : A) (r : R) : {r} + σ a = σ (↑ₐ r + a) :=
   ext fun x => by
     rw [singleton_add]; rw [image_add_left]; rw [mem_preimage]
-    simp only
+    simp
     rw [add_comm]; rw [add_mem_iff]; rw [map_neg]; rw [neg_neg]
 #align spectrum.singleton_add_eq spectrum.singleton_add_eq
 

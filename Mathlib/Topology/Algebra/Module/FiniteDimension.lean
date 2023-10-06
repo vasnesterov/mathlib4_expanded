@@ -335,7 +335,7 @@ theorem isOpenMap_of_finiteDimensional (f : F →ₗ[𝕜] E) (hf : Function.Sur
   · exact
       ((g.continuous_of_finiteDimensional.comp <| continuous_id.sub continuous_const).add
           continuous_const).continuousAt
-  · simp only
+  · simp
     rw [sub_self]; rw [map_zero]; rw [zero_add]
   · simp only [map_sub, map_add, ← comp_apply f g, hg, id_apply, sub_add_cancel]
 #align linear_map.is_open_map_of_finite_dimensional LinearMap.isOpenMap_of_finiteDimensional

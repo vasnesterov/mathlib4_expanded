@@ -235,7 +235,7 @@ theorem isocrystal_classification (k : Type*) [Field k] [IsAlgClosed k] [CharP k
   -- Porting note: `refine'` below gets confused when this is inlined.
   let E := (LinearEquiv.smulOfNeZero K(p, k) _ _ hb).trans F
   refine' ⟨⟨E, _⟩⟩
-  simp only
+  simp
   intro c
   rw [LinearEquiv.trans_apply]; rw [LinearEquiv.trans_apply]; rw [LinearEquiv.smulOfNeZero_apply]; rw [LinearEquiv.smulOfNeZero_apply]; rw [LinearEquiv.map_smul]; rw [LinearEquiv.map_smul]
   -- Porting note: was

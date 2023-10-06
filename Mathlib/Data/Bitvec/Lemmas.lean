@@ -102,7 +102,7 @@ theorem toNat_lt {n : ℕ} (v : Bitvec n) : v.toNat < 2 ^ n := by
     -- Porting note: removed `ac_mono`, `mono` calls
     · rw [add_assoc]
       apply Nat.add_le_add_left
-      cases head <;> simp only
+      cases head <;> simp
     · rw [← left_distrib]
       rw [mul_comm _ 2]
       apply Nat.mul_le_mul_left

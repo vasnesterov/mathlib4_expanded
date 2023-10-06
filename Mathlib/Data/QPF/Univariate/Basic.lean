@@ -448,7 +448,7 @@ private theorem Cofix.bisim_aux (r : Cofix F → Cofix F → Prop) (h' : ∀ x, 
     have h₁ : ∀ u v : q.P.M, Mcongr u v → Quot.mk r' u = Quot.mk r' v := by
       intro u v cuv
       apply Quot.sound
-      simp only
+      simp
       rw [Quot.sound cuv]
       apply h'
     let f : Quot r → Quot r' :=
@@ -586,8 +586,8 @@ def quotientQpf (FG_abs_repr : ∀ {α} (x : G α), FG_abs (FG_repr x) = x)
   P := q.P
   abs {α} p := FG_abs (abs p)
   repr {α} x := repr (FG_repr x)
-  abs_repr {α} x := by simp only; rw [abs_repr]; rw [FG_abs_repr]
-  abs_map {α β} f x := by simp only; rw [abs_map]; rw [FG_abs_map]
+  abs_repr {α} x := by simp; rw [abs_repr]; rw [FG_abs_repr]
+  abs_map {α β} f x := by simp; rw [abs_map]; rw [FG_abs_map]
 #align qpf.quotient_qpf Qpf.quotientQpf
 
 end Qpf

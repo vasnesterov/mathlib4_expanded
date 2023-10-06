@@ -67,7 +67,7 @@ theorem heron {p1 p2 p3 : P} (h1 : p1 ≠ p2) (h2 : p3 ≠ p2) :
         simp [angle_nonneg, angle_le_pi]
     _ = 1 / 4 * √ ((2 * a * b) ^ 2 - (a * a + b * b - c * c) ^ 2) := by
       field_simp [ab2_nonneg]; ring
-    _ = ↑1 / ↑4 * √ (s * (s - a) * (s - b) * (s - c) * ↑4 ^ 2) := by simp only; ring_nf
+    _ = ↑1 / ↑4 * √ (s * (s - a) * (s - b) * (s - c) * ↑4 ^ 2) := by simp; ring_nf
     _ = √ (s * (s - a) * (s - b) * (s - c)) := by
       rw [sqrt_mul']; rw [sqrt_sq]; rw [div_mul_eq_mul_div]; rw [one_mul]; rw [mul_div_cancel]; all_goals norm_num
 #align theorems_100.heron Theorems100.heron
